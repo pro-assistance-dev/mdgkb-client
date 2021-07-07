@@ -1,12 +1,18 @@
-import { createStore } from 'vuex'
+import Vuex, { StoreOptions } from 'vuex'
 
-export default createStore({
+import RootState from './types';
+import pockemons from './modules/pockemons';
+
+const store: StoreOptions<RootState> = {
   state: {
+    layout: 'main-layout',
   },
-  mutations: {
-  },
-  actions: {
-  },
+  getters: {},
+  actions: {},
+  mutations: {},
   modules: {
+    pockemons,
   }
-})
+}
+
+export default new Vuex.Store<RootState>(store);
