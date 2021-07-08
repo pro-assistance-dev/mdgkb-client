@@ -4,4 +4,23 @@ $header_bottom_desktop: 56px;
   @include box_shadow(2);
   height: $header_bottom_desktop;
   background: whitesmoke;
+
+  .header-bottom-menu {
+    height: $header_bottom_desktop;
+    border: none;
+    background: whitesmoke;
+
+    .header-bottom-menu-item {
+    font-weight: bold;
+    font-size: 14px;
+      margin-right: 0;
+      display: flex;
+      align-items: center;
+      margin-top: 0;
+      padding: 0 12px;
+      justify-content: center;
+      text-transform: uppercase;
+      height: 100%;
+    }
+  }
 }

@@ -12,7 +12,7 @@ $--font-path: '~element-plus/lib/theme-chalk/fonts';
 
 html,
 body {
-  font-family: 'Roboto', sans-serif;
+
   margin: 0;
   padding: 0;
   overflow: visible;
@@ -30,7 +30,10 @@ body {
 
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
