@@ -1,0 +1,9 @@
+$header_top_desktop: 90px;
+
+.header-top {
+  height: $header_top_desktop;
+  background: #fff;
+
+   padding-top: $header_top_desktop / 4;
+   padding-bottom: $header_top_desktop / 4;
+}

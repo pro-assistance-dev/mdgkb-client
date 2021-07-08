@@ -1,0 +1,26 @@
+$footer_bottom_desktop: 90px;
+
+.footer-bottom{
+  height: $footer_bottom_desktop;
+  margin-top: $footer_bottom_desktop /2;
+  margin-bottom: $footer_bottom_desktop /2;
+
+  .social-icon{
+    margin-right: 27px;
+  }
+
+  .image{
+    background: inherit;
+    text-align: center;
+  }
+  img{
+    max-height: 100px;
+    width: auto;
+  }
+
+  .under-footer{
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}

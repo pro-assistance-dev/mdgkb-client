@@ -1,0 +1,7 @@
+$header_bottom_desktop: 56px;
+
+.header-bottom {
+  @include box_shadow(2);
+  height: $header_bottom_desktop;
+  background: whitesmoke;
+}

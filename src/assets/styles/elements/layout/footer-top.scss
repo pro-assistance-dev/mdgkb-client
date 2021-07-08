@@ -1,0 +1,17 @@
+$footer_top_desktop: 200px;
+
+.footer-top{
+  height: $footer_top_desktop;
+  padding-top: $footer_top_desktop / 5;
+  padding-bottom: $footer_top_desktop / 5;
+  background: #fff;
+
+  .image{
+    background: inherit;
+    text-align: center;
+  }
+  img{
+    max-height: 100px;
+    width: auto;
+  }
+}

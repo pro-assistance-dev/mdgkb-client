@@ -1,5 +1,14 @@
 $--font-path: '~element-plus/lib/theme-chalk/fonts';
-@import '~element-plus/packages/theme-chalk/src/index';
+@import 'node_modules/element-plus/packages/theme-chalk/src/index';
+
+// HELPERS
+@import "./helpers/shadows";
+
+// LAYOUTS
+@import "elements/layout/header-top";
+@import "elements/layout/header-bottom";
+@import "elements/layout/footer-top";
+@import "elements/layout/footer-bottom";
 
 html,
 body {
@@ -8,6 +17,7 @@ body {
   padding: 0;
   overflow: visible;
   height: 100%;
+  background: #e4e5e7
 }
 
 .main-container {
@@ -27,32 +37,27 @@ body {
   height: 100%;
 }
 
-.el-header,
+
 .el-footer {
-  background-color: #b3c0d1;
-  color: #333;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
 }
 
 .el-aside {
-  background-color: #d3dce6;
-  color: #333;
 }
 
 .el-main {
-  background-color: #e9eef3;
-  color: #333;
   line-height: 160px;
 }
 
-body > .el-container {
+body > .el-container::v-deep {
   margin-bottom: 40px;
 }
 
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
-}
 
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
+
+.container {
+  padding-left: 10%;
+  padding-right: 10%;
 }

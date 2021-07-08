@@ -1,7 +1,9 @@
 <template>
-<div>
-    хэдэр боттом
-</div>
+<el-row class="header-bottom container">
+<el-col :span="6"></el-col>
+<el-col :span="8">
+</el-col>
+</el-row>
 </template>
 
 <script>
@@ -9,19 +11,3 @@
     name: "HeaderBottom",
   }
 </script>
-
-<style scoped>
-  .fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-
-  #underMenu {
-    position: absolute;
-    left: 0;
-    top: 55px;
-    width: 100%;
-  }
-</style>
