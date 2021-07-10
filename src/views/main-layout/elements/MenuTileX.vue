@@ -1,54 +1,39 @@
 <template>
-  <div id="item" @click.stop="(!expand?$emit('done'):null),expand = !expand" :class="`${aside?'aside':''} ${expand?'active':''} ff${pad(item_key + 1)}`">
-    <div id="inner">
-      <img id="bg" :src="`/images/megamenu/banner/${pad(item_key + 1)}.png`"/>
-      <div id="icon">
-        <component :is="svg"></component>
-      </div>
-      <div id="label">
-        {{item.label}}
-      </div>
-      <div id="description">
-        {{item.description}}
-      </div>
+                          <div id="item" @click.stop="(!expand?$emit('done'):null),expand = !expand" :class="`${expand?'active':''} ff${item.id}`">
+                          <div id="inner">
+                              <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.png`)"/>
+                              <div id="icon">
+                                  <Component :is="require(`../../../assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
+                              </div>
+                              <div id="label">
+                                  {{item.label}}
+                              </div>
+                              <div id="description">
+                                  {{item.description}}
+                              </div>
 
-      <div id="actions">
-        <nuxt-link :to="item.to" @click.native="$emit('kill')" class="button rounded-all-30 is-outlined" style="background: transparent">Подробнее</nuxt-link>
-      </div>
-    </div>
-  </div>
+                              <div id="actions">
+                                  <nuxt-link :to="item.to" @click.native="$emit('kill')" class="button rounded-all-30 is-outlined" style="background: transparent">Подробнее</nuxt-link>
+                              </div>
+                          </div>
+                          </div>
 </template>
 
 <script lang="ts">
-  import IMenuItem from "@/interfaces/IMenuItem";
+  import {ref} from "vue";
 
   export default {
     name: "MenuTileX",
     props: {
-      item_key: Number,
-      // item: IMenuItem,
+      item: Object,
     },
-    methods: {
-      pad(num) {
-        return String(num).padStart(2, '0');
-      }
-    },
-    computed: {
-      // svg() {
-        // let item = require(`../../../../static/images/megamenu/icon/${this.pad(this.item_key + 1)}.svg`);
-        // return item;
-      // }
-    },
-    mounted() {
-      let that = this;
-      this.$parent.$on('kill', function(){
-        that.expand = false;
-      })
+setup() {
+  let expand = ref(false)
 
-      this.$parent.$on('done', function(){
-        that.expand = false;
-      })
-    }
+  return {
+    expand
+  }
+}
   }
 </script>
 
