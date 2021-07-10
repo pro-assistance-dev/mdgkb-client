@@ -9,6 +9,7 @@ $--font-path: '~element-plus/lib/theme-chalk/fonts';
 @import "elements/layout/header-bottom";
 @import "elements/layout/footer-top";
 @import "elements/layout/footer-bottom";
+@import "elements/grid";
 
 html,
 body {
@@ -32,11 +33,9 @@ body {
 #app {
   font-size: 1em;
   font-weight: 400;
+  color:#4a4a4a;
   line-height: 1.5;
   font-family: 'Open Sans', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
   height: 100%;
 }
 
