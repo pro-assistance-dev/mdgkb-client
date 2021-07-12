@@ -1,7 +1,8 @@
 import Vuex, { StoreOptions } from 'vuex'
 
 import RootState from './types';
-import pockemons from './modules/pockemons';
+import {news} from '@/store/modules/news';
+import {likes} from '@/store/modules/likes';
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -11,7 +12,8 @@ const store: StoreOptions<RootState> = {
   actions: {},
   mutations: {},
   modules: {
-    pockemons,
+    news,
+    likes,
   }
 }
 

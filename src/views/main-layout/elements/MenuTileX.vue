@@ -11,9 +11,8 @@
                               <div id="description">
                                   {{item.description}}
                               </div>
-
                               <div id="actions">
-                                  <nuxt-link :to="item.to" @click.native="$emit('kill')" class="button rounded-all-30 is-outlined" style="background: transparent">Подробнее</nuxt-link>
+                                  <el-link type="" @click="$router.push(item.to)"><el-button  round>Подробнее</el-button></el-link>
                               </div>
                           </div>
                           </div>
