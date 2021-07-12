@@ -1,8 +1,10 @@
 module.exports = {
   lintOnSave: false,
   devServer: {
+    disableHostCheck: true,
     host: 'localhost',
     proxy: process.env.DEV_BACKEND_URL,
+    port: 8084,
   },
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg');

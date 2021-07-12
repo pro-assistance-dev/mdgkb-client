@@ -1,21 +1,21 @@
 <template>
-                          <div id="item" @click.stop="(!expand?$emit('done'):null),expand = !expand" :class="`${expand?'active':''} ff${item.id}`">
-                          <div id="inner">
-                              <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.png`)"/>
-                              <div id="icon">
-                                  <Component :is="require(`../../../assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
-                              </div>
-                              <div id="label">
-                                  {{item.label}}
-                              </div>
-                              <div id="description">
-                                  {{item.description}}
-                              </div>
-                              <div id="actions">
-                                  <el-link type="" @click="$router.push(item.to)"><el-button  round>Подробнее</el-button></el-link>
-                              </div>
-                          </div>
-                          </div>
+    <div id="item" @click.stop="(!expand?$emit('done'):null),expand = !expand" :class="`${expand?'active':''} ff${item.id}`">
+        <div id="inner">
+            <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.png`)"/>
+            <div id="icon">
+                <Component :is="require(`../../../assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
+            </div>
+            <div id="label">
+                {{item.label}}
+            </div>
+            <div id="description">
+                {{item.description}}
+            </div>
+            <div id="actions">
+                <el-button  @click="$router.push(item.to)" round>Подробнее</el-button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
