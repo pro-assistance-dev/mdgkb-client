@@ -2,22 +2,21 @@ $--font-path: '~element-plus/lib/theme-chalk/fonts';
 @import 'node_modules/element-plus/packages/theme-chalk/src/index';
 
 // HELPERS
-@import "./helpers/shadows";
+@import './helpers/shadows';
 
 // LAYOUTS
-@import "elements/layout/header-top";
-@import "elements/layout/header-bottom";
-@import "elements/layout/footer-top";
-@import "elements/layout/footer-bottom";
+@import 'elements/layout/header-top';
+@import 'elements/layout/header-bottom';
+@import 'elements/layout/footer-top';
+@import 'elements/layout/footer-bottom';
 
 html,
 body {
-
   margin: 0;
   padding: 0;
   overflow: visible;
   height: 100%;
-  background: #e4e5e7
+  background: #e4e5e7;
 }
 
 .main-container {
@@ -27,8 +26,6 @@ body {
   overflow: visible;
 }
 
-
-
 #app {
   font-size: 1em;
   font-weight: 400;
@@ -36,10 +33,9 @@ body {
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #4a4a4a;
   height: 100%;
 }
-
 
 .el-footer {
   background-color: #fff;
@@ -50,17 +46,15 @@ body {
 .el-aside {
 }
 
-.el-main {
-  line-height: 160px;
-}
-
 body > .el-container::v-deep {
   margin-bottom: 40px;
 }
 
-
-
 .container {
   padding-left: 10%;
   padding-right: 10%;
+}
+
+.el-table .cell {
+  word-break: break-word;
 }

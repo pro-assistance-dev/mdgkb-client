@@ -1,7 +1,8 @@
-import Vuex, { StoreOptions } from 'vuex'
+import Vuex, { StoreOptions } from 'vuex';
 
 import RootState from './types';
 import pockemons from './modules/pockemons';
+import { divisions } from '@/store/modules/divisions';
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -12,7 +13,8 @@ const store: StoreOptions<RootState> = {
   mutations: {},
   modules: {
     pockemons,
-  }
-}
+    divisions,
+  },
+};
 
 export default new Vuex.Store<RootState>(store);

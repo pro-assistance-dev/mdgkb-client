@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainLayout from '@/views/main/MainLayout.vue';
+import AboutPage from '@/components/About/AboutPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -7,6 +8,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'MainLayout',
     component: MainLayout
   },
+  {
+    path: '/about',
+    name: 'AboutPage',
+    component: AboutPage
+  },
+
 ]
 
 const router = createRouter({
