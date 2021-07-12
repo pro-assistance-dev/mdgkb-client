@@ -13,7 +13,8 @@
                             {{$dateFormatRu(item.published_on)}}
                         </el-col>
                         <el-col :xl="8" :lg="12" :md="24">
-                            <i class="el-icon-medal like" @click="createLike(item.id)"> {{item.__meta__.likes_count}}</i>
+
+                            <span class="like" @click="createLike(item.id)"> {{ item.__meta__.likes_count}}</span>
                         </el-col>
                     </el-row>
                     <div class="title">{{item.title}}</div>
@@ -105,6 +106,11 @@
         margin-right: 3px;
         transition: all .1s;
         cursor: pointer;
+    }
+
+    .like:before {
+        content: '\2661';
+        padding-right: 5px;
     }
 
     .like:hover {

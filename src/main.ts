@@ -117,6 +117,8 @@ const components = [
 ];
 const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];
 const app = createApp(App);
+
+
 import locale from 'element-plus/lib/locale';
 import lang from 'element-plus/lib/locale/lang/ru';
 import fillDateFormat from '@/services/DateFormat';

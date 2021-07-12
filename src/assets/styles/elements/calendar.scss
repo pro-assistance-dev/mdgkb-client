@@ -1,0 +1,46 @@
+.is-selected{
+  color: #F8A535;
+}
+
+.budge{
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin: 10px auto;
+}
+.blue{
+  background-color: #409eff;
+}
+
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(1) {
+  visibility: hidden;
+}
+
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(1):after {
+  visibility: visible;
+  content: 'Предыдущий месяц';
+}
+
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(2) {
+  visibility: hidden;
+}
+
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(2):after {
+  visibility: visible;
+  content: 'Текущий месяц';
+}
+
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(3) {
+  visibility: hidden;
+}
+
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(3):after {
+  visibility: visible;
+  content: 'Следующий месяц';
+}
+
+
+
+.el-calendar-table .el-calendar-day {
+  height: 40px;
+}

@@ -5,19 +5,23 @@
                         <template
                                 #dateCell="{data}"
                         >
-                            <div class="el-calendar-day">
-                                {{data.day.split('-').slice(2).join('-')}}
-                            </div>
-                            <div v-for="item in news" :key="item.id">
-                                <div v-if="new Date(item.published_on).getMonth() === new Date(data.day).getMonth()">
-                                    <div v-if="new Date(item.published_on).getDate() === new Date(data.day).getDate()">
-                                        <el-tooltip class="item" effect="dark" :content="item.title" placement="right">
-                                            <div class="is-selected">{{item.title}}</div>
-                                        </el-tooltip>
+                            <el-popover
+                                    transition="el-collapse-transition"
+                                    placement="right"
+                                    width="200"
+                                    trigger="hover"
+                                    :content="getNews(data.day)"
+                                    :disabled="getNews(data.day).length === 0"
+                            >
+                                <template #reference>
+                                    <div class="el-calendar-day" :class="getNews(data.day).length ? 'is-selected' : ''">
+                                        {{data.day.split('-').slice(2).join('-')}}
                                     </div>
-                                    <div v-else></div>
-                                </div>
+                                </template>
+                            <div v-for="item in getNews(data.day)" :key="item.id">
+                                {{item}}
                             </div>
+                            </el-popover>
                         </template>
                     </el-calendar>
                 </div>
@@ -25,95 +29,43 @@
 </template>
 
 <script lang="ts">
-    import {PropType} from 'vue'
-    import IMenuItem from "../../interfaces/IMenuItem";
+    import {PropType, defineComponent} from 'vue'
+    import INews from "@/interfaces/news/INews";
 
-    export default {
+    export default defineComponent({
         name: 'NewsCalendar',
         props: {
             news: {
-                type: Object as PropType<IMenuItem>,
-                required: true
-            },
+                type: Array as PropType<INews[]> ,
+                required: true,
+            } ,
         },
-    };
+        setup(props) {
+            const getNews = (day: string) : string[] => {
+                const news = props.news.filter((itemNews : INews) => {
+                    const dayMatch = new Date(itemNews.published_on).getDate() === new Date(day).getDate()
+                    const monthMatch = new Date(itemNews.published_on).getMonth() === new Date(day).getMonth()
+                    const yearMatch = new Date(itemNews.published_on).getFullYear() === new Date(day).getFullYear()
+                    // console.log(dayMatch , new Date(itemNews.published_on).getDate(), monthMatch, new Date(itemNews.published_on).getMonth(), new Date(day).getMonth() ,yearMatch)
+                    if (yearMatch && monthMatch && dayMatch) {
+                        return itemNews.title
+                    }
+                })
+
+                let newsTitles: string[] = []
+                news.forEach((itemNews: INews) => {
+                    newsTitles.push(itemNews.title)
+                })
+                return newsTitles
+            }
+            return {
+                getNews
+            }
+        }
+    })
 </script>
 
-<style scoped>
-    .calendar-day{
-        text-align: center;
-        color: #202535;
-        line-height: 30px;
-        font-size: 12px;
-    }
-    .is-selected{
-        color: #F8A535;
-        font-size: 10px;
-        margin-top: 5px;
-    }
-    #calendar .el-button-group>.el-button:not(:first-child):not(:last-child):after{
-        content: 'Current month';
-    }
+<style scoped lang="scss">
 
-    .like {
-        margin-right: 3px;
-        transition: all .1s;
-        cursor: pointer;
-    }
-
-    .like:hover {
-        margin-top: -5px;
-        font-weight: bold;
-    }
-
-    .image {
-        padding-top: 100%;
-        position: relative;
-    }
-
-    .image > div {
-        position: absolute;
-        top: 0;
-        height: 100%;
-        left: -50%;
-        width: 200%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .image > div > img {
-        height: 100%;
-        width: auto;
-    }
-
-
-    .el-calendar-day{
-        height: 40px;
-        text-align: center;
-        color: #202535;
-    }
-    .is-selected{
-        color: #F8A535;
-        font-size: 10px;
-        margin-top: 5px;
-    }
-    #calendar .el-button-group>.el-button:not(:first-child):not(:last-child):after{
-        содержание: «Текущий месяц»;
-    }
-
-
-    .left-wrap /deep/ .el-calendar-table .el-calendar-day{
-        /*padding: 22px;*/
-    }
-    .left-wrap /deep/ .el-backtop, .el-calendar-table td.is-today p{
-        height: 30px;
-        width: 30px;
-        color: white;
-        border-radius: 15px;
-        line-height: 30px;
-        margin: 0 auto;
-        margin-top: -6px;
-        background-image: linear-gradient(to right, #2160dc, #4880f0);
-    }
 
 </style>
