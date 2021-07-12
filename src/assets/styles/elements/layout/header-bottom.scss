@@ -10,17 +10,23 @@ $header_bottom_desktop: 56px;
     border: none;
     background: whitesmoke;
 
-    .header-bottom-menu-item {
+  .header-bottom-menu-item {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
+    color:#4a4a4a;
       margin-right: 0;
-      display: flex;
-      align-items: center;
-      margin-top: 0;
-      padding: 0 12px;
-      justify-content: center;
       text-transform: uppercase;
       height: 100%;
     }
+    .header-bottom-menu-item:hover{
+      background-color: #e4e5e7
+    }
   }
+
+}
+
+.el-submenu__title:hover {
+  background-color: #e4e5e7 !important;
+  border: none !important;
+  height: $header_bottom_desktop !important;
 }

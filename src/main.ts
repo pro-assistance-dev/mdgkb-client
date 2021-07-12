@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import 'dayjs/locale/ru';
 import router from './router'
 import store from './store'
 import './assets/styles/element-variables.scss';
@@ -59,12 +60,9 @@ import {
     ElTooltip,
     ElTree,
     ElUpload,
+    ElCalendar,
 } from 'element-plus';
-import locale from 'element-plus/lib/locale';
-import lang from 'element-plus/lib/locale/lang/ru';
 
-
-locale.use(lang);
 const components = [
     ElAside,
     ElAutocomplete,
@@ -115,9 +113,16 @@ const components = [
     ElDescriptions,
     ElDescriptionsItem,
     ElPagination,
+    ElCalendar,
 ];
 const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];
 const app = createApp(App);
+import locale from 'element-plus/lib/locale';
+import lang from 'element-plus/lib/locale/lang/ru';
+import fillDateFormat from '@/services/DateFormat';
+
+app.config.globalProperties.$dateFormatRu = fillDateFormat;
+locale.use(lang);
 
 app.use(store);
 app.use(router);

@@ -1,4 +1,4 @@
-import moment from 'moment';
+// import moment from 'moment';
 
 import { IBodilessParams, IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
 
@@ -31,7 +31,7 @@ export default class HttpClient {
       payload, fileInfos, query, headers, isFormData,
     } = params;
 
-    this.toUtc(payload);
+    // this.toUtc(payload);
     let body: string | FormData = JSON.stringify(payload);
 
     if (isFormData) {
@@ -63,7 +63,7 @@ export default class HttpClient {
       payload, fileInfos, query, headers, isFormData,
     } = params;
 
-    this.toUtc(payload);
+    // this.toUtc(payload);
     let body: string | FormData = JSON.stringify(payload);
 
     if (isFormData) {
@@ -106,26 +106,26 @@ export default class HttpClient {
     return `${process.env.VUE_APP_BASE_URL + this.endpoint}/${query}`;
   }
 
-  private toUtc(payload: Record<string, any>): Record<string, any> {
-    const obj = payload;
-    if (!obj) {
-      return obj;
-    }
-
-    for (const item of Object.keys(obj)) {
-      if (obj[item] && typeof obj[item].getMonth !== 'function' && typeof obj[item] === 'object') {
-        this.toUtc(obj[item]);
-      }
-
-      if (obj[item] && typeof obj[item].getMonth === 'function') {
-        obj[item] = moment(obj[item]).add(+moment().utcOffset(), 'm');
-        obj[item] = obj[item]
-          .parseZone()
-          .utc()
-          .format();
-      }
-    }
-
-    return obj;
-  }
+  // private toUtc(payload: Record<string, any>): Record<string, any> {
+  //   const obj = payload;
+  //   if (!obj) {
+  //     return obj;
+  //   }
+  //
+  //   for (const item of Object.keys(obj)) {
+  //     if (obj[item] && typeof obj[item].getMonth !== 'function' && typeof obj[item] === 'object') {
+  //       this.toUtc(obj[item]);
+  //     }
+  //
+  //     if (obj[item] && typeof obj[item].getMonth === 'function') {
+  //       obj[item] = moment(obj[item]).add(+moment().utcOffset(), 'm');
+  //       obj[item] = obj[item]
+  //         .parseZone()
+  //         .utc()
+  //         .format();
+  //     }
+  //   }
+  //
+  //   return obj;
+  // }
 }
