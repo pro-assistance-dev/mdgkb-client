@@ -120,8 +120,11 @@ const app = createApp(App);
 import locale from 'element-plus/lib/locale';
 import lang from 'element-plus/lib/locale/lang/ru';
 import fillDateFormat from '@/services/DateFormat';
+import { useStore } from 'vuex'
 
 app.config.globalProperties.$dateFormatRu = fillDateFormat;
+app.config.globalProperties.$store = useStore()
+
 locale.use(lang);
 
 app.use(store);

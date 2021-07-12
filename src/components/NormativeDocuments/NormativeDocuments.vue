@@ -1,5 +1,4 @@
 <template>
-    {{modalOpen}}
     <div>
         <el-table
             ref="table"
@@ -11,8 +10,7 @@
             <el-table-column label="НАИМЕНОВАНИЕ" sortable prop="name" align="left" min-width="130" width="800" resizable />
         <el-table-column width="100" fixed="right" align="center">
             <template #default="scope">
-
-                    <a  v-if="scope.row.file_object" :href="`http://localhost:8083/originals/${scope.row.file_object.filename_disk}`"
+                    <a  v-if="scope.row.file_object" :href="getFileUrl(scope.row.file_object.filename_disk)"
                     :download="scope.row.file_object.filename_download"
                     target="_blank" class="button is-small is-fullwidth is-info has-margin-bottom-3 is-light  rounded-all-5">
                         <el-button icon="el-icon-download"  >
@@ -51,7 +49,8 @@
 
 <script lang="ts">
     import { useStore,  } from 'vuex';
-import {ref} from 'vue'
+    import {ref} from 'vue'
+
     export default {
         name: 'NormativeDocuments',
         async setup() {
@@ -61,14 +60,12 @@ import {ref} from 'vue'
             await store.dispatch('normativeDocuments/getAll');
             const normativeDocuments = store.getters['normativeDocuments/items'];
 
-            const modalOpenFunc = (doc: string)  :void =>{
-                modalOpen = ref(!modalOpen);
-                fileUrl = ref(doc);
+            const getFileUrl = (name: string): string => {
+                return `${process.env.VUE_APP_STATIC_URL}/${name}`
             }
 
-
             return {
-
+                getFileUrl,
                 fileUrl,
                 modalOpen,
                 normativeDocuments,

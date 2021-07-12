@@ -20,11 +20,12 @@
 
 <script lang="ts">
   import {ref} from "vue";
+  import IMenuItem from "@/interfaces/IMenuItem";
 
   export default {
     name: "MenuTileX",
     props: {
-      item: Object,
+      item: Object as unknown as IMenuItem,
     },
 setup() {
   let expand = ref(false)
@@ -46,13 +47,6 @@ setup() {
     max-height: 144px;
     background-color: rgba(240, 242, 247, 1);
     cursor: pointer;
-  }
-
-  #item.aside{
-    width: 100%;
-    max-width: 100%;
-    display: block;
-    margin-bottom: 6px;
   }
 
   #item.active {
@@ -82,7 +76,6 @@ setup() {
   #inner {
     padding: 15px;
     height: 100%;
-
   }
 
   #icon {

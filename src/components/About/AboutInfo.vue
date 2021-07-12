@@ -43,13 +43,14 @@
 </template>
 
 <script lang="ts">
-// import IDivision from '@/interfaces/divisions/IDivision';
+import IDivision from '@/interfaces/divisions/IDivision';
+import {PropType} from 'vue'
 
 export default {
   name: 'AboutInfo',
   props: {
     division: {
-      // type: IDivision,
+      type: Object as PropType<IDivision>,
       required: true,
     },
   },
