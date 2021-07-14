@@ -1,12 +1,12 @@
 import IFileObject from "@/interfaces/files/IFileObject";
 
 export default class FileObject implements IFileObject{
-    id: string = ''
-    filename_disk: string  =''
-    filename_download: string  =''
-    title: string  =''
-    type: string  =''
-    extension: string  =''
+    id = ''
+    filename_disk  =''
+    filename_download  =''
+    title  =''
+    type  =''
+    extension  =''
 
     constructor(i?: IFileObject) {
         if (!i) return

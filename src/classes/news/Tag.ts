@@ -1,9 +1,9 @@
 import ITag from "@/interfaces/news/ITag";
 
 export default class Tag implements ITag{
-    id :string = ''
-    color: string = ''
-    label:string = ''
+    id  = ''
+    color = ''
+    label = ''
 
     constructor(i?: ITag) {
         if (!i) return

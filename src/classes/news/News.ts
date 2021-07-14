@@ -8,9 +8,9 @@ import IMeta from "@/interfaces/news/IMeta";
 import Meta from "@/classes/news/Meta";
 
 export default class News implements INews{
-    id :string = ''
-    status: string  = ''
-    title: string = ''
+    id  = ''
+    status  = ''
+    title = ''
     category: ICategory = new Category()
     tags:ITag[] = []
     preview_thumbnail_file = new PreviewThumbnailFile()

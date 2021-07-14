@@ -3,11 +3,11 @@ import IFileObject from "@/interfaces/files/IFileObject";
 import FileObject from "@/classes/File/FileObject";
 
 export default class NormativeDocument implements INormativeDocument{
-    id: string = ''
-    name: string  =''
-    file: number = 0
-    type: number = 0
-    status: string = ''
+    id = ''
+    name  =''
+    file = 0
+    type = 0
+    status = ''
     file_object: IFileObject = new FileObject()
 
 

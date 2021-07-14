@@ -1,8 +1,8 @@
 import IPreviewThumbnailFile from "@/interfaces/files/IPreviewThumbnailFile";
 
 export default class PreviewThumbnailFile implements IPreviewThumbnailFile{
-    id: string = ''
-    filename_disk: string  =''
+    id = ''
+    filename_disk  =''
 
     constructor(i?: IPreviewThumbnailFile) {
         if (!i) return
