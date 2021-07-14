@@ -6,6 +6,7 @@ import { divisions } from '@/store/modules/divisions';
 import {news} from '@/store/modules/news';
 import {likes} from '@/store/modules/likes';
 import {normativeDocuments} from '@/store/modules/normativeDocuments';
+import {buildings} from '@/store/modules/buildings';
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -20,6 +21,7 @@ const store: StoreOptions<RootState> = {
     news,
     likes,
     normativeDocuments,
+    buildings,
   },
 };
 

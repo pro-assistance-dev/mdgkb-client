@@ -22,6 +22,56 @@
         <el-menu-item  class="header-bottom-menu-item" :route="{ name: 'AboutPage' }" index="3">О нас</el-menu-item>
     </el-menu>
 </el-col>
+    <el-col :offset="5" :span="4" class="info">
+        <el-popover
+                show-arrow="false"
+                placement="bottom-start"
+                :width="600"
+                trigger="hover"
+                content="this is content, this is content, this is content"
+        >
+            <template #reference>
+                <div class="phones" @click="$router.push('/map')">
+                <div>
+                    +7 (495) 959-88-00
+                </div>
+                <div>
+                    +7 (495) 959-88-03
+                </div>
+                </div>
+            </template>
+            <div id="helppop">
+                <div class="phone">
+                    +7 (495) 959-88-00<br/>
+                    +7 (495) 959-88-03
+                </div>
+                <div class="call-center">
+                    <small>
+                        Call-центр принимает звонки круглосуточно и без выходных.
+                        По России звонок бесплатный.
+                    </small>
+                </div>
+                <div class="address">
+                    119049 г. Москва, 4-й Добрынинский переулок, дом 1/9
+                </div>
+                <div class="address2">
+                    <small>Вход на территорию больницы с 1-ого Добрынинского переулка.</small>
+                </div>
+                <div class="icons">
+                    <a href="#" class="social-icon">
+                        <img src="../../assets/img/social/facebook.png"/>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <img src="../../assets/img/social/instagram.png"/>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <img src="../../assets/img/social/youtube.png"/>
+                    </a>
+                </div>
+            </div>
+        </el-popover>
+
+    </el-col>
 </el-row>
 </template>
 
@@ -69,6 +119,59 @@
   })
 </script>
 <style scoped lang="scss">
+    .phones {
+        padding-top: 5px;
+        height: 51px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .phones:hover{
+        background-color: #e4e5e7
+    }
+
+    #helppop {
+        padding: 22px;
+        background: #fcfcfc;
+        border-radius: 10px;
+        box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+
+        .phone {
+            margin-top: 6px;
+        }
+
+        .call-center {
+            margin-top: 12px;
+        }
+
+        .address  {
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+
+        .address  {
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+
+        .icons  {
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+
+        .social-icon {
+            margin-top: 12px;
+            margin-right: 12px;
+        }
+
+        #helppop .social-icon img{
+            width: 24px;
+            height: 24px;
+            max-height: 24px;
+        }
+
+    }
+
 
 
 </style>

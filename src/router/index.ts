@@ -4,6 +4,8 @@ import AboutPage from '@/components/About/AboutPage.vue';
 import StopComaPage from '@/components/StopComaPage.vue';
 import NewsRoutes from "@/router/NewsRoutes";
 import NormativeDocumentsRoutes from "@/router/NormativeDocumentsRoutes"
+import MapRoutes from "@/router/MapRoutes";
+import DivisionsRoutes from "@/router/DivisionsRoutes";
 
 
 export const isNotAuthorized = async (to: any, from: any, next: any) => {
@@ -28,13 +30,14 @@ const routes: Array<RouteRecordRaw> = [
     name: 'StopComa',
     component: StopComaPage,
   },
-
     ...NewsRoutes,
-    ...NormativeDocumentsRoutes
+    ...NormativeDocumentsRoutes,
+    ...MapRoutes,
+    ...DivisionsRoutes
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.VUE_APP_BASE_URL),
+  history: createWebHistory(),
   routes
 })
 

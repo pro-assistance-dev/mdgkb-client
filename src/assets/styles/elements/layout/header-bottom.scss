@@ -22,11 +22,15 @@ $header_bottom_desktop: 56px;
       background-color: #e4e5e7
     }
   }
-
 }
 
 .el-submenu__title:hover {
   background-color: #e4e5e7 !important;
   border: none !important;
   height: $header_bottom_desktop !important;
+}
+
+.info{
+  display: block;
+  font-weight: bold;
 }
