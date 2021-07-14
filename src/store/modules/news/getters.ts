@@ -10,6 +10,12 @@ const getters: GetterTree<State, RootState> = {
     console.log(state.news)
     return state.news;
   },
+  newsItem(state): INews | undefined {
+    return state.newsItem;
+  },
+  getBySlug(state, slug): INews | undefined {
+    return state.news.find((i: INews) => i.slug === slug) ;
+  },
 };
 
 export default getters;

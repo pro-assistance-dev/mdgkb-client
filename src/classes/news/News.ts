@@ -11,6 +11,9 @@ export default class News implements INews{
     id :string = ''
     status: string  = ''
     title: string = ''
+    preview_text: string = ''
+    content: string = ''
+    slug: string = ''
     category: ICategory = new Category()
     tags:ITag[] = []
     preview_thumbnail_file = new PreviewThumbnailFile()
@@ -22,6 +25,9 @@ export default class News implements INews{
         this.id = i.id
         this.status = i.status
         this.title = i.title
+        this.preview_text = i.preview_text
+        this.content = i.content
+        this.slug = i.slug
         this.category = new Category(i.category)
         this.tags = i.tags.map((item: ITag) => new Tag(item))
         this.preview_thumbnail_file = new PreviewThumbnailFile(i.preview_thumbnail_file)

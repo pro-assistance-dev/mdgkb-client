@@ -1,5 +1,5 @@
 <template>
-    <div id="item" @click.stop="(!expand?$emit('done'):null),expand = !expand" :class="`${expand?'active':''} ff${item.id}`">
+    <div  id="item"  @click.stop="($emit('done')),expand = !expand" :class="`${expand?'active':''} ff${item.id}`">
         <div id="inner">
             <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.png`)"/>
             <div id="icon">
@@ -12,29 +12,42 @@
                 {{item.description}}
             </div>
             <div id="actions">
-                <el-button  @click="$router.push(item.to)" round>Подробнее</el-button>
+                <el-button  @click="$emit('done'),$router.push(item.to)" round>Подробнее</el-button>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-  import {ref} from "vue";
+  import {ref, defineComponent, PropType} from "vue";
   import IMenuItem from "@/interfaces/IMenuItem";
 
-  export default {
+  export default defineComponent( {
     name: "MenuTileX",
     props: {
-      item: Object as unknown as IMenuItem,
+      item: {
+          type: Object as PropType<IMenuItem>,
+          required: true
+      },
+
+
     },
-setup() {
-  let expand = ref(false)
+    setup() {
+        const menu = ref(null)
+        let expand = ref(false)
+        const wrapper = ref();
+
+    const collapseCard = () => {
+        expand.value = false
+    }
+
 
   return {
+      collapseCard,
     expand
   }
 }
-  }
+  })
 </script>
 
 <style scoped>

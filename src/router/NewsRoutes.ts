@@ -8,7 +8,7 @@ export default [
     component: NewsList,
   },
   {
-    path: '/news/:newsId',
+    path: '/news/:slug',
     name: 'NewsPage',
     component: NewsPage,
   },

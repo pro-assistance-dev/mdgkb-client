@@ -1,49 +1,55 @@
 <template>
-    <el-row :gutter="20">
-        <el-col :span="6" v-for="item in news" :key="item.id" >
+
             <el-card class="card" :body-style="{ padding: '0px' }" >
-                <div class="image" v-if="item.preview_thumbnail_file.filename_disk">
+                <div class="image" v-if="news.preview_thumbnail_file.filename_disk">
                     <div>
-                        <img :src="getImageUrl(item.preview_thumbnail_file.filename_disk)" alt="alt">
+                        <img :src="getImageUrl(news.preview_thumbnail_file.filename_disk)" alt="alt">
                     </div>
                 </div>
                 <div class="card-content">
                     <el-row class="card-meta" :gutter="20">
                         <el-col :xl="8" :lg="12" :md="24">
-                            {{$dateFormatRu(item.published_on)}}
+                            {{$dateFormatRu(news.published_on)}}
                         </el-col>
                         <el-col :xl="8" :lg="12" :md="24">
 
-                            <span class="like" @click="createLike(item.id)"> {{ item.__meta__.likes_count}}</span>
+                            <span class="like" @click="createLike(news.id)"> {{ news.__meta__.likes_count}}</span>
                         </el-col>
                     </el-row>
-                    <div class="title">{{item.title}}</div>
+                    <div class="title">{{news.title}}</div>
+                    <el-button  @click="$router.push(`/news/${news.slug}`)" @mouseover="show3 = true" @mouseleave="show3 = false">Показать больше</el-button>
+
+                    <div style="margin-top: 20px; height: 200px;">
+<!--                        <el-collapse-transition>-->
+<!--                            <div v-show="show3">-->
+<!--                                <div class="transition-box">el-collapse-transition</div>-->
+<!--                                <div class="transition-box">el-collapse-transition</div>-->
+<!--                            </div>-->
+<!--                        </el-collapse-transition>-->
+                    </div>
 
                     <div class="tags">
-                        <el-tag v-for="tag in item.tags" :key="tag.id" size="small" :color="tag.color" >{{tag.label}}</el-tag>
+                        <el-tag @click="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small" :color="tag.color" >{{tag.label}}</el-tag>
                     </div>
                 </div>
             </el-card>
-
-        </el-col>
-
-    </el-row>
 </template>
 
 <script lang="ts">
     import { useStore } from 'vuex';
-    import IMenuItem from "@/interfaces/IMenuItem";
-    import {PropType} from 'vue'
+    import {PropType, ref} from 'vue'
+    import INews from "@/interfaces/news/INews";
 
     export default {
         name: 'NewsCard',
         props: {
             news: {
-                type: Object as PropType<IMenuItem>,
+                type: Object as PropType<INews>,
                 required: true
             },
         },
         async setup() {
+            const show3 = ref(false)
             const store = useStore();
 
             const getImageUrl = (imagePath: string): string => {
@@ -54,7 +60,15 @@
                 await store.dispatch('likes/create', newsId);
             }
 
+            const filterNews = async (tagId: string): Promise<void> => {
+                await store.commit('news/filterByTag', tagId);
+            }
+
+
+
             return {
+                show3,
+                filterNews,
                 createLike,
                 getImageUrl
             };
@@ -137,5 +151,10 @@
     .image > div > img {
         height: 100%;
         width: auto;
+    }
+
+    .tag-link:hover {
+        background-color: darken(white, 10%);
+        cursor: pointer;
     }
 </style>

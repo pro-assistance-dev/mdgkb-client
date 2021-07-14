@@ -8,7 +8,7 @@
             row-class-name="no-hover"
     >
             <el-table-column label="НАИМЕНОВАНИЕ" sortable prop="name" align="left" min-width="130" width="800" resizable />
-            <el-table-column width="100" fixed="right" align="center">
+            <el-table-column align="center">
             <template #default="scope">
                     <a  v-if="scope.row.file_object" :href="getFileUrl(scope.row.file_object.filename_disk)"
                     :download="scope.row.file_object.filename_download"

@@ -36,7 +36,7 @@
         name: 'NewsCalendar',
         props: {
             news: {
-                type: Array as PropType<INews[]> ,
+                type: Array as PropType<Array<INews>> ,
                 required: true,
             } ,
         },
@@ -46,16 +46,18 @@
                     const dayMatch = new Date(itemNews.published_on).getDate() === new Date(day).getDate()
                     const monthMatch = new Date(itemNews.published_on).getMonth() === new Date(day).getMonth()
                     const yearMatch = new Date(itemNews.published_on).getFullYear() === new Date(day).getFullYear()
-                    // console.log(dayMatch , new Date(itemNews.published_on).getDate(), monthMatch, new Date(itemNews.published_on).getMonth(), new Date(day).getMonth() ,yearMatch)
+
                     if (yearMatch && monthMatch && dayMatch) {
                         return itemNews.title
                     }
+
                 })
 
                 let newsTitles: string[] = []
                 news.forEach((itemNews: INews) => {
                     newsTitles.push(itemNews.title)
                 })
+
                 return newsTitles
             }
             return {
@@ -66,6 +68,9 @@
 </script>
 
 <style scoped lang="scss">
+    .calendar-wrap {
+        :deep(.el-calendar-day) {}
+    }
 
 
 </style>
