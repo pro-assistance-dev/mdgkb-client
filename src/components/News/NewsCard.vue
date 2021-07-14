@@ -1,46 +1,51 @@
 <template>
-
             <el-card class="card" :body-style="{ padding: '0px' }" >
-                <div class="image" v-if="news.preview_thumbnail_file.filename_disk">
+                    <div @mouseleave="showMore = false" v-show="showMore" class="transition-box" :class="{ visible: showMore}">
+                        <div class="preview_text">
+                            <div class="content">{{news.preview_text}}</div>
+                            <div class="read-more">
+                                <el-button @click="$router.push(`/news/${news.slug}`)" type="primary" outlined>Читать дальше</el-button>
+                            </div>
+
+                        </div>
+                    </div>
+                <div class="image" >
                     <div>
-                        <img :src="getImageUrl(news.preview_thumbnail_file.filename_disk)" alt="alt">
+                        <img v-if="news.preview_thumbnail_file.filename_disk" :src="getImageUrl(news.preview_thumbnail_file.filename_disk)" alt="alt" />
+                        <img v-else src="../../assets/img/310x310.png"/>
                     </div>
                 </div>
                 <div class="card-content">
+
                     <el-row class="card-meta" :gutter="20">
                         <el-col :xl="8" :lg="12" :md="24">
                             {{$dateFormatRu(news.published_on)}}
                         </el-col>
-                        <el-col :xl="8" :lg="12" :md="24">
-
+                        <el-col :xl="{span: 6, offset: 10}" :lg="12" :md="24" >
                             <span class="like" @click="createLike(news.id)"> {{ news.__meta__.likes_count}}</span>
                         </el-col>
                     </el-row>
                     <div class="title">{{news.title}}</div>
-                    <el-button  @click="$router.push(`/news/${news.slug}`)" @mouseover="show3 = true" @mouseleave="show3 = false">Показать больше</el-button>
 
-                    <div style="margin-top: 20px; height: 200px;">
-<!--                        <el-collapse-transition>-->
-<!--                            <div v-show="show3">-->
-<!--                                <div class="transition-box">el-collapse-transition</div>-->
-<!--                                <div class="transition-box">el-collapse-transition</div>-->
-<!--                            </div>-->
-<!--                        </el-collapse-transition>-->
+                    <div class="show-more-button">
+                    <el-button @mouseover="showMore = true" >Показать больше</el-button>
                     </div>
 
                     <div class="tags">
                         <el-tag @click="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small" :color="tag.color" >{{tag.label}}</el-tag>
                     </div>
+
                 </div>
             </el-card>
+
 </template>
 
 <script lang="ts">
     import { useStore } from 'vuex';
-    import {PropType, ref} from 'vue'
+    import {PropType, ref, defineComponent} from 'vue'
     import INews from "@/interfaces/news/INews";
 
-    export default {
+    export default defineComponent( {
         name: 'NewsCard',
         props: {
             news: {
@@ -49,7 +54,7 @@
             },
         },
         async setup() {
-            const show3 = ref(false)
+            const showMore = ref(false)
             const store = useStore();
 
             const getImageUrl = (imagePath: string): string => {
@@ -64,16 +69,14 @@
                 await store.commit('news/filterByTag', tagId);
             }
 
-
-
             return {
-                show3,
+                showMore,
                 filterNews,
                 createLike,
                 getImageUrl
             };
         },
-    };
+    })
 </script>
 
 <style scoped lang="scss">
@@ -81,13 +84,49 @@
     $card-content-padding: 24px;
     $card-content-outpadding: 0 - 24px;
 
+    .visible {
+        visibility: visible;
+        transition: all 0.5s;
+    }
+
+    .show-more-button{
+        text-align: center;
+    }
+
     .card {
         border-radius: $card-border-radius;
-        height: 500px;
+        height: 700px;
         margin-bottom: 50px;
         transition: all .1s;
         position:relative;
         padding-bottom:50px;
+
+        .transition-box{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.66);
+            color: #000000;
+            text-align: justify;
+
+            transition: all 0.5s;
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+
+            .content{
+                text-align: left;
+                padding: 48px 12px 12px;
+            }
+
+            .read-more {
+                text-align: center;
+            }
+
+
+        }
+
+
 
         .card-content{
             padding: 1.5rem;
@@ -111,11 +150,6 @@
     }
 
 
-    .card:hover{
-        margin-top: -5px;
-    }
-
-
     .like {
         margin-right: 3px;
         transition: all .1s;
@@ -133,7 +167,7 @@
     }
 
     .image {
-        width: calc(100% + 1px);
+        width: calc(100% + 4px);
         padding-top: 100%;
         position: relative;
     }
@@ -153,7 +187,12 @@
         width: auto;
     }
 
+    .tag-link{
+        margin-right: 10px;
+    }
+
     .tag-link:hover {
+
         background-color: darken(white, 10%);
         cursor: pointer;
     }
