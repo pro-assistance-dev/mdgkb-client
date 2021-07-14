@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-    import {PropType, defineComponent} from 'vue'
+    import {PropType, defineComponent, onMounted} from 'vue'
     import INews from "@/interfaces/news/INews";
 
     export default defineComponent({
@@ -52,14 +52,42 @@
                     }
 
                 })
-
                 let newsTitles: string[] = []
                 news.forEach((itemNews: INews) => {
                     newsTitles.push(itemNews.title)
                 })
-
                 return newsTitles
             }
+
+            const translateMounth = () => {
+                let title = document.getElementsByClassName('el-calendar__title')[0]
+                const months: Record<string, string> = {
+                    'December': 'Декабря',
+                    'November': 'Ноября',
+                    'October': 'Октября',
+                    'September': 'Сентября',
+                    'August': 'Августа',
+                    'July': 'Июля',
+                    'June': 'Июня',
+                    'May': 'Мая',
+                    'April': 'Апреля',
+                    'March': 'Марта',
+                    'February': 'Февраля',
+                    'January': 'Января',
+                }
+                const month = title.innerHTML.split(' ')[2]
+                if (months[month]) title.innerHTML = title.innerHTML.split(' ')[0] + ' ' + months[month]
+            }
+
+            onMounted(() => {
+                translateMounth()
+                for (let i = 1; i <= 3; i++) {
+                    const btn = document.querySelector(`#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(${i})`)
+                    if (btn) btn.addEventListener("click" , () => translateMounth())
+                }
+            })
+
+
             return {
                 getNews
             }

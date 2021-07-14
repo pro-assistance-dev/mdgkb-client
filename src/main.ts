@@ -133,8 +133,6 @@ import { useStore } from 'vuex'
 app.config.globalProperties.$dateFormatRu = fillDateFormat;
 app.config.globalProperties.$store = useStore()
 
-locale.use(lang);
-
 app.use(store);
 app.use(router);
 
@@ -144,5 +142,7 @@ components.forEach((component) => {
 plugins.forEach((plugin) => {
     app.use(plugin);
 });
+
+locale.use(lang);
 
 app.mount('#app')

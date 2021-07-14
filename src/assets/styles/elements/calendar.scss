@@ -12,35 +12,35 @@
   background-color: #409eff;
 }
 
-#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(1) {
-  visibility: hidden;
+//#calendar > div.el-calendar__header > div.el-calendar__button-group  {
+//    visibility: hidden;
+//}
+//
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(1) > span {
+  display: none;
 }
-
 #calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(1):after {
-  visibility: visible;
-  content: 'Предыдущий месяц';
+  content: '<';
 }
 
-#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(2) {
-  visibility: hidden;
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(2) > span {
+  display: none;
 }
-
 #calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(2):after {
-  visibility: visible;
   content: 'Текущий месяц';
 }
 
-#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(3) {
-  visibility: hidden;
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(3) > span {
+  display: none;
+}
+#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(3):after {
+  content: '>';
 }
 
-#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(3):after {
-  visibility: visible;
-  content: 'Следующий месяц';
-}
 
 
 
 .el-calendar-table .el-calendar-day {
-  height: 40px;
+  //padding-bottom: 0;
+  //height: 40px;
 }
