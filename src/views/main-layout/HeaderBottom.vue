@@ -13,8 +13,8 @@
             <template #title><span class="header-bottom-menu-item">Пациентам</span></template>
             <div class="gridcontainer">
                 <div class="grid" id="services_grid">
-                    <template v-for="item in items" :key="item.id">
-                        <MenuTileX :item="item"  />
+                    <template v-for="(item, i) in items" :key="item.id">
+                        <MenuTileX  :ref="el => { if (el) menus[i] = el }" @done="collapseCard" :item="item"  />
                     </template>
                 </div>
             </div>
@@ -25,11 +25,11 @@
 </el-row>
 </template>
 
-<script lang="ts">
-    import {ref } from 'vue';
+<script lang="ts" >
+    import {ref,defineComponent } from 'vue';
     import IMenuItem from "@/interfaces/IMenuItem";
     import MenuTileX from "@/views/main-layout/elements/MenuTileX.vue";
-    export default {
+    export default defineComponent( {
         name: "HeaderBottom",
         components: {
             MenuTileX
@@ -50,12 +50,23 @@
                 // {id: "11",label: "Школа для родителей пациентов с муковисцидозом", description:"Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства", to:"/events/shkola-dlya-roditelej-pacientov-s-mukoviscidozom"},
                 // {id: "12",label: "Запрос копии документа", description:"Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства", to:"/document_request"},
             ]
+            const menus = ref([])
+
+
+            const collapseCard = () => {
+                menus.value.forEach((v: any) => {
+                    v.collapseCard()
+                })
+            }
+
             return {
+                menus,
+                collapseCard,
                 expand,
                 items,
             };
         },
-  }
+  })
 </script>
 <style scoped lang="scss">
 

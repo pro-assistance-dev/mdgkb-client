@@ -7,6 +7,9 @@ export default interface INews {
     id :string
     status: string
     title: string
+    preview_text: string
+    content: string
+    slug: string
     category: ICategory
     tags:ITag[]
     preview_thumbnail_file: IPreviewThumbnailFile

@@ -4,15 +4,20 @@
            <NewsCalendar v-model:news="news" />
         </el-col>
         <el-col :span="18" >
-            <NewsCard v-model:news="news"/>
+            <el-row :gutter="20">
+                <el-col :span="6" v-for="item in news" :key="item.id" >
+            <NewsCard :news="item"/>
+                </el-col>
+            </el-row>
         </el-col>
     </el-row>
 </template>
 
 <script lang="ts">
-    import { useStore } from 'vuex';
+    import { useStore  } from 'vuex';
     import NewsCard from "@/components/News/NewsCard.vue";
     import NewsCalendar from "@/components/News/NewsCalendar.vue";
+    import { computed} from "vue";
 
     export default {
         name: 'NewsList',
@@ -20,7 +25,7 @@
         async setup() {
             const store = useStore();
             await store.dispatch('news/getAll');
-            const news = store.getters['news/news'];
+            const news = computed(()=>store.getters['news/news'])
 
             return {
                 news,

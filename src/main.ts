@@ -61,6 +61,7 @@ import {
     ElTree,
     ElUpload,
     ElCalendar,
+    ElCollapseTransition
 } from 'element-plus';
 
 const components = [
@@ -114,6 +115,7 @@ const components = [
     ElDescriptionsItem,
     ElPagination,
     ElCalendar,
+    ElCollapseTransition,
 ];
 const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];
 const app = createApp(App);
