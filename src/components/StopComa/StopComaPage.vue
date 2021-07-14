@@ -1,13 +1,13 @@
 <template>
   <el-card>
     <el-container direction="vertical" align="center" style="padding: 50px">
-      <div id="stopcoma">
+      <div id="stopcoma" ref="line" @mouseenter="$refs.line.circulateColors" @mouseleave="$refs.line.stopCirculate">
         <el-space direction="vertical" alignment="start" :size="0" id="stopcoma">
           <h1><span class="danger">СТОП</span><span class="warning">КОМА</span></h1>
           <span>Просветительный проект</span>
         </el-space>
       </div>
-      <!-- <CubeLine /> -->
+      <CubeLine ref="line" />
       <div id="diabetes">
         <h1><span>Диабет 1 группы</span></h1>
         <h3 class="danger"><span>он может быть и у детей</span></h3>
@@ -150,12 +150,12 @@
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
-// import CubeLine from '@/components/Decor/CubeLine.vue';
+import CubeLine from '@/components/StopComa/CubeLine.vue';
 
 export default defineComponent({
   name: 'StopComaPage',
   components: {
-    // CubeLine,
+    CubeLine,
   },
 
   setup() {
@@ -163,7 +163,7 @@ export default defineComponent({
       title: string;
       answers: string[];
     }
-
+    const line = ref<HTMLDivElement>();
     const questionsAnswers = ref([
       {
         title: 'Что мы хотим?',
@@ -220,6 +220,7 @@ export default defineComponent({
     return {
       questionsAnswers,
       expandRowKeys,
+      line,
       handleExpandChange,
     };
   },
@@ -284,6 +285,10 @@ h3 {
 
 #stopcoma h1 {
   margin: 0;
+}
+
+#stopcoma {
+  margin-bottom: 20px;
 }
 
 #diabetes h1 {
