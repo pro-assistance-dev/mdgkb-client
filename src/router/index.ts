@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainLayout from '@/views/main/MainLayout.vue';
 import AboutPage from '@/components/About/AboutPage.vue';
-import StopComaPage from '@/components/StopComaPage.vue';
+import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import NewsRoutes from "@/router/NewsRoutes";
 import NormativeDocumentsRoutes from "@/router/NormativeDocumentsRoutes"
+import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import MapRoutes from "@/router/MapRoutes";
 import DivisionsRoutes from "@/router/DivisionsRoutes";
 
@@ -27,9 +28,15 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/stop-coma',
-    name: 'StopComa',
+    name: 'StopComaPage',
     component: StopComaPage,
   },
+  {
+    path: '/dispanserization',
+    name: 'DispanserizationPage',
+    component: DispanserizationPage,
+  },
+
     ...NewsRoutes,
     ...NormativeDocumentsRoutes,
     ...MapRoutes,

@@ -23,17 +23,19 @@ export default defineComponent({
       color: string;
     }
 
-    const line = ref(null);
+    const line = ref<HTMLDivElement>();
     const side = ref(12);
     const gap = ref(2);
     const width = ref(0);
     const cubes = ref<ICubes[]>([]);
-    const circleInterval = ref(setInterval(() => {}));
+    const circleInterval = ref<ReturnType<typeof setInterval>>();
 
     const long = computed(() => side.value * 3);
 
     const generateCubes = () => {
-      // this.width = this.$refs.line.clientWidth;
+      if (line.value) {
+        width.value = line.value.clientWidth;
+      }
 
       if (!width.value) {
         return [];
@@ -70,7 +72,7 @@ export default defineComponent({
     };
 
     const colorsStep = () => {
-      let setColors = {};
+      let setColors: Record<string, string> = {};
       for (let index in cubes.value) {
         let color = null;
         if (Number(index) === 0) {
@@ -79,11 +81,14 @@ export default defineComponent({
           color = cubes.value[Number(index) - 1].color;
         }
 
-        // setColors[index] = color;
+        setColors[index] = color;
       }
 
+      let i = 0;
       for (let index in setColors) {
-        // cubes.value[index];
+        cubes.value[i].color = setColors[index];
+        i += 1;
+        // cubes.value.map((cube: ICubes) => (cube.color = setColors[index]));
         // this.$set(this.cubes[index], 'color', setColors[index]);
       }
     };
@@ -93,7 +98,7 @@ export default defineComponent({
     };
 
     const stopCirculate = () => {
-      clearInterval(circleInterval.value);
+      circleInterval.value ? clearInterval(circleInterval.value) : '';
     };
 
     onMounted(generateCubes);
