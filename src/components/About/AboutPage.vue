@@ -1,49 +1,43 @@
 <template>
-  <el-row>
-    <el-col :span="6" style="justify-content: center; padding: 10px">
-      <el-col>
-        <el-card style="width: 300px">
-          <el-table
-            :data="list"
-            cell-class-name="cell-row"
-            header-cell-class-name="cell-header"
-          >
-            <el-table-column header-align="center">
-              <template #header>
-                <h2 class="menu-label">Отделения</h2>
-                <el-input
-                  prefix-icon="el-icon-search"
-                  v-model="divisionFilter"
-                  placeholder="Найти отделение"
-                  class="table-search"
-                  size="mini"
-                />
-              </template>
-              <template #default="scope">
-                <el-space @click="loadDivision(scope.row.id)">
-                  <i class="el-icon-link icon"> </i>
-                  <span> {{ scope.row.name }}</span>
-                </el-space>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-card>
-      </el-col>
+  <el-row :gutter="20">
+    <el-col :xs="24" :sm="9" :md="8" :lg="5" :xl="5">
+      <el-card class="">
+        <el-table :data="list" cell-class-name="cell-row" header-cell-class-name="cell-header">
+          <el-table-column header-align="center">
+            <template #header>
+              <h2 class="menu-label">Отделения</h2>
+              <el-input
+                prefix-icon="el-icon-search"
+                v-model="divisionFilter"
+                placeholder="Найти отделение"
+                class="table-search"
+                size="mini"
+              />
+            </template>
+            <template #default="scope">
+              <el-space @click="loadDivision(scope.row.id)">
+                <i class="el-icon-link icon"> </i>
+                <span> {{ scope.row.name }}</span>
+              </el-space>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
     </el-col>
-    <el-col :span="18" style="padding: 10px">
+    <el-col :xs="24" :sm="15" :md="16" :lg="19" :xl="19">
       <AboutInfo :division="selectedDivision" />
     </el-col>
   </el-row>
 </template>
 
 <script lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import AboutInfo from '@/components/About/AboutInfo.vue';
 import IDivision from '@/interfaces/divisions/IDivision';
 import Division from '@/classes/divisions/Division';
 
-export default {
+export default defineComponent ({
   name: 'AboutPage',
   components: {
     AboutInfo,
@@ -65,7 +59,6 @@ export default {
     const loadDivision = async (id: number | undefined): Promise<void> => {
       await store.dispatch('divisions/get', id);
       selectedDivision.value = store.getters['divisions/division'];
-      console.log(selectedDivision);
     };
 
     const list = computed((): IDivision[] => {
@@ -89,7 +82,7 @@ export default {
       loadDivisions,
     };
   },
-};
+});
 </script>
 
 <style scoped>

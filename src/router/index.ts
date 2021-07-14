@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainLayout from '@/views/main/MainLayout.vue';
 import AboutPage from '@/components/About/AboutPage.vue';
+import StopComaPage from '@/components/StopComaPage.vue';
 import NewsRoutes from "@/router/NewsRoutes";
 import NormativeDocumentsRoutes from "@/router/NormativeDocumentsRoutes"
 
@@ -21,6 +22,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/about',
     name: 'AboutPage',
     component: AboutPage
+  },
+  {
+    path: '/stop-coma',
+    name: 'StopComa',
+    component: StopComaPage,
   },
 
     ...NewsRoutes,

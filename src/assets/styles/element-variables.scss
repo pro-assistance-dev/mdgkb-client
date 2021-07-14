@@ -3,14 +3,15 @@ $--font-path: '~element-plus/lib/theme-chalk/fonts';
 
 // HELPERS
 @import './helpers/shadows';
+@import '~element-plus/lib/theme-chalk/display.css';
 
 // LAYOUTS
-@import "elements/layout/header-top";
-@import "elements/layout/header-bottom";
-@import "elements/layout/footer-top";
-@import "elements/layout/footer-bottom";
-@import "elements/grid";
-@import "elements/calendar";
+@import 'elements/layout/header-top';
+@import 'elements/layout/header-bottom';
+@import 'elements/layout/footer-top';
+@import 'elements/layout/footer-bottom';
+@import 'elements/grid';
+@import 'elements/calendar';
 
 html,
 body {
@@ -31,7 +32,7 @@ body {
 #app {
   font-size: 1em;
   font-weight: 400;
-  color:#4a4a4a;
+  color: #4a4a4a;
   line-height: 1.5;
   font-family: 'Open Sans', sans-serif;
   height: 100%;

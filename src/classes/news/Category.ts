@@ -1,8 +1,8 @@
 import ICategory from "@/interfaces/news/ICategory";
 
 export default class Category implements ICategory{
-    id: string = ''
-    name: string  =''
+    id = ''
+    name  =''
 
 
     constructor(i?: ICategory) {

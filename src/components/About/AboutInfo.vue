@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-container direction="vertical">
     <h1 style="text-align: center">{{ division.name }}</h1>
     <el-card>
       <template #header>Общая информация</template>
@@ -39,7 +39,7 @@
       <div v-if="division.email">Email: {{division.email}}</div>
       <div v-if="division.address">Адрес: {{division.address}}</div>
     </el-card>
-  </div>
+  </el-container>
 </template>
 
 <script lang="ts">
@@ -61,7 +61,7 @@ export default {
 .el-card {
   border-radius: 15px;
   color: #4a4a4a;
-  margin: 10px;
+  margin-bottom: 10px;
   font-size: 14px;
   /* width: 800px; */
 }
