@@ -37,7 +37,7 @@ import AboutInfo from '@/components/About/AboutInfo.vue';
 import IDivision from '@/interfaces/divisions/IDivision';
 import Division from '@/classes/divisions/Division';
 
-export default defineComponent ({
+export default defineComponent({
   name: 'AboutPage',
   components: {
     AboutInfo,
@@ -63,9 +63,7 @@ export default defineComponent ({
 
     const list = computed((): IDivision[] => {
       if (divisionFilter.value) {
-        return divisions.value.filter((o) =>
-          o.name.toLowerCase().includes(divisionFilter.value.toLowerCase())
-        );
+        return divisions.value.filter((o) => o.name.toLowerCase().includes(divisionFilter.value.toLowerCase()));
       } else {
         return divisions.value;
       }

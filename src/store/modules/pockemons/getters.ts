@@ -6,7 +6,7 @@ import State from './state';
 const getters: GetterTree<State, RootState> = {
   name(state: State): string {
     return state.name;
-  }
-}
+  },
+};
 
 export default getters;

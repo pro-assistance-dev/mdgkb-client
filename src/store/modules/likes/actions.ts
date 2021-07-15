@@ -1,17 +1,17 @@
-import { ActionTree } from 'vuex';
+// import { ActionTree } from 'vuex';
 
-import HttpClient from '@/services/HttpClient';
-import RootState from '@/store/types';
+// import HttpClient from '@/services/HttpClient';
+// import RootState from '@/store/types';
 
-import { State } from './state';
+// import { State } from './state';
 
-const httpClient = new HttpClient('like');
+// const httpClient = new HttpClient('like');
 
-const actions: ActionTree<State, RootState> = {
-  create: async ({ commit }, newsId: string): Promise<void> => {
-      const res = await httpClient.post({query: `news/${newsId}`})
-      commit('setLikeNews', res.data);
-  },
-};
+// const actions: ActionTree<State, RootState> = {
+//   create: async ({ commit }, newsId: string): Promise<void> => {
+//     const res = await httpClient.post({ query: `news/${newsId}` });
+//     commit('setLikeNews', res.data);
+//   },
+// };
 
-export default actions;
+// export default actions;

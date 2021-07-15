@@ -1,11 +1,11 @@
-import IBuilding from "@/interfaces/buildings/IBuilding";
+import IBuilding from '@/interfaces/buildings/IBuilding';
 
 export default class Building implements IBuilding {
-  id: string = '';
-  address: string = ''
-  name: string = ''
-  status: string = ''
-  description: string = ''
+  id = '';
+  address = '';
+  name = '';
+  status = '';
+  description = '';
 
   constructor(i?: IBuilding) {
     if (!i) {
@@ -15,6 +15,6 @@ export default class Building implements IBuilding {
     this.address = i.address;
     this.name = i.name;
     this.status = i.status;
-    this.description = i.description
+    this.description = i.description;
   }
 }

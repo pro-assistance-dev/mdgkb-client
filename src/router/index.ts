@@ -2,8 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import MainLayout from '@/views/main/MainLayout.vue';
 import NewsRoutes from '@/router/NewsRoutes';
 import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
-import MapRoutes from "@/router/MapRoutes";
-import DivisionsRoutes from "@/router/DivisionsRoutes";
+import MapRoutes from '@/router/MapRoutes';
+import DivisionsRoutes from '@/router/DivisionsRoutes';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
@@ -42,11 +42,11 @@ const routes: Array<RouteRecordRaw> = [
     component: HealthOrganizationsPage,
   },
 
-    ...NewsRoutes,
-    ...NormativeDocumentsRoutes,
-    ...MapRoutes,
-    ...DivisionsRoutes
-]
+  ...NewsRoutes,
+  ...NormativeDocumentsRoutes,
+  ...MapRoutes,
+  ...DivisionsRoutes,
+];
 
 const router = createRouter({
   history: createWebHistory(),

@@ -35,16 +35,16 @@
     </el-card>
     <el-card>
       <template #header>Контакты</template>
-      <div v-if="division.phone">Телефон: {{division.phone}}</div>
-      <div v-if="division.email">Email: {{division.email}}</div>
-      <div v-if="division.address">Адрес: {{division.address}}</div>
+      <div v-if="division.phone">Телефон: {{ division.phone }}</div>
+      <div v-if="division.email">Email: {{ division.email }}</div>
+      <div v-if="division.address">Адрес: {{ division.address }}</div>
     </el-card>
   </el-container>
 </template>
 
 <script lang="ts">
 import IDivision from '@/interfaces/divisions/IDivision';
-import {PropType} from 'vue'
+import { PropType } from 'vue';
 
 export default {
   name: 'AboutInfo',

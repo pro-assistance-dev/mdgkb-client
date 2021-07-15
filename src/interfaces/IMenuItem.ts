@@ -1,6 +1,6 @@
 export default interface IMenuItem {
-    id: string
-    label: string
-    description: string
-    to: string
+  id: string;
+  label: string;
+  description: string;
+  to: string;
 }

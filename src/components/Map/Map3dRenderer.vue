@@ -5,12 +5,9 @@
 </template>
 
 <script>
-  
-  export default {
-    name: "Map3dRenderer"
-  }
+export default {
+  name: 'Map3dRenderer',
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,9 +1,9 @@
 import { MutationTree } from 'vuex';
 
 import { State } from './state';
-import INews from "../../../interfaces/news/INews";
-import News from "@/classes/news/News";
-import ITag from "@/interfaces/news/ITag";
+import INews from '../../../interfaces/news/INews';
+import News from '@/classes/news/News';
+import ITag from '@/interfaces/news/ITag';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -15,13 +15,13 @@ const mutations: MutationTree<State> = {
   filterByTag(state, tagId: string) {
     state.news = state.news.filter((i: INews) => {
       const index = i.tags.findIndex((t: ITag) => {
-        return t.id === tagId
-      })
+        return t.id === tagId;
+      });
       if (index > -1) {
-        return i
+        return i;
       }
-    })
-    console.log(state.news)
+    });
+    console.log(state.news);
   },
 };
 

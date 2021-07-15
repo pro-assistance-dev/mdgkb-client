@@ -1,4 +1,4 @@
-import DivisionPage from "@/components/Divisions/DivisionPage.vue";
+import DivisionPage from '@/components/Divisions/DivisionPage.vue';
 
 export default [
   {

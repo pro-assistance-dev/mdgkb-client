@@ -103,7 +103,7 @@ export default defineComponent({
 
     const openedOrganization = () => {
       allowMap.value = false;
-      setTimeout(function() {
+      setTimeout(function () {
         allowMap.value = true;
       }, 500);
     };

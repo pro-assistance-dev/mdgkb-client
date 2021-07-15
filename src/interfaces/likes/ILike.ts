@@ -1,3 +1,3 @@
 export default interface ILike {
-    id? :string
+  id?: string;
 }

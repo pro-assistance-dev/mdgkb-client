@@ -1,8 +1,8 @@
 import { MutationTree } from 'vuex';
 
 import { State } from './state';
-import IBuilding from "@/interfaces/buildings/IBuilding";
-import Building from "@/classes/buildings/Building";
+import IBuilding from '@/interfaces/buildings/IBuilding';
+import Building from '@/classes/buildings/Building';
 
 const mutations: MutationTree<State> = {
   setAll(state, buildings: IBuilding[]) {

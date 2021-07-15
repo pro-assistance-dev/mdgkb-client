@@ -43,9 +43,7 @@ export default {
     const randomPockemonName = ref('');
 
     // А-ля computed-свойства.
-    const pockemonNameWithAdditionalText = computed(
-      () => `Покемон ${randomPockemonName.value} из computed-свойства.`
-    );
+    const pockemonNameWithAdditionalText = computed(() => `Покемон ${randomPockemonName.value} из computed-свойства.`);
 
     // А-ля методы.
     const getRandomPockemon = async (): Promise<void> => {

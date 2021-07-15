@@ -2,9 +2,7 @@
   <div id="line" ref="line" @mouseenter="circulateColors" @mouseleave="stopCirculate">
     <template v-for="(cube, index) in cubes" v-bind:key="index">
       <div
-        :style="
-          `width:${cube.width}; height:${cube.height}; background-color: ${cube.color}; margin-left: ${gap}px; margin-right: ${gap}px;`
-        "
+        :style="`width:${cube.width}; height:${cube.height}; background-color: ${cube.color}; margin-left: ${gap}px; margin-right: ${gap}px;`"
         class="cube"
       ></div>
     </template>
@@ -47,7 +45,7 @@ export default defineComponent({
       let lastColor = '';
       let cubesResult = [];
 
-      let colorChooser = function() {
+      let colorChooser = function () {
         let selected = null;
         while (selected === null || selected === lastColor) {
           selected = colors[Math.floor(Math.random() * colors.length)];

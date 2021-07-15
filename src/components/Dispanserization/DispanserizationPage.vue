@@ -5,9 +5,8 @@
       <el-space alignment="center" id="alarm" :size="20">
         <i class="el-icon-warning"></i>
         <div>
-          Согласно Приказу Минздрава России от 03.12.2012 N 1006н «Об утверждении порядка проведения
-          диспансеризации определенных групп взрослого населения» учреждение проводит профилактические осмотры
-          сотрудников.
+          Согласно Приказу Минздрава России от 03.12.2012 N 1006н «Об утверждении порядка проведения диспансеризации определенных групп
+          взрослого населения» учреждение проводит профилактические осмотры сотрудников.
         </div>
       </el-space>
     </el-card>
@@ -20,9 +19,7 @@
               <el-space direction="vertical" alignment="start" :size="0">
                 <img :src="require(`@/assets/img/services-menu/banner/${item.id}.png`)" />
                 <div class="icon">
-                  <Component
-                    :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"
-                  ></Component>
+                  <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
                 </div>
                 <h3>{{ item.label }}</h3>
                 <p>{{ item.description }}</p>

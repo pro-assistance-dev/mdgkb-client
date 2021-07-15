@@ -21,15 +21,11 @@ export default class HttpClient {
       headers: headers ?? this.headers,
     });
 
-    return !isBlob
-      ? res.json()
-      : { href: URL.createObjectURL(await res.blob()), download: String(res.headers.get('Download-File-Name')) };
+    return !isBlob ? res.json() : { href: URL.createObjectURL(await res.blob()), download: String(res.headers.get('Download-File-Name')) };
   }
 
   async post(params: IBodyfulParams): Promise<any> {
-    const {
-      payload, fileInfos, query, headers, isFormData,
-    } = params;
+    const { payload, fileInfos, query, headers, isFormData } = params;
 
     // this.toUtc(payload);
     let body: string | FormData = JSON.stringify(payload);
@@ -49,9 +45,7 @@ export default class HttpClient {
 
     const res = await fetch(this.baseUrl(query), {
       method: 'POST',
-      headers: headers ?? isFormData
-        ? {}
-        : this.headers,
+      headers: headers ?? isFormData ? {} : this.headers,
       body,
     });
 
@@ -59,9 +53,7 @@ export default class HttpClient {
   }
 
   async put(params: IBodyfulParams): Promise<any> {
-    const {
-      payload, fileInfos, query, headers, isFormData,
-    } = params;
+    const { payload, fileInfos, query, headers, isFormData } = params;
 
     // this.toUtc(payload);
     let body: string | FormData = JSON.stringify(payload);
@@ -81,9 +73,7 @@ export default class HttpClient {
 
     const res = await fetch(this.baseUrl(query), {
       method: 'PUT',
-      headers: headers ?? isFormData
-        ? {}
-        : this.headers,
+      headers: headers ?? isFormData ? {} : this.headers,
       body,
     });
 

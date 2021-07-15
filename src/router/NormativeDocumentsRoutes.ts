@@ -1,4 +1,4 @@
-import NormativeDocuments from "@/components/NormativeDocuments/NormativeDocuments.vue";
+import NormativeDocuments from '@/components/NormativeDocuments/NormativeDocuments.vue';
 
 export default [
   {

@@ -1,4 +1,4 @@
-import INormativeDocument from "@/interfaces/normativeDocument/INormativeDocument";
+import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 
 export interface State {
   documents: INormativeDocument[];

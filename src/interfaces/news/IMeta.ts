@@ -1,3 +1,3 @@
 export default interface IMeta {
-    likes_count: number
+  likes_count: number;
 }

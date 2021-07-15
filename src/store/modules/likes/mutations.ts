@@ -1,11 +1,11 @@
-import { MutationTree } from 'vuex';
+// import { MutationTree } from 'vuex';
 
-import { State } from './state';
+// import { State } from './state';
 
-const mutations: MutationTree<State> = {
-  setLikeNews(state, res: any) {
-  console.log(res)
-  },
-};
+// const mutations: MutationTree<State> = {
+//   setLikeNews(state, res: any) {
+//     console.log(res);
+//   },
+// };
 
-export default mutations;
+// export default mutations;

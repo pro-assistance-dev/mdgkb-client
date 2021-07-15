@@ -9,7 +9,7 @@ const httpClient = new HttpClient('dictionary/normative_documents');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
-      commit('setAll', await httpClient.get());
+    commit('setAll', await httpClient.get());
   },
 };
 

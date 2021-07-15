@@ -8,7 +8,7 @@ import mutations from './mutations';
 
 const state: State = {
   name: '',
-}
+};
 
 const pockemons: Module<State, RootState> = {
   namespaced: true,
@@ -16,6 +16,6 @@ const pockemons: Module<State, RootState> = {
   getters,
   actions,
   mutations,
-}
+};
 
 export default pockemons;
