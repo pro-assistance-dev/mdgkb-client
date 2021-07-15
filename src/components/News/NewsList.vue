@@ -23,7 +23,7 @@ export default {
   name: 'NewsList',
   components: { NewsCalendar, NewsCard },
   async setup() {
-    const unusedVariable = {};
+    const unusedVariable = 'Wrong qutes';
     const store = useStore();
     await store.dispatch('news/getAll');
     const news = computed(() => store.getters['news/news']);
