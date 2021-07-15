@@ -1,27 +1,27 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import MainLayout from '@/views/main/MainLayout.vue';
 import AboutPage from '@/components/About/AboutPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
-import NewsRoutes from "@/router/NewsRoutes";
-import NormativeDocumentsRoutes from "@/router/NormativeDocumentsRoutes"
+import NewsRoutes from '@/router/NewsRoutes';
+import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
+import HealthOrganizationsPage from '@/components/HealthOrganizations/HealthOrganizationsPage.vue';
 
 export const isNotAuthorized = async (to: any, from: any, next: any) => {
-    next('/news');
+  next('/news');
 };
-
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'MainLayout',
     component: MainLayout,
-    beforeEnter: isNotAuthorized
+    beforeEnter: isNotAuthorized,
   },
   {
     path: '/about',
     name: 'AboutPage',
-    component: AboutPage
+    component: AboutPage,
   },
   {
     path: '/stop-coma',
@@ -33,14 +33,19 @@ const routes: Array<RouteRecordRaw> = [
     name: 'DispanserizationPage',
     component: DispanserizationPage,
   },
+  {
+    path: '/health_organizations',
+    name: 'HealthOrganizationsPage',
+    component: HealthOrganizationsPage,
+  },
 
-    ...NewsRoutes,
-    ...NormativeDocumentsRoutes
-]
+  ...NewsRoutes,
+  ...NormativeDocumentsRoutes,
+];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
