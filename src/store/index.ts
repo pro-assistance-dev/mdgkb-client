@@ -3,10 +3,11 @@ import Vuex, { StoreOptions } from 'vuex';
 import RootState from './types';
 import pockemons from './modules/pockemons';
 import { divisions } from '@/store/modules/divisions';
-import {news} from '@/store/modules/news';
-import {likes} from '@/store/modules/likes';
-import {normativeDocuments} from '@/store/modules/normativeDocuments';
-import {buildings} from '@/store/modules/buildings';
+import { news } from '@/store/modules/news';
+import { likes } from '@/store/modules/likes';
+import { normativeDocuments } from '@/store/modules/normativeDocuments';
+import { healthOrganizations } from '@/store/modules/healthOrganizations';
+import { buildings } from '@/store/modules/buildings';
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -22,6 +23,7 @@ const store: StoreOptions<RootState> = {
     likes,
     normativeDocuments,
     buildings,
+    healthOrganizations,
   },
 };
 
