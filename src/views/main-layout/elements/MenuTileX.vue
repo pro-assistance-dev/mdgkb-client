@@ -1,5 +1,5 @@
 <template>
-    <div  id="item"  @click.stop="($emit('done')),expand = !expand" :class="`${expand?'active':''} ff${item.id}`">
+    <div  id="item"  @click.stop="($emit('done')),expand = !expand" :class="`${expand?'active':''} ff${item.id}`" >
         <div id="inner">
             <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.png`)"/>
             <div id="icon">
@@ -12,7 +12,7 @@
                 {{item.description}}
             </div>
             <div id="actions">
-                <el-button  @click="$emit('done'),$router.push(item.to)" round>Подробнее</el-button>
+                <el-button  @click="$emit('done'),$router.push(item.to)" round style="background: transparent">Подробнее</el-button>
             </div>
         </div>
     </div>
@@ -33,9 +33,7 @@
 
     },
     setup() {
-        const menu = ref(null)
         let expand = ref(false)
-        const wrapper = ref();
 
     const collapseCard = () => {
         expand.value = false
@@ -52,6 +50,7 @@
 
 <style scoped>
   #item {
+      transform-origin: 0px 0px;
     background-size: cover;
     border-radius: 5px;
     overflow: hidden;
@@ -60,6 +59,7 @@
     max-height: 144px;
     background-color: rgba(240, 242, 247, 1);
     cursor: pointer;
+      transition: all linear 0.5s;
   }
 
   #item.active {
@@ -78,15 +78,17 @@
     left:0;
     top:0;
     opacity: 0;
-    transition: opacity 1s;
+    transition: all 1s;
   }
 
   #item.active #bg{
+      transition: all 1s;
     opacity: 1;
   }
 
 
   #inner {
+      transform-origin: 0px 0px;
     padding: 15px;
     height: 100%;
   }
@@ -97,6 +99,7 @@
   }
 
   #icon svg {
+      transition: all 1s;
     width: 32px;
   }
 
@@ -126,7 +129,7 @@
     font-size: 80%;
     font-style: italic;
     transform: scale(1) translate(0, 50px);
-    transition: all 1.5s ease-out;
+    transition: all 1.5s ;
     transform-origin: 0 0;
 
   }
@@ -154,7 +157,7 @@
   }
 
   #item.active #icon svg path,#item.active #icon svg circle{
-    transition: fill 1s;
+    transition: all 1s;
   }
 
   #item.active #icon svg path,#item.active #icon svg circle{

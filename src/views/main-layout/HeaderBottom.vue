@@ -119,6 +119,43 @@
   })
 </script>
 <style scoped lang="scss">
+
+    /* layout */
+
+    .gridcontainer {
+        width: 50vw;
+
+        .grid {
+            padding: 2%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+            grid-auto-rows: 9rem;
+            grid-gap: 16px;
+            grid-auto-flow: dense;
+        }
+
+        .grid--big-columns {
+            grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+        }
+
+        .grid--big-gap {
+            grid-gap: 2.5rem;
+        }
+
+        /* styling */
+
+        .card--expanded {
+            grid-column: span 3;
+            grid-row: span 3;
+            .card__img {
+                transform: scale(1.03);
+            }
+        }
+    }
+
+
+
+
     .phones {
         padding-top: 5px;
         height: 51px;
