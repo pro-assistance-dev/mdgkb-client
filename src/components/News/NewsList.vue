@@ -1,11 +1,11 @@
 <template>
   <el-row :gutter="40">
-    <el-col :xl="6" :lg="1">
+    <el-col :xl="6" :lg="24" class="calendar">
       <NewsCalendar v-model:news="news" />
     </el-col>
-    <el-col :span="18">
+    <el-col :xl="18" :lg="24">
       <el-row :gutter="20">
-        <el-col :xl="8" :lg="12" v-for="item in news" :key="item.id">
+        <el-col :xl="6" :lg="8" v-for="item in news" :key="item.id">
           <NewsCard :news="item" />
         </el-col>
       </el-row>
@@ -33,4 +33,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.calendar {
+  margin-bottom: 40px;
+}
+</style>
