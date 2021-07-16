@@ -27,7 +27,7 @@
           {{ $dateFormatRu(news.published_on, true) }}
         </el-col>
         <el-col :xl="{ span: 4, offset: 4 }" :lg="{ span: 4, offset: 4 }" :md="{ span: 4, offset: 2 }">
-          <span class="like" @click="createLike(news.id)">&#9825; {{ news.__meta__.likes_count }} </span>
+          <span class="like" @click="createLike(news.id)">{{ news.__meta__.likes_count }} </span>
         </el-col>
       </el-row>
       <div class="title">{{ news.title }} <br /><br /><span class="show-more" @mouseover="showMore = true">Читать дальше...</span></div>
@@ -83,140 +83,133 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-    $card-border-radius: 15px;
-    $card-content-padding: 24px;
-    $card-content-outpadding: 0 - 24px;
+$card-border-radius: 15px;
+$card-content-padding: 24px;
+$card-content-outpadding: 0 - 24px;
 
-    .card {
-        border-radius: $card-border-radius;
-        height: 700px;
-        margin-bottom: 50px;
-        transition: all .2s;
-        position:relative;
-        &:hover {
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-        };
+.card {
+  border-radius: $card-border-radius;
+  height: 700px;
+  margin-bottom: 50px;
+  transition: all 0.2s;
+  position: relative;
+  &:hover {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  }
 
-        .transition-box{
-            border-radius: $card-border-radius;
-            position: absolute;
-            width: 100%;
-            height: calc(100% + 2px);
-            z-index: 2;
-            background: rgba(255, 255, 255, 0.88);
-            color: #000000;
-            text-align: justify;
-            transition: all 0.5s;
-            -webkit-backdrop-filter: blur(4px);
-            backdrop-filter: blur(4px);
+  .transition-box {
+    border-radius: $card-border-radius;
+    position: absolute;
+    width: 100%;
+    height: calc(100% + 2px);
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.88);
+    color: #000000;
+    text-align: justify;
+    transition: all 0.5s;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
 
-            .content{
-                text-align: left;
-                padding: 48px 12px 12px;
-            }
-
-            .read-more {
-                text-align: center;
-            }
-
-
-        }
-
-
-
-        .card-content{
-            padding: 1.5rem;
-            height:100%;
-
-            .title {
-                font-size: 1.1rem;
-                font-weight: bold;
-                height: 50%;
-                margin-bottom: 20px;
-            }
-        }
-
-        .card-meta{
-            font-size: 1.1rem;
-            padding-bottom: 12px;
-        }
+    .content {
+      text-align: left;
+      padding: 48px 12px 12px;
     }
 
-    .like {
-        transition: all .2s;
-        margin-right: 3px;
-        cursor: pointer;
-
-        &:hover {
-            font-weight: bold;
-        }
+    .read-more {
+      text-align: center;
     }
+  }
 
-    .image {
-        width: 100%;
-        padding-top: 100%;
-        position: relative;
-        div {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            left: -50%;
-            width: 200%;
-            display: flex;
-            justify-content: center;
-            img {
-                height: 100%;
-                width: auto;
-            }
-        }
-    }
+  .card-content {
+    padding: 1.5rem;
+    height: 100%;
 
-    .tags {
-        position: absolute;
-        bottom: 15px;
-        left: 15px;
-        .tag-link {
-            margin-right: 10px;
-            transition: all 0.2s;
-            &:hover {
-                background-color: darken(blue, 5%);
-                color: white;
-                cursor: pointer;
-            }
-        }
-    }
-
-    .el-card {
-        border: none;
-        :deep(.el-card__body) {
-            height: 300px;
-            align-items: center;
-        }
-    }
-
-    .show-more{
-        cursor: pointer;
-        color: #0075B2;
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: all 0.2s;
-
-    }
-
-    .fade-enter-from,
-    .fade-leave-to {
-        opacity: 0;
-        transform: translateY(350px);
+    .title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      height: 50%;
+      margin-bottom: 20px;
     }
   }
 
   .card-meta {
-    font-size: 1rem;
-    opacity: 0.75;
+    font-size: 1.1rem;
     padding-bottom: 12px;
   }
+}
+
+.like {
+  transition: all 0.2s;
+  margin-right: 3px;
+  cursor: pointer;
+
+  &:hover {
+    font-weight: bold;
+  }
+}
+
+.image {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  div {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: -50%;
+    width: 200%;
+    display: flex;
+    justify-content: center;
+    img {
+      height: 100%;
+      width: auto;
+    }
+  }
+}
+
+.tags {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  .tag-link {
+    margin-right: 10px;
+    transition: all 0.2s;
+    &:hover {
+      background-color: darken(blue, 5%);
+      color: white;
+      cursor: pointer;
+    }
+  }
+}
+
+.el-card {
+  border: none;
+  :deep(.el-card__body) {
+    height: 300px;
+    align-items: center;
+  }
+}
+
+.show-more {
+  cursor: pointer;
+  color: #0075b2;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(350px);
+}
+
+.card-meta {
+  font-size: 1rem;
+  opacity: 0.75;
+  padding-bottom: 12px;
 }
 
 .like {
@@ -236,7 +229,7 @@ export default defineComponent({
 }
 
 .image {
-  width: calc(100% + 4px);
+  width: 100%;
   padding-top: 100%;
   position: relative;
 }
