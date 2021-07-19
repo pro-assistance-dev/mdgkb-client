@@ -2,7 +2,7 @@
   <div id="app">
     <HeaderTop></HeaderTop>
     <HeaderBottom></HeaderBottom>
-    <el-row class="container">
+    <div class="container">
       <el-main>
         <div v-if="error">Ошибка</div>
         <Suspense v-else>
@@ -14,7 +14,7 @@
           </template>
         </Suspense>
       </el-main>
-    </el-row>
+    </div>
     <FooterTop />
     <FooterBottom />
   </div>
