@@ -1,13 +1,14 @@
 import Vuex, { StoreOptions } from 'vuex';
 
 import RootState from './types';
-import pockemons from './modules/pockemons';
-import { divisions } from '@/store/modules/divisions';
-import { news } from '@/store/modules/news';
-// import { likes } from '@/store/modules/likes';
-import { normativeDocuments } from '@/store/modules/normativeDocuments';
-import { healthOrganizations } from '@/store/modules/healthOrganizations';
+import auth from '@/store/modules/auth';
+import pockemons from '@/store/modules/pockemons';
 import { buildings } from '@/store/modules/buildings';
+import { divisions } from '@/store/modules/divisions';
+import { healthOrganizations } from '@/store/modules/healthOrganizations';
+// import { likes } from '@/store/modules/likes';
+import { news } from '@/store/modules/news';
+import { normativeDocuments } from '@/store/modules/normativeDocuments';
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -17,13 +18,14 @@ const store: StoreOptions<RootState> = {
   actions: {},
   mutations: {},
   modules: {
-    pockemons,
-    divisions,
-    news,
-    // likes,
-    normativeDocuments,
+    auth,
     buildings,
+    divisions,
     healthOrganizations,
+    // likes,
+    news,
+    normativeDocuments,
+    pockemons,
   },
 };
 
