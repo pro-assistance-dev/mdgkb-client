@@ -1,26 +1,35 @@
 $footer_bottom_desktop: 90px;
 
-.footer-bottom{
-  height: $footer_bottom_desktop;
-  margin-top: $footer_bottom_desktop /2;
-  margin-bottom: $footer_bottom_desktop /2;
+.footer-bottom {
+  min-height: $footer_bottom_desktop;
+  background: #fff;
+  padding-top: $footer_bottom_desktop / 2;
+  padding-bottom: $footer_bottom_desktop / 2;
+  border-top: solid 1px #f1f1f1;
 
-  .social-icon{
+  .social-icon {
     margin-right: 27px;
   }
 
-  .image{
+  .image {
     background: inherit;
     text-align: center;
   }
-  img{
+  img {
     max-height: 100px;
     width: auto;
   }
 
-  .under-footer{
+  .under-footer {
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0;
   }
 }

@@ -1,16 +1,19 @@
 $footer_top_desktop: 200px;
 
-.footer-top{
-  height: $footer_top_desktop;
-  padding-top: $footer_top_desktop / 5;
-  padding-bottom: $footer_top_desktop / 5;
+.footer-top {
+  min-height: $footer_top_desktop;
   background: #fff;
 
-  .image{
+  .container {
+    padding-top: $footer_top_desktop / 5;
+    padding-bottom: $footer_top_desktop / 5;
+  }
+
+  .image {
     background: inherit;
     text-align: center;
   }
-  img{
+  img {
     max-height: 100px;
     width: auto;
   }

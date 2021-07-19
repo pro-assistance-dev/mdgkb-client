@@ -17,9 +17,17 @@ html,
 body {
   margin: 0;
   padding: 0;
-  overflow: visible;
+  // overflow-x: hidden;
   height: 100%;
   background: #e4e5e7;
+}
+
+body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 .main-container {
@@ -48,11 +56,37 @@ body > .el-container::v-deep {
   margin-bottom: 40px;
 }
 
+:deep(.el-row) {
+  width: 100%;
+  margin: 0;
+}
+
 .container {
-  padding-left: 10%;
-  padding-right: 10%;
+  // padding-left: 10%;
+  // padding-right: 10%;
+  max-width: 1344px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .el-table .cell {
   word-break: break-word;
+}
+
+@media only screen and (max-width: 1408px) {
+  .container {
+    max-width: 1344px;
+  }
+}
+
+@media only screen and (max-width: 1216px) {
+  .container {
+    max-width: 1152px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
 }
