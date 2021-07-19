@@ -11,8 +11,7 @@ export default class HttpClient {
     this.headers = { 'Content-Type': 'application/json' };
   }
 
-  // TODO: Подумать как избавиться от Promise<any> в возвращаемом значении.
-  async get(params?: IBodilessParams): Promise<any> {
+  async get<ReturnType>(params?: IBodilessParams): Promise<ReturnType> {
     const isBlob = params?.isBlob;
 
     const { data, headers } = await axios({
@@ -25,7 +24,7 @@ export default class HttpClient {
     return !isBlob ? data : { href: URL.createObjectURL(data), download: String(headers.get('Download-File-Name')) };
   }
 
-  async post<PayloadType>(params: IBodyfulParams<PayloadType>): Promise<any> {
+  async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
     const { payload, fileInfos, query, headers, isFormData } = params;
 
     const { data } = await axios({
@@ -38,7 +37,7 @@ export default class HttpClient {
     return data;
   }
 
-  async put<PayloadType>(params: IBodyfulParams<PayloadType>): Promise<any> {
+  async put<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
     const { payload, fileInfos, query, headers, isFormData } = params;
 
     const { data } = await axios({
@@ -51,7 +50,7 @@ export default class HttpClient {
     return data;
   }
 
-  async delete<PayloadType>(params: IBodyfulParams<PayloadType>): Promise<any> {
+  async delete<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
     const { payload, fileInfos, query, headers, isFormData } = params;
 
     const { data } = await axios({
