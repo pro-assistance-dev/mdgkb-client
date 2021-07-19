@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@jbtje/vue3pdf": "^1.0.1",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.54",
     "moment": "^2.29.1",
