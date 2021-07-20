@@ -1,39 +1,125 @@
 <template>
-  <el-card class="card" :body-style="{ padding: '0px' }">
+  <el-card class="card" :body-style="{ padding: '0px', height: '100%' }" @click="showMore = !showMore">
     <transition name="fade">
-      <div @mouseleave="showMore = false" v-show="showMore" class="transition-box" :style="[showMore ? { visibility: 'visible' } : '']">
-        <div class="preview_text">
-          <div class="content">{{ news.preview_text }}</div>
-          <div class="read-more">
-            <el-button @click="$router.push(`/news/${news.slug}`)" type="primary" outlined>Читать дальше</el-button>
+      <div v-show="showMore" class="transition-box" :style="[showMore ? { visibility: 'visible' } : '']">
+        <div class="flex-between-columm container">
+          <div class="card-content" style="padding-top: unset; padding-left: unset; padding-right: unset">
+            <div class="flex-between-row">
+              <div class="tags">
+                <el-tag
+                  @click.stop="filterNews(tag.id)"
+                  effect="plain"
+                  class="tag-link"
+                  v-for="tag in news.tags"
+                  :key="tag.id"
+                  size="small"
+                >
+                  {{ tag.label }}
+                </el-tag>
+              </div>
+              <el-button @click="$router.push(`/news/${news.slug}`)" type="primary" size="mini" outlined>Читать далее</el-button>
+            </div>
+
+            <!-- <div class="card-meta" style="padding: unset">
+              <div>{{ $dateFormatRu(news.published_on, true) }}</div>
+              <div class="like">
+                <EyeOutlined />
+                <span>0 </span>
+              </div>
+              <div class="like">
+                <LikeOutlined @click.stop="createLike(news.id)" />
+                <span>{{ news.__meta__.likes_count }} </span>
+              </div>
+            </div> -->
+
+            <div class="preview_text">
+              <div class="content">{{ news.preview_text }}</div>
+            </div>
           </div>
+          <div class="card-meta" style="margin-bottom: 20px">
+            <div>{{ $dateFormatRu(news.published_on, true) }}</div>
+            <div class="like">
+              <EyeOutlined />
+              <span>0 </span>
+            </div>
+            <div class="like">
+              <LikeOutlined @click.stop="createLike(news.id)" />
+              <span>{{ news.__meta__.likes_count }} </span>
+            </div>
+          </div>
+
+          <!-- <div class="flex-between-row">
+            <div class="tags">
+              <el-tag effect="plain" @click.stop="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">
+                {{ tag.label }}
+              </el-tag>
+            </div>
+            <el-button @click="$router.push(`/news/${news.slug}`)" type="primary" size="mini" outlined>Читать далее</el-button>
+          </div> -->
         </div>
       </div>
     </transition>
-    <div class="image">
-      <div>
-        <img
-          @error="errorImg"
-          v-if="news.preview_thumbnail_file.filename_disk"
-          :src="getImageUrl(news.preview_thumbnail_file.filename_disk)"
-          alt="alt"
-        />
-        <img v-else src="../../assets/img/310x310.png" />
+    <div class="flex-between-columm front">
+      <!-- <div class="card-meta">
+        <div>{{ $dateFormatRu(news.published_on, true) }}</div>
+        <div class="like">
+          <EyeOutlined />
+          <span>0 </span>
+        </div>
+        <div class="like">
+          <LikeOutlined @click.stop="createLike(news.id)" />
+          <span>{{ news.__meta__.likes_count }} </span>
+        </div>
+      </div> -->
+      <div class="tags tags-top">
+        <el-tag effect="plain" @click.stop="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">{{
+          tag.label
+        }}</el-tag>
       </div>
-    </div>
-    <div class="card-content">
-      <el-row class="card-meta">
-        <el-col :xl="16" :lg="14">
-          {{ $dateFormatRu(news.published_on, true) }}
-        </el-col>
-        <el-col :xl="{ span: 4, offset: 4 }" :lg="{ span: 4, offset: 4 }" :md="{ span: 4, offset: 2 }">
-          <span class="like" @click="createLike(news.id)">{{ news.__meta__.likes_count }} </span>
-        </el-col>
-      </el-row>
-      <div class="title">{{ news.title }} <br /><br /><span class="show-more" @mouseover="showMore = true">Читать дальше...</span></div>
-    </div>
-    <div class="tags">
-      <el-tag @click="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">{{ tag.label }}</el-tag>
+
+      <div class="image">
+        <div>
+          <img
+            @error="errorImg"
+            v-if="news.preview_thumbnail_file.filename_disk"
+            :src="getImageUrl(news.preview_thumbnail_file.filename_disk)"
+            alt="alt"
+          />
+          <img v-else src="../../assets/img/310x310.png" />
+        </div>
+      </div>
+      <div class="card-content">
+        <!-- <div class="card-meta">
+          <div>{{ $dateFormatRu(news.published_on, true) }}</div>
+          <div class="like">
+            <EyeOutlined />
+            <span>0 </span>
+          </div>
+          <div class="like">
+            <LikeOutlined @click.stop="createLike(news.id)" />
+            <span>{{ news.__meta__.likes_count }} </span>
+          </div>
+        </div> -->
+
+        <div>{{ news.title }}</div>
+      </div>
+      <div class="tags">
+        <div class="card-meta" style="margin-bottom: 0">
+          <div>{{ $dateFormatRu(news.published_on, true) }}</div>
+          <div class="like">
+            <EyeOutlined />
+            <span>0 </span>
+          </div>
+          <div class="like">
+            <LikeOutlined @click.stop="createLike(news.id)" />
+            <span>{{ news.__meta__.likes_count }} </span>
+          </div>
+        </div>
+
+        <!-- <el-tag effect="plain" @click="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">{{
+          tag.label
+        }}</el-tag> -->
+      </div>
     </div>
   </el-card>
 </template>
@@ -41,6 +127,7 @@
 <script lang="ts">
 import { useStore } from 'vuex';
 import { PropType, ref, defineComponent } from 'vue';
+import { LikeOutlined, EyeOutlined } from '@ant-design/icons-vue';
 import INews from '@/interfaces/news/INews';
 
 export default defineComponent({
@@ -51,6 +138,7 @@ export default defineComponent({
       required: true,
     },
   },
+  components: { LikeOutlined, EyeOutlined },
   async setup() {
     const showMore = ref(false);
     const store = useStore();
@@ -69,6 +157,7 @@ export default defineComponent({
 
     const filterNews = async (tagId: string): Promise<void> => {
       await store.commit('news/filterByTag', tagId);
+      console.log('fiterNews');
     };
 
     return {
@@ -84,44 +173,54 @@ export default defineComponent({
 
 <style scoped lang="scss">
 $card-border-radius: 15px;
-$card-content-padding: 24px;
+$card-content-padding: 10px;
 $card-content-outpadding: 0 - 24px;
+$card-width: 300px;
 
 .card {
   border-radius: $card-border-radius;
-  height: 700px;
-  margin-bottom: 50px;
+  height: 100%;
+  width: $card-width;
   transition: all 0.2s;
   position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   &:hover {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    // transform: scale(1.01);
+    // box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+      rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   }
 
   .transition-box {
     border-radius: $card-border-radius;
     position: absolute;
     width: 100%;
-    height: calc(100% + 2px);
+    height: 100%;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255);
     color: #000000;
     text-align: justify;
     transition: all 0.5s;
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
+    // -webkit-backdrop-filter: blur(4px);
+    // backdrop-filter: blur(4px);
 
     .content {
       text-align: left;
-      padding: 48px 12px 12px;
+      // padding: 48px 12px 12px;
     }
-
+    .container {
+      padding: $card-content-padding;
+    }
     .read-more {
       text-align: center;
     }
   }
 
   .card-content {
-    padding: 1.5rem;
+    padding: $card-content-padding;
     height: 100%;
 
     .title {
@@ -133,18 +232,34 @@ $card-content-outpadding: 0 - 24px;
   }
 
   .card-meta {
-    font-size: 1.1rem;
-    padding-bottom: 12px;
+    // padding: $card-content-padding $card-content-padding 0 $card-content-padding;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #4a4a4a;
+    font-size: 18px;
+    margin-bottom: 10px;
+    opacity: 0.75;
+    div {
+      padding: 0 5px;
+    }
   }
-}
 
-.like {
-  transition: all 0.2s;
-  margin-right: 3px;
-  cursor: pointer;
+  .like {
+    display: flex;
+    align-items: center;
+    transition: all 0.5s;
+    margin-right: 3px;
+    cursor: pointer;
 
-  &:hover {
-    font-weight: bold;
+    .anticon {
+      padding-right: 5px;
+      font-size: 20px;
+    }
+
+    .anticon-like:hover {
+      transform: scale(1.2);
+    }
   }
 }
 
@@ -167,15 +282,45 @@ $card-content-outpadding: 0 - 24px;
   }
 }
 
+.front {
+  .tags {
+    padding-left: $card-content-padding;
+    padding-right: $card-content-padding;
+    margin-bottom: $card-content-padding;
+  }
+
+  .tags-top {
+    margin-top: $card-content-padding;
+    z-index: 1;
+    position: absolute;
+  }
+
+  // .card-meta {
+  //   position: absolute;
+  //   padding: unset;
+  //   margin-top: $card-content-padding;
+  //   padding: 0 $card-content-padding;
+  //   z-index: 1;
+  //   width: $card-width - $card-content-padding * 2;
+  //   color: black;
+  //   div {
+  //     background: rgba(255, 255, 255, 0.88);
+  //     background: rgba(0, 0, 0, 0.7);
+  //     color: white;
+  //     border-radius: 10px;
+  //   }
+  // }
+}
+
 .tags {
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
   .tag-link {
-    margin-right: 10px;
+    margin: 2px;
     transition: all 0.2s;
+    color: #2754eb;
+    border-color: #2754eb;
+    background-color: whitesmoke;
     &:hover {
-      background-color: darken(blue, 5%);
+      background-color: #2754eb;
       color: white;
       cursor: pointer;
     }
@@ -185,7 +330,7 @@ $card-content-outpadding: 0 - 24px;
 .el-card {
   border: none;
   :deep(.el-card__body) {
-    height: 300px;
+    height: auto;
     align-items: center;
   }
 }
@@ -204,28 +349,6 @@ $card-content-outpadding: 0 - 24px;
 .fade-leave-to {
   opacity: 0;
   transform: translateY(350px);
-}
-
-.card-meta {
-  font-size: 1rem;
-  opacity: 0.75;
-  padding-bottom: 12px;
-}
-
-.like {
-  margin-right: 3px;
-  transition: all 0.1s;
-  cursor: pointer;
-}
-
-.like:before {
-  content: '\2661';
-  padding-right: 5px;
-}
-
-.like:hover {
-  margin-top: -5px;
-  font-weight: bold;
 }
 
 .image {
@@ -249,12 +372,18 @@ $card-content-outpadding: 0 - 24px;
   width: auto;
 }
 
-.tag-link {
-  margin-right: 10px;
+.flex-between-columm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
-.tag-link:hover {
-  background-color: darken(white, 10%);
-  cursor: pointer;
+.flex-between-row {
+  display: flex;
+  justify-content: space-between;
+  // align-items: flex-end;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 </style>

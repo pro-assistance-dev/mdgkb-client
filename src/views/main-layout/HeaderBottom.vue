@@ -8,10 +8,10 @@
         <div class="drawer-block">
           <h4>Пользователь</h4>
           <el-menu mode="vertical" @select="changeDrawerStatus">
-            <el-menu-item index="1">
+            <el-menu-item class="header-bottom-menu-item" index="1">
               <div><i class="el-icon-user"></i> Авторизация</div>
             </el-menu-item>
-            <el-menu-item index="2">
+            <el-menu-item class="header-bottom-menu-item" index="2">
               <div><i class="el-icon-unlock"></i> Регистрация</div>
             </el-menu-item>
           </el-menu>
@@ -222,7 +222,7 @@ export default defineComponent({
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 100;
 }
 
 .spacer {
@@ -260,7 +260,7 @@ export default defineComponent({
 
   .el-menu-item div {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
   }
 }
@@ -277,5 +277,9 @@ export default defineComponent({
 
 .el-menu {
   border-right: none;
+}
+
+:deep(.el-submenu__title) {
+  height: 56px !important;
 }
 </style>
