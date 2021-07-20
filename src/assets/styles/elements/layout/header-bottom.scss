@@ -10,18 +10,20 @@ $header_bottom_desktop: 56px;
     border: none;
     background: whitesmoke;
 
-  .header-bottom-menu-item {
-    font-weight: bold;
-    font-size: 16px;
-    color:#4a4a4a;
+    .header-bottom-menu-item {
+      font-weight: bold;
+      font-size: 16px;
+      color: #4a4a4a;
       margin-right: 0;
       text-transform: uppercase;
       height: 100%;
     }
-    .header-bottom-menu-item:hover{
-      background-color: #e4e5e7
-    }
   }
+}
+
+.header-bottom-menu-item:hover,
+.header-bottom-submenu-item:hover {
+  background-color: #e4e5e7 !important;
 }
 
 .el-submenu__title:hover {
@@ -30,7 +32,7 @@ $header_bottom_desktop: 56px;
   height: $header_bottom_desktop !important;
 }
 
-.info{
+.info {
   display: block;
   font-weight: bold;
 }

@@ -1,12 +1,14 @@
 <template>
   <el-row :gutter="40">
-    <el-col :xl="6" :lg="24" class="calendar">
+    <el-col :xl="6" :lg="6" :md="24" class="calendar">
       <NewsCalendar v-model:news="news" />
     </el-col>
-    <el-col :xl="18" :lg="24">
-      <el-row :gutter="20">
-        <el-col :xl="6" :lg="8" v-for="item in news" :key="item.id">
-          <NewsCard :news="item" />
+    <el-col :xl="18" :lg="18" :md="24">
+      <el-row>
+        <el-col :xl="8" :lg="8" :md="12" :sm="12" v-for="item in news" :key="item.id" :style="{ padding: '10px', display: 'flex' }">
+          <div style="margin: 0 auto">
+            <NewsCard :news="item" />
+          </div>
         </el-col>
       </el-row>
       <div class="load-more">
@@ -47,7 +49,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .calendar {
   margin-bottom: 40px;
 }
