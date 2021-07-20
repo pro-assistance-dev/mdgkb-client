@@ -14,6 +14,7 @@ const mutations: MutationTree<State> = {
   },
   filterByTag(state, tagId: string) {
     state.news = state.news.filter((i: INews) => {
+      if (!i.tags) return;
       const index = i.tags.findIndex((t: ITag) => {
         return t.id === tagId;
       });
@@ -21,7 +22,6 @@ const mutations: MutationTree<State> = {
         return i;
       }
     });
-    console.log(state.news);
   },
 };
 

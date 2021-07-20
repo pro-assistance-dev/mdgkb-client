@@ -14,8 +14,8 @@
       <div>
         <img
           @error="errorImg"
-          v-if="news.preview_thumbnail_file.filename_disk"
-          :src="getImageUrl(news.preview_thumbnail_file.filename_disk)"
+          v-if="news.previewThumbnailFile.filenameDisk"
+          :src="getImageUrl(news.previewThumbnailFile.filenameDisk)"
           alt="alt"
         />
         <img v-else src="../../assets/img/310x310.png" />
@@ -24,10 +24,10 @@
     <div class="card-content">
       <el-row class="card-meta">
         <el-col :xl="16" :lg="14">
-          {{ $dateFormatRu(news.published_on, true) }}
+          {{ $dateFormatRu(news.publishedOn, true) }}
         </el-col>
         <el-col :xl="{ span: 4, offset: 4 }" :lg="{ span: 4, offset: 4 }" :md="{ span: 4, offset: 2 }">
-          <span class="like" @click="createLike(news.id)">{{ news.__meta__.likes_count }} </span>
+          <span class="like" @click="createLike(news.id)">{{ news.newsLikes.length }} </span>
         </el-col>
       </el-row>
       <div class="title">{{ news.title }} <br /><br /><span class="show-more" @mouseover="showMore = true">Читать дальше...</span></div>
@@ -56,6 +56,7 @@ export default defineComponent({
     const store = useStore();
 
     const getImageUrl = (imagePath: string): string => {
+      console.log(`${process.env.VUE_APP_STATIC_URL}/${imagePath}`);
       return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
     };
 

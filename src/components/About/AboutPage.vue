@@ -34,8 +34,8 @@
 import { ref, onMounted, computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import AboutInfo from '@/components/About/AboutInfo.vue';
-import IDivision from '@/interfaces/divisions/IDivision';
-import Division from '@/classes/divisions/Division';
+import IDivision from '@/interfaces/buildings/IDivision';
+import Division from '@/classes/buildings/Division';
 
 export default defineComponent({
   name: 'AboutPage',
@@ -56,7 +56,7 @@ export default defineComponent({
       await loadDivision(divisions.value[0].id);
     };
 
-    const loadDivision = async (id: number | undefined): Promise<void> => {
+    const loadDivision = async (id: string | undefined): Promise<void> => {
       await store.dispatch('divisions/get', id);
       selectedDivision.value = store.getters['divisions/division'];
     };

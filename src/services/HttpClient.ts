@@ -64,7 +64,8 @@ export default class HttpClient {
   }
 
   private buildUrl(query?: string): string {
-    return `${process.env.VUE_APP_BASE_URL + this.endpoint}/${query ?? ''}`;
+    if (query) return `${process.env.VUE_APP_API_V1}${this.endpoint}/${query}`;
+    return `${process.env.VUE_APP_API_V1}${this.endpoint}`;
   }
 
   private createFormDataPayload<PayloadType>(payload?: PayloadType, fileInfos?: IFileInfo[]): FormData {
@@ -78,7 +79,6 @@ export default class HttpClient {
         }
       }
     }
-
     return data;
   }
 }

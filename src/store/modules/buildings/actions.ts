@@ -6,7 +6,7 @@ import RootState from '@/store/types';
 import { State } from './state';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 
-const httpClient = new HttpClient('dictionary/buildings');
+const httpClient = new HttpClient('buildings');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {

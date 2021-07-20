@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div id="mapcontainer">
-      <map-svg :buildings="buildings" :divisions="divisions"></map-svg>
+      <map-svg :buildings="buildings"></map-svg>
     </div>
   </div>
 </template>
@@ -23,10 +23,7 @@ export default defineComponent({
     await store.dispatch('buildings/getAll');
     const buildings = computed(() => store.getters['buildings/buildings']);
 
-    await store.dispatch('divisions/getAll');
-    const divisions = computed(() => store.getters['divisions/divisions']);
     return {
-      divisions,
       buildings,
     };
   },

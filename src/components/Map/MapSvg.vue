@@ -2331,7 +2331,6 @@
       v-if="buildingId && position"
       :position="position"
       :building="building"
-      :divisions="filterDivisions(buildingId)"
       @close="(building_id = null), (position = null), (building_element = null)"
     ></MapPopover>
   </div>
@@ -2341,7 +2340,7 @@
 import MapPopover from './MapPopover.vue';
 import { defineComponent, onMounted, PropType, ref } from 'vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
-import IDivision from '@/interfaces/divisions/IDivision';
+import IDivision from '@/interfaces/buildings/IDivision';
 
 export default defineComponent({
   name: 'MapSvg',
@@ -2353,10 +2352,6 @@ export default defineComponent({
       type: Array as PropType<Array<IBuilding>>,
       required: true,
     },
-    divisions: {
-      type: Array as PropType<Array<IDivision>>,
-      required: true,
-    },
   },
   async setup(props) {
     let buildingId = ref('');
@@ -2365,11 +2360,6 @@ export default defineComponent({
 
     const decor = ref<HTMLDivElement>();
     const buildingsRef = ref<HTMLDivElement>();
-    const filterDivisions = (buildingId: string) => {
-      return props.divisions.filter((item: IDivision) => {
-        return item.building_id === parseInt(buildingId.substr(2, 2));
-      });
-    };
 
     const treeJump = (item: any) => {
       item.classList.add('jump');
@@ -2383,7 +2373,7 @@ export default defineComponent({
       buildingId.value = '';
       item.classList.add('flicker');
       building.value = props.buildings.find((b) => {
-        return parseInt(b.id) === parseInt(item.id.substr(2, 2));
+        return b.number === item.id.substr(2, 2);
       });
 
       setTimeout(function () {
@@ -2425,38 +2415,11 @@ export default defineComponent({
       position,
       decor,
       buildingsRef,
-      filterDivisions,
       treeJump,
       hoverBuilding,
     };
   },
 });
-
-//   mounted() {
-//     let that = this;
-//     if (process.client) {
-//       this.$refs.decor.childNodes.forEach(item => item.addEventListener('mouseover', function () {
-//         that.treeJump(item)
-//       }))
-//
-//       this.$refs.buildings.childNodes.forEach(item => item.addEventListener('click', function (e) {
-//
-//         var parentPos = document.getElementById('map-svg').getBoundingClientRect(),
-//           childrenPos = item.getBoundingClientRect(),
-//           relativePos = {};
-//
-//         relativePos.top = childrenPos.top - parentPos.top,
-// 			  relativePos.right = childrenPos.right - parentPos.right,
-//           relativePos.bottom = childrenPos.bottom - parentPos.bottom,
-//           relativePos.left = childrenPos.left - parentPos.left;
-//         that.position = relativePos;
-//
-//
-//         that.hoverBuilding(item)
-//       }))
-//     }
-//   }
-// }
 </script>
 
 <style scoped>

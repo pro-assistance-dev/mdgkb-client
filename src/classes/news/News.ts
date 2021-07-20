@@ -4,34 +4,34 @@ import ITag from '@/interfaces/news/ITag';
 import Category from '@/classes/news/Category';
 import Tag from '@/classes/news/Tag';
 import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
-import IMeta from '@/interfaces/news/IMeta';
-import Meta from '@/classes/news/Meta';
+import INewsLike from '@/interfaces/news/INewsLike';
+import NewsLike from '@/classes/news/NewsLike';
 
 export default class News implements INews {
   id = '';
   status = '';
   title = '';
-  preview_text = '';
+  previewText = '';
   content = '';
   slug = '';
   category: ICategory = new Category();
   tags: ITag[] = [];
-  preview_thumbnail_file = new PreviewThumbnailFile();
-  published_on: Date = new Date();
-  __meta__: IMeta = new Meta();
+  previewThumbnailFile = new PreviewThumbnailFile();
+  publishedOn: Date = new Date();
+  newsLikes: INewsLike[] = [];
 
   constructor(i?: INews) {
     if (!i) return;
     this.id = i.id;
     this.status = i.status;
     this.title = i.title;
-    this.preview_text = i.preview_text;
+    this.previewText = i.previewText;
     this.content = i.content;
     this.slug = i.slug;
     this.category = new Category(i.category);
-    this.tags = i.tags.map((item: ITag) => new Tag(item));
-    this.preview_thumbnail_file = new PreviewThumbnailFile(i.preview_thumbnail_file);
-    this.published_on = i.published_on;
-    this.__meta__ = i.__meta__;
+    if (i.tags) this.tags = i.tags.map((item: ITag) => new Tag(item));
+    if (i.previewThumbnailFile) this.previewThumbnailFile = new PreviewThumbnailFile(i.previewThumbnailFile);
+    this.publishedOn = i.publishedOn;
+    if (i.newsLikes) this.newsLikes = i.newsLikes.map((item: INewsLike) => new NewsLike(item));
   }
 }

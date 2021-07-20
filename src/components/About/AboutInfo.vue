@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import IDivision from '@/interfaces/divisions/IDivision';
+import IDivision from '@/interfaces/buildings/IDivision';
 import { PropType } from 'vue';
 
 export default {

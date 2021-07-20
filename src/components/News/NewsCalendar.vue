@@ -41,9 +41,9 @@ export default defineComponent({
   setup(props) {
     const getNews = (day: string): string[] => {
       const news = props.news.filter((itemNews: INews) => {
-        const dayMatch = new Date(itemNews.published_on).getDate() === new Date(day).getDate();
-        const monthMatch = new Date(itemNews.published_on).getMonth() === new Date(day).getMonth();
-        const yearMatch = new Date(itemNews.published_on).getFullYear() === new Date(day).getFullYear();
+        const dayMatch = new Date(itemNews.publishedOn).getDate() === new Date(day).getDate();
+        const monthMatch = new Date(itemNews.publishedOn).getMonth() === new Date(day).getMonth();
+        const yearMatch = new Date(itemNews.publishedOn).getFullYear() === new Date(day).getFullYear();
 
         if (yearMatch && monthMatch && dayMatch) {
           return itemNews.title;

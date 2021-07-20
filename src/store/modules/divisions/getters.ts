@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import IDivision from '@/interfaces/divisions/IDivision';
+import IDivision from '@/interfaces/buildings/IDivision';
 import RootState from '@/store/types';
 
 import { State } from './state';

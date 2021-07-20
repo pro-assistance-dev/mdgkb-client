@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/divisions/IDivision';
+import IDivision from '@/interfaces/buildings/IDivision';
 
 export interface State {
   divisions: IDivision[];

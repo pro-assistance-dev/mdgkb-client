@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import Division from '@/classes/divisions/Division';
-import IDivision from '@/interfaces/divisions/IDivision';
+import Division from '@/classes/buildings/Division';
+import IDivision from '@/interfaces/buildings/IDivision';
 
 import { State } from './state';
 

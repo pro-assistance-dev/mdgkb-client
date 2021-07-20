@@ -6,8 +6,15 @@
     <el-divider class="divider" />
     <div v-html="building.description"></div>
     <article class="panel panel-card is-light">
-      <div @click="$router.push(`/divisions/${item.id}`)" class="panel-block" v-for="item in divisions" :key="`${building.id}.${item.id}`">
-        {{ item.name }}
+      <div v-for="floor in building.floors" :key="floor.id">
+        <div
+          @click="$router.push(`/divisions/${item.id}`)"
+          class="panel-block"
+          v-for="item in floor.divisions"
+          :key="`${building.id}.${item.id}`"
+        >
+          {{ item.name }}
+        </div>
       </div>
     </article>
     <el-divider class="divider" />
@@ -20,7 +27,7 @@
 <script>
 export default {
   name: 'MapPopover',
-  props: ['position', 'building', 'divisions'],
+  props: ['position', 'building'],
 };
 </script>
 

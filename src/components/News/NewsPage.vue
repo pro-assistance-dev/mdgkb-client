@@ -5,7 +5,7 @@
         <h1 class="title article-title">{{ news.title }}</h1>
         <div class="tags has-addons level-news">
           <el-tag effect="plain">{{ news.category.name }}</el-tag>
-          <el-tag type="success" effect="dark">{{ $dateFormatRu(news.published_on) }}</el-tag>
+          <el-tag type="success" effect="dark">{{ $dateFormatRu(news.publishedOn) }}</el-tag>
         </div>
       </div>
     </template>

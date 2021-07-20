@@ -2,8 +2,17 @@ module.exports = {
   lintOnSave: false,
   devServer: {
     disableHostCheck: true,
-    host: 'localhost',
-    proxy: process.env.DEV_BACKEND_URL,
+    host: process.env.VUE_APP_HOST,
+    proxy: process.env.VUE_APP_API_HOST,
+    // proxy: {
+    //   '/': {
+    //     target: process.env.VUE_APP_API_V1,
+    //     // pathRewrite: {
+    //     //   '/api/v1': '',
+    //     // },
+    //     // changeOrigin: true
+    //   },
+    // },
     port: process.env.VUE_APP_PORT,
   },
   chainWebpack: (config) => {
