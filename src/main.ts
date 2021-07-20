@@ -123,7 +123,7 @@ const components = [
   ElCalendar,
   ElCollapseTransition,
 ];
-const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];
+const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification, ElInfiniteScroll];
 const app = createApp(App);
 
 import locale from 'element-plus/lib/locale';

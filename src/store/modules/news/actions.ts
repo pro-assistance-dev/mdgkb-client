@@ -9,9 +9,10 @@ import INews from '@/interfaces/news/INews';
 const httpClient = new HttpClient('news');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    const res = await httpClient.get<{ data: INews[] }>({ query: '' });
-    if (res) commit('setAll', res);
+  getAll: async ({ commit }, publishedOn?: Date): Promise<void> => {
+    const res = await httpClient.get<{ data: INews[] }>({ query: publishedOn ? `?publishedOn=${publishedOn}` : '' });
+    if (res && !publishedOn) commit('setAll', res);
+    if (res && publishedOn) commit('appendToAll', res);
   },
   get: async ({ commit }, slug: string): Promise<void> => {
     const res = await httpClient.get<INews>({ query: `item/${slug}` });

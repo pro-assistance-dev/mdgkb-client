@@ -56,7 +56,6 @@ export default defineComponent({
     const store = useStore();
 
     const getImageUrl = (imagePath: string): string => {
-      console.log(`${process.env.VUE_APP_STATIC_URL}/${imagePath}`);
       return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
     };
 
