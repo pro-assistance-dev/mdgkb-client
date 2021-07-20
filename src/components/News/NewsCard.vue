@@ -1,80 +1,17 @@
 <template>
-  <el-card class="card" :body-style="{ padding: '0px', height: '100%' }" @click="showMore = !showMore">
-    <transition name="fade">
-      <div v-show="showMore" class="transition-box" :style="[showMore ? { visibility: 'visible' } : '']">
-        <div class="flex-between-columm container">
-          <div class="card-content" style="padding-top: unset; padding-left: unset; padding-right: unset">
-            <div class="flex-between-row">
-              <div class="tags">
-                <el-tag
-                  @click.stop="filterNews(tag.id)"
-                  effect="plain"
-                  class="tag-link"
-                  v-for="tag in news.tags"
-                  :key="tag.id"
-                  size="small"
-                >
-                  {{ tag.label }}
-                </el-tag>
-              </div>
-              <el-button @click="$router.push(`/news/${news.slug}`)" type="primary" size="mini" outlined>Читать далее</el-button>
-            </div>
-
-            <!-- <div class="card-meta" style="padding: unset">
-              <div>{{ $dateFormatRu(news.published_on, true) }}</div>
-              <div class="like">
-                <EyeOutlined />
-                <span>0 </span>
-              </div>
-              <div class="like">
-                <LikeOutlined @click.stop="createLike(news.id)" />
-                <span>{{ news.__meta__.likes_count }} </span>
-              </div>
-            </div> -->
-
-            <div class="preview_text">
-              <div class="content">{{ news.preview_text }}</div>
-            </div>
-          </div>
-          <div class="card-meta" style="margin-bottom: 20px">
-            <div>{{ $dateFormatRu(news.published_on, true) }}</div>
-            <div class="like">
-              <EyeOutlined />
-              <span>0 </span>
-            </div>
-            <div class="like">
-              <LikeOutlined @click.stop="createLike(news.id)" />
-              <span>{{ news.__meta__.likes_count }} </span>
-            </div>
-          </div>
-
-          <!-- <div class="flex-between-row">
-            <div class="tags">
-              <el-tag effect="plain" @click.stop="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">
-                {{ tag.label }}
-              </el-tag>
-            </div>
-            <el-button @click="$router.push(`/news/${news.slug}`)" type="primary" size="mini" outlined>Читать далее</el-button>
-          </div> -->
-        </div>
-      </div>
-    </transition>
+  <el-card class="card" :body-style="{ padding: '0px', height: '100%' }" @click="$router.push(`/news/${news.slug}`)">
     <div class="flex-between-columm front">
-      <!-- <div class="card-meta">
-        <div>{{ $dateFormatRu(news.published_on, true) }}</div>
-        <div class="like">
-          <EyeOutlined />
-          <span>0 </span>
-        </div>
-        <div class="like">
-          <LikeOutlined @click.stop="createLike(news.id)" />
-          <span>{{ news.__meta__.likes_count }} </span>
-        </div>
-      </div> -->
       <div class="tags tags-top">
-        <el-tag effect="plain" @click.stop="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">{{
-          tag.label
-        }}</el-tag>
+        <el-tag
+          effect="plain"
+          @click.stop="filterNews(tag.id)"
+          class="tag-link"
+          v-for="tag in news.tags.slice(0, 3)"
+          :key="tag.id"
+          size="small"
+        >
+          {{ tag.label }}
+        </el-tag>
       </div>
 
       <div class="image">
@@ -89,18 +26,6 @@
         </div>
       </div>
       <div class="card-content">
-        <!-- <div class="card-meta">
-          <div>{{ $dateFormatRu(news.published_on, true) }}</div>
-          <div class="like">
-            <EyeOutlined />
-            <span>0 </span>
-          </div>
-          <div class="like">
-            <LikeOutlined @click.stop="createLike(news.id)" />
-            <span>{{ news.__meta__.likes_count }} </span>
-          </div>
-        </div> -->
-
         <div>{{ news.title }}</div>
       </div>
       <div class="tags">
@@ -115,10 +40,6 @@
             <span>{{ news.__meta__.likes_count }} </span>
           </div>
         </div>
-
-        <!-- <el-tag effect="plain" @click="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">{{
-          tag.label
-        }}</el-tag> -->
       </div>
     </div>
   </el-card>
@@ -140,7 +61,6 @@ export default defineComponent({
   },
   components: { LikeOutlined, EyeOutlined },
   async setup() {
-    const showMore = ref(false);
     const store = useStore();
 
     const getImageUrl = (imagePath: string): string => {
@@ -157,12 +77,10 @@ export default defineComponent({
 
     const filterNews = async (tagId: string): Promise<void> => {
       await store.commit('news/filterByTag', tagId);
-      console.log('fiterNews');
     };
 
     return {
       errorImg,
-      showMore,
       filterNews,
       createLike,
       getImageUrl,
@@ -204,12 +122,9 @@ $card-width: 300px;
     color: #000000;
     text-align: justify;
     transition: all 0.5s;
-    // -webkit-backdrop-filter: blur(4px);
-    // backdrop-filter: blur(4px);
 
     .content {
       text-align: left;
-      // padding: 48px 12px 12px;
     }
     .container {
       padding: $card-content-padding;
@@ -232,7 +147,6 @@ $card-width: 300px;
   }
 
   .card-meta {
-    // padding: $card-content-padding $card-content-padding 0 $card-content-padding;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -294,33 +208,17 @@ $card-width: 300px;
     z-index: 1;
     position: absolute;
   }
-
-  // .card-meta {
-  //   position: absolute;
-  //   padding: unset;
-  //   margin-top: $card-content-padding;
-  //   padding: 0 $card-content-padding;
-  //   z-index: 1;
-  //   width: $card-width - $card-content-padding * 2;
-  //   color: black;
-  //   div {
-  //     background: rgba(255, 255, 255, 0.88);
-  //     background: rgba(0, 0, 0, 0.7);
-  //     color: white;
-  //     border-radius: 10px;
-  //   }
-  // }
 }
 
 .tags {
   .tag-link {
     margin: 2px;
     transition: all 0.2s;
-    color: #2754eb;
-    border-color: #2754eb;
-    background-color: whitesmoke;
+    color: blue;
+    border-color: blue;
+    border-radius: 20px;
     &:hover {
-      background-color: #2754eb;
+      background-color: blue;
       color: white;
       cursor: pointer;
     }
@@ -338,17 +236,6 @@ $card-width: 300px;
 .show-more {
   cursor: pointer;
   color: #0075b2;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.2s;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(350px);
 }
 
 .image {
@@ -382,7 +269,6 @@ $card-width: 300px;
 .flex-between-row {
   display: flex;
   justify-content: space-between;
-  // align-items: flex-end;
   align-items: flex-start;
   margin-bottom: 20px;
 }
