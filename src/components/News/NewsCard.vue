@@ -35,8 +35,8 @@
             <EyeOutlined />
             <span>0 </span>
           </div>
-          <div class="like">
-            <LikeOutlined @click.stop="createLike(news.id)" />
+          <div class="like"  :class="{ 'liked':  true  }">
+            <LikeOutlined  @click.stop="createLike(news)" />
             <span>{{ news.newsLikes.length }} </span>
           </div>
         </div>
@@ -50,6 +50,7 @@ import { useStore } from 'vuex';
 import { PropType, ref, defineComponent } from 'vue';
 import { LikeOutlined, EyeOutlined } from '@ant-design/icons-vue';
 import INews from '@/interfaces/news/INews';
+import NewsLike from "@/classes/news/NewsLike";
 
 export default defineComponent({
   name: 'NewsCard',
@@ -67,8 +68,11 @@ export default defineComponent({
       return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
     };
 
-    const createLike = async (newsId: string): Promise<void> => {
-      await store.dispatch('likes/create', newsId);
+    const createLike = async (news: INews): Promise<void> => {
+      const newsLike = new NewsLike()
+      newsLike.newsId = news.id
+      await store.dispatch('news/createLike', newsLike);
+      await store.dispatch('news/deleteLike', newsLike.id);
     };
 
     const errorImg = (e: any) => {
@@ -160,11 +164,16 @@ $card-width: 300px;
   }
 
   .like {
+    user-select: none;
     display: flex;
     align-items: center;
-    transition: all 0.5s;
+    transition: all 0.2s;
     margin-right: 3px;
     cursor: pointer;
+
+    &:hover {
+      /*transform: scale(1.1);*/
+    }
 
     .anticon {
       padding-right: 5px;
@@ -175,6 +184,11 @@ $card-width: 300px;
       transform: scale(1.2);
     }
   }
+
+  .liked {
+    color: #e34b42;
+  };
+
 }
 
 .image {

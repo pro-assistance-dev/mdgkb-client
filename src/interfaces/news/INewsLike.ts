@@ -3,6 +3,6 @@ import ITag from '@/interfaces/news/ITag';
 import IPreviewThumbnailFile from '@/interfaces/files/IPreviewThumbnailFile';
 
 export default interface INewsLike {
-  id: string;
+  id?: string;
   newsId: string;
 }

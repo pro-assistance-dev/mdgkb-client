@@ -9,7 +9,7 @@ import Meta from '@/classes/news/Meta';
 import INewsLike from '@/interfaces/news/INewsLike';
 
 export default class NewsLike implements INewsLike {
-  id = '';
+  id?;
   newsId = '';
 
   constructor(i?: INewsLike) {

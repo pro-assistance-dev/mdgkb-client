@@ -4,6 +4,7 @@ import { State } from './state';
 import INews from '../../../interfaces/news/INews';
 import News from '@/classes/news/News';
 import ITag from '@/interfaces/news/ITag';
+import INewsLike from "@/interfaces/news/INewsLike";
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -27,6 +28,12 @@ const mutations: MutationTree<State> = {
       }
     });
   },
+  setLikeNews(state, newsLike: INewsLike) {
+    const news = state.news.find((i: INews) => i.id === newsLike.newsId)
+    console.log(news?.newsLikes)
+    if (news) news.newsLikes.push(newsLike)
+    console.log(news?.newsLikes)
+  }
 };
 
 export default mutations;

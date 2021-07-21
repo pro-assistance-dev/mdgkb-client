@@ -28,7 +28,6 @@ export default defineComponent({
   async setup() {
     const store = useStore();
     const route = useRoute();
-    console.log(route.params['slug']);
     await store.dispatch('news/get', route.params['slug']);
     const news = computed(() => store.getters['news/newsItem']);
 
