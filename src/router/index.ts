@@ -1,17 +1,29 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
 import MainLayout from '@/views/main/MainLayout.vue';
+
+import AuthRouter from '@/router/AuthRouter';
+import DivisionsRoutes from '@/router/DivisionsRoutes';
+import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
 import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
-import MapRoutes from '@/router/MapRoutes';
-import DivisionsRoutes from '@/router/DivisionsRoutes';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import HealthOrganizationsPage from '@/components/HealthOrganizations/HealthOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 
-export const isNotAuthorized = async (to: any, from: any, next: any) => {
-  next('/news');
+import IUser from '@/interfaces/users/IUser';
+import HttpClient from '@/services/HttpClient';
+
+export const isAuthorized = async (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  const httpClient = new HttpClient('users/authorize');
+  const user = await httpClient.get<IUser>();
+  if (user.email.length >= 1) {
+    next();
+    return;
+  }
+
+  next('/login');
 };
 
 const routes: Array<RouteRecordRaw> = [
@@ -19,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'MainLayout',
     component: MainLayout,
-    beforeEnter: isNotAuthorized,
+    beforeEnter: isAuthorized,
   },
   {
     path: '/about',
@@ -42,6 +54,7 @@ const routes: Array<RouteRecordRaw> = [
     component: HealthOrganizationsPage,
   },
 
+  ...AuthRouter,
   ...NewsRoutes,
   ...NormativeDocumentsRoutes,
   ...MapRoutes,
