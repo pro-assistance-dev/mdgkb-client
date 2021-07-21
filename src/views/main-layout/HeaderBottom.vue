@@ -8,11 +8,11 @@
         <div class="drawer-block">
           <h4>Пользователь</h4>
           <el-menu mode="vertical" @select="changeDrawerStatus">
-            <el-menu-item index="1">
-              <div><i class="el-icon-user"></i> Авторизация</div>
+            <el-menu-item index="1" :route="{ name: 'Login' }">
+              <div><i class="el-icon-user"></i>Вход</div>
             </el-menu-item>
-            <el-menu-item index="2">
-              <div><i class="el-icon-unlock"></i> Регистрация</div>
+            <el-menu-item index="2" :route="{ name: 'Register' }">
+              <div><i class="el-icon-unlock"></i>Регистрация</div>
             </el-menu-item>
           </el-menu>
         </div>

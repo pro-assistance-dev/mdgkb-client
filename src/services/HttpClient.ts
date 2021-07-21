@@ -6,22 +6,23 @@ export default class HttpClient {
   endpoint: string;
   headers: Record<string, string>;
 
-  constructor(endpoint = '/') {
+  constructor(endpoint = '') {
     this.endpoint = endpoint;
     this.headers = { 'Content-Type': 'application/json' };
   }
 
   async get<ReturnType>(params?: IBodilessParams): Promise<ReturnType> {
     const isBlob = params?.isBlob;
+    const headers = params?.headers;
 
-    const { data, headers } = await axios({
+    const { data, headers: resHeaders } = await axios({
       url: this.buildUrl(params?.query),
       method: 'get',
-      headers: params?.headers ?? this.headers,
+      headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
       responseType: !isBlob ? 'json' : 'blob',
     });
 
-    return !isBlob ? data : { href: URL.createObjectURL(data), download: String(headers.get('Download-File-Name')) };
+    return !isBlob ? data : { href: URL.createObjectURL(data), download: String(resHeaders.get('Download-File-Name')) };
   }
 
   async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
@@ -30,7 +31,7 @@ export default class HttpClient {
     const { data } = await axios({
       url: this.buildUrl(query),
       method: 'post',
-      headers: headers ?? this.headers,
+      headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
       data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
     });
 
@@ -43,7 +44,7 @@ export default class HttpClient {
     const { data } = await axios({
       url: this.buildUrl(query),
       method: 'put',
-      headers: headers ?? this.headers,
+      headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
       data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
     });
 
@@ -56,7 +57,7 @@ export default class HttpClient {
     const { data } = await axios({
       url: this.buildUrl(query),
       method: 'delete',
-      headers: headers ?? this.headers,
+      headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
       data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
     });
 
@@ -64,7 +65,9 @@ export default class HttpClient {
   }
 
   private buildUrl(query?: string): string {
-    return `${process.env.VUE_APP_BASE_URL + this.endpoint}/${query ?? ''}`;
+    return this.endpoint.length <= 0
+      ? `${process.env.VUE_APP_BASE_URL + (query ?? '')}`
+      : `${process.env.VUE_APP_BASE_URL + this.endpoint}/${query ?? ''}`;
   }
 
   private createFormDataPayload<PayloadType>(payload?: PayloadType, fileInfos?: IFileInfo[]): FormData {
