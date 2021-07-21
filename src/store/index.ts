@@ -11,7 +11,7 @@ import { buildings } from '@/store/modules/buildings';
 
 const store: StoreOptions<RootState> = {
   state: {
-    layout: 'main-layout',
+    layout: 'mainLayout',
   },
   getters: {},
   actions: {},

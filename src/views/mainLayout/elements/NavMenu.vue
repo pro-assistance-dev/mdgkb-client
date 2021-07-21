@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue';
-import MenuTileX from '@/views/main-layout/elements/MenuTileX.vue';
+import MenuTileX from '@/views/mainLayout/elements/MenuTileX.vue';
 import IMenuItem from '@/interfaces/IMenuItem';
 
 export default defineComponent({

@@ -4,6 +4,7 @@ import NewsRoutes from '@/router/NewsRoutes';
 import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
 import MapRoutes from '@/router/MapRoutes';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
+import AdminRoutes from '@/router/AdminRoutes';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
@@ -41,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'HealthOrganizationsPage',
     component: HealthOrganizationsPage,
   },
-
+  ...AdminRoutes,
   ...NewsRoutes,
   ...NormativeDocumentsRoutes,
   ...MapRoutes,

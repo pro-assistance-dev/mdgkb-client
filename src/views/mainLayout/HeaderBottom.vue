@@ -2,8 +2,8 @@
   <!-- Spacer, which helps, when header becomes fixed -->
   <div class="spacer" v-if="scrollOffset >= 66">&nbsp;</div>
   <!-- Adaptive side menu -->
-  <div class="drawer">
-    <el-drawer :size="'auto'" :show-close="true" title="I am the title" v-model="showDrawer" direction="ltr" :with-header="false">
+  <div class="drawer hidden-lg-and-up">
+    <el-drawer :size="'auto'" v-model="showDrawer" direction="ltr" :with-header="false">
       <el-space direction="vertical" alignment="start">
         <div class="drawer-block">
           <h4>Пользователь</h4>
@@ -101,7 +101,7 @@
 
 <script lang="ts">
 import { ref, defineComponent, onMounted, onUnmounted } from 'vue';
-import NavMenu from '@/views/main-layout/elements/NavMenu.vue';
+import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
 
 export default defineComponent({
   name: 'HeaderBottom',
