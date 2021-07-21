@@ -10,19 +10,18 @@
     <el-submenu index="2" popper-class="popper-class-custom">
       <template #title><span class="header-bottom-menu-item">Пациентам</span></template>
       <!-- For drawer -->
-      <div v-if="vertical">
-        <template v-for="item in items" :key="item.id">
-          <el-menu-item :route="item.name ? item.name : ''">
-            <!-- <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.png`)" /> -->
-            <div class="icon">
-              <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
-              {{ item.label }}
-            </div>
-          </el-menu-item>
-        </template>
-      </div>
-      <!-- Classic variation -->
-      <div class="gridcontainer" v-else>
+      <!-- <div v-if="vertical"> -->
+      <template v-for="item in items" :key="item.id">
+        <el-menu-item class="header-bottom-submenu-item" @click="$router.push(item.to)">
+          <div class="icon">
+            <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
+            {{ item.label }}
+          </div>
+        </el-menu-item>
+      </template>
+      <!-- </div> -->
+      <!-- Animation variation -->
+      <!-- <div class="gridcontainer" v-else>
         <div class="grid" id="services_grid">
           <template v-for="(item, i) in items" :key="item.id">
             <MenuTileX
@@ -36,7 +35,7 @@
             />
           </template>
         </div>
-      </div>
+      </div> -->
     </el-submenu>
     <el-menu-item class="header-bottom-menu-item" :route="{ name: 'AboutPage' }" index="3">О нас</el-menu-item>
   </el-menu>
@@ -72,7 +71,7 @@ export default defineComponent({
         to: '#',
       },
       // {id: "05",label: "Информация для Доноров крови", description:"Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства", to:"#"},
-      { id: '06', label: 'Просветительский проект СтопКома', description: '', to: '/stop-coma', name: 'StopComaPage' },
+      { id: '06', label: 'Просветительский проект СтопКома', description: '', to: '/stop-coma' },
       // {id: "07",label: "Подготовка к исследованиям", description: 'Подготовка к исследованиям', to:"/preparation"},
       {
         id: '08',
