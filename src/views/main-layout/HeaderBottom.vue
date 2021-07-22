@@ -8,11 +8,26 @@
         <div class="drawer-block">
           <h4>Пользователь</h4>
           <el-menu mode="vertical" @select="changeDrawerStatus">
-            <el-menu-item class="header-bottom-menu-item" index="1" :route="{ name: 'Login' }">
+            <el-menu-item
+              v-if="!isAuth()"
+              class="header-bottom-menu-item"
+              index="1"
+              @click="$router.push('/login')"
+              :route="{ name: 'Login' }"
+            >
               <div><i class="el-icon-user"></i> Вход</div>
             </el-menu-item>
-            <el-menu-item class="header-bottom-menu-item" index="2" :route="{ name: 'Register' }">
+            <el-menu-item
+              v-if="!isAuth()"
+              class="header-bottom-menu-item"
+              index="2"
+              @click="$router.push('/register')"
+              :route="{ name: 'Register' }"
+            >
               <div><i class="el-icon-unlock"></i> Регистрация</div>
+            </el-menu-item>
+            <el-menu-item v-if="isAuth()" class="header-bottom-menu-item" index="2" @click="logout">
+              <div><i class="el-icon-unlock"></i> Выйти</div>
             </el-menu-item>
           </el-menu>
         </div>
@@ -100,6 +115,7 @@
 </template>
 
 <script lang="ts">
+import { useStore } from 'vuex';
 import { ref, defineComponent, onMounted, onUnmounted } from 'vue';
 import NavMenu from '@/views/main-layout/elements/NavMenu.vue';
 
@@ -109,9 +125,14 @@ export default defineComponent({
     NavMenu,
   },
   setup() {
+    const store = useStore();
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
+
+    const logout = async () => {
+      await store.dispatch('auth/logout');
+    };
 
     const handleScroll = () => {
       if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
@@ -120,6 +141,10 @@ export default defineComponent({
 
       previousOffset.value = scrollOffset.value;
       scrollOffset.value = window.scrollY;
+    };
+
+    const isAuth = (): boolean => {
+      return !!localStorage.getItem('token');
     };
 
     onMounted(() => {
@@ -136,7 +161,7 @@ export default defineComponent({
       showDrawer.value = !showDrawer.value;
     };
 
-    return { scrollOffset, previousOffset, rememberedOffset, showDrawer, changeDrawerStatus };
+    return { scrollOffset, previousOffset, rememberedOffset, showDrawer, changeDrawerStatus, logout, isAuth };
   },
 });
 </script>

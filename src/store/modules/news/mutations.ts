@@ -4,7 +4,8 @@ import { State } from './state';
 import INews from '../../../interfaces/news/INews';
 import News from '@/classes/news/News';
 import ITag from '@/interfaces/news/ITag';
-import INewsLike from "@/interfaces/news/INewsLike";
+import INewsLike from '@/interfaces/news/INewsLike';
+import INewsComment from '@/interfaces/news/INewsComment';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -29,11 +30,27 @@ const mutations: MutationTree<State> = {
     });
   },
   setLikeNews(state, newsLike: INewsLike) {
-    const news = state.news.find((i: INews) => i.id === newsLike.newsId)
-    console.log(news?.newsLikes)
-    if (news) news.newsLikes.push(newsLike)
-    console.log(news?.newsLikes)
-  }
+    const news = state.news.find((i: INews) => i.id === newsLike.newsId);
+    if (news) news.newsLikes.push(newsLike);
+  },
+  setComment(state, item: INewsComment) {
+    const news = state.news.find((i: INews) => i.id === item.newsId);
+    if (news) news.newsComments.push(item);
+  },
+  deleteLikeFromNews(state, newsLike: INewsLike) {
+    const news = state.news.find((i: INews) => i.id === newsLike.newsId);
+    if (news) {
+      const index = news.newsLikes.findIndex((i: INewsLike) => i.id === newsLike.id);
+      news.newsLikes.splice(index);
+    }
+  },
+  deleteCommentFromNews(state, item: INewsComment) {
+    const news = state.news.find((i: INews) => i.id === item.newsId);
+    if (news) {
+      const index = news.newsComments.findIndex((i: INewsComment) => i.id === item.id);
+      news.newsLikes.splice(index);
+    }
+  },
 };
 
 export default mutations;

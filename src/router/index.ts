@@ -14,16 +14,16 @@ import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 
 import IUser from '@/interfaces/users/IUser';
 import HttpClient from '@/services/HttpClient';
+import ProfileRoutes from '@/router/ProfileRoutes';
 
 export const isAuthorized = async (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  const httpClient = new HttpClient('users/authorize');
-  const user = await httpClient.get<IUser>();
-  if (user.email.length >= 1) {
-    next();
-    return;
-  }
-
-  next('/login');
+  // const httpClient = new HttpClient('users/authorize');
+  // const user = await httpClient.get<IUser>();
+  // if (user.email.length >= 1) {
+  //   next();
+  //   return;
+  // }
+  // next('/login');
 };
 
 const routes: Array<RouteRecordRaw> = [
@@ -31,7 +31,8 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'MainLayout',
     component: MainLayout,
-    beforeEnter: isAuthorized,
+    redirect: '/news',
+    // beforeEnter: isAuthorized,
   },
   {
     path: '/about',
@@ -59,6 +60,7 @@ const routes: Array<RouteRecordRaw> = [
   ...NormativeDocumentsRoutes,
   ...MapRoutes,
   ...DivisionsRoutes,
+  ...ProfileRoutes,
 ];
 
 const router = createRouter({

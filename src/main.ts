@@ -65,6 +65,9 @@ import {
   ElUpload,
   ElCalendar,
   ElCollapseTransition,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
 } from 'element-plus';
 
 const components = [
@@ -122,6 +125,9 @@ const components = [
   ElPagination,
   ElCalendar,
   ElCollapseTransition,
+  ElDropdown,
+  ElDropdownItem,
+  ElDropdownMenu,
 ];
 const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification, ElInfiniteScroll];
 const app = createApp(App);

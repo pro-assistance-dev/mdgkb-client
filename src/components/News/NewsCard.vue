@@ -35,8 +35,9 @@
             <EyeOutlined />
             <span>0 </span>
           </div>
-          <div class="like"  :class="{ 'liked':  true  }">
-            <LikeOutlined  @click.stop="createLike(news)" />
+          <div class="like">
+            <LikeFilled @click.stop="deleteLike(news)" class="liked" v-if="liked(news.newsLikes)" />
+            <LikeOutlined @click.stop="createLike(news)" v-else />
             <span>{{ news.newsLikes.length }} </span>
           </div>
         </div>
@@ -47,10 +48,12 @@
 
 <script lang="ts">
 import { useStore } from 'vuex';
-import { PropType, ref, defineComponent } from 'vue';
-import { LikeOutlined, EyeOutlined } from '@ant-design/icons-vue';
+import { PropType, defineComponent } from 'vue';
+import { LikeOutlined, EyeOutlined, LikeFilled } from '@ant-design/icons-vue';
 import INews from '@/interfaces/news/INews';
-import NewsLike from "@/classes/news/NewsLike";
+import NewsLike from '@/classes/news/NewsLike';
+import { ElMessage } from 'element-plus';
+import INewsLike from '@/interfaces/news/INewsLike';
 
 export default defineComponent({
   name: 'NewsCard',
@@ -60,19 +63,48 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { LikeOutlined, EyeOutlined },
+  components: { LikeOutlined, LikeFilled, EyeOutlined },
   async setup() {
     const store = useStore();
-
+    const userId = localStorage.getItem('userId');
     const getImageUrl = (imagePath: string): string => {
       return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
     };
 
     const createLike = async (news: INews): Promise<void> => {
-      const newsLike = new NewsLike()
-      newsLike.newsId = news.id
+      if (!localStorage.getItem('token')) {
+        ElMessage({
+          dangerouslyUseHTMLString: true,
+          message:
+            '<strong>Вы не авторизованы. Желаете <el-button @click="$router.push(`/login`)">войти</el-button>/зарегистрироваться?</strong>',
+        });
+        return;
+      }
+      const newsLike = new NewsLike();
+      newsLike.newsId = news.id;
+      if (userId) newsLike.userId = userId;
       await store.dispatch('news/createLike', newsLike);
-      await store.dispatch('news/deleteLike', newsLike.id);
+    };
+
+    const deleteLike = async (news: INews): Promise<void> => {
+      if (!localStorage.getItem('token')) {
+        ElMessage({
+          dangerouslyUseHTMLString: true,
+          message:
+            '<strong>Вы не авторизованы. Желаете <el-button @click="$router.push(`/login`)">войти</el-button>/зарегистрироваться?</strong>',
+        });
+        return;
+      }
+
+      const like = news.newsLikes.find((i: INewsLike) => i.userId === userId);
+      console.log(like);
+      if (like) await store.dispatch('news/deleteLike', like);
+    };
+
+    const liked = (likes: INewsLike[]) => {
+      if (!userId) return false;
+      const i = likes.findIndex((like: INewsLike) => like.userId === userId);
+      return i > -1;
     };
 
     const errorImg = (e: any) => {
@@ -84,9 +116,11 @@ export default defineComponent({
     };
 
     return {
+      liked,
       errorImg,
       filterNews,
       createLike,
+      deleteLike,
       getImageUrl,
     };
   },
@@ -187,8 +221,7 @@ $card-width: 300px;
 
   .liked {
     color: #e34b42;
-  };
-
+  }
 }
 
 .image {

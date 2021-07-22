@@ -5,7 +5,8 @@ import RootState from '@/store/types';
 
 import { State } from './state';
 import INews from '@/interfaces/news/INews';
-import INewsLike from "@/interfaces/news/INewsLike";
+import INewsLike from '@/interfaces/news/INewsLike';
+import INewsComment from '@/interfaces/news/INewsComment';
 
 const httpClient = new HttpClient('news');
 
@@ -23,9 +24,18 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.post<INewsLike, INewsLike>({ query: `like`, payload: newsLike });
     commit('setLikeNews', res);
   },
-  deleteLike: async ({ commit }, newsLikeId: string): Promise<void> => {
-    const res = await httpClient.delete({ query: `like/${newsLikeId}`});
-    commit('deleteFromNews', res);
+  createComment: async ({ commit }, comment: INewsComment): Promise<void> => {
+    const res = await httpClient.post<INewsLike, INewsLike>({ query: `comment`, payload: comment });
+    commit('setComment', res);
+  },
+  deleteLike: async ({ commit }, newsLike: INewsLike): Promise<void> => {
+    console.log(newsLike.id);
+    const res = await httpClient.delete({ query: `like/${newsLike.id}` });
+    commit('deleteLikeFromNews', newsLike);
+  },
+  deleteComment: async ({ commit }, comment: INewsComment): Promise<void> => {
+    const res = await httpClient.delete({ query: `comment/${comment.id}` });
+    commit('deleteCommentFromNews', comment);
   },
 };
 

@@ -65,9 +65,10 @@ export default class HttpClient {
   }
 
   private buildUrl(query?: string): string {
-    if (query) return this.endpoint.length <= 0
-      ? `${process.env.VUE_APP_BASE_URL + (query ?? '')}`
-      : `${process.env.VUE_APP_API_V1}${this.endpoint}/${query}`;
+    if (query)
+      return this.endpoint.length <= 0
+        ? `${process.env.VUE_APP_BASE_URL + (query ?? '')}`
+        : `${process.env.VUE_APP_API_V1}${this.endpoint}/${query}`;
     return `${process.env.VUE_APP_API_V1}${this.endpoint}`;
   }
 

@@ -5,4 +5,5 @@ import IPreviewThumbnailFile from '@/interfaces/files/IPreviewThumbnailFile';
 export default interface INewsLike {
   id?: string;
   newsId: string;
+  userId: string;
 }

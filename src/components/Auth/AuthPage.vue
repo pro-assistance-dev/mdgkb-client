@@ -37,7 +37,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  async setup(props) {
     const form = ref({
       email: '',
       password: '',

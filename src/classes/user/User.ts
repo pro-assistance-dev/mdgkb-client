@@ -7,16 +7,17 @@ import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
 import IMeta from '@/interfaces/news/IMeta';
 import Meta from '@/classes/news/Meta';
 import INewsLike from '@/interfaces/news/INewsLike';
+import IUser from '@/interfaces/users/IUser';
 
-export default class NewsLike implements INewsLike {
-  id?;
-  newsId = '';
-  userId = '';
+export default class User implements IUser {
+  id?: string = '';
+  email = '';
+  password?: string = '';
 
-  constructor(i?: INewsLike) {
+  constructor(i?: IUser) {
     if (!i) return;
     this.id = i.id;
-    this.newsId = i.newsId;
-    this.userId = i.userId;
+    this.email = i.email;
+    this.password = i.password;
   }
 }

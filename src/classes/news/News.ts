@@ -6,6 +6,8 @@ import Tag from '@/classes/news/Tag';
 import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
 import INewsLike from '@/interfaces/news/INewsLike';
 import NewsLike from '@/classes/news/NewsLike';
+import INewsComment from '@/interfaces/news/INewsComment';
+import NewsComment from '@/classes/news/NewsComment';
 
 export default class News implements INews {
   id = '';
@@ -19,6 +21,7 @@ export default class News implements INews {
   previewThumbnailFile = new PreviewThumbnailFile();
   publishedOn: Date = new Date();
   newsLikes: INewsLike[] = [];
+  newsComments: INewsComment[] = [];
 
   constructor(i?: INews) {
     if (!i) return;
@@ -33,5 +36,6 @@ export default class News implements INews {
     if (i.previewThumbnailFile) this.previewThumbnailFile = new PreviewThumbnailFile(i.previewThumbnailFile);
     this.publishedOn = i.publishedOn;
     if (i.newsLikes) this.newsLikes = i.newsLikes.map((item: INewsLike) => new NewsLike(item));
+    if (i.newsComments) this.newsComments = i.newsComments.map((item: INewsComment) => new NewsComment(item));
   }
 }

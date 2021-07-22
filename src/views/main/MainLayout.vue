@@ -21,12 +21,10 @@
 </template>
 
 <script lang="ts">
-import ParentComponent from '../../components/ParentComponent.vue';
 import HeaderTop from '@/views/main-layout/HeaderTop.vue';
 import HeaderBottom from '@/views/main-layout/HeaderBottom.vue';
 import FooterTop from '@/views/main-layout/FooterTop.vue';
 import FooterBottom from '@/views/main-layout/FooterBottom.vue';
-import { onErrorCaptured, ref } from 'vue';
 
 export default {
   name: 'MainLayout',
