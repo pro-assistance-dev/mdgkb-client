@@ -15,18 +15,19 @@ const actions: ActionTree<State, RootState> = {
     if (newUser.id) localStorage.setItem('userId', newUser.id);
     commit('setToken', token);
     commit('setUser', newUser);
+    commit('setIsAuth', true);
   },
   register: async ({ commit }, user: IUser): Promise<void> => {
     const { user: newUser, token } = await httpClient.post<IUser, { user: IUser; token: IToken }>({ query: 'register', payload: user });
     localStorage.setItem('token', token.accessToken);
     if (newUser.id) localStorage.setItem('userId', newUser.id);
     commit('setToken', token.accessToken);
-    console.log(newUser);
     commit('setUser', newUser);
   },
   logout: async ({ commit }): Promise<void> => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    commit('setIsAuth', false);
   },
 };
 

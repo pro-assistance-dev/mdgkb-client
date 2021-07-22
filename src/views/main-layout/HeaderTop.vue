@@ -4,16 +4,16 @@
       <el-row>
         <el-col :offset="11" :xs="1" :sm="1" :md="1" :lg="1" :xl="1">
           <div class="flex">
-            <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="$router.push('/')" />
+            <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="nav('/news')" />
           </div>
         </el-col>
         <el-col :xl="{ span: 1, offset: 9 }" :lg="{ span: 1, offset: 8 }">
-          <el-dropdown v-if="!isAuth()">
+          <el-dropdown v-if="!isAuth">
             <el-button round>Войти</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item icon="el-icon-plus" @click="$router.push('/login')">Войти</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-plus" @click="$router.push('/register')">Зарегистрироваться</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-right" @click="nav('/login')">Войти</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-plus" @click="nav('/register')">Зарегистрироваться</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -36,20 +36,26 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
 import { useStore } from 'vuex';
+import { ref, onMounted, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'HeaderTop',
-  setup() {
+  async setup() {
     const store = useStore();
-    const isAuth = (): boolean => {
-      return !!localStorage.getItem('token');
-    };
+    const router = useRouter();
+
+    const isAuth = computed(() => store.getters['auth/isAuth']);
 
     const logout = async () => {
       await store.dispatch('auth/logout');
     };
+    const nav = async (to: string) => {
+      await router.push(to);
+    };
 
     return {
+      nav,
       logout,
       isAuth,
     };

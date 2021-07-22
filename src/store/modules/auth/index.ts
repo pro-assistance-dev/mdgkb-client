@@ -10,6 +10,7 @@ import State from './state';
 export const state: State = {
   user: undefined,
   token: '',
+  isAuth: false,
 };
 
 const namespaced = true;

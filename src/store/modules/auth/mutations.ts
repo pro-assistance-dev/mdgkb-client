@@ -10,6 +10,9 @@ const mutations: MutationTree<State> = {
   setToken(state, token: string) {
     state.token = token;
   },
+  setIsAuth(state, isAuth: boolean) {
+    state.isAuth = isAuth;
+  },
 };
 
 export default mutations;

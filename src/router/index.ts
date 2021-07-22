@@ -6,24 +6,20 @@ import DivisionsRoutes from '@/router/DivisionsRoutes';
 import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
 import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
+import store from '../store/index';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import HealthOrganizationsPage from '@/components/HealthOrganizations/HealthOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 
-import IUser from '@/interfaces/users/IUser';
-import HttpClient from '@/services/HttpClient';
 import ProfileRoutes from '@/router/ProfileRoutes';
 
-export const isAuthorized = async (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  // const httpClient = new HttpClient('users/authorize');
-  // const user = await httpClient.get<IUser>();
-  // if (user.email.length >= 1) {
-  //   next();
-  //   return;
-  // }
-  // next('/login');
+export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  const userId = localStorage.getItem('userId');
+  console.log('userId', userId);
+  if (userId) store.commit('auth/setIsAuth', true);
+  next();
 };
 
 const routes: Array<RouteRecordRaw> = [
@@ -32,27 +28,34 @@ const routes: Array<RouteRecordRaw> = [
     name: 'MainLayout',
     component: MainLayout,
     redirect: '/news',
-    // beforeEnter: isAuthorized,
+    beforeEnter(to, from, next) {
+      isAuthorized(to, from, next);
+    },
   },
+
   {
     path: '/about',
     name: 'AboutPage',
     component: AboutPage,
+    // beforeEnter: isAuthorized,
   },
   {
     path: '/stop-coma',
     name: 'StopComaPage',
     component: StopComaPage,
+    beforeEnter: isAuthorized,
   },
   {
     path: '/dispanserization',
     name: 'DispanserizationPage',
     component: DispanserizationPage,
+    beforeEnter: isAuthorized,
   },
   {
     path: '/health_organizations',
     name: 'HealthOrganizationsPage',
     component: HealthOrganizationsPage,
+    beforeEnter: isAuthorized,
   },
 
   ...AuthRouter,
@@ -67,5 +70,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+// router.beforeEach(isAuthorized);
 
 export default router;

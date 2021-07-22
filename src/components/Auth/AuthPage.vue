@@ -1,27 +1,30 @@
 <template>
-  <el-container direction="vertical">
-    <h1>{{ isLogin ? 'Вход' : 'Регистрация' }}</h1>
-    <el-card>
-      <el-form label-position="right" label-width="100px" :model="form" @submit.prevent="submitForm">
-        <el-form-item label="Email">
-          <el-input v-model="form.email" type="email" />
-        </el-form-item>
+  <el-card class="card-content">
+    <template #header>
+      <div class="card-header">
+        <h1 class="title article-title">{{ isLogin ? 'Вход' : 'Регистрация' }}</h1>
+      </div>
+    </template>
 
-        <el-form-item label="Пароль" type="password">
-          <el-input v-model="form.password" />
-        </el-form-item>
+    <el-form label-position="right" label-width="100px" :model="form" @submit.prevent="submitForm">
+      <el-form-item label="Email">
+        <el-input v-model="form.email" type="email" />
+      </el-form-item>
 
-        <el-form-item>
-          <el-button type="primary" native-type="submit" @click.prevent="submitForm">
-            {{ isLogin ? 'Войти' : 'Зарегистрироваться' }}
-          </el-button>
-          <el-button type="text" @click.prevent="toggleIsLogin">
-            {{ isLogin ? 'Нет учётной записи? Зарегистрируйтесь!' : 'Уже зарегистрированы? Войдите!' }}
-          </el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
-  </el-container>
+      <el-form-item label="Пароль" type="password">
+        <el-input v-model="form.password" />
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" native-type="submit" @click="submitForm">
+          {{ isLogin ? 'Войти' : 'Зарегистрироваться' }}
+        </el-button>
+        <el-button type="text" @click.prevent="toggleIsLogin">
+          {{ isLogin ? 'Нет учётной записи? Зарегистрируйтесь!' : 'Уже зарегистрированы? Войдите!' }}
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
 </template>
 
 <script lang="ts">
@@ -52,8 +55,7 @@ export default defineComponent({
       } else {
         await store.dispatch('auth/register', { email: form.value.email, password: form.value.password });
       }
-
-      await router.push('/');
+      await router.push('/news');
     };
 
     const toggleIsLogin = async (): Promise<void> => {
@@ -72,3 +74,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+.card-content {
+  width: 60%;
+  margin: 50px auto 65px auto;
+}
+.card-header {
+  text-align: center;
+}
+</style>

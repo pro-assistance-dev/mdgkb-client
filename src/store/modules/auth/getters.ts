@@ -10,6 +10,9 @@ const getters: GetterTree<State, RootState> = {
   user(state): IUser | undefined {
     return state.user;
   },
+  isAuth(state): boolean {
+    return state.isAuth;
+  },
 };
 
 export default getters;

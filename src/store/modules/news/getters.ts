@@ -7,7 +7,6 @@ import INews from '@/interfaces/news/INews';
 
 const getters: GetterTree<State, RootState> = {
   news(state): INews[] | undefined {
-    console.log(state.news);
     return state.news;
   },
   newsItem(state): INews | undefined {

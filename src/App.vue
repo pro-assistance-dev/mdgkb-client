@@ -1,7 +1,9 @@
 <template>
-  <MainLayout>
-    <router-view />
-  </MainLayout>
+  <Suspense>
+    <MainLayout>
+      <router-view />
+    </MainLayout>
+  </Suspense>
 </template>
 
 <script lang="ts">

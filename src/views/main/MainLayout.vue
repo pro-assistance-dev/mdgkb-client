@@ -4,15 +4,12 @@
     <HeaderBottom></HeaderBottom>
     <div class="container">
       <el-main>
-        <div v-if="error">Ошибка</div>
-        <Suspense v-else>
-          <template #default>
-            <slot />
-          </template>
-          <template #fallback>
-            <div>Loading...</div>
-          </template>
-        </Suspense>
+        <template #default>
+          <slot />
+        </template>
+        <template #fallback>
+          <div>Loading...</div>
+        </template>
       </el-main>
     </div>
     <FooterTop />
@@ -34,8 +31,7 @@ export default {
     HeaderBottom,
     HeaderTop,
   },
-
-  setup() {
+  async setup() {
     //     const error: Error | undefined= undefined
     //     onErrorCaptured((e : Error) => {
     //         error = e

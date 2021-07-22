@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import AuthPage from '@/components/Auth/AuthPage.vue';
+import { isAuthorized } from '@/router/index';
 
 const AuthRouter: Array<RouteRecordRaw> = [
   {
@@ -7,12 +8,14 @@ const AuthRouter: Array<RouteRecordRaw> = [
     name: 'Login',
     component: AuthPage,
     props: { isLogin: true },
+    beforeEnter: isAuthorized,
   },
   {
     path: '/register',
     name: 'Register',
     component: AuthPage,
     props: { isLogin: false },
+    beforeEnter: isAuthorized,
   },
 ];
 
