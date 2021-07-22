@@ -12,7 +12,7 @@ import { normativeDocuments } from '@/store/modules/normativeDocuments';
 
 const store: StoreOptions<RootState> = {
   state: {
-    layout: 'main-layout',
+    layout: 'mainLayout',
   },
   getters: {},
   actions: {},

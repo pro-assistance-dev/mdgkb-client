@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div style="position: relative">
     <HeaderTop></HeaderTop>
     <HeaderBottom></HeaderBottom>
     <div class="container">
@@ -15,17 +15,19 @@
         </Suspense>
       </el-main>
     </div>
-    <FooterTop />
-    <FooterBottom />
+    <div style="position: sticky">
+      <FooterTop />
+      <FooterBottom />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import ParentComponent from '../../components/ParentComponent.vue';
-import HeaderTop from '@/views/main-layout/HeaderTop.vue';
-import HeaderBottom from '@/views/main-layout/HeaderBottom.vue';
-import FooterTop from '@/views/main-layout/FooterTop.vue';
-import FooterBottom from '@/views/main-layout/FooterBottom.vue';
+import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
+import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
+import FooterTop from '@/views/mainLayout/FooterTop.vue';
+import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
 import { onErrorCaptured, ref } from 'vue';
 
 export default {

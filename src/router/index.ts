@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw, RouteLocationNormalized
 import MainLayout from '@/views/main/MainLayout.vue';
 
 import AuthRouter from '@/router/AuthRouter';
+import AdminRoutes from '@/router/AdminRoutes';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
 import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
@@ -55,6 +56,7 @@ const routes: Array<RouteRecordRaw> = [
   },
 
   ...AuthRouter,
+  ...AdminRoutes,
   ...NewsRoutes,
   ...NormativeDocumentsRoutes,
   ...MapRoutes,
