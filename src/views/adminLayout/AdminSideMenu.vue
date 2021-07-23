@@ -2,9 +2,9 @@
   <div class="admin-side-menu">
     <el-menu
       default-active="1-1"
-      :collapse="isCollapse"
+      :collapse="isCollapseSideMenu"
       background-color="whitesmoke"
-      @select="changeDrawerStatus"
+      @select="closeDrawer"
       v-for="(item, i) in menuList"
       :key="item.title"
     >
@@ -32,16 +32,16 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
+import { ref, defineComponent, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminSideMenu',
-  props: { isCollapse: { type: Boolean }},
 
-  setup(prop, { emit }) {
-    const changeDrawerStatus = () => {
-      emit('changeDrawerStatus');
-    };
+  setup() {
+    const store = useStore();
+    const isCollapseSideMenu = computed(() => store.getters['admin/isCollapseSideMenu']);
+    const closeDrawer = () => store.commit('admin/closeDrawer');
 
     const menuList = ref([
       {
@@ -168,7 +168,7 @@ export default defineComponent({
         ],
       },
     ]);
-    return { menuList, changeDrawerStatus };
+    return { menuList, closeDrawer, isCollapseSideMenu };
   },
 });
 </script>
