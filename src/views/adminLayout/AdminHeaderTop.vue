@@ -1,15 +1,10 @@
 <template>
-  <div class="hidden-md-and-up">
-    <el-drawer custom-class="admin-drawer" :size="'auto'" v-model="showDrawer" direction="ltr" :with-header="false">
-      <AdminSideMenu :isDrawer="true" @changeDrawerStatus="changeDrawerStatus" />
-    </el-drawer>
-  </div>
   <div class="admin-header fixed">
     <div class="left-panel">
       <!-- To open drawer -->
-      <el-button icon="el-icon-s-unfold" @click="changeDrawerStatus" class="hidden-md-and-up"></el-button>
+      <el-button icon="el-icon-s-unfold" @click="openDrawer" class="hidden-md-and-up"></el-button>
       <!-- To open collapse side menu -->
-      <el-button icon="el-icon-s-unfold" @click="collapse" class="hidden-sm-and-down"></el-button>
+      <el-button icon="el-icon-s-unfold" @click="collapseSideMenu" class="hidden-sm-and-down"></el-button>
       <h3>Панель управления МДГКБ</h3>
     </div>
     <div class="right-panel">
@@ -31,42 +26,37 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
-import AdminSideMenu from '@/views/adminLayout/AdminSideMenu.vue';
+import { defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminHeaderTop',
-  components: {
-    AdminSideMenu,
-  },
 
-  setup(prop, { emit }) {
-    const showDrawer = ref(false);
-    const collapse = () => {
-      emit('collapse');
-    };
-    const changeDrawerStatus = () => {
-      showDrawer.value = !showDrawer.value;
-    };
+  setup() {
+    const store = useStore();
+    const collapseSideMenu = () => store.commit('admin/collapseSideMenu');
+    const openDrawer = () => store.commit('admin/openDrawer');
 
-    return { collapse, showDrawer, changeDrawerStatus };
+    return { collapseSideMenu, openDrawer };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-$header-background: whitesmoke;
+$header-background-color: whitesmoke;
+$header-shadow: 0 0 10px 2px rgb(0 0 0 / 20%), 0 0px 10px rgb(0 0 0 / 24%);
 $header-height: 61px;
+$button-background-color: #fff;
 
 .admin-header {
   width: 100%;
-  background-color: $header-background;
+  background-color: $header-background-color;
   justify-content: space-between;
-  box-shadow: 0 0 10px 2px rgb(0 0 0 / 20%), 0 0px 10px rgb(0 0 0 / 24%);
+  box-shadow: $header-shadow;
 
   .el-button {
     border: none;
-    background-color: $header-background;
+    background-color: $header-background-color;
     margin: 0 !important;
     height: $header-height;
   }
@@ -74,7 +64,7 @@ $header-height: 61px;
   .el-button:hover,
   .el-button:active,
   .el-button:focus {
-    background-color: #fff;
+    background-color: $button-background-color;
     color: inherit;
   }
 
@@ -85,12 +75,13 @@ $header-height: 61px;
   h3 {
     margin: 0 10px;
     font-weight: normal;
+    font-size: 20px;
   }
 
   :deep(.el-menu-item),
   :deep(.el-menu),
   :deep(.el-submenu__title) {
-    background-color: $header-background;
+    background-color: $header-background-color;
   }
   :deep(.el-submenu__icon-arrow) {
     font-size: unset;
@@ -115,7 +106,4 @@ $header-height: 61px;
   height: $header-height;
 }
 
-:deep(.admin-drawer) {
-  background-color: $header-background;
-}
 </style>

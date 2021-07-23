@@ -10,6 +10,7 @@ import { users } from '@/store/modules/users';
 // import { likes } from '@/store/modules/likes';
 import { news } from '@/store/modules/news';
 import { normativeDocuments } from '@/store/modules/normativeDocuments';
+import { admin } from '@/store/modules/admin';
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -28,6 +29,7 @@ const store: StoreOptions<RootState> = {
     normativeDocuments,
     users,
     pockemons,
+    admin,
   },
 };
 

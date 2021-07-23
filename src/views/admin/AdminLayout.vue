@@ -1,43 +1,45 @@
 <template>
   <div style="min-height: 100vh">
-    <AdminHeaderTop @collapse="collapse" />
+    <AdminHeaderTop />
     <div class="admin-main-container">
-      <AdminSideMenu :isCollapse="isCollapse" class="side-menu hidden-sm-and-down" ref="sideMenu" />
+      <AdminSideMenu class="side-menu hidden-sm-and-down" />
       <div class="admin-container">
-        <div v-if="error">Ошибка</div>
-        <Suspense v-else>
-          <template #default>
-            <slot />
-          </template>
-          <template #fallback>
-            <div>Loading...</div>
-          </template>
-        </Suspense>
+        <AdminHeaderBottom />
+        <el-main style="height: 100%">
+          <div v-if="error">Ошибка</div>
+          <Suspense v-else>
+            <template #default>
+              <slot />
+            </template>
+            <template #fallback>
+              <div>Loading...</div>
+            </template>
+          </Suspense>
+        </el-main>
       </div>
     </div>
   </div>
+  <AdminMenuDrawer />
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
+import { ref, defineComponent, computed } from 'vue';
 import AdminHeaderTop from '@/views/adminLayout/AdminHeaderTop.vue';
+import AdminHeaderBottom from '@/views/adminLayout/AdminHeaderBottom.vue';
 import AdminSideMenu from '@/views/adminLayout/AdminSideMenu.vue';
+import AdminMenuDrawer from '@/views/adminLayout/AdminMenuDrawer.vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminLayout',
   components: {
     AdminHeaderTop,
+    AdminHeaderBottom,
     AdminSideMenu,
+    AdminMenuDrawer,
   },
 
   setup() {
-    const isCollapse = ref(true);
-
-    const collapse = () => {
-      isCollapse.value = !isCollapse.value;
-    };
-
-    return { isCollapse, collapse };
   },
 });
 </script>
@@ -51,7 +53,6 @@ export default defineComponent({
 .admin-container {
   width: 100%;
   height: 100%;
-  padding: 20px;
 }
 
 // .side-menu {
