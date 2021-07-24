@@ -2,7 +2,7 @@
   <el-container direction="vertical" align="center">
     <h1>Сведения об организациях в сфере охраны здоровья</h1>
     <el-table
-      :data="healthOrganizations"
+      :data="sideOrganizations"
       :expand-row-keys="expandRowKeys"
       :row-key="(row) => row.id"
       @expand-change="handleExpandChange"
@@ -23,27 +23,33 @@
           <el-row>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
               <el-space direction="vertical" alignment="start">
-                <div v-if="scope.row.phones.length">
+                <div>
                   <h4>Телефон:</h4>
-                  <div v-for="item in scope.row.phones" :key="item.phone">
-                    <b>{{ item.phone }}</b>
-                    <span> - {{ item.description }}</span>
+                  <div>
+                    <b>{{ scope.row.phone }}</b>
                   </div>
                 </div>
-                <div v-if="scope.row.timetable.length">
-                  <h4>Часы работы:</h4>
-                  <div v-for="(item, index) in scope.row.timetable" :key="index">
-                    <b>{{ item.days }}</b>
-                    <span> - {{ item.value }}</span>
-                  </div>
-                </div>
+                <!--                <div v-if="scope.row.phones.length">-->
+                <!--                  <h4>Телефон:</h4>-->
+                <!--                  <div v-for="item in scope.row.phones" :key="item.phone">-->
+                <!--                    <b>{{ item.phone }}</b>-->
+                <!--&lt;!&ndash;                    <span> - {{ item.description }}</span>&ndash;&gt;-->
+                <!--                  </div>-->
+                <!--                </div>-->
+                <!--                <div v-if="scope.row.timetable.length">-->
+                <!--                  <h4>Часы работы:</h4>-->
+                <!--                  <div v-for="(item, index) in scope.row.timetable" :key="index">-->
+                <!--                    <b>{{ item.days }}</b>-->
+                <!--                    <span> - {{ item.value }}</span>-->
+                <!--                  </div>-->
+                <!--                </div>-->
                 <div v-if="scope.row.address">
                   <h4>Адрес:</h4>
                   <span>{{ scope.row.address }}</span>
                 </div>
-                <div v-if="scope.row.website">
+                <div v-if="scope.row.site">
                   <h4>Сайт:</h4>
-                  <span>{{ scope.row.website }}</span>
+                  <span>{{ scope.row.site }}</span>
                 </div>
               </el-space>
             </el-col>
@@ -73,27 +79,27 @@ import { ref, defineComponent, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 // import { yandexMap, ymapMarker } from 'vue-yandex-maps';
 
-import HealthOrganization from '@/classes/healthOrganization/HealthOrganization';
-import IHealthOrganization from '@/interfaces/healthOrganization/IHealthOrganization';
+import SideOrganization from '@/classes/sideOrganization/SideOrganization';
+import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 
 export default defineComponent({
-  name: 'HealthOrganizationsPage',
+  name: 'SideOrganizationsPage',
   components: {
     // yandexMap,
     // ymapMarker,
   },
   setup() {
     const store = useStore();
-    const healthOrganizations = ref([new HealthOrganization()]);
+    const sideOrganizations = ref([new SideOrganization()]);
 
-    const loadHealthOrganizations = async (): Promise<void> => {
-      await store.dispatch('healthOrganizations/getAll');
-      healthOrganizations.value = store.getters['healthOrganizations/healthOrganizations'];
+    const loadSideOrganizations = async (): Promise<void> => {
+      await store.dispatch('sideOrganizations/getAll');
+      sideOrganizations.value = store.getters['sideOrganizations/sideOrganizations'];
     };
 
     const expandRowKeys = ref<(number | undefined)[]>([]);
 
-    const handleExpandChange = (row: IHealthOrganization) => {
+    const handleExpandChange = (row: ISideOrganization) => {
       const id = row.id;
       const lastId = expandRowKeys.value[0];
       expandRowKeys.value = id === lastId ? [] : [id];
@@ -108,12 +114,12 @@ export default defineComponent({
       }, 500);
     };
 
-    watch(healthOrganizations, openedOrganization);
+    watch(sideOrganizations, openedOrganization);
 
-    onMounted(loadHealthOrganizations);
+    onMounted(loadSideOrganizations);
 
     return {
-      healthOrganizations,
+      sideOrganizations,
       expandRowKeys,
       allowMap,
       handleExpandChange,

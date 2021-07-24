@@ -11,10 +11,11 @@ import store from '../store/index';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
-import HealthOrganizationsPage from '@/components/HealthOrganizations/HealthOrganizationsPage.vue';
+import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 
 import ProfileRoutes from '@/router/ProfileRoutes';
+import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 
 export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
   const userId = localStorage.getItem('userId');
@@ -54,8 +55,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/health_organizations',
-    name: 'HealthOrganizationsPage',
-    component: HealthOrganizationsPage,
+    name: 'SideOrganizationsPage',
+    component: SideOrganizationsPage,
     beforeEnter: isAuthorized,
   },
 
@@ -66,6 +67,7 @@ const routes: Array<RouteRecordRaw> = [
   ...MapRoutes,
   ...DivisionsRoutes,
   ...ProfileRoutes,
+  ...PaidServicesRoutes,
 ];
 
 const router = createRouter({

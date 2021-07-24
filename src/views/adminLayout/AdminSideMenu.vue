@@ -37,6 +37,7 @@ import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminSideMenu',
+  props: { isCollapse: { type: Boolean } },
 
   setup() {
     const store = useStore();

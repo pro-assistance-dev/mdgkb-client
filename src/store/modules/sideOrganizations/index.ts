@@ -8,12 +8,12 @@ import mutations from './mutations';
 import { State } from './state';
 
 export const state: State = {
-  healthOrganizations: [],
+  sideOrganizations: [],
 };
 
 const namespaced = true;
 
-export const healthOrganizations: Module<State, RootState> = {
+export const sideOrganizations: Module<State, RootState> = {
   namespaced,
   state,
   getters,
