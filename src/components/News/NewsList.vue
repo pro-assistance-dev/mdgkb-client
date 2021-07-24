@@ -1,7 +1,9 @@
 <template>
   <el-row :gutter="40">
     <el-col :xl="6" :lg="6" :md="24" class="calendar">
-      <NewsCalendar v-model:news="news" />
+      <div style="margin: 10px; text-align: center">
+        <NewsCalendar v-model:news="news" />
+      </div>
     </el-col>
     <el-col :xl="18" :lg="18" :md="24">
       <el-row>

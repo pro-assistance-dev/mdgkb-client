@@ -1,35 +1,20 @@
 <template>
-  <div class="left-wrap">
-    <div class="calendar-wrap">
-      <el-calendar id="calendar" :first-day-of-week="7">
-        <template #dateCell="{ data }">
-          <el-popover
-            transition="el-collapse-transition"
-            placement="right"
-            width="200"
-            trigger="hover"
-            :content="getNews(data.day)"
-            :disabled="getNews(data.day).length === 0"
-          >
-            <template #reference>
-              <div class="el-calendar-day" :class="getNews(data.day).length ? 'is-selected' : ''">
-                {{ data.day.split('-').slice(2).join('-') }}
-              </div>
-            </template>
-            <div v-for="item in getNews(data.day)" :key="item.id">
-              {{ item }}
-            </div>
-          </el-popover>
-        </template>
-      </el-calendar>
-    </div>
-  </div>
+  <calendar locale="ru" :attributes="attributes">
+    <template #day-popover="{ dayTitle, attributes }">
+      <div style="text-align: center">
+        {{ dayTitle }}
+      </div>
+      <popover-row v-for="attr in attributes" :key="attr.key" :attribute="attr">
+        <a class="newsLabel" @click.prevent="$router.push(`/news${item.slug}`)">{{ attr.popover.label }}</a>
+      </popover-row>
+    </template>
+  </calendar>
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, onMounted } from 'vue';
+import { PropType, defineComponent, computed } from 'vue';
+import { Calendar, PopoverRow } from 'v-calendar';
 import INews from '@/interfaces/news/INews';
-
 export default defineComponent({
   name: 'NewsCalendar',
   props: {
@@ -38,64 +23,40 @@ export default defineComponent({
       required: true,
     },
   },
+  components: { Calendar, PopoverRow },
+
   setup(props) {
-    const getNews = (day: string): string[] => {
-      const news = props.news.filter((itemNews: INews) => {
-        const dayMatch = new Date(itemNews.publishedOn).getDate() === new Date(day).getDate();
-        const monthMatch = new Date(itemNews.publishedOn).getMonth() === new Date(day).getMonth();
-        const yearMatch = new Date(itemNews.publishedOn).getFullYear() === new Date(day).getFullYear();
-
-        if (yearMatch && monthMatch && dayMatch) {
-          return itemNews.title;
-        }
-      });
-      let newsTitles: string[] = [];
-      news.forEach((itemNews: INews) => {
-        newsTitles.push(itemNews.title);
-      });
-      return newsTitles;
+    const randomDotColor = () => {
+      const colors = ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
+      return colors[Math.floor(Math.random() * colors.length)];
     };
 
-    const translateMounth = () => {
-      let title = document.getElementsByClassName('el-calendar__title')[0];
-      const months: Record<string, string> = {
-        December: 'Декабря',
-        November: 'Ноября',
-        October: 'Октября',
-        September: 'Сентября',
-        August: 'Августа',
-        July: 'Июля',
-        June: 'Июня',
-        May: 'Мая',
-        April: 'Апреля',
-        March: 'Марта',
-        February: 'Февраля',
-        January: 'Января',
-      };
-      const month = title.innerHTML.split(' ')[2];
-      if (months[month]) title.innerHTML = title.innerHTML.split(' ')[0] + ' ' + months[month];
-    };
-
-    onMounted(() => {
-      translateMounth();
-      for (let i = 1; i <= 3; i++) {
-        const btn = document.querySelector(
-          `#calendar > div.el-calendar__header > div.el-calendar__button-group > div > button:nth-child(${i})`
-        );
-        if (btn) btn.addEventListener('click', () => translateMounth());
-      }
-    });
+    const attributes = computed(() => [
+      ...props.news.map((item) => {
+        return {
+          dot: randomDotColor(),
+          dates: [new Date(item.publishedOn)],
+          popover: {
+            label: item.title,
+            visibility: 'focus',
+            placement: 'bottom-end',
+          },
+          slug: item.slug,
+        };
+      }),
+    ]);
 
     return {
-      getNews,
+      attributes,
     };
   },
 });
 </script>
 
 <style scoped lang="scss">
-.calendar-wrap {
-  :deep(.el-calendar-day) {
-  }
+:deep(.newsLabel) {
+  cursor: pointer !important;
+  max-width: 200px;
+  word-break: break-word;
 }
 </style>
