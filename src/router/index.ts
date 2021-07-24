@@ -15,6 +15,7 @@ import HealthOrganizationsPage from '@/components/HealthOrganizations/HealthOrga
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 
 import ProfileRoutes from '@/router/ProfileRoutes';
+import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 
 export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
   const userId = localStorage.getItem('userId');
@@ -66,6 +67,7 @@ const routes: Array<RouteRecordRaw> = [
   ...MapRoutes,
   ...DivisionsRoutes,
   ...ProfileRoutes,
+  ...PaidServicesRoutes,
 ];
 
 const router = createRouter({
