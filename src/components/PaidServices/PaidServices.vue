@@ -1,11 +1,17 @@
 <template>
-  <el-affix :offset="120">
-    <el-card>
-      Сумма: {{ sum }} рублей.
-      <div>
-        <el-button @click="clearSelectedService()">Очистить выбор</el-button>
-      </div>
-    </el-card>
+  <el-affix class="affix" :offset="150" z-index="1000">
+    <div class="sum-card">
+      <el-card>
+        <el-row>
+          <el-col :span="12">
+            <div class="sum">Сумма: {{ sum }} рублей.</div>
+          </el-col>
+          <el-col :span="2" :offset="8">
+            <el-button @click="clearSelectedService()">Очистить выбор</el-button>
+          </el-col>
+        </el-row>
+      </el-card>
+    </div>
   </el-affix>
   <div class="paid-services">
     <h1>Платные услуги</h1>
@@ -74,11 +80,21 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.sum {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.affix {
+  width: 100%;
+  .sum-card {
+    text-align: center;
+  }
+}
+
 .paid-services {
   text-align: center;
   margin-bottom: 400px;
-  .title {
-    margin-left: 20px;
-  }
 }
 </style>

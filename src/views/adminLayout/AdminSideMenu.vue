@@ -36,7 +36,7 @@ import { ref, defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'AdminSideMenu',
-  props: { isCollapse: { type: Boolean }},
+  props: { isCollapse: { type: Boolean } },
 
   setup(prop, { emit }) {
     const changeDrawerStatus = () => {

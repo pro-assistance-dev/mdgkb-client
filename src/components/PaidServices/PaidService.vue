@@ -1,7 +1,7 @@
 <template>
   <el-collapse-item :name="title">
     <template #title>
-      <div class="title">{{ title }}</div>
+      <h2 class="collapseHeader">{{ title }}</h2>
     </template>
     <el-table
       @select="$emit('selectService', $event)"
@@ -84,5 +84,21 @@ export default defineComponent({
   .title {
     margin-left: 20px;
   }
+}
+
+.collapseHeader {
+  padding-left: 10px;
+}
+
+.el-collapse-item {
+  background-color: white;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+:deep(.el-collapse-item__header, .el-collapse-item__wrap) {
+  border: none;
 }
 </style>
