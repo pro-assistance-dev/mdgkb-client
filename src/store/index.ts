@@ -5,7 +5,7 @@ import auth from '@/store/modules/auth';
 import pockemons from '@/store/modules/pockemons';
 import { buildings } from '@/store/modules/buildings';
 import { divisions } from '@/store/modules/divisions';
-import { healthOrganizations } from '@/store/modules/healthOrganizations';
+import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { users } from '@/store/modules/users';
 // import { likes } from '@/store/modules/likes';
 import { news } from '@/store/modules/news';
@@ -22,7 +22,7 @@ const store: StoreOptions<RootState> = {
     auth,
     buildings,
     divisions,
-    healthOrganizations,
+    sideOrganizations,
     // likes,
     news,
     normativeDocuments,

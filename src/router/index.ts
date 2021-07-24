@@ -11,7 +11,7 @@ import store from '../store/index';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
-import HealthOrganizationsPage from '@/components/HealthOrganizations/HealthOrganizationsPage.vue';
+import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 
 import ProfileRoutes from '@/router/ProfileRoutes';
@@ -55,8 +55,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/health_organizations',
-    name: 'HealthOrganizationsPage',
-    component: HealthOrganizationsPage,
+    name: 'SideOrganizationsPage',
+    component: SideOrganizationsPage,
     beforeEnter: isAuthorized,
   },
 
