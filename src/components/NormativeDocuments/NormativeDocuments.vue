@@ -13,12 +13,12 @@
           >
             <el-button icon="el-icon-download"> Скачать </el-button>
           </a>
-          <el-button icon="el-icon-download" @click="openModal(scope.row.file_object.filename_disk)"> Просмотр </el-button>
+          <el-button icon="el-icon-download" @click="openModal(getFileUrl(scope.row.file_object.filename_disk))">Просмотр</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-dialog v-model="modalOpen">
-      <NormativeDocumentsModal :fileName="fileName" />
+      <NormativeDocumentsModal :filePath="filePath" />
     </el-dialog>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
   name: 'NormativeDocuments',
   components: { NormativeDocumentsModal },
   async setup() {
-    let fileName = ref('');
+    let filePath = ref('');
     let modalOpen = ref(false);
     const store = useStore();
 
@@ -40,17 +40,17 @@ export default {
     const normativeDocuments = store.getters['normativeDocuments/items'];
 
     const getFileUrl = (name: string): string => {
-      return `${process.env.VUE_APP_STATIC_URL}/${name}`;
+      return `${process.env.VUE_APP_STATIC_URL}${name}`;
     };
 
-    function openModal(name: string): void {
-      fileName.value = name;
+    function openModal(path: string): void {
+      filePath.value = path;
       modalOpen.value = !modalOpen.value;
       return;
     }
 
     return {
-      fileName,
+      filePath,
       modalOpen,
       openModal,
       getFileUrl,
