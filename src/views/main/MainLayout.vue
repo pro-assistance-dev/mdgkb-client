@@ -1,4 +1,5 @@
 <template>
+  <AuthPage />
   <div style="position: relative">
     <HeaderTop></HeaderTop>
     <HeaderBottom></HeaderBottom>
@@ -24,14 +25,17 @@ import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
 import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
 import FooterTop from '@/views/mainLayout/FooterTop.vue';
 import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
+import AuthPage from '@/components/Auth/AuthPage.vue';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: 'MainLayout',
   components: {
     FooterBottom,
     FooterTop,
     HeaderBottom,
     HeaderTop,
+    AuthPage,
   },
   async setup() {
     //     const error: Error | undefined= undefined
@@ -39,7 +43,6 @@ export default {
     //         error = e
     //         return true
     //     })
-    // return { error }
   },
-};
+});
 </script>

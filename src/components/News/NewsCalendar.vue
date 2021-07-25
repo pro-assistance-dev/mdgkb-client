@@ -38,7 +38,7 @@ export default defineComponent({
           dates: [new Date(item.publishedOn)],
           popover: {
             label: item.title,
-            visibility: 'focus',
+            visibility: 'hover',
             placement: 'bottom-end',
           },
           slug: item.slug,
@@ -58,5 +58,6 @@ export default defineComponent({
   cursor: pointer !important;
   max-width: 200px;
   word-break: break-word;
+  text-align: start;
 }
 </style>

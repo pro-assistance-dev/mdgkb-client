@@ -7,23 +7,23 @@
             <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="nav('/news')" />
           </div>
         </el-col>
-        <el-col :xl="{ span: 1, offset: 9 }" :lg="{ span: 1, offset: 8 }">
+        <el-col :xs="0" :sm="0" :md="0" :xl="{ span: 1, offset: 9 }" :lg="{ span: 1, offset: 8 }">
           <el-dropdown v-if="!isAuth">
-            <el-button round>Войти</el-button>
+            <el-button icon="el-icon-user" round>Войти</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item icon="el-icon-right" @click="nav('/login')">Войти</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-plus" @click="nav('/register')">Зарегистрироваться</el-dropdown-item>
+                <el-dropdown-item @click="login"><LoginOutlined />Войти</el-dropdown-item>
+                <el-dropdown-item @click="register"><UserAddOutlined />Зарегистрироваться</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
 
           <el-dropdown v-else>
-            <el-button round>Профиль</el-button>
+            <el-button icon="el-icon-user" round>Профиль</el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item icon="el-icon-plus" @click="$router.push('/profile')">Профиль</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-plus" @click="logout">Выйти</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">Профиль</el-dropdown-item>
+                <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -38,26 +38,29 @@ import { defineComponent } from '@vue/runtime-core';
 import { useStore } from 'vuex';
 import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
   name: 'HeaderTop',
+  components: { LoginOutlined, LogoutOutlined, UserAddOutlined },
+
   async setup() {
-    const store = useStore();
     const router = useRouter();
 
+    const store = useStore();
+    const login = () => store.commit('auth/openModal', true);
+    const register = () => store.commit('auth/openModal');
+    const logout = async () => await store.dispatch('auth/logout');
     const isAuth = computed(() => store.getters['auth/isAuth']);
 
-    const logout = async () => {
-      await store.dispatch('auth/logout');
-    };
-    const nav = async (to: string) => {
-      await router.push(to);
-    };
+    const nav = async (to: string) => await router.push(to);
 
     return {
       nav,
       logout,
       isAuth,
+      login,
+      register,
     };
   },
 });
@@ -90,5 +93,8 @@ export default defineComponent({
   color: #8492a6;
   font-size: 14px;
   margin-bottom: 20px;
+}
+.anticon {
+  margin-right: 5px;
 }
 </style>

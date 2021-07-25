@@ -67,6 +67,7 @@ export default defineComponent({
   async setup() {
     const store = useStore();
     const userId = localStorage.getItem('userId');
+
     const getImageUrl = (imagePath: string): string => {
       return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
     };
@@ -74,9 +75,8 @@ export default defineComponent({
     const createLike = async (news: INews): Promise<void> => {
       if (!localStorage.getItem('token')) {
         ElMessage({
-          dangerouslyUseHTMLString: true,
-          message:
-            '<strong>Вы не авторизованы. Желаете <el-button @click="$router.push(`/login`)">войти</el-button>/зарегистрироваться?</strong>',
+          message: 'Пожалуйста, авторизируйтесь',
+          type: 'warning',
         });
         return;
       }
@@ -89,9 +89,8 @@ export default defineComponent({
     const deleteLike = async (news: INews): Promise<void> => {
       if (!localStorage.getItem('token')) {
         ElMessage({
-          dangerouslyUseHTMLString: true,
-          message:
-            '<strong>Вы не авторизованы. Желаете <el-button @click="$router.push(`/login`)">войти</el-button>/зарегистрироваться?</strong>',
+          message: 'Пожалуйста, авторизируйтесь',
+          type: 'warning',
         });
         return;
       }
