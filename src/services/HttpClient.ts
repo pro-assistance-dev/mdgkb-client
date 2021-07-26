@@ -64,11 +64,16 @@ export default class HttpClient {
   }
 
   private buildUrl(query?: string): string {
-    if (query)
-      return this.endpoint.length <= 0
-        ? `${process.env.VUE_APP_BASE_URL + (query ?? '')}`
-        : `${process.env.VUE_APP_API_V1}${this.endpoint}/${query}`;
-    return `${process.env.VUE_APP_API_V1}${this.endpoint}`;
+    const baseUrl = process.env.VUE_APP_BASE_URL ?? '';
+    const apiVersion = process.env.VUE_APP_API_V1 ?? '';
+
+    if (query) {
+      const queryString = query ?? '';
+
+      return this.endpoint.length <= 0 ? baseUrl + apiVersion + queryString : baseUrl + apiVersion + this.endpoint + '/' + queryString;
+    }
+
+    return baseUrl + apiVersion + this.endpoint;
   }
 
   private createFormDataPayload<PayloadType>(payload?: PayloadType, fileInfos?: IFileInfo[]): FormData {
