@@ -1,9 +1,9 @@
 <template>
   <AuthPage />
   <div style="position: relative">
-    <HeaderTop></HeaderTop>
-    <HeaderBottom></HeaderBottom>
-    <NewsCarousel v-if="$route.meta.carousel"></NewsCarousel>
+    <HeaderTop />
+    <HeaderBottom />
+    <NewsCarousel v-if="$route.meta.carousel" />
     <div class="container">
       <el-main>
         <template #default v-if="$route.meta.profile">
@@ -12,10 +12,8 @@
               <ProfileSideMenu />
             </el-col>
             <el-col :span="18">
-              <!-- <div class="profile-container"> -->
               <slot />
             </el-col>
-            <!-- </div> -->
           </el-row>
         </template>
         <template #default v-else>
