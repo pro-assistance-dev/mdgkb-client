@@ -31,13 +31,13 @@ const actions: ActionTree<State, RootState> = {
     commit('set', res);
   },
   create: async ({ commit }, news: INews): Promise<void> => {
-    const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: [news.previewThumbnailFile], isFormData: true });
+    const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: [news.fileInfo], isFormData: true });
   },
   update: async ({ commit }, news: INews): Promise<void> => {
     const res = await httpClient.put<INews, INews>({
       query: `${news.id}`,
       payload: news,
-      fileInfos: [news.previewThumbnailFile],
+      fileInfos: [news.fileInfo],
     });
     // commit('set', res);
   },

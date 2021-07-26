@@ -1,8 +1,10 @@
+import AdminCarouselList from '@/components/admin/AdminCarousel/AdminCarouselList.vue';
+import AdminCarouselPage from '@/components/admin/AdminCarousel/AdminCarouselPage.vue';
 import AdminNewsList from '@/components/admin/AdminNews/AdminNewsList.vue';
 import AdminNewsPage from '@/components/admin/AdminNews/AdminNewsPage.vue';
-import AdminNormativeDocumentsList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentsList.vue';
-import AdminNormativeDocumentTypesList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypesList.vue';
 import AdminNormativeDocumentTypePage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypePage.vue';
+import AdminNormativeDocumentTypesList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypesList.vue';
+import AdminNormativeDocumentsList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentsList.vue';
 
 export default [
   {
@@ -33,6 +35,30 @@ export default [
     path: '/admin/normative-documents',
     name: 'AdminNormativeDocuments',
     component: AdminNormativeDocumentsList,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/carousels',
+    name: 'AdminCarouselList',
+    component: AdminCarouselList,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/carousels/new',
+    name: 'AdminCarouselPage',
+    component: AdminCarouselPage,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/carousels/:id',
+    name: 'AdminCarouselPage',
+    component: AdminCarouselPage,
     meta: {
       layout: 'AdminLayout',
     },

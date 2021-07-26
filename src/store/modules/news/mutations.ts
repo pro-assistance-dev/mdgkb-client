@@ -12,6 +12,11 @@ const mutations: MutationTree<State> = {
     state.news = items.map((i: INews) => new News(i));
   },
   appendToAll(state, items: INews[]) {
+    if (items.length === 0) {
+      console.log(items);
+      state.allNewsLoaded = true;
+      return;
+    }
     const news = items.map((i: INews) => new News(i));
     state.news.push(...news);
   },

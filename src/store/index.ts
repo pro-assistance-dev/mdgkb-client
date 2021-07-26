@@ -12,6 +12,7 @@ import { news } from '@/store/modules/news';
 import { normativeDocuments } from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { admin } from '@/store/modules/admin';
+import { carousels } from '@/store/modules/carousels';
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -32,6 +33,7 @@ const store: StoreOptions<RootState> = {
     users,
     pockemons,
     admin,
+    carousels,
   },
 };
 

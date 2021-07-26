@@ -16,12 +16,7 @@
 
       <div class="image">
         <div>
-          <img
-            @error="errorImg"
-            v-if="news.previewThumbnailFile.filenameDisk"
-            :src="getImageUrl(news.previewThumbnailFile.filenameDisk)"
-            alt="alt"
-          />
+          <img @error="errorImg" v-if="news.fileInfo.filenameDisk" :src="getImageUrl(news.fileInfo.filenameDisk)" alt="alt" />
           <img v-else src="../../assets/img/310x310.png" />
         </div>
       </div>
@@ -96,11 +91,11 @@ export default defineComponent({
       }
 
       const like = news.newsLikes.find((i: INewsLike) => i.userId === userId);
-      console.log(like);
       if (like) await store.dispatch('news/deleteLike', like);
     };
 
     const liked = (likes: INewsLike[]) => {
+      console.log(userId);
       if (!userId) return false;
       const i = likes.findIndex((like: INewsLike) => like.userId === userId);
       return i > -1;

@@ -1,7 +1,7 @@
 <template>
   <!--    &lt;!&ndash;        <div class="row items-center">&ndash;&gt;-->
   <!--    <div class="col text-left">-->
-  <Cropper :src="src" ref="cropper" @change="onChange" :stencil-props="{ aspectRatio: 1 }" />
+  <Cropper :src="src" ref="cropper" @change="onChange" :stencil-props="{ aspectRatio: ratio }" />
   <div class="dialog-footer">
     <el-button :loading="loading" @click="cancel">Отменить</el-button>
     <el-button :loading="loading" @click="save">Сохранить</el-button>
@@ -20,6 +20,10 @@ export default defineComponent({
   props: {
     src: {
       type: String,
+      required: true,
+    },
+    ratio: {
+      type: Number,
       required: true,
     },
   },

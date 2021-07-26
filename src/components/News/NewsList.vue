@@ -13,7 +13,7 @@
           </div>
         </el-col>
       </el-row>
-      <div class="load-more">
+      <div v-if="!allNewsLoaded" class="load-more">
         <el-button @click="load">Загрузить ещё</el-button>
       </div>
     </el-col>
@@ -34,6 +34,7 @@ export default defineComponent({
     const store = useStore();
 
     const loading = ref(false);
+    const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
 
     const defaultParams: INewsParams = { limit: 6 };
     await store.dispatch('news/getAll', defaultParams);
@@ -46,6 +47,7 @@ export default defineComponent({
     };
 
     return {
+      allNewsLoaded,
       loading,
       load,
       news,
@@ -61,5 +63,21 @@ export default defineComponent({
 .load-more {
   margin: 50px 0 50px 0;
   text-align: center;
+}
+
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 18px;
+  opacity: 0.75;
+  line-height: 300px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>
