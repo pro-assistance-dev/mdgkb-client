@@ -7,7 +7,7 @@
             <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="nav('/news')" />
           </div>
         </el-col>
-        <el-col :xs="0" :sm="0" :md="0" :xl="{ span: 1, offset: 9 }" :lg="{ span: 1, offset: 8 }">
+        <el-col :xs="0" :sm="0" :md="0" :xl="{ span: 1, offset: 9 }" :lg="{ span: 1, offset: 9 }">
           <el-dropdown v-if="!isAuth">
             <el-button icon="el-icon-user" round>Войти</el-button>
             <template #dropdown>

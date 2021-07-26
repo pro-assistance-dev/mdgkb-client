@@ -1,11 +1,11 @@
 <template>
-  <calendar locale="ru" :attributes="attributes">
+  <calendar locale="ru" :attributes="attributes" is-expanded>
     <template #day-popover="{ dayTitle, attributes }">
       <div style="text-align: center">
         {{ dayTitle }}
       </div>
       <popover-row v-for="attr in attributes" :key="attr.key" :attribute="attr">
-        <a class="newsLabel" @click.prevent="$router.push(`/news${item.slug}`)">{{ attr.popover.label }}</a>
+        <div class="newsLabel" @click.prevent="$router.push(`/news/${attr.popover.slug}`)">{{ attr.popover.label }}</div>
       </popover-row>
     </template>
   </calendar>
@@ -15,6 +15,7 @@
 import { PropType, defineComponent, computed } from 'vue';
 import { Calendar, PopoverRow } from 'v-calendar';
 import INews from '@/interfaces/news/INews';
+
 export default defineComponent({
   name: 'NewsCalendar',
   props: {
@@ -38,10 +39,11 @@ export default defineComponent({
           dates: [new Date(item.publishedOn)],
           popover: {
             label: item.title,
-            visibility: 'hover',
+            slug: item.slug,
+            visibility: 'focus',
             placement: 'bottom-end',
+            isInteractive: true,
           },
-          slug: item.slug,
         };
       }),
     ]);

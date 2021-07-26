@@ -1,12 +1,19 @@
 <template>
-  <el-dialog width="400px" v-model="authModalVisible" @closed="closeModal" :title="isLogin ? 'Вход' : 'Регистрация'" center>
+  <el-dialog
+    width="400px"
+    :destroy-on-close="true"
+    v-model="authModalVisible"
+    @closed="closeModal"
+    :title="isLogin ? 'Вход' : 'Регистрация'"
+    center
+  >
     <el-form label-width="0" ref="myForm" :model="form" @submit.prevent="submitForm" :rules="rules">
       <el-form-item prop="email">
         <el-input placeholder="Email" v-model="form.email" type="email" />
       </el-form-item>
 
-      <el-form-item type="password" prop="password">
-        <el-input placeholder="Пароль" v-model="form.password" />
+      <el-form-item prop="password">
+        <el-input placeholder="Пароль" v-model="form.password" type="password" />
       </el-form-item>
 
       <el-form-item style="text-align: center">
@@ -27,26 +34,25 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
+import UserRules from '@/classes/user/UserRules';
+import User from '@/classes/user/User';
 
 export default defineComponent({
   name: 'AuthPage',
   async setup() {
-    const form = ref({
-      email: '',
-      password: '',
-    });
+    const form = ref(new User());
     const myForm = ref();
 
     const store = useStore();
-    const closeModal = () => store.commit('auth/closeModal');
+    const closeModal = () => {
+      store.commit('auth/closeModal');
+      form.value = new User();
+    };
     const toggleIsLogin = () => store.commit('auth/toggleIsLoginModal');
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
     const isLogin = computed(() => store.getters['auth/isLoginModal']);
 
-    const rules = {
-      email: [{ required: true, message: 'Необходимо указать email', trigger: 'blur' }],
-      password: [{ required: true, message: 'Необходимо ввести пароль', trigger: 'blur' }],
-    };
+    const rules = ref(UserRules);
 
     const submitForm = async (): Promise<void> => {
       let validationResult;
