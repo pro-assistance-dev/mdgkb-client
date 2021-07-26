@@ -180,6 +180,7 @@ $background-color: whitesmoke;
 .admin-side-menu {
   height: inherit;
   background-color: $background-color;
+  border-right: 1px solid #e6e6e6;
 
   :deep(.el-submenu__icon-arrow) {
     margin-left: 10px;
@@ -192,5 +193,9 @@ $background-color: whitesmoke;
   :deep(.el-submenu__icon-arrow) {
     font-size: unset;
   }
+}
+.el-menu,
+.el-menu-item {
+  border: none;
 }
 </style>

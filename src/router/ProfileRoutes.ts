@@ -1,13 +1,22 @@
 import { RouteRecordRaw } from 'vue-router';
-import ProfilePage from '@/components/Profile/ProfilePage.vue';
+import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
+import ProfileEditPage from '@/components/Profile/ProfileEditPage.vue';
 import { isAuthorized } from '@/router/index';
 
 const ProfileRoutes: Array<RouteRecordRaw> = [
   {
     path: '/profile',
-    name: 'ProfilePage',
-    component: ProfilePage,
+    name: 'ProfileInfoPage',
+    component: ProfileInfoPage,
     beforeEnter: isAuthorized,
+    meta: { profile: true },
+  },
+  {
+    path: '/profile/edit',
+    name: 'ProfileEditPage',
+    component: ProfileEditPage,
+    beforeEnter: isAuthorized,
+    meta: { profile: true },
   },
 ];
 

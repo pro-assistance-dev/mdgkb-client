@@ -5,7 +5,19 @@
     <HeaderBottom></HeaderBottom>
     <div class="container">
       <el-main>
-        <template #default>
+        <template #default v-if="$route.meta.profile">
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <ProfileSideMenu />
+            </el-col>
+            <el-col :span="18">
+              <!-- <div class="profile-container"> -->
+              <slot />
+            </el-col>
+            <!-- </div> -->
+          </el-row>
+        </template>
+        <template #default v-else>
           <slot />
         </template>
         <template #fallback>
@@ -25,6 +37,7 @@ import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
 import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
 import FooterTop from '@/views/mainLayout/FooterTop.vue';
 import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
+import ProfileSideMenu from '@/views/mainLayout/ProfileSideMenu.vue';
 import AuthPage from '@/components/Auth/AuthPage.vue';
 import { defineComponent } from 'vue';
 
@@ -36,6 +49,7 @@ export default defineComponent({
     HeaderBottom,
     HeaderTop,
     AuthPage,
+    ProfileSideMenu,
   },
   async setup() {
     //     const error: Error | undefined= undefined
@@ -46,3 +60,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+.profile-container {
+  margin: 0 auto;
+}
+</style>
