@@ -13,6 +13,7 @@ const actions: ActionTree<State, RootState> = {
     const { user: newUser, token } = await httpClient.post<IUser, { user: IUser; token: IToken }>({ query: 'login', payload: user });
     localStorage.setItem('token', token.accessToken);
     if (newUser.id) localStorage.setItem('userId', newUser.id);
+    if (newUser.email) localStorage.setItem('userEmail', newUser.email);
     commit('setToken', token);
     commit('setUser', newUser);
     commit('setIsAuth', true);

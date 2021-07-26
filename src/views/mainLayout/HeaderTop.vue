@@ -23,6 +23,7 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">Профиль</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-setting" @click="$router.push('/admin/news')">Кабинет администратора</el-dropdown-item>
                 <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
               </el-dropdown-menu>
             </template>

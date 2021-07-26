@@ -83,6 +83,7 @@
               class="avatar-uploader-cover"
               action="#"
               list-type="picture-card"
+              :file-list="fileList"
               :auto-upload="false"
               :limit="parseInt('1')"
               :on-change="toggleUpload"
@@ -120,7 +121,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, onMounted } from 'vue';
+import { computed, defineComponent, ref, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
@@ -142,14 +143,24 @@ export default defineComponent({
     let tagsVisible = ref(false);
     let imageCropSrc = ref('');
     let uploader = ref();
-    // let news = computed(() => new News());
+    interface IFilesList {
+      name: string;
+      url: string;
+    }
+    let fileList: Ref<IFilesList[]> = ref([]);
+
     let news = computed(() => store.getters['news/newsItem']);
     await store.dispatch('tags/getAll');
     if (route.params['slug']) {
       await store.dispatch('news/get', route.params['slug']);
       news = computed(() => store.getters['news/newsItem']);
-      console.log(news);
     }
+    const fileToUpload = () => {
+      if (news.value.fileInfo?.filenameDisk != '') {
+        fileList.value.push({ name: news.value.fileInfo, url: `${process.env.VUE_APP_STATIC_URL}/${news.value.fileInfo?.filenameDisk}` });
+        if (fileList.value.length > 0) showUpload.value = false;
+      }
+    };
 
     let tags = computed(() => store.getters['tags/items']);
     let tag = computed(() => store.getters['tags/item']);
@@ -158,6 +169,7 @@ export default defineComponent({
       showUpload.value = !showUpload.value;
 
       news.value.fileInfo = new FileInfo({
+        id: news.value.fileInfo.id,
         originalName: file.name,
         file: file.raw,
         filenameDisk: file.name,
@@ -206,8 +218,11 @@ export default defineComponent({
     };
 
     const saveFromCropper = (file: any) => {
-      news.value.fileInfo.file = file;
+      news.value.fileInfo.file = file.blob;
+      fileList.value = [];
       cropOpen.value = false;
+      fileList.value.push({ name: news.value.fileInfo.filenameDisk, url: file.src });
+      if (fileList.value.length > 0) showUpload.value = false;
     };
 
     const handleRemove = (file: File) => {
@@ -226,7 +241,10 @@ export default defineComponent({
     //   console.log(file)
     // },
 
+    fileToUpload();
+
     return {
+      fileList,
       findTag,
       removeTag,
       chooseTag,

@@ -39,9 +39,6 @@
         <div class="article-body" v-html="newsContent"></div>
 
         <el-divider />
-        <!-- <el-tag effect="plain" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">
-          {{ tag.label }}
-        </el-tag> -->
         <div class="article-footer">
           <el-button @click="$router.push('/')" style="height: 20px">Вернуться назад</el-button>
           <div class="right-footer">
@@ -61,13 +58,21 @@
           <div class="comment-header" align="justify">
             <span class="comment-email">{{ comment.user.email }}</span>
             <span class="comment-date">{{ $dateFormatRu(comment.publishedOn, true) }}</span>
+            <el-button
+              @click="removeComment(comment.id)"
+              size="mini"
+              v-if="comment.userId === userId"
+              type="danger"
+              icon="el-icon-delete"
+              circle
+            ></el-button>
           </div>
           <div>
             {{ comment.text }}
           </div>
         </el-card>
 
-        <div class="add-comment">
+        <div class="add-comment" v-if="userId">
           <el-form :model="comment">
             <el-form-item prop="text">
               <el-input type="textarea" :rows="2" placeholder="Добавьте комментарий" v-model="comment.text">
@@ -106,6 +111,10 @@ export default defineComponent({
     const route = useRoute();
     const slug = computed(() => route.params['slug']);
     const news = computed(() => store.getters['news/newsItem']);
+
+    const userId = localStorage.getItem('userId');
+    const userEmail = localStorage.getItem('userEmail');
+
     watch(slug, () => {
       store.dispatch('news/get', slug.value);
       window.scrollTo(0, 0);
@@ -118,15 +127,20 @@ export default defineComponent({
     );
 
     const sendComment = async (item: INewsComment) => {
-      const userId = localStorage.getItem('userId');
       item.newsId = news.value.id;
-
+      if (userEmail) item.user.email = userEmail;
       if (userId) item.userId = userId;
       await store.dispatch('news/createComment', item);
       comment.value = new NewsComment();
     };
 
+    const removeComment = async (commentId: string) => {
+      await store.dispatch('news/removeComment', commentId);
+    };
+
     return {
+      removeComment,
+      userId,
       sendComment,
       comment,
       news,

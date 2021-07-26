@@ -8,7 +8,6 @@ import INews from '@/interfaces/news/INews';
 import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsParams from '@/interfaces/news/INewsParams';
-import { news } from '@/store/modules/news/index';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 
 const httpClient = new HttpClient('news');
@@ -38,6 +37,7 @@ const actions: ActionTree<State, RootState> = {
       query: `${news.id}`,
       payload: news,
       fileInfos: [news.fileInfo],
+      isFormData: true,
     });
     // commit('set', res);
   },
@@ -57,6 +57,10 @@ const actions: ActionTree<State, RootState> = {
   createLike: async ({ commit }, newsLike: INewsLike): Promise<void> => {
     const res = await httpClient.post<INewsLike, INewsLike>({ query: `like`, payload: newsLike });
     commit('setLikeNews', res);
+  },
+  removeComment: async ({ commit }, id: string): Promise<void> => {
+    const res = await httpClient.delete({ query: `comment/${id}` });
+    commit('removeComment', id);
   },
   createComment: async ({ commit }, comment: INewsComment): Promise<void> => {
     const res = await httpClient.post<INewsLike, INewsLike>({ query: `comment`, payload: comment });
