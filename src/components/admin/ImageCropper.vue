@@ -1,6 +1,4 @@
 <template>
-  <!--    &lt;!&ndash;        <div class="row items-center">&ndash;&gt;-->
-  <!--    <div class="col text-left">-->
   <Cropper :src="src" ref="cropper" @change="onChange" :stencil-props="{ aspectRatio: ratio }" />
   <div class="dialog-footer">
     <el-button :loading="loading" @click="cancel">Отменить</el-button>
@@ -43,8 +41,9 @@ export default defineComponent({
       loading.value = true;
       const canvas = cropper.value.getResult();
       if (canvas) {
+        console.log(canvas);
         canvas.canvas.toBlob((blob: any) => {
-          emit('save', blob);
+          emit('save', { blob: blob, src: canvas.canvas.toDataURL() });
         });
       }
     };

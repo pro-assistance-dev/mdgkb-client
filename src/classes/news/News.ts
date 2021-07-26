@@ -32,12 +32,12 @@ export default class News implements INews {
     this.status = i.status;
     this.title = i.title;
     this.previewText = i.previewText;
-    this.fileInfo = i.fileInfo;
+    this.fileInfoId = i.fileInfoId;
     this.content = i.content;
     this.slug = i.slug;
     this.category = new Category(i.category);
     if (i.tags) this.tags = i.tags.map((item: ITag) => new Tag(item));
-    if (i.fileInfo) this.fileInfo = new PreviewThumbnailFile(i.fileInfo);
+    if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
     this.publishedOn = i.publishedOn;
     if (i.newsLikes) this.newsLikes = i.newsLikes.map((item: INewsLike) => new NewsLike(item));
     if (i.newsComments) this.newsComments = i.newsComments.map((item: INewsComment) => new NewsComment(item));

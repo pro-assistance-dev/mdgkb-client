@@ -6,6 +6,7 @@ import News from '@/classes/news/News';
 import ITag from '@/interfaces/news/ITag';
 import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
+import NewsComment from '@/classes/news/NewsComment';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -13,7 +14,6 @@ const mutations: MutationTree<State> = {
   },
   appendToAll(state, items: INews[]) {
     if (items.length === 0) {
-      console.log(items);
       state.allNewsLoaded = true;
       return;
     }
@@ -45,8 +45,13 @@ const mutations: MutationTree<State> = {
     if (state.newsItem) state.newsItem.newsLikes.push(newsLike);
   },
   setComment(state, item: INewsComment) {
-    const news = state.news.find((i: INews) => i.id === item.newsId);
-    if (news) news.newsComments.push(item);
+    if (state.newsItem) state.newsItem.newsComments.push(item);
+  },
+  removeComment(state, commentId: string) {
+    if (state.newsItem) {
+      const index = state.newsItem.newsComments.findIndex((item: NewsComment) => item.id === commentId);
+      state.newsItem.newsComments.splice(index, 1);
+    }
   },
   deleteLikeFromNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
