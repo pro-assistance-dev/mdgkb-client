@@ -29,12 +29,11 @@ const actions: ActionTree<State, RootState> = {
     commit('setComment', res);
   },
   deleteLike: async ({ commit }, newsLike: INewsLike): Promise<void> => {
-    console.log(newsLike.id);
-    const res = await httpClient.delete({ query: `like/${newsLike.id}` });
+    await httpClient.delete({ query: `like/${newsLike.id}` });
     commit('deleteLikeFromNews', newsLike);
   },
   deleteComment: async ({ commit }, comment: INewsComment): Promise<void> => {
-    const res = await httpClient.delete({ query: `comment/${comment.id}` });
+    await httpClient.delete({ query: `comment/${comment.id}` });
     commit('deleteCommentFromNews', comment);
   },
 };

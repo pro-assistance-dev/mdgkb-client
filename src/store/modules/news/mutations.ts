@@ -32,6 +32,7 @@ const mutations: MutationTree<State> = {
   setLikeNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
     if (news) news.newsLikes.push(newsLike);
+    if (state.newsItem) state.newsItem.newsLikes.push(newsLike);
   },
   setComment(state, item: INewsComment) {
     const news = state.news.find((i: INews) => i.id === item.newsId);
@@ -39,10 +40,12 @@ const mutations: MutationTree<State> = {
   },
   deleteLikeFromNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
-    if (news) {
+    const deleteLike = (news: INews) => {
       const index = news.newsLikes.findIndex((i: INewsLike) => i.id === newsLike.id);
       news.newsLikes.splice(index);
-    }
+    };
+    if (news) deleteLike(news);
+    if (state.newsItem) deleteLike(state.newsItem);
   },
   deleteCommentFromNews(state, item: INewsComment) {
     const news = state.news.find((i: INews) => i.id === item.newsId);
