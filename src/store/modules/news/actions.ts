@@ -9,6 +9,7 @@ import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsParams from '@/interfaces/news/INewsParams';
 import { news } from '@/store/modules/news/index';
+import INewsToTag from '@/interfaces/news/INewsToTag';
 
 const httpClient = new HttpClient('news');
 
@@ -43,6 +44,14 @@ const actions: ActionTree<State, RootState> = {
   remove: async ({ commit }, newsId: string): Promise<void> => {
     const res = await httpClient.delete({ query: `${newsId}` });
     commit('remove', newsId);
+  },
+
+  addTag: async ({ commit }, item: INewsToTag): Promise<void> => {
+    const res = await httpClient.post<INewsToTag, INewsToTag>({ query: `tag`, payload: item });
+  },
+
+  removeTag: async ({ commit }, item: INewsToTag): Promise<void> => {
+    const res = await httpClient.delete<INewsToTag, INewsToTag>({ query: `tag`, payload: item });
   },
 
   createLike: async ({ commit }, newsLike: INewsLike): Promise<void> => {

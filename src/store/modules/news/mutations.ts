@@ -33,6 +33,7 @@ const mutations: MutationTree<State> = {
       }
     });
   },
+
   setLikeNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
     if (news) news.newsLikes.push(newsLike);

@@ -59,15 +59,18 @@
             <el-form-item>
               <el-checkbox-group size="small" wrap style="width: 100%">
                 <div class="vertical-wrap">
-                  <el-checkbox
-                    icon="el-icon-arrow-left"
-                    @change="chooseTag(tag)"
-                    v-for="tag in tags"
-                    :key="tag.id"
-                    :label="tag.label"
-                    border
-                    >{{ tag.label }} <i @click.prevent="removeTag(tag.id)" class="el-icon-close delete-tag-icon"></i
-                  ></el-checkbox>
+                  <el-checkbox-group v-model="news.tags">
+                    <el-checkbox
+                      :checked="findTag(tag.id)"
+                      icon="el-icon-arrow-left"
+                      @change="chooseTag(tag)"
+                      v-for="tag in tags"
+                      :key="tag.id"
+                      :label="tag.label"
+                      border
+                      >{{ tag.label }} <i @click.prevent="removeTag(tag.id)" class="el-icon-close delete-tag-icon"></i
+                    ></el-checkbox>
+                  </el-checkbox-group>
                 </div>
               </el-checkbox-group>
             </el-form-item>
@@ -138,16 +141,14 @@ export default defineComponent({
     // let news = computed(() => new News());
     let news = computed(() => store.getters['news/newsItem']);
     await store.dispatch('tags/getAll');
+    if (route.params['slug']) {
+      await store.dispatch('news/get', route.params['slug']);
+      news = computed(() => store.getters['news/newsItem']);
+      console.log(news);
+    }
 
     let tags = computed(() => store.getters['tags/items']);
     let tag = computed(() => store.getters['tags/item']);
-
-    onMounted(async () => {
-      if (route.params['slug']) {
-        await store.dispatch('news/get', route.params['slug']);
-        news = computed(() => store.getters['news/newsItem']);
-      }
-    });
 
     const toggleUpload = (file: any) => {
       showUpload.value = !showUpload.value;
@@ -179,14 +180,25 @@ export default defineComponent({
       tagsVisible.value = false;
       await store.dispatch('tags/create', tag.value);
     };
-    const chooseTag = (tag: ITag) => {
+
+    const chooseTag = async (tag: ITag) => {
       const index = news.value.tags.findIndex((t: ITag) => tag.id === t.id);
-      if (index > -1) news.value.tags.splice(index);
-      else news.value.tags.push(tag);
+      if (index === -1) {
+        await store.dispatch('news/addTag', { tagId: tag.id, newsId: news.value.id });
+        news.value.tags.push(tag);
+      } else {
+        await store.dispatch('news/removeTag', { tagId: tag.id, newsId: news.value.id });
+        news.value.tags.splice(index, 1);
+      }
     };
 
     const removeTag = async (tagId: string) => {
       await store.dispatch('tags/remove', tagId);
+    };
+
+    const findTag = (tagId: string): boolean => {
+      const index = news.value.tags.findIndex((tag: ITag) => tag.id === tagId);
+      return index > -1;
     };
 
     const saveFromCropper = (file: any) => {
@@ -211,6 +223,7 @@ export default defineComponent({
     // },
 
     return {
+      findTag,
       removeTag,
       chooseTag,
       createTag,
