@@ -81,7 +81,7 @@ export default defineComponent({
         return;
       }
       const newsLike = new NewsLike();
-      newsLike.newsId = news.id;
+      if (news.id) newsLike.newsId = news.id;
       if (userId) newsLike.userId = userId;
       await store.dispatch('news/createLike', newsLike);
     };

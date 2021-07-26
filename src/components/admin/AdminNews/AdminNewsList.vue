@@ -1,7 +1,7 @@
 <template>
   <div class="flex-column">
     <div class="flex-row-between">
-      <el-button type="primary" @click="$router.push('/admin/news/item')">Добавить новость</el-button>
+      <el-button type="primary" @click="$router.push('/admin/news/new')">Добавить новость</el-button>
       <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>
     </div>
     <el-card>
@@ -16,14 +16,14 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="Дата создания" align="center" width="200" sortable>
-          <!-- <template #default="scope">
-            {{ $dateFormatRu(scope.row.created_at) }} 
-          </template> -->
-        </el-table-column>
         <el-table-column label="Дата публикации" align="center" width="200" sortable>
           <template #default="scope">
-            {{ $dateFormatRu(scope.row.published_on) }}
+            {{ $dateFormatRu(scope.row.publishedOn) }}
+          </template>
+        </el-table-column>
+        <el-table-column width="40" fixed="right" align="center">
+          <template #default="scope">
+            <TableButtonGroup @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" :showEditButton="true" :showRemoveButton="true" />
           </template>
         </el-table-column>
       </el-table>
@@ -37,21 +37,37 @@
 <script lang="ts">
 import { useStore } from 'vuex';
 import { defineComponent, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import INewsParams from '@/interfaces/news/INewsParams';
+import INews from '@/interfaces/news/INews';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
 export default defineComponent({
   name: 'AdminNewsList',
-
+  components: { TableButtonGroup },
   setup() {
     const store = useStore();
+    const router = useRouter();
+
     store.commit('admin/setPageTitle', 'Все новости');
     const loadNews = async (): Promise<void> => {
-      await store.dispatch('news/getAll');
+      const defaultParams: INewsParams = { limit: 100 };
+      await store.dispatch('news/getAll', defaultParams);
+    };
+    const news = computed(() => store.getters['news/news']);
+
+    const edit = async (id: string): Promise<void> => {
+      const item = news.value.find((i: INews) => i.id === id);
+      if (item) await router.push(`/admin/news/${item.slug}`);
+    };
+
+    const remove = async (id: string) => {
+      await store.dispatch('news/remove', id);
     };
 
     onMounted(loadNews);
 
-    const news = computed(() => store.getters['news/news']);
-    return { news };
+    return { news, edit, remove };
   },
 });
 </script>

@@ -8,9 +8,10 @@ import INewsLike from '@/interfaces/news/INewsLike';
 import NewsLike from '@/classes/news/NewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 import NewsComment from '@/classes/news/NewsComment';
+import slugify from '@sindresorhus/slugify';
 
 export default class News implements INews {
-  id = '';
+  id?: string;
   status = '';
   title = '';
   previewText = '';
@@ -19,6 +20,7 @@ export default class News implements INews {
   category: ICategory = new Category();
   tags: ITag[] = [];
   previewThumbnailFile = new PreviewThumbnailFile();
+  previewThumbnailFileId?: string;
   publishedOn: Date = new Date();
   newsLikes: INewsLike[] = [];
   newsComments: INewsComment[] = [];
@@ -29,6 +31,7 @@ export default class News implements INews {
     this.status = i.status;
     this.title = i.title;
     this.previewText = i.previewText;
+    this.previewThumbnailFileId = i.previewThumbnailFileId;
     this.content = i.content;
     this.slug = i.slug;
     this.category = new Category(i.category);
@@ -37,5 +40,9 @@ export default class News implements INews {
     this.publishedOn = i.publishedOn;
     if (i.newsLikes) this.newsLikes = i.newsLikes.map((item: INewsLike) => new NewsLike(item));
     if (i.newsComments) this.newsComments = i.newsComments.map((item: INewsComment) => new NewsComment(item));
+  }
+
+  createSlug() {
+    this.slug = slugify(this.title);
   }
 }

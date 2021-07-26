@@ -1,5 +1,5 @@
 import AdminNewsList from '@/components/admin/AdminNews/AdminNewsList.vue';
-import AdminNewsItem from '@/components/admin/AdminNews/AdminNewsItem.vue';
+import AdminNewsPage from '@/components/admin/AdminNews/AdminNewsPage.vue';
 
 export default [
   {
@@ -11,9 +11,17 @@ export default [
     },
   },
   {
-    path: '/admin/news/item',
-    name: 'AdminNewsItem',
-    component: AdminNewsItem,
+    path: '/admin/news/new',
+    name: 'AdminNewsPageNew',
+    component: AdminNewsPage,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/news/:slug',
+    name: 'AdminNewsPageEdit',
+    component: AdminNewsPage,
     meta: {
       layout: 'AdminLayout',
     },

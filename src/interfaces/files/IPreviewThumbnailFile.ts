@@ -1,4 +1,7 @@
 export default interface IPreviewThumbnailFile {
-  id: string;
+  id?: string;
+  category: string;
   filenameDisk: string;
+  originalName: string;
+  file?: File;
 }

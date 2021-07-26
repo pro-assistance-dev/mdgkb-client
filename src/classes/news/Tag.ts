@@ -1,7 +1,7 @@
 import ITag from '@/interfaces/news/ITag';
 
 export default class Tag implements ITag {
-  id = '';
+  id?: string;
   color = '';
   label = '';
 

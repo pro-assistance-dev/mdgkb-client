@@ -5,7 +5,7 @@ import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 
 export default interface INews {
-  id: string;
+  id?: string;
   status: string;
   title: string;
   previewText: string;
@@ -13,6 +13,7 @@ export default interface INews {
   slug: string;
   category: ICategory;
   tags?: ITag[];
+  previewThumbnailFileId?: string;
   previewThumbnailFile: IPreviewThumbnailFile;
   publishedOn: Date;
   newsLikes: INewsLike[];

@@ -7,7 +7,7 @@ import { buildings } from '@/store/modules/buildings';
 import { divisions } from '@/store/modules/divisions';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { users } from '@/store/modules/users';
-// import { likes } from '@/store/modules/likes';
+import { tags } from '@/store/modules/tags';
 import { news } from '@/store/modules/news';
 import { normativeDocuments } from '@/store/modules/normativeDocuments';
 import { admin } from '@/store/modules/admin';
@@ -24,7 +24,7 @@ const store: StoreOptions<RootState> = {
     buildings,
     divisions,
     sideOrganizations,
-    // likes,
+    tags,
     news,
     normativeDocuments,
     users,

@@ -1,5 +1,5 @@
 export default interface ITag {
-  id: string;
+  id?: string;
   color: string;
   label: string;
 }

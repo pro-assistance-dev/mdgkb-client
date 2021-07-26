@@ -25,6 +25,7 @@ import { useStore } from 'vuex';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import { computed, defineComponent, ref } from 'vue';
+import INewsParams from '@/interfaces/news/INewsParams';
 
 export default defineComponent({
   name: 'NewsList',
@@ -34,12 +35,14 @@ export default defineComponent({
 
     const loading = ref(false);
 
-    await store.dispatch('news/getAll');
+    const defaultParams: INewsParams = { limit: 6 };
+    await store.dispatch('news/getAll', defaultParams);
     const news = computed(() => store.getters['news/news']);
 
     const load = async () => {
       loading.value = true;
-      await store.dispatch('news/getAll', news.value[news.value.length - 1].publishedOn);
+      const params: INewsParams = { publishedOn: news.value[news.value.length - 1].publishedOn, limit: 6 };
+      await store.dispatch('news/getAll', params);
     };
 
     return {

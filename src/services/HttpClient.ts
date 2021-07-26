@@ -27,7 +27,6 @@ export default class HttpClient {
 
   async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
     const { payload, fileInfos, query, headers, isFormData } = params;
-
     const { data } = await axios({
       url: this.buildUrl(query),
       method: 'post',
@@ -78,6 +77,7 @@ export default class HttpClient {
 
     if (fileInfos) {
       for (const fileInfo of fileInfos) {
+        console.log(fileInfo.file);
         if (fileInfo.file) {
           data.append('files', fileInfo.file, fileInfo.originalName);
         }
