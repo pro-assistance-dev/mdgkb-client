@@ -9,10 +9,10 @@
               <el-input v-model="news.title" placeholder="Заголовок"></el-input>
             </el-form-item>
           </el-card>
-          <el-card>
+          <el-card class="content-card">
             <template #header>Контент</template>
             <el-form-item>
-              <el-input v-model="news.content" placeholder="Контент" type="textarea" :autosize="{ minRows: 5, maxRows: 8 }"></el-input>
+              <QuillEditor style="height: 250px" v-model:content="news.content" contentType="html" theme="snow"></QuillEditor>
             </el-form-item>
           </el-card>
         </el-container>
@@ -115,7 +115,7 @@
   </el-form>
 
   <el-dialog v-model="cropOpen">
-    <ImageCropper :src="imageCropSrc" @save="saveFromCropper" />
+    <ImageCropper :src="imageCropSrc" @save="saveFromCropper" :ratio="1" />
   </el-dialog>
 </template>
 
@@ -126,9 +126,13 @@ import { useRoute, useRouter } from 'vue-router';
 import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ITag from '@/interfaces/news/ITag';
+import { QuillEditor } from '@vueup/vue-quill';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import FileInfo from '@/classes/File/FileInfo';
+
 export default defineComponent({
   name: 'AdminNewsPage',
-  components: { ImageCropper },
+  components: { ImageCropper, QuillEditor },
   async setup() {
     const store = useStore();
     const route = useRoute();
@@ -153,7 +157,7 @@ export default defineComponent({
     const toggleUpload = (file: any) => {
       showUpload.value = !showUpload.value;
 
-      news.value.previewThumbnailFile = new PreviewThumbnailFile({
+      news.value.fileInfo = new FileInfo({
         originalName: file.name,
         file: file.raw,
         filenameDisk: file.name,
@@ -202,7 +206,7 @@ export default defineComponent({
     };
 
     const saveFromCropper = (file: any) => {
-      news.value.previewThumbnailFile.file = file;
+      news.value.fileInfo.file = file;
       cropOpen.value = false;
     };
 
@@ -276,5 +280,9 @@ export default defineComponent({
     font-weight: bold;
     margin-bottom: 10px;
   }
+}
+
+.content-card {
+  height: 450px;
 }
 </style>

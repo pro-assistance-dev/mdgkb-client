@@ -11,6 +11,7 @@ export default [
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
       isAuthorized(to, from, next);
     },
+    meta: { carousel: true },
   },
   {
     path: '/news/:slug',

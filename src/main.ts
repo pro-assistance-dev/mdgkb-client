@@ -68,6 +68,8 @@ import {
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElTabs,
+  ElTabPane,
 } from 'element-plus';
 
 const components = [
@@ -128,6 +130,8 @@ const components = [
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElTabs,
+  ElTabPane,
 ];
 const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification, ElInfiniteScroll];
 const app = createApp(App);

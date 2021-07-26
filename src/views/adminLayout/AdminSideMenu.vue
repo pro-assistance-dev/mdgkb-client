@@ -153,20 +153,8 @@ export default defineComponent({
       },
       {
         title: 'Карусели',
-        to: '/',
+        to: '/admin/carousels',
         icon: 'el-icon-copy-document',
-        children: [
-          {
-            title: 'Все карусели',
-            // to: '/admin/carousel',
-            icon: 'las la-list',
-          },
-          {
-            title: 'Добавить карусель',
-            // to: '/admin/carousel/item',
-            icon: 'las la-plus-square',
-          },
-        ],
       },
     ]);
     return { menuList, closeDrawer, isCollapseSideMenu };

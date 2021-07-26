@@ -8,14 +8,13 @@ import mutations from './mutations';
 import { State } from './state';
 
 export const state: State = {
-  news: [],
-  newsItem: undefined,
-  allNewsLoaded: false,
+  items: [],
+  item: undefined,
 };
 
 const namespaced = true;
 
-export const news: Module<State, RootState> = {
+export const carousels: Module<State, RootState> = {
   namespaced,
   state,
   getters,

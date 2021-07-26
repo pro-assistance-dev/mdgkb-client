@@ -6,6 +6,7 @@ import ITag from '@/interfaces/news/ITag';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: ITag[]) {
+    if (!items) return;
     state.items = items.map((i: ITag) => new Tag(i));
   },
   appendToAll(state, item: ITag) {
