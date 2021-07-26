@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
 import MainLayout from '@/views/main/MainLayout.vue';
 
-import AuthRouter from '@/router/AuthRouter';
 import AdminRoutes from '@/router/AdminRoutes';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
 import MapRoutes from '@/router/MapRoutes';
@@ -17,7 +16,7 @@ import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 
-export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext): void => {
   const userId = localStorage.getItem('userId');
   console.log('userId', userId);
   if (userId) store.commit('auth/setIsAuth', true);
@@ -60,7 +59,6 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: isAuthorized,
   },
 
-  ...AuthRouter,
   ...AdminRoutes,
   ...NewsRoutes,
   ...NormativeDocumentsRoutes,

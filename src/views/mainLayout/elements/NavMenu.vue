@@ -3,7 +3,7 @@
     class="header-bottom-menu"
     :mode="vertical ? 'vertical' : 'horizontal'"
     :router="true"
-    default-active="0"
+    default-active="1x"
     @select="changeDrawerStatus"
   >
     <el-menu-item class="header-bottom-menu-item" index="1" :route="{ name: 'News' }">Новости</el-menu-item>
@@ -66,7 +66,7 @@ export default defineComponent({
         label: 'Платные медицинские услуги',
         description:
           'Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
-        to: '/paid-services ',
+        to: '/paid-services',
       },
       // {id: "03",label: "Госпитализация", description:"Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства", to:"/hospitalization"},
       {

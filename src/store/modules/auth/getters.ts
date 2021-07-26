@@ -13,6 +13,12 @@ const getters: GetterTree<State, RootState> = {
   isAuth(state): boolean {
     return state.isAuth;
   },
+  authModalVisible(state): boolean {
+    return state.authModalVisible;
+  },
+  isLoginModal(state): boolean {
+    return state.isLoginModal;
+  },
 };
 
 export default getters;

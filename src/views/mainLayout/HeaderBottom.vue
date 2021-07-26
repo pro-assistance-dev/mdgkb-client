@@ -8,26 +8,17 @@
         <div class="drawer-block">
           <h4>Пользователь</h4>
           <el-menu mode="vertical" @select="changeDrawerStatus">
-            <el-menu-item
-              v-if="!isAuth()"
-              class="header-bottom-menu-item"
-              index="1"
-              @click="$router.push('/login')"
-              :route="{ name: 'Login' }"
-            >
-              <div><i class="el-icon-user"></i> Вход</div>
+            <el-menu-item v-if="!isAuth" class="header-bottom-menu-item" index="1" @click="login" :route="{ name: 'Login' }">
+              <div><LoginOutlined />Войти</div>
             </el-menu-item>
-            <el-menu-item
-              v-if="!isAuth()"
-              class="header-bottom-menu-item"
-              index="2"
-              @click="$router.push('/register')"
-              :route="{ name: 'Register' }"
-            >
-              <div><i class="el-icon-unlock"></i> Регистрация</div>
+            <el-menu-item v-if="!isAuth" class="header-bottom-menu-item" index="2" @click="register" :route="{ name: 'Register' }">
+              <div><UserAddOutlined />Зарегистрироваться</div>
             </el-menu-item>
-            <el-menu-item v-if="isAuth()" class="header-bottom-menu-item" index="2" @click="logout">
-              <div><i class="el-icon-unlock"></i> Выйти</div>
+            <el-menu-item v-if="isAuth" class="header-bottom-menu-item" index="1" @click="$router.push('/profile')">
+              <div><UserOutlined /> Профиль</div>
+            </el-menu-item>
+            <el-menu-item v-if="isAuth" class="header-bottom-menu-item" index="2" @click="logout">
+              <div><LogoutOutlined /> Выйти</div>
             </el-menu-item>
           </el-menu>
         </div>
@@ -58,6 +49,26 @@
           </el-col>
           <el-col :xs="10" :sm="10" :md="10" :lg="4" :xl="4" class="info">
             <div class="flex-end">
+              <div v-if="scrollOffset >= 66">
+                <el-dropdown v-if="!isAuth">
+                  <el-button class="menu-item" icon="el-icon-user"></el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item @click="login"><LoginOutlined />Войти</el-dropdown-item>
+                      <el-dropdown-item @click="register"><UserAddOutlined />Зарегистрироваться</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+                <el-dropdown v-else>
+                  <el-button class="menu-item" icon="el-icon-user"></el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">Профиль</el-dropdown-item>
+                      <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </div>
               <el-popover
                 placement="bottom-start"
                 width="auto"
@@ -116,52 +127,51 @@
 
 <script lang="ts">
 import { useStore } from 'vuex';
-import { ref, defineComponent, onMounted, onUnmounted } from 'vue';
+import { ref, defineComponent, onMounted, onUnmounted, computed } from 'vue';
+import { LoginOutlined, LogoutOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { useRouter } from 'vue-router';
 import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
 
 export default defineComponent({
   name: 'HeaderBottom',
   components: {
     NavMenu,
+    LoginOutlined,
+    LogoutOutlined,
+    UserAddOutlined,
+    UserOutlined,
   },
   setup() {
     const store = useStore();
+    const router = useRouter();
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
 
-    const logout = async () => {
-      await store.dispatch('auth/logout');
+    const nav = async (to: string) => {
+      await router.push(to);
     };
+
+    const login = () => store.commit('auth/openModal', true);
+    const register = () => store.commit('auth/openModal');
+    const logout = async () => await store.dispatch('auth/logout');
+    const isAuth = computed(() => store.getters['auth/isAuth']);
 
     const handleScroll = () => {
       if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
         rememberedOffset.value = 0;
       }
-
       previousOffset.value = scrollOffset.value;
       scrollOffset.value = window.scrollY;
     };
 
-    const isAuth = (): boolean => {
-      return !!localStorage.getItem('token');
-    };
-
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll);
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('scroll', handleScroll);
-    });
+    onMounted(() => window.addEventListener('scroll', handleScroll));
+    onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     const showDrawer = ref(false);
+    const changeDrawerStatus = () => (showDrawer.value = !showDrawer.value);
 
-    const changeDrawerStatus = () => {
-      showDrawer.value = !showDrawer.value;
-    };
-
-    return { scrollOffset, previousOffset, rememberedOffset, showDrawer, changeDrawerStatus, logout, isAuth };
+    return { scrollOffset, previousOffset, rememberedOffset, showDrawer, changeDrawerStatus, login, register, logout, isAuth, nav };
   },
 });
 </script>
@@ -174,7 +184,6 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 10px;
 }
 
 .menu-item:hover {
@@ -306,5 +315,8 @@ export default defineComponent({
 
 :deep(.el-submenu__title) {
   height: 56px !important;
+}
+.anticon {
+  margin-right: 5px;
 }
 </style>

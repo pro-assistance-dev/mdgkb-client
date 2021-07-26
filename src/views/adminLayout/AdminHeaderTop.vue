@@ -16,8 +16,12 @@
           <template #title>
             <i class="el-icon-user"></i>
           </template>
-          <el-menu-item index="2-1">Мой аккаунт</el-menu-item>
-          <el-menu-item index="2-2">Выйти</el-menu-item>
+          <el-menu-item @click="$router.push('/profile')" index="2-1">
+            <div style="margin: auto 0"><UserOutlined /><span> Профиль</span></div>
+          </el-menu-item>
+          <el-menu-item @click="logout" index="2-2">
+            <div style="margin: auto 0"><LogoutOutlined /><span> Выйти</span></div>
+          </el-menu-item>
         </el-submenu>
       </el-menu>
     </div>
@@ -28,16 +32,19 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useStore } from 'vuex';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
   name: 'AdminHeaderTop',
+  components: { LogoutOutlined, UserOutlined },
 
   setup() {
     const store = useStore();
     const collapseSideMenu = () => store.commit('admin/collapseSideMenu');
     const openDrawer = () => store.commit('admin/openDrawer');
+    const logout = async () => await store.dispatch('auth/logout');
 
-    return { collapseSideMenu, openDrawer };
+    return { collapseSideMenu, openDrawer, logout };
   },
 });
 </script>
@@ -106,4 +113,7 @@ $button-background-color: #fff;
   height: $header-height;
 }
 
+.anticon {
+  margin-right: 5px;
+}
 </style>

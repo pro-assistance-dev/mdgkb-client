@@ -1,75 +1,94 @@
 <template>
-  <el-card class="card-content">
-    <template #header>
-      <div class="card-header">
-        <h1 class="title article-title">{{ isLogin ? 'Вход' : 'Регистрация' }}</h1>
-      </div>
-    </template>
-
-    <el-form label-position="right" label-width="100px" :model="form" @submit.prevent="submitForm">
-      <el-form-item label="Email">
-        <el-input v-model="form.email" type="email" />
+  <el-dialog
+    width="400px"
+    :destroy-on-close="true"
+    v-model="authModalVisible"
+    @closed="closeModal"
+    :title="isLogin ? 'Вход' : 'Регистрация'"
+    center
+  >
+    <el-form label-width="0" ref="myForm" :model="form" @submit.prevent="submitForm" :rules="rules">
+      <el-form-item prop="email">
+        <el-input placeholder="Email" v-model="form.email" type="email" />
       </el-form-item>
 
-      <el-form-item label="Пароль" type="password">
-        <el-input v-model="form.password" />
+      <el-form-item prop="password">
+        <el-input placeholder="Пароль" v-model="form.password" type="password" />
       </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" native-type="submit" @click="submitForm">
+      <el-form-item style="text-align: center">
+        <el-button type="primary" style="width: 60%" native-type="submit" @click.prevent="submitForm">
           {{ isLogin ? 'Войти' : 'Зарегистрироваться' }}
         </el-button>
+      </el-form-item>
+      <el-form-item style="text-align: center">
         <el-button type="text" @click.prevent="toggleIsLogin">
-          {{ isLogin ? 'Нет учётной записи? Зарегистрируйтесь!' : 'Уже зарегистрированы? Войдите!' }}
+          {{ isLogin ? 'Нет учётной записи?' : 'Уже зарегистрированы?' }}
         </el-button>
       </el-form-item>
     </el-form>
-  </el-card>
+  </el-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
+import UserRules from '@/classes/user/UserRules';
+import User from '@/classes/user/User';
 
 export default defineComponent({
   name: 'AuthPage',
-  props: {
-    isLogin: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  async setup(props) {
-    const form = ref({
-      email: '',
-      password: '',
-    });
+  async setup() {
+    const form = ref(new User());
+    const myForm = ref();
 
     const store = useStore();
-    const router = useRouter();
+    const closeModal = () => {
+      store.commit('auth/closeModal');
+      form.value = new User();
+    };
+    const toggleIsLogin = () => store.commit('auth/toggleIsLoginModal');
+    const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
+    const isLogin = computed(() => store.getters['auth/isLoginModal']);
+
+    const rules = ref(UserRules);
 
     const submitForm = async (): Promise<void> => {
-      if (props.isLogin) {
-        await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });
-      } else {
-        await store.dispatch('auth/register', { email: form.value.email, password: form.value.password });
-      }
-      await router.push('/news');
-    };
+      let validationResult;
+      myForm.value.validate((valid: any) => {
+        if (valid) {
+          validationResult = true;
+        } else {
+          validationResult = false;
+        }
+      });
+      if (!validationResult) return;
 
-    const toggleIsLogin = async (): Promise<void> => {
-      if (props.isLogin) {
-        await router.push('/register');
-      } else {
-        await router.push('/login');
+      try {
+        if (isLogin.value) {
+          await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });
+          console.log('check login');
+        } else {
+          await store.dispatch('auth/register', { email: form.value.email, password: form.value.password });
+          console.log('check register');
+        }
+      } catch (error) {
+        ElMessage({ message: 'Неверный логин или пароль', type: 'error' });
+        return;
       }
+      closeModal();
     };
 
     return {
       form,
       submitForm,
       toggleIsLogin,
+      authModalVisible,
+      closeModal,
+      isLogin,
+      rules,
+      myForm,
     };
   },
 });
