@@ -24,18 +24,7 @@
         <div>{{ news.title }}</div>
       </div>
       <div class="tags">
-        <div class="card-meta" style="margin-bottom: 0">
-          <div>{{ $dateFormatRu(news.publishedOn, true) }}</div>
-          <div class="like">
-            <EyeOutlined />
-            <span>0 </span>
-          </div>
-          <div class="like">
-            <LikeFilled @click.stop="deleteLike(news)" class="liked" v-if="liked(news.newsLikes)" />
-            <LikeOutlined @click.stop="createLike(news)" v-else />
-            <span>{{ news.newsLikes.length }} </span>
-          </div>
-        </div>
+        <NewsMeta :news="news" />
       </div>
     </div>
   </el-card>
@@ -44,11 +33,8 @@
 <script lang="ts">
 import { useStore } from 'vuex';
 import { PropType, defineComponent } from 'vue';
-import { LikeOutlined, EyeOutlined, LikeFilled } from '@ant-design/icons-vue';
 import INews from '@/interfaces/news/INews';
-import NewsLike from '@/classes/news/NewsLike';
-import { ElMessage } from 'element-plus';
-import INewsLike from '@/interfaces/news/INewsLike';
+import NewsMeta from '@/components/News/NewsMeta.vue';
 
 export default defineComponent({
   name: 'NewsCard',
@@ -58,47 +44,12 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { LikeOutlined, LikeFilled, EyeOutlined },
+  components: { NewsMeta },
   async setup() {
     const store = useStore();
-    const userId = localStorage.getItem('userId');
 
     const getImageUrl = (imagePath: string): string => {
       return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
-    };
-
-    const createLike = async (news: INews): Promise<void> => {
-      if (!localStorage.getItem('token')) {
-        ElMessage({
-          message: 'Пожалуйста, авторизируйтесь',
-          type: 'warning',
-        });
-        return;
-      }
-      const newsLike = new NewsLike();
-      if (news.id) newsLike.newsId = news.id;
-      if (userId) newsLike.userId = userId;
-      await store.dispatch('news/createLike', newsLike);
-    };
-
-    const deleteLike = async (news: INews): Promise<void> => {
-      if (!localStorage.getItem('token')) {
-        ElMessage({
-          message: 'Пожалуйста, авторизируйтесь',
-          type: 'warning',
-        });
-        return;
-      }
-
-      const like = news.newsLikes.find((i: INewsLike) => i.userId === userId);
-      if (like) await store.dispatch('news/deleteLike', like);
-    };
-
-    const liked = (likes: INewsLike[]) => {
-      console.log(userId);
-      if (!userId) return false;
-      const i = likes.findIndex((like: INewsLike) => like.userId === userId);
-      return i > -1;
     };
 
     const errorImg = (e: any) => {
@@ -110,11 +61,8 @@ export default defineComponent({
     };
 
     return {
-      liked,
       errorImg,
       filterNews,
-      createLike,
-      deleteLike,
       getImageUrl,
     };
   },
@@ -176,45 +124,6 @@ $card-width: 300px;
       height: 50%;
       margin-bottom: 20px;
     }
-  }
-
-  .card-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #4a4a4a;
-    font-size: 18px;
-    margin-bottom: 10px;
-    opacity: 0.75;
-    div {
-      padding: 0 5px;
-    }
-  }
-
-  .like {
-    user-select: none;
-    display: flex;
-    align-items: center;
-    transition: all 0.2s;
-    margin-right: 3px;
-    cursor: pointer;
-
-    &:hover {
-      /*transform: scale(1.1);*/
-    }
-
-    .anticon {
-      padding-right: 5px;
-      font-size: 20px;
-    }
-
-    .anticon-like:hover {
-      transform: scale(1.2);
-    }
-  }
-
-  .liked {
-    color: #e34b42;
   }
 }
 
