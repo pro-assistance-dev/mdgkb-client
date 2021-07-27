@@ -4,7 +4,7 @@
       <el-row>
         <el-col :offset="11" :xs="1" :sm="1" :md="1" :lg="1" :xl="1">
           <div class="flex">
-            <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="nav('/news')" />
+            <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="$router.push('/news')" />
           </div>
         </el-col>
         <el-col
