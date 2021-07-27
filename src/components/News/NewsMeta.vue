@@ -1,6 +1,6 @@
 <template>
   <div class="card-meta" style="margin-bottom: 0">
-    <div>{{ $dateFormatRu(news.publishedOn, true) }}</div>
+    <div class="date-meta">{{ $dateFormatRu(news.publishedOn, true) }}</div>
     <div class="icon">
       <EyeOutlined />
       <span>0 </span>
@@ -134,5 +134,9 @@ export default defineComponent({
     margin: 5px;
     font-size: 30px;
   }
+}
+
+.date-meta {
+  width: 145px;
 }
 </style>
