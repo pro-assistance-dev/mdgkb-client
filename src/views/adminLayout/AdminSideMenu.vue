@@ -93,8 +93,8 @@ export default defineComponent({
         icon: 'el-icon-notebook-1',
         children: [
           {
-            title: 'Нормативные документы',
-            // to: '/admin/dictionary/normative_documents',
+            title: 'Анализы',
+            // to: '/admin/dictionary/analyzes',
             icon: 'las la-list',
           },
           {
@@ -103,8 +103,8 @@ export default defineComponent({
             icon: 'las la-list',
           },
           {
-            title: 'Отделения',
-            // to: '/admin/dictionary/divisions',
+            title: 'Нормативные документы',
+            to: '/admin/normative-documents',
             icon: 'las la-list',
           },
           {
@@ -113,8 +113,13 @@ export default defineComponent({
             icon: 'las la-list',
           },
           {
-            title: 'Анализы',
-            // to: '/admin/dictionary/analyzes',
+            title: 'Отделения',
+            // to: '/admin/dictionary/divisions',
+            icon: 'las la-list',
+          },
+          {
+            title: 'Сотрудники',
+            // to: '#',
             icon: 'las la-list',
           },
           {
@@ -123,8 +128,8 @@ export default defineComponent({
             icon: 'las la-list',
           },
           {
-            title: 'Сотрудники',
-            // to: '#',
+            title: 'Типы нормативных документов',
+            to: '/admin/normative-document-types',
             icon: 'las la-list',
           },
         ],

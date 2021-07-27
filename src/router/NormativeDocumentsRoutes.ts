@@ -3,7 +3,7 @@ import { isAuthorized } from '@/router/index';
 
 export default [
   {
-    path: '/normative_documents',
+    path: '/normative-documents',
     name: 'NormativeDocuments',
     component: NormativeDocuments,
     beforeEnter: isAuthorized,

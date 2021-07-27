@@ -6,7 +6,7 @@ import RootState from '@/store/types';
 import { State } from './state';
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 
-const httpClient = new HttpClient('dictionary/normative_documents');
+const httpClient = new HttpClient('dictionary/normative-documents');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {

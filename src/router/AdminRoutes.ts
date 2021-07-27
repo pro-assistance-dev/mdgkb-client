@@ -1,5 +1,8 @@
 import AdminNewsList from '@/components/admin/AdminNews/AdminNewsList.vue';
 import AdminNewsPage from '@/components/admin/AdminNews/AdminNewsPage.vue';
+import AdminNormativeDocumentsList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentsList.vue';
+import AdminNormativeDocumentTypesList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypesList.vue';
+import AdminNormativeDocumentTypePage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypePage.vue';
 
 export default [
   {
@@ -22,6 +25,40 @@ export default [
     path: '/admin/news/:slug',
     name: 'AdminNewsPageEdit',
     component: AdminNewsPage,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/normative-documents',
+    name: 'AdminNormativeDocuments',
+    component: AdminNormativeDocumentsList,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/normative-document-types',
+    name: 'AdminNormativeDocumentTypes',
+    component: AdminNormativeDocumentTypesList,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/normative-document-types/new',
+    name: 'AdminNormativeDocumentTypeNewPage',
+    component: AdminNormativeDocumentTypePage,
+    props: { isEdit: false },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/normative-document-types/:id',
+    name: 'AdminNormativeDocumentTypePage',
+    component: AdminNormativeDocumentTypePage,
+    props: { isEdit: true },
     meta: {
       layout: 'AdminLayout',
     },
