@@ -1,6 +1,5 @@
 <template>
   <el-form :model="carousel">
-    {{ carousel.carouselSlides }}
     <el-row :gutter="10">
       <el-col :xl="10">
         <el-card>
