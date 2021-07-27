@@ -2331,7 +2331,7 @@
       v-if="buildingId && position"
       :position="position"
       :building="building"
-      @close="(building_id = null), (position = null), (building_element = null)"
+      @close="(buildingId = null), (building_element = null)"
     ></MapPopover>
   </div>
 </template>
@@ -2375,7 +2375,7 @@ export default defineComponent({
       building.value = props.buildings.find((b) => {
         return b.number === item.id.substr(2, 2);
       });
-
+      console.log(building.value);
       setTimeout(function () {
         buildingId.value = item.id;
         item.classList.remove('flicker');
@@ -2395,7 +2395,6 @@ export default defineComponent({
           let parentPos = document.getElementById('map-svg')!.getBoundingClientRect(),
             childrenPos = item.getBoundingClientRect(),
             relativePos = { top: 0, right: 0, bottom: 0, left: 0 };
-
           relativePos.top = childrenPos.top - parentPos.top;
           relativePos.right = childrenPos.right - parentPos.right;
           relativePos.bottom = childrenPos.bottom - parentPos.bottom;

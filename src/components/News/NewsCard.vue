@@ -16,7 +16,7 @@
 
       <div class="image">
         <div>
-          <img @error="errorImg" v-if="news.fileInfo.filenameDisk" :src="getImageUrl(news.fileInfo.filenameDisk)" alt="alt" />
+          <img @error="errorImg" v-if="news.fileInfo.fileSystemPath" :src="getImageUrl(news.fileInfo.fileSystemPath)" alt="alt" />
           <img v-else src="../../assets/img/310x310.png" />
         </div>
       </div>
