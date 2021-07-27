@@ -2,7 +2,7 @@
   <div class="flex-column">
     <div class="flex-row-between">
       <el-button type="primary" @click="$router.push('/admin/news/new')">Добавить новость</el-button>
-      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>
+      <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
     </div>
     <el-card>
       <el-table :data="news" v-if="news">
@@ -29,7 +29,7 @@
       </el-table>
     </el-card>
     <div class="flex-row-end">
-      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>
+      <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
     </div>
   </div>
 </template>

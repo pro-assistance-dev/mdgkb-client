@@ -31,6 +31,7 @@ const actions: ActionTree<State, RootState> = {
   },
   create: async ({ commit }, news: INews): Promise<void> => {
     const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: [news.fileInfo], isFormData: true });
+    commit('set');
   },
   update: async ({ commit }, news: INews): Promise<void> => {
     const res = await httpClient.put<INews, INews>({
@@ -39,7 +40,7 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: [news.fileInfo],
       isFormData: true,
     });
-    // commit('set', res);
+    commit('set');
   },
   remove: async ({ commit }, newsId: string): Promise<void> => {
     const res = await httpClient.delete({ query: `${newsId}` });

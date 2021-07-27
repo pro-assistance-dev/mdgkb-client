@@ -20,7 +20,7 @@ const mutations: MutationTree<State> = {
     const news = items.map((i: INews) => new News(i));
     state.news.push(...news);
   },
-  set(state, item: INews) {
+  set(state, item?: INews) {
     state.newsItem = new News(item);
   },
   remove(state, id: string) {

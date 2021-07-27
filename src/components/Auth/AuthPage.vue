@@ -9,7 +9,7 @@
   >
     <el-form label-width="0" ref="myForm" :model="form" @submit.prevent="submitForm" :rules="rules">
       <el-form-item prop="email">
-        <el-input placeholder="Email" v-model="form.email" type="email" />
+        <el-input @input="checkEmailExist" placeholder="Email" v-model="form.email" type="email" />
       </el-form-item>
 
       <el-form-item prop="password">
@@ -39,6 +39,11 @@ import User from '@/classes/user/User';
 
 export default defineComponent({
   name: 'AuthPage',
+  methods: {
+    forceUpdate() {
+      this.$forceUpdate();
+    },
+  },
   async setup() {
     const form = ref(new User());
     const myForm = ref();
@@ -47,14 +52,25 @@ export default defineComponent({
     const closeModal = () => {
       store.commit('auth/closeModal');
       form.value = new User();
+      window.location.reload();
     };
     const toggleIsLogin = () => store.commit('auth/toggleIsLoginModal');
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
+    const emailExist = computed(() => store.getters['users/emailExist']);
     const isLogin = computed(() => store.getters['auth/isLoginModal']);
+
+    const checkEmailExist = async (email: string) => {
+      if (isLogin.value || !email || email.length < 2) return;
+      await store.dispatch('users/findEmail', email);
+    };
 
     const rules = ref(UserRules);
 
     const submitForm = async (): Promise<void> => {
+      if (emailExist.value) {
+        ElMessage({ message: 'Введённый email существует', type: 'error' });
+        return;
+      }
       let validationResult;
       myForm.value.validate((valid: any) => {
         if (valid) {
@@ -81,6 +97,8 @@ export default defineComponent({
     };
 
     return {
+      checkEmailExist,
+      emailExist,
       form,
       submitForm,
       toggleIsLogin,
