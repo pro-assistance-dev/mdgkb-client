@@ -25,9 +25,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.el-button {
+:deep(.el-button) {
   padding: 5px;
-  margin: 0;
+  margin: 0 !important;
   min-height: unset;
   border: none;
 }
