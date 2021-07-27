@@ -32,14 +32,6 @@ export default [
     },
   },
   {
-    path: '/admin/normative-documents',
-    name: 'AdminNormativeDocuments',
-    component: AdminNormativeDocumentsList,
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
     path: '/admin/carousels',
     name: 'AdminCarouselList',
     component: AdminCarouselList,
@@ -59,6 +51,14 @@ export default [
     path: '/admin/carousels/:id',
     name: 'AdminCarouselPage',
     component: AdminCarouselPage,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/normative-documents',
+    name: 'AdminNormativeDocuments',
+    component: AdminNormativeDocumentsList,
     meta: {
       layout: 'AdminLayout',
     },
