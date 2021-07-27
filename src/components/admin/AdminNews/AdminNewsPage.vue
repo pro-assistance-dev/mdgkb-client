@@ -199,13 +199,7 @@ export default defineComponent({
 
     const chooseTag = async (tag: ITag) => {
       const index = news.value.tags.findIndex((t: ITag) => tag.id === t.id);
-      if (index === -1) {
-        await store.dispatch('news/addTag', { tagId: tag.id, newsId: news.value.id });
-        news.value.tags.push(tag);
-      } else {
-        await store.dispatch('news/removeTag', { tagId: tag.id, newsId: news.value.id });
-        news.value.tags.splice(index, 1);
-      }
+      index === -1 ? news.value.tags.push(tag) : news.value.tags.splice(index, 1);
     };
 
     const removeTag = async (tagId: string) => {
