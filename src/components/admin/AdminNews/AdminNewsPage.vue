@@ -172,7 +172,7 @@ export default defineComponent({
         id: news.value.fileInfo.id,
         originalName: file.name,
         file: file.raw,
-        filenameDisk: file.name,
+        fileSystemPath: file.name,
         category: 'file',
       });
 

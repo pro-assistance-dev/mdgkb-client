@@ -2,7 +2,7 @@ export default interface FileInfo {
   id?: string;
   category: string;
   originalName: string;
-  filenameDisk: string;
+  fileSystemPath: string;
   file?: File;
   isDraft?: boolean;
 }
