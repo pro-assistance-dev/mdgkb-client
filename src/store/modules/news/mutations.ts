@@ -25,7 +25,7 @@ const mutations: MutationTree<State> = {
   },
   remove(state, id: string) {
     const index = state.news.findIndex((i: INews) => i.id === id);
-    state.news.splice(index);
+    state.news.splice(index, 1);
   },
   filterByTag(state, tagId: string) {
     state.news = state.news.filter((i: INews) => {

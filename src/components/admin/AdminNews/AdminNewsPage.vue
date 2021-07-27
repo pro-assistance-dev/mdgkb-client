@@ -132,6 +132,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import FileInfo from '@/classes/File/FileInfo';
 import News from '@/classes/news/News';
 import { v4 as uuidv4 } from 'uuid';
+import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -145,10 +146,7 @@ export default defineComponent({
     let tagsVisible = ref(false);
     let imageCropSrc = ref('');
     let uploader = ref();
-    interface IFilesList {
-      name: string;
-      url: string;
-    }
+
     let fileList: Ref<IFilesList[]> = ref([]);
 
     let news = computed(() => store.getters['news/newsItem']);

@@ -56,7 +56,7 @@ export default [
   },
   {
     path: '/admin/carousels/new',
-    name: 'AdminCarouselPage',
+    name: 'AdminCarouselPageCreate',
     component: AdminCarouselPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
       isAuthorized(to, from, next);
@@ -68,7 +68,7 @@ export default [
   },
   {
     path: '/admin/carousels/:id',
-    name: 'AdminCarouselPage',
+    name: 'AdminCarouselPageEdit',
     component: AdminCarouselPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
       isAuthorized(to, from, next);
