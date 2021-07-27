@@ -13,6 +13,9 @@ const getters: GetterTree<State, RootState> = {
   user(state): IUser | undefined {
     return state.user;
   },
+  emailExist(state): boolean {
+    return state.emailExist;
+  },
 };
 
 export default getters;

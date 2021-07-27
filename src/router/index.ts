@@ -18,9 +18,13 @@ import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 
 export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext): void => {
   const userId = localStorage.getItem('userId');
-  console.log('userId', userId);
   if (userId) store.commit('auth/setIsAuth', true);
   next();
+};
+
+export const authGuard = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext): void => {
+  const userId = localStorage.getItem('userId');
+  if (!userId) router.push('/');
 };
 
 const routes: Array<RouteRecordRaw> = [

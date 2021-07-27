@@ -11,6 +11,9 @@ const mutations: MutationTree<State> = {
   set(state, item: IUser) {
     state.user = new User(item);
   },
+  emailExist(state, email: string) {
+    email && email.length > 0 ? (state.emailExist = true) : (state.emailExist = false);
+  },
 };
 
 export default mutations;

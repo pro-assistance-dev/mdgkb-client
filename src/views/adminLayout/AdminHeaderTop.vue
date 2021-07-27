@@ -19,6 +19,9 @@
           <el-menu-item @click="$router.push('/profile')" index="2-1">
             <div style="margin: auto 0"><UserOutlined /><span> Профиль</span></div>
           </el-menu-item>
+          <el-menu-item @click="$router.push('/news')" index="2-1">
+            <div style="margin: auto 0"><GlobalOutlined /><span> На сайт</span></div>
+          </el-menu-item>
           <el-menu-item @click="logout" index="2-2">
             <div style="margin: auto 0"><LogoutOutlined /><span> Выйти</span></div>
           </el-menu-item>
@@ -32,17 +35,23 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useStore } from 'vuex';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
+import { LogoutOutlined, UserOutlined, GlobalOutlined } from '@ant-design/icons-vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'AdminHeaderTop',
-  components: { LogoutOutlined, UserOutlined },
+  components: { LogoutOutlined, UserOutlined, GlobalOutlined },
 
   setup() {
     const store = useStore();
+    const router = useRouter();
     const collapseSideMenu = () => store.commit('admin/collapseSideMenu');
     const openDrawer = () => store.commit('admin/openDrawer');
-    const logout = async () => await store.dispatch('auth/logout');
+
+    const logout = async () => {
+      await store.dispatch('auth/logout');
+      await router.push('/news');
+    };
 
     return { collapseSideMenu, openDrawer, logout };
   },

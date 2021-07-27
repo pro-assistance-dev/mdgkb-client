@@ -130,6 +130,8 @@ import ITag from '@/interfaces/news/ITag';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import FileInfo from '@/classes/File/FileInfo';
+import News from '@/classes/news/News';
+import { v4 as uuidv4 } from 'uuid';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -156,8 +158,8 @@ export default defineComponent({
       news = computed(() => store.getters['news/newsItem']);
     }
     const fileToUpload = () => {
-      if (news.value.fileInfo?.filenameDisk != '') {
-        fileList.value.push({ name: news.value.fileInfo, url: `${process.env.VUE_APP_STATIC_URL}/${news.value.fileInfo?.filenameDisk}` });
+      if (news.value.fileInfo?.fileSystemPath != '') {
+        fileList.value.push({ name: news.value.fileInfo, url: `${process.env.VUE_APP_STATIC_URL}/${news.value.fileInfo?.fileSystemPath}` });
         if (fileList.value.length > 0) showUpload.value = false;
       }
     };
@@ -213,9 +215,10 @@ export default defineComponent({
 
     const saveFromCropper = (file: any) => {
       news.value.fileInfo.file = file.blob;
+      news.value.fileInfo.originalName = uuidv4();
       fileList.value = [];
       cropOpen.value = false;
-      fileList.value.push({ name: news.value.fileInfo.filenameDisk, url: file.src });
+      fileList.value.push({ name: news.value.fileInfo.fileSystemPath, url: file.src });
       if (fileList.value.length > 0) showUpload.value = false;
     };
 

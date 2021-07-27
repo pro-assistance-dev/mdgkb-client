@@ -6,6 +6,7 @@
       <span>0 </span>
     </div>
     <div class="icon like">
+      {{ isAuth }}
       <LikeFilled @click.stop="deleteLike(news)" class="liked" v-if="liked(news.newsLikes)" />
       <LikeOutlined @click.stop="createLike(news)" v-else />
       <span>{{ news.newsLikes.length }} </span>
@@ -21,7 +22,7 @@
 
 <script lang="ts">
 import { useStore } from 'vuex';
-import { PropType, defineComponent } from 'vue';
+import { PropType, defineComponent, ref } from 'vue';
 import { LikeOutlined, EyeOutlined, LikeFilled, FacebookOutlined, InstagramOutlined, TwitterOutlined } from '@ant-design/icons-vue';
 import INews from '@/interfaces/news/INews';
 import NewsLike from '@/classes/news/NewsLike';
@@ -41,7 +42,6 @@ export default defineComponent({
   async setup() {
     const store = useStore();
     const userId = localStorage.getItem('userId');
-
     const createLike = async (news: INews): Promise<void> => {
       if (!localStorage.getItem('token')) {
         ElMessage({
