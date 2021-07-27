@@ -11,7 +11,7 @@
       <el-submenu v-if="item.children">
         <template #title>
           <i :class="item.icon"></i>
-          <span>{{ item.title }}</span>
+          <span class="row-menu-title">{{ item.title }}</span>
         </template>
         <el-menu-item
           v-for="(children, j) in item.children"
@@ -58,12 +58,10 @@ export default defineComponent({
           {
             title: 'Все новости',
             to: '/admin/news',
-            icon: 'las la-list',
           },
           {
             title: 'Добавить новую',
             to: '/admin/news/new',
-            icon: 'las la-plus-square',
           },
           // {
           //   title: 'Категории',
@@ -95,22 +93,18 @@ export default defineComponent({
           {
             title: 'Нормативные документы',
             // to: '/admin/dictionary/normative_documents',
-            icon: 'las la-list',
           },
           {
             title: 'Здания',
-            // to: '/admin/dictionary/buildings',
-            icon: 'las la-list',
+            to: '/admin/dictionary/buildings',
           },
           {
             title: 'Отделения',
-            // to: '/admin/dictionary/divisions',
-            icon: 'las la-list',
+            to: '/admin/dictionary/divisions',
           },
           {
             title: 'Организации здравоохранения',
             // to: '/admin/dictionary/side_organizations',
-            icon: 'las la-list',
           },
           // {
           //   title: 'Анализы',
@@ -185,5 +179,8 @@ $background-color: whitesmoke;
 .el-menu,
 .el-menu-item {
   border: none;
+}
+.row-menu-title {
+  margin-right: 20px;
 }
 </style>

@@ -3,7 +3,7 @@
   <div style="position: relative">
     <HeaderTop />
     <HeaderBottom />
-    <NewsCarousel v-if="$route.meta.carousel" />
+    <!-- <NewsCarousel v-if="$route.meta.carousel" /> -->
     <div class="container">
       <el-main>
         <template #default v-if="$route.meta.profile">

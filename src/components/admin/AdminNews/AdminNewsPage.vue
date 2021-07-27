@@ -124,7 +124,6 @@
 import { computed, defineComponent, ref, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ITag from '@/interfaces/news/ITag';
 import { QuillEditor } from '@vueup/vue-quill';

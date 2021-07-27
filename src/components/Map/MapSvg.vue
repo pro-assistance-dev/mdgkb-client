@@ -2435,6 +2435,7 @@ svg #buildings g:hover {
   stroke-width: 2px;
   /* stroke-dasharray: 2,2; */
   stroke-linejoin: round;
+  cursor: pointer;
 }
 
 svg #buildings g polygon,
