@@ -38,7 +38,10 @@ export default defineComponent({
     const store = useStore();
     const login = () => store.commit('auth/openModal', true);
     const register = () => store.commit('auth/openModal');
-    const logout = async () => await store.dispatch('auth/logout');
+    const logout = async () => {
+      await store.dispatch('auth/logout');
+      window.location.reload();
+    };
     const isAuth = computed(() => store.getters['auth/isAuth']);
 
     return {
