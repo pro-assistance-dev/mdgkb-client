@@ -1,20 +1,19 @@
 import { createRouter, createWebHistory, RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
 import MainLayout from '@/views/main/MainLayout.vue';
+import store from '../store/index';
 
 import DivisionsRoutes from '@/router/DivisionsRoutes';
 import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
 import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
-import store from '../store/index';
+import PaidServicesRoutes from '@/router/PaidServicesRoutes';
+import ProfileRoutes from '@/router/ProfileRoutes';
+import indexAdminRoutes from '@/router/indexAdminRoutes';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
-
-import ProfileRoutes from '@/router/ProfileRoutes';
-import PaidServicesRoutes from '@/router/PaidServicesRoutes';
-import indexAdminRoutes from '@/router/indexAdminRoutes';
 
 export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext): void => {
   const userId = localStorage.getItem('userId');
@@ -63,13 +62,13 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: isAuthorized,
   },
 
-  ...indexAdminRoutes,
+  ...DivisionsRoutes,
+  ...MapRoutes,
   ...NewsRoutes,
   ...NormativeDocumentsRoutes,
-  ...MapRoutes,
-  ...DivisionsRoutes,
-  ...ProfileRoutes,
   ...PaidServicesRoutes,
+  ...ProfileRoutes,
+  ...indexAdminRoutes,
 ];
 
 const router = createRouter({
