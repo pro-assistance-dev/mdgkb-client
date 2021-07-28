@@ -2,8 +2,8 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default class FileInfo implements IFileInfo {
   id?: string;
-  originalName: string = '';
-  filenameDisk: string = '';
+  originalName = '';
+  fileSystemPath = '';
   category = '';
   file?: File;
 
@@ -11,7 +11,7 @@ export default class FileInfo implements IFileInfo {
     if (!i) return;
     this.id = i.id;
     this.originalName = i.originalName;
-    this.filenameDisk = i.filenameDisk;
+    this.fileSystemPath = i.fileSystemPath;
     this.category = i.category;
     this.file = i.file;
   }

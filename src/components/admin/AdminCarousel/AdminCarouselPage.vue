@@ -26,9 +26,11 @@
             <span>Слайды</span>
             <el-button @click="addSlide" type="success" icon="el-icon-plus" circle></el-button>
           </template>
-          <el-tabs style="height: 100%" type="border-card" v-model="activeTab" :tab-position="'left'">
+          <el-tabs @tab-click="chooseSlide" style="height: 100%" type="border-card" v-model="activeTab" :tab-position="'left'">
             <el-tab-pane
               @click="chooseSlide(i)"
+              @change="chooseSlide(i)"
+              @tab-click="chooseSlide(i)"
               v-for="(slide, i) in carousel.carouselSlides"
               :key="slide.id"
               :label="slide.title"
@@ -41,6 +43,7 @@
               </template>
               <el-row>
                 <el-upload
+                  :file-list="fileList"
                   ref="uploader"
                   :multiple="false"
                   class="avatar-uploader-cover upload-demo"
@@ -74,6 +77,7 @@
                   <el-form-item><el-input v-model="slide.title" placeholder="Заголовок"></el-input></el-form-item>
                 </el-col>
                 <el-col :xl="10" :offset="2">
+                  {{ nowSlide }}
                   <el-form-item>
                     <QuillEditor style="height: 250px" v-model:content="slide.content" contentType="html" theme="snow"></QuillEditor>
                   </el-form-item>
@@ -92,15 +96,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, onMounted } from 'vue';
+import { computed, defineComponent, ref, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import CarouselSlide from '@/classes/carousel/CarouselSlide';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import FileInfo from '@/classes/File/FileInfo';
+import IFilesList from '@/interfaces/files/IFIlesList';
+import { v4 as uuidv4 } from 'uuid';
 
 export default defineComponent({
   name: 'AdminCarouselPage',
@@ -117,10 +123,23 @@ export default defineComponent({
     let activeTab = ref('');
     let nowSlide = ref(0);
     let carousel = computed(() => store.getters['carousels/item']);
-    // if (route.params['id']) {
-    //   await store.dispatch('carousels/get', route.params['id']);
-    //   carousel = computed(() => store.getters['carousels/item']);
-    // }
+
+    if (route.params.id) {
+      await store.dispatch('carousels/get', route.params['id']);
+      carousel = computed(() => store.getters['carousels/item']);
+    }
+
+    let fileList: Ref<IFilesList[]> = ref([]);
+
+    const fileToUpload = () => {
+      if (carousel.value.fileInfo && carousel.value.fileInfo.fileSystemPath != '') {
+        fileList.value.push({
+          name: carousel.value.fileInfo,
+          url: `${process.env.VUE_APP_STATIC_URL}/${carousel.value.fileInfo?.fileSystemPath}`,
+        });
+        if (fileList.value.length > 0) showUpload.value = false;
+      }
+    };
 
     const addSlide = () => {
       let slide = new CarouselSlide();
@@ -129,11 +148,16 @@ export default defineComponent({
     };
 
     const toggleUpload = (file: any) => {
+      if (!nowSlide.value) nowSlide.value = 0;
+      if (!carousel.value.carouselSlides[nowSlide.value].fileInfo) {
+        carousel.value.carouselSlides[nowSlide.value].fileInfo = new FileInfo();
+      }
       showUpload.value = !showUpload.value;
-      carousel.value.previewThumbnailFile = new PreviewThumbnailFile({
+      carousel.value.carouselSlides[nowSlide.value].fileInfo = new FileInfo({
+        id: carousel.value.carouselSlides[nowSlide.value].fileInfo.id,
         originalName: file.name,
         file: file.raw,
-        filenameDisk: file.name,
+        fileSystemPath: file.name,
         category: 'file',
       });
 
@@ -142,19 +166,23 @@ export default defineComponent({
     };
 
     const submit = async () => {
-      console.log(route.params['id']);
-      // if (!route.params['id']) {
-      await store.dispatch('carousels/create', carousel.value);
-      // await router.push('/admin/carousels');
-      return;
-      // }
-      // await store.dispatch('carousels/update', carousel.value);
-      // await router.push('/admin/carousels');
+      if (!route.params['id']) {
+        await store.dispatch('carousels/create', carousel.value);
+        await router.push('/admin/carousels');
+        return;
+      }
+      await store.dispatch('carousels/update', carousel.value);
+      await router.push('/admin/carousels');
     };
 
     const saveFromCropper = (file: any) => {
-      carousel.value.carouselSlides[nowSlide.value].fileInfo.file = file;
+      if (!nowSlide.value) nowSlide.value = 0;
+      carousel.value.carouselSlides[nowSlide.value].fileInfo.file = file.blob;
+      carousel.value.carouselSlides[nowSlide.value].fileInfo.originalName = uuidv4();
+      fileList.value = [];
       cropOpen.value = false;
+      fileList.value.push({ name: carousel.value.carouselSlides[nowSlide.value].fileInfo.fileSystemPath, url: file.src });
+      if (fileList.value.length > 0) showUpload.value = false;
     };
 
     const handleRemove = (file: File) => {
@@ -168,11 +196,14 @@ export default defineComponent({
       imageCropSrc.value = file.url;
       cropOpen.value = true;
     };
-    const chooseSlide = (slideIndex: number) => {
-      nowSlide.value = slideIndex;
+    const chooseSlide = (slideIndex: any) => {
+      nowSlide.value = slideIndex.paneName;
     };
 
+    fileToUpload();
     return {
+      fileList,
+      nowSlide,
       chooseSlide,
       activeTab,
       addSlide,

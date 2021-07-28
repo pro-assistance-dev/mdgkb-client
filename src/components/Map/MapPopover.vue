@@ -1,44 +1,47 @@
 <template>
   <el-card id="ppvr" class="card" :style="`left: ${position.left}px; top: ${position.top}px;`">
-    <p class="card-header-title">
-      {{ building.name }}
-    </p>
-    <el-divider class="divider" />
-    <div v-html="building.description"></div>
-    <article class="panel panel-card is-light">
-      <div v-for="floor in building.floors" :key="floor.id">
-        <div
-          @click="$router.push(`/divisions/${item.id}`)"
-          class="panel-block"
-          v-for="item in floor.divisions"
-          :key="`${building.id}.${item.id}`"
-        >
-          {{ item.name }}
-        </div>
+    <template #header>
+      <div class="card-header">
+        <div class="card-header-title">{{ building.name }}</div>
+        <el-button plain @click.prevent="$emit('close')" icon="el-icon-close"></el-button>
       </div>
-    </article>
-    <el-divider class="divider" />
-    <div class="centered-button">
-      <el-button plain @click.prevent="$emit('close')">Закрыть</el-button>
-    </div>
+    </template>
+    <el-scrollbar :always="true" max-height="400px">
+      <article class="panel panel-card is-light">
+        <div v-for="floor in building.floors" :key="floor.id">
+          <div class="floor-number" v-if="floor.divisions.length">Этаж {{ floor.number }}</div>
+          <div
+            @click="$router.push(`/divisions/${item.id}`)"
+            class="panel-block"
+            v-for="item in floor.divisions"
+            :key="`${building.id}.${item.id}`"
+          >
+            {{ item.name }}
+          </div>
+        </div>
+      </article>
+    </el-scrollbar>
   </el-card>
 </template>
 
 <script>
-export default {
+import { defineComponent } from '@vue/runtime-core';
+
+export default defineComponent({
   name: 'MapPopover',
   props: ['position', 'building'],
-};
+
+  setup(prop) {
+    console.log(prop.building);
+  },
+});
 </script>
 
 <style scoped lang="scss">
 #ppvr {
   position: absolute;
   max-width: 30vw;
-
-  .centered-button {
-    text-align: center;
-  }
+  min-width: 400px;
 }
 $card-border-radius: 15px;
 $card-content-padding: 24px;
@@ -46,6 +49,12 @@ $card-content-outpadding: 24px;
 
 .card {
   border-radius: $card-border-radius;
+  z-index: 2;
+
+  .floor-number {
+    text-transform: uppercase;
+    padding: 5px 50px 5px 24px;
+  }
 
   &.card-flat {
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
@@ -69,13 +78,18 @@ $card-content-outpadding: 24px;
 
   .card-header {
     box-shadow: none;
-    border-bottom: solid 1px #f1f1f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .el-button {
+      border: none;
+      font-size: 25px;
+    }
     .card-header-title {
-      margin: 5px 5px;
-      width: 100%;
       font-weight: 400;
       text-transform: uppercase;
-      font-size: 0.8rem;
+      font-size: 16px;
       &.two-lined {
         div {
           width: 100%;

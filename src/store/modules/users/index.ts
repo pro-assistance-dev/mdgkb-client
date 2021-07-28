@@ -10,6 +10,7 @@ import { State } from './state';
 export const state: State = {
   users: [],
   user: undefined,
+  emailExist: false,
 };
 
 const namespaced = true;

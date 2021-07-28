@@ -6,24 +6,6 @@
     <el-drawer :size="'auto'" v-model="showDrawer" direction="ltr" :with-header="false">
       <el-space direction="vertical" alignment="start">
         <div class="drawer-block">
-          <h4>Пользователь</h4>
-          <el-menu mode="vertical" @select="changeDrawerStatus">
-            <el-menu-item v-if="!isAuth" class="header-bottom-menu-item" index="1" @click="login" :route="{ name: 'Login' }">
-              <div><LoginOutlined />Войти</div>
-            </el-menu-item>
-            <el-menu-item v-if="!isAuth" class="header-bottom-menu-item" index="2" @click="register" :route="{ name: 'Register' }">
-              <div><UserAddOutlined />Зарегистрироваться</div>
-            </el-menu-item>
-            <el-menu-item v-if="isAuth" class="header-bottom-menu-item" index="1" @click="$router.push('/profile')">
-              <div><UserOutlined /> Профиль</div>
-            </el-menu-item>
-            <el-menu-item v-if="isAuth" class="header-bottom-menu-item" index="2" @click="logout">
-              <div><LogoutOutlined /> Выйти</div>
-            </el-menu-item>
-          </el-menu>
-        </div>
-        <div class="drawer-block">
-          <h4>Навигация</h4>
           <NavMenu :vertical="true" style="min-width: 200px" @changeDrawerStatus="changeDrawerStatus" />
         </div>
       </el-space>
@@ -50,24 +32,7 @@
           <el-col :xs="10" :sm="10" :md="10" :lg="4" :xl="4" class="info">
             <div class="flex-end">
               <div v-if="scrollOffset >= 66">
-                <el-dropdown v-if="!isAuth">
-                  <el-button class="menu-item" icon="el-icon-user"></el-button>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item @click="login"><LoginOutlined />Войти</el-dropdown-item>
-                      <el-dropdown-item @click="register"><UserAddOutlined />Зарегистрироваться</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
-                <el-dropdown v-else>
-                  <el-button class="menu-item" icon="el-icon-user"></el-button>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">Профиль</el-dropdown-item>
-                      <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
+                <LoginDropdownMenu />
               </div>
               <el-popover
                 placement="bottom-start"
@@ -128,18 +93,20 @@
 <script lang="ts">
 import { useStore } from 'vuex';
 import { ref, defineComponent, onMounted, onUnmounted, computed } from 'vue';
-import { LoginOutlined, LogoutOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons-vue';
+// import { LoginOutlined, LogoutOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
+import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
 
 export default defineComponent({
   name: 'HeaderBottom',
   components: {
     NavMenu,
-    LoginOutlined,
-    LogoutOutlined,
-    UserAddOutlined,
-    UserOutlined,
+    LoginDropdownMenu,
+    // LoginOutlined,
+    // LogoutOutlined,
+    // UserAddOutlined,
+    // UserOutlined,
   },
   setup() {
     const store = useStore();

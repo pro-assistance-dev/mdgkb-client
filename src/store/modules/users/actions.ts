@@ -15,6 +15,9 @@ const actions: ActionTree<State, RootState> = {
   get: async ({ commit }, id: number) => {
     commit('set', await httpClient.get<IUser>({ query: `${id}` }));
   },
+  findEmail: async ({ commit }, email): Promise<void> => {
+    commit('emailExist', await httpClient.get<IUser[]>({ query: `get-by-email/${email}` }));
+  },
 };
 
 export default actions;

@@ -3,7 +3,6 @@ import ICategory from '@/interfaces/news/ICategory';
 import ITag from '@/interfaces/news/ITag';
 import Category from '@/classes/news/Category';
 import Tag from '@/classes/news/Tag';
-import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
 import INewsLike from '@/interfaces/news/INewsLike';
 import NewsLike from '@/classes/news/NewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';

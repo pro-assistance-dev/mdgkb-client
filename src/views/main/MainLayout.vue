@@ -3,6 +3,7 @@
   <div style="position: relative">
     <HeaderTop />
     <HeaderBottom />
+    <!-- <NewsCarousel v-if="$route.meta.carousel" /> -->
     <div class="container">
       <el-main>
         <template #default v-if="$route.meta.profile">
@@ -37,13 +38,13 @@ import FooterTop from '@/views/mainLayout/FooterTop.vue';
 import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
 import ProfileSideMenu from '@/views/mainLayout/ProfileSideMenu.vue';
 import AuthPage from '@/components/Auth/AuthPage.vue';
-import NewsCarousel from '@/components/NewsCarousel.vue';
+// import NewsCarousel from '@/components/NewsCarousel.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    NewsCarousel,
+    // NewsCarousel,
     FooterBottom,
     FooterTop,
     HeaderBottom,

@@ -11,7 +11,7 @@
       <el-submenu v-if="item.children">
         <template #title>
           <i :class="item.icon"></i>
-          <span>{{ item.title }}</span>
+          <span class="row-menu-title">{{ item.title }}</span>
         </template>
         <el-menu-item
           v-for="(children, j) in item.children"
@@ -45,11 +45,11 @@ export default defineComponent({
     const closeDrawer = () => store.commit('admin/closeDrawer');
 
     const menuList = ref([
-      {
-        title: 'Главная',
-        to: '/admin/news',
-        icon: 'el-icon-s-home',
-      },
+      // {
+      //   title: 'Главная',
+      //   to: '/admin/news',
+      //   icon: 'el-icon-s-home',
+      // },
       {
         title: 'Новости',
         to: '/',
@@ -58,104 +58,97 @@ export default defineComponent({
           {
             title: 'Все новости',
             to: '/admin/news',
-            icon: 'las la-list',
           },
           {
             title: 'Добавить новую',
-            to: '/admin/news/item',
-            icon: 'las la-plus-square',
+            to: '/admin/news/new',
           },
-          {
-            title: 'Категории',
-            // to: '/admin/news/categories',
-            icon: 'las la-folder-open',
-          },
+          // {
+          //   title: 'Категории',
+          // to: '/admin/news/categories',
+          // icon: 'las la-folder-open',
+          // },
         ],
       },
-      {
-        title: 'Статические страницы',
-        // to: '/admin/pages',
-        icon: 'el-icon-document',
-      },
-      {
-        title: 'Галереи',
-        // to: '/admin/galleries',
-        icon: 'el-icon-picture',
-      },
-      {
-        title: 'Тэги',
-        // to: '/admin/tags',
-        icon: 'el-icon-price-tag',
-      },
+      // {
+      //   title: 'Статические страницы',
+      // to: '/admin/pages',
+      //   icon: 'el-icon-document',
+      // },
+      // {
+      //   title: 'Галереи',
+      // to: '/admin/galleries',
+      //   icon: 'el-icon-picture',
+      // },
+      // {
+      //   title: 'Тэги',
+      // to: '/admin/tags',
+      //   icon: 'el-icon-price-tag',
+      // },
       {
         title: 'Справочники',
         to: '/',
         icon: 'el-icon-notebook-1',
         children: [
           {
-            title: 'Анализы',
-            // to: '/admin/dictionary/analyzes',
-            icon: 'las la-list',
-          },
-          {
             title: 'Здания',
-            // to: '/admin/dictionary/buildings',
-            icon: 'las la-list',
+            to: '/admin/dictionary/buildings',
           },
           {
             title: 'Нормативные документы',
             to: '/admin/normative-documents',
-            icon: 'las la-list',
           },
           {
             title: 'Организации здравоохранения',
             // to: '/admin/dictionary/side_organizations',
-            icon: 'las la-list',
           },
           {
             title: 'Отделения',
-            // to: '/admin/dictionary/divisions',
-            icon: 'las la-list',
-          },
-          {
-            title: 'Сотрудники',
-            // to: '#',
-            icon: 'las la-list',
-          },
-          {
-            title: 'Специальности',
-            // to: '#',
-            icon: 'las la-list',
+            to: '/admin/dictionary/divisions',
           },
           {
             title: 'Типы нормативных документов',
             to: '/admin/normative-document-types',
-            icon: 'las la-list',
           },
+          // {
+          //   title: 'Анализы',
+          // to: '/admin/dictionary/analyzes',
+          //   icon: 'las la-list',
+          // },
+          // {
+          //   title: 'Специальности',
+          // to: '#',
+          //   icon: 'las la-list',
+          // },
+          // {
+          //   title: 'Сотрудники',
+          // to: '#',
+          //   icon: 'las la-list',
+          // },
         ],
       },
-      {
-        title: 'Мероприятия',
-        to: '/',
-        icon: 'el-icon-date',
-        children: [
-          {
-            title: 'Все мероприятия',
-            // to: '/admin/event',
-            icon: 'las la-list',
-          },
-          {
-            title: 'Добавить мероприятие',
-            // to: '/admin/event/item',
-            icon: 'las la-plus-square',
-          },
-        ],
-      },
-      {
-        title: 'Школы',
-        // to: '/admin/school',
-        icon: 'el-icon-reading',
-      },
+      // {
+      //   title: 'Мероприятия',
+      //   to: '/',
+      //   icon: 'el-icon-date',
+      //   children: [
+      //     {
+      //       title: 'Все мероприятия',
+      // to: '/admin/event',
+      //   icon: 'las la-list',
+      // },
+      // {
+      //   title: 'Добавить мероприятие',
+      // to: '/admin/event/item',
+      //       icon: 'las la-plus-square',
+      //     },
+      //   ],
+      // },
+      // {
+      //   title: 'Школы',
+      // to: '/admin/school',
+      //   icon: 'el-icon-reading',
+      // },
       {
         title: 'Карусели',
         to: '/admin/carousels',
@@ -190,5 +183,8 @@ $background-color: whitesmoke;
 .el-menu,
 .el-menu-item {
   border: none;
+}
+.row-menu-title {
+  margin-right: 20px;
 }
 </style>

@@ -32,7 +32,6 @@ export default defineComponent({
   components: { NewsCalendar, NewsCard },
   async setup() {
     const store = useStore();
-
     const loading = ref(false);
     const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
 

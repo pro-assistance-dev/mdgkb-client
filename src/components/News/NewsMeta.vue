@@ -1,11 +1,12 @@
 <template>
   <div class="card-meta" style="margin-bottom: 0">
-    <div>{{ $dateFormatRu(news.publishedOn, true) }}</div>
+    <div class="date-meta">{{ $dateFormatRu(news.publishedOn, true) }}</div>
     <div class="icon">
       <EyeOutlined />
       <span>0 </span>
     </div>
     <div class="icon like">
+      {{ isAuth }}
       <LikeFilled @click.stop="deleteLike(news)" class="liked" v-if="liked(news.newsLikes)" />
       <LikeOutlined @click.stop="createLike(news)" v-else />
       <span>{{ news.newsLikes.length }} </span>
@@ -21,7 +22,7 @@
 
 <script lang="ts">
 import { useStore } from 'vuex';
-import { PropType, defineComponent } from 'vue';
+import { PropType, defineComponent, ref } from 'vue';
 import { LikeOutlined, EyeOutlined, LikeFilled, FacebookOutlined, InstagramOutlined, TwitterOutlined } from '@ant-design/icons-vue';
 import INews from '@/interfaces/news/INews';
 import NewsLike from '@/classes/news/NewsLike';
@@ -41,7 +42,6 @@ export default defineComponent({
   async setup() {
     const store = useStore();
     const userId = localStorage.getItem('userId');
-
     const createLike = async (news: INews): Promise<void> => {
       if (!localStorage.getItem('token')) {
         ElMessage({
@@ -51,7 +51,7 @@ export default defineComponent({
         return;
       }
       const newsLike = new NewsLike();
-      newsLike.newsId = news.id;
+      if (news.id) newsLike.newsId = news.id;
       if (userId) newsLike.userId = userId;
       await store.dispatch('news/createLike', newsLike);
     };
@@ -66,6 +66,7 @@ export default defineComponent({
       }
 
       const like = news.newsLikes.find((i: INewsLike) => i.userId === userId);
+      console.log(like);
       if (like) await store.dispatch('news/deleteLike', like);
     };
 
@@ -133,5 +134,9 @@ export default defineComponent({
     margin: 5px;
     font-size: 30px;
   }
+}
+
+.date-meta {
+  width: 145px;
 }
 </style>

@@ -40,8 +40,15 @@
 
         <el-divider />
         <div class="article-footer">
-          <el-button @click="$router.push('/')" style="height: 20px">Вернуться назад</el-button>
-          <div class="right-footer">
+          <div class="article-footer-item">
+            <el-button @click="$router.push('/')" style="height: 20px">Вернуться назад</el-button>
+          </div>
+          <div class="tags-container article-footer-item">
+            <el-tag effect="plain" @click.stop="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">
+              {{ tag.label }}
+            </el-tag>
+          </div>
+          <div class="right-footer article-footer-item">
             <NewsMeta :news="news" :newsPage="true" />
           </div>
         </div>
@@ -234,6 +241,15 @@ h3 {
   justify-content: space-between;
   align-items: center;
 }
+.article-footer-item {
+  padding: 10px;
+}
+
+@media only screen and (max-width: 992px) {
+  .article-footer {
+    flex-direction: column-reverse;
+  }
+}
 
 .recent-news-item {
   display: flex;
@@ -265,5 +281,19 @@ h3 {
 
 :deep(.cell-row) {
   cursor: pointer;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  :deep(.el-tag) {
+    margin: 5px;
+  }
+}
+
+.right-footer {
+  width: 270px;
 }
 </style>

@@ -124,12 +124,14 @@
 import { computed, defineComponent, ref, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import PreviewThumbnailFile from '@/classes/File/PreviewThumbnailFile';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ITag from '@/interfaces/news/ITag';
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import FileInfo from '@/classes/File/FileInfo';
+import News from '@/classes/news/News';
+import { v4 as uuidv4 } from 'uuid';
+import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -143,10 +145,6 @@ export default defineComponent({
     let tagsVisible = ref(false);
     let imageCropSrc = ref('');
     let uploader = ref();
-    interface IFilesList {
-      name: string;
-      url: string;
-    }
     let fileList: Ref<IFilesList[]> = ref([]);
 
     let news = computed(() => store.getters['news/newsItem']);
@@ -156,8 +154,8 @@ export default defineComponent({
       news = computed(() => store.getters['news/newsItem']);
     }
     const fileToUpload = () => {
-      if (news.value.fileInfo?.filenameDisk != '') {
-        fileList.value.push({ name: news.value.fileInfo, url: `${process.env.VUE_APP_STATIC_URL}/${news.value.fileInfo?.filenameDisk}` });
+      if (news.value.fileInfo?.fileSystemPath != '') {
+        fileList.value.push({ name: news.value.fileInfo, url: `${process.env.VUE_APP_STATIC_URL}/${news.value.fileInfo?.fileSystemPath}` });
         if (fileList.value.length > 0) showUpload.value = false;
       }
     };
@@ -172,7 +170,7 @@ export default defineComponent({
         id: news.value.fileInfo.id,
         originalName: file.name,
         file: file.raw,
-        filenameDisk: file.name,
+        fileSystemPath: file.name,
         category: 'file',
       });
 
@@ -199,13 +197,7 @@ export default defineComponent({
 
     const chooseTag = async (tag: ITag) => {
       const index = news.value.tags.findIndex((t: ITag) => tag.id === t.id);
-      if (index === -1) {
-        await store.dispatch('news/addTag', { tagId: tag.id, newsId: news.value.id });
-        news.value.tags.push(tag);
-      } else {
-        await store.dispatch('news/removeTag', { tagId: tag.id, newsId: news.value.id });
-        news.value.tags.splice(index, 1);
-      }
+      index === -1 ? news.value.tags.push(tag) : news.value.tags.splice(index, 1);
     };
 
     const removeTag = async (tagId: string) => {
@@ -219,9 +211,10 @@ export default defineComponent({
 
     const saveFromCropper = (file: any) => {
       news.value.fileInfo.file = file.blob;
+      news.value.fileInfo.originalName = uuidv4();
       fileList.value = [];
       cropOpen.value = false;
-      fileList.value.push({ name: news.value.fileInfo.filenameDisk, url: file.src });
+      fileList.value.push({ name: news.value.fileInfo.fileSystemPath, url: file.src });
       if (fileList.value.length > 0) showUpload.value = false;
     };
 
