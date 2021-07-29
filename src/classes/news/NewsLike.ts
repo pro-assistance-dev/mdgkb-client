@@ -1,7 +1,7 @@
 import INewsLike from '@/interfaces/news/INewsLike';
 
 export default class NewsLike implements INewsLike {
-  id?;
+  id?: string;
   newsId = '';
   userId = '';
 

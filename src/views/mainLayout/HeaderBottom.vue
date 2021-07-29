@@ -4,11 +4,9 @@
   <!-- Adaptive side menu -->
   <div class="drawer hidden-lg-and-up">
     <el-drawer :size="'auto'" v-model="showDrawer" direction="ltr" :with-header="false">
-      <el-space direction="vertical" alignment="start">
-        <div class="drawer-block">
-          <NavMenu :vertical="true" style="min-width: 200px" @changeDrawerStatus="changeDrawerStatus" />
-        </div>
-      </el-space>
+      <div class="drawer-block">
+        <NavMenu :vertical="true" style="min-width: 200px" @changeDrawerStatus="changeDrawerStatus" />
+      </div>
     </el-drawer>
   </div>
   <!-- Fix header when headerTop was passed -->

@@ -251,7 +251,6 @@ h3 {
   }
 }
 
-
 .recent-news-item {
   display: flex;
   flex-direction: column;
@@ -292,9 +291,5 @@ h3 {
   :deep(.el-tag) {
     margin: 5px;
   }
-}
-
-.right-footer {
-  width: 270px;
 }
 </style>

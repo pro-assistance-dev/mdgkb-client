@@ -92,23 +92,23 @@ export default defineComponent({
         children: [
           {
             title: 'Нормативные документы',
-            // to: '/admin/dictionary/normative_documents',
+            // to: '/admin/normative_documents',
           },
           {
             title: 'Здания',
-            to: '/admin/dictionary/buildings',
+            to: '/admin/buildings',
           },
           {
             title: 'Отделения',
-            to: '/admin/dictionary/divisions',
+            to: '/admin/divisions',
           },
           {
             title: 'Организации здравоохранения',
-            // to: '/admin/dictionary/side_organizations',
+            // to: '/admin/side_organizations',
           },
           // {
           //   title: 'Анализы',
-          // to: '/admin/dictionary/analyzes',
+          // to: '/admin/analyzes',
           //   icon: 'las la-list',
           // },
           // {

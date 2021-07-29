@@ -1,13 +1,13 @@
 import IDivision from '@/interfaces/buildings/IDivision';
 
 export default class Division implements IDivision {
-  id?: string = '';
+  id?: string;
   name = '';
   info?: string = '';
   phone?: string = '';
   email?: string = '';
   address?: string = '';
-  floorId?: string = '';
+  floorId?: string;
   slug?: string = '';
 
   constructor(i?: IDivision) {

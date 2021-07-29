@@ -11,11 +11,11 @@
             </span>
           </template>
         </el-table-column>
-        <!-- <el-table-column width="40" fixed="right" align="center">
+        <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup @edit="edit(scope.row.id)" :showEditButton="true" />
           </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
     </el-card>
   </div>
@@ -25,12 +25,14 @@
 import { useStore } from 'vuex';
 import { defineComponent, computed, onMounted, ref } from 'vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'AdminBuildingsList',
   components: { TableButtonGroup },
   setup() {
     const store = useStore();
+    const router = useRouter();
     const buildings = computed(() => store.getters['buildings/buildings']);
 
     store.commit('admin/setPageTitle', 'Здания');
@@ -38,9 +40,13 @@ export default defineComponent({
       await store.dispatch('buildings/getAll');
     };
 
+    const edit = (id: string): void => {
+      router.push(`/admin/buildings/${id}`);
+    };
+
     onMounted(loadBuildings);
 
-    return { buildings };
+    return { buildings, edit };
   },
 });
 </script>
