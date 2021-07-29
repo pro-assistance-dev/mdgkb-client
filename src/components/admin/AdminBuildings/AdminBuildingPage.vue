@@ -1,10 +1,10 @@
 <template>
-  <el-form :model="building" label-position="top">
+  <el-form :model="building" label-position="top" :rules="rules" ref="form">
     <el-card v-if="building">
-      <el-form-item label="Наименование здания">
+      <el-form-item label="Наименование здания" prop="name">
         <el-input v-model="building.name" placeholder="Наименование здания"></el-input>
       </el-form-item>
-      <el-form-item label="Адрес">
+      <el-form-item label="Адрес" prop="address">
         <el-input v-model="building.address" placeholder="Адрес"></el-input>
       </el-form-item>
       <el-form-item label="Этажи">
@@ -30,11 +30,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Floor from '@/classes/buildings/Floor';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import BuildingRules from '@/classes/buildings/BuildingRules';
 
 export default defineComponent({
   name: 'AdminBuildingPage',
@@ -45,6 +46,8 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const building = computed(() => store.getters['buildings/building']);
+    const rules = ref(BuildingRules);
+    const form = ref();
 
     const loadBuilding = async (): Promise<void> => {
       await store.dispatch('buildings/get', route.params['id']);
@@ -56,11 +59,20 @@ export default defineComponent({
     onMounted(loadBuilding);
 
     const submit = async () => {
+      let validationResult;
+      form.value.validate((valid: any) => {
+        if (valid) {
+          validationResult = true;
+        } else {
+          validationResult = false;
+        }
+      });
+      if (!validationResult) return;
       await store.dispatch('buildings/update', building.value);
       await router.push('/admin/buildings');
     };
 
-    return { building, addFloor, removeFloor, submit };
+    return { building, addFloor, removeFloor, submit, rules, form };
   },
 });
 </script>
