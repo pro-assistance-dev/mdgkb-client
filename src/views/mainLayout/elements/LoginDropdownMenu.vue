@@ -32,7 +32,7 @@ import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icon
 export default defineComponent({
   name: 'LoginDropdownMenu',
   components: { LoginOutlined, LogoutOutlined, UserAddOutlined },
-  props: { showButtonName: { type: String } },
+  props: { showButtonName: { type: Boolean } },
 
   async setup() {
     const store = useStore();
