@@ -57,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: isAuthorized,
   },
   {
-    path: '/health_organizations',
+    path: '/side-organizations',
     name: 'SideOrganizationsPage',
     component: SideOrganizationsPage,
     beforeEnter: isAuthorized,

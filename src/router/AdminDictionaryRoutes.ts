@@ -2,6 +2,8 @@ import AdminDivisionsList from '@/components/admin/AdminDivisions/AdminDivisions
 import AdminDivisionPage from '@/components/admin/AdminDivisions/AdminDivisionPage.vue';
 import AdminBuildingsList from '@/components/admin/AdminBuildings/AdminBuildingsList.vue';
 import AdminBuildingPage from '@/components/admin/AdminBuildings/AdminBuildingPage.vue';
+import AdminSideOrganizationsList from '@/components/admin/AdminSideOrganizations/AdminSideOrganizationsList.vue';
+import AdminSideOrganizationPage from '@/components/admin/AdminSideOrganizations/AdminSideOrganizationPage.vue';
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import { authGuard, isAuthorized } from '@/router/index';
 
@@ -58,6 +60,42 @@ export default [
     path: '/admin/divisions/:id',
     name: 'AdminEditDivisionPage',
     component: AdminDivisionPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(to, from, next);
+      authGuard(to, from, next);
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/side-organizations',
+    name: 'AdminSideOrganizationsList',
+    component: AdminSideOrganizationsList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(to, from, next);
+      authGuard(to, from, next);
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/side-organizations/new',
+    name: 'AdminSideNewOrganizationPage',
+    component: AdminSideOrganizationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(to, from, next);
+      authGuard(to, from, next);
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/side-organizations/:id',
+    name: 'AdminEditSideOrganizationPage',
+    component: AdminSideOrganizationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(to, from, next);
       authGuard(to, from, next);

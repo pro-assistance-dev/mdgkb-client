@@ -1,7 +1,7 @@
 <template>
   <div class="flex-column">
     <div class="flex-row-between">
-      <el-button type="primary" @click="$router.push('/admin/divisions/new')">Добавить отделение</el-button>
+      <el-button type="primary" @click="create">Добавить отделение</el-button>
       <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
     </div>
     <el-card>
@@ -41,12 +41,13 @@ export default defineComponent({
       await store.dispatch('divisions/getAll');
     };
 
-    const edit = async (id: string) => await router.push(`/admin/divisions/${id}`);
+    const create = (id: string) => router.push(`/admin/divisions/new`);
+    const edit = (id: string) => router.push(`/admin/divisions/${id}`);
     const remove = async (id: string) => await store.dispatch('divisions/remove', id);
 
     onMounted(loadDivisions);
 
-    return { divisions, remove, edit };
+    return { divisions, remove, edit, create };
   },
 });
 </script>

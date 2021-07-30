@@ -104,7 +104,7 @@ export default defineComponent({
           },
           {
             title: 'Организации здравоохранения',
-            // to: '/admin/side_organizations',
+            to: '/admin/side-organizations',
           },
           // {
           //   title: 'Анализы',

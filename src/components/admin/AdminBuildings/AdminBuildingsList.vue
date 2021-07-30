@@ -28,7 +28,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'AdminBuildingsList',
+  name: 'AdminSideOrganizationsList',
   components: { TableButtonGroup },
   setup() {
     const store = useStore();
