@@ -123,8 +123,10 @@ export default defineComponent({
     const userEmail = localStorage.getItem('userEmail');
 
     watch(slug, () => {
-      store.dispatch('news/get', slug.value);
-      window.scrollTo(0, 0);
+      if (slug.value) {
+        store.dispatch('news/get', slug.value);
+        window.scrollTo(0, 0);
+      }
     });
     await store.dispatch('news/get', slug.value);
     await store.dispatch('news/getAll', news.value.publishedOn);

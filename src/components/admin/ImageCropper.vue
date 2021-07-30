@@ -1,5 +1,5 @@
 <template>
-  <Cropper :src="src" ref="cropper" @change="onChange" :stencil-props="{ aspectRatio: ratio }" />
+  <Cropper :src="src" ref="cropper" @change="onChange" :stencil-props="{ aspectRatio: ratio }" style="max-height: 70vh" />
   <div class="dialog-footer">
     <el-button :loading="loading" @click="cancel">Отменить</el-button>
     <el-button :loading="loading" @click="save">Сохранить</el-button>

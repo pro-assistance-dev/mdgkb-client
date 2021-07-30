@@ -72,7 +72,6 @@ export default defineComponent({
     const router = useRouter();
     const form = ref();
     const rules = ref(DivisioinRules);
-    store.commit('divisions/set', new Division());
 
     const division = computed(() => store.getters['divisions/division']);
     const floorOptions = ref();
@@ -92,6 +91,7 @@ export default defineComponent({
         }
         store.commit('admin/setPageTitle', division.value.name);
       } else {
+        store.commit('divisions/set', new Division());
         store.commit('admin/setPageTitle', 'Создать отделение');
       }
     };
