@@ -27,7 +27,7 @@ export default defineComponent({
       required: true,
     },
   },
-  async setup(props) {
+  setup(props) {
     const form = ref(new NormativeDocumentType());
     const formRef = ref();
     const rules = ref(NormativeDocumentTypeRules);
@@ -62,6 +62,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async (): Promise<void> => {
+      store.commit('admin/setPageTitle', 'Тип нормативного документа');
+
       if (route.params.id) {
         await store.dispatch('normativeDocumentTypes/get', route.params.id);
         form.value = store.getters['normativeDocumentTypes/type'];

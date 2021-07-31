@@ -1,24 +1,18 @@
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
-import IFileObject from '@/interfaces/files/IFileObject';
-import FileObject from '@/classes/File/FileObject';
+import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import NormativeDocumentType from '@/classes/normativeDocument/NormativeDocumentType';
 
 export default class NormativeDocument implements INormativeDocument {
-  id = '';
+  id?: string;
   name = '';
-  file = 0;
-  type = 0;
-  status = '';
-  file_object: IFileObject = new FileObject();
+  type: INormativeDocumentType;
+  fileInfo?: IFileInfo;
 
-  constructor(i?: INormativeDocument) {
-    if (!i) return;
-    this.id = i.id;
-
-    this.name = i.name;
-    this.file = i.file;
-    this.type = i.type;
-    this.status = i.status;
-    this.file_object = new FileObject(i.file_object);
-    console.log(this);
+  constructor(document?: INormativeDocument) {
+    this.id = document?.id;
+    this.name = document?.name ?? '';
+    this.type = document?.type ?? new NormativeDocumentType();
+    this.fileInfo = document?.fileInfo ?? undefined;
   }
 }

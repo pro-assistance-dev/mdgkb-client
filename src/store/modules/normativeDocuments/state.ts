@@ -1,6 +1,6 @@
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 
-export interface State {
+export default interface State {
   documents: INormativeDocument[];
   document?: INormativeDocument;
 }

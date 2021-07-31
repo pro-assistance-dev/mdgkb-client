@@ -2,17 +2,17 @@ import Vuex, { StoreOptions } from 'vuex';
 
 import RootState from './types';
 import auth from '@/store/modules/auth';
-import pockemons from '@/store/modules/pockemons';
-import { buildings } from '@/store/modules/buildings';
-import { divisions } from '@/store/modules/divisions';
-import { sideOrganizations } from '@/store/modules/sideOrganizations';
-import { users } from '@/store/modules/users';
-import { tags } from '@/store/modules/tags';
-import { news } from '@/store/modules/news';
-import { normativeDocuments } from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
+import normativeDocuments from '@/store/modules/normativeDocuments';
+import pockemons from '@/store/modules/pockemons';
 import { admin } from '@/store/modules/admin';
+import { buildings } from '@/store/modules/buildings';
 import { carousels } from '@/store/modules/carousels';
+import { divisions } from '@/store/modules/divisions';
+import { news } from '@/store/modules/news';
+import { sideOrganizations } from '@/store/modules/sideOrganizations';
+import { tags } from '@/store/modules/tags';
+import { users } from '@/store/modules/users';
 
 const store: StoreOptions<RootState> = {
   state: {

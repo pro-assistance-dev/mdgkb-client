@@ -5,6 +5,7 @@ import AdminBuildingsList from '@/components/admin/AdminBuildings/AdminBuildings
 import AdminDivisionsList from '@/components/admin/AdminDivisions/AdminDivisionsList.vue';
 import AdminNormativeDocumentTypePage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypePage.vue';
 import AdminNormativeDocumentTypesList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypesList.vue';
+import AdminNormativeDocumentPage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentPage.vue';
 import AdminNormativeDocumentsList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentsList.vue';
 
 export default [
@@ -36,6 +37,24 @@ export default [
     path: '/admin/normative-documents',
     name: 'AdminNormativeDocuments',
     component: AdminNormativeDocumentsList,
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/normative-documents/new',
+    name: 'AdminNormativeDocumentNewPage',
+    component: AdminNormativeDocumentPage,
+    props: { isEdit: false },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/normative-documents/:id',
+    name: 'AdminNormativeDocumentPage',
+    component: AdminNormativeDocumentPage,
+    props: { isEdit: true },
     meta: {
       layout: 'AdminLayout',
     },

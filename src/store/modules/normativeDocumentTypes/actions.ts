@@ -16,10 +16,19 @@ const actions: ActionTree<State, RootState> = {
     commit('set', await httpClient.get<INormativeDocumentType>({ query: id }));
   },
   getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<INormativeDocumentType[]>());
+    const types = await httpClient.get<INormativeDocumentType[]>();
+
+    if (!types) {
+      return;
+    }
+
+    commit('setAll', types);
   },
   update: async ({ commit }, type: INormativeDocumentType): Promise<void> => {
-    await httpClient.put<INormativeDocumentType, INormativeDocumentType>({ payload: type });
+    await httpClient.put<INormativeDocumentType, undefined>({ query: type.id, payload: type });
+  },
+  remove: async ({ commit }, id: string): Promise<void> => {
+    await httpClient.delete<string, undefined>({ query: id });
   },
 };
 

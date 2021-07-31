@@ -1,10 +1,9 @@
-import IFileObject from '@/interfaces/files/IFileObject';
+import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default interface INormativeDocument {
-  id: string;
+  id?: string;
   name: string;
-  file: number;
-  type: number;
-  status: string;
-  file_object: IFileObject;
+  type: INormativeDocumentType;
+  fileInfo?: IFileInfo;
 }

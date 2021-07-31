@@ -12,7 +12,6 @@ export default class FileInfo implements IFileInfo {
     this.id = i.id;
     this.originalName = i.originalName;
     this.fileSystemPath = i.fileSystemPath;
-    this.category = i.category;
     this.file = i.file;
   }
 }

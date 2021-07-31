@@ -2,24 +2,79 @@
   <div class="flex-column">
     <div class="flex-row-between">
       <el-button type="primary" @click="$router.push('/admin/normative-documents/new')">Добавить документ</el-button>
-      <el-pagination background layout="prev, pager, next" :total="100" />
     </div>
-    <el-card>
-      <el-table :data="documents" v-if="documents">
-        <div>TODO: Fill with content</div>
+    <el-card v-if="documents">
+      <el-table :data="documents" v-if="documents" row-key="id">
+        <el-table-column prop="name" label="Наименование" sortable />
+        <el-table-column width="40" fixed="right" align="center">
+          <template #default="scope">
+            <TableButtonGroup @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" :showEditButton="true" :showRemoveButton="true" />
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
-    <div class="flex-row-end">
-      <el-pagination background layout="prev, pager, next" :total="100" />
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onBeforeMount, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+
 export default defineComponent({
   name: 'AdminNormativeDocumentsList',
+  components: { TableButtonGroup },
+
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    const documents = computed(() => store.getters['normativeDocuments/documents']);
+
+    const edit = async (id: string): Promise<void> => {
+      await router.push(`/admin/normative-documents/${id}`);
+    };
+
+    const remove = async (id: string) => {
+      await store.dispatch('normativeDocuments/remove', id);
+      await store.dispatch('normativeDocuments/getAll');
+    };
+
+    onBeforeMount(async () => {
+      store.commit('admin/setPageTitle', 'Нормативные документы');
+      await store.dispatch('normativeDocuments/getAll');
+    });
+
+    return {
+      documents,
+      edit,
+      remove,
+    };
+  },
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+$margin: 20px 0;
+
+.flex-column {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: $margin;
+}
+
+.flex-row-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: $margin;
+}
+</style>
