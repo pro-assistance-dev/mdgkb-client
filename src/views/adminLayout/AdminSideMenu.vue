@@ -92,7 +92,7 @@ export default defineComponent({
         children: [
           {
             title: 'Здания',
-            to: '/admin/dictionary/buildings',
+            to: '/admin/buildings',
           },
           {
             title: 'Нормативные документы',
@@ -100,11 +100,11 @@ export default defineComponent({
           },
           {
             title: 'Организации здравоохранения',
-            // to: '/admin/dictionary/side_organizations',
+            to: '/admin/side-organizations',
           },
           {
             title: 'Отделения',
-            to: '/admin/dictionary/divisions',
+            to: '/admin/divisions',
           },
           {
             title: 'Типы нормативных документов',
@@ -112,7 +112,7 @@ export default defineComponent({
           },
           // {
           //   title: 'Анализы',
-          // to: '/admin/dictionary/analyzes',
+          // to: '/admin/analyzes',
           //   icon: 'las la-list',
           // },
           // {

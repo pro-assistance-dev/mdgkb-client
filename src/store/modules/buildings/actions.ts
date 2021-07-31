@@ -13,7 +13,14 @@ const actions: ActionTree<State, RootState> = {
     commit('setAll', await httpClient.get<IBuilding[]>());
   },
   get: async ({ commit }, id: number) => {
-    commit('set', await httpClient.get<IBuilding>({ query: `${id}?fields=*.*.*` }));
+    commit('set', await httpClient.get<IBuilding>({ query: `${id}` }));
+  },
+  update: async ({ commit }, building: IBuilding): Promise<void> => {
+    await httpClient.put<IBuilding, IBuilding>({ query: `${building.id}`, payload: building });
+    commit('set');
+  },
+  getByFloorId: async ({ commit }, id: number) => {
+    commit('set', await httpClient.get<IBuilding>({ query: `floor/${id}` }));
   },
 };
 

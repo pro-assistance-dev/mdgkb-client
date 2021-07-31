@@ -6,7 +6,6 @@
       <span>0 </span>
     </div>
     <div class="icon like">
-      {{ isAuth }}
       <LikeFilled @click.stop="deleteLike(news)" class="liked" v-if="liked(news.newsLikes)" />
       <LikeOutlined @click.stop="createLike(news)" v-else />
       <span>{{ news.newsLikes.length }} </span>
@@ -134,9 +133,5 @@ export default defineComponent({
     margin: 5px;
     font-size: 30px;
   }
-}
-
-.date-meta {
-  width: 145px;
 }
 </style>

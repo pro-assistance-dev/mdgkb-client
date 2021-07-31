@@ -1,7 +1,7 @@
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 
 export default class SideOrganization implements ISideOrganization {
-  id?: number;
+  id?: string;
   name?: string;
   phone?: string;
   address?: string;

@@ -12,6 +12,10 @@ const mutations: MutationTree<State> = {
   set(state, division: IDivision) {
     state.division = new Division(division);
   },
+  remove(state, id: string) {
+    const index = state.divisions.findIndex((i: IDivision) => i.id === id);
+    state.divisions.splice(index, 1);
+  },
 };
 
 export default mutations;

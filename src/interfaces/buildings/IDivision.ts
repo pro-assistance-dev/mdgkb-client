@@ -6,5 +6,6 @@ export default interface IDivision {
   email?: string;
   address?: string;
   floorId?: string;
+  buildingId?: string;
   slug?: string;
 }

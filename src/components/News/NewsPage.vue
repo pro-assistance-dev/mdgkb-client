@@ -292,8 +292,4 @@ h3 {
     margin: 5px;
   }
 }
-
-.right-footer {
-  width: 270px;
-}
 </style>

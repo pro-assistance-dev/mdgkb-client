@@ -6,10 +6,11 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
+import Division from '@/classes/buildings/Division';
 
 export const state: State = {
   divisions: [],
-  division: undefined,
+  division: new Division(),
 };
 
 const namespaced = true;

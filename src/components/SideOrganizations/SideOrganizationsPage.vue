@@ -1,86 +1,56 @@
 <template>
   <el-container direction="vertical" align="center">
     <h1>Сведения об организациях в сфере охраны здоровья</h1>
-    <el-table
-      :data="sideOrganizations"
-      :expand-row-keys="expandRowKeys"
-      :row-key="(row) => row.id"
-      @expand-change="handleExpandChange"
-      @row-click="handleExpandChange"
-      cell-class-name="cell-row"
-      class="table-shadow"
-      :show-header="false"
-    >
-      <el-table-column>
-        <template #default="scope">
-          <span class="uppercase"
-            ><h4>{{ scope.row.name }}</h4></span
-          >
-        </template>
-      </el-table-column>
-      <el-table-column header-align="center" type="expand">
-        <template #default="scope">
+    <el-collapse v-model="activeName" accordion>
+      <template v-for="(item, index) in sideOrganizations" :key="item.id">
+        <el-collapse-item :name="index + 1">
+          <template #title>
+            <h3 class="organization-title">{{ item.name }}</h3>
+          </template>
           <el-row>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-              <el-space direction="vertical" alignment="start">
+              <div class="info-container">
                 <div>
                   <h4>Телефон:</h4>
                   <div>
-                    <b>{{ scope.row.phone }}</b>
+                    <span>{{ item.phone }}</span>
                   </div>
                 </div>
-                <!--                <div v-if="scope.row.phones.length">-->
-                <!--                  <h4>Телефон:</h4>-->
-                <!--                  <div v-for="item in scope.row.phones" :key="item.phone">-->
-                <!--                    <b>{{ item.phone }}</b>-->
-                <!--&lt;!&ndash;                    <span> - {{ item.description }}</span>&ndash;&gt;-->
-                <!--                  </div>-->
-                <!--                </div>-->
-                <!--                <div v-if="scope.row.timetable.length">-->
-                <!--                  <h4>Часы работы:</h4>-->
-                <!--                  <div v-for="(item, index) in scope.row.timetable" :key="index">-->
-                <!--                    <b>{{ item.days }}</b>-->
-                <!--                    <span> - {{ item.value }}</span>-->
-                <!--                  </div>-->
-                <!--                </div>-->
-                <div v-if="scope.row.address">
+                <div v-if="item.address">
                   <h4>Адрес:</h4>
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ item.address }}</span>
                 </div>
-                <div v-if="scope.row.site">
+                <div v-if="item.site">
                   <h4>Сайт:</h4>
-                  <span>{{ scope.row.site }}</span>
+                  <span>{{ item.site }}</span>
                 </div>
-              </el-space>
+              </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
               <!-- <yandex-map
-                :coords="Object.values(scope.row.geolocation)"
+                :coords="Object.values(item.geolocation)"
                 :zoom="15"
                 style="min-height: 200px; height: 100%;"
                 v-if="allowMap"
               >
                 <ymap-marker
-                  :coords="Object.values(scope.row.geolocation)"
+                  :coords="Object.values(item.geolocation)"
                   hint-content="some hint"
                   marker-id="123"
                 />
               </yandex-map> -->
             </el-col>
           </el-row>
-        </template>
-      </el-table-column>
-    </el-table>
+        </el-collapse-item>
+      </template>
+    </el-collapse>
   </el-container>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted, watch } from 'vue';
+import { ref, defineComponent, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 // import { yandexMap, ymapMarker } from 'vue-yandex-maps';
-
-import SideOrganization from '@/classes/sideOrganization/SideOrganization';
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 
 export default defineComponent({
   name: 'SideOrganizationsPage',
@@ -90,39 +60,30 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const sideOrganizations = ref([new SideOrganization()]);
+    const sideOrganizations = computed(() => store.getters['sideOrganizations/sideOrganizations']);
+    const activeName = ref(1);
 
     const loadSideOrganizations = async (): Promise<void> => {
       await store.dispatch('sideOrganizations/getAll');
-      sideOrganizations.value = store.getters['sideOrganizations/sideOrganizations'];
     };
 
-    const expandRowKeys = ref<(number | undefined)[]>([]);
+    // const allowMap = ref(false);
 
-    const handleExpandChange = (row: ISideOrganization) => {
-      const id = row.id;
-      const lastId = expandRowKeys.value[0];
-      expandRowKeys.value = id === lastId ? [] : [id];
-    };
+    // const openedOrganization = () => {
+    //   allowMap.value = false;
+    //   setTimeout(function () {
+    //     allowMap.value = true;
+    //   }, 500);
+    // };
 
-    const allowMap = ref(false);
-
-    const openedOrganization = () => {
-      allowMap.value = false;
-      setTimeout(function () {
-        allowMap.value = true;
-      }, 500);
-    };
-
-    watch(sideOrganizations, openedOrganization);
+    // watch(sideOrganizations, openedOrganization);
 
     onMounted(loadSideOrganizations);
 
     return {
       sideOrganizations,
-      expandRowKeys,
-      allowMap,
-      handleExpandChange,
+      // allowMap,
+      activeName,
     };
   },
 });
@@ -131,28 +92,47 @@ export default defineComponent({
 <style lang="scss" scoped>
 $table-border: #f1f1f1;
 
-.uppercase {
-  text-transform: uppercase;
+.info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
-:deep(.cell-row) {
-  cursor: pointer;
+.organization-title {
+  text-transform: uppercase;
 }
 
 .table-shadow {
   box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%); /* Параметры тени */
   border: 1px solid $table-border;
-  border-radius: 15px;
+  border-radius: 5px;
 }
 
-:deep(.no-border) {
-  tr {
-    border: none;
-  }
+h3 {
+  font-size: 16px;
 }
 
 h3,
 h4 {
   margin: 0;
+  text-align: start;
+}
+
+.el-collapse {
+  width: 100%;
+  border: none;
+}
+.el-collapse-item {
+  background-color: white;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+:deep(.el-collapse-item__header),
+:deep(.el-collapse-item__wrap) {
+  border: none;
 }
 </style>

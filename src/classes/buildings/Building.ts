@@ -21,6 +21,14 @@ export default class Building implements IBuilding {
     this.name = i.name;
     this.status = i.status;
     this.description = i.description;
-    if (i.floors) this.floors = i.floors.map((item: IFloor) => new Floor(item));
+    if (i.floors)
+      this.floors = i.floors
+        .map((item: IFloor) => new Floor(item))
+        .sort((a: IFloor, b: IFloor) => {
+          if (a.number && b.number) {
+            return a.number - b.number;
+          }
+          return 0;
+        });
   }
 }

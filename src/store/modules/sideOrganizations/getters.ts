@@ -10,6 +10,10 @@ const getters: GetterTree<State, RootState> = {
     const { sideOrganizations } = state;
     return sideOrganizations;
   },
+  sideOrganization(state): ISideOrganization {
+    const { sideOrganization } = state;
+    return sideOrganization;
+  },
 };
 
 export default getters;
