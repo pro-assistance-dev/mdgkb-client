@@ -19,13 +19,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType, onBeforeMount } from 'vue';
+import { defineComponent, ref, Ref, computed, PropType, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
-import NormativeDocumentRules from '@/classes/normativeDocument/NormativeDocumentRules';
-import NormativeDocument from '@/classes/normativeDocument/NormativeDocument';
+import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
+import NormativeDocument from '@/classes/normativeDocument/NormativeDocument';
+import NormativeDocumentRules from '@/classes/normativeDocument/NormativeDocumentRules';
 
 export default defineComponent({
   name: 'AdminNormativeDocumentPage',
@@ -36,7 +37,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const form = ref(new NormativeDocument());
+    const form: Ref<INormativeDocument> = ref(new NormativeDocument());
     const types = computed(() => store.getters['normativeDocumentTypes/types']);
     const selectedTypeId = ref('');
     const formRef = ref();
