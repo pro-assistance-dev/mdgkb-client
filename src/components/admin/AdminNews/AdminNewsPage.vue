@@ -1,107 +1,109 @@
 <template>
-  <el-form :model="news" ref="form" :rules="rules">
-    <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
-        <el-container direction="vertical">
-          <el-card>
-            <template #header>Заголовок</template>
-            <el-form-item prop="title">
-              <el-input v-model="news.title" placeholder="Заголовок"></el-input>
-            </el-form-item>
-          </el-card>
-          <el-card class="content-card">
-            <template #header>Контент</template>
-            <el-form-item prop="content">
-              <QuillEditor style="height: 250px" v-model:content="news.content" contentType="html" theme="snow"></QuillEditor>
-            </el-form-item>
-          </el-card>
-        </el-container>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
-        <el-container direction="vertical">
-          <el-button @click="submit" type="success" style="margin-bottom: 20px">Сохранить</el-button>
-          <el-card>
-            <template #header>Статус</template>
-            <el-space direction="vertical" alignment="start" :size="10">
-              <el-form-item prop="publishedOn">
-                <el-date-picker format="DD.MM.YYYY H:m:s" v-model="news.publishedOn" type="datetime" placeholder="Дата публикации" />
+  <div class="wrapper">
+    <el-form :model="news" ref="form" :rules="rules">
+      <el-row :gutter="40">
+        <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
+          <el-container direction="vertical">
+            <el-card>
+              <template #header>Заголовок</template>
+              <el-form-item prop="title">
+                <el-input v-model="news.title" placeholder="Заголовок"></el-input>
               </el-form-item>
-            </el-space>
-          </el-card>
-          <el-card>
-            <template #header>
-              Тэги
-              <el-popover placement="top" :width="160" :visible="tagsVisible">
-                <el-input v-model="tag.label" />
-                <div style="text-align: right; margin: 0">
-                  <el-button size="mini" type="text" @click="createTag">Создать</el-button>
-                  <el-button type="primary" size="mini" @click="tagsVisible = false">Отмена</el-button>
+            </el-card>
+            <el-card class="content-card">
+              <template #header>Контент</template>
+              <el-form-item prop="content">
+                <QuillEditor style="height: 250px" v-model:content="news.content" contentType="html" theme="snow"></QuillEditor>
+              </el-form-item>
+            </el-card>
+          </el-container>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
+          <el-container direction="vertical">
+            <el-button @click="submit" type="success" style="margin-bottom: 20px">Сохранить</el-button>
+            <el-card>
+              <template #header>Статус</template>
+              <el-space direction="vertical" alignment="start" :size="10">
+                <el-form-item prop="publishedOn">
+                  <el-date-picker format="DD.MM.YYYY H:m:s" v-model="news.publishedOn" type="datetime" placeholder="Дата публикации" />
+                </el-form-item>
+              </el-space>
+            </el-card>
+            <el-card>
+              <template #header>
+                Тэги
+                <el-popover placement="top" :width="160" :visible="tagsVisible">
+                  <el-input v-model="tag.label" />
+                  <div style="text-align: right; margin: 0">
+                    <el-button size="mini" type="text" @click="createTag">Создать</el-button>
+                    <el-button type="primary" size="mini" @click="tagsVisible = false">Отмена</el-button>
+                  </div>
+                  <template #reference>
+                    <el-button @click="tagsVisible = !tagsVisible" type="success" icon="el-icon-plus" circle></el-button>
+                  </template>
+                </el-popover>
+              </template>
+
+              <el-form-item>
+                <div class="vertical-wrap">
+                  <el-checkbox
+                    :checked="findTag(tag.id)"
+                    icon="el-icon-arrow-left"
+                    @change="chooseTag(tag)"
+                    v-for="tag in tags"
+                    :key="tag.id"
+                    :label="tag.label"
+                    border
+                    >{{ tag.label }} <i @click.prevent="removeTag(tag.id)" class="el-icon-close delete-tag-icon"></i
+                  ></el-checkbox>
                 </div>
-                <template #reference>
-                  <el-button @click="tagsVisible = !tagsVisible" type="success" icon="el-icon-plus" circle></el-button>
+              </el-form-item>
+            </el-card>
+            <el-card>
+              <template #header> Загрузить картинку </template>
+              <el-upload
+                ref="uploader"
+                :multiple="false"
+                class="avatar-uploader-cover"
+                action="#"
+                list-type="picture-card"
+                :file-list="fileList"
+                :auto-upload="false"
+                :limit="parseInt('1')"
+                :on-change="toggleUpload"
+                :class="{ hideUpload: !showUpload }"
+                accept="image/jpeg,image/png,image/jng"
+              >
+                <template #default>
+                  <i class="el-icon-plus"></i>
                 </template>
-              </el-popover>
-            </template>
-
-            <el-form-item>
-              <div class="vertical-wrap">
-                <el-checkbox
-                  :checked="findTag(tag.id)"
-                  icon="el-icon-arrow-left"
-                  @change="chooseTag(tag)"
-                  v-for="tag in tags"
-                  :key="tag.id"
-                  :label="tag.label"
-                  border
-                  >{{ tag.label }} <i @click.prevent="removeTag(tag.id)" class="el-icon-close delete-tag-icon"></i
-                ></el-checkbox>
-              </div>
-            </el-form-item>
-          </el-card>
-          <el-card>
-            <template #header> Загрузить картинку </template>
-            <el-upload
-              ref="uploader"
-              :multiple="false"
-              class="avatar-uploader-cover"
-              action="#"
-              list-type="picture-card"
-              :file-list="fileList"
-              :auto-upload="false"
-              :limit="parseInt('1')"
-              :on-change="toggleUpload"
-              :class="{ hideUpload: !showUpload }"
-              accept="image/jpeg,image/png,image/jng"
-            >
-              <template #default>
-                <i class="el-icon-plus"></i>
-              </template>
-              <template #file="{ file }">
-                <div>
-                  <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-                </div>
-                <span class="el-upload-list__item-actions">
-                  <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                    <i class="el-icon-zoom-in"></i>
+                <template #file="{ file }">
+                  <div>
+                    <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                  </div>
+                  <span class="el-upload-list__item-actions">
+                    <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                      <i class="el-icon-zoom-in"></i>
+                    </span>
+                    <!--                  <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">-->
+                    <!--                    <i class="el-icon-download"></i>-->
+                    <!--                  </span>-->
+                    <span class="el-upload-list__item-delete" @click="handleRemove(file)">
+                      <i class="el-icon-delete"></i>
+                    </span>
                   </span>
-                  <!--                  <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleDownload(file)">-->
-                  <!--                    <i class="el-icon-download"></i>-->
-                  <!--                  </span>-->
-                  <span class="el-upload-list__item-delete" @click="handleRemove(file)">
-                    <i class="el-icon-delete"></i>
-                  </span>
-                </span>
-              </template>
-            </el-upload>
-          </el-card>
-        </el-container>
-      </el-col>
-    </el-row>
-  </el-form>
+                </template>
+              </el-upload>
+            </el-card>
+          </el-container>
+        </el-col>
+      </el-row>
+    </el-form>
 
-  <el-dialog v-model="cropOpen">
-    <ImageCropper :src="imageCropSrc" @save="saveFromCropper" :ratio="1" />
-  </el-dialog>
+    <el-dialog v-model="isCropOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+      <ImageCropper :src="imageCropSrc" @save="saveFromCropper" @cancel="cancelCropper" :ratio="1" />
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="ts">
@@ -127,7 +129,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     let showUpload = ref(true);
-    let cropOpen = ref(false);
+    let isCropOpen = ref(false);
     let tagsVisible = ref(false);
     let imageCropSrc = ref('');
     let uploader = ref();
@@ -168,7 +170,7 @@ export default defineComponent({
       });
 
       imageCropSrc.value = file.url;
-      cropOpen.value = true;
+      isCropOpen.value = true;
     };
 
     const submit = async () => {
@@ -219,12 +221,18 @@ export default defineComponent({
       news.value.fileInfo.file = file.blob;
       news.value.fileInfo.originalName = uuidv4();
       fileList.value = [];
-      cropOpen.value = false;
+      isCropOpen.value = false;
       fileList.value.push({ name: news.value.fileInfo.fileSystemPath, url: file.src });
       if (fileList.value.length > 0) showUpload.value = false;
     };
 
-    const handleRemove = (file: File) => {
+    const cancelCropper = () => {
+      handleRemove();
+      fileList.value = [];
+      isCropOpen.value = false;
+    };
+
+    const handleRemove = (file?: File) => {
       uploader.value.clearFiles();
       setTimeout(() => {
         showUpload.value = !showUpload.value;
@@ -233,7 +241,7 @@ export default defineComponent({
 
     const handlePictureCardPreview = (file: any) => {
       imageCropSrc.value = file.url;
-      cropOpen.value = true;
+      isCropOpen.value = true;
     };
 
     // const handleDownload(file) {
@@ -256,13 +264,14 @@ export default defineComponent({
       handleRemove,
       saveFromCropper,
       submit,
-      cropOpen,
+      isCropOpen,
       news,
       showUpload,
       toggleUpload,
       imageCropSrc,
       rules,
       form,
+      cancelCropper,
     };
   },
 });
@@ -303,5 +312,9 @@ export default defineComponent({
 
 .content-card {
   height: 450px;
+}
+
+:deep(.el-dialog) {
+  overflow: hidden;
 }
 </style>
