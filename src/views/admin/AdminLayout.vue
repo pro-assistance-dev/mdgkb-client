@@ -6,15 +6,12 @@
       <div class="admin-container">
         <AdminHeaderBottom />
         <el-main style="height: 100%">
-          <div v-if="error">Ошибка</div>
-          <Suspense v-else>
-            <template #default>
-              <slot />
-            </template>
-            <template #fallback>
-              <div>Loading...</div>
-            </template>
-          </Suspense>
+          <template #default>
+            <slot />
+          </template>
+          <template #fallback>
+            <div>Loading...</div>
+          </template>
         </el-main>
       </div>
     </div>
@@ -39,8 +36,7 @@ export default defineComponent({
     AdminMenuDrawer,
   },
 
-  setup() {
-  },
+  setup() {},
 });
 </script>
 

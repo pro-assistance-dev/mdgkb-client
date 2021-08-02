@@ -36,13 +36,13 @@ export default defineComponent({
     const form = ref();
     const sideOrganization = computed(() => store.getters['sideOrganizations/sideOrganization']);
     const rules = ref(SideOrganizationRules);
-    store.commit('sideOrganizations/set', new SideOrganization());
 
     const loadSideOrganization = async (): Promise<void> => {
       if (route.params['id']) {
         await store.dispatch('sideOrganizations/get', route.params['id']);
         store.commit('admin/setPageTitle', sideOrganization.value.name);
       } else {
+        store.commit('sideOrganizations/set', new SideOrganization());
         store.commit('admin/setPageTitle', 'Создать организацию');
       }
     };
