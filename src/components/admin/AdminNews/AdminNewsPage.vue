@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <el-form :model="news" ref="form" :rules="rules">
+    <el-form :model="news" ref="form" :rules="rules" :key="news">
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
           <el-container direction="vertical">
@@ -13,7 +13,12 @@
             <el-card class="content-card">
               <template #header>Контент</template>
               <el-form-item prop="content">
-                <QuillEditor style="height: 250px" v-model:content="news.content" contentType="html" theme="snow"></QuillEditor>
+                <QuillEditor
+                  style="min-height: 200px; max-height: 700px"
+                  v-model:content="news.content"
+                  contentType="html"
+                  theme="snow"
+                ></QuillEditor>
               </el-form-item>
             </el-card>
           </el-container>
@@ -31,17 +36,19 @@
             </el-card>
             <el-card>
               <template #header>
-                Тэги
-                <el-popover placement="top" :width="160" :visible="tagsVisible">
-                  <el-input v-model="tag.label" />
-                  <div style="text-align: right; margin: 0">
-                    <el-button size="mini" type="text" @click="createTag">Создать</el-button>
-                    <el-button type="primary" size="mini" @click="tagsVisible = false">Отмена</el-button>
-                  </div>
-                  <template #reference>
-                    <el-button @click="tagsVisible = !tagsVisible" type="success" icon="el-icon-plus" circle></el-button>
-                  </template>
-                </el-popover>
+                <div class="flex-row-between">
+                  <span> Тэги </span>
+                  <el-popover placement="top" :width="160" :visible="tagsVisible">
+                    <el-input v-model="tag.label" />
+                    <div style="text-align: right; margin: 0">
+                      <el-button size="mini" type="text" @click="createTag">Создать</el-button>
+                      <el-button type="primary" size="mini" @click="tagsVisible = false">Отмена</el-button>
+                    </div>
+                    <template #reference>
+                      <el-button size="small" @click="tagsVisible = !tagsVisible" type="success" icon="el-icon-plus" circle></el-button>
+                    </template>
+                  </el-popover>
+                </div>
               </template>
 
               <el-form-item>
@@ -124,7 +131,7 @@ import NewsRules from '@/classes/news/NewsRules';
 export default defineComponent({
   name: 'AdminNewsPage',
   components: { ImageCropper, QuillEditor },
-  async setup() {
+  setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -139,14 +146,20 @@ export default defineComponent({
     let fileList: Ref<IFilesList[]> = ref([]);
 
     const news = computed(() => store.getters['news/newsItem']);
-    await store.dispatch('tags/getAll');
-    if (route.params['slug']) {
-      await store.dispatch('news/get', route.params['slug']);
-      store.commit('admin/setPageTitle', news.value.title);
-    } else {
-      store.commit('news/set', new News());
-      store.commit('admin/setPageTitle', 'Добавить новость');
-    }
+
+    const loadNewsItem = async () => {
+      await store.dispatch('tags/getAll');
+      if (route.params['slug']) {
+        await store.dispatch('news/get', route.params['slug']);
+        store.commit('admin/setPageTitle', news.value.title);
+        fileToUpload();
+      } else {
+        store.commit('news/set', new News());
+        store.commit('admin/setPageTitle', 'Добавить новость');
+      }
+    };
+
+    onMounted(loadNewsItem);
 
     const fileToUpload = () => {
       if (news.value.fileInfo?.fileSystemPath != '') {
@@ -174,7 +187,6 @@ export default defineComponent({
     };
 
     const submit = async () => {
-      console.log(news.value.fileInfo);
       let validationResult;
       form.value.validate((valid: any) => {
         if (valid) {
@@ -201,6 +213,8 @@ export default defineComponent({
     const createTag = async () => {
       tagsVisible.value = false;
       await store.dispatch('tags/create', tag.value);
+      // TODO переписать tags/create на сервере, чтобы возвращал id в том числе, чтобы не делать tags/getAll
+      await store.dispatch('tags/getAll');
     };
 
     const chooseTag = async (tag: ITag) => {
@@ -232,7 +246,7 @@ export default defineComponent({
       isCropOpen.value = false;
     };
 
-    const handleRemove = (file?: File) => {
+    const handleRemove = () => {
       uploader.value.clearFiles();
       setTimeout(() => {
         showUpload.value = !showUpload.value;
@@ -243,12 +257,6 @@ export default defineComponent({
       imageCropSrc.value = file.url;
       isCropOpen.value = true;
     };
-
-    // const handleDownload(file) {
-    //   console.log(file)
-    // },
-
-    fileToUpload();
 
     return {
       fileList,
@@ -311,10 +319,17 @@ export default defineComponent({
 }
 
 .content-card {
-  height: 450px;
+  min-height: 450px;
+  max-height: 900px;
 }
 
 :deep(.el-dialog) {
   overflow: hidden;
+}
+
+.flex-row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

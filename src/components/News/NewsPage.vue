@@ -294,4 +294,8 @@ h3 {
     margin: 5px;
   }
 }
+
+:deep(img) {
+  max-width: 760px;
+}
 </style>
