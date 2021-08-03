@@ -23,6 +23,10 @@ const mutations: MutationTree<State> = {
   set(state, item?: INews) {
     state.newsItem = new News(item);
   },
+  setCalendarNews(state, items: INews[]) {
+    if (!items) return;
+    state.calendarNews = items.map((i: INews) => new News(i));
+  },
   remove(state, id: string) {
     const index = state.news.findIndex((i: INews) => i.id === id);
     state.news.splice(index, 1);
@@ -35,6 +39,9 @@ const mutations: MutationTree<State> = {
   removeFilterTag(state, id: string) {
     const index = state.filterTags.findIndex((i: ITag) => i.id === id);
     state.filterTags.splice(index, 1);
+  },
+  resetFilterTags(state) {
+    state.filterTags = [];
   },
   setFilteredNews(state) {
     if (state.filterTags.length) {

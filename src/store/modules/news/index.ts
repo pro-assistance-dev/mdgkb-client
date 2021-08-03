@@ -14,6 +14,7 @@ export const state: State = {
   filterTags: [],
   newsItem: new News(),
   allNewsLoaded: false,
+  calendarNews: [new News()],
 };
 
 const namespaced = true;

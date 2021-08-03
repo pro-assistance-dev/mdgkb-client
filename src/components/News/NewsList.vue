@@ -2,7 +2,7 @@
   <el-row :gutter="40">
     <el-col :xl="6" :lg="6" :md="24" class="calendar">
       <div class="left-side-container">
-        <NewsCalendar v-model:news="news" />
+        <NewsCalendar />
         <NewsFilters />
       </div>
     </el-col>
@@ -28,6 +28,7 @@ import NewsFilters from '@/components/News/NewFilters.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import INewsParams from '@/interfaces/news/INewsParams';
+import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsList',
@@ -37,6 +38,7 @@ export default defineComponent({
     const loading = ref(false);
     const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
     const filteredNews = computed(() => store.getters['news/filteredNews']);
+    const filterTags = computed(() => store.getters['news/filterTags']);
 
     const defaultParams: INewsParams = { limit: 6 };
     const news = computed(() => store.getters['news/news']);
@@ -50,7 +52,11 @@ export default defineComponent({
 
     const loadMore = async () => {
       loading.value = true;
-      const params: INewsParams = { publishedOn: news.value[news.value.length - 1].publishedOn, limit: 6 };
+      const params: INewsParams = {
+        publishedOn: news.value[news.value.length - 1].publishedOn,
+        limit: 6,
+        filterTags: filterTags.value.map((tag: ITag) => tag.id),
+      };
       await store.dispatch('news/getAll', params);
     };
 

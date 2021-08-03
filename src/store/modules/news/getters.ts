@@ -27,6 +27,9 @@ const getters: GetterTree<State, RootState> = {
   filterTags(state): ITag[] {
     return state.filterTags;
   },
+  calendarNews(state): INews[] {
+    return state.calendarNews;
+  },
 };
 
 export default getters;

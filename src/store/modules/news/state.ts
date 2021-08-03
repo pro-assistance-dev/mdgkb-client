@@ -7,4 +7,5 @@ export interface State {
   filterTags: ITag[];
   newsItem?: INews;
   allNewsLoaded: boolean;
+  calendarNews: INews[];
 }

@@ -3,16 +3,19 @@
     <template #header>
       <div class="card-header">
         <span>Фильтры</span>
-        <el-popover :width="200" :visible="tagListVisible">
-          <div class="popover-body">
-            <el-tag class="tag-list-item" v-for="tag in filteredTagList" :key="tag.id" @click="addFilterTag(tag)">
-              {{ tag.label }}
-            </el-tag>
-          </div>
-          <template #reference>
-            <el-button class="tag-link" size="small" @click="tagListVisible = !tagListVisible"><i class="el-icon-plus"></i></el-button>
-          </template>
-        </el-popover>
+        <div style="display: flex">
+          <el-popover :width="200" :visible="tagListVisible">
+            <div class="popover-body">
+              <el-tag class="tag-list-item" v-for="tag in filteredTagList" :key="tag.id" @click="addFilterTag(tag)">
+                {{ tag.label }}
+              </el-tag>
+            </div>
+            <template #reference>
+              <el-button class="tag-link" size="small" icon="el-icon-plus" @click="tagListVisible = !tagListVisible"></el-button>
+            </template>
+          </el-popover>
+          <el-button class="tag-link" size="small" @click="resetFilterTags">Сбросить</el-button>
+        </div>
       </div>
     </template>
     <el-tag effect="plain" class="tag-link" closable v-for="tag in filterTags" :key="tag.id" @close="removeFilterTag(tag.id)">
@@ -42,14 +45,19 @@ export default defineComponent({
       await store.dispatch('news/addFilterTag', tag);
       await store.dispatch('tags/filterTagList', filterTags.value);
     };
+    const resetFilterTags = async () => {
+      await store.dispatch('news/resetFilterTags');
+      await store.dispatch('tags/filterTagList', filterTags.value);
+    };
     const loadTagList = async () => {
       await store.dispatch('tags/getAll');
     };
     onMounted(loadTagList);
     return {
       addFilterTag,
-      filterTags,
+      resetFilterTags,
       removeFilterTag,
+      filterTags,
       tagList,
       filteredTagList,
       tagListVisible,

@@ -1,5 +1,6 @@
 <template>
-  <calendar locale="ru" :attributes="attributes" is-expanded>
+  <calendar ref="calendar" locale="ru" :attributes="attributes" is-expanded @update:from-page="changeMonth">
+    <!-- @update:page="changeMonth" -->
     <template #day-popover="{ dayTitle, attributes }">
       <div style="text-align: center">
         {{ dayTitle }}
@@ -12,28 +13,27 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, computed } from 'vue';
+import { PropType, defineComponent, computed, ref, onMounted } from 'vue';
 import { Calendar, PopoverRow } from 'v-calendar';
 import INews from '@/interfaces/news/INews';
+import { useStore } from 'vuex';
+import INewsParams from '@/interfaces/news/INewsParams';
 
 export default defineComponent({
   name: 'NewsCalendar',
-  props: {
-    news: {
-      type: Array as PropType<Array<INews>>,
-      required: true,
-    },
-  },
   components: { Calendar, PopoverRow },
 
-  setup(props) {
+  setup() {
+    const store = useStore();
+    const calendar = ref();
+    const news = computed(() => store.getters['news/calendarNews']);
     const randomDotColor = () => {
       const colors = ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
       return colors[Math.floor(Math.random() * colors.length)];
     };
 
     const attributes = computed(() => [
-      ...props.news.map((item) => {
+      ...news.value.map((item: INews) => {
         return {
           dot: randomDotColor(),
           dates: [new Date(item.publishedOn)],
@@ -47,9 +47,16 @@ export default defineComponent({
         };
       }),
     ]);
+    const changeMonth = (page: any) => {
+      // console.log('page =============+>', page);
+      const params: INewsParams = { month: page.month, year: page.year };
+      store.dispatch('news/getByMonth', params);
+    };
 
     return {
       attributes,
+      calendar,
+      changeMonth,
     };
   },
 });

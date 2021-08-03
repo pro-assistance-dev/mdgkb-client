@@ -22,6 +22,9 @@ const actions: ActionTree<State, RootState> = {
     if (params && params.limit && params.publishedOn) {
       query = `?publishedOn=${params.publishedOn}&limit=${params.limit}`;
     }
+    if (params && params.limit && params.publishedOn && params.filterTags?.length) {
+      query = `?publishedOn=${params.publishedOn}&limit=${params.limit}&filterTags=${params.filterTags}`;
+    }
     const res = await httpClient.get<{ data: INews[] }>({ query: query });
     if (res && params && !params.publishedOn) commit('setAll', res);
     if (res && params && params.publishedOn) commit('appendToAll', res);
@@ -29,6 +32,11 @@ const actions: ActionTree<State, RootState> = {
   get: async ({ commit }, slug: string): Promise<void> => {
     const res = await httpClient.get<INews>({ query: `${slug}` });
     commit('set', res);
+  },
+  getByMonth: async ({ commit }, params: INewsParams): Promise<void> => {
+    const query = `month/?month=${params.month}&year=${params.year}`;
+    const res = await httpClient.get<{ data: INews[] }>({ query: query });
+    commit('setCalendarNews', res);
   },
   create: async ({ commit }, news: INews): Promise<void> => {
     const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: [news.fileInfo], isFormData: true });
@@ -76,14 +84,18 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `comment/${comment.id}` });
     commit('deleteCommentFromNews', comment);
   },
-  addFilterTag: async ({ commit }, tag: ITag) => {
+  addFilterTag: async ({ commit }, tag: ITag): Promise<void> => {
     commit('addFilterTag', tag);
     commit('setFilteredNews');
   },
-  removeFilterTag: async ({ commit }, id: string) => {
+  removeFilterTag: async ({ commit }, id: string): Promise<void> => {
     commit('removeFilterTag', id);
     commit('setFilteredNews');
   },
+  resetFilterTags: async ({commit}) => {
+    commit('resetFilterTags');
+    commit('setFilteredNews');
+  }
 };
 
 export default actions;
