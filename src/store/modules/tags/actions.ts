@@ -12,6 +12,7 @@ const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
     const res = await httpClient.get<{ data: ITag[] }>();
     commit('setAll', res);
+    commit('setFilteredTagList');
   },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<ITag>({ query: `${id}` });
@@ -29,6 +30,9 @@ const actions: ActionTree<State, RootState> = {
   remove: async ({ commit }, newsId: string): Promise<void> => {
     const res = await httpClient.delete({ query: `${newsId}` });
     commit('remove', newsId);
+  },
+  filterTagList: async ({ commit }, tags: ITag[]) => {
+    commit('setFilteredTagList', tags);
   },
 };
 

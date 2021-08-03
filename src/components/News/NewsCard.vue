@@ -4,7 +4,7 @@
       <div class="tags tags-top">
         <el-tag
           effect="plain"
-          @click.stop="filterNews(tag.id)"
+          @click.stop="filterNews(tag)"
           class="tag-link"
           v-for="tag in news.tags.slice(0, 3)"
           :key="tag.id"
@@ -32,9 +32,10 @@
 
 <script lang="ts">
 import { useStore } from 'vuex';
-import { PropType, defineComponent } from 'vue';
+import { PropType, defineComponent, computed } from 'vue';
 import INews from '@/interfaces/news/INews';
 import NewsMeta from '@/components/News/NewsMeta.vue';
+import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsCard',
@@ -47,6 +48,7 @@ export default defineComponent({
   components: { NewsMeta },
   async setup() {
     const store = useStore();
+    const filterTags = computed(() => store.getters['news/filterTags']);
 
     const getImageUrl = (imagePath: string): string => {
       return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
@@ -56,8 +58,9 @@ export default defineComponent({
       e.target.src = require('../../assets/img/310x310.png');
     };
 
-    const filterNews = async (tagId: string): Promise<void> => {
-      await store.commit('news/filterByTag', tagId);
+    const filterNews = async (tag: ITag): Promise<void> => {
+      await store.dispatch('news/addFilterTag', tag);
+      await store.dispatch('tags/filterTagList', filterTags.value);
     };
 
     return {

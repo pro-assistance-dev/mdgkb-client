@@ -9,6 +9,7 @@ import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsParams from '@/interfaces/news/INewsParams';
 import INewsToTag from '@/interfaces/news/INewsToTag';
+import ITag from '@/interfaces/news/ITag';
 
 const httpClient = new HttpClient('news');
 
@@ -74,6 +75,14 @@ const actions: ActionTree<State, RootState> = {
   deleteComment: async ({ commit }, comment: INewsComment): Promise<void> => {
     await httpClient.delete({ query: `comment/${comment.id}` });
     commit('deleteCommentFromNews', comment);
+  },
+  addFilterTag: async ({ commit }, tag: ITag) => {
+    commit('addFilterTag', tag);
+    commit('setFilteredNews');
+  },
+  removeFilterTag: async ({ commit }, id: string) => {
+    commit('removeFilterTag', id);
+    commit('setFilteredNews');
   },
 };
 

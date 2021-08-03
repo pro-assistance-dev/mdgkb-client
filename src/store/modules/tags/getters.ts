@@ -14,6 +14,9 @@ const getters: GetterTree<State, RootState> = {
     if (!state.item) state.item = new Tag();
     return state.item;
   },
+  filteredTagList(state): ITag[] | undefined {
+    return state.filteredTagList;
+  },
 };
 
 export default getters;

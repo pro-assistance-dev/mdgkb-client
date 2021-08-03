@@ -10,6 +10,8 @@ import News from '@/classes/news/News';
 
 export const state: State = {
   news: [],
+  filteredNews: [],
+  filterTags: [],
   newsItem: new News(),
   allNewsLoaded: false,
 };

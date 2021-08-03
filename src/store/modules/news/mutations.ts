@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import { State } from './state';
-import INews from '../../../interfaces/news/INews';
+import INews from '@/interfaces/news/INews';
 import News from '@/classes/news/News';
 import ITag from '@/interfaces/news/ITag';
 import INewsLike from '@/interfaces/news/INewsLike';
@@ -27,18 +27,28 @@ const mutations: MutationTree<State> = {
     const index = state.news.findIndex((i: INews) => i.id === id);
     state.news.splice(index, 1);
   },
-  filterByTag(state, tagId: string) {
-    state.news = state.news.filter((i: INews) => {
-      if (!i.tags) return;
-      const index = i.tags.findIndex((t: ITag) => {
-        return t.id === tagId;
-      });
-      if (index > -1) {
-        return i;
-      }
-    });
+  addFilterTag(state, tag: ITag) {
+    if (!state.filterTags.some((i) => i.id === tag.id)) {
+      state.filterTags.push(tag);
+    }
   },
-
+  removeFilterTag(state, id: string) {
+    const index = state.filterTags.findIndex((i: ITag) => i.id === id);
+    state.filterTags.splice(index, 1);
+  },
+  setFilteredNews(state) {
+    if (state.filterTags.length) {
+      state.filteredNews = state.news.filter((newsItem) => {
+        return state.filterTags.every((tag) => {
+          return newsItem.tags?.some((newsTag) => {
+            return newsTag.id === tag.id;
+          });
+        });
+      });
+    } else {
+      state.filteredNews = state.news;
+    }
+  },
   setLikeNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
     if (news) news.newsLikes.push(newsLike);

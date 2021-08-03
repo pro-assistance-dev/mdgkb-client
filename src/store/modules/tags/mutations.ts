@@ -20,6 +20,17 @@ const mutations: MutationTree<State> = {
     const index = state.items.findIndex((i: ITag) => i.id === id);
     state.items.splice(index, 1);
   },
+  setFilteredTagList(state, items: ITag[] = []) {
+    if (!items.length) {
+      state.filteredTagList = state.items;
+      return;
+    }
+    state.filteredTagList = state.items.filter((el) => {
+      return !items.find((element) => {
+        return element.id === el.id;
+      });
+    });
+  },
 };
 
 export default mutations;
