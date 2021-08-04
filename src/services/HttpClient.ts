@@ -82,7 +82,6 @@ export default class HttpClient {
 
     if (fileInfos) {
       for (const fileInfo of fileInfos) {
-        console.log(fileInfo.file);
         if (fileInfo.file) {
           data.append('files', fileInfo.file, fileInfo.originalName);
         }

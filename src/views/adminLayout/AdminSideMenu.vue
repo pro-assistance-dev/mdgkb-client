@@ -8,7 +8,7 @@
       v-for="(item, i) in menuList"
       :key="item.title"
     >
-      <el-submenu v-if="item.children">
+      <el-submenu v-if="item.children" :index="String(i + 1)">
         <template #title>
           <i :class="item.icon"></i>
           <span class="row-menu-title">{{ item.title }}</span>

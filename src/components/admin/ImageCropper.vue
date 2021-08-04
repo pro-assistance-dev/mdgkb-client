@@ -1,8 +1,8 @@
 <template>
-  <Cropper :src="src" ref="cropper" @change="onChange" :stencil-props="{ aspectRatio: ratio }" />
+  <Cropper :src="src" ref="cropper" @change="onChange" :stencil-props="{ aspectRatio: ratio }" style="max-height: 50vh" />
   <div class="dialog-footer">
-    <el-button :loading="loading" @click="cancel">Отменить</el-button>
-    <el-button :loading="loading" @click="save">Сохранить</el-button>
+    <el-button :loading="loading" @click="cancel" type="warning">Отменить</el-button>
+    <el-button :loading="loading" @click="save" type="success">Сохранить</el-button>
   </div>
 </template>
 
@@ -15,6 +15,7 @@ import { defineComponent, PropType, ref } from 'vue';
 export default defineComponent({
   name: 'ImageCropper',
   components: { Cropper },
+  emits: ['save', 'cancel'],
   props: {
     src: {
       type: String,
@@ -49,15 +50,22 @@ export default defineComponent({
     };
 
     const cancel = () => {
-      // cropOpen.value = false;
+      emit('cancel');
     };
+
     const onChange = (opt: any) => {
       coordinates.value = opt.coordinates;
       resultImage.value = opt.canvas.toDataURL();
     };
-    return { save, cancel, onChange, resultImage, cropper };
+    return { save, cancel, onChange, resultImage, cropper, loading };
   },
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.dialog-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

@@ -91,7 +91,6 @@
 <script lang="ts">
 import { useStore } from 'vuex';
 import { ref, defineComponent, onMounted, onUnmounted, computed } from 'vue';
-// import { LoginOutlined, LogoutOutlined, UserAddOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
@@ -101,10 +100,6 @@ export default defineComponent({
   components: {
     NavMenu,
     LoginDropdownMenu,
-    // LoginOutlined,
-    // LogoutOutlined,
-    // UserAddOutlined,
-    // UserOutlined,
   },
   setup() {
     const store = useStore();

@@ -1,12 +1,13 @@
 import { MutationTree } from 'vuex';
 
 import { State } from './state';
-import INews from '../../../interfaces/news/INews';
+import INews from '@/interfaces/news/INews';
 import News from '@/classes/news/News';
 import ITag from '@/interfaces/news/ITag';
 import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 import NewsComment from '@/classes/news/NewsComment';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -17,28 +18,46 @@ const mutations: MutationTree<State> = {
       state.allNewsLoaded = true;
       return;
     }
+    state.allNewsLoaded = false;
     const news = items.map((i: INews) => new News(i));
     state.news.push(...news);
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
   },
+  setCalendarNews(state, items: INews[]) {
+    if (!items) return;
+    state.calendarNews = items.map((i: INews) => new News(i));
+  },
   remove(state, id: string) {
     const index = state.news.findIndex((i: INews) => i.id === id);
     state.news.splice(index, 1);
   },
-  filterByTag(state, tagId: string) {
-    state.news = state.news.filter((i: INews) => {
-      if (!i.tags) return;
-      const index = i.tags.findIndex((t: ITag) => {
-        return t.id === tagId;
-      });
-      if (index > -1) {
-        return i;
-      }
-    });
+  addFilterTag(state, tag: ITag) {
+    if (!state.filterTags.some((i) => i.id === tag.id)) {
+      state.filterTags.push(tag);
+    }
   },
-
+  removeFilterTag(state, id: string) {
+    const index = state.filterTags.findIndex((i: ITag) => i.id === id);
+    state.filterTags.splice(index, 1);
+  },
+  resetFilterTags(state) {
+    state.filterTags = [];
+  },
+  setFilteredNews(state) {
+    if (state.filterTags.length) {
+      state.filteredNews = state.news.filter((newsItem) => {
+        return state.filterTags.every((tag) => {
+          return newsItem.tags?.some((newsTag) => {
+            return newsTag.id === tag.id;
+          });
+        });
+      });
+    } else {
+      state.filteredNews = state.news;
+    }
+  },
   setLikeNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
     if (news) news.newsLikes.push(newsLike);
@@ -51,6 +70,20 @@ const mutations: MutationTree<State> = {
     if (state.newsItem) {
       const index = state.newsItem.newsComments.findIndex((item: NewsComment) => item.id === commentId);
       state.newsItem.newsComments.splice(index, 1);
+    }
+  },
+  editComment(state, commentId: string) {
+    if (state.newsItem) {
+      const comment = state.newsItem.newsComments.find((item: NewsComment) => item.id === commentId);
+      if (comment) comment.isEditing = true;
+    }
+  },
+  updateComment(state, commentId: string) {
+    if (state.newsItem) {
+      state.newsItem.newsComments = state.newsItem.newsComments.map((item: NewsComment) => {
+        if (item.id === commentId) item.isEditing = false;
+        return item;
+      });
     }
   },
   deleteLikeFromNews(state, newsLike: INewsLike) {
@@ -68,6 +101,9 @@ const mutations: MutationTree<State> = {
       const index = news.newsComments.findIndex((i: INewsComment) => i.id === item.id);
       news.newsLikes.splice(index);
     }
+  },
+  updateCalendarMeta(state, meta: ICalendarMeta) {
+    state.calendarMeta = meta;
   },
 };
 

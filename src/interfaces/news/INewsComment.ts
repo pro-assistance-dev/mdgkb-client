@@ -7,4 +7,5 @@ export default interface INewsComment {
   text: string;
   publishedOn: Date;
   user: IUser;
+  isEditing: boolean;
 }
