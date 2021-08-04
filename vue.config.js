@@ -4,7 +4,11 @@ module.exports = {
     disableHostCheck: true,
     host: process.env.VUE_APP_HOST,
     port: process.env.VUE_APP_PORT,
-    proxy: process.env.VUE_APP_API_HOST,
+    proxy: {
+      '/api': {
+        target: process.env.VUE_APP_API_HOST,
+      },
+    },
   },
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg');

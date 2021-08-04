@@ -1,8 +1,8 @@
-export default interface FileInfo {
+export default interface IFileInfo {
   id?: string;
   category?: string;
   originalName: string;
-  fileSystemPath: string;
+  fileSystemPath?: string;
   file?: File;
   isDraft?: boolean;
 }
