@@ -59,7 +59,6 @@ export default defineComponent({
 
     const emailRule = async (rule: any, value: any, callback: any) => {
       await store.dispatch('users/findEmail', value);
-      console.log('value || !value.trim().length', value || !value.trim().length)
       if (!value.trim().length) {
         callback(new Error('Необходимо указать email'));
       } else if (value && emailExist.value) {

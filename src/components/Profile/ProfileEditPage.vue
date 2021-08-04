@@ -16,7 +16,6 @@
 <script lang="ts">
 import { useStore } from 'vuex';
 import { computed, defineComponent, ref } from 'vue';
-import UserRules from '@/classes/user/UserRules';
 
 export default defineComponent({
   name: 'ProfileEditPage',
@@ -26,8 +25,26 @@ export default defineComponent({
     const userId = localStorage.getItem('userId');
     await store.dispatch('users/get', userId);
     const user = store.getters['users/user'];
+    const emailExist = computed(() => store.getters['users/emailExist']);
 
-    const rules = ref(UserRules);
+    const emailRule = async (rule: any, value: any, callback: any) => {
+      await store.dispatch('users/findEmail', value);
+      if (!value.trim().length) {
+        callback(new Error('Необходимо указать email'));
+      } else if (value && emailExist.value) {
+        callback(new Error('Ведённый email уже существует'));
+      }
+    };
+    const rules = ref({
+      email: [
+        { required: true, validator: emailRule, trigger: 'blur' },
+        { type: 'email', message: 'Пожалуйста, введите корректный email', trigger: 'blur' },
+      ],
+      password: [
+        { required: true, message: 'Необходимо ввести пароль', trigger: 'blur' },
+        { min: 6, message: 'Пароль должен быть не менее 6 символов' },
+      ],
+    });
 
     return {
       user,
