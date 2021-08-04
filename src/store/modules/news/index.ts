@@ -7,6 +7,7 @@ import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
 import News from '@/classes/news/News';
+import CalendarMeta from '@/classes/news/CalendarMeta';
 
 export const state: State = {
   news: [],
@@ -15,6 +16,7 @@ export const state: State = {
   newsItem: new News(),
   allNewsLoaded: false,
   calendarNews: [new News()],
+  calendarMeta: undefined,
 };
 
 const namespaced = true;

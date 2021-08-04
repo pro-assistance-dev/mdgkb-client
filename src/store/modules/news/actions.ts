@@ -10,6 +10,7 @@ import INewsComment from '@/interfaces/news/INewsComment';
 import INewsParams from '@/interfaces/news/INewsParams';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ITag from '@/interfaces/news/ITag';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 
 const httpClient = new HttpClient('news');
 
@@ -33,10 +34,11 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<INews>({ query: `${slug}` });
     commit('set', res);
   },
-  getByMonth: async ({ commit }, params: INewsParams): Promise<void> => {
+  getByMonth: async ({ commit }, params: ICalendarMeta): Promise<void> => {
     const query = `month/?month=${params.month}&year=${params.year}`;
     const res = await httpClient.get<{ data: INews[] }>({ query: query });
     commit('setCalendarNews', res);
+    commit('updateCalendarMeta', params);
   },
   create: async ({ commit }, news: INews): Promise<void> => {
     const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: [news.fileInfo], isFormData: true });

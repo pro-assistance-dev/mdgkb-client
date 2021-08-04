@@ -1,6 +1,5 @@
 <template>
   <calendar ref="calendar" locale="ru" :attributes="attributes" is-expanded @update:from-page="changeMonth">
-    <!-- @update:page="changeMonth" -->
     <template #day-popover="{ dayTitle, attributes }">
       <div style="text-align: center">
         {{ dayTitle }}
@@ -18,6 +17,7 @@ import { Calendar, PopoverRow } from 'v-calendar';
 import INews from '@/interfaces/news/INews';
 import { useStore } from 'vuex';
 import INewsParams from '@/interfaces/news/INewsParams';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 
 export default defineComponent({
   name: 'NewsCalendar',
@@ -27,6 +27,7 @@ export default defineComponent({
     const store = useStore();
     const calendar = ref();
     const news = computed(() => store.getters['news/calendarNews']);
+    const calendarMeta = computed(() => store.getters['news/calendarMeta']);
     const randomDotColor = () => {
       const colors = ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
       return colors[Math.floor(Math.random() * colors.length)];
@@ -47,11 +48,16 @@ export default defineComponent({
         };
       }),
     ]);
-    const changeMonth = (page: any) => {
-      // console.log('page =============+>', page);
-      const params: INewsParams = { month: page.month, year: page.year };
-      store.dispatch('news/getByMonth', params);
+    const changeMonth = async (page: ICalendarMeta): Promise<void> => {
+      const params: ICalendarMeta = { month: page.month, year: page.year };
+      await store.dispatch('news/getByMonth', params);
     };
+    const loadCalendarMeta = async () => {
+      if (calendarMeta.value) {
+        await calendar.value.move(calendarMeta.value);
+      }
+    };
+    onMounted(loadCalendarMeta);
 
     return {
       attributes,

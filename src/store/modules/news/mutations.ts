@@ -7,6 +7,7 @@ import ITag from '@/interfaces/news/ITag';
 import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 import NewsComment from '@/classes/news/NewsComment';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -17,6 +18,7 @@ const mutations: MutationTree<State> = {
       state.allNewsLoaded = true;
       return;
     }
+    state.allNewsLoaded = false;
     const news = items.map((i: INews) => new News(i));
     state.news.push(...news);
   },
@@ -85,6 +87,9 @@ const mutations: MutationTree<State> = {
       const index = news.newsComments.findIndex((i: INewsComment) => i.id === item.id);
       news.newsLikes.splice(index);
     }
+  },
+  updateCalendarMeta(state, meta: ICalendarMeta) {
+    state.calendarMeta = meta;
   },
 };
 

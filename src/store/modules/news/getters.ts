@@ -6,6 +6,7 @@ import { State } from './state';
 import INews from '@/interfaces/news/INews';
 import News from '@/classes/news/News';
 import ITag from '@/interfaces/news/ITag';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 
 const getters: GetterTree<State, RootState> = {
   news(state): INews[] | undefined {
@@ -29,6 +30,9 @@ const getters: GetterTree<State, RootState> = {
   },
   calendarNews(state): INews[] {
     return state.calendarNews;
+  },
+  calendarMeta(state): ICalendarMeta | undefined {
+    return state.calendarMeta;
   },
 };
 

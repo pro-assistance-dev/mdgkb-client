@@ -2,7 +2,7 @@
   <div class="news-page-container">
     <div class="side-container hidden-md-and-down">
       <div class="side-item">
-        <Calendar locale="ru" is-expanded />
+        <NewsCalendar />
       </div>
       <div class="side-item">
         <el-card>
@@ -103,14 +103,14 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { EyeOutlined } from '@ant-design/icons-vue';
-import { Calendar } from 'v-calendar';
+import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsComment from '@/classes/news/NewsComment';
 import INewsComment from '@/interfaces/news/INewsComment';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsMeta, Calendar, EyeOutlined },
+  components: { NewsMeta, NewsCalendar, EyeOutlined },
 
   async setup() {
     let comment = ref(new NewsComment());

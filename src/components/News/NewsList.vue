@@ -58,6 +58,7 @@ export default defineComponent({
         filterTags: filterTags.value.map((tag: ITag) => tag.id),
       };
       await store.dispatch('news/getAll', params);
+      await store.commit('news/setFilteredNews');
     };
 
     return {
