@@ -78,10 +78,6 @@ export default defineComponent({
     });
 
     const submitForm = async (): Promise<void> => {
-      if (emailExist.value) {
-        ElMessage({ message: 'Введённый email существует', type: 'error' });
-        return;
-      }
       let validationResult;
       myForm.value.validate((valid: any) => {
         if (valid) {
