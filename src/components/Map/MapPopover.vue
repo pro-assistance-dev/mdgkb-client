@@ -30,10 +30,6 @@ import { defineComponent } from '@vue/runtime-core';
 export default defineComponent({
   name: 'MapPopover',
   props: ['position', 'building'],
-
-  setup(prop) {
-    console.log(prop.building);
-  },
 });
 </script>
 

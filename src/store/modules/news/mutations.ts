@@ -72,6 +72,20 @@ const mutations: MutationTree<State> = {
       state.newsItem.newsComments.splice(index, 1);
     }
   },
+  editComment(state, commentId: string) {
+    if (state.newsItem) {
+      const comment = state.newsItem.newsComments.find((item: NewsComment) => item.id === commentId);
+      if (comment) comment.isEditing = true;
+    }
+  },
+  updateComment(state, commentId: string) {
+    if (state.newsItem) {
+      state.newsItem.newsComments = state.newsItem.newsComments.map((item: NewsComment) => {
+        if (item.id === commentId) item.isEditing = false;
+        return item;
+      });
+    }
+  },
   deleteLikeFromNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
     const deleteLike = (news: INews) => {

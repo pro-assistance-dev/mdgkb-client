@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { useStore } from 'vuex';
-import { PropType, defineComponent, ref } from 'vue';
+import { PropType, defineComponent, ref, computed } from 'vue';
 import { LikeOutlined, EyeOutlined, LikeFilled, FacebookOutlined, InstagramOutlined, TwitterOutlined } from '@ant-design/icons-vue';
 import INews from '@/interfaces/news/INews';
 import NewsLike from '@/classes/news/NewsLike';
@@ -40,7 +40,8 @@ export default defineComponent({
   components: { LikeOutlined, LikeFilled, EyeOutlined, FacebookOutlined, InstagramOutlined, TwitterOutlined },
   async setup() {
     const store = useStore();
-    const userId = localStorage.getItem('userId');
+    const user = computed(() => store.getters['auth/user']);
+    const isAuth = computed(() => store.getters['auth/isAuth']);
     const createLike = async (news: INews): Promise<void> => {
       if (!localStorage.getItem('token')) {
         ElMessage({
@@ -51,7 +52,7 @@ export default defineComponent({
       }
       const newsLike = new NewsLike();
       if (news.id) newsLike.newsId = news.id;
-      if (userId) newsLike.userId = userId;
+      if (user.value.id) newsLike.userId = user.value.id;
       await store.dispatch('news/createLike', newsLike);
     };
 
@@ -64,14 +65,13 @@ export default defineComponent({
         return;
       }
 
-      const like = news.newsLikes.find((i: INewsLike) => i.userId === userId);
-      console.log(like);
+      const like = news.newsLikes.find((i: INewsLike) => i.userId === user.value.id);
       if (like) await store.dispatch('news/deleteLike', like);
     };
 
     const liked = (likes: INewsLike[]) => {
-      if (!userId) return false;
-      const i = likes.findIndex((like: INewsLike) => like.userId === userId);
+      if (!isAuth.value) return false;
+      const i = likes.findIndex((like: INewsLike) => like.userId === user.value.id);
       return i > -1;
     };
 

@@ -52,7 +52,7 @@ export default defineComponent({
     const closeModal = () => {
       store.commit('auth/closeModal');
       form.value = new User();
-      window.location.reload();
+      // window.location.reload();
     };
     const toggleIsLogin = () => store.commit('auth/toggleIsLoginModal');
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
@@ -84,10 +84,8 @@ export default defineComponent({
       try {
         if (isLogin.value) {
           await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });
-          console.log('check login');
         } else {
           await store.dispatch('auth/register', { email: form.value.email, password: form.value.password });
-          console.log('check register');
         }
       } catch (error) {
         ElMessage({ message: 'Неверный логин или пароль', type: 'error' });

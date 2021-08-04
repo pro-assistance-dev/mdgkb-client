@@ -78,6 +78,13 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.post<INewsLike, INewsLike>({ query: `comment`, payload: comment });
     commit('setComment', res);
   },
+  editComment: async ({ commit }, commentId: string): Promise<void> => {
+    commit('editComment', commentId);
+  },
+  updateComment: async ({ commit }, comment: INewsComment): Promise<void> => {
+    await httpClient.put({ query: `comment/${comment.id}`, payload: comment });
+    commit('updateComment', comment.id);
+  },
   deleteLike: async ({ commit }, newsLike: INewsLike): Promise<void> => {
     await httpClient.delete({ query: `like/${newsLike.id}` });
     commit('deleteLikeFromNews', newsLike);
@@ -94,10 +101,10 @@ const actions: ActionTree<State, RootState> = {
     commit('removeFilterTag', id);
     commit('setFilteredNews');
   },
-  resetFilterTags: async ({commit}) => {
+  resetFilterTags: async ({ commit }): Promise<void> => {
     commit('resetFilterTags');
     commit('setFilteredNews');
-  }
+  },
 };
 
 export default actions;

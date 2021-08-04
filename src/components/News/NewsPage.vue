@@ -61,35 +61,84 @@
           </div>
         </template>
 
-        <el-card class="comments-list" v-for="comment in news.newsComments" :key="comment.id">
+        <el-card class="comments-card" v-for="comment in news.newsComments" :key="comment.id">
+          <div class="comment-buttons" v-if="comment.userId === userId && isAuth">
+            <el-tooltip content="Редактировать комментарий" placement="top-end" v-if="!comment.isEditing">
+              <el-button size="medium" icon="el-icon-edit" @click="editComment(comment.id)" />
+            </el-tooltip>
+            <el-popconfirm
+              confirmButtonText="Да"
+              cancelButtonText="Отмена"
+              icon="el-icon-info"
+              iconColor="red"
+              title="Вы уверены, что хотите удалить комментарий?"
+              @confirm="removeComment(comment.id)"
+              @cancel="() => {}"
+            >
+              <template #reference>
+                <el-button size="medium" icon="el-icon-delete" />
+              </template>
+            </el-popconfirm>
+          </div>
           <div class="comment-header" align="justify">
             <span class="comment-email">{{ comment.user.email }}</span>
             <span class="comment-date">{{ $dateFormatRu(comment.publishedOn, true) }}</span>
-            <el-button
-              @click="removeComment(comment.id)"
-              size="mini"
-              v-if="comment.userId === userId"
-              type="danger"
-              icon="el-icon-delete"
-              circle
-            ></el-button>
           </div>
-          <div>
-            {{ comment.text }}
-          </div>
-        </el-card>
-
-        <div class="add-comment" v-if="userId">
-          <el-form :model="comment">
+          <el-form ref="editCommentForm" :model="comment" :rules="rules" v-if="comment.isEditing">
             <el-form-item prop="text">
-              <el-input type="textarea" :rows="2" placeholder="Добавьте комментарий" v-model="comment.text">
+              <el-input
+                ref="commentInput"
+                type="textarea"
+                placeholder="Добавьте комментарий"
+                v-model="comment.text"
+                minlength="5"
+                maxlength="500"
+                show-word-limit
+                :autosize="{ minRows: 3, maxRows: 6 }"
+              >
                 <template #suffix>
                   <i class="el-icon-edit el-input__icon"></i>
                 </template>
               </el-input>
             </el-form-item>
             <el-form-item>
-              <el-button class="send-comment" type="primary" @click="sendComment(comment)">Отправить комментарий</el-button>
+              <div style="display: flex; justify-content: flex-end">
+                <el-button size="mini" type="primary" icon="el-icon-folder-checked" @click="saveCommentChanges(comment)">
+                  Сохранить
+                </el-button>
+              </div>
+            </el-form-item>
+          </el-form>
+          <div v-else>
+            {{ comment.text }}
+          </div>
+        </el-card>
+
+        <div class="add-comment">
+          <el-form ref="commentForm" :model="comment" :rules="rules">
+            <el-form-item prop="text">
+              <el-input
+                ref="commentInput"
+                type="textarea"
+                placeholder="Добавьте комментарий"
+                v-model="comment.text"
+                @focus="isAuth ? null : openLoginModal()"
+                minlength="5"
+                maxlength="500"
+                show-word-limit
+                :autosize="{ minRows: 3, maxRows: 6 }"
+              >
+                <template #suffix>
+                  <i class="el-icon-edit el-input__icon"></i>
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item>
+              <div style="display: flex; justify-content: flex-end">
+                <el-button class="send-comment" type="primary" @click="isAuth ? sendComment(comment) : openLoginModal()">
+                  Отправить комментарий
+                </el-button>
+              </div>
             </el-form-item>
           </el-form>
         </div>
@@ -107,6 +156,9 @@ import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsComment from '@/classes/news/NewsComment';
 import INewsComment from '@/interfaces/news/INewsComment';
 import NewsMeta from '@/components/News/NewsMeta.vue';
+import CommentRules from '@/classes/news/CommentRules';
+import INews from '@/interfaces/news/INews';
+import { ElMessage } from 'element-plus';
 
 export default defineComponent({
   name: 'NewsList',
@@ -114,13 +166,15 @@ export default defineComponent({
 
   async setup() {
     let comment = ref(new NewsComment());
+    const commentInput = ref();
     const store = useStore();
     const route = useRoute();
     const slug = computed(() => route.params['slug']);
     const news = computed(() => store.getters['news/newsItem']);
 
-    const userId = localStorage.getItem('userId');
-    const userEmail = localStorage.getItem('userEmail');
+    const userId = computed(() => store.getters['auth/user']?.id);
+    const userEmail = computed(() => localStorage.getItem('userEmail'));
+    const isAuth = computed(() => store.getters['auth/isAuth']);
 
     watch(slug, () => {
       if (slug.value) {
@@ -135,19 +189,66 @@ export default defineComponent({
       news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'
     );
 
+    const commentForm = ref();
+    const editCommentForm = ref();
+    const rules = ref(CommentRules);
+
     const sendComment = async (item: INewsComment) => {
+      let validationResult;
+      commentForm.value.validate((valid: any) => {
+        if (valid) {
+          validationResult = true;
+        } else {
+          validationResult = false;
+        }
+      });
+      if (!validationResult) return;
       item.newsId = news.value.id;
-      if (userEmail) item.user.email = userEmail;
-      if (userId) item.userId = userId;
-      await store.dispatch('news/createComment', item);
-      comment.value = new NewsComment();
+      if (userEmail.value) item.user.email = userEmail.value;
+      if (userId.value) item.userId = userId.value;
+      try {
+        await store.dispatch('news/createComment', item);
+        comment.value = new NewsComment();
+      } catch (e) {
+        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        return;
+      }
     };
 
     const removeComment = async (commentId: string) => {
       await store.dispatch('news/removeComment', commentId);
     };
+    const editComment = async (commentId: string) => {
+      await store.dispatch('news/editComment', commentId);
+    };
+    const saveCommentChanges = async (item: INewsComment) => {
+      let validationResult;
+      editCommentForm.value.validate((valid: any) => {
+        if (valid) {
+          validationResult = true;
+        } else {
+          validationResult = false;
+        }
+      });
+      if (!validationResult) return;
+      try {
+        await store.dispatch('news/updateComment', item);
+      } catch (e) {
+        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        return;
+      }
+    };
+
+    const openLoginModal = () => {
+      if (!isAuth.value) {
+        store.commit('auth/openModal', true);
+        commentInput.value.blur();
+      }
+    };
 
     return {
+      rules,
+      openLoginModal,
       removeComment,
       userId,
       sendComment,
@@ -155,6 +256,12 @@ export default defineComponent({
       news,
       newsContent,
       recentNewsList,
+      isAuth,
+      commentInput,
+      commentForm,
+      editComment,
+      saveCommentChanges,
+      editCommentForm,
     };
   },
 });
@@ -197,13 +304,6 @@ $card-margin-size: 30px;
   margin: 10px 0 10px 0;
 }
 
-.comments {
-  margin: $card-margin-size 0 0 0;
-  .comments-list {
-    margin: 20px 0 0 0;
-  }
-}
-
 h2,
 h3 {
   margin: 0;
@@ -213,11 +313,37 @@ h3 {
   font-size: 20px;
 }
 
+.comments {
+  margin: $card-margin-size 0 0 0;
+  .comments-card {
+    position: relative;
+    margin: 20px 0 0 0;
+  }
+}
+
 .comment-header {
   text-align: right;
+  margin: 5px 0;
   .comment-email {
     float: left;
     font-weight: bold;
+  }
+  .comment-date {
+    color: #4a4a4a;
+    opacity: 0.75;
+  }
+}
+.comment-buttons {
+  position: absolute;
+  z-index: 2;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  :deep(.el-button) {
+    padding: 5px;
+    margin: 0 !important;
+    min-height: unset;
+    border: none;
   }
 }
 
