@@ -9,7 +9,7 @@
   >
     <el-form label-width="0" ref="myForm" :model="form" @submit.prevent="submitForm" :rules="rules">
       <el-form-item prop="email">
-        <el-input @input="checkEmailExist" placeholder="Email" v-model="form.email" type="email" />
+        <el-input placeholder="Email" v-model="form.email" type="email" />
       </el-form-item>
 
       <el-form-item prop="password">
@@ -34,7 +34,6 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { ElMessage } from 'element-plus';
-import UserRules from '@/classes/user/UserRules';
 import User from '@/classes/user/User';
 
 export default defineComponent({
@@ -52,19 +51,31 @@ export default defineComponent({
     const closeModal = () => {
       store.commit('auth/closeModal');
       form.value = new User();
-      // window.location.reload();
     };
     const toggleIsLogin = () => store.commit('auth/toggleIsLoginModal');
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
     const emailExist = computed(() => store.getters['users/emailExist']);
     const isLogin = computed(() => store.getters['auth/isLoginModal']);
 
-    const checkEmailExist = async (email: string) => {
-      if (isLogin.value || !email || email.length < 2) return;
-      await store.dispatch('users/findEmail', email);
+    const emailRule = async (rule: any, value: any, callback: any) => {
+      await store.dispatch('users/findEmail', value);
+      console.log('value || !value.trim().length', value || !value.trim().length)
+      if (!value.trim().length) {
+        callback(new Error('Необходимо указать email'));
+      } else if (value && emailExist.value) {
+        callback(new Error('Ведённый email уже существует'));
+      }
     };
-
-    const rules = ref(UserRules);
+    const rules = ref({
+      email: [
+        { required: true, validator: emailRule, trigger: 'blur' },
+        { type: 'email', message: 'Пожалуйста, введите корректный email', trigger: 'blur' },
+      ],
+      password: [
+        { required: true, message: 'Необходимо ввести пароль', trigger: 'blur' },
+        { min: 6, message: 'Пароль должен быть не менее 6 символов' },
+      ],
+    });
 
     const submitForm = async (): Promise<void> => {
       if (emailExist.value) {
@@ -95,7 +106,6 @@ export default defineComponent({
     };
 
     return {
-      checkEmailExist,
       emailExist,
       form,
       submitForm,
