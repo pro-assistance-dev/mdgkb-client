@@ -29,6 +29,11 @@
       </div>
     </div>
     <div class="news-content-container">
+      <el-card class="news-image-container">
+        <img @error="errorImg" v-if="news.fileInfo.fileSystemPath" :src="getImageUrl(news.fileInfo.fileSystemPath)" alt="alt" />
+        <img v-else src="../../assets/img/310x310.png" />
+      </el-card>
+
       <el-card class="card-content news">
         <template #header>
           <div class="card-header">
@@ -53,6 +58,8 @@
           </div>
         </div>
       </el-card>
+
+      <NewsGallery />
 
       <el-card class="card-content comments">
         <template #header>
@@ -115,7 +122,7 @@
         </el-card>
 
         <div class="add-comment">
-          <el-form ref="commentForm" :model="comment" :rules="rules">
+          <el-form ref="commentForm" :model="comment" :key="isAuth" :rules="isAuth ? rules : null">
             <el-form-item prop="text">
               <el-input
                 ref="commentInput"
@@ -157,12 +164,13 @@ import NewsComment from '@/classes/news/NewsComment';
 import INewsComment from '@/interfaces/news/INewsComment';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 import CommentRules from '@/classes/news/CommentRules';
+import NewsGallery from '@/components/News/NewsGallery.vue';
 import INews from '@/interfaces/news/INews';
 import { ElMessage } from 'element-plus';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsMeta, NewsCalendar, EyeOutlined },
+  components: { NewsMeta, NewsCalendar, EyeOutlined, NewsGallery },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -246,6 +254,10 @@ export default defineComponent({
       }
     };
 
+    const getImageUrl = (imagePath: string): string => {
+      return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
+    };
+
     return {
       rules,
       openLoginModal,
@@ -262,6 +274,7 @@ export default defineComponent({
       editComment,
       saveCommentChanges,
       editCommentForm,
+      getImageUrl,
     };
   },
 });
@@ -423,5 +436,12 @@ h3 {
 
 :deep(img) {
   max-width: 760px;
+}
+
+.news-image-container {
+  margin-bottom: $card-margin-size;
+  img {
+    width: 100%;
+  }
 }
 </style>

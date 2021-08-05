@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :model="division" label-position="top" :rules="rules">
+  <el-form ref="form" :model="division" label-position="top" :rules="rules" :key="division">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
         <el-container direction="vertical">
@@ -7,7 +7,7 @@
             <el-form-item label="Наименование отделения" prop="name">
               <el-input v-model="division.name" placeholder="Наименование отделения"></el-input>
             </el-form-item>
-            <el-form-item label="Общая информация" :key="division.info">
+            <el-form-item label="Общая информация">
               <QuillEditor style="height: 350px" v-model:content="division.info" contentType="html" theme="snow"></QuillEditor>
             </el-form-item>
             <el-form-item label="Адрес">
