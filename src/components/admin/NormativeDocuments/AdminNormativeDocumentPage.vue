@@ -18,14 +18,31 @@
           :auto-upload="false"
           :limit="1"
           :multiple="false"
+          accept="application/pdf"
           :before-upload="validateFile"
           :on-change="addFile"
         >
           <el-button size="mini">{{ isEdit ? 'Заменить файл' : 'Приложить файл' }}</el-button>
           <template #tip>
-            <div class="el-upload__tip">В формате PDF, размером не более 20 МиБ</div>
+            <div class="el-upload__tip">
+              {{ isEdit ? 'Загружен файл: ' + normativeDocument.fileInfo.originalName : 'В формате PDF, размером не более 20 МиБ' }}
+            </div>
           </template>
         </el-upload>
+      </el-form-item>
+
+      <el-form-item v-if="!isNewFileAdded && normativeDocument.fileInfo">
+        <a
+          :href="getFileUrl(normativeDocument.fileInfo.fileSystemPath)"
+          :download="normativeDocument.fileInfo.originalName"
+          target="_blank"
+          class="button is-small is-fullwidth is-info has-margin-bottom-3 is-light rounded-all-5"
+        >
+          <el-button size="mini" icon="el-icon-download">Скачать</el-button>
+        </a>
+        <el-button size="mini" icon="el-icon-view" @click="openModal(getFileUrl(normativeDocument.fileInfo.fileSystemPath))">
+          Просмотр
+        </el-button>
       </el-form-item>
 
       <el-form-item>
@@ -33,6 +50,9 @@
       </el-form-item>
     </el-form>
   </el-card>
+  <el-dialog v-model="modalOpen">
+    <NormativeDocumentsModal :filePath="filePath" />
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -40,6 +60,8 @@ import { defineComponent, ref, Ref, computed, PropType, onBeforeMount } from 'vu
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
+
+import NormativeDocumentsModal from '@/components/NormativeDocuments/NormativeDocumentsModal.vue';
 
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
@@ -51,6 +73,7 @@ import NormativeDocumentRules from '@/classes/normativeDocument/NormativeDocumen
 
 export default defineComponent({
   name: 'AdminNormativeDocumentPage',
+  components: { NormativeDocumentsModal },
   props: {
     isEdit: {
       type: Boolean as PropType<boolean>,
@@ -62,7 +85,10 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
+    const filePath = ref('');
     const formRef = ref();
+    const isNewFileAdded = ref(false);
+    const modalOpen = ref(false);
     const normativeDocument: Ref<INormativeDocument> = ref(new NormativeDocument());
     const rules = ref(NormativeDocumentRules);
     const selectedTypeId = ref('');
@@ -89,6 +115,8 @@ export default defineComponent({
         uploader.value.clearFiles();
         return;
       }
+
+      isNewFileAdded.value = true;
 
       normativeDocument.value.fileInfo = new FileInfo({
         originalName: file.name,
@@ -126,6 +154,16 @@ export default defineComponent({
       router.push('/admin/normative-documents');
     };
 
+    const getFileUrl = (path: string): string => {
+      return `${process.env.VUE_APP_STATIC_URL}${path}`;
+    };
+
+    const openModal = (path: string): void => {
+      filePath.value = path;
+      modalOpen.value = !modalOpen.value;
+      return;
+    };
+
     onBeforeMount(async (): Promise<void> => {
       store.commit('admin/setPageTitle', 'Нормативный документ');
       await store.dispatch('normativeDocumentTypes/getAll');
@@ -138,13 +176,18 @@ export default defineComponent({
     });
 
     return {
+      filePath,
       formRef,
+      isNewFileAdded,
+      modalOpen,
       normativeDocument,
       rules,
       selectedTypeId,
       types,
       uploader,
       addFile,
+      getFileUrl,
+      openModal,
       setType,
       submitForm,
       validateFile,
