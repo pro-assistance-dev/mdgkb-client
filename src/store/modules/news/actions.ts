@@ -11,6 +11,8 @@ import INewsParams from '@/interfaces/news/INewsParams';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ITag from '@/interfaces/news/ITag';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import INewsImage from '@/interfaces/news/INewsImage';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 
 const httpClient = new HttpClient('news');
 
@@ -41,7 +43,13 @@ const actions: ActionTree<State, RootState> = {
     commit('updateCalendarMeta', params);
   },
   create: async ({ commit }, news: INews): Promise<void> => {
-    const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: [news.fileInfo], isFormData: true });
+    let fileInfos: IFileInfo[] = [];
+    news.newsImages.forEach((image: INewsImage) => {
+      if (image.fileInfo) fileInfos.push(image.fileInfo);
+    });
+    fileInfos.push(news.fileInfo);
+    console.log(fileInfos);
+    const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: fileInfos, isFormData: true });
     commit('set');
   },
   update: async ({ commit }, news: INews): Promise<void> => {

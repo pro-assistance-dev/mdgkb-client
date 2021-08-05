@@ -9,6 +9,8 @@ import INewsComment from '@/interfaces/news/INewsComment';
 import NewsComment from '@/classes/news/NewsComment';
 import slugify from '@sindresorhus/slugify';
 import FileInfo from '@/classes/File/FileInfo';
+import INewsImage from '@/interfaces/news/INewsImage';
+import NewsImage from '@/classes/news/NewsImage';
 
 export default class News implements INews {
   id?: string;
@@ -24,6 +26,7 @@ export default class News implements INews {
   publishedOn: Date = new Date();
   newsLikes: INewsLike[] = [];
   newsComments: INewsComment[] = [];
+  newsImages: INewsImage[] = [];
 
   constructor(i?: INews) {
     if (!i) return;
@@ -40,6 +43,7 @@ export default class News implements INews {
     this.publishedOn = i.publishedOn;
     if (i.newsLikes) this.newsLikes = i.newsLikes.map((item: INewsLike) => new NewsLike(item));
     if (i.newsComments) this.newsComments = i.newsComments.map((item: INewsComment) => new NewsComment(item));
+    if (i.newsImages) this.newsImages = i.newsImages.map((item: INewsImage) => new NewsImage(item));
   }
 
   createSlug() {

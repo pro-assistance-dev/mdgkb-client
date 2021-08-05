@@ -1,9 +1,9 @@
 import ICategory from '@/interfaces/news/ICategory';
 import ITag from '@/interfaces/news/ITag';
-import IPreviewThumbnailFile from '@/interfaces/files/IPreviewThumbnailFile';
 import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import INewsImage from '@/interfaces/news/INewsImage';
 
 export default interface INews {
   id?: string;
@@ -19,4 +19,5 @@ export default interface INews {
   publishedOn: Date;
   newsLikes: INewsLike[];
   newsComments: INewsComment[];
+  newsImages: INewsImage[];
 }

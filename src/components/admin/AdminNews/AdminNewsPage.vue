@@ -67,7 +67,7 @@
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header> Загрузить картинку </template>
+              <template #header> Загрузить превью новости </template>
               <el-upload
                 ref="uploader"
                 :multiple="false"
@@ -105,7 +105,33 @@
           </el-container>
         </el-col>
       </el-row>
+      <el-row>
+        <el-container>
+          <el-card class="galerry">
+            <template #header> Галерея </template>
+            <el-upload
+              ref="uploader"
+              :multiple="false"
+              class="avatar-uploader"
+              action="#"
+              list-type="picture-card"
+              :file-list="galleryList"
+              :auto-upload="false"
+              :on-change="toggleUploadGallery"
+              accept="image/jpeg,image/png,image/jng"
+            >
+              <template #default>
+                <i class="el-icon-plus"></i>
+              </template>
+            </el-upload>
+          </el-card>
+        </el-container>
+      </el-row>
     </el-form>
+
+    <el-dialog v-model="isCropGalleryOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+      <ImageCropper :src="imageCropSrc" @save="saveFromCropperGallery" @cancel="cancelCropper" :ratio="1" />
+    </el-dialog>
 
     <el-dialog v-model="isCropOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
       <ImageCropper :src="imageCropSrc" @save="saveFromCropper" @cancel="cancelCropper" :ratio="1" />
@@ -127,6 +153,8 @@ import FileInfo from '@/classes/File/FileInfo';
 import News from '@/classes/news/News';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import NewsRules from '@/classes/news/NewsRules';
+import INewsImage from '@/interfaces/news/INewsImage';
+import NewsImage from '@/classes/news/NewsImage';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -137,13 +165,16 @@ export default defineComponent({
     const router = useRouter();
     let showUpload = ref(true);
     let isCropOpen = ref(false);
+    let isCropGalleryOpen = ref(false);
     let tagsVisible = ref(false);
     let imageCropSrc = ref('');
+    let curGalleryCropIndex = ref(0);
     let uploader = ref();
     const form = ref();
     const rules = ref(NewsRules);
 
     let fileList: Ref<IFilesList[]> = ref([]);
+    let galleryList: Ref<IFilesList[]> = ref([]);
 
     const news = computed(() => store.getters['news/newsItem']);
 
@@ -166,6 +197,10 @@ export default defineComponent({
         fileList.value.push({ name: news.value.fileInfo, url: `${process.env.VUE_APP_STATIC_URL}/${news.value.fileInfo?.fileSystemPath}` });
         if (fileList.value.length > 0) showUpload.value = false;
       }
+      galleryList.value = news.value.newsImages.map((image: INewsImage) => {
+        if (image.fileInfo)
+          return { name: image.fileInfo?.fileSystemPath, url: `${process.env.VUE_APP_STATIC_URL}/${news.value.fileInfo?.fileSystemPath}` };
+      });
     };
 
     let tags = computed(() => store.getters['tags/items']);
@@ -179,11 +214,25 @@ export default defineComponent({
         originalName: file.name,
         file: file.raw,
         fileSystemPath: file.name,
-        category: 'file',
+        category: 'previewFile',
       });
 
       imageCropSrc.value = file.url;
       isCropOpen.value = true;
+    };
+
+    const toggleUploadGallery = (file: any) => {
+      const image = new FileInfo({
+        id: news.value.fileInfo.id,
+        originalName: file.name,
+        file: file.raw,
+        fileSystemPath: file.name,
+        category: 'gallery',
+      });
+      news.value.newsImages.push(new NewsImage({ fileInfo: image }));
+      curGalleryCropIndex.value = news.value.newsImages.length - 1;
+      imageCropSrc.value = file.url;
+      isCropGalleryOpen.value = true;
     };
 
     const submit = async () => {
@@ -231,6 +280,16 @@ export default defineComponent({
       return index > -1;
     };
 
+    const saveFromCropperGallery = (file: any) => {
+      news.value.newsImages[curGalleryCropIndex.value].fileInfo.file = file.blob;
+      news.value.newsImages[curGalleryCropIndex.value].fileInfo.originalName = uuidv4();
+      isCropGalleryOpen.value = false;
+      galleryList.value[curGalleryCropIndex.value] = {
+        name: news.value.newsImages[curGalleryCropIndex.value].fileInfo.fileSystemPath,
+        url: file.src,
+      };
+    };
+
     const saveFromCropper = (file: any) => {
       news.value.fileInfo.file = file.blob;
       news.value.fileInfo.originalName = uuidv4();
@@ -259,6 +318,10 @@ export default defineComponent({
     };
 
     return {
+      saveFromCropperGallery,
+      isCropGalleryOpen,
+      toggleUploadGallery,
+      galleryList,
       fileList,
       findTag,
       removeTag,
@@ -286,6 +349,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.galerry {
+  width: 100%;
+}
+
 .el-container {
   .el-card {
     margin-bottom: 20px;

@@ -47,6 +47,7 @@ export default defineComponent({
           emit('save', { blob: blob, src: canvas.canvas.toDataURL() });
         });
       }
+      loading.value = false;
     };
 
     const cancel = () => {
