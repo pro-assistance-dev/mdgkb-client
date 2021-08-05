@@ -1,4 +1,5 @@
 <template>
+  <NewsCarousel />
   <el-row :gutter="40">
     <el-col :xl="6" :lg="6" :md="24" class="calendar">
       <div class="left-side-container">
@@ -29,10 +30,11 @@ import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import INewsParams from '@/interfaces/news/INewsParams';
 import ITag from '@/interfaces/news/ITag';
+import NewsCarousel from '@/components/NewsCarousel.vue';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsCalendar, NewsCard, NewsFilters },
+  components: { NewsCalendar, NewsCard, NewsFilters, NewsCarousel },
   setup() {
     const store = useStore();
     const loading = ref(false);

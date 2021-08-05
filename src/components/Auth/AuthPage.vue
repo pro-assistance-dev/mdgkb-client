@@ -58,22 +58,32 @@ export default defineComponent({
     const isLogin = computed(() => store.getters['auth/isLoginModal']);
 
     const emailRule = async (rule: any, value: any, callback: any) => {
-      await store.dispatch('users/findEmail', value);
+      if (!isLogin.value && value) {
+        await store.dispatch('users/findEmail', value);
+      }
       if (!value.trim().length) {
         callback(new Error('Необходимо указать email'));
-      } else if (value && emailExist.value) {
+      } else if (!isLogin.value && value && emailExist.value) {
         callback(new Error('Ведённый email уже существует'));
       }
+      callback();
+      return;
+    };
+    const passwordRule = async (rule: any, value: any, callback: any) => {
+      if (!value) {
+        callback(new Error('Необходимо ввести пароль'));
+      } else if (value.length < 6) {
+        callback(new Error('Пароль должен быть не менее 6 символов'));
+      }
+      callback();
+      return;
     };
     const rules = ref({
       email: [
         { required: true, validator: emailRule, trigger: 'blur' },
         { type: 'email', message: 'Пожалуйста, введите корректный email', trigger: 'blur' },
       ],
-      password: [
-        { required: true, message: 'Необходимо ввести пароль', trigger: 'blur' },
-        { min: 6, message: 'Пароль должен быть не менее 6 символов' },
-      ],
+      password: [{ required: true, validator: passwordRule, trigger: 'blur' }],
     });
 
     const submitForm = async (): Promise<void> => {
@@ -85,8 +95,9 @@ export default defineComponent({
           validationResult = false;
         }
       });
-      if (!validationResult) return;
-
+      if (!validationResult) {
+        return;
+      }
       try {
         if (isLogin.value) {
           await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });
