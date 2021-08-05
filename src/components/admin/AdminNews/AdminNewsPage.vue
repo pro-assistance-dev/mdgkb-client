@@ -61,8 +61,22 @@
                     :key="tag.id"
                     :label="tag.label"
                     border
-                    >{{ tag.label }} <i @click.prevent="removeTag(tag.id)" class="el-icon-close delete-tag-icon"></i
-                  ></el-checkbox>
+                  >
+                    {{ tag.label }}
+                    <!-- <el-popconfirm
+                      confirmButtonText="Да"
+                      cancelButtonText="Отмена"
+                      icon="el-icon-info"
+                      iconColor="red"
+                      title="Вы уверены, что хотите удалить тэг? Это действие удалит его на созданных новостях в том числе"
+                      @confirm="removeTag(tag.id)"
+                      @cancel="() => {}"
+                    >
+                      <template #reference> -->
+                    <i @click.prevent="confirmTagDelete(tag.id)" class="el-icon-close delete-tag-icon"></i>
+                    <!-- </template>
+                    </el-popconfirm> -->
+                  </el-checkbox>
                 </div>
               </el-form-item>
             </el-card>
@@ -127,6 +141,7 @@ import FileInfo from '@/classes/File/FileInfo';
 import News from '@/classes/news/News';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import NewsRules from '@/classes/news/NewsRules';
+import { ElMessageBox } from 'element-plus';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -258,6 +273,31 @@ export default defineComponent({
       isCropOpen.value = true;
     };
 
+    const confirmTagDelete = (id: string) => {
+      ElMessageBox.confirm(
+        'Вы уверены, что хотите удалить тэг? Это действие удалит его для уже созданных новостей в том числе',
+        'Предупреждение',
+        {
+          confirmButtonText: 'Да',
+          cancelButtonText: 'Отмена',
+          type: 'warning',
+        }
+      )
+        .then(async () => {
+          await removeTag(id);
+          ElMessage({
+            type: 'success',
+            message: 'Тэг удален',
+          });
+        })
+        .catch(() => {
+          ElMessage({
+            type: 'warning',
+            message: 'Удаление отменено',
+          });
+        });
+    };
+
     return {
       fileList,
       findTag,
@@ -280,6 +320,7 @@ export default defineComponent({
       rules,
       form,
       cancelCropper,
+      confirmTagDelete,
     };
   },
 });
