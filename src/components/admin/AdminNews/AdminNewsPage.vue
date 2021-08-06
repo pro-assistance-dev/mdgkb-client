@@ -93,7 +93,7 @@
                 :limit="parseInt('1')"
                 :on-change="toggleUpload"
                 :class="{ hideUpload: !showUpload }"
-                accept="image/jpeg,image/png,image/jng"
+                accept="image/jpeg,image/png"
               >
                 <template #default>
                   <i class="el-icon-plus"></i>

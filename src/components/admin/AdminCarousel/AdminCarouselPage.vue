@@ -46,6 +46,7 @@
                   :file-list="fileList"
                   ref="uploader"
                   :multiple="false"
+                  accept="image/jpeg,image/png"
                   class="avatar-uploader-cover upload-demo"
                   action="#"
                   list-type="picture-card"
