@@ -23,10 +23,14 @@ export default class News implements INews {
   tags: ITag[] = [];
   fileInfo = new FileInfo();
   fileInfoId?: string;
+  mainImage = new FileInfo();
+  mainImageId?: string;
   publishedOn: Date = new Date();
   newsLikes: INewsLike[] = [];
   newsComments: INewsComment[] = [];
   newsImages: INewsImage[] = [];
+  newsImagesForDelete: string[] = [];
+  newsImagesNames: string[] = [];
 
   constructor(i?: INews) {
     if (!i) return;
@@ -35,11 +39,13 @@ export default class News implements INews {
     this.title = i.title;
     this.previewText = i.previewText;
     this.fileInfoId = i.fileInfoId;
+    this.mainImageId = i.mainImageId;
     this.content = i.content;
     this.slug = i.slug;
     this.category = new Category(i.category);
     if (i.tags) this.tags = i.tags.map((item: ITag) => new Tag(item));
     if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
+    if (i.mainImage) this.mainImage = new FileInfo(i.mainImage);
     this.publishedOn = i.publishedOn;
     if (i.newsLikes) this.newsLikes = i.newsLikes.map((item: INewsLike) => new NewsLike(item));
     if (i.newsComments) this.newsComments = i.newsComments.map((item: INewsComment) => new NewsComment(item));

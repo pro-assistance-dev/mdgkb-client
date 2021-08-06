@@ -48,15 +48,21 @@ const actions: ActionTree<State, RootState> = {
       if (image.fileInfo) fileInfos.push(image.fileInfo);
     });
     fileInfos.push(news.fileInfo);
-    console.log(fileInfos);
+    fileInfos.push(news.mainImage);
     const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: fileInfos, isFormData: true });
     commit('set');
   },
   update: async ({ commit }, news: INews): Promise<void> => {
+    let fileInfos: IFileInfo[] = [];
+    news.newsImages.forEach((image: INewsImage) => {
+      if (image.fileInfo) fileInfos.push(image.fileInfo);
+    });
+    fileInfos.push(news.fileInfo);
+    fileInfos.push(news.mainImage);
     const res = await httpClient.put<INews, INews>({
       query: `${news.id}`,
       payload: news,
-      fileInfos: [news.fileInfo],
+      fileInfos: fileInfos,
       isFormData: true,
     });
     commit('set');

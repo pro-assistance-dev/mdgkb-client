@@ -30,7 +30,7 @@
     </div>
     <div class="news-content-container">
       <el-card class="news-image-container">
-        <img @error="errorImg" v-if="news.fileInfo.fileSystemPath" :src="getImageUrl(news.fileInfo.fileSystemPath)" alt="alt" />
+        <img @error="errorImg" v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" />
         <img v-else src="../../assets/img/310x310.png" />
       </el-card>
 
@@ -59,7 +59,7 @@
         </div>
       </el-card>
 
-      <NewsGallery />
+      <NewsGallery :newsImages="news.newsImages" />
 
       <el-card class="card-content comments">
         <template #header>
@@ -165,7 +165,6 @@ import INewsComment from '@/interfaces/news/INewsComment';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 import CommentRules from '@/classes/news/CommentRules';
 import NewsGallery from '@/components/News/NewsGallery.vue';
-import INews from '@/interfaces/news/INews';
 import { ElMessage } from 'element-plus';
 
 export default defineComponent({
@@ -254,10 +253,6 @@ export default defineComponent({
       }
     };
 
-    const getImageUrl = (imagePath: string): string => {
-      return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
-    };
-
     return {
       rules,
       openLoginModal,
@@ -274,7 +269,6 @@ export default defineComponent({
       editComment,
       saveCommentChanges,
       editCommentForm,
-      getImageUrl,
     };
   },
 });
@@ -442,6 +436,7 @@ h3 {
   margin-bottom: $card-margin-size;
   img {
     width: 100%;
+    max-height: $news-content-max-width / 2;
   }
 }
 </style>

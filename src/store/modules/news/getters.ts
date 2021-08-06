@@ -22,6 +22,9 @@ const getters: GetterTree<State, RootState> = {
   getBySlug(state, slug): INews | undefined {
     return state.news.find((i: INews) => i.slug === slug);
   },
+  findTags(state): ITag[] | undefined {
+    if (state.newsItem) return state.newsItem.tags;
+  },
   allNewsLoaded(state): boolean {
     return state.allNewsLoaded;
   },

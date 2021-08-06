@@ -18,4 +18,8 @@ export default class FileInfo implements IFileInfo {
     this.category = i.category;
     this.file = i.file;
   }
+
+  getImageUrl(): string {
+    return `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
+  }
 }

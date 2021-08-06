@@ -5,4 +5,6 @@ export default interface IFileInfo {
   fileSystemPath?: string;
   file?: File;
   isDraft?: boolean;
+
+  getImageUrl?: () => string;
 }

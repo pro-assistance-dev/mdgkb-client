@@ -16,8 +16,12 @@ export default interface INews {
   tags?: ITag[];
   fileInfoId?: string;
   fileInfo: IFileInfo;
+  mainImageId?: string;
+  mainImage: IFileInfo;
   publishedOn: Date;
   newsLikes: INewsLike[];
   newsComments: INewsComment[];
   newsImages: INewsImage[];
+  newsImagesForDelete: string[];
+  newsImagesNames: string[];
 }

@@ -16,7 +16,7 @@
 
       <div class="image">
         <div>
-          <img @error="errorImg" v-if="news.fileInfo.fileSystemPath" :src="getImageUrl(news.fileInfo.fileSystemPath)" alt="alt" />
+          <img @error="errorImg" v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
           <img v-else src="../../assets/img/310x310.png" />
         </div>
       </div>
@@ -50,10 +50,6 @@ export default defineComponent({
     const store = useStore();
     const filterTags = computed(() => store.getters['news/filterTags']);
 
-    const getImageUrl = (imagePath: string): string => {
-      return `${process.env.VUE_APP_STATIC_URL}/${imagePath}`;
-    };
-
     const errorImg = (e: any) => {
       e.target.src = require('../../assets/img/310x310.png');
     };
@@ -66,7 +62,6 @@ export default defineComponent({
     return {
       errorImg,
       filterNews,
-      getImageUrl,
     };
   },
 });

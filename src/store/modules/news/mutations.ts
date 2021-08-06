@@ -8,6 +8,8 @@ import INewsLike from '@/interfaces/news/INewsLike';
 import INewsComment from '@/interfaces/news/INewsComment';
 import NewsComment from '@/classes/news/NewsComment';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/File/FileInfo';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -24,6 +26,10 @@ const mutations: MutationTree<State> = {
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
+  },
+  clearPreviewFile(state, item?: INews) {
+    if (!state.newsItem) return;
+    state.newsItem.fileInfo = new FileInfo();
   },
   setCalendarNews(state, items: INews[]) {
     if (!items) return;
@@ -58,6 +64,11 @@ const mutations: MutationTree<State> = {
       state.filteredNews = state.news;
     }
   },
+  chooseTag(state, tag: ITag) {
+    if (!state.newsItem || !state.newsItem.tags) return;
+    const index = state.newsItem.tags.findIndex((t: ITag) => tag.id === t.id);
+    index === -1 ? state.newsItem.tags.push(tag) : state.newsItem.tags.splice(index, 1);
+  },
   setLikeNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
     if (news) news.newsLikes.push(newsLike);
@@ -76,6 +87,16 @@ const mutations: MutationTree<State> = {
     if (state.newsItem) {
       const comment = state.newsItem.newsComments.find((item: NewsComment) => item.id === commentId);
       if (comment) comment.isEditing = true;
+    }
+  },
+  setFileInfo(state, fileInfo: IFileInfo) {
+    if (state.newsItem) {
+      state.newsItem.fileInfo = fileInfo;
+    }
+  },
+  setMainImage(state, fileInfo: IFileInfo) {
+    if (state.newsItem) {
+      state.newsItem.mainImage = fileInfo;
     }
   },
   updateComment(state, commentId: string) {
