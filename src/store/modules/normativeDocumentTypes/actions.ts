@@ -22,7 +22,10 @@ const actions: ActionTree<State, RootState> = {
       return;
     }
 
-    commit('setAll', types);
+    commit(
+      'setAll',
+      types.sort((a: INormativeDocumentType, b: INormativeDocumentType) => a.name.localeCompare(b.name))
+    );
   },
   update: async ({ commit }, type: INormativeDocumentType): Promise<void> => {
     await httpClient.put<INormativeDocumentType, undefined>({ query: type.id, payload: type });
