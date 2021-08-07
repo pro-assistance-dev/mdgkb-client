@@ -14,6 +14,38 @@
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
             </el-form-item>
           </el-card>
+
+          <el-card>
+            <el-space>
+              <el-select v-model="newDoctorId" filterable placeholder="Выберите доктора">
+                <el-option v-for="item in filteredDoctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
+              </el-select>
+              <el-button @click="addDoctor" type="success" style="margin: 20px">Добавить доктора</el-button>
+            </el-space>
+
+            <el-table :data="divisionDoctors">
+              <el-table-column label="ФИО" sortable>
+                <template #default="scope">
+                  {{ scope.row.human.getFullName() }}
+                </template>
+              </el-table-column>
+              <el-table-column label="Пол" align="center" sortable>
+                <template #default="scope">
+                  {{ scope.row.human.getGender() }}
+                </template>
+              </el-table-column>
+              <el-table-column label="Дата рождения" sortable>
+                <template #default="scope">
+                  {{ fillDateFormat(scope.row.human.dateBirth) }}
+                </template>
+              </el-table-column>
+              <el-table-column width="40" fixed="right" align="center">
+                <template #default="scope">
+                  <TableButtonGroup @remove="removeDoctor(scope.row.id)" :showRemoveButton="true" />
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-card>
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
@@ -27,7 +59,7 @@
               <el-input v-model="division.email" placeholder="Email"></el-input>
             </el-form-item>
             <el-form-item label="Здание" prop="buildingId">
-              <el-select v-model="division.buildingId" placeholder="Выберите здание" @change="changeBuildingHandler">
+              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание">
                 <el-option v-for="item in buildingOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
@@ -38,7 +70,7 @@
                 @change="changeFloorHandler"
                 :disabled="division.buildingId ? false : true"
               >
-                <template v-if="division.buildingId">
+                <template v-if="division.buildingId && floorOptions">
                   <el-option v-for="item in floorOptions.floors" :key="item.id" :label="item.number" :value="item.id" />
                 </template>
               </el-select>
@@ -61,10 +93,13 @@ import Division from '@/classes/buildings/Division';
 import Building from '@/classes/buildings/Building';
 import IFloor from '@/interfaces/buildings/IFloor';
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
+import Doctor from '@/classes/doctors/Doctor';
+import IDoctor from '@/interfaces/doctors/IDoctor';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
-  components: { QuillEditor },
+  components: { QuillEditor, TableButtonGroup },
 
   setup() {
     const store = useStore();
@@ -74,6 +109,10 @@ export default defineComponent({
     const rules = ref(DivisioinRules);
 
     const division = computed(() => store.getters['divisions/division']);
+    const doctors = computed(() => store.getters['doctors/doctors']);
+    const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
+    const divisionDoctors = computed(() => store.getters['doctors/divisionDoctors']);
+    const newDoctorId = ref();
     const floorOptions = ref();
     const buildingOptions = ref([new Building()]);
 
@@ -82,8 +121,10 @@ export default defineComponent({
       buildingOptions.value = store.getters['buildings/buildings'];
     };
     const loadDivision = async (): Promise<void> => {
+      await store.dispatch('doctors/getAll');
       if (route.params['id']) {
         await store.dispatch('divisions/get', route.params['id']);
+        store.dispatch('doctors/setDivisionDoctorsByDivisionId', route.params['id']);
         if (division.value.floorId) {
           await store.dispatch('buildings/getByFloorId', division.value.floorId);
           division.value.buildingId = store.getters['buildings/building'].id;
@@ -103,7 +144,7 @@ export default defineComponent({
 
     onBeforeMount(load);
 
-    const submit = () => {
+    const submit = async () => {
       let validationResult;
       form.value.validate((valid: any) => {
         if (valid) {
@@ -113,11 +154,12 @@ export default defineComponent({
         }
       });
       if (!validationResult) return;
+      division.value.doctors = divisionDoctors.value;
       try {
         if (route.params['id']) {
-          store.dispatch('divisions/update', division.value);
+          await store.dispatch('divisions/update', division.value);
         } else {
-          store.dispatch('divisions/create', division.value);
+          await store.dispatch('divisions/create', division.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -137,6 +179,18 @@ export default defineComponent({
       if (building) division.value.address = `${building.address}, ${floor.number} этаж`;
     };
 
+    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
+
+    const addDoctor = () => {
+      const newDoctor = doctors.value?.find((i: IDoctor) => i.id === newDoctorId.value);
+      newDoctor.divisionId = route.params['id'];
+      store.dispatch('doctors/addDoctorToDivisionDoctors', newDoctor);
+      newDoctorId.value = '';
+    };
+    const removeDoctor = (id: string) => {
+      store.dispatch('doctors/removeDoctorFromDivisionDoctors', id);
+    };
+
     return {
       division,
       buildingOptions,
@@ -146,6 +200,13 @@ export default defineComponent({
       submit,
       form,
       rules,
+      doctors,
+      fillDateFormat,
+      divisionDoctors,
+      newDoctorId,
+      addDoctor,
+      removeDoctor,
+      filteredDoctors,
     };
   },
 });

@@ -1,14 +1,31 @@
 <template>
   <div class="flex-column">
     <div class="flex-row-between">
-      <el-button type="primary" @click="create">Добавить отделение</el-button>
+      <el-button type="primary" @click="create">Добавить врача</el-button>
       <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
     </div>
     <el-card>
-      <el-table :data="divisions">
-        <el-table-column prop="name" label="Наименование" sortable> </el-table-column>
-        <el-table-column prop="phone" label="Номер телефона" sortable> </el-table-column>
-        <el-table-column prop="email" label="Email" sortable> </el-table-column>
+      <el-table :data="doctors">
+        <el-table-column label="ФИО" sortable>
+          <template #default="scope">
+            {{ scope.row.human.getFullName() }}
+          </template>
+        </el-table-column>
+        <el-table-column label="Пол" align="center" sortable>
+          <template #default="scope">
+            {{ scope.row.human.getGender() }}
+          </template>
+        </el-table-column>
+        <el-table-column label="Дата рождения" sortable>
+          <template #default="scope">
+            {{ fillDateFormat(scope.row.human.dateBirth) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="Отделение" sortable>
+          <template #default="scope">
+            {{ scope.row.division.name }}
+          </template>
+        </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" :showEditButton="true" :showRemoveButton="true" />
@@ -29,25 +46,26 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'AdminDivisionsList',
+  name: 'AdminDoctorsList',
   components: { TableButtonGroup },
   setup() {
     const store = useStore();
     const router = useRouter();
-    const divisions = computed(() => store.getters['divisions/divisions']);
+    const doctors = computed(() => store.getters['doctors/doctors']);
 
-    store.commit('admin/setPageTitle', 'Отделения');
+    store.commit('admin/setPageTitle', 'Врачи');
     const loadDivisions = async (): Promise<void> => {
-      await store.dispatch('divisions/getAll');
+      await store.dispatch('doctors/getAll');
     };
 
-    const create = (id: string) => router.push(`/admin/divisions/new`);
-    const edit = (id: string) => router.push(`/admin/divisions/${id}`);
-    const remove = async (id: string) => await store.dispatch('divisions/remove', id);
+    const create = () => router.push(`/admin/doctors/new`);
+    const edit = (id: string) => router.push(`/admin/doctors/${id}`);
+    const remove = async (id: string) => await store.dispatch('doctors/remove', id);
+    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
 
     onMounted(loadDivisions);
 
-    return { divisions, remove, edit, create };
+    return { doctors, remove, edit, create, fillDateFormat };
   },
 });
 </script>

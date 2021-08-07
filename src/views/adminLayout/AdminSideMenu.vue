@@ -70,6 +70,11 @@ export default defineComponent({
           // },
         ],
       },
+      {
+        title: 'Карусели',
+        to: '/admin/carousels',
+        icon: 'el-icon-copy-document',
+      },
       // {
       //   title: 'Статические страницы',
       // to: '/admin/pages',
@@ -95,16 +100,16 @@ export default defineComponent({
             to: '/admin/buildings',
           },
           {
-            title: 'Нормативные документы',
-            to: '/admin/normative-documents',
+            title: 'Отделения',
+            to: '/admin/divisions',
           },
           {
             title: 'Организации здравоохранения',
             to: '/admin/side-organizations',
           },
           {
-            title: 'Отделения',
-            to: '/admin/divisions',
+            title: 'Нормативные документы',
+            to: '/admin/normative-documents',
           },
           {
             title: 'Типы нормативных документов',
@@ -150,9 +155,9 @@ export default defineComponent({
       //   icon: 'el-icon-reading',
       // },
       {
-        title: 'Карусели',
-        to: '/admin/carousels',
-        icon: 'el-icon-copy-document',
+        title: 'Врачи',
+        to: '/admin/doctors',
+        icon: 'el-icon-first-aid-kit',
       },
     ]);
     return { menuList, closeDrawer, isCollapseSideMenu };
