@@ -72,11 +72,9 @@ import { computed, defineComponent, ref, watch } from 'vue';
 import { EyeOutlined } from '@ant-design/icons-vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsComment from '@/classes/news/NewsComment';
-import INewsComment from '@/interfaces/news/INewsComment';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 import CommentRules from '@/classes/news/CommentRules';
 import NewsGallery from '@/components/News/NewsGallery.vue';
-import { ElMessage } from 'element-plus';
 import NewsComments from '@/components/News/NewsComments.vue';
 export default defineComponent({
   name: 'NewsList',
