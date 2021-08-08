@@ -78,14 +78,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.paid-services {
-  text-align: center;
-  margin-bottom: 400px;
-  .title {
-    margin-left: 20px;
-  }
-}
-
 .collapseHeader {
   padding-left: 10px;
 }

@@ -1,13 +1,31 @@
 <template>
-  <el-container direction="vertical" align="center">
-    <h3>Сведения об организациях в сфере охраны здоровья</h3>
+  <el-container direction="vertical">
+    <div class="header-center">
+      <h3>Сведения об организациях в сфере охраны здоровья</h3>
+    </div>
+    <el-input prefix-icon="el-icon-search" v-model="filter" placeholder="Найти организацию" class="filter" size="large" />
     <el-collapse v-model="activeName" accordion>
-      <template v-for="organization in sideOrganizations" :key="organization.id">
-        <el-collapse-item :title="organization.name">
-          <div>Телефоны:</div>
-          <div v-for="phone in organization?.contactInfo?.telephoneNumbers" :key="phone">
-            {{ phone.number }}
-          </div>
+      <template v-for="organization in list" :key="organization.id">
+        <el-collapse-item>
+          <template #title>
+            <h4 class="collapseHeader">{{ organization.name }}</h4>
+          </template>
+          <el-row class="collapse-content-container">
+            <el-col>
+              <h4>Телефоны:</h4>
+              <div v-for="phone in organization?.contactInfo?.telephoneNumbers" :key="phone">
+                <span v-if="phone.description"> {{ phone.description }} : </span>
+                <span>{{ phone.number }}</span>
+              </div>
+              <h4>Адреса:</h4>
+              <div v-for="address in organization?.contactInfo?.postAddresses" :key="address">
+                <span v-if="address.description"
+                  ><b>{{ address.description }} :</b>
+                </span>
+                <span> {{ address.address }}</span>
+              </div>
+            </el-col>
+          </el-row>
         </el-collapse-item>
       </template>
     </el-collapse>
@@ -17,6 +35,7 @@
 <script lang="ts">
 import { ref, defineComponent, onBeforeMount, watch, computed } from 'vue';
 import { useStore } from 'vuex';
+import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 // import { yandexMap, ymapMarker } from 'vue-yandex-maps';
 
 export default defineComponent({
@@ -27,6 +46,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const filter = ref('');
     const sideOrganizations = computed(() => store.getters['sideOrganizations/sideOrganizations']);
     const activeName = ref(1);
 
@@ -45,7 +65,19 @@ export default defineComponent({
       await store.dispatch('sideOrganizations/getAll');
     });
 
+    const list = computed((): ISideOrganization[] => {
+      if (filter.value) {
+        return sideOrganizations.value.filter((o: ISideOrganization) => {
+          if (o.name) return o.name.toLowerCase().includes(filter.value.toLowerCase());
+        });
+      } else {
+        return sideOrganizations.value;
+      }
+    });
+
     return {
+      filter,
+      list,
       sideOrganizations,
       // allowMap,
       activeName,
@@ -55,49 +87,42 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-// $table-border: #f1f1f1;
+.header-center {
+  text-align: center;
+}
+.filter {
+  border-radius: 20px;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+}
 
-// .info-container {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start;
-//   align-items: flex-start;
-// }
+.collapseHeader {
+  padding-left: 10px;
+  line-height: 15px;
+}
 
-// .organization-title {
-//   text-transform: uppercase;
-// }
+.el-collapse-item {
+  background-color: white;
+  margin-bottom: 20px;
+  padding: 4px;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+:deep(.el-collapse-item__wrap) {
+  border-bottom: none;
+}
 
-// .table-shadow {
-//   box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%); /* Параметры тени */
-//   border: 1px solid $table-border;
-//   border-radius: 5px;
-// }
+:deep(.el-collapse-item__header) {
+  height: 32px;
+}
+:deep(.el-collapse-item__header, .el-collapse-item__wrap) {
+  border: none;
+}
 
-// h3 {
-//   font-size: 16px;
-// }
-
-// h3,
-// h4 {
-//   margin: 0;
-//   text-align: start;
-// }
-
-// .el-collapse {
-//   width: 100%;
-//   border: none;
-// }
-// .el-collapse-item {
-//   background-color: white;
-//   margin-bottom: 20px;
-//   padding: 10px 20px;
-//   border-radius: 10px;
-//   width: 100%;
-//   box-sizing: border-box;
-// }
-// :deep(.el-collapse-item__header),
-// :deep(.el-collapse-item__wrap) {
-//   border: none;
-// }
+.collapse-content-container {
+  margin-left: 10px;
+}
 </style>
