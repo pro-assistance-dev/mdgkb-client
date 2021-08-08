@@ -14,6 +14,9 @@ const mutations: MutationTree<State> = {
   emailExist(state, email: string) {
     email && email.length > 0 ? (state.emailExist = true) : (state.emailExist = false);
   },
+  setAuthPageEmail(state, email: string) {
+    state.authPageEmail = email;
+  }
 };
 
 export default mutations;

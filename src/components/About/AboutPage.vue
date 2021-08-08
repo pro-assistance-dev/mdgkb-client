@@ -47,7 +47,7 @@ export default defineComponent({
     const store = useStore();
     const divisionFilter = ref('');
     const divisions = ref([new Division()]);
-    const selectedDivision = ref({ id: '123', name: '123' });
+    const selectedDivision = computed(() => store.getters['divisions/division']);
 
     // Methods
     const loadDivisions = async (): Promise<void> => {
@@ -58,7 +58,6 @@ export default defineComponent({
 
     const loadDivision = async (id: string | undefined): Promise<void> => {
       await store.dispatch('divisions/get', id);
-      selectedDivision.value = store.getters['divisions/division'];
     };
 
     const list = computed((): IDivision[] => {
