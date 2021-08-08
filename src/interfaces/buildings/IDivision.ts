@@ -1,3 +1,5 @@
+import IDoctor from '@/interfaces/doctors/IDoctor';
+
 export default interface IDivision {
   id?: string;
   name: string;
@@ -8,4 +10,5 @@ export default interface IDivision {
   floorId?: string;
   buildingId?: string;
   slug?: string;
+  doctors: IDoctor[];
 }
