@@ -1,6 +1,6 @@
 <template>
   <div class="gallery-container" v-if="newsImages.length > 0">
-    <el-carousel :interval="4000" indicator-position="outside">
+    <el-carousel arrow="always" :interval="4000" indicator-position="outside">
       <el-carousel-item v-for="newsImage in newsImages" :key="newsImage.id">
         <img :src="newsImage.fileInfo.getImageUrl()" alt="alt" />
       </el-carousel-item>
@@ -25,11 +25,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .gallery-container {
-  text-align: -webkit-center;
-
   margin-top: 30px;
   img {
     width: 100%;
+    max-width: 100%;
+  }
+}
+:deep(.el-carousel__arrow) {
+  background-color: white;
+  color: black;
+
+  &:hover {
+    background-color: #9c9c9c;
   }
 }
 </style>

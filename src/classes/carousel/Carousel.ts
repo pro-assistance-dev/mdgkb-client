@@ -5,14 +5,16 @@ import CarouselSlide from '@/classes/carousel/CarouselSlide';
 export default class Carousel implements ICarousel {
   id?: string;
   title: string = '';
-  key: string = '';
+  systemKey: string = '';
   carouselSlides: ICarouselSlide[] = [];
+  carouselSlidesNames: string[] = [];
+  carouselSlidesForDelete: string[] = [];
 
   constructor(i?: ICarousel) {
     if (!i) return;
     this.id = i.id;
     this.title = i.title;
-    this.key = i.key;
-    this.carouselSlides = i.carouselSlides.map((item: ICarouselSlide) => new CarouselSlide(item));
+    this.systemKey = i.systemKey;
+    if (i.carouselSlides) this.carouselSlides = i.carouselSlides.map((item: ICarouselSlide) => new CarouselSlide(item));
   }
 }

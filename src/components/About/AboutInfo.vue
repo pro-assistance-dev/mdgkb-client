@@ -1,4 +1,14 @@
 <template>
+  <div v-if="sum > 0" :class="{ fixed: scrollOffset >= 90 }">
+    <el-card style="max-width: 1344px; margin: 0 auto">
+      <div class="sum-card">
+        <div class="sum">Сумма: {{ sum }} рублей.</div>
+        <h2 v-if="scrollOffset >= 150" style="margin: 0">Выбранные платные услуги</h2>
+        <el-button @click="clearSelectedService()">Очистить выбор</el-button>
+      </div>
+    </el-card>
+  </div>
+
   <el-container direction="vertical">
     <h1 style="text-align: center">{{ division.name }}</h1>
     <el-card>
@@ -19,7 +29,18 @@
     </el-card>
     <el-card>
       <template #header>Услуги-прайс</template>
-      <div></div>
+      <el-collapse accordion v-if="division.name === 'Гинекологическое отделение'">
+        <PaidService ref="ginService" :title="'Открыть список'" @selectService="selectServiceGin" v-model:services="ginDiv" />
+      </el-collapse>
+      <el-collapse accordion v-if="division.name === 'Оториноларингологическое отделение'">
+        <PaidService
+          v-if="division.name === 'Оториноларингологическое отделение'"
+          ref="otoService"
+          :title="'Оториноларингологическое отделение'"
+          @selectService="selectServiceOto"
+          v-model:services="otoDiv"
+        />
+      </el-collapse>
     </el-card>
     <el-card>
       <template #header>Врачебный состав</template>
@@ -44,15 +65,76 @@
 
 <script lang="ts">
 import IDivision from '@/interfaces/buildings/IDivision';
-import { PropType } from 'vue';
+import { onMounted, onUnmounted, PropType, ref } from 'vue';
+import IPaidService from '@/interfaces/IPaidService';
+import { ginDiv } from '@/components/PaidServices/ginDiv';
+import { otoDiv } from '@/components/PaidServices/otoDiv';
+import PaidService from '@/components/PaidServices/PaidService.vue';
 
 export default {
   name: 'AboutInfo',
+  components: { PaidService },
   props: {
     division: {
       type: Object as PropType<IDivision>,
       required: true,
     },
+  },
+  setup() {
+    let sum = ref(0);
+    const ginService = ref();
+    const otoService = ref();
+    const scrollOffset = ref(0);
+    const previousOffset = ref(0);
+    const rememberedOffset = ref(0);
+    let selectedServiceGin: IPaidService[] = [];
+    let selectedServiceOto: IPaidService[] = [];
+
+    const calcSum = () => {
+      sum.value = 0;
+      selectedServiceGin.forEach((s) => (sum.value = Number(s.price) + sum.value));
+      selectedServiceOto.forEach((s) => (sum.value = Number(s.price) + sum.value));
+    };
+
+    const selectServiceGin = (services: IPaidService[]) => {
+      selectedServiceGin = services;
+      calcSum();
+    };
+
+    const selectServiceOto = (services: IPaidService[]) => {
+      selectedServiceOto = services;
+      calcSum();
+    };
+    const clearSelectedService = () => {
+      if (ginService.value) ginService.value.clearSelection();
+      if (otoService.value) otoService.value.clearSelection();
+      sum.value = 0;
+    };
+
+    const handleScroll = () => {
+      if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
+        rememberedOffset.value = 0;
+      }
+      previousOffset.value = scrollOffset.value;
+      scrollOffset.value = window.scrollY;
+    };
+
+    onMounted(() => window.addEventListener('scroll', handleScroll));
+    onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+
+    return {
+      clearSelectedService,
+      ginService,
+      otoService,
+      sum,
+      selectServiceOto,
+      selectServiceGin,
+      ginDiv,
+      otoDiv,
+      scrollOffset,
+      previousOffset,
+      rememberedOffset,
+    };
   },
 };
 </script>
@@ -70,5 +152,30 @@ export default {
   font-weight: 400;
   text-transform: uppercase;
   font-size: 0.8rem;
+}
+
+.sum {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.sum-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fixed {
+  position: fixed;
+  top: 57px;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.spacer {
+  width: 100%;
+  height: 80px;
 }
 </style>

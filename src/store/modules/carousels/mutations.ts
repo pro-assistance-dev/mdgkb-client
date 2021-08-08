@@ -6,6 +6,7 @@ import Carousel from '@/classes/carousel/Carousel';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: ICarousel[]) {
+    console.log(items);
     if (!items) return;
     state.items = items.map((i: ICarousel) => new Carousel(i));
   },

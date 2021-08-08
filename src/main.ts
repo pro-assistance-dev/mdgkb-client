@@ -72,6 +72,7 @@ import {
   ElTooltip,
   ElTree,
   ElUpload,
+  ElColorPicker,
 } from 'element-plus';
 
 const components = [
@@ -137,6 +138,7 @@ const components = [
   ElTooltip,
   ElTree,
   ElUpload,
+  ElColorPicker,
 ];
 const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification, ElInfiniteScroll];
 const app = createApp(App);

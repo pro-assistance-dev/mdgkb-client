@@ -2,11 +2,11 @@
   <div class="flex-column">
     <div class="flex-row-between">
       <el-button type="primary" @click="$router.push('/admin/carousels/new')">Добавить карусель</el-button>
-      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>
     </div>
     <el-card>
       <el-table :data="carousels" v-if="carousels">
         <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
+        <el-table-column prop="systemKey" label="Системный ключ" sortable> </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" :showEditButton="true" :showRemoveButton="true" />
@@ -14,9 +14,6 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <div class="flex-row-end">
-      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>
-    </div>
   </div>
 </template>
 

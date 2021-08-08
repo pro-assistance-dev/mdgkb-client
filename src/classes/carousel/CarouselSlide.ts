@@ -6,16 +6,22 @@ export default class CarouselSlide implements ICarouselSlide {
   id?: string;
   content: string = '';
   title: string = '';
+  buttonColor: string = '';
+  buttonShow: boolean = false;
   fileInfoId?: string;
   fileInfo?: IFileInfo;
-  carouselId: string = '';
+  carouselId?: string;
+  link: string = '';
 
   constructor(i?: ICarouselSlide) {
     if (!i) return;
     this.id = i.id;
     this.content = i.content;
     this.title = i.title;
+    this.buttonColor = i.buttonColor;
+    this.buttonShow = i.buttonShow;
     this.carouselId = i.carouselId;
+    this.link = i.link;
     this.fileInfoId = i.fileInfoId;
     this.fileInfo = new FileInfo(i.fileInfo);
   }

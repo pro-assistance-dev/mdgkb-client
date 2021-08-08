@@ -3,7 +3,7 @@
     <div class="date-meta">{{ $dateFormatRu(news.publishedOn, true) }}</div>
     <div class="icon">
       <EyeOutlined />
-      <span>0 </span>
+      <span>{{ news.viewsCount }} </span>
     </div>
     <div class="icon like">
       <LikeFilled @click.stop="deleteLike(news)" class="liked" v-if="liked(news.newsLikes)" />

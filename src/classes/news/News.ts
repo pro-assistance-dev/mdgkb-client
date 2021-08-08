@@ -31,6 +31,7 @@ export default class News implements INews {
   newsImages: INewsImage[] = [];
   newsImagesForDelete: string[] = [];
   newsImagesNames: string[] = [];
+  viewsCount: number = 0;
 
   constructor(i?: INews) {
     if (!i) return;
@@ -42,6 +43,7 @@ export default class News implements INews {
     this.mainImageId = i.mainImageId;
     this.content = i.content;
     this.slug = i.slug;
+    this.viewsCount = i.viewsCount;
     this.category = new Category(i.category);
     if (i.tags) this.tags = i.tags.map((item: ITag) => new Tag(item));
     if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);

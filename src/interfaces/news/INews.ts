@@ -24,4 +24,5 @@ export default interface INews {
   newsImages: INewsImage[];
   newsImagesForDelete: string[];
   newsImagesNames: string[];
+  viewsCount: number;
 }

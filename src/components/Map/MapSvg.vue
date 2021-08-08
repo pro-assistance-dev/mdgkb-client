@@ -2375,6 +2375,7 @@ export default defineComponent({
       building.value = props.buildings.find((b) => {
         return b.number === item.id.substr(2, 2);
       });
+
       setTimeout(function () {
         buildingId.value = item.id;
         item.classList.remove('flicker');

@@ -11,7 +11,7 @@
       <el-col :xl="9" :offset="1">
         <el-card>
           <el-form-item>
-            <el-input v-model="carousel.key" placeholder="Ключ"></el-input>
+            <el-input v-model="carousel.systemKey" placeholder="Ключ"></el-input>
           </el-form-item>
         </el-card>
       </el-col>
@@ -23,28 +23,23 @@
       <el-col style="height: 100%">
         <el-card class="content-card" style="height: 100%">
           <template #header>
-            <span>Слайды</span>
-            <el-button @click="addSlide" type="success" icon="el-icon-plus" circle></el-button>
+            <div class="flex-row-between">
+              <span style="text-align: left">Слайды</span>
+              <div>
+                <el-button @click="addSlide" type="success" icon="el-icon-plus" circle></el-button>
+              </div>
+            </div>
           </template>
-          <el-tabs @tab-click="chooseSlide" style="height: 100%" type="border-card" v-model="activeTab" :tab-position="'left'">
-            <el-tab-pane
-              @click="chooseSlide(i)"
-              @change="chooseSlide(i)"
-              @tab-click="chooseSlide(i)"
-              v-for="(slide, i) in carousel.carouselSlides"
-              :key="slide.id"
-              :label="slide.title"
-              :name="slide.id"
-            >
-              <template #label>
-                <div>
-                  <span style="width: 500px">{{ slide.title }}</span>
-                </div>
-              </template>
-              <el-row>
+          <div v-for="(slide, i) in carousel.carouselSlides" :key="slide.id">
+            <el-row style="text-align: center">
+              <el-col :span="16">
                 <el-upload
-                  :file-list="fileList"
-                  ref="uploader"
+                  :file-list="fileLists[i]"
+                  :ref="
+                    (el) => {
+                      if (el) uploaders[i] = el;
+                    }
+                  "
                   :multiple="false"
                   accept="image/jpeg,image/png"
                   class="avatar-uploader-cover upload-demo"
@@ -52,47 +47,87 @@
                   list-type="picture-card"
                   :auto-upload="false"
                   :limit="parseInt('1')"
-                  :on-change="toggleUpload"
-                  :class="{ hideUpload: !showUpload }"
+                  @click="nowSlide = i"
+                  @change="toggleUpload"
+                  :class="{ hideUpload: !showUpload[i] }"
                 >
                   <template #default>
-                    <i class="el-icon-plus"></i>
+                    <i class="el-icon-plus custom-plus"></i>
                   </template>
                   <template #file="{ file }">
-                    <div>
+                    <div class="carousel-container">
                       <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                      <div class="carousel-body">
+                        <div class="carousel-title" v-html="slide.title" />
+                        <div class="carousel-content" v-html="slide.content" />
+                        <button v-if="slide.buttonShow" :style="{ background: slide.buttonColor }" class="carousel-button">
+                          Подробнее
+                        </button>
+                      </div>
                     </div>
                     <span class="el-upload-list__item-actions">
                       <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
                         <i class="el-icon-zoom-in"></i>
                       </span>
-                      <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
+                      <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file, i)">
                         <i class="el-icon-delete"></i>
                       </span>
                     </span>
                   </template>
                 </el-upload>
-              </el-row>
-              <el-row :gutter="20">
-                <el-col :xl="10">
-                  <el-form-item><el-input v-model="slide.title" placeholder="Заголовок"></el-input></el-form-item>
-                </el-col>
-                <el-col :xl="10" :offset="2">
-                  {{ nowSlide }}
-                  <el-form-item>
-                    <QuillEditor style="height: 250px" v-model:content="slide.content" contentType="html" theme="snow"></QuillEditor>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </el-tab-pane>
-          </el-tabs>
+                <el-row style="text-align: center">
+                  <el-col :span="4" :offset="2">
+                    <el-form-item :label-width="60" label="Показать кнопку:">
+                      <el-checkbox v-model="slide.buttonShow"></el-checkbox>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="4" v-if="slide.buttonShow">
+                    <el-form-item label-width="60" label="Цвет кнопки">
+                      <el-color-picker v-model="slide.buttonColor"></el-color-picker>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12" v-if="slide.buttonShow">
+                    <el-form-item label-width="60" label="Ссылка">
+                      <el-input v-model="slide.link" placeholder="Ссылка"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="1" :offset="2">
+                    <el-button type="danger" @click="removeSlide(i)">Удалить слайд</el-button>
+                  </el-col>
+                </el-row>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item>
+                  <QuillEditor
+                    :options="editorOptions"
+                    style="height: 100px"
+                    v-model:content="slide.title"
+                    contentType="html"
+                    theme="snow"
+                  ></QuillEditor
+                ></el-form-item>
+                <el-form-item>
+                  <QuillEditor
+                    :options="editorOptions"
+                    style="height: 200px"
+                    v-model:content="slide.content"
+                    contentType="html"
+                    theme="snow"
+                  ></QuillEditor>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-divider v-if="i < carousel.carouselSlides.length" />
+          </div>
         </el-card>
       </el-col>
     </el-row>
   </el-form>
 
-  <el-dialog v-model="cropOpen">
-    <ImageCropper :ratio="19 / 3" :src="imageCropSrc" @save="saveFromCropper" />
+  <el-dialog v-model="isCropOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+    <ImageCropper :src="imageCropSrc" @save="saveFromCropper" @cancel="cancelCropper" :ratio="1300 / 300" />
   </el-dialog>
 </template>
 
@@ -108,44 +143,69 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import FileInfo from '@/classes/File/FileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import { v4 as uuidv4 } from 'uuid';
+import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
+import NewsCarouselContainer from '@/components/NewsCarouselContainer.vue';
 
 export default defineComponent({
   name: 'AdminCarouselPage',
-  components: { ImageCropper, QuillEditor },
-  async setup() {
+  components: { ImageCropper, QuillEditor, NewsCarouselContainer },
+  setup() {
+    const editorOptions = {
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline'],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ font: [] }],
+          [{ color: [] }, { background: [] }],
+          [{ align: [] }],
+          ['clean'],
+        ],
+      },
+    };
+
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    let showUpload = ref(true);
-    let cropOpen = ref(false);
+    let showUpload = ref([true]);
+    let isCropOpen = ref(false);
     let tagsVisible = ref(false);
     let imageCropSrc = ref('');
-    let uploader = ref();
+    let uploaders = ref([]);
     let activeTab = ref('');
     let nowSlide = ref(0);
     let carousel = computed(() => store.getters['carousels/item']);
 
-    if (route.params.id) {
-      await store.dispatch('carousels/get', route.params['id']);
-      carousel = computed(() => store.getters['carousels/item']);
-    }
-
-    let fileList: Ref<IFilesList[]> = ref([]);
+    let fileLists: Ref<Array<IFilesList[]>> = ref([[]]);
 
     const fileToUpload = () => {
-      if (carousel.value.fileInfo && carousel.value.fileInfo.fileSystemPath != '') {
-        fileList.value.push({
-          name: carousel.value.fileInfo,
-          url: `${process.env.VUE_APP_STATIC_URL}/${carousel.value.fileInfo?.fileSystemPath}`,
+      if (carousel.value.carouselSlides.length === 0) return;
+
+      carousel.value.carouselSlides.forEach((slide: ICarouselSlide, i: number) => {
+        fileLists.value[i] = [];
+        fileLists.value[i].push({
+          name: carousel.value.carouselSlides[i].fileInfo,
+          url: `${process.env.VUE_APP_STATIC_URL}/${carousel.value.carouselSlides[i].fileInfo.fileSystemPath}`,
         });
-        if (fileList.value.length > 0) showUpload.value = false;
+        if (fileLists.value[i].length > 0) showUpload.value[i] = false;
+      });
+    };
+
+    const loadCarouselItem = async () => {
+      if (route.params.id) {
+        await store.dispatch('carousels/get', route.params['id']);
+        carousel = computed(() => store.getters['carousels/item']);
+        fileToUpload();
       }
     };
+
+    onMounted(loadCarouselItem);
 
     const addSlide = () => {
       let slide = new CarouselSlide();
       slide.title = 'Новый слайд ' + carousel.value.carouselSlides.length.toString();
       carousel.value.carouselSlides.push(slide);
+      showUpload.value.push(true);
+      fileLists.value.push([]);
     };
 
     const toggleUpload = (file: any) => {
@@ -153,17 +213,22 @@ export default defineComponent({
       if (!carousel.value.carouselSlides[nowSlide.value].fileInfo) {
         carousel.value.carouselSlides[nowSlide.value].fileInfo = new FileInfo();
       }
-      showUpload.value = !showUpload.value;
+      showUpload.value[nowSlide.value] = !showUpload.value;
       carousel.value.carouselSlides[nowSlide.value].fileInfo = new FileInfo({
         id: carousel.value.carouselSlides[nowSlide.value].fileInfo.id,
         originalName: file.name,
         file: file.raw,
-        fileSystemPath: file.name,
-        category: 'file',
+        fileSystemPath: uuidv4(),
+        category: 'slide',
       });
+      if (carousel.value.carouselSlidesNames[nowSlide.value]) {
+        carousel.value.carouselSlidesNames[nowSlide.value] = carousel.value.carouselSlides[nowSlide.value].fileInfo.fileSystemPath;
+      } else {
+        carousel.value.carouselSlidesNames.push(carousel.value.carouselSlides[nowSlide.value].fileInfo.fileSystemPath);
+      }
 
       imageCropSrc.value = file.url;
-      cropOpen.value = true;
+      isCropOpen.value = true;
     };
 
     const submit = async () => {
@@ -179,42 +244,47 @@ export default defineComponent({
     const saveFromCropper = (file: any) => {
       if (!nowSlide.value) nowSlide.value = 0;
       carousel.value.carouselSlides[nowSlide.value].fileInfo.file = file.blob;
-      carousel.value.carouselSlides[nowSlide.value].fileInfo.originalName = uuidv4();
-      fileList.value = [];
-      cropOpen.value = false;
-      fileList.value.push({ name: carousel.value.carouselSlides[nowSlide.value].fileInfo.fileSystemPath, url: file.src });
-      if (fileList.value.length > 0) showUpload.value = false;
+      carousel.value.carouselSlides[nowSlide.value].fileInfo.category = 'slide';
+
+      fileLists.value[nowSlide.value][0] = { name: carousel.value.carouselSlides[nowSlide.value].fileInfo.fileSystemPath, url: file.src };
+      isCropOpen.value = false;
+      if (fileLists.value[nowSlide.value].length > 0) showUpload.value[nowSlide.value] = false;
     };
 
-    const handleRemove = (file: File) => {
-      uploader.value.clearFiles();
+    const handleRemove = (file: File, i: number) => {
+      fileLists.value[i] = [];
       setTimeout(() => {
-        showUpload.value = !showUpload.value;
+        showUpload.value[i] = !showUpload.value[i];
       }, 800);
     };
 
     const handlePictureCardPreview = (file: any) => {
       imageCropSrc.value = file.url;
-      cropOpen.value = true;
-    };
-    const chooseSlide = (slideIndex: any) => {
-      nowSlide.value = slideIndex.paneName;
+      isCropOpen.value = true;
     };
 
-    fileToUpload();
+    const removeSlide = (i: number) => {
+      if (carousel.value.carouselSlides[i].id) {
+        carousel.value.carouselSlidesForDelete.push(carousel.value.carouselSlides[i].id);
+      }
+      carousel.value.carouselSlides.splice(i, 1);
+      fileLists.value.splice(i, 1);
+    };
+
     return {
-      fileList,
+      removeSlide,
+      editorOptions,
+      isCropOpen,
+      fileLists,
       nowSlide,
-      chooseSlide,
       activeTab,
       addSlide,
       tagsVisible,
-      uploader,
+      uploaders,
       handlePictureCardPreview,
       handleRemove,
       saveFromCropper,
       submit,
-      cropOpen,
       carousel,
       showUpload,
       toggleUpload,
@@ -225,29 +295,66 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$news-content-max-width: 1300px;
+$news-content-max-height: 300px;
+
+.color-picker-input {
+  margin: 0;
+  text-align: left;
+  position: relative;
+  vertical-align: middle;
+
+  .label {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.flex-row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 :deep(.row-slides) {
   height: 100%;
   margin-top: 50px;
 }
 
-:deep(.el-upload-dragger) {
-  width: 100%;
-  height: 100%;
-  background: white;
+.hideUpload {
+  :deep(.el-upload) {
+    display: none;
+  }
+}
+
+.avatar-uploader-cover {
+  text-align: center;
+}
+
+.custom-plus {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
 }
 
 :deep(.el-upload) {
-  width: 100%;
-  height: 100%;
+  width: $news-content-max-width;
+  height: $news-content-max-height;
   background: white;
+  text-align: center;
+  line-height: $news-content-max-height;
 }
 
-.upload-demo {
-  width: 100%;
-  height: 250px;
-  margin-bottom: 20px;
-  background: white;
+:deep(.el-upload-list__item) {
+  width: $news-content-max-width !important;
+  height: $news-content-max-height !important;
 }
+
+:deep(.el-upload-list__item-thumbnail) {
+  width: $news-content-max-width !important;
+  height: $news-content-max-height !important;
+}
+
 .el-container {
   .el-card {
     margin-bottom: 20px;
@@ -282,5 +389,51 @@ export default defineComponent({
 
 .content-card {
   height: 450px;
+}
+
+.carousel-container {
+  margin: 20px 80px;
+
+  .carousel-body {
+    overflow: hidden;
+  }
+
+  .carousel-title {
+    margin-top: 0;
+    z-index: 1;
+    position: absolute;
+  }
+
+  .carousel-content {
+    margin-top: 0px;
+    font-size: 80%;
+    z-index: 1;
+    position: absolute;
+  }
+
+  img {
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .carousel-button {
+    z-index: 1;
+    position: absolute;
+    left: 20px;
+    bottom: 40px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    margin-left: 60px;
+    border-radius: 30px;
+    height: 40px;
+    width: 150px;
+    font-weight: 600;
+    &:hover {
+      cursor: pointer;
+      background-color: black;
+      color: white;
+    }
+  }
 }
 </style>

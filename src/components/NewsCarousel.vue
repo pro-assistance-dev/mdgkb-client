@@ -1,13 +1,15 @@
 <template>
-  <el-carousel :interval="4000" indicator-position="outside">
-    <el-carousel-item v-for="item in news" :key="item">
+  <el-carousel :interval="3000" indicator-position="outside">
+    <el-carousel-item v-for="item in carousel.carouselSlides" :key="item.id">
       <div class="carousel-container">
-        <!-- <img :src="require(`@/assets/img/services-menu/banner/${item.id}.png`)" /> -->
+        <img :src="item.fileInfo.getImageUrl()" alt="alt" />
         <div class="carousel-body">
-          <h3>{{ item.title }}</h3>
+          <div class="carousel-title" v-html="item.title" />
           <div class="carousel-content" v-html="item.content"></div>
         </div>
-        <el-button @click="$router.push(item.to)" round>Подробнее</el-button>
+        <button @click="$router.push(item.link)" v-if="item.buttonShow" :style="{ background: item.buttonColor }" class="carousel-button">
+          Подробнее
+        </button>
       </div>
     </el-carousel-item>
   </el-carousel>
@@ -15,39 +17,23 @@
 
 <script lang="ts">
 import { useStore } from 'vuex';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'NewsCarousel',
-  components: {},
   async setup() {
-    const news = ref([
-      {
-        title: 'Врачи Морозовской детской больницы признаны лучшими специалистами года',
-        content:
-          'В соответствии с приказом Департамента здравоохранения города Москвы от 26 декабря 2019 года № 1118 пять специалистов Морозовской детской больницы в числе лауреатов ежегодного Московского фестиваля «Формула жизни».',
-        to: `/news/vrachi-morozovskoj-detskoj-bolnicy-priznany-luchshimi-specialistami-goda`,
-      },
-      {
-        title: 'Врачи Морозовской детской больницы признаны лучшими специалистами года',
-        content:
-          'В соответствии с приказом Департамента здравоохранения города Москвы от 26 декабря 2019 года № 1118 пять специалистов Морозовской детской больницы в числе лауреатов ежегодного Московского фестиваля «Формула жизни».',
-        to: `/news/vrachi-morozovskoj-detskoj-bolnicy-priznany-luchshimi-specialistami-goda`,
-      },
-      {
-        title: 'Врачи Морозовской детской больницы признаны лучшими специалистами года',
-        content:
-          'В соответствии с приказом Департамента здравоохранения города Москвы от 26 декабря 2019 года № 1118 пять специалистов Морозовской детской больницы в числе лауреатов ежегодного Московского фестиваля «Формула жизни».',
-        to: `/news/vrachi-morozovskoj-detskoj-bolnicy-priznany-luchshimi-specialistami-goda`,
-      },
-      {
-        title: 'Врачи Морозовской детской больницы признаны лучшими специалистами года',
-        content:
-          'В соответствии с приказом Департамента здравоохранения города Москвы от 26 декабря 2019 года № 1118 пять специалистов Морозовской детской больницы в числе лауреатов ежегодного Московского фестиваля «Формула жизни».',
-        to: `/news/vrachi-morozovskoj-detskoj-bolnicy-priznany-luchshimi-specialistami-goda`,
-      },
-    ]);
-    return { news };
+    const store = useStore();
+    const route = useRoute();
+    let carousel = computed(() => store.getters['carousels/item']);
+    const loadCarouselItem = async () => {
+      await store.dispatch('carousels/getByKey', 'top');
+      carousel = computed(() => store.getters['carousels/item']);
+    };
+
+    onMounted(loadCarouselItem);
+
+    return { carousel };
   },
 });
 </script>
@@ -60,12 +46,12 @@ export default defineComponent({
 //   margin: 0;
 // }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+.gallery-container {
+  margin-top: 30px;
+  img {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 .carousel-container {
@@ -74,9 +60,7 @@ export default defineComponent({
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  margin: 20px 80px;
-  width: 50%;
+  padding: 20px 80px;
   max-height: 100%;
 
   .carousel-body {
@@ -91,7 +75,9 @@ export default defineComponent({
     font-style: italic;
     text-align: justify;
   }
+
   img {
+    max-width: 100%;
     width: 100%;
     height: 320px;
     z-index: -1;
@@ -100,21 +86,35 @@ export default defineComponent({
     left: 0;
     top: 0;
   }
-  .el-button {
-    // position: absolute;
-    // left: 20px;
-    // bottom: 40px;
+  .carousel-button {
+    z-index: 1;
+    position: absolute;
+    left: 20px;
+    bottom: 40px;
     margin-top: 10px;
     margin-bottom: 40px;
+    margin-left: 60px;
+    border-radius: 30px;
+    height: 40px;
     width: 150px;
-    background-color: transparent;
-    color: black;
     font-weight: 600;
-    border: 2px solid black;
+    &:hover {
+      cursor: pointer;
+      background-color: black;
+      color: white;
+    }
   }
   .el-button:hover {
     background-color: black;
     color: white;
+  }
+}
+:deep(.el-carousel__arrow) {
+  background-color: white;
+  color: black;
+
+  &:hover {
+    background-color: #9c9c9c;
   }
 }
 </style>

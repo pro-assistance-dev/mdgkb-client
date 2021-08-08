@@ -18,6 +18,10 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<ICarousel>({ query: `${id}` });
     commit('set', res);
   },
+  getByKey: async ({ commit }, key: string): Promise<void> => {
+    const res = await httpClient.get<ICarousel>({ query: `key/${key}` });
+    commit('set', res);
+  },
   create: async ({ commit }, item: ICarousel): Promise<void> => {
     let fileInfos: IFileInfo[] = [];
     item.carouselSlides.forEach((slide) => {
@@ -27,8 +31,15 @@ const actions: ActionTree<State, RootState> = {
     commit('appendToAll', item);
   },
   update: async ({ commit }, item: ICarousel): Promise<void> => {
+    let fileInfos: IFileInfo[] = [];
+    item.carouselSlides.forEach((slide) => {
+      if (slide.fileInfo) fileInfos.push(slide.fileInfo);
+    });
     const res = await httpClient.put<ICarousel, ICarousel>({
       query: `${item.id}`,
+      payload: item,
+      fileInfos: fileInfos,
+      isFormData: true,
     });
   },
   remove: async ({ commit }, newsId: string): Promise<void> => {
