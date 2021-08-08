@@ -25,13 +25,13 @@
               v-if="mounted"
               :fileList="mainImage"
               :fileInfo="news.mainImage"
-              @toggleUpload="toggleUploadMain"
-              @handlePictureCardPreview="handlePictureCardPreviewMain"
+              @toggleUpload="toggleUpload"
+              @handlePictureCardPreview="handlePictureCardPreview"
             />
             <AdminNewsPageGallery
               :fileList="galleryList"
-              @toggleUpload="toggleUploadGallery"
-              @handlePictureCardPreview="handlePictureCardPreviewGallery"
+              @toggleUpload="toggleUpload"
+              @handlePictureCardPreview="handlePictureCardPreview"
               @handleRemove="removeFromGallery"
             />
           </el-container>
@@ -58,9 +58,6 @@
           </el-container>
         </el-col>
       </el-row>
-      <el-row>
-        <el-container direction="vertical"> </el-container>
-      </el-row>
     </el-form>
 
     <el-dialog v-model="isCropOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
@@ -68,11 +65,11 @@
     </el-dialog>
 
     <el-dialog v-model="isCropMainOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-      <ImageCropper :src="imageCropSrcMain" @save="saveFromCropperMain" @cancel="cancelCropper" :ratio="2 / 1" />
+      <ImageCropper :src="imageCropSrc" @save="saveFromCropperMain" @cancel="cancelCropper" :ratio="2" />
     </el-dialog>
 
     <el-dialog v-model="isCropGalleryOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-      <ImageCropper :src="imageCropSrcGallery" @save="saveFromCropperGallery" @cancel="cancelCropper" :ratio="8 / 3.3" />
+      <ImageCropper :src="imageCropSrc" @save="saveFromCropperGallery" @cancel="cancelCropper" :ratio="8 / 3.3" />
     </el-dialog>
   </div>
 </template>
@@ -83,19 +80,17 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { QuillEditor } from '@vueup/vue-quill';
-import { v4 as uuidv4 } from 'uuid';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import FileInfo from '@/classes/File/FileInfo';
 import News from '@/classes/news/News';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import NewsRules from '@/classes/news/NewsRules';
 import INewsImage from '@/interfaces/news/INewsImage';
-import NewsImage from '@/classes/news/NewsImage';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import AdminNewsPagePreviewImage from '@/components/admin/AdminNews/AdminNewsPagePreviewImage.vue';
 import AdminNewsPageGallery from '@/components/admin/AdminNews/AdminNewsPageGallery.vue';
 import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMainImage.vue';
+
 export default defineComponent({
   name: 'AdminNewsPage',
   components: { ImageCropper, QuillEditor, AdminNewsPageTags, AdminNewsPagePreviewImage, AdminNewsPageGallery, AdminNewsPageMainImage },
@@ -108,10 +103,7 @@ export default defineComponent({
     let isCropGalleryOpen = ref(false);
     let isCropMainOpen = ref(false);
     let imageCropSrc = ref('');
-    let imageCropSrcMain = ref('');
-    let imageCropSrcGallery = ref('');
     let curGalleryCropIndex = ref(0);
-    let uploader = ref();
     const form = ref();
     const rules = ref(NewsRules);
 
@@ -137,10 +129,10 @@ export default defineComponent({
 
     const fileToUpload = () => {
       if (news.value.fileInfo?.fileSystemPath) {
-        fileList.value.push({ name: news.value.fileInfo, url: news.value.fileInfo.getImageUrl() });
+        fileList.value.push(news.value.fileInfo.getFileListObject());
       }
       if (news.value.mainImage?.fileSystemPath) {
-        mainImage.value.push({ name: news.value.mainImage, url: news.value.mainImage.getImageUrl() });
+        mainImage.value.push(news.value.mainImage.getFileListObject());
       }
       galleryList.value = news.value.newsImages.map((image: INewsImage) => {
         if (image.fileInfo)
@@ -148,14 +140,14 @@ export default defineComponent({
       });
     };
 
-    const toggleUpload = (url: string) => {
+    const toggleUpload = (url: string, cropper: string) => {
       imageCropSrc.value = url;
-      isCropOpen.value = true;
-    };
-
-    const toggleUploadMain = (url: string) => {
-      imageCropSrcMain.value = url;
-      isCropMainOpen.value = true;
+      if (cropper === 'preview') isCropOpen.value = true;
+      if (cropper === 'main') isCropMainOpen.value = true;
+      if (cropper === 'gallery') {
+        curGalleryCropIndex.value = news.value.newsImages.length - 1;
+        isCropGalleryOpen.value = true;
+      }
     };
 
     const removeFromGallery = (file: any) => {
@@ -165,20 +157,6 @@ export default defineComponent({
         news.value.newsImagesForDelete.push(news.value.newsImages[index].id);
         news.value.newsImages.splice(index, 1);
       }
-    };
-
-    const toggleUploadGallery = (file: any) => {
-      const image = new FileInfo({
-        originalName: file.name,
-        file: file.raw,
-        fileSystemPath: uuidv4(),
-        category: 'gallery',
-      });
-      news.value.newsImagesNames.push(image.fileSystemPath);
-      news.value.newsImages.push(new NewsImage({ fileInfo: image }));
-      curGalleryCropIndex.value = news.value.newsImages.length - 1;
-      imageCropSrcGallery.value = file.url;
-      isCropGalleryOpen.value = true;
     };
 
     const saveFromCropperGallery = (file: any) => {
@@ -213,21 +191,15 @@ export default defineComponent({
       isCropMainOpen.value = false;
     };
 
-    const handlePictureCardPreview = (file: any) => {
+    const handlePictureCardPreview = (file: any, cropper: string) => {
       imageCropSrc.value = file.url;
-      isCropOpen.value = true;
-    };
-
-    const handlePictureCardPreviewMain = (file: any) => {
-      imageCropSrcMain.value = file.url;
-      isCropMainOpen.value = true;
-    };
-
-    const handlePictureCardPreviewGallery = (file: any) => {
-      const index = galleryList.value.findIndex((f) => f.name === file.name);
-      if (index > -1) curGalleryCropIndex.value = index;
-      imageCropSrc.value = file.url;
-      isCropGalleryOpen.value = true;
+      if (cropper === 'preview') isCropOpen.value = true;
+      if (cropper === 'main') isCropMainOpen.value = true;
+      if (cropper === 'gallery') {
+        const index = galleryList.value.findIndex((f) => f.name === file.name);
+        if (index > -1) curGalleryCropIndex.value = index;
+        isCropGalleryOpen.value = true;
+      }
     };
 
     const submit = async () => {
@@ -255,22 +227,15 @@ export default defineComponent({
     };
 
     return {
-      handlePictureCardPreviewMain,
-      imageCropSrcMain,
-      imageCropSrcGallery,
       saveFromCropperMain,
       isCropMainOpen,
-      toggleUploadMain,
       mainImage,
       mounted,
       removeFromGallery,
-      handlePictureCardPreviewGallery,
       saveFromCropperGallery,
       isCropGalleryOpen,
-      toggleUploadGallery,
       galleryList,
       fileList,
-      uploader,
       handlePictureCardPreview,
       saveFromCropper,
       submit,

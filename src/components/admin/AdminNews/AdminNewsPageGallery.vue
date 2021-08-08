@@ -15,12 +15,12 @@
       <template #default>
         <i class="el-icon-plus"></i>
       </template>
-      <template #file="{ file, fileList }">
+      <template #file="{ file }">
         <div>
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
         </div>
         <span class="el-upload-list__item-actions">
-          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, fileList)">
+          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, 'gallery')">
             <i class="el-icon-zoom-in"></i>
           </span>
           <span class="el-upload-list__item-delete" @click="$emit('handleRemove', file)">
@@ -37,6 +37,8 @@ import { defineComponent, PropType, ref } from 'vue';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import FileInfo from '@/classes/File/FileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import { v4 as uuidv4 } from 'uuid';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -52,8 +54,10 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const toggleUpload = (file: any, fileList: any) => {
-      emit('toggleUpload', file, fileList);
+    const store = useStore();
+    const toggleUpload = (file: any) => {
+      store.commit('news/pushToNewsImages', file);
+      emit('toggleUpload', file.url, 'gallery');
     };
 
     return {

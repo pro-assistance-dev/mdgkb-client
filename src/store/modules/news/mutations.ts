@@ -10,6 +10,8 @@ import NewsComment from '@/classes/news/NewsComment';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import FileInfo from '@/classes/File/FileInfo';
+import { v4 as uuidv4 } from 'uuid';
+import NewsImage from '@/classes/news/NewsImage';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -125,6 +127,17 @@ const mutations: MutationTree<State> = {
   },
   updateCalendarMeta(state, meta: ICalendarMeta) {
     state.calendarMeta = meta;
+  },
+  pushToNewsImages(state, file: any) {
+    if (!state.newsItem) return;
+    const image = new FileInfo({
+      originalName: file.name,
+      file: file.raw,
+      fileSystemPath: uuidv4(),
+      category: 'gallery',
+    });
+    if (image.fileSystemPath) state.newsItem.newsImagesNames.push(image.fileSystemPath);
+    state.newsItem.newsImages.push(new NewsImage({ fileInfo: image }));
   },
 };
 

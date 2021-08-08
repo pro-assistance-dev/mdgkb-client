@@ -60,96 +60,7 @@
       </el-card>
 
       <NewsGallery :newsImages="news.newsImages" />
-
-      <el-card class="card-content comments">
-        <template #header>
-          <div class="card-header">
-            <h3 class="title article-title">Комментарии</h3>
-          </div>
-        </template>
-
-        <el-card class="comments-card" v-for="comment in news.newsComments" :key="comment.id">
-          <div class="comment-buttons" v-if="comment.userId === userId && isAuth">
-            <el-tooltip content="Редактировать комментарий" placement="top-end" v-if="!comment.isEditing">
-              <el-button size="medium" icon="el-icon-edit" @click="editComment(comment.id)" />
-            </el-tooltip>
-            <el-popconfirm
-              confirmButtonText="Да"
-              cancelButtonText="Отмена"
-              icon="el-icon-info"
-              iconColor="red"
-              title="Вы уверены, что хотите удалить комментарий?"
-              @confirm="removeComment(comment.id)"
-              @cancel="() => {}"
-            >
-              <template #reference>
-                <el-button size="medium" icon="el-icon-delete" />
-              </template>
-            </el-popconfirm>
-          </div>
-          <div class="comment-header" align="justify">
-            <span class="comment-email">{{ comment.user.email }}</span>
-            <span class="comment-date">{{ $dateFormatRu(comment.publishedOn, true) }}</span>
-          </div>
-          <el-form ref="editCommentForm" :model="comment" :rules="rules" v-if="comment.isEditing">
-            <el-form-item prop="text">
-              <el-input
-                ref="commentInput"
-                type="textarea"
-                placeholder="Добавьте комментарий"
-                v-model="comment.text"
-                minlength="5"
-                maxlength="500"
-                show-word-limit
-                :autosize="{ minRows: 3, maxRows: 6 }"
-              >
-                <template #suffix>
-                  <i class="el-icon-edit el-input__icon"></i>
-                </template>
-              </el-input>
-            </el-form-item>
-            <el-form-item>
-              <div style="display: flex; justify-content: flex-end">
-                <el-button size="mini" type="primary" icon="el-icon-folder-checked" @click="saveCommentChanges(comment)">
-                  Сохранить
-                </el-button>
-              </div>
-            </el-form-item>
-          </el-form>
-          <div v-else>
-            {{ comment.text }}
-          </div>
-        </el-card>
-
-        <div class="add-comment">
-          <el-form ref="commentForm" :model="comment" :key="isAuth" :rules="isAuth ? rules : null">
-            <el-form-item prop="text">
-              <el-input
-                ref="commentInput"
-                type="textarea"
-                placeholder="Добавьте комментарий"
-                v-model="comment.text"
-                @focus="isAuth ? null : openLoginModal()"
-                minlength="5"
-                maxlength="500"
-                show-word-limit
-                :autosize="{ minRows: 3, maxRows: 6 }"
-              >
-                <template #suffix>
-                  <i class="el-icon-edit el-input__icon"></i>
-                </template>
-              </el-input>
-            </el-form-item>
-            <el-form-item>
-              <div style="display: flex; justify-content: flex-end">
-                <el-button class="send-comment" type="primary" @click="isAuth ? sendComment(comment) : openLoginModal()">
-                  Отправить комментарий
-                </el-button>
-              </div>
-            </el-form-item>
-          </el-form>
-        </div>
-      </el-card>
+      <NewsComments :newsComments="news.newsComments" />
     </div>
   </div>
 </template>
@@ -166,10 +77,10 @@ import NewsMeta from '@/components/News/NewsMeta.vue';
 import CommentRules from '@/classes/news/CommentRules';
 import NewsGallery from '@/components/News/NewsGallery.vue';
 import { ElMessage } from 'element-plus';
-
+import NewsComments from '@/components/News/NewsComments.vue';
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsMeta, NewsCalendar, EyeOutlined, NewsGallery },
+  components: { NewsMeta, NewsCalendar, EyeOutlined, NewsGallery, NewsComments },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -178,10 +89,6 @@ export default defineComponent({
     const route = useRoute();
     const slug = computed(() => route.params['slug']);
     const news = computed(() => store.getters['news/newsItem']);
-
-    const userId = computed(() => store.getters['auth/user']?.id);
-    const userEmail = computed(() => localStorage.getItem('userEmail'));
-    const isAuth = computed(() => store.getters['auth/isAuth']);
 
     watch(slug, () => {
       if (slug.value) {
@@ -200,74 +107,14 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
-    const sendComment = async (item: INewsComment) => {
-      let validationResult;
-      commentForm.value.validate((valid: any) => {
-        if (valid) {
-          validationResult = true;
-        } else {
-          validationResult = false;
-        }
-      });
-      if (!validationResult) return;
-      item.newsId = news.value.id;
-      if (userEmail.value) item.user.email = userEmail.value;
-      if (userId.value) item.userId = userId.value;
-      try {
-        await store.dispatch('news/createComment', item);
-        comment.value = new NewsComment();
-      } catch (e) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-    };
-
-    const removeComment = async (commentId: string) => {
-      await store.dispatch('news/removeComment', commentId);
-    };
-    const editComment = async (commentId: string) => {
-      await store.dispatch('news/editComment', commentId);
-    };
-    const saveCommentChanges = async (item: INewsComment) => {
-      let validationResult;
-      editCommentForm.value.validate((valid: any) => {
-        if (valid) {
-          validationResult = true;
-        } else {
-          validationResult = false;
-        }
-      });
-      if (!validationResult) return;
-      try {
-        await store.dispatch('news/updateComment', item);
-      } catch (e) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-    };
-
-    const openLoginModal = () => {
-      if (!isAuth.value) {
-        store.commit('auth/openModal', true);
-        commentInput.value.blur();
-      }
-    };
-
     return {
       rules,
-      openLoginModal,
-      removeComment,
-      userId,
-      sendComment,
       comment,
       news,
       newsContent,
       recentNewsList,
-      isAuth,
       commentInput,
       commentForm,
-      editComment,
-      saveCommentChanges,
       editCommentForm,
     };
   },
