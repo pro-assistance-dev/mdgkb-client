@@ -52,6 +52,7 @@
               v-if="mounted"
               :fileList="fileList"
               :fileInfo="news.fileInfo"
+              title="Загрузить превью новости"
               @toggleUpload="toggleUpload"
               @handlePictureCardPreview="handlePictureCardPreview"
             />

@@ -5,6 +5,12 @@
       <template #header>Общая информация</template>
       <div v-html="division.info"></div>
     </el-card>
+    <el-card v-if="division.doctors.length">
+      <template #header>Врачи</template>
+      <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
+        <DoctorInfoCard :doctor="item" :division="division" />
+      </div>
+    </el-card>
     <el-card>
       <template #header>Фото + 3D экскурсия</template>
       <div></div>
@@ -45,6 +51,7 @@
 <script lang="ts">
 import IDivision from '@/interfaces/buildings/IDivision';
 import { PropType } from 'vue';
+import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 
 export default {
   name: 'AboutInfo',
@@ -54,6 +61,7 @@ export default {
       required: true,
     },
   },
+  components: { DoctorInfoCard },
 };
 </script>
 
@@ -70,5 +78,10 @@ export default {
   font-weight: 400;
   text-transform: uppercase;
   font-size: 0.8rem;
+}
+
+.doctors-wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

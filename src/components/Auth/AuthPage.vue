@@ -55,10 +55,11 @@ export default defineComponent({
     const toggleIsLogin = () => store.commit('auth/toggleIsLoginModal');
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
     const emailExist = computed(() => store.getters['users/emailExist']);
+    const email = computed(() => store.getters['users/authPageEmail']);
     const isLogin = computed(() => store.getters['auth/isLoginModal']);
 
     const emailRule = async (rule: any, value: any, callback: any) => {
-      if (!isLogin.value && value) {
+      if (!isLogin.value && value && value !== email.value) {
         await store.dispatch('users/findEmail', value);
       }
       if (!value.trim().length) {
