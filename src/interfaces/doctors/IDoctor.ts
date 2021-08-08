@@ -1,5 +1,6 @@
 import IHuman from '@/interfaces/IHuman';
 import IDivision from '@/interfaces/buildings/IDivision';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default interface IDoctor {
   id?: string;
@@ -9,5 +10,8 @@ export default interface IDoctor {
   divisionId?: string;
   education?: string;
   schedule?: string;
+  position?: string;
   tags?: string;
+  fileInfoId?: string;
+  fileInfo: IFileInfo;
 }

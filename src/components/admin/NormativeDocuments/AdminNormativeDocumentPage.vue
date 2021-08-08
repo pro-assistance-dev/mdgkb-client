@@ -24,7 +24,7 @@
         >
           <el-button size="mini">{{ isEdit ? 'Заменить файл' : 'Приложить файл' }}</el-button>
           <template #tip>
-            <div class="el-upload__tip">
+            <div class="el-upload__tip" v-if="normativeDocument.fileInfo">
               {{ isEdit ? 'Загружен файл: ' + normativeDocument.fileInfo.originalName : 'В формате PDF, размером не более 20 МиБ' }}
             </div>
           </template>
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, computed, PropType, onBeforeMount } from 'vue';
+import { defineComponent, ref, Ref, computed, PropType, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
@@ -97,7 +97,7 @@ export default defineComponent({
 
     const validateFile = (file: File): boolean => {
       const isPdf = file.type === 'application/pdf';
-      const isLess20mib = file.size / 1024 / 1024 < 20;
+      const isLess20mib = file.size / 1024 / 1024 < 100;
 
       if (!isPdf) {
         ElMessage({ message: 'Документ должен быть в формате PDF.', type: 'warning' });
@@ -155,7 +155,7 @@ export default defineComponent({
     };
 
     const getFileUrl = (path: string): string => {
-      return `${process.env.VUE_APP_STATIC_URL}${path}`;
+      return `${process.env.VUE_APP_STATIC_URL}/${path}`;
     };
 
     const openModal = (path: string): void => {
@@ -164,7 +164,7 @@ export default defineComponent({
       return;
     };
 
-    onBeforeMount(async (): Promise<void> => {
+    onMounted(async (): Promise<void> => {
       store.commit('admin/setPageTitle', 'Нормативный документ');
       await store.dispatch('normativeDocumentTypes/getAll');
 

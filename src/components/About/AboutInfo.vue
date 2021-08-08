@@ -15,6 +15,12 @@
       <template #header>Общая информация</template>
       <div v-html="division.info"></div>
     </el-card>
+    <el-card v-if="division.doctors.length">
+      <template #header>Врачи</template>
+      <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
+        <DoctorInfoCard :doctor="item" :division="division" />
+      </div>
+    </el-card>
     <el-card>
       <template #header>Фото + 3D экскурсия</template>
       <div></div>
@@ -65,15 +71,16 @@
 
 <script lang="ts">
 import IDivision from '@/interfaces/buildings/IDivision';
-import { onMounted, onUnmounted, PropType, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, PropType, ref } from 'vue';
 import IPaidService from '@/interfaces/IPaidService';
 import { ginDiv } from '@/components/PaidServices/ginDiv';
 import { otoDiv } from '@/components/PaidServices/otoDiv';
 import PaidService from '@/components/PaidServices/PaidService.vue';
+import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 
-export default {
+export default defineComponent({
   name: 'AboutInfo',
-  components: { PaidService },
+  components: { PaidService, DoctorInfoCard },
   props: {
     division: {
       type: Object as PropType<IDivision>,
@@ -136,7 +143,7 @@ export default {
       rememberedOffset,
     };
   },
-};
+});
 </script>
 
 <style scoped>
@@ -177,5 +184,9 @@ export default {
 .spacer {
   width: 100%;
   height: 80px;
+}
+.doctors-wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

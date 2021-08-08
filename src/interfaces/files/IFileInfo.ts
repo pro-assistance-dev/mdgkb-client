@@ -1,3 +1,5 @@
+import IFilesList from '@/interfaces/files/IFIlesList';
+
 export default interface IFileInfo {
   id?: string;
   category?: string;
@@ -7,4 +9,5 @@ export default interface IFileInfo {
   isDraft?: boolean;
 
   getImageUrl?: () => string;
+  getFileListObject?: () => IFilesList;
 }

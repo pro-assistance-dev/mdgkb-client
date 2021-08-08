@@ -66,14 +66,13 @@ export default defineComponent({
     };
 
     onMounted(loadTags);
+
     let tags = computed(() => store.getters['tags/items']);
     let tag = computed(() => store.getters['tags/item']);
 
     const createTag = async () => {
       tagsVisible.value = false;
       await store.dispatch('tags/create', tag.value);
-      // TODO переписать tags/create на сервере, чтобы возвращал id в том числе, чтобы не делать tags/getAll
-      await store.dispatch('tags/getAll');
     };
 
     const chooseTag = (tag: ITag) => {

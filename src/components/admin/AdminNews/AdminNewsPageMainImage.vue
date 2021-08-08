@@ -22,7 +22,7 @@
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
         </div>
         <span class="el-upload-list__item-actions">
-          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file)">
+          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, 'main')">
             <i class="el-icon-zoom-in"></i>
           </span>
           <span class="el-upload-list__item-delete" @click="handleRemove(file)">
@@ -72,7 +72,7 @@ export default defineComponent({
           category: 'previewFile',
         })
       );
-      emit('toggleUpload', file.url);
+      emit('toggleUpload', file.url, 'main');
     };
 
     const handleRemove = () => {

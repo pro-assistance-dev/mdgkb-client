@@ -6,6 +6,7 @@
     <el-card v-if="documents">
       <el-table :data="documents" v-if="documents" row-key="id">
         <el-table-column prop="name" label="Наименование" sortable />
+        <el-table-column prop="type.name" label="Тип" sortable />
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" :showEditButton="true" :showRemoveButton="true" />

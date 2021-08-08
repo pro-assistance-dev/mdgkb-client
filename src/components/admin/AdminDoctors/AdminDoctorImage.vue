@@ -1,29 +1,31 @@
 <template>
-  <el-card class="gallery">
-    <template #header> Галерея </template>
+  <el-card>
+    <template #header>{{ title }}</template>
     <el-upload
       ref="uploader"
       :multiple="false"
-      class="avatar-uploader"
       action="#"
       list-type="picture-card"
+      class="avatar-uploader-cover"
       :file-list="fileList"
       :auto-upload="false"
+      :limit="parseInt('1')"
       :on-change="toggleUpload"
+      :class="{ hideUpload: !showUpload }"
       accept="image/jpeg,image/png,image/jng"
     >
       <template #default>
-        <i class="el-icon-plus"></i>
+        <i class="el-icon-plus custom-plus"></i>
       </template>
       <template #file="{ file }">
         <div>
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
         </div>
         <span class="el-upload-list__item-actions">
-          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, 'gallery')">
+          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file)">
             <i class="el-icon-zoom-in"></i>
           </span>
-          <span class="el-upload-list__item-delete" @click="$emit('handleRemove', file)">
+          <span class="el-upload-list__item-delete" @click="handleRemove(file)">
             <i class="el-icon-delete"></i>
           </span>
         </span>
@@ -33,16 +35,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, ref, onMounted, Ref, PropType } from 'vue';
+import { useStore } from 'vuex';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import FileInfo from '@/classes/File/FileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import { v4 as uuidv4 } from 'uuid';
-import { useStore } from 'vuex';
 
 export default defineComponent({
-  name: 'AdminNewsPage',
-  emits: ['toggleUpload', 'handleRemove'],
+  name: ' AdminDoctorImage',
+  emits: ['toggleUpload'],
   props: {
     fileList: {
       type: Object as PropType<IFilesList[]>,
@@ -52,15 +54,40 @@ export default defineComponent({
       type: Object as PropType<FileInfo>,
       required: true,
     },
+    title: { type: String, required: true },
   },
   setup(props, { emit }) {
     const store = useStore();
+    let showUpload = ref(props.fileList.length === 0);
+    let uploader = ref();
+
     const toggleUpload = (file: any) => {
-      store.commit('news/pushToNewsImages', file);
-      emit('toggleUpload', file.url, 'gallery');
+      showUpload.value = !showUpload.value;
+      store.commit(
+        'doctors/setFileInfo',
+        new FileInfo({
+          id: props.fileInfo.id,
+          originalName: file.name,
+          file: file.raw,
+          fileSystemPath: uuidv4(),
+          category: 'previewFile',
+        })
+      );
+      emit('toggleUpload', file.url);
+    };
+
+    const handleRemove = () => {
+      uploader.value.clearFiles();
+      setTimeout(() => {
+        showUpload.value = !showUpload.value;
+      }, 800);
+      // store.commit('news/clearPreviewFile');
     };
 
     return {
+      uploader,
+      handleRemove,
+      showUpload,
       toggleUpload,
     };
   },
@@ -68,13 +95,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.gallery {
-  width: 100%;
-  text-align: center;
-}
-
-$news-content-max-width: 800px;
-$news-content-max-height: 330px;
+$news-content-max-width: 300px;
+$news-content-max-height: $news-content-max-width;
 
 .hideUpload {
   :deep(.el-upload) {
@@ -85,7 +107,6 @@ $news-content-max-height: 330px;
 .avatar-uploader-cover {
   height: 300px;
   text-align: center;
-  align-content: center;
 }
 
 .custom-plus {

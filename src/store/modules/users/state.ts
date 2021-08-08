@@ -5,4 +5,5 @@ export interface State {
   users: IUser[];
   user?: IUser;
   emailExist: boolean;
+  authPageEmail: string;
 }

@@ -19,11 +19,11 @@ const actions: ActionTree<State, RootState> = {
     commit('setDivisionDoctors', await httpClient.get<IDoctor>({ query: `${id}` }));
   },
   create: async ({ commit }, item: IDoctor): Promise<void> => {
-    await httpClient.post<IDoctor, IDoctor>({ payload: item });
+    await httpClient.post<IDoctor, IDoctor>({ payload: item, fileInfos: [item.fileInfo], isFormData: true });
     commit('set');
   },
   update: async ({ commit }, item: IDoctor): Promise<void> => {
-    await httpClient.put<IDoctor, IDoctor>({ query: `${item.id}`, payload: item });
+    await httpClient.put<IDoctor, IDoctor>({ query: `${item.id}`, payload: item, fileInfos: [item.fileInfo], isFormData: true });
     commit('set');
   },
   remove: async ({ commit }, id: string): Promise<void> => {

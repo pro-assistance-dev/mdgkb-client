@@ -11,6 +11,7 @@ export const state: State = {
   users: [],
   user: undefined,
   emailExist: false,
+  authPageEmail: '',
 };
 
 const namespaced = true;

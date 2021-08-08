@@ -20,7 +20,7 @@ const actions: ActionTree<State, RootState> = {
   },
   create: async ({ commit }, item: ITag): Promise<void> => {
     const res = await httpClient.post<ITag, ITag>({ payload: item });
-    commit('appendToAll', item);
+    commit('appendToAll', res);
   },
   update: async ({ commit }, item: ITag): Promise<void> => {
     const res = await httpClient.put<ITag, ITag>({

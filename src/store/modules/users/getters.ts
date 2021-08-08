@@ -16,6 +16,9 @@ const getters: GetterTree<State, RootState> = {
   emailExist(state): boolean {
     return state.emailExist;
   },
+  authPageEmail(state): string {
+    return state.authPageEmail;
+  },
 };
 
 export default getters;

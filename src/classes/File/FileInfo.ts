@@ -1,4 +1,5 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default class FileInfo implements IFileInfo {
   id?: string;
@@ -21,5 +22,9 @@ export default class FileInfo implements IFileInfo {
 
   getImageUrl(): string {
     return `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
+  }
+
+  getFileListObject(): IFilesList {
+    return { name: this.originalName, url: this.getImageUrl() };
   }
 }

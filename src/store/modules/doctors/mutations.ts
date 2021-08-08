@@ -2,6 +2,7 @@ import Doctor from '@/classes/doctors/Doctor';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import { MutationTree } from 'vuex';
 import { State } from './state';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 
 const mutations: MutationTree<State> = {
   setAll(state, doctors: IDoctor[]) {
@@ -22,14 +23,10 @@ const mutations: MutationTree<State> = {
   },
   addDoctorToDivisionDoctors(state, newDoctor: IDoctor) {
     state.divisionDoctors.push(newDoctor);
-    // const index = state.filteredDoctors.findIndex((i: IDoctor) => i.id === newDoctor.id);
-    // state.filteredDoctors.splice(index, 1);
   },
   removeDoctorFromDivisionDoctors(state, id: string) {
     const index = state.divisionDoctors.findIndex((i: IDoctor) => i.id === id);
     state.divisionDoctors.splice(index, 1);
-    // const doctor = state.doctors.find((i: IDoctor) => i.id === id);
-    // if (doctor) state.filteredDoctors.push(doctor);
   },
   filterDoctors(state) {
     if (!state.divisionDoctors.length) {
@@ -41,6 +38,11 @@ const mutations: MutationTree<State> = {
         return f.id !== i.id;
       });
     });
+  },
+  setFileInfo(state, fileInfo: IFileInfo) {
+    if (state.doctor) {
+      state.doctor.fileInfo = fileInfo;
+    }
   },
 };
 
