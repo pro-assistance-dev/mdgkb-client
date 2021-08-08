@@ -52,7 +52,7 @@ export default {
     const normativeDocumentTypes = ref();
 
     const getFileUrl = (path: string): string => {
-      return `${process.env.VUE_APP_STATIC_URL}${path}`;
+      return `${process.env.VUE_APP_STATIC_URL}/${path}`;
     };
 
     function openModal(path: string): void {
