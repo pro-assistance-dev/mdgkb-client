@@ -1,20 +1,21 @@
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
+import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import ContactInfo from '@/classes/contacts/ContactInfo';
 
 export default class SideOrganization implements ISideOrganization {
   id?: string;
   name?: string;
-  phone?: string;
-  address?: string;
-  site?: string;
+  description?: string;
+  contactInfo?: IContactInfo;
 
   constructor(i?: ISideOrganization) {
     if (!i) {
       return;
     }
+
     this.id = i.id;
     this.name = i.name;
-    this.address = i.address;
-    this.site = i.site;
-    this.phone = i.phone;
+    this.description = i.description;
+    this.contactInfo = new ContactInfo(i.contactInfo);
   }
 }

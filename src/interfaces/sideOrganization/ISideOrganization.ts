@@ -1,7 +1,8 @@
+import IContactInfo from '@/interfaces/contacts/IContactInfo';
+
 export default interface ISideOrganization {
   id?: string;
   name?: string;
-  phone?: string;
-  address?: string;
-  site?: string;
+  description?: string;
+  contactInfo?: IContactInfo;
 }
