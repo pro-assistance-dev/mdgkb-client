@@ -4,14 +4,14 @@ import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
 
 export default class CarouselSlide implements ICarouselSlide {
   id?: string;
-  content: string = '';
-  title: string = '';
-  buttonColor: string = '';
-  buttonShow: boolean = false;
+  content = '';
+  title = '';
+  buttonColor = '';
+  buttonShow = false;
   fileInfoId?: string;
   fileInfo?: IFileInfo;
   carouselId?: string;
-  link: string = '';
+  link = '';
 
   constructor(i?: ICarouselSlide) {
     if (!i) return;

@@ -2,7 +2,7 @@ import ICategory from '@/interfaces/news/ICategory';
 
 export default class Category implements ICategory {
   id?: string;
-  name: string = '';
+  name = '';
 
   constructor(i?: ICategory) {
     if (!i) return;
