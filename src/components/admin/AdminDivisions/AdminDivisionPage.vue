@@ -59,7 +59,7 @@
               <el-input v-model="division.email" placeholder="Email"></el-input>
             </el-form-item>
             <el-form-item label="Здание" prop="buildingId">
-              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание">
+              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание" @change="changeBuildingHandler">
                 <el-option v-for="item in buildingOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
