@@ -1,5 +1,5 @@
 <template>
-  <el-card style="width: 450px; margin: 10px">
+  <el-card style="width: 450px; margin: 10px" class="doctor-card">
     <div class="flex-column">
       <div class="flex-row">
         <div class="doctor-img-container">
@@ -7,18 +7,18 @@
           <img v-else src="@//assets/img/310x310.png" />
         </div>
         <div class="flex-column">
-          <div class="doctor-name">
+          <span class="doctor-name">
             <b>{{ doctor.human.getFullName() }}</b>
-          </div>
-          <div>Врач {{ doctor.position }}</div>
-          <div>{{ doctor.tags }}</div>
-          <div>Прием: {{ division.address }}</div>
-          <div>График работы: {{ doctor.schedule }}</div>
+          </span>
+          <span>Врач {{ doctor.position }}</span>
+          <span>{{ doctor.tags }}</span>
+          <span>Прием: {{ division.address }}</span>
+          <span>График работы: {{ doctor.schedule }}</span>
           <!-- <span>{{doctor.human}}</span> -->
         </div>
       </div>
-      <div>Отделение: {{ division.name }}</div>
-      <div>Образование: {{ doctor.education }}</div>
+      <span>Отделение: {{ division.name }}</span>
+      <span>Образование: {{ doctor.education }}</span>
     </div>
   </el-card>
 </template>
@@ -38,21 +38,28 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.doctor-img-container {
-  margin: 0 10px 10px 0;
-  img {
-    width: 120px;
+.doctor-card {
+  border-radius: 15px;
+  width: 100%;
+  color: #4a4a4a;
+  font-size: 14px;
+
+  .doctor-img-container {
+    margin: 0 10px 10px 0;
+    img {
+      width: 120px;
+    }
   }
-}
-.doctor-name {
-  font-size: 16px;
-  font-weight: 600;
-}
-.flex-row {
-  display: flex;
-}
-.flex-column {
-  display: flex;
-  flex-direction: column;
+  .doctor-name {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .flex-row {
+    display: flex;
+  }
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>
