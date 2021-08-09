@@ -12,17 +12,34 @@
           </template>
           <el-row class="collapse-content-container">
             <el-col>
-              <h4>Телефоны:</h4>
-              <div v-for="phone in organization?.contactInfo?.telephoneNumbers" :key="phone">
-                <span v-if="phone.description"> {{ phone.description }} : </span>
+              <h4 v-if="organization?.contactInfo?.telephoneNumbers">Телефоны:</h4>
+              <div v-for="phone in organization?.contactInfo?.telephoneNumbers" :key="phone.id">
+                <span v-if="phone.description">{{ phone.description }}: </span>
                 <span>{{ phone.number }}</span>
               </div>
-              <h4>Адреса:</h4>
-              <div v-for="address in organization?.contactInfo?.postAddresses" :key="address">
-                <span v-if="address.description"
-                  ><b>{{ address.description }} :</b>
+
+              <h4 v-if="organization?.contactInfo?.postAddresses">Адреса:</h4>
+              <div v-for="address in organization?.contactInfo?.postAddresses" :key="address.id">
+                <span v-if="address.description">
+                  <b>{{ address.description }}: </b>
                 </span>
-                <span> {{ address.address }}</span>
+                <span>{{ address.address }}</span>
+              </div>
+
+              <h4 v-if="organization?.contactInfo?.emails">Адреса электронной почты:</h4>
+              <div v-for="email in organization?.contactInfo?.emails" :key="email.id">
+                <span v-if="email.description">
+                  <b>{{ email.description }}: </b>
+                </span>
+                <span>{{ email.address }}</span>
+              </div>
+
+              <h4 v-if="organization?.contactInfo?.websites">Сайты:</h4>
+              <div v-for="site in organization?.contactInfo?.websites" :key="site.id">
+                <span v-if="site.description">
+                  <b>{{ site.description }}: </b>
+                </span>
+                <span>{{ site.address }}</span>
               </div>
             </el-col>
           </el-row>
