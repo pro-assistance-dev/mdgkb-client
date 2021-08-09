@@ -1,5 +1,12 @@
+import IWeekday from '@/interfaces/timetables/IWeekday';
+
 export default interface ITimetableDay {
   id?: string;
-  name: string;
-  number: number;
+  startTime: Date;
+  endTime: Date;
+  breakExist: boolean;
+  breakStartTime: Date;
+  breakEndTime: Date;
+  weekdayId?: string;
+  weekday: IWeekday;
 }

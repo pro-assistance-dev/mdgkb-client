@@ -1,4 +1,5 @@
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import ITimetable from '@/interfaces/timetables/ITimetable';
 
 export default interface IDivision {
   id?: string;
@@ -11,4 +12,6 @@ export default interface IDivision {
   buildingId?: string;
   slug?: string;
   doctors: IDoctor[];
+  timetable: ITimetable;
+  timetableId?: string;
 }

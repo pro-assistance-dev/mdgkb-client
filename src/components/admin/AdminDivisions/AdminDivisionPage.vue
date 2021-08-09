@@ -76,6 +76,9 @@
               </el-select>
             </el-form-item>
           </el-card>
+          <el-card>
+            <template #header>Расписание</template>
+          </el-card>
         </el-container>
       </el-col>
     </el-row>
