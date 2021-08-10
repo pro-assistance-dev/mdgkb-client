@@ -24,12 +24,11 @@
   </el-card>
 </template>
 
-<script>
-import { defineComponent } from '@vue/runtime-core';
-import {PropType} from "vue";
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
 
-import IBuilding from "@/interfaces/buildings/IBuilding";
-import ICoordinates from "@/interfaces/canvas/ICoordinates";
+import IBuilding from '@/interfaces/buildings/IBuilding';
+import ICoordinates from '@/interfaces/canvas/ICoordinates';
 
 export default defineComponent({
   name: 'MapPopover',
@@ -38,7 +37,7 @@ export default defineComponent({
       type: Object as PropType<IBuilding>,
       required: true,
     },
-    fileInfo: {
+    position: {
       type: Object as PropType<ICoordinates>,
       required: true,
     },

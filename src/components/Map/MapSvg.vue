@@ -2387,7 +2387,7 @@ export default defineComponent({
       if (!decor.value || !buildingsRef.value) return;
       decor.value.childNodes.forEach((n) =>
         n.addEventListener('mouseover', function () {
-          treeJump(n);
+          treeJump(n as HTMLElement);
         })
       );
 
