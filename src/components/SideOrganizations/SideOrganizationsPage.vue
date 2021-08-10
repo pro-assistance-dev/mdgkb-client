@@ -1,14 +1,14 @@
 <template>
   <el-container direction="vertical">
     <div class="header-center">
-      <h3>Сведения об организациях в сфере охраны здоровья</h3>
+      <h2>Сведения об организациях в сфере охраны здоровья</h2>
     </div>
     <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти организацию" class="filter" size="large" />
     <el-collapse v-model="activeName" accordion>
-      <template v-for="organization in list" :key="organization.id">
-        <el-collapse-item>
+      <template v-for="(organization, item) in list" :key="organization.id">
+        <el-collapse-item :name="item + 1">
           <template #title>
-            <h4 class="collapseHeader">{{ organization.name }}</h4>
+            <h3 class="collapseHeader">{{ organization.name }}</h3>
           </template>
           <el-row class="collapse-content-container">
             <el-col>
@@ -105,42 +105,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.header-center {
-  text-align: center;
-}
-.filter {
-  border-radius: 20px;
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 40px;
-}
-
-.collapseHeader {
-  padding-left: 10px;
-  line-height: 15px;
-}
-
-.el-collapse-item {
-  background-color: white;
-  margin-bottom: 20px;
-  padding: 4px;
-  border-radius: 10px;
-  width: 100%;
-  box-sizing: border-box;
-}
-:deep(.el-collapse-item__wrap) {
-  border-bottom: none;
-}
-
-:deep(.el-collapse-item__header) {
-  height: 32px;
-}
-:deep(.el-collapse-item__header, .el-collapse-item__wrap) {
-  border: none;
-}
-
-.collapse-content-container {
-  margin-left: 10px;
-}
+@import '@/assets/styles/elements/collapse.scss';
 </style>
