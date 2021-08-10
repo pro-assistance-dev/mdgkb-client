@@ -21,6 +21,7 @@ export default class Building implements IBuilding {
     this.name = i.name;
     this.status = i.status;
     this.description = i.description;
+    // TODO Отсортировать на бэке
     if (i.floors)
       this.floors = i.floors
         .map((item: IFloor) => new Floor(item))

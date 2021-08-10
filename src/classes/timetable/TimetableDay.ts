@@ -7,8 +7,8 @@ export default class TimetableDay implements ITimetableDay {
   startTime: Date = new Date();
   endTime: Date = new Date();
   breakExist: boolean = false;
-  breakStartTime: Date = new Date();
-  breakEndTime: Date = new Date();
+  breakStartTime?: Date;
+  breakEndTime?: Date;
   weekdayId?: string;
   weekday: IWeekday = new Weekday();
 
@@ -24,5 +24,21 @@ export default class TimetableDay implements ITimetableDay {
     this.breakEndTime = i.breakEndTime;
     this.weekdayId = i.weekdayId;
     if (i.weekday) this.weekday = new Weekday(i.weekday);
+  }
+
+  static CreateStandartWeek(weekdays: IWeekday[]): ITimetableDay[] {
+    return weekdays.map((weekday: IWeekday) => this.CreateStandartTimetableDay(weekday));
+  }
+
+  static CreateStandartTimetableDay(weekday: IWeekday): ITimetableDay {
+    const timetableDay = new TimetableDay();
+    timetableDay.startTime = new Date('Fri, 26 Sep 2014 9:00:00');
+    timetableDay.endTime = new Date('Fri, 26 Sep 2014 18:00:00 ');
+    timetableDay.weekday = weekday;
+    return timetableDay;
+  }
+
+  getTime(date: Date): string {
+    return `${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}`;
   }
 }

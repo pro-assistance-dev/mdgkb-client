@@ -4,6 +4,7 @@ import Division from '@/classes/buildings/Division';
 import IDivision from '@/interfaces/buildings/IDivision';
 
 import { State } from './state';
+import ITimetable from '@/interfaces/timetables/ITimetable';
 
 const mutations: MutationTree<State> = {
   setAll(state, divisions: IDivision[]) {
@@ -15,6 +16,11 @@ const mutations: MutationTree<State> = {
   remove(state, id: string) {
     const index = state.divisions.findIndex((i: IDivision) => i.id === id);
     state.divisions.splice(index, 1);
+  },
+  setTimetable(state, timetable: ITimetable) {
+    if (!state.division) return;
+    console.log(timetable);
+    state.division.timetable = timetable;
   },
 };
 

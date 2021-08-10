@@ -1,7 +1,7 @@
 <template>
   <el-form ref="form" :model="division" label-position="top" :rules="rules" :key="division">
     <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
+      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="18">
         <el-container direction="vertical">
           <el-card>
             <el-form-item label="Наименование отделения" prop="name">
@@ -48,7 +48,7 @@
           </el-card>
         </el-container>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
+      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="6">
         <el-container direction="vertical">
           <el-button @click="submit" type="success" style="margin-bottom: 20px">Сохранить</el-button>
           <el-card>
@@ -76,9 +76,7 @@
               </el-select>
             </el-form-item>
           </el-card>
-          <el-card>
-            <template #header>Расписание</template>
-          </el-card>
+          <TimetableConstructor :store="'divisions'" />
         </el-container>
       </el-col>
     </el-row>
@@ -96,13 +94,13 @@ import Division from '@/classes/buildings/Division';
 import Building from '@/classes/buildings/Building';
 import IFloor from '@/interfaces/buildings/IFloor';
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
-import Doctor from '@/classes/doctors/Doctor';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
-  components: { QuillEditor, TableButtonGroup },
+  components: { QuillEditor, TableButtonGroup, TimetableConstructor },
 
   setup() {
     const store = useStore();

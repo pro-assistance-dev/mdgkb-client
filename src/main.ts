@@ -74,6 +74,7 @@ import {
   ElTree,
   ElUpload,
   ElColorPicker,
+  ElTimeSelect,
 } from 'element-plus';
 
 const components = [
@@ -141,6 +142,7 @@ const components = [
   ElTree,
   ElUpload,
   ElColorPicker,
+  ElTimeSelect,
 ];
 const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification, ElInfiniteScroll];
 const app = createApp(App);

@@ -5,8 +5,10 @@ export default interface ITimetableDay {
   startTime: Date;
   endTime: Date;
   breakExist: boolean;
-  breakStartTime: Date;
-  breakEndTime: Date;
+  breakStartTime?: Date;
+  breakEndTime?: Date;
   weekdayId?: string;
   weekday: IWeekday;
+
+  getTime: () => string;
 }

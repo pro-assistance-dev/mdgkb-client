@@ -14,6 +14,7 @@ import { news } from '@/store/modules/news';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { tags } from '@/store/modules/tags';
 import { users } from '@/store/modules/users';
+import { timetables } from '@/store/modules/timetables';
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -36,6 +37,7 @@ const store: StoreOptions<RootState> = {
     pockemons,
     admin,
     carousels,
+    timetables,
   },
 };
 

@@ -25,6 +25,7 @@ export default class Doctor implements IDoctor {
     this.human = new Human(i.human);
     this.humanId = i.humanId;
     this.division = new Division(i.division);
+    // TODO Исправить)
     if (i.divisionId !== '00000000-0000-0000-0000-000000000000') this.divisionId = i.divisionId;
     this.education = i.education;
     this.schedule = i.schedule;
