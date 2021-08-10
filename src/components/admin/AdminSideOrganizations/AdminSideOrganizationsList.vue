@@ -5,14 +5,19 @@
       <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
     </div>
     <el-card>
-      <el-table :data="sideOrganizations" v-if="sideOrganizations">
+      <el-table v-if="sideOrganizations" :data="sideOrganizations">
         <el-table-column prop="name" label="Наименование организации" sortable> </el-table-column>
         <el-table-column prop="address" label="Адрес" sortable> </el-table-column>
         <el-table-column prop="site" label="Веб-сайт" sortable> </el-table-column>
         <el-table-column prop="phone" label="Телефон" sortable> </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
-            <TableButtonGroup @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" :showEditButton="true" :showRemoveButton="true" />
+            <TableButtonGroup
+              :show-edit-button="true"
+              :show-remove-button="true"
+              @edit="edit(scope.row.id)"
+              @remove="remove(scope.row.id)"
+            />
           </template>
         </el-table-column>
       </el-table>

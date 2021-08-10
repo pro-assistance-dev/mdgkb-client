@@ -1,5 +1,5 @@
 <template>
-  <div id="item" @click.stop="$emit('done'), (expand = !expand)" :class="`${expand ? 'active' : ''} ff${item.id}`">
+  <div id="item" :class="`${expand ? 'active' : ''} ff${item.id}`" @click.stop="$emit('done'), (expand = !expand)">
     <div id="inner">
       <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.png`)" />
       <div id="icon">
@@ -12,7 +12,7 @@
         {{ item.description }}
       </div>
       <div id="actions">
-        <el-button @click="$emit('done'), $router.push(item.to)" round style="background: transparent">Подробнее</el-button>
+        <el-button round style="background: transparent" @click="$emit('done'), $router.push(item.to)">Подробнее</el-button>
       </div>
     </div>
   </div>

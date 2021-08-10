@@ -35,16 +35,16 @@
     </el-card>
     <el-card>
       <template #header>Услуги-прайс</template>
-      <el-collapse accordion v-if="division.name === 'Гинекологическое отделение'">
-        <PaidService ref="ginService" :title="'Открыть список'" @selectService="selectServiceGin" v-model:services="ginDiv" />
+      <el-collapse v-if="division.name === 'Гинекологическое отделение'" accordion>
+        <PaidService ref="ginService" v-model:services="ginDiv" :title="'Открыть список'" @selectService="selectServiceGin" />
       </el-collapse>
-      <el-collapse accordion v-if="division.name === 'Оториноларингологическое отделение'">
+      <el-collapse v-if="division.name === 'Оториноларингологическое отделение'" accordion>
         <PaidService
           v-if="division.name === 'Оториноларингологическое отделение'"
           ref="otoService"
+          v-model:services="otoDiv"
           :title="'Оториноларингологическое отделение'"
           @selectService="selectServiceOto"
-          v-model:services="otoDiv"
         />
       </el-collapse>
     </el-card>

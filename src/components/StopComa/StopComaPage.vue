@@ -2,7 +2,7 @@
   <el-card>
     <el-container direction="vertical" align="center" style="padding: 50px">
       <div id="stopcoma" ref="line" @mouseenter="$refs.line.circulateColors" @mouseleave="$refs.line.stopCirculate">
-        <el-space direction="vertical" alignment="start" :size="0" id="stopcoma">
+        <el-space id="stopcoma" direction="vertical" alignment="start" :size="0">
           <h1><span class="danger">СТОП</span><span class="warning">КОМА</span></h1>
           <span>Просветительный проект</span>
         </el-space>
@@ -50,7 +50,7 @@
           <ul class="primary-bullet">
             <li>Обратитесь к врачу сегодня же, если симптомы схожи! Промедление опасно для жизни ребенка!</li>
           </ul>
-          <el-space alignment="center" id="alarm" :size="30">
+          <el-space id="alarm" alignment="center" :size="30">
             <div class="circle">
               <i class="el-icon-phone-outline"></i>
             </div>
@@ -93,7 +93,7 @@
         </el-col>
       </el-row>
 
-      <el-row justify="center" id="bottommsg">
+      <el-row id="bottommsg" justify="center">
         <el-space direction="vertical">
           <el-space direction="vertical" :size="0">
             <div>Даже если сомневаетесь и симптомы похожи лишь частично</div>
@@ -119,11 +119,11 @@
         :data="questionsAnswers"
         :expand-row-keys="expandRowKeys"
         :row-key="(row) => row.title"
-        @expand-change="handleExpandChange"
-        @row-click="handleExpandChange"
         cell-class-name="cell-row"
         class="table-shadow"
         :show-header="false"
+        @expand-change="handleExpandChange"
+        @row-click="handleExpandChange"
       >
         <el-table-column>
           <template #default="scope">

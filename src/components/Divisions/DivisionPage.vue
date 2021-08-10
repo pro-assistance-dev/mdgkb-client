@@ -12,7 +12,7 @@
       <el-button @click="$router.push('/map')">Вернуться назад</el-button>
     </div>
   </el-card>
-  <el-card class="card-content" v-if="division.doctors.length">
+  <el-card v-if="division.doctors.length" class="card-content">
     <template #header>
       <div class="card-header">
         <h2 class="title article-title">Врачи</h2>
@@ -22,7 +22,7 @@
       <DoctorInfoCard :doctor="item" :division="division" />
     </div>
   </el-card>
-  <el-card class="card-content" v-if="division.phone || division.email || division.address">
+  <el-card v-if="division.phone || division.email || division.address" class="card-content">
     <template #header>
       <div class="card-header">
         <h2 class="title article-title">Контакты</h2>

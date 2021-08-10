@@ -16,7 +16,7 @@ export default defineComponent({
     const pageTitle = computed(() => store.getters['admin/pageTitle']);
     const goBack = () => {
       router.go(-1);
-    }
+    };
     return { pageTitle, goBack };
   },
 });

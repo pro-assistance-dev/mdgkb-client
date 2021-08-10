@@ -14,7 +14,7 @@
           :xl="{ span: 1, offset: 9 }"
           :lg="{ span: 1, offset: 9 }"
         >
-          <LoginDropdownMenu :showButtonName="true" />
+          <LoginDropdownMenu :show-button-name="true" />
         </el-col>
       </el-row>
     </div>

@@ -4,14 +4,14 @@
       <h2 class="collapseHeader">{{ title }}</h2>
     </template>
     <el-table
-      @select="$emit('selectService', $event)"
-      @selection-change="$emit('selectService', $event)"
       ref="table"
       :data="servicesFilter()"
       class="table-shadow"
       header-row-class-name="header-style"
       row-class-name="no-hover"
       row-key="code"
+      @select="$emit('selectService', $event)"
+      @selection-change="$emit('selectService', $event)"
     >
       <el-table-column :reserve-selection="true" type="selection" width="55" />
       <el-table-column label="Код" prop="code" width="200" resizable>

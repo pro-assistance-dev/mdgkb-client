@@ -4,7 +4,7 @@
     <div class="carousel-body">
       <div class="carousel-title" v-html="slide.title" />
       <div class="carousel-content" v-html="slide.content" />
-      <el-button @click="$router.push(slide.link)" round>Подробнее</el-button>
+      <el-button round @click="$router.push(slide.link)">Подробнее</el-button>
     </div>
   </div>
 </template>

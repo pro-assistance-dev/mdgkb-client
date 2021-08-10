@@ -7,7 +7,7 @@
           <div class="carousel-title" v-html="item.title" />
           <div class="carousel-content" v-html="item.content"></div>
         </div>
-        <button @click="$router.push(item.link)" v-if="item.buttonShow" :style="{ background: item.buttonColor }" class="carousel-button">
+        <button v-if="item.buttonShow" :style="{ background: item.buttonColor }" class="carousel-button" @click="$router.push(item.link)">
           Подробнее
         </button>
       </div>

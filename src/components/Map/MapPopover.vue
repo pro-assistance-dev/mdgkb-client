@@ -3,18 +3,18 @@
     <template #header>
       <div class="card-header">
         <div class="card-header-title">{{ building.name }}</div>
-        <el-button plain @click.prevent="$emit('close')" icon="el-icon-close"></el-button>
+        <el-button plain icon="el-icon-close" @click.prevent="$emit('close')"></el-button>
       </div>
     </template>
     <el-scrollbar :always="true" max-height="400px">
       <article class="panel panel-card is-light">
         <div v-for="floor in building.floors" :key="floor.id">
-          <div class="floor-number" v-if="floor.divisions.length">Этаж {{ floor.number }}</div>
+          <div v-if="floor.divisions.length" class="floor-number">Этаж {{ floor.number }}</div>
           <div
-            @click="$router.push(`/divisions/${item.id}`)"
-            class="panel-block"
             v-for="item in floor.divisions"
             :key="`${building.id}.${item.id}`"
+            class="panel-block"
+            @click="$router.push(`/divisions/${item.id}`)"
           >
             {{ item.name }}
           </div>

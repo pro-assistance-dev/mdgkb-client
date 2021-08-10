@@ -16,7 +16,7 @@
         </el-card>
       </el-col>
       <el-col :xl="2" :offset="1">
-        <el-button @click="submit" type="success" style="margin-bottom: 20px">Сохранить</el-button>
+        <el-button type="success" style="margin-bottom: 20px" @click="submit">Сохранить</el-button>
       </el-col>
     </el-row>
     <el-row class="row-slides">
@@ -26,7 +26,7 @@
             <div class="flex-row-between">
               <span style="text-align: left">Слайды</span>
               <div>
-                <el-button @click="addSlide" type="success" icon="el-icon-plus" circle></el-button>
+                <el-button type="success" icon="el-icon-plus" circle @click="addSlide"></el-button>
               </div>
             </div>
           </template>
@@ -34,12 +34,12 @@
             <el-row style="text-align: center">
               <el-col :span="16">
                 <el-upload
-                  :file-list="fileLists[i]"
                   :ref="
                     (el) => {
                       if (el) uploaders[i] = el;
                     }
                   "
+                  :file-list="fileLists[i]"
                   :multiple="false"
                   accept="image/jpeg,image/png"
                   class="avatar-uploader-cover upload-demo"
@@ -47,9 +47,9 @@
                   list-type="picture-card"
                   :auto-upload="false"
                   :limit="parseInt('1')"
+                  :class="{ hideUpload: !showUpload[i] }"
                   @click="nowSlide = i"
                   @change="toggleUpload"
-                  :class="{ hideUpload: !showUpload[i] }"
                 >
                   <template #default>
                     <i class="el-icon-plus custom-plus"></i>
@@ -81,12 +81,12 @@
                       <el-checkbox v-model="slide.buttonShow"></el-checkbox>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="4" v-if="slide.buttonShow">
+                  <el-col v-if="slide.buttonShow" :span="4">
                     <el-form-item label-width="60" label="Цвет кнопки">
                       <el-color-picker v-model="slide.buttonColor"></el-color-picker>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="12" v-if="slide.buttonShow">
+                  <el-col v-if="slide.buttonShow" :span="12">
                     <el-form-item label-width="60" label="Ссылка">
                       <el-input v-model="slide.link" placeholder="Ссылка"></el-input>
                     </el-form-item>
@@ -101,19 +101,19 @@
               <el-col :span="8">
                 <el-form-item>
                   <QuillEditor
+                    v-model:content="slide.title"
                     :options="editorOptions"
                     style="height: 100px"
-                    v-model:content="slide.title"
-                    contentType="html"
+                    content-type="html"
                     theme="snow"
                   ></QuillEditor
                 ></el-form-item>
                 <el-form-item>
                   <QuillEditor
+                    v-model:content="slide.content"
                     :options="editorOptions"
                     style="height: 200px"
-                    v-model:content="slide.content"
-                    contentType="html"
+                    content-type="html"
                     theme="snow"
                   ></QuillEditor>
                 </el-form-item>
@@ -127,7 +127,7 @@
   </el-form>
 
   <el-dialog v-model="isCropOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-    <ImageCropper :src="imageCropSrc" @save="saveFromCropper" @cancel="cancelCropper" :ratio="1300 / 300" />
+    <ImageCropper :src="imageCropSrc" :ratio="1300 / 300" @save="saveFromCropper" @cancel="cancelCropper" />
   </el-dialog>
 </template>
 
@@ -144,11 +144,12 @@ import FileInfo from '@/classes/File/FileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import { v4 as uuidv4 } from 'uuid';
 import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
-import NewsCarouselContainer from '@/components/NewsCarouselContainer.vue';
+// import NewsCarouselContainer from '@/components/NewsCarouselContainer.vue';
 
 export default defineComponent({
   name: 'AdminCarouselPage',
-  components: { ImageCropper, QuillEditor, NewsCarouselContainer },
+  // components: { ImageCropper, QuillEditor, NewsCarouselContainer },
+  components: { ImageCropper, QuillEditor },
   setup() {
     const editorOptions = {
       modules: {

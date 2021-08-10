@@ -1,19 +1,19 @@
 <template>
   <el-dialog
+    v-model="authModalVisible"
     width="400px"
     :destroy-on-close="true"
-    v-model="authModalVisible"
-    @closed="closeModal"
     :title="isLogin ? 'Вход' : 'Регистрация'"
     center
+    @closed="closeModal"
   >
-    <el-form label-width="0" ref="myForm" :model="form" @submit.prevent="submitForm" :rules="rules">
+    <el-form ref="myForm" label-width="0" :model="form" :rules="rules" @submit.prevent="submitForm">
       <el-form-item prop="email">
-        <el-input placeholder="Email" v-model="form.email" type="email" />
+        <el-input v-model="form.email" placeholder="Email" type="email" />
       </el-form-item>
 
       <el-form-item prop="password">
-        <el-input placeholder="Пароль" v-model="form.password" type="password" />
+        <el-input v-model="form.password" placeholder="Пароль" type="password" />
       </el-form-item>
 
       <el-form-item style="text-align: center">
@@ -38,11 +38,6 @@ import User from '@/classes/user/User';
 
 export default defineComponent({
   name: 'AuthPage',
-  methods: {
-    forceUpdate() {
-      this.$forceUpdate();
-    },
-  },
   async setup() {
     const form = ref(new User());
     const myForm = ref();
@@ -123,6 +118,11 @@ export default defineComponent({
       rules,
       myForm,
     };
+  },
+  methods: {
+    forceUpdate() {
+      this.$forceUpdate();
+    },
   },
 });
 </script>

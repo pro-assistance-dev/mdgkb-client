@@ -17,14 +17,10 @@ export default class ContactInfo implements IContactInfo {
   websites?: IWebsite[];
 
   constructor(contact?: IContactInfo) {
-    if (!contact) {
-      return;
-    }
-
-    this.id = contact.id;
-    this.emails = contact.emails?.map((email) => new Email(email));
-    this.postAddresses = contact.postAddresses?.map((address) => new PostAddress(address));
-    this.telephoneNumbers = contact.telephoneNumbers?.map((phone) => new TelephoneNumber(phone));
-    this.websites = contact.websites?.map((site) => new Website(site));
+    this.id = contact?.id;
+    this.emails = contact?.emails ? contact?.emails?.map((email) => new Email(email)) : [];
+    this.postAddresses = contact?.postAddresses ? contact?.postAddresses?.map((address) => new PostAddress(address)) : [];
+    this.telephoneNumbers = contact?.telephoneNumbers ? contact?.telephoneNumbers?.map((phone) => new TelephoneNumber(phone)) : [];
+    this.websites = contact?.websites ? contact?.websites?.map((site) => new Website(site)) : [];
   }
 }

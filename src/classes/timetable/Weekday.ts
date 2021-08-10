@@ -4,8 +4,8 @@ import IWeekday from '@/interfaces/timetables/IWeekday';
 
 export default class Weekday implements IWeekday {
   id?: string;
-  name: string = '';
-  number: number = 0;
+  name = '';
+  number = 0;
 
   constructor(i?: IWeekday) {
     if (!i) {

@@ -1,6 +1,6 @@
 <template>
   <div id="line" ref="line" @mouseenter="circulateColors" @mouseleave="stopCirculate">
-    <template v-for="(cube, index) in cubes" v-bind:key="index">
+    <template v-for="(cube, index) in cubes" :key="index">
       <div
         :style="`width:${cube.width}; height:${cube.height}; background-color: ${cube.color}; margin-left: ${gap}px; margin-right: ${gap}px;`"
         class="cube"

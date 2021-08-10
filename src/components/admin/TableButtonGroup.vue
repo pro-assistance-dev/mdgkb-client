@@ -1,13 +1,13 @@
 <template>
   <div class="wrapper">
-    <el-button icon="el-icon-download" v-if="showDownloadButton" @click="$emit('download')" />
-    <el-button icon="el-icon-edit" v-if="showEditButton" @click="$emit('edit')" />
+    <el-button v-if="showDownloadButton" icon="el-icon-download" @click="$emit('download')" />
+    <el-button v-if="showEditButton" icon="el-icon-edit" @click="$emit('edit')" />
     <el-popconfirm
       v-if="showRemoveButton"
-      confirmButtonText="Да"
-      cancelButtonText="Отмена"
+      confirm-button-text="Да"
+      cancel-button-text="Отмена"
       icon="el-icon-info"
-      iconColor="red"
+      icon-color="red"
       title="Вы уверены, что хотите удалить это?"
       @confirm="$emit('remove')"
       @cancel="() => {}"
@@ -34,6 +34,7 @@ export default defineComponent({
       type: Boolean,
     },
   },
+  emits: ['download', 'edit', 'remove'],
 });
 </script>
 
