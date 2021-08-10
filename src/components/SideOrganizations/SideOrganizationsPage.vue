@@ -3,7 +3,7 @@
     <div class="header-center">
       <h3>Сведения об организациях в сфере охраны здоровья</h3>
     </div>
-    <el-input prefix-icon="el-icon-search" v-model="filter" placeholder="Найти организацию" class="filter" size="large" />
+    <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти организацию" class="filter" size="large" />
     <el-collapse v-model="activeName" accordion>
       <template v-for="organization in list" :key="organization.id">
         <el-collapse-item>
@@ -12,34 +12,35 @@
           </template>
           <el-row class="collapse-content-container">
             <el-col>
-              <h4 v-if="organization?.contactInfo?.telephoneNumbers">Телефоны:</h4>
+              <div v-if="organization.description">{{ organization.description }}</div>
+              <h4 v-if="organization?.contactInfo?.telephoneNumbers.length > 0">Телефоны:</h4>
               <div v-for="phone in organization?.contactInfo?.telephoneNumbers" :key="phone.id">
-                <span v-if="phone.description">{{ phone.description }}: </span>
-                <span>{{ phone.number }}</span>
+                <span>
+                  <a :href="`tel:${phone.number}`">{{ phone.number }}</a>
+                </span>
+                <span v-if="phone.description"> - {{ phone.description }}</span>
               </div>
 
-              <h4 v-if="organization?.contactInfo?.postAddresses">Адреса:</h4>
+              <h4 v-if="organization?.contactInfo?.postAddresses.length > 0">Адреса:</h4>
               <div v-for="address in organization?.contactInfo?.postAddresses" :key="address.id">
-                <span v-if="address.description">
-                  <b>{{ address.description }}: </b>
-                </span>
                 <span>{{ address.address }}</span>
+                <span v-if="address.description"> - {{ address.description }}</span>
               </div>
 
-              <h4 v-if="organization?.contactInfo?.emails">Адреса электронной почты:</h4>
+              <h4 v-if="organization?.contactInfo?.emails.length > 0">Адреса электронной почты:</h4>
               <div v-for="email in organization?.contactInfo?.emails" :key="email.id">
-                <span v-if="email.description">
-                  <b>{{ email.description }}: </b>
+                <span>
+                  <a :href="`mailto:${email.address}`">{{ email.address }}</a>
                 </span>
-                <span>{{ email.address }}</span>
+                <span v-if="email.description"> - {{ email.description }}</span>
               </div>
 
-              <h4 v-if="organization?.contactInfo?.websites">Сайты:</h4>
+              <h4 v-if="organization?.contactInfo?.websites.length > 0">Сайты:</h4>
               <div v-for="site in organization?.contactInfo?.websites" :key="site.id">
-                <span v-if="site.description">
-                  <b>{{ site.description }}: </b>
+                <span>
+                  <a :href="`http://${site.address}`">{{ site.address }}</a>
                 </span>
-                <span>{{ site.address }}</span>
+                <span v-if="site.description"> - {{ site.description }}</span>
               </div>
             </el-col>
           </el-row>

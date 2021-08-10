@@ -1,8 +1,8 @@
 <template>
   <el-card>
-    <el-form :model="normativeDocument" ref="formRef" @submit.prevent="submitForm" :rules="rules">
+    <el-form ref="formRef" :model="normativeDocument" :rules="rules" @submit.prevent="submitForm">
       <el-form-item prop="name">
-        <el-input placeholder="Наименование" v-model="normativeDocument.name" />
+        <el-input v-model="normativeDocument.name" placeholder="Наименование" />
       </el-form-item>
 
       <el-form-item>
@@ -24,7 +24,7 @@
         >
           <el-button size="mini">{{ isEdit ? 'Заменить файл' : 'Приложить файл' }}</el-button>
           <template #tip>
-            <div class="el-upload__tip" v-if="normativeDocument.fileInfo">
+            <div v-if="normativeDocument.fileInfo" class="el-upload__tip">
               {{ isEdit ? 'Загружен файл: ' + normativeDocument.fileInfo.originalName : 'В формате PDF, размером не более 20 МиБ' }}
             </div>
           </template>
@@ -46,12 +46,12 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" native-type="submit" @click.prevent="submitForm">Сохранить</el-button>
+        <el-button type="success" native-type="submit" @click.prevent="submitForm">Сохранить</el-button>
       </el-form-item>
     </el-form>
   </el-card>
   <el-dialog v-model="modalOpen">
-    <NormativeDocumentsModal :filePath="filePath" />
+    <NormativeDocumentsModal :file-path="filePath" />
   </el-dialog>
 </template>
 

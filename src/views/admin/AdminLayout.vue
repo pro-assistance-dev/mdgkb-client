@@ -35,8 +35,6 @@ export default defineComponent({
     AdminSideMenu,
     AdminMenuDrawer,
   },
-
-  setup() {},
 });
 </script>
 

@@ -9,13 +9,9 @@ export default class SideOrganization implements ISideOrganization {
   contactInfo?: IContactInfo;
 
   constructor(i?: ISideOrganization) {
-    if (!i) {
-      return;
-    }
-
-    this.id = i.id;
-    this.name = i.name;
-    this.description = i.description;
-    this.contactInfo = new ContactInfo(i.contactInfo);
+    this.id = i?.id;
+    this.name = i?.name;
+    this.description = i?.description;
+    this.contactInfo = new ContactInfo(i?.contactInfo);
   }
 }

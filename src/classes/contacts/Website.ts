@@ -5,7 +5,7 @@ export default class Website implements IWebsite {
   address?: string;
   description?: string;
 
-  constructor(site: IWebsite) {
+  constructor(site?: IWebsite) {
     if (!site) {
       return;
     }

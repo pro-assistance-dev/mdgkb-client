@@ -1,11 +1,11 @@
 <template>
   <el-card>
-    <el-form :model="form" ref="formRef" @submit.prevent="submitForm" :rules="rules">
+    <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="submitForm">
       <el-form-item prop="name">
-        <el-input placeholder="Наименование типа нормативного документа" v-model="form.name" />
+        <el-input v-model="form.name" placeholder="Наименование типа нормативного документа" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" native-type="submit" @click.prevent="submitForm">Сохранить</el-button>
+        <el-button type="success" native-type="submit" @click.prevent="submitForm">Сохранить</el-button>
       </el-form-item>
     </el-form>
   </el-card>
