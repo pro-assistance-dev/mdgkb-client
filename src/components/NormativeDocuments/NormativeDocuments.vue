@@ -28,7 +28,7 @@
     </el-table>
   </div>
   <el-dialog v-model="modalOpen">
-    <NormativeDocumentsModal :filePath="filePath" />
+    <NormativeDocumentsModal :file-path="filePath" />
   </el-dialog>
   <a ref="fileAnchor" style="display: none" />
 </template>

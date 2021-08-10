@@ -3,12 +3,12 @@
     <div class="flex-between-columm front">
       <div class="tags tags-top">
         <el-tag
-          effect="plain"
-          @click.stop="filterNews(tag)"
-          class="tag-link"
           v-for="tag in news.tags.slice(0, 3)"
           :key="tag.id"
+          effect="plain"
+          class="tag-link"
           size="small"
+          @click.stop="filterNews(tag)"
         >
           {{ tag.label }}
         </el-tag>
@@ -16,7 +16,7 @@
 
       <div class="image">
         <div>
-          <img @error="errorImg" v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
+          <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
           <img v-else src="../../assets/img/310x310.png" />
         </div>
       </div>

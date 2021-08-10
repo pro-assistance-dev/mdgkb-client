@@ -4,12 +4,17 @@
       <el-button type="primary" @click="$router.push('/admin/normative-documents/new')">Добавить документ</el-button>
     </div>
     <el-card v-if="documents">
-      <el-table :data="documents" v-if="documents" row-key="id">
+      <el-table v-if="documents" :data="documents" row-key="id">
         <el-table-column prop="name" label="Наименование" sortable />
         <el-table-column prop="type.name" label="Тип" sortable />
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
-            <TableButtonGroup @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" :showEditButton="true" :showRemoveButton="true" />
+            <TableButtonGroup
+              :show-edit-button="true"
+              :show-remove-button="true"
+              @edit="edit(scope.row.id)"
+              @remove="remove(scope.row.id)"
+            />
           </template>
         </el-table-column>
       </el-table>

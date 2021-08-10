@@ -4,8 +4,8 @@ import CarouselSlide from '@/classes/carousel/CarouselSlide';
 
 export default class Carousel implements ICarousel {
   id?: string;
-  title: string = '';
-  systemKey: string = '';
+  title = '';
+  systemKey = '';
   carouselSlides: ICarouselSlide[] = [];
   carouselSlidesNames: string[] = [];
   carouselSlidesForDelete: string[] = [];

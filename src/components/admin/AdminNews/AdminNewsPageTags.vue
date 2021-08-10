@@ -10,7 +10,7 @@
             <el-button type="primary" size="mini" @click="tagsVisible = false">Отмена</el-button>
           </div>
           <template #reference>
-            <el-button size="small" @click="tagsVisible = !tagsVisible" type="success" icon="el-icon-plus" circle></el-button>
+            <el-button size="small" type="success" icon="el-icon-plus" circle @click="tagsVisible = !tagsVisible"></el-button>
           </template>
         </el-popover>
       </div>
@@ -19,13 +19,13 @@
     <el-form-item>
       <div class="vertical-wrap">
         <el-checkbox
-          :checked="findTag(tag.id)"
-          icon="el-icon-arrow-left"
-          @change="chooseTag(tag)"
           v-for="tag in tags"
           :key="tag.id"
+          :checked="findTag(tag.id)"
+          icon="el-icon-arrow-left"
           :label="tag.label"
           border
+          @change="chooseTag(tag)"
         >
           {{ tag.label }}
           <!-- <el-popconfirm
@@ -38,7 +38,7 @@
                                           @cancel="() => {}"
                                         >
                                           <template #reference> -->
-          <i @click.prevent="confirmTagDelete(tag.id)" class="el-icon-close delete-tag-icon"></i>
+          <i class="el-icon-close delete-tag-icon" @click.prevent="confirmTagDelete(tag.id)"></i>
           <!-- </template>
                                         </el-popconfirm> -->
         </el-checkbox>

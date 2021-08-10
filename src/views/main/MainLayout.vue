@@ -6,7 +6,7 @@
     <!-- <NewsCarousel v-if="$route.meta.carousel" /> -->
     <div class="container">
       <el-main>
-        <template #default v-if="$route.meta.profile">
+        <template v-if="$route.meta.profile" #default>
           <el-row :gutter="20">
             <el-col :span="6">
               <ProfileSideMenu />
@@ -16,7 +16,7 @@
             </el-col>
           </el-row>
         </template>
-        <template #default v-else>
+        <template v-else #default>
           <slot />
         </template>
         <template #fallback>

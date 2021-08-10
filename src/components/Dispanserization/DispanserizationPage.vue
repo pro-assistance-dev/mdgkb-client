@@ -2,7 +2,7 @@
   <el-container direction="vertical" align="center">
     <h1>Диспансеризация населения</h1>
     <el-card>
-      <el-space alignment="center" id="alarm" :size="20">
+      <el-space id="alarm" alignment="center" :size="20">
         <i class="el-icon-warning-outline"></i>
         <div>
           Согласно Приказу Минздрава России от 03.12.2012 N 1006н «Об утверждении порядка проведения диспансеризации определенных групп
@@ -23,7 +23,7 @@
                 </div>
                 <h3>{{ item.label }}</h3>
                 <p>{{ item.description }}</p>
-                <el-button @click="$router.push(item.to)" round>Подробнее</el-button>
+                <el-button round @click="$router.push(item.to)">Подробнее</el-button>
               </el-space>
             </div>
           </el-carousel-item>

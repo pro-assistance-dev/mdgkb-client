@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="building" label-position="top" :rules="rules" ref="form">
+  <el-form ref="form" :model="building" label-position="top" :rules="rules">
     <el-card v-if="building">
       <el-form-item label="Наименование здания" prop="name">
         <el-input v-model="building.name" placeholder="Наименование здания"></el-input>
@@ -11,20 +11,20 @@
         <el-table class="floors-table" :data="building.floors" style="width: 200px">
           <el-table-column label="Номер этажа">
             <template #default="scope">
-              <el-input-number controls-position="right" :min="0" v-model="scope.row.number" style="width: 100px"></el-input-number>
+              <el-input-number v-model="scope.row.number" controls-position="right" :min="0" style="width: 100px"></el-input-number>
             </template>
           </el-table-column>
           <el-table-column width="50" align="center">
             <template #header>
-              <el-button @click="addFloor" icon="el-icon-plus"></el-button>
+              <el-button icon="el-icon-plus" @click="addFloor"></el-button>
             </template>
             <template #default="scope">
-              <TableButtonGroup @remove="removeFloor(scope.$index)" :showRemoveButton="true" />
+              <TableButtonGroup :show-remove-button="true" @remove="removeFloor(scope.$index)" />
             </template>
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-button @click="submit" type="success" style="margin: 10px">Сохранить</el-button>
+      <el-button type="success" style="margin: 10px" @click="submit">Сохранить</el-button>
     </el-card>
   </el-form>
 </template>

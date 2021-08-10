@@ -1,5 +1,5 @@
 <template>
-  <div class="gallery-container" v-if="newsImages.length > 0">
+  <div v-if="newsImages.length > 0" class="gallery-container">
     <el-carousel arrow="always" :interval="4000" indicator-position="outside">
       <el-carousel-item v-for="newsImage in newsImages" :key="newsImage.id">
         <img :src="newsImage.fileInfo.getImageUrl()" alt="alt" />

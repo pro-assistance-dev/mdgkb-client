@@ -31,7 +31,7 @@ export default class News implements INews {
   newsImages: INewsImage[] = [];
   newsImagesForDelete: string[] = [];
   newsImagesNames: string[] = [];
-  viewsCount: number = 0;
+  viewsCount = 0;
 
   constructor(i?: INews) {
     if (!i) return;

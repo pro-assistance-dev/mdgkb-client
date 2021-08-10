@@ -16,7 +16,7 @@ const mutations: MutationTree<State> = {
   },
   setAuthPageEmail(state, email: string) {
     state.authPageEmail = email;
-  }
+  },
 };
 
 export default mutations;

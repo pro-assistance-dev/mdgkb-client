@@ -23,7 +23,7 @@ const actions: ActionTree<State, RootState> = {
     commit('set', res);
   },
   create: async ({ commit }, item: ICarousel): Promise<void> => {
-    let fileInfos: IFileInfo[] = [];
+    const fileInfos: IFileInfo[] = [];
     item.carouselSlides.forEach((slide) => {
       if (slide.fileInfo) fileInfos.push(slide.fileInfo);
     });
@@ -31,7 +31,7 @@ const actions: ActionTree<State, RootState> = {
     commit('appendToAll', item);
   },
   update: async ({ commit }, item: ICarousel): Promise<void> => {
-    let fileInfos: IFileInfo[] = [];
+    const fileInfos: IFileInfo[] = [];
     item.carouselSlides.forEach((slide) => {
       if (slide.fileInfo) fileInfos.push(slide.fileInfo);
     });

@@ -3,7 +3,7 @@
     <div class="flex-column">
       <div class="flex-row">
         <div class="doctor-img-container">
-          <img @error="errorImg" v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" />
+          <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
           <img v-else src="@//assets/img/310x310.png" />
         </div>
         <div class="flex-column">

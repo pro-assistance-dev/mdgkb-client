@@ -43,7 +43,7 @@ const actions: ActionTree<State, RootState> = {
     commit('updateCalendarMeta', params);
   },
   create: async ({ commit }, news: INews): Promise<void> => {
-    let fileInfos: IFileInfo[] = [];
+    const fileInfos: IFileInfo[] = [];
     news.newsImages.forEach((image: INewsImage) => {
       if (image.fileInfo) fileInfos.push(image.fileInfo);
     });
@@ -53,7 +53,7 @@ const actions: ActionTree<State, RootState> = {
     commit('set');
   },
   update: async ({ commit }, news: INews): Promise<void> => {
-    let fileInfos: IFileInfo[] = [];
+    const fileInfos: IFileInfo[] = [];
     news.newsImages.forEach((image: INewsImage) => {
       if (image.fileInfo) fileInfos.push(image.fileInfo);
     });

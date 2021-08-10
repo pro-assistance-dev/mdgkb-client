@@ -30,7 +30,7 @@
     </div>
     <div class="news-content-container">
       <el-card class="news-image-container">
-        <img @error="errorImg" v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" />
+        <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="errorImg" />
         <img v-else src="../../assets/img/310x310.png" />
       </el-card>
 
@@ -46,21 +46,21 @@
         <el-divider />
         <div class="article-footer">
           <div class="article-footer-item">
-            <el-button @click="$router.push('/')" style="height: 20px">Вернуться назад</el-button>
+            <el-button style="height: 20px" @click="$router.push('/')">Вернуться назад</el-button>
           </div>
           <div class="tags-container article-footer-item">
-            <el-tag effect="plain" @click.stop="filterNews(tag.id)" class="tag-link" v-for="tag in news.tags" :key="tag.id" size="small">
+            <el-tag v-for="tag in news.tags" :key="tag.id" effect="plain" class="tag-link" size="small" @click.stop="filterNews(tag.id)">
               {{ tag.label }}
             </el-tag>
           </div>
           <div class="right-footer article-footer-item">
-            <NewsMeta :news="news" :newsPage="true" />
+            <NewsMeta :news="news" :news-page="true" />
           </div>
         </div>
       </el-card>
 
-      <NewsGallery :newsImages="news.newsImages" />
-      <NewsComments :newsComments="news.newsComments" />
+      <NewsGallery :news-images="news.newsImages" />
+      <NewsComments :news-comments="news.newsComments" />
     </div>
   </div>
 </template>

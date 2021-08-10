@@ -7,8 +7,8 @@
             <template #header>
               <h2 class="menu-label">Отделения</h2>
               <el-input
-                prefix-icon="el-icon-search"
                 v-model="divisionFilter"
+                prefix-icon="el-icon-search"
                 placeholder="Найти отделение"
                 class="table-search"
                 size="mini"

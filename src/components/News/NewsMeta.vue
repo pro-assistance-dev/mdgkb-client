@@ -6,12 +6,12 @@
       <span>{{ news.viewsCount }} </span>
     </div>
     <div class="icon like">
-      <LikeFilled @click.stop="deleteLike(news)" class="liked" v-if="liked(news.newsLikes)" />
-      <LikeOutlined @click.stop="createLike(news)" v-else />
+      <LikeFilled v-if="liked(news.newsLikes)" class="liked" @click.stop="deleteLike(news)" />
+      <LikeOutlined v-else @click.stop="createLike(news)" />
       <span>{{ news.newsLikes.length }} </span>
     </div>
   </div>
-  <div class="card-meta share" v-if="newsPage">
+  <div v-if="newsPage" class="card-meta share">
     <div>Поделиться:</div>
     <FacebookOutlined />
     <InstagramOutlined />

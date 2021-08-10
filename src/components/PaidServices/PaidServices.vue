@@ -1,5 +1,5 @@
 <template>
-  <div class="spacer" v-if="scrollOffset >= 90">&nbsp;</div>
+  <div v-if="scrollOffset >= 90" class="spacer">&nbsp;</div>
   <div :class="{ fixed: scrollOffset >= 90 }">
     <el-card style="max-width: 1344px; margin: 0 auto">
       <div class="sum-card">
@@ -13,12 +13,12 @@
     <h1>Платные услуги</h1>
 
     <el-collapse accordion>
-      <PaidService ref="ginService" :title="'Гинекологическое отделение'" @selectService="selectServiceGin" v-model:services="ginDiv" />
+      <PaidService ref="ginService" v-model:services="ginDiv" :title="'Гинекологическое отделение'" @selectService="selectServiceGin" />
       <PaidService
         ref="otoService"
+        v-model:services="otoDiv"
         :title="'Оториноларингологическое отделение'"
         @selectService="selectServiceOto"
-        v-model:services="otoDiv"
       />
     </el-collapse>
   </div>

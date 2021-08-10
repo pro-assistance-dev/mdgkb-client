@@ -6,16 +6,16 @@
       </div>
     </template>
 
-    <el-card class="comments-card" v-for="comment in newsComments" :key="comment.id">
-      <div class="comment-buttons" v-if="comment.userId === userId && isAuth">
-        <el-tooltip content="Редактировать комментарий" placement="top-end" v-if="!comment.isEditing">
+    <el-card v-for="comment in newsComments" :key="comment.id" class="comments-card">
+      <div v-if="comment.userId === userId && isAuth" class="comment-buttons">
+        <el-tooltip v-if="!comment.isEditing" content="Редактировать комментарий" placement="top-end">
           <el-button size="medium" icon="el-icon-edit" @click="editComment(comment.id)" />
         </el-tooltip>
         <el-popconfirm
-          confirmButtonText="Да"
-          cancelButtonText="Отмена"
+          confirm-button-text="Да"
+          cancel-button-text="Отмена"
           icon="el-icon-info"
-          iconColor="red"
+          icon-color="red"
           title="Вы уверены, что хотите удалить комментарий?"
           @confirm="removeComment(comment.id)"
           @cancel="() => {}"
@@ -29,13 +29,13 @@
         <span class="comment-email">{{ comment.user.email }}</span>
         <span class="comment-date">{{ $dateFormatRu(comment.publishedOn, true) }}</span>
       </div>
-      <el-form ref="editCommentForm" :model="comment" :rules="rules" v-if="comment.isEditing">
+      <el-form v-if="comment.isEditing" ref="editCommentForm" :model="comment" :rules="rules">
         <el-form-item prop="text">
           <el-input
             ref="commentInput"
+            v-model="comment.text"
             type="textarea"
             placeholder="Добавьте комментарий"
-            v-model="comment.text"
             minlength="5"
             maxlength="500"
             show-word-limit
@@ -58,18 +58,18 @@
     </el-card>
 
     <div class="add-comment">
-      <el-form ref="commentForm" :model="comment" :key="isAuth" :rules="isAuth ? rules : null">
+      <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
         <el-form-item prop="text">
           <el-input
             ref="commentInput"
+            v-model="comment.text"
             type="textarea"
             placeholder="Добавьте комментарий"
-            v-model="comment.text"
-            @focus="isAuth ? null : openLoginModal()"
             minlength="5"
             maxlength="500"
             show-word-limit
             :autosize="{ minRows: 3, maxRows: 6 }"
+            @focus="isAuth ? null : openLoginModal()"
           >
             <template #suffix>
               <i class="el-icon-edit el-input__icon"></i>

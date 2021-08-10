@@ -6,7 +6,7 @@
         <div style="display: flex">
           <el-popover :width="200" :visible="tagListVisible">
             <div class="popover-body">
-              <el-tag class="tag-list-item" v-for="tag in filteredTagList" :key="tag.id" @click="addFilterTag(tag)">
+              <el-tag v-for="tag in filteredTagList" :key="tag.id" class="tag-list-item" @click="addFilterTag(tag)">
                 {{ tag.label }}
               </el-tag>
             </div>
@@ -18,7 +18,7 @@
         </div>
       </div>
     </template>
-    <el-tag effect="plain" class="tag-link" closable v-for="tag in filterTags" :key="tag.id" @close="removeFilterTag(tag.id)">
+    <el-tag v-for="tag in filterTags" :key="tag.id" effect="plain" class="tag-link" closable @close="removeFilterTag(tag.id)">
       {{ tag.label }}
     </el-tag>
   </el-card>

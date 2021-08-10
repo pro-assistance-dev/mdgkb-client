@@ -5,7 +5,7 @@
       <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
     </div>
     <el-card>
-      <el-table :data="news" v-if="news">
+      <el-table v-if="news" :data="news">
         <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
         <el-table-column prop="created_by" label="Автор" sortable> </el-table-column>
         <el-table-column prop="viewsCount" label="Просмотров" sortable> </el-table-column>
@@ -24,7 +24,12 @@
         </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
-            <TableButtonGroup @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" :showEditButton="true" :showRemoveButton="true" />
+            <TableButtonGroup
+              :show-edit-button="true"
+              :show-remove-button="true"
+              @edit="edit(scope.row.id)"
+              @remove="remove(scope.row.id)"
+            />
           </template>
         </el-table-column>
       </el-table>

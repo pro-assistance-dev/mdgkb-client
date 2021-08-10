@@ -1,12 +1,12 @@
 <template>
   <div class="admin-side-menu">
     <el-menu
+      v-for="(item, i) in menuList"
+      :key="item.title"
       default-active="1-1"
       :collapse="isCollapseSideMenu"
       background-color="whitesmoke"
       @select="closeDrawer"
-      v-for="(item, i) in menuList"
-      :key="item.title"
     >
       <el-submenu v-if="item.children" :index="String(i + 1)">
         <template #title>

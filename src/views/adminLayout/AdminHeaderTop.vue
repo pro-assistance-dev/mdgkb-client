@@ -2,9 +2,9 @@
   <div class="admin-header fixed">
     <div class="left-panel">
       <!-- To open drawer -->
-      <el-button icon="el-icon-s-unfold" @click="openDrawer" class="hidden-md-and-up"></el-button>
+      <el-button icon="el-icon-s-unfold" class="hidden-md-and-up" @click="openDrawer"></el-button>
       <!-- To open collapse side menu -->
-      <el-button icon="el-icon-s-unfold" @click="collapseSideMenu" class="hidden-sm-and-down"></el-button>
+      <el-button icon="el-icon-s-unfold" class="hidden-sm-and-down" @click="collapseSideMenu"></el-button>
       <h3>Панель управления МДГКБ</h3>
     </div>
     <div class="right-panel">
@@ -16,13 +16,13 @@
           <template #title>
             <i class="el-icon-user"></i>
           </template>
-          <el-menu-item @click="$router.push('/profile')" index="2-1">
+          <el-menu-item index="2-1" @click="$router.push('/profile')">
             <div style="margin: auto 0"><UserOutlined /><span> Профиль</span></div>
           </el-menu-item>
-          <el-menu-item @click="$router.push('/news')" index="2-1">
+          <el-menu-item index="2-1" @click="$router.push('/news')">
             <div style="margin: auto 0"><GlobalOutlined /><span> На сайт</span></div>
           </el-menu-item>
-          <el-menu-item @click="logout" index="2-2">
+          <el-menu-item index="2-2" @click="logout">
             <div style="margin: auto 0"><LogoutOutlined /><span> Выйти</span></div>
           </el-menu-item>
         </el-submenu>

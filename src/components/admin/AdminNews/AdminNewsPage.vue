@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <el-form :model="news" ref="form" :rules="rules" :key="news">
+    <el-form ref="form" :key="news" :model="news" :rules="rules">
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
           <el-container direction="vertical">
@@ -14,22 +14,22 @@
               <template #header>Контент</template>
               <el-form-item prop="content">
                 <QuillEditor
-                  style="min-height: 200px; max-height: 700px"
                   v-model:content="news.content"
-                  contentType="html"
+                  style="min-height: 200px; max-height: 700px"
+                  content-type="html"
                   theme="snow"
                 ></QuillEditor>
               </el-form-item>
             </el-card>
             <AdminNewsPageMainImage
               v-if="mounted"
-              :fileList="mainImage"
-              :fileInfo="news.mainImage"
+              :file-list="mainImage"
+              :file-info="news.mainImage"
               @toggleUpload="toggleUpload"
               @handlePictureCardPreview="handlePictureCardPreview"
             />
             <AdminNewsPageGallery
-              :fileList="galleryList"
+              :file-list="galleryList"
               @toggleUpload="toggleUpload"
               @handlePictureCardPreview="handlePictureCardPreview"
               @handleRemove="removeFromGallery"
@@ -38,20 +38,20 @@
         </el-col>
         <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
           <el-container direction="vertical">
-            <el-button @click="submit" type="success" style="margin-bottom: 20px">Сохранить</el-button>
+            <el-button type="success" style="margin-bottom: 20px" @click="submit">Сохранить</el-button>
             <el-card>
               <template #header>Статус</template>
               <el-space direction="vertical" alignment="start" :size="10">
                 <el-form-item prop="publishedOn">
-                  <el-date-picker format="DD.MM.YYYY H:m:s" v-model="news.publishedOn" type="datetime" placeholder="Дата публикации" />
+                  <el-date-picker v-model="news.publishedOn" format="DD.MM.YYYY H:m:s" type="datetime" placeholder="Дата публикации" />
                 </el-form-item>
               </el-space>
             </el-card>
             <AdminNewsPageTags />
             <AdminNewsPagePreviewImage
               v-if="mounted"
-              :fileList="fileList"
-              :fileInfo="news.fileInfo"
+              :file-list="fileList"
+              :file-info="news.fileInfo"
               title="Загрузить превью новости"
               @toggleUpload="toggleUpload"
               @handlePictureCardPreview="handlePictureCardPreview"
@@ -62,15 +62,15 @@
     </el-form>
 
     <el-dialog v-model="isCropOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-      <ImageCropper :src="imageCropSrc" @save="saveFromCropper" @cancel="cancelCropper" :ratio="1" />
+      <ImageCropper :src="imageCropSrc" :ratio="1" @save="saveFromCropper" @cancel="cancelCropper" />
     </el-dialog>
 
     <el-dialog v-model="isCropMainOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-      <ImageCropper :src="imageCropSrc" @save="saveFromCropperMain" @cancel="cancelCropper" :ratio="2" />
+      <ImageCropper :src="imageCropSrc" :ratio="2" @save="saveFromCropperMain" @cancel="cancelCropper" />
     </el-dialog>
 
     <el-dialog v-model="isCropGalleryOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-      <ImageCropper :src="imageCropSrc" @save="saveFromCropperGallery" @cancel="cancelCropper" :ratio="8 / 3.3" />
+      <ImageCropper :src="imageCropSrc" :ratio="8 / 3.3" @save="saveFromCropperGallery" @cancel="cancelCropper" />
     </el-dialog>
   </div>
 </template>

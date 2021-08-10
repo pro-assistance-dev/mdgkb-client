@@ -9,7 +9,7 @@
     </el-col>
     <el-col :xl="18" :lg="18" :md="24">
       <el-row>
-        <el-col :xl="8" :lg="8" :md="12" :sm="12" v-for="item in filteredNews" :key="item.id" :style="{ padding: '10px', display: 'flex' }">
+        <el-col v-for="item in filteredNews" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12" :style="{ padding: '10px', display: 'flex' }">
           <div style="margin: 0 auto">
             <NewsCard :news="item" />
           </div>

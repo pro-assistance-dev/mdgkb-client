@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :model="division" label-position="top" :rules="rules" :key="division">
+  <el-form ref="form" :key="division" :model="division" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
         <el-container direction="vertical">
@@ -8,7 +8,7 @@
               <el-input v-model="division.name" placeholder="Наименование отделения"></el-input>
             </el-form-item>
             <el-form-item label="Общая информация">
-              <QuillEditor style="height: 350px" v-model:content="division.info" contentType="html" theme="snow"></QuillEditor>
+              <QuillEditor v-model:content="division.info" style="height: 350px" content-type="html" theme="snow"></QuillEditor>
             </el-form-item>
             <el-form-item label="Адрес">
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
@@ -20,7 +20,7 @@
               <el-select v-model="newDoctorId" filterable placeholder="Выберите доктора">
                 <el-option v-for="item in filteredDoctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
               </el-select>
-              <el-button @click="addDoctor" type="success" style="margin: 20px">Добавить доктора</el-button>
+              <el-button type="success" style="margin: 20px" @click="addDoctor">Добавить доктора</el-button>
             </el-space>
 
             <el-table :data="divisionDoctors">
@@ -41,7 +41,7 @@
               </el-table-column>
               <el-table-column width="40" fixed="right" align="center">
                 <template #default="scope">
-                  <TableButtonGroup @remove="removeDoctor(scope.row.id)" :showRemoveButton="true" />
+                  <TableButtonGroup :show-remove-button="true" @remove="removeDoctor(scope.row.id)" />
                 </template>
               </el-table-column>
             </el-table>
@@ -50,7 +50,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
         <el-container direction="vertical">
-          <el-button @click="submit" type="success" style="margin-bottom: 20px">Сохранить</el-button>
+          <el-button type="success" style="margin-bottom: 20px" @click="submit">Сохранить</el-button>
           <el-card>
             <el-form-item label="Телефон">
               <el-input v-model="division.phone" placeholder="Телефон"></el-input>
@@ -67,8 +67,8 @@
               <el-select
                 v-model="division.floorId"
                 placeholder="Выберите этаж"
-                @change="changeFloorHandler"
                 :disabled="division.buildingId ? false : true"
+                @change="changeFloorHandler"
               >
                 <template v-if="division.buildingId && floorOptions">
                   <el-option v-for="item in floorOptions.floors" :key="item.id" :label="item.number" :value="item.id" />

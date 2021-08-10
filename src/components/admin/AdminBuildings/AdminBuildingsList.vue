@@ -1,7 +1,7 @@
 <template>
   <div class="flex-column">
     <el-card>
-      <el-table :data="buildings" v-if="buildings">
+      <el-table v-if="buildings" :data="buildings">
         <el-table-column prop="name" label="Наименование" sortable> </el-table-column>
         <el-table-column prop="address" label="Адрес" sortable> </el-table-column>
         <el-table-column label="Этажи" width="200px" align="center">
@@ -13,7 +13,7 @@
         </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
-            <TableButtonGroup @edit="edit(scope.row.id)" :showEditButton="true" />
+            <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
           </template>
         </el-table-column>
       </el-table>

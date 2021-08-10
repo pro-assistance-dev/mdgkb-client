@@ -20,7 +20,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="Дата рождения" prop="human.dateBirth">
-              <el-date-picker type="date" format="DD.MM.YYYY" placeholder="Выберите дату" v-model="doctor.human.dateBirth"></el-date-picker>
+              <el-date-picker v-model="doctor.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
             </el-form-item>
             <el-form-item label="Отделение">
               <el-select v-model="doctor.divisionId" placeholder="Выберите отделение" filterable default-first-option style="width: 100%">
@@ -32,7 +32,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
         <el-container direction="vertical">
-          <el-button type="success" @click="submit" style="margin-bottom: 20px">Сохранить</el-button>
+          <el-button type="success" style="margin-bottom: 20px" @click="submit">Сохранить</el-button>
           <el-card>
             <el-form-item label="Образование" prop="education">
               <el-input v-model="doctor.education"></el-input>
@@ -50,8 +50,8 @@
 
           <AdminDoctorImage
             v-if="mounted"
-            :fileList="fileList"
-            :fileInfo="doctor.fileInfo"
+            :file-list="fileList"
+            :file-info="doctor.fileInfo"
             title="Загрузить фото"
             @toggleUpload="toggleUpload"
             @handlePictureCardPreview="handlePictureCardPreview"
@@ -62,7 +62,7 @@
   </el-form>
 
   <el-dialog v-model="isCropOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-    <ImageCropper :src="imageCropSrc" @save="saveFromCropper" @cancel="cancelCropper" :ratio="1" />
+    <ImageCropper :src="imageCropSrc" :ratio="1" @save="saveFromCropper" @cancel="cancelCropper" />
   </el-dialog>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
   <!-- Spacer, which helps, when header becomes fixed -->
-  <div class="spacer" v-if="scrollOffset >= 66">&nbsp;</div>
+  <div v-if="scrollOffset >= 66" class="spacer">&nbsp;</div>
   <!-- Adaptive side menu -->
   <div class="drawer hidden-lg-and-up">
-    <el-drawer :size="'auto'" v-model="showDrawer" direction="ltr" :with-header="false">
+    <el-drawer v-model="showDrawer" :size="'auto'" direction="ltr" :with-header="false">
       <div class="drawer-block">
         <NavMenu :vertical="true" style="min-width: 200px" @changeDrawerStatus="changeDrawerStatus" />
       </div>
@@ -16,8 +16,8 @@
         <el-row align="middle">
           <el-col :xs="14" :sm="14" :md="14" :lg="4" :xl="4">
             <div style="display: flex">
-              <el-button icon="el-icon-s-unfold" @click="changeDrawerStatus" class="menu-item hidden-lg-and-up"></el-button>
-              <el-button class="menu-item" v-if="scrollOffset >= 66">
+              <el-button icon="el-icon-s-unfold" class="menu-item hidden-lg-and-up" @click="changeDrawerStatus"></el-button>
+              <el-button v-if="scrollOffset >= 66" class="menu-item">
                 <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" @click="$router.push('/')" />
               </el-button>
             </div>

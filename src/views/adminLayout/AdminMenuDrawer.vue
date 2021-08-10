@@ -1,6 +1,6 @@
 <template>
   <div class="hidden-md-and-up">
-    <el-drawer custom-class="admin-drawer" :size="'auto'" v-model="isDrawerOpen" @closed="closeDrawer" direction="ltr" :with-header="false">
+    <el-drawer v-model="isDrawerOpen" custom-class="admin-drawer" :size="'auto'" direction="ltr" :with-header="false" @closed="closeDrawer">
       <AdminSideMenu />
     </el-drawer>
   </div>
