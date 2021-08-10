@@ -1,11 +1,11 @@
 import { ActionTree } from 'vuex';
 
+import ICarousel from '@/interfaces/carousels/ICarousel';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import ICarousel from '@/interfaces/carousels/ICarousel';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 
 const httpClient = new HttpClient('carousels');
 
@@ -27,15 +27,15 @@ const actions: ActionTree<State, RootState> = {
     item.carouselSlides.forEach((slide) => {
       if (slide.fileInfo) fileInfos.push(slide.fileInfo);
     });
-    const res = await httpClient.post<ICarousel, ICarousel>({ payload: item, fileInfos: fileInfos, isFormData: true });
+    await httpClient.post<ICarousel, ICarousel>({ payload: item, fileInfos: fileInfos, isFormData: true });
     commit('appendToAll', item);
   },
-  update: async ({ commit }, item: ICarousel): Promise<void> => {
+  update: async (_, item: ICarousel): Promise<void> => {
     const fileInfos: IFileInfo[] = [];
     item.carouselSlides.forEach((slide) => {
       if (slide.fileInfo) fileInfos.push(slide.fileInfo);
     });
-    const res = await httpClient.put<ICarousel, ICarousel>({
+    await httpClient.put<ICarousel, ICarousel>({
       query: `${item.id}`,
       payload: item,
       fileInfos: fileInfos,
@@ -43,7 +43,7 @@ const actions: ActionTree<State, RootState> = {
     });
   },
   remove: async ({ commit }, newsId: string): Promise<void> => {
-    const res = await httpClient.delete({ query: `${newsId}` });
+    await httpClient.delete({ query: `${newsId}` });
     commit('remove', newsId);
   },
 };

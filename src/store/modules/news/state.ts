@@ -1,6 +1,6 @@
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
 import ITag from '@/interfaces/news/ITag';
-import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 
 export interface State {
   news: INews[];

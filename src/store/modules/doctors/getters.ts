@@ -1,7 +1,9 @@
 import { GetterTree } from 'vuex';
-import RootState from '@/store/types';
-import { State } from './state';
+
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import RootState from '@/store/types';
+
+import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
   doctors(state): IDoctor[] | undefined {

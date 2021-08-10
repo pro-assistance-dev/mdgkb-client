@@ -1,10 +1,11 @@
 import { ActionTree } from 'vuex';
 
+import IToken from '@/interfaces/users/IToken';
+import IUser from '@/interfaces/users/IUser';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
+
 import State from './state';
-import IUser from '@/interfaces/users/IUser';
-import IToken from '@/interfaces/users/IToken';
 
 const httpClient = new HttpClient('auth');
 

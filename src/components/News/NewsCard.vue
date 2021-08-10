@@ -31,21 +31,22 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
-import { PropType, defineComponent, computed } from 'vue';
-import INews from '@/interfaces/news/INews';
+
 import NewsMeta from '@/components/News/NewsMeta.vue';
+import INews from '@/interfaces/news/INews';
 import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsCard',
+  components: { NewsMeta },
   props: {
     news: {
       type: Object as PropType<INews>,
       required: true,
     },
   },
-  components: { NewsMeta },
   async setup() {
     const store = useStore();
     const filterTags = computed(() => store.getters['news/filterTags']);

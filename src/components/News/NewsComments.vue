@@ -89,17 +89,13 @@
 </template>
 
 <script lang="ts">
+import { ElMessage } from 'element-plus';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-import { computed, defineComponent, PropType, ref, watch } from 'vue';
-import { EyeOutlined } from '@ant-design/icons-vue';
-import NewsCalendar from '@/components/News/NewsCalendar.vue';
+
+import CommentRules from '@/classes/news/CommentRules';
 import NewsComment from '@/classes/news/NewsComment';
 import INewsComment from '@/interfaces/news/INewsComment';
-import NewsMeta from '@/components/News/NewsMeta.vue';
-import CommentRules from '@/classes/news/CommentRules';
-import NewsGallery from '@/components/News/NewsGallery.vue';
-import { ElMessage } from 'element-plus';
 import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({

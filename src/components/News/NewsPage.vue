@@ -66,16 +66,17 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-import { computed, defineComponent, ref, watch } from 'vue';
 import { EyeOutlined } from '@ant-design/icons-vue';
-import NewsCalendar from '@/components/News/NewsCalendar.vue';
-import NewsComment from '@/classes/news/NewsComment';
-import NewsMeta from '@/components/News/NewsMeta.vue';
+import { computed, defineComponent, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+
 import CommentRules from '@/classes/news/CommentRules';
-import NewsGallery from '@/components/News/NewsGallery.vue';
+import NewsComment from '@/classes/news/NewsComment';
+import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsComments from '@/components/News/NewsComments.vue';
+import NewsGallery from '@/components/News/NewsGallery.vue';
+import NewsMeta from '@/components/News/NewsMeta.vue';
 export default defineComponent({
   name: 'NewsList',
   components: { NewsMeta, NewsCalendar, EyeOutlined, NewsGallery, NewsComments },

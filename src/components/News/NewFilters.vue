@@ -27,6 +27,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+
 import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({

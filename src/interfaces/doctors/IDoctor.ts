@@ -1,6 +1,6 @@
-import IHuman from '@/interfaces/IHuman';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IHuman from '@/interfaces/IHuman';
 
 export default interface IDoctor {
   id?: string;

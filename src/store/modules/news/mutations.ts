@@ -1,17 +1,18 @@
+import { v4 as uuidv4 } from 'uuid';
 import { MutationTree } from 'vuex';
 
-import { State } from './state';
-import INews from '@/interfaces/news/INews';
-import News from '@/classes/news/News';
-import ITag from '@/interfaces/news/ITag';
-import INewsLike from '@/interfaces/news/INewsLike';
-import INewsComment from '@/interfaces/news/INewsComment';
-import NewsComment from '@/classes/news/NewsComment';
-import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import FileInfo from '@/classes/File/FileInfo';
-import { v4 as uuidv4 } from 'uuid';
+import News from '@/classes/news/News';
+import NewsComment from '@/classes/news/NewsComment';
 import NewsImage from '@/classes/news/NewsImage';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import INews from '@/interfaces/news/INews';
+import INewsComment from '@/interfaces/news/INewsComment';
+import INewsLike from '@/interfaces/news/INewsLike';
+import ITag from '@/interfaces/news/ITag';
+
+import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
@@ -29,7 +30,7 @@ const mutations: MutationTree<State> = {
   set(state, item?: INews) {
     state.newsItem = new News(item);
   },
-  clearPreviewFile(state, item?: INews) {
+  clearPreviewFile(state) {
     if (!state.newsItem) return;
     state.newsItem.fileInfo = new FileInfo();
   },

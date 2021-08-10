@@ -23,14 +23,15 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-import NewsCard from '@/components/News/NewsCard.vue';
+
 import NewsFilters from '@/components/News/NewFilters.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import NewsCard from '@/components/News/NewsCard.vue';
+import NewsCarousel from '@/components/NewsCarousel.vue';
 import INewsParams from '@/interfaces/news/INewsParams';
 import ITag from '@/interfaces/news/ITag';
-import NewsCarousel from '@/components/NewsCarousel.vue';
 
 export default defineComponent({
   name: 'NewsList',

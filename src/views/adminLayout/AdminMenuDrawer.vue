@@ -7,8 +7,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
+
 import AdminSideMenu from '@/views/adminLayout/AdminSideMenu.vue';
 
 export default defineComponent({

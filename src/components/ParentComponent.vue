@@ -19,13 +19,15 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-import ChildComponent from './ChildComponent.vue';
+
 import ExampleMixing from '@/mixins/ExampleMixing.vue';
 import useCounter from '@/mixinsAsModules/useCounter';
 
-export default {
+import ChildComponent from './ChildComponent.vue';
+
+export default defineComponent({
   name: 'ParentComponent',
   components: {
     ChildComponent,
@@ -65,5 +67,5 @@ export default {
       increment,
     };
   },
-};
+});
 </script>

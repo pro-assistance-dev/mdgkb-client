@@ -1,13 +1,12 @@
+import Email from '@/classes/contacts/Email';
+import PostAddress from '@/classes/contacts/PostAddress';
+import TelephoneNumber from '@/classes/contacts/TelephoneNumber';
+import Website from '@/classes/contacts/Website';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IEmail from '@/interfaces/contacts/IEmail';
 import IPostAddress from '@/interfaces/contacts/IPostAddress';
 import ITelephoneNumber from '@/interfaces/contacts/ITelephoneNumber';
 import IWebsite from '@/interfaces/contacts/IWebsite';
-
-import Email from '@/classes/contacts/Email';
-import PostAddress from '@/classes/contacts/PostAddress';
-import TelephoneNumber from '@/classes/contacts/TelephoneNumber';
-import Website from '@/classes/contacts/Website';
 
 export default class ContactInfo implements IContactInfo {
   id?: string;

@@ -31,9 +31,10 @@
 </template>
 
 <script lang="ts">
+import { ElMessage } from 'element-plus';
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
-import { ElMessage } from 'element-plus';
+
 import User from '@/classes/user/User';
 
 export default defineComponent({

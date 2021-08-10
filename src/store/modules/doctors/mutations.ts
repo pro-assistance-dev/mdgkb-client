@@ -1,8 +1,10 @@
+import { MutationTree } from 'vuex';
+
 import Doctor from '@/classes/doctors/Doctor';
 import IDoctor from '@/interfaces/doctors/IDoctor';
-import { MutationTree } from 'vuex';
-import { State } from './state';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+
+import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, doctors: IDoctor[]) {

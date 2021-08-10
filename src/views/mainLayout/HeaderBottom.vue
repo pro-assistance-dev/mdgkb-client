@@ -89,11 +89,12 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { ref, defineComponent, onMounted, onUnmounted, computed } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
+import { useStore } from 'vuex';
+
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
+import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
 
 export default defineComponent({
   name: 'HeaderBottom',

@@ -1,19 +1,19 @@
-import { createRouter, createWebHistory, RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
-import MainLayout from '@/views/main/MainLayout.vue';
-import store from '../store/index';
-
-import DivisionsRoutes from '@/router/DivisionsRoutes';
-import MapRoutes from '@/router/MapRoutes';
-import NewsRoutes from '@/router/NewsRoutes';
-import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
-import PaidServicesRoutes from '@/router/PaidServicesRoutes';
-import ProfileRoutes from '@/router/ProfileRoutes';
-import indexAdminRoutes from '@/router/indexAdminRoutes';
+import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
+import DivisionsRoutes from '@/router/DivisionsRoutes';
+import indexAdminRoutes from '@/router/indexAdminRoutes';
+import MapRoutes from '@/router/MapRoutes';
+import NewsRoutes from '@/router/NewsRoutes';
+import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
+import PaidServicesRoutes from '@/router/PaidServicesRoutes';
+import ProfileRoutes from '@/router/ProfileRoutes';
+import MainLayout from '@/views/main/MainLayout.vue';
+
+import store from '../store/index';
 
 export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext): void => {
   const userId = localStorage.getItem('userId');

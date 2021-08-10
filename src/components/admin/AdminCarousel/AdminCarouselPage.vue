@@ -132,18 +132,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, onMounted, Ref } from 'vue';
-import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import CarouselSlide from '@/classes/carousel/CarouselSlide';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
 import { QuillEditor } from '@vueup/vue-quill';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import FileInfo from '@/classes/File/FileInfo';
-import IFilesList from '@/interfaces/files/IFIlesList';
 import { v4 as uuidv4 } from 'uuid';
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
+import CarouselSlide from '@/classes/carousel/CarouselSlide';
+import FileInfo from '@/classes/File/FileInfo';
+import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
+import IFilesList from '@/interfaces/files/IFIlesList';
 // import NewsCarouselContainer from '@/components/NewsCarouselContainer.vue';
 
 export default defineComponent({

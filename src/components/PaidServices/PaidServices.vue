@@ -25,11 +25,12 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+
 import { ginDiv } from '@/components/PaidServices/ginDiv';
 import { otoDiv } from '@/components/PaidServices/otoDiv';
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
-import IPaidService from '@/interfaces/IPaidService';
 import PaidService from '@/components/PaidServices/PaidService.vue';
+import IPaidService from '@/interfaces/IPaidService';
 
 export default defineComponent({
   name: 'PaidServices',

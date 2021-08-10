@@ -31,11 +31,12 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, computed, defineComponent } from 'vue';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+
+import Division from '@/classes/buildings/Division';
 import AboutInfo from '@/components/About/AboutInfo.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
-import Division from '@/classes/buildings/Division';
 
 export default defineComponent({
   name: 'AboutPage',

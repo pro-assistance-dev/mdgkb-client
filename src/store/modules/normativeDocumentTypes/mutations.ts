@@ -1,8 +1,9 @@
 import { MutationTree } from 'vuex';
 
-import State from './state';
-import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
 import NormativeDocumentType from '@/classes/normativeDocument/NormativeDocumentType';
+import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
+
+import State from './state';
 
 const mutations: MutationTree<State> = {
   set(state, type: INormativeDocumentType) {

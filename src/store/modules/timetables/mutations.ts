@@ -1,8 +1,9 @@
 import { MutationTree } from 'vuex';
 
-import { State } from './state';
-import IWeekday from '@/interfaces/timetables/IWeekday';
 import Weekday from '@/classes/timetable/Weekday';
+import IWeekday from '@/interfaces/timetables/IWeekday';
+
+import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAllWeekdays(state, items: IWeekday[]) {

@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+
 import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({

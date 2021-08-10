@@ -33,10 +33,10 @@
 </template>
 
 <script lang="ts">
+import { GlobalOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { defineComponent } from 'vue';
-import { useStore } from 'vuex';
-import { LogoutOutlined, UserOutlined, GlobalOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminHeaderTop',

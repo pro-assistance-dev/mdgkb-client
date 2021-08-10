@@ -84,19 +84,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed, watch, onBeforeMount } from 'vue';
-import { QuillEditor } from '@vueup/vue-quill';
-import { useStore } from 'vuex';
-import { ElMessage } from 'element-plus';
-import { useRoute, useRouter } from 'vue-router';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import Division from '@/classes/buildings/Division';
+
+import { QuillEditor } from '@vueup/vue-quill';
+import { ElMessage } from 'element-plus';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
 import Building from '@/classes/buildings/Building';
-import IFloor from '@/interfaces/buildings/IFloor';
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import Division from '@/classes/buildings/Division';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
+import IFloor from '@/interfaces/buildings/IFloor';
+import IDoctor from '@/interfaces/doctors/IDoctor';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
@@ -148,11 +150,7 @@ export default defineComponent({
     const submit = async () => {
       let validationResult;
       form.value.validate((valid: any) => {
-        if (valid) {
-          validationResult = true;
-        } else {
-          validationResult = false;
-        }
+        validationResult = !!valid;
       });
       if (!validationResult) return;
       division.value.doctors = divisionDoctors.value;

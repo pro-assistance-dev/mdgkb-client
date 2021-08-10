@@ -29,10 +29,11 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { defineComponent, computed, onMounted, ref } from 'vue';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
 export default defineComponent({
   name: 'AdminBuildingsList',
@@ -47,7 +48,7 @@ export default defineComponent({
       await store.dispatch('sideOrganizations/getAll');
     };
 
-    const create = (id: string): void => {
+    const create = (): void => {
       router.push('/admin/side-organizations/new');
     };
     const edit = (id: string): void => {

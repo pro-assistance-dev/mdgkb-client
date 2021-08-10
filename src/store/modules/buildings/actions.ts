@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex';
 
+import IBuilding from '@/interfaces/buildings/IBuilding';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import IBuilding from '@/interfaces/buildings/IBuilding';
 
 const httpClient = new HttpClient('buildings');
 

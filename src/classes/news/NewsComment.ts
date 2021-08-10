@@ -1,6 +1,6 @@
+import User from '@/classes/user/User';
 import INewsComment from '@/interfaces/news/INewsComment';
 import IUser from '@/interfaces/users/IUser';
-import User from '@/classes/user/User';
 
 export default class NewsComment implements INewsComment {
   id?;

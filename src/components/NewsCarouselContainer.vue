@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+
 import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
 export default defineComponent({
   name: 'NewsCarouselContainer',
@@ -19,7 +20,10 @@ export default defineComponent({
       type: Object as PropType<ICarouselSlide>,
       required: true,
     },
-    src: String,
+    src: {
+      type: String,
+      required: true,
+    },
   },
 });
 </script>

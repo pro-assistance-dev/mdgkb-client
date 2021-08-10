@@ -2337,10 +2337,11 @@
 </template>
 
 <script lang="ts">
-import MapPopover from './MapPopover.vue';
 import { defineComponent, onMounted, PropType, ref } from 'vue';
+
 import IBuilding from '@/interfaces/buildings/IBuilding';
-import IDivision from '@/interfaces/buildings/IDivision';
+
+import MapPopover from './MapPopover.vue';
 
 export default defineComponent({
   name: 'MapSvg',

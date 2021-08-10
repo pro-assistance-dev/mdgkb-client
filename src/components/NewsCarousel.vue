@@ -16,15 +16,13 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { computed, defineComponent, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'NewsCarousel',
   async setup() {
     const store = useStore();
-    const route = useRoute();
     let carousel = computed(() => store.getters['carousels/item']);
     const loadCarouselItem = async () => {
       await store.dispatch('carousels/getByKey', 'top');

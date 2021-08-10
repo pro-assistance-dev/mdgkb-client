@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex';
 
+import ITag from '@/interfaces/news/ITag';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import ITag from '@/interfaces/news/ITag';
 
 const httpClient = new HttpClient('tags');
 
@@ -22,13 +22,13 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.post<ITag, ITag>({ payload: item });
     commit('appendToAll', res);
   },
-  update: async ({ commit }, item: ITag): Promise<void> => {
-    const res = await httpClient.put<ITag, ITag>({
+  update: async (_, item: ITag): Promise<void> => {
+    await httpClient.put<ITag, ITag>({
       query: `${item.id}`,
     });
   },
   remove: async ({ commit }, newsId: string): Promise<void> => {
-    const res = await httpClient.delete({ query: `${newsId}` });
+    await httpClient.delete({ query: `${newsId}` });
     commit('remove', newsId);
   },
   filterTagList: async ({ commit }, tags: ITag[]) => {

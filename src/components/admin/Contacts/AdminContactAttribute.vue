@@ -35,21 +35,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, WritableComputedRef } from 'vue';
+import { computed, defineComponent, PropType, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 
 import Email from '@/classes/contacts/Email';
-import PostAddress from '@/classes/contacts/PostAddress';
-import TelephoneNumber from '@/classes/contacts/TelephoneNumber';
-import Website from '@/classes/contacts/Website';
-
 import EmailRules from '@/classes/contacts/EmailRules';
+import PostAddress from '@/classes/contacts/PostAddress';
 import PostAddressRules from '@/classes/contacts/PostAddressRules';
+import TelephoneNumber from '@/classes/contacts/TelephoneNumber';
 import TelephoneNumberRules from '@/classes/contacts/TelephoneNumberRules';
+import Website from '@/classes/contacts/Website';
 import WebsiteRules from '@/classes/contacts/WebsiteRules';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 
 export default defineComponent({
   name: 'AdminContactAttribute',

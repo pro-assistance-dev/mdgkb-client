@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from '@vue/runtime-core';
+import { defineComponent, ref } from '@vue/runtime-core';
 
 export default defineComponent({
   name: 'DispanserizationPage',

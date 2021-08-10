@@ -1,6 +1,7 @@
+import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+
 import AdminCarouselList from '@/components/admin/AdminCarousel/AdminCarouselList.vue';
 import AdminCarouselPage from '@/components/admin/AdminCarousel/AdminCarouselPage.vue';
-import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

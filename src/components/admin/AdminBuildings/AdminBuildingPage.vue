@@ -33,9 +33,10 @@
 import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+
+import BuildingRules from '@/classes/buildings/BuildingRules';
 import Floor from '@/classes/buildings/Floor';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import BuildingRules from '@/classes/buildings/BuildingRules';
 
 export default defineComponent({
   name: 'AdminBuildingPage',

@@ -1,7 +1,7 @@
+import NormativeDocumentType from '@/classes/normativeDocument/NormativeDocumentType';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import NormativeDocumentType from '@/classes/normativeDocument/NormativeDocumentType';
 
 export default class NormativeDocument implements INormativeDocument {
   id?: string;

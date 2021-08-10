@@ -1,10 +1,10 @@
 import { GetterTree } from 'vuex';
 
+import Carousel from '@/classes/carousel/Carousel';
+import ICarousel from '@/interfaces/carousels/ICarousel';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import ICarousel from '@/interfaces/carousels/ICarousel';
-import Carousel from '@/classes/carousel/Carousel';
 
 const getters: GetterTree<State, RootState> = {
   items(state): ICarousel[] | undefined {

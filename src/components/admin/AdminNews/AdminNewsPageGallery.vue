@@ -33,16 +33,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+import { defineComponent, PropType } from 'vue';
+import { useStore } from 'vuex';
+
 import FileInfo from '@/classes/File/FileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
-import { v4 as uuidv4 } from 'uuid';
-import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminNewsPage',
-  emits: ['toggleUpload', 'handleRemove'],
   props: {
     fileList: {
       type: Object as PropType<IFilesList[]>,
@@ -53,6 +53,7 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['toggleUpload', 'handleRemove', 'handlePictureCardPreview'],
   setup(props, { emit }) {
     const store = useStore();
     const toggleUpload = (file: any) => {

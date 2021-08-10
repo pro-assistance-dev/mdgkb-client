@@ -1,4 +1,3 @@
-import IBuilding from '@/interfaces/buildings/IBuilding';
 import IUser from '@/interfaces/users/IUser';
 
 export interface State {

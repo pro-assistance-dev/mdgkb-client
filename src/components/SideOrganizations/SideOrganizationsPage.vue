@@ -51,8 +51,9 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onBeforeMount, watch, computed } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
+
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 // import { yandexMap, ymapMarker } from 'vue-yandex-maps';
 

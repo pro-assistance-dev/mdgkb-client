@@ -1,11 +1,5 @@
 <template>
-  <el-menu
-    class="header-bottom-menu"
-    :mode="vertical ? 'vertical' : 'horizontal'"
-    :router="true"
-    default-active="1x"
-    @select="changeDrawerStatus"
-  >
+  <el-menu class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
     <el-menu-item class="header-bottom-menu-item" index="1" :route="{ name: 'News' }">Новости</el-menu-item>
     <el-submenu index="2" popper-class="popper-class-custom">
       <template #title><span class="header-bottom-menu-item">Пациентам</span></template>
@@ -42,9 +36,10 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
-import MenuTileX from '@/views/mainLayout/elements/MenuTileX.vue';
+import { defineComponent, ref } from 'vue';
+
 import IMenuItem from '@/interfaces/IMenuItem';
+import MenuTileX from '@/views/mainLayout/elements/MenuTileX.vue';
 
 export default defineComponent({
   name: 'NavMenu',
@@ -111,11 +106,7 @@ export default defineComponent({
       });
     };
 
-    const changeDrawerStatus = () => {
-      emit('changeDrawerStatus');
-    };
-
-    return { menus, collapseCard, expand, items, changeDrawerStatus };
+    return { menus, collapseCard, expand, items };
   },
 });
 </script>

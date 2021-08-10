@@ -9,9 +9,7 @@ export default class Human implements IHuman {
   dateBirth = '';
 
   constructor(i?: IHuman) {
-    if (!i) {
-      return;
-    }
+    if (!i) return;
     this.id = i.id;
     this.name = i.name;
     this.surname = i.surname;

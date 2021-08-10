@@ -20,16 +20,18 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { PropType, defineComponent, ref, computed } from 'vue';
-import { LikeOutlined, EyeOutlined, LikeFilled, FacebookOutlined, InstagramOutlined, TwitterOutlined } from '@ant-design/icons-vue';
-import INews from '@/interfaces/news/INews';
-import NewsLike from '@/classes/news/NewsLike';
+import { EyeOutlined, FacebookOutlined, InstagramOutlined, LikeFilled, LikeOutlined, TwitterOutlined } from '@ant-design/icons-vue';
 import { ElMessage } from 'element-plus';
+import { computed, defineComponent, PropType } from 'vue';
+import { useStore } from 'vuex';
+
+import NewsLike from '@/classes/news/NewsLike';
+import INews from '@/interfaces/news/INews';
 import INewsLike from '@/interfaces/news/INewsLike';
 
 export default defineComponent({
   name: 'NewsMeta',
+  components: { LikeOutlined, LikeFilled, EyeOutlined, FacebookOutlined, InstagramOutlined, TwitterOutlined },
   props: {
     news: {
       type: Object as PropType<INews>,
@@ -37,7 +39,6 @@ export default defineComponent({
     },
     newsPage: { type: Boolean },
   },
-  components: { LikeOutlined, LikeFilled, EyeOutlined, FacebookOutlined, InstagramOutlined, TwitterOutlined },
   async setup() {
     const store = useStore();
     const user = computed(() => store.getters['auth/user']);

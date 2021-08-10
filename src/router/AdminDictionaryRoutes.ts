@@ -1,16 +1,16 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-import { authGuard, isAuthorized } from '@/router/index';
 
 import AdminBuildingPage from '@/components/admin/AdminBuildings/AdminBuildingPage.vue';
 import AdminBuildingsList from '@/components/admin/AdminBuildings/AdminBuildingsList.vue';
 import AdminDivisionPage from '@/components/admin/AdminDivisions/AdminDivisionPage.vue';
 import AdminDivisionsList from '@/components/admin/AdminDivisions/AdminDivisionsList.vue';
-import AdminNormativeDocumentPage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentPage.vue';
-import AdminNormativeDocumentTypePage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypePage.vue';
-import AdminNormativeDocumentTypesList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypesList.vue';
-import AdminNormativeDocumentsList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentsList.vue';
 import AdminSideOrganizationPage from '@/components/admin/AdminSideOrganizations/AdminSideOrganizationPage.vue';
 import AdminSideOrganizationsList from '@/components/admin/AdminSideOrganizations/AdminSideOrganizationsList.vue';
+import AdminNormativeDocumentPage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentPage.vue';
+import AdminNormativeDocumentsList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentsList.vue';
+import AdminNormativeDocumentTypePage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypePage.vue';
+import AdminNormativeDocumentTypesList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypesList.vue';
+import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
   {

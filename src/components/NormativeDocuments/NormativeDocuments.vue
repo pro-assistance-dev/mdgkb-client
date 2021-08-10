@@ -56,9 +56,10 @@
 </template>
 
 <script lang="ts">
-import { ref, onBeforeMount, defineComponent, computed } from 'vue';
-import { useStore } from 'vuex';
 import { FilePdfOutlined } from '@ant-design/icons-vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
+import { useStore } from 'vuex';
+
 import NormativeDocumentsModal from '@/components/NormativeDocuments/NormativeDocumentsModal.vue';
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 

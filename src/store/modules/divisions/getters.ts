@@ -1,10 +1,10 @@
 import { GetterTree } from 'vuex';
 
 import IDivision from '@/interfaces/buildings/IDivision';
+import ITimetable from '@/interfaces/timetables/ITimetable';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import ITimetable from '@/interfaces/timetables/ITimetable';
 
 const getters: GetterTree<State, RootState> = {
   divisions(state): IDivision[] | undefined {

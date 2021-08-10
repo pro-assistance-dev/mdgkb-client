@@ -1,8 +1,8 @@
+import Doctor from '@/classes/doctors/Doctor';
+import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDoctor from '@/interfaces/doctors/IDoctor';
-import Doctor from '@/classes/doctors/Doctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
-import Timetable from '@/classes/timetable/Timetable';
 
 export default class Division implements IDivision {
   id?: string;
@@ -19,9 +19,7 @@ export default class Division implements IDivision {
   timetableId?: string;
 
   constructor(i?: IDivision) {
-    if (!i) {
-      return;
-    }
+    if (!i) return;
     this.id = i.id;
     this.name = i.name;
     this.info = i.info;

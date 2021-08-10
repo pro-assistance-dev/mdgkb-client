@@ -143,7 +143,8 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+
 import CubeLine from '@/components/StopComa/CubeLine.vue';
 
 export default defineComponent({

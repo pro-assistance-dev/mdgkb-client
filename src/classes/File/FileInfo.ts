@@ -9,9 +9,7 @@ export default class FileInfo implements IFileInfo {
   file?: File;
 
   constructor(i?: IFileInfo) {
-    if (!i) {
-      return;
-    }
+    if (!i) return;
 
     this.id = i.id;
     this.originalName = i.originalName;

@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed, onMounted } from '@vue/runtime-core';
+import { computed, defineComponent, onMounted, ref } from '@vue/runtime-core';
 
 export default defineComponent({
   name: 'CubeLine',

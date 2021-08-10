@@ -7,10 +7,11 @@
 </template>
 
 <script lang="ts">
-import MainLayout from '@/views/main/MainLayout.vue';
-import AdminLayout from '@/views/admin/AdminLayout.vue';
 import { defineComponent, onMounted } from '@vue/runtime-core';
 import { useStore } from 'vuex';
+
+import AdminLayout from '@/views/admin/AdminLayout.vue';
+import MainLayout from '@/views/main/MainLayout.vue';
 
 export default defineComponent({
   name: 'App',

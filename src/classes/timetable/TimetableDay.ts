@@ -1,21 +1,19 @@
+import Weekday from '@/classes/timetable/Weekday';
 import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 import IWeekday from '@/interfaces/timetables/IWeekday';
-import Weekday from '@/classes/timetable/Weekday';
 
 export default class TimetableDay implements ITimetableDay {
   id?: string;
   startTime: Date = new Date();
   endTime: Date = new Date();
-  breakExist: boolean = false;
+  breakExist = false;
   breakStartTime?: Date;
   breakEndTime?: Date;
   weekdayId?: string;
   weekday: IWeekday = new Weekday();
 
   constructor(i?: TimetableDay) {
-    if (!i) {
-      return;
-    }
+    if (!i) return;
     this.id = i.id;
     this.startTime = i.startTime;
     this.endTime = i.endTime;
@@ -35,6 +33,7 @@ export default class TimetableDay implements ITimetableDay {
     timetableDay.startTime = new Date('Fri, 26 Sep 2014 9:00:00');
     timetableDay.endTime = new Date('Fri, 26 Sep 2014 18:00:00 ');
     timetableDay.weekday = weekday;
+    timetableDay.weekdayId = weekday.id;
     return timetableDay;
   }
 

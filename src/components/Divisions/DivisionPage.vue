@@ -37,9 +37,10 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
 import { computed, defineComponent } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 
 export default defineComponent({

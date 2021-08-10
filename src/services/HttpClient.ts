@@ -1,6 +1,7 @@
 import axios from 'axios';
-import IFileInfo from '@/interfaces/files/IFileInfo';
+
 import { IBodilessParams, IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default class HttpClient {
   endpoint: string;

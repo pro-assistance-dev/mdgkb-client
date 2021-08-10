@@ -1,6 +1,6 @@
-import INewsImage from '@/interfaces/news/INewsImage';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import FileInfo from '@/classes/File/FileInfo';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import INewsImage from '@/interfaces/news/INewsImage';
 
 export default class NewsImage implements INewsImage {
   id?: string;

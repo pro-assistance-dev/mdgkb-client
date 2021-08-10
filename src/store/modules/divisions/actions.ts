@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex';
 
+import IDivision from '@/interfaces/buildings/IDivision';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import IDivision from '@/interfaces/buildings/IDivision';
 
 const httpClient = new HttpClient('divisions');
 

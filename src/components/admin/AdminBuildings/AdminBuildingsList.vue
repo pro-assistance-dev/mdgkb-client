@@ -22,10 +22,11 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { defineComponent, computed, onMounted, ref } from 'vue';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
 export default defineComponent({
   name: 'AdminSideOrganizationsList',

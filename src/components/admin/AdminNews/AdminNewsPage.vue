@@ -76,21 +76,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, onMounted, Ref } from 'vue';
-import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
-import { QuillEditor } from '@vueup/vue-quill';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+import { QuillEditor } from '@vueup/vue-quill';
+import { ElMessage } from 'element-plus';
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
 import News from '@/classes/news/News';
-import IFilesList from '@/interfaces/files/IFIlesList';
 import NewsRules from '@/classes/news/NewsRules';
-import INewsImage from '@/interfaces/news/INewsImage';
-import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
-import AdminNewsPagePreviewImage from '@/components/admin/AdminNews/AdminNewsPagePreviewImage.vue';
 import AdminNewsPageGallery from '@/components/admin/AdminNews/AdminNewsPageGallery.vue';
 import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMainImage.vue';
+import AdminNewsPagePreviewImage from '@/components/admin/AdminNews/AdminNewsPagePreviewImage.vue';
+import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
+import ImageCropper from '@/components/admin/ImageCropper.vue';
+import IFilesList from '@/interfaces/files/IFIlesList';
+import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({
   name: 'AdminNewsPage',

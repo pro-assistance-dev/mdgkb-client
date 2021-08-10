@@ -1,12 +1,12 @@
 import { Module } from 'vuex';
 
+import Doctor from '@/classes/doctors/Doctor';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
-import Doctor from '@/classes/doctors/Doctor';
 
 export const state: State = {
   doctors: [],

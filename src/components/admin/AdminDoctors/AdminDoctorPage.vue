@@ -67,12 +67,13 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { defineComponent, computed, onMounted, ref, Ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
-import Doctor from '@/classes/doctors/Doctor';
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
 import Division from '@/classes/buildings/Division';
+import Doctor from '@/classes/doctors/Doctor';
 import DoctorRules from '@/classes/doctors/DoctorRules';
 import AdminDoctorImage from '@/components/admin/AdminDoctors/AdminDoctorImage.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';

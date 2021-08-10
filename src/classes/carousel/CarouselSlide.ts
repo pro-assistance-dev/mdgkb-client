@@ -1,6 +1,6 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import FileInfo from '@/classes/File/FileInfo';
 import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default class CarouselSlide implements ICarouselSlide {
   id?: string;

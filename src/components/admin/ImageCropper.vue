@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts">
-import { Cropper } from 'vue-advanced-cropper';
 import 'vue-advanced-cropper/dist/style.css';
 
-import { defineComponent, PropType, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { Cropper } from 'vue-advanced-cropper';
 
 export default defineComponent({
   name: 'ImageCropper',

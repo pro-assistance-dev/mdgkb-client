@@ -1,6 +1,6 @@
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import ContactInfo from '@/classes/contacts/ContactInfo';
+import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 
 export default class SideOrganization implements ISideOrganization {
   id?: string;

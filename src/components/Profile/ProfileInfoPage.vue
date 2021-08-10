@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue';
 import { useStore } from 'vuex';
-import { computed, defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'ProfileInfoPage',

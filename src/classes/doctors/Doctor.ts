@@ -1,8 +1,8 @@
-import IDoctor from '@/interfaces/doctors/IDoctor';
-import IDivision from '@/interfaces/buildings/IDivision';
-import Human from '@/classes/Human';
 import Division from '@/classes/buildings/Division';
 import FileInfo from '@/classes/File/FileInfo';
+import Human from '@/classes/Human';
+import IDivision from '@/interfaces/buildings/IDivision';
+import IDoctor from '@/interfaces/doctors/IDoctor';
 
 export default class Doctor implements IDoctor {
   id?: string;
@@ -18,9 +18,7 @@ export default class Doctor implements IDoctor {
   fileInfoId?: string;
 
   constructor(i?: IDoctor) {
-    if (!i) {
-      return;
-    }
+    if (!i) return;
     this.id = i.id;
     this.human = new Human(i.human);
     this.humanId = i.humanId;

@@ -1,7 +1,8 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-import { authGuard, isAuthorized } from '@/router/index';
-import AdminDoctorsList from '@/components/admin/AdminDoctors/AdminDoctorsList.vue';
+
 import AdminDoctorPage from '@/components/admin/AdminDoctors/AdminDoctorPage.vue';
+import AdminDoctorsList from '@/components/admin/AdminDoctors/AdminDoctorsList.vue';
+import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
   {

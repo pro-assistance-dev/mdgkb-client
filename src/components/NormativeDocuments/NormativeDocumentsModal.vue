@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, PropType } from 'vue';
 import pdf from '@jbtje/vue3pdf';
+import { defineComponent, onMounted, PropType, ref } from 'vue';
 
 export default defineComponent({
   name: 'NormativeDocumentsModal',

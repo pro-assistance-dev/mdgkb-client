@@ -7,9 +7,10 @@
 </template>
 
 <script>
-import MapSvg from './MapSvg';
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
+
+import MapSvg from './MapSvg';
 
 export default defineComponent({
   name: 'MapPage',

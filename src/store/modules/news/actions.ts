@@ -1,18 +1,18 @@
 import { ActionTree } from 'vuex';
 
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import INews from '@/interfaces/news/INews';
+import INewsComment from '@/interfaces/news/INewsComment';
+import INewsImage from '@/interfaces/news/INewsImage';
+import INewsLike from '@/interfaces/news/INewsLike';
+import INewsParams from '@/interfaces/news/INewsParams';
+import INewsToTag from '@/interfaces/news/INewsToTag';
+import ITag from '@/interfaces/news/ITag';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import INews from '@/interfaces/news/INews';
-import INewsLike from '@/interfaces/news/INewsLike';
-import INewsComment from '@/interfaces/news/INewsComment';
-import INewsParams from '@/interfaces/news/INewsParams';
-import INewsToTag from '@/interfaces/news/INewsToTag';
-import ITag from '@/interfaces/news/ITag';
-import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import INewsImage from '@/interfaces/news/INewsImage';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 
 const httpClient = new HttpClient('news');
 
@@ -49,7 +49,7 @@ const actions: ActionTree<State, RootState> = {
     });
     fileInfos.push(news.fileInfo);
     fileInfos.push(news.mainImage);
-    const res = await httpClient.post<INews, INews>({ payload: news, fileInfos: fileInfos, isFormData: true });
+    await httpClient.post<INews, INews>({ payload: news, fileInfos: fileInfos, isFormData: true });
     commit('set');
   },
   update: async ({ commit }, news: INews): Promise<void> => {
@@ -59,7 +59,7 @@ const actions: ActionTree<State, RootState> = {
     });
     fileInfos.push(news.fileInfo);
     fileInfos.push(news.mainImage);
-    const res = await httpClient.put<INews, INews>({
+    await httpClient.put<INews, INews>({
       query: `${news.id}`,
       payload: news,
       fileInfos: fileInfos,
@@ -68,16 +68,16 @@ const actions: ActionTree<State, RootState> = {
     commit('set');
   },
   remove: async ({ commit }, newsId: string): Promise<void> => {
-    const res = await httpClient.delete({ query: `${newsId}` });
+    await httpClient.delete({ query: `${newsId}` });
     commit('remove', newsId);
   },
 
-  addTag: async ({ commit }, item: INewsToTag): Promise<void> => {
-    const res = await httpClient.post<INewsToTag, INewsToTag>({ query: `tag`, payload: item });
+  addTag: async (_, item: INewsToTag): Promise<void> => {
+    await httpClient.post<INewsToTag, INewsToTag>({ query: `tag`, payload: item });
   },
 
-  removeTag: async ({ commit }, item: INewsToTag): Promise<void> => {
-    const res = await httpClient.delete<INewsToTag, INewsToTag>({ query: `tag`, payload: item });
+  removeTag: async (_, item: INewsToTag): Promise<void> => {
+    await httpClient.delete<INewsToTag, INewsToTag>({ query: `tag`, payload: item });
   },
 
   createLike: async ({ commit }, newsLike: INewsLike): Promise<void> => {
@@ -85,7 +85,7 @@ const actions: ActionTree<State, RootState> = {
     commit('setLikeNews', res);
   },
   removeComment: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.delete({ query: `comment/${id}` });
+    await httpClient.delete({ query: `comment/${id}` });
     commit('removeComment', id);
   },
   createComment: async ({ commit }, comment: INewsComment): Promise<void> => {

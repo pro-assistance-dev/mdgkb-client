@@ -23,6 +23,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
 
 export default defineComponent({

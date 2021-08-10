@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex';
 
+import IDoctor from '@/interfaces/doctors/IDoctor';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import IDoctor from '@/interfaces/doctors/IDoctor';
 
 const httpClient = new HttpClient('doctors');
 

@@ -23,12 +23,13 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { defineComponent, computed, onMounted } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import INewsParams from '@/interfaces/news/INewsParams';
-import INews from '@/interfaces/news/INews';
+import { useStore } from 'vuex';
+
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import INews from '@/interfaces/news/INews';
+import INewsParams from '@/interfaces/news/INewsParams';
 
 export default defineComponent({
   name: 'AdminCarouselList',

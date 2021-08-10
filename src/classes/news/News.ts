@@ -1,16 +1,17 @@
-import INews from '@/interfaces/news/INews';
-import ICategory from '@/interfaces/news/ICategory';
-import ITag from '@/interfaces/news/ITag';
-import Category from '@/classes/news/Category';
-import Tag from '@/classes/news/Tag';
-import INewsLike from '@/interfaces/news/INewsLike';
-import NewsLike from '@/classes/news/NewsLike';
-import INewsComment from '@/interfaces/news/INewsComment';
-import NewsComment from '@/classes/news/NewsComment';
 import slugify from '@sindresorhus/slugify';
+
 import FileInfo from '@/classes/File/FileInfo';
-import INewsImage from '@/interfaces/news/INewsImage';
+import Category from '@/classes/news/Category';
+import NewsComment from '@/classes/news/NewsComment';
 import NewsImage from '@/classes/news/NewsImage';
+import NewsLike from '@/classes/news/NewsLike';
+import Tag from '@/classes/news/Tag';
+import ICategory from '@/interfaces/news/ICategory';
+import INews from '@/interfaces/news/INews';
+import INewsComment from '@/interfaces/news/INewsComment';
+import INewsImage from '@/interfaces/news/INewsImage';
+import INewsLike from '@/interfaces/news/INewsLike';
+import ITag from '@/interfaces/news/ITag';
 
 export default class News implements INews {
   id?: string;
@@ -54,7 +55,7 @@ export default class News implements INews {
     if (i.newsImages) this.newsImages = i.newsImages.map((item: INewsImage) => new NewsImage(item));
   }
 
-  createSlug() {
+  createSlug(): void {
     this.slug = slugify(this.title);
   }
 }

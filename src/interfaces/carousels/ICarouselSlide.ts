@@ -1,5 +1,4 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import INews from '@/interfaces/news/INews';
 
 export default interface ICarouselSlide {
   id?: string;

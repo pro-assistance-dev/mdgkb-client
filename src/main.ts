@@ -1,8 +1,4 @@
-import { createApp } from 'vue';
-import App from './App.vue';
 import 'dayjs/locale/ru';
-import router from './router';
-import store from './store';
 import './assets/styles/element-variables.scss';
 
 import {
@@ -25,6 +21,7 @@ import {
   ElCollapse,
   ElCollapseItem,
   ElCollapseTransition,
+  ElColorPicker,
   ElContainer,
   ElDatePicker,
   ElDescriptions,
@@ -53,8 +50,8 @@ import {
   ElMessageBox,
   ElNotification,
   ElOption,
-  ElPagination,
   ElPageHeader,
+  ElPagination,
   ElPopconfirm,
   ElPopover,
   ElRadio,
@@ -63,19 +60,23 @@ import {
   ElSelect,
   ElSpace,
   ElSubmenu,
-  ElTabPane,
   ElTable,
   ElTableColumn,
+  ElTabPane,
   ElTabs,
   ElTag,
   ElTimeline,
   ElTimelineItem,
+  ElTimeSelect,
   ElTooltip,
   ElTree,
   ElUpload,
-  ElColorPicker,
-  ElTimeSelect,
 } from 'element-plus';
+import { createApp } from 'vue';
+
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
 const components = [
   ElAffix,
@@ -149,8 +150,9 @@ const app = createApp(App);
 
 import locale from 'element-plus/lib/locale';
 import lang from 'element-plus/lib/locale/lang/ru';
-import fillDateFormat from '@/services/DateFormat';
 import { useStore } from 'vuex';
+
+import fillDateFormat from '@/services/DateFormat';
 
 app.config.globalProperties.$dateFormatRu = fillDateFormat;
 app.config.globalProperties.$store = useStore();

@@ -12,12 +12,12 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent, computed, ref, onMounted } from 'vue';
 import { Calendar, PopoverRow } from 'v-calendar';
-import INews from '@/interfaces/news/INews';
+import { computed, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-import INewsParams from '@/interfaces/news/INewsParams';
+
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import INews from '@/interfaces/news/INews';
 
 export default defineComponent({
   name: 'NewsCalendar',

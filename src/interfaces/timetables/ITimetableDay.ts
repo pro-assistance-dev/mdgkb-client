@@ -10,5 +10,5 @@ export default interface ITimetableDay {
   weekdayId?: string;
   weekday: IWeekday;
 
-  getTime: () => string;
+  getTime: (date: Date) => string;
 }

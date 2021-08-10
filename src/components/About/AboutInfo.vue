@@ -70,13 +70,14 @@
 </template>
 
 <script lang="ts">
-import IDivision from '@/interfaces/buildings/IDivision';
 import { defineComponent, onMounted, onUnmounted, PropType, ref } from 'vue';
-import IPaidService from '@/interfaces/IPaidService';
+
+import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import { ginDiv } from '@/components/PaidServices/ginDiv';
 import { otoDiv } from '@/components/PaidServices/otoDiv';
 import PaidService from '@/components/PaidServices/PaidService.vue';
-import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
+import IDivision from '@/interfaces/buildings/IDivision';
+import IPaidService from '@/interfaces/IPaidService';
 
 export default defineComponent({
   name: 'AboutInfo',

@@ -1,9 +1,9 @@
-import ICategory from '@/interfaces/news/ICategory';
-import ITag from '@/interfaces/news/ITag';
-import INewsLike from '@/interfaces/news/INewsLike';
-import INewsComment from '@/interfaces/news/INewsComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import ICategory from '@/interfaces/news/ICategory';
+import INewsComment from '@/interfaces/news/INewsComment';
 import INewsImage from '@/interfaces/news/INewsImage';
+import INewsLike from '@/interfaces/news/INewsLike';
+import ITag from '@/interfaces/news/ITag';
 
 export default interface INews {
   id?: string;

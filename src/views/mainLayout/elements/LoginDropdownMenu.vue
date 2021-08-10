@@ -24,10 +24,9 @@
 </template>
 
 <script lang="ts">
-import { useStore } from 'vuex';
-import { computed, defineComponent } from 'vue';
-
 import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'LoginDropdownMenu',

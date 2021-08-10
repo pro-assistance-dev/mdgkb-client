@@ -41,14 +41,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, computed, reactive, ref, WritableComputedRef } from 'vue';
+import { ElMessage } from 'element-plus';
+import { computed, defineComponent, onBeforeMount, ref, WritableComputedRef } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { ElMessage } from 'element-plus';
 
+import SideOrganizationRules from '@/classes/sideOrganization/SideOrganizationRules';
 import AdminContactAttribute from '@/components/admin/Contacts/AdminContactAttribute.vue';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
-import SideOrganizationRules from '@/classes/sideOrganization/SideOrganizationRules';
 
 export default defineComponent({
   name: 'AdminSideOrganizationPage',
@@ -82,11 +82,7 @@ export default defineComponent({
       let validationResult;
 
       form.value.validate((valid: any) => {
-        if (valid) {
-          validationResult = true;
-        } else {
-          validationResult = false;
-        }
+        validationResult = !!valid;
       });
 
       if (!validationResult) {

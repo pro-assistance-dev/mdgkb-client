@@ -20,12 +20,12 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue';
-import AdminHeaderTop from '@/views/adminLayout/AdminHeaderTop.vue';
+import { defineComponent } from 'vue';
+
 import AdminHeaderBottom from '@/views/adminLayout/AdminHeaderBottom.vue';
-import AdminSideMenu from '@/views/adminLayout/AdminSideMenu.vue';
+import AdminHeaderTop from '@/views/adminLayout/AdminHeaderTop.vue';
 import AdminMenuDrawer from '@/views/adminLayout/AdminMenuDrawer.vue';
-import { useStore } from 'vuex';
+import AdminSideMenu from '@/views/adminLayout/AdminSideMenu.vue';
 
 export default defineComponent({
   name: 'AdminLayout',

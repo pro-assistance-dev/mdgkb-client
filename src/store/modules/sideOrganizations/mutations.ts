@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 import SideOrganization from '@/classes/sideOrganization/SideOrganization';
+import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 
 import { State } from './state';
 

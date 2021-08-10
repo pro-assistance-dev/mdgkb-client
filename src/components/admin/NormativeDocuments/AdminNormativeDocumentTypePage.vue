@@ -12,12 +12,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, PropType, onBeforeMount } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
-import NormativeDocumentTypeRules from '@/classes/normativeDocument/NormativeDocumentTypeRules';
+import { defineComponent, onBeforeMount, PropType, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
 import NormativeDocumentType from '@/classes/normativeDocument/NormativeDocumentType';
+import NormativeDocumentTypeRules from '@/classes/normativeDocument/NormativeDocumentTypeRules';
 
 export default defineComponent({
   name: 'AdminNormativeDocumentTypePage',

@@ -32,14 +32,15 @@
 </template>
 
 <script lang="ts">
-import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
-import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
-import FooterTop from '@/views/mainLayout/FooterTop.vue';
-import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
-import ProfileSideMenu from '@/views/mainLayout/ProfileSideMenu.vue';
-import AuthPage from '@/components/Auth/AuthPage.vue';
 // import NewsCarousel from '@/components/NewsCarousel.vue';
 import { defineComponent } from 'vue';
+
+import AuthPage from '@/components/Auth/AuthPage.vue';
+import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
+import FooterTop from '@/views/mainLayout/FooterTop.vue';
+import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
+import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
+import ProfileSideMenu from '@/views/mainLayout/ProfileSideMenu.vue';
 
 export default defineComponent({
   name: 'MainLayout',

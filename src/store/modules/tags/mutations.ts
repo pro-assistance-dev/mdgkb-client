@@ -1,8 +1,9 @@
 import { MutationTree } from 'vuex';
 
-import { State } from './state';
 import Tag from '@/classes/news/Tag';
 import ITag from '@/interfaces/news/ITag';
+
+import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: ITag[]) {

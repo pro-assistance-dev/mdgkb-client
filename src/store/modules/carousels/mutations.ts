@@ -1,8 +1,9 @@
 import { MutationTree } from 'vuex';
 
-import { State } from './state';
-import ICarousel from '@/interfaces/carousels/ICarousel';
 import Carousel from '@/classes/carousel/Carousel';
+import ICarousel from '@/interfaces/carousels/ICarousel';
+
+import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: ICarousel[]) {

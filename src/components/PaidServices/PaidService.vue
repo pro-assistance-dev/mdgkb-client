@@ -36,6 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
+
 import IPaidService from '@/interfaces/IPaidService';
 
 export default defineComponent({
@@ -47,8 +48,10 @@ export default defineComponent({
     },
     title: {
       type: String,
+      default: '',
     },
   },
+  emits: ['selectService'],
   async setup(props) {
     let sum = ref(0);
     let codeFilter = ref('');

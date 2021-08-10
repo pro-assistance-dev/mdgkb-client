@@ -1,6 +1,6 @@
+import Floor from '@/classes/buildings/Floor';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IFloor from '@/interfaces/buildings/IFloor';
-import Floor from '@/classes/buildings/Floor';
 
 export default class Building implements IBuilding {
   id = '';
@@ -12,9 +12,7 @@ export default class Building implements IBuilding {
   floors?: IFloor[] = [];
 
   constructor(i?: IBuilding) {
-    if (!i) {
-      return;
-    }
+    if (!i) return;
     this.id = i.id;
     this.address = i.address;
     this.number = i.number;

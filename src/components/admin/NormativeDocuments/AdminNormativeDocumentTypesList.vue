@@ -22,9 +22,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, computed } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 

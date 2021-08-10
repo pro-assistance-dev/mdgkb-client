@@ -56,20 +56,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, computed, PropType, onMounted } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
 import { ElMessage } from 'element-plus';
-
-import NormativeDocumentsModal from '@/components/NormativeDocuments/NormativeDocumentsModal.vue';
-
-import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
-import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
-import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
+import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 import FileInfo from '@/classes/File/FileInfo';
 import NormativeDocument from '@/classes/normativeDocument/NormativeDocument';
 import NormativeDocumentRules from '@/classes/normativeDocument/NormativeDocumentRules';
+import NormativeDocumentsModal from '@/components/NormativeDocuments/NormativeDocumentsModal.vue';
+import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
+import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
+import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
 
 export default defineComponent({
   name: 'AdminNormativeDocumentPage',

@@ -13,9 +13,13 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
   },
+  plugins: ['simple-import-sort', 'unused-imports'], // Sort imports and delete unused
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
+    'unused-imports/no-unused-imports': 'error',
   },
   overrides: [
     {

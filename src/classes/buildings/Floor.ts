@@ -1,6 +1,6 @@
+import Division from '@/classes/buildings/Division';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IFloor from '@/interfaces/buildings/IFloor';
-import Division from '@/classes/buildings/Division';
 
 export default class Floor implements IFloor {
   id?: string;
@@ -9,9 +9,7 @@ export default class Floor implements IFloor {
   divisions?: IDivision[] = [];
 
   constructor(i?: IFloor) {
-    if (!i) {
-      return;
-    }
+    if (!i) return;
     this.id = i.id;
     this.number = i.number;
     this.buildingId = i.buildingId;

@@ -48,13 +48,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, onMounted } from 'vue';
-import { useStore, mapGetters } from 'vuex';
-import { ElMessage } from 'element-plus';
-import ITag from '@/interfaces/news/ITag';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
+import { ElMessage } from 'element-plus';
 import { ElMessageBox } from 'element-plus';
+import { computed, defineComponent, onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
+
+import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'AdminNewsPageTags',

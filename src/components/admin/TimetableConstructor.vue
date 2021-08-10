@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex-row-between">
         <span> Расписание </span>
-        <el-button size="small" @click="addTimetable" type="success" icon="el-icon-plus" circle></el-button>
+        <el-button size="small" type="success" icon="el-icon-plus" circle @click="addTimetable"></el-button>
       </div>
     </template>
     <div v-if="timetable && timetable.timetableDays.length > 0">
@@ -15,22 +15,22 @@
           <div>
             <el-time-select
               :model-value="typeof day.startTime === 'string' ? day.startTime : day.getTime(day.startTime)"
-              @change="day.startTime = $event"
               class="time-select"
               start="08:30"
               step="00:15"
               end="18:30"
+              @change="day.startTime = $event"
             />
             -
             <el-time-select
               :model-value="typeof day.endTime === 'string' ? day.endTime : day.getTime(day.endTime)"
-              @change="day.endTime = $event"
               class="time-select"
               start="08:30"
               step="00:15"
               end="18:30"
+              @change="day.endTime = $event"
             />
-            <el-checkbox class="add-break-checkbox" label="Есть перерыв" v-model="day.breakExist" />
+            <el-checkbox v-model="day.breakExist" class="add-break-checkbox" label="Есть перерыв" />
           </div>
           <div v-if="day.breakExist">
             <el-time-select v-model="day.breakStartTime" class="time-select" start="08:30" step="00:15" end="18:30" /> -
@@ -45,12 +45,14 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
+
 import Timetable from '@/classes/timetable/Timetable';
 export default defineComponent({
   name: 'TimetableConstructor',
   props: {
     store: {
       type: String,
+      default: '',
     },
   },
 

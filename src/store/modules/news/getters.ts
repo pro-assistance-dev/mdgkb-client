@@ -1,12 +1,12 @@
 import { GetterTree } from 'vuex';
 
+import News from '@/classes/news/News';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import INews from '@/interfaces/news/INews';
+import ITag from '@/interfaces/news/ITag';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import INews from '@/interfaces/news/INews';
-import News from '@/classes/news/News';
-import ITag from '@/interfaces/news/ITag';
-import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 
 const getters: GetterTree<State, RootState> = {
   news(state): INews[] | undefined {
