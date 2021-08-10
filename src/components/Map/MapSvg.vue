@@ -2362,14 +2362,14 @@ export default defineComponent({
     const decor = ref<HTMLDivElement>();
     const buildingsRef = ref<HTMLDivElement>();
 
-    const treeJump = (item: any) => {
+    const treeJump = (item: HTMLElement) => {
       item.classList.add('jump');
       setTimeout(function () {
         item.classList.remove('jump');
       }, 1000);
     };
 
-    const hoverBuilding = (item: any) => {
+    const hoverBuilding = (item: HTMLElement) => {
       // building_element.value = item;
       buildingId.value = '';
       item.classList.add('flicker');
@@ -2391,11 +2391,12 @@ export default defineComponent({
         })
       );
 
-      buildingsRef.value.childNodes.forEach((item: any) => {
-        console.log(typeof item);
+      buildingsRef.value.childNodes.forEach((item: EventTarget) => {
         item.addEventListener('click', () => {
-          let parentPos = document.getElementById('map-svg')!.getBoundingClientRect(),
-            childrenPos = item.getBoundingClientRect(),
+          const el = document.getElementById('map-svg');
+          if (!el) return;
+          let parentPos = el.getBoundingClientRect(),
+            childrenPos = (item as HTMLElement).getBoundingClientRect(),
             relativePos = { top: 0, right: 0, bottom: 0, left: 0 };
           relativePos.top = childrenPos.top - parentPos.top;
           relativePos.right = childrenPos.right - parentPos.right;
@@ -2404,8 +2405,7 @@ export default defineComponent({
           if (position && position.value !== null) {
             position.value = relativePos;
           }
-
-          hoverBuilding(item);
+          hoverBuilding(item as HTMLElement);
         });
       });
     });

@@ -36,6 +36,7 @@ import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import User from '@/classes/user/User';
+import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
@@ -55,7 +56,7 @@ export default defineComponent({
     const email = computed(() => store.getters['users/authPageEmail']);
     const isLogin = computed(() => store.getters['auth/isLoginModal']);
 
-    const emailRule = async (rule: any, value: any, callback: any) => {
+    const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!isLogin.value && value && value !== email.value) {
         await store.dispatch('users/findEmail', value);
       }
@@ -67,7 +68,7 @@ export default defineComponent({
       callback();
       return;
     };
-    const passwordRule = async (rule: any, value: any, callback: any) => {
+    const passwordRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value) {
         callback(new Error('Необходимо ввести пароль'));
       } else if (value.length < 6) {

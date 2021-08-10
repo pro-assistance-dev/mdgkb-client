@@ -26,10 +26,23 @@
 
 <script>
 import { defineComponent } from '@vue/runtime-core';
+import {PropType} from "vue";
+
+import IBuilding from "@/interfaces/buildings/IBuilding";
+import ICoordinates from "@/interfaces/canvas/ICoordinates";
 
 export default defineComponent({
   name: 'MapPopover',
-  props: ['position', 'building'],
+  props: {
+    building: {
+      type: Object as PropType<IBuilding>,
+      required: true,
+    },
+    fileInfo: {
+      type: Object as PropType<ICoordinates>,
+      required: true,
+    },
+  },
   emits: ['close'],
 });
 </script>

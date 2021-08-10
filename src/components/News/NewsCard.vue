@@ -16,7 +16,7 @@
 
       <div class="image">
         <div>
-          <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
+          <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
           <img v-else src="../../assets/img/310x310.png" />
         </div>
       </div>
@@ -51,17 +51,12 @@ export default defineComponent({
     const store = useStore();
     const filterTags = computed(() => store.getters['news/filterTags']);
 
-    const errorImg = (e: any) => {
-      e.target.src = require('../../assets/img/310x310.png');
-    };
-
     const filterNews = async (tag: ITag): Promise<void> => {
       await store.dispatch('news/addFilterTag', tag);
       await store.dispatch('tags/filterTagList', filterTags.value);
     };
 
     return {
-      errorImg,
       filterNews,
     };
   },
