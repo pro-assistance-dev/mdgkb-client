@@ -77,7 +77,9 @@ import Doctor from '@/classes/doctors/Doctor';
 import DoctorRules from '@/classes/doctors/DoctorRules';
 import AdminDoctorImage from '@/components/admin/AdminDoctors/AdminDoctorImage.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
@@ -112,11 +114,11 @@ export default defineComponent({
       imageCropSrc.value = url;
       isCropOpen.value = true;
     };
-    const handlePictureCardPreview = (file: any) => {
+    const handlePictureCardPreview = (file: IFile) => {
       imageCropSrc.value = file.url;
       isCropOpen.value = true;
     };
-    const saveFromCropper = (file: any) => {
+    const saveFromCropper = (file: IFile) => {
       doctor.value.fileInfo.file = file.blob;
       doctor.value.fileInfo.category = 'previewFile';
       fileList.value = [];
@@ -129,15 +131,7 @@ export default defineComponent({
 
     // Submit
     const submit = async () => {
-      let validationResult;
-      form.value.validate((valid: any) => {
-        if (valid) {
-          validationResult = true;
-        } else {
-          validationResult = false;
-        }
-      });
-      if (!validationResult) return;
+      if (!validate(form)) return;
       if (!doctor.value.fileInfo.fileSystemPath) {
         ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
         return;

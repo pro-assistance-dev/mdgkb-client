@@ -19,15 +19,15 @@
     <el-form-item>
       <div class="vertical-wrap">
         <el-checkbox
-          v-for="tag in tags"
-          :key="tag.id"
-          :checked="findTag(tag.id)"
+          v-for="item in tags"
+          :key="item.id"
+          :checked="findTag(item.id)"
           icon="el-icon-arrow-left"
-          :label="tag.label"
+          :label="item.label"
           border
-          @change="chooseTag(tag)"
+          @change="chooseTag(item)"
         >
-          {{ tag.label }}
+          {{ item.label }}
           <!-- <el-popconfirm
                                           confirmButtonText="Да"
                                           cancelButtonText="Отмена"
@@ -38,7 +38,7 @@
                                           @cancel="() => {}"
                                         >
                                           <template #reference> -->
-          <i class="el-icon-close delete-tag-icon" @click.prevent="confirmTagDelete(tag.id)"></i>
+          <i class="el-icon-close delete-tag-icon" @click.prevent="confirmTagDelete(item.id)"></i>
           <!-- </template>
                                         </el-popconfirm> -->
         </el-checkbox>

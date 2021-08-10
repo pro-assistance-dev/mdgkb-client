@@ -58,7 +58,7 @@
                     <div class="carousel-container">
                       <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
                       <div class="carousel-body">
-                        <div class="carousel-title" v-html="slide.title" />
+                        <div class="carousel-title" v-html="$sanitize(slide.title)" />
                         <div class="carousel-content" v-html="slide.content" />
                         <button v-if="slide.buttonShow" :style="{ background: slide.buttonColor }" class="carousel-button">
                           Подробнее
@@ -136,6 +136,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
+import sanitizeHtml from 'sanitize-html';
 import { v4 as uuidv4 } from 'uuid';
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -145,8 +146,8 @@ import CarouselSlide from '@/classes/carousel/CarouselSlide';
 import FileInfo from '@/classes/File/FileInfo';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
+import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
-// import NewsCarouselContainer from '@/components/NewsCarouselContainer.vue';
 
 export default defineComponent({
   name: 'AdminCarouselPage',
@@ -211,7 +212,7 @@ export default defineComponent({
       fileLists.value.push([]);
     };
 
-    const toggleUpload = (file: any) => {
+    const toggleUpload = (file: IFile) => {
       if (!nowSlide.value) nowSlide.value = 0;
       if (!carousel.value.carouselSlides[nowSlide.value].fileInfo) {
         carousel.value.carouselSlides[nowSlide.value].fileInfo = new FileInfo();
@@ -244,7 +245,7 @@ export default defineComponent({
       await router.push('/admin/carousels');
     };
 
-    const saveFromCropper = (file: any) => {
+    const saveFromCropper = (file: IFile) => {
       if (!nowSlide.value) nowSlide.value = 0;
       carousel.value.carouselSlides[nowSlide.value].fileInfo.file = file.blob;
       carousel.value.carouselSlides[nowSlide.value].fileInfo.category = 'slide';
@@ -261,7 +262,7 @@ export default defineComponent({
       }, 800);
     };
 
-    const handlePictureCardPreview = (file: any) => {
+    const handlePictureCardPreview = (file: IFile) => {
       imageCropSrc.value = file.url;
       isCropOpen.value = true;
     };
@@ -275,6 +276,7 @@ export default defineComponent({
     };
 
     return {
+      sanitizeHtml,
       removeSlide,
       editorOptions,
       isCropOpen,

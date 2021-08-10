@@ -38,6 +38,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
+import IMenu from '@/interfaces/elements/IMenu';
 import IMenuItem from '@/interfaces/IMenuItem';
 import MenuTileX from '@/views/mainLayout/elements/MenuTileX.vue';
 
@@ -52,7 +53,7 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(prop, { emit }) {
+  setup() {
     let expand = ref(false);
     const items: IMenuItem[] = [
       // {id: "01", label: "Диагностика", description:"Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства", to:"/divisions/konsultativno-diagnosticheskij-centr"},
@@ -100,11 +101,7 @@ export default defineComponent({
     ];
     const menus = ref([]);
 
-    const collapseCard = () => {
-      menus.value.forEach((v: any) => {
-        v.collapseCard();
-      });
-    };
+    const collapseCard = () => menus.value.forEach((v: IMenu) => v.collapseCard());
 
     return { menus, collapseCard, expand, items };
   },

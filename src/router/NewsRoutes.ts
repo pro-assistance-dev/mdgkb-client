@@ -10,7 +10,7 @@ export default [
     name: 'News',
     component: NewsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
+      isAuthorized(next);
     },
     meta: { carousel: true },
   },
@@ -18,6 +18,8 @@ export default [
     path: '/news/:slug',
     name: 'NewsPage',
     component: NewsPage,
-    beforeEnter: isAuthorized,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
   },
 ];

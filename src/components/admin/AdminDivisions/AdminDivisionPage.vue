@@ -99,6 +99,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
@@ -148,11 +149,7 @@ export default defineComponent({
     onBeforeMount(load);
 
     const submit = async () => {
-      let validationResult;
-      form.value.validate((valid: any) => {
-        validationResult = !!valid;
-      });
-      if (!validationResult) return;
+      if (!validate(form)) return;
       division.value.doctors = divisionDoctors.value;
       try {
         if (route.params['id']) {

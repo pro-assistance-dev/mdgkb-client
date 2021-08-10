@@ -9,7 +9,7 @@ export default [
     name: 'PaidServices',
     component: PaidServices,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
+      isAuthorized(next);
     },
   },
 ];

@@ -19,6 +19,7 @@ import { useStore } from 'vuex';
 
 import NormativeDocumentType from '@/classes/normativeDocument/NormativeDocumentType';
 import NormativeDocumentTypeRules from '@/classes/normativeDocument/NormativeDocumentTypeRules';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminNormativeDocumentTypePage',
@@ -37,18 +38,7 @@ export default defineComponent({
     const route = useRoute();
 
     const submitForm = async (): Promise<void> => {
-      let isValid = false;
-
-      formRef.value.validate((valid: any): void => {
-        if (valid) {
-          isValid = true;
-        }
-      });
-
-      if (!isValid) {
-        return;
-      }
-
+      if (!validate(formRef)) return;
       try {
         if (!props.isEdit) {
           await store.dispatch('normativeDocumentTypes/create', form.value);

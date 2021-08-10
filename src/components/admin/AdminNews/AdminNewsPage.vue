@@ -91,8 +91,10 @@ import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMa
 import AdminNewsPagePreviewImage from '@/components/admin/AdminNews/AdminNewsPagePreviewImage.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import INewsImage from '@/interfaces/news/INewsImage';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -153,7 +155,7 @@ export default defineComponent({
       }
     };
 
-    const removeFromGallery = (file: any) => {
+    const removeFromGallery = (file: IFile) => {
       const index = galleryList.value.findIndex((i) => i.name === file.name);
       if (index > -1) {
         galleryList.value.splice(index, 1);
@@ -162,7 +164,7 @@ export default defineComponent({
       }
     };
 
-    const saveFromCropperGallery = (file: any) => {
+    const saveFromCropperGallery = (file: IFile) => {
       news.value.newsImages[curGalleryCropIndex.value].fileInfo.file = file.blob;
       news.value.newsImages[curGalleryCropIndex.value].fileInfo.category = 'gallery';
       isCropGalleryOpen.value = false;
@@ -172,7 +174,7 @@ export default defineComponent({
       };
     };
 
-    const saveFromCropper = (file: any) => {
+    const saveFromCropper = (file: IFile) => {
       news.value.fileInfo.file = file.blob;
       news.value.fileInfo.category = 'previewFile';
       fileList.value = [];
@@ -180,7 +182,7 @@ export default defineComponent({
       fileList.value.push({ name: news.value.fileInfo.fileSystemPath, url: file.src });
     };
 
-    const saveFromCropperMain = (file: any) => {
+    const saveFromCropperMain = (file: IFile) => {
       news.value.mainImage.file = file.blob;
       news.value.mainImage.category = 'mainImage';
       mainImage.value = [];
@@ -194,7 +196,7 @@ export default defineComponent({
       isCropMainOpen.value = false;
     };
 
-    const handlePictureCardPreview = (file: any, cropper: string) => {
+    const handlePictureCardPreview = (file: IFile, cropper: string) => {
       imageCropSrc.value = file.url;
       if (cropper === 'preview') isCropOpen.value = true;
       if (cropper === 'main') isCropMainOpen.value = true;
@@ -206,11 +208,7 @@ export default defineComponent({
     };
 
     const submit = async () => {
-      let validationResult;
-      form.value.validate((valid: any) => {
-        valid ? (validationResult = true) : (validationResult = false);
-      });
-      if (!validationResult) return;
+      if (!validate(form)) return;
       if (!news.value.fileInfo.fileSystemPath) {
         ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
         return;

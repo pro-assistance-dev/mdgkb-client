@@ -2392,6 +2392,7 @@ export default defineComponent({
       );
 
       buildingsRef.value.childNodes.forEach((item: any) => {
+        console.log(typeof item);
         item.addEventListener('click', () => {
           let parentPos = document.getElementById('map-svg')!.getBoundingClientRect(),
             childrenPos = item.getBoundingClientRect(),

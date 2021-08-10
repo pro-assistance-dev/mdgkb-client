@@ -9,7 +9,6 @@ import { doctors } from '@/store/modules/doctors';
 import { news } from '@/store/modules/news';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
-import pockemons from '@/store/modules/pockemons';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { tags } from '@/store/modules/tags';
 import { timetables } from '@/store/modules/timetables';
@@ -35,7 +34,6 @@ const store: StoreOptions<RootState> = {
     normativeDocuments,
     normativeDocumentTypes,
     users,
-    pockemons,
     admin,
     carousels,
     timetables,

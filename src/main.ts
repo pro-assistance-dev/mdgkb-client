@@ -150,13 +150,14 @@ const app = createApp(App);
 
 import locale from 'element-plus/lib/locale';
 import lang from 'element-plus/lib/locale/lang/ru';
+import sanitizeHTML from 'sanitize-html';
 import { useStore } from 'vuex';
 
 import fillDateFormat from '@/services/DateFormat';
 
 app.config.globalProperties.$dateFormatRu = fillDateFormat;
 app.config.globalProperties.$store = useStore();
-
+app.config.globalProperties.$sanitize = sanitizeHTML;
 app.use(store);
 app.use(router);
 

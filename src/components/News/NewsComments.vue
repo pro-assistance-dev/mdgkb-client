@@ -6,10 +6,10 @@
       </div>
     </template>
 
-    <el-card v-for="comment in newsComments" :key="comment.id" class="comments-card">
-      <div v-if="comment.userId === userId && isAuth" class="comment-buttons">
-        <el-tooltip v-if="!comment.isEditing" content="Редактировать комментарий" placement="top-end">
-          <el-button size="medium" icon="el-icon-edit" @click="editComment(comment.id)" />
+    <el-card v-for="item in newsComments" :key="item.id" class="comments-card">
+      <div v-if="item.userId === userId && isAuth" class="comment-buttons">
+        <el-tooltip v-if="!item.isEditing" content="Редактировать комментарий" placement="top-end">
+          <el-button size="medium" icon="el-icon-edit" @click="editComment(item.id)" />
         </el-tooltip>
         <el-popconfirm
           confirm-button-text="Да"
@@ -17,7 +17,7 @@
           icon="el-icon-info"
           icon-color="red"
           title="Вы уверены, что хотите удалить комментарий?"
-          @confirm="removeComment(comment.id)"
+          @confirm="removeComment(item.id)"
           @cancel="() => {}"
         >
           <template #reference>
@@ -26,14 +26,14 @@
         </el-popconfirm>
       </div>
       <div class="comment-header" align="justify">
-        <span class="comment-email">{{ comment.user.email }}</span>
-        <span class="comment-date">{{ $dateFormatRu(comment.publishedOn, true) }}</span>
+        <span class="comment-email">{{ item.user.email }}</span>
+        <span class="comment-date">{{ $dateFormatRu(item.publishedOn, true) }}</span>
       </div>
-      <el-form v-if="comment.isEditing" ref="editCommentForm" :model="comment" :rules="rules">
+      <el-form v-if="item.isEditing" ref="editCommentForm" :model="item" :rules="rules">
         <el-form-item prop="text">
           <el-input
             ref="commentInput"
-            v-model="comment.text"
+            v-model="item.text"
             type="textarea"
             placeholder="Добавьте комментарий"
             minlength="5"
@@ -48,12 +48,12 @@
         </el-form-item>
         <el-form-item>
           <div style="display: flex; justify-content: flex-end">
-            <el-button size="mini" type="primary" icon="el-icon-folder-checked" @click="saveCommentChanges(comment)"> Сохранить </el-button>
+            <el-button size="mini" type="primary" icon="el-icon-folder-checked" @click="saveCommentChanges(item)"> Сохранить </el-button>
           </div>
         </el-form-item>
       </el-form>
       <div v-else>
-        {{ comment.text }}
+        {{ item.text }}
       </div>
     </el-card>
 
@@ -97,6 +97,7 @@ import CommentRules from '@/classes/news/CommentRules';
 import NewsComment from '@/classes/news/NewsComment';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsImage from '@/interfaces/news/INewsImage';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'NewsComments',
@@ -121,11 +122,7 @@ export default defineComponent({
     const rules = ref(CommentRules);
 
     const sendComment = async (item: INewsComment) => {
-      let validationResult;
-      commentForm.value.validate((valid: any) => {
-        validationResult = !!valid;
-      });
-      if (!validationResult) return;
+      if (!validate(commentForm)) return;
       item.newsId = news.value.id;
       if (userEmail.value) item.user.email = userEmail.value;
       if (userId.value) item.userId = userId.value;
@@ -145,11 +142,7 @@ export default defineComponent({
       await store.dispatch('news/editComment', commentId);
     };
     const saveCommentChanges = async (item: INewsComment) => {
-      let validationResult;
-      editCommentForm.value.validate((valid: any) => {
-        validationResult = !!valid;
-      });
-      if (!validationResult) return;
+      if (!validate(editCommentForm)) return;
       try {
         await store.dispatch('news/updateComment', item);
       } catch (e) {

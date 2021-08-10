@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, NavigationGuardNext, RouteRecordRaw } from 'vue-router';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
@@ -15,13 +15,13 @@ import MainLayout from '@/views/main/MainLayout.vue';
 
 import store from '../store/index';
 
-export const isAuthorized = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext): void => {
+export const isAuthorized = (next: NavigationGuardNext): void => {
   const userId = localStorage.getItem('userId');
   if (userId) store.commit('auth/setIsAuth', true);
   next();
 };
 
-export const authGuard = (_to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext): void => {
+export const authGuard = (): void => {
   const userId = localStorage.getItem('userId');
   if (!userId) router.push('/');
 };
@@ -33,10 +33,9 @@ const routes: Array<RouteRecordRaw> = [
     component: MainLayout,
     redirect: '/news',
     beforeEnter(to, from, next) {
-      isAuthorized(to, from, next);
+      isAuthorized(next);
     },
   },
-
   {
     path: '/about',
     name: 'AboutPage',
@@ -47,21 +46,26 @@ const routes: Array<RouteRecordRaw> = [
     path: '/stop-coma',
     name: 'StopComaPage',
     component: StopComaPage,
-    beforeEnter: isAuthorized,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
   },
   {
     path: '/dispanserization',
     name: 'DispanserizationPage',
     component: DispanserizationPage,
-    beforeEnter: isAuthorized,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
   },
   {
     path: '/side-organizations',
     name: 'SideOrganizationsPage',
     component: SideOrganizationsPage,
-    beforeEnter: isAuthorized,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
   },
-
   ...DivisionsRoutes,
   ...MapRoutes,
   ...NewsRoutes,

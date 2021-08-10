@@ -39,6 +39,7 @@ import { defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
 
 import FileInfo from '@/classes/File/FileInfo';
+import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
@@ -56,7 +57,7 @@ export default defineComponent({
   emits: ['toggleUpload', 'handleRemove', 'handlePictureCardPreview'],
   setup(props, { emit }) {
     const store = useStore();
-    const toggleUpload = (file: any) => {
+    const toggleUpload = (file: IFile) => {
       store.commit('news/pushToNewsImages', file);
       emit('toggleUpload', file.url, 'gallery');
     };

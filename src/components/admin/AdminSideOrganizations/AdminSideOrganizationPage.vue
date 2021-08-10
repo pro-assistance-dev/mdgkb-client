@@ -49,6 +49,7 @@ import { useStore } from 'vuex';
 import SideOrganizationRules from '@/classes/sideOrganization/SideOrganizationRules';
 import AdminContactAttribute from '@/components/admin/Contacts/AdminContactAttribute.vue';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminSideOrganizationPage',
@@ -79,16 +80,7 @@ export default defineComponent({
     };
 
     const submit = async () => {
-      let validationResult;
-
-      form.value.validate((valid: any) => {
-        validationResult = !!valid;
-      });
-
-      if (!validationResult) {
-        return;
-      }
-
+      if (!validate(form)) return;
       try {
         if (!isEdit.value) {
           store.dispatch('sideOrganizations/create', sideOrganization.value);

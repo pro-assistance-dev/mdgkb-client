@@ -10,8 +10,8 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileInfoPage',
     component: ProfileInfoPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: { profile: true },
   },
@@ -20,8 +20,8 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileEditPage',
     component: ProfileEditPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: { profile: true },
   },

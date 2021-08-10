@@ -37,6 +37,7 @@ import { useStore } from 'vuex';
 import BuildingRules from '@/classes/buildings/BuildingRules';
 import Floor from '@/classes/buildings/Floor';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminBuildingPage',
@@ -60,15 +61,7 @@ export default defineComponent({
     onMounted(loadBuilding);
 
     const submit = async () => {
-      let validationResult;
-      form.value.validate((valid: any) => {
-        if (valid) {
-          validationResult = true;
-        } else {
-          validationResult = false;
-        }
-      });
-      if (!validationResult) return;
+      if (!validate(form)) return;
       await store.dispatch('buildings/update', building.value);
       await router.push('/admin/buildings');
     };

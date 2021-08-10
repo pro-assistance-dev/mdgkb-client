@@ -68,6 +68,7 @@ import NormativeDocumentsModal from '@/components/NormativeDocuments/NormativeDo
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminNormativeDocumentPage',
@@ -127,18 +128,7 @@ export default defineComponent({
     };
 
     const submitForm = async (): Promise<void> => {
-      let isValid = false;
-
-      formRef.value.validate((valid: any): void => {
-        if (valid) {
-          isValid = true;
-        }
-      });
-
-      if (!isValid) {
-        return;
-      }
-
+      if (!validate(formRef)) return;
       try {
         if (!props.isEdit) {
           await store.dispatch('normativeDocuments/create', normativeDocument.value);

@@ -1,7 +1,7 @@
 <template>
   <Cropper ref="cropper" :src="src" :stencil-props="{ aspectRatio: ratio }" style="max-height: 50vh" @change="onChange" />
   <div class="dialog-footer">
-    <el-button :loading="loading" type="warning" @click="cancel">Отменить</el-button>
+    <el-button :loading="loading" type="warning" @click="$emit('cancel')">Отменить</el-button>
     <el-button :loading="loading" type="success" @click="save">Сохранить</el-button>
   </div>
 </template>
@@ -9,8 +9,11 @@
 <script lang="ts">
 import 'vue-advanced-cropper/dist/style.css';
 
-import { defineComponent, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
+
+import ICanvasResult from '@/interfaces/canvas/ICanvasResult';
+import ICoordinates from '@/interfaces/canvas/ICoordinates';
 
 export default defineComponent({
   name: 'ImageCropper',
@@ -27,7 +30,7 @@ export default defineComponent({
   },
   emits: ['save', 'cancel'],
   setup(props, { emit }) {
-    const coordinates = ref({
+    const coordinates: Ref<ICoordinates> = ref({
       width: 0,
       height: 0,
       left: 0,
@@ -43,22 +46,18 @@ export default defineComponent({
       const canvas = cropper.value.getResult();
       if (canvas) {
         console.log(canvas);
-        canvas.canvas.toBlob((blob: any) => {
+        canvas.canvas.toBlob((blob: Blob) => {
           emit('save', { blob: blob, src: canvas.canvas.toDataURL() });
         });
       }
       loading.value = false;
     };
 
-    const cancel = () => {
-      emit('cancel');
+    const onChange = (res: ICanvasResult) => {
+      coordinates.value = res.coordinates;
+      resultImage.value = res.canvas.toDataURL();
     };
-
-    const onChange = (opt: any) => {
-      coordinates.value = opt.coordinates;
-      resultImage.value = opt.canvas.toDataURL();
-    };
-    return { save, cancel, onChange, resultImage, cropper, loading };
+    return { save, onChange, resultImage, cropper, loading };
   },
 });
 </script>

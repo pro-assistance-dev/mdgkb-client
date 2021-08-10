@@ -1,5 +1,5 @@
 <template>
-  <calendar ref="calendar" locale="ru" :attributes="attributes" is-expanded @update:from-page="changeMonth">
+  <calendar ref="calendar" locale="ru" :attributes="attributesProp" is-expanded @update:from-page="changeMonth">
     <template #day-popover="{ dayTitle, attributes }">
       <div style="text-align: center">
         {{ dayTitle }}
@@ -33,7 +33,7 @@ export default defineComponent({
       return colors[Math.floor(Math.random() * colors.length)];
     };
 
-    const attributes = computed(() => [
+    const attributesProp = computed(() => [
       ...news.value.map((item: INews) => {
         return {
           dot: randomDotColor(),
@@ -60,7 +60,7 @@ export default defineComponent({
     onMounted(loadCalendarMeta);
 
     return {
-      attributes,
+      attributesProp,
       calendar,
       changeMonth,
     };

@@ -36,6 +36,7 @@ import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import User from '@/classes/user/User';
+import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AuthPage',
@@ -84,17 +85,7 @@ export default defineComponent({
     });
 
     const submitForm = async (): Promise<void> => {
-      let validationResult;
-      myForm.value.validate((valid: any) => {
-        if (valid) {
-          validationResult = true;
-        } else {
-          validationResult = false;
-        }
-      });
-      if (!validationResult) {
-        return;
-      }
+      if (!validate(myForm)) return;
       try {
         if (isLogin.value) {
           await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });

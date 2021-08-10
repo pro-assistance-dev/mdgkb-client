@@ -10,8 +10,8 @@ export default [
     name: 'AdminDoctorsList',
     component: AdminDoctorsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -22,8 +22,8 @@ export default [
     name: 'AdminDoctorPageCreate',
     component: AdminDoctorPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -34,8 +34,8 @@ export default [
     name: 'AdminDoctorPageEdit',
     component: AdminDoctorPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',

@@ -5,6 +5,7 @@ import FileInfo from '@/classes/File/FileInfo';
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
 import NewsImage from '@/classes/news/NewsImage';
+import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
@@ -129,7 +130,7 @@ const mutations: MutationTree<State> = {
   updateCalendarMeta(state, meta: ICalendarMeta) {
     state.calendarMeta = meta;
   },
-  pushToNewsImages(state, file: any) {
+  pushToNewsImages(state, file: IFile) {
     if (!state.newsItem) return;
     const image = new FileInfo({
       originalName: file.name,

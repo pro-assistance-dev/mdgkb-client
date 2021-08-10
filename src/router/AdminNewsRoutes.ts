@@ -10,8 +10,8 @@ export default [
     name: 'AdminNewsList',
     component: AdminNewsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -22,8 +22,8 @@ export default [
     name: 'AdminNewsPageNew',
     component: AdminNewsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -34,8 +34,8 @@ export default [
     name: 'AdminNewsPageEdit',
     component: AdminNewsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',

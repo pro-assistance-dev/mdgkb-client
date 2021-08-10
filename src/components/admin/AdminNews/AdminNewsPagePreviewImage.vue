@@ -42,6 +42,7 @@ import { defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import FileInfo from '@/classes/File/FileInfo';
+import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
@@ -62,7 +63,7 @@ export default defineComponent({
     let showUpload = ref(props.fileList.length === 0);
     let uploader = ref();
 
-    const toggleUpload = (file: any) => {
+    const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
       store.commit(
         'news/setFileInfo',

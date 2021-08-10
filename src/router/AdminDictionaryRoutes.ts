@@ -18,8 +18,8 @@ export default [
     name: 'AdminBuildingsList',
     component: AdminBuildingsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -30,8 +30,8 @@ export default [
     name: 'AdminBuildingPage',
     component: AdminBuildingPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -42,8 +42,8 @@ export default [
     name: 'AdminDivisionsList',
     component: AdminDivisionsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -54,8 +54,8 @@ export default [
     name: 'AdminNewDivisionPage',
     component: AdminDivisionPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -66,8 +66,8 @@ export default [
     name: 'AdminEditDivisionPage',
     component: AdminDivisionPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -78,8 +78,8 @@ export default [
     name: 'AdminSideOrganizationsList',
     component: AdminSideOrganizationsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -90,8 +90,8 @@ export default [
     name: 'AdminSideNewOrganizationPage',
     component: AdminSideOrganizationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -102,8 +102,8 @@ export default [
     name: 'AdminEditSideOrganizationPage',
     component: AdminSideOrganizationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(to, from, next);
-      authGuard(to, from, next);
+      isAuthorized(next);
+      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
