@@ -54,7 +54,7 @@ export default defineComponent({
 
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
-      store.commit('news/setMainImage', FileInfo.CreatePreviewFile(file, 'main', fileInfo.value.id));
+      store.commit('news/setMainImage', FileInfo.CreatePreviewFile(file, 'main'));
       store.commit('cropper/open', Cropper.CreateCropper(2, file.url, 'news', 'saveFromCropperMain'));
     };
 

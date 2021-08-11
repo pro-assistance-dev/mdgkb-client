@@ -1,10 +1,12 @@
 import { MutationTree } from 'vuex';
 
 import { State } from './state';
+import { ICropper } from '@/interfaces/cropper/ICropper';
 
 const mutations: MutationTree<State> = {
-  setIsOpen(state, condition: boolean) {
-    state.cropper.isOpen = condition;
+  open(state, cropper: ICropper) {
+    state.cropper = cropper;
+    state.cropper.isOpen = true;
   },
 };
 

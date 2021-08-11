@@ -30,8 +30,9 @@ const mutations: MutationTree<State> = {
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
-    state.previewFileList.push(state.newsItem.fileInfo.getFileListObject());
-    state.mainImageList.push(state.newsItem.mainImage.getFileListObject());
+    if (state.newsItem.fileInfo.fileSystemPath) state.previewFileList[0] = state.newsItem.fileInfo.getFileListObject();
+    if (state.newsItem.mainImage.fileSystemPath) state.mainImageList[0] = state.newsItem.mainImage.getFileListObject();
+    state.galleryList = [];
     state.newsItem.newsImages.forEach((i: INewsImage) => {
       if (!i.fileInfo) return;
       const file = i.fileInfo.getFileListObject();
@@ -147,7 +148,7 @@ const mutations: MutationTree<State> = {
     state.newsItem.fileInfo.file = file.blob;
     state.newsItem.fileInfo.category = 'previewFile';
     if (state.newsItem.fileInfo.fileSystemPath) {
-      state.previewFileList.push({ name: state.newsItem.fileInfo.fileSystemPath, url: file.src });
+      state.previewFileList[0] = { name: state.newsItem.fileInfo.fileSystemPath, url: file.src };
     }
   },
   saveFromCropperMain(state, file: IFile) {
