@@ -1,15 +1,15 @@
 import { MutationTree } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
+import Schedule from '@/classes/timetable/Schedule';
+import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
+import ISchedule from '@/interfaces/timetables/ISchedule';
+import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 
 import { State } from './state';
-import Timetable from '@/classes/timetable/Timetable';
-import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
-import ISchedule from '@/interfaces/timetables/ISchedule';
-import Schedule from '@/classes/timetable/Schedule';
-import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 
 const mutations: MutationTree<State> = {
   setAll(state, divisions: IDivision[]) {

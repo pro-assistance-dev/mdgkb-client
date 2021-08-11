@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height: 100vh;">
+  <div style="min-height: 100vh">
     <AdminHeaderTop />
     <div class="admin-main-container">
       <AdminSideMenu class="side-menu hidden-sm-and-down" />

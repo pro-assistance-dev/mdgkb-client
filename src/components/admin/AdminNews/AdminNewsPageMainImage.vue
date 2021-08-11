@@ -35,47 +35,27 @@
 </template>
 
 <script lang="ts">
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
-import { v4 as uuidv4 } from 'uuid';
-import { defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Cropper from '@/classes/cropper/Cropper';
 import FileInfo from '@/classes/File/FileInfo';
 import IFile from '@/interfaces/files/IFile';
-import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
   name: 'AdminNewsPageMainImage',
-  props: {
-    fileList: {
-      type: Object as PropType<IFilesList[]>,
-      required: true,
-    },
-    fileInfo: {
-      type: Object as PropType<FileInfo>,
-      required: true,
-    },
-  },
   emits: ['toggleUpload', 'handlePictureCardPreview'],
-  setup(props, { emit }) {
+  setup() {
     const store = useStore();
-    let showUpload = ref(props.fileList.length === 0);
     let uploader = ref();
+    const fileList = computed(() => store.getters[`news/mainImageList`]);
+    const fileInfo = computed(() => store.getters[`news/mainImageFileInfo`]);
+    let showUpload = ref(fileList.value.length === 0);
 
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
-      store.commit(
-        'news/setMainImage',
-        new FileInfo({
-          id: props.fileInfo.id,
-          originalName: file.name,
-          file: file.raw,
-          fileSystemPath: uuidv4(),
-          category: 'previewFile',
-        })
-      );
-      emit('toggleUpload', file.url, 'main');
+      store.commit('news/setMainImage', FileInfo.CreatePreviewFile(file, 'main', fileInfo.value.id));
+      store.commit('cropper/open', Cropper.CreateCropper(2, file.url, 'news', 'saveFromCropperMain'));
     };
 
     const handleRemove = () => {
@@ -86,6 +66,8 @@ export default defineComponent({
     };
 
     return {
+      fileInfo,
+      fileList,
       uploader,
       handleRemove,
       showUpload,

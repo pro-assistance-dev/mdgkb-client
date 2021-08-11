@@ -1,7 +1,7 @@
 <template>
   <!-- TODO: Fix validation -->
   <el-form ref="form" :model="sideOrganization" label-position="top" :rules="rules">
-    <el-card style="margin-bottom: 20px;">
+    <el-card style="margin-bottom: 20px">
       <el-form-item label="Наименование" prop="name">
         <el-input v-model="sideOrganization.name" placeholder="Наименование" />
       </el-form-item>

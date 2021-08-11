@@ -8,10 +8,10 @@
         <el-input v-model="building.address" placeholder="Адрес"></el-input>
       </el-form-item>
       <el-form-item label="Этажи">
-        <el-table class="floors-table" :data="building.floors" style="width: 200px;">
+        <el-table class="floors-table" :data="building.floors" style="width: 200px">
           <el-table-column label="Номер этажа">
             <template #default="scope">
-              <el-input-number v-model="scope.row.number" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
+              <el-input-number v-model="scope.row.number" controls-position="right" :min="0" style="width: 100px"></el-input-number>
             </template>
           </el-table-column>
           <el-table-column width="50" align="center">

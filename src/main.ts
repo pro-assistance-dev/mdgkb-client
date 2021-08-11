@@ -15,6 +15,7 @@ import {
   ElCarousel,
   ElCarouselItem,
   ElCheckbox,
+  ElCheckboxButton,
   ElCheckboxGroup,
   ElCheckTag,
   ElCol,
@@ -71,7 +72,6 @@ import {
   ElTooltip,
   ElTree,
   ElUpload,
-  ElCheckboxButton,
 } from 'element-plus';
 import { createApp } from 'vue';
 

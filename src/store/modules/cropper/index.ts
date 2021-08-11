@@ -1,26 +1,21 @@
 import { Module } from 'vuex';
 
-import Carousel from '@/classes/carousel/Carousel';
+import Cropper from '@/classes/cropper/Cropper';
 import RootState from '@/store/types';
 
-import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
 
 export const state: State = {
-  items: [],
-  item: new Carousel(),
-  nowSlide: 0,
-  fileLists: [[]],
+  cropper: new Cropper(),
 };
 
 const namespaced = true;
 
-export const carousels: Module<State, RootState> = {
+export const cropper: Module<State, RootState> = {
   namespaced,
   state,
   getters,
-  actions,
   mutations,
 };

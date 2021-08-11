@@ -23,7 +23,7 @@
               <el-date-picker v-model="doctor.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
             </el-form-item>
             <el-form-item label="Отделение">
-              <el-select v-model="doctor.divisionId" placeholder="Выберите отделение" filterable default-first-option style="width: 100%;">
+              <el-select v-model="doctor.divisionId" placeholder="Выберите отделение" filterable default-first-option style="width: 100%">
                 <el-option v-for="item in divisionOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>

@@ -42,7 +42,7 @@
         </el-col>
         <el-col :span="12">
           <div>
-            <el-input class="timetable-row" v-model="item.name" />
+            <el-input v-model="item.name" class="timetable-row" />
           </div>
         </el-col>
         <el-col :span="1" :offset="1">

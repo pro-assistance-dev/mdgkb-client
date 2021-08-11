@@ -36,7 +36,9 @@ export default defineComponent({
     const router = useRouter();
     const buildings = computed(() => store.getters['buildings/buildings']);
 
-    onBeforeMount(() => {store.commit('admin/showLoading')});
+    onBeforeMount(() => {
+      store.commit('admin/showLoading');
+    });
     const loadBuildings = async (): Promise<void> => {
       await store.dispatch('buildings/getAll');
       store.commit('admin/setPageTitle', { title: 'Здания' });

@@ -4,6 +4,7 @@ import { admin } from '@/store/modules/admin';
 import auth from '@/store/modules/auth';
 import { buildings } from '@/store/modules/buildings';
 import { carousels } from '@/store/modules/carousels';
+import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { news } from '@/store/modules/news';
@@ -25,6 +26,7 @@ const store: StoreOptions<RootState> = {
   mutations: {},
   modules: {
     auth,
+    cropper,
     buildings,
     divisions,
     doctors,

@@ -1,10 +1,10 @@
 import Doctor from '@/classes/doctors/Doctor';
+import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDoctor from '@/interfaces/doctors/IDoctor';
-import ITimetable from '@/interfaces/timetables/ITimetable';
 import ISchedule from '@/interfaces/timetables/ISchedule';
-import Schedule from '@/classes/timetable/Schedule';
+import ITimetable from '@/interfaces/timetables/ITimetable';
 
 export default class Division implements IDivision {
   id?: string;

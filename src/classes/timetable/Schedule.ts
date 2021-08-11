@@ -1,14 +1,10 @@
-import TimetableDay from '@/classes/timetable/TimetableDay';
-import ITimetable from '@/interfaces/timetables/ITimetable';
-import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
-import IWeekday from '@/interfaces/timetables/IWeekday';
+import ScheduleItem from '@/classes/timetable/ScheduleItems';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
-import ScheduleItem from '@/classes/timetable/ScheduleItems';
 
 export default class Schedule implements ISchedule {
   id?: string;
-  name: string = '';
+  name = '';
   scheduleItems: IScheduleItem[] = [];
   scheduleItemsForDelete: string[] = [];
 

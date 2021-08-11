@@ -5,9 +5,9 @@ export default interface IFileInfo {
   category?: string;
   originalName: string;
   fileSystemPath?: string;
-  file?: File;
+  file?: Blob;
   isDraft?: boolean;
 
   getImageUrl?: () => string;
-  getFileListObject?: () => IFilesList;
+  getFileListObject: () => IFilesList;
 }

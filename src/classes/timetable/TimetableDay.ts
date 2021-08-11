@@ -4,15 +4,15 @@ import IWeekday from '@/interfaces/timetables/IWeekday';
 
 export default class TimetableDay implements ITimetableDay {
   id?: string;
-  isWeekend: boolean = false;
-  startTime: string = '';
-  endTime: string = '';
+  isWeekend = false;
+  startTime = '';
+  endTime = '';
   breakExist = false;
   breakStartTime?: string;
   breakEndTime?: string;
   weekdayId?: string;
-  customName: string = '';
-  isCustom: boolean = false;
+  customName = '';
+  isCustom = false;
   weekday: IWeekday = new Weekday();
 
   constructor(i?: TimetableDay) {

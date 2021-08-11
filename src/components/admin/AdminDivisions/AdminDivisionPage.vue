@@ -96,12 +96,12 @@ import { useStore } from 'vuex';
 import Building from '@/classes/buildings/Building';
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
 import Division from '@/classes/buildings/Division';
+import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import validate from '@/mixinsAsModules/validate';
-import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 export default defineComponent({
   name: 'AdminDivisionPage',
   components: { QuillEditor, TableButtonGroup, TimetableConstructor, ScheduleConstructor },

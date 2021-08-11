@@ -1,11 +1,11 @@
-import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 import TimetableDay from '@/classes/timetable/TimetableDay';
+import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 
 export default class ScheduleItem implements IScheduleItem {
   id?: string;
-  name: string = '';
-  startTime: string = '';
-  endTime: string = '';
+  name = '';
+  startTime = '';
+  endTime = '';
 
   constructor(i?: IScheduleItem) {
     if (!i) return;

@@ -117,10 +117,9 @@ export default defineComponent({
 
       isNewFileAdded.value = true;
 
-      normativeDocument.value.fileInfo = new FileInfo({
-        originalName: file.name,
-        file: file.raw,
-      });
+      normativeDocument.value.fileInfo = new FileInfo();
+      normativeDocument.value.fileInfo.originalName = file.name;
+      normativeDocument.value.fileInfo.file = file.raw;
     };
 
     const setType = (id: string): void => {
