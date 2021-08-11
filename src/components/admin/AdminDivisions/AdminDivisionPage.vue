@@ -1,7 +1,7 @@
 <template>
   <el-form ref="form" :key="division" :model="division" label-position="top" :rules="rules">
     <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="18">
+      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="17">
         <el-container direction="vertical">
           <el-card>
             <el-form-item label="Наименование отделения" prop="name">
@@ -48,7 +48,7 @@
           </el-card>
         </el-container>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="6">
+      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="7">
         <el-container direction="vertical">
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>

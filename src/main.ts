@@ -71,6 +71,7 @@ import {
   ElTooltip,
   ElTree,
   ElUpload,
+  ElCheckboxButton,
 } from 'element-plus';
 import { createApp } from 'vue';
 
@@ -144,6 +145,7 @@ const components = [
   ElUpload,
   ElColorPicker,
   ElTimeSelect,
+  ElCheckboxButton,
 ];
 const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification, ElInfiniteScroll];
 const app = createApp(App);

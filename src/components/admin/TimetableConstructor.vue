@@ -2,41 +2,84 @@
   <el-card>
     <template #header>
       <div class="flex-row-between">
-        <span> Расписание </span>
-        <el-button size="small" type="success" icon="el-icon-plus" circle @click="addTimetable"></el-button>
+        <div>
+          <span> Расписание </span>
+          <el-button
+            v-if="timetable && timetable.timetableDays.length > 0"
+            size="small"
+            type="danger"
+            icon="el-icon-minus"
+            circle
+            @click="removeTimetable"
+          ></el-button>
+          <el-button v-else size="small" type="success" icon="el-icon-plus" circle @click="addTimetable" />
+        </div>
+
+        <el-button s size="small" type="success" icon="el-icon-plus" @click="createCustomTimetableDay"
+          >Создать элемент расписания</el-button
+        >
       </div>
     </template>
     <div v-if="timetable && timetable.timetableDays.length > 0">
-      <el-row v-for="day in timetable.timetableDays" :key="day">
-        <el-col :span="6">
-          <div v-html="day.weekday.name" />
-        </el-col>
-        <el-col :span="18">
+      <el-row v-for="(day, i) in timetable.timetableDays" :key="day">
+        <el-col :span="5">
           <div>
-            <el-time-select
-              :model-value="typeof day.startTime === 'string' ? day.startTime : day.getTime(day.startTime)"
-              class="time-select"
-              start="08:30"
-              step="00:15"
-              end="18:30"
-              @change="day.startTime = $event"
-            />
-            -
-            <el-time-select
-              :model-value="typeof day.endTime === 'string' ? day.endTime : day.getTime(day.endTime)"
-              class="time-select"
-              start="08:30"
-              step="00:15"
-              end="18:30"
-              @change="day.endTime = $event"
-            />
-            <el-checkbox v-model="day.breakExist" class="add-break-checkbox" label="Есть перерыв" />
-          </div>
-          <div v-if="day.breakExist">
-            <el-time-select v-model="day.breakStartTime" class="time-select" start="08:30" step="00:15" end="18:30" /> -
-            <el-time-select v-model="day.breakEndTime" class="time-select" start="08:30" step="00:15" end="18:30" />
+            <el-input v-if="day.isCustom" class="timetable-row" v-model="day.customName" />
+            <div v-else class="timetable-row" :class="{ weekend: day.weekday.isWeekend() || day.isWeekend }">{{ day.weekday.name }}</div>
+            <div v-if="day.breakExist && !day.isWeekend" class="timetable-row">Перерыв</div>
           </div>
         </el-col>
+        <el-col :span="19">
+          <div v-if="!day.isWeekend">
+            <div class="timetable-row">
+              <el-time-select
+                :model-value="day.getTime(day.startTime)"
+                class="time-select"
+                start="00:00"
+                step="00:15"
+                end="23:30"
+                @change="day.startTime = $event"
+              />
+              -
+              <el-time-select
+                :model-value="day.getTime(day.endTime)"
+                class="time-select"
+                start="08:30"
+                step="00:15"
+                end="18:30"
+                @change="day.endTime = $event"
+              />
+              <el-checkbox v-model="day.breakExist" class="add-break-checkbox">Перерыв</el-checkbox>
+              <el-checkbox v-model="day.isWeekend" class="add-break-checkbox">Выходной</el-checkbox>
+              <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="removeTimetableDay(i)" />
+            </div>
+            <div v-if="day.breakExist">
+              <el-time-select
+                :model-value="day.getTime(day.breakStartTime)"
+                class="time-select"
+                start="08:30"
+                step="00:15"
+                end="18:30"
+                @change="day.breakStartTime = $event"
+              />
+              -
+              <el-time-select
+                :model-value="day.getTime(day.breakEndTime)"
+                class="time-select"
+                start="08:30"
+                step="00:15"
+                end="18:30"
+                @change="day.breakEndTime = $event"
+              />
+            </div>
+          </div>
+          <div v-else class="timetable-row">
+            <div>
+              <el-checkbox v-model="day.isWeekend" class="add-break-checkbox" label="Выходной" />
+            </div>
+          </div>
+        </el-col>
+        <el-divider v-if="i < timetable.timetableDays.length"></el-divider>
       </el-row>
     </div>
   </el-card>
@@ -47,6 +90,7 @@ import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
 import Timetable from '@/classes/timetable/Timetable';
+import TimetableDay from '@/classes/timetable/TimetableDay';
 export default defineComponent({
   name: 'TimetableConstructor',
   props: {
@@ -71,7 +115,22 @@ export default defineComponent({
       store.commit(`${props.store}/setTimetable`, Timetable.CreateStandartTimetable(weekdays.value));
     };
 
+    const removeTimetable = () => {
+      store.commit(`${props.store}/removeTimetable`);
+    };
+
+    const removeTimetableDay = (i: number) => {
+      store.commit(`${props.store}/removeTimetableDay`, i);
+    };
+
+    const createCustomTimetableDay = () => {
+      store.commit(`${props.store}/createCustomTimetableDay`, TimetableDay.CreateCustomTimetableDay());
+    };
+
     return {
+      createCustomTimetableDay,
+      removeTimetableDay,
+      removeTimetable,
       timetable,
       addTimetable,
       weekdays,
@@ -81,6 +140,19 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.flex-row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.timetable-row {
+  line-height: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+}
+.weekend {
+  color: red;
+}
 :deep(.el-button) {
   padding: 5px;
   margin: 0 !important;
@@ -89,6 +161,7 @@ export default defineComponent({
 }
 .time-select {
   width: 100px;
+  margin: 0;
 }
 
 .add-break-checkbox {

@@ -5,6 +5,8 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 import { State } from './state';
+import Timetable from '@/classes/timetable/Timetable';
+import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 
 const mutations: MutationTree<State> = {
   setAll(state, divisions: IDivision[]) {
@@ -19,8 +21,21 @@ const mutations: MutationTree<State> = {
   },
   setTimetable(state, timetable: ITimetable) {
     if (!state.division) return;
-    console.log(timetable);
     state.division.timetable = timetable;
+  },
+  removeTimetable(state) {
+    if (!state.division) return;
+    state.division.timetable = new Timetable();
+  },
+  removeTimetableDay(state, i: number) {
+    if (!state.division) return;
+    const idForDelete = state.division.timetable.timetableDays[i].id;
+    if (idForDelete) state.division.timetable.timetableDaysForDelete.push(idForDelete);
+    state.division.timetable.timetableDays.splice(i, 1);
+  },
+  createCustomTimetableDay(state, item: ITimetableDay) {
+    if (!state.division) return;
+    state.division.timetable.timetableDays.push(item);
   },
 };
 
