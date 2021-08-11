@@ -1,5 +1,5 @@
 <template>
-  <el-card style="width: 450px; margin: 10px" class="doctor-card">
+  <el-card class="doctor-card">
     <div class="flex-column">
       <div class="flex-row">
         <div class="doctor-img-container">
@@ -14,7 +14,6 @@
           <span>{{ doctor.tags }}</span>
           <span>Прием: {{ division.address }}</span>
           <span>График работы: {{ doctor.schedule }}</span>
-          <!-- <span>{{doctor.human}}</span> -->
         </div>
       </div>
       <span>Отделение: {{ division.name }}</span>
@@ -41,7 +40,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .doctor-card {
   border-radius: 15px;
-  width: 100%;
+  width: 450px;
+  margin: 10px;
   color: #4a4a4a;
   font-size: 14px;
 

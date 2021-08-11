@@ -1,6 +1,6 @@
 <template>
   <el-card>
-    <template #header><h3 style="text-align: center; margin: 0">Информация</h3></template>
+    <template #header><h3 style="text-align: center; margin: 0;">Информация</h3></template>
     <el-form label-width="100px" :model="user">
       <el-form-item prop="email" label="Email">
         {{ user.email }}
@@ -10,17 +10,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'ProfileInfoPage',
-  async setup() {
+  setup() {
     const store = useStore();
 
     const userId = localStorage.getItem('userId');
-    await store.dispatch('users/get', userId);
-    const user = store.getters['users/user'];
+    const user = computed(() => store.getters['users/user']);
+
+    const loadUser = async () => {
+      await store.dispatch('users/get', userId);
+    };
+    onMounted(loadUser);
 
     return {
       user,

@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, defineComponent, onMounted, PropType } from 'vue';
 import { useStore } from 'vuex';
 
 import NewsMeta from '@/components/News/NewsMeta.vue';
@@ -47,7 +47,7 @@ export default defineComponent({
       required: true,
     },
   },
-  async setup() {
+  setup() {
     const store = useStore();
     const filterTags = computed(() => store.getters['news/filterTags']);
 

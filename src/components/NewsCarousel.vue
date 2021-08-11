@@ -23,12 +23,11 @@ export default defineComponent({
   name: 'NewsCarousel',
   async setup() {
     const store = useStore();
-    let carousel = computed(() => store.getters['carousels/item']);
+    const carousel = computed(() => store.getters['carousels/item']);
+z
     const loadCarouselItem = async () => {
       await store.dispatch('carousels/getByKey', 'top');
-      carousel = computed(() => store.getters['carousels/item']);
     };
-
     onMounted(loadCarouselItem);
 
     return { carousel };
@@ -37,13 +36,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-// .el-carousel__item h3 {
-//   color: #475669;
-//   font-size: 18px;
-//   opacity: 0.75;
-//   margin: 0;
-// }
-
 .gallery-container {
   margin-top: 30px;
   img {
