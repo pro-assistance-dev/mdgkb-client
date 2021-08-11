@@ -1,12 +1,12 @@
 import { MutationTree } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
+import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 
 import { State } from './state';
-import Timetable from '@/classes/timetable/Timetable';
-import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 
 const mutations: MutationTree<State> = {
   setAll(state, divisions: IDivision[]) {

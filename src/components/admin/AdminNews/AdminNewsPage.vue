@@ -15,7 +15,7 @@
               <el-form-item prop="content">
                 <QuillEditor
                   v-model:content="news.content"
-                  style="min-height: 200px; max-height: 700px;"
+                  style="min-height: 200px; max-height: 700px"
                   content-type="html"
                   theme="snow"
                 ></QuillEditor>

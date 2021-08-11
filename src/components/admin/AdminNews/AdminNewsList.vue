@@ -61,7 +61,7 @@ export default defineComponent({
     const loadNews = async (): Promise<void> => {
       const defaultParams: INewsParams = { limit: 100 };
       await store.dispatch('news/getAll', defaultParams);
-      store.commit('admin/setPageTitle', { title: 'Все новости' });
+      store.commit('admin/setPageTitle', { title: 'Новости' });
     };
     const news = computed(() => store.getters['news/news']);
 

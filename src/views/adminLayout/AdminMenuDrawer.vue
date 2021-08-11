@@ -1,5 +1,5 @@
 <template>
-  <div class="hidden-md-and-up">
+  <div class="hidden-md-and-up drawer-container">
     <el-drawer v-model="isDrawerOpen" custom-class="admin-drawer" :size="'auto'" direction="ltr" :with-header="false" @closed="closeDrawer">
       <AdminSideMenu />
     </el-drawer>
@@ -31,5 +31,9 @@ $header-background-color: whitesmoke;
 
 :deep(.admin-drawer) {
   background-color: $header-background-color;
+}
+
+.drawer-container {
+  height: 100%;
 }
 </style>

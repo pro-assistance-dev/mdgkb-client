@@ -27,8 +27,18 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { computed, defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
+
+export default defineComponent({
   name: 'FooterTop',
-};
+
+  setup() {
+    const store = useStore();
+    const banners = computed(() => store.getters['banners/banners']);
+
+    return { banners };
+  },
+});
 </script>

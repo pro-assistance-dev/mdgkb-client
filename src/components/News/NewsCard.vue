@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
 
 import NewsMeta from '@/components/News/NewsMeta.vue';

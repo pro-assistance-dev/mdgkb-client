@@ -24,7 +24,7 @@ export default defineComponent({
   async setup() {
     const store = useStore();
     const carousel = computed(() => store.getters['carousels/item']);
-z
+
     const loadCarouselItem = async () => {
       await store.dispatch('carousels/getByKey', 'top');
     };

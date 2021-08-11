@@ -2,6 +2,7 @@ import Vuex, { StoreOptions } from 'vuex';
 
 import { admin } from '@/store/modules/admin';
 import auth from '@/store/modules/auth';
+import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { carousels } from '@/store/modules/carousels';
 import { divisions } from '@/store/modules/divisions';
@@ -25,6 +26,7 @@ const store: StoreOptions<RootState> = {
   mutations: {},
   modules: {
     auth,
+    banners,
     buildings,
     divisions,
     doctors,

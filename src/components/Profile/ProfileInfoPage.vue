@@ -1,6 +1,6 @@
 <template>
   <el-card>
-    <template #header><h3 style="text-align: center; margin: 0;">Информация</h3></template>
+    <template #header><h3 style="text-align: center; margin: 0">Информация</h3></template>
     <el-form label-width="100px" :model="user">
       <el-form-item prop="email" label="Email">
         {{ user.email }}

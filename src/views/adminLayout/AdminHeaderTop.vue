@@ -2,9 +2,9 @@
   <div class="admin-header fixed">
     <div class="left-panel">
       <!-- To open drawer -->
-      <el-button icon="el-icon-s-unfold" class="hidden-md-and-up" @click="openDrawer"></el-button>
+      <el-button icon="el-icon-menu" class="hidden-md-and-up" @click="openDrawer"></el-button>
       <!-- To open collapse side menu -->
-      <el-button icon="el-icon-s-unfold" class="hidden-sm-and-down" @click="collapseSideMenu"></el-button>
+      <el-button icon="el-icon-menu" class="hidden-sm-and-down" @click="collapseSideMenu"></el-button>
       <h3>Панель управления МДГКБ</h3>
     </div>
     <div class="right-panel">

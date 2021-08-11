@@ -52,28 +52,28 @@ export default defineComponent({
       // },
       {
         title: 'Новости',
-        to: '/',
-        icon: 'el-icon-news',
-        children: [
-          {
-            title: 'Все новости',
-            to: '/admin/news',
-          },
-          {
-            title: 'Добавить новую',
-            to: '/admin/news/new',
-          },
-          // {
-          //   title: 'Категории',
-          // to: '/admin/news/categories',
-          // icon: 'las la-folder-open',
-          // },
-        ],
+        to: '/admin/news',
+        icon: 'el-icon-tickets',
+        // children: [
+        //   {
+        //     title: 'Все новости',
+        //     to: '/admin/news',
+        //   },
+        //   {
+        //     title: 'Добавить новую',
+        //     to: '/admin/news/new',
+        //   },
+        // {
+        //   title: 'Категории',
+        // to: '/admin/news/categories',
+        // icon: 'las la-folder-open',
+        // },
+        // ],
       },
       {
-        title: 'Карусели',
+        title: 'Карусели новостей',
         to: '/admin/carousels',
-        icon: 'el-icon-copy-document',
+        icon: 'el-icon-picture-outline',
       },
       // {
       //   title: 'Статические страницы',
@@ -93,7 +93,7 @@ export default defineComponent({
       {
         title: 'Справочники',
         to: '/',
-        icon: 'el-icon-notebook-1',
+        icon: 'el-icon-collection',
         children: [
           {
             title: 'Здания',
@@ -158,6 +158,17 @@ export default defineComponent({
         title: 'Врачи',
         to: '/admin/doctors',
         icon: 'el-icon-first-aid-kit',
+      },
+      {
+        title: 'Структура сайта',
+        to: '/',
+        icon: 'el-icon-data-board',
+        children: [
+          {
+            title: 'Рекламные баннеры',
+            to: '/admin/banners',
+          },
+        ],
       },
     ]);
     return { menuList, closeDrawer, isCollapseSideMenu };

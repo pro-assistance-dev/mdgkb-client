@@ -4,29 +4,31 @@
     <HeaderTop />
     <HeaderBottom />
     <!-- <NewsCarousel v-if="$route.meta.carousel" /> -->
-    <div class="container">
-      <el-main>
-        <template v-if="$route.meta.profile" #default>
-          <el-row :gutter="20">
-            <el-col :span="6">
-              <ProfileSideMenu />
-            </el-col>
-            <el-col :span="18">
-              <slot />
-            </el-col>
-          </el-row>
-        </template>
-        <template v-else #default>
-          <slot />
-        </template>
-        <template #fallback>
-          <div>Loading...</div>
-        </template>
-      </el-main>
-    </div>
-    <div style="position: sticky">
-      <FooterTop />
-      <FooterBottom />
+    <div class="page-container">
+      <div class="container">
+        <el-main>
+          <template v-if="$route.meta.profile" #default>
+            <el-row :gutter="20">
+              <el-col :span="6">
+                <ProfileSideMenu />
+              </el-col>
+              <el-col :span="18">
+                <slot />
+              </el-col>
+            </el-row>
+          </template>
+          <template v-else #default>
+            <slot />
+          </template>
+          <template #fallback>
+            <div>Loading...</div>
+          </template>
+        </el-main>
+      </div>
+      <div class="footer-container">
+        <FooterTop />
+        <FooterBottom />
+      </div>
     </div>
   </div>
 </template>
@@ -45,7 +47,6 @@ import ProfileSideMenu from '@/views/mainLayout/ProfileSideMenu.vue';
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    // NewsCarousel,
     FooterBottom,
     FooterTop,
     HeaderBottom,
@@ -53,18 +54,17 @@ export default defineComponent({
     AuthPage,
     ProfileSideMenu,
   },
-  async setup() {
-    //     const error: Error | undefined= undefined
-    //     onErrorCaptured((e : Error) => {
-    //         error = e
-    //         return true
-    //     })
-  },
 });
 </script>
 
 <style scoped lang="scss">
 .profile-container {
   margin: 0 auto;
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 124px);
 }
 </style>

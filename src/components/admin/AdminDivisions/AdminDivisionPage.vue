@@ -8,7 +8,7 @@
               <el-input v-model="division.name" placeholder="Наименование отделения"></el-input>
             </el-form-item>
             <el-form-item label="Общая информация">
-              <QuillEditor v-model:content="division.info" style="height: 350px;" content-type="html" theme="snow"></QuillEditor>
+              <QuillEditor v-model:content="division.info" style="height: 350px" content-type="html" theme="snow"></QuillEditor>
             </el-form-item>
             <el-form-item label="Адрес">
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
@@ -20,7 +20,7 @@
               <el-select v-model="newDoctorId" filterable placeholder="Выберите доктора">
                 <el-option v-for="item in filteredDoctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
               </el-select>
-              <el-button type="success" style="margin: 20px;" @click="addDoctor">Добавить доктора</el-button>
+              <el-button type="success" style="margin: 20px" @click="addDoctor">Добавить доктора</el-button>
             </el-space>
 
             <el-table :data="divisionDoctors">

@@ -24,7 +24,7 @@
       <el-row v-for="(day, i) in timetable.timetableDays" :key="day">
         <el-col :span="5">
           <div>
-            <el-input v-if="day.isCustom" class="timetable-row" v-model="day.customName" />
+            <el-input v-if="day.isCustom" v-model="day.customName" class="timetable-row" />
             <div v-else class="timetable-row" :class="{ weekend: day.weekday.isWeekend() || day.isWeekend }">{{ day.weekday.name }}</div>
             <div v-if="day.breakExist && !day.isWeekend" class="timetable-row">Перерыв</div>
           </div>
