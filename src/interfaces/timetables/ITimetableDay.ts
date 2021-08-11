@@ -2,13 +2,16 @@ import IWeekday from '@/interfaces/timetables/IWeekday';
 
 export default interface ITimetableDay {
   id?: string;
-  startTime: Date;
-  endTime: Date;
+  isWeekend: boolean;
+  startTime: string;
+  endTime: string;
   breakExist: boolean;
-  breakStartTime?: Date;
-  breakEndTime?: Date;
+  breakStartTime?: string;
+  breakEndTime?: string;
   weekdayId?: string;
   weekday: IWeekday;
+  customName: string;
+  isCustom: boolean;
 
-  getTime: (date: Date) => string;
+  getTime: (date: string) => string;
 }

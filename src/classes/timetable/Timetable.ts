@@ -6,6 +6,7 @@ import IWeekday from '@/interfaces/timetables/IWeekday';
 export default class Timetable implements ITimetable {
   id?: string;
   timetableDays: ITimetableDay[] = [];
+  timetableDaysForDelete: string[] = [];
 
   constructor(i?: ITimetable) {
     if (!i) return;

@@ -11,4 +11,8 @@ export default class Weekday implements IWeekday {
     this.name = i.name;
     this.number = i.number;
   }
+
+  isWeekend(): boolean {
+    return this.number > 5;
+  }
 }
