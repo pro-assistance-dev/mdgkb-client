@@ -15,23 +15,23 @@
           </el-form-item>
         </el-card>
       </el-col>
-      <el-col :xl="2" :offset="1">
-        <el-button type="success" style="margin-bottom: 20px" @click="submit">Сохранить</el-button>
-      </el-col>
+      <!-- <el-col :xl="2" :offset="1">
+        <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button>
+      </el-col> -->
     </el-row>
     <el-row class="row-slides">
-      <el-col style="height: 100%">
-        <el-card class="content-card" style="height: 100%">
+      <el-col style="height: 100%;">
+        <el-card class="content-card" style="height: 100%;">
           <template #header>
             <div class="flex-row-between">
-              <span style="text-align: left">Слайды</span>
+              <span style="text-align: left;">Слайды</span>
               <div>
                 <el-button type="success" icon="el-icon-plus" circle @click="addSlide"></el-button>
               </div>
             </div>
           </template>
           <div v-for="(slide, i) in carousel.carouselSlides" :key="slide.id">
-            <el-row style="text-align: center">
+            <el-row style="text-align: center;">
               <el-col :span="16">
                 <el-upload
                   :ref="
@@ -75,7 +75,7 @@
                     </span>
                   </template>
                 </el-upload>
-                <el-row style="text-align: center">
+                <el-row style="text-align: center;">
                   <el-col :span="4" :offset="2">
                     <el-form-item :label-width="60" label="Показать кнопку:">
                       <el-checkbox v-model="slide.buttonShow"></el-checkbox>
@@ -103,7 +103,7 @@
                   <QuillEditor
                     v-model:content="slide.title"
                     :options="editorOptions"
-                    style="height: 100px"
+                    style="height: 100px;"
                     content-type="html"
                     theme="snow"
                   ></QuillEditor
@@ -112,7 +112,7 @@
                   <QuillEditor
                     v-model:content="slide.content"
                     :options="editorOptions"
-                    style="height: 200px"
+                    style="height: 200px;"
                     content-type="html"
                     theme="snow"
                   ></QuillEditor>
@@ -138,7 +138,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { QuillEditor } from '@vueup/vue-quill';
 import sanitizeHtml from 'sanitize-html';
 import { v4 as uuidv4 } from 'uuid';
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -181,6 +181,11 @@ export default defineComponent({
 
     let fileLists: Ref<Array<IFilesList[]>> = ref([[]]);
 
+    onBeforeMount(() => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submit);
+    });
+
     const fileToUpload = () => {
       if (carousel.value.carouselSlides.length === 0) return;
 
@@ -195,6 +200,7 @@ export default defineComponent({
     };
 
     const loadCarouselItem = async () => {
+      store.commit('admin/setPageTitle', { title: 'Карусель', saveButton: true });
       if (route.params.id) {
         await store.dispatch('carousels/get', route.params['id']);
         carousel = computed(() => store.getters['carousels/item']);

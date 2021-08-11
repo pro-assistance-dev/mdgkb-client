@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -56,10 +56,12 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
 
+    onBeforeMount(() => store.commit('admin/showLoading'));
+
     const loadNews = async (): Promise<void> => {
       const defaultParams: INewsParams = { limit: 100 };
       await store.dispatch('news/getAll', defaultParams);
-      store.commit('admin/setPageTitle', 'Все новости');
+      store.commit('admin/setPageTitle', { title: 'Все новости' });
     };
     const news = computed(() => store.getters['news/news']);
 

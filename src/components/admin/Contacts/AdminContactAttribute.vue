@@ -1,37 +1,36 @@
 <template>
-  <el-space alignment="center">
-    <label class="el-form-item__label">{{ attributeLabel }}</label>
-    <div class="add-button">
-      <el-button size="mini" @click.prevent="addRow">+</el-button>
+  <el-card style="margin-bottom: 20px">
+    <div class="flex-between">
+      <label class="el-form-item__label">{{ attributeLabel }}</label>
+      <div class="add-button">
+        <el-button type="success" size="mini" @click.prevent="addRow">Добавить</el-button>
+      </div>
     </div>
-  </el-space>
 
-  <el-table :data="sideOrganization?.contactInfo[listName]">
-    <el-table-column :label="columnValueLabel">
-      <template #default="scope">
-        <!-- <el-form-item :prop="sideOrganization?.contactInfo[listName][scope.$index][propertyValueName]" :rules="rules">
-          <el-input v-model="sideOrganization.contactInfo[listName][scope.$index][propertyValueName]" />
-        </el-form-item> -->
-        <el-form-item :prop="sideOrganization?.contactInfo[listName][scope.$index][propertyValueName]">
-          <el-input v-model="sideOrganization.contactInfo[listName][scope.$index][propertyValueName]" />
-        </el-form-item>
-      </template>
-    </el-table-column>
+    <el-table :data="sideOrganization?.contactInfo[listName]" cell-class-name="cell-style">
+      <el-table-column :label="columnValueLabel">
+        <template #default="scope">
+          <el-form-item :prop="'contactInfo.' + listName + '.' + scope.$index + '.' + propertyValueName" :rules="rules">
+            <el-input v-model="sideOrganization.contactInfo[listName][scope.$index][propertyValueName]" />
+          </el-form-item>
+        </template>
+      </el-table-column>
 
-    <el-table-column label="Описание">
-      <template #default="scope">
-        <el-form-item :prop="sideOrganization?.contactInfo[listName][scope.$index].description">
-          <el-input v-model="sideOrganization.contactInfo[listName][scope.$index].description" />
-        </el-form-item>
-      </template>
-    </el-table-column>
+      <el-table-column label="Описание">
+        <template #default="scope">
+          <el-form-item :prop="'contactInfo.' + listName + '.' + scope.$index + '.' + description">
+            <el-input v-model="sideOrganization.contactInfo[listName][scope.$index].description" />
+          </el-form-item>
+        </template>
+      </el-table-column>
 
-    <el-table-column width="40" fixed="right" align="center">
-      <template #default="scope">
-        <TableButtonGroup :show-remove-button="true" @remove="removeRow(scope.$index)" />
-      </template>
-    </el-table-column>
-  </el-table>
+      <el-table-column width="40" fixed="right" align="center">
+        <template #default="scope">
+          <TableButtonGroup :show-remove-button="true" @remove="removeRow(scope.$index)" />
+        </template>
+      </el-table-column>
+    </el-table>
+  </el-card>
 </template>
 
 <script lang="ts">
@@ -137,7 +136,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.add-button {
-  padding-bottom: 10px;
+.el-form-item {
+  margin: 0;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

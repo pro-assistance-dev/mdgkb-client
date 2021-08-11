@@ -1,7 +1,7 @@
 <template>
   <el-form ref="form" :model="doctor" label-position="top" :rules="rules">
     <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
+      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
         <el-container direction="vertical">
           <el-card>
             <el-form-item label="Фамилия" prop="human.surname">
@@ -23,16 +23,16 @@
               <el-date-picker v-model="doctor.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
             </el-form-item>
             <el-form-item label="Отделение">
-              <el-select v-model="doctor.divisionId" placeholder="Выберите отделение" filterable default-first-option style="width: 100%">
+              <el-select v-model="doctor.divisionId" placeholder="Выберите отделение" filterable default-first-option style="width: 100%;">
                 <el-option v-for="item in divisionOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-card>
         </el-container>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
+      <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
         <el-container direction="vertical">
-          <el-button type="success" style="margin-bottom: 20px" @click="submit">Сохранить</el-button>
+          <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>
             <el-form-item label="Образование" prop="education">
               <el-input v-model="doctor.education"></el-input>
@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -150,14 +150,19 @@ export default defineComponent({
     };
 
     // Mount
+    onBeforeMount(() => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submit);
+    });
+
     const loadDoctor = async (): Promise<void> => {
       if (route.params['id']) {
         await store.dispatch('doctors/get', route.params['id']);
-        store.commit('admin/setPageTitle', doctor.value.human.getFullName());
+        store.commit('admin/setPageTitle', { title: doctor.value.human.getFullName(), saveButton: true });
         fileToUpload();
       } else {
         store.commit('doctors/set', new Doctor());
-        store.commit('admin/setPageTitle', 'Добавить врача');
+        store.commit('admin/setPageTitle', { title: 'Добавить врача', saveButton: true });
       }
       mounted.value = true;
     };

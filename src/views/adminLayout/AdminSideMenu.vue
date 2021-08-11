@@ -169,7 +169,9 @@ export default defineComponent({
 $background-color: whitesmoke;
 
 .admin-side-menu {
+  min-height: inherit;
   height: inherit;
+  float: left;
   background-color: $background-color;
   border-right: 1px solid #e6e6e6;
 

@@ -4,9 +4,9 @@
       <el-form-item prop="name">
         <el-input v-model="form.name" placeholder="Наименование типа нормативного документа" />
       </el-form-item>
-      <el-form-item>
+      <!-- <el-form-item>
         <el-button type="success" native-type="submit" @click.prevent="submitForm">Сохранить</el-button>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
   </el-card>
 </template>
@@ -53,12 +53,13 @@ export default defineComponent({
     };
 
     onBeforeMount(async (): Promise<void> => {
-      store.commit('admin/setPageTitle', 'Тип нормативного документа');
-
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submitForm);
       if (route.params.id) {
         await store.dispatch('normativeDocumentTypes/get', route.params.id);
         form.value = store.getters['normativeDocumentTypes/type'];
       }
+      store.commit('admin/setPageTitle', { title: 'Тип нормативного документа', saveButton: true });
     });
 
     return {

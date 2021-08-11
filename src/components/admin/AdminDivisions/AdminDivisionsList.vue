@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -42,9 +42,11 @@ export default defineComponent({
     const router = useRouter();
     const divisions = computed(() => store.getters['divisions/divisions']);
 
-    store.commit('admin/setPageTitle', 'Отделения');
+    onBeforeMount(() => store.commit('admin/showLoading'));
+
     const loadDivisions = async (): Promise<void> => {
       await store.dispatch('divisions/getAll');
+      store.commit('admin/setPageTitle', { title: 'Отделения' });
     };
 
     const create = () => router.push(`/admin/divisions/new`);

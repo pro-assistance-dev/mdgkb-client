@@ -8,7 +8,7 @@
               <el-input v-model="division.name" placeholder="Наименование отделения"></el-input>
             </el-form-item>
             <el-form-item label="Общая информация">
-              <QuillEditor v-model:content="division.info" style="height: 350px" content-type="html" theme="snow"></QuillEditor>
+              <QuillEditor v-model:content="division.info" style="height: 350px;" content-type="html" theme="snow"></QuillEditor>
             </el-form-item>
             <el-form-item label="Адрес">
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
@@ -20,7 +20,7 @@
               <el-select v-model="newDoctorId" filterable placeholder="Выберите доктора">
                 <el-option v-for="item in filteredDoctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
               </el-select>
-              <el-button type="success" style="margin: 20px" @click="addDoctor">Добавить доктора</el-button>
+              <el-button type="success" style="margin: 20px;" @click="addDoctor">Добавить доктора</el-button>
             </el-space>
 
             <el-table :data="divisionDoctors">
@@ -50,7 +50,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="6">
         <el-container direction="vertical">
-          <el-button type="success" style="margin-bottom: 20px" @click="submit">Сохранить</el-button>
+          <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>
             <el-form-item label="Телефон">
               <el-input v-model="division.phone" placeholder="Телефон"></el-input>
@@ -120,6 +120,11 @@ export default defineComponent({
     const floorOptions = ref();
     const buildingOptions = ref([new Building()]);
 
+    onBeforeMount(() => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submit);
+    });
+
     const loadB1uildingOptions = async (): Promise<void> => {
       await store.dispatch('buildings/getAll');
       buildingOptions.value = store.getters['buildings/buildings'];
@@ -134,10 +139,10 @@ export default defineComponent({
           division.value.buildingId = store.getters['buildings/building'].id;
           floorOptions.value = buildingOptions.value.find((item) => item.id == division.value.buildingId);
         }
-        store.commit('admin/setPageTitle', division.value.name);
+        store.commit('admin/setPageTitle', { title: division.value.name, saveButton: true });
       } else {
         store.commit('divisions/set', new Division());
-        store.commit('admin/setPageTitle', 'Создать отделение');
+        store.commit('admin/setPageTitle', { title: 'Создать отделение', saveButton: true });
       }
     };
 

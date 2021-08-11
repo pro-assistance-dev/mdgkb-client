@@ -14,6 +14,12 @@ const getters: GetterTree<State, RootState> = {
   isDrawerOpen(state): boolean {
     return state.isDrawerOpen;
   },
+  showSaveButton(state): boolean {
+    return state.showSaveButton;
+  },
+  submit(state): (() => Promise<void>) | undefined {
+    return state.submit;
+  },
 };
 
 export default getters;

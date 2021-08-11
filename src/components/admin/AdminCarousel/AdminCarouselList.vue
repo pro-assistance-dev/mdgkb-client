@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -38,11 +38,12 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
 
-    store.commit('admin/setPageTitle', 'Карусели');
+    onBeforeMount(() => store.commit('admin/showLoading'));
 
     const load = async (): Promise<void> => {
       const defaultParams: INewsParams = { limit: 100 };
       await store.dispatch('carousels/getAll', defaultParams);
+      store.commit('admin/setPageTitle', { title: 'Карусели' });
     };
 
     const carousels = computed(() => store.getters['carousels/items']);

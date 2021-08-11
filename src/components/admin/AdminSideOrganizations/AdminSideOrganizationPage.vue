@@ -1,7 +1,7 @@
 <template>
   <!-- TODO: Fix validation -->
   <el-form ref="form" :model="sideOrganization" label-position="top" :rules="rules">
-    <el-card>
+    <el-card style="margin-bottom: 20px;">
       <el-form-item label="Наименование" prop="name">
         <el-input v-model="sideOrganization.name" placeholder="Наименование" />
       </el-form-item>
@@ -9,34 +9,33 @@
       <el-form-item label="Описание / доп. информация" prop="description">
         <el-input v-model="sideOrganization.description" placeholder="Описание" />
       </el-form-item>
-
-      <AdminContactAttribute
-        attribute-label="Телефоны"
-        column-value-label="Телефон"
-        list-name="telephoneNumbers"
-        property-value-name="number"
-      />
-      <AdminContactAttribute
-        attribute-label="Почтовые адреса"
-        column-value-label="Адрес"
-        list-name="postAddresses"
-        property-value-name="address"
-      />
-      <AdminContactAttribute
-        attribute-label="Адреса электронной почты"
-        column-value-label="Email"
-        list-name="emails"
-        property-value-name="address"
-      />
-      <AdminContactAttribute
-        attribute-label="Сайты в сети интернет"
-        column-value-label="URL-адрес сайта"
-        list-name="websites"
-        property-value-name="address"
-      />
-
-      <el-button type="success" style="margin-bottom: 20px" @click.prevent="submit">Сохранить</el-button>
     </el-card>
+    <AdminContactAttribute
+      attribute-label="Телефоны"
+      column-value-label="Телефон"
+      list-name="telephoneNumbers"
+      property-value-name="number"
+    />
+    <AdminContactAttribute
+      attribute-label="Почтовые адреса"
+      column-value-label="Адрес"
+      list-name="postAddresses"
+      property-value-name="address"
+    />
+    <AdminContactAttribute
+      attribute-label="Адреса электронной почты"
+      column-value-label="Email"
+      list-name="emails"
+      property-value-name="address"
+    />
+    <AdminContactAttribute
+      attribute-label="Сайты в сети интернет"
+      column-value-label="URL-адрес сайта"
+      list-name="websites"
+      property-value-name="address"
+    />
+
+    <!-- <el-button type="success" style="margin-bottom: 20px;" @click.prevent="submit">Сохранить</el-button> -->
   </el-form>
 </template>
 
@@ -46,6 +45,7 @@ import { computed, defineComponent, onBeforeMount, ref, WritableComputedRef } fr
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import SideOrganization from '@/classes/sideOrganization/SideOrganization';
 import SideOrganizationRules from '@/classes/sideOrganization/SideOrganizationRules';
 import AdminContactAttribute from '@/components/admin/Contacts/AdminContactAttribute.vue';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
@@ -70,12 +70,18 @@ export default defineComponent({
       },
     });
 
+    onBeforeMount(() => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submit);
+    });
+
     const loadSideOrganization = async (): Promise<void> => {
       if (!isEdit.value) {
-        store.commit('admin/setPageTitle', 'Создать организацию');
+        store.commit('sideOrganizations/set', new SideOrganization());
+        store.commit('admin/setPageTitle', { title: 'Создать организацию', saveButton: true });
       } else {
         await store.dispatch('sideOrganizations/get', route.params['id']);
-        store.commit('admin/setPageTitle', sideOrganization.value.name);
+        store.commit('admin/setPageTitle', { title: sideOrganization.value.name, saveButton: true });
       }
     };
 

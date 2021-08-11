@@ -45,9 +45,9 @@
         </el-button>
       </el-form-item>
 
-      <el-form-item>
+      <!-- <el-form-item>
         <el-button type="success" native-type="submit" @click.prevent="submitForm">Сохранить</el-button>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
   </el-card>
   <el-dialog v-model="modalOpen">
@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -152,8 +152,13 @@ export default defineComponent({
       return;
     };
 
-    onMounted(async (): Promise<void> => {
-      store.commit('admin/setPageTitle', 'Нормативный документ');
+    onBeforeMount(() => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submitForm);
+    });
+
+    const load = async (): Promise<void> => {
+      store.commit('admin/setPageTitle', { title: 'Нормативный документ', saveButton: true });
       await store.dispatch('normativeDocumentTypes/getAll');
 
       if (props.isEdit && route.params.id) {
@@ -161,7 +166,8 @@ export default defineComponent({
         normativeDocument.value = store.getters['normativeDocuments/document'];
         selectedTypeId.value = String(normativeDocument.value.type.id);
       }
-    });
+    };
+    onMounted(load);
 
     return {
       filePath,

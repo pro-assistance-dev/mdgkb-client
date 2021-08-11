@@ -48,8 +48,9 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/setPageTitle', 'Нормативные документы');
+      store.commit('admin/showLoading');
       await store.dispatch('normativeDocuments/getAll');
+      store.commit('admin/setPageTitle', { title: 'Нормативные документы' });
     });
 
     return {
