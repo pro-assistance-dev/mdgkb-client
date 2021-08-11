@@ -1,7 +1,10 @@
 <template>
   <div class="admin-header-bottom">
-    <h4>{{ pageTitle }}</h4>
-    <!-- <el-page-header @back="goBack" title="" :content="pageTitle" /> -->
+    <div v-if="showSaveButton" class="flex-between">
+      <el-page-header title="" :content="pageTitle" @back="goBack" />
+      <el-button type="success" @click.prevent="submit">Сохранить</el-button>
+    </div>
+    <h4 v-else style="margin-left: 20px">{{ pageTitle }}</h4>
   </div>
 </template>
 
@@ -14,10 +17,12 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const pageTitle = computed(() => store.getters['admin/pageTitle']);
+    const showSaveButton = computed(() => store.getters['admin/showSaveButton']);
+    const submit = computed(() => store.getters['admin/submit']);
     const goBack = () => {
       router.go(-1);
     };
-    return { pageTitle, goBack };
+    return { pageTitle, goBack, showSaveButton, submit };
   },
 });
 </script>
@@ -39,5 +44,12 @@ $header-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
 h4 {
   font-weight: normal;
   font-size: 18px;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 20px;
 }
 </style>

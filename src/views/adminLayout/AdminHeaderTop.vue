@@ -69,6 +69,7 @@ $button-background-color: #fff;
   background-color: $header-background-color;
   justify-content: space-between;
   box-shadow: $header-shadow;
+  display: inline-block;
 
   .el-button {
     border: none;
@@ -114,7 +115,7 @@ $button-background-color: #fff;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  // width: 100%;
   z-index: 100;
 }
 

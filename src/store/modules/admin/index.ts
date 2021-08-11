@@ -8,8 +8,11 @@ import { State } from './state';
 
 export const state: State = {
   pageTitle: '',
+  showSaveButton: false,
   isCollapseSideMenu: true,
   isDrawerOpen: false,
+  loading: undefined,
+  submit: undefined,
 };
 
 const namespaced = true;

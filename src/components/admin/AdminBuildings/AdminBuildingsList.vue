@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -36,9 +36,10 @@ export default defineComponent({
     const router = useRouter();
     const buildings = computed(() => store.getters['buildings/buildings']);
 
-    store.commit('admin/setPageTitle', 'Здания');
+    onBeforeMount(() => {store.commit('admin/showLoading')});
     const loadBuildings = async (): Promise<void> => {
       await store.dispatch('buildings/getAll');
+      store.commit('admin/setPageTitle', { title: 'Здания' });
     };
 
     const edit = (id: string): void => {

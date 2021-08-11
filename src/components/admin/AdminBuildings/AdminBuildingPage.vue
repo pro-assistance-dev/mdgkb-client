@@ -8,10 +8,10 @@
         <el-input v-model="building.address" placeholder="Адрес"></el-input>
       </el-form-item>
       <el-form-item label="Этажи">
-        <el-table class="floors-table" :data="building.floors" style="width: 200px">
+        <el-table class="floors-table" :data="building.floors" style="width: 200px;">
           <el-table-column label="Номер этажа">
             <template #default="scope">
-              <el-input-number v-model="scope.row.number" controls-position="right" :min="0" style="width: 100px"></el-input-number>
+              <el-input-number v-model="scope.row.number" controls-position="right" :min="0" style="width: 100px;"></el-input-number>
             </template>
           </el-table-column>
           <el-table-column width="50" align="center">
@@ -24,13 +24,13 @@
           </el-table-column>
         </el-table>
       </el-form-item>
-      <el-button type="success" style="margin: 10px" @click="submit">Сохранить</el-button>
+      <!-- <el-button type="success" style="margin: 10px;" @click="submit">Сохранить</el-button> -->
     </el-card>
   </el-form>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -50,9 +50,13 @@ export default defineComponent({
     const rules = ref(BuildingRules);
     const form = ref();
 
+    onBeforeMount(() => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submit);
+    });
     const loadBuilding = async (): Promise<void> => {
       await store.dispatch('buildings/get', route.params['id']);
-      store.commit('admin/setPageTitle', building.value.name);
+      store.commit('admin/setPageTitle', { title: building.value.name, saveButton: true });
     };
 
     const addFloor = () => building.value.floors.push(new Floor({ buildingId: building.value.id, number: 0 }));

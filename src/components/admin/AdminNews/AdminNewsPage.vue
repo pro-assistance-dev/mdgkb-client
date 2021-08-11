@@ -2,7 +2,7 @@
   <div class="wrapper">
     <el-form ref="form" :key="news" :model="news" :rules="rules">
       <el-row :gutter="40">
-        <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="20">
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
               <template #header>Заголовок</template>
@@ -15,7 +15,7 @@
               <el-form-item prop="content">
                 <QuillEditor
                   v-model:content="news.content"
-                  style="min-height: 200px; max-height: 700px"
+                  style="min-height: 200px; max-height: 700px;"
                   content-type="html"
                   theme="snow"
                 ></QuillEditor>
@@ -36,9 +36,9 @@
             />
           </el-container>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="4">
+        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">
-            <el-button type="success" style="margin-bottom: 20px" @click="submit">Сохранить</el-button>
+            <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
             <el-card>
               <template #header>Статус</template>
               <el-space direction="vertical" alignment="start" :size="10">
@@ -80,7 +80,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -116,14 +116,19 @@ export default defineComponent({
 
     const news = computed(() => store.getters['news/newsItem']);
 
+    onBeforeMount(() => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submit);
+    });
+
     const loadNewsItem = async () => {
       if (route.params['slug']) {
         await store.dispatch('news/get', route.params['slug']);
-        store.commit('admin/setPageTitle', news.value.title);
+        store.commit('admin/setPageTitle', { title: news.value.title, saveButton: true });
         fileToUpload();
       } else {
         store.commit('news/set', new News());
-        store.commit('admin/setPageTitle', 'Добавить новость');
+        store.commit('admin/setPageTitle', { title: 'Добавить новость', saveButton: true });
       }
       mounted.value = true;
     };

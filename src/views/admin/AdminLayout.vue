@@ -1,11 +1,11 @@
 <template>
-  <div style="min-height: 100vh">
+  <div style="min-height: 100vh;">
     <AdminHeaderTop />
     <div class="admin-main-container">
       <AdminSideMenu class="side-menu hidden-sm-and-down" />
       <div class="admin-container">
         <AdminHeaderBottom />
-        <el-main style="height: 100%">
+        <el-main>
           <template #default>
             <slot />
           </template>
@@ -40,17 +40,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .admin-main-container {
-  display: flex;
-  min-height: calc(100vh - 61px);
+  height: calc(100vh - 61px);
 }
-
 .admin-container {
+  height: calc(100vh - 121px);
   width: 100%;
-  height: 100%;
 }
-
-// .side-menu {
-//   position: fixed;
-//   height: 100%;
-// }
+.el-main {
+  height: inherit;
+}
 </style>
