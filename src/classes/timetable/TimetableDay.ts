@@ -55,11 +55,14 @@ export default class TimetableDay implements ITimetableDay {
   public getTime(dateString: string): string {
     if (!dateString) return '';
     const date = new Date(dateString);
-    if (isNaN(date.getHours())) return dateString;
+    if (isNaN(date.getHours())) {
+      const parts = dateString.split(':');
+      return `${parts[0]}:${parts[1]}`;
+    }
     return TimetableDay.GetTimeString(date);
   }
 
-  private static GetTimeString(date: Date): string {
+  static GetTimeString(date: Date): string {
     return `${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}`;
   }
 }

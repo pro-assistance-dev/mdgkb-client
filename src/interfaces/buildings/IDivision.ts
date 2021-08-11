@@ -1,5 +1,6 @@
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import ISchedule from '@/interfaces/timetables/ISchedule';
 
 export default interface IDivision {
   id?: string;
@@ -14,4 +15,6 @@ export default interface IDivision {
   doctors: IDoctor[];
   timetable: ITimetable;
   timetableId?: string;
+  scheduleId?: string;
+  schedule: ISchedule;
 }
