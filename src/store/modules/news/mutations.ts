@@ -13,6 +13,7 @@ import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
 import ITag from '@/interfaces/news/ITag';
 
+import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
@@ -38,6 +39,9 @@ const mutations: MutationTree<State> = {
       const file = i.fileInfo.getFileListObject();
       if (file) state.galleryList.push(file);
     });
+  },
+  resetState(state) {
+    Object.assign(state, getDefaultState());
   },
   clearPreviewFile(state) {
     if (!state.newsItem) return;

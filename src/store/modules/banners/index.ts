@@ -8,11 +8,15 @@ import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
 
-export const state: State = {
-  banners: [],
-  banner: new Banner(),
+export const getDefaultState = (): State => {
+  return {
+    banners: [],
+    banner: new Banner(),
+    fileList: [],
+  };
 };
 
+const state = getDefaultState();
 const namespaced = true;
 
 export const banners: Module<State, RootState> = {

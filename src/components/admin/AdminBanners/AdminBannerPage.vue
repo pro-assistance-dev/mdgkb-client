@@ -15,26 +15,30 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
         <el-container direction="vertical">
-          <el-card> </el-card>
+          <AdminBannerImage v-if="mounted" />
         </el-container>
       </el-col>
     </el-row>
   </el-form>
+
+  <ImageCropper />
 </template>
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Banner from '@/classes/banners/Banner';
 import BannerRules from '@/classes/banners/BannerRules';
 import Division from '@/classes/buildings/Division';
+import AdminBannerImage from '@/components/admin/AdminBanners/AdminBannerImage.vue';
+import ImageCropper from '@/components/admin/ImageCropper.vue';
 import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminBannerPage',
+  components: { ImageCropper, AdminBannerImage },
 
   setup() {
     const store = useStore();
@@ -78,7 +82,7 @@ export default defineComponent({
         await store.dispatch('banners/get', route.params['id']);
         store.commit('admin/setPageTitle', { title: banner.value.name, saveButton: true });
       } else {
-        store.commit('banners/set', new Banner());
+        store.commit('banners/resetState');
         store.commit('admin/setPageTitle', { title: 'Добавить баннер', saveButton: true });
       }
       mounted.value = true;

@@ -8,7 +8,7 @@
       cancel-button-text="Отмена"
       icon="el-icon-info"
       icon-color="red"
-      title="Вы уверены, что хотите удалить это?"
+      :title="popconfirmTitle"
       @confirm="$emit('remove')"
       @cancel="() => {}"
     >
@@ -32,6 +32,10 @@ export default defineComponent({
     },
     showRemoveButton: {
       type: Boolean,
+    },
+    popconfirmTitle: {
+      default: 'Вы уверены, что хотите удалить это?',
+      type: String,
     },
   },
   emits: ['download', 'edit', 'remove'],

@@ -58,7 +58,7 @@ $card-content-outpadding: 24px;
 
 .card {
   border-radius: $card-border-radius;
-  z-index: 2;
+  z-index: 999;
 
   .floor-number {
     text-transform: uppercase;

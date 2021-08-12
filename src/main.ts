@@ -95,7 +95,6 @@ const components = [
   ElCheckbox,
   ElCheckboxGroup,
   ElCheckTag,
-  ElCheckbox,
   ElCol,
   ElCollapse,
   ElCollapseItem,

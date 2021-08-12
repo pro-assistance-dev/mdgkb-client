@@ -1,18 +1,18 @@
 <template>
   <el-card>
-    <template #header> Основное изображение </template>
+    <template #header> Загрузить баннер </template>
     <el-upload
       ref="uploader"
       :multiple="false"
-      class="avatar-uploader-cover"
       action="#"
       list-type="picture-card"
+      class="avatar-uploader-cover"
       :file-list="fileList"
       :auto-upload="false"
       :limit="parseInt('1')"
       :on-change="toggleUpload"
       :class="{ hideUpload: !showUpload }"
-      accept="image/jpeg,image/png,image/jng"
+      accept="image/jpeg,image/png,image/jng,image/gif"
     >
       <template #default>
         <i class="el-icon-plus custom-plus"></i>
@@ -22,7 +22,7 @@
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
         </div>
         <span class="el-upload-list__item-actions">
-          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, 'main')">
+          <span class="el-upload-list__item-preview" @click="openCropper(file)">
             <i class="el-icon-zoom-in"></i>
           </span>
           <span class="el-upload-list__item-delete" @click="handleRemove(file)">
@@ -43,19 +43,22 @@ import FileInfo from '@/classes/File/FileInfo';
 import IFile from '@/interfaces/files/IFile';
 
 export default defineComponent({
-  name: 'AdminNewsPageMainImage',
-  emits: ['toggleUpload', 'handlePictureCardPreview'],
+  name: 'AdminBannerImage',
   setup() {
     const store = useStore();
-    let uploader = ref();
-    const fileList = computed(() => store.getters[`news/mainImageList`]);
-    const fileInfo = computed(() => store.getters[`news/mainImageFileInfo`]);
-    let showUpload = ref(fileList.value.length === 0);
+    const fileList = computed(() => store.getters[`banners/fileList`]);
+    const fileInfo = computed(() => store.getters[`banners/fileInfo`]);
 
+    let showUpload = ref(fileList.value.length === 0);
+    let uploader = ref();
+
+    const openCropper = (file: IFile) => {
+      store.commit('cropper/open', Cropper.CreateCropper(file.url, 'banners', 'setFile'));
+    };
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
-      store.commit('news/setMainImage', FileInfo.CreatePreviewFile(file, 'main'));
-      store.commit('cropper/open', Cropper.CreateCropper(file.url, 'news', 'saveFromCropperMain', 2));
+      store.commit('banners/setFileInfo', FileInfo.CreatePreviewFile(file, 'banners', fileInfo.value.id));
+      openCropper(file);
     };
 
     const handleRemove = () => {
@@ -66,6 +69,7 @@ export default defineComponent({
     };
 
     return {
+      openCropper,
       fileInfo,
       fileList,
       uploader,
@@ -78,8 +82,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$news-content-max-width: 800px;
-$news-content-max-height: $news-content-max-width / 2;
+$content-max-width: 200px;
+$content-max-height: $content-max-width;
 
 .hideUpload {
   :deep(.el-upload) {
@@ -88,7 +92,7 @@ $news-content-max-height: $news-content-max-width / 2;
 }
 
 .avatar-uploader-cover {
-  height: 400px;
+  height: $content-max-height;
   text-align: center;
 }
 
@@ -99,20 +103,20 @@ $news-content-max-height: $news-content-max-width / 2;
 }
 
 :deep(.el-upload) {
-  width: $news-content-max-width;
-  height: $news-content-max-height;
+  width: $content-max-width;
+  height: $content-max-height;
   background: white;
   text-align: center;
-  line-height: $news-content-max-height;
+  line-height: $content-max-height;
 }
 
 :deep(.el-upload-list__item) {
-  width: $news-content-max-width !important;
-  height: $news-content-max-height !important;
+  width: $content-max-width !important;
+  height: $content-max-height !important;
 }
 
 :deep(.el-upload-list__item-thumbnail) {
-  width: $news-content-max-width !important;
-  height: $news-content-max-height !important;
+  width: $content-max-width !important;
+  height: $content-max-height !important;
 }
 </style>

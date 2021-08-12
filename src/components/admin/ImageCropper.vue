@@ -1,14 +1,16 @@
 <template>
   <el-dialog v-model="cropper.isOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
     <Cropper
+      v-if="cropper.ratio"
       ref="cropperRef"
       :src="cropper.src"
       :stencil-props="{ aspectRatio: cropper.ratio }"
       style="max-height: 50vh"
       @change="onChange"
     />
+    <Cropper v-else ref="cropperRef" :src="cropper.src" style="max-height: 50vh" @change="onChange" />
     <div class="dialog-footer">
-      <el-button :loading="loading" type="warning" @click="$emit('cancel')">Отменить</el-button>
+      <el-button :loading="loading" type="warning" @click="cancel">Отменить</el-button>
       <el-button :loading="loading" type="success" @click="save">Сохранить</el-button>
     </div>
   </el-dialog>
@@ -27,7 +29,6 @@ import ICoordinates from '@/interfaces/canvas/ICoordinates';
 export default defineComponent({
   name: 'ImageCropper',
   components: { Cropper },
-  emits: ['save', 'cancel'],
   setup() {
     const store = useStore();
     const cropper = computed(() => store.getters[`cropper/cropper`]);
@@ -54,13 +55,16 @@ export default defineComponent({
       loading.value = false;
       cropper.value.isOpen = false;
     };
+    const cancel = () => {
+      store.commit('cropper/close');
+    };
 
     const onChange = (res: ICanvasResult) => {
       coordinates.value = res.coordinates;
       resultImage.value = res.canvas.toDataURL();
     };
 
-    return { save, onChange, resultImage, cropperRef, loading, cropper };
+    return { save, cancel, onChange, resultImage, cropperRef, loading, cropper };
   },
 });
 </script>

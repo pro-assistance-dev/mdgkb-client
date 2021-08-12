@@ -16,6 +16,6 @@ export default class Banner implements IBanner {
     this.link = i.link;
     this.listNumber = i.listNumber;
     this.fileInfoId = i.fileInfoId;
-    if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
+    this.fileInfo = new FileInfo(i.fileInfo);
   }
 }

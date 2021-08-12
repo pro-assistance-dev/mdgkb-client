@@ -8,20 +8,23 @@ import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
 
-export const state: State = {
-  news: [],
-  filteredNews: [],
-  filterTags: [],
-  newsItem: new News(),
-  allNewsLoaded: false,
-  calendarNews: [new News()],
-  calendarMeta: undefined,
-  previewFileList: [],
-  mainImageList: [],
-  galleryList: [],
-  curGalleryCropIndex: 0,
+export const getDefaultState = (): State => {
+  return {
+    news: [],
+    filteredNews: [],
+    filterTags: [],
+    newsItem: new News(),
+    allNewsLoaded: false,
+    calendarNews: [new News()],
+    calendarMeta: undefined,
+    previewFileList: [],
+    mainImageList: [],
+    galleryList: [],
+    curGalleryCropIndex: 0,
+  };
 };
 
+const state = getDefaultState();
 const namespaced = true;
 
 export const news: Module<State, RootState> = {

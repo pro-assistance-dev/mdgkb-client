@@ -56,7 +56,6 @@ import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import News from '@/classes/news/News';
 import NewsRules from '@/classes/news/NewsRules';
 import AdminNewsPageGallery from '@/components/admin/AdminNews/AdminNewsPageGallery.vue';
 import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMainImage.vue';
@@ -90,7 +89,7 @@ export default defineComponent({
         await store.dispatch('news/get', route.params['slug']);
         store.commit('admin/setPageTitle', { title: news.value.title, saveButton: true });
       } else {
-        store.commit('news/set', new News());
+        store.commit('news/resetState');
         store.commit('admin/setPageTitle', { title: 'Добавить новость', saveButton: true });
       }
       mounted.value = true;

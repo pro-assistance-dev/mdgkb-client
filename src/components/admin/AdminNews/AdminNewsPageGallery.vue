@@ -54,7 +54,7 @@ export default defineComponent({
       emit('toggleUpload', file.url, 'gallery');
     };
     const openCropper = (file: IFile) => {
-      store.commit('cropper/open', Cropper.CreateCropper(8 / 3.3, file.url, 'news', 'saveFromCropperGallery'));
+      store.commit('cropper/open', Cropper.CreateCropper(file.url, 'news', 'saveFromCropperGallery', 8 / 3.3));
     };
 
     const handlePictureCardPreview = (file: IFile) => {

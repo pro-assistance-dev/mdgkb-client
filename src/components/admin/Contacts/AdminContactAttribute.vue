@@ -135,7 +135,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-form-item {
   margin: 0;
 }

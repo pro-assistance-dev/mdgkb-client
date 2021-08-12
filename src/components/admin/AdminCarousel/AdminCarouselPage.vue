@@ -201,7 +201,7 @@ export default defineComponent({
     };
 
     const openCropper = (file: IFile) => {
-      store.commit('cropper/open', Cropper.CreateCropper(1300 / 300, file.url, 'carousels', 'saveFromCropper'));
+      store.commit('cropper/open', Cropper.CreateCropper(file.url, 'carousels', 'saveFromCropper', 1300 / 300));
     };
 
     const toggleUpload = (file: IFile) => {
