@@ -22,7 +22,7 @@
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
         </div>
         <span class="el-upload-list__item-actions">
-          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, 'preview')">
+          <span class="el-upload-list__item-preview" @click="openCropper(file)">
             <i class="el-icon-zoom-in"></i>
           </span>
           <span class="el-upload-list__item-delete" @click="handleRemove(file)">
@@ -35,47 +35,30 @@
 </template>
 
 <script lang="ts">
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
-import { v4 as uuidv4 } from 'uuid';
-import { defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Cropper from '@/classes/cropper/Cropper';
 import FileInfo from '@/classes/File/FileInfo';
 import IFile from '@/interfaces/files/IFile';
-import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
-  name: 'AdminNewsPage',
-  props: {
-    fileList: {
-      type: Object as PropType<IFilesList[]>,
-      required: true,
-    },
-    fileInfo: {
-      type: Object as PropType<FileInfo>,
-      required: true,
-    },
-  },
-  emits: ['toggleUpload', 'handlePictureCardPreview'],
-  setup(props, { emit }) {
+  name: 'AdminNewsPagePreviewImage',
+  setup() {
     const store = useStore();
-    let showUpload = ref(props.fileList.length === 0);
+    const fileList = computed(() => store.getters[`news/previewFileList`]);
+    const fileInfo = computed(() => store.getters[`news/fileInfo`]);
+
+    let showUpload = ref(fileList.value.length === 0);
     let uploader = ref();
 
+    const openCropper = (file: IFile) => {
+      store.commit('cropper/open', Cropper.CreateCropper(1, file.url, 'news', 'setPreviewFile'));
+    };
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
-      store.commit(
-        'news/setFileInfo',
-        new FileInfo({
-          id: props.fileInfo.id,
-          originalName: file.name,
-          file: file.raw,
-          fileSystemPath: uuidv4(),
-          category: 'previewFile',
-        })
-      );
-      emit('toggleUpload', file.url, 'preview');
+      store.commit('news/setFileInfo', FileInfo.CreatePreviewFile(file, 'previewFile', fileInfo.value.id));
+      openCropper(file);
     };
 
     const handleRemove = () => {
@@ -83,10 +66,12 @@ export default defineComponent({
       setTimeout(() => {
         showUpload.value = !showUpload.value;
       }, 800);
-      // store.commit('news/clearPreviewFile');
     };
 
     return {
+      openCropper,
+      fileInfo,
+      fileList,
       uploader,
       handleRemove,
       showUpload,

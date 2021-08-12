@@ -37,7 +37,6 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { v4 as uuidv4 } from 'uuid';
 import { defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -66,16 +65,7 @@ export default defineComponent({
 
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
-      store.commit(
-        'doctors/setFileInfo',
-        new FileInfo({
-          id: props.fileInfo.id,
-          originalName: file.name,
-          file: file.raw,
-          fileSystemPath: uuidv4(),
-          category: 'previewFile',
-        })
-      );
+      store.commit('doctors/setFileInfo', FileInfo.CreatePreviewFile(file, 'previewFile', props.fileInfo.id));
       emit('toggleUpload', file.url);
     };
 

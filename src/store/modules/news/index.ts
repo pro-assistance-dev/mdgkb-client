@@ -16,6 +16,10 @@ export const state: State = {
   allNewsLoaded: false,
   calendarNews: [new News()],
   calendarMeta: undefined,
+  previewFileList: [],
+  mainImageList: [],
+  galleryList: [],
+  curGalleryCropIndex: 0,
 };
 
 const namespaced = true;

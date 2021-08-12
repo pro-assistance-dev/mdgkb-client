@@ -1,6 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import IDivision from '@/interfaces/buildings/IDivision';
+import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import RootState from '@/store/types';
 
@@ -17,6 +18,9 @@ const getters: GetterTree<State, RootState> = {
   },
   timetable(state): ITimetable | undefined {
     if (state.division) return state.division.timetable;
+  },
+  schedule(state): ISchedule | undefined {
+    if (state.division) return state.division.schedule;
   },
 };
 

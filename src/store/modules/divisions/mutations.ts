@@ -1,8 +1,11 @@
 import { MutationTree } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
+import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
+import ISchedule from '@/interfaces/timetables/ISchedule';
+import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 
@@ -36,6 +39,24 @@ const mutations: MutationTree<State> = {
   createCustomTimetableDay(state, item: ITimetableDay) {
     if (!state.division) return;
     state.division.timetable.timetableDays.push(item);
+  },
+  setSchedule(state, item: ISchedule) {
+    if (!state.division) return;
+    state.division.schedule = item;
+  },
+  removeSchedule(state) {
+    if (!state.division) return;
+    state.division.schedule = new Schedule();
+  },
+  removeScheduleItem(state, i: number) {
+    if (!state.division) return;
+    const idForDelete = state.division.schedule.scheduleItems[i].id;
+    if (idForDelete) state.division.schedule.scheduleItemsForDelete.push(idForDelete);
+    state.division.schedule.scheduleItems.splice(i, 1);
+  },
+  addScheduleItem(state, item: IScheduleItem) {
+    if (!state.division) return;
+    state.division.schedule.scheduleItems.push(item);
   },
 };
 

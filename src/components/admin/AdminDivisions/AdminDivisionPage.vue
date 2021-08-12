@@ -77,6 +77,7 @@
             </el-form-item>
           </el-card>
           <TimetableConstructor :store="'divisions'" />
+          <ScheduleConstructor :store="'divisions'" />
         </el-container>
       </el-col>
     </el-row>
@@ -95,15 +96,15 @@ import { useStore } from 'vuex';
 import Building from '@/classes/buildings/Building';
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
 import Division from '@/classes/buildings/Division';
+import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import validate from '@/mixinsAsModules/validate';
-
 export default defineComponent({
   name: 'AdminDivisionPage',
-  components: { QuillEditor, TableButtonGroup, TimetableConstructor },
+  components: { QuillEditor, TableButtonGroup, TimetableConstructor, ScheduleConstructor },
 
   setup() {
     const store = useStore();

@@ -66,7 +66,7 @@
                       </div>
                     </div>
                     <span class="el-upload-list__item-actions">
-                      <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
+                      <span class="el-upload-list__item-preview" @click="openCropper(file)">
                         <i class="el-icon-zoom-in"></i>
                       </span>
                       <span v-if="!disabled" class="el-upload-list__item-delete" @click="handleRemove(file, i)">
@@ -126,24 +126,20 @@
     </el-row>
   </el-form>
 
-  <el-dialog v-model="isCropOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-    <ImageCropper :src="imageCropSrc" :ratio="1300 / 300" @save="saveFromCropper" @cancel="cancelCropper" />
-  </el-dialog>
+  <ImageCropper />
 </template>
 
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import sanitizeHtml from 'sanitize-html';
-import { v4 as uuidv4 } from 'uuid';
 import { computed, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import CarouselSlide from '@/classes/carousel/CarouselSlide';
-import FileInfo from '@/classes/File/FileInfo';
+import Cropper from '@/classes/cropper/Cropper';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
 import IFile from '@/interfaces/files/IFile';
@@ -151,7 +147,6 @@ import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
   name: 'AdminCarouselPage',
-  // components: { ImageCropper, QuillEditor, NewsCarouselContainer },
   components: { ImageCropper, QuillEditor },
   setup() {
     const editorOptions = {
@@ -171,41 +166,28 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     let showUpload = ref([true]);
-    let isCropOpen = ref(false);
     let tagsVisible = ref(false);
-    let imageCropSrc = ref('');
     let uploaders = ref([]);
     let activeTab = ref('');
-    let nowSlide = ref(0);
     let carousel = computed(() => store.getters['carousels/item']);
 
-    let fileLists: Ref<Array<IFilesList[]>> = ref([[]]);
+    let fileLists: Ref<Array<IFilesList[]>> = computed(() => store.getters['carousels/fileLists']);
+    let nowSlide: Ref<number> = computed(() => store.getters['carousels/nowSlide']);
 
     onBeforeMount(() => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
     });
 
-    const fileToUpload = () => {
-      if (carousel.value.carouselSlides.length === 0) return;
-
-      carousel.value.carouselSlides.forEach((slide: ICarouselSlide, i: number) => {
-        fileLists.value[i] = [];
-        fileLists.value[i].push({
-          name: carousel.value.carouselSlides[i].fileInfo,
-          url: `${process.env.VUE_APP_STATIC_URL}/${carousel.value.carouselSlides[i].fileInfo.fileSystemPath}`,
-        });
-        if (fileLists.value[i].length > 0) showUpload.value[i] = false;
-      });
-    };
-
     const loadCarouselItem = async () => {
       store.commit('admin/setPageTitle', { title: 'Карусель', saveButton: true });
       if (route.params.id) {
         await store.dispatch('carousels/get', route.params['id']);
         carousel = computed(() => store.getters['carousels/item']);
-        fileToUpload();
       }
+      carousel.value.carouselSlides.forEach((slide: ICarouselSlide, i: number) => {
+        if (fileLists.value[i].length > 0) showUpload.value[i] = false;
+      });
     };
 
     onMounted(loadCarouselItem);
@@ -218,27 +200,15 @@ export default defineComponent({
       fileLists.value.push([]);
     };
 
+    const openCropper = (file: IFile) => {
+      store.commit('cropper/open', Cropper.CreateCropper(1300 / 300, file.url, 'carousels', 'saveFromCropper'));
+    };
+
     const toggleUpload = (file: IFile) => {
       if (!nowSlide.value) nowSlide.value = 0;
-      if (!carousel.value.carouselSlides[nowSlide.value].fileInfo) {
-        carousel.value.carouselSlides[nowSlide.value].fileInfo = new FileInfo();
-      }
       showUpload.value[nowSlide.value] = !showUpload.value;
-      carousel.value.carouselSlides[nowSlide.value].fileInfo = new FileInfo({
-        id: carousel.value.carouselSlides[nowSlide.value].fileInfo.id,
-        originalName: file.name,
-        file: file.raw,
-        fileSystemPath: uuidv4(),
-        category: 'slide',
-      });
-      if (carousel.value.carouselSlidesNames[nowSlide.value]) {
-        carousel.value.carouselSlidesNames[nowSlide.value] = carousel.value.carouselSlides[nowSlide.value].fileInfo.fileSystemPath;
-      } else {
-        carousel.value.carouselSlidesNames.push(carousel.value.carouselSlides[nowSlide.value].fileInfo.fileSystemPath);
-      }
-
-      imageCropSrc.value = file.url;
-      isCropOpen.value = true;
+      store.commit('carousels/setSlide', file);
+      openCropper(file);
     };
 
     const submit = async () => {
@@ -255,9 +225,6 @@ export default defineComponent({
       if (!nowSlide.value) nowSlide.value = 0;
       carousel.value.carouselSlides[nowSlide.value].fileInfo.file = file.blob;
       carousel.value.carouselSlides[nowSlide.value].fileInfo.category = 'slide';
-
-      fileLists.value[nowSlide.value][0] = { name: carousel.value.carouselSlides[nowSlide.value].fileInfo.fileSystemPath, url: file.src };
-      isCropOpen.value = false;
       if (fileLists.value[nowSlide.value].length > 0) showUpload.value[nowSlide.value] = false;
     };
 
@@ -268,9 +235,8 @@ export default defineComponent({
       }, 800);
     };
 
-    const handlePictureCardPreview = (file: IFile) => {
-      imageCropSrc.value = file.url;
-      isCropOpen.value = true;
+    const handlePictureCardPreview = (file: IFile): void => {
+      openCropper(file);
     };
 
     const removeSlide = (i: number) => {
@@ -285,7 +251,7 @@ export default defineComponent({
       sanitizeHtml,
       removeSlide,
       editorOptions,
-      isCropOpen,
+      openCropper,
       fileLists,
       nowSlide,
       activeTab,
@@ -299,7 +265,6 @@ export default defineComponent({
       carousel,
       showUpload,
       toggleUpload,
-      imageCropSrc,
     };
   },
 });

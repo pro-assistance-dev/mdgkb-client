@@ -8,6 +8,6 @@ export default interface ICarouselSlide {
   fileInfoId?: string;
   buttonShow: boolean;
   buttonColor: string;
-  fileInfo?: IFileInfo;
+  fileInfo: IFileInfo;
   link: string;
 }

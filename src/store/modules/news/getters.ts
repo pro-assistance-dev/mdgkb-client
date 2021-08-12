@@ -1,6 +1,8 @@
 import { GetterTree } from 'vuex';
 
 import News from '@/classes/news/News';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import IFilesList from '@/interfaces/files/IFIlesList';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
 import ITag from '@/interfaces/news/ITag';
@@ -36,6 +38,18 @@ const getters: GetterTree<State, RootState> = {
   },
   calendarMeta(state): ICalendarMeta | undefined {
     return state.calendarMeta;
+  },
+  previewFileList(state): IFilesList[] {
+    return state.previewFileList;
+  },
+  mainImageList(state): IFilesList[] {
+    return state.mainImageList;
+  },
+  galleryList(state): IFilesList[] {
+    return state.galleryList;
+  },
+  fileInfo(state): IFileInfo {
+    return state.newsItem.fileInfo;
   },
 };
 

@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { MutationTree } from 'vuex';
 
 import FileInfo from '@/classes/File/FileInfo';
@@ -10,6 +9,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
+import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
 import ITag from '@/interfaces/news/ITag';
 
@@ -30,6 +30,14 @@ const mutations: MutationTree<State> = {
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
+    if (state.newsItem.fileInfo.fileSystemPath) state.previewFileList[0] = state.newsItem.fileInfo.getFileListObject();
+    if (state.newsItem.mainImage.fileSystemPath) state.mainImageList[0] = state.newsItem.mainImage.getFileListObject();
+    state.galleryList = [];
+    state.newsItem.newsImages.forEach((i: INewsImage) => {
+      if (!i.fileInfo) return;
+      const file = i.fileInfo.getFileListObject();
+      if (file) state.galleryList.push(file);
+    });
   },
   clearPreviewFile(state) {
     if (!state.newsItem) return;
@@ -132,14 +140,46 @@ const mutations: MutationTree<State> = {
   },
   pushToNewsImages(state, file: IFile) {
     if (!state.newsItem) return;
-    const image = new FileInfo({
-      originalName: file.name,
-      file: file.raw,
-      fileSystemPath: uuidv4(),
-      category: 'gallery',
-    });
+    const image = FileInfo.CreatePreviewFile(file, 'gallery');
     if (image.fileSystemPath) state.newsItem.newsImagesNames.push(image.fileSystemPath);
     state.newsItem.newsImages.push(new NewsImage({ fileInfo: image }));
+  },
+  setPreviewFile(state, file: IFile) {
+    state.newsItem.fileInfo.file = file.blob;
+    state.newsItem.fileInfo.category = 'previewFile';
+    if (state.newsItem.fileInfo.fileSystemPath) {
+      state.previewFileList[0] = { name: state.newsItem.fileInfo.fileSystemPath, url: file.src };
+    }
+  },
+  saveFromCropperMain(state, file: IFile) {
+    state.newsItem.mainImage.file = file.blob;
+    state.newsItem.mainImage.category = 'mainImage';
+    if (state.newsItem.mainImage.fileSystemPath) {
+      state.mainImageList.push({ name: state.newsItem.mainImage.fileSystemPath, url: file.src });
+    }
+  },
+  saveFromCropperGallery(state, file: IFile) {
+    if (!state.newsItem.newsImages[state.curGalleryCropIndex].fileInfo) return;
+    const fileInfo = FileInfo.CreatePreviewFile(file, 'gallery');
+    state.newsItem.newsImages[state.curGalleryCropIndex].fileInfo = fileInfo;
+    if (fileInfo.fileSystemPath) {
+      state.galleryList[state.curGalleryCropIndex] = {
+        name: fileInfo.fileSystemPath,
+        url: file.src,
+      };
+    }
+  },
+  removeFromGallery(state, file: IFile) {
+    const index = state.galleryList.findIndex((i) => i.name === file.name);
+    if (index > -1) {
+      state.galleryList.splice(index, 1);
+      const id = state.newsItem.newsImages[index].id;
+      if (id) state.newsItem.newsImagesForDelete.push(id);
+      state.newsItem.newsImages.splice(index, 1);
+    }
+  },
+  setCurGalleryCropIndex(state, index: number) {
+    state.curGalleryCropIndex = index;
   },
 };
 

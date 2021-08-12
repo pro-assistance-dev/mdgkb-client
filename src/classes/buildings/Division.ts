@@ -1,7 +1,9 @@
 import Doctor from '@/classes/doctors/Doctor';
+import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 export default class Division implements IDivision {
@@ -17,6 +19,8 @@ export default class Division implements IDivision {
   doctors: IDoctor[] = [];
   timetable: ITimetable = new Timetable();
   timetableId?: string;
+  schedule: ISchedule = new Schedule();
+  scheduleId?: string;
 
   constructor(i?: IDivision) {
     if (!i) return;
@@ -32,5 +36,7 @@ export default class Division implements IDivision {
     if (i.doctors) this.doctors = i.doctors.map((item: IDoctor) => new Doctor(item));
     if (i.timetable) this.timetable = new Timetable(i.timetable);
     this.timetableId = i.timetableId;
+    if (i.schedule) this.schedule = new Schedule(i.schedule);
+    this.scheduleId = i.scheduleId;
   }
 }

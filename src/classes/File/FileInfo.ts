@@ -1,3 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
+
+import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
 
@@ -6,7 +9,7 @@ export default class FileInfo implements IFileInfo {
   originalName = '';
   fileSystemPath;
   category?;
-  file?: File;
+  file?: Blob;
 
   constructor(i?: IFileInfo) {
     if (!i) return;
@@ -24,5 +27,22 @@ export default class FileInfo implements IFileInfo {
 
   getFileListObject(): IFilesList {
     return { name: this.originalName, url: this.getImageUrl() };
+  }
+
+  static CreatePreviewFile(file: IFile, category: string, id?: string): IFileInfo {
+    const fileInfo = new FileInfo();
+    fileInfo.id = id;
+    fileInfo.originalName = file.name;
+    fileInfo.file = file.blob;
+    fileInfo.fileSystemPath = uuidv4();
+    fileInfo.category = category;
+    return fileInfo;
+  }
+
+  static CreateFileInfo(file: IFile): IFileInfo {
+    const fileInfo = new FileInfo();
+    fileInfo.originalName = file.name;
+    fileInfo.file = file.raw;
+    return fileInfo;
   }
 }

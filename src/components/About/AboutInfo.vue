@@ -57,8 +57,24 @@
       <div></div>
     </el-card>
     <el-card>
-      <template #header>Распорядок дня</template>
-      <div></div>
+      <template #header>{{ division.schedule.name }}</template>
+      <div>
+        <ul>
+          <li v-for="item in division.schedule.scheduleItems" :key="item">
+            {{ item.getTime(item.startTime) }}-{{ item.getTime(item.endTime) }}: {{ item.name }}
+          </li>
+        </ul>
+      </div>
+    </el-card>
+    <el-card>
+      <template #header>График работы</template>
+      <div>
+        <ul>
+          <li v-for="item in division.timetable.timetableDays" :key="item">
+            {{ item.getTime(item.startTime) }}-{{ item.getTime(item.endTime) }}: {{ item.name }}
+          </li>
+        </ul>
+      </div>
     </el-card>
     <el-card>
       <template #header>Контакты</template>

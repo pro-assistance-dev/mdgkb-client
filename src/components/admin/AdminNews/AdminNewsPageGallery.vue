@@ -20,7 +20,7 @@
           <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
         </div>
         <span class="el-upload-list__item-actions">
-          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, 'gallery')">
+          <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
             <i class="el-icon-zoom-in"></i>
           </span>
           <span class="el-upload-list__item-delete" @click="$emit('handleRemove', file)">
@@ -35,34 +35,37 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
-import FileInfo from '@/classes/File/FileInfo';
+import Cropper from '@/classes/cropper/Cropper';
 import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
   name: 'AdminNewsPage',
-  props: {
-    fileList: {
-      type: Object as PropType<IFilesList[]>,
-      required: true,
-    },
-    fileInfo: {
-      type: Object as PropType<FileInfo>,
-      required: true,
-    },
-  },
   emits: ['toggleUpload', 'handleRemove', 'handlePictureCardPreview'],
   setup(props, { emit }) {
     const store = useStore();
+    const fileList = computed(() => store.getters[`news/galleryList`]);
+
     const toggleUpload = (file: IFile) => {
       store.commit('news/pushToNewsImages', file);
       emit('toggleUpload', file.url, 'gallery');
     };
+    const openCropper = (file: IFile) => {
+      store.commit('cropper/open', Cropper.CreateCropper(8 / 3.3, file.url, 'news', 'saveFromCropperGallery'));
+    };
+
+    const handlePictureCardPreview = (file: IFile) => {
+      const index = fileList.value.findIndex((f: IFilesList) => f.name === file.name);
+      if (index > -1) store.commit('news/setCurGalleryCropIndex', index);
+      openCropper(file);
+    };
 
     return {
+      handlePictureCardPreview,
+      fileList,
       toggleUpload,
     };
   },

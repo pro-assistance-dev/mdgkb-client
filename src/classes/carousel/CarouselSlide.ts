@@ -9,7 +9,7 @@ export default class CarouselSlide implements ICarouselSlide {
   buttonColor = '';
   buttonShow = false;
   fileInfoId?: string;
-  fileInfo?: IFileInfo;
+  fileInfo: IFileInfo = new FileInfo();
   carouselId?: string;
   link = '';
 

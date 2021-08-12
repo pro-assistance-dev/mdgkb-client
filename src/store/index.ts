@@ -5,6 +5,7 @@ import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { carousels } from '@/store/modules/carousels';
+import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { news } from '@/store/modules/news';
@@ -27,6 +28,7 @@ const store: StoreOptions<RootState> = {
   modules: {
     auth,
     banners,
+    cropper,
     buildings,
     divisions,
     doctors,
