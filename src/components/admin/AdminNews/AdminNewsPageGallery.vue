@@ -23,7 +23,7 @@
           <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
             <i class="el-icon-zoom-in"></i>
           </span>
-          <span class="el-upload-list__item-delete" @click="$emit('handleRemove', file)">
+          <span class="el-upload-list__item-delete" @click="handleRemove(file)">
             <i class="el-icon-delete"></i>
           </span>
         </span>
@@ -45,16 +45,18 @@ import IFilesList from '@/interfaces/files/IFIlesList';
 export default defineComponent({
   name: 'AdminNewsPage',
   emits: ['toggleUpload', 'handleRemove', 'handlePictureCardPreview'],
-  setup(props, { emit }) {
+  setup() {
     const store = useStore();
     const fileList = computed(() => store.getters[`news/galleryList`]);
 
-    const toggleUpload = (file: IFile) => {
-      store.commit('news/pushToNewsImages', file);
-      emit('toggleUpload', file.url, 'gallery');
-    };
     const openCropper = (file: IFile) => {
       store.commit('cropper/open', Cropper.CreateCropper(8 / 3.3, file.url, 'news', 'saveFromCropperGallery'));
+    };
+
+    const toggleUpload = (file: IFile) => {
+      store.commit('news/pushToNewsImages', file);
+      store.commit('news/setCurGalleryCropIndex', fileList.value.length - 1);
+      openCropper(file);
     };
 
     const handlePictureCardPreview = (file: IFile) => {
@@ -63,10 +65,15 @@ export default defineComponent({
       openCropper(file);
     };
 
+    const handleRemove = (file: IFile) => {
+      store.commit('news/removeFromGallery', file);
+    };
+
     return {
       handlePictureCardPreview,
       fileList,
       toggleUpload,
+      handleRemove,
     };
   },
 });
