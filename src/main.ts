@@ -146,7 +146,7 @@ const components = [
   ElTimeSelect,
   ElCheckboxButton,
 ];
-const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification, ElInfiniteScroll];
+const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];
 const app = createApp(App);
 
 import locale from 'element-plus/lib/locale';

@@ -40,6 +40,7 @@ export default class TimetableDay implements ITimetableDay {
     timetableDay.endTime = '18:00';
     timetableDay.weekday = weekday;
     timetableDay.weekdayId = weekday.id;
+    if (timetableDay.weekday.isWeekend()) timetableDay.isWeekend = true;
     return timetableDay;
   }
 
