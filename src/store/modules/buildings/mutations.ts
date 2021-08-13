@@ -12,6 +12,12 @@ const mutations: MutationTree<State> = {
   set(state, building: IBuilding) {
     state.building = new Building(building);
   },
+  // addFlorr(state) {
+
+  // },
+  // removeFloor(state, id: string) {
+
+  // },
 };
 
 export default mutations;

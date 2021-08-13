@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 
+import Building from '@/classes/buildings/Building';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -9,7 +10,7 @@ import { State } from './state';
 
 export const state: State = {
   buildings: [],
-  building: undefined,
+  building: new Building(),
 };
 
 const namespaced = true;

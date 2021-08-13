@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :model="doctor" label-position="top" :rules="rules">
+  <el-form v-if="mounted" ref="form" :model="doctor" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
         <el-container direction="vertical">

@@ -11,6 +11,13 @@
             </span>
           </template>
         </el-table-column>
+        <el-table-column label="Входы" width="200px" align="center">
+          <template #default="scope">
+            <span v-for="(item, i) in scope.row.entrances" :key="item.id">
+              {{ i + 1 === scope.row.entrances.length ? item.number : `${item.number}, ` }}
+            </span>
+          </template>
+        </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
