@@ -53,7 +53,12 @@ export default defineComponent({
     let uploader = ref();
 
     const openCropper = (file: IFile) => {
+      // TODO достать url из el-upload
+      // if (file.raw?.type !== 'image/gif') {
       store.commit('cropper/open', Cropper.CreateCropper(file.url, 'banners', 'setFile'));
+      // } else {
+      //   store.commit('banners/setFileInfo', FileInfo.CreatePreviewFile(file, 'banners', fileInfo.value.id));
+      // }
     };
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;

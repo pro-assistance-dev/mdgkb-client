@@ -25,13 +25,17 @@ const mutations: MutationTree<State> = {
   },
   setFile(state, file: IFile) {
     state.banner.fileInfo.file = file.blob;
-    state.banner.fileInfo.category = 'banner';
+    state.banner.fileInfo.category = 'banners';
     if (state.banner.fileInfo.fileSystemPath) {
       state.fileList[0] = { name: state.banner.fileInfo.fileSystemPath, url: file.src };
     }
   },
   setFileInfo(state, fileInfo: IFileInfo) {
     state.banner.fileInfo = fileInfo;
+    // TODO достать url из el-upload
+    // if (state.banner.fileInfo.fileSystemPath) {
+    //   state.fileList[0] = { name: state.banner.fileInfo.fileSystemPath, url: ??? };
+    // }
   },
   moveUp(state, index: number) {
     const elementToMove = state.banners[index];
