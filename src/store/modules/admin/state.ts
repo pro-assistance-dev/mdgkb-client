@@ -6,5 +6,6 @@ export interface State {
   isCollapseSideMenu: boolean;
   isDrawerOpen: boolean;
   loading: ILoadingInstance | undefined;
+  loadingSaveButton: boolean;
   submit: undefined | (() => Promise<void>);
 }

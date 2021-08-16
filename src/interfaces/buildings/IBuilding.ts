@@ -1,3 +1,4 @@
+import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
 
 export default interface IBuilding {
@@ -7,5 +8,6 @@ export default interface IBuilding {
   name: string;
   status: string;
   description: string;
-  floors?: IFloor[];
+  floors: IFloor[];
+  entrances: IEntrance[];
 }

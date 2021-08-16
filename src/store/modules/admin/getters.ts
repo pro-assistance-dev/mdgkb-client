@@ -20,6 +20,9 @@ const getters: GetterTree<State, RootState> = {
   submit(state): (() => Promise<void>) | undefined {
     return state.submit;
   },
+  loadingSaveButton(state) {
+    return state.loadingSaveButton;
+  },
 };
 
 export default getters;

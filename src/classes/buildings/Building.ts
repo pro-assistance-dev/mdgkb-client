@@ -1,5 +1,7 @@
+import Entrance from '@/classes/buildings/Entrance';
 import Floor from '@/classes/buildings/Floor';
 import IBuilding from '@/interfaces/buildings/IBuilding';
+import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
 
 export default class Building implements IBuilding {
@@ -9,7 +11,8 @@ export default class Building implements IBuilding {
   name = '';
   status = '';
   description = '';
-  floors?: IFloor[] = [];
+  floors: IFloor[] = [];
+  entrances: IEntrance[] = [];
 
   constructor(i?: IBuilding) {
     if (!i) return;
@@ -19,15 +22,27 @@ export default class Building implements IBuilding {
     this.name = i.name;
     this.status = i.status;
     this.description = i.description;
-    // TODO Отсортировать на бэке
-    if (i.floors)
-      this.floors = i.floors
-        .map((item: IFloor) => new Floor(item))
-        .sort((a: IFloor, b: IFloor) => {
-          if (a.number && b.number) {
-            return a.number - b.number;
-          }
-          return 0;
-        });
+    if (i.floors) {
+      this.floors = i.floors.map((item: IFloor) => new Floor(item));
+      // .sort((a: IFloor, b: IFloor) => {
+      //   if (a.number && b.number) {
+      //     return a.number - b.number;
+      //   }
+      //   return 0;
+      // });
+    } else {
+      this.floors = [new Floor({ number: 1 })];
+    }
+    if (i.entrances) {
+      this.entrances = i.entrances.map((item: IEntrance) => new Entrance(item));
+      // .sort((a: IEntrance, b: IEntrance) => {
+      //   if (a.number && b.number) {
+      //     return a.number - b.number;
+      //   }
+      //   return 0;
+      // });
+    } else {
+      this.entrances = [new Entrance({ number: 1, buildingId: i.id })];
+    }
   }
 }

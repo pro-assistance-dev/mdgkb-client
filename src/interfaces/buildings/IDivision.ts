@@ -10,6 +10,7 @@ export default interface IDivision {
   email?: string;
   address?: string;
   floorId?: string;
+  entranceId?: string;
   buildingId?: string;
   slug?: string;
   doctors: IDoctor[];

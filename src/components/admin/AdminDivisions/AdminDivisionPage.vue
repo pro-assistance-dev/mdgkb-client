@@ -1,7 +1,7 @@
 <template>
-  <el-form ref="form" :key="division" :model="division" label-position="top" :rules="rules">
+  <el-form v-if="mounted" ref="form" :key="division" :model="division" label-position="top" :rules="rules">
     <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="17">
+      <el-col :xs="24" :sm="24" :md="24" :lg="15" :xl="15">
         <el-container direction="vertical">
           <el-card>
             <el-form-item label="Наименование отделения" prop="name">
@@ -12,6 +12,50 @@
             </el-form-item>
             <el-form-item label="Адрес">
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
+            </el-form-item>
+          </el-card>
+          <TimetableConstructor :store="'divisions'" />
+          <ScheduleConstructor :store="'divisions'" />
+        </el-container>
+      </el-col>
+      <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="9">
+        <el-container direction="vertical">
+          <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
+          <el-card>
+            <el-form-item label="Телефон">
+              <el-input v-model="division.phone" placeholder="Телефон"></el-input>
+            </el-form-item>
+            <el-form-item label="Email" prop="email">
+              <el-input v-model="division.email" placeholder="Email"></el-input>
+            </el-form-item>
+            <el-form-item label="Здание" prop="buildingId">
+              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание" @change="changeBuildingHandler">
+                <el-option v-for="item in buildingsOptions" :key="item.id" :label="item.name" :value="item.id" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Этаж" prop="floorId">
+              <el-select
+                v-model="division.floorId"
+                placeholder="Выберите этаж"
+                :disabled="division.buildingId ? false : true"
+                @change="changeDivisionAddress"
+              >
+                <template v-if="division.buildingId && buildingOption">
+                  <el-option v-for="item in buildingOption.floors" :key="item.id" :label="item.number" :value="item.id" />
+                </template>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Вход" prop="entranceId">
+              <el-select
+                v-model="division.entranceId"
+                placeholder="Выберите вход"
+                :disabled="division.buildingId && buildingOption.entrances.length ? false : true"
+                @change="changeDivisionAddress"
+              >
+                <template v-if="division.buildingId && buildingOption">
+                  <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
+                </template>
+              </el-select>
             </el-form-item>
           </el-card>
 
@@ -29,16 +73,6 @@
                   {{ scope.row.human.getFullName() }}
                 </template>
               </el-table-column>
-              <el-table-column label="Пол" align="center" sortable>
-                <template #default="scope">
-                  {{ scope.row.human.getGender() }}
-                </template>
-              </el-table-column>
-              <el-table-column label="Дата рождения" sortable>
-                <template #default="scope">
-                  {{ fillDateFormat(scope.row.human.dateBirth) }}
-                </template>
-              </el-table-column>
               <el-table-column width="40" fixed="right" align="center">
                 <template #default="scope">
                   <TableButtonGroup :show-remove-button="true" @remove="removeDoctor(scope.row.id)" />
@@ -46,38 +80,6 @@
               </el-table-column>
             </el-table>
           </el-card>
-        </el-container>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="8" :lg="6" :xl="7">
-        <el-container direction="vertical">
-          <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
-          <el-card>
-            <el-form-item label="Телефон">
-              <el-input v-model="division.phone" placeholder="Телефон"></el-input>
-            </el-form-item>
-            <el-form-item label="Email" prop="email">
-              <el-input v-model="division.email" placeholder="Email"></el-input>
-            </el-form-item>
-            <el-form-item label="Здание" prop="buildingId">
-              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание" @change="changeBuildingHandler">
-                <el-option v-for="item in buildingOptions" :key="item.id" :label="item.name" :value="item.id" />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Этаж" prop="floorId">
-              <el-select
-                v-model="division.floorId"
-                placeholder="Выберите этаж"
-                :disabled="division.buildingId ? false : true"
-                @change="changeFloorHandler"
-              >
-                <template v-if="division.buildingId && floorOptions">
-                  <el-option v-for="item in floorOptions.floors" :key="item.id" :label="item.number" :value="item.id" />
-                </template>
-              </el-select>
-            </el-form-item>
-          </el-card>
-          <TimetableConstructor :store="'divisions'" />
-          <ScheduleConstructor :store="'divisions'" />
         </el-container>
       </el-col>
     </el-row>
@@ -93,15 +95,17 @@ import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Building from '@/classes/buildings/Building';
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
 import Division from '@/classes/buildings/Division';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
+import IBuilding from '@/interfaces/buildings/IBuilding';
+import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import validate from '@/mixinsAsModules/validate';
+
 export default defineComponent({
   name: 'AdminDivisionPage',
   components: { QuillEditor, TableButtonGroup, TimetableConstructor, ScheduleConstructor },
@@ -112,14 +116,15 @@ export default defineComponent({
     const router = useRouter();
     const form = ref();
     const rules = ref(DivisioinRules);
+    const mounted = ref(false);
 
     const division = computed(() => store.getters['divisions/division']);
     const doctors = computed(() => store.getters['doctors/doctors']);
     const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
     const divisionDoctors = computed(() => store.getters['doctors/divisionDoctors']);
     const newDoctorId = ref();
-    const floorOptions = ref();
-    const buildingOptions = ref([new Building()]);
+    const buildingOption = computed(() => store.getters['buildings/building']);
+    const buildingsOptions = computed(() => store.getters['buildings/buildings']);
 
     onBeforeMount(() => {
       store.commit('admin/showLoading');
@@ -128,7 +133,6 @@ export default defineComponent({
 
     const loadB1uildingOptions = async (): Promise<void> => {
       await store.dispatch('buildings/getAll');
-      buildingOptions.value = store.getters['buildings/buildings'];
     };
     const loadDivision = async (): Promise<void> => {
       await store.dispatch('doctors/getAll');
@@ -136,15 +140,15 @@ export default defineComponent({
         await store.dispatch('divisions/get', route.params['id']);
         store.dispatch('doctors/setDivisionDoctorsByDivisionId', route.params['id']);
         if (division.value.floorId) {
-          await store.dispatch('buildings/getByFloorId', division.value.floorId);
-          division.value.buildingId = store.getters['buildings/building'].id;
-          floorOptions.value = buildingOptions.value.find((item) => item.id == division.value.buildingId);
+          store.commit('buildings/setBuildingByFloorId', division.value.floorId);
+          division.value.buildingId = buildingOption.value.id;
         }
         store.commit('admin/setPageTitle', { title: division.value.name, saveButton: true });
       } else {
         store.commit('divisions/set', new Division());
         store.commit('admin/setPageTitle', { title: 'Создать отделение', saveButton: true });
       }
+      mounted.value = true;
     };
 
     const load = async (): Promise<void> => {
@@ -170,15 +174,28 @@ export default defineComponent({
       router.push('/admin/divisions');
     };
 
-    const changeBuildingHandler = () => {
-      floorOptions.value = buildingOptions.value.find((item) => item.id == division.value.buildingId);
-      division.value.floorId = '';
+    const changeBuildingHandler = (id: string) => {
+      const building = buildingsOptions.value.find((item: IBuilding) => item.id == id);
+      store.commit('buildings/set', building);
+      if (buildingOption.value.floors.length === 1) {
+        division.value.floorId = buildingOption.value.floors[0].id;
+      } else {
+        division.value.floorId = '';
+      }
+      if (buildingOption.value.entrances.length === 1) {
+        division.value.entranceId = buildingOption.value.entrances[0].id;
+      } else {
+        division.value.entranceId = '';
+      }
+      changeDivisionAddress();
     };
 
-    const changeFloorHandler = () => {
-      const building = buildingOptions.value.find((item) => item.id == division.value.buildingId);
-      const floor = floorOptions.value.floors.find((item: IFloor) => item.id == division.value.floorId);
-      if (building) division.value.address = `${building.address}, ${floor.number} этаж`;
+    const changeDivisionAddress = () => {
+      const floor = buildingOption.value.floors.find((item: IFloor) => item.id == division.value.floorId);
+      const entrance = buildingOption.value.entrances.find((item: IEntrance) => item.id == division.value.entranceId);
+      division.value.address = `${buildingOption.value.address}${entrance?.number ? `, ${entrance.number} вход` : ''}${
+        floor?.number ? `, ${floor.number} этаж` : ''
+      }`;
     };
 
     const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
@@ -195,10 +212,10 @@ export default defineComponent({
 
     return {
       division,
-      buildingOptions,
+      buildingsOptions,
       changeBuildingHandler,
-      changeFloorHandler,
-      floorOptions,
+      changeDivisionAddress,
+      buildingOption,
       submit,
       form,
       rules,
@@ -209,6 +226,7 @@ export default defineComponent({
       addDoctor,
       removeDoctor,
       filteredDoctors,
+      mounted,
     };
   },
 });
