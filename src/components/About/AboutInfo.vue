@@ -16,12 +16,12 @@
       <div v-html="division.info"></div>
     </el-card>
     <el-card v-if="division.doctors.length">
-      <template #header>Врачи</template>
+      <template #header>Врачебный состав</template>
       <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
         <DoctorInfoCard :doctor="item" :division="division" />
       </div>
     </el-card>
-    <el-card>
+    <!-- <el-card>
       <template #header>Фото + 3D экскурсия</template>
       <div></div>
     </el-card>
@@ -32,7 +32,7 @@
     <el-card>
       <template #header>Нозологии</template>
       <div></div>
-    </el-card>
+    </el-card> -->
     <el-card>
       <template #header>Услуги-прайс</template>
       <el-collapse v-if="division.name === 'Гинекологическое отделение'" accordion>
@@ -48,15 +48,11 @@
         />
       </el-collapse>
     </el-card>
-    <el-card>
-      <template #header>Врачебный состав</template>
-      <div></div>
-    </el-card>
-    <el-card>
+    <!-- <el-card>
       <template #header>Госпитализации</template>
       <div></div>
-    </el-card>
-    <el-card>
+    </el-card> -->
+    <el-card v-if="division.schedule.name">
       <template #header>{{ division.schedule.name }}</template>
       <div>
         <ul>
@@ -66,7 +62,7 @@
         </ul>
       </div>
     </el-card>
-    <el-card>
+    <el-card v-if="division.timetable.length">
       <template #header>График работы</template>
       <div>
         <ul>

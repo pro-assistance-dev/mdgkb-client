@@ -37,7 +37,12 @@ const mutations: MutationTree<State> = {
     state.loading?.close();
   },
   setSubmit(state, value: () => Promise<void>) {
-    state.submit = value;
+    const submit = async () => {
+      state.loadingSaveButton = true;
+      await value();
+      state.loadingSaveButton = false;
+    };
+    state.submit = submit;
   },
 };
 

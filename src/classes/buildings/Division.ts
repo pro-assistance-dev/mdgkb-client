@@ -14,6 +14,7 @@ export default class Division implements IDivision {
   email?: string = '';
   address?: string = '';
   floorId?: string;
+  entranceId?: string;
   buildingId?: string = '';
   slug?: string = '';
   doctors: IDoctor[] = [];
@@ -32,6 +33,7 @@ export default class Division implements IDivision {
     this.address = i.address;
     this.buildingId = i.buildingId;
     this.floorId = i.floorId;
+    this.entranceId = i.entranceId;
     this.slug = i.slug;
     if (i.doctors) this.doctors = i.doctors.map((item: IDoctor) => new Doctor(item));
     if (i.timetable) this.timetable = new Timetable(i.timetable);

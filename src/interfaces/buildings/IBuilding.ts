@@ -8,6 +8,6 @@ export default interface IBuilding {
   name: string;
   status: string;
   description: string;
-  floors?: IFloor[];
-  entrances?: IEntrance[];
+  floors: IFloor[];
+  entrances: IEntrance[];
 }

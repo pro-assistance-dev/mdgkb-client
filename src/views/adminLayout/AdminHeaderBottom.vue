@@ -2,7 +2,7 @@
   <div class="admin-header-bottom">
     <div v-if="showSaveButton" class="flex-between">
       <el-page-header title="" :content="pageTitle" @back="goBack" />
-      <el-button type="success" @click.prevent="submit">Сохранить</el-button>
+      <el-button type="success" :loading="loadingSaveButton" @click.prevent="submit">Сохранить</el-button>
     </div>
     <h4 v-else style="margin-left: 20px">{{ pageTitle }}</h4>
   </div>
@@ -18,11 +18,18 @@ export default defineComponent({
     const router = useRouter();
     const pageTitle = computed(() => store.getters['admin/pageTitle']);
     const showSaveButton = computed(() => store.getters['admin/showSaveButton']);
+    const loadingSaveButton = computed(() => store.getters['admin/loadingSaveButton']);
     const submit = computed(() => store.getters['admin/submit']);
     const goBack = () => {
       router.go(-1);
     };
-    return { pageTitle, goBack, showSaveButton, submit };
+    return {
+      pageTitle,
+      goBack,
+      showSaveButton,
+      submit,
+      loadingSaveButton,
+    };
   },
 });
 </script>

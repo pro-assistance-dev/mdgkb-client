@@ -28,19 +28,7 @@
           @change="chooseTag(item)"
         >
           {{ item.label }}
-          <!-- <el-popconfirm
-                                          confirmButtonText="Да"
-                                          cancelButtonText="Отмена"
-                                          icon="el-icon-info"
-                                          iconColor="red"
-                                          title="Вы уверены, что хотите удалить тэг? Это действие удалит его на созданных новостях в том числе"
-                                          @confirm="removeTag(tag.id)"
-                                          @cancel="() => {}"
-                                        >
-                                          <template #reference> -->
           <i class="el-icon-close delete-tag-icon" @click.prevent="confirmTagDelete(item.id)"></i>
-          <!-- </template>
-                                        </el-popconfirm> -->
         </el-checkbox>
       </div>
     </el-form-item>

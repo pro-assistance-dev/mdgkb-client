@@ -11,8 +11,8 @@ export default class Building implements IBuilding {
   name = '';
   status = '';
   description = '';
-  floors?: IFloor[] = [];
-  entrances?: IEntrance[] = [];
+  floors: IFloor[] = [];
+  entrances: IEntrance[] = [];
 
   constructor(i?: IBuilding) {
     if (!i) return;
@@ -30,6 +30,8 @@ export default class Building implements IBuilding {
       //   }
       //   return 0;
       // });
+    } else {
+      this.floors = [new Floor({ number: 1 })];
     }
     if (i.entrances) {
       this.entrances = i.entrances.map((item: IEntrance) => new Entrance(item));
@@ -39,6 +41,8 @@ export default class Building implements IBuilding {
       //   }
       //   return 0;
       // });
+    } else {
+      this.entrances = [new Entrance({ number: 1, buildingId: i.id })];
     }
   }
 }

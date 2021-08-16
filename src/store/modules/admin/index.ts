@@ -9,6 +9,7 @@ import { State } from './state';
 export const state: State = {
   pageTitle: '',
   showSaveButton: false,
+  loadingSaveButton: false,
   isCollapseSideMenu: true,
   isDrawerOpen: false,
   loading: undefined,

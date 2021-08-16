@@ -31,7 +31,7 @@ const mutations: MutationTree<State> = {
     state.divisionDoctors.splice(index, 1);
   },
   filterDoctors(state) {
-    if (!state.divisionDoctors.length) {
+    if (!state.divisionDoctors?.length) {
       state.filteredDoctors = state.doctors;
       return;
     }

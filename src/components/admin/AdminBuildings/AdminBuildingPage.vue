@@ -24,7 +24,10 @@
                   <el-button icon="el-icon-plus" @click="addFloor"></el-button>
                 </template>
                 <template #default="scope">
-                  <TableButtonGroup :show-remove-button="true" @remove="removeFloor(scope.$index)" />
+                  <TableButtonGroup
+                    :show-remove-button="true"
+                    @remove="building.floors[scope.$index].divisions.length ? showRemoveWarning() : removeFloor(scope.row.id)"
+                  />
                 </template>
               </el-table-column>
             </el-table>
@@ -43,10 +46,13 @@
               </el-table-column>
               <el-table-column width="50" align="center">
                 <template #header>
-                  <el-button icon="el-icon-plus" @click="addFloor"></el-button>
+                  <el-button icon="el-icon-plus" @click="addEntrance"></el-button>
                 </template>
                 <template #default="scope">
-                  <TableButtonGroup :show-remove-button="true" @remove="removeFloor(scope.$index)" />
+                  <TableButtonGroup
+                    :show-remove-button="true"
+                    @remove="building.entrances[scope.$index].divisions.length ? showRemoveWarning() : removeEntrance(scope.row.id)"
+                  />
                 </template>
               </el-table-column>
             </el-table>
@@ -59,12 +65,12 @@
 </template>
 
 <script lang="ts">
+import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import BuildingRules from '@/classes/buildings/BuildingRules';
-import Floor from '@/classes/buildings/Floor';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import validate from '@/mixinsAsModules/validate';
 
@@ -91,8 +97,18 @@ export default defineComponent({
       mounted.value = true;
     };
 
-    const addFloor = () => building.value.floors.push(new Floor({ buildingId: building.value.id, number: 0 }));
-    const removeFloor = (index: string) => building.value.floors.splice(index, 1);
+    const addFloor = () => store.commit('buildings/addFloor');
+    const addEntrance = () => store.commit('buildings/addEntrance');
+    const removeEntrance = (id: string) => store.commit('buildings/removeEntrance', id);
+    const showRemoveWarning = () => {
+      ElMessage({
+        type: 'warning',
+        message: 'Удаление отменено. Есть привызяанные отделения',
+      });
+    };
+    const removeFloor = (id: string) => {
+      store.commit('buildings/removeFloor', id);
+    };
     onMounted(loadBuilding);
 
     const submit = async () => {
@@ -105,10 +121,13 @@ export default defineComponent({
       building,
       addFloor,
       removeFloor,
+      addEntrance,
+      removeEntrance,
       submit,
       rules,
       form,
       mounted,
+      showRemoveWarning,
     };
   },
 });
