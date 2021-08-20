@@ -78,6 +78,7 @@
       <div v-if="division.email">Email: {{ division.email }}</div>
       <div v-if="division.address">Адрес: {{ division.address }}</div>
     </el-card>
+    <ImageGallery :images="division.divisionImages" />
   </el-container>
 </template>
 
@@ -85,6 +86,7 @@
 import { defineComponent, onMounted, onUnmounted, PropType, ref } from 'vue';
 
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
+import ImageGallery from '@/components/ImageGallery.vue';
 import { ginDiv } from '@/components/PaidServices/ginDiv';
 import { otoDiv } from '@/components/PaidServices/otoDiv';
 import PaidService from '@/components/PaidServices/PaidService.vue';
@@ -93,7 +95,7 @@ import IPaidService from '@/interfaces/IPaidService';
 
 export default defineComponent({
   name: 'AboutInfo',
-  components: { PaidService, DoctorInfoCard },
+  components: { PaidService, DoctorInfoCard, ImageGallery },
   props: {
     division: {
       type: Object as PropType<IDivision>,

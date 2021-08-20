@@ -1,39 +1,42 @@
 <template>
-  <el-card class="card-content">
-    <template #header>
-      <div class="card-header">
-        <h2 class="title article-title">{{ division.name }}</h2>
-      </div>
-    </template>
+  <div class="division-page-container">
+    <el-card class="card-content">
+      <template #header>
+        <div class="card-header">
+          <h2 class="title article-title">{{ division.name }}</h2>
+        </div>
+      </template>
 
-    <div class="content article-body" v-html="division.info"></div>
+      <div class="content article-body" v-html="division.info"></div>
 
-    <div class="footer">
-      <el-button @click="$router.push('/map')">Вернуться назад</el-button>
-    </div>
-  </el-card>
-  <el-card v-if="division.doctors.length" class="card-content">
-    <template #header>
-      <div class="card-header">
-        <h2 class="title article-title">Врачи</h2>
+      <div class="footer">
+        <el-button @click="$router.push('/map')">Вернуться назад</el-button>
       </div>
-    </template>
-    <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
-      <DoctorInfoCard :doctor="item" :division="division" />
-    </div>
-  </el-card>
-  <el-card v-if="division.phone || division.email || division.address" class="card-content">
-    <template #header>
-      <div class="card-header">
-        <h2 class="title article-title">Контакты</h2>
+    </el-card>
+    <el-card v-if="division.doctors.length" class="card-content">
+      <template #header>
+        <div class="card-header">
+          <h2 class="title article-title">Врачи</h2>
+        </div>
+      </template>
+      <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
+        <DoctorInfoCard :doctor="item" :division="division" />
       </div>
-    </template>
-    <div class="content article-body">
-      <div v-if="division.phone"><b>Телефон:</b> {{ division.phone }}</div>
-      <div v-if="division.email"><b>Email:</b> {{ division.email }}</div>
-      <div v-if="division.address"><b>Адрес:</b> {{ division.address }}</div>
-    </div>
-  </el-card>
+    </el-card>
+    <el-card v-if="division.phone || division.email || division.address" class="card-content">
+      <template #header>
+        <div class="card-header">
+          <h2 class="title article-title">Контакты</h2>
+        </div>
+      </template>
+      <div class="content article-body">
+        <div v-if="division.phone"><b>Телефон:</b> {{ division.phone }}</div>
+        <div v-if="division.email"><b>Email:</b> {{ division.email }}</div>
+        <div v-if="division.address"><b>Адрес:</b> {{ division.address }}</div>
+      </div>
+    </el-card>
+    <ImageGallery :images="division.divisionImages" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -42,10 +45,11 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
+import ImageGallery from '@/components/ImageGallery.vue';
 
 export default defineComponent({
   name: 'DivisionPage',
-  components: { DoctorInfoCard },
+  components: { DoctorInfoCard, ImageGallery },
   async setup() {
     const store = useStore();
     const route = useRoute();
@@ -60,11 +64,17 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+$division-content-max-width: 800px;
+
+.division-page-container {
+  max-width: $division-content-max-width;
+  margin: 0 auto;
+}
 .card-content {
-  width: 60%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
+  width: 100%;
 
   .card-header {
     text-align: center;

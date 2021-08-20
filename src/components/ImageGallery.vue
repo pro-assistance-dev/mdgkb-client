@@ -1,8 +1,8 @@
 <template>
-  <div v-if="newsImages.length > 0" class="gallery-container">
+  <div v-if="images.length > 0" class="gallery-container">
     <el-carousel arrow="always" :interval="4000" indicator-position="outside">
-      <el-carousel-item v-for="newsImage in newsImages" :key="newsImage.id">
-        <img :src="newsImage.fileInfo.getImageUrl()" alt="alt" />
+      <el-carousel-item v-for="image in images" :key="image.id">
+        <img :src="image.fileInfo.getImageUrl()" alt="alt" />
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -11,13 +11,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({
-  name: 'NewsGallery',
+  name: 'ImageGallery',
   props: {
-    newsImages: {
-      type: Array as PropType<Array<INewsImage>>,
+    images: {
+      type: Array as PropType<Array<INewsImage | IDivisionImage>>,
       required: true,
     },
   },
@@ -27,6 +28,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .gallery-container {
   margin-top: 30px;
+  max-width: 800px;
   img {
     width: 100%;
     max-width: 100%;

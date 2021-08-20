@@ -1,3 +1,4 @@
+import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
@@ -18,4 +19,7 @@ export default interface IDivision {
   timetableId?: string;
   scheduleId?: string;
   schedule: ISchedule;
+  divisionImages: IDivisionImage[];
+  divisionImagesForDelete: string[];
+  divisionImagesNames: string[];
 }

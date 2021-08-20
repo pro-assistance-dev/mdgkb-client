@@ -1,6 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import IDivision from '@/interfaces/buildings/IDivision';
+import IFilesList from '@/interfaces/files/IFIlesList';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import RootState from '@/store/types';
@@ -21,6 +22,9 @@ const getters: GetterTree<State, RootState> = {
   },
   schedule(state): ISchedule | undefined {
     if (state.division) return state.division.schedule;
+  },
+  galleryList(state): IFilesList[] {
+    return state.galleryList;
   },
 };
 

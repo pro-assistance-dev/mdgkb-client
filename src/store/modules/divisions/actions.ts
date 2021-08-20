@@ -1,6 +1,8 @@
 import { ActionTree } from 'vuex';
 
 import IDivision from '@/interfaces/buildings/IDivision';
+import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -16,11 +18,19 @@ const actions: ActionTree<State, RootState> = {
     commit('set', await httpClient.get<IDivision>({ query: `${id}` }));
   },
   create: async ({ commit }, division: IDivision): Promise<void> => {
-    await httpClient.post<IDivision, IDivision>({ payload: division });
+    const fileInfos: IFileInfo[] = [];
+    division.divisionImages.forEach((image: IDivisionImage) => {
+      if (image.fileInfo) fileInfos.push(image.fileInfo);
+    });
+    await httpClient.post<IDivision, IDivision>({ payload: division, fileInfos: fileInfos, isFormData: true });
     commit('set');
   },
   update: async ({ commit }, division: IDivision): Promise<void> => {
-    await httpClient.put<IDivision, IDivision>({ query: `${division.id}`, payload: division });
+    const fileInfos: IFileInfo[] = [];
+    division.divisionImages.forEach((image: IDivisionImage) => {
+      if (image.fileInfo) fileInfos.push(image.fileInfo);
+    });
+    await httpClient.put<IDivision, IDivision>({ query: `${division.id}`, payload: division, fileInfos: fileInfos, isFormData: true });
     commit('set');
   },
   remove: async ({ commit }, id: string): Promise<void> => {

@@ -16,6 +16,7 @@
           </el-card>
           <TimetableConstructor :store="'divisions'" />
           <ScheduleConstructor :store="'divisions'" />
+          <AdminDivisionGallery />
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="9">
@@ -84,6 +85,7 @@
       </el-col>
     </el-row>
   </el-form>
+  <ImageCropper />
 </template>
 
 <script lang="ts">
@@ -96,7 +98,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
-import Division from '@/classes/buildings/Division';
+import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisionGallery.vue';
+import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
@@ -108,7 +111,7 @@ import validate from '@/mixinsAsModules/validate';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
-  components: { QuillEditor, TableButtonGroup, TimetableConstructor, ScheduleConstructor },
+  components: { ImageCropper, QuillEditor, TableButtonGroup, TimetableConstructor, ScheduleConstructor, AdminDivisionGallery },
 
   setup() {
     const store = useStore();
@@ -136,6 +139,7 @@ export default defineComponent({
     };
     const loadDivision = async (): Promise<void> => {
       await store.dispatch('doctors/getAll');
+      store.commit('divisions/resetState');
       if (route.params['id']) {
         await store.dispatch('divisions/get', route.params['id']);
         store.dispatch('doctors/setDivisionDoctorsByDivisionId', route.params['id']);
@@ -145,7 +149,6 @@ export default defineComponent({
         }
         store.commit('admin/setPageTitle', { title: division.value.name, saveButton: true });
       } else {
-        store.commit('divisions/set', new Division());
         store.commit('admin/setPageTitle', { title: 'Создать отделение', saveButton: true });
       }
       mounted.value = true;

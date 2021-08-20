@@ -78,7 +78,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$news-content-max-width: 800px;
+$news-content-max-width: 400px;
 $news-content-max-height: $news-content-max-width / 2;
 
 .hideUpload {
@@ -88,7 +88,7 @@ $news-content-max-height: $news-content-max-width / 2;
 }
 
 .avatar-uploader-cover {
-  height: 400px;
+  // height: 400px;
   text-align: center;
 }
 

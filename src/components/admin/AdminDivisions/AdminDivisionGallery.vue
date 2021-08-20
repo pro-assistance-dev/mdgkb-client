@@ -45,29 +45,29 @@ import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default defineComponent({
-  name: 'AdminNewsPage',
+  name: 'AdminDivisionGallery',
   setup() {
     const store = useStore();
-    const fileList = computed(() => store.getters[`news/galleryList`]);
+    const fileList = computed(() => store.getters[`divisions/galleryList`]);
 
     const openCropper = (file: IFile) => {
-      store.commit('cropper/open', Cropper.CreateCropper(file.url, 'news', 'saveFromCropperGallery', 8 / 3.3));
+      store.commit('cropper/open', Cropper.CreateCropper(file.url, 'divisions', 'saveFromCropperGallery', 8 / 3.3));
     };
 
     const toggleUpload = (file: IFile) => {
-      store.commit('news/pushToNewsImages', file);
-      store.commit('news/setCurGalleryCropIndex', fileList.value.length);
+      store.commit('divisions/pushToDivisionImages', file);
+      store.commit('divisions/setCurGalleryCropIndex', fileList.value.length);
       openCropper(file);
     };
 
     const handlePictureCardPreview = (file: IFile) => {
       const index = fileList.value.findIndex((f: IFilesList) => f.name === file.name);
-      if (index > -1) store.commit('news/setCurGalleryCropIndex', index);
+      if (index > -1) store.commit('divisions/setCurGalleryCropIndex', index);
       openCropper(file);
     };
 
     const handleRemove = (file: IFile) => {
-      store.commit('news/removeFromGallery', file);
+      store.commit('divisions/removeFromGallery', file);
     };
 
     return {
@@ -81,13 +81,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$news-content-max-width: 400px;
-$news-content-max-height: 165px;
-
 .gallery {
   width: 100%;
   text-align: center;
 }
+
+$news-content-max-width: 400px;
+$news-content-max-height: 165px;
 
 .hideUpload {
   :deep(.el-upload) {

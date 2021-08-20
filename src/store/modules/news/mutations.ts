@@ -181,7 +181,7 @@ const mutations: MutationTree<State> = {
     console.log(state.newsItem.newsImages);
   },
   removeFromGallery(state, file: IFile) {
-    const index = state.galleryList.findIndex((i) => i.name === file.name);
+    const index = state.galleryList.findIndex((i) => i.url === file.url);
     if (index > -1) {
       state.galleryList.splice(index, 1);
       const id = state.newsItem.newsImages[index].id;
