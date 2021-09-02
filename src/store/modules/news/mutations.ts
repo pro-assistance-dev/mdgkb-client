@@ -96,13 +96,13 @@ const mutations: MutationTree<State> = {
   },
   removeComment(state, commentId: string) {
     if (state.newsItem) {
-      const index = state.newsItem.newsComments.findIndex((item: NewsComment) => item.id === commentId);
+      const index = state.newsItem.newsComments.findIndex((item: INewsComment) => item.id === commentId);
       state.newsItem.newsComments.splice(index, 1);
     }
   },
   editComment(state, commentId: string) {
     if (state.newsItem) {
-      state.newsItem.newsComments = state.newsItem.newsComments.map((item: NewsComment) => {
+      state.newsItem.newsComments = state.newsItem.newsComments.map((item: INewsComment) => {
         if (item.comment.id === commentId) item.comment.isEditing = true;
         return item;
       });
@@ -110,7 +110,7 @@ const mutations: MutationTree<State> = {
   },
   updateComment(state, commentId: string) {
     if (state.newsItem) {
-      state.newsItem.newsComments = state.newsItem.newsComments.map((item: NewsComment) => {
+      state.newsItem.newsComments = state.newsItem.newsComments.map((item: INewsComment) => {
         if (item.comment.id === commentId) item.comment.isEditing = false;
         return item;
       });

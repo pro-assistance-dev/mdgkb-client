@@ -1,6 +1,7 @@
 import { Module } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
+import DivisionComment from '@/classes/buildings/DivisionComment';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -14,6 +15,7 @@ export const getDefaultState = (): State => {
     division: new Division(),
     galleryList: [],
     curGalleryCropIndex: 0,
+    comment: new DivisionComment(),
   };
 };
 

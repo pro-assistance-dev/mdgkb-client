@@ -1,11 +1,13 @@
 import { MutationTree } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
+import DivisionComment from '@/classes/buildings/DivisionComment';
 import DivisionImage from '@/classes/buildings/DIvisionImage';
 import FileInfo from '@/classes/File/FileInfo';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
+import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFile from '@/interfaces/files/IFile';
 import ISchedule from '@/interfaces/timetables/ISchedule';
@@ -106,6 +108,35 @@ const mutations: MutationTree<State> = {
       if (id) state.division.divisionImagesForDelete.push(id);
       state.division.divisionImages.splice(index, 1);
     }
+  },
+  setComment(state, item: IDivisionComment) {
+    if (state.division) state.division.divisionComments.push(item);
+    state.comment = new DivisionComment();
+  },
+  removeComment(state, commentId: string) {
+    if (state.division) {
+      const index = state.division.divisionComments.findIndex((item: IDivisionComment) => item.id === commentId);
+      state.division.divisionComments.splice(index, 1);
+    }
+  },
+  editComment(state, commentId: string) {
+    if (state.division) {
+      state.division.divisionComments = state.division.divisionComments.map((item: IDivisionComment) => {
+        if (item.comment.id === commentId) item.comment.isEditing = true;
+        return item;
+      });
+    }
+  },
+  updateComment(state, commentId: string) {
+    if (state.division) {
+      state.division.divisionComments = state.division.divisionComments.map((item: IDivisionComment) => {
+        if (item.comment.id === commentId) item.comment.isEditing = false;
+        return item;
+      });
+    }
+  },
+  setParentIdToComment(state, parentId: string) {
+    state.comment.divisionId = parentId;
   },
 };
 

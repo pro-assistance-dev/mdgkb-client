@@ -55,7 +55,7 @@ const getters: GetterTree<State, RootState> = {
   comment(state): INewsComment {
     return state.comment;
   },
-  newsComments(state): INewsComment[] {
+  сomments(state): INewsComment[] {
     return state.newsItem.newsComments;
   },
 };

@@ -1,8 +1,8 @@
 import IComment from '@/interfaces/IComment';
 
-export default interface INewsComment {
+export default interface IDoctorComment {
   id?: string;
-  newsId?: string;
+  doctorId?: string;
   commentId?: string;
 
   comment: IComment;

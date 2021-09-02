@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import IDivision from '@/interfaces/buildings/IDivision';
+import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import HttpClient from '@/services/HttpClient';
@@ -36,6 +37,22 @@ const actions: ActionTree<State, RootState> = {
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
+  },
+  removeComment: async ({ commit }, id: string): Promise<void> => {
+    await httpClient.delete({ query: `comment/${id}` });
+    commit('removeComment', id);
+  },
+  createComment: async ({ commit }, comment: IDivisionComment): Promise<void> => {
+    const res = await httpClient.post<IDivisionComment, IDivisionComment>({ query: `comment`, payload: comment });
+    commit('setComment', res);
+  },
+  updateComment: async ({ commit }, newComment: IDivisionComment): Promise<void> => {
+    await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });
+    commit('updateComment', newComment.comment.id);
+  },
+  deleteComment: async ({ commit }, comment: IDivisionComment): Promise<void> => {
+    await httpClient.delete({ query: `comment/${comment.id}` });
+    commit('deleteCommentFromNews', comment);
   },
 };
 

@@ -3,6 +3,9 @@ import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
+
+import DoctorComment from './DoctorComment';
 
 export default class Doctor implements IDoctor {
   id?: string;
@@ -16,6 +19,7 @@ export default class Doctor implements IDoctor {
   tags?: string;
   fileInfo = new FileInfo();
   fileInfoId?: string;
+  doctorComments: IDoctorComment[] = [];
 
   constructor(i?: IDoctor) {
     if (!i) return;
@@ -31,5 +35,6 @@ export default class Doctor implements IDoctor {
     this.tags = i.tags;
     this.fileInfoId = i.fileInfoId;
     if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
+    if (i.doctorComments) this.doctorComments = i.doctorComments.map((item: IDoctorComment) => new DoctorComment(item));
   }
 }

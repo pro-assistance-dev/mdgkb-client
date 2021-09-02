@@ -1,8 +1,10 @@
 import { MutationTree } from 'vuex';
 
 import Doctor from '@/classes/doctors/Doctor';
+import DoctorComment from '@/classes/doctors/DoctorComment';
 import FileInfo from '@/classes/File/FileInfo';
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
@@ -57,6 +59,35 @@ const mutations: MutationTree<State> = {
   },
   removeFileInfo(state) {
     state.doctor.fileInfo = new FileInfo();
+  },
+  setComment(state, item: IDoctorComment) {
+    if (state.doctor) state.doctor.doctorComments.push(item);
+    state.comment = new DoctorComment();
+  },
+  removeComment(state, commentId: string) {
+    if (state.doctor) {
+      const index = state.doctor.doctorComments.findIndex((item: IDoctorComment) => item.id === commentId);
+      state.doctor.doctorComments.splice(index, 1);
+    }
+  },
+  editComment(state, commentId: string) {
+    if (state.doctor) {
+      state.doctor.doctorComments = state.doctor.doctorComments.map((item: IDoctorComment) => {
+        if (item.comment.id === commentId) item.comment.isEditing = true;
+        return item;
+      });
+    }
+  },
+  updateComment(state, commentId: string) {
+    if (state.doctor) {
+      state.doctor.doctorComments = state.doctor.doctorComments.map((item: IDoctorComment) => {
+        if (item.comment.id === commentId) item.comment.isEditing = false;
+        return item;
+      });
+    }
+  },
+  setParentIdToComment(state, parentId: string) {
+    state.comment.doctorId = parentId;
   },
 };
 

@@ -1,7 +1,9 @@
+import DivisionComment from '@/classes/buildings/DivisionComment';
 import Doctor from '@/classes/doctors/Doctor';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
+import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import ISchedule from '@/interfaces/timetables/ISchedule';
@@ -28,6 +30,7 @@ export default class Division implements IDivision {
   divisionImages: IDivisionImage[] = [];
   divisionImagesForDelete: string[] = [];
   divisionImagesNames: string[] = [];
+  divisionComments: IDivisionComment[] = [];
 
   constructor(i?: IDivision) {
     if (!i) return;
@@ -47,5 +50,6 @@ export default class Division implements IDivision {
     if (i.schedule) this.schedule = new Schedule(i.schedule);
     this.scheduleId = i.scheduleId;
     if (i.divisionImages) this.divisionImages = i.divisionImages.map((item: IDivisionImage) => new DivisionImage(item));
+    if (i.divisionComments) this.divisionComments = i.divisionComments.map((item: IDivisionComment) => new DivisionComment(item));
   }
 }

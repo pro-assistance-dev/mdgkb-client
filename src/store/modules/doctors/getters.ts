@@ -1,6 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFIlesList from '@/interfaces/files/IFIlesList';
 import RootState from '@/store/types';
@@ -29,6 +30,12 @@ const getters: GetterTree<State, RootState> = {
   },
   fileList(state): IFIlesList[] {
     return state.fileList;
+  },
+  comment(state): IDoctorComment {
+    return state.comment;
+  },
+  сomments(state): IDoctorComment[] {
+    return state.doctor.doctorComments;
   },
 };
 

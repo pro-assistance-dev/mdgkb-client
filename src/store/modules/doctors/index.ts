@@ -1,6 +1,7 @@
 import { Module } from 'vuex';
 
 import Doctor from '@/classes/doctors/Doctor';
+import DoctorComment from '@/classes/doctors/DoctorComment';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -14,6 +15,7 @@ export const state: State = {
   doctor: new Doctor(),
   divisionDoctors: [],
   fileList: [],
+  comment: new DoctorComment(),
 };
 
 const namespaced = true;

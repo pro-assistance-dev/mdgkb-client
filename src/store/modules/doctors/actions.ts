@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -41,6 +42,22 @@ const actions: ActionTree<State, RootState> = {
   removeDoctorFromDivisionDoctors: async ({ commit }, id: string): Promise<void> => {
     commit('removeDoctorFromDivisionDoctors', id);
     commit('filterDoctors');
+  },
+  removeComment: async ({ commit }, id: string): Promise<void> => {
+    await httpClient.delete({ query: `comment/${id}` });
+    commit('removeComment', id);
+  },
+  createComment: async ({ commit }, comment: IDoctorComment): Promise<void> => {
+    const res = await httpClient.post<IDoctorComment, IDoctorComment>({ query: `comment`, payload: comment });
+    commit('setComment', res);
+  },
+  updateComment: async ({ commit }, newComment: IDoctorComment): Promise<void> => {
+    await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });
+    commit('updateComment', newComment.comment.id);
+  },
+  deleteComment: async ({ commit }, comment: IDoctorComment): Promise<void> => {
+    await httpClient.delete({ query: `comment/${comment.id}` });
+    commit('deleteCommentFromNews', comment);
   },
 };
 

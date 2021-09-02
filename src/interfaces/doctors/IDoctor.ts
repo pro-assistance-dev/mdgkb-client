@@ -1,4 +1,5 @@
 import IDivision from '@/interfaces/buildings/IDivision';
+import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IHuman from '@/interfaces/IHuman';
 
@@ -14,4 +15,5 @@ export default interface IDoctor {
   tags?: string;
   fileInfoId?: string;
   fileInfo: IFileInfo;
+  doctorComments: IDoctorComment[];
 }

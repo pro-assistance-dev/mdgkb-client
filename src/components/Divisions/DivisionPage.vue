@@ -3,7 +3,7 @@
     <el-card class="card-content">
       <template #header>
         <div class="card-header">
-          <h2 class="title article-title">{{ division.name }}</h2>
+          <h2>{{ division.name }}</h2>
         </div>
       </template>
 
@@ -16,7 +16,7 @@
     <el-card v-if="division.doctors.length" class="card-content">
       <template #header>
         <div class="card-header">
-          <h2 class="title article-title">Врачи</h2>
+          <h2>Врачи</h2>
         </div>
       </template>
       <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
@@ -26,7 +26,7 @@
     <el-card v-if="division.phone || division.email || division.address" class="card-content">
       <template #header>
         <div class="card-header">
-          <h2 class="title article-title">Контакты</h2>
+          <h2>Контакты</h2>
         </div>
       </template>
       <div class="content article-body">
@@ -36,25 +36,30 @@
       </div>
     </el-card>
     <ImageGallery :images="division.divisionImages" />
+    <Comments store-name="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Comments from '@/components/Comments.vue';
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 
 export default defineComponent({
   name: 'DivisionPage',
-  components: { DoctorInfoCard, ImageGallery },
-  async setup() {
+  components: { DoctorInfoCard, ImageGallery, Comments },
+  setup() {
     const store = useStore();
     const route = useRoute();
-    await store.dispatch('divisions/get', route.params['id']);
     const division = computed(() => store.getters['divisions/division']);
+
+    onBeforeMount(async () => {
+      await store.dispatch('divisions/get', route.params['id']);
+    });
 
     return {
       division,

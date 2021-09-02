@@ -2,7 +2,7 @@
   <el-card class="card-content comments">
     <template #header>
       <div class="card-header">
-        <h3 class="title article-title">{{ isComments ? 'Комментарии' : 'Отзывы' }}</h3>
+        <h3 class="title article-title">{{ !isReviews ? 'Комментарии' : 'Отзывы' }}</h3>
       </div>
     </template>
 
@@ -10,7 +10,7 @@
       <div v-if="item.comment.userId === userId && isAuth" class="comment-buttons">
         <el-tooltip
           v-if="!item.comment.isEditing"
-          :content="isComments ? 'Редактировать комментарий' : 'Редактировать отзыв'"
+          :content="!isReviews ? 'Редактировать комментарий' : 'Редактировать отзыв'"
           placement="top-end"
         >
           <el-button size="medium" icon="el-icon-edit" @click="editComment(item.comment.id)" />
@@ -20,7 +20,7 @@
           cancel-button-text="Отмена"
           icon="el-icon-info"
           icon-color="red"
-          :title="isComments ? 'Вы уверены, что хотите удалить комментарий?' : 'Вы уверены, что хотите удалить отзыв?'"
+          :title="!isReviews ? 'Вы уверены, что хотите удалить комментарий?' : 'Вы уверены, что хотите удалить отзыв?'"
           @confirm="removeComment(item.id)"
           @cancel="() => {}"
         >
@@ -39,7 +39,7 @@
             ref="commentInput"
             v-model="item.comment.text"
             type="textarea"
-            :placeholder="isComments ? 'Оставьте комментарий' : 'Оставьте отзыв'"
+            :placeholder="!isReviews ? 'Оставьте комментарий' : 'Оставьте отзыв'"
             minlength="5"
             maxlength="500"
             show-word-limit
@@ -68,7 +68,7 @@
             ref="commentInput"
             v-model="comment.comment.text"
             type="textarea"
-            :placeholder="isComments ? 'Оставьте комментарий' : 'Оставьте отзыв'"
+            :placeholder="!isReviews ? 'Оставьте комментарий' : 'Оставьте отзыв'"
             minlength="5"
             maxlength="500"
             show-word-limit
@@ -83,7 +83,7 @@
         <el-form-item>
           <div style="display: flex; justify-content: flex-end">
             <el-button class="send-comment" type="primary" @click="isAuth ? sendComment(comment) : openLoginModal()">
-              {{ isComments ? 'Отправить комментарий' : 'Отправить отзыв' }}
+              {{ !isReviews ? 'Отправить комментарий' : 'Отправить отзыв' }}
             </el-button>
           </div>
         </el-form-item>
@@ -98,6 +98,8 @@ import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
+import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
+import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import INewsComment from '@/interfaces/news/INewsComment';
 import validate from '@/mixinsAsModules/validate';
 
@@ -112,16 +114,16 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    isComments: {
+    isReviews: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   async setup(prop) {
     const comment = computed(() => store.getters[`${prop.storeName}/comment`]);
     const commentInput = ref();
     const store = useStore();
-    const comments = computed(() => store.getters[`${prop.storeName}/newsComments`]);
+    const comments = computed(() => store.getters[`${prop.storeName}/сomments`]);
 
     const userId = computed(() => store.getters['auth/user']?.id);
     const userEmail = computed(() => localStorage.getItem('userEmail'));
@@ -131,7 +133,7 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
-    const sendComment = async (item: INewsComment) => {
+    const sendComment = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
       if (!validate(commentForm)) return;
       store.commit(`${prop.storeName}/setParentIdToComment`, prop.parentId);
       if (userEmail.value) item.comment.user.email = userEmail.value;
@@ -148,10 +150,10 @@ export default defineComponent({
     const removeComment = async (commentId: string) => {
       await store.dispatch(`${prop.storeName}/removeComment`, commentId);
     };
-    const editComment = async (commentId: string) => {
-      await store.dispatch(`${prop.storeName}/editComment`, commentId);
+    const editComment = (commentId: string) => {
+      store.commit(`${prop.storeName}/editComment`, commentId);
     };
-    const saveCommentChanges = async (item: INewsComment) => {
+    const saveCommentChanges = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
       if (!validate(editCommentForm)) return;
       try {
         await store.dispatch(`${prop.storeName}/updateComment`, item);

@@ -7,7 +7,7 @@
           <img v-else src="@//assets/img/310x310.png" />
         </div>
         <div class="flex-column">
-          <span class="doctor-name">
+          <span class="doctor-name" @click="$router.push(`/doctors/${doctor.id}`)">
             <b>{{ doctor.human.getFullName() }}</b>
           </span>
           <span>Врач {{ doctor.position }}</span>
@@ -54,6 +54,7 @@ export default defineComponent({
   .doctor-name {
     font-size: 16px;
     font-weight: 600;
+    cursor: pointer;
   }
   .flex-row {
     display: flex;

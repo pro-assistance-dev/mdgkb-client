@@ -1,3 +1,4 @@
+import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import ISchedule from '@/interfaces/timetables/ISchedule';
@@ -22,4 +23,5 @@ export default interface IDivision {
   divisionImages: IDivisionImage[];
   divisionImagesForDelete: string[];
   divisionImagesNames: string[];
+  divisionComments: IDivisionComment[];
 }
