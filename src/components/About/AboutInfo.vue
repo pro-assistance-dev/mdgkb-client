@@ -1,14 +1,4 @@
 <template>
-  <div v-if="sum > 0" :class="{ fixed: scrollOffset >= 90 }">
-    <el-card style="max-width: 1344px; margin: 0 auto">
-      <div class="sum-card">
-        <div class="sum">Сумма: {{ sum }} рублей.</div>
-        <h2 v-if="scrollOffset >= 150" style="margin: 0">Выбранные платные услуги</h2>
-        <el-button @click="clearSelectedService()">Очистить выбор</el-button>
-      </div>
-    </el-card>
-  </div>
-
   <el-container direction="vertical">
     <h1 style="text-align: center">{{ division.name }}</h1>
     <el-card>
@@ -21,7 +11,7 @@
         <DoctorInfoCard :doctor="item" :division="division" />
       </div>
     </el-card>
-    <!-- <el-card>
+    <el-card>
       <template #header>Фото + 3D экскурсия</template>
       <div></div>
     </el-card>
@@ -32,26 +22,14 @@
     <el-card>
       <template #header>Нозологии</template>
       <div></div>
-    </el-card> -->
+    </el-card>
     <el-card>
       <template #header>Услуги-прайс</template>
-      <el-collapse v-if="division.name === 'Гинекологическое отделение'" accordion>
-        <PaidService ref="ginService" v-model:services="ginDiv" :title="'Открыть список'" @selectService="selectServiceGin" />
-      </el-collapse>
-      <el-collapse v-if="division.name === 'Оториноларингологическое отделение'" accordion>
-        <PaidService
-          v-if="division.name === 'Оториноларингологическое отделение'"
-          ref="otoService"
-          v-model:services="otoDiv"
-          :title="'Оториноларингологическое отделение'"
-          @selectService="selectServiceOto"
-        />
-      </el-collapse>
     </el-card>
-    <!-- <el-card>
+    <el-card>
       <template #header>Госпитализации</template>
       <div></div>
-    </el-card> -->
+    </el-card>
     <el-card v-if="division.schedule.name">
       <template #header>{{ division.schedule.name }}</template>
       <div>
@@ -89,13 +67,11 @@ import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import { ginDiv } from '@/components/PaidServices/ginDiv';
 import { otoDiv } from '@/components/PaidServices/otoDiv';
-import PaidService from '@/components/PaidServices/PaidService.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
-import IPaidService from '@/interfaces/IPaidService';
 
 export default defineComponent({
   name: 'AboutInfo',
-  components: { PaidService, DoctorInfoCard, ImageGallery },
+  components: { DoctorInfoCard, ImageGallery },
   props: {
     division: {
       type: Object as PropType<IDivision>,
@@ -109,29 +85,6 @@ export default defineComponent({
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
-    let selectedServiceGin: IPaidService[] = [];
-    let selectedServiceOto: IPaidService[] = [];
-
-    const calcSum = () => {
-      sum.value = 0;
-      selectedServiceGin.forEach((s) => (sum.value = Number(s.price) + sum.value));
-      selectedServiceOto.forEach((s) => (sum.value = Number(s.price) + sum.value));
-    };
-
-    const selectServiceGin = (services: IPaidService[]) => {
-      selectedServiceGin = services;
-      calcSum();
-    };
-
-    const selectServiceOto = (services: IPaidService[]) => {
-      selectedServiceOto = services;
-      calcSum();
-    };
-    const clearSelectedService = () => {
-      if (ginService.value) ginService.value.clearSelection();
-      if (otoService.value) otoService.value.clearSelection();
-      sum.value = 0;
-    };
 
     const handleScroll = () => {
       if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
@@ -145,12 +98,9 @@ export default defineComponent({
     onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     return {
-      clearSelectedService,
       ginService,
       otoService,
       sum,
-      selectServiceOto,
-      selectServiceGin,
       ginDiv,
       otoDiv,
       scrollOffset,

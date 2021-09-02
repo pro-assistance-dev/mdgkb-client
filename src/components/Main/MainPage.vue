@@ -31,21 +31,38 @@
     </el-col>
     <el-col :xl="18" :lg="18" :md="24">
       <el-row>
+        <el-col :offset="8">
+          <h1>Последние новости</h1>
+        </el-col>
+      </el-row>
+
+      <el-row>
         <el-col v-for="item in filteredNews" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12" :style="{ padding: '10px', display: 'flex' }">
           <div style="margin: 0 auto">
             <NewsCard :news="item" />
           </div>
         </el-col>
       </el-row>
+
+      <el-row>
+        <el-col :offset="8">
+          <h1>Наши врачи</h1>
+        </el-col>
+      </el-row>
+
+      <div v-for="item in doctors" :key="item.id" class="doctors-wrapper">
+        <DoctorInfoCard :doctor="item" :division="item.division" />
+      </div>
     </el-col>
   </el-row>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
+import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsCarousel from '@/components/NewsCarousel.vue';
@@ -55,15 +72,17 @@ import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'MainPage',
-  components: { NewsCalendar, NewsCard, NewsCarousel },
+  components: { NewsCalendar, NewsCard, NewsCarousel, DoctorInfoCard },
   setup() {
     const store = useStore();
     const loading = ref(false);
     const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
     const filteredNews = computed(() => store.getters['news/filteredNews']);
     const filterTags = computed(() => store.getters['news/filterTags']);
+
     const divisions = ref([new Division()]);
     const selectedDivision = computed(() => store.getters['divisions/division']);
+    const doctors = computed(() => store.getters['doctors/doctors']);
     const divisionFilter = ref('');
     const defaultParams: INewsParams = { limit: 3 };
     const news = computed(() => store.getters['news/news']);
@@ -73,7 +92,11 @@ export default defineComponent({
       await store.commit('news/setFilteredNews');
     };
 
-    onMounted(loadNews);
+    onBeforeMount(async () => {
+      await loadNews();
+      await loadDivisions();
+      await loadDoctors();
+    });
 
     const loadMore = async () => {
       loading.value = true;
@@ -90,11 +113,10 @@ export default defineComponent({
     const loadDivisions = async (): Promise<void> => {
       await store.dispatch('divisions/getAll');
       divisions.value = store.getters['divisions/divisions'];
-      await loadDivision(divisions.value[0].id);
     };
 
-    const loadDivision = async (id: string | undefined): Promise<void> => {
-      await store.dispatch('divisions/get', id);
+    const loadDoctors = async (): Promise<void> => {
+      await store.dispatch('doctors/getAll');
     };
 
     const list = computed((): IDivision[] => {
@@ -105,14 +127,12 @@ export default defineComponent({
       }
     });
 
-    onMounted(loadDivisions);
-
     return {
+      doctors,
       divisionFilter,
       divisions,
       selectedDivision,
       list,
-      loadDivision,
       loadDivisions,
 
       allNewsLoaded,
