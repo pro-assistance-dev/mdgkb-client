@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, NavigationGuardNext, RouteRecordRaw } f
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
+import MainPage from '@/components/Main/MainPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
@@ -32,10 +33,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'MainLayout',
     component: MainLayout,
-    redirect: '/news',
+    redirect: '/main',
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
+  },
+  {
+    path: '/main',
+    name: 'MainPage',
+    component: MainPage,
+    // beforeEnter: isAuthorized,
   },
   {
     path: '/about',
