@@ -92,6 +92,7 @@ const mutations: MutationTree<State> = {
   },
   setComment(state, item: INewsComment) {
     if (state.newsItem) state.newsItem.newsComments.push(item);
+    state.comment = new NewsComment();
   },
   removeComment(state, commentId: string) {
     if (state.newsItem) {
@@ -101,9 +102,22 @@ const mutations: MutationTree<State> = {
   },
   editComment(state, commentId: string) {
     if (state.newsItem) {
-      const comment = state.newsItem.newsComments.find((item: NewsComment) => item.id === commentId);
-      if (comment) comment.isEditing = true;
+      state.newsItem.newsComments = state.newsItem.newsComments.map((item: NewsComment) => {
+        if (item.comment.id === commentId) item.comment.isEditing = true;
+        return item;
+      });
     }
+  },
+  updateComment(state, commentId: string) {
+    if (state.newsItem) {
+      state.newsItem.newsComments = state.newsItem.newsComments.map((item: NewsComment) => {
+        if (item.comment.id === commentId) item.comment.isEditing = false;
+        return item;
+      });
+    }
+  },
+  setParentIdToComment(state, parentId: string) {
+    state.comment.newsId = parentId;
   },
   setFileInfo(state, fileInfo: IFileInfo) {
     if (state.newsItem) {
@@ -113,14 +127,6 @@ const mutations: MutationTree<State> = {
   setMainImage(state, fileInfo: IFileInfo) {
     if (state.newsItem) {
       state.newsItem.mainImage = fileInfo;
-    }
-  },
-  updateComment(state, commentId: string) {
-    if (state.newsItem) {
-      state.newsItem.newsComments = state.newsItem.newsComments.map((item: NewsComment) => {
-        if (item.id === commentId) item.isEditing = false;
-        return item;
-      });
     }
   },
   deleteLikeFromNews(state, newsLike: INewsLike) {

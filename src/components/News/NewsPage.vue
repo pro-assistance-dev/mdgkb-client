@@ -60,7 +60,7 @@
       </el-card>
 
       <ImageGallery :images="news.newsImages" />
-      <NewsComments :news-comments="news.newsComments" />
+      <Comments store-name="news" :parent-id="news.id" />
     </div>
   </div>
 </template>
@@ -73,13 +73,13 @@ import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
 import NewsComment from '@/classes/news/NewsComment';
+import Comments from '@/components/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
-import NewsComments from '@/components/News/NewsComments.vue';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsMeta, NewsCalendar, EyeOutlined, ImageGallery, NewsComments },
+  components: { NewsMeta, NewsCalendar, EyeOutlined, ImageGallery, Comments },
 
   async setup() {
     let comment = ref(new NewsComment());

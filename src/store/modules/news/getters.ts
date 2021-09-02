@@ -5,6 +5,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
+import INewsComment from '@/interfaces/news/INewsComment';
 import ITag from '@/interfaces/news/ITag';
 import RootState from '@/store/types';
 
@@ -50,6 +51,12 @@ const getters: GetterTree<State, RootState> = {
   },
   fileInfo(state): IFileInfo {
     return state.newsItem.fileInfo;
+  },
+  comment(state): INewsComment {
+    return state.comment;
+  },
+  newsComments(state): INewsComment[] {
+    return state.newsItem.newsComments;
   },
 };
 

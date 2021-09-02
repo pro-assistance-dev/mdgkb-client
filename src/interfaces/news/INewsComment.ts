@@ -1,11 +1,9 @@
-import IUser from '@/interfaces/users/IUser';
+import IComment from '../IComment';
 
 export default interface INewsComment {
   id?: string;
-  newsId: string;
-  userId: string;
-  text: string;
-  publishedOn: Date;
-  user: IUser;
-  isEditing: boolean;
+  newsId?: string;
+  commentId?: string;
+
+  comment: IComment;
 }

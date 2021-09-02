@@ -1,6 +1,7 @@
 import { Module } from 'vuex';
 
 import News from '@/classes/news/News';
+import NewsComment from '@/classes/news/NewsComment';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -21,6 +22,7 @@ export const getDefaultState = (): State => {
     mainImageList: [],
     galleryList: [],
     curGalleryCropIndex: 0,
+    comment: new NewsComment(),
   };
 };
 

@@ -89,23 +89,23 @@ const actions: ActionTree<State, RootState> = {
     commit('removeComment', id);
   },
   createComment: async ({ commit }, comment: INewsComment): Promise<void> => {
-    const res = await httpClient.post<INewsLike, INewsLike>({ query: `comment`, payload: comment });
+    const res = await httpClient.post<INewsComment, INewsComment>({ query: `comment`, payload: comment });
     commit('setComment', res);
   },
   editComment: async ({ commit }, commentId: string): Promise<void> => {
     commit('editComment', commentId);
   },
-  updateComment: async ({ commit }, comment: INewsComment): Promise<void> => {
-    await httpClient.put({ query: `comment/${comment.id}`, payload: comment });
-    commit('updateComment', comment.id);
-  },
-  deleteLike: async ({ commit }, newsLike: INewsLike): Promise<void> => {
-    await httpClient.delete({ query: `like/${newsLike.id}` });
-    commit('deleteLikeFromNews', newsLike);
+  updateComment: async ({ commit }, newComment: INewsComment): Promise<void> => {
+    await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });
+    commit('updateComment', newComment.comment.id);
   },
   deleteComment: async ({ commit }, comment: INewsComment): Promise<void> => {
     await httpClient.delete({ query: `comment/${comment.id}` });
     commit('deleteCommentFromNews', comment);
+  },
+  deleteLike: async ({ commit }, newsLike: INewsLike): Promise<void> => {
+    await httpClient.delete({ query: `like/${newsLike.id}` });
+    commit('deleteLikeFromNews', newsLike);
   },
   addFilterTag: async ({ commit }, tag: ITag): Promise<void> => {
     commit('addFilterTag', tag);
