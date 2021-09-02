@@ -1,5 +1,5 @@
 <template>
-  <el-carousel :interval="3000" indicator-position="outside">
+  <el-carousel v-if="mount" :initial-index="1" autoplay :interval="3000" indicator-position="outside">
     <el-carousel-item v-for="item in carousel.carouselSlides" :key="item.id">
       <div class="carousel-container">
         <img :src="item.fileInfo.getImageUrl()" alt="alt" />
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -24,13 +24,13 @@ export default defineComponent({
   async setup() {
     const store = useStore();
     const carousel = computed(() => store.getters['carousels/item']);
-
-    const loadCarouselItem = async () => {
+    const mount = ref(false);
+    onBeforeMount(async () => {
       await store.dispatch('carousels/getByKey', 'top');
-    };
-    onMounted(loadCarouselItem);
+      mount.value = true;
+    });
 
-    return { carousel };
+    return { carousel, mount };
   },
 });
 </script>
