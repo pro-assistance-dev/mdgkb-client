@@ -1,5 +1,5 @@
 <template>
-  <div class="doctor-page-container">
+  <div v-if="mount" class="doctor-page-container">
     <el-card>
       <template #header>
         <div class="card-header">
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -40,13 +40,16 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const doctor = computed(() => store.getters['doctors/doctor']);
+    const mount = ref(false);
 
     onBeforeMount(async () => {
       await store.dispatch('doctors/get', route.params['id']);
+      mount.value = true;
     });
 
     return {
       doctor,
+      mount,
     };
   },
 });

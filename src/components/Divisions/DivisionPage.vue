@@ -58,6 +58,7 @@ export default defineComponent({
     const division = computed(() => store.getters['divisions/division']);
 
     onBeforeMount(async () => {
+      window.scrollTo(0, 0);
       await store.dispatch('divisions/get', route.params['id']);
     });
 

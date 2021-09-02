@@ -9,7 +9,7 @@
           <el-table height="800" :data="list" cell-class-name="cell-row" header-cell-class-name="cell-header">
             <el-table-column header-align="center">
               <template #header>
-                <h2 class="menu-label">Отделения</h2>
+                <h2 class="division-list-title">Отделения</h2>
                 <el-input
                   v-model="divisionFilter"
                   prefix-icon="el-icon-search"
@@ -19,7 +19,7 @@
                 />
               </template>
               <template #default="scope">
-                <el-space @click="$router.push('/about')">
+                <el-space @click="$router.push(`/divisions/${scope.row.id}`)">
                   <i class="el-icon-link icon"> </i>
                   <span> {{ scope.row.name }}</span>
                 </el-space>
@@ -31,7 +31,7 @@
     </el-col>
     <el-col :xl="18" :lg="18" :md="24">
       <el-row>
-        <el-col :offset="8">
+        <el-col>
           <h1>Последние новости</h1>
         </el-col>
       </el-row>
@@ -45,7 +45,7 @@
       </el-row>
 
       <el-row>
-        <el-col :offset="8">
+        <el-col>
           <h1>Наши врачи</h1>
         </el-col>
       </el-row>
@@ -183,6 +183,12 @@ export default defineComponent({
   padding: 5px 0;
   border: none;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
+}
+h1 {
+  text-align: center;
+}
+.division-list-title {
+  margin-top: 0;
 }
 </style>
