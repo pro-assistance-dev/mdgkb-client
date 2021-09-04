@@ -5,27 +5,7 @@
         <NewsCalendar />
       </div>
       <div class="side-item">
-        <el-card>
-          <el-table :data="recentNewsList" cell-class-name="cell-row">
-            <el-table-column header-align="center">
-              <template #header>
-                <h3>Читайте также</h3>
-              </template>
-              <template #default="scope">
-                <div class="recent-news-item" @click="$router.push(`/news/${scope.row.slug}`)">
-                  <div class="item-title">{{ scope.row.title }}</div>
-                  <div class="item-footer">
-                    <div class="icon">
-                      <EyeOutlined />
-                      <span>0 </span>
-                    </div>
-                    <div class="item-date">{{ $dateFormatRu(scope.row.publishedOn, true) }}</div>
-                  </div>
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-card>
+        <RecentNewsCard />
       </div>
     </div>
     <div class="news-content-container">
@@ -66,7 +46,6 @@
 </template>
 
 <script lang="ts">
-import { EyeOutlined } from '@ant-design/icons-vue';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -77,9 +56,11 @@ import Comments from '@/components/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsMeta from '@/components/News/NewsMeta.vue';
+import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
+
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsMeta, NewsCalendar, EyeOutlined, ImageGallery, Comments },
+  components: { NewsMeta, NewsCalendar, RecentNewsCard, ImageGallery, Comments },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -97,7 +78,6 @@ export default defineComponent({
     });
     await store.dispatch('news/get', slug.value);
     await store.dispatch('news/getAll', news.value.publishedOn);
-    const recentNewsList = store.getters['news/news'].slice(0, 5);
     const newsContent = computed(() =>
       news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'
     );
@@ -111,7 +91,6 @@ export default defineComponent({
       comment,
       news,
       newsContent,
-      recentNewsList,
       commentInput,
       commentForm,
       editCommentForm,
@@ -230,38 +209,6 @@ h3 {
   .article-footer {
     flex-direction: column-reverse;
   }
-}
-
-.recent-news-item {
-  display: flex;
-  flex-direction: column;
-
-  .item-title {
-    font-weight: 600;
-  }
-
-  .item-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
-  }
-
-  .icon {
-    user-select: none;
-    display: flex;
-    align-items: center;
-    transition: all 0.2s;
-    margin-right: 3px;
-  }
-
-  .anticon {
-    padding-right: 5px;
-    font-size: 16px;
-  }
-}
-
-:deep(.cell-row) {
-  cursor: pointer;
 }
 
 .tags-container {

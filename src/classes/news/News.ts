@@ -46,7 +46,7 @@ export default class News implements INews {
     this.slug = i.slug;
     this.viewsCount = i.viewsCount;
     this.category = new Category(i.category);
-    if (i.tags) this.tags = i.tags.map((item: ITag) => new Tag(item));
+    if (i.tags) this.tags = i.tags.map((item: ITag) => new Tag(item)) ?? [];
     if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
     if (i.mainImage) this.mainImage = new FileInfo(i.mainImage);
     this.publishedOn = i.publishedOn;

@@ -13,7 +13,7 @@ export default interface INews {
   content: string;
   slug: string;
   category: ICategory;
-  tags?: ITag[];
+  tags: ITag[];
   fileInfoId?: string;
   fileInfo: IFileInfo;
   mainImageId?: string;

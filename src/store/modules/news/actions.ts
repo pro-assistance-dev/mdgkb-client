@@ -28,6 +28,12 @@ const actions: ActionTree<State, RootState> = {
     if (params && params.limit && params.publishedOn && params.filterTags?.length) {
       query = `?publishedOn=${params.publishedOn}&limit=${params.limit}&filterTags=${params.filterTags}`;
     }
+    if (params && params.limit && params.orderByView && !params.filterTags?.length) {
+      query = `?orderByView=${true}&limit=${params.limit}`;
+    }
+    if (params && params.limit && params.orderByView && params.filterTags?.length) {
+      query = `?orderByView=${true}&limit=${params.limit}&filterTags=${params.filterTags}`;
+    }
     const res = await httpClient.get<{ data: INews[] }>({ query: query });
     if (res && params && !params.publishedOn) commit('setAll', res);
     if (res && params && params.publishedOn) commit('appendToAll', res);
