@@ -52,8 +52,8 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import NewsRules from '@/classes/news/NewsRules';
@@ -62,7 +62,8 @@ import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMa
 import AdminNewsPagePreviewImage from '@/components/admin/AdminNews/AdminNewsPagePreviewImage.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
-import validate from '@/mixinsAsModules/validate';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -79,9 +80,12 @@ export default defineComponent({
     const galleryList = computed(() => store.getters[`news/galleryList`]);
     const news = computed(() => store.getters['news/newsItem']);
 
-    onBeforeMount(() => {
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+    onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
+      await loadNewsItem();
     });
 
     const loadNewsItem = async () => {
@@ -93,18 +97,28 @@ export default defineComponent({
         store.commit('admin/setPageTitle', { title: 'Добавить новость', saveButton: true });
       }
       mounted.value = true;
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(news, formUpdated, { deep: true });
     };
 
-    onMounted(loadNewsItem);
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
 
-    const submit = async () => {
-      if (!validate(form)) return;
+    const submit = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = false;
+        return;
+      }
       if (!news.value.fileInfo.fileSystemPath) {
         ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
+        saveButtonClick.value = false;
         return;
       }
       if (!news.value.mainImage.originalName) {
         ElMessage({ message: 'Пожалуйста, добавьте основную картинку', type: 'error' });
+        saveButtonClick.value = false;
         return;
       }
       news.value.createSlug();
@@ -114,7 +128,7 @@ export default defineComponent({
         return;
       }
       await store.dispatch('news/update', news.value);
-      await router.push('/admin/news');
+      next ? next() : router.push('/admin/news');
     };
 
     return {

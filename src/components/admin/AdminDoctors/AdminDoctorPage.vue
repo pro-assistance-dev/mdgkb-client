@@ -59,16 +59,16 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
-import Doctor from '@/classes/doctors/Doctor';
 import DoctorRules from '@/classes/doctors/DoctorRules';
 import AdminDoctorImage from '@/components/admin/AdminDoctors/AdminDoctorImage.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
-import validate from '@/mixinsAsModules/validate';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
@@ -84,16 +84,16 @@ export default defineComponent({
 
     const divisionOptions = ref([new Division()]);
     const doctor = computed(() => store.getters['doctors/doctor']);
-    const loadDivisionOptions = async (): Promise<void> => {
-      await store.dispatch('divisions/getAll');
-      divisionOptions.value = store.getters['divisions/divisions'];
-    };
 
-    // Submit
-    const submit = async () => {
-      if (!validate(form)) return;
+    const submit = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = false;
+        return;
+      }
       if (!doctor.value.fileInfo.fileSystemPath) {
         ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
+        saveButtonClick.value = false;
         return;
       }
       try {
@@ -106,31 +106,39 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      router.push('/admin/doctors');
+      next ? next() : router.push('/admin/doctors');
     };
 
-    // Mount
-    onBeforeMount(() => {
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+    onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
+      await loadDivisionOptions();
+      await loadDoctor();
     });
+
+    const loadDivisionOptions = async (): Promise<void> => {
+      await store.dispatch('divisions/getAll');
+      divisionOptions.value = store.getters['divisions/divisions'];
+    };
 
     const loadDoctor = async (): Promise<void> => {
       if (route.params['id']) {
         await store.dispatch('doctors/get', route.params['id']);
         store.commit('admin/setPageTitle', { title: doctor.value.human.getFullName(), saveButton: true });
       } else {
-        store.commit('doctors/set', new Doctor());
+        store.commit('doctors/resetState');
         store.commit('admin/setPageTitle', { title: 'Добавить врача', saveButton: true });
       }
       mounted.value = true;
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(doctor, formUpdated, { deep: true });
     };
 
-    const load = async (): Promise<void> => {
-      await loadDivisionOptions();
-      await loadDoctor();
-    };
-    onMounted(load);
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
 
     return {
       rules,

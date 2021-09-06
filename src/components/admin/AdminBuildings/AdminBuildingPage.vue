@@ -66,13 +66,14 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import BuildingRules from '@/classes/buildings/BuildingRules';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import validate from '@/mixinsAsModules/validate';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminBuildingPage',
@@ -87,15 +88,24 @@ export default defineComponent({
     const form = ref();
     const mounted = ref(false);
 
-    onBeforeMount(() => {
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+    onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
+      await loadBuilding();
     });
     const loadBuilding = async (): Promise<void> => {
       await store.dispatch('buildings/get', route.params['id']);
       store.commit('admin/setPageTitle', { title: building.value.name, saveButton: true });
       mounted.value = true;
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(building, formUpdated, { deep: true });
     };
+
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
 
     const addFloor = () => store.commit('buildings/addFloor');
     const addEntrance = () => store.commit('buildings/addEntrance');
@@ -109,12 +119,15 @@ export default defineComponent({
     const removeFloor = (id: string) => {
       store.commit('buildings/removeFloor', id);
     };
-    onMounted(loadBuilding);
 
-    const submit = async () => {
-      if (!validate(form)) return;
+    const submit = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = true;
+        return;
+      }
       await store.dispatch('buildings/update', building.value);
-      await router.push('/admin/buildings');
+      next ? next() : router.push('/admin/buildings');
     };
 
     return {

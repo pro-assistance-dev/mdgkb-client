@@ -13,13 +13,14 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { defineComponent, onBeforeMount, PropType, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { defineComponent, onBeforeMount, PropType, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import NormativeDocumentType from '@/classes/normativeDocument/NormativeDocumentType';
 import NormativeDocumentTypeRules from '@/classes/normativeDocument/NormativeDocumentTypeRules';
-import validate from '@/mixinsAsModules/validate';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminNormativeDocumentTypePage',
@@ -37,8 +38,12 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const submitForm = async (): Promise<void> => {
-      if (!validate(formRef)) return;
+    const submitForm = async (next?: NavigationGuardNext): Promise<void> => {
+      saveButtonClick.value = true;
+      if (!validate(formRef)) {
+        saveButtonClick.value = false;
+        return;
+      }
       try {
         if (!props.isEdit) {
           await store.dispatch('normativeDocumentTypes/create', form.value);
@@ -49,8 +54,10 @@ export default defineComponent({
         ElMessage({ message: 'Не удалось сохранить', type: 'error' });
       }
 
-      router.push('/admin/normative-document-types');
+      next ? next() : router.push('/admin/normative-document-types');
     };
+
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async (): Promise<void> => {
       store.commit('admin/showLoading');
@@ -60,6 +67,12 @@ export default defineComponent({
         form.value = store.getters['normativeDocumentTypes/type'];
       }
       store.commit('admin/setPageTitle', { title: 'Тип нормативного документа', saveButton: true });
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(form, formUpdated, { deep: true });
+    });
+
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submitForm, next);
     });
 
     return {

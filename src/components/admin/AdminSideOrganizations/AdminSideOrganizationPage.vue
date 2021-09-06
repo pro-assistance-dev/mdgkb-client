@@ -41,15 +41,16 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, ref, WritableComputedRef } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedRef } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SideOrganization from '@/classes/sideOrganization/SideOrganization';
 import SideOrganizationRules from '@/classes/sideOrganization/SideOrganizationRules';
 import AdminContactAttribute from '@/components/admin/Contacts/AdminContactAttribute.vue';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
-import validate from '@/mixinsAsModules/validate';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminSideOrganizationPage',
@@ -70,9 +71,13 @@ export default defineComponent({
       },
     });
 
-    onBeforeMount(() => {
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+    onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
+      isEdit.value = route.params['id'] ? true : false;
+      await loadSideOrganization();
     });
 
     const loadSideOrganization = async (): Promise<void> => {
@@ -83,10 +88,20 @@ export default defineComponent({
         await store.dispatch('sideOrganizations/get', route.params['id']);
         store.commit('admin/setPageTitle', { title: sideOrganization.value.name, saveButton: true });
       }
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(sideOrganization, formUpdated, { deep: true });
     };
 
-    const submit = async () => {
-      if (!validate(form)) return;
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
+
+    const submit = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = false;
+        return;
+      }
       try {
         if (!isEdit.value) {
           store.dispatch('sideOrganizations/create', sideOrganization.value);
@@ -98,13 +113,8 @@ export default defineComponent({
         return;
       }
 
-      router.push('/admin/side-organizations');
+      next ? next() : router.push('/admin/side-organizations');
     };
-
-    onBeforeMount(() => {
-      isEdit.value = route.params['id'] ? true : false;
-      loadSideOrganization();
-    });
 
     return {
       form,

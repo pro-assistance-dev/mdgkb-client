@@ -8,6 +8,7 @@ import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
+import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
@@ -17,6 +18,9 @@ const mutations: MutationTree<State> = {
   set(state, doctor: IDoctor) {
     state.doctor = new Doctor(doctor);
     if (state.doctor.fileInfo.fileSystemPath) state.fileList[0] = state.doctor.fileInfo.getFileListObject();
+  },
+  resetState(state) {
+    Object.assign(state, getDefaultState());
   },
   setDivisionDoctors(state, doctors: IDoctor[]) {
     state.divisionDoctors = doctors?.map((a: IDoctor) => new Doctor(a));

@@ -37,7 +37,7 @@ import { useStore } from 'vuex';
 
 import User from '@/classes/user/User';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-import validate from '@/mixinsAsModules/validate';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AuthPage',

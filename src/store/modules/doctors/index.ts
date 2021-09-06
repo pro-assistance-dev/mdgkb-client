@@ -9,15 +9,18 @@ import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
 
-export const state: State = {
-  doctors: [],
-  filteredDoctors: [],
-  doctor: new Doctor(),
-  divisionDoctors: [],
-  fileList: [],
-  comment: new DoctorComment(),
+export const getDefaultState = (): State => {
+  return {
+    doctors: [],
+    filteredDoctors: [],
+    doctor: new Doctor(),
+    divisionDoctors: [],
+    fileList: [],
+    comment: new DoctorComment(),
+  };
 };
 
+const state = getDefaultState();
 const namespaced = true;
 
 export const doctors: Module<State, RootState> = {

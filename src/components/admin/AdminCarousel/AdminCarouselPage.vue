@@ -134,8 +134,8 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import sanitizeHtml from 'sanitize-html';
-import { computed, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, onMounted, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import CarouselSlide from '@/classes/carousel/CarouselSlide';
@@ -144,6 +144,7 @@ import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ICarouselSlide from '@/interfaces/carousels/ICarouselSlide';
 import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminCarouselPage',
@@ -179,6 +180,8 @@ export default defineComponent({
       store.commit('admin/setSubmit', submit);
     });
 
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
     const loadCarouselItem = async () => {
       store.commit('admin/setPageTitle', { title: 'Карусель', saveButton: true });
       if (route.params.id) {
@@ -188,9 +191,16 @@ export default defineComponent({
       carousel.value.carouselSlides.forEach((slide: ICarouselSlide, i: number) => {
         if (fileLists.value[i].length > 0) showUpload.value[i] = false;
       });
+
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(carousel, formUpdated, { deep: true });
     };
 
     onMounted(loadCarouselItem);
+
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
 
     const addSlide = () => {
       let slide = new CarouselSlide();
@@ -212,6 +222,7 @@ export default defineComponent({
     };
 
     const submit = async () => {
+      saveButtonClick.value = true;
       if (!route.params['id']) {
         await store.dispatch('carousels/create', carousel.value);
         await router.push('/admin/carousels');

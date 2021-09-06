@@ -101,7 +101,7 @@ import CommentRules from '@/classes/news/CommentRules';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import INewsComment from '@/interfaces/news/INewsComment';
-import validate from '@/mixinsAsModules/validate';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'NewsComments',

@@ -26,15 +26,16 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import BannerRules from '@/classes/banners/BannerRules';
 import Division from '@/classes/buildings/Division';
 import AdminBannerImage from '@/components/admin/AdminBanners/AdminBannerImage.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
-import validate from '@/mixinsAsModules/validate';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminBannerPage',
@@ -51,11 +52,15 @@ export default defineComponent({
     const divisionOptions = ref([new Division()]);
     const banner = computed(() => store.getters['banners/banner']);
 
-    // Submit
-    const submit = async () => {
-      if (!validate(form)) return;
+    const submit = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = false;
+        return;
+      }
       if (!banner.value.fileInfo.fileSystemPath) {
         ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
+        saveButtonClick.value = false;
         return;
       }
       try {
@@ -68,13 +73,15 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      router.push('/admin/banners');
+      next ? next() : router.push('/admin/banners');
     };
 
-    // Mount
-    onBeforeMount(() => {
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+    onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
+      await loadBanner();
     });
 
     const loadBanner = async (): Promise<void> => {
@@ -86,9 +93,13 @@ export default defineComponent({
         store.commit('admin/setPageTitle', { title: 'Добавить баннер', saveButton: true });
       }
       mounted.value = true;
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(banner, formUpdated, { deep: true });
     };
 
-    onMounted(loadBanner);
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
 
     return {
       rules,

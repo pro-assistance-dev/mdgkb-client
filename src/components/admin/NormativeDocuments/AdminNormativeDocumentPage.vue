@@ -57,8 +57,8 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import FileInfo from '@/classes/File/FileInfo';
@@ -68,7 +68,8 @@ import NormativeDocumentsModal from '@/components/NormativeDocuments/NormativeDo
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
-import validate from '@/mixinsAsModules/validate';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminNormativeDocumentPage',
@@ -126,8 +127,12 @@ export default defineComponent({
       normativeDocument.value.type = types.value.find((type: INormativeDocumentType): boolean => type.id === id);
     };
 
-    const submitForm = async (): Promise<void> => {
-      if (!validate(formRef)) return;
+    const submitForm = async (next?: NavigationGuardNext): Promise<void> => {
+      saveButtonClick.value = true;
+      if (!validate(formRef)) {
+        saveButtonClick.value = false;
+        return;
+      }
       try {
         if (!props.isEdit) {
           await store.dispatch('normativeDocuments/create', normativeDocument.value);
@@ -138,7 +143,7 @@ export default defineComponent({
         ElMessage({ message: 'Не удалось сохранить', type: 'error' });
       }
 
-      router.push('/admin/normative-documents');
+      next ? next() : router.push('/admin/normative-documents');
     };
 
     const getFileUrl = (path: string): string => {
@@ -151,9 +156,12 @@ export default defineComponent({
       return;
     };
 
-    onBeforeMount(() => {
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+    onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submitForm);
+      await load();
     });
 
     const load = async (): Promise<void> => {
@@ -165,8 +173,12 @@ export default defineComponent({
         normativeDocument.value = store.getters['normativeDocuments/document'];
         selectedTypeId.value = String(normativeDocument.value.type.id);
       }
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(normativeDocument, formUpdated, { deep: true });
     };
-    onMounted(load);
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submitForm, next);
+    });
 
     return {
       filePath,

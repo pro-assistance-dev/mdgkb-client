@@ -93,8 +93,8 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
@@ -107,7 +107,8 @@ import IBuilding from '@/interfaces/buildings/IBuilding';
 import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/doctors/IDoctor';
-import validate from '@/mixinsAsModules/validate';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
@@ -129,9 +130,13 @@ export default defineComponent({
     const buildingOption = computed(() => store.getters['buildings/building']);
     const buildingsOptions = computed(() => store.getters['buildings/buildings']);
 
-    onBeforeMount(() => {
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+    onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
+      await loadB1uildingOptions();
+      await loadDivision();
     });
 
     const loadB1uildingOptions = async (): Promise<void> => {
@@ -152,17 +157,20 @@ export default defineComponent({
         store.commit('admin/setPageTitle', { title: 'Создать отделение', saveButton: true });
       }
       mounted.value = true;
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(division, formUpdated, { deep: true });
     };
 
-    const load = async (): Promise<void> => {
-      await loadB1uildingOptions();
-      await loadDivision();
-    };
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
 
-    onBeforeMount(load);
-
-    const submit = async () => {
-      if (!validate(form)) return;
+    const submit = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = false;
+        return;
+      }
       division.value.doctors = divisionDoctors.value;
       try {
         if (route.params['id']) {
@@ -174,7 +182,7 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      router.push('/admin/divisions');
+      next ? next() : router.push('/admin/divisions');
     };
 
     const changeBuildingHandler = (id: string) => {
