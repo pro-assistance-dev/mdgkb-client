@@ -1,5 +1,5 @@
 <template>
-  <el-card id="ppvr" class="card" :style="`left: ${position.left}px; top: ${position.top}px;`">
+  <el-card id="ppvr" class="card" :style="`position: absolute; right: 0; top: 0;`">
     <template #header>
       <div class="card-header">
         <div class="card-header-title">{{ building.name }}</div>
@@ -49,18 +49,17 @@ export default defineComponent({
 <style scoped lang="scss">
 #ppvr {
   position: absolute;
-  max-width: 30vw;
+  max-width: 20vw;
   min-width: 400px;
 }
-$card-border-radius: 15px;
 $card-content-padding: 24px;
 $card-content-outpadding: 24px;
 
 .card {
-  border-radius: $card-border-radius;
   z-index: 999;
 
   .floor-number {
+    font-size: 14px;
     text-transform: uppercase;
     padding: 5px 50px 5px 24px;
   }
@@ -84,6 +83,10 @@ $card-content-outpadding: 24px;
       padding-bottom: 10px;
     }
   }
+  :deep(.el-card__body),
+  :deep(.el-card__header) {
+    padding: 0;
+  }
 
   .card-header {
     box-shadow: none;
@@ -96,19 +99,20 @@ $card-content-outpadding: 24px;
       font-size: 25px;
     }
     .card-header-title {
+      padding-left: 24px;
       font-weight: 400;
       text-transform: uppercase;
-      font-size: 16px;
+      font-size: 14px;
       &.two-lined {
         div {
           width: 100%;
           small {
-            font-size: 0.7rem;
+            font-size: 12px;
             color: #9c9c9c;
             font-weight: 100;
             display: block;
             &.is-large {
-              font-size: 0.9rem;
+              font-size: 12px;
               font-weight: 400;
             }
           }
@@ -129,7 +133,6 @@ $card-content-outpadding: 24px;
     border: none;
     box-shadow: none;
     overflow: hidden;
-    border-radius: $card-border-radius;
 
     .panel-block {
       padding: 5px;
@@ -137,7 +140,7 @@ $card-content-outpadding: 24px;
       border-radius: 0;
       text-transform: uppercase;
       opacity: 0.6;
-      font-size: 0.8rem;
+      font-size: 12px;
       padding-left: 24px;
       position: relative;
       padding-right: 50px;
@@ -197,11 +200,6 @@ $card-content-outpadding: 24px;
           font-weight: 100;
         }
       }
-    }
-
-    &:last-child {
-      border-bottom-right-radius: $card-border-radius;
-      border-bottom-left-radius: $card-border-radius;
     }
   }
 

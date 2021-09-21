@@ -33,6 +33,12 @@ const getters: GetterTree<State, RootState> = {
   сomments(state): IDivisionComment[] {
     return state.division.divisionComments;
   },
+  divisionById(state): (id: string) => IDivision | undefined {
+    return (id: string): IDivision | undefined => state.divisions.find((item: IDivision) => item.id === id);
+  },
+  // getDrugById(state): (id: string) => IDrug | undefined {
+  //   return (id: string): IDrug | undefined => state.drugs.find((item: IDrug) => item.id === id);
+  // },
 };
 
 export default getters;

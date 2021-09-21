@@ -1,8 +1,11 @@
+import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+
+import IEntrance from './IEntrance';
 
 export default interface IDivision {
   id?: string;
@@ -13,7 +16,8 @@ export default interface IDivision {
   address?: string;
   floorId?: string;
   entranceId?: string;
-  buildingId?: string;
+  entrance?: IEntrance;
+  building?: IBuilding;
   slug?: string;
   doctors: IDoctor[];
   timetable: ITimetable;

@@ -3,6 +3,7 @@
     <el-card>
       <el-table v-if="buildings" :data="buildings">
         <el-table-column prop="name" label="Наименование" sortable> </el-table-column>
+        <el-table-column prop="number" label="Номер корпуса" sortable> </el-table-column>
         <el-table-column prop="address" label="Адрес" sortable> </el-table-column>
         <el-table-column label="Этажи" width="200px" align="center">
           <template #default="scope">

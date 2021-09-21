@@ -4,6 +4,9 @@
       <el-form-item label="Наименование здания" prop="name">
         <el-input v-model="building.name" placeholder="Наименование здания"></el-input>
       </el-form-item>
+      <el-form-item label="Номер корпуса" prop="number">
+        <el-input v-model="building.number" placeholder="Номер корпуса"></el-input>
+      </el-form-item>
       <el-form-item label="Адрес" prop="address">
         <el-input v-model="building.address" placeholder="Адрес"></el-input>
       </el-form-item>
@@ -39,7 +42,7 @@
         <el-card>
           <el-form-item label="Входы">
             <el-table class="floors-table" :data="building.entrances">
-              <el-table-column label="Номер этажа">
+              <el-table-column label="Номер входа">
                 <template #default="scope">
                   <el-input-number v-model="scope.row.number" controls-position="right" :min="0" style="width: 100px"></el-input-number>
                 </template>

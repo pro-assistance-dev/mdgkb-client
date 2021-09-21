@@ -1,10 +1,12 @@
 import DivisionComment from '@/classes/buildings/DivisionComment';
+import Entrance from '@/classes/buildings/Entrance';
 import Doctor from '@/classes/doctors/Doctor';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
+import IEntrance from '@/interfaces/buildings/IEntrance';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
@@ -20,7 +22,7 @@ export default class Division implements IDivision {
   address?: string = '';
   floorId?: string;
   entranceId?: string;
-  buildingId?: string = '';
+  entrance?: IEntrance = new Entrance();
   slug?: string = '';
   doctors: IDoctor[] = [];
   timetable: ITimetable = new Timetable();
@@ -32,24 +34,27 @@ export default class Division implements IDivision {
   divisionImagesNames: string[] = [];
   divisionComments: IDivisionComment[] = [];
 
-  constructor(i?: IDivision) {
-    if (!i) return;
-    this.id = i.id;
-    this.name = i.name;
-    this.info = i.info;
-    this.phone = i.phone;
-    this.email = i.email;
-    this.address = i.address;
-    this.buildingId = i.buildingId;
-    this.floorId = i.floorId;
-    this.entranceId = i.entranceId;
-    this.slug = i.slug;
-    if (i.doctors) this.doctors = i.doctors.map((item: IDoctor) => new Doctor(item));
-    if (i.timetable) this.timetable = new Timetable(i.timetable);
-    this.timetableId = i.timetableId;
-    if (i.schedule) this.schedule = new Schedule(i.schedule);
-    this.scheduleId = i.scheduleId;
-    if (i.divisionImages) this.divisionImages = i.divisionImages.map((item: IDivisionImage) => new DivisionImage(item));
-    if (i.divisionComments) this.divisionComments = i.divisionComments.map((item: IDivisionComment) => new DivisionComment(item));
+  constructor(division?: IDivision) {
+    if (!division) {
+      return;
+    }
+    this.id = division.id;
+    this.name = division.name;
+    this.info = division.info;
+    this.phone = division.phone;
+    this.email = division.email;
+    this.address = division.address;
+    this.floorId = division.floorId;
+    this.entranceId = division.entranceId;
+    this.slug = division.slug;
+    if (division.entrance) this.entrance = new Entrance(division.entrance);
+    if (division.doctors) this.doctors = division.doctors.map((item: IDoctor) => new Doctor(item));
+    if (division.timetable) this.timetable = new Timetable(division.timetable);
+    this.timetableId = division.timetableId;
+    if (division.schedule) this.schedule = new Schedule(division.schedule);
+    this.scheduleId = division.scheduleId;
+    if (division.divisionImages) this.divisionImages = division.divisionImages.map((item: IDivisionImage) => new DivisionImage(item));
+    if (division.divisionComments)
+      this.divisionComments = division.divisionComments.map((item: IDivisionComment) => new DivisionComment(item));
   }
 }

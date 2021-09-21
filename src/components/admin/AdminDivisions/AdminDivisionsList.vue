@@ -7,6 +7,8 @@
     <el-card>
       <el-table :data="divisions">
         <el-table-column prop="name" label="Наименование" sortable> </el-table-column>
+        <el-table-column prop="entrance.building.name" label="Корпус" sortable> </el-table-column>
+        <el-table-column prop="address" label="Корпус" sortable> </el-table-column>
         <el-table-column prop="phone" label="Номер телефона" sortable> </el-table-column>
         <el-table-column prop="email" label="Email" sortable> </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
