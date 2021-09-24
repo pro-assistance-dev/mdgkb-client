@@ -7,6 +7,7 @@ import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizati
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
 import DoctorsRoutes from '@/router/DoctorsRoutes';
+import EducationalOrganizationRoutes from '@/router/EducationalOrganizationRoutes';
 import indexAdminRoutes from '@/router/indexAdminRoutes';
 import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
@@ -81,6 +82,7 @@ const routes: Array<RouteRecordRaw> = [
   ...NormativeDocumentsRoutes,
   ...PaidServicesRoutes,
   ...ProfileRoutes,
+  ...EducationalOrganizationRoutes,
   ...indexAdminRoutes,
 ];
 

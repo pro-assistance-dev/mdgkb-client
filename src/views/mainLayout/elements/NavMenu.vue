@@ -13,24 +13,27 @@
           </div>
         </el-menu-item>
       </template>
-      <!-- </div> -->
-      <!-- Animation variation -->
-      <!-- <div class="gridcontainer" v-else>
-        <div class="grid" id="services_grid">
-          <template v-for="(item, i) in items" :key="item.id">
-            <MenuTileX
-              :ref="
-                (el) => {
-                  if (el) menus[i] = el;
-                }
-              "
-              @done="collapseCard"
-              :item="item"
-            />
-          </template>
-        </div>
-      </div> -->
     </el-submenu>
+
+    <el-submenu index="3" popper-class="popper-class-custom">
+      <template #title><span class="header-bottom-menu-item">Образование</span></template>
+      <el-submenu class="header-bottom-submenu-item">
+        <template #title><span class="header-bottom-menu-item">Сведения об образовательной организации</span></template>
+        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/info')">
+          <div class="icon">Основные сведения</div>
+        </el-menu-item>
+        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/structure')">
+          <div class="icon">Структура и орган управления организации</div>
+        </el-menu-item>
+      </el-submenu>
+      <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization')">
+        <div class="icon">Ординатура/аспирантура</div>
+      </el-menu-item>
+      <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization')">
+        <div class="icon">Дополнительное профессиональное образование</div>
+      </el-menu-item>
+    </el-submenu>
+
     <el-menu-item class="header-bottom-menu-item" :route="{ name: 'AboutPage' }" index="3">О нас</el-menu-item>
   </el-menu>
 </template>

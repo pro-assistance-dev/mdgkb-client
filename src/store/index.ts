@@ -8,6 +8,7 @@ import { carousels } from '@/store/modules/carousels';
 import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
+import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { map } from '@/store/modules/map';
 import { news } from '@/store/modules/news';
 import normativeDocuments from '@/store/modules/normativeDocuments';
@@ -43,6 +44,7 @@ const store: StoreOptions<RootState> = {
     carousels,
     timetables,
     map,
+    educationalOrganization,
   },
 };
 

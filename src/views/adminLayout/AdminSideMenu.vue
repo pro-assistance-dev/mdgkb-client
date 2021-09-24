@@ -71,6 +71,25 @@ export default defineComponent({
         // ],
       },
       {
+        title: 'Образование',
+        to: '/',
+        icon: 'el-icon-school',
+        children: [
+          {
+            title: 'Сведения об образовательной организации',
+            to: '/admin/educational-organization',
+          },
+          {
+            title: 'Ординатура/аспирантура (абитуриенту)',
+            to: '/admin/educational-organization',
+          },
+          {
+            title: 'Дополнительное профессиональное образование',
+            to: '/admin/educational-organization',
+          },
+        ],
+      },
+      {
         title: 'Карусели новостей',
         to: '/admin/carousels',
         icon: 'el-icon-picture-outline',
