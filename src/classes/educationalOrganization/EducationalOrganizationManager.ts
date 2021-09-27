@@ -13,6 +13,7 @@ export default class EducationalOrganizationManager implements IEducationalOrgan
     if (!educationalOrganizationManager) {
       return;
     }
+    this.id = educationalOrganizationManager.id;
     this.doctorId = educationalOrganizationManager.doctorId;
     if (educationalOrganizationManager.doctor) {
       this.doctor = new Doctor(educationalOrganizationManager.doctor);

@@ -13,7 +13,14 @@ const actions: ActionTree<State, RootState> = {
     commit('set', await httpClient.get<IEducationalOrganization>());
   },
   update: async ({ commit }, item: IEducationalOrganization): Promise<void> => {
-    commit('set', await httpClient.put<IEducationalOrganization, IEducationalOrganization>({ payload: item }));
+    commit(
+      'set',
+      await httpClient.put<IEducationalOrganization, IEducationalOrganization>({
+        payload: item,
+        fileInfos: item.getFileInfos(),
+        isFormData: true,
+      })
+    );
   },
 };
 

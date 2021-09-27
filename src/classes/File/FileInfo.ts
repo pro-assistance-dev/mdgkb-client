@@ -12,7 +12,9 @@ export default class FileInfo implements IFileInfo {
   file?: Blob;
 
   constructor(i?: IFileInfo) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
 
     this.id = i.id;
     this.originalName = i.originalName;
@@ -22,6 +24,10 @@ export default class FileInfo implements IFileInfo {
   }
 
   getImageUrl(): string {
+    return `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
+  }
+
+  getFileUrl(): string {
     return `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
   }
 

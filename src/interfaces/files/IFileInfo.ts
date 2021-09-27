@@ -10,4 +10,5 @@ export default interface IFileInfo {
 
   getImageUrl?: () => string;
   getFileListObject: () => IFilesList;
+  getFileUrl: () => string;
 }

@@ -84,7 +84,7 @@ export default class HttpClient {
     if (fileInfos) {
       for (const fileInfo of fileInfos) {
         if (fileInfo.file) {
-          data.append(fileInfo.category ?? 'files', fileInfo.file, fileInfo.originalName);
+          data.append(fileInfo.id ?? 'files', fileInfo.file, fileInfo.originalName);
         }
       }
     }

@@ -25,6 +25,9 @@
         <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/structure')">
           <div class="icon">Структура и орган управления организации</div>
         </el-menu-item>
+        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/documents')">
+          <div class="icon">Документы</div>
+        </el-menu-item>
       </el-submenu>
       <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization')">
         <div class="icon">Ординатура/аспирантура</div>
