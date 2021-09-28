@@ -1,16 +1,16 @@
 <template>
-  <div v-if="scrollOffset >= 90" class="spacer">&nbsp;</div>
-  <div :class="{ fixed: scrollOffset >= 90 }">
-    <el-card style="max-width: 1344px; margin: 0 auto">
-      <div class="sum-card">
-        <div class="sum">Сумма: {{ sum }} рублей.</div>
-        <h2 v-if="scrollOffset >= 150" style="margin: 0">Платные услуги</h2>
-        <el-button @click="clearSelectedService()">Очистить выбор</el-button>
-      </div>
-    </el-card>
-  </div>
+  <div v-if="scrollOffset >= 300" class="spacer">&nbsp;</div>
   <div class="paid-services">
     <h1>Платные услуги</h1>
+    <div :class="{ fixed: scrollOffset >= 300 }">
+      <el-card style="max-width: 1344px; margin: 0 auto 20px; border-radius: 10px">
+        <div class="sum-card">
+          <div class="sum">Сумма: {{ sum }} рублей.</div>
+          <h2 v-if="scrollOffset >= 150" style="margin: 0">Платные услуги</h2>
+          <el-button @click="clearSelectedService()">Очистить выбор</el-button>
+        </div>
+      </el-card>
+    </div>
 
     <el-collapse accordion>
       <PaidService ref="ginService" v-model:services="ginDiv" :title="'Гинекологическое отделение'" @selectService="selectServiceGin" />

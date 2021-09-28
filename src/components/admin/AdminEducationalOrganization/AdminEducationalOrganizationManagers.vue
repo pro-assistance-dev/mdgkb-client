@@ -29,10 +29,12 @@ import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import EducationalOrganizationManager from '@/classes/educationalOrganization/EducationalOrganizationManager';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 
 export default defineComponent({
   name: 'AdminEducationalOrganizationManagers',
+  components: { TableButtonGroup },
   setup() {
     const mounted = ref(false);
     const store = useStore();

@@ -1,6 +1,6 @@
 <template>
   <el-container direction="vertical">
-    <h2>Структура и орган управления организации</h2>
+    <h2 style="text-align: center">Структура и орган управления организации</h2>
     <el-card>
       <el-timeline>
         <el-timeline-item

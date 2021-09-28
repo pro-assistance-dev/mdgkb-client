@@ -1,7 +1,7 @@
 <template>
   <el-form v-if="mounted" ref="form" :model="educationalOrganisation" label-position="top" :rules="rules">
-    <el-row :gutter="40" style="margin-bottom: 10px">
-      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
+    <el-row :gutter="40">
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="14">
         <el-container direction="vertical">
           <el-card>
             <template #header>
@@ -29,23 +29,12 @@
               </el-col>
             </el-row>
           </el-card>
+          <AdminEducationalOrganizationManagers />
+          <AdminEducationalOrganizationTeachers />
         </el-container>
       </el-col>
-    </el-row>
-    <el-row style="margin-bottom: 10px">
-      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
-        <AdminEducationalOrganizationManagers />
-      </el-col>
-    </el-row>
 
-    <el-row :gutter="40" style="margin-bottom: 10px">
-      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
-        <AdminEducationalOrganizationTeachers />
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="40" style="margin-bottom: 10px">
-      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="10">
         <el-card>
           <template #header>
             <CardHeader :label="'Документы'" :button-text="'Добавить тип документа'" @add="educationalOrganisation.addDocumentType()" />
@@ -54,16 +43,18 @@
             v-for="(documentType, documentTypeIndex) in educationalOrganisation.educationalOrganizationDocumentTypes"
             :key="documentType.id"
           >
-            <el-space>
+            <div class="flex-row-between">
               <el-input v-model="documentType.name" placeholder="Название типа"> </el-input>
-              <el-button type="success" style="margin: 20px" @click="documentType.addDocument()">Добавить документ</el-button>
-              <el-button
-                icon="el-icon-delete"
-                type="danger"
-                style="margin: 20px"
-                @click="educationalOrganisation.removeDocumentType(documentTypeIndex)"
-              />
-            </el-space>
+              <div style="display: flex">
+                <el-button type="success" style="margin: 20px" @click="documentType.addDocument()">Добавить документ</el-button>
+                <el-button
+                  icon="el-icon-delete"
+                  type="danger"
+                  style="margin: 20px"
+                  @click="educationalOrganisation.removeDocumentType(documentTypeIndex)"
+                />
+              </div>
+            </div>
 
             <div
               v-for="(documentTypeToDocument, i) in documentType.educationalOrganizationDocumentTypeDocuments"
@@ -107,8 +98,6 @@
         </el-card>
       </el-col>
     </el-row>
-
-    <div></div>
   </el-form>
 </template>
 
@@ -200,10 +189,16 @@ export default defineComponent({
   },
 });
 </script>
-<style>
+
+<style lang="scss" scoped>
 .flex-row-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.el-container {
+  .el-card {
+    margin-bottom: 20px;
+  }
 }
 </style>

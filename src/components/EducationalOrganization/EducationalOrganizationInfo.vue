@@ -1,7 +1,8 @@
 <template>
   <el-container direction="vertical">
+    <h1 style="text-align: center">Основные сведения</h1>
     <el-card>
-      <el-descriptions :column="1" border direction="vertical" title="Основные сведения">
+      <el-descriptions :column="1" border direction="horizontal">
         <el-descriptions-item v-for="prop in educationalOrganisation.educationalOrganizationProperties" :key="prop.id" :label="prop.name">
           {{ prop.value }}
         </el-descriptions-item>

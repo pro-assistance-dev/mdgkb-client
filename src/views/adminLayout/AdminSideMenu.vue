@@ -1,29 +1,24 @@
 <template>
   <div class="admin-side-menu">
     <el-menu
-      v-for="(item, i) in menuList"
+      v-for="item in menuList"
       :key="item.title"
-      default-active="1-1"
+      :default-active="activePath"
       :collapse="isCollapseSideMenu"
       background-color="whitesmoke"
       @select="closeDrawer"
     >
-      <el-submenu v-if="item.children" :index="String(i + 1)">
+      <el-submenu v-if="item.children" :index="item.title">
         <template #title>
           <i :class="item.icon"></i>
           <span class="row-menu-title">{{ item.title }}</span>
         </template>
-        <el-menu-item
-          v-for="(children, j) in item.children"
-          :key="children.title"
-          :index="`${String(i + 1)}-${String(j + 1)}`"
-          @click="$router.push(children.to)"
-        >
+        <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
           {{ children.title }}
         </el-menu-item>
       </el-submenu>
 
-      <el-menu-item v-else :index="String(i + 1)" @click="$router.push(item.to)">
+      <el-menu-item v-else :index="item.to" @click="$router.push(item.to)">
         <i :class="item.icon"></i>
         <template #title>{{ item.title }}</template>
       </el-menu-item>
@@ -32,7 +27,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -43,32 +39,23 @@ export default defineComponent({
     const store = useStore();
     const isCollapseSideMenu = computed(() => store.getters['admin/isCollapseSideMenu']);
     const closeDrawer = () => store.commit('admin/closeDrawer');
+    const route = useRoute();
+    const activePath: Ref<string> = ref('');
+    onBeforeMount(() => {
+      activePath.value = route.path;
+    });
+    watch(
+      () => route.path,
+      () => {
+        activePath.value = route.path;
+      }
+    );
 
     const menuList = ref([
-      // {
-      //   title: 'Главная',
-      //   to: '/admin/news',
-      //   icon: 'el-icon-s-home',
-      // },
       {
         title: 'Новости',
         to: '/admin/news',
         icon: 'el-icon-tickets',
-        // children: [
-        //   {
-        //     title: 'Все новости',
-        //     to: '/admin/news',
-        //   },
-        //   {
-        //     title: 'Добавить новую',
-        //     to: '/admin/news/new',
-        //   },
-        // {
-        //   title: 'Категории',
-        // to: '/admin/news/categories',
-        // icon: 'las la-folder-open',
-        // },
-        // ],
       },
       {
         title: 'Образование',
@@ -94,21 +81,6 @@ export default defineComponent({
         to: '/admin/carousels',
         icon: 'el-icon-picture-outline',
       },
-      // {
-      //   title: 'Статические страницы',
-      // to: '/admin/pages',
-      //   icon: 'el-icon-document',
-      // },
-      // {
-      //   title: 'Галереи',
-      // to: '/admin/galleries',
-      //   icon: 'el-icon-picture',
-      // },
-      // {
-      //   title: 'Тэги',
-      // to: '/admin/tags',
-      //   icon: 'el-icon-price-tag',
-      // },
       {
         title: 'Справочники',
         to: '/',
@@ -134,45 +106,8 @@ export default defineComponent({
             title: 'Типы нормативных документов',
             to: '/admin/normative-document-types',
           },
-          // {
-          //   title: 'Анализы',
-          // to: '/admin/analyzes',
-          //   icon: 'las la-list',
-          // },
-          // {
-          //   title: 'Специальности',
-          // to: '#',
-          //   icon: 'las la-list',
-          // },
-          // {
-          //   title: 'Сотрудники',
-          // to: '#',
-          //   icon: 'las la-list',
-          // },
         ],
       },
-      // {
-      //   title: 'Мероприятия',
-      //   to: '/',
-      //   icon: 'el-icon-date',
-      //   children: [
-      //     {
-      //       title: 'Все мероприятия',
-      // to: '/admin/event',
-      //   icon: 'las la-list',
-      // },
-      // {
-      //   title: 'Добавить мероприятие',
-      // to: '/admin/event/item',
-      //       icon: 'las la-plus-square',
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: 'Школы',
-      // to: '/admin/school',
-      //   icon: 'el-icon-reading',
-      // },
       {
         title: 'Врачи',
         to: '/admin/doctors',
@@ -190,7 +125,7 @@ export default defineComponent({
         ],
       },
     ]);
-    return { menuList, closeDrawer, isCollapseSideMenu };
+    return { menuList, closeDrawer, isCollapseSideMenu, activePath };
   },
 });
 </script>
