@@ -44,7 +44,7 @@
             :key="documentType.id"
           >
             <div class="flex-row-between">
-              <el-input v-model="documentType.name" placeholder="Название типа"> </el-input>
+              <el-input v-model="documentType.name" minlength="100" placeholder="Название типа"> </el-input>
               <div style="display: flex">
                 <el-button type="success" style="margin: 20px" @click="documentType.addDocument()">Добавить документ</el-button>
                 <el-button
@@ -59,9 +59,10 @@
             <div
               v-for="(documentTypeToDocument, i) in documentType.educationalOrganizationDocumentTypeDocuments"
               :key="documentTypeToDocument.id"
+              class="flex-row-between"
             >
               <el-space>
-                <el-form-item>
+                <el-form-item style="width: 500px">
                   <el-input v-model="documentTypeToDocument.document.name" placeholder="Название документа"> </el-input>
                 </el-form-item>
                 <el-form-item>
@@ -75,12 +76,23 @@
                     :limit="1"
                     :multiple="false"
                     accept="application/pdf"
+                    :show-file-list="false"
                     @change="(file) => documentTypeToDocument.document.addFile(file)"
                   >
-                    <el-button>{{ documentTypeToDocument.document.fileInfo.originalName ? 'Заменить файл' : 'Приложить файл' }}</el-button>
+                    <el-popover
+                      placement="top-start"
+                      :width="200"
+                      trigger="hover"
+                      :content="documentTypeToDocument.document.fileInfo.originalName"
+                    >
+                      <template #reference>
+                        <el-button>{{
+                          documentTypeToDocument.document.fileInfo.originalName ? 'Заменить файл' : 'Приложить файл'
+                        }}</el-button>
+                      </template>
+                    </el-popover>
                   </el-upload>
                 </el-form-item>
-
                 <el-form-item v-if="documentTypeToDocument.document.fileInfo && documentTypeToDocument.document.fileInfo.fileSystemPath">
                   <a
                     :href="documentTypeToDocument.document.fileInfo.getFileUrl()"

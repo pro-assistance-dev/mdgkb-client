@@ -4,7 +4,7 @@
       <el-select v-model="newId" filterable placeholder="Выберите преподавателя">
         <el-option v-for="item in doctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
       </el-select>
-      <el-button type="success" style="margin: 20px" @click="add">Добавить руководителя</el-button>
+      <el-button type="success" style="margin: 20px" @click="add">Добавить преподавателя</el-button>
     </el-space>
 
     <el-table :data="teachers">

@@ -15,6 +15,7 @@
             class="header-bottom-submenu-item"
             @click="$router.push(subMenu.link)"
           >
+            <!--TODO: реализовать иконку - это пример-->
             <!--            <div class="icon">-->
             <!--              <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>-->
             {{ subMenu.name }}
@@ -33,45 +34,6 @@
         </template>
       </el-submenu>
     </template>
-
-    <!--    <el-menu-item class="header-bottom-menu-item" index="1" :route="{ name: 'News' }">Новости</el-menu-item>-->
-    <!--    <el-submenu index="2" popper-class="popper-class-custom">-->
-    <!--      <template #title><span class="header-bottom-menu-item">Пациентам</span></template>-->
-    <!--      &lt;!&ndash; For drawer &ndash;&gt;-->
-    <!--      &lt;!&ndash; <div v-if="vertical"> &ndash;&gt;-->
-    <!--      <template v-for="item in items" :key="item.id">-->
-    <!--        <el-menu-item class="header-bottom-submenu-item" @click="$router.push(item.to)">-->
-    <!--          <div class="icon">-->
-    <!--            <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>-->
-    <!--            {{ item.label }}-->
-    <!--          </div>-->
-    <!--        </el-menu-item>-->
-    <!--      </template>-->
-    <!--    </el-submenu>-->
-
-    <!--    <el-submenu index="3" popper-class="popper-class-custom">-->
-    <!--      <template #title><span class="header-bottom-menu-item">Образование</span></template>-->
-    <!--      <el-submenu class="header-bottom-submenu-item">-->
-    <!--        <template #title><span class="header-bottom-menu-item">Сведения об образовательной организации</span></template>-->
-    <!--        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/info')">-->
-    <!--          <div class="icon">Основные сведения</div>-->
-    <!--        </el-menu-item>-->
-    <!--        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/structure')">-->
-    <!--          <div class="icon">Структура и орган управления организации</div>-->
-    <!--        </el-menu-item>-->
-    <!--        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/documents')">-->
-    <!--          <div class="icon">Документы</div>-->
-    <!--        </el-menu-item>-->
-    <!--      </el-submenu>-->
-    <!--      <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization')">-->
-    <!--        <div class="icon">Ординатура/аспирантура</div>-->
-    <!--      </el-menu-item>-->
-    <!--      <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization')">-->
-    <!--        <div class="icon">Дополнительное профессиональное образование</div>-->
-    <!--      </el-menu-item>-->
-    <!--    </el-submenu>-->
-
-    <!--    <el-menu-item class="header-bottom-menu-item" :route="{ name: 'AboutPage' }" index="3">О нас</el-menu-item>-->
   </el-menu>
 </template>
 

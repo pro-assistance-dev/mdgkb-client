@@ -1,8 +1,9 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import FileInfo from '@/classes/File/FileInfo';
 import IDocument from '@/interfaces/document/IDocument';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-
 export default class Document implements IDocument {
   id?: string;
   name = '';
@@ -22,6 +23,9 @@ export default class Document implements IDocument {
   }
 
   addFile(file: IElementPlusFile): void {
+    if (!this.fileInfo.id) {
+      this.fileInfo.id = uuidv4();
+    }
     this.fileInfo.originalName = file.name;
     this.fileInfo.file = file.raw;
   }
