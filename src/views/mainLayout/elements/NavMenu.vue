@@ -1,26 +1,31 @@
 <template>
   <el-menu class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
-    <template v-for="menu in menus" :key="menu.id">
-      <el-menu-item v-if="menu.subMenus.length === 0" :index="menu.link" class="header-bottom-menu-item" @click="$router.push(menu.link)">
+    <template v-for="(menu, i) in menus" :key="menu.id">
+      <el-menu-item v-if="menu.subMenus.length === 0" :index="i" class="header-bottom-menu-item" @click="$router.push(menu.link)">
         {{ menu.name }}
       </el-menu-item>
-      <el-submenu v-else :index="menu.link" class="header-bottom-menu-item">
+      <el-submenu v-else :index="i" class="header-bottom-menu-item">
         <template #title
           ><span class="header-bottom-menu-item">{{ menu.name }}</span></template
         >
         <template v-for="subMenu in menu.subMenus" :key="subMenu.id">
-          <el-menu-item v-if="subMenu.subSubMenus.length === 0" class="header-bottom-submenu-item" @click="$router.push(subMenu.link)">
+          <el-menu-item
+            v-if="subMenu.subSubMenus.length === 0"
+            :index="subMenu.link"
+            class="header-bottom-submenu-item"
+            @click="$router.push(subMenu.link)"
+          >
             <!--            <div class="icon">-->
             <!--              <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>-->
             {{ subMenu.name }}
             <!--            </div>-->
           </el-menu-item>
-          <el-submenu v-else :index="menu.link" class="header-bottom-menu-item">
+          <el-submenu v-else :index="subMenu.link" class="header-bottom-menu-item">
             <template #title
               ><span class="header-bottom-menu-item">{{ subMenu.name }}</span></template
             >
             <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
-              <el-menu-item class="header-bottom-submenu-item" @click="$router.push(subSubMenu.link)">
+              <el-menu-item :index="subSubMenu.link" class="header-bottom-submenu-item" @click="$router.push(subSubMenu.link)">
                 {{ subSubMenu.name }}
               </el-menu-item>
             </template>
@@ -123,7 +128,7 @@ export default defineComponent({
     ];
     const menus = computed(() => store.getters['menus/menus']);
     const route = useRoute();
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
       await store.dispatch('menus/getAll');
       activePath.value = route.path;
     });
