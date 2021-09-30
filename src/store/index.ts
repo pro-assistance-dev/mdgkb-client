@@ -10,6 +10,7 @@ import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { map } from '@/store/modules/map';
+import { menus } from '@/store/modules/menus';
 import { news } from '@/store/modules/news';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
@@ -45,6 +46,7 @@ const store: StoreOptions<RootState> = {
     timetables,
     map,
     educationalOrganization,
+    menus,
   },
 };
 

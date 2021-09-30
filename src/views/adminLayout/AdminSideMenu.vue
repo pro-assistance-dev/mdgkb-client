@@ -184,6 +184,10 @@ export default defineComponent({
         icon: 'el-icon-data-board',
         children: [
           {
+            title: 'Меню',
+            to: '/admin/menus',
+          },
+          {
             title: 'Рекламные баннеры',
             to: '/admin/banners',
           },
