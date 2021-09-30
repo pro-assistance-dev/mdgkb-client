@@ -1,71 +1,85 @@
 <template>
-  <el-menu class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" :default-active="activePath">
-    <el-menu-item class="header-bottom-menu-item" index="/news" :route="{ name: 'News' }">Новости</el-menu-item>
-    <el-submenu index="1" popper-class="popper-class-custom">
-      <template #title><span class="header-bottom-menu-item">Пациентам</span></template>
-      <!-- For drawer -->
-      <!-- <div v-if="vertical"> -->
-      <template v-for="item in items" :key="item.id">
-        <el-menu-item class="header-bottom-submenu-item" :index="item.to" @click="$router.push(item.to)">
-          <div class="icon">
-            <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
-            {{ item.label }}
-          </div>
-        </el-menu-item>
-      </template>
-    </el-submenu>
-
-    <el-submenu index="3">
-      <template #title> <span class="header-bottom-menu-item">Образование</span></template>
-      <el-submenu index="4">
-        <template #title>Сведения об образовательной организации</template>
-        <el-menu-item
-          class="header-bottom-submenu-item"
-          index="/educational-organization/info"
-          @click="$router.push('/educational-organization/info')"
+  <el-menu class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
+    <template v-for="menu in menus" :key="menu.id">
+      <el-menu-item v-if="menu.subMenus.length === 0" :index="menu.link" class="header-bottom-menu-item" @click="$router.push(menu.link)">
+        {{ menu.name }}
+      </el-menu-item>
+      <el-submenu v-else :index="menu.link" class="header-bottom-menu-item">
+        <template #title
+          ><span class="header-bottom-menu-item">{{ menu.name }}</span></template
         >
-          <div class="icon">Основные сведения</div>
-        </el-menu-item>
-        <el-menu-item
-          class="header-bottom-submenu-item"
-          index="/educational-organization/structure"
-          @click="$router.push('/educational-organization/structure')"
-        >
-          <div class="icon">Структура и орган управления организации</div>
-        </el-menu-item>
-        <el-menu-item
-          class="header-bottom-submenu-item"
-          index="/educational-organization/documents"
-          @click="$router.push('/educational-organization/documents')"
-        >
-          <div class="icon">Документы</div>
-        </el-menu-item>
+        <template v-for="subMenu in menu.subMenus" :key="subMenu.id">
+          <el-menu-item v-if="subMenu.subSubMenus.length === 0" class="header-bottom-submenu-item" @click="$router.push(subMenu.link)">
+            <!--            <div class="icon">-->
+            <!--              <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>-->
+            {{ subMenu.name }}
+            <!--            </div>-->
+          </el-menu-item>
+          <el-submenu v-else :index="menu.link" class="header-bottom-menu-item">
+            <template #title
+              ><span class="header-bottom-menu-item">{{ subMenu.name }}</span></template
+            >
+            <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
+              <el-menu-item class="header-bottom-submenu-item" @click="$router.push(subSubMenu.link)">
+                {{ subSubMenu.name }}
+              </el-menu-item>
+            </template>
+          </el-submenu>
+        </template>
       </el-submenu>
-      <el-menu-item class="header-bottom-submenu-item" index="/educational-organization" @click="$router.push('/educational-organization')">
-        <div class="icon">Ординатура/аспирантура</div>
-      </el-menu-item>
-      <el-menu-item class="header-bottom-submenu-item" index="/educational-organization" @click="$router.push('/educational-organization')">
-        <div class="icon">Дополнительное профессиональное образование</div>
-      </el-menu-item>
-    </el-submenu>
+    </template>
 
-    <el-menu-item class="header-bottom-menu-item" index="/about" :route="{ name: 'AboutPage' }">О нас</el-menu-item>
+    <!--    <el-menu-item class="header-bottom-menu-item" index="1" :route="{ name: 'News' }">Новости</el-menu-item>-->
+    <!--    <el-submenu index="2" popper-class="popper-class-custom">-->
+    <!--      <template #title><span class="header-bottom-menu-item">Пациентам</span></template>-->
+    <!--      &lt;!&ndash; For drawer &ndash;&gt;-->
+    <!--      &lt;!&ndash; <div v-if="vertical"> &ndash;&gt;-->
+    <!--      <template v-for="item in items" :key="item.id">-->
+    <!--        <el-menu-item class="header-bottom-submenu-item" @click="$router.push(item.to)">-->
+    <!--          <div class="icon">-->
+    <!--            <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>-->
+    <!--            {{ item.label }}-->
+    <!--          </div>-->
+    <!--        </el-menu-item>-->
+    <!--      </template>-->
+    <!--    </el-submenu>-->
+
+    <!--    <el-submenu index="3" popper-class="popper-class-custom">-->
+    <!--      <template #title><span class="header-bottom-menu-item">Образование</span></template>-->
+    <!--      <el-submenu class="header-bottom-submenu-item">-->
+    <!--        <template #title><span class="header-bottom-menu-item">Сведения об образовательной организации</span></template>-->
+    <!--        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/info')">-->
+    <!--          <div class="icon">Основные сведения</div>-->
+    <!--        </el-menu-item>-->
+    <!--        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/structure')">-->
+    <!--          <div class="icon">Структура и орган управления организации</div>-->
+    <!--        </el-menu-item>-->
+    <!--        <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization/documents')">-->
+    <!--          <div class="icon">Документы</div>-->
+    <!--        </el-menu-item>-->
+    <!--      </el-submenu>-->
+    <!--      <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization')">-->
+    <!--        <div class="icon">Ординатура/аспирантура</div>-->
+    <!--      </el-menu-item>-->
+    <!--      <el-menu-item class="header-bottom-submenu-item" @click="$router.push('/educational-organization')">-->
+    <!--        <div class="icon">Дополнительное профессиональное образование</div>-->
+    <!--      </el-menu-item>-->
+    <!--    </el-submenu>-->
+
+    <!--    <el-menu-item class="header-bottom-menu-item" :route="{ name: 'AboutPage' }" index="3">О нас</el-menu-item>-->
   </el-menu>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 import IMenu from '@/interfaces/elements/IMenu';
 import IMenuItem from '@/interfaces/IMenuItem';
-import MenuTileX from '@/views/mainLayout/elements/MenuTileX.vue';
 
 export default defineComponent({
   name: 'NavMenu',
-  components: {
-    MenuTileX,
-  },
   props: {
     vertical: {
       type: Boolean,
@@ -75,6 +89,7 @@ export default defineComponent({
   setup() {
     let expand = ref(false);
     const activePath: Ref<string> = ref('');
+    const store = useStore();
     const items: IMenuItem[] = [
       {
         id: '02',
@@ -106,11 +121,13 @@ export default defineComponent({
         to: '/normative-documents',
       },
     ];
-    const menus = ref([]);
+    const menus = computed(() => store.getters['menus/menus']);
     const route = useRoute();
     onBeforeMount(() => {
+      await store.dispatch('menus/getAll');
       activePath.value = route.path;
     });
+
     watch(
       () => route.path,
       () => {
