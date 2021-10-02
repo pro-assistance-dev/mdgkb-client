@@ -4,6 +4,7 @@ import AdminDoctorsRoutes from '@/router/AdminDoctorsRoutes';
 import AdminEducationalOrganizationRoutes from '@/router/AdminEducationalOrganizationRoutes';
 import AdminMenusRoutes from '@/router/AdminMenusRoutes';
 import AdminNewsRoutes from '@/router/AdminNewsRoutes';
+import AdminPagesRoutes from '@/router/AdminPagesRoutes';
 
 import AdminCarouselsRoutes from './AdminCarouselsRoutes';
 
@@ -15,4 +16,5 @@ export default [
   ...AdminBannersRoutes,
   ...AdminEducationalOrganizationRoutes,
   ...AdminMenusRoutes,
+  ...AdminPagesRoutes,
 ];

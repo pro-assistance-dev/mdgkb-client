@@ -14,5 +14,12 @@ export default interface ISubMenu {
 
   subSubMenus: ISubSubMenu[];
   subSubMenusForDelete: string[];
+
+  withoutChildren: () => boolean;
+  isPageLink: () => boolean;
+  isLink: () => boolean;
+
+  getLink: () => string;
+
   crud: ICrud;
 }

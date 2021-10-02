@@ -4,4 +4,6 @@ export default interface IPage {
   content: string;
   slug: string;
   link: string;
+
+  getLink: () => string;
 }

@@ -126,6 +126,10 @@ export default defineComponent({
             title: 'Рекламные баннеры',
             to: '/admin/banners',
           },
+          {
+            title: 'Страницы',
+            to: '/admin/pages',
+          },
         ],
       },
     ]);

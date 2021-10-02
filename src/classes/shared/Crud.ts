@@ -9,7 +9,6 @@ export default class Crud implements ICrud {
   router = useRouter();
 
   constructor(storeModule: string) {
-    console.log(useStore());
     this.storeModule = storeModule;
   }
 

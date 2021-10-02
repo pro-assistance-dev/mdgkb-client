@@ -38,4 +38,26 @@ export default class SubMenu implements ISubMenu {
       this.subSubMenus = menu.subSubMenus.map((i: ISubSubMenu) => new SubSubMenu(i));
     }
   }
+
+  getLink(): string {
+    if (this.isLink() && !this.isPageLink()) {
+      return this.link;
+    }
+    if (!this.isLink() && this.isPageLink()) {
+      return this.page.getLink();
+    }
+    return '';
+  }
+
+  withoutChildren(): boolean {
+    return this.subSubMenus.length === 0;
+  }
+
+  isLink(): boolean {
+    return this.link !== '';
+  }
+
+  isPageLink(): boolean {
+    return this.pageId !== undefined && this.pageId !== '';
+  }
 }

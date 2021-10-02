@@ -1,7 +1,7 @@
 <template>
   <el-menu class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
     <template v-for="(menu, i) in menus" :key="menu.id">
-      <el-menu-item v-if="menu.subMenus.length === 0" :index="i" class="header-bottom-menu-item" @click="$router.push(menu.link)">
+      <el-menu-item v-if="menu.withoutChildren()" :index="i" class="header-bottom-menu-item" @click="$router.push(menu.getLink())">
         {{ menu.name }}
       </el-menu-item>
       <el-submenu v-else :index="i" class="header-bottom-menu-item">
@@ -10,10 +10,10 @@
         >
         <template v-for="subMenu in menu.subMenus" :key="subMenu.id">
           <el-menu-item
-            v-if="subMenu.subSubMenus.length === 0"
+            v-if="subMenu.withoutChildren()"
             :index="subMenu.link"
             class="header-bottom-submenu-item"
-            @click="$router.push(subMenu.link)"
+            @click="$router.push(subMenu.getLink())"
           >
             <!--TODO: реализовать иконку - это пример-->
             <!--            <div class="icon">-->

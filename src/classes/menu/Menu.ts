@@ -40,4 +40,26 @@ export default class Menu implements IMenu {
     }
     this.crud = new Crud('menus');
   }
+
+  getLink(): string {
+    if (this.isLink() && !this.isPageLink()) {
+      return this.link;
+    }
+    if (!this.isLink() && this.isPageLink()) {
+      return this.page.getLink();
+    }
+    return '';
+  }
+
+  withoutChildren(): boolean {
+    return this.subMenus.length === 0;
+  }
+
+  isLink(): boolean {
+    return this.link !== '';
+  }
+
+  isPageLink(): boolean {
+    return this.pageId !== undefined && this.pageId !== '';
+  }
 }

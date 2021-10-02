@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, NavigationGuardNext, RouteRecordRaw } from 'vue-router';
 
 import AboutPage from '@/components/About/AboutPage.vue';
+import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
@@ -74,6 +75,11 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
+  },
+  {
+    path: '/custom-page/:slug',
+    name: 'CustomPage',
+    component: CustomPage,
   },
   ...DoctorsRoutes,
   ...DivisionsRoutes,

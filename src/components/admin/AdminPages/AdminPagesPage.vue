@@ -1,0 +1,142 @@
+<template>
+  <div class="wrapper">
+    <el-form ref="form" :key="page" :model="page">
+      <el-row :gutter="40">
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
+          <el-container direction="vertical">
+            <el-card>
+              <template #header>Заголовок</template>
+              <el-form-item prop="title">
+                <el-input v-model="page.title" placeholder="Заголовок"></el-input>
+              </el-form-item>
+            </el-card>
+            <el-card class="content-card">
+              <template #header>Контент</template>
+              <el-form-item prop="content">
+                <QuillEditor
+                  v-model:content="page.content"
+                  style="min-height: 200px; max-height: 700px"
+                  content-type="html"
+                  theme="snow"
+                  :options="editorOption"
+                ></QuillEditor>
+              </el-form-item>
+            </el-card>
+          </el-container>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
+</template>
+
+<script lang="ts">
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+
+import { QuillEditor } from '@vueup/vue-quill';
+import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
+
+export default defineComponent({
+  name: 'AdminPagesPage',
+  components: { QuillEditor },
+  setup() {
+    const editorOption = {
+      modules: {
+        toolbar: [
+          ['полужирный', 'курсив', 'подчеркивание', 'зачеркивание'], // полужирный, курсив, подчеркивание, зачеркивание
+          ['blockquote', 'code-block'], // цитата, кодовый блок
+          [{ header: 1 }, { header: 2 }], // Заголовок в виде пар ключ-значение; 1, 2 означает размер шрифта
+          [{ script: 'sub' }, { script: 'super' }], // нижний индекс и нижний индекс
+          [{ indent: '- 1' }, { indent: '+ 1' }], // отступ
+          [{ direction: 'rtl' }], // направление текста
+          [{ size: ['small', false, 'large', 'huge'] }], // размер шрифта
+          [{ header: [1, 2, 3, 4, 5, 6, false] }], // Несколько уровней заголовка
+          [{ color: [] }, { background: [] }], // цвет шрифта, цвет фона шрифта
+          [{ font: [] }], // шрифт
+          [{ align: [] }], // Выравнивание
+          ['clean'], // Очистить стиль шрифта
+          ['image', 'video'], // Загрузить изображения, загрузить видео
+        ],
+      },
+    };
+    const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
+    let mounted = ref(false);
+    const form = ref();
+
+    const page = computed(() => store.getters['pages/page']);
+
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submit);
+      await loadNewsItem();
+    });
+
+    const loadNewsItem = async () => {
+      console.log(route.params['slug']);
+      if (route.params['slug']) {
+        await store.dispatch('pages/getBySlug', route.params['slug']);
+        store.commit('admin/setPageTitle', { title: page.value.title, saveButton: true });
+      } else {
+        store.commit('pages/resetState');
+        store.commit('admin/setPageTitle', { title: 'Добавить страницу', saveButton: true });
+      }
+      mounted.value = true;
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(page, formUpdated, { deep: true });
+    };
+
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
+
+    const submit = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = false;
+        return;
+      }
+      page.value.createSlug();
+      if (!route.params['slug']) {
+        await store.dispatch('pages/create', page.value);
+        await router.push('/admin/pages');
+        return;
+      }
+      await store.dispatch('pages/update', page.value);
+      next ? next() : await router.push('/admin/pages');
+    };
+
+    return {
+      editorOption,
+      mounted,
+      submit,
+      page,
+      form,
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+.el-container {
+  .el-card {
+    margin-bottom: 20px;
+  }
+}
+
+.content-card {
+  min-height: 450px;
+  max-height: 900px;
+}
+
+:deep(.el-dialog) {
+  overflow: hidden;
+}
+</style>

@@ -4,35 +4,57 @@
       <el-row :gutter="40">
         <el-container direction="vertical">
           <el-card>
-            <template #header>
-              <CardHeader :label="'Меню'" :button-text="'Добавить подменю'" @add="addSubMenu" />
-            </template>
-            <el-space>
+            <CardHeader :label="'Меню'" :button-text="'Добавить подменю'" @add="addSubMenu" />
+            <el-form-item label="Название">
               <el-input v-model="menu.name" placeholder="Название"> </el-input>
+            </el-form-item>
+            <el-form-item v-if="menu.withoutChildren() && !menu.isPageLink()" label="Ссылка">
               <el-input v-model="menu.link" placeholder="Ссылка"> </el-input>
-            </el-space>
-            <div v-for="(subMenu, subMenuIndex) in menu.subMenus" :key="subMenu.id">
-              <el-space>
-                <el-input v-model="subMenu.name" placeholder="Название подменю"> </el-input>
-                <el-input v-model="subMenu.link" placeholder="Ссылка"> </el-input>
-                <el-button type="success" style="margin: 20px" @click="addSubSubMenu(subMenuIndex)">Добавить подподменю</el-button>
-                <el-button icon="el-icon-delete" type="danger" @click="removeSubMenu(subMenuIndex)"></el-button>
-              </el-space>
-
-              <div v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
+            </el-form-item>
+            <el-form-item v-if="menu.withoutChildren() && !menu.isLink()">
+              <el-select v-model="menu.pageId" clearable filterable placeholder="Страница">
+                <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
+              </el-select>
+            </el-form-item>
+            <el-divider></el-divider>
+            <div v-if="!menu.isLink()">
+              <div v-for="(subMenu, subMenuIndex) in menu.subMenus" :key="subMenu.id">
                 <el-space>
-                  <el-form-item>
-                    <el-input v-model="subSubMenu.name" placeholder="Название подподменю"> </el-input>
+                  <el-form-item label="Название">
+                    <el-input v-model="subMenu.name" placeholder="Название"> </el-input>
                   </el-form-item>
-                  <el-form-item>
-                    <el-input v-model="subSubMenu.link" placeholder="Ссылка"> </el-input>
+                  <el-form-item v-if="subMenu.withoutChildren() && !subMenu.isPageLink()" label="Ссылка">
+                    <el-input v-model="subMenu.link" placeholder="Ссылка"> </el-input>
                   </el-form-item>
-                  <el-form-item>
-                    <el-button icon="el-icon-delete" type="danger" @click="removeSubSubMenu(subSubMenu)"></el-button>
+                  <el-form-item v-if="subMenu.withoutChildren() && !subMenu.isLink()">
+                    <el-select v-model="subMenu.pageId" clearable filterable placeholder="Страница">
+                      <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
+                    </el-select>
                   </el-form-item>
+                  <el-button type="success" style="margin: 20px" @click="addSubSubMenu(subMenuIndex)">Добавить подподменю</el-button>
+                  <el-button icon="el-icon-delete" type="danger" @click="removeSubMenu(subMenuIndex)"></el-button>
                 </el-space>
+
+                <div v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
+                  <el-space>
+                    <el-form-item>
+                      <el-input v-model="subSubMenu.name" placeholder="Название подподменю"> </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-input v-model="subSubMenu.link" placeholder="Ссылка"> </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-select v-model="subSubMenu.pageId" filterable placeholder="Страница">
+                        <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
+                      </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button icon="el-icon-delete" type="danger" @click="removeSubSubMenu(subSubMenu)"></el-button>
+                    </el-form-item>
+                  </el-space>
+                </div>
+                <el-divider />
               </div>
-              <el-divider />
             </div>
           </el-card>
         </el-container>
@@ -67,12 +89,13 @@ export default defineComponent({
     const rules = ref(NewsRules);
 
     const menu: Ref<IMenu> = computed<IMenu>(() => store.getters['menus/menu']);
-
+    const pages = computed(() => store.getters['pages/pages']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
+      await store.dispatch('pages/getAll');
       await loadMenu();
     });
 
@@ -115,6 +138,7 @@ export default defineComponent({
     const removeSubSubMenu = (subSubMenu: ISubSubMenu) => store.commit('menus/removeSubSubMenu', subSubMenu);
 
     return {
+      pages,
       removeSubSubMenu,
       addSubMenu,
       removeSubMenu,
