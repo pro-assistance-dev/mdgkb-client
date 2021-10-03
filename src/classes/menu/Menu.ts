@@ -42,6 +42,7 @@ export default class Menu implements IMenu {
   }
 
   getLink(): string {
+    console.log(this.pageId);
     if (this.isLink() && !this.isPageLink()) {
       return this.link;
     }
@@ -60,6 +61,6 @@ export default class Menu implements IMenu {
   }
 
   isPageLink(): boolean {
-    return this.pageId !== undefined && this.pageId !== '';
+    return !!this.pageId && this.pageId !== '';
   }
 }
