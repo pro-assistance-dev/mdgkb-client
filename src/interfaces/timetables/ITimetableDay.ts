@@ -13,5 +13,8 @@ export default interface ITimetableDay {
   customName: string;
   isCustom: boolean;
 
-  getTime: (date: string) => string;
+  getPeriodWithName: () => string;
+  getPeriod: () => string;
+  isNow: () => boolean;
+  getTime: (dateString: string) => string;
 }

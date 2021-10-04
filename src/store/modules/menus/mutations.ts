@@ -21,6 +21,8 @@ const mutations: MutationTree<State> = {
     Object.assign(state, getDefaultState());
   },
   addSubMenu(state) {
+    state.menu.link = '';
+    state.menu.pageId = undefined;
     state.menu.subMenus.push(new SubMenu());
   },
   addSubSubMenu(state, index: number) {

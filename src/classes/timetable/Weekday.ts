@@ -15,4 +15,9 @@ export default class Weekday implements IWeekday {
   isWeekend(): boolean {
     return this.number > 5;
   }
+
+  isToday(): boolean {
+    const nowDay = new Date().getDay() + 1;
+    return this.number === nowDay;
+  }
 }

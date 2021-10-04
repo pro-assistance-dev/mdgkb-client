@@ -1,8 +1,16 @@
 <template>
   <el-menu class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
     <template v-for="(menu, i) in menus" :key="menu.id">
-      <el-menu-item v-if="menu.withoutChildren()" :index="i" class="header-bottom-menu-item" @click="$router.push(menu.getLink())">
-        {{ menu.name }}
+      <el-menu-item
+        v-if="menu.withoutChildren()"
+        :index="menu.getLink()"
+        class="header-bottom-menu-item"
+        @click="$router.push(menu.getLink())"
+      >
+        <div class="icon">
+          <object v-if="menu.icon.fileSystemPath" :data="menu.icon.getImageUrl()" class="menu-img" />
+          {{ menu.name }}
+        </div>
       </el-menu-item>
       <el-submenu v-else :index="i" class="header-bottom-menu-item">
         <template #title
@@ -15,19 +23,21 @@
             class="header-bottom-submenu-item"
             @click="$router.push(subMenu.getLink())"
           >
-            <!--TODO: реализовать иконку - это пример-->
-            <!--            <div class="icon">-->
-            <!--              <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>-->
-            {{ subMenu.name }}
-            <!--            </div>-->
+            <div class="icon">
+              <object v-if="subMenu.icon.fileSystemPath" :data="subMenu.icon.getImageUrl()" class="menu-img" />
+              {{ subMenu.name }}
+            </div>
           </el-menu-item>
           <el-submenu v-else :index="subMenu.link" class="header-bottom-menu-item">
             <template #title
-              ><span class="header-bottom-menu-item">{{ subMenu.name }}</span></template
+              ><div class="icon">{{ subMenu.name }}</div></template
             >
             <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
               <el-menu-item :index="subSubMenu.link" class="header-bottom-submenu-item" @click="$router.push(subSubMenu.link)">
-                {{ subSubMenu.name }}
+                <div class="icon">
+                  <object v-if="subSubMenu.icon.fileSystemPath" :data="subSubMenu.icon.getImageUrl()" class="menu-img" />
+                  {{ subSubMenu.name }}
+                </div>
               </el-menu-item>
             </template>
           </el-submenu>
@@ -152,5 +162,11 @@ export default defineComponent({
   display: flex;
   align-items: center;
   color: black;
+}
+
+.menu-img {
+  height: 18px;
+  width: 18px;
+  margin-right: 5px;
 }
 </style>

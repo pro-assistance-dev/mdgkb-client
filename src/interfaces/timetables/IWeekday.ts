@@ -4,4 +4,5 @@ export default interface IWeekday {
   number: number;
 
   isWeekend: () => boolean;
+  isToday: () => boolean;
 }

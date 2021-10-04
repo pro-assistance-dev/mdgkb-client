@@ -18,13 +18,20 @@ const actions: ActionTree<State, RootState> = {
     commit('set', res);
   },
   create: async ({ commit }, menu: IMenu): Promise<void> => {
-    await httpClient.post<IMenu, IMenu>({ payload: menu });
+    await httpClient.post<IMenu, IMenu>({
+      payload: menu,
+      fileInfos: menu.getFileInfos(),
+      isFormData: true,
+    });
     commit('set');
   },
   update: async ({ commit }, menu: IMenu): Promise<void> => {
+    console.log(menu.getFileInfos());
     await httpClient.put<IMenu, IMenu>({
       query: `${menu.id}`,
       payload: menu,
+      fileInfos: menu.getFileInfos(),
+      isFormData: true,
     });
     commit('set');
   },

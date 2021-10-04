@@ -66,4 +66,23 @@ export default class TimetableDay implements ITimetableDay {
   static GetTimeString(date: Date): string {
     return `${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}`;
   }
+
+  isNow(): boolean {
+    const now = new Date().getHours() + ':' + new Date().getMinutes();
+    return now > this.getTime(this.startTime) && now < this.getTime(this.endTime);
+  }
+
+  getPeriodWithName(): string {
+    let period = this.getPeriod();
+    period = `${this.weekday.name}: ${period}`;
+    if (this.weekday.isToday()) {
+      const arrow = '⇽';
+      period = `${period} ${arrow}`;
+    }
+    return period;
+  }
+
+  getPeriod(): string {
+    return `${this.getTime(this.startTime)}-${this.getTime(this.endTime)}`;
+  }
 }

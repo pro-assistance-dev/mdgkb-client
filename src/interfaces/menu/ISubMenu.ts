@@ -1,8 +1,10 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import IFiler from '@/interfaces/files/IFiler';
 import ISubSubMenu from '@/interfaces/menu/ISubSubMenu';
 import IPage from '@/interfaces/page/IPage';
 import ICrud from '@/interfaces/shared/ICrud';
 
-export default interface ISubMenu {
+export default interface ISubMenu extends IFiler {
   id?: string;
   name: string;
   link: string;
@@ -20,6 +22,9 @@ export default interface ISubMenu {
   isLink: () => boolean;
 
   getLink: () => string;
+
+  iconId?: string;
+  icon: IFileInfo;
 
   crud: ICrud;
 }

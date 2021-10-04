@@ -3,4 +3,9 @@ export default interface IScheduleItem {
   name: string;
   startTime: string;
   endTime: string;
+
+  getPeriodWithName: () => string;
+  getPeriod: () => string;
+  isNow: () => boolean;
+  getTime: (dateString: string) => string;
 }

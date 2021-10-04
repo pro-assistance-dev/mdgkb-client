@@ -1,64 +1,127 @@
 <template>
   <div class="wrapper">
     <el-form ref="form" :key="menu" :model="menu">
-      <el-row :gutter="40">
-        <el-container direction="vertical">
-          <el-card>
+      <el-container direction="vertical">
+        <el-card>
+          <template #header>
             <CardHeader :label="'Меню'" :button-text="'Добавить подменю'" @add="addSubMenu" />
-            <el-form-item label="Название">
-              <el-input v-model="menu.name" placeholder="Название"> </el-input>
-            </el-form-item>
-            <el-form-item v-if="menu.withoutChildren() && !menu.isPageLink()" label="Ссылка">
-              <el-input v-model="menu.link" placeholder="Ссылка"> </el-input>
-            </el-form-item>
-            <el-form-item v-if="menu.withoutChildren() && !menu.isLink()">
-              <el-select v-model="menu.pageId" clearable filterable placeholder="Страница">
-                <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
-              </el-select>
-            </el-form-item>
-            <el-divider></el-divider>
-            <div v-if="!menu.isLink()">
-              <div v-for="(subMenu, subMenuIndex) in menu.subMenus" :key="subMenu.id">
-                <el-space>
-                  <el-form-item label="Название">
-                    <el-input v-model="subMenu.name" placeholder="Название"> </el-input>
-                  </el-form-item>
-                  <el-form-item v-if="subMenu.withoutChildren() && !subMenu.isPageLink()" label="Ссылка">
-                    <el-input v-model="subMenu.link" placeholder="Ссылка"> </el-input>
-                  </el-form-item>
-                  <el-form-item v-if="subMenu.withoutChildren() && !subMenu.isLink()">
-                    <el-select v-model="subMenu.pageId" clearable filterable placeholder="Страница">
-                      <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
-                    </el-select>
-                  </el-form-item>
-                  <el-button type="success" style="margin: 20px" @click="addSubSubMenu(subMenuIndex)">Добавить подподменю</el-button>
-                  <el-button icon="el-icon-delete" type="danger" @click="removeSubMenu(subMenuIndex)"></el-button>
-                </el-space>
+          </template>
+          <el-form-item label-width="100px" label="Название">
+            <el-input v-model="menu.name" placeholder="Название"> </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-space>
+              <el-form-item v-if="menu.withoutChildren() && !menu.isPageLink()" label-width="100px" label="Ссылка">
+                <el-input v-model="menu.link" placeholder="Ссылка"> </el-input>
+              </el-form-item>
+              <el-form-item v-if="menu.withoutChildren() && !menu.isLink()" label-width="250px" label="Выбрать страницу">
+                <el-select v-model="menu.pageId" clearable filterable placeholder="Страница">
+                  <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
+                </el-select>
+              </el-form-item>
+            </el-space>
+          </el-form-item>
+          <el-form-item label-width="100px" label="Иконка">
+            <el-upload
+              ref="uploader"
+              action="#"
+              :auto-upload="false"
+              :limit="1"
+              :multiple="false"
+              accept="image/svg+xml"
+              :show-file-list="false"
+              @change="(file) => menu.addFile(file, menu.icon)"
+            >
+              <el-button>{{ menu.icon.originalName ? 'Заменить файл' : 'Приложить файл' }}</el-button>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label-width="100px" label="Другие опции">
+            <el-space>
+              <el-form-item>
+                <el-checkbox v-model="menu.top"> Показывать в верхнем меню</el-checkbox>
+              </el-form-item>
+              <el-form-item>
+                <el-checkbox v-model="menu.side"> Показывать в боковом меню</el-checkbox>
+              </el-form-item>
+            </el-space>
+          </el-form-item>
+        </el-card>
 
-                <div v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
-                  <el-space>
-                    <el-form-item>
-                      <el-input v-model="subSubMenu.name" placeholder="Название подподменю"> </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                      <el-input v-model="subSubMenu.link" placeholder="Ссылка"> </el-input>
-                    </el-form-item>
-                    <el-form-item>
-                      <el-select v-model="subSubMenu.pageId" filterable placeholder="Страница">
-                        <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
-                      </el-select>
-                    </el-form-item>
-                    <el-form-item>
-                      <el-button icon="el-icon-delete" type="danger" @click="removeSubSubMenu(subSubMenu)"></el-button>
-                    </el-form-item>
-                  </el-space>
-                </div>
-                <el-divider />
-              </div>
-            </div>
+        <div v-if="!menu.isLink()">
+          <el-card v-for="(subMenu, subMenuIndex) in menu.subMenus" :key="subMenu.id">
+            <template #header>
+              <CardHeader
+                :remove-button="true"
+                :label="'Подменю'"
+                :button-text="'Добавить подподменю'"
+                @add="addSubSubMenu(subMenuIndex)"
+                @remove="removeSubMenu(subMenuIndex)"
+              />
+            </template>
+            <el-space>
+              <el-form-item label="Название">
+                <el-input v-model="subMenu.name" placeholder="Название"> </el-input>
+              </el-form-item>
+              <el-form-item v-if="subMenu.withoutChildren() && !subMenu.isPageLink()" label="Ссылка">
+                <el-input v-model="subMenu.link" placeholder="Ссылка"> </el-input>
+              </el-form-item>
+              <el-form-item v-if="subMenu.withoutChildren() && !subMenu.isLink()">
+                <el-select v-model="subMenu.pageId" clearable filterable placeholder="Страница">
+                  <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
+                </el-select>
+              </el-form-item>
+              <el-upload
+                ref="uploader"
+                action="#"
+                :auto-upload="false"
+                :limit="1"
+                :multiple="false"
+                accept="image/svg+xml"
+                :show-file-list="false"
+                @change="(file) => subMenu.addFile(file, subMenu.icon)"
+              >
+                <el-button>{{ subMenu.icon.originalName ? 'Заменить файл' : 'Приложить файл' }}</el-button>
+              </el-upload>
+            </el-space>
+
+            <el-card v-for="(subSubMenu, subSubMenuIndex) in subMenu.subSubMenus" :key="subSubMenu.id">
+              <template #header>
+                <CardHeader
+                  :add-button="false"
+                  :remove-button="true"
+                  :label="'Подподменю'"
+                  @remove="removeSubSubMenu(subMenuIndex, subSubMenuIndex)"
+                />
+              </template>
+              <el-space>
+                <el-form-item>
+                  <el-input v-model="subSubMenu.name" placeholder="Название подподменю"> </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input v-model="subSubMenu.link" placeholder="Ссылка"> </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-select v-model="subSubMenu.pageId" filterable placeholder="Страница">
+                    <el-option v-for="page in pages" :key="page.id" :label="page.title" :value="page.id"> </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-upload
+                  ref="uploader"
+                  action="#"
+                  :auto-upload="false"
+                  :limit="1"
+                  :multiple="false"
+                  accept="image/svg+xml"
+                  :show-file-list="false"
+                  @change="(file) => subSubMenu.addFile(file, subSubMenu.icon)"
+                >
+                  <el-button>{{ subSubMenu.icon.originalName ? 'Заменить файл' : 'Приложить файл' }}</el-button>
+                </el-upload>
+              </el-space>
+            </el-card>
           </el-card>
-        </el-container>
-      </el-row>
+        </div>
+      </el-container>
     </el-form>
   </div>
 </template>
@@ -73,7 +136,6 @@ import { useStore } from 'vuex';
 import NewsRules from '@/classes/news/NewsRules';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import IMenu from '@/interfaces/menu/IMenu';
-import ISubSubMenu from '@/interfaces/menu/ISubSubMenu';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
@@ -135,7 +197,9 @@ export default defineComponent({
     const removeSubMenu = (index: number) => store.commit('menus/removeSubMenu', index);
 
     const addSubSubMenu = (subMenuIndex: number) => store.commit('menus/addSubSubMenu', subMenuIndex);
-    const removeSubSubMenu = (subSubMenu: ISubSubMenu) => store.commit('menus/removeSubSubMenu', subSubMenu);
+    const removeSubSubMenu = (subMenuIndex: number, subSubMenuIndex: number) => {
+      menu.value.subMenus[subMenuIndex].subSubMenus.splice(subSubMenuIndex, 1);
+    };
 
     return {
       pages,

@@ -56,18 +56,18 @@
       <template #header>{{ division.schedule.name }}</template>
       <div>
         <ul>
-          <li v-for="item in division.schedule.scheduleItems" :key="item">
-            {{ item.getTime(item.startTime) }}-{{ item.getTime(item.endTime) }}: {{ item.name }}
+          <li v-for="item in division.schedule.scheduleItems" :key="item" :class="{ nowPeriod: item.isNow() }">
+            {{ item.getPeriodWithName() }}
           </li>
         </ul>
       </div>
     </el-card>
-    <el-card v-if="division.timetable.length">
+    <el-card v-if="division.timetable">
       <template #header>График работы</template>
       <div>
         <ul>
-          <li v-for="item in division.timetable.timetableDays" :key="item">
-            {{ item.getTime(item.startTime) }}-{{ item.getTime(item.endTime) }}: {{ item.name }}
+          <li v-for="item in division.timetable.timetableDays" :key="item" :class="{ nowPeriod: item.weekday.isToday() }">
+            {{ item.getPeriodWithName() }}
           </li>
         </ul>
       </div>
@@ -204,5 +204,9 @@ export default defineComponent({
 .doctors-wrapper {
   display: flex;
   flex-wrap: wrap;
+}
+
+.nowPeriod {
+  color: red;
 }
 </style>

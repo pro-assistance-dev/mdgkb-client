@@ -30,6 +30,27 @@ export default class ScheduleItem implements IScheduleItem {
     return item;
   }
 
+  isNow(): boolean {
+    const now = new Date().getHours() + ':' + new Date().getMinutes();
+    return now > this.getTime(this.startTime) && now < this.getTime(this.endTime);
+  }
+
+  getPeriodWithName(): string {
+    let period = this.getPeriod();
+    if (this.name) {
+      period = `${period}: ${this.name}`;
+    }
+    if (this.isNow()) {
+      const arrow = '⇽';
+      period = `${period} ${arrow}`;
+    }
+    return period;
+  }
+
+  getPeriod(): string {
+    return `${this.getTime(this.startTime)}-${this.getTime(this.endTime)}`;
+  }
+
   public getTime(dateString: string): string {
     if (!dateString) return '';
     const date = new Date(dateString);
