@@ -63,7 +63,7 @@
             >
               <el-space>
                 <el-form-item style="width: 500px">
-                  <el-input v-model="documentTypeToDocument.document.name" placeholder="Название документа"> </el-input>
+                  <el-input v-mode\l="documentTypeToDocument.document.name" placeholder="Название документа"> </el-input>
                 </el-form-item>
                 <el-form-item>
                   <el-button icon="el-icon-delete" type="danger" @click="documentType.removeDocument(i)"></el-button>

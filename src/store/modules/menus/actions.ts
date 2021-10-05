@@ -26,7 +26,6 @@ const actions: ActionTree<State, RootState> = {
     commit('set');
   },
   update: async ({ commit }, menu: IMenu): Promise<void> => {
-    console.log(menu.getFileInfos());
     await httpClient.put<IMenu, IMenu>({
       query: `${menu.id}`,
       payload: menu,

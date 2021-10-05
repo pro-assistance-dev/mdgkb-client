@@ -1,6 +1,5 @@
 import { ActionTree } from 'vuex';
 
-import IMenu from '@/interfaces/menu/IMenu';
 import IPage from '@/interfaces/page/IPage';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -17,14 +16,16 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IPage>({ query: `${slug}` });
     commit('set', res);
   },
-  create: async ({ commit }, menu: IMenu): Promise<void> => {
-    await httpClient.post<IMenu, IMenu>({ payload: menu });
+  create: async ({ commit }, page: IPage): Promise<void> => {
+    await httpClient.post<IPage, IPage>({ payload: page, fileInfos: page.getFileInfos(), isFormData: true });
     commit('set');
   },
-  update: async ({ commit }, menu: IMenu): Promise<void> => {
-    await httpClient.put<IMenu, IMenu>({
-      query: `${menu.id}`,
-      payload: menu,
+  update: async ({ commit }, page: IPage): Promise<void> => {
+    await httpClient.put<IPage, IPage>({
+      query: `${page.id}`,
+      payload: page,
+      fileInfos: page.getFileInfos(),
+      isFormData: true,
     });
     commit('set');
   },

@@ -24,6 +24,44 @@
             </el-card>
           </el-container>
         </el-col>
+        <el-col :lg="8" :xl="6">
+          <el-checkbox v-model="page.withComments">Включить комментарии</el-checkbox>
+        </el-col>
+      </el-row>
+
+      <el-row>
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
+          <el-container direction="vertical">
+            <el-card>
+              <template #header>
+                <CardHeader :remove-button="false" :label="'Документы'" @add="addDocument" />
+              </template>
+              <div v-for="pageDocument in page.pageDocuments" :key="pageDocument.id">
+                <el-form-item>
+                  <el-input v-model="pageDocument.document.name" placeholder="Название документа"> </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-upload
+                    ref="uploader"
+                    action="#"
+                    :auto-upload="false"
+                    :limit="1"
+                    :multiple="false"
+                    accept="application/pdf"
+                    :show-file-list="false"
+                    @change="(file) => pageDocument.document.addFile(file)"
+                  >
+                    <el-popover placement="top-start" :width="200" trigger="hover" :content="pageDocument.document.fileInfo.originalName">
+                      <template #reference>
+                        <el-button>{{ pageDocument.document.fileInfo.originalName ? 'Заменить файл' : 'Приложить файл' }}</el-button>
+                      </template>
+                    </el-popover>
+                  </el-upload>
+                </el-form-item>
+              </div>
+            </el-card>
+          </el-container>
+        </el-col>
       </el-row>
     </el-form>
   </div>
@@ -37,12 +75,13 @@ import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import CardHeader from '@/components/admin/CardHeader.vue';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminPagesPage',
-  components: { QuillEditor },
+  components: { QuillEditor, CardHeader },
   setup() {
     const editorOption = {
       modules: {
@@ -80,7 +119,6 @@ export default defineComponent({
     });
 
     const loadNewsItem = async () => {
-      console.log(route.params['slug']);
       if (route.params['slug']) {
         await store.dispatch('pages/getBySlug', route.params['slug']);
         store.commit('admin/setPageTitle', { title: page.value.title, saveButton: true });
@@ -113,7 +151,10 @@ export default defineComponent({
       next ? next() : await router.push('/admin/pages');
     };
 
+    const addDocument = () => store.commit('pages/addDocument');
+
     return {
+      addDocument,
       editorOption,
       mounted,
       submit,

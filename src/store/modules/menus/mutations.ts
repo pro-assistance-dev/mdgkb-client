@@ -17,6 +17,10 @@ const mutations: MutationTree<State> = {
   set(state, menu?: IMenu) {
     state.menu = new Menu(menu);
   },
+  remove(state, id: string) {
+    const index = state.menus.findIndex((i: IMenu) => i.id === id);
+    state.menus.splice(index, 1);
+  },
   resetState(state) {
     Object.assign(state, getDefaultState());
   },

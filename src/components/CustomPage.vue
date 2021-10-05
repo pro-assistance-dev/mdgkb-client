@@ -19,6 +19,31 @@
       </el-card>
     </div>
   </div>
+  <div class="news-page-container">
+    <el-card class="card-content news">
+      <template #header>
+        <div class="card-header">
+          <h2 class="title article-title">Документы</h2>
+        </div>
+      </template>
+
+      <el-table ref="table" :data="page.pageDocuments" class="table-shadow" header-row-class-name="header-style" row-class-name="no-hover">
+        <el-table-column fixed="right" width="300" align="right">
+          <template #default="scope">
+            <a
+              v-if="scope.row.document.fileInfo.fileSystemPath"
+              :href="scope.row.document.fileInfo.getFileUrl()"
+              :download="scope.row.document.fileInfo.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              <el-button icon="el-icon-download">Скачать</el-button>
+            </a>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+  </div>
 </template>
 
 <script lang="ts">
