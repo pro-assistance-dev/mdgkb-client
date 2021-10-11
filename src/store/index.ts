@@ -19,6 +19,7 @@ import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { tags } from '@/store/modules/tags';
 import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
+import { vacancies } from '@/store/modules/vacancies';
 
 import RootState from './types';
 
@@ -49,6 +50,7 @@ const store: StoreOptions<RootState> = {
     educationalOrganization,
     menus,
     pages,
+    vacancies,
   },
 };
 

@@ -58,6 +58,11 @@ export default defineComponent({
         icon: 'el-icon-tickets',
       },
       {
+        title: 'Вакансии',
+        to: '/admin/vacancies',
+        icon: 'el-icon-tickets',
+      },
+      {
         title: 'Образование',
         to: '/',
         icon: 'el-icon-school',

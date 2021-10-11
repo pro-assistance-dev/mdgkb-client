@@ -6,6 +6,7 @@ import DispanserizationPage from '@/components/Dispanserization/Dispanserization
 import MainPage from '@/components/Main/MainPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
+import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
 import DoctorsRoutes from '@/router/DoctorsRoutes';
 import EducationalOrganizationRoutes from '@/router/EducationalOrganizationRoutes';
@@ -80,6 +81,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/custom-page/:slug',
     name: 'CustomPage',
     component: CustomPage,
+  },
+  {
+    path: '/vacancies',
+    name: 'VacanciesPage',
+    component: VacanciesPage,
   },
   ...DoctorsRoutes,
   ...DivisionsRoutes,
