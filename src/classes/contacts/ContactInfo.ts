@@ -10,10 +10,10 @@ import IWebsite from '@/interfaces/contacts/IWebsite';
 
 export default class ContactInfo implements IContactInfo {
   id?: string;
-  emails?: IEmail[];
-  postAddresses?: IPostAddress[];
-  telephoneNumbers?: ITelephoneNumber[];
-  websites?: IWebsite[];
+  emails: IEmail[] = [];
+  postAddresses: IPostAddress[] = [];
+  telephoneNumbers: ITelephoneNumber[] = [];
+  websites: IWebsite[] = [];
 
   constructor(contact?: IContactInfo) {
     this.id = contact?.id;
@@ -21,5 +21,14 @@ export default class ContactInfo implements IContactInfo {
     this.postAddresses = contact?.postAddresses ? contact?.postAddresses?.map((address) => new PostAddress(address)) : [];
     this.telephoneNumbers = contact?.telephoneNumbers ? contact?.telephoneNumbers?.map((phone) => new TelephoneNumber(phone)) : [];
     this.websites = contact?.websites ? contact?.websites?.map((site) => new Website(site)) : [];
+  }
+
+  pushFirstInfo(): void {
+    if (!this.emails.length) {
+      this.emails.push(new Email());
+    }
+    if (!this.telephoneNumbers.length) {
+      this.telephoneNumbers.push(new TelephoneNumber());
+    }
   }
 }

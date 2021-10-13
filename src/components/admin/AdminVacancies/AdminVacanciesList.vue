@@ -2,10 +2,20 @@
   <div class="flex-column">
     <div class="flex-row-between">
       <el-button type="primary" @click="create">Создать вакансию</el-button>
+      <el-button v-if="newResponsesExists()" type="warning">Показать новые отклики</el-button>
     </div>
     <el-card>
       <el-table v-if="vacancies" :data="vacancies">
-        <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
+        <el-table-column prop="title" label="Заголовок" sortable>
+          <template #default="scope">
+            <el-tag>Новых отзывов: {{ scope.row.countResponses(true) }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="title" label="Заголовок" sortable>
+          <template #default="scope">
+            {{ scope.row.title }}
+          </template>
+        </el-table-column>
         <el-table-column prop="description" label="Описание" sortable> </el-table-column>
         <el-table-column prop="specialization" label="Специализация" sortable> </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
@@ -24,11 +34,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import IVacancy from '@/interfaces/vacancies/IVacancy';
 
 export default defineComponent({
   name: 'AdminVacanciesList',
@@ -37,13 +48,13 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
 
+    const vacancies: Ref<IVacancy[]> = computed(() => store.getters['vacancies/vacancies']);
+
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('vacancies/getAll');
+      await store.dispatch('vacancies/getAllWithResponses');
       store.commit('admin/setPageTitle', { title: 'Вакансии' });
     });
-
-    const vacancies = computed(() => store.getters['vacancies/vacancies']);
 
     const remove = async (id: string) => {
       await store.dispatch('vacancies/remove', id);
@@ -51,7 +62,11 @@ export default defineComponent({
 
     const create = () => router.push(`/admin/vacancies/new`);
 
-    return { vacancies, remove, create };
+    const newResponsesExists = (): boolean => {
+      return vacancies.value.some((vacancy: IVacancy) => vacancy.withNewResponses());
+    };
+
+    return { vacancies, remove, create, newResponsesExists };
   },
 });
 </script>

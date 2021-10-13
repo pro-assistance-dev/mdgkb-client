@@ -1,6 +1,5 @@
 import { Module } from 'vuex';
 
-import Vacancy from '@/classes/Vacancy';
 import VacancyResponse from '@/classes/VacancyResponse';
 import RootState from '@/store/types';
 
@@ -11,8 +10,6 @@ import { State } from './state';
 
 export const getDefaultState = (): State => {
   return {
-    vacancies: [],
-    vacancy: new Vacancy(),
     vacancyResponse: new VacancyResponse(),
   };
 };
@@ -20,7 +17,7 @@ export const getDefaultState = (): State => {
 const state = getDefaultState();
 const namespaced = true;
 
-export const vacancies: Module<State, RootState> = {
+export const vacancyResponses: Module<State, RootState> = {
   namespaced,
   state,
   getters,

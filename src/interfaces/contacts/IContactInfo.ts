@@ -5,8 +5,10 @@ import IWebsite from '@/interfaces/contacts/IWebsite';
 
 export default interface IContactInfo {
   id?: string;
-  emails?: IEmail[];
-  postAddresses?: IPostAddress[];
-  telephoneNumbers?: ITelephoneNumber[];
-  websites?: IWebsite[];
+  emails: IEmail[];
+  postAddresses: IPostAddress[];
+  telephoneNumbers: ITelephoneNumber[];
+  websites: IWebsite[];
+
+  pushFirstInfo(): void;
 }

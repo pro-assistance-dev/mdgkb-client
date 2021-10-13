@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import INews from '@/interfaces/news/INews';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
+import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -13,6 +14,14 @@ const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
     commit('setAll', await httpClient.get<IVacancy[]>());
   },
+  getAllWithResponses: async ({ commit }): Promise<void> => {
+    commit(
+      'setAll',
+      await httpClient.get<IVacancy[]>({
+        query: '?withResponses=true',
+      })
+    );
+  },
   get: async ({ commit }, slug: string): Promise<void> => {
     const res = await httpClient.get<INews>({ query: `${slug}` });
     commit('set', res);
@@ -22,6 +31,12 @@ const actions: ActionTree<State, RootState> = {
       payload: vacancy,
     });
     commit('set');
+  },
+  createResponse: async (_, vacancyResponse: IVacancyResponse): Promise<void> => {
+    await httpClient.post<IVacancyResponse, IVacancyResponse>({
+      query: 'response',
+      payload: vacancyResponse,
+    });
   },
   update: async ({ commit }, vacancy: IVacancy): Promise<void> => {
     await httpClient.put<IVacancy, IVacancy>({

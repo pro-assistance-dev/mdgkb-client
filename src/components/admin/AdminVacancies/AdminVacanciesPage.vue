@@ -6,18 +6,67 @@
           <el-form-item label-width="100px" label="Название">
             <el-input v-model="vacancy.title" placeholder="Название"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="Название">
-            <el-input v-model="vacancy.description" placeholder="Описание"> </el-input>
+          <el-form-item label-width="100px" label="Заработная плата">
+            <el-input v-model="vacancy.salary" placeholder="Заработная плата"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="Название">
-            <el-input v-model="vacancy.specialization" placeholder="Специализация"> </el-input>
+          <el-form-item label-width="100px" label="График работы">
+            <el-input v-model="vacancy.schedule" placeholder="График работы"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="Название">
-            <el-input v-model="vacancy.salary" placeholder="Зарплата"> </el-input>
+          <el-form-item label-width="100px" label="Должностные обязанности">
+            <el-input v-model="vacancy.duties" placeholder="Требования к кандидату" type="textarea" :rows="4"> </el-input>
           </el-form-item>
+          <el-form-item label-width="100px" label="Требования к кандидату">
+            <el-input v-model="vacancy.requirements" placeholder="Требования к кандидату" type="textarea" :rows="4"> </el-input>
+          </el-form-item>
+          <el-form-item label-width="100px" label="Стаж">
+            <el-input v-model="vacancy.experience" placeholder="Стаж"> </el-input>
+          </el-form-item>
+          <el-form-item label-width="100px" label="Описание">
+            <el-input v-model="vacancy.description" placeholder="Описание" type="textarea" :rows="4" />
+          </el-form-item>
+        </el-card>
+
+        <el-card>
+          <template #header>
+            <CardHeader :label="'Отклики'" :add-button="false" />
+          </template>
+          <el-table :data="vacancy.vacancyResponses">
+            <el-table-column width="100" label="Новый">
+              <template #default="scope">
+                <span>
+                  <i v-if="!scope.row.viewed" class="el-icon-warning icon" />
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="responseDate" label="Дата" sortable> </el-table-column>
+            <el-table-column prop="coverLetter" label="Заголовок" sortable> </el-table-column>
+            <el-table-column width="40" fixed="right" align="center">
+              <template #default="scope">
+                <TableButtonGroup
+                  :show-download-button="true"
+                  :show-info-button="true"
+                  @info="showVacancyResponse(scope.row)"
+                  @download="printVacancyResponse"
+                />
+              </template>
+            </el-table-column>
+          </el-table>
         </el-card>
       </el-container>
     </el-form>
+    <el-dialog v-model="showVacancy" :title="'Отклик на вакансию ' + vacancy.title" width="30%" center>
+      <el-descriptions :column="1" border direction="horizontal">
+        <el-descriptions-item showedVacancyResponse.coverLetter label="Описание">
+          {{ showedVacancyResponse.coverLetter }}
+        </el-descriptions-item>
+        <el-descriptions-item showedVacancyResponse.coverLetter label="Email">
+          {{ showedVacancyResponse.contactInfo.emails[0].address }}
+        </el-descriptions-item>
+        <el-descriptions-item showedVacancyResponse.coverLetter label="Телефон">
+          {{ showedVacancyResponse.contactInfo.telephoneNumbers[0].number }}
+        </el-descriptions-item>
+      </el-descriptions>
+    </el-dialog>
   </div>
 </template>
 
@@ -28,19 +77,24 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import CardHeader from '@/components/admin/CardHeader.vue';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
+import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
+  components: { CardHeader, TableButtonGroup },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     let mounted = ref(false);
     const form = ref();
-
+    const showVacancy = ref(false);
+    let showedVacancyResponse: Ref<IVacancyResponse | undefined> = ref(undefined);
     const vacancy: Ref<IVacancy> = computed<IVacancy>(() => store.getters['vacancies/vacancy']);
     const pages = computed(() => store.getters['pages/pages']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
@@ -49,10 +103,7 @@ export default defineComponent({
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
       await store.dispatch('pages/getAll');
-      await loadMenu();
-    });
 
-    const loadMenu = async () => {
       if (route.params['id']) {
         await store.dispatch('vacancies/get', route.params['id']);
         store.commit('admin/setPageTitle', { title: vacancy.value.title, saveButton: true });
@@ -63,7 +114,7 @@ export default defineComponent({
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(vacancy, formUpdated, { deep: true });
-    };
+    });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
@@ -84,7 +135,17 @@ export default defineComponent({
       next ? next() : await router.push('/admin/vacancies');
     };
 
+    const showVacancyResponse = async (vacancyResponse: IVacancyResponse) => {
+      vacancyResponse.viewed = true;
+      showedVacancyResponse.value = vacancyResponse;
+      showVacancy.value = true;
+      await store.dispatch('vacancyResponses/update', vacancyResponse);
+    };
+
     return {
+      showedVacancyResponse,
+      showVacancy,
+      showVacancyResponse,
       pages,
       mounted,
       submit,
