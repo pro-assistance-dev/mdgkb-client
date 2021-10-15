@@ -18,13 +18,20 @@
         </el-table-column>
         <el-table-column prop="description" label="Описание" sortable> </el-table-column>
         <el-table-column prop="specialization" label="Специализация" sortable> </el-table-column>
+        <el-table-column prop="archived" label="Архивирована" sortable>
+          <template #default="scope">
+            {{ scope.row.archived ? 'Архивирована' : '' }}
+          </template>
+        </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"
+              :show-archive-button="true"
               :show-remove-button="true"
               @edit="$router.push(`/admin/vacancies/${scope.row.id}`)"
               @remove="remove(scope.row.id)"
+              @archive="archive(scope.row)"
             />
           </template>
         </el-table-column>
@@ -66,7 +73,12 @@ export default defineComponent({
       return vacancies.value.some((vacancy: IVacancy) => vacancy.withNewResponses());
     };
 
-    return { vacancies, remove, create, newResponsesExists };
+    const archive = async (vacancy: IVacancy) => {
+      vacancy.archived = !vacancy.archived;
+      await store.dispatch('vacancies/update', vacancy);
+    };
+
+    return { vacancies, remove, create, newResponsesExists, archive };
   },
 });
 </script>

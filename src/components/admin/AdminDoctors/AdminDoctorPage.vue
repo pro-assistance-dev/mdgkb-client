@@ -34,9 +34,6 @@
         <el-container direction="vertical">
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>
-            <el-form-item label="Образование" prop="education">
-              <el-input v-model="doctor.education"></el-input>
-            </el-form-item>
             <el-form-item label="Должность" prop="position">
               <el-input v-model="doctor.position"></el-input>
             </el-form-item>

@@ -26,6 +26,7 @@
       </template>
     </el-popconfirm>
     <el-button v-if="showInfoButton" class="table-button" icon="el-icon-info" @click="$emit('info')" />
+    <el-button v-if="showArchiveButton" class="table-button" icon="el-icon-takeaway-box" @click="$emit('archive')" />
   </el-space>
 </template>
 
@@ -67,8 +68,12 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       default: false,
     },
+    showArchiveButton: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
   },
-  emits: ['download', 'edit', 'remove', 'moveUp', 'moveDown', 'add', 'info'],
+  emits: ['download', 'edit', 'remove', 'moveUp', 'moveDown', 'add', 'info', 'archive'],
 });
 </script>
 
