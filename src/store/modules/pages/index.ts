@@ -12,6 +12,9 @@ export const getDefaultState = (): State => {
   return {
     pages: [],
     page: new Page(),
+
+    galleryList: [],
+    curGalleryCropIndex: 0,
   };
 };
 

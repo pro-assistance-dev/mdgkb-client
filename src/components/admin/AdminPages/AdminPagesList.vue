@@ -50,7 +50,9 @@ export default defineComponent({
 
     const edit = async (id: string): Promise<void> => {
       const item = pages.value.find((i: INews) => i.id === id);
-      if (item) await router.push(`/admin/pages/${item.slug}`);
+      if (item) {
+        await router.push(`/admin/pages/${item.slug}`);
+      }
     };
 
     const remove = async (id: string) => {

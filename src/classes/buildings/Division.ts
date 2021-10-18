@@ -13,7 +13,7 @@ import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
 
-import DivisionImage from './DIvisionImage';
+import DivisionImage from './DivisionImage';
 
 export default class Division implements IDivision {
   id?: string;

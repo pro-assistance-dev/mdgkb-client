@@ -1,5 +1,6 @@
 import { GetterTree } from 'vuex';
 
+import IFilesList from '@/interfaces/files/IFIlesList';
 import IPage from '@/interfaces/page/IPage';
 import RootState from '@/store/types';
 
@@ -11,6 +12,9 @@ const getters: GetterTree<State, RootState> = {
   },
   page(state): IPage {
     return state.page;
+  },
+  galleryList(state): IFilesList[] {
+    return state.galleryList;
   },
 };
 

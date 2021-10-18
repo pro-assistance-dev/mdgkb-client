@@ -1,10 +1,12 @@
 import slugify from '@sindresorhus/slugify';
 
 import PageDocument from '@/classes/page/PageDocument';
+import PageImage from '@/classes/page/PageImage';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPage from '@/interfaces/page/IPage';
 import IPageComment from '@/interfaces/page/IPageComment';
 import IPageDocument from '@/interfaces/page/IPageDocument';
+import IPageImage from '@/interfaces/page/IPageImage';
 
 export default class Page implements IPage {
   id?: string;
@@ -13,6 +15,9 @@ export default class Page implements IPage {
   slug = '';
   link = '';
   withComments = false;
+  pageImages: IPageImage[] = [];
+  pageImagesForDelete: string[] = [];
+  pageImagesNames: string[] = [];
 
   pageDocuments: IPageDocument[] = [];
   pageComments: IPageComment[] = [];
@@ -34,6 +39,9 @@ export default class Page implements IPage {
     if (page.pageDocuments) {
       this.pageDocuments = page.pageDocuments.map((i: IPageDocument) => new PageDocument(i));
     }
+    if (page.pageImages) {
+      this.pageImages = page.pageImages.map((i: IPageImage) => new PageImage(i));
+    }
   }
 
   createSlug(): void {
@@ -51,6 +59,11 @@ export default class Page implements IPage {
     const fileInfos: IFileInfo[] = [];
     this.pageDocuments.forEach((pageDocument: IPageDocument) => {
       fileInfos.push(pageDocument.document.fileInfo);
+    });
+    this.pageImages.forEach((pageImage: IPageImage) => {
+      if (pageImage.fileInfo) {
+        fileInfos.push(pageImage.fileInfo);
+      }
     });
     return fileInfos;
   }

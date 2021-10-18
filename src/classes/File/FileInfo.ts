@@ -37,7 +37,7 @@ export default class FileInfo implements IFileInfo {
 
   static CreatePreviewFile(file: IFile, category: string, id?: string): IFileInfo {
     const fileInfo = new FileInfo();
-    fileInfo.id = id;
+    fileInfo.id = id ?? uuidv4();
     fileInfo.originalName = file.name;
     fileInfo.file = file.blob;
     fileInfo.fileSystemPath = uuidv4();

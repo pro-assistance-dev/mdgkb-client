@@ -63,25 +63,34 @@
           </el-container>
         </el-col>
       </el-row>
+      <el-row>
+        <el-card>
+          <AdminGallery :store-module="'pages'" />
+        </el-card>
+      </el-row>
     </el-form>
   </div>
+  <ImageCropper />
 </template>
 
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
-import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import AdminGallery from '@/components/admin/AdminGallery.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
+import ImageCropper from '@/components/admin/ImageCropper.vue';
+import IPage from '@/interfaces/page/IPage';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminPagesPage',
-  components: { QuillEditor, CardHeader },
+  components: { AdminGallery, QuillEditor, CardHeader, ImageCropper },
   setup() {
     const editorOption = {
       modules: {
@@ -108,7 +117,7 @@ export default defineComponent({
     let mounted = ref(false);
     const form = ref();
 
-    const page = computed(() => store.getters['pages/page']);
+    const page: Ref<IPage> = computed(() => store.getters['pages/page']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 

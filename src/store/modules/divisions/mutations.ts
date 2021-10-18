@@ -2,7 +2,7 @@ import { MutationTree } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
 import DivisionComment from '@/classes/buildings/DivisionComment';
-import DivisionImage from '@/classes/buildings/DIvisionImage';
+import DivisionImage from '@/classes/buildings/DivisionImage';
 import FileInfo from '@/classes/File/FileInfo';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
@@ -28,9 +28,13 @@ const mutations: MutationTree<State> = {
   set(state, division: IDivision) {
     state.division = new Division(division);
     state.division.divisionImages.forEach((i: IDivisionImage) => {
-      if (!i.fileInfo) return;
+      if (!i.fileInfo) {
+        return;
+      }
       const file = i.fileInfo.getFileListObject();
-      if (file) state.galleryList.push(file);
+      if (file) {
+        state.galleryList.push(file);
+      }
     });
   },
   remove(state, id: string) {
@@ -38,7 +42,9 @@ const mutations: MutationTree<State> = {
     state.divisions.splice(index, 1);
   },
   setTimetable(state, timetable: ITimetable) {
-    if (!state.division) return;
+    if (!state.division) {
+      return;
+    }
     state.division.timetable = timetable;
   },
   removeTimetable(state) {
@@ -98,14 +104,15 @@ const mutations: MutationTree<State> = {
         url: file.src,
       };
     }
-    console.log(state.division.divisionImages);
   },
   removeFromGallery(state, file: IFile) {
     const index = state.galleryList.findIndex((i) => i.url === file.url);
     if (index > -1) {
       state.galleryList.splice(index, 1);
       const id = state.division.divisionImages[index].id;
-      if (id) state.division.divisionImagesForDelete.push(id);
+      if (id) {
+        state.division.divisionImagesForDelete.push(id);
+      }
       state.division.divisionImages.splice(index, 1);
     }
   },
