@@ -24,6 +24,11 @@
           <el-form-item label-width="100px" label="Описание">
             <el-input v-model="vacancy.description" placeholder="Описание" type="textarea" :rows="4" />
           </el-form-item>
+          <el-form-item label-width="100px" label="Отделение">
+            <el-select v-model="vacancy.divisionId" clearable>
+              <el-option v-for="division in divisions" :key="division.id" :label="division.name" :value="division.id" />
+            </el-select>
+          </el-form-item>
         </el-card>
 
         <el-card>
@@ -79,6 +84,7 @@ import { useStore } from 'vuex';
 
 import CardHeader from '@/components/admin/CardHeader.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import IDivision from '@/interfaces/buildings/IDivision';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
@@ -96,6 +102,7 @@ export default defineComponent({
     const showVacancy = ref(false);
     let showedVacancyResponse: Ref<IVacancyResponse | undefined> = ref(undefined);
     const vacancy: Ref<IVacancy> = computed<IVacancy>(() => store.getters['vacancies/vacancy']);
+    const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => store.getters['divisions/divisions']);
     const pages = computed(() => store.getters['pages/pages']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
@@ -103,6 +110,7 @@ export default defineComponent({
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
       await store.dispatch('pages/getAll');
+      await store.dispatch('divisions/getAll');
 
       if (route.params['id']) {
         await store.dispatch('vacancies/get', route.params['id']);
@@ -143,6 +151,7 @@ export default defineComponent({
     };
 
     return {
+      divisions,
       showedVacancyResponse,
       showVacancy,
       showVacancyResponse,

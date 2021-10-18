@@ -3,11 +3,13 @@ import DoctorRegalia from '@/classes/doctors/DoctorRegalia';
 import Education from '@/classes/educations/Education';
 import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
+import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IDoctorRegalia from '@/interfaces/doctors/IDoctorRegalia';
 import IEducation from '@/interfaces/education/IEducation';
+import ITimetable from '@/interfaces/timetables/ITimetable';
 
 import DoctorComment from './DoctorComment';
 
@@ -17,7 +19,8 @@ export default class Doctor implements IDoctor {
   humanId?: string;
   division?: IDivision;
   divisionId?: string;
-  schedule?: string;
+  timetable: ITimetable = new Timetable();
+  timetableId?: string;
   position?: string;
   tags?: string;
   fileInfo = new FileInfo();
@@ -26,7 +29,9 @@ export default class Doctor implements IDoctor {
   academicDegree = '';
   academicRank = '';
   doctorRegalias: IDoctorRegalia[] = [];
+  doctorRegaliasForDelete: string[] = [];
   educations: IEducation[] = [];
+  educationsForDelete: string[] = [];
 
   constructor(doctor?: IDoctor) {
     if (!doctor) {
@@ -38,7 +43,10 @@ export default class Doctor implements IDoctor {
     this.division = new Division(doctor.division);
     // TODO Исправить)
     if (doctor.divisionId !== '00000000-0000-0000-0000-000000000000') this.divisionId = doctor.divisionId;
-    this.schedule = doctor.schedule;
+    if (doctor.timetable) {
+      this.timetable = new Timetable(doctor.timetable);
+    }
+    this.timetableId = doctor.timetableId;
     this.position = doctor.position;
     this.tags = doctor.tags;
     this.fileInfoId = doctor.fileInfoId;

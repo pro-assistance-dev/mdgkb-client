@@ -4,6 +4,7 @@ import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import IVacancy from '@/interfaces/vacancies/IVacancy';
 
 import IEntrance from './IEntrance';
 
@@ -20,6 +21,7 @@ export default interface IDivision {
   building?: IBuilding;
   slug?: string;
   doctors: IDoctor[];
+  vacancies: IVacancy[];
   timetable: ITimetable;
   timetableId?: string;
   scheduleId?: string;

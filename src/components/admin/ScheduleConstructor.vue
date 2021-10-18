@@ -64,7 +64,7 @@ import ScheduleItem from '@/classes/timetable/ScheduleItems';
 export default defineComponent({
   name: 'ScheduleConstructor',
   props: {
-    store: {
+    storeModule: {
       type: String,
       default: '',
     },
@@ -72,22 +72,22 @@ export default defineComponent({
 
   setup(props) {
     const store = useStore();
-    const schedule = computed(() => store.getters[`${props.store}/schedule`]);
+    const schedule = computed(() => store.getters[`${props.storeModule}/schedule`]);
 
     const addSchedule = () => {
-      store.commit(`${props.store}/setSchedule`, Schedule.CreateStandartSchedule());
+      store.commit(`${props.storeModule}/setSchedule`, Schedule.CreateStandartSchedule());
     };
 
     const removeSchedule = () => {
-      store.commit(`${props.store}/removeSchedule`);
+      store.commit(`${props.storeModule}/removeSchedule`);
     };
 
     const removeScheduleItem = (i: number) => {
-      store.commit(`${props.store}/removeScheduleItem`, i);
+      store.commit(`${props.storeModule}/removeScheduleItem`, i);
     };
 
     const addScheduleItem = () => {
-      store.commit(`${props.store}/addScheduleItem`, ScheduleItem.CreateStandartScheduleItem(0));
+      store.commit(`${props.storeModule}/addScheduleItem`, ScheduleItem.CreateStandartScheduleItem(0));
     };
 
     return {

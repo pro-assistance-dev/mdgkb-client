@@ -14,8 +14,8 @@
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
             </el-form-item>
           </el-card>
-          <TimetableConstructor :store="'divisions'" />
-          <ScheduleConstructor :store="'divisions'" />
+          <TimetableConstructor :store-module="'divisions'" />
+          <ScheduleConstructor :store-module="'divisions'" />
           <AdminDivisionGallery />
         </el-container>
       </el-col>

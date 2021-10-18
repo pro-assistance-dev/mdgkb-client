@@ -1,4 +1,6 @@
+import Division from '@/classes/buildings/Division';
 import VacancyResponse from '@/classes/VacancyResponse';
+import IDivision from '@/interfaces/buildings/IDivision';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
@@ -15,6 +17,8 @@ export default class Vacancy implements IVacancy {
   duties = '';
   schedule = '';
   opened = false;
+  division?: IDivision;
+  divisionId?: string;
 
   constructor(vacancy?: IVacancy) {
     if (!vacancy) {
@@ -34,6 +38,10 @@ export default class Vacancy implements IVacancy {
     if (vacancy.vacancyResponses) {
       this.vacancyResponses = vacancy.vacancyResponses.map((response: IVacancyResponse) => new VacancyResponse(response));
     }
+    if (vacancy.division) {
+      this.division = new Division(vacancy.division);
+    }
+    this.divisionId = vacancy.divisionId;
   }
 
   seeAllResponses(): void {

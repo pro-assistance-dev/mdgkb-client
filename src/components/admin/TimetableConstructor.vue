@@ -94,7 +94,7 @@ import TimetableDay from '@/classes/timetable/TimetableDay';
 export default defineComponent({
   name: 'TimetableConstructor',
   props: {
-    store: {
+    storeModule: {
       type: String,
       default: '',
     },
@@ -103,28 +103,26 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const weekdays = computed(() => store.getters['timetables/weekdays']);
-    const timetable = computed(() => store.getters[`${props.store}/timetable`]);
+    const timetable = computed(() => store.getters[`${props.storeModule}/timetable`]);
 
-    const load = async (): Promise<void> => {
+    onBeforeMount(async () => {
       await store.dispatch('timetables/getAllWeekdays');
-    };
-
-    onBeforeMount(load);
+    });
 
     const addTimetable = () => {
-      store.commit(`${props.store}/setTimetable`, Timetable.CreateStandartTimetable(weekdays.value));
+      store.commit(`${props.storeModule}/setTimetable`, Timetable.CreateStandartTimetable(weekdays.value));
     };
 
     const removeTimetable = () => {
-      store.commit(`${props.store}/removeTimetable`);
+      store.commit(`${props.storeModule}/removeTimetable`);
     };
 
     const removeTimetableDay = (i: number) => {
-      store.commit(`${props.store}/removeTimetableDay`, i);
+      store.commit(`${props.storeModule}/removeTimetableDay`, i);
     };
 
     const createCustomTimetableDay = () => {
-      store.commit(`${props.store}/createCustomTimetableDay`, TimetableDay.CreateCustomTimetableDay());
+      store.commit(`${props.storeModule}/createCustomTimetableDay`, TimetableDay.CreateCustomTimetableDay());
     };
 
     return {

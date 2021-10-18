@@ -57,7 +57,6 @@ export default defineComponent({
     let showUpload = ref(fileList.value.length === 0);
 
     const openCropper = (file: IFile) => {
-      console.log('open', file);
       store.commit('cropper/open', Cropper.CreateCropper(file.url, 'doctors', 'saveFromCropper', 1));
     };
 

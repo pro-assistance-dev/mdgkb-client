@@ -1,3 +1,4 @@
+import IDivision from '@/interfaces/buildings/IDivision';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
 export default interface IVacancy {
@@ -17,4 +18,7 @@ export default interface IVacancy {
   withNewResponses: () => boolean;
   seeAllResponses: () => void;
   countResponses: (onlyNew: boolean) => number;
+
+  division?: IDivision;
+  divisionId?: string;
 }

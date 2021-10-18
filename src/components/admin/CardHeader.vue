@@ -4,7 +4,7 @@
       <span> {{ label }} </span>
     </div>
     <div class="flex-row-between">
-      <el-button v-if="addButton" s size="small" type="success" icon="el-icon-plus" @click="$emit('add')">{{ buttonText }}</el-button>
+      <el-button v-if="addButton" s size="small" type="success" icon="el-icon-plus" @click="$emit('add')">{{ addButtonText }}</el-button>
       <el-button v-if="removeButton" s size="small" type="danger" icon="el-icon-delete" @click="$emit('remove')">{{
         removeButtonText
       }}</el-button>
@@ -22,7 +22,7 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    buttonText: {
+    addButtonText: {
       type: String,
       default: 'Добавить',
     },

@@ -1,51 +1,41 @@
 <template>
   <el-form v-if="mounted" ref="form" :model="doctor" label-position="top" :rules="rules">
     <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
+      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical">
           <el-card>
-            <el-form-item label="Фамилия" prop="human.surname">
-              <el-input v-model="doctor.human.surname"></el-input>
-            </el-form-item>
-            <el-form-item label="Имя" prop="human.name">
-              <el-input v-model="doctor.human.name"></el-input>
-            </el-form-item>
-            <el-form-item label="Отчество" prop="human.patronymic">
-              <el-input v-model="doctor.human.patronymic"></el-input>
-            </el-form-item>
-            <el-form-item label="Пол" prop="human.isMale">
-              <el-select v-model="doctor.human.isMale" placeholder="Выберите пол">
-                <el-option label="Мужчина" :value="true"></el-option>
-                <el-option label="Женщина" :value="false"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Дата рождения" prop="human.dateBirth">
-              <el-date-picker v-model="doctor.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="Отделение">
-              <el-select v-model="doctor.divisionId" placeholder="Выберите отделение" filterable default-first-option style="width: 100%">
-                <el-option v-for="item in divisionOptions" :key="item.id" :label="item.name" :value="item.id" />
-              </el-select>
-            </el-form-item>
+            <template #header>
+              <CardHeader :label="'Личная информация'" :add-button="false" />
+            </template>
+            <HumanForm :store-module="'doctors'" />
+          </el-card>
+          <TimetableConstructor :store-module="'doctors'" />
+          <el-card>
+            <EducationForm :store-module="'doctors'" />
           </el-card>
         </el-container>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
+      <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
-          <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
+          <AdminDoctorImage v-if="mounted" title="Загрузить фото" />
           <el-card>
+            <template #header>
+              <CardHeader :label="'Регалии, звания'" :add-button="false" />
+            </template>
             <el-form-item label="Должность" prop="position">
               <el-input v-model="doctor.position"></el-input>
             </el-form-item>
-            <el-form-item label="График работы" prop="schedule">
-              <el-input v-model="doctor.schedule"></el-input>
+            <el-form-item label="Учёная степень">
+              <el-input v-model="doctor.academicDegree" />
             </el-form-item>
-            <el-form-item label="Тэги" prop="tags">
-              <el-input v-model="doctor.tags"></el-input>
+            <el-form-item label="Звание">
+              <el-input v-model="doctor.academicRank" />
+            </el-form-item>
+            <el-button @click="addRegalia"> Добавить регалию</el-button>
+            <el-form-item label="Регалии">
+              <el-input v-for="regalia in doctor.doctorRegalias" :key="regalia" v-model="regalia.name" />
             </el-form-item>
           </el-card>
-
-          <AdminDoctorImage v-if="mounted" title="Загрузить фото" />
         </el-container>
       </el-col>
     </el-row>
@@ -56,21 +46,25 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
 import DoctorRules from '@/classes/doctors/DoctorRules';
 import AdminDoctorImage from '@/components/admin/AdminDoctors/AdminDoctorImage.vue';
+import CardHeader from '@/components/admin/CardHeader.vue';
+import EducationForm from '@/components/admin/EducationForm.vue';
+import HumanForm from '@/components/admin/HumanForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
+import IDoctor from '@/interfaces/doctors/IDoctor';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
-  components: { ImageCropper, AdminDoctorImage },
-
+  components: { TimetableConstructor, HumanForm, ImageCropper, AdminDoctorImage, EducationForm, CardHeader },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -80,7 +74,7 @@ export default defineComponent({
     const mounted = ref(false);
 
     const divisionOptions = ref([new Division()]);
-    const doctor = computed(() => store.getters['doctors/doctor']);
+    const doctor: Ref<IDoctor> = computed(() => store.getters['doctors/doctor']);
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -137,7 +131,10 @@ export default defineComponent({
       showConfirmModal(submit, next);
     });
 
+    const addRegalia = () => store.commit('doctors/addRegalia');
+
     return {
+      addRegalia,
       rules,
       submit,
       doctor,
