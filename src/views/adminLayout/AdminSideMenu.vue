@@ -8,7 +8,7 @@
       background-color="whitesmoke"
       @select="closeDrawer"
     >
-      <el-submenu v-if="item.children" :index="item.title">
+      <el-sub-menu v-if="item.children" :index="item.title">
         <template #title>
           <i :class="item.icon"></i>
           <span class="row-menu-title">{{ item.title }}</span>
@@ -16,7 +16,7 @@
         <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
           {{ children.title }}
         </el-menu-item>
-      </el-submenu>
+      </el-sub-menu>
 
       <el-menu-item v-else :index="item.to" @click="$router.push(item.to)">
         <i :class="item.icon"></i>
@@ -153,7 +153,7 @@ $background-color: whitesmoke;
   background-color: $background-color;
   border-right: 1px solid #e6e6e6;
 
-  :deep(.el-submenu__icon-arrow) {
+  :deep(.el-sub-menu__icon-arrow) {
     margin-left: 10px;
   }
 
@@ -161,7 +161,7 @@ $background-color: whitesmoke;
     font-size: 24px;
   }
 
-  :deep(.el-submenu__icon-arrow) {
+  :deep(.el-sub-menu__icon-arrow) {
     font-size: unset;
   }
 }

@@ -62,8 +62,12 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      const decor = document.getElementById('decor');
-      const buildingsRef = document.getElementById('buildings');
+      const svgMap = document.getElementById('map-svg-container')?.querySelector('svg');
+      console.log(svgMap);
+      if (!svgMap) return;
+      const decor = svgMap.getElementById('decor');
+      const buildingsRef = svgMap.getElementById('buildings');
+      console.log(buildingsRef);
       if (!decor || !buildingsRef) return;
       // decor.childNodes.forEach((n) =>
       //   n.addEventListener('mouseover', function () {

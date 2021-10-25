@@ -36,7 +36,9 @@ export default defineComponent({
         store.commit('auth/setIsAuth', true);
       }
     };
-    onMounted(setLocalStorageToVuex);
+    onMounted(() => {
+      setLocalStorageToVuex();
+    });
   },
 });
 </script>

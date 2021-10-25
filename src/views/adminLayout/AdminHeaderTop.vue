@@ -12,7 +12,7 @@
         <el-menu-item index="1" @click="$router.push('/')">
           <i class="el-icon-s-home"></i>
         </el-menu-item>
-        <el-submenu index="2" popper-class="acc-popper">
+        <el-sub-menu index="2" popper-class="acc-popper">
           <template #title>
             <i class="el-icon-user"></i>
           </template>
@@ -25,7 +25,7 @@
           <el-menu-item index="2-2" @click="logout">
             <div style="margin: auto 0"><LogoutOutlined /><span> Выйти</span></div>
           </el-menu-item>
-        </el-submenu>
+        </el-sub-menu>
       </el-menu>
     </div>
   </div>
@@ -97,10 +97,10 @@ $button-background-color: #fff;
 
   :deep(.el-menu-item),
   :deep(.el-menu),
-  :deep(.el-submenu__title) {
+  :deep(.el-sub-menu__title) {
     background-color: $header-background-color;
   }
-  :deep(.el-submenu__icon-arrow) {
+  :deep(.el-sub-menu__icon-arrow) {
     font-size: unset;
   }
 }

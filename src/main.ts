@@ -8,8 +8,6 @@ import { setupElementPlusComponents, setupElementPlusPlugins } from '@/plugins/E
 import 'dayjs/locale/ru';
 import './assets/styles/element-variables.scss';
 
-import locale from 'element-plus/lib/locale';
-import lang from 'element-plus/lib/locale/lang/ru';
 import sanitizeHTML from 'sanitize-html';
 import { useStore } from 'vuex';
 
@@ -25,7 +23,7 @@ app.use(router);
 app.use(setupElementPlusComponents);
 app.use(setupElementPlusPlugins);
 
-locale.use(lang);
+// locale.use(lang);
 
 router.isReady().then(() => {
   app.mount('#app');

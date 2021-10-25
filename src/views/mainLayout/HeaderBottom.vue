@@ -23,7 +23,7 @@
             </div>
           </el-col>
           <el-col :xs="0" :sm="0" :md="0" :lg="16" :xl="16" style="height: 56px">
-            <div class="flex-center">
+            <div class="flex-center" style="width: 900px">
               <NavMenu />
             </div>
           </el-col>
@@ -274,7 +274,7 @@ export default defineComponent({
   border-right: none;
 }
 
-:deep(.el-submenu__title) {
+:deep(.el-sub-menu__title) {
   height: 56px !important;
 }
 .anticon {

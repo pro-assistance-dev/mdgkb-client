@@ -1,29 +1,39 @@
 <template>
-  <NewsCarousel />
-  <el-row :gutter="40">
-    <el-col :xl="6" :lg="6" :md="24" class="calendar">
-      <div class="left-side-container">
-        <NewsCalendar />
-        <NewsFilters />
-      </div>
-    </el-col>
-    <el-col :xl="18" :lg="18" :md="24">
-      <el-row>
-        <el-col v-for="item in filteredNews" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12" :style="{ padding: '10px', display: 'flex' }">
-          <div style="margin: 0 auto">
-            <NewsCard :news="item" />
-          </div>
-        </el-col>
-      </el-row>
-      <div v-if="!allNewsLoaded" class="load-more">
-        <el-button @click="loadMore">Загрузить ещё</el-button>
-      </div>
-    </el-col>
-  </el-row>
+  <div v-if="mount">
+    <NewsCarousel />
+    <el-row :gutter="40">
+      <el-col :xl="6" :lg="6" :md="24" class="calendar">
+        <div class="left-side-container">
+          <NewsCalendar />
+          <NewsFilters />
+        </div>
+      </el-col>
+      <el-col :xl="18" :lg="18" :md="24">
+        <el-row>
+          <el-col
+            v-for="item in filteredNews"
+            :key="item.id"
+            :xl="8"
+            :lg="8"
+            :md="12"
+            :sm="12"
+            :style="{ padding: '10px', display: 'flex' }"
+          >
+            <div style="margin: 0 auto">
+              <NewsCard :news="item" />
+            </div>
+          </el-col>
+        </el-row>
+        <div v-if="!allNewsLoaded" class="load-more">
+          <el-button @click="loadMore">Загрузить ещё</el-button>
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import NewsFilters from '@/components/News/NewFilters.vue';
@@ -42,16 +52,20 @@ export default defineComponent({
     const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
     const filteredNews = computed(() => store.getters['news/filteredNews']);
     const filterTags = computed(() => store.getters['news/filterTags']);
+    const mount = ref(false);
 
     const defaultParams: INewsParams = { limit: 6 };
     const news = computed(() => store.getters['news/news']);
 
     const loadNews = async () => {
       await store.dispatch('news/getAll', defaultParams);
-      await store.commit('news/setFilteredNews');
+      store.commit('news/setFilteredNews');
     };
 
-    onMounted(loadNews);
+    onBeforeMount(async () => {
+      await loadNews();
+      mount.value = true;
+    });
 
     const loadMore = async () => {
       loading.value = true;
@@ -61,7 +75,7 @@ export default defineComponent({
         filterTags: filterTags.value.map((tag: ITag) => tag.id),
       };
       await store.dispatch('news/getAll', params);
-      await store.commit('news/setFilteredNews');
+      store.commit('news/setFilteredNews');
     };
 
     return {
@@ -70,6 +84,7 @@ export default defineComponent({
       loadMore,
       news,
       filteredNews,
+      mount,
     };
   },
 });

@@ -41,7 +41,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AuthPage',
-  async setup() {
+  setup() {
     const form = ref(new User());
     const myForm = ref();
 

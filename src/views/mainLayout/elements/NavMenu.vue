@@ -3,7 +3,7 @@
     <template v-for="(menu, i) in menus" :key="menu.id">
       <el-menu-item
         v-if="menu.withoutChildren()"
-        :index="menu.getLink()"
+        :index="String(menu.getLink())"
         class="header-bottom-menu-item"
         @click="$router.push(menu.getLink())"
       >
@@ -12,14 +12,14 @@
           {{ menu.name }}
         </div>
       </el-menu-item>
-      <el-submenu v-else :index="i" class="header-bottom-menu-item">
+      <el-sub-menu v-else :index="String(i)" class="header-bottom-menu-item">
         <template #title
           ><span class="header-bottom-menu-item">{{ menu.name }}</span></template
         >
         <template v-for="subMenu in menu.subMenus" :key="subMenu.id">
           <el-menu-item
             v-if="subMenu.withoutChildren()"
-            :index="subMenu.link"
+            :index="String(subMenu.link)"
             class="header-bottom-submenu-item"
             @click="$router.push(subMenu.getLink())"
           >
@@ -28,21 +28,21 @@
               {{ subMenu.name }}
             </div>
           </el-menu-item>
-          <el-submenu v-else :index="subMenu.link" class="header-bottom-menu-item">
+          <el-sub-menu v-else :index="String(subMenu.link)" class="header-bottom-menu-item">
             <template #title
               ><div class="icon">{{ subMenu.name }}</div></template
             >
-            <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
-              <el-menu-item :index="subSubMenu.link" class="header-bottom-submenu-item" @click="$router.push(subSubMenu.link)">
+            <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.idx">
+              <el-menu-item :index="String(subSubMenu.link)" class="header-bottom-submenu-item" @click="$router.push(subSubMenu.link)">
                 <div class="icon">
                   <object v-if="subSubMenu.icon.fileSystemPath" :data="subSubMenu.icon.getImageUrl()" class="menu-img" />
                   {{ subSubMenu.name }}
                 </div>
               </el-menu-item>
             </template>
-          </el-submenu>
+          </el-sub-menu>
         </template>
-      </el-submenu>
+      </el-sub-menu>
     </template>
   </el-menu>
 </template>
