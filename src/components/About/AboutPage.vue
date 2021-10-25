@@ -31,10 +31,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Division from '@/classes/buildings/Division';
 import AboutInfo from '@/components/About/AboutInfo.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 
@@ -47,7 +46,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const divisionFilter = ref('');
-    const divisions = ref([new Division()]);
+    const divisions: Ref<IDivision[]> = ref([]);
     const selectedDivision = computed(() => store.getters['divisions/division']);
 
     // Methods

@@ -4,6 +4,7 @@ import AboutPage from '@/components/About/AboutPage.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
+import PageNotFound from '@/components/PageNotFound.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
@@ -96,6 +97,11 @@ const routes: Array<RouteRecordRaw> = [
   ...ProfileRoutes,
   ...EducationalOrganizationRoutes,
   ...indexAdminRoutes,
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: PageNotFound,
+  },
 ];
 
 const router = createRouter({

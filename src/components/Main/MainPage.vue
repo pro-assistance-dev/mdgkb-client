@@ -58,10 +58,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Division from '@/classes/buildings/Division';
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
@@ -80,7 +79,7 @@ export default defineComponent({
     const filteredNews = computed(() => store.getters['news/filteredNews']);
     const filterTags = computed(() => store.getters['news/filterTags']);
 
-    const divisions = ref([new Division()]);
+    const divisions: Ref<IDivision[]> = ref([]);
     const selectedDivision = computed(() => store.getters['divisions/division']);
     const doctors = computed(() => store.getters['doctors/doctors']);
     const divisionFilter = ref('');
@@ -119,7 +118,7 @@ export default defineComponent({
       await store.dispatch('doctors/getAll');
     };
 
-    const list = computed((): IDivision[] => {
+    const list: ComputedRef<IDivision[]> = computed((): IDivision[] => {
       if (divisionFilter.value) {
         return divisions.value.filter((o) => o.name.toLowerCase().includes(divisionFilter.value.toLowerCase()));
       } else {
