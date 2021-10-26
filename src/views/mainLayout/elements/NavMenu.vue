@@ -1,5 +1,12 @@
 <template>
-  <el-menu class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
+  <el-menu
+    :collapse-transition="false"
+    :ellipsis="false"
+    class="header-bottom-menu"
+    :mode="'horizontal'"
+    :router="true"
+    default-active="1x"
+  >
     <template v-for="(menu, i) in menus" :key="menu.id">
       <el-menu-item
         v-if="menu.withoutChildren()"
