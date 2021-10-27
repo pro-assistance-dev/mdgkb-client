@@ -4,38 +4,98 @@ $header_bottom_desktop: 56px;
   @include box_shadow(2);
   height: $header_bottom_desktop;
   background: whitesmoke;
+  display: flex;
+  border: none !important;
+  color: #4a4a4a;
 
   .header-bottom-menu {
     height: $header_bottom_desktop;
     border: none;
     background: whitesmoke;
-
-    .header-bottom-menu-item {
-      font-weight: bold;
-      font-size: 16px;
-      color: #4a4a4a;
-      margin-right: 0;
-      text-transform: uppercase;
-      height: 100%;
-    }
   }
+  .header-bottom-menu-item {
+    font-size: 12px;
+    color: #4a4a4a;
+    margin-right: 0;
+    text-transform: uppercase;
+    height: 100%;
+    border: none;
+  }
+}
+
+.el-menu-item {
+  background: whitesmoke;
+  height: $header_bottom_desktop;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.el-menu--popup {
+  @include box_shadow(1);
+  padding: 0;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: "Open Sans", sans-serif !important;
+  text-transform: uppercase;
+}
+
+.header-bottom-submenu-item {
+  @include box_shadow(1);
+  line-height: 0;
+  background-color: whitesmoke !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: "Open Sans", sans-serif !important;
 }
 
 .header-bottom-menu-item:hover,
 .header-bottom-submenu-item:hover {
+  color: #4a4a4a !important;
   background-color: #e4e5e7 !important;
 }
 
-.drawer,
-.header-bottom {
-  .el-sub-menu__title:hover {
-    background-color: #e4e5e7 !important;
-    border: none !important;
-    height: $header_bottom_desktop !important;
-  }
+.header-bottom-submenu-item-title {
+  @include box_shadow(1);
+  line-height: 0;
+  background-color: whitesmoke !important;
+  width: 120%;
 }
 
 .info {
   display: block;
-  font-weight: bold;
+  font-weight: 300;
+}
+
+
+.sub-menu-popover {
+  height: 0;
+  z-index: 5000 !important;
+  padding: 0;
+  margin-top: -7.5px;
+  background: whitesmoke !important;
+  &:hover {
+    background-color: #e4e5e7 !important;
+  }
+}
+.sub-sub-menu-popover {
+  z-index: 100 !important;
+  padding: 0;
+  margin-top: -1.5px;
+  margin-left: -5.5px;
+  &:hover {
+    background-color: #e4e5e7 !important;
+  }
+}
+
+.el-sub-menu__title {
+  background-color: whitesmoke !important;
+  line-height: $header_bottom_desktop !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+  font-family: "Open Sans", sans-serif !important;
+
+  &:hover {
+    background-color: #e4e5e7 !important;
+  }
 }

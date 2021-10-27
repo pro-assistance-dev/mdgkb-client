@@ -13,76 +13,70 @@
   <div :class="{ fixed: scrollOffset >= 66 }">
     <div class="header-bottom">
       <div class="container" style="height: 100%">
-        <el-row align="middle">
-          <el-col :xs="14" :sm="14" :md="14" :lg="4" :xl="4">
-            <div style="display: flex">
-              <el-button icon="el-icon-s-unfold" class="menu-item hidden-lg-and-up" @click="changeDrawerStatus"></el-button>
-              <el-button v-if="scrollOffset >= 66" class="menu-item">
-                <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" @click="$router.push('/')" />
-              </el-button>
+        <div class="menu-container">
+          <div class="menu-container-left">
+            <el-button icon="el-icon-s-unfold" class="menu-item hidden-lg-and-up" @click="changeDrawerStatus"></el-button>
+            <el-button v-if="scrollOffset >= 66" class="menu-item">
+              <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" @click="$router.push('/')" />
+            </el-button>
+          </div>
+          <div class="menu-container-center">
+            <NavMenu />
+          </div>
+          <div class="menu-container-right">
+            <div v-if="scrollOffset >= 66">
+              <LoginDropdownMenu />
             </div>
-          </el-col>
-          <el-col :xs="0" :sm="0" :md="0" :lg="16" :xl="16" style="height: 56px">
-            <div class="flex-center" style="width: 900px">
-              <NavMenu />
-            </div>
-          </el-col>
-          <el-col :xs="10" :sm="10" :md="10" :lg="4" :xl="4" class="info">
-            <div class="flex-end">
-              <div v-if="scrollOffset >= 66">
-                <LoginDropdownMenu />
-              </div>
-              <el-popover
-                placement="bottom-start"
-                width="auto"
-                trigger="hover"
-                content="this is content, this is content, this is content"
-                style="border-radius: 20px"
-              >
-                <template #reference>
-                  <div>
-                    <el-button v-if="scrollOffset < 66" class="menu-item" @click="$router.push('/map')">
-                      <el-space>
-                        <div>
-                          +7 (495) 959-88-00<br />
-                          +7 (495) 959-88-03
-                        </div>
-                        <i class="el-icon-info icon"></i>
-                      </el-space>
-                    </el-button>
-                    <el-space v-else>
-                      <el-button class="menu-item" icon="el-icon-info" @click="$router.push('/map')"></el-button>
+            <el-popover
+              placement="bottom-start"
+              width="auto"
+              trigger="hover"
+              content="this is content, this is content, this is content"
+              style="border-radius: 20px"
+            >
+              <template #reference>
+                <div>
+                  <el-button v-if="scrollOffset < 66" class="menu-item" @click="$router.push('/map')">
+                    <el-space>
+                      <div class="phones">
+                        +7 (495) 959-88-00<br />
+                        +7 (495) 959-88-03
+                      </div>
+                      <i class="el-icon-info icon"></i>
                     </el-space>
-                  </div>
-                </template>
-                <div id="helppop">
-                  <div class="phone">
-                    +7 (495) 959-88-00<br />
-                    +7 (495) 959-88-03
-                  </div>
-                  <div class="call-center">
-                    <small> Call-центр принимает звонки круглосуточно и без выходных. По России звонок бесплатный. </small>
-                  </div>
-                  <div class="address">119049 г. Москва, 4-й Добрынинский переулок, дом 1/9</div>
-                  <div class="address2">
-                    <small>Вход на территорию больницы с 1-ого Добрынинского переулка.</small>
-                  </div>
-                  <div class="icons">
-                    <a href="#" class="social-icon">
-                      <img src="../../assets/img/social/facebook.png" />
-                    </a>
-                    <a href="#" class="social-icon">
-                      <img src="../../assets/img/social/instagram.png" />
-                    </a>
-                    <a href="#" class="social-icon">
-                      <img src="../../assets/img/social/youtube.png" />
-                    </a>
-                  </div>
+                  </el-button>
+                  <el-space v-else>
+                    <el-button class="menu-item" icon="el-icon-info" @click="$router.push('/map')"></el-button>
+                  </el-space>
                 </div>
-              </el-popover>
-            </div>
-          </el-col>
-        </el-row>
+              </template>
+              <div id="helppop">
+                <div class="phone">
+                  +7 (495) 959-88-00<br />
+                  +7 (495) 959-88-03
+                </div>
+                <div class="call-center">
+                  <small> Call-центр принимает звонки круглосуточно и без выходных. По России звонок бесплатный. </small>
+                </div>
+                <div class="address">119049 г. Москва, 4-й Добрынинский переулок, дом 1/9</div>
+                <div class="address2">
+                  <small>Вход на территорию больницы с 1-ого Добрынинского переулка.</small>
+                </div>
+                <div class="icons">
+                  <a href="#" class="social-icon">
+                    <img src="../../assets/img/social/facebook.png" />
+                  </a>
+                  <a href="#" class="social-icon">
+                    <img src="../../assets/img/social/instagram.png" />
+                  </a>
+                  <a href="#" class="social-icon">
+                    <img src="../../assets/img/social/youtube.png" />
+                  </a>
+                </div>
+              </div>
+            </el-popover>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -140,26 +134,29 @@ export default defineComponent({
 <style scoped lang="scss">
 .menu-item {
   height: 56px;
-  cursor: pointer;
-  text-align: center;
+}
+.menu-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+
+  &-left {
+    margin-right: auto;
+  }
+
+  &-center {
+    margin-left: auto;
+  }
+
+  &-right {
+    font-weight: bold;
+    margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
-.menu-item:hover {
-  background-color: #e4e5e7;
-}
-
-.flex-end {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.phones {
+  font-weight: bold;
 }
 
 #helppop {

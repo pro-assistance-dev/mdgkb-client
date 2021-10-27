@@ -1,12 +1,5 @@
 <template>
-  <el-menu
-    :collapse-transition="false"
-    :ellipsis="false"
-    class="header-bottom-menu"
-    :mode="'horizontal'"
-    :router="true"
-    default-active="1x"
-  >
+  <el-menu :ellipsis="false" class="header-bottom-menu" :mode="'horizontal'" :router="true" default-active="1x">
     <template v-for="(menu, i) in menus" :key="menu.id">
       <el-menu-item
         v-if="menu.withoutChildren()"
@@ -16,12 +9,21 @@
       >
         <div class="icon">
           <object v-if="menu.icon.fileSystemPath" :data="menu.icon.getImageUrl()" class="menu-img" />
-          {{ menu.name }}
+          <strong>{{ menu.name }}</strong>
         </div>
       </el-menu-item>
-      <el-sub-menu v-else :index="String(i)" class="header-bottom-menu-item">
+      <el-sub-menu
+        v-else
+        :popper-class="'sub-menu-popover'"
+        :show-timeout="50"
+        :hide-timeout="100"
+        :index="String(i)"
+        class="header-bottom-menu-item"
+      >
         <template #title
-          ><span class="header-bottom-menu-item">{{ menu.name }}</span></template
+          ><span class="header-bottom-menu-item">
+            <strong>{{ menu.name }}</strong></span
+          ></template
         >
         <template v-for="subMenu in menu.subMenus" :key="subMenu.id">
           <el-menu-item
@@ -32,18 +34,27 @@
           >
             <div class="icon">
               <object v-if="subMenu.icon.fileSystemPath" :data="subMenu.icon.getImageUrl()" class="menu-img" />
-              {{ subMenu.name }}
             </div>
+            <strong> {{ subMenu.name }}</strong>
           </el-menu-item>
-          <el-sub-menu v-else :index="String(subMenu.link)" class="header-bottom-menu-item">
+          <el-sub-menu
+            v-else
+            :popper-class="'sub-sub-menu-popover'"
+            :show-timeout="50"
+            :hide-timeout="100"
+            :index="String(subMenu.link)"
+            class="header-bottom-submenu-item-title"
+          >
             <template #title
-              ><div class="icon">{{ subMenu.name }}</div></template
+              ><strong>{{ subMenu.name }}</strong></template
             >
-            <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.idx">
+            <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
               <el-menu-item :index="String(subSubMenu.link)" class="header-bottom-submenu-item" @click="$router.push(subSubMenu.link)">
                 <div class="icon">
                   <object v-if="subSubMenu.icon.fileSystemPath" :data="subSubMenu.icon.getImageUrl()" class="menu-img" />
-                  {{ subSubMenu.name }}
+                  <strong>
+                    {{ subSubMenu.name }}
+                  </strong>
                 </div>
               </el-menu-item>
             </template>
@@ -60,7 +71,6 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IMenu from '@/interfaces/elements/IMenu';
-import IMenuItem from '@/interfaces/IMenuItem';
 
 export default defineComponent({
   name: 'NavMenu',
@@ -74,37 +84,7 @@ export default defineComponent({
     let expand = ref(false);
     const activePath: Ref<string> = ref('');
     const store = useStore();
-    const items: IMenuItem[] = [
-      {
-        id: '02',
-        label: 'Платные медицинские услуги',
-        description:
-          'Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
-        to: '/paid-services',
-      },
-      { id: '06', label: 'Просветительский проект СтопКома', description: '', to: '/stop-coma' },
-      {
-        id: '08',
-        label: 'Диспансеризация населения',
-        description:
-          'Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
-        to: '/dispanserization',
-      },
-      {
-        id: '09',
-        label: 'Сведения об организациях в сфере охраны здоровья',
-        description:
-          'Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
-        to: '/side-organizations',
-      },
-      {
-        id: '10',
-        label: 'Нормативные документы',
-        description:
-          'Запись на плановую госпитализацию в нашу больницу пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
-        to: '/normative-documents',
-      },
-    ];
+
     const menus = computed(() => store.getters['menus/menus']);
     const route = useRoute();
     onBeforeMount(async () => {
@@ -121,7 +101,7 @@ export default defineComponent({
 
     const collapseCard = () => menus.value.forEach((v: IMenu) => v.collapseCard());
 
-    return { menus, collapseCard, expand, items, activePath };
+    return { menus, collapseCard, expand, activePath };
   },
 });
 </script>
@@ -166,9 +146,9 @@ export default defineComponent({
 
 .icon {
   //   fill: #ffffff;
-  display: flex;
-  align-items: center;
-  color: black;
+  //display: flex;
+  //align-items: center;
+  //color: black;
 }
 
 .menu-img {
