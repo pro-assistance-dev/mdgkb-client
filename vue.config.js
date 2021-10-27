@@ -20,6 +20,11 @@ module.exports = {
       .loader('vue-loader-v16') // or `vue-loader-v16` if you are using a preview support of Vue 3 in Vue CLI
       .end()
       .use('vue-svg-loader')
-      .loader('vue-svg-loader');
+      .loader('vue-svg-loader')
+      .options({
+        svgo: {
+          plugins: [{ cleanupIDs: false }, { collapseGroups: false }, { removeEmptyContainers: false }],
+        },
+      });
   },
 };
