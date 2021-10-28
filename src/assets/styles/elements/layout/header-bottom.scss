@@ -7,6 +7,8 @@ $header_bottom_desktop: 56px;
   display: flex;
   border: none !important;
   color: #4a4a4a;
+  font-size: 12px;
+  font-family: "Open Sans", sans-serif !important;
 
   .header-bottom-menu {
     height: $header_bottom_desktop;
@@ -26,16 +28,13 @@ $header_bottom_desktop: 56px;
 .el-menu-item {
   background: whitesmoke;
   height: $header_bottom_desktop;
-  font-size: 12px;
-  font-weight: bold;
-  font-family: "Open Sans", sans-serif !important;
+
 }
 
 .el-menu--popup {
   @include box_shadow(1);
   padding: 0;
   font-size: 12px !important;
-  font-weight: bold !important;
   font-family: "Open Sans", sans-serif !important;
   text-transform: uppercase;
 }
@@ -45,7 +44,6 @@ $header_bottom_desktop: 56px;
   line-height: 0;
   background-color: whitesmoke !important;
   font-size: 12px !important;
-  font-weight: bold !important;
   font-family: "Open Sans", sans-serif !important;
 }
 
@@ -90,9 +88,9 @@ $header_bottom_desktop: 56px;
 
 .el-sub-menu__title {
   background-color: whitesmoke !important;
-  line-height: $header_bottom_desktop !important;
+  border-bottom: none !important;
+  line-height: $header_bottom_desktop - 1 !important;
   font-size: 12px !important;
-  font-weight: bold !important;
   font-family: "Open Sans", sans-serif !important;
 
   &:hover {
