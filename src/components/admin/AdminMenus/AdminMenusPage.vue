@@ -48,20 +48,23 @@
         </el-card>
 
         <div v-if="!menu.isLink()">
+          <h1>Подменю</h1>
           <el-card v-for="(subMenu, subMenuIndex) in menu.subMenus" :key="subMenu.id">
             <template #header>
               <CardHeader
                 :remove-button="true"
-                :label="'Подменю'"
                 :button-text="'Добавить подподменю'"
                 @add="addSubSubMenu(subMenuIndex)"
                 @remove="removeSubMenu(subMenuIndex)"
               />
-            </template>
-            <el-space>
               <el-form-item label="Название">
                 <el-input v-model="subMenu.name" placeholder="Название"> </el-input>
               </el-form-item>
+              <el-button v-if="subMenuIndex > 0" @click="moveUp(menu.subMenus, subMenuIndex)">Вверх </el-button>
+              <el-button v-if="subMenuIndex < menu.subMenus.length - 1" @click="moveDown(menu.subMenus, subMenuIndex)">Вниз </el-button>
+            </template>
+
+            <el-space>
               <el-form-item v-if="subMenu.withoutChildren() && !subMenu.isPageLink()" label="Ссылка">
                 <el-input v-model="subMenu.link" placeholder="Ссылка"> </el-input>
               </el-form-item>
@@ -92,6 +95,10 @@
                   :label="'Подподменю'"
                   @remove="removeSubSubMenu(subMenuIndex, subSubMenuIndex)"
                 />
+                <el-button v-if="subSubMenuIndex > 0" @click="moveUp(subMenu.subSubMenus, subSubMenuIndex)">Вверх </el-button>
+                <el-button v-if="subSubMenuIndex < subMenu.subSubMenus.length - 1" @click="moveDown(subMenu.subSubMenus, subSubMenuIndex)"
+                  >Вниз
+                </el-button>
               </template>
               <el-space>
                 <el-form-item>
@@ -136,6 +143,7 @@ import { useStore } from 'vuex';
 import NewsRules from '@/classes/news/NewsRules';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import IMenu from '@/interfaces/menu/IMenu';
+import { moveDown, moveUp } from '@/mixins/moves';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
@@ -202,6 +210,9 @@ export default defineComponent({
     };
 
     return {
+      moveUp,
+      moveDown,
+
       pages,
       removeSubSubMenu,
       addSubMenu,

@@ -1,11 +1,20 @@
 <template>
   <div class="flex-column">
     <div class="flex-row-between">
-      <el-button type="primary" @click="create">Создать меню</el-button>
+      <div class="table-buttons">
+        <el-button type="primary" @click="create">Создать меню</el-button>
+        <el-button v-if="!isEdit" type="success" @click="editOrder">Редактировать порядок</el-button>
+        <el-button v-else type="success" @click="saveOrder">Сохранить порядок</el-button>
+      </div>
       <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
     </div>
     <el-card>
       <el-table v-if="menus" :data="menus">
+        <el-table-column v-if="isEdit" width="40" fixed="left" align="center">
+          <template #default="scope">
+            <TableMover :store-module="'menus'" :store-getter="'menus'" :index="scope.$index" />
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="Заголовок" sortable> </el-table-column>
         <el-table-column prop="link" label="Ссылка" sortable> </el-table-column>
         <el-table-column width="40" fixed="right" align="center">
@@ -27,18 +36,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import TableMover from '@/components/admin/TableMover.vue';
+import IMenu from '@/interfaces/menu/IMenu';
 
 export default defineComponent({
   name: 'AdminMenusList',
-  components: { TableButtonGroup },
+  components: { TableMover, TableButtonGroup },
   setup() {
     const store = useStore();
     const router = useRouter();
+    const isEdit = ref(false);
+
+    const menus: Ref<IMenu[]> = computed(() => store.getters['menus/menus']);
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
@@ -46,7 +60,14 @@ export default defineComponent({
       store.commit('admin/setPageTitle', { title: 'Меню' });
     });
 
-    const menus = computed(() => store.getters['menus/menus']);
+    const editOrder = () => {
+      isEdit.value = true;
+    };
+
+    const saveOrder = async () => {
+      await store.dispatch('menus/updateAll', menus.value);
+      isEdit.value = false;
+    };
 
     const remove = async (id: string) => {
       await store.dispatch('menus/remove', id);
@@ -54,7 +75,7 @@ export default defineComponent({
 
     const create = () => router.push(`/admin/menus/new`);
 
-    return { menus, remove, create };
+    return { menus, remove, create, saveOrder, editOrder, isEdit };
   },
 });
 </script>
@@ -80,5 +101,12 @@ $margin: 20px 0;
   align-items: center;
   justify-content: flex-end;
   margin: $margin;
+}
+.table-buttons {
+  display: flex;
+  align-items: center;
+  :deep(.el-button) {
+    margin-right: 10px;
+  }
 }
 </style>

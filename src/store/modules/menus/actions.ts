@@ -38,6 +38,11 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
   },
+
+  updateAll: async ({ commit }, items: IMenu[]): Promise<void> => {
+    await httpClient.put<IMenu[], IMenu[]>({ payload: items });
+    commit('set');
+  },
 };
 
 export default actions;

@@ -9,7 +9,7 @@ export default class SubSubMenu implements ISubSubMenu {
   id?: string;
   name = '';
   link = '';
-
+  order = 1;
   page = new Page();
   pageId?: string;
 
@@ -25,6 +25,7 @@ export default class SubSubMenu implements ISubSubMenu {
     this.id = menu.id;
     this.name = menu.name;
     this.link = menu.link;
+    this.order = menu.order;
 
     if (this.page) {
       this.page = new Page(menu.page);

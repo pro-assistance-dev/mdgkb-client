@@ -17,6 +17,7 @@ export default class Menu implements IMenu {
   link = '';
   top = true;
   side = true;
+  order = 0;
 
   page = new Page();
   pageId?: string;
@@ -38,6 +39,7 @@ export default class Menu implements IMenu {
     this.link = menu.link;
     this.top = menu.top;
     this.side = menu.side;
+    this.order = menu.order;
 
     if (this.page) {
       this.page = new Page(menu.page);
