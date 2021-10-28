@@ -1,5 +1,6 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICategory from '@/interfaces/news/ICategory';
+import IEvent from '@/interfaces/news/IEvent';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
@@ -25,4 +26,5 @@ export default interface INews {
   newsImagesForDelete: string[];
   newsImagesNames: string[];
   viewsCount: number;
+  event?: IEvent;
 }

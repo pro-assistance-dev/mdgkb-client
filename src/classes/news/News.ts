@@ -2,11 +2,13 @@ import slugify from '@sindresorhus/slugify';
 
 import FileInfo from '@/classes/File/FileInfo';
 import Category from '@/classes/news/Category';
+import Event from '@/classes/news/Event';
 import NewsComment from '@/classes/news/NewsComment';
 import NewsImage from '@/classes/news/NewsImage';
 import NewsLike from '@/classes/news/NewsLike';
 import Tag from '@/classes/news/Tag';
 import ICategory from '@/interfaces/news/ICategory';
+import IEvent from '@/interfaces/news/IEvent';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsImage from '@/interfaces/news/INewsImage';
@@ -33,26 +35,44 @@ export default class News implements INews {
   newsImagesForDelete: string[] = [];
   newsImagesNames: string[] = [];
   viewsCount = 0;
+  event?: IEvent;
 
-  constructor(i?: INews) {
-    if (!i) return;
-    this.id = i.id;
-    this.status = i.status;
-    this.title = i.title;
-    this.previewText = i.previewText;
-    this.fileInfoId = i.fileInfoId;
-    this.mainImageId = i.mainImageId;
-    this.content = i.content;
-    this.slug = i.slug;
-    this.viewsCount = i.viewsCount;
-    this.category = new Category(i.category);
-    if (i.tags) this.tags = i.tags.map((item: ITag) => new Tag(item)) ?? [];
-    if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
-    if (i.mainImage) this.mainImage = new FileInfo(i.mainImage);
-    this.publishedOn = i.publishedOn;
-    if (i.newsLikes) this.newsLikes = i.newsLikes.map((item: INewsLike) => new NewsLike(item));
-    if (i.newsComments) this.newsComments = i.newsComments.map((item: INewsComment) => new NewsComment(item));
-    if (i.newsImages) this.newsImages = i.newsImages.map((item: INewsImage) => new NewsImage(item));
+  constructor(news?: INews) {
+    if (!news) {
+      return;
+    }
+    this.id = news.id;
+    this.status = news.status;
+    this.title = news.title;
+    this.previewText = news.previewText;
+    this.fileInfoId = news.fileInfoId;
+    this.mainImageId = news.mainImageId;
+    this.content = news.content;
+    this.slug = news.slug;
+    this.viewsCount = news.viewsCount;
+    this.category = new Category(news.category);
+    if (news.tags) {
+      this.tags = news.tags.map((item: ITag) => new Tag(item)) ?? [];
+    }
+    if (news.fileInfo) {
+      this.fileInfo = new FileInfo(news.fileInfo);
+    }
+    if (news.mainImage) {
+      this.mainImage = new FileInfo(news.mainImage);
+    }
+    this.publishedOn = news.publishedOn;
+    if (news.newsLikes) {
+      this.newsLikes = news.newsLikes.map((item: INewsLike) => new NewsLike(item));
+    }
+    if (news.newsComments) {
+      this.newsComments = news.newsComments.map((item: INewsComment) => new NewsComment(item));
+    }
+    if (news.newsImages) {
+      this.newsImages = news.newsImages.map((item: INewsImage) => new NewsImage(item));
+    }
+    if (news.event) {
+      this.event = new Event(news.event);
+    }
   }
 
   createSlug(): void {
