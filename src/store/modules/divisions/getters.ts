@@ -30,7 +30,7 @@ const getters: GetterTree<State, RootState> = {
   comment(state): IDivisionComment {
     return state.comment;
   },
-  сomments(state): IDivisionComment[] {
+  comments(state): IDivisionComment[] {
     return state.division.divisionComments;
   },
   divisionById(state): (id: string) => IDivision | undefined {

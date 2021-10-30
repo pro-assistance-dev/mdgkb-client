@@ -1,19 +1,19 @@
 import slugify from '@sindresorhus/slugify';
 
 import FileInfo from '@/classes/File/FileInfo';
-import Category from '@/classes/news/Category';
 import Event from '@/classes/news/Event';
 import NewsComment from '@/classes/news/NewsComment';
 import NewsImage from '@/classes/news/NewsImage';
 import NewsLike from '@/classes/news/NewsLike';
-import Tag from '@/classes/news/Tag';
-import ICategory from '@/interfaces/news/ICategory';
+import NewsToCategory from '@/classes/news/NewsToCategory';
+import NewsToTag from '@/classes/news/NewsToTag';
 import IEvent from '@/interfaces/news/IEvent';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
-import ITag from '@/interfaces/news/ITag';
+import INewsToCategory from '@/interfaces/news/INewsToCategory';
+import INewsToTag from '@/interfaces/news/INewsToTag';
 
 export default class News implements INews {
   id?: string;
@@ -22,8 +22,8 @@ export default class News implements INews {
   previewText = '';
   content = '';
   slug = '';
-  category: ICategory = new Category();
-  tags: ITag[] = [];
+  newsToTags: INewsToTag[] = [];
+  newsToCategories: INewsToCategory[] = [];
   fileInfo = new FileInfo();
   fileInfoId?: string;
   mainImage = new FileInfo();
@@ -50,9 +50,11 @@ export default class News implements INews {
     this.content = news.content;
     this.slug = news.slug;
     this.viewsCount = news.viewsCount;
-    this.category = new Category(news.category);
-    if (news.tags) {
-      this.tags = news.tags.map((item: ITag) => new Tag(item)) ?? [];
+    if (news.newsToCategories) {
+      this.newsToCategories = news.newsToCategories.map((item: INewsToCategory) => new NewsToCategory(item));
+    }
+    if (news.newsToTags) {
+      this.newsToTags = news.newsToTags.map((item: INewsToTag) => new NewsToTag(item));
     }
     if (news.fileInfo) {
       this.fileInfo = new FileInfo(news.fileInfo);

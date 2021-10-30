@@ -1,10 +1,10 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICategory from '@/interfaces/news/ICategory';
 import IEvent from '@/interfaces/news/IEvent';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
-import ITag from '@/interfaces/news/ITag';
+import INewsToCategory from '@/interfaces/news/INewsToCategory';
+import INewsToTag from '@/interfaces/news/INewsToTag';
 
 export default interface INews {
   id?: string;
@@ -13,8 +13,8 @@ export default interface INews {
   previewText: string;
   content: string;
   slug: string;
-  category: ICategory;
-  tags: ITag[];
+  newsToCategories: INewsToCategory[];
+  newsToTags: INewsToTag[];
   fileInfoId?: string;
   fileInfo: IFileInfo;
   mainImageId?: string;

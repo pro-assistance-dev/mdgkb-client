@@ -37,7 +37,7 @@ const getters: GetterTree<State, RootState> = {
   comment(state): IDoctorComment {
     return state.comment;
   },
-  сomments(state): IDoctorComment[] {
+  comments(state): IDoctorComment[] {
     return state.doctor.doctorComments;
   },
   human(state): IHuman {

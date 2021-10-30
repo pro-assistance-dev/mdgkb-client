@@ -41,6 +41,13 @@
           </el-container>
         </el-col>
       </el-row>
+      <el-row>
+        <el-button v-if="!news.event" type="success" @click="createEvent(true)">Сделать новость событием</el-button>
+        <el-button v-if="news.event" type="danger" @click="createEvent(false)">Сделать событие новостью</el-button>
+      </el-row>
+      <el-row v-if="news.event">
+        <el-card style="margin-top: 20px"> Новость является событием </el-card>
+      </el-row>
     </el-form>
 
     <ImageCropper />
@@ -56,6 +63,7 @@ import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Event from '@/classes/news/Event';
 import NewsRules from '@/classes/news/NewsRules';
 import AdminNewsPageGallery from '@/components/admin/AdminNews/AdminNewsPageGallery.vue';
 import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMainImage.vue';
@@ -131,7 +139,16 @@ export default defineComponent({
       next ? next() : router.push('/admin/news');
     };
 
+    const createEvent = (newsIsEvent: boolean) => {
+      if (!newsIsEvent) {
+        news.value.event = undefined;
+        return;
+      }
+      news.value.event = new Event();
+    };
+
     return {
+      createEvent,
       mounted,
       isCropGalleryOpen,
       galleryList,

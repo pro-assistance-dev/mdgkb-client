@@ -1,5 +1,6 @@
 import IFilesList from '@/interfaces/files/IFIlesList';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import IEventApplication from '@/interfaces/news/IEventApplication';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
 import ITag from '@/interfaces/news/ITag';
@@ -17,4 +18,6 @@ export interface State {
   galleryList: IFilesList[];
   curGalleryCropIndex: number;
   comment: INewsComment;
+  eventMode: boolean;
+  eventApplication: IEventApplication;
 }

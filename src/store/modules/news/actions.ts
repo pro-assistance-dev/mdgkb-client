@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import IEventApplication from '@/interfaces/news/IEventApplication';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsImage from '@/interfaces/news/INewsImage';
@@ -17,7 +18,7 @@ import { State } from './state';
 const httpClient = new HttpClient('news');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, params?: INewsParams): Promise<void> => {
+  getAll: async ({ commit, state }, params?: INewsParams): Promise<void> => {
     let query = '';
     if (params && params.limit) {
       query = `?limit=${params.limit}`;
@@ -29,14 +30,21 @@ const actions: ActionTree<State, RootState> = {
       query = `?publishedOn=${params.publishedOn}&limit=${params.limit}&filterTags=${params.filterTags}`;
     }
     if (params && params.limit && params.orderByView && !params.filterTags?.length) {
-      query = `?orderByView=${true}&limit=${params.limit}`;
+      query = `?orderByView=true&limit=${params.limit}`;
     }
     if (params && params.limit && params.orderByView && params.filterTags?.length) {
-      query = `?orderByView=${true}&limit=${params.limit}&filterTags=${params.filterTags}`;
+      query = `?orderByView=true&limit=${params.limit}&filterTags=${params.filterTags}`;
+    }
+    if (state.eventMode) {
+      query.length ? (query = `${query}&events=true`) : (query = '?events=true');
     }
     const res = await httpClient.get<{ data: INews[] }>({ query: query });
-    if (res && params && !params.publishedOn) commit('setAll', res);
-    if (res && params && params.publishedOn) commit('appendToAll', res);
+    if (res && params && !params.publishedOn) {
+      commit('setAll', res);
+    }
+    if (res && params && params.publishedOn) {
+      commit('appendToAll', res);
+    }
   },
   get: async ({ commit }, slug: string): Promise<void> => {
     const res = await httpClient.get<INews>({ query: `${slug}` });
@@ -121,6 +129,9 @@ const actions: ActionTree<State, RootState> = {
   resetFilterTags: async ({ commit }): Promise<void> => {
     commit('resetFilterTags');
     commit('setFilteredNews');
+  },
+  sendEventApplications: async (_, eventApplication: IEventApplication): Promise<void> => {
+    await httpClient.post<IEventApplication, IEventApplication>({ query: `event/application`, payload: eventApplication });
   },
 };
 

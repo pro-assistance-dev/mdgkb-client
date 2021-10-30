@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 
+import EventApplication from '@/classes/news/EventApplication';
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
 import RootState from '@/store/types';
@@ -23,6 +24,8 @@ export const getDefaultState = (): State => {
     galleryList: [],
     curGalleryCropIndex: 0,
     comment: new NewsComment(),
+    eventMode: false,
+    eventApplication: new EventApplication(),
   };
 };
 

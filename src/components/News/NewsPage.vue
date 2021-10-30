@@ -19,6 +19,9 @@
           <div class="card-header">
             <h2 class="title article-title">{{ news.title }}</h2>
           </div>
+          <div v-if="news.event" class="card-header event-registration-button">
+            <EventRegistration store-name="news" :parent-id="news.id" />
+          </div>
         </template>
 
         <div class="article-body" v-html="newsContent"></div>
@@ -29,8 +32,15 @@
             <el-button style="height: 20px" @click="$router.push('/')">Вернуться назад</el-button>
           </div>
           <div class="tags-container article-footer-item">
-            <el-tag v-for="tag in news.tags" :key="tag.id" effect="plain" class="tag-link" size="small" @click.stop="filterNews(tag.id)">
-              {{ tag.label }}
+            <el-tag
+              v-for="newsToTag in news.newsToTags"
+              :key="newsToTag.id"
+              effect="plain"
+              class="tag-link"
+              size="small"
+              @click.stop="filterNews(newsToTag.tag.id)"
+            >
+              {{ newsToTag.tag.label }}
             </el-tag>
           </div>
           <div class="right-footer article-footer-item">
@@ -54,13 +64,14 @@ import CommentRules from '@/classes/news/CommentRules';
 import NewsComment from '@/classes/news/NewsComment';
 import Comments from '@/components/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
+import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsMeta, NewsCalendar, RecentNewsCard, ImageGallery, Comments },
+  components: { NewsMeta, NewsCalendar, RecentNewsCard, ImageGallery, Comments, EventRegistration },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -231,5 +242,9 @@ h3 {
     width: 100%;
     max-height: $news-content-max-width / 2;
   }
+}
+
+.event-registration-button {
+  margin: 15px 0;
 }
 </style>

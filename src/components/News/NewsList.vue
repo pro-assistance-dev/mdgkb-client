@@ -4,6 +4,7 @@
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
         <div class="left-side-container">
+          <NewsEventsButtons @load="loadNews" />
           <NewsCalendar />
           <NewsFilters />
         </div>
@@ -39,13 +40,15 @@ import { useStore } from 'vuex';
 import NewsFilters from '@/components/News/NewFilters.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
+import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
 import NewsCarousel from '@/components/NewsCarousel.vue';
 import INewsParams from '@/interfaces/news/INewsParams';
 import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsCalendar, NewsCard, NewsFilters, NewsCarousel },
+  components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters, NewsCarousel },
+  emits: ['add', 'remove'],
   setup() {
     const store = useStore();
     const loading = ref(false);
@@ -82,6 +85,7 @@ export default defineComponent({
       allNewsLoaded,
       loading,
       loadMore,
+      loadNews,
       news,
       filteredNews,
       mount,

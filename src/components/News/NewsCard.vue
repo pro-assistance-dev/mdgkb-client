@@ -3,14 +3,14 @@
     <div class="flex-between-columm front">
       <div class="tags tags-top">
         <el-tag
-          v-for="tag in news.tags.slice(0, 3)"
-          :key="tag.id"
+          v-for="newsToTag in news.newsToTags.slice(0, 3)"
+          :key="newsToTag.id"
           effect="plain"
           class="tag-link"
           size="small"
-          @click.stop="filterNews(tag)"
+          @click.stop="filterNews(newsToTag.tag)"
         >
-          {{ tag.label }}
+          {{ newsToTag.tag.label }}
         </el-tag>
       </div>
 

@@ -1,0 +1,123 @@
+<template>
+  <el-button type="primary" @click="eventFormVisible = true">Зарегистрироваться на мероприятие </el-button>
+  <el-dialog v-model="eventFormVisible" title="Регистрация">
+    <div class="add-comment">
+      <el-form ref="form" :model="eventApplication">
+        <el-form-item>
+          <div style="display: flex; justify-content: flex-end">
+            <el-button class="send-comment" type="primary" @click="send"> Отправить заявку </el-button>
+          </div>
+        </el-form-item>
+      </el-form>
+    </div>
+  </el-dialog>
+</template>
+
+<script lang="ts">
+import { ElMessage } from 'element-plus';
+import { computed, defineComponent, Ref, ref } from 'vue';
+import { useStore } from 'vuex';
+
+import CommentRules from '@/classes/news/CommentRules';
+import IEvent from '@/interfaces/news/IEvent';
+import IEventApplication from '@/interfaces/news/IEventApplication';
+import validate from '@/mixins/validate';
+
+export default defineComponent({
+  name: 'EventRegistration',
+  async setup(prop) {
+    const store = useStore();
+    const event: Ref<IEvent> = computed(() => store.getters['news/newsItem'].event);
+    const eventApplication: Ref<IEventApplication> = computed(() => store.getters['news/eventApplication']);
+    eventApplication.value.eventId = event.value.id;
+    const form = ref();
+    const rules = ref(CommentRules);
+    const eventFormVisible = ref(false);
+    const send = async () => {
+      if (!validate(form)) return;
+      try {
+        await store.dispatch(`news/sendEventApplications`, eventApplication.value);
+      } catch (e) {
+        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        return;
+      }
+      form.value.clearValidate();
+      eventFormVisible.value = false;
+    };
+
+    return {
+      eventFormVisible,
+      eventApplication,
+      rules,
+      send,
+      form,
+    };
+  },
+});
+</script>
+
+<style scoped lang="scss">
+.add-comment {
+  margin: 50px 0 50px 0;
+}
+
+h2,
+h3 {
+  margin: 0;
+  color: black;
+}
+h3 {
+  font-size: 20px;
+}
+
+.comments {
+  margin: 30px 0 0 0;
+  .comments-card {
+    position: relative;
+    margin: 20px 0 0 0;
+  }
+}
+
+.comment-header {
+  text-align: right;
+  margin: 5px 0;
+  .comment-email {
+    float: left;
+    font-weight: bold;
+  }
+  .comment-date {
+    color: #4a4a4a;
+    opacity: 0.75;
+  }
+}
+.comment-buttons {
+  position: absolute;
+  z-index: 2;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  :deep(.el-button) {
+    padding: 5px;
+    margin: 0 !important;
+    min-height: unset;
+    border: none;
+  }
+}
+
+.send-comment {
+  margin-right: 0;
+}
+
+.card-content {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-header {
+  text-align: center;
+}
+
+:deep(p) {
+  text-align: justify;
+}
+</style>

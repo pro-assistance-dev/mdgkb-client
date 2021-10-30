@@ -123,7 +123,7 @@ export default defineComponent({
     const comment = computed(() => store.getters[`${prop.storeName}/comment`]);
     const commentInput = ref();
     const store = useStore();
-    const comments = computed(() => store.getters[`${prop.storeName}/сomments`]);
+    const comments = computed(() => store.getters[`${prop.storeName}/comments`]);
 
     const userId = computed(() => store.getters['auth/user']?.id);
     const userEmail = computed(() => localStorage.getItem('userEmail'));

@@ -29,7 +29,7 @@ import { useStore } from 'vuex';
 
 import INews from '@/interfaces/news/INews';
 import INewsParams from '@/interfaces/news/INewsParams';
-import ITag from '@/interfaces/news/ITag';
+import INewsToTag from '@/interfaces/news/INewsToTag';
 
 export default defineComponent({
   name: 'RecentNewsCard',
@@ -46,9 +46,9 @@ export default defineComponent({
         orderByView: true,
       };
       let filterTags: string[] = [];
-      news.value.tags.forEach((tag: ITag) => {
-        if (tag.id) {
-          filterTags.push(tag.id);
+      news.value.newsToTags.forEach((newsToTag: INewsToTag) => {
+        if (newsToTag.tagId) {
+          filterTags.push(newsToTag.tagId);
         }
       });
       if (filterTags.length) {

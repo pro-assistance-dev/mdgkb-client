@@ -3,4 +3,5 @@ export default interface INewsParams {
   limit?: number;
   filterTags?: string[];
   orderByView?: boolean;
+  events?: boolean;
 }

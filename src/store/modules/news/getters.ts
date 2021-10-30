@@ -4,8 +4,10 @@ import News from '@/classes/news/News';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import IEventApplication from '@/interfaces/news/IEventApplication';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
+import INewsToTag from '@/interfaces/news/INewsToTag';
 import ITag from '@/interfaces/news/ITag';
 import RootState from '@/store/types';
 
@@ -26,7 +28,7 @@ const getters: GetterTree<State, RootState> = {
     return state.news.find((i: INews) => i.slug === slug);
   },
   findTags(state): ITag[] | undefined {
-    if (state.newsItem) return state.newsItem.tags;
+    if (state.newsItem) return state.newsItem.newsToTags.map((newsToTag: INewsToTag) => newsToTag.tag);
   },
   allNewsLoaded(state): boolean {
     return state.allNewsLoaded;
@@ -55,8 +57,11 @@ const getters: GetterTree<State, RootState> = {
   comment(state): INewsComment {
     return state.comment;
   },
-  сomments(state): INewsComment[] {
+  comments(state): INewsComment[] {
     return state.newsItem.newsComments;
+  },
+  eventApplication(state): IEventApplication {
+    return state.eventApplication;
   },
 };
 
