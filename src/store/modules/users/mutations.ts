@@ -7,10 +7,10 @@ import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: IUser[]) {
-    state.users = items.map((i: IUser) => new User(i));
+    state.items = items.map((i: IUser) => new User(i));
   },
   set(state, item: IUser) {
-    state.user = new User(item);
+    state.item = new User(item);
   },
   emailExist(state, email: string) {
     email && email.length > 0 ? (state.emailExist = true) : (state.emailExist = false);

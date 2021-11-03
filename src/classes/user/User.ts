@@ -1,3 +1,4 @@
+import Human from '@/classes/Human';
 import IUser from '@/interfaces/users/IUser';
 
 export default class User implements IUser {
@@ -5,10 +6,16 @@ export default class User implements IUser {
   email = '';
   password?: string = '';
 
-  constructor(i?: IUser) {
-    if (!i) return;
-    this.id = i.id;
-    this.email = i.email;
-    this.password = i.password;
+  human = new Human();
+  humanId?: string;
+
+  constructor(user?: IUser) {
+    if (!user) return;
+    this.id = user.id;
+    this.email = user.email;
+    this.password = user.password;
+
+    this.human = new Human(user.human);
+    this.humanId = user.humanId;
   }
 }

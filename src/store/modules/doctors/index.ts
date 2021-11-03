@@ -11,9 +11,9 @@ import { State } from './state';
 
 export const getDefaultState = (): State => {
   return {
-    doctors: [],
+    items: [],
+    item: new Doctor(),
     filteredDoctors: [],
-    doctor: new Doctor(),
     divisionDoctors: [],
     fileList: [],
     comment: new DoctorComment(),

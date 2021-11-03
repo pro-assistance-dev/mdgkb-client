@@ -20,8 +20,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
+
+import IHuman from '@/interfaces/IHuman';
 
 export default defineComponent({
   name: 'HumanForm',
@@ -36,7 +38,7 @@ export default defineComponent({
     const store = useStore();
     const form = ref();
 
-    const human = computed(() => store.getters[`${props.storeModule}/human`]);
+    const human: Ref<IHuman> = computed(() => store.getters[`${props.storeModule}/item`].human);
 
     return {
       human,

@@ -12,24 +12,22 @@ import RootState from '@/store/types';
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  doctors(state): IDoctor[] | undefined {
-    const { doctors } = state;
-    return doctors;
+  items(state): IDoctor[] {
+    return state.items;
+  },
+  item(state): IDoctor {
+    return state.item;
   },
   filteredDoctors(state): IDoctor[] | undefined {
     const { filteredDoctors } = state;
     return filteredDoctors;
-  },
-  doctor(state): IDoctor | undefined {
-    const { doctor } = state;
-    return doctor;
   },
   divisionDoctors(state): IDoctor[] | undefined {
     const { divisionDoctors } = state;
     return divisionDoctors;
   },
   fileInfo(state): IFileInfo {
-    return state.doctor.fileInfo;
+    return state.item.fileInfo;
   },
   fileList(state): IFIlesList[] {
     return state.fileList;
@@ -38,16 +36,16 @@ const getters: GetterTree<State, RootState> = {
     return state.comment;
   },
   comments(state): IDoctorComment[] {
-    return state.doctor.doctorComments;
+    return state.item.doctorComments;
   },
   human(state): IHuman {
-    return state.doctor.human;
+    return state.item.human;
   },
   educations(state): IEducation[] {
-    return state.doctor.educations;
+    return state.item.educations;
   },
   timetable(state): ITimetable {
-    return state.doctor.timetable;
+    return state.item.timetable;
   },
 };
 

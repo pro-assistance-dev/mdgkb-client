@@ -74,7 +74,7 @@ export default defineComponent({
     const mounted = ref(false);
 
     const divisionOptions = ref([new Division()]);
-    const doctor: Ref<IDoctor> = computed(() => store.getters['doctors/doctor']);
+    const doctor: Ref<IDoctor> = computed(() => store.getters['doctors/item']);
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;

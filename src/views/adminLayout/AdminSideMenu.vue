@@ -111,6 +111,10 @@ export default defineComponent({
             title: 'Типы нормативных документов',
             to: '/admin/normative-document-types',
           },
+          {
+            title: 'Документы',
+            to: '/admin/documents',
+          },
         ],
       },
       {

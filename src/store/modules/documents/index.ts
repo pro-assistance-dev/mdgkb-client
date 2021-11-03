@@ -1,23 +1,21 @@
 import { Module } from 'vuex';
 
-import User from '@/classes/user/User';
+import Document from '@/classes/document/Document';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+import State from './state';
 
 export const state: State = {
   items: [],
-  item: new User(),
-  emailExist: false,
-  authPageEmail: '',
+  item: new Document(),
 };
 
 const namespaced = true;
 
-export const users: Module<State, RootState> = {
+export const documents: Module<State, RootState> = {
   namespaced,
   state,
   getters,

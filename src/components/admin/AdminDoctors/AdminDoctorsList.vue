@@ -57,7 +57,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const doctors = computed(() => store.getters['doctors/doctors']);
+    const doctors = computed(() => store.getters['doctors/items']);
 
     onBeforeMount(() => store.commit('admin/showLoading'));
 

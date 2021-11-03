@@ -3,9 +3,9 @@ import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IFilesList from '@/interfaces/files/IFIlesList';
 
 export interface State {
-  doctors: IDoctor[];
+  items: IDoctor[];
+  item: IDoctor;
   filteredDoctors: IDoctor[];
-  doctor: IDoctor;
   divisionDoctors: IDoctor[];
   fileList: IFilesList[];
   comment: IDoctorComment;

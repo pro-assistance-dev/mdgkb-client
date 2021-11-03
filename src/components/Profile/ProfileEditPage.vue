@@ -1,7 +1,9 @@
 <template>
-  <el-card>
+  <el-card v-if="user">
     <template #header><h3 style="text-align: center; margin: 0">Профиль</h3></template>
     <el-form label-width="100px" :model="user">
+      <HumanForm :store-module="'users'" />
+
       <el-form-item prop="email" label="Email">
         <el-input v-model="user.email" placeholder="Email" type="email" />
       </el-form-item>
@@ -17,13 +19,16 @@
 import { computed, defineComponent, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
+import HumanForm from '@/components/admin/HumanForm.vue';
+
 export default defineComponent({
   name: 'ProfileEditPage',
+  components: { HumanForm },
   setup() {
     const store = useStore();
 
     const userId = localStorage.getItem('userId');
-    const user = computed(() => store.getters['users/user']);
+    const user = computed(() => store.getters['users/item']);
 
     const loadUser = async () => {
       await store.dispatch('users/get', userId);

@@ -8,6 +8,7 @@ import AdminPagesRoutes from '@/router/AdminPagesRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
 
 import AdminCarouselsRoutes from './AdminCarouselsRoutes';
+import AdminDocumentsRoutes from './AdminDocumentsRoutes';
 
 export default [
   ...AdminDoctorsRoutes,
@@ -19,4 +20,5 @@ export default [
   ...AdminMenusRoutes,
   ...AdminPagesRoutes,
   ...AdminVacanciesRoutes,
+  ...AdminDocumentsRoutes,
 ];

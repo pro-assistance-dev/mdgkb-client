@@ -26,11 +26,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments.vue';
+import IDoctor from '@/interfaces/doctors/IDoctor';
 
 export default defineComponent({
   name: 'DoctorPage',
@@ -39,7 +40,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const doctor = computed(() => store.getters['doctors/doctor']);
+    const doctor: Ref<IDoctor> = computed(() => store.getters['doctors/item']);
     const mount = ref(false);
 
     onBeforeMount(async () => {

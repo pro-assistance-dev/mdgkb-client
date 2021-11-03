@@ -8,6 +8,7 @@ import { carousels } from '@/store/modules/carousels';
 import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
+import { documents } from '@/store/modules/documents';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { map } from '@/store/modules/map';
 import { menus } from '@/store/modules/menus';
@@ -21,6 +22,7 @@ import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
 import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
+import { valueTypes } from '@/store/modules/valueTypes';
 
 import RootState from './types';
 
@@ -32,6 +34,8 @@ const store: StoreOptions<RootState> = {
   actions: {},
   mutations: {},
   modules: {
+    valueTypes,
+    documents,
     auth,
     banners,
     cropper,

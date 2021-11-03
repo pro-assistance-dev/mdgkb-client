@@ -6,11 +6,11 @@ import RootState from '@/store/types';
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  users(state): IUser[] | undefined {
-    return state.users;
+  items(state): IUser[] {
+    return state.items;
   },
-  user(state): IUser | undefined {
-    return state.user;
+  item(state): IUser | undefined {
+    return state.item;
   },
   emailExist(state): boolean {
     return state.emailExist;
