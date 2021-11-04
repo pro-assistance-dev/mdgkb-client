@@ -38,8 +38,9 @@ const actions: ActionTree<State, RootState> = {
 
     await httpClient.put<IDocument, undefined>({ query: document.id, payload: document, fileInfos, isFormData: true });
   },
-  remove: async (_, id: string): Promise<void> => {
+  remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete<string, undefined>({ query: id });
+    commit('remove', id);
   },
 };
 

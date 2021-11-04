@@ -19,5 +19,6 @@ export default class DocumentField implements IDocumentField {
     this.type = i.type;
     this.order = i.order;
     this.documentId = i.documentId;
+    this.valueTypeId = i.valueTypeId;
   }
 }

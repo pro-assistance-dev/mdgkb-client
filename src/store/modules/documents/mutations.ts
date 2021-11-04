@@ -12,6 +12,10 @@ const mutations: MutationTree<State> = {
   setAll(state, documents: IDocument[]) {
     state.items = documents.map((document: IDocument) => new Document(document));
   },
+  remove(state, id: string) {
+    const index = state.items.findIndex((i: IDocument) => i.id === id);
+    state.items.splice(index, 1);
+  },
 };
 
 export default mutations;

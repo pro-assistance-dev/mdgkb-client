@@ -1,3 +1,4 @@
+nts
 <template>
   <!-- <div v-for="type of normativeDocumentTypes" :key="type.id"> -->
   <el-container direction="vertical">

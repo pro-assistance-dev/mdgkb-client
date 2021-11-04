@@ -57,7 +57,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import DivisioinRules from '@/classes/buildings/DivisioinRules';
+import Document from '@/classes/document/Document';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDocument from '@/interfaces/document/IDocument';
@@ -74,7 +74,6 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const form = ref();
-    const rules = ref(DivisioinRules);
     const mounted = ref(false);
 
     const document: Ref<IDocument> = computed(() => store.getters['documents/item']);
@@ -95,6 +94,7 @@ export default defineComponent({
         await store.dispatch('documents/get', route.params['id']);
         store.commit('admin/setPageTitle', { title: document.value.name, saveButton: true });
       } else {
+        document.value = new Document();
         store.commit('admin/setPageTitle', { title: 'Создать документ', saveButton: true });
       }
 
@@ -130,7 +130,6 @@ export default defineComponent({
       document,
       submit,
       form,
-      rules,
       mounted,
     };
   },

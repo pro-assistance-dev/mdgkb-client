@@ -28,7 +28,7 @@ export default [
     },
   },
   {
-    path: '/admin/documents/:documentId',
+    path: '/admin/documents/:id',
     name: 'EditAdminDocumentPage',
     component: AdminDocumentPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
