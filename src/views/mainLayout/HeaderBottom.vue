@@ -15,8 +15,8 @@
       <div class="container" style="height: 100%">
         <div class="menu-container">
           <div class="menu-container-left">
-            <el-button icon="el-icon-s-unfold" class="menu-item hidden-lg-and-up" @click="changeDrawerStatus"></el-button>
-            <el-button v-if="scrollOffset >= 66" class="menu-item">
+            <el-button icon="el-icon-s-unfold" class="menu-item open-menu-button" @click="changeDrawerStatus"></el-button>
+            <el-button v-if="scrollOffset >= 66 && !mobileWindow" class="menu-item">
               <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" @click="$router.push('/')" />
             </el-button>
           </div>
@@ -24,6 +24,7 @@
             <NavMenu />
           </div>
           <div class="menu-container-right">
+            <el-button v-if="scrollOffset >= 66 || tabletWindow" icon="el-icon-search" @click="showSearchDrawer"></el-button>
             <div v-if="scrollOffset >= 66">
               <LoginDropdownMenu />
             </div>
@@ -102,6 +103,8 @@ export default defineComponent({
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
+    const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
+    const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
 
     const nav = async (to: string) => {
       await router.push(to);
@@ -120,13 +123,34 @@ export default defineComponent({
       scrollOffset.value = window.scrollY;
     };
 
-    onMounted(() => window.addEventListener('scroll', handleScroll));
+    onMounted(() => {
+      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', () => {
+        tabletWindow.value = window.matchMedia('(max-width: 768px)').matches;
+        mobileWindow.value = window.matchMedia('(max-width: 480px)').matches;
+      });
+    });
     onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     const showDrawer = ref(false);
     const changeDrawerStatus = () => (showDrawer.value = !showDrawer.value);
+    const showSearchDrawer = () => store.commit('search/toggleDrawer', true);
 
-    return { scrollOffset, previousOffset, rememberedOffset, showDrawer, changeDrawerStatus, login, register, logout, isAuth, nav };
+    return {
+      scrollOffset,
+      previousOffset,
+      rememberedOffset,
+      showDrawer,
+      changeDrawerStatus,
+      login,
+      register,
+      logout,
+      isAuth,
+      nav,
+      tabletWindow,
+      mobileWindow,
+      showSearchDrawer,
+    };
   },
 });
 </script>
@@ -135,9 +159,13 @@ export default defineComponent({
 .menu-item {
   height: 56px;
 }
+.menu-container-left {
+  display: flex;
+}
 .menu-container {
   display: flex;
   justify-content: space-evenly;
+  height: 56px;
 
   &-left {
     margin-right: auto;
@@ -276,5 +304,16 @@ export default defineComponent({
 }
 .anticon {
   margin-right: 5px;
+}
+.open-menu-button {
+  display: none;
+}
+@media screen and (max-width: 1650px) {
+  .menu-container-center {
+    display: none;
+  }
+  .open-menu-button {
+    display: unset;
+  }
 }
 </style>

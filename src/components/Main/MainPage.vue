@@ -1,5 +1,5 @@
 <template>
-  <NewsCarousel />
+  <!-- <NewsCarousel /> -->
   <el-row :gutter="40">
     <el-col :xl="6" :lg="6" :md="24" class="calendar">
       <div class="left-side-container">
@@ -64,14 +64,13 @@ import { useStore } from 'vuex';
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
-import NewsCarousel from '@/components/NewsCarousel.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import INewsParams from '@/interfaces/news/INewsParams';
 import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'MainPage',
-  components: { NewsCalendar, NewsCard, NewsCarousel, DoctorInfoCard },
+  components: { NewsCalendar, NewsCard, DoctorInfoCard },
   setup() {
     const store = useStore();
     const loading = ref(false);

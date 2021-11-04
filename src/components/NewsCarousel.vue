@@ -1,5 +1,5 @@
 <template>
-  <el-carousel v-if="mount" :initial-index="1" autoplay :interval="3000" indicator-position="outside">
+  <el-carousel v-if="mount" :initial-index="1" autoplay :interval="5000" indicator-position="outside">
     <el-carousel-item v-for="item in carousel.carouselSlides" :key="item.id">
       <div class="carousel-container">
         <img :src="item.fileInfo.getImageUrl()" alt="alt" />

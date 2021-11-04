@@ -15,6 +15,7 @@ import { news } from '@/store/modules/news';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { pages } from '@/store/modules/pages';
+import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { tags } from '@/store/modules/tags';
 import { timetables } from '@/store/modules/timetables';
@@ -53,6 +54,7 @@ const store: StoreOptions<RootState> = {
     pages,
     vacancies,
     vacancyResponses,
+    search,
   },
 };
 

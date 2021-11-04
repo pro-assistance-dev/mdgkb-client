@@ -1,9 +1,12 @@
 <template>
   <AuthPage />
+  <SearchDrawer />
   <div style="position: relative">
     <HeaderTop />
     <HeaderBottom />
-    <!-- <NewsCarousel v-if="$route.meta.carousel" /> -->
+    <div class="main-carousel-container">
+      <NewsCarousel v-if="$route.meta.carousel" />
+    </div>
     <div class="page-container">
       <div class="container">
         <el-main>
@@ -34,10 +37,11 @@
 </template>
 
 <script lang="ts">
-// import NewsCarousel from '@/components/NewsCarousel.vue';
 import { defineComponent } from 'vue';
 
 import AuthPage from '@/components/Auth/AuthPage.vue';
+import NewsCarousel from '@/components/NewsCarousel.vue';
+import SearchDrawer from '@/views/mainLayout/elements/SearchDrawer.vue';
 import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
 import FooterTop from '@/views/mainLayout/FooterTop.vue';
 import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
@@ -53,6 +57,8 @@ export default defineComponent({
     HeaderTop,
     AuthPage,
     ProfileSideMenu,
+    NewsCarousel,
+    SearchDrawer,
   },
 });
 </script>
@@ -66,5 +72,10 @@ export default defineComponent({
   flex-direction: column;
   justify-content: space-between;
   min-height: calc(100vh - 124px);
+}
+.main-carousel-container {
+  margin-top: 5px !important;
+  max-width: 1920px;
+  margin: 0 auto;
 }
 </style>
