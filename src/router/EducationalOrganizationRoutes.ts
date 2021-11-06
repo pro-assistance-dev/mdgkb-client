@@ -23,7 +23,7 @@ export default [
     },
   },
   {
-    path: '/educational-organization/documents',
+    path: '/educational-organization/document-types',
     name: 'EducationalOrganizationDocuments',
     component: EducationalOrganizationDocuments,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

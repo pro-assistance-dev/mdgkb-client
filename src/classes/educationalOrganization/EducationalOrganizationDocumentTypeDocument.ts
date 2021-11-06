@@ -1,6 +1,6 @@
-import Document from '@/classes/document/Document';
+import DocumentType from '@/classes/document/DocumentType';
 import EducationalOrganizationDocumentType from '@/classes/educationalOrganization/EducationalOrganizationDocumentType';
-import IDocument from '@/interfaces/document/IDocument';
+import IDocumentType from '@/interfaces/document/IDocumentType';
 import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
 import IEducationalOrganizationDocumentTypeDocument from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentTypeDocument';
 import IFileInfo from '@/interfaces/files/IFileInfo';
@@ -8,7 +8,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 export default class EducationalOrganizationDocumentTypeDocument implements IEducationalOrganizationDocumentTypeDocument {
   id?: string;
 
-  document: IDocument = new Document();
+  document: IDocumentType = new DocumentType();
   documentId?: string;
 
   educationalOrganizationDocumentType: IEducationalOrganizationDocumentType = new EducationalOrganizationDocumentType();
@@ -21,7 +21,7 @@ export default class EducationalOrganizationDocumentTypeDocument implements IEdu
     this.id = educationalOrganizationDocumentTypeDocument.id;
     this.documentId = educationalOrganizationDocumentTypeDocument.documentId;
     if (educationalOrganizationDocumentTypeDocument.document) {
-      this.document = new Document(educationalOrganizationDocumentTypeDocument.document);
+      this.document = new DocumentType(educationalOrganizationDocumentTypeDocument.document);
     }
 
     this.educationalOrganizationDocumentTypeId = educationalOrganizationDocumentTypeDocument.educationalOrganizationDocumentTypeId;
@@ -36,7 +36,7 @@ export default class EducationalOrganizationDocumentTypeDocument implements IEdu
     const fileInfos: IFileInfo[] = [];
 
     items.forEach((i: IEducationalOrganizationDocumentTypeDocument) => {
-      const fileInfo = i.document.fileInfo;
+      const fileInfo = i.document.scan;
       if (fileInfo) {
         fileInfos.push(fileInfo);
       }

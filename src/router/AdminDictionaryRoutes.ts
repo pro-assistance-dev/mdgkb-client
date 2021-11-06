@@ -110,7 +110,7 @@ export default [
     },
   },
   {
-    path: '/admin/normative-documents',
+    path: '/admin/normative-document-types',
     name: 'AdminNormativeDocuments',
     component: AdminNormativeDocumentsList,
     meta: {
@@ -118,7 +118,7 @@ export default [
     },
   },
   {
-    path: '/admin/normative-documents/new',
+    path: '/admin/normative-document-types/new',
     name: 'AdminNormativeDocumentNewPage',
     component: AdminNormativeDocumentPage,
     props: { isEdit: false },
@@ -127,7 +127,7 @@ export default [
     },
   },
   {
-    path: '/admin/normative-documents/:id',
+    path: '/admin/normative-document-types/:id',
     name: 'AdminNormativeDocumentPage',
     component: AdminNormativeDocumentPage,
     props: { isEdit: true },

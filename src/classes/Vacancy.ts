@@ -16,7 +16,6 @@ export default class Vacancy implements IVacancy {
   experience = '';
   duties = '';
   schedule = '';
-  opened = false;
   division?: IDivision;
   divisionId?: string;
 

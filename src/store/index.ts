@@ -8,7 +8,7 @@ import { carousels } from '@/store/modules/carousels';
 import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
-import { documents } from '@/store/modules/documents';
+import { documentTypes } from '@/store/modules/document-types';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { map } from '@/store/modules/map';
 import { menus } from '@/store/modules/menus';
@@ -35,7 +35,7 @@ const store: StoreOptions<RootState> = {
   mutations: {},
   modules: {
     valueTypes,
-    documents,
+    documentTypes,
     auth,
     banners,
     cropper,

@@ -1,7 +1,7 @@
 <template>
   <div class="flex-column">
     <div class="flex-row-between">
-      <el-button type="primary" @click="$router.push('/admin/normative-documents/new')">Добавить документ</el-button>
+      <el-button type="primary" @click="$router.push('/admin/normative-document-types/new')">Добавить документ</el-button>
     </div>
     <el-card v-if="documents">
       <el-table v-if="documents" :data="documents" row-key="id">
@@ -36,7 +36,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const documents = computed(() => store.getters['normativeDocuments/documents']);
+    const documents = computed(() => store.getters['normativeDocuments/document-types']);
 
     const edit = async (id: string): Promise<void> => {
       await router.push(`/admin/normative-documents/${id}`);

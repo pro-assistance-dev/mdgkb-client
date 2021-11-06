@@ -29,21 +29,21 @@ import { useStore } from 'vuex';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
 export default defineComponent({
-  name: 'AdminDivisionsList',
+  name: 'AdminDocumentsTypesList',
   components: { TableButtonGroup },
   setup() {
     const store = useStore();
     const router = useRouter();
-    const documents = computed(() => store.getters['documents/items']);
+    const documents = computed(() => store.getters['documentTypes/items']);
 
     onBeforeMount(() => store.commit('admin/showLoading'));
 
-    const create = () => router.push(`/admin/documents/new`);
-    const edit = (id: string) => router.push(`/admin/documents/${id}`);
-    const remove = async (id: string) => await store.dispatch('documents/remove', id);
+    const create = () => router.push(`/admin/documents-types/new`);
+    const edit = (id: string) => router.push(`/admin/documents-types/${id}`);
+    const remove = async (id: string) => await store.dispatch('documentTypes/remove', id);
 
     onMounted(async (): Promise<void> => {
-      await store.dispatch('documents/getAll');
+      await store.dispatch('documentTypes/getAll');
       store.commit('admin/setPageTitle', { title: 'Документы' });
     });
 

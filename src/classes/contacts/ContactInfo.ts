@@ -10,17 +10,28 @@ import IWebsite from '@/interfaces/contacts/IWebsite';
 
 export default class ContactInfo implements IContactInfo {
   id?: string;
-  emails: IEmail[] = [];
-  postAddresses: IPostAddress[] = [];
-  telephoneNumbers: ITelephoneNumber[] = [];
-  websites: IWebsite[] = [];
+  emails: IEmail[] = [new Email()];
+  postAddresses: IPostAddress[] = [new PostAddress()];
+  telephoneNumbers: ITelephoneNumber[] = [new TelephoneNumber()];
+  websites: IWebsite[] = [new Website()];
 
-  constructor(contact?: IContactInfo) {
-    this.id = contact?.id;
-    this.emails = contact?.emails ? contact?.emails?.map((email) => new Email(email)) : [];
-    this.postAddresses = contact?.postAddresses ? contact?.postAddresses?.map((address) => new PostAddress(address)) : [];
-    this.telephoneNumbers = contact?.telephoneNumbers ? contact?.telephoneNumbers?.map((phone) => new TelephoneNumber(phone)) : [];
-    this.websites = contact?.websites ? contact?.websites?.map((site) => new Website(site)) : [];
+  constructor(i?: IContactInfo) {
+    if (!i) {
+      return;
+    }
+    this.id = i.id;
+    if (i.emails) {
+      this.emails = i.emails.map((email) => new Email(email));
+    }
+    if (i.postAddresses) {
+      this.postAddresses = i.postAddresses.map((address) => new PostAddress(address));
+    }
+    if (i.telephoneNumbers) {
+      this.telephoneNumbers = i.telephoneNumbers.map((phone) => new TelephoneNumber(phone));
+    }
+    if (i.websites) {
+      this.websites = i.websites.map((site) => new Website(site));
+    }
   }
 
   pushFirstInfo(): void {

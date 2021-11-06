@@ -1,3 +1,4 @@
+import IFile from '@/interfaces/files/IFile';
 import IFilesList from '@/interfaces/files/IFIlesList';
 
 export default interface IFileInfo {
@@ -11,4 +12,6 @@ export default interface IFileInfo {
   getImageUrl?: () => string;
   getFileListObject: () => IFilesList;
   getFileUrl: () => string;
+
+  uploadNewFile: (file: IFile) => void;
 }

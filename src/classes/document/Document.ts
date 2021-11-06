@@ -1,53 +1,41 @@
-import { v4 as uuidv4 } from 'uuid';
-
-import DocumentField from '@/classes/document/DocumentField';
+import DocumentFieldValue from '@/classes/document/DocumentFieldValue';
+import DocumentType from '@/classes/document/DocumentType';
 import FileInfo from '@/classes/File/FileInfo';
 import IDocument from '@/interfaces/document/IDocument';
-import IDocumentField from '@/interfaces/document/IDocumentField';
-import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
+import IDocumentFieldValue from '@/interfaces/document/IDocumentFieldValue';
+import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default class Document implements IDocument {
   id?: string;
   name = '';
-  fileInfo: IFileInfo = new FileInfo();
-  fileInfoId?: string;
-  documentFields: IDocumentField[] = [];
-  documentFieldsForDelete: string[] = [];
+
+  documentTypeId?: string;
+  documentType: IDocumentType = new DocumentType();
+
+  scans: IFileInfo[] = [];
+  scansForDelete: string[] = [];
+
+  documentFieldValues: IDocumentFieldValue[] = [];
 
   constructor(i?: IDocument) {
     if (!i) {
       return;
     }
     this.id = i?.id;
-    this.name = i?.name ?? '';
-    if (i.fileInfo) {
-      this.fileInfo = new FileInfo(i.fileInfo);
+    this.documentTypeId = i.documentTypeId;
+    if (i.documentType) {
+      this.documentType = new DocumentType(i.documentType);
     }
-    this.fileInfoId = i.fileInfoId;
-    if (i.documentFields) {
-      this.documentFields = i.documentFields.map((item: IDocumentField) => new DocumentField(item));
+    if (i.scans) {
+      this.scans = i.scans.map((item: IFileInfo) => new FileInfo(item));
+    }
+    if (i.documentFieldValues) {
+      this.documentFieldValues = i.documentFieldValues.map((item: IDocumentFieldValue) => new DocumentFieldValue(item));
     }
   }
 
-  addField(): void {
-    console.log(this);
-    this.documentFields.push(new DocumentField());
-  }
-
-  removeField(index: number): void {
-    const idForDelete = this.documentFields[index].id;
-    if (idForDelete) {
-      this.documentFieldsForDelete.push(idForDelete);
-    }
-    this.documentFields.splice(index, 1);
-  }
-
-  addFile(file: IElementPlusFile): void {
-    if (!this.fileInfo.id) {
-      this.fileInfo.id = uuidv4();
-    }
-    this.fileInfo.originalName = file.name;
-    this.fileInfo.file = file.raw;
+  getFileInfos(): IFileInfo[] {
+    return this.scans;
   }
 }

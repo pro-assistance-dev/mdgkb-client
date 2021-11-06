@@ -106,7 +106,7 @@ export default defineComponent({
         ElMessage({ message: 'Не удалось сохранить', type: 'error' });
       }
 
-      next ? next() : router.push('/admin/normative-documents');
+      next ? next() : router.push('/admin/normative-document-types');
     };
 
     const getFileUrl = (path: string): string => {

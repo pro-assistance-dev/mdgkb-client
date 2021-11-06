@@ -1,13 +1,13 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminDocumentPage from '@/components/admin/AdminDocuments/AdminDocumentPage.vue';
-import AdminDocumentsList from '@/components/admin/AdminDocuments/AdminDocumentsList.vue';
+import AdminDocumentsList from '@/components/admin/AdminDocumentsTypes/AdminDocumentsTypesList.vue';
+import AdminDocumentTypePage from '@/components/admin/AdminDocumentsTypes/AdminDocumentTypePage.vue';
 import { isAuthorized } from '@/router/index';
 
 export default [
   {
-    path: '/admin/documents',
-    name: 'AdminDocumentsList',
+    path: '/admin/documents-types',
+    name: 'AdminDocumentsTypesList',
     component: AdminDocumentsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -17,9 +17,9 @@ export default [
     },
   },
   {
-    path: '/admin/documents/new',
-    name: 'CreateAdminDocumentPage',
-    component: AdminDocumentPage,
+    path: '/admin/documents-types/new',
+    name: 'CreateAdminDocumentTypePage',
+    component: AdminDocumentTypePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
@@ -28,9 +28,9 @@ export default [
     },
   },
   {
-    path: '/admin/documents/:id',
-    name: 'EditAdminDocumentPage',
-    component: AdminDocumentPage,
+    path: '/admin/documents-types/:id',
+    name: 'EditAdminDocumentTypePage',
+    component: AdminDocumentTypePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

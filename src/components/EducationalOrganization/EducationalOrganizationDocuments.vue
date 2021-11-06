@@ -80,7 +80,7 @@ export default defineComponent({
       () => store.getters['educationalOrganization/educationalOrganization']
     );
 
-    const normativeDocuments = computed(() => store.getters['normativeDocuments/documents']);
+    const normativeDocuments = computed(() => store.getters['normativeDocuments/document-types']);
     const normativeDocumentsList = computed((): INormativeDocument => {
       if (filter.value) {
         return normativeDocuments.value.filter((o: INormativeDocument) => {

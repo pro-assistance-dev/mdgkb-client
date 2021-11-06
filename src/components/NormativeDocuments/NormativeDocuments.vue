@@ -71,7 +71,7 @@ export default defineComponent({
     const store = useStore();
     const filePath = ref('');
     const modalOpen = ref(false);
-    const normativeDocuments = computed(() => store.getters['normativeDocuments/documents']);
+    const normativeDocuments = computed(() => store.getters['normativeDocuments/document-types']);
     const normativeDocumentsList = computed((): INormativeDocument => {
       if (filter.value) {
         return normativeDocuments.value.filter((o: INormativeDocument) => {

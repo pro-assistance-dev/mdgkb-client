@@ -1,4 +1,7 @@
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import IDocumentType from '@/interfaces/document/IDocumentType';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import IHuman from '@/interfaces/IHuman';
+import IVacancyResponseToDocument from '@/interfaces/vacancyResponse/IVacancyResponseToDocument';
 
 export default interface IVacancyResponse {
   id?: string;
@@ -6,7 +9,10 @@ export default interface IVacancyResponse {
   responseDate: Date;
   coverLetter: string;
   viewed: boolean;
-  sended: boolean;
+  opened: boolean;
+  human: IHuman;
+  vacancyResponsesToDocuments: IVacancyResponseToDocument[];
 
-  contactInfo: IContactInfo;
+  initDocuments: (documentsTypes: IDocumentType[]) => void;
+  getFileInfos: () => IFileInfo[];
 }

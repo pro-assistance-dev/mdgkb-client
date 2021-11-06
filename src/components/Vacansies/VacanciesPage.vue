@@ -3,7 +3,6 @@
     <h2>Вакансии</h2>
   </div>
   <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти документ" size="large" />
-
   <el-collapse class="collapse" accordion @change="collapseChangeHandler">
     <el-collapse-item v-for="vacancy in vacanciesList" :key="vacancy.id" v-model="activeName">
       <template #title>
@@ -33,63 +32,31 @@
         </el-descriptions-item>
       </el-descriptions>
       <div class="contact-form right-button">
-        <el-button
-          v-if="!vacancy.opened && (!vacancy.vacancyResponses[0] || (vacancy.vacancyResponses[0] && !vacancy.vacancyResponses[0].sended))"
-          type="success"
-          @click="openResponse(vacancy)"
-          >Откликнуться</el-button
-        >
-        <el-button v-if="vacancy.opened" type="danger" @click="vacancy.opened = !vacancy.opened">Закрыть</el-button>
-        <el-button v-if="vacancy.vacancyResponses[0] && vacancy.vacancyResponses[0].sended" type="info">Отклик отправлен</el-button>
-      </div>
-      <div v-if="vacancy.opened" class="contact-form">
-        <div class="text-center">
-          <h3>Отклик на вакансию</h3>
-        </div>
-        <el-form v-model="vacancy.vacancyResponses[0]">
-          <el-form-item
-            v-for="(email, i) in vacancy.vacancyResponses[0].contactInfo.emails"
-            :key="email.id"
-            label="Email"
-            label-width="100px"
-          >
-            <el-input v-model="vacancy.vacancyResponses[0].contactInfo.emails[i].address"></el-input>
-          </el-form-item>
-          <el-form-item
-            v-for="(phone, i) in vacancy.vacancyResponses[0].contactInfo.telephoneNumbers"
-            :key="phone.id"
-            label="Телефон"
-            label-width="100px"
-          >
-            <el-input v-model="vacancy.vacancyResponses[0].contactInfo.telephoneNumbers[i].number"></el-input>
-          </el-form-item>
-          <el-form-item label="Информация" label-width="100px">
-            <el-input v-model="vacancy.vacancyResponses[0].coverLetter" type="textarea" :rows="10"></el-input>
-          </el-form-item>
-          <div class="right-button">
-            <el-button type="success" @click="sendResponse(vacancy)">Откликнуться</el-button>
-          </div>
-        </el-form>
+        <el-button type="success" @click="openResponse(vacancy.id)">Откликнуться</el-button>
+        <!--        <el-button v-if="vacancy.opened" type="danger" @click="openVacanciesResponse">Закрыть</el-button>-->
+        <!--        <el-button v-if="vacancy.vacancyResponses[0] && vacancy.vacancyResponses[0].sended" type="info">Отклик отправлен</el-button>-->
       </div>
     </el-collapse-item>
   </el-collapse>
+  <VacancyResponseForm></VacancyResponseForm>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import VacancyResponse from '@/classes/VacancyResponse';
+import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
 
 export default defineComponent({
-  name: 'NormativeDocuments',
-  setup() {
+  name: 'VacanciesPage',
+  components: { VacancyResponseForm },
+  async setup() {
     const filter = ref('');
     const store = useStore();
     const filePath = ref('');
-
     const vacancies = computed(() => store.getters['vacancies/vacancies']);
+
     const vacanciesList = computed((): IVacancy => {
       if (filter.value) {
         return vacancies.value.filter((o: IVacancy) => {
@@ -110,21 +77,9 @@ export default defineComponent({
       filter.value = '';
     };
 
-    const openResponse = (vacancy: IVacancy) => {
-      vacancy.opened = true;
-      vacancy.vacancyResponses.push(new VacancyResponse());
-      vacancy.vacancyResponses[0].contactInfo.pushFirstInfo();
-      vacancy.vacancyResponses[0].vacancyId = vacancy.id;
-    };
-
-    const sendResponse = async (vacancy: IVacancy) => {
-      await store.dispatch('vacancyResponses/create', vacancy.vacancyResponses[0]);
-      vacancy.vacancyResponses[0].sended = true;
-      vacancy.opened = false;
-    };
+    const openResponse = (vacancyId: string) => store.commit('vacancies/openVacancyResponse', vacancyId);
 
     return {
-      sendResponse,
       openResponse,
       filePath,
       vacancies,
@@ -150,10 +105,5 @@ export default defineComponent({
 
 .text-center {
   text-align: center;
-}
-.right-button {
-  margin-top: 10px;
-  display: flex;
-  justify-content: flex-end;
 }
 </style>

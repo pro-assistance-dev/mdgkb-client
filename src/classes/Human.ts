@@ -1,3 +1,5 @@
+import ContactInfo from '@/classes/contacts/ContactInfo';
+import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IHuman from '@/interfaces/IHuman';
 
 export default class Human implements IHuman {
@@ -7,15 +9,21 @@ export default class Human implements IHuman {
   patronymic = '';
   isMale = true;
   dateBirth = '';
-
+  contactInfo: IContactInfo = new ContactInfo();
   constructor(i?: IHuman) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.name = i.name;
     this.surname = i.surname;
     this.patronymic = i.patronymic;
     this.isMale = i.isMale;
     this.dateBirth = i.dateBirth;
+
+    if (i) {
+      this.contactInfo = new ContactInfo(i.contactInfo);
+    }
   }
 
   getFullName(): string {

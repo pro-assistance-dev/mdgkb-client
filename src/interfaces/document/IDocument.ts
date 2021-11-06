@@ -1,17 +1,15 @@
-import IDocumentField from '@/interfaces/document/IDocumentField';
-import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
+import IDocumentFieldValue from '@/interfaces/document/IDocumentFieldValue';
+import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default interface IDocument {
   id?: string;
-  name: string;
-  fileInfo: IFileInfo;
-  fileInfoId?: string;
+  documentTypeId?: string;
+  documentType?: IDocumentType;
 
-  addFile: (file: IElementPlusFile) => void;
-  addField: () => void;
-  removeField: (index: number) => void;
+  scans: IFileInfo[];
+  scansForDelete: string[];
 
-  documentFields: IDocumentField[];
-  documentFieldsForDelete: string[];
+  documentFieldValues: IDocumentFieldValue[];
+  getFileInfos: () => IFileInfo[];
 }

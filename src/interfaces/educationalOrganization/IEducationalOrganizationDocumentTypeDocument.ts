@@ -1,10 +1,10 @@
-import IDocument from '@/interfaces/document/IDocument';
+import IDocumentType from '@/interfaces/document/IDocumentType';
 import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
 
 export default interface IEducationalOrganizationDocumentTypeDocument {
   id?: string;
 
-  document: IDocument;
+  document: IDocumentType;
   documentId?: string;
 
   educationalOrganizationDocumentType: IEducationalOrganizationDocumentType;

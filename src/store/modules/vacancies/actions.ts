@@ -32,10 +32,12 @@ const actions: ActionTree<State, RootState> = {
     });
     commit('set');
   },
-  createResponse: async (_, vacancyResponse: IVacancyResponse): Promise<void> => {
+  createResponse: async (_, item: IVacancyResponse): Promise<void> => {
     await httpClient.post<IVacancyResponse, IVacancyResponse>({
       query: 'response',
-      payload: vacancyResponse,
+      payload: item,
+      fileInfos: item.getFileInfos(),
+      isFormData: true,
     });
   },
   update: async ({ commit }, vacancy: IVacancy): Promise<void> => {

@@ -58,7 +58,9 @@ export default class Page implements IPage {
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
     this.pageDocuments.forEach((pageDocument: IPageDocument) => {
-      fileInfos.push(pageDocument.document.fileInfo);
+      if (pageDocument.document.scan) {
+        fileInfos.push(pageDocument.document.scan);
+      }
     });
     this.pageImages.forEach((pageImage: IPageImage) => {
       if (pageImage.fileInfo) {

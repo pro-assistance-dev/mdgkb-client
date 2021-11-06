@@ -1,9 +1,9 @@
-import IDocument from '@/interfaces/document/IDocument';
+import IDocumentType from '@/interfaces/document/IDocumentType';
 
 export default interface IPageDocument {
   id?: string;
 
-  document: IDocument;
+  document: IDocumentType;
   documentId?: string;
 
   pageId?: string;

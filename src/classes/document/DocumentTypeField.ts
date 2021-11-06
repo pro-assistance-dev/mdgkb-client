@@ -1,16 +1,16 @@
-import IDocumentField from '@/interfaces/document/IDocumentField';
+import IDocumentTypeField from '@/interfaces/document/IDocumentTypeField';
 import IValueType from '@/interfaces/IValueType';
 
-export default class DocumentField implements IDocumentField {
+export default class DocumentTypeField implements IDocumentTypeField {
   id?;
   name = '';
   type = '';
   order = 0;
-  documentId?: string;
+  documentTypeId?: string;
   valueTypeId?: string;
   valueType?: IValueType;
 
-  constructor(i?: IDocumentField) {
+  constructor(i?: IDocumentTypeField) {
     if (!i) {
       return;
     }
@@ -18,7 +18,7 @@ export default class DocumentField implements IDocumentField {
     this.name = i.name;
     this.type = i.type;
     this.order = i.order;
-    this.documentId = i.documentId;
+    this.documentTypeId = i.documentTypeId;
     this.valueTypeId = i.valueTypeId;
   }
 }
