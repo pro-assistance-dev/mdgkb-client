@@ -1,5 +1,5 @@
 <template>
-  <el-menu :ellipsis="false" class="header-bottom-menu" :mode="'horizontal'" :router="true" default-active="1x">
+  <el-menu :ellipsis="false" class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
     <template v-for="(menu, i) in menus" :key="menu.id">
       <el-menu-item
         v-if="menu.withoutChildren()"
@@ -155,5 +155,8 @@ export default defineComponent({
   height: 18px;
   width: 18px;
   margin-right: 5px;
+}
+:deep(.el-drawer__body) {
+  padding: 0 !important;
 }
 </style>

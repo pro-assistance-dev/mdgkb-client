@@ -2,7 +2,7 @@
   <!-- Spacer, which helps, when header becomes fixed -->
   <div v-if="scrollOffset >= 66" class="spacer">&nbsp;</div>
   <!-- Adaptive side menu -->
-  <div class="drawer hidden-lg-and-up">
+  <div class="drawer">
     <el-drawer v-model="showDrawer" :size="'auto'" direction="ltr" :with-header="false">
       <div class="drawer-block">
         <NavMenu :vertical="true" style="min-width: 200px" @changeDrawerStatus="changeDrawerStatus" />
@@ -305,15 +305,24 @@ export default defineComponent({
 .anticon {
   margin-right: 5px;
 }
-.open-menu-button {
+.open-menu-button,
+.drawer {
+  display: none;
+}
+.drawer {
   display: none;
 }
 @media screen and (max-width: 1650px) {
   .menu-container-center {
     display: none;
   }
-  .open-menu-button {
+  .open-menu-button,
+  .drawer {
     display: unset;
   }
+}
+:deep(.el-drawer__body) {
+  padding: 0;
+  background-color: whitesmoke;
 }
 </style>
