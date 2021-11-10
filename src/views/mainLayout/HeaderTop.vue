@@ -1,22 +1,13 @@
 <template>
   <div class="header-top">
     <div class="container">
-      <el-row>
-        <el-col :offset="11" :xs="1" :sm="1" :md="1" :lg="1" :xl="1">
-          <div class="flex">
-            <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="$router.push('/')" />
-          </div>
-        </el-col>
-        <el-col
-          :xs="{ span: 1, offset: 6 }"
-          :sm="{ span: 1, offset: 7 }"
-          :md="{ span: 1, offset: 8 }"
-          :xl="{ span: 1, offset: 9 }"
-          :lg="{ span: 1, offset: 9 }"
-        >
-          <LoginDropdownMenu :show-button-name="true" />
-        </el-col>
-      </el-row>
+      <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="$router.push('/')" />
+      <div class="search">
+        <SeacrhBar />
+      </div>
+      <div class="login-menu">
+        <LoginDropdownMenu :show-button-name="true" />
+      </div>
     </div>
   </div>
 </template>
@@ -25,16 +16,26 @@
 import { defineComponent } from 'vue';
 
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
+import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({
   name: 'HeaderTop',
-  components: { LoginDropdownMenu },
+  components: { LoginDropdownMenu, SeacrhBar },
 });
 </script>
 
 <style lang="scss" scoped>
+.login-menu {
+  margin-right: 10px;
+}
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
 .header-logo-img {
   transition: all 0.3s;
+  margin-left: 10px;
 }
 
 .header-logo-img:hover {
@@ -55,5 +56,17 @@ export default defineComponent({
   color: #8492a6;
   font-size: 14px;
   margin-bottom: 20px;
+}
+.search {
+  width: 100%;
+  text-align: center;
+}
+@media screen and (max-width: 768px) {
+  .container {
+    justify-content: space-between;
+  }
+  .search {
+    display: none;
+  }
 }
 </style>

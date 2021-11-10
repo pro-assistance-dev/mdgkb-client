@@ -11,6 +11,7 @@ import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
 import DoctorsRoutes from '@/router/DoctorsRoutes';
 import EducationalOrganizationRoutes from '@/router/EducationalOrganizationRoutes';
+import HospitalizationsRoutes from '@/router/HospitalizationsRoutes';
 import indexAdminRoutes from '@/router/indexAdminRoutes';
 import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
@@ -46,6 +47,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/main',
     name: 'MainPage',
     component: MainPage,
+    meta: { carousel: true },
     // beforeEnter: isAuthorized,
   },
   {
@@ -88,6 +90,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'VacanciesPage',
     component: VacanciesPage,
   },
+  ...HospitalizationsRoutes,
   ...DoctorsRoutes,
   ...DivisionsRoutes,
   ...MapRoutes,

@@ -57,7 +57,8 @@ body > .el-container::v-deep {
 }
 
 .container {
-  max-width: 85%;
+  // max-width: 85%;
+  max-width: 1344px;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
