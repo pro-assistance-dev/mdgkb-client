@@ -7,6 +7,7 @@
     class="avatar-uploader-cover"
     :auto-upload="false"
     :limit="1"
+    :style="heightWeight"
     :on-change="toggleUpload"
     :class="{ hideUpload: !showUpload }"
     accept="image/jpeg,image/png,image/jng"
@@ -33,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
@@ -49,33 +50,23 @@ export default defineComponent({
       type: Object as PropType<IFileInfo>,
       required: true,
     },
-    storeModule: {
-      type: String as PropType<string>,
-      default: '',
+    height: {
+      type: String,
+      default: '200px',
     },
-    fileListGetter: {
-      type: String as PropType<string>,
-      default: 'fileList',
-    },
-    fileInfoGetter: {
-      type: String as PropType<string>,
-      default: 'fileInfo',
-    },
-    setFileListMutation: {
-      type: String as PropType<string>,
-      default: 'setFileList',
-    },
-    setFileMutation: {
-      type: String as PropType<string>,
-      default: 'setFile',
-    },
-    removeFileMutation: {
-      type: String as PropType<string>,
-      default: 'removeFile',
+    width: {
+      type: String,
+      default: '200px',
     },
   },
   setup(props) {
     const fileList: Ref<IFilesList[]> = ref([props.fileInfo.getFileListObject()]);
+    const heightWeight = computed(() => {
+      return {
+        '--height': props.height,
+        '--width': props.width,
+      };
+    });
 
     // let showUpload = ref(fileList.value.length === 0);
     let showUpload = ref(true);
@@ -98,6 +89,7 @@ export default defineComponent({
 
     return {
       // openCropper,
+      heightWeight,
       fileList,
       uploader,
       handleRemove,
@@ -109,9 +101,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$news-content-max-width: 312px;
-$news-content-max-height: $news-content-max-width;
-
 .hideUpload {
   :deep(.el-upload) {
     display: none;
@@ -119,7 +108,7 @@ $news-content-max-height: $news-content-max-width;
 }
 
 .avatar-uploader-cover {
-  height: 300px;
+  line-height: var(--height);
   text-align: center;
 }
 
@@ -130,21 +119,21 @@ $news-content-max-height: $news-content-max-width;
 }
 
 :deep(.el-upload) {
-  width: $news-content-max-width;
-  height: $news-content-max-height;
+  width: var(--width);
+  height: var(--height);
   background: white;
   text-align: center;
-  line-height: $news-content-max-height;
+  line-height: var(--height);
 }
 
 :deep(.el-upload-list__item) {
-  width: $news-content-max-width !important;
-  height: $news-content-max-height !important;
+  width: var(--width) !important;
+  height: var(--height) !important;
 }
 
 :deep(.el-upload-list__item-thumbnail) {
-  width: $news-content-max-width !important;
-  height: $news-content-max-height !important;
+  width: var(--width) !important;
+  height: var(--height) !important ;
 }
 
 :deep(.el-upload-list__item) {
