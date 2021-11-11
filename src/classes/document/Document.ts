@@ -1,8 +1,9 @@
 import DocumentFieldValue from '@/classes/document/DocumentFieldValue';
+import DocumentScan from '@/classes/document/DocumentScan';
 import DocumentType from '@/classes/document/DocumentType';
-import FileInfo from '@/classes/File/FileInfo';
 import IDocument from '@/interfaces/document/IDocument';
 import IDocumentFieldValue from '@/interfaces/document/IDocumentFieldValue';
+import IDocumentScan from '@/interfaces/document/IDocumentScan';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
@@ -13,8 +14,8 @@ export default class Document implements IDocument {
   documentTypeId?: string;
   documentType: IDocumentType = new DocumentType();
 
-  scans: IFileInfo[] = [];
-  scansForDelete: string[] = [];
+  documentsScans: IDocumentScan[] = [];
+  documentsScansForDelete: string[] = [];
 
   documentFieldValues: IDocumentFieldValue[] = [];
 
@@ -27,8 +28,8 @@ export default class Document implements IDocument {
     if (i.documentType) {
       this.documentType = new DocumentType(i.documentType);
     }
-    if (i.scans) {
-      this.scans = i.scans.map((item: IFileInfo) => new FileInfo(item));
+    if (i.documentsScans) {
+      this.documentsScans = i.documentsScans.map((item: IDocumentScan) => new DocumentScan(item));
     }
     if (i.documentFieldValues) {
       this.documentFieldValues = i.documentFieldValues.map((item: IDocumentFieldValue) => new DocumentFieldValue(item));
@@ -36,6 +37,6 @@ export default class Document implements IDocument {
   }
 
   getFileInfos(): IFileInfo[] {
-    return this.scans;
+    return this.documentsScans.map((i: IDocumentScan) => i.getFileInfo());
   }
 }

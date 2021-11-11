@@ -1,4 +1,5 @@
 import Document from '@/classes/document/Document';
+import DocumentScan from '@/classes/document/DocumentScan';
 import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
 import VacancyResponseToDocument from '@/classes/VacancyResponseToDocument';
@@ -48,8 +49,8 @@ export default class VacancyResponse implements IVacancyResponse {
 
       const doc = new Document();
       doc.documentTypeId = documentsType.id;
-      doc.scans = [new FileInfo()];
-
+      doc.documentsScans = [new DocumentScan()];
+      doc.documentsScans[0].scan = new FileInfo();
       vacancyResponseToDocument.document = doc;
 
       return vacancyResponseToDocument;

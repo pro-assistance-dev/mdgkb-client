@@ -18,7 +18,7 @@
           <el-input v-model="vacancyResponse.coverLetter" type="textarea" :rows="10"></el-input>
         </el-form-item>
         <el-form-item v-for="(documentType, i) in documentsTypes" :key="documentType.id" :label="documentType.name">
-          <UploaderSingleScan :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.scans[0]" />
+          <UploaderSingleScan :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan" />
         </el-form-item>
 
         <div class="right-button">
@@ -56,7 +56,7 @@ export default defineComponent({
     });
 
     const sendResponse = async () => {
-      await store.dispatch('vacancies/createResponse', vacancyResponse.value);
+      await store.dispatch('vacancyResponses/create', vacancyResponse.value);
       store.commit('vacancies/resetVacancyResponse');
       vacancyResponse.value.initDocuments(documentsTypes.value);
     };

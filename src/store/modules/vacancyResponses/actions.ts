@@ -9,9 +9,11 @@ import { State } from './state';
 const httpClient = new HttpClient('vacancy-responses');
 
 const actions: ActionTree<State, RootState> = {
-  create: async (_, vacancyResponse: IVacancyResponse): Promise<void> => {
+  create: async (_, item: IVacancyResponse): Promise<void> => {
     await httpClient.post<IVacancyResponse, IVacancyResponse>({
-      payload: vacancyResponse,
+      payload: item,
+      fileInfos: item.getFileInfos(),
+      isFormData: true,
     });
   },
   update: async ({ commit }, vacancyResponse: IVacancyResponse): Promise<void> => {
@@ -20,6 +22,11 @@ const actions: ActionTree<State, RootState> = {
       payload: vacancyResponse,
     });
     commit('set');
+  },
+  pdf: async ({ commit }, id: string): Promise<void> => {
+    await httpClient.get<IVacancyResponse>({
+      query: `${id}/pdf`,
+    });
   },
 };
 

@@ -1,4 +1,5 @@
 import IDocumentFieldValue from '@/interfaces/document/IDocumentFieldValue';
+import IDocumentScan from '@/interfaces/document/IDocumentScan';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
@@ -7,8 +8,8 @@ export default interface IDocument {
   documentTypeId?: string;
   documentType?: IDocumentType;
 
-  scans: IFileInfo[];
-  scansForDelete: string[];
+  documentsScans: IDocumentScan[];
+  documentsScansForDelete: string[];
 
   documentFieldValues: IDocumentFieldValue[];
   getFileInfos: () => IFileInfo[];
