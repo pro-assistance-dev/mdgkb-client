@@ -1,6 +1,6 @@
 <template>
   <div v-if="mount">
-    <NewsCarousel />
+    <!-- <NewsCarousel /> -->
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
         <div class="left-side-container">
@@ -41,13 +41,12 @@ import NewsFilters from '@/components/News/NewFilters.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
-import NewsCarousel from '@/components/NewsCarousel.vue';
 import INewsParams from '@/interfaces/news/INewsParams';
 import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters, NewsCarousel },
+  components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters },
   emits: ['add', 'remove'],
   setup() {
     const store = useStore();

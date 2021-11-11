@@ -28,7 +28,7 @@ $header_bottom_desktop: 56px;
 .el-menu-item {
   background: whitesmoke;
   height: $header_bottom_desktop;
-
+  font-size: 12px !important;
 }
 
 .el-menu--popup {
@@ -95,5 +95,11 @@ $header_bottom_desktop: 56px;
 
   &:hover {
     background-color: #e4e5e7 !important;
+  }
+}
+
+.drawer {
+  .el-menu-item {
+    box-shadow: none;
   }
 }
