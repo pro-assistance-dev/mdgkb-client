@@ -17,7 +17,7 @@ export default class VacancyResponse implements IVacancyResponse {
   viewed = false;
 
   opened = false;
-  human: IHuman = new Human();
+  human?: IHuman;
   vacancyResponsesToDocuments: IVacancyResponseToDocument[] = [];
 
   constructor(i?: IVacancyResponse) {

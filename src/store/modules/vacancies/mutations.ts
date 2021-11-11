@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex';
 
+import Human from '@/classes/Human';
 import Vacancy from '@/classes/Vacancy';
 import VacancyResponse from '@/classes/VacancyResponse';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
@@ -27,6 +28,7 @@ const mutations: MutationTree<State> = {
   openVacancyResponse(state, vacancyId: string): void {
     state.vacancyResponse.vacancyId = vacancyId;
     state.vacancyResponse.responseDate = new Date();
+    state.vacancyResponse.human = new Human();
     state.vacancyResponse.opened = true;
   },
 };

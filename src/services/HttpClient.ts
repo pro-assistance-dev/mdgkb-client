@@ -30,7 +30,6 @@ export default class HttpClient {
       headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
       responseType: !isBlob ? 'json' : 'blob',
     });
-    console.log(resHeaders);
     return !isBlob ? data : HttpClient.download(URL.createObjectURL(data), resHeaders['download-file-name']);
   }
 

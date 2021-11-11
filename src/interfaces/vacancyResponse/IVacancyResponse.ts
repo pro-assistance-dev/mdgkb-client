@@ -10,7 +10,7 @@ export default interface IVacancyResponse {
   coverLetter: string;
   viewed: boolean;
   opened: boolean;
-  human: IHuman;
+  human?: IHuman;
   vacancyResponsesToDocuments: IVacancyResponseToDocument[];
 
   initDocuments: (documentsTypes: IDocumentType[]) => void;

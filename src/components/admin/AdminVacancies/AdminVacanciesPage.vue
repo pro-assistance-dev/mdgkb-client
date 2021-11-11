@@ -44,7 +44,11 @@
               </template>
             </el-table-column>
             <el-table-column prop="responseDate" label="Дата" sortable> </el-table-column>
-            <el-table-column prop="coverLetter" label="Заголовок" sortable> </el-table-column>
+            <el-table-column prop="coverLetter" label="ФИО" sortable>
+              <template #default="scope">
+                {{ scope.row.human.getFullName() }}
+              </template>
+            </el-table-column>
             <el-table-column width="40" fixed="right" align="center">
               <template #default="scope">
                 <TableButtonGroup
@@ -59,17 +63,17 @@
         </el-card>
       </el-container>
     </el-form>
-    <el-dialog v-model="showVacancy" :title="'Отклик на вакансию ' + vacancy.title" width="30%" center>
+    <el-dialog v-model="showVacancy" :title="'Отклик на вакансию ' + vacancy.title" width="50%" center>
       <el-descriptions :column="1" border direction="horizontal">
         <el-descriptions-item showedVacancyResponse.coverLetter label="Описание">
           {{ showedVacancyResponse.coverLetter }}
         </el-descriptions-item>
-        <el-descriptions-item showedVacancyResponse.coverLetter label="Email">
-          {{ showedVacancyResponse.contactInfo.emails[0].address }}
-        </el-descriptions-item>
-        <el-descriptions-item showedVacancyResponse.coverLetter label="Телефон">
-          {{ showedVacancyResponse.contactInfo.telephoneNumbers[0].number }}
-        </el-descriptions-item>
+        <!--        <el-descriptions-item showedVacancyResponse.coverLetter label="Email">-->
+        <!--          {{ showedVacancyResponse.human.contactInfo.emails[0].address }}-->
+        <!--        </el-descriptions-item>-->
+        <!--        <el-descriptions-item showedVacancyResponse.coverLetter label="Телефон">-->
+        <!--          {{ showedVacancyResponse.human.contactInfo.telephoneNumbers[0].number }}-->
+        <!--        </el-descriptions-item>-->
       </el-descriptions>
     </el-dialog>
   </div>
