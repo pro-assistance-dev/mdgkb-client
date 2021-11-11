@@ -12,6 +12,14 @@ export default class HttpClient {
     this.headers = { 'Content-Type': 'application/json' };
   }
 
+  private static download(url: string, name: string) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', name ?? 'file.pdf');
+    document.body.appendChild(link);
+    link.click();
+  }
+
   async get<ReturnType>(params?: IBodilessParams): Promise<ReturnType> {
     const isBlob = params?.isBlob;
     const headers = params?.headers;
@@ -22,8 +30,8 @@ export default class HttpClient {
       headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
       responseType: !isBlob ? 'json' : 'blob',
     });
-
-    return !isBlob ? data : { href: URL.createObjectURL(data), download: String(resHeaders.get('Download-File-Name')) };
+    console.log(resHeaders);
+    return !isBlob ? data : HttpClient.download(URL.createObjectURL(data), resHeaders['download-file-name']);
   }
 
   async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {

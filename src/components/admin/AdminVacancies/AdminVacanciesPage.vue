@@ -51,7 +51,7 @@
                   :show-download-button="true"
                   :show-info-button="true"
                   @info="showVacancyResponse(scope.row)"
-                  @download="printVacancyResponse"
+                  @download="pdfVacancyResponse(scope.row.id)"
                 />
               </template>
             </el-table-column>
@@ -149,10 +149,13 @@ export default defineComponent({
       showVacancy.value = true;
       await store.dispatch('vacancyResponses/update', vacancyResponse);
     };
-
+    const pdfVacancyResponse = async (id: string) => {
+      await store.dispatch('vacancyResponses/pdf', id);
+    };
     return {
       divisions,
       showedVacancyResponse,
+      pdfVacancyResponse,
       showVacancy,
       showVacancyResponse,
       pages,

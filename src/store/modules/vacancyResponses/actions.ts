@@ -23,9 +23,10 @@ const actions: ActionTree<State, RootState> = {
     });
     commit('set');
   },
-  pdf: async ({ commit }, id: string): Promise<void> => {
+  pdf: async (_, id: string): Promise<void> => {
     await httpClient.get<IVacancyResponse>({
-      query: `${id}/pdf`,
+      query: `pdf/${id}`,
+      isBlob: true,
     });
   },
 };
