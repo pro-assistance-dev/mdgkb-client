@@ -1,4 +1,5 @@
 <template>
+  <ImageCropperV2 :index="index" @crop="crop" />
   <el-upload
     ref="uploader"
     :multiple="false"
@@ -14,6 +15,7 @@
     accept="image/jpeg,image/png,image/jng"
   >
     <template #default>
+      {{ index }}
       <i class="el-icon-plus custom-plus"></i>
     </template>
     <template #file="{ file }">
@@ -30,7 +32,6 @@
       </span>
     </template>
   </el-upload>
-  <ImageCropperV2 @crop.self="crop" />
 </template>
 
 <script lang="ts">
@@ -49,6 +50,10 @@ export default defineComponent({
     ImageCropperV2,
   },
   props: {
+    index: {
+      type: Number,
+      required: true,
+    },
     fileInfo: {
       type: Object as PropType<IFileInfo>,
       required: true,
@@ -75,14 +80,19 @@ export default defineComponent({
     let uploader = ref();
 
     const openCropper = (file: IFile) => {
+      console.log(file);
       store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, 1, props.fileInfo.id));
     };
 
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
-      console.log(props.fileInfo);
       props.fileInfo.uploadNewFile(file);
+
       console.log(props.fileInfo);
+      fileList.value = [];
+      if (props.fileInfo.fileSystemPath) {
+        fileList.value.push({ name: props.fileInfo.fileSystemPath, url: file.url });
+      }
       openCropper(file);
     };
 
@@ -92,13 +102,13 @@ export default defineComponent({
       // store.commit(`${storeModule.value}/${removeFileMutation.value}`);
     };
 
-    const crop = (file: IFile, id: string) => {
-      fileList.value = [];
-      console.log(id, props.fileInfo);
+    const crop = (file: IFile, index: number) => {
       // if (id === props.fileInfo.id) {
-      props.fileInfo.setFile(file.blob);
+      console.log(index, props.index);
+      props.fileInfo.setFile(file);
       // if (props.fileInfo.fileSystemPath) {
-      fileList.value.push({ name: props.fileInfo.fileSystemPath ?? 'asdfasd', url: file.src });
+      // fileList.value = [];
+      fileList.value.push({ name: props.fileInfo.fileSystemPath!, url: file.src });
       showUpload.value = false;
       // }
       // }

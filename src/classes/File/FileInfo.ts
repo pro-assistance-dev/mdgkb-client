@@ -68,10 +68,10 @@ export default class FileInfo implements IFileInfo {
     this.originalName = file.name;
     this.file = file.blob;
     this.fileSystemPath = uuidv4();
-    console.log(this);
   }
 
-  setFile(file: Blob): void {
-    this.file = file;
+  setFile(file: IFile): void {
+    this.file = file.blob;
+    this.fileSystemPath = file.src;
   }
 }

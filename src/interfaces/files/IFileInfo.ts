@@ -14,5 +14,5 @@ export default interface IFileInfo {
   getFileUrl: () => string;
 
   uploadNewFile: (file: IFile) => void;
-  setFile: (file: Blob) => void;
+  setFile: (file: IFile) => void;
 }
