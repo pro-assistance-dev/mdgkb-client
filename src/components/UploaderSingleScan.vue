@@ -30,7 +30,7 @@
       </span>
     </template>
   </el-upload>
-  <ImageCropperV2 @crop.once="crop" />
+  <ImageCropperV2 @crop.self="crop" />
 </template>
 
 <script lang="ts">
