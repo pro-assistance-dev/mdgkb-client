@@ -1,12 +1,12 @@
 <template>
   <!-- <NewsCarousel /> -->
-  <el-row :gutter="40">
+  <el-row v-if="mounted" :gutter="40">
     <el-col :xl="6" :lg="6" :md="24" class="calendar">
       <div class="left-side-container">
         <NewsCalendar />
 
         <el-card class="divisions-list">
-          <el-table height="800" :data="list" cell-class-name="cell-row" header-cell-class-name="cell-header">
+          <el-table height="1100" :data="list" cell-class-name="cell-row" header-cell-class-name="cell-header">
             <el-table-column header-align="center">
               <template #header>
                 <h2 class="division-list-title">Отделения</h2>
@@ -50,9 +50,21 @@
         </el-col>
       </el-row>
 
-      <div v-for="item in doctors" :key="item.id" class="doctors-wrapper">
-        <DoctorInfoCard :doctor="item" :division="item.division" />
+      <div class="doctors-wrapper">
+        <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" :division="item.division" />
       </div>
+
+      <el-row>
+        <el-col>
+          <h1>Последние комментарии</h1>
+        </el-col>
+      </el-row>
+
+      <el-carousel height="250px" :interval="5000" indicator-position="outside">
+        <el-carousel-item v-for="(comment, i) in comments" :key="i">
+          <CommentCard :comment="comment" />
+        </el-carousel-item>
+      </el-carousel>
     </el-col>
   </el-row>
 </template>
@@ -61,29 +73,34 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import CommentParams from '@/classes/comments/CommentParams';
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
+import CommentCard from '@/components/Main/CommentCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
+import IComment from '@/interfaces/comments/IComment';
 import INewsParams from '@/interfaces/news/INewsParams';
 import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'MainPage',
-  components: { NewsCalendar, NewsCard, DoctorInfoCard },
+  components: { NewsCalendar, NewsCard, DoctorInfoCard, CommentCard },
   setup() {
     const store = useStore();
-    const loading = ref(false);
+    const loading: Ref<boolean> = ref<boolean>(false);
+    const mounted: Ref<boolean> = ref<boolean>(false);
     const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
     const filteredNews = computed(() => store.getters['news/filteredNews']);
     const filterTags = computed(() => store.getters['news/filterTags']);
 
     const divisions: Ref<IDivision[]> = ref([]);
     const selectedDivision = computed(() => store.getters['divisions/division']);
-    const doctors = computed(() => store.getters['doctors/doctors']);
+    const doctors = computed(() => store.getters['doctors/items']);
     const divisionFilter = ref('');
     const defaultParams: INewsParams = { limit: 3 };
     const news = computed(() => store.getters['news/news']);
+    const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
 
     const loadNews = async () => {
       await store.dispatch('news/getAll', defaultParams);
@@ -94,6 +111,8 @@ export default defineComponent({
       await loadNews();
       await loadDivisions();
       await loadDoctors();
+      await loadComments();
+      mounted.value = true;
     });
 
     const loadMore = async () => {
@@ -114,7 +133,14 @@ export default defineComponent({
     };
 
     const loadDoctors = async (): Promise<void> => {
-      await store.dispatch('doctors/getAll');
+      await store.dispatch('doctors/getAll', 4);
+    };
+
+    const loadComments = async (): Promise<void> => {
+      const params = new CommentParams();
+      params.positive = true;
+      params.limit = 10;
+      await store.dispatch('comments/getAll', params);
     };
 
     const list: ComputedRef<IDivision[]> = computed((): IDivision[] => {
@@ -138,6 +164,8 @@ export default defineComponent({
       loadMore,
       news,
       filteredNews,
+      comments,
+      mounted,
     };
   },
 });
@@ -188,5 +216,9 @@ h1 {
 }
 .division-list-title {
   margin-top: 0;
+}
+.doctors-wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>

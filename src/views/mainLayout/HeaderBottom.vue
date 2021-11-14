@@ -133,7 +133,13 @@ export default defineComponent({
     onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     const showDrawer = ref(false);
-    const changeDrawerStatus = () => (showDrawer.value = !showDrawer.value);
+    const changeDrawerStatus = (status?: boolean) => {
+      if (status !== undefined) {
+        showDrawer.value = status;
+        return;
+      }
+      showDrawer.value = !showDrawer.value;
+    };
     const showSearchDrawer = () => store.commit('search/toggleDrawer', true);
 
     return {
@@ -226,15 +232,6 @@ export default defineComponent({
     height: 24px;
     max-height: 24px;
   }
-}
-
-.header-logo-img {
-  transition: all 0.3s;
-}
-
-.header-logo-img:hover {
-  cursor: pointer;
-  opacity: 0.7;
 }
 
 .fixed {
