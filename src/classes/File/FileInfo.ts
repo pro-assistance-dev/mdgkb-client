@@ -66,7 +66,12 @@ export default class FileInfo implements IFileInfo {
   uploadNewFile(file: IFile): void {
     this.id = this.id ?? uuidv4();
     this.originalName = file.name;
-    this.file = file.raw;
+    this.file = file.blob;
     this.fileSystemPath = uuidv4();
+    console.log(this);
+  }
+
+  setFile(file: Blob): void {
+    this.file = file;
   }
 }

@@ -17,6 +17,7 @@
         <el-form-item label="Информация" label-width="100px">
           <el-input v-model="vacancyResponse.coverLetter" type="textarea" :rows="10"></el-input>
         </el-form-item>
+
         <el-form-item v-for="(documentType, i) in documentsTypes" :key="documentType.id" :label="documentType.name">
           <UploaderSingleScan :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan" />
         </el-form-item>

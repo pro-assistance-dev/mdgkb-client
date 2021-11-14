@@ -9,6 +9,10 @@ const mutations: MutationTree<State> = {
     state.cropper = cropper;
     state.cropper.isOpen = true;
   },
+  openV2(state, cropper: ICropper) {
+    state.cropperV2 = cropper;
+    state.cropperV2.isOpen = true;
+  },
   close(state) {
     state.cropper.isOpen = false;
   },

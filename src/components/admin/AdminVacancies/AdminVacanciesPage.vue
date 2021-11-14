@@ -63,17 +63,17 @@
         </el-card>
       </el-container>
     </el-form>
-    <el-dialog v-model="showVacancy" :title="'Отклик на вакансию ' + vacancy.title" width="50%" center>
+    <el-dialog v-model="showVacancy" :title="'Отклик на вакансию ' + vacancy.title" width="80%" center>
       <el-descriptions :column="1" border direction="horizontal">
-        <el-descriptions-item showedVacancyResponse.coverLetter label="Описание">
+        <el-descriptions-item showedVacancyResponse.coverLetter label="Email">
+          {{ showedVacancyResponse.human.contactInfo.emails[0].address }}
+        </el-descriptions-item>
+        <el-descriptions-item showedVacancyResponse.coverLetter label="Телефон">
+          {{ showedVacancyResponse.human.contactInfo.telephoneNumbers[0].number }}
+        </el-descriptions-item>
+        <el-descriptions-item showedVacancyResponse.coverLetter label="Сопроводительное письмо">
           {{ showedVacancyResponse.coverLetter }}
         </el-descriptions-item>
-        <!--        <el-descriptions-item showedVacancyResponse.coverLetter label="Email">-->
-        <!--          {{ showedVacancyResponse.human.contactInfo.emails[0].address }}-->
-        <!--        </el-descriptions-item>-->
-        <!--        <el-descriptions-item showedVacancyResponse.coverLetter label="Телефон">-->
-        <!--          {{ showedVacancyResponse.human.contactInfo.telephoneNumbers[0].number }}-->
-        <!--        </el-descriptions-item>-->
       </el-descriptions>
     </el-dialog>
   </div>

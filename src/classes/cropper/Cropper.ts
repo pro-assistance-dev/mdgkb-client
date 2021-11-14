@@ -1,12 +1,13 @@
 import { ICropper } from '@/interfaces/cropper/ICropper';
 
 export default class Cropper implements ICropper {
+  id?: string;
   isOpen = false;
   ratio = 0;
   src = '';
   store = '';
   mutation = '';
-
+  // fileInfo?: IFileInfo;
   constructor(i?: ICropper) {
     if (!i) return;
     this.isOpen = i.isOpen;
@@ -20,6 +21,14 @@ export default class Cropper implements ICropper {
     cropper.src = src;
     cropper.store = store;
     cropper.mutation = mutation;
+    if (ratio) cropper.ratio = ratio;
+    return cropper;
+  }
+
+  static CreateCropperV2(src: string, ratio?: number, id?: string): ICropper {
+    const cropper = new Cropper();
+    cropper.src = src;
+    cropper.id = id;
     if (ratio) cropper.ratio = ratio;
     return cropper;
   }

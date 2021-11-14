@@ -9,6 +9,9 @@ const getters: GetterTree<State, RootState> = {
   cropper(state): ICropper {
     return state.cropper;
   },
+  cropperV2(state): ICropper {
+    return state.cropperV2;
+  },
   ratio(state): number {
     return state.cropper.ratio;
   },

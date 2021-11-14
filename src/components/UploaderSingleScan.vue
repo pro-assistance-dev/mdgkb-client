@@ -6,7 +6,8 @@
     list-type="picture-card"
     class="avatar-uploader-cover"
     :auto-upload="false"
-    :limit="1"
+    :limit="parseInt('1')"
+    :file-list="fileList"
     :style="heightWeight"
     :on-change="toggleUpload"
     :class="{ hideUpload: !showUpload }"
@@ -29,13 +30,15 @@
       </span>
     </template>
   </el-upload>
-
-  <!--  <ImageCropper />-->
+  <ImageCropperV2 @crop.once="crop" />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
+import { useStore } from 'vuex';
 
+import Cropper from '@/classes/cropper/Cropper';
+import ImageCropperV2 from '@/components/ImageCropperV2.vue';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
@@ -43,7 +46,7 @@ import IFilesList from '@/interfaces/files/IFIlesList';
 export default defineComponent({
   name: 'UploaderSingleScan',
   components: {
-    // ImageCropper,
+    ImageCropperV2,
   },
   props: {
     fileInfo: {
@@ -60,25 +63,27 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const fileList: Ref<IFilesList[]> = ref([props.fileInfo.getFileListObject()]);
+    const fileList: Ref<IFilesList[]> = ref([]);
     const heightWeight = computed(() => {
       return {
         '--height': props.height,
         '--width': props.width,
       };
     });
-
-    // let showUpload = ref(fileList.value.length === 0);
-    let showUpload = ref(true);
+    const store = useStore();
+    let showUpload = ref(fileList.value.length === 0);
     let uploader = ref();
 
-    // const openCropper = (file: IFile) => {
-    //   store.commit('cropper/open', Cropper.CreateCropper(file.url, storeModule.value, setFileListMutation.value, 1));
-    // };
+    const openCropper = (file: IFile) => {
+      store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, 1, props.fileInfo.id));
+    };
+
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
+      console.log(props.fileInfo);
       props.fileInfo.uploadNewFile(file);
-      // openCropper(file);
+      console.log(props.fileInfo);
+      openCropper(file);
     };
 
     const handleRemove = () => {
@@ -87,8 +92,21 @@ export default defineComponent({
       // store.commit(`${storeModule.value}/${removeFileMutation.value}`);
     };
 
+    const crop = (file: IFile, id: string) => {
+      fileList.value = [];
+      console.log(id, props.fileInfo);
+      // if (id === props.fileInfo.id) {
+      props.fileInfo.setFile(file.blob);
+      // if (props.fileInfo.fileSystemPath) {
+      fileList.value.push({ name: props.fileInfo.fileSystemPath ?? 'asdfasd', url: file.src });
+      showUpload.value = false;
+      // }
+      // }
+    };
+
     return {
-      // openCropper,
+      crop,
+      openCropper,
       heightWeight,
       fileList,
       uploader,

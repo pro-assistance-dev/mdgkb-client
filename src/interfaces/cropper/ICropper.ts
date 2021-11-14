@@ -4,4 +4,6 @@ export interface ICropper {
   store: string;
   src: string;
   mutation: string;
+  // fileInfo?: IFileInfo;
+  id?: string;
 }
