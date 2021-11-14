@@ -5,6 +5,7 @@ import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { carousels } from '@/store/modules/carousels';
+import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
@@ -61,6 +62,7 @@ const store: StoreOptions<RootState> = {
     vacancyResponses,
     search,
     hospitalizations,
+    comments,
   },
 };
 

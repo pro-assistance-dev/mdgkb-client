@@ -123,6 +123,25 @@ export default defineComponent({
         icon: 'el-icon-first-aid-kit',
       },
       {
+        title: 'Комментарии',
+        to: '',
+        icon: 'el-icon-s-comment',
+        children: [
+          {
+            title: 'Все',
+            to: '/admin/comments/all',
+          },
+          {
+            title: 'Отмодерированные',
+            to: '/admin/comments/mod-checked',
+          },
+          {
+            title: 'Неотмодерированные',
+            to: '/admin/comments/not-mod-checked',
+          },
+        ],
+      },
+      {
         title: 'Структура сайта',
         to: '/',
         icon: 'el-icon-data-board',

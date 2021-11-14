@@ -1,11 +1,14 @@
 <template>
+  <div v-if="vertical" style="margin: 10px">
+    <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="menuClickHandler('/')" />
+  </div>
   <el-menu :ellipsis="false" class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
     <template v-for="(menu, i) in menus" :key="menu.id">
       <el-menu-item
         v-if="menu.withoutChildren()"
         :index="String(menu.getLink())"
         class="header-bottom-menu-item"
-        @click="$router.push(menu.getLink())"
+        @click="menuClickHandler(menu.getLink())"
       >
         <div class="icon">
           <object v-if="menu.icon.fileSystemPath" :data="menu.icon.getImageUrl()" class="menu-img" />
@@ -30,7 +33,7 @@
             v-if="subMenu.withoutChildren()"
             :index="String(subMenu.link)"
             class="header-bottom-submenu-item"
-            @click="$router.push(subMenu.getLink())"
+            @click="menuClickHandler(subMenu.getLink())"
           >
             <div class="icon">
               <object v-if="subMenu.icon.fileSystemPath" :data="subMenu.icon.getImageUrl()" class="menu-img" />
@@ -49,7 +52,7 @@
               ><strong>{{ subMenu.name }}</strong></template
             >
             <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
-              <el-menu-item :index="String(subSubMenu.link)" class="header-bottom-submenu-item" @click="$router.push(subSubMenu.link)">
+              <el-menu-item :index="String(subSubMenu.link)" class="header-bottom-submenu-item" @click="menuClickHandler(subSubMenu.link)">
                 <div class="icon">
                   <object v-if="subSubMenu.icon.fileSystemPath" :data="subSubMenu.icon.getImageUrl()" class="menu-img" />
                   <strong>
@@ -67,7 +70,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IMenu from '@/interfaces/elements/IMenu';
@@ -80,13 +83,21 @@ export default defineComponent({
       default: false,
     },
   },
-  setup() {
+  emits: ['changeDrawerStatus'],
+  setup(prop, { emit }) {
     let expand = ref(false);
     const activePath: Ref<string> = ref('');
     const store = useStore();
+    const router = useRouter();
 
     const menus = computed(() => store.getters['menus/menus']);
     const route = useRoute();
+
+    const menuClickHandler = (link: string) => {
+      emit('changeDrawerStatus', false);
+      router.push(link);
+    };
+
     onBeforeMount(async () => {
       await store.dispatch('menus/getAll');
       activePath.value = route.path;
@@ -101,7 +112,13 @@ export default defineComponent({
 
     const collapseCard = () => menus.value.forEach((v: IMenu) => v.collapseCard());
 
-    return { menus, collapseCard, expand, activePath };
+    return {
+      menus,
+      collapseCard,
+      expand,
+      activePath,
+      menuClickHandler,
+    };
   },
 });
 </script>
