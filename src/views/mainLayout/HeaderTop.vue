@@ -34,13 +34,7 @@ export default defineComponent({
   align-items: center;
 }
 .header-logo-img {
-  transition: all 0.3s;
   margin-left: 10px;
-}
-
-.header-logo-img:hover {
-  cursor: pointer;
-  opacity: 0.7;
 }
 
 .flex {

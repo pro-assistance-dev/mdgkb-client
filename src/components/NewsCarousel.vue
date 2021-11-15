@@ -21,7 +21,7 @@ import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'NewsCarousel',
-  async setup() {
+  setup() {
     const store = useStore();
     const carousel = computed(() => store.getters['carousels/item']);
     const mount = ref(false);

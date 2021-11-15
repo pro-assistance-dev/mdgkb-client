@@ -1,6 +1,6 @@
-import Comment from '@/classes/Comment';
+import Comment from '@/classes/comments/Comment';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
-import IComment from '@/interfaces/IComment';
+import IComment from '@/interfaces/comments/IComment';
 
 export default class divisionComment implements IDivisionComment {
   id?: string;

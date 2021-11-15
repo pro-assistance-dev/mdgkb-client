@@ -95,3 +95,12 @@ body > .el-container::v-deep {
 .el-message-box__btns .el-button, .el-popconfirm__action .el-button {
   margin-right: 10px;
 }
+
+.header-logo-img {
+  transition: all 0.3s;
+}
+
+.header-logo-img:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}

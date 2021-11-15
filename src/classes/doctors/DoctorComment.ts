@@ -1,6 +1,6 @@
-import Comment from '@/classes/Comment';
+import Comment from '@/classes/comments/Comment';
+import IComment from '@/interfaces/comments/IComment';
 import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
-import IComment from '@/interfaces/IComment';
 
 export default class DoctorComment implements IDoctorComment {
   id?: string;

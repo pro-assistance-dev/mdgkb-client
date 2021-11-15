@@ -57,12 +57,12 @@ export default defineComponent({
     const isLogin = computed(() => store.getters['auth/isLoginModal']);
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
-      if (!isLogin.value && value && value !== email.value) {
-        await store.dispatch('users/findEmail', value);
-      }
       if (!value.trim().length) {
         callback(new Error('Необходимо указать email'));
-      } else if (!isLogin.value && value && emailExist.value) {
+        return;
+      }
+      // await store.dispatch('users/findEmail', value);
+      if (!isLogin.value && value && emailExist.value) {
         callback(new Error('Ведённый email уже существует'));
       }
       callback();

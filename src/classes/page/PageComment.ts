@@ -1,5 +1,5 @@
-import Comment from '@/classes/Comment';
-import IComment from '@/interfaces/IComment';
+import Comment from '@/classes/comments/Comment';
+import IComment from '@/interfaces/comments/IComment';
 import IPageComment from '@/interfaces/page/IPageComment';
 
 export default class PageComment implements IPageComment {

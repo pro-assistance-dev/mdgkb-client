@@ -10,8 +10,8 @@ import { State } from './state';
 const httpClient = new HttpClient('doctors');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IDoctor[]>());
+  getAll: async ({ commit }, limit): Promise<void> => {
+    commit('setAll', await httpClient.get<IDoctor[]>({ query: limit ? `?limit=${limit}` : '' }));
   },
   get: async ({ commit }, id: string) => {
     commit('set', await httpClient.get<IDoctor>({ query: `${id}` }));

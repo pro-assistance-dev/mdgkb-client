@@ -6,7 +6,7 @@
     </div>
     <el-card>
       <el-table v-if="news" :data="news">
-        <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
+        <el-table-column prop="title" label="Заголовок" sortable width="500px"> </el-table-column>
         <el-table-column prop="created_by" label="Автор" sortable> </el-table-column>
         <el-table-column prop="viewsCount" label="Просмотров" sortable> </el-table-column>
         <el-table-column prop="status" label="Статус" sortable> </el-table-column>
