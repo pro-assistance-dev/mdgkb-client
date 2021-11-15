@@ -35,47 +35,10 @@
           <template #header>
             <CardHeader :label="'Отклики'" :add-button="false" />
           </template>
-          <el-table :data="vacancy.vacancyResponses">
-            <el-table-column width="100" label="Новый">
-              <template #default="scope">
-                <span>
-                  <i v-if="!scope.row.viewed" class="el-icon-warning icon" />
-                </span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="responseDate" label="Дата" sortable> </el-table-column>
-            <el-table-column prop="coverLetter" label="ФИО" sortable>
-              <template #default="scope">
-                {{ scope.row.human.getFullName() }}
-              </template>
-            </el-table-column>
-            <el-table-column width="40" fixed="right" align="center">
-              <template #default="scope">
-                <TableButtonGroup
-                  :show-download-button="true"
-                  :show-info-button="true"
-                  @info="showVacancyResponse(scope.row)"
-                  @download="pdfVacancyResponse(scope.row.id)"
-                />
-              </template>
-            </el-table-column>
-          </el-table>
+          <AdminVacanciesPageResponses :vacancy-responses="vacancy.vacancyResponses" />
         </el-card>
       </el-container>
     </el-form>
-    <el-dialog v-model="showVacancy" :title="'Отклик на вакансию ' + vacancy.title" width="80%" center>
-      <el-descriptions :column="1" border direction="horizontal">
-        <el-descriptions-item showedVacancyResponse.coverLetter label="Email">
-          {{ showedVacancyResponse.human.contactInfo.emails[0].address }}
-        </el-descriptions-item>
-        <el-descriptions-item showedVacancyResponse.coverLetter label="Телефон">
-          {{ showedVacancyResponse.human.contactInfo.telephoneNumbers[0].number }}
-        </el-descriptions-item>
-        <el-descriptions-item showedVacancyResponse.coverLetter label="Сопроводительное письмо">
-          {{ showedVacancyResponse.coverLetter }}
-        </el-descriptions-item>
-      </el-descriptions>
-    </el-dialog>
   </div>
 </template>
 
@@ -86,34 +49,29 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import AdminVacanciesPageResponses from '@/components/admin/AdminVacancies/AdminVacanciesPageResponses.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
-  components: { CardHeader, TableButtonGroup },
+  components: { CardHeader, AdminVacanciesPageResponses },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     let mounted = ref(false);
     const form = ref();
-    const showVacancy = ref(false);
-    let showedVacancyResponse: Ref<IVacancyResponse | undefined> = ref(undefined);
     const vacancy: Ref<IVacancy> = computed<IVacancy>(() => store.getters['vacancies/vacancy']);
     const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => store.getters['divisions/divisions']);
-    const pages = computed(() => store.getters['pages/pages']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('admin/setSubmit', submit);
-      await store.dispatch('pages/getAll');
       await store.dispatch('divisions/getAll');
 
       if (route.params['id']) {
@@ -123,6 +81,10 @@ export default defineComponent({
         store.commit('vacancies/resetState');
         store.commit('admin/setPageTitle', { title: 'Добавить меню', saveButton: true });
       }
+
+      await store.dispatch('documentTypes/getDocumentsTypesForTables');
+      await store.dispatch('documentTypes/getAll');
+
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(vacancy, formUpdated, { deep: true });
@@ -147,22 +109,8 @@ export default defineComponent({
       next ? next() : await router.push('/admin/vacancies');
     };
 
-    const showVacancyResponse = async (vacancyResponse: IVacancyResponse) => {
-      vacancyResponse.viewed = true;
-      showedVacancyResponse.value = vacancyResponse;
-      showVacancy.value = true;
-      await store.dispatch('vacancyResponses/update', vacancyResponse);
-    };
-    const pdfVacancyResponse = async (id: string) => {
-      await store.dispatch('vacancyResponses/pdf', id);
-    };
     return {
       divisions,
-      showedVacancyResponse,
-      pdfVacancyResponse,
-      showVacancy,
-      showVacancyResponse,
-      pages,
       mounted,
       submit,
       vacancy,

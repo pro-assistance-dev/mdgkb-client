@@ -45,24 +45,6 @@ export default class FileInfo implements IFileInfo {
     return fileInfo;
   }
 
-  static CreatePreviewFileWithoutNewFilePath(file: IFile, category: string, id?: string): IFileInfo {
-    const fileInfo = new FileInfo();
-    fileInfo.id = id;
-    fileInfo.originalName = file.name;
-    fileInfo.file = file.blob;
-    fileInfo.category = category;
-    return fileInfo;
-  }
-
-  static CreateFileInfo(file: IFile, id?: string): IFileInfo {
-    const fileInfo = new FileInfo();
-    fileInfo.id = id ?? uuidv4();
-    fileInfo.originalName = file.name;
-    fileInfo.file = file.raw;
-    fileInfo.fileSystemPath = uuidv4();
-    return fileInfo;
-  }
-
   uploadNewFile(file: IFile): void {
     this.id = this.id ?? uuidv4();
     this.originalName = file.name;
@@ -72,6 +54,5 @@ export default class FileInfo implements IFileInfo {
 
   setFile(file: IFile): void {
     this.file = file.blob;
-    this.fileSystemPath = file.src;
   }
 }

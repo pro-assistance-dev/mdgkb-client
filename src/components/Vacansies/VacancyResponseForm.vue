@@ -23,15 +23,9 @@
           <el-input v-model="vacancyResponse.coverLetter" type="textarea" :rows="10"></el-input>
         </el-form-item>
 
-        <!--        <el-form-item  :label="documentType.name">-->
-        <component
-          :is="'UploaderSingleScan'"
-          v-for="(documentType, i) in documentsTypes"
-          :key="documentType.id"
-          :index="i"
-          :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan"
-        />
-        <!--        </el-form-item>-->
+        <el-form-item v-for="(documentType, i) in documentsTypes" :key="documentType.id" :label="documentType.name">
+          <UploaderSingleScan :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan" />
+        </el-form-item>
 
         <div class="right-button">
           <el-button type="success" @click="sendResponse()">Откликнуться</el-button>

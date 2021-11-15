@@ -1,5 +1,4 @@
 <template>
-  <ImageCropperV2 :index="index" @crop="crop" />
   <el-upload
     ref="uploader"
     :multiple="false"
@@ -15,7 +14,6 @@
     accept="image/jpeg,image/png,image/jng"
   >
     <template #default>
-      {{ index }}
       <i class="el-icon-plus custom-plus"></i>
     </template>
     <template #file="{ file }">
@@ -32,6 +30,7 @@
       </span>
     </template>
   </el-upload>
+  <ImageCropperV2 v-if="withCrop" :open="cropperOpened" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts">
@@ -50,9 +49,9 @@ export default defineComponent({
     ImageCropperV2,
   },
   props: {
-    index: {
-      type: Number,
-      required: true,
+    withCrop: {
+      type: Boolean,
+      default: true,
     },
     fileInfo: {
       type: Object as PropType<IFileInfo>,
@@ -77,44 +76,43 @@ export default defineComponent({
     });
     const store = useStore();
     let showUpload = ref(fileList.value.length === 0);
+    const cropperOpened = ref(false);
     let uploader = ref();
-
-    const openCropper = (file: IFile) => {
-      console.log(file);
-      store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, 1, props.fileInfo.id));
-    };
 
     const toggleUpload = (file: IFile) => {
       showUpload.value = !showUpload.value;
       props.fileInfo.uploadNewFile(file);
-
-      console.log(props.fileInfo);
       fileList.value = [];
       if (props.fileInfo.fileSystemPath) {
         fileList.value.push({ name: props.fileInfo.fileSystemPath, url: file.url });
       }
-      openCropper(file);
+      if (props.withCrop) {
+        openCropper(file);
+      }
+    };
+
+    const openCropper = (file: IFile) => {
+      store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, 1, props.fileInfo.id));
+      cropperOpened.value = true;
     };
 
     const handleRemove = () => {
       uploader.value.clearFiles();
       showUpload.value = !showUpload.value;
-      // store.commit(`${storeModule.value}/${removeFileMutation.value}`);
     };
 
-    const crop = (file: IFile, index: number) => {
-      // if (id === props.fileInfo.id) {
-      console.log(index, props.index);
+    const crop = (file: IFile) => {
       props.fileInfo.setFile(file);
-      // if (props.fileInfo.fileSystemPath) {
-      // fileList.value = [];
-      fileList.value.push({ name: props.fileInfo.fileSystemPath!, url: file.src });
+      fileList.value = [];
+      if (props.fileInfo.fileSystemPath) {
+        fileList.value.push({ name: props.fileInfo.fileSystemPath, url: file.src });
+      }
       showUpload.value = false;
-      // }
-      // }
+      cropperOpened.value = false;
     };
 
     return {
+      cropperOpened,
       crop,
       openCropper,
       heightWeight,

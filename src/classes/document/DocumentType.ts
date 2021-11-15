@@ -63,4 +63,6 @@ export default class DocumentType implements IDocumentType {
     this.scan.originalName = file.name;
     this.scan.file = file.raw;
   }
+
+  // findDocument();
 }

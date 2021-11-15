@@ -1,6 +1,5 @@
 <template>
-  <el-dialog v-model="cropper.isOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-    {{ index }}
+  <el-dialog :model-value="open" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
     <Cropper
       v-if="cropper.ratio"
       ref="cropperRef"
@@ -32,12 +31,12 @@ export default defineComponent({
   name: 'ImageCropperV2',
   components: { Cropper },
   props: {
-    index: {
-      type: Number,
+    open: {
+      type: Boolean,
       required: true,
     },
   },
-  emits: ['crop'],
+  emits: ['crop', 'close'],
   setup(props, { emit }) {
     const store = useStore();
     const cropper: Ref<ICropper> = computed(() => store.getters[`cropper/cropperV2`]);
@@ -59,15 +58,14 @@ export default defineComponent({
 
       if (canvas) {
         canvas.canvas.toBlob((blob: Blob) => {
-          emit('crop', { blob: blob, src: canvas.canvas.toDataURL() }, props.index);
+          emit('crop', { blob: blob, src: canvas.canvas.toDataURL() });
         });
       }
 
       loading.value = false;
-      cropper.value.isOpen = false;
     };
     const cancel = () => {
-      store.commit('cropper/close');
+      emit('close');
     };
 
     const onChange = (res: ICanvasResult) => {
