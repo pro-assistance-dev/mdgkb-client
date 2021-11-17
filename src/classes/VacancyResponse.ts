@@ -3,6 +3,7 @@ import DocumentScan from '@/classes/document/DocumentScan';
 import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
 import VacancyResponseToDocument from '@/classes/VacancyResponseToDocument';
+import IDocument from '@/interfaces/document/IDocument';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IHuman from '@/interfaces/IHuman';
@@ -63,5 +64,14 @@ export default class VacancyResponse implements IVacancyResponse {
       fileInfos.push(...vacancyResponseToDocument.document.getFileInfos());
     });
     return fileInfos;
+  }
+
+  findDocument(documentTypeId: string): IDocument | undefined {
+    const vacancyResponseToDocument = this.vacancyResponsesToDocuments.find(
+      (vacancyResponseToDocument: IVacancyResponseToDocument) => documentTypeId === vacancyResponseToDocument.document.documentTypeId
+    );
+    if (vacancyResponseToDocument) {
+      return vacancyResponseToDocument.document;
+    }
   }
 }

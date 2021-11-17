@@ -8,6 +8,6 @@ export default class DocumentsTypesForTablesNames {
   }
 
   createQueryParam(): string {
-    return `?${this.documentsTypesForVacancies}`;
+    return `?items-for=${this.documentsTypesForVacancies}`;
   }
 }

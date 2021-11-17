@@ -39,4 +39,8 @@ export default class Document implements IDocument {
   getFileInfos(): IFileInfo[] {
     return this.documentsScans.map((i: IDocumentScan) => i.getFileInfo());
   }
+
+  getScan(): IFileInfo {
+    return this.documentsScans[0].scan;
+  }
 }

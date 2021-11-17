@@ -13,4 +13,6 @@ export default interface IDocument {
 
   documentFieldValues: IDocumentFieldValue[];
   getFileInfos: () => IFileInfo[];
+
+  getScan: () => IFileInfo;
 }

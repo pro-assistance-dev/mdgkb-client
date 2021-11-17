@@ -15,8 +15,12 @@
     </el-table-column>
 
     <el-table-column v-for="documentsType in documentsTypes" :key="documentsType.id" :label="documentsType.name">
-      <template>
-        <el-button @click="downloadScan(documentsType.id)">Скачать документ</el-button>
+      <template #default="scope">
+        <a :href="scope.row.findDocument(documentsType.id).getScan().getFileUrl()" target="_blank">
+          <el-button size="mini" icon="el-icon-download">Скачать</el-button>
+        </a>
+        <!--        {{ scope.row.findDocument(documentType.id).scanFileSystemPath() }}-->
+        <!--        <el-button @click="downloadScan(documentsType.id)">Скачать документ</el-button>-->
       </template>
     </el-table-column>
     <el-table-column width="50" fixed="right" align="center">
