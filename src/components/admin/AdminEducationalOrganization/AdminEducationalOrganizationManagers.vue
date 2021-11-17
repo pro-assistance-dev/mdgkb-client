@@ -15,7 +15,7 @@
         </template>
       </el-table-column>
       <el-table-column label="Роль руководителя" sortable prop="role" />
-      <el-table-column width="40" fixed="right" align="center">
+      <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
           <TableButtonGroup :show-remove-button="true" @remove="remove(scope.$index)" />
         </template>

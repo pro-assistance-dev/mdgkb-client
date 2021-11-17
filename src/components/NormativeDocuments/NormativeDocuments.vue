@@ -18,7 +18,7 @@
             header-row-class-name="header-style"
             row-class-name="no-hover"
           >
-            <el-table-column width="40" align="center">
+            <el-table-column width="50" align="center">
               <template #default>
                 <div class="document-icon"><FilePdfOutlined /></div>
               </template>

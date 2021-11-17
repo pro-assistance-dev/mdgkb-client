@@ -7,7 +7,7 @@
     <el-card>
       <el-table v-if="pages" :data="pages">
         <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
-        <el-table-column width="40" fixed="right" align="center">
+        <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"

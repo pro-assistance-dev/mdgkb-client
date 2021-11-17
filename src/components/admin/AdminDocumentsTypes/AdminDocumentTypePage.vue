@@ -40,7 +40,7 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column width="40" fixed="right" align="center">
+            <el-table-column width="50" fixed="right" align="center">
               <template #default="scope">
                 <TableButtonGroup :show-remove-button="true" @remove="documentType.removeField(scope.$index)" />
               </template>

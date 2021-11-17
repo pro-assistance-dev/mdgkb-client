@@ -11,7 +11,7 @@
         <el-table-column prop="address" label="Корпус" sortable> </el-table-column>
         <el-table-column prop="phone" label="Номер телефона" sortable> </el-table-column>
         <el-table-column prop="email" label="Email" sortable> </el-table-column>
-        <el-table-column width="40" fixed="right" align="center">
+        <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"

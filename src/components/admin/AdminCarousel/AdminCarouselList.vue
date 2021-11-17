@@ -7,7 +7,7 @@
       <el-table v-if="carousels" :data="carousels">
         <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
         <el-table-column prop="systemKey" label="Системный ключ" sortable> </el-table-column>
-        <el-table-column width="40" fixed="right" align="center">
+        <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"

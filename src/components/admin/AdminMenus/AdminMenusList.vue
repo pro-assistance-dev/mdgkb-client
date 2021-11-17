@@ -10,14 +10,14 @@
     </div>
     <el-card>
       <el-table v-if="menus" :data="menus">
-        <el-table-column v-if="isEdit" width="40" fixed="left" align="center">
+        <el-table-column v-if="isEdit" width="50" fixed="left" align="center">
           <template #default="scope">
             <TableMover :store-module="'menus'" :store-getter="'menus'" :index="scope.$index" />
           </template>
         </el-table-column>
         <el-table-column prop="name" label="Заголовок" sortable> </el-table-column>
         <el-table-column prop="link" label="Ссылка" sortable> </el-table-column>
-        <el-table-column width="40" fixed="right" align="center">
+        <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"

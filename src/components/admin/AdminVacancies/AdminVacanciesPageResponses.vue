@@ -19,7 +19,7 @@
         <el-button @click="downloadScan(documentsType.id)">Скачать документ</el-button>
       </template>
     </el-table-column>
-    <el-table-column width="40" fixed="right" align="center">
+    <el-table-column width="50" fixed="right" align="center">
       <template #default="scope">
         <TableButtonGroup
           :show-download-button="true"

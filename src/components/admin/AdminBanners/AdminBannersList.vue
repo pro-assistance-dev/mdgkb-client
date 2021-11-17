@@ -10,7 +10,7 @@
     </div>
     <el-card>
       <el-table :data="banners">
-        <el-table-column v-if="isEdit" width="40" fixed="left" align="center">
+        <el-table-column v-if="isEdit" width="50" fixed="left" align="center">
           <template #default="scope">
             <div class="move-buttons">
               <el-button v-if="scope.$index !== 0" icon="el-icon-caret-top" @click="moveUp(scope.$index)" />
@@ -19,7 +19,7 @@
           </template>
         </el-table-column>
         <el-table-column label="Наименование" prop="name"> </el-table-column>
-        <el-table-column width="40" fixed="right" align="center">
+        <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"
