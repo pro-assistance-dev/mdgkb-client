@@ -11,7 +11,7 @@ import { State } from './state';
 export const state: State = {
   items: [],
   item: new User(),
-  emailExist: false,
+  emailExists: false,
   authPageEmail: '',
 };
 

@@ -9,7 +9,7 @@
   >
     <el-form ref="myForm" label-width="0" :model="form" :rules="rules" @submit.prevent="submitForm">
       <el-form-item prop="email">
-        <el-input v-model="form.email" placeholder="Email" type="email" />
+        <el-input v-model="form.email" placeholder="Email" type="email" @input="findEmail" />
       </el-form-item>
 
       <el-form-item prop="password">
@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import User from '@/classes/user/User';
@@ -52,8 +52,7 @@ export default defineComponent({
     };
     const toggleIsLogin = () => store.commit('auth/toggleIsLoginModal');
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
-    const emailExist = computed(() => store.getters['users/emailExist']);
-    const email = computed(() => store.getters['users/authPageEmail']);
+    const emailExists: Ref<boolean> = computed(() => store.getters['users/emailExists']);
     const isLogin = computed(() => store.getters['auth/isLoginModal']);
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
@@ -62,7 +61,7 @@ export default defineComponent({
         return;
       }
       // await store.dispatch('users/findEmail', value);
-      if (!isLogin.value && value && emailExist.value) {
+      if (!isLogin.value && value && emailExists.value) {
         callback(new Error('Ведённый email уже существует'));
       }
       callback();
@@ -91,7 +90,7 @@ export default defineComponent({
         if (isLogin.value) {
           await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });
         } else {
-          await store.dispatch('auth/register', { email: form.value.email, password: form.value.password });
+          await store.dispatch('auth/register', form.value);
         }
       } catch (error) {
         ElMessage({ message: 'Неверный логин или пароль', type: 'error' });
@@ -100,8 +99,16 @@ export default defineComponent({
       closeModal();
     };
 
+    const findEmail = async (email: string) => {
+      if (email.length < 3) {
+        return;
+      }
+      await store.dispatch('users/findEmail', email);
+    };
+
     return {
-      emailExist,
+      findEmail,
+      emailExists,
       form,
       submitForm,
       toggleIsLogin,

@@ -6,7 +6,7 @@ export default interface IHuman {
   surname: string;
   patronymic: string;
   isMale: boolean;
-  dateBirth: string;
+  dateBirth?: Date;
 
   getFullName: () => string;
 

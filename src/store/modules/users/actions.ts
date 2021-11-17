@@ -18,7 +18,6 @@ const actions: ActionTree<State, RootState> = {
   findEmail: async ({ commit }, email): Promise<void> => {
     const res = await httpClient.get<IUser[]>({ query: `get-by-email/${email}` });
     commit('emailExist', res);
-    if (!res) commit('setAuthPageEmail', email);
   },
 };
 

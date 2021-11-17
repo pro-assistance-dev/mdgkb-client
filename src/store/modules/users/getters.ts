@@ -12,8 +12,8 @@ const getters: GetterTree<State, RootState> = {
   item(state): IUser | undefined {
     return state.item;
   },
-  emailExist(state): boolean {
-    return state.emailExist;
+  emailExists(state): boolean {
+    return state.emailExists;
   },
   authPageEmail(state): string {
     return state.authPageEmail;

@@ -8,7 +8,7 @@ export default class Human implements IHuman {
   surname = '';
   patronymic = '';
   isMale = true;
-  dateBirth = '';
+  dateBirth?: Date;
   contactInfo: IContactInfo = new ContactInfo();
   constructor(i?: IHuman) {
     if (!i) {

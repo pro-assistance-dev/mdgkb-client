@@ -25,6 +25,7 @@ const actions: ActionTree<State, RootState> = {
     if (newUser.id) localStorage.setItem('userId', newUser.id);
     commit('setToken', token.accessToken);
     commit('setUser', newUser);
+    commit('setIsAuth', true);
   },
   logout: async ({ commit }): Promise<void> => {
     localStorage.removeItem('token');
