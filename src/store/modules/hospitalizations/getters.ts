@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import IHospitalization from '@/interfaces/hospitalizatoins/IHospitalization';
+import IHospitalization from '@/interfaces/hospitalizations/IHospitalization';
 import RootState from '@/store/types';
 
 import { State } from './state';

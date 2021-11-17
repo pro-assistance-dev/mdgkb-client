@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IHospitalization from '@/interfaces/hospitalizatoins/IHospitalization';
+import IHospitalization from '@/interfaces/hospitalizations/IHospitalization';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -11,6 +11,12 @@ const httpClient = new HttpClient('hospitalizations');
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
     commit('setAll', await httpClient.get<IHospitalization[]>());
+  },
+  pdf: async (_, id: string): Promise<void> => {
+    await httpClient.get<IHospitalization>({
+      query: `pdf/${id}`,
+      isBlob: true,
+    });
   },
 };
 

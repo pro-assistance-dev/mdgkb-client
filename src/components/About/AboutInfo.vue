@@ -17,8 +17,8 @@
     </el-card>
     <el-card v-if="division.doctors.length">
       <template #header>Врачебный состав</template>
-      <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
-        <DoctorInfoCard :doctor="item" :division="division" />
+      <div class="doctors-wrapper">
+        <DoctorInfoCard v-for="item in division.doctors" :key="item.id" :doctor="item" :division="division" />
       </div>
     </el-card>
     <el-card>

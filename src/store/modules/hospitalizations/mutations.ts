@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import Hospitalization from '@/classes/hospitalizations/Hospitalization';
-import IHospitalization from '@/interfaces/hospitalizatoins/IHospitalization';
+import IHospitalization from '@/interfaces/hospitalizations/IHospitalization';
 
 import { State } from './state';
 

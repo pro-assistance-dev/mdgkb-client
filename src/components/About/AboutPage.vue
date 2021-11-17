@@ -2,7 +2,7 @@
   <el-row :gutter="20">
     <el-col :xs="24" :sm="9" :md="8" :lg="5" :xl="5">
       <el-card class="">
-        <el-table :data="list" cell-class-name="cell-row" header-cell-class-name="cell-header">
+        <el-table height="1000" :data="list" cell-class-name="cell-row" header-cell-class-name="cell-header">
           <el-table-column header-align="center">
             <template #header>
               <h2 class="menu-label">Отделения</h2>

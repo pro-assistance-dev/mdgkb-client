@@ -9,6 +9,13 @@
             <template #title>
               <div class="collapse-title">{{ insuranceHospitalization.name }}</div>
             </template>
+            <el-button
+              v-if="insuranceHospitalization.hospitalizationsToDocumentTypes"
+              size="mini"
+              @click="getPDF(insuranceHospitalization.id)"
+            >
+              Скачать список документов
+            </el-button>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -19,6 +26,9 @@
             <template #title>
               <div class="collapse-title">{{ paidHospitalization.name }}</div>
             </template>
+            <el-button v-if="paidHospitalization.hospitalizationsToDocumentTypes" size="mini" @click="getPDF(insuranceHospitalization.id)">
+              Скачать список документов
+            </el-button>
           </el-collapse-item>
         </el-collapse>
       </el-card>
@@ -30,7 +40,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
-import IHospitalization from '@/interfaces/hospitalizatoins/IHospitalization';
+import IHospitalization from '@/interfaces/hospitalizations/IHospitalization';
 
 export default defineComponent({
   name: 'HospitalizationList',
@@ -40,11 +50,18 @@ export default defineComponent({
     const insuranceHospitalizations: ComputedRef<IHospitalization> = computed(
       () => store.getters['hospitalizations/insuranceHospitalizations']
     );
+    const getPDF = (id: string) => {
+      store.dispatch('hospitalizations/pdf', id);
+    };
 
     onBeforeMount(() => {
       store.dispatch('hospitalizations/getAll');
     });
-    return { paidHospitalizations, insuranceHospitalizations };
+    return {
+      paidHospitalizations,
+      insuranceHospitalizations,
+      getPDF,
+    };
   },
 });
 </script>
