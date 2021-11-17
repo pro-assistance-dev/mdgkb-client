@@ -1,3 +1,4 @@
+import IDocument from '@/interfaces/document/IDocument';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IHuman from '@/interfaces/IHuman';
@@ -15,4 +16,5 @@ export default interface IVacancyResponse {
 
   initDocuments: (documentsTypes: IDocumentType[]) => void;
   getFileInfos: () => IFileInfo[];
+  findDocument: (documentTypeId: string) => IDocument | undefined;
 }
