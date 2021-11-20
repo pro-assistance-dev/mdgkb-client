@@ -27,4 +27,6 @@ export default interface INews {
   newsImagesNames: string[];
   viewsCount: number;
   event?: IEvent;
+
+  createSlug: () => void;
 }

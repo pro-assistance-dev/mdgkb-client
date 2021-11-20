@@ -3,11 +3,20 @@
   <el-dialog v-model="eventFormVisible" title="Регистрация">
     <div class="add-comment">
       <el-form ref="form" :model="eventApplication">
-        <el-form-item>
-          <div style="display: flex; justify-content: flex-end">
-            <el-button class="send-comment" type="primary" @click="send"> Отправить заявку </el-button>
-          </div>
-        </el-form-item>
+        <div v-for="field in event.form.fields" :key="field.id">
+          <el-form-item v-if="field.valueType.isString()" :label="field.name">
+            <el-input v-model="eventApplication.findFieldValue(field.id).valueString" />
+          </el-form-item>
+          <el-form-item v-if="field.valueType.isNumber()" :label="field.name">
+            <el-input-number v-model="eventApplication.findFieldValue(field.id).valueNumber" />
+          </el-form-item>
+          <el-form-item v-if="field.valueType.isDate()" :label="field.name">
+            <el-date-picker v-model="eventApplication.findFieldValue(field.id).valueDate" />
+          </el-form-item>
+        </div>
+        <div style="display: flex; justify-content: flex-end">
+          <el-button class="send-comment" type="primary" @click="send"> Отправить заявку </el-button>
+        </div>
       </el-form>
     </div>
   </el-dialog>
@@ -15,7 +24,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
@@ -33,6 +42,12 @@ export default defineComponent({
     const form = ref();
     const rules = ref(CommentRules);
     const eventFormVisible = ref(false);
+
+    onBeforeMount(async () => {
+      console.log(event.value.form.fields);
+      eventApplication.value.initFieldsValues(event.value.form.fields);
+    });
+
     const send = async () => {
       if (!validate(form)) return;
       try {
@@ -46,6 +61,7 @@ export default defineComponent({
     };
 
     return {
+      event,
       eventFormVisible,
       eventApplication,
       rules,

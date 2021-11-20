@@ -41,13 +41,7 @@
           </el-container>
         </el-col>
       </el-row>
-      <el-row>
-        <el-button v-if="!news.event" type="success" @click="createEvent(true)">Сделать новость событием</el-button>
-        <el-button v-if="news.event" type="danger" @click="createEvent(false)">Сделать событие новостью</el-button>
-      </el-row>
-      <el-row v-if="news.event">
-        <el-card style="margin-top: 20px"> Новость является событием </el-card>
-      </el-row>
+      <AdminNewsPageEvent />
     </el-form>
 
     <ImageCropper />
@@ -59,23 +53,32 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Event from '@/classes/news/Event';
 import NewsRules from '@/classes/news/NewsRules';
+import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageGallery from '@/components/admin/AdminNews/AdminNewsPageGallery.vue';
 import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMainImage.vue';
 import AdminNewsPagePreviewImage from '@/components/admin/AdminNews/AdminNewsPagePreviewImage.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import INews from '@/interfaces/news/INews';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminNewsPage',
-  components: { ImageCropper, QuillEditor, AdminNewsPageTags, AdminNewsPagePreviewImage, AdminNewsPageGallery, AdminNewsPageMainImage },
+  components: {
+    AdminNewsPageEvent,
+    ImageCropper,
+    QuillEditor,
+    AdminNewsPageTags,
+    AdminNewsPagePreviewImage,
+    AdminNewsPageGallery,
+    AdminNewsPageMainImage,
+  },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -86,7 +89,7 @@ export default defineComponent({
     const rules = ref(NewsRules);
 
     const galleryList = computed(() => store.getters[`news/galleryList`]);
-    const news = computed(() => store.getters['news/newsItem']);
+    const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
@@ -139,16 +142,7 @@ export default defineComponent({
       next ? next() : router.push('/admin/news');
     };
 
-    const createEvent = (newsIsEvent: boolean) => {
-      if (!newsIsEvent) {
-        news.value.event = undefined;
-        return;
-      }
-      news.value.event = new Event();
-    };
-
     return {
-      createEvent,
       mounted,
       isCropGalleryOpen,
       galleryList,
