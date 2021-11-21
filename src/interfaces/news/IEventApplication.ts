@@ -10,6 +10,6 @@ export default interface IEventApplication {
   user?: User;
 
   initFieldsValues: (fields: IField[]) => void;
-  getFieldValue: (field: IField) => string | number | Date | boolean;
+  getFieldValue: (field: IField) => string | number | Date | boolean | undefined;
   findFieldValue: (fieldId: string) => IFieldValue | undefined;
 }

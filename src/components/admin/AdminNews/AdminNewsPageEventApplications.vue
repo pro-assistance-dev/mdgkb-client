@@ -1,12 +1,5 @@
 <template>
   <el-table v-if="event" :data="event.eventApplications">
-    <el-table-column prop="responseDate" label="Дата" sortable> </el-table-column>
-    <!--    <el-table-column prop="coverLetter" label="ФИО" sortable>-->
-    <!--      <template #default="scope">-->
-    <!--        {{ scope.row.user.human.getFullName() }}-->
-    <!--      </template>-->
-    <!--    </el-table-column>-->
-
     <el-table-column v-for="field in event.form.fields" :key="field.id" :label="field.name">
       <template #default="scope">
         {{ scope.row.getFieldValue(field) }}
@@ -14,24 +7,10 @@
     </el-table-column>
     <el-table-column fixed="right" align="center">
       <template #default="scope">
-        <TableButtonGroup :show-download-button="true" :show-info-button="true" @info="showInfo(scope.row)" @download="pdf(scope.row.id)" />
+        <TableButtonGroup :show-download-button="true" :show-info-button="true" @download="pdf(scope.row.id)" />
       </template>
     </el-table-column>
   </el-table>
-
-  <el-dialog v-model="showVacancy" :title="'Отклик на вакансию'" width="80%" center>
-    <el-descriptions :column="1" border direction="horizontal">
-      <el-descriptions-item label="Email">
-        {{ showedVacancyResponse.human.contactInfo.emails[0].address }}
-      </el-descriptions-item>
-      <el-descriptions-item label="Телефон">
-        {{ showedVacancyResponse.human.contactInfo.telephoneNumbers[0].number }}
-      </el-descriptions-item>
-      <el-descriptions-item label="Сопроводительное письмо">
-        {{ showedVacancyResponse.coverLetter }}
-      </el-descriptions-item>
-    </el-descriptions>
-  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -42,7 +21,7 @@ import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IEvent from '@/interfaces/news/IEvent';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import IEventApplication from '@/interfaces/news/IEventApplication';
 
 export default defineComponent({
   name: 'AdminNewsPageEventApplications',
@@ -58,24 +37,18 @@ export default defineComponent({
     let mounted = ref(false);
     const form = ref();
     const show = ref(false);
-    let showedVacancyResponse: Ref<IVacancyResponse | undefined> = ref(undefined);
+    let showedItem: Ref<IEventApplication | undefined> = ref(undefined);
 
-    const showInfo = async (vacancyResponse: IVacancyResponse) => {
-      vacancyResponse.viewed = true;
-      showedVacancyResponse.value = vacancyResponse;
-      await store.dispatch('vacancyResponses/update', vacancyResponse);
-    };
     const pdf = async (id: string) => {
       await store.dispatch('vacancyResponses/pdf', id);
     };
 
-    // const downloadScan = async (documentId: IVacancyResponse) => {};
+    // const dow = async (documentId: IVacancyResponse) => {};
 
     return {
       show,
-      showedVacancyResponse,
+      showedItem,
       pdf,
-      showInfo,
       mounted,
       form,
     };
