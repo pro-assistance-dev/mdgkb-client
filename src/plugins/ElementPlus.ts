@@ -34,6 +34,7 @@ import {
   ElRow,
   ElScrollbar,
   ElSelect,
+  ElSelectV2,
   ElSpace,
   ElSwitch,
   ElTable,
@@ -86,6 +87,7 @@ export const components = [
   ElTooltip,
   ElTree,
   ElUpload,
+  ElSelectV2,
 ];
 
 export const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];

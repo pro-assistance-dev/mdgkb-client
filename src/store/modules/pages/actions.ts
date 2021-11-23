@@ -33,9 +33,7 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
   },
-
   getBySlug: async ({ commit }, slug: string): Promise<void> => {
-    console.log(slug);
     const res = await httpClient.get<IPage>({ query: `slug/${slug}` });
     commit('set', res);
   },
