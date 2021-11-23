@@ -31,22 +31,23 @@
         </el-col>
         <el-col :span="19">
           <div v-if="!day.isWeekend">
+            {{ day.startTimeLimit }}
             <div class="timetable-row">
               <el-time-select
                 :model-value="day.getTime(day.startTime)"
                 class="time-select"
-                start="00:00"
                 step="00:15"
-                end="23:30"
+                :start="day.startTimeLimit"
+                :end="day.endTimeLimit"
                 @change="day.startTime = $event"
               />
               -
               <el-time-select
                 :model-value="day.getTime(day.endTime)"
                 class="time-select"
-                start="08:30"
+                :start="day.startTimeLimit"
+                :end="day.endTimeLimit"
                 step="00:15"
-                end="18:30"
                 @change="day.endTime = $event"
               />
               <el-checkbox v-model="day.breakExist" class="add-break-checkbox">Перерыв</el-checkbox>
@@ -57,18 +58,18 @@
               <el-time-select
                 :model-value="day.getTime(day.breakStartTime)"
                 class="time-select"
-                start="08:30"
+                :start="day.startTimeLimit"
+                :end="day.endTimeLimit"
                 step="00:15"
-                end="18:30"
                 @change="day.breakStartTime = $event"
               />
               -
               <el-time-select
                 :model-value="day.getTime(day.breakEndTime)"
                 class="time-select"
-                start="08:30"
+                :start="day.startTimeLimit"
+                :end="day.endTimeLimit"
                 step="00:15"
-                end="18:30"
                 @change="day.breakEndTime = $event"
               />
             </div>
@@ -86,11 +87,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Timetable from '@/classes/timetable/Timetable';
 import TimetableDay from '@/classes/timetable/TimetableDay';
+import ITimetable from '@/interfaces/timetables/ITimetable';
 export default defineComponent({
   name: 'TimetableConstructor',
   props: {
@@ -103,7 +105,7 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const weekdays = computed(() => store.getters['timetables/weekdays']);
-    const timetable = computed(() => store.getters[`${props.storeModule}/timetable`]);
+    const timetable: Ref<ITimetable> = computed<ITimetable>(() => store.getters[`${props.storeModule}/timetable`]);
 
     onBeforeMount(async () => {
       await store.dispatch('timetables/getAllWeekdays');

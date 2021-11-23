@@ -25,4 +25,6 @@ export default interface IDoctor {
   doctorRegaliasForDelete: string[];
   educations: IEducation[];
   educationsForDelete: string[];
+
+  workNow: () => boolean;
 }

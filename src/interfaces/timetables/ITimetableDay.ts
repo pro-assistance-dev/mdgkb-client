@@ -4,7 +4,9 @@ export default interface ITimetableDay {
   id?: string;
   isWeekend: boolean;
   startTime: string;
+  startTimeLimit: string;
   endTime: string;
+  endTimeLimit: string;
   breakExist: boolean;
   breakStartTime?: string;
   breakEndTime?: string;

@@ -123,8 +123,27 @@ const mutations: MutationTree<State> = {
   },
 
   setTimetable(state, timetable: ITimetable) {
-    if (!state.item) return;
+    if (!state.item) {
+      return;
+    }
+
     state.item.timetable = timetable;
+    state.item.timetable.timetableDays.forEach((timetableDay: ITimetableDay) => {
+      if (!state.item.division) {
+        return;
+      }
+      const divisionTimeTableDay = state.item.division.timetable.timetableDays.find(
+        (day: ITimetableDay) => day.weekdayId === timetableDay.weekdayId
+      );
+      if (divisionTimeTableDay) {
+        timetableDay.startTimeLimit = divisionTimeTableDay.startTime.substring(0, 5);
+        timetableDay.endTimeLimit = divisionTimeTableDay.endTime.substring(0, 5);
+
+        if (divisionTimeTableDay.isWeekend) {
+          timetableDay.isWeekend = true;
+        }
+      }
+    });
   },
   removeTimetable(state) {
     if (!state.item) return;

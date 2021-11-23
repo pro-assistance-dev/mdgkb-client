@@ -4,6 +4,8 @@
       <template #header>
         <div class="card-header">
           <h2>{{ doctor.human.getFullName() }}</h2>
+          <el-tag v-if="doctor.workNow()" type="success">Рабочее время</el-tag>
+          <el-tag v-else type="danger">Не рабочее время</el-tag>
         </div>
       </template>
       <div class="flex-row">
@@ -15,12 +17,18 @@
           <span><b>Должность:</b> {{ doctor.position }}</span>
           <span>{{ doctor.tags }}</span>
           <span><b>Прием:</b> {{ doctor.division.address }}</span>
-          <span><b>График работы:</b> {{ doctor.schedule }}</span>
           <span><b>Отделение:</b> {{ doctor.division.name }}</span>
           <span><b>Образование:</b> {{ doctor.education }}</span>
         </div>
       </div>
     </el-card>
+    <div class="flex-row">
+      <ul>
+        <li v-for="item in doctor.timetable.timetableDays" :key="item" :class="{ nowPeriod: item.weekday.isToday() }">
+          {{ item.getPeriodWithName() }}
+        </li>
+      </ul>
+    </div>
     <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
   </div>
 </template>
@@ -40,7 +48,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const doctor: Ref<IDoctor> = computed(() => store.getters['doctors/item']);
+    const doctor: Ref<IDoctor> = computed<IDoctor>(() => store.getters['doctors/item']);
     const mount = ref(false);
 
     onBeforeMount(async () => {

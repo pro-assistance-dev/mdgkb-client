@@ -18,4 +18,8 @@ export default class Timetable implements ITimetable {
     timetable.timetableDays = TimetableDay.CreateStandartWeek(weekdays);
     return timetable;
   }
+
+  getNowDay(): ITimetableDay {
+    return this.timetableDays.find((timetableDay: ITimetableDay) => timetableDay.isNow()) ?? new TimetableDay();
+  }
 }

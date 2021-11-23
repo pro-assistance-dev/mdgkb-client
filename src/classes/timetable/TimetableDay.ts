@@ -5,8 +5,10 @@ import IWeekday from '@/interfaces/timetables/IWeekday';
 export default class TimetableDay implements ITimetableDay {
   id?: string;
   isWeekend = false;
-  startTime = '';
+  startTime = '00:00';
+  startTimeLimit = '';
   endTime = '';
+  endTimeLimit = '00:00';
   breakExist = false;
   breakStartTime?: string;
   breakEndTime?: string;
@@ -27,7 +29,9 @@ export default class TimetableDay implements ITimetableDay {
     this.weekdayId = i.weekdayId;
     this.isCustom = i.isCustom;
     this.customName = i.customName;
-    if (i.weekday) this.weekday = new Weekday(i.weekday);
+    if (i.weekday) {
+      this.weekday = new Weekday(i.weekday);
+    }
   }
 
   static CreateStandartWeek(weekdays: IWeekday[]): ITimetableDay[] {
@@ -37,7 +41,9 @@ export default class TimetableDay implements ITimetableDay {
   static CreateStandartTimetableDay(weekday: IWeekday): ITimetableDay {
     const timetableDay = new TimetableDay();
     timetableDay.startTime = '9:00';
+    timetableDay.startTimeLimit = '0:00';
     timetableDay.endTime = '18:00';
+    timetableDay.endTimeLimit = '23:15';
     timetableDay.weekday = weekday;
     timetableDay.weekdayId = weekday.id;
     if (timetableDay.weekday.isWeekend()) timetableDay.isWeekend = true;
@@ -74,7 +80,7 @@ export default class TimetableDay implements ITimetableDay {
 
   getPeriodWithName(): string {
     let period = this.getPeriod();
-    period = `${this.weekday.name}: ${period}`;
+    period = `${this.weekday.name}: ${this.isWeekend ? 'выходной' : period} `;
     if (this.weekday.isToday()) {
       const arrow = '⇽';
       period = `${period} ${arrow}`;

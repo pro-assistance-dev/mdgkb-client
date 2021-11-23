@@ -41,6 +41,7 @@ import {
   ElTabs,
   ElTag,
   ElTimeline,
+  ElTimeSelect,
   ElTooltip,
   ElTree,
   ElUpload,
@@ -88,6 +89,7 @@ export const components = [
   ElTree,
   ElUpload,
   ElSelectV2,
+  ElTimeSelect,
 ];
 
 export const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];
