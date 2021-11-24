@@ -3,6 +3,7 @@ import { MutationTree } from 'vuex';
 
 import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 
+import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
@@ -43,6 +44,9 @@ const mutations: MutationTree<State> = {
       state.loadingSaveButton = false;
     };
     state.submit = submit;
+  },
+  resetState(state) {
+    Object.assign(state, getDefaultState());
   },
 };
 

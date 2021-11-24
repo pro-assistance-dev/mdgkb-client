@@ -9,6 +9,7 @@ import {
   ElCheckTag,
   ElCol,
   ElCollapse,
+  ElColorPicker,
   ElContainer,
   ElDatePicker,
   ElDescriptions,
@@ -27,6 +28,7 @@ import {
   ElMessage,
   ElMessageBox,
   ElNotification,
+  ElPageHeader,
   ElPagination,
   ElPopconfirm,
   ElPopover,
@@ -49,6 +51,7 @@ import {
 import makeInstaller from 'element-plus/lib/make-installer';
 
 export const components = [
+  ElPageHeader,
   ElAutocomplete,
   ElAvatar,
   ElBreadcrumb,
@@ -60,6 +63,7 @@ export const components = [
   ElCol,
   ElCollapse,
   ElContainer,
+  ElColorPicker,
   ElDatePicker,
   ElDescriptions,
   ElDialog,

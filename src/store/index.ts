@@ -4,17 +4,17 @@ import { admin } from '@/store/modules/admin';
 import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
-import { carousels } from '@/store/modules/carousels';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
-import { documentTypes } from '@/store/modules/document-types';
+import { documentTypes } from '@/store/modules/documentTypes';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { map } from '@/store/modules/map';
 import { menus } from '@/store/modules/menus';
 import { news } from '@/store/modules/news';
+import { newsSlides } from '@/store/modules/newsSlides';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { pages } from '@/store/modules/pages';
@@ -52,7 +52,6 @@ const store: StoreOptions<RootState> = {
     normativeDocumentTypes,
     users,
     admin,
-    carousels,
     timetables,
     map,
     educationalOrganization,
@@ -63,6 +62,7 @@ const store: StoreOptions<RootState> = {
     search,
     hospitalizations,
     comments,
+    newsSlides,
   },
 };
 

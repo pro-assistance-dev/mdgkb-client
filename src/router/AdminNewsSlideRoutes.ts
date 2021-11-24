@@ -1,14 +1,14 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminCarouselList from '@/components/admin/AdminCarousel/AdminCarouselList.vue';
-import AdminCarouselPage from '@/components/admin/AdminCarousel/AdminCarouselPage.vue';
+import AdminNewsSlideList from '@/components/admin/AdminNewsSlides/AdminNewsSlideList.vue';
+import AdminNewsSlidePage from '@/components/admin/AdminNewsSlides/AdminNewsSlidePage.vue';
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
   {
-    path: '/admin/carousels',
-    name: 'AdminCarouselList',
-    component: AdminCarouselList,
+    path: '/admin/news-slides',
+    name: 'AdminNewsSlideList',
+    component: AdminNewsSlideList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
@@ -18,9 +18,9 @@ export default [
     },
   },
   {
-    path: '/admin/carousels/new',
-    name: 'AdminCarouselPageCreate',
-    component: AdminCarouselPage,
+    path: '/admin/news-slides/new',
+    name: 'AdminNewsSlidePageCreate',
+    component: AdminNewsSlidePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
@@ -30,9 +30,9 @@ export default [
     },
   },
   {
-    path: '/admin/carousels/:id',
-    name: 'AdminCarouselPageEdit',
-    component: AdminCarouselPage,
+    path: '/admin/news-slides/:id',
+    name: 'AdminNewsSlidePageUpdate',
+    component: AdminNewsSlidePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

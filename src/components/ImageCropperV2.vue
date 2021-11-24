@@ -58,7 +58,7 @@ export default defineComponent({
 
       if (canvas) {
         canvas.canvas.toBlob((blob: Blob) => {
-          emit('crop', { blob: blob, src: canvas.canvas.toDataURL() });
+          emit('crop', { blob: blob, src: canvas.canvas?.toDataURL() });
         });
       }
 
@@ -70,7 +70,7 @@ export default defineComponent({
 
     const onChange = (res: ICanvasResult) => {
       coordinates.value = res.coordinates;
-      resultImage.value = res.canvas.toDataURL();
+      resultImage.value = res.canvas?.toDataURL();
     };
 
     return { save, cancel, onChange, resultImage, cropperRef, loading, cropper };

@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Carousel from '@/classes/carousel/Carousel';
+import NewsSlide from '@/classes/newsSlides/NewsSlide';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -8,16 +8,17 @@ import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
 
-export const state: State = {
-  items: [],
-  item: new Carousel(),
-  nowSlide: 0,
-  fileLists: [[]],
+export const getDefaultState = (): State => {
+  return {
+    items: [],
+    item: new NewsSlide(),
+  };
 };
 
+const state = getDefaultState();
 const namespaced = true;
 
-export const carousels: Module<State, RootState> = {
+export const newsSlides: Module<State, RootState> = {
   namespaced,
   state,
   getters,

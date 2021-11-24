@@ -82,8 +82,8 @@ export default defineComponent({
         ],
       },
       {
-        title: 'Карусели новостей',
-        to: '/admin/carousels',
+        title: 'Слайдер новостей',
+        to: '/admin/news-slides',
         icon: 'el-icon-picture-outline',
       },
       {

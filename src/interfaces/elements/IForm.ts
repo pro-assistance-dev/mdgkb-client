@@ -1,5 +1,5 @@
 export default interface IForm {
-  validate: (callback: myCallback) => boolean;
+  validate: (callback: ValidateCallback) => boolean;
 }
 
-declare type myCallback = (name: boolean) => void;
+declare type ValidateCallback = (valid: boolean, errorFields: Record<string, unknown>) => void;

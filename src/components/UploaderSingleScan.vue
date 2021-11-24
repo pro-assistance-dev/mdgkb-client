@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Cropper from '@/classes/cropper/Cropper';
@@ -58,20 +58,20 @@ export default defineComponent({
       required: true,
     },
     height: {
-      type: String,
-      default: '200px',
+      type: Number,
+      default: 200,
     },
     width: {
-      type: String,
-      default: '200px',
+      type: Number,
+      default: 200,
     },
   },
   setup(props) {
     const fileList: Ref<IFilesList[]> = ref([]);
     const heightWeight = computed(() => {
       return {
-        '--height': props.height,
-        '--width': props.width,
+        '--height': `${props.height}px`,
+        '--width': `${props.width}px`,
       };
     });
     const store = useStore();
@@ -92,7 +92,8 @@ export default defineComponent({
     };
 
     const openCropper = (file: IFile) => {
-      store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, 1, props.fileInfo.id));
+      const ratio = props.width / props.height;
+      store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, ratio, props.fileInfo.id));
       cropperOpened.value = true;
     };
 
@@ -110,6 +111,13 @@ export default defineComponent({
       showUpload.value = false;
       cropperOpened.value = false;
     };
+
+    onBeforeMount(() => {
+      if (props.fileInfo.fileSystemPath) {
+        fileList.value.push({ name: props.fileInfo.fileSystemPath, url: props.fileInfo.getImageUrl() });
+        showUpload.value = false;
+      }
+    });
 
     return {
       cropperOpened,
@@ -134,7 +142,7 @@ export default defineComponent({
 }
 
 .avatar-uploader-cover {
-  line-height: var(--height);
+  // line-height: var(--height);
   text-align: center;
 }
 
@@ -145,21 +153,27 @@ export default defineComponent({
 }
 
 :deep(.el-upload) {
-  width: var(--width);
-  height: var(--height);
+  max-width: var(--width);
+  width: 100% !important;
+  max-height: var(--height);
+  height: 100% !important;
   background: white;
   text-align: center;
   line-height: var(--height);
 }
 
 :deep(.el-upload-list__item) {
-  width: var(--width) !important;
-  height: var(--height) !important;
+  max-width: var(--width) !important;
+  width: 100% !important;
+  max-height: var(--height) !important;
+  height: 100% !important;
 }
 
 :deep(.el-upload-list__item-thumbnail) {
-  width: var(--width) !important;
-  height: var(--height) !important ;
+  max-width: var(--width) !important;
+  width: 100% !important;
+  max-height: var(--height) !important ;
+  height: 100% !important;
 }
 
 :deep(.el-upload-list__item) {
