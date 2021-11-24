@@ -36,4 +36,7 @@ $header-background-color: whitesmoke;
 .drawer-container {
   height: 100%;
 }
+:deep(.el-drawer__body) {
+  padding: 0;
+}
 </style>

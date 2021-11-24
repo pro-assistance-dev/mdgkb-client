@@ -40,7 +40,7 @@
 import { defineComponent } from 'vue';
 
 import AuthPage from '@/components/Auth/AuthPage.vue';
-import NewsCarousel from '@/components/NewsCarousel.vue';
+import NewsCarousel from '@/components/News/NewsCarousel.vue';
 import SearchDrawer from '@/views/mainLayout/elements/SearchDrawer.vue';
 import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
 import FooterTop from '@/views/mainLayout/FooterTop.vue';

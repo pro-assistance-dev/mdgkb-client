@@ -87,6 +87,11 @@ export default defineComponent({
         icon: 'el-icon-picture-outline',
       },
       {
+        title: 'Слайдер новостей',
+        to: '/admin/news-slides',
+        icon: 'el-icon-picture-outline',
+      },
+      {
         title: 'Справочники',
         to: '/',
         icon: 'el-icon-collection',
