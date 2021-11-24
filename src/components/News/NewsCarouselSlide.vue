@@ -101,6 +101,7 @@ export default defineComponent({
   width: 100%;
   margin: 0 70px;
   max-width: 1344px;
+  word-break: break-word;
 
   .text {
     max-width: 50%;
