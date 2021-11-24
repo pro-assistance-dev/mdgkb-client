@@ -1,8 +1,8 @@
 <template>
-  <el-form v-if="mounted" :model="slide" label-position="top">
+  <el-form v-if="mounted" ref="form" :model="slide" label-position="top" :rules="rules" :inline-message="true">
     <div class="admin-news-slide">
       <el-card header="Редактор">
-        <el-form-item label="Название новости">
+        <el-form-item label="Название новости" prop="title">
           <el-input v-model="slide.title" placeholder="Название новости"></el-input>
         </el-form-item>
         <el-form-item label="Текст новости">
@@ -27,12 +27,16 @@
           </el-table-column>
           <el-table-column label="Текст" sortable>
             <template #default="scope">
-              <el-input v-model="scope.row.name" placeholder="Текст"></el-input>
+              <el-form-item style="margin: 0" :rules="rules.buttonName" :prop="'newsSlideButtons.' + scope.$index + '.name'">
+                <el-input v-model="scope.row.name" placeholder="Текст"></el-input>
+              </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="Ссылка" sortable>
             <template #default="scope">
-              <el-input v-model="scope.row.link" placeholder="Ссылка"></el-input>
+              <el-form-item style="margin: 0" :rules="rules.buttonLink" :prop="'newsSlideButtons.' + scope.$index + '.link'">
+                <el-input v-model="scope.row.link" placeholder="Ссылка"></el-input>
+              </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="Цвет фона" sortable width="150" align="center">
@@ -53,16 +57,16 @@
         </el-table>
       </el-card>
       <el-card header="Фон под разные разрешения">
-        <el-form-item label="Desktop:">
+        <el-form-item label="Desktop:" prop="desktopImg.fileSystemPath" :rules="rules.desktopImg">
           <UploaderSingleScan :file-info="slide.desktopImg" :height="300" :width="1920" />
         </el-form-item>
-        <el-form-item label="Laptop:">
+        <el-form-item label="Laptop:" prop="laptopImg.fileSystemPath" :rules="rules.laptopImg">
           <UploaderSingleScan :file-info="slide.laptopImg" :height="300" :width="1200" />
         </el-form-item>
-        <el-form-item label="Tablet:">
+        <el-form-item label="Tablet:" prop="tabletImg.fileSystemPath" :rules="rules.tabletImg">
           <UploaderSingleScan :file-info="slide.tabletImg" :height="300" :width="768" />
         </el-form-item>
-        <el-form-item label="Mobile:">
+        <el-form-item label="Mobile:" prop="mobileImg.fileSystemPath" :rules="rules.mobileImg">
           <UploaderSingleScan :file-info="slide.mobileImg" :height="300" :width="480" />
         </el-form-item>
       </el-card>
@@ -77,8 +81,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import AdminNewsSlidePreview from '@/components/admin/AdminNewsSlides/AdminNewsSlidePreview.vue';
@@ -86,6 +90,8 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminNewsSlidePage',
@@ -95,11 +101,23 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const rules = {
+      title: [{ required: true, message: 'Необходимо указать название', trigger: 'blur' }],
+      buttonName: [{ required: true, message: 'Необходимо указать текст кнопки', trigger: 'blur' }],
+      buttonLink: [{ required: true, message: 'Необходимо указать ссылку', trigger: 'blur' }],
+      desktopImg: [{ required: true, message: 'Необходимо загрузить desktop версию изображения', trigger: 'change' }],
+      laptopImg: [{ required: true, message: 'Необходимо загрузить laptop версию изображения', trigger: 'change' }],
+      tabletImg: [{ required: true, message: 'Необходимо загрузить tablet версию изображения', trigger: 'change' }],
+      mobileImg: [{ required: true, message: 'Необходимо загрузить mobile версию изображения', trigger: 'change' }],
+    };
+    const form = ref();
     const mounted: Ref<boolean> = ref(false);
     const showPreview: Ref<boolean> = ref(false);
     const previewFullScreen: Ref<boolean> = ref(false);
     const slide: ComputedRef<INewsSlide> = computed<INewsSlide>(() => store.getters['newsSlides/item']);
     const slides: ComputedRef<INewsSlide[]> = computed<INewsSlide[]>(() => store.getters['newsSlides/items']);
+
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const addButton = () => {
       store.commit('newsSlides/addButton');
@@ -109,6 +127,11 @@ export default defineComponent({
     };
 
     const openPreview = () => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = false;
+        return;
+      }
       showPreview.value = true;
     };
 
@@ -136,10 +159,16 @@ export default defineComponent({
       }
       previewFullScreen.value = window.innerWidth < 1200;
       mounted.value = true;
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(slide, formUpdated, { deep: true });
     });
 
     onBeforeUnmount(() => {
       store.commit('newsSlides/resetState');
+    });
+
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
     });
 
     return {
@@ -151,6 +180,8 @@ export default defineComponent({
       openPreview,
       previewFullScreen,
       submit,
+      rules,
+      form,
     };
   },
 });
