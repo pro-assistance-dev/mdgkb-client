@@ -10,6 +10,7 @@ export default class FileInfo implements IFileInfo {
   fileSystemPath;
   category?;
   file?: Blob;
+  url = '';
 
   constructor(i?: IFileInfo) {
     if (!i) {
@@ -21,6 +22,7 @@ export default class FileInfo implements IFileInfo {
     this.fileSystemPath = i.fileSystemPath;
     this.category = i.category;
     this.file = i.file;
+    this.url = this.getImageUrl();
   }
 
   getImageUrl(): string {
@@ -54,5 +56,6 @@ export default class FileInfo implements IFileInfo {
 
   setFile(file: IFile): void {
     this.file = file.blob;
+    this.url = file.src;
   }
 }

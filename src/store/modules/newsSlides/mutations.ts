@@ -31,6 +31,9 @@ const mutations: MutationTree<State> = {
     }
     state.item.newsSlideButtons.splice(index, 1);
   },
+  setOrder(state, order: number) {
+    state.item.order = order;
+  },
 };
 
 export default mutations;

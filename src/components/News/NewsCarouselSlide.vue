@@ -1,25 +1,23 @@
 <template>
   <div class="slide-container" :style="{ 'background-image': `url(${url})` }">
-    <div class="container">
-      <div class="slide-body">
-        <div class="text">
-          <div v-html="item.title"></div>
-          <div v-html="item.content"></div>
-        </div>
-        <div class="slide-buttons">
-          <button
-            v-for="(button, i) in item.newsSlideButtons"
-            :key="i"
-            :style="{
-              'background-color': button.backgroundColor ? button.backgroundColor : 'white',
-              color: button.color ? button.color : 'black',
-              border: `1px solid ${button.color ? button.color : 'black'}`,
-            }"
-            @click="$router.push(button.link)"
-          >
-            {{ button.name }}
-          </button>
-        </div>
+    <div class="slide-body">
+      <div class="text" :style="{ color: `${item.color}` }">
+        <h1>{{ item.title }}</h1>
+        <div>{{ item.content }}</div>
+      </div>
+      <div class="slide-buttons">
+        <button
+          v-for="(button, i) in item.newsSlideButtons"
+          :key="i"
+          :style="{
+            'background-color': button.backgroundColor ? button.backgroundColor : 'white',
+            color: button.color ? button.color : 'black',
+            border: `1px solid ${button.color ? button.color : 'black'}`,
+          }"
+          @click="$router.push(button.link)"
+        >
+          {{ button.name }}
+        </button>
       </div>
     </div>
   </div>
@@ -42,8 +40,10 @@ export default defineComponent({
       default: 0,
     },
   },
+
   setup(props) {
     const url: Ref<string> = ref<string>('');
+
     const resizeHandler = (): void => {
       let containerWidth: number;
       if (props.width) {
@@ -51,7 +51,6 @@ export default defineComponent({
       } else {
         containerWidth = window.innerWidth;
       }
-      // const containerWidth: number = window.innerWidth;
       let img: IFileInfo = props.item.desktopImg;
       switch (true) {
         case containerWidth <= 480:
@@ -64,12 +63,14 @@ export default defineComponent({
           img = props.item.laptopImg;
           break;
       }
-      url.value = img.getImageUrl();
+      url.value = img.url;
     };
+
     onBeforeMount(() => {
       resizeHandler();
       window.addEventListener('resize', resizeHandler);
     });
+
     return {
       url,
     };
@@ -83,8 +84,13 @@ export default defineComponent({
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .slide-body {
   display: flex;
@@ -92,12 +98,17 @@ export default defineComponent({
   align-items: flex-start;
   justify-content: center;
   height: 100%;
+  width: 100%;
   margin: 0 70px;
+  max-width: 1344px;
 
   .text {
     max-width: 50%;
     max-height: 100%;
     overflow: hidden;
+    div {
+      font-size: 16px;
+    }
   }
 
   .slide-buttons {
@@ -116,6 +127,11 @@ export default defineComponent({
         filter: brightness(150%);
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       }
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .text {
+      max-width: 100%;
     }
   }
   @media screen and (max-width: 480px) {

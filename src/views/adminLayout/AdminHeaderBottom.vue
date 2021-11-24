@@ -13,6 +13,7 @@ import { computed, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 export default defineComponent({
+  name: 'AdminHeaderBottom',
   setup() {
     const store = useStore();
     const router = useRouter();

@@ -3,5 +3,6 @@ export default interface INewsSlideButton {
   name: string;
   color: string;
   backgroundColor: string;
+  order: number;
   link: string;
 }

@@ -8,6 +8,7 @@ export default interface IFileInfo {
   fileSystemPath?: string;
   file?: Blob;
   isDraft?: boolean;
+  url: string;
 
   getImageUrl: () => string;
   getFileListObject: () => IFilesList;

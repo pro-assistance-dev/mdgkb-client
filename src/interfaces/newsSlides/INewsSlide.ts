@@ -5,6 +5,8 @@ export default interface INewsSlide {
   id?: string;
   title: string;
   content: string;
+  color: string;
+  order: number;
   desktopImg: IFileInfo;
   desktopImgId?: string;
   laptopImg: IFileInfo;

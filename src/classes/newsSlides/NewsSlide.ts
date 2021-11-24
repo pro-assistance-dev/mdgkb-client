@@ -9,6 +9,8 @@ export default class NewsSlide implements INewsSlide {
   id?: string;
   title = '';
   content = '';
+  color = '#000000';
+  order = 1;
   desktopImg: IFileInfo = new FileInfo();
   desktopImgId?: string;
   laptopImg: IFileInfo = new FileInfo();
@@ -27,6 +29,8 @@ export default class NewsSlide implements INewsSlide {
     this.id = newsSlide.id;
     this.title = newsSlide.title;
     this.content = newsSlide.content;
+    this.color = newsSlide.color;
+    this.order = newsSlide.order;
     this.desktopImgId = newsSlide.desktopImgId;
     if (newsSlide.desktopImg) {
       this.desktopImg = new FileInfo(newsSlide.desktopImg);

@@ -1,10 +1,19 @@
 <template>
   <div class="flex-column">
     <div class="flex-row-between">
-      <el-button type="primary" @click="create">Добавить</el-button>
+      <div class="table-buttons">
+        <el-button type="primary" @click="create">Добавить</el-button>
+        <el-button v-if="!isEdit" type="success" @click="editOrder">Редактировать порядок</el-button>
+        <el-button v-else type="success" @click="saveOrder">Сохранить порядок</el-button>
+      </div>
     </div>
     <el-card>
       <el-table v-if="slides" :data="slides">
+        <el-table-column v-if="isEdit" width="50" fixed="left" align="center">
+          <template #default="scope">
+            <TableMover :store-module="'newsSlides'" :store-getter="'items'" :index="scope.$index" />
+          </template>
+        </el-table-column>
         <el-table-column label="Название" sortable>
           <template #default="scope">
             <span>{{ scope.row.title }}</span>
@@ -33,20 +42,22 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import TableMover from '@/components/admin/TableMover.vue';
 import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
 
 export default defineComponent({
   name: 'AdminNewsSlideList',
-  components: { TableButtonGroup },
+  components: { TableMover, TableButtonGroup },
 
   setup() {
     const router = useRouter();
     const store = useStore();
+    const isEdit: Ref<boolean> = ref(false);
     const slides: ComputedRef<INewsSlide[]> = computed(() => store.getters['newsSlides/items']);
 
     const create = (): void => {
@@ -57,6 +68,15 @@ export default defineComponent({
     };
     const edit = (id: string): void => {
       router.push(`/admin/news-slides/${id}`);
+    };
+
+    const editOrder = () => {
+      isEdit.value = true;
+    };
+
+    const saveOrder = async () => {
+      await store.dispatch('newsSlides/updateAll');
+      isEdit.value = false;
     };
 
     onBeforeMount(async () => {
@@ -74,6 +94,9 @@ export default defineComponent({
       create,
       remove,
       edit,
+      isEdit,
+      editOrder,
+      saveOrder,
     };
   },
 });
