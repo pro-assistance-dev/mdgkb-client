@@ -11,6 +11,7 @@
       data-test="tableButtonGroupEditButton"
       @click="$emit('edit')"
     />
+    <el-button v-if="showCheckButton" class="table-button" icon="el-icon-check" @click="$emit('check')" />
     <el-popconfirm
       v-if="showRemoveButton"
       confirm-button-text="Да"
@@ -72,8 +73,12 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       default: false,
     },
+    showCheckButton: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
   },
-  emits: ['download', 'edit', 'remove', 'moveUp', 'moveDown', 'add', 'info', 'archive'],
+  emits: ['download', 'edit', 'remove', 'moveUp', 'moveDown', 'add', 'info', 'archive', 'check'],
 });
 </script>
 

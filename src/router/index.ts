@@ -5,6 +5,7 @@ import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
+import QuestionsPage from '@/components/Questions/QuestionsPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
@@ -89,6 +90,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/vacancies',
     name: 'VacanciesPage',
     component: VacanciesPage,
+  },
+  {
+    path: '/questions',
+    name: 'QuestionsPage',
+    component: QuestionsPage,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,

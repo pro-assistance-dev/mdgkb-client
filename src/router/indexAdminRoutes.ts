@@ -4,10 +4,12 @@ import AdminDictionaryRoutes from '@/router/AdminDictionaryRoutes';
 import AdminDoctorsRoutes from '@/router/AdminDoctorsRoutes';
 import AdminDocumentsTypeRoutes from '@/router/AdminDocumentsTypeRoutes';
 import AdminEducationalOrganizationRoutes from '@/router/AdminEducationalOrganizationRoutes';
+import AdminFaqsRoutes from '@/router/AdminFaqsRoutes';
 import AdminMenusRoutes from '@/router/AdminMenusRoutes';
 import AdminNewsRoutes from '@/router/AdminNewsRoutes';
 import AdminNewsSlideRoutes from '@/router/AdminNewsSlideRoutes';
 import AdminPagesRoutes from '@/router/AdminPagesRoutes';
+import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
 
 export default [
@@ -21,5 +23,7 @@ export default [
   ...AdminVacanciesRoutes,
   ...AdminDocumentsTypeRoutes,
   ...AdminCommentsRoutes,
+  ...AdminFaqsRoutes,
   ...AdminNewsSlideRoutes,
+  ...AdminQuestionsRoutes,
 ];

@@ -13,7 +13,12 @@
     </el-menu>
     <h4>Сервисы</h4>
     <el-menu>
-      <el-menu-item index="1">
+      <el-menu-item index="1" @click="$router.push('/profile/questions')">
+        <i class="el-icon-question"></i>
+        <span>Ответы на вопросы</span>
+        <el-tag v-if="hasNewAnswers" class="badge" type="warning">{{ countNewAnswers }}</el-tag>
+      </el-menu-item>
+      <el-menu-item index="2">
         <i class="el-icon-first-aid-kit"></i>
         <span>Донорство крови</span>
       </el-menu-item>
@@ -22,9 +27,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
+import { useStore } from 'vuex';
+
+import IUser from '@/interfaces/users/IUser';
 export default defineComponent({
   name: 'ProfileSideMenu',
+  setup() {
+    const store = useStore();
+
+    const user: Ref<IUser> = computed(() => store.getters['users/item']);
+    const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
+    const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
+
+    return {
+      user,
+      hasNewAnswers,
+      countNewAnswers,
+    };
+  },
 });
 </script>
 
@@ -38,5 +59,9 @@ h4 {
   text-transform: uppercase;
   font-size: 14px;
   margin: 10px 0 5px 15px;
+}
+
+.badge {
+  margin-left: 10px;
 }
 </style>

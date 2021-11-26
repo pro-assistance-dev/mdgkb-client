@@ -115,6 +115,14 @@ export default defineComponent({
             title: 'Документы',
             to: '/admin/documents-types',
           },
+          {
+            title: 'FAQ',
+            to: '/admin/faqs',
+          },
+          {
+            title: 'Вопросы',
+            to: '/admin/questions',
+          },
         ],
       },
       {

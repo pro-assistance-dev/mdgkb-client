@@ -1,6 +1,7 @@
 import {
   ElAutocomplete,
   ElAvatar,
+  ElBadge,
   ElBreadcrumb,
   ElButton,
   ElCard,
@@ -94,6 +95,7 @@ export const components = [
   ElUpload,
   ElSelectV2,
   ElTimeSelect,
+  ElBadge,
 ];
 
 export const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];

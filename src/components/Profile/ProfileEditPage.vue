@@ -16,10 +16,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from 'vue';
+import { computed, defineComponent, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
+import IUser from '@/interfaces/users/IUser';
 
 export default defineComponent({
   name: 'ProfileEditPage',
@@ -28,7 +29,7 @@ export default defineComponent({
     const store = useStore();
 
     const userId = localStorage.getItem('userId');
-    const user = computed(() => store.getters['users/item']);
+    const user: Ref<IUser> = computed(() => store.getters['users/item']);
 
     const loadUser = async () => {
       await store.dispatch('users/get', userId);

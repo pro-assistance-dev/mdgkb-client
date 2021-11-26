@@ -10,6 +10,7 @@ import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { documentTypes } from '@/store/modules/documentTypes';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
+import { faqs } from '@/store/modules/faqs';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { map } from '@/store/modules/map';
 import { menus } from '@/store/modules/menus';
@@ -18,6 +19,7 @@ import { newsSlides } from '@/store/modules/newsSlides';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { pages } from '@/store/modules/pages';
+import { questions } from '@/store/modules/questions';
 import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { tags } from '@/store/modules/tags';
@@ -62,7 +64,9 @@ const store: StoreOptions<RootState> = {
     search,
     hospitalizations,
     comments,
+    faqs,
     newsSlides,
+    questions,
   },
 };
 
