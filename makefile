@@ -1,4 +1,4 @@
 run:
-	npm run serve
+	npm run --openssl-legacy-provider serve
 
 

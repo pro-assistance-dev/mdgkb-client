@@ -5,7 +5,7 @@ import { isAuthorized } from '@/router/index';
 
 export default [
   {
-    path: '/doctors/:id',
+    path: '/doctors/:slug',
     name: 'DoctorPage',
     component: DoctorPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

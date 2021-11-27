@@ -150,7 +150,6 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      page.value.createSlug();
       if (!route.params['slug']) {
         await store.dispatch('pages/create', page.value);
         await router.push('/admin/pages');

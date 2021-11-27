@@ -1,5 +1,3 @@
-import slugify from '@sindresorhus/slugify';
-
 import PageDocument from '@/classes/page/PageDocument';
 import PageImage from '@/classes/page/PageImage';
 import IFileInfo from '@/interfaces/files/IFileInfo';
@@ -42,10 +40,6 @@ export default class Page implements IPage {
     if (page.pageImages) {
       this.pageImages = page.pageImages.map((i: IPageImage) => new PageImage(i));
     }
-  }
-
-  createSlug(): void {
-    this.slug = slugify(this.title);
   }
 
   getLink(): string {

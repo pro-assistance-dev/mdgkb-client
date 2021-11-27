@@ -132,7 +132,6 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      news.value.createSlug();
       if (!route.params['slug']) {
         await store.dispatch('news/create', news.value);
         await router.push('/admin/news');

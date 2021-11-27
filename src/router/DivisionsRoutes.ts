@@ -14,7 +14,7 @@ export default [
     },
   },
   {
-    path: '/divisions/:id',
+    path: '/divisions/:slug',
     name: 'DivisionPage',
     component: DivisionPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

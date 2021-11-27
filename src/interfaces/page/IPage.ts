@@ -19,5 +19,4 @@ export default interface IPage {
 
   getLink: () => string;
   getFileInfos: () => IFileInfo[];
-  createSlug: () => void;
 }

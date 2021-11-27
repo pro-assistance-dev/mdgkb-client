@@ -19,7 +19,7 @@
                 />
               </template>
               <template #default="scope">
-                <el-space @click="$router.push(`/divisions/${scope.row.id}`)">
+                <el-space @click="$router.push({ name: 'DivisionPage', params: { id: scope.row.id, slug: scope.row.slug } })">
                   <i class="el-icon-link icon"> </i>
                   <span> {{ scope.row.name }}</span>
                 </el-space>

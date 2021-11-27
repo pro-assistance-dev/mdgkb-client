@@ -10,6 +10,7 @@ export default class Human implements IHuman {
   isMale = true;
   dateBirth?: Date;
   contactInfo: IContactInfo = new ContactInfo();
+  slug = '';
   constructor(i?: IHuman) {
     if (!i) {
       return;
@@ -20,6 +21,7 @@ export default class Human implements IHuman {
     this.patronymic = i.patronymic;
     this.isMale = i.isMale;
     this.dateBirth = i.dateBirth;
+    this.slug = i.slug;
 
     if (i) {
       this.contactInfo = new ContactInfo(i.contactInfo);

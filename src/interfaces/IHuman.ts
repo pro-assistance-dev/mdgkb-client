@@ -7,7 +7,7 @@ export default interface IHuman {
   patronymic: string;
   isMale: boolean;
   dateBirth?: Date;
-
+  slug: string;
   getFullName: () => string;
 
   contactInfo: IContactInfo;

@@ -1,5 +1,3 @@
-import slugify from '@sindresorhus/slugify';
-
 import FileInfo from '@/classes/File/FileInfo';
 import Event from '@/classes/news/Event';
 import NewsComment from '@/classes/news/NewsComment';
@@ -76,9 +74,5 @@ export default class News implements INews {
     if (news.event) {
       this.event = new Event(news.event);
     }
-  }
-
-  createSlug(): void {
-    this.slug = slugify(this.title);
   }
 }

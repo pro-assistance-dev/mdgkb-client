@@ -7,7 +7,7 @@
           <img v-else src="@//assets/img/310x310.png" />
         </div>
         <div class="flex-column">
-          <span class="doctor-name" @click="$router.push(`/doctors/${doctor.id}`)">
+          <span class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
             <b>{{ doctor.human.getFullName() }}</b>
           </span>
           <span>Врач {{ doctor.position }}</span>
