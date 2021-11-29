@@ -10,6 +10,14 @@
         <i class="el-icon-user"></i>
         <span>Мой профиль</span>
       </el-menu-item>
+      <el-menu-item index="2" @click="$router.push('/profile/edit')">
+        <i class="el-icon-user"></i>
+        <span>Мой профиль</span>
+      </el-menu-item>
+      <el-menu-item index="2" @click="$router.push('/profile/children')">
+        <i class="el-icon-user"></i>
+        <span>Мои дети</span>
+      </el-menu-item>
     </el-menu>
     <h4>Сервисы</h4>
     <el-menu>
@@ -30,7 +38,7 @@
 import { computed, defineComponent, Ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IUser from '@/interfaces/users/IUser';
+import IUser from '@/interfaces/IUser';
 export default defineComponent({
   name: 'ProfileSideMenu',
   setup() {

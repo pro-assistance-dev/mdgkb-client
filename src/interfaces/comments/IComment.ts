@@ -1,7 +1,7 @@
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import IUser from '@/interfaces/IUser';
 import INews from '@/interfaces/news/INews';
-import IUser from '@/interfaces/users/IUser';
 
 export default interface IComment {
   id?: string;

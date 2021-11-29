@@ -1,12 +1,12 @@
 import Division from '@/classes/buildings/Division';
 import Doctor from '@/classes/doctors/Doctor';
 import News from '@/classes/news/News';
-import User from '@/classes/user/User';
+import User from '@/classes/User';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IComment from '@/interfaces/comments/IComment';
 import IDoctor from '@/interfaces/doctors/IDoctor';
+import IUser from '@/interfaces/IUser';
 import INews from '@/interfaces/news/INews';
-import IUser from '@/interfaces/users/IUser';
 
 export default class Comment implements IComment {
   id?: string;

@@ -1,4 +1,4 @@
-import IUser from '@/interfaces/users/IUser';
+import IUser from '@/interfaces/IUser';
 
 export default interface State {
   user?: IUser;

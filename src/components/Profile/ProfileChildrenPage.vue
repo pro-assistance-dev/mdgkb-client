@@ -1,0 +1,66 @@
+<template>
+  <el-card v-if="user">
+    <template #header>
+      <h3 style="text-align: center; margin: 0">Профиль</h3>
+      <el-button @click="save">Сохранить</el-button>
+    </template>
+    <el-form label-width="100px" :model="user">
+      <el-button @click="user.addChild()">Добавить ребёнка</el-button>
+      <el-card v-for="(child, i) in user.children" :key="i">
+        <el-button @click="user.removeChild(i)">Удалить ребёнка</el-button>
+        <el-form-item label="Фамилия">
+          <el-input v-model="child.human.surname"></el-input>
+        </el-form-item>
+        <el-form-item label="Имя">
+          <el-input v-model="child.human.name"></el-input>
+        </el-form-item>
+        <el-form-item label="Отчество">
+          <el-input v-model="child.human.patronymic"></el-input>
+        </el-form-item>
+        <el-form-item label="Пол">
+          <el-select v-model="child.human.isMale" placeholder="Выберите пол">
+            <el-option label="Мужчина" :value="true"></el-option>
+            <el-option label="Женщина" :value="false"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Дата рождения">
+          <el-date-picker v-model="child.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
+        </el-form-item>
+      </el-card>
+    </el-form>
+  </el-card>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent, onMounted, Ref } from 'vue';
+import { useStore } from 'vuex';
+
+import IUser from '@/interfaces/IUser';
+
+export default defineComponent({
+  name: 'ProfileChildrenPage',
+  components: {},
+  setup() {
+    const store = useStore();
+
+    const userId = localStorage.getItem('userId');
+    const user: Ref<IUser> = computed(() => store.getters['users/item']);
+
+    const loadUser = async () => {
+      await store.dispatch('users/get', userId);
+    };
+    onMounted(loadUser);
+
+    const save = async () => {
+      await store.dispatch('users/update', user.value);
+    };
+
+    return {
+      user,
+      save,
+    };
+  },
+});
+</script>
+
+<style scoped lang="scss"></style>

@@ -20,7 +20,7 @@ import { computed, defineComponent, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
-import IUser from '@/interfaces/users/IUser';
+import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileEditPage',

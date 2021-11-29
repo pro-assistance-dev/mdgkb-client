@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IUser from '@/interfaces/users/IUser';
+import IUser from '@/interfaces/IUser';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -18,6 +18,9 @@ const actions: ActionTree<State, RootState> = {
   findEmail: async ({ commit }, email): Promise<void> => {
     const res = await httpClient.get<IUser[]>({ query: `get-by-email/${email}` });
     commit('emailExist', res);
+  },
+  update: async ({ commit }, item: IUser) => {
+    commit('set', await httpClient.put<IUser, IUser>({ query: `${item.id}`, payload: item, isFormData: true }));
   },
 };
 

@@ -20,7 +20,7 @@
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IUser from '@/interfaces/users/IUser';
+import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileQuestionPage',

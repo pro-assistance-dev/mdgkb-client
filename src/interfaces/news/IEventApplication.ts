@@ -1,4 +1,4 @@
-import User from '@/classes/user/User';
+import User from '@/classes/User';
 import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
 

@@ -35,7 +35,7 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import User from '@/classes/user/User';
+import User from '@/classes/User';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import validate from '@/mixins/validate';
 
