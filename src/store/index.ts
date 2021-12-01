@@ -10,6 +10,7 @@ import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { documentTypes } from '@/store/modules/documentTypes';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
+import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { map } from '@/store/modules/map';
@@ -67,6 +68,7 @@ const store: StoreOptions<RootState> = {
     faqs,
     newsSlides,
     questions,
+    events,
   },
 };
 

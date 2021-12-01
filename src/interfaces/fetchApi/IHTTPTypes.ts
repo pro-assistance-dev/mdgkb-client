@@ -4,6 +4,7 @@ export interface IBodilessParams {
   query?: string;
   headers?: Headers;
   isBlob?: boolean;
+  downloadFileName?: string;
 }
 
 export interface IBodyfulParams<PayloadType> {

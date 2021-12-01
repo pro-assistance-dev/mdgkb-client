@@ -44,14 +44,13 @@ export default defineComponent({
     const eventFormVisible = ref(false);
 
     onBeforeMount(async () => {
-      console.log(event.value.form.fields);
       eventApplication.value.initFieldsValues(event.value.form.fields);
     });
 
     const send = async () => {
       if (!validate(form)) return;
       try {
-        await store.dispatch(`news/sendEventApplications`, eventApplication.value);
+        await store.dispatch(`events/sendEventApplications`, eventApplication.value);
       } catch (e) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;

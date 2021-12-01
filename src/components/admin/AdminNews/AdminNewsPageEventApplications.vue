@@ -1,4 +1,5 @@
 <template>
+  <el-button @click="eventApplicationsPdf(event.id)">Скачать все заявки</el-button>
   <el-table v-if="event" :data="event.eventApplications">
     <el-table-column v-for="field in event.form.fields" :key="field.id" :label="field.name">
       <template #default="scope">
@@ -39,8 +40,8 @@ export default defineComponent({
     const show = ref(false);
     let showedItem: Ref<IEventApplication | undefined> = ref(undefined);
 
-    const pdf = async (id: string) => {
-      await store.dispatch('vacancyResponses/pdf', id);
+    const eventApplicationsPdf = async (id: string) => {
+      await store.dispatch('events/eventApplicationsPdf', id);
     };
 
     // const dow = async (documentId: IVacancyResponse) => {};
@@ -48,7 +49,7 @@ export default defineComponent({
     return {
       show,
       showedItem,
-      pdf,
+      eventApplicationsPdf,
       mounted,
       form,
     };

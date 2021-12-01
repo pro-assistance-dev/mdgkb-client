@@ -15,12 +15,23 @@ export default class HttpClient {
   private static download(url: string, name: string) {
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', name ?? 'file.pdf');
+    link.setAttribute('download', name);
+    link.setAttribute('target', '_blank');
     document.body.appendChild(link);
     link.click();
   }
 
-  async get<ReturnType>(params?: IBodilessParams): Promise<ReturnType> {
+  private static getDownloadFileName(clientFileName: string | undefined, serverFileName: string | undefined): string {
+    if (clientFileName) {
+      return clientFileName;
+    }
+    if (serverFileName) {
+      return serverFileName;
+    }
+    return 'file';
+  }
+
+  async get<ReturnType>(params?: IBodilessParams): Promise<ReturnType | void> {
     const isBlob = params?.isBlob;
     const headers = params?.headers;
 
@@ -30,7 +41,19 @@ export default class HttpClient {
       headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
       responseType: !isBlob ? 'json' : 'blob',
     });
-    return !isBlob ? data : HttpClient.download(URL.createObjectURL(data), resHeaders['download-file-name']);
+    if (!isBlob) {
+      return data;
+    }
+
+    const headerLine = resHeaders['content-disposition'];
+    const startFileNameIndex = headerLine.indexOf('"') + 1;
+    const endFileNameIndex = headerLine.lastIndexOf('"');
+    const filename = headerLine.substring(startFileNameIndex, endFileNameIndex);
+
+    const url = URL.createObjectURL(data);
+    const fileName = HttpClient.getDownloadFileName(params?.downloadFileName, filename);
+
+    return HttpClient.download(url, fileName);
   }
 
   async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
