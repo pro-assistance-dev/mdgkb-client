@@ -14,7 +14,7 @@
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
             </el-form-item>
           </el-card>
-          <TimetableConstructor :store-module="'divisions'" />
+          <TimetableConstructorV2 :store-module="'divisions'" />
           <ScheduleConstructor :store-module="'divisions'" />
           <AdminDivisionGallery />
         </el-container>
@@ -102,7 +102,7 @@ import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisio
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
+import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
@@ -112,7 +112,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
-  components: { ImageCropper, QuillEditor, TableButtonGroup, TimetableConstructor, ScheduleConstructor, AdminDivisionGallery },
+  components: { ImageCropper, QuillEditor, TableButtonGroup, TimetableConstructorV2, ScheduleConstructor, AdminDivisionGallery },
 
   setup() {
     const store = useStore();

@@ -9,7 +9,7 @@
             </template>
             <HumanForm :store-module="'doctors'" />
           </el-card>
-          <TimetableConstructor :store-module="'doctors'" />
+          <TimetableConstructorV2 :store-module="'doctors'" />
           <el-card>
             <EducationForm :store-module="'doctors'" />
           </el-card>
@@ -57,14 +57,14 @@ import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
-import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
+import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
-  components: { TimetableConstructor, HumanForm, ImageCropper, AdminDoctorImage, EducationForm, CardHeader },
+  components: { TimetableConstructorV2, HumanForm, ImageCropper, AdminDoctorImage, EducationForm, CardHeader },
   setup() {
     const store = useStore();
     const route = useRoute();

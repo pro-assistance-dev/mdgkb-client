@@ -15,8 +15,8 @@
         </el-main>
       </div>
     </div>
+    <AdminMenuDrawer />
   </div>
-  <AdminMenuDrawer />
 </template>
 
 <script lang="ts">

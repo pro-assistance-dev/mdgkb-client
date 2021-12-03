@@ -10,6 +10,7 @@ import AdminNewsRoutes from '@/router/AdminNewsRoutes';
 import AdminNewsSlideRoutes from '@/router/AdminNewsSlideRoutes';
 import AdminPagesRoutes from '@/router/AdminPagesRoutes';
 import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
+import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
 
 export default [
@@ -26,4 +27,5 @@ export default [
   ...AdminFaqsRoutes,
   ...AdminNewsSlideRoutes,
   ...AdminQuestionsRoutes,
+  ...AdminTimetablePatternRoutes,
 ];

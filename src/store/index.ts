@@ -24,6 +24,7 @@ import { questions } from '@/store/modules/questions';
 import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { tags } from '@/store/modules/tags';
+import { timetablePatterns } from '@/store/modules/timetablePatterns';
 import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
 import { vacancies } from '@/store/modules/vacancies';
@@ -69,6 +70,7 @@ const store: StoreOptions<RootState> = {
     newsSlides,
     questions,
     events,
+    timetablePatterns,
   },
 };
 

@@ -1,3 +1,4 @@
+import ITimePeriod from '@/interfaces/ITimePeriod';
 import IWeekday from '@/interfaces/timetables/IWeekday';
 
 export default interface ITimetableDay {
@@ -7,16 +8,18 @@ export default interface ITimetableDay {
   startTimeLimit: string;
   endTime: string;
   endTimeLimit: string;
-  breakExist: boolean;
-  breakStartTime?: string;
-  breakEndTime?: string;
+  breaksExists: boolean;
   weekdayId?: string;
   weekday: IWeekday;
-  customName: string;
-  isCustom: boolean;
+  aroundTheClock: boolean;
+  breakPeriods: ITimePeriod[];
+  breakPeriodsForDelete: string[];
 
   getPeriodWithName: () => string;
   getPeriod: () => string;
   isNow: () => boolean;
   getTime: (dateString: string) => string;
+  showBreakSwitcher: () => boolean;
+  addBreak: () => void;
+  removeBreak: (index: number) => void;
 }

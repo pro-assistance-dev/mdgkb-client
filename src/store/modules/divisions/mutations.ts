@@ -48,19 +48,37 @@ const mutations: MutationTree<State> = {
     state.division.timetable = timetable;
   },
   removeTimetable(state) {
-    if (!state.division) return;
+    if (!state.division) {
+      return;
+    }
+    state.division.timetable.timetableDays.forEach((day: ITimetableDay) => {
+      if (day.id) {
+        state.division.timetableDaysForDelete.push(day.id);
+      }
+    });
     state.division.timetable = new Timetable();
   },
-  removeTimetableDay(state, i: number) {
-    if (!state.division) return;
-    const idForDelete = state.division.timetable.timetableDays[i].id;
-    if (idForDelete) state.division.timetable.timetableDaysForDelete.push(idForDelete);
-    state.division.timetable.timetableDays.splice(i, 1);
-  },
-  createCustomTimetableDay(state, item: ITimetableDay) {
-    if (!state.division) return;
-    state.division.timetable.timetableDays.push(item);
-  },
+
+  // setTimetable(state, timetable: ITimetable) {
+  //   if (!state.division) {
+  //     return;
+  //   }
+  //   state.division.timetable = timetable;
+  // },
+  // removeTimetable(state) {
+  //   if (!state.division) return;
+  //   state.division.timetable = new Timetable();
+  // },
+  // removeTimetableDay(state, i: number) {
+  //   if (!state.division) return;
+  //   const idForDelete = state.division.timetable.timetableDays[i].id;
+  //   if (idForDelete) state.division.timetable.timetableDaysForDelete.push(idForDelete);
+  //   state.division.timetable.timetableDays.splice(i, 1);
+  // },
+  // createCustomTimetableDay(state, item: ITimetableDay) {
+  //   if (!state.division) return;
+  //   state.division.timetable.timetableDays.push(item);
+  // },
   setSchedule(state, item: ISchedule) {
     if (!state.division) return;
     state.division.schedule = item;

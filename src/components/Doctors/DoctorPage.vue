@@ -1,35 +1,34 @@
 <template>
   <div v-if="mount" class="doctor-page-container">
-    <el-card>
-      <template #header>
-        <div class="card-header">
-          <h2>{{ doctor.human.getFullName() }}</h2>
-          <el-tag v-if="doctor.workNow()" type="success">Рабочее время</el-tag>
-          <el-tag v-else type="danger">Не рабочее время</el-tag>
-        </div>
-      </template>
-      <div class="flex-row">
-        <div class="doctor-img-container">
-          <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
-          <img v-else src="@//assets/img/310x310.png" />
-        </div>
-        <div class="flex-column">
-          <span><b>Должность:</b> {{ doctor.position }}</span>
-          <span>{{ doctor.tags }}</span>
-          <span><b>Прием:</b> {{ doctor.division.address }}</span>
-          <span><b>Отделение:</b> {{ doctor.division.name }}</span>
-          <span><b>Образование:</b> {{ doctor.education }}</span>
-        </div>
-      </div>
-    </el-card>
-    <div class="flex-row">
-      <ul>
-        <li v-for="item in doctor.timetable.timetableDays" :key="item" :class="{ nowPeriod: item.weekday.isToday() }">
-          {{ item.getPeriodWithName() }}
-        </li>
-      </ul>
+    <div class="left-side">
+      <Timetable :timetable="doctor.timetable" />
     </div>
-    <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
+    <div class="right-side">
+      <el-card>
+        <template #header>
+          <div class="card-header">
+            <h2>{{ doctor.human.getFullName() }}</h2>
+          </div>
+        </template>
+        <div class="flex-row">
+          <div class="doctor-img-container">
+            <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
+            <img v-else src="@//assets/img/310x310.png" />
+          </div>
+          <div class="flex-column">
+            <span><b>Должность:</b> {{ doctor.position }}</span>
+            <span>{{ doctor.tags }}</span>
+            <span><b>Прием:</b> {{ doctor.division.address }}</span>
+            <span>
+              <b>Отделение:</b>
+              <span class="link" @click="$router.push(`/divisions/${doctor.division.id}`)"> {{ doctor.division.name }}</span>
+            </span>
+            <span><b>Образование:</b> {{ doctor.education }}</span>
+          </div>
+        </div>
+      </el-card>
+      <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
+    </div>
   </div>
 </template>
 
@@ -39,11 +38,12 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments.vue';
+import Timetable from '@/components/Timetable.vue';
 import IDoctor from '@/interfaces/doctors/IDoctor';
 
 export default defineComponent({
   name: 'DoctorPage',
-  components: { Comments },
+  components: { Comments, Timetable },
 
   setup() {
     const store = useStore();
@@ -65,11 +65,20 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-$content-max-width: 800px;
+$left-side-max-width: 370px;
+$right-side-max-width: 800px;
 
 .doctor-page-container {
-  max-width: $content-max-width;
+  display: flex;
+  justify-content: center;
   margin: 0 auto;
+  .left-side {
+    margin-right: 20px;
+    max-width: $left-side-max-width;
+  }
+  .right-side {
+    max-width: $right-side-max-width;
+  }
 }
 h2 {
   margin: 0;
@@ -89,5 +98,11 @@ h2 {
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+.link {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 </style>

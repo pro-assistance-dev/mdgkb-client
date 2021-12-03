@@ -36,6 +36,7 @@ export default class Division implements IDivision {
   divisionImagesForDelete: string[] = [];
   divisionImagesNames: string[] = [];
   divisionComments: IDivisionComment[] = [];
+  timetableDaysForDelete: string[] = [];
 
   constructor(division?: IDivision) {
     if (!division) {
