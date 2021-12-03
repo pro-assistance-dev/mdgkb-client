@@ -24,6 +24,7 @@ const actions: ActionTree<State, RootState> = {
     commit('set');
   },
   update: async ({ commit }, item: IDoctor): Promise<void> => {
+    item.timetable.timetableDaysForDelete = item.timetableDaysForDelete;
     await httpClient.put<IDoctor, IDoctor>({ query: `${item.id}`, payload: item, fileInfos: [item.fileInfo], isFormData: true });
     commit('set');
   },

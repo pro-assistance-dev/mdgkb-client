@@ -60,7 +60,7 @@ export default defineComponent({
       {
         title: 'Вакансии',
         to: '/admin/vacancies',
-        icon: 'el-icon-tickets',
+        icon: 'el-icon-suitcase-1',
       },
       {
         title: 'Образование',
@@ -84,7 +84,7 @@ export default defineComponent({
       {
         title: 'Слайдер новостей',
         to: '/admin/news-slides',
-        icon: 'el-icon-picture-outline',
+        icon: 'el-icon-film',
       },
       {
         title: 'Справочники',
@@ -125,7 +125,7 @@ export default defineComponent({
       {
         title: 'Комментарии',
         to: '',
-        icon: 'el-icon-s-comment',
+        icon: 'el-icon-chat-line-round',
         children: [
           {
             title: 'Все',
@@ -140,6 +140,11 @@ export default defineComponent({
             to: '/admin/comments/not-mod-checked',
           },
         ],
+      },
+      {
+        title: 'Шаблоны графика работы',
+        to: '/admin/timetable-patterns',
+        icon: 'el-icon-time',
       },
       {
         title: 'Структура сайта',

@@ -1,36 +1,39 @@
+import TimePeriod from '@/classes/TimePeriod';
 import Weekday from '@/classes/timetable/Weekday';
+import ITimePeriod from '@/interfaces/ITimePeriod';
 import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 import IWeekday from '@/interfaces/timetables/IWeekday';
 
 export default class TimetableDay implements ITimetableDay {
   id?: string;
   isWeekend = false;
-  startTime = '00:00';
-  startTimeLimit = '';
-  endTime = '';
-  endTimeLimit = '00:00';
-  breakExist = false;
-  breakStartTime?: string;
-  breakEndTime?: string;
+  startTime = '9:00';
+  startTimeLimit = '0:00';
+  endTime = '18:00';
+  endTimeLimit = '23:59';
+  breaksExists = false;
   weekdayId?: string;
-  customName = '';
-  isCustom = false;
   weekday: IWeekday = new Weekday();
+  aroundTheClock = false;
+  breakPeriods: ITimePeriod[] = [];
+  breakPeriodsForDelete: string[] = [];
 
-  constructor(i?: TimetableDay) {
-    if (!i) return;
-    this.id = i.id;
-    this.isWeekend = i.isWeekend;
-    this.startTime = i.startTime;
-    this.endTime = i.endTime;
-    this.breakExist = i.breakExist;
-    this.breakStartTime = i.breakStartTime;
-    this.breakEndTime = i.breakEndTime;
-    this.weekdayId = i.weekdayId;
-    this.isCustom = i.isCustom;
-    this.customName = i.customName;
-    if (i.weekday) {
-      this.weekday = new Weekday(i.weekday);
+  constructor(timetableDay?: TimetableDay) {
+    if (!timetableDay) {
+      return;
+    }
+    this.id = timetableDay.id;
+    this.isWeekend = timetableDay.isWeekend;
+    this.startTime = timetableDay.startTime;
+    this.endTime = timetableDay.endTime;
+    this.breaksExists = timetableDay.breaksExists;
+    this.weekdayId = timetableDay.weekdayId;
+    this.aroundTheClock = timetableDay.aroundTheClock;
+    if (timetableDay.weekday) {
+      this.weekday = new Weekday(timetableDay.weekday);
+    }
+    if (timetableDay.breakPeriods) {
+      this.breakPeriods = timetableDay.breakPeriods.map((item: ITimePeriod) => new TimePeriod(item));
     }
   }
 
@@ -43,21 +46,21 @@ export default class TimetableDay implements ITimetableDay {
     timetableDay.startTime = '9:00';
     timetableDay.startTimeLimit = '0:00';
     timetableDay.endTime = '18:00';
-    timetableDay.endTimeLimit = '23:15';
+    timetableDay.endTimeLimit = '23:59';
     timetableDay.weekday = weekday;
     timetableDay.weekdayId = weekday.id;
     if (timetableDay.weekday.isWeekend()) timetableDay.isWeekend = true;
     return timetableDay;
   }
 
-  static CreateCustomTimetableDay(): ITimetableDay {
-    const timetableDay = new TimetableDay();
-    timetableDay.isCustom = true;
-    timetableDay.customName = 'Наименование';
-    timetableDay.startTime = '9:00';
-    timetableDay.endTime = '18:00';
-    return timetableDay;
-  }
+  // static CreateCustomTimetableDay(): ITimetableDay {
+  //   const timetableDay = new TimetableDay();
+  //   timetableDay.isCustom = true;
+  //   timetableDay.customName = 'Наименование';
+  //   timetableDay.startTime = '9:00';
+  //   timetableDay.endTime = '18:00';
+  //   return timetableDay;
+  // }
 
   public getTime(dateString: string): string {
     if (!dateString) return '';
@@ -80,15 +83,40 @@ export default class TimetableDay implements ITimetableDay {
 
   getPeriodWithName(): string {
     let period = this.getPeriod();
-    period = `${this.weekday.name}: ${this.isWeekend ? 'выходной' : period} `;
-    if (this.weekday.isToday()) {
-      const arrow = '⇽';
-      period = `${period} ${arrow}`;
-    }
+    period = `${this.isWeekend ? 'выходной' : period} `;
+    // period = `${this.weekday.name}: ${this.isWeekend ? 'выходной' : period} `;
+    // if (this.weekday.isToday()) {
+    //   const arrow = '⇽';
+    //   period = `${period} ${arrow}`;
+    // }
     return period;
   }
 
   getPeriod(): string {
     return `${this.getTime(this.startTime)}-${this.getTime(this.endTime)}`;
+  }
+
+  showBreakSwitcher(): boolean {
+    if (!this.isWeekend && this.startTime && this.endTime) {
+      return true;
+    }
+    return false;
+  }
+
+  addBreak(): void {
+    const startHours = Number(this.startTime.split(':')[0]);
+    const endHours = Number(this.endTime.split(':')[0]);
+    const timeIntrvalMid = Math.floor((endHours - startHours) / 2);
+    const startTime = `${startHours + timeIntrvalMid}:00`;
+    const endTime = `${startHours + timeIntrvalMid + 1}:00`;
+    this.breakPeriods.push(new TimePeriod({ startTime, endTime }));
+  }
+
+  removeBreak(index: number): void {
+    const id = this.breakPeriods[index].id;
+    if (id) {
+      this.breakPeriodsForDelete.push(id);
+    }
+    this.breakPeriods.splice(index, 1);
   }
 }

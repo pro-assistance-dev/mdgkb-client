@@ -126,38 +126,18 @@ const mutations: MutationTree<State> = {
     if (!state.item) {
       return;
     }
-
     state.item.timetable = timetable;
-    state.item.timetable.timetableDays.forEach((timetableDay: ITimetableDay) => {
-      if (!state.item.division) {
-        return;
-      }
-      const divisionTimeTableDay = state.item.division.timetable.timetableDays.find(
-        (day: ITimetableDay) => day.weekdayId === timetableDay.weekdayId
-      );
-      if (divisionTimeTableDay) {
-        timetableDay.startTimeLimit = divisionTimeTableDay.startTime.substring(0, 5);
-        timetableDay.endTimeLimit = divisionTimeTableDay.endTime.substring(0, 5);
-
-        if (divisionTimeTableDay.isWeekend) {
-          timetableDay.isWeekend = true;
-        }
-      }
-    });
   },
   removeTimetable(state) {
-    if (!state.item) return;
+    if (!state.item) {
+      return;
+    }
+    state.item.timetable.timetableDays.forEach((day: ITimetableDay) => {
+      if (day.id) {
+        state.item.timetableDaysForDelete.push(day.id);
+      }
+    });
     state.item.timetable = new Timetable();
-  },
-  removeTimetableDay(state, i: number) {
-    if (!state.item) return;
-    const idForDelete = state.item.timetable.timetableDays[i].id;
-    if (idForDelete) state.item.timetable.timetableDaysForDelete.push(idForDelete);
-    state.item.timetable.timetableDays.splice(i, 1);
-  },
-  createCustomTimetableDay(state, item: ITimetableDay) {
-    if (!state.item) return;
-    state.item.timetable.timetableDays.push(item);
   },
 };
 

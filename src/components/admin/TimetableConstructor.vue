@@ -26,7 +26,7 @@
           <div>
             <el-input v-if="day.isCustom" v-model="day.customName" class="timetable-row" />
             <div v-else class="timetable-row" :class="{ weekend: day.weekday.isWeekend() || day.isWeekend }">{{ day.weekday.name }}</div>
-            <div v-if="day.breakExist && !day.isWeekend" class="timetable-row">Перерыв</div>
+            <div v-if="day.breaksExists && !day.isWeekend" class="timetable-row">Перерыв</div>
           </div>
         </el-col>
         <el-col :span="19">
@@ -50,11 +50,11 @@
                 step="00:15"
                 @change="day.endTime = $event"
               />
-              <el-checkbox v-model="day.breakExist" class="add-break-checkbox">Перерыв</el-checkbox>
+              <el-checkbox v-model="day.breaksExists" class="add-break-checkbox">Перерыв</el-checkbox>
               <el-checkbox v-model="day.isWeekend" class="add-break-checkbox">Выходной</el-checkbox>
               <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="removeTimetableDay(i)" />
             </div>
-            <div v-if="day.breakExist">
+            <div v-if="day.breaksExists">
               <el-time-select
                 :model-value="day.getTime(day.breakStartTime)"
                 class="time-select"
@@ -91,7 +91,6 @@ import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Timetable from '@/classes/timetable/Timetable';
-import TimetableDay from '@/classes/timetable/TimetableDay';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 export default defineComponent({
   name: 'TimetableConstructor',
@@ -123,12 +122,12 @@ export default defineComponent({
       store.commit(`${props.storeModule}/removeTimetableDay`, i);
     };
 
-    const createCustomTimetableDay = () => {
-      store.commit(`${props.storeModule}/createCustomTimetableDay`, TimetableDay.CreateCustomTimetableDay());
-    };
+    // const createCustomTimetableDay = () => {
+    //   store.commit(`${props.storeModule}/createCustomTimetableDay`, TimetableDay.CreateCustomTimetableDay());
+    // };
 
     return {
-      createCustomTimetableDay,
+      // createCustomTimetableDay,
       removeTimetableDay,
       removeTimetable,
       timetable,

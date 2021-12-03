@@ -1,42 +1,47 @@
 <template>
   <div class="division-page-container">
-    <el-card class="card-content">
-      <template #header>
-        <div class="card-header">
-          <h2>{{ division.name }}</h2>
-        </div>
-      </template>
+    <div class="left-side">
+      <Timetable :timetable="division.timetable" />
+    </div>
+    <div class="right-side">
+      <el-card class="card-content">
+        <template #header>
+          <div class="card-header">
+            <h2>{{ division.name }}</h2>
+          </div>
+        </template>
 
-      <div class="content article-body" v-html="division.info"></div>
+        <div class="content article-body" v-html="division.info"></div>
 
-      <div class="footer">
-        <el-button @click="$router.push('/map')">Вернуться назад</el-button>
-      </div>
-    </el-card>
-    <el-card v-if="division.doctors.length" class="card-content">
-      <template #header>
-        <div class="card-header">
-          <h2>Врачи</h2>
+        <div class="footer">
+          <el-button @click="$router.push('/map')">Вернуться назад</el-button>
         </div>
-      </template>
-      <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
-        <DoctorInfoCard :doctor="item" :division="division" />
-      </div>
-    </el-card>
-    <el-card v-if="division.phone || division.email || division.address" class="card-content">
-      <template #header>
-        <div class="card-header">
-          <h2>Контакты</h2>
+      </el-card>
+      <el-card v-if="division.doctors.length" class="card-content">
+        <template #header>
+          <div class="card-header">
+            <h2>Врачи</h2>
+          </div>
+        </template>
+        <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
+          <DoctorInfoCard :doctor="item" :division="division" />
         </div>
-      </template>
-      <div class="content article-body">
-        <div v-if="division.phone"><b>Телефон:</b> {{ division.phone }}</div>
-        <div v-if="division.email"><b>Email:</b> {{ division.email }}</div>
-        <div v-if="division.address"><b>Адрес:</b> {{ division.address }}</div>
-      </div>
-    </el-card>
-    <ImageGallery :images="division.divisionImages" />
-    <Comments store-name="divisions" :parent-id="division.id" :is-reviews="true" />
+      </el-card>
+      <el-card v-if="division.phone || division.email || division.address" class="card-content">
+        <template #header>
+          <div class="card-header">
+            <h2>Контакты</h2>
+          </div>
+        </template>
+        <div class="content article-body">
+          <div v-if="division.phone"><b>Телефон:</b> {{ division.phone }}</div>
+          <div v-if="division.email"><b>Email:</b> {{ division.email }}</div>
+          <div v-if="division.address"><b>Адрес:</b> {{ division.address }}</div>
+        </div>
+      </el-card>
+      <ImageGallery :images="division.divisionImages" />
+      <Comments store-name="divisions" :parent-id="division.id" :is-reviews="true" />
+    </div>
   </div>
 </template>
 
@@ -48,10 +53,11 @@ import { useStore } from 'vuex';
 import Comments from '@/components/Comments.vue';
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
+import Timetable from '@/components/Timetable.vue';
 
 export default defineComponent({
   name: 'DivisionPage',
-  components: { DoctorInfoCard, ImageGallery, Comments },
+  components: { DoctorInfoCard, ImageGallery, Comments, Timetable },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -70,11 +76,20 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-$division-content-max-width: 800px;
+$left-side-max-width: 370px;
+$right-side-max-width: 800px;
 
 .division-page-container {
-  max-width: $division-content-max-width;
+  display: flex;
+  justify-content: center;
   margin: 0 auto;
+  .left-side {
+    margin-right: 20px;
+    max-width: $left-side-max-width;
+  }
+  .right-side {
+    max-width: $right-side-max-width;
+  }
 }
 .card-content {
   margin-left: auto;

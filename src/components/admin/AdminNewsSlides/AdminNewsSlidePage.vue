@@ -81,6 +81,7 @@
 </template>
 
 <script lang="ts">
+import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -135,14 +136,19 @@ export default defineComponent({
       showPreview.value = true;
     };
 
-    const submit = async () => {
+    const submit = async (next?: NavigationGuardNext) => {
       store.commit('newsSlides/setOrder', slides.value.length);
-      if (route.params['id']) {
-        await store.dispatch('newsSlides/update', slide.value);
-      } else {
-        await store.dispatch('newsSlides/create', slide.value);
+      try {
+        if (route.params['id']) {
+          await store.dispatch('newsSlides/update', slide.value);
+        } else {
+          await store.dispatch('newsSlides/create', slide.value);
+        }
+      } catch (error) {
+        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        return;
       }
-      await router.push('/admin/news-slides');
+      next ? next() : router.push('/admin/news-slides');
     };
 
     onBeforeMount(async () => {

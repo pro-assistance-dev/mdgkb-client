@@ -8,6 +8,7 @@ import AdminMenusRoutes from '@/router/AdminMenusRoutes';
 import AdminNewsRoutes from '@/router/AdminNewsRoutes';
 import AdminNewsSlideRoutes from '@/router/AdminNewsSlideRoutes';
 import AdminPagesRoutes from '@/router/AdminPagesRoutes';
+import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
 
 export default [
@@ -22,4 +23,5 @@ export default [
   ...AdminDocumentsTypeRoutes,
   ...AdminCommentsRoutes,
   ...AdminNewsSlideRoutes,
+  ...AdminTimetablePatternRoutes,
 ];

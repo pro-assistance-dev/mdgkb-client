@@ -97,4 +97,7 @@ export default defineComponent({
 .filters {
   margin-top: 10px;
 }
+:deep(.el-drawer__header) {
+  margin: 0 !important;
+}
 </style>

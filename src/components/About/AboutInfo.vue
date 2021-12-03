@@ -62,16 +62,7 @@
         </ul>
       </div>
     </el-card>
-    <el-card v-if="division.timetable">
-      <template #header>График работы</template>
-      <div>
-        <ul>
-          <li v-for="item in division.timetable.timetableDays" :key="item" :class="{ nowPeriod: item.weekday.isToday() }">
-            {{ item.getPeriodWithName() }}
-          </li>
-        </ul>
-      </div>
-    </el-card>
+    <Timetable :timetable="division.timetable" :around-the-clock="aroundTheClock" />
     <el-card>
       <template #header>Контакты</template>
       <div v-if="division.phone">Телефон: {{ division.phone }}</div>
@@ -83,19 +74,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, PropType, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, PropType, Ref, ref } from 'vue';
 
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import { ginDiv } from '@/components/PaidServices/ginDiv';
 import { otoDiv } from '@/components/PaidServices/otoDiv';
 import PaidService from '@/components/PaidServices/PaidService.vue';
+import Timetable from '@/components/Timetable.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IPaidService from '@/interfaces/IPaidService';
 
 export default defineComponent({
   name: 'AboutInfo',
-  components: { PaidService, DoctorInfoCard, ImageGallery },
+  components: { PaidService, DoctorInfoCard, ImageGallery, Timetable },
   props: {
     division: {
       type: Object as PropType<IDivision>,
@@ -109,6 +101,7 @@ export default defineComponent({
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
+    const aroundTheClock: Ref = ref(true);
 
     let selectedServiceGin: IPaidService[] = [];
     let selectedServiceOto: IPaidService[] = [];
@@ -157,6 +150,7 @@ export default defineComponent({
       scrollOffset,
       previousOffset,
       rememberedOffset,
+      aroundTheClock,
     };
   },
 });

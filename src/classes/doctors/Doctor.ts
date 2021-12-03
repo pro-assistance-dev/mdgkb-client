@@ -32,6 +32,7 @@ export default class Doctor implements IDoctor {
   doctorRegaliasForDelete: string[] = [];
   educations: IEducation[] = [];
   educationsForDelete: string[] = [];
+  timetableDaysForDelete: string[] = [];
 
   constructor(doctor?: IDoctor) {
     if (!doctor) {
@@ -64,13 +65,5 @@ export default class Doctor implements IDoctor {
     if (doctor.educations) {
       this.educations = doctor.educations.map((item: IEducation) => new Education(item));
     }
-  }
-
-  workNow(): boolean {
-    const nowDay = this.timetable.getNowDay();
-    const today = new Date();
-    const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-
-    return nowDay.startTime < time && nowDay.endTime > time;
   }
 }
