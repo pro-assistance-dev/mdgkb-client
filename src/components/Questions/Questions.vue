@@ -1,6 +1,6 @@
 <template>
   <div class="header-center">
-    <h2>Вопросы</h2>
+    <h1>Вопросы</h1>
     <div class="contact-form right-button">
       <el-button type="success" @click="openQuestion">Задать вопрос</el-button>
     </div>
@@ -27,7 +27,7 @@ import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
-  name: 'QuestionPage',
+  name: 'Questions',
   components: { QuestionForm },
   async setup() {
     const filter = ref('');
@@ -85,5 +85,9 @@ export default defineComponent({
 
 .text-center {
   text-align: center;
+}
+
+h1 {
+  font-size: 24px;
 }
 </style>
