@@ -7,14 +7,17 @@ import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: IFaq[]) {
-    state.faqs = items.map((i: IFaq) => new Faq(i));
+    state.items = items.map((i: IFaq) => new Faq(i));
   },
-  remove(state, index: number) {
-    const idForDelete = state.faqs[index].id;
-    if (idForDelete) {
-      state.faqsForDelete.push(idForDelete);
-    }
-    state.faqs.splice(index, 1);
+  set(state, item: IFaq) {
+    state.item = new Faq(item);
+  },
+  remove(state, id: string) {
+    const index = state.items.findIndex((i: IFaq) => i.id === id);
+    state.items.splice(index, 1);
+  },
+  resetItem(state) {
+    state.item = new Faq();
   },
 };
 
