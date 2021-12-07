@@ -5,7 +5,7 @@
         <QuestionCircleOutlined />
         <b>{{ item.question }}</b>
       </template>
-      {{ item.answer }}
+      <div v-html="item.answer"></div>
     </el-collapse-item>
   </el-collapse>
 </template>

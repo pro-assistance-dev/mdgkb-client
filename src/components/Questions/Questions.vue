@@ -1,9 +1,6 @@
 <template>
   <div class="header-center">
-    <h1>Вопросы</h1>
-    <div class="contact-form right-button">
-      <el-button type="success" @click="openQuestion">Задать вопрос</el-button>
-    </div>
+    <el-button type="success" @click="openQuestion">Задать вопрос</el-button>
   </div>
   <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти вопрос" size="large" />
   <div v-for="question in questionsList" :key="question.id">
@@ -53,10 +50,6 @@ export default defineComponent({
       await store.dispatch('questions/getAll', true);
     });
 
-    const collapseChangeHandler = () => {
-      filter.value = '';
-    };
-
     const openQuestion = () => store.commit('questions/openQuestion');
 
     return {
@@ -66,15 +59,12 @@ export default defineComponent({
       questionsList,
       activeName,
       filter,
-      collapseChangeHandler,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/collapse.scss';
-
 .collapse {
   margin-top: 10px;
 }
