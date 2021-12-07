@@ -2,7 +2,7 @@
   <div class="admin-header-bottom">
     <div v-if="showSaveButton" class="flex-between">
       <el-page-header title=" " :content="pageTitle" @back="goBack" />
-      <el-button type="success" :loading="loadingSaveButton" @click.prevent="submit">Сохранить</el-button>
+      <el-button round size="medium" type="success" :loading="loadingSaveButton" @click.prevent="submit">Сохранить</el-button>
     </div>
     <h4 v-else style="margin-left: 20px">{{ pageTitle }}</h4>
   </div>
@@ -14,6 +14,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 export default defineComponent({
   name: 'AdminHeaderBottom',
+
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -31,6 +32,11 @@ export default defineComponent({
       submit,
       loadingSaveButton,
     };
+  },
+  methods: {
+    clickBtn() {
+      console.log('vBtn Press');
+    },
   },
 });
 </script>

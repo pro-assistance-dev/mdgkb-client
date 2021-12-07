@@ -29,6 +29,9 @@
               <el-option v-for="division in divisions" :key="division.id" :label="division.name" :value="division.id" />
             </el-select>
           </el-form-item>
+          <el-form-item label-width="100px" label="Дата добавления вакансии">
+            <el-date-picker v-model="vacancy.date" type="date" format="DD.MM.YYYY" placeholder="Выберите дату" />
+          </el-form-item>
         </el-card>
 
         <el-card>

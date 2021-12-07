@@ -6,20 +6,20 @@
     width="80%"
   >
     <div class="contact-form">
-      <el-form v-model="vacancyResponse">
+      <el-form v-model="vacancyResponse" label-width="120px">
         <HumanForm :store-module="'vacancies'" />
-        <el-form-item v-for="(email, i) in vacancyResponse.human.contactInfo.emails" :key="email.id" label="Email" label-width="100px">
+        <el-form-item v-for="(email, i) in vacancyResponse.human.contactInfo.emails" :key="email.id" label="Email" label-width="120px">
           <el-input v-model="vacancyResponse.human.contactInfo.emails[i].address"></el-input>
         </el-form-item>
         <el-form-item
           v-for="(phone, i) in vacancyResponse.human.contactInfo.telephoneNumbers"
           :key="phone.id"
           label="Телефон"
-          label-width="100px"
+          label-width="120px"
         >
           <el-input v-model="vacancyResponse.human.contactInfo.telephoneNumbers[i].number"></el-input>
         </el-form-item>
-        <el-form-item label="Информация" label-width="100px">
+        <el-form-item label="Информация" label-width="120px">
           <el-input v-model="vacancyResponse.coverLetter" type="textarea" :rows="10"></el-input>
         </el-form-item>
 

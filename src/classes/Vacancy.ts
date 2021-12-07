@@ -18,6 +18,7 @@ export default class Vacancy implements IVacancy {
   schedule = '';
   division?: IDivision;
   divisionId?: string;
+  date: Date = new Date();
 
   constructor(vacancy?: IVacancy) {
     if (!vacancy) {
@@ -33,6 +34,7 @@ export default class Vacancy implements IVacancy {
     this.experience = vacancy.experience;
     this.duties = vacancy.duties;
     this.schedule = vacancy.schedule;
+    this.date = vacancy.date;
 
     if (vacancy.vacancyResponses) {
       this.vacancyResponses = vacancy.vacancyResponses.map((response: IVacancyResponse) => new VacancyResponse(response));

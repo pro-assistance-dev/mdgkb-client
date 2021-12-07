@@ -12,6 +12,7 @@ export default interface IVacancy {
   experience: string;
   duties: string;
   schedule: string;
+  date: Date;
 
   vacancyResponses: IVacancyResponse[];
   withNewResponses: () => boolean;

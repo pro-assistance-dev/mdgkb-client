@@ -1,8 +1,8 @@
 <template>
   <div class="flex-column">
     <div class="flex-row-between">
-      <el-button type="primary" @click="create">Создать вакансию</el-button>
-      <el-button v-if="newResponsesExists()" type="warning">Показать новые отклики</el-button>
+      <el-button round size="medium" type="primary" @click="create">Создать вакансию</el-button>
+      <el-button v-if="newResponsesExists()" round size="medium" type="warning">Показать новые отклики</el-button>
     </div>
     <el-card>
       <el-table v-if="vacancies" :data="vacancies">
@@ -21,6 +21,11 @@
         <el-table-column prop="archived" label="Архивирована" sortable>
           <template #default="scope">
             {{ scope.row.archived ? 'Архивирована' : '' }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="date" label="Дата добавления" align="center" width="200" sortable>
+          <template #default="scope">
+            {{ $dateFormatRu(scope.row.date) }}
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
