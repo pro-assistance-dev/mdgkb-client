@@ -1,4 +1,5 @@
 <template>
+  <h1>Тест</h1>
   <el-container direction="vertical" align="center">
     <h1>Диспансеризация населения</h1>
     <el-card>
