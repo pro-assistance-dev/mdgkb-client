@@ -7,7 +7,7 @@
     <FormConstructor :form="news.event.form" />
   </el-row>
   <el-row>
-    <AdminNewsPageEventApplications :event="news.event" />
+    <AdminNewsPageEventApplications v-if="news.event" :event="news.event" />
   </el-row>
 </template>
 

@@ -62,7 +62,8 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('questions/getAll', false);
-      store.commit('admin/setPageTitle', { title: 'Вопросы' });
+      store.commit('admin/setHeaderParams', { title: 'Вопросы' });
+      store.commit('admin/closeLoading');
     });
 
     const remove = async (id: string) => {

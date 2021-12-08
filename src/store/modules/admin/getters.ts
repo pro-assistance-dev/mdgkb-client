@@ -1,27 +1,19 @@
 import { GetterTree } from 'vuex';
 
+import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  pageTitle(state): string {
-    return state.pageTitle;
+  headerParams(state): IAdminHeaderParams {
+    return state.headerParams;
   },
   isCollapseSideMenu(state): boolean {
     return state.isCollapseSideMenu;
   },
   isDrawerOpen(state): boolean {
     return state.isDrawerOpen;
-  },
-  showSaveButton(state): boolean {
-    return state.showSaveButton;
-  },
-  submit(state): (() => Promise<void>) | undefined {
-    return state.submit;
-  },
-  loadingSaveButton(state) {
-    return state.loadingSaveButton;
   },
 };
 

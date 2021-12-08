@@ -1,10 +1,14 @@
 <template>
   <div class="admin-header-bottom">
-    <div v-if="showSaveButton" class="flex-between">
-      <el-page-header title=" " :content="pageTitle" @back="goBack" />
-      <el-button type="success" :loading="loadingSaveButton" @click.prevent="submit">Сохранить</el-button>
+    <div v-if="headerParams.showBackButton" class="flex-between">
+      <el-page-header title=" " :content="headerParams.title" @back="goBack" />
+      <div class="button-group">
+        <div v-for="(item, i) in headerParams.buttons" :key="i">
+          <el-button v-if="item.action" :type="item.type" @click.prevent="item.action">{{ item.text }}</el-button>
+        </div>
+      </div>
     </div>
-    <h4 v-else style="margin-left: 20px">{{ pageTitle }}</h4>
+    <h4 v-else style="margin-left: 20px">{{ headerParams.title }}</h4>
   </div>
 </template>
 
@@ -17,19 +21,13 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const pageTitle = computed(() => store.getters['admin/pageTitle']);
-    const showSaveButton = computed(() => store.getters['admin/showSaveButton']);
-    const loadingSaveButton = computed(() => store.getters['admin/loadingSaveButton']);
-    const submit = computed(() => store.getters['admin/submit']);
+    const headerParams = computed(() => store.getters['admin/headerParams']);
     const goBack = () => {
       router.go(-1);
     };
     return {
-      pageTitle,
+      headerParams,
       goBack,
-      showSaveButton,
-      submit,
-      loadingSaveButton,
     };
   },
 });
@@ -59,5 +57,8 @@ h4 {
   align-items: center;
   width: 100%;
   margin: 0 20px;
+}
+.button-group {
+  display: flex;
 }
 </style>
