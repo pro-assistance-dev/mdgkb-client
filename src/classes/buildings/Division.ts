@@ -1,6 +1,6 @@
 import DivisionComment from '@/classes/buildings/DivisionComment';
 import Entrance from '@/classes/buildings/Entrance';
-import Doctor from '@/classes/doctors/Doctor';
+import Doctor from '@/classes/Doctor';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import Vacancy from '@/classes/Vacancy';
@@ -8,7 +8,7 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IEntrance from '@/interfaces/buildings/IEntrance';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import IVacancy from '@/interfaces/vacancies/IVacancy';

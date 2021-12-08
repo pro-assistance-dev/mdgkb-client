@@ -1,10 +1,10 @@
 import Division from '@/classes/buildings/Division';
-import Doctor from '@/classes/doctors/Doctor';
+import Doctor from '@/classes/Doctor';
 import News from '@/classes/news/News';
 import User from '@/classes/User';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IComment from '@/interfaces/comments/IComment';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 import IUser from '@/interfaces/IUser';
 import INews from '@/interfaces/news/INews';
 

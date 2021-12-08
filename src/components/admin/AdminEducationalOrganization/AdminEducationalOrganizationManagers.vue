@@ -30,7 +30,7 @@ import { useStore } from 'vuex';
 
 import EducationalOrganizationManager from '@/classes/educationalOrganization/EducationalOrganizationManager';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'AdminEducationalOrganizationManagers',

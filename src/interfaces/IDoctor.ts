@@ -1,9 +1,9 @@
 import IDivision from '@/interfaces/buildings/IDivision';
-import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
-import IDoctorRegalia from '@/interfaces/doctors/IDoctorRegalia';
 import IEducation from '@/interfaces/education/IEducation';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDoctorComment from '@/interfaces/IDoctorComment';
 import IHuman from '@/interfaces/IHuman';
+import IRegalia from '@/interfaces/IRegalia';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 export default interface IDoctor {
@@ -21,8 +21,8 @@ export default interface IDoctor {
   doctorComments: IDoctorComment[];
   academicDegree: string;
   academicRank: string;
-  doctorRegalias: IDoctorRegalia[];
-  doctorRegaliasForDelete: string[];
+  regalia: IRegalia[];
+  regaliasForDelete: string[];
   educations: IEducation[];
   educationsForDelete: string[];
 

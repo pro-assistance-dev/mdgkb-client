@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
-import IDoctor from '@/interfaces/doctors/IDoctor';
-import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
+import IDoctor from '@/interfaces/IDoctor';
+import IDoctorComment from '@/interfaces/IDoctorComment';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

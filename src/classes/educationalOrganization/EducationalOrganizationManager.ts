@@ -1,6 +1,6 @@
-import Doctor from '@/classes/doctors/Doctor';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import Doctor from '@/classes/Doctor';
 import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default class EducationalOrganizationManager implements IEducationalOrganizationManager {
   id?: string;

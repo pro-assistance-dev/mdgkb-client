@@ -1,4 +1,4 @@
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default interface IEducationalOrganizationManager {
   id?: string;

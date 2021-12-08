@@ -28,7 +28,7 @@ import { useStore } from 'vuex';
 
 import EducationalOrganizationTeacher from '@/classes/educationalOrganization/EducationalOrganizationTeacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'AdminEducationalOrganizationTeachers',

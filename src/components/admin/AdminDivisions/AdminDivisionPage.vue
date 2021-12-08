@@ -106,7 +106,7 @@ import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 

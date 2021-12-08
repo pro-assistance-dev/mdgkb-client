@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 
-import Doctor from '@/classes/doctors/Doctor';
-import DoctorComment from '@/classes/doctors/DoctorComment';
+import Doctor from '@/classes/Doctor';
+import DoctorComment from '@/classes/DoctorComment';
 import RootState from '@/store/types';
 
 import actions from './actions';
