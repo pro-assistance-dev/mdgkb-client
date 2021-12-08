@@ -1,14 +1,14 @@
 <template>
   <div class="admin-header-bottom">
-    <div v-if="headerParams.showBackButton" class="flex-between">
-      <el-page-header title=" " :content="headerParams.title" @back="goBack" />
+    <div class="flex-between">
+      <el-page-header v-if="headerParams.showBackButton" title=" " :content="headerParams.title" @back="goBack" />
+      <h4 v-else style="margin-left: 20px">{{ headerParams.title }}</h4>
       <div class="button-group">
         <div v-for="(item, i) in headerParams.buttons" :key="i">
-          <el-button v-if="item.action" :type="item.type" @click.prevent="item.action">{{ item.text }}</el-button>
+          <el-button v-if="item.action" size="small" :type="item.type" @click.prevent="item.action">{{ item.text }}</el-button>
         </div>
       </div>
     </div>
-    <h4 v-else style="margin-left: 20px">{{ headerParams.title }}</h4>
   </div>
 </template>
 
@@ -60,5 +60,9 @@ h4 {
 }
 .button-group {
   display: flex;
+  flex-wrap: wrap;
+  .el-button {
+    margin-left: 5px;
+  }
 }
 </style>

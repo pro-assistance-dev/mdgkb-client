@@ -49,7 +49,8 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('normativeDocumentTypes/getAll');
-      store.commit('admin/setPageTitle', { title: 'Типы нормативных документов' });
+      store.commit('admin/setHeaderParams', { title: 'Типы нормативных документов' });
+      store.commit('admin/closeLoading');
     });
 
     return {

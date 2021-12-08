@@ -80,17 +80,17 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await loadBanner();
+      store.commit('admin/closeLoading');
     });
 
     const loadBanner = async (): Promise<void> => {
       if (route.params['id']) {
         await store.dispatch('banners/get', route.params['id']);
-        store.commit('admin/setPageTitle', { title: banner.value.name, saveButton: true });
+        store.commit('admin/setHeaderParams', { title: banner.value.name, showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('banners/resetState');
-        store.commit('admin/setPageTitle', { title: 'Добавить баннер', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Добавить баннер', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);

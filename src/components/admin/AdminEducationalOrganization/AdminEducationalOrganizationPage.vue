@@ -147,13 +147,14 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      store.commit('admin/setSubmit', submit);
+      store.commit('admin/showLoading');
       await store.dispatch('doctors/getAll');
       await store.dispatch('educationalOrganization/get');
-      store.commit('admin/setPageTitle', { title: 'Образовательная организация', saveButton: true });
+      store.commit('admin/setHeaderParams', { title: 'Образовательная организация', showBackButton: true, buttons: [{ action: submit }] });
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(educationalOrganisation, formUpdated, { deep: true });
       mounted.value = true;
+      store.commit('admin/closeLoading');
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

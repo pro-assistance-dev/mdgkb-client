@@ -95,12 +95,12 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await loadBuilding();
+      store.commit('admin/closeLoading');
     });
     const loadBuilding = async (): Promise<void> => {
       await store.dispatch('buildings/get', route.params['id']);
-      store.commit('admin/setPageTitle', { title: building.value.name, saveButton: true });
+      store.commit('admin/setHeaderParams', { title: building.value.name, showBackButton: true, buttons: [{ action: submit }] });
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(building, formUpdated, { deep: true });

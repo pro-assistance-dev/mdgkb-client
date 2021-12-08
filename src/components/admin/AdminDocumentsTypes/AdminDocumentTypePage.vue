@@ -85,19 +85,19 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await loadDocument();
       await store.dispatch('valueTypes/getAll');
       mounted.value = true;
+      store.commit('admin/closeLoading');
     });
 
     const loadDocument = async (): Promise<void> => {
       if (route.params['id']) {
         await store.dispatch('documentTypes/get', route.params['id']);
-        store.commit('admin/setPageTitle', { title: documentType.value.name, saveButton: true });
+        store.commit('admin/setHeaderParams', { title: documentType.value.name, showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('documentTypes/resetState');
-        store.commit('admin/setPageTitle', { title: 'Создать документ', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Создать документ', showBackButton: true, buttons: [{ action: submit }] });
       }
 
       window.addEventListener('beforeunload', beforeWindowUnload);

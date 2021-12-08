@@ -57,7 +57,8 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('menus/getAll');
-      store.commit('admin/setPageTitle', { title: 'Меню' });
+      store.commit('admin/setHeaderParams', { title: 'Меню' });
+      store.commit('admin/closeLoading');
     });
 
     const editOrder = () => {

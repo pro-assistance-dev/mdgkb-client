@@ -1,10 +1,5 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <div class="table-buttons">
-        <el-button type="primary" @click="create">Добавить</el-button>
-      </div>
-    </div>
     <el-card>
       <el-table v-if="timetablePatterns" :data="timetablePatterns">
         <el-table-column label="Название" sortable>
@@ -57,7 +52,11 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('timetablePatterns/getAll');
-      store.commit('admin/setPageTitle', { title: 'Шаблоны графика работы' });
+      store.commit('admin/setHeaderParams', {
+        title: 'Шаблоны графика работы',
+        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+      });
+      store.commit('admin/closeLoading');
     });
 
     return {

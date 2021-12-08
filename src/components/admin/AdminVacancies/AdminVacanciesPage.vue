@@ -1,30 +1,30 @@
 <template>
   <div class="wrapper">
-    <el-form ref="form" :key="vacancy" :model="vacancy">
+    <el-form ref="form" :key="vacancy" label-position="top" :model="vacancy">
       <el-container direction="vertical">
         <el-card>
-          <el-form-item label-width="100px" label="Название">
+          <el-form-item label="Название">
             <el-input v-model="vacancy.title" placeholder="Название"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="Заработная плата">
+          <el-form-item label="Заработная плата">
             <el-input v-model="vacancy.salary" placeholder="Заработная плата"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="График работы">
+          <el-form-item label="График работы">
             <el-input v-model="vacancy.schedule" placeholder="График работы"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="Должностные обязанности">
+          <el-form-item label="Должностные обязанности">
             <el-input v-model="vacancy.duties" placeholder="Требования к кандидату" type="textarea" :rows="4"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="Требования к кандидату">
+          <el-form-item label="Требования к кандидату">
             <el-input v-model="vacancy.requirements" placeholder="Требования к кандидату" type="textarea" :rows="4"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="Стаж">
+          <el-form-item label="Стаж">
             <el-input v-model="vacancy.experience" placeholder="Стаж"> </el-input>
           </el-form-item>
-          <el-form-item label-width="100px" label="Описание">
+          <el-form-item label="Описание">
             <el-input v-model="vacancy.description" placeholder="Описание" type="textarea" :rows="4" />
           </el-form-item>
-          <el-form-item label-width="100px" label="Отделение">
+          <el-form-item label="Отделение">
             <el-select v-model="vacancy.divisionId" clearable>
               <el-option v-for="division in divisions" :key="division.id" :label="division.name" :value="division.id" />
             </el-select>
@@ -71,15 +71,14 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await store.dispatch('divisions/getAll');
 
       if (route.params['id']) {
         await store.dispatch('vacancies/get', route.params['id']);
-        store.commit('admin/setPageTitle', { title: vacancy.value.title, saveButton: true });
+        store.commit('admin/setHeaderParams', { title: vacancy.value.title, showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('vacancies/resetState');
-        store.commit('admin/setPageTitle', { title: 'Добавить меню', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Добавить меню', showBackButton: true, buttons: [{ action: submit }] });
       }
 
       await store.dispatch('documentTypes/getDocumentsTypesForTables');
@@ -88,6 +87,7 @@ export default defineComponent({
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(vacancy, formUpdated, { deep: true });
+      store.commit('admin/closeLoading');
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

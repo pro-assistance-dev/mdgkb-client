@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -55,11 +55,15 @@ export default defineComponent({
     const banners = computed(() => store.getters['banners/banners']);
     const isEdit = ref(false);
 
-    onBeforeMount(() => store.commit('admin/showLoading'));
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      await loadDivisions();
+      store.commit('admin/closeLoading');
+    });
 
     const loadDivisions = async (): Promise<void> => {
       await store.dispatch('banners/getAll');
-      store.commit('admin/setPageTitle', { title: 'Рекламные баннеры' });
+      store.commit('admin/setHeaderParams', { title: 'Рекламные баннеры' });
     };
 
     const create = () => router.push(`/admin/banners/new`);
@@ -75,8 +79,6 @@ export default defineComponent({
       await store.dispatch('banners/updateAll', banners.value);
       isEdit.value = false;
     };
-
-    onMounted(loadDivisions);
 
     return {
       banners,

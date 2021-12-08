@@ -8,7 +8,8 @@
       <h3>Панель управления МДГКБ</h3>
     </div>
     <div class="right-panel">
-      <el-menu mode="horizontal" default-active="0">
+      <el-button icon="el-icon-s-home" @click="$router.push('/')"></el-button>
+      <!-- <el-menu mode="horizontal" default-active="0">
         <el-menu-item index="1" @click="$router.push('/')">
           <i class="el-icon-s-home"></i>
         </el-menu-item>
@@ -26,21 +27,19 @@
             <div style="margin: auto 0"><LogoutOutlined /><span> Выйти</span></div>
           </el-menu-item>
         </el-sub-menu>
-      </el-menu>
+      </el-menu> -->
     </div>
   </div>
   <div class="spacer"></div>
 </template>
 
 <script lang="ts">
-import { GlobalOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons-vue';
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminHeaderTop',
-  components: { LogoutOutlined, UserOutlined, GlobalOutlined },
 
   setup() {
     const store = useStore();

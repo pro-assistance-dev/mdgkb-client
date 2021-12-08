@@ -1,9 +1,9 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <el-button type="primary" @click="create">Добавить врача</el-button>
-      <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
-    </div>
+    <!-- <div class="flex-row-between"> -->
+    <!-- <el-button type="primary" @click="create">Добавить врача</el-button> -->
+    <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
+    <!-- </div> -->
     <el-card>
       <el-table :data="doctors">
         <el-table-column label="ФИО" sortable>
@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -59,19 +59,21 @@ export default defineComponent({
     const router = useRouter();
     const doctors = computed(() => store.getters['doctors/items']);
 
-    onBeforeMount(() => store.commit('admin/showLoading'));
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      await loadDivisions();
+      store.commit('admin/closeLoading');
+    });
 
     const loadDivisions = async (): Promise<void> => {
       await store.dispatch('doctors/getAll');
-      store.commit('admin/setPageTitle', { title: 'Врачи' });
+      store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
     };
 
     const create = () => router.push(`/admin/doctors/new`);
     const edit = (id: string) => router.push(`/admin/doctors/${id}`);
     const remove = async (id: string) => await store.dispatch('doctors/remove', id);
     const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
-
-    onMounted(loadDivisions);
 
     return { doctors, remove, edit, create, fillDateFormat };
   },

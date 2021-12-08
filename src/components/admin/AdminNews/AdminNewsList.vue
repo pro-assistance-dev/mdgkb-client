@@ -1,9 +1,9 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <el-button type="primary" @click="$router.push('/admin/news/new')">Добавить новость</el-button>
-      <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
-    </div>
+    <!-- <div class="flex-row-between"> -->
+    <!-- <el-button type="primary" @click="$router.push('/admin/news/new')">Добавить новость</el-button> -->
+    <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
+    <!-- </div> -->
     <el-card>
       <el-table v-if="news" :data="news">
         <el-table-column prop="title" label="Заголовок" sortable width="500px"> </el-table-column>
@@ -55,19 +55,11 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await loadNews();
-      store.commit('admin/closeLoading');
-    });
-
-    const loadNews = async (): Promise<void> => {
-      const defaultParams: INewsParams = { limit: 100 };
-      await store.dispatch('news/getAll', defaultParams);
-      store.commit('admin/setHeaderParams', { title: 'Новости' });
-    };
     const news = computed(() => store.getters['news/news']);
+
+    const addNews = () => {
+      router.push('/admin/news/new');
+    };
 
     const edit = async (id: string): Promise<void> => {
       const item = news.value.find((i: INews) => i.id === id);
@@ -77,6 +69,21 @@ export default defineComponent({
     const remove = async (id: string) => {
       await store.dispatch('news/remove', id);
     };
+
+    const loadNews = async (): Promise<void> => {
+      const defaultParams: INewsParams = { limit: 100 };
+      await store.dispatch('news/getAll', defaultParams);
+      store.commit('admin/setHeaderParams', {
+        title: 'Новости',
+        buttons: [{ text: 'Добавить новость', type: 'primary', action: addNews }],
+      });
+    };
+
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      await loadNews();
+      store.commit('admin/closeLoading');
+    });
 
     return { news, edit, remove };
   },

@@ -1,8 +1,5 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <el-button type="primary" @click="create">Добавить документ</el-button>
-    </div>
     <el-card>
       <el-table :data="documents">
         <el-table-column prop="name" label="Наименование" sortable> </el-table-column>
@@ -22,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -36,16 +33,19 @@ export default defineComponent({
     const router = useRouter();
     const documents = computed(() => store.getters['documentTypes/items']);
 
-    onBeforeMount(() => store.commit('admin/showLoading'));
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      await store.dispatch('documentTypes/getAll');
+      store.commit('admin/setHeaderParams', {
+        title: 'Документы',
+        buttons: [{ text: 'Добавить документ', type: 'primary', action: create }],
+      });
+      store.commit('admin/closeLoading');
+    });
 
     const create = () => router.push(`/admin/documents-types/new`);
     const edit = (id: string) => router.push(`/admin/documents-types/${id}`);
     const remove = async (id: string) => await store.dispatch('documentTypes/remove', id);
-
-    onMounted(async (): Promise<void> => {
-      await store.dispatch('documentTypes/getAll');
-      store.commit('admin/setPageTitle', { title: 'Документы' });
-    });
 
     return { documents, remove, edit, create };
   },

@@ -1,8 +1,5 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <el-button type="primary" @click="$router.push('/admin/normative-document-types/new')">Добавить документ</el-button>
-    </div>
     <el-card v-if="documents">
       <el-table v-if="documents" :data="documents" row-key="id">
         <el-table-column prop="name" label="Наименование" sortable />
@@ -47,10 +44,18 @@ export default defineComponent({
       await store.dispatch('normativeDocuments/getAll');
     };
 
+    const create = () => {
+      router.push('/admin/normative-document-types/new');
+    };
+
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('normativeDocuments/getAll');
-      store.commit('admin/setPageTitle', { title: 'Нормативные документы' });
+      store.commit('admin/setHeaderParams', {
+        title: 'Нормативные документы',
+        buttons: [{ text: 'Добавить документ', type: 'primary', action: create }],
+      });
+      store.commit('admin/closeLoading');
     });
 
     return {

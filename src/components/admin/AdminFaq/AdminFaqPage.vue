@@ -70,16 +70,16 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       if (route.params['id']) {
         await store.dispatch('faqs/get', route.params['id']);
-        store.commit('admin/setPageTitle', { title: 'Обновить вопрос', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Обновить вопрос', showBackButton: true, buttons: [{ action: submit }] });
       } else {
-        store.commit('admin/setPageTitle', { title: 'Добавить вопрос', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Добавить вопрос', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(faq, formUpdated, { deep: true });
+      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

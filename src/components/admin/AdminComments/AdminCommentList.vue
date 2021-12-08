@@ -23,27 +23,26 @@ export default defineComponent({
 
     const loadComments = async () => {
       const params = new CommentParams();
+      store.commit('admin/showLoading');
       switch (route.name) {
         case 'AdminAllCommentList':
-          store.commit('admin/showLoading');
           await store.dispatch('comments/getAll');
-          store.commit('admin/setPageTitle', { title: 'Все комментарии' });
+          store.commit('admin/setHeaderParams', { title: 'Все комментарии' });
           break;
         case 'AdminModCheckedCommentList':
-          store.commit('admin/showLoading');
           params.modChecked = true;
           await store.dispatch('comments/getAll', params);
-          store.commit('admin/setPageTitle', { title: 'Отмодерированные комментарии' });
+          store.commit('admin/setHeaderParams', { title: 'Отмодерированные комментарии' });
           break;
         case 'AdminNotModCheckedCommentList':
-          store.commit('admin/showLoading');
           params.modChecked = false;
           await store.dispatch('comments/getAll', params);
-          store.commit('admin/setPageTitle', { title: 'Неотмодерированные комментарии' });
+          store.commit('admin/setHeaderParams', { title: 'Неотмодерированные комментарии' });
           break;
         default:
           break;
       }
+      store.commit('admin/closeLoading');
     };
 
     onBeforeMount(async () => {

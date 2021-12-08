@@ -74,12 +74,18 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
-
       await store.dispatch('questions/get', route.params['id']);
-      store.commit('admin/setPageTitle', { title: 'Ответить на вопрос', saveButton: true });
+      store.commit('admin/setHeaderParams', {
+        title: 'Ответить на вопрос',
+        showBackButton: true,
+        buttons: [
+          { text: 'Сохранить и выйти', type: 'primary', action: submit },
+          { text: 'Ответить и опубликовать', action: submit },
+        ],
+      });
       // question.value.isNew = false;
       mounted.value = true;
+      store.commit('admin/closeLoading');
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(question, formUpdated, { deep: true });
     });

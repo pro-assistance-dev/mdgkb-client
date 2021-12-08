@@ -1,10 +1,5 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <div class="table-buttons">
-        <el-button type="primary" @click="create">Добавить</el-button>
-      </div>
-    </div>
     <el-card>
       <el-table v-if="faqs" :data="faqs">
         <el-table-column label="Вопрос" sortable>
@@ -57,7 +52,11 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('faqs/getAll');
-      store.commit('admin/setPageTitle', { title: 'Часто задаваемые вопросы' });
+      store.commit('admin/setHeaderParams', {
+        title: 'Часто задаваемые вопросы',
+        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+      });
+      store.commit('admin/closeLoading');
     });
 
     return {
