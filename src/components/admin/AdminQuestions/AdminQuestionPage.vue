@@ -1,25 +1,39 @@
 <template>
   <div class="wrapper">
-    <el-form ref="form" :key="question" :model="question">
-      <el-container direction="vertical">
-        <el-form-item label="Вопрос пользователя">
-          <el-input v-model="question.originalQuestion" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item label="Ответ пользователю">
-          <el-input v-model="question.answer" type="textarea"></el-input>
-        </el-form-item>
-
-        <el-form-item label="Вопрос для отображения">
-          <el-input v-model="question.question" type="textarea"></el-input>
-        </el-form-item>
-
-        <el-form-item label="Ответ для отображения">
-          <el-input v-model="question.answer" type="textarea"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button icon="el-icon-check" type="success" @click="question.published = !question.published"></el-button>
-        </el-form-item>
-      </el-container>
+    <el-form ref="form" :key="question" :model="question" label-position="top">
+      <div class="flex-column">
+        <el-card header="Информация о пользователе">
+          <div>
+            <span><b>Имя: </b></span>
+            <span>{{ question.user?.human?.name }}</span>
+          </div>
+          <div>
+            <span><b>Email: </b></span>
+            <span>{{ question.user.email }}</span>
+          </div>
+          <div>
+            <span><b>Тема вопроса: </b></span>
+            <span>{{ question.theme }}</span>
+          </div>
+          <div>
+            <span><b>Содержание обращения: </b></span>
+            <span>{{ question.originalQuestion }}</span>
+          </div>
+        </el-card>
+        <el-card header="Ответ пользователю">
+          <el-form-item>
+            <el-input v-model="question.originalAnswer" placeholder="Ответ пользователю" type="textarea"></el-input>
+          </el-form-item>
+        </el-card>
+        <el-card header="Публикация">
+          <el-form-item label="Вопрос для публикации">
+            <el-input v-model="question.question" placeholder="Вопрос для публикации" type="textarea"></el-input>
+          </el-form-item>
+          <el-form-item label="Ответ для публикации">
+            <el-input v-model="question.answer" placeholder="Ответ для публикации" type="textarea"></el-input>
+          </el-form-item>
+        </el-card>
+      </div>
     </el-form>
   </div>
 </template>
@@ -42,27 +56,10 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    let mounted = ref(false);
+    const mounted: Ref<boolean> = ref(false);
     const form = ref();
-    const question: Ref<IQuestion> = computed<IQuestion>(() => store.getters['questions/question']);
+    const question: Ref<IQuestion> = computed<IQuestion>(() => store.getters['questions/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
-      await store.dispatch('divisions/getAll', false);
-
-      store.commit('admin/setPageTitle', { title: 'Вопрос', saveButton: true });
-      store.commit('questions/resetState');
-      question.value.isNew = false;
-      mounted.value = true;
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(question, formUpdated, { deep: true });
-    });
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -72,7 +69,24 @@ export default defineComponent({
       }
       await store.dispatch('questions/update', question.value);
       next ? next() : await router.push('/admin/questions');
+      store.commit('questions/resetQuestion');
     };
+
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      store.commit('admin/setSubmit', submit);
+
+      await store.dispatch('questions/get', route.params['id']);
+      store.commit('admin/setPageTitle', { title: 'Ответить на вопрос', saveButton: true });
+      // question.value.isNew = false;
+      mounted.value = true;
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(question, formUpdated, { deep: true });
+    });
+
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submit, next);
+    });
 
     return {
       mounted,
@@ -85,18 +99,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.el-container {
-  .el-card {
-    margin-bottom: 20px;
-  }
+.el-card {
+  margin-bottom: 20px;
 }
-
-.content-card {
-  min-height: 450px;
-  max-height: 900px;
+:deep(.el-card__body) {
+  font-size: 14px;
 }
-
-:deep(.el-dialog) {
-  overflow: hidden;
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
 </style>

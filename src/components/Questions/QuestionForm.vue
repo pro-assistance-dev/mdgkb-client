@@ -2,10 +2,15 @@
   <el-dialog v-model="question.isOpened" title="Задать вопрос" width="80%">
     <div class="contact-form">
       <el-form ref="form" :model="question" :rules="rules" label-position="top">
+        <!-- <el-form-item
+          v-if="!user?.human?.name"
+          prop="user.human.name"
+          :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]"
+          label="Ваше имя"
+        >
+          <el-input v-model="user.human.name" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
+        </el-form-item> -->
         <!--         
-        <el-form-item label="Ваше имя">
-          <el-input v-model="question.userName" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
-        </el-form-item>
         <el-form-item label="Ваш email">
           <el-input v-model="question.userEmail" placeholder="Адрес электронной почты" minlength="1"></el-input>
         </el-form-item>
@@ -25,7 +30,7 @@
           />
         </el-form-item>
         <div class="flex-column">
-          <el-checkbox v-model="question.toPublish">
+          <el-checkbox v-model="question.publishAgreement">
             Я не против публичного размещения моего обращения на сайте морозовской детской больницы
           </el-checkbox>
           <div class="publish-comment">
@@ -50,6 +55,7 @@ import { useStore } from 'vuex';
 
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IQuestion from '@/interfaces/IQuestion';
+import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
@@ -61,6 +67,7 @@ export default defineComponent({
     const form = ref();
     const mounted = ref(false);
     const question: Ref<IQuestion> = computed(() => store.getters['questions/question']);
+    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
 
     const privacyRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value) {
@@ -90,6 +97,7 @@ export default defineComponent({
       filter,
       rules,
       form,
+      user,
     };
   },
 });

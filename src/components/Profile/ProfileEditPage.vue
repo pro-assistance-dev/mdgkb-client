@@ -1,7 +1,7 @@
 <template>
   <el-card v-if="user">
     <template #header><h3 style="text-align: center; margin: 0">Профиль</h3></template>
-    <el-form label-width="100px" :model="user">
+    <el-form label-width="120px" label-position="left" :model="user">
       <HumanForm :store-module="'users'" />
 
       <el-form-item prop="email" label="Email">
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
@@ -28,11 +28,11 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-    const userId = localStorage.getItem('userId');
+    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: Ref<IUser> = computed(() => store.getters['users/item']);
 
     const loadUser = async () => {
-      await store.dispatch('users/get', userId);
+      await store.dispatch('users/get', userId.value);
     };
     onMounted(loadUser);
 

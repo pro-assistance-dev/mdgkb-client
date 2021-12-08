@@ -43,8 +43,9 @@ export default defineComponent({
     const store = useStore();
     const user = computed(() => store.getters['auth/user']);
     const isAuth = computed(() => store.getters['auth/isAuth']);
+    const token = computed(() => store.getters['auth/token']);
     const createLike = async (news: INews): Promise<void> => {
-      if (!localStorage.getItem('token')) {
+      if (!token.value) {
         ElMessage({
           message: 'Пожалуйста, авторизируйтесь',
           type: 'warning',
@@ -58,7 +59,7 @@ export default defineComponent({
     };
 
     const deleteLike = async (news: INews): Promise<void> => {
-      if (!localStorage.getItem('token')) {
+      if (!token.value) {
         ElMessage({
           message: 'Пожалуйста, авторизируйтесь',
           type: 'warning',

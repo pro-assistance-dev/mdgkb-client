@@ -13,6 +13,8 @@ import { useStore } from 'vuex';
 import AdminLayout from '@/views/admin/AdminLayout.vue';
 import MainLayout from '@/views/main/MainLayout.vue';
 
+import User from './classes/User';
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -23,14 +25,10 @@ export default defineComponent({
     const store = useStore();
     // TODO безопасно ли это?
     const setLocalStorageToVuex = () => {
-      const userId = localStorage.getItem('userId');
-      const userEmail = localStorage.getItem('userEmail');
+      const userData = localStorage.getItem('user');
       const token = localStorage.getItem('token');
-      if (userId && userEmail && token) {
-        const user = {
-          id: userId,
-          email: userEmail,
-        };
+      if (userData && token) {
+        const user = new User(JSON.parse(userData));
         store.commit('auth/setToken', token);
         store.commit('auth/setUser', user);
         store.commit('auth/setIsAuth', true);

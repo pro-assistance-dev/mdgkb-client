@@ -1,3 +1,4 @@
+import User from '@/classes/User';
 import IQuestion from '@/interfaces/IQuestion';
 
 export default class Question implements IQuestion {
@@ -7,30 +8,40 @@ export default class Question implements IQuestion {
   originalQuestion = '';
   answer = '';
   originalAnswer = '';
-  toPublish = true;
+  publishAgreement = true;
   published = false;
   isNew = true;
   date = new Date();
+  user = new User();
   userId?: string;
   isOpened = false;
   answerIsRead = false;
   agreedWithPrivacyPolicy = false;
 
-  constructor(i?: IQuestion) {
-    if (!i) {
+  constructor(question?: IQuestion) {
+    if (!question) {
       return;
     }
-    this.id = i.id;
-    this.theme = i.theme;
-    this.question = i.question;
-    this.originalQuestion = i.originalQuestion;
-    this.agreedWithPrivacyPolicy = i.agreedWithPrivacyPolicy;
-    this.answer = i.answer;
-    this.originalAnswer = i.originalAnswer;
-    this.isNew = i.isNew;
-    this.toPublish = i.toPublish;
-    this.published = i.published;
-    this.answerIsRead = i.answerIsRead;
+    this.id = question.id;
+    this.theme = question.theme;
+    this.question = question.question;
+    if (!this.question) {
+      this.question = question.originalQuestion;
+    }
+    if (question.user) {
+      this.user = new User(question.user);
+    }
+    if (question.date) {
+      this.date = new Date(question.date);
+    }
+    this.originalQuestion = question.originalQuestion;
+    this.agreedWithPrivacyPolicy = question.agreedWithPrivacyPolicy;
+    this.answer = question.answer;
+    this.originalAnswer = question.originalAnswer;
+    this.isNew = question.isNew;
+    this.publishAgreement = question.publishAgreement;
+    this.published = question.published;
+    this.answerIsRead = question.answerIsRead;
   }
 
   publish(): void {

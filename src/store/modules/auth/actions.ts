@@ -13,8 +13,9 @@ const actions: ActionTree<State, RootState> = {
   login: async ({ commit }, user: IUser): Promise<void> => {
     const { user: newUser, token } = await httpClient.post<IUser, { user: IUser; token: IToken }>({ query: 'login', payload: user });
     localStorage.setItem('token', token.accessToken);
-    if (newUser.id) localStorage.setItem('userId', newUser.id);
-    if (newUser.email) localStorage.setItem('userEmail', newUser.email);
+    if (newUser) {
+      localStorage.setItem('user', JSON.stringify(newUser));
+    }
     commit('setToken', token);
     commit('setUser', newUser);
     commit('setIsAuth', true);
@@ -22,14 +23,16 @@ const actions: ActionTree<State, RootState> = {
   register: async ({ commit }, user: IUser): Promise<void> => {
     const { user: newUser, token } = await httpClient.post<IUser, { user: IUser; token: IToken }>({ query: 'register', payload: user });
     localStorage.setItem('token', token.accessToken);
-    if (newUser.id) localStorage.setItem('userId', newUser.id);
+    if (newUser) {
+      localStorage.setItem('user', JSON.stringify(newUser));
+    }
     commit('setToken', token.accessToken);
     commit('setUser', newUser);
     commit('setIsAuth', true);
   },
   logout: async ({ commit }): Promise<void> => {
     localStorage.removeItem('token');
-    localStorage.removeItem('userId');
+    localStorage.removeItem('user');
     commit('setIsAuth', false);
   },
 };
