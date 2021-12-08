@@ -82,7 +82,8 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('newsSlides/getAll');
-      store.commit('admin/setPageTitle', { title: 'Новости (слайдер)' });
+      store.commit('admin/setHeaderParams', { title: 'Новости (слайдер)' });
+      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

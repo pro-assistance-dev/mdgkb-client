@@ -1,50 +1,41 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
+    <!-- <div class="flex-row-between">
       <el-button v-if="newQuestionsExists()" type="warning">Показать новые вопросы</el-button>
-    </div>
+    </div> -->
     <el-card>
       <el-table v-if="questions" :data="questions">
-        <el-table-column prop="title" sortable>
+        <el-table-column label="Тема вопроса" sortable>
           <template #default="scope">
-            <el-tag v-if="scope.row.isNew">Новый</el-tag>
+            {{ scope.row.theme }}
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="Вопрос" sortable>
+        <el-table-column label="Дата" sortable>
           <template #default="scope">
-            {{ scope.row.originalQuestion }}
+            {{ $dateFormatRu(scope.row.date) }}
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="Ответ" sortable>
+        <el-table-column label="Статус">
           <template #default="scope">
-            {{ scope.row.originalAnswer }}
+            <el-tag v-if="scope.row.isNew" size="small" type="warning">Новый</el-tag>
+            <el-tag v-if="!scope.row.publishAgreement" size="small" type="info">Публикация запрещена</el-tag>
+            <el-tag v-else-if="scope.row.published" size="small" type="success">Опубликован</el-tag>
+            <el-tag v-else size="small" type="danger">Неопубликован</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="Отредактированный вопрос" sortable>
-          <template #default="scope">
-            {{ scope.row.question }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="title" label="Отредактированный ответ" sortable>
-          <template #default="scope">
-            {{ scope.row.answer }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="archived" label="Опубликован" sortable>
+        <!-- <el-table-column prop="archived" label="Опубликован" sortable>
           <template #default="scope">
             <i v-if="scope.row.published" class="el-icon-check"></i>
             <i v-else class="el-icon-minus"></i>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
-              :show-edit-button="true"
-              :show-check-button="true"
+              :show-more-button="true"
               :show-remove-button="true"
-              @edit="$router.push(`/admin/questions/${scope.row.id}`)"
+              @showMore="$router.push(`/admin/questions/${scope.row.id}`)"
               @remove="remove(scope.row.id)"
-              @check="publish(scope.row)"
             />
           </template>
         </el-table-column>
@@ -55,7 +46,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -66,14 +56,14 @@ export default defineComponent({
   components: { TableButtonGroup },
   setup() {
     const store = useStore();
-    const router = useRouter();
 
     const questions: Ref<IQuestion[]> = computed(() => store.getters['questions/items']);
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('questions/getAll', false);
-      store.commit('admin/setPageTitle', { title: 'Ответы' });
+      store.commit('admin/setHeaderParams', { title: 'Вопросы' });
+      store.commit('admin/closeLoading');
     });
 
     const remove = async (id: string) => {
@@ -115,5 +105,9 @@ $margin: 20px 0;
   align-items: center;
   justify-content: flex-end;
   margin: $margin;
+}
+
+.el-tag {
+  margin: 3px;
 }
 </style>

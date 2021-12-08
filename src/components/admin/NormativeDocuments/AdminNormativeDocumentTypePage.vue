@@ -61,14 +61,18 @@ export default defineComponent({
 
     onBeforeMount(async (): Promise<void> => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submitForm);
       if (route.params.id) {
         await store.dispatch('normativeDocumentTypes/get', route.params.id);
         form.value = store.getters['normativeDocumentTypes/type'];
       }
-      store.commit('admin/setPageTitle', { title: 'Тип нормативного документа', saveButton: true });
+      store.commit('admin/setHeaderParams', {
+        title: 'Тип нормативного документа',
+        showBackButton: true,
+        buttons: [{ action: submitForm }],
+      });
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(form, formUpdated, { deep: true });
+      store.commit('admin/closeLoading');
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

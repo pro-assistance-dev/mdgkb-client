@@ -23,6 +23,9 @@ const actions: ActionTree<State, RootState> = {
     });
     commit('set');
   },
+  update: async (_, item: IFaq): Promise<void> => {
+    await httpClient.put<IFaq, IFaq>({ query: `${item.id}`, payload: item });
+  },
   updateAll: async ({ commit }, items: IFaqWithDeleted): Promise<void> => {
     const faqWithDelete = await httpClient.put<IFaqWithDeleted, IFaqWithDeleted>({ payload: items });
     commit('setAll', faqWithDelete.faqs);

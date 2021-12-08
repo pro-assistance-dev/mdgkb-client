@@ -1,9 +1,9 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <el-button type="primary" @click="create">Добавить организацию</el-button>
-      <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
-    </div>
+    <!-- <div class="flex-row-between"> -->
+    <!-- <el-button type="primary" @click="create">Добавить организацию</el-button> -->
+    <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
+    <!-- </div> -->
     <el-card>
       <el-table v-if="sideOrganizations" :data="sideOrganizations">
         <el-table-column prop="name" label="Наименование организации" sortable> </el-table-column>
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -43,10 +43,17 @@ export default defineComponent({
     const router = useRouter();
     const sideOrganizations = computed(() => store.getters['sideOrganizations/sideOrganizations']);
 
-    onBeforeMount(() => store.commit('admin/showLoading'));
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      await loadSideOrganizations();
+      store.commit('admin/closeLoading');
+    });
 
     const loadSideOrganizations = async (): Promise<void> => {
-      store.commit('admin/setPageTitle', { title: 'Организации здравоохранения' });
+      store.commit('admin/setHeaderParams', {
+        title: 'Организации здравоохранения',
+        buttons: [{ text: 'Добавить организацию', type: 'primary', action: create }],
+      });
       await store.dispatch('sideOrganizations/getAll');
     };
 
@@ -59,8 +66,6 @@ export default defineComponent({
     const remove = async (id: string): Promise<void> => {
       await store.dispatch('sideOrganizations/remove', id);
     };
-
-    onMounted(loadSideOrganizations);
 
     return { sideOrganizations, create, edit, remove };
   },

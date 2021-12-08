@@ -95,17 +95,21 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await loadNewsItem();
+      store.commit('admin/closeLoading');
     });
 
     const loadNewsItem = async () => {
       if (route.params['slug']) {
         await store.dispatch('news/get', route.params['slug']);
-        store.commit('admin/setPageTitle', { title: news.value.title, saveButton: true });
+        store.commit('admin/setHeaderParams', {
+          title: news.value.title,
+          showBackButton: true,
+          buttons: [{ action: submit }],
+        });
       } else {
         store.commit('news/resetState');
-        store.commit('admin/setPageTitle', { title: 'Добавить новость', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Добавить новость', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);

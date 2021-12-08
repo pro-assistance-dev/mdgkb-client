@@ -75,18 +75,18 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       isEdit.value = route.params['id'] ? true : false;
       await loadSideOrganization();
+      store.commit('admin/closeLoading');
     });
 
     const loadSideOrganization = async (): Promise<void> => {
       if (!isEdit.value) {
         store.commit('sideOrganizations/set', new SideOrganization());
-        store.commit('admin/setPageTitle', { title: 'Создать организацию', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Создать организацию', showBackButton: true, buttons: [{ action: submit }] });
       } else {
         await store.dispatch('sideOrganizations/get', route.params['id']);
-        store.commit('admin/setPageTitle', { title: sideOrganization.value.name, saveButton: true });
+        store.commit('admin/setHeaderParams', { title: sideOrganization.value.name, showBackButton: true, buttons: [{ action: submit }] });
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(sideOrganization, formUpdated, { deep: true });

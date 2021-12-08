@@ -104,9 +104,9 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await loadDivisionOptions();
       await loadDoctor();
+      store.commit('admin/closeLoading');
     });
 
     const loadDivisionOptions = async (): Promise<void> => {
@@ -117,10 +117,14 @@ export default defineComponent({
     const loadDoctor = async (): Promise<void> => {
       if (route.params['id']) {
         await store.dispatch('doctors/get', route.params['id']);
-        store.commit('admin/setPageTitle', { title: doctor.value.human.getFullName(), saveButton: true });
+        store.commit('admin/setHeaderParams', {
+          title: doctor.value.human.getFullName(),
+          showBackButton: true,
+          buttons: [{ action: submit }],
+        });
       } else {
         store.commit('doctors/resetState');
-        store.commit('admin/setPageTitle', { title: 'Добавить врача', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);

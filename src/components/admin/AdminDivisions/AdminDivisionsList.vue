@@ -1,9 +1,9 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <el-button type="primary" @click="create">Добавить отделение</el-button>
-      <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
-    </div>
+    <!-- <div class="flex-row-between"> -->
+    <!-- <el-button type="primary" @click="create">Добавить отделение</el-button> -->
+    <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
+    <!-- </div> -->
     <el-card>
       <el-table :data="divisions">
         <el-table-column prop="name" label="Наименование" sortable> </el-table-column>
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -44,18 +44,23 @@ export default defineComponent({
     const router = useRouter();
     const divisions = computed(() => store.getters['divisions/divisions']);
 
-    onBeforeMount(() => store.commit('admin/showLoading'));
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      await loadDivisions();
+      store.commit('admin/closeLoading');
+    });
 
     const loadDivisions = async (): Promise<void> => {
       await store.dispatch('divisions/getAll');
-      store.commit('admin/setPageTitle', { title: 'Отделения' });
+      store.commit('admin/setHeaderParams', {
+        title: 'Отделения',
+        buttons: [{ text: 'Добавить отделение', type: 'primary', action: create }],
+      });
     };
 
     const create = () => router.push(`/admin/divisions/new`);
     const edit = (id: string) => router.push(`/admin/divisions/${id}`);
     const remove = async (id: string) => await store.dispatch('divisions/remove', id);
-
-    onMounted(loadDivisions);
 
     return { divisions, remove, edit, create };
   },

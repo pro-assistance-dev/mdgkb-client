@@ -13,20 +13,20 @@ const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, published: boolean): Promise<void> => {
     commit('setAll', await httpClient.get<IQuestion[]>({ query: `?published=${published}` }));
   },
-  get: async ({ commit }, slug: string): Promise<void> => {
-    const res = await httpClient.get<INews>({ query: `${slug}` });
+  get: async ({ commit }, id: string): Promise<void> => {
+    const res = await httpClient.get<INews>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ commit }, vacancy: IQuestion): Promise<void> => {
+  create: async ({ commit }, item: IQuestion): Promise<void> => {
     await httpClient.post<IQuestion, IQuestion>({
-      payload: vacancy,
+      payload: item,
     });
     commit('set');
   },
-  update: async ({ commit }, vacancy: IQuestion): Promise<void> => {
+  update: async ({ commit }, item: IQuestion): Promise<void> => {
     await httpClient.put<IQuestion, IQuestion>({
-      query: `${vacancy.id}`,
-      payload: vacancy,
+      query: `${item.id}`,
+      payload: item,
     });
     commit('set');
   },

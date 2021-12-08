@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 
+import Faq from '@/classes/Faq';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -9,8 +10,8 @@ import { State } from './state';
 
 export const getDefaultState = (): State => {
   return {
-    faqs: [],
-    faqsForDelete: [],
+    items: [],
+    item: new Faq(),
   };
 };
 

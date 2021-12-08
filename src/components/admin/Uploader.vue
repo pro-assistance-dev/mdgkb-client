@@ -123,12 +123,12 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submitForm);
       await load();
+      store.commit('admin/closeLoading');
     });
 
     const load = async (): Promise<void> => {
-      store.commit('admin/setPageTitle', { title: 'Нормативный документ', saveButton: true });
+      store.commit('admin/setHeaderParams', { title: 'Нормативный документ', showBackButton: true, buttons: [{ action: submitForm }] });
       await store.dispatch('normativeDocumentTypes/getAll');
 
       if (props.isEdit && route.params.id) {

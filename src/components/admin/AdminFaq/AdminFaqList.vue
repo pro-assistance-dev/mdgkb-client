@@ -1,16 +1,19 @@
 <template>
   <div class="flex-column">
-    <el-card v-if="documents">
-      <el-table v-if="documents" :data="documents" row-key="id">
-        <el-table-column prop="name" label="Наименование" sortable />
-        <el-table-column prop="type.name" label="Тип" sortable />
+    <el-card>
+      <el-table v-if="faqs" :data="faqs">
+        <el-table-column label="Вопрос" sortable>
+          <template #default="scope">
+            <span>{{ scope.row.question }}</span>
+          </template>
+        </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"
               :show-remove-button="true"
-              @edit="edit(scope.row.id)"
               @remove="remove(scope.row.id)"
+              @edit="edit(scope.row.id)"
             />
           </template>
         </el-table-column>
@@ -20,48 +23,47 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import IFaq from '@/interfaces/IFaq';
 
 export default defineComponent({
-  name: 'AdminNormativeDocumentsList',
+  name: 'AdminFaqList',
   components: { TableButtonGroup },
 
   setup() {
-    const store = useStore();
     const router = useRouter();
-    const documents = computed(() => store.getters['normativeDocuments/document-types']);
+    const store = useStore();
+    const faqs: ComputedRef<IFaq[]> = computed<IFaq[]>(() => store.getters['faqs/items']);
 
-    const edit = async (id: string): Promise<void> => {
-      await router.push(`/admin/normative-documents/${id}`);
+    const create = (): void => {
+      router.push('/admin/faqs/new');
     };
-
-    const remove = async (id: string) => {
-      await store.dispatch('normativeDocuments/remove', id);
-      await store.dispatch('normativeDocuments/getAll');
+    const remove = async (id: string): Promise<void> => {
+      await store.dispatch('faqs/remove', id);
     };
-
-    const create = () => {
-      router.push('/admin/normative-document-types/new');
+    const edit = (id: string): void => {
+      router.push(`/admin/faqs/${id}`);
     };
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('normativeDocuments/getAll');
+      await store.dispatch('faqs/getAll');
       store.commit('admin/setHeaderParams', {
-        title: 'Нормативные документы',
-        buttons: [{ text: 'Добавить документ', type: 'primary', action: create }],
+        title: 'Часто задаваемые вопросы',
+        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
       });
       store.commit('admin/closeLoading');
     });
 
     return {
-      documents,
-      edit,
+      faqs,
+      create,
       remove,
+      edit,
     };
   },
 });

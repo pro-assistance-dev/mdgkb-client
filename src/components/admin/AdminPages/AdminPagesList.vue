@@ -1,9 +1,9 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <el-button type="primary" @click="$router.push('/admin/pages/new')">Добавить страницу</el-button>
-      <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
-    </div>
+    <!-- <div class="flex-row-between"> -->
+    <!-- <el-button type="primary" @click="$router.push('/admin/pages/new')">Добавить страницу</el-button> -->
+    <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
+    <!-- </div> -->
     <el-card>
       <el-table v-if="pages" :data="pages">
         <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -39,14 +39,12 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-
-    onBeforeMount(() => store.commit('admin/showLoading'));
+    const pages = computed(() => store.getters['pages/pages']);
 
     const loadNews = async (): Promise<void> => {
       await store.dispatch('pages/getAll');
-      store.commit('admin/setPageTitle', { title: 'Страницы' });
+      store.commit('admin/setHeaderParams', { title: 'Страницы', buttons: [{ text: 'Добавить', type: 'primary', action: create }] });
     };
-    const pages = computed(() => store.getters['pages/pages']);
 
     const edit = async (id: string): Promise<void> => {
       const item = pages.value.find((i: INews) => i.id === id);
@@ -59,7 +57,15 @@ export default defineComponent({
       await store.dispatch('pages/remove', id);
     };
 
-    onMounted(loadNews);
+    const create = () => {
+      router.push('/admin/pages/new');
+    };
+
+    onBeforeMount(async () => {
+      store.commit('admin/showLoading');
+      await loadNews();
+      store.commit('admin/closeLoading');
+    });
 
     return { pages, edit, remove };
   },

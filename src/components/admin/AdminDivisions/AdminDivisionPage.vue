@@ -134,9 +134,9 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await loadB1uildingOptions();
       await loadDivision();
+      store.commit('admin/closeLoading');
     });
 
     const loadB1uildingOptions = async (): Promise<void> => {
@@ -152,9 +152,9 @@ export default defineComponent({
           store.commit('buildings/setBuildingByFloorId', division.value.floorId);
           division.value.buildingId = buildingOption.value.id;
         }
-        store.commit('admin/setPageTitle', { title: division.value.name, saveButton: true });
+        store.commit('admin/setHeaderParams', { title: division.value.name, showBackButton: true, buttons: [{ action: submit }] });
       } else {
-        store.commit('admin/setPageTitle', { title: 'Создать отделение', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Создать отделение', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);

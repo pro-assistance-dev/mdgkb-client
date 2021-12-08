@@ -153,20 +153,28 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', openPreview);
       if (!slides.value.length) {
         store.dispatch('newsSlides/getAll');
       }
       if (route.params['id']) {
         await store.dispatch('newsSlides/get', route.params['id']);
-        store.commit('admin/setPageTitle', { title: 'Обновить новость (слайдер)', saveButton: true });
+        store.commit('admin/setHeaderParams', {
+          title: 'Обновить новость (слайдер)',
+          showBackButton: true,
+          buttons: [{ action: openPreview }],
+        });
       } else {
-        store.commit('admin/setPageTitle', { title: 'Добавить новость (слайдер)', saveButton: true });
+        store.commit('admin/setHeaderParams', {
+          title: 'Добавить новость (слайдер)',
+          showBackButton: true,
+          buttons: [{ action: openPreview }],
+        });
       }
       previewFullScreen.value = window.innerWidth < 1200;
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(slide, formUpdated, { deep: true });
+      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

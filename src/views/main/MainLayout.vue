@@ -11,14 +11,12 @@
       <div class="container">
         <el-main>
           <template v-if="$route.meta.profile" #default>
-            <el-row :gutter="20">
-              <el-col :span="6">
-                <ProfileSideMenu />
-              </el-col>
-              <el-col :span="18">
+            <div class="profile-container">
+              <ProfileSideMenu />
+              <div style="width: 100%">
                 <slot />
-              </el-col>
-            </el-row>
+              </div>
+            </div>
           </template>
           <template v-else #default>
             <slot />
@@ -65,7 +63,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .profile-container {
-  margin: 0 auto;
+  display: flex;
+  width: 100%;
 }
 .page-container {
   display: flex;

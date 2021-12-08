@@ -1,4 +1,7 @@
+import IAdminButtonParams from '@/interfaces/admin/IAdminButtonParams';
+
 export default interface IAdminHeaderParams {
   title: string;
-  saveButton?: boolean;
+  showBackButton: boolean;
+  buttons: IAdminButtonParams[];
 }

@@ -7,10 +7,10 @@ import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
   items(state): IFaq[] {
-    return state.faqs;
+    return state.items;
   },
-  faqsForDelete(state): string[] {
-    return state.faqsForDelete;
+  item(state): IFaq {
+    return state.item;
   },
 };
 

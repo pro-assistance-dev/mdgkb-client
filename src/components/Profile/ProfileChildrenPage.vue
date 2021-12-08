@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import IUser from '@/interfaces/IUser';
@@ -43,11 +43,11 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-    const userId = localStorage.getItem('userId');
+    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: Ref<IUser> = computed(() => store.getters['users/item']);
 
     const loadUser = async () => {
-      await store.dispatch('users/get', userId);
+      await store.dispatch('users/get', userId.value);
     };
     onMounted(loadUser);
 

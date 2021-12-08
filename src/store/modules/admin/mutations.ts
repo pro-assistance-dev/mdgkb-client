@@ -1,20 +1,15 @@
 import { ElLoading } from 'element-plus';
 import { MutationTree } from 'vuex';
 
+import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
 import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 
 import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setPageTitle(state, params: IAdminHeaderParams) {
-    state.pageTitle = params.title;
-    if (params.saveButton) {
-      state.showSaveButton = true;
-    } else {
-      state.showSaveButton = false;
-    }
-    state.loading?.close();
+  setHeaderParams(state, params: IAdminHeaderParams) {
+    state.headerParams = new AdminHeaderParams(params);
   },
   collapseSideMenu(state) {
     state.isCollapseSideMenu = !state.isCollapseSideMenu;
@@ -36,14 +31,6 @@ const mutations: MutationTree<State> = {
   },
   closeLoading(state) {
     state.loading?.close();
-  },
-  setSubmit(state, value: () => Promise<void>) {
-    const submit = async () => {
-      state.loadingSaveButton = true;
-      await value();
-      state.loadingSaveButton = false;
-    };
-    state.submit = submit;
   },
   resetState(state) {
     Object.assign(state, getDefaultState());

@@ -5,7 +5,7 @@ import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
-import QuestionsPage from '@/components/Questions/QuestionsPage.vue';
+import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
@@ -24,14 +24,18 @@ import MainLayout from '@/views/main/MainLayout.vue';
 import store from '../store/index';
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
-  const userId = localStorage.getItem('userId');
-  if (userId) store.commit('auth/setIsAuth', true);
+  const user = localStorage.getItem('user');
+  if (user) {
+    store.commit('auth/setIsAuth', true);
+  }
   next();
 };
 
 export const authGuard = (): void => {
-  const userId = localStorage.getItem('userId');
-  if (!userId) router.push('/');
+  const user = localStorage.getItem('user');
+  if (!user) {
+    router.push('/');
+  }
 };
 
 const routes: Array<RouteRecordRaw> = [
@@ -93,8 +97,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/questions',
-    name: 'QuestionsPage',
-    component: QuestionsPage,
+    name: 'QuestionsAnswersPage',
+    component: QuestionsAnswersPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },

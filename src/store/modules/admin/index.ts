@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 
+import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
 import RootState from '@/store/types';
 
 import getters from './getters';
@@ -8,13 +9,10 @@ import { State } from './state';
 
 export const getDefaultState = (): State => {
   return {
-    pageTitle: '',
-    showSaveButton: false,
-    loadingSaveButton: false,
+    headerParams: new AdminHeaderParams(),
     isCollapseSideMenu: true,
     isDrawerOpen: false,
     loading: undefined,
-    submit: undefined,
   };
 };
 

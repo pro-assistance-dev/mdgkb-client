@@ -65,7 +65,8 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('vacancies/getAllWithResponses');
-      store.commit('admin/setPageTitle', { title: 'Вакансии' });
+      store.commit('admin/setHeaderParams', { title: 'Вакансии' });
+      store.commit('admin/closeLoading');
     });
 
     const remove = async (id: string) => {

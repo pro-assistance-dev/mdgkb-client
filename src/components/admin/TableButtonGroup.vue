@@ -1,5 +1,8 @@
 <template>
   <el-space :direction="horizontal ? 'horizontal' : 'vertical'" alignment="center" :size="0">
+    <el-button v-if="showMoreButton" class="table-button" @click="$emit('showMore')">
+      <EyeOutlined />
+    </el-button>
     <el-button v-if="showAddButton" class="table-button" icon="el-icon-plus" @click="$emit('add')" />
     <el-button v-if="showMoveUpButton" class="table-button" icon="el-icon-arrow-up" @click="$emit('moveUp')" />
     <el-button v-if="showMoveDownButton" class="table-button" icon="el-icon-arrow-down" @click="$emit('moveDown')" />
@@ -32,10 +35,12 @@
 </template>
 
 <script lang="ts">
+import { EyeOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'TableButtonGroup',
+  components: { EyeOutlined },
   props: {
     showDownloadButton: {
       type: Boolean as PropType<boolean>,
@@ -77,8 +82,12 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       default: false,
     },
+    showMoreButton: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
   },
-  emits: ['download', 'edit', 'remove', 'moveUp', 'moveDown', 'add', 'info', 'archive', 'check'],
+  emits: ['download', 'edit', 'remove', 'moveUp', 'moveDown', 'add', 'info', 'archive', 'check', 'showMore'],
 });
 </script>
 

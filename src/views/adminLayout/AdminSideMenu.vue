@@ -119,16 +119,17 @@ export default defineComponent({
             title: 'FAQ',
             to: '/admin/faqs',
           },
-          {
-            title: 'Вопросы',
-            to: '/admin/questions',
-          },
         ],
       },
       {
         title: 'Врачи',
         to: '/admin/doctors',
         icon: 'el-icon-first-aid-kit',
+      },
+      {
+        title: 'Вопросы',
+        to: '/admin/questions',
+        icon: 'el-icon-question',
       },
       {
         title: 'Комментарии',

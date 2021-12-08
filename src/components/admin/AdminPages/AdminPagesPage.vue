@@ -123,21 +123,22 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await loadNewsItem();
+      store.commit('admin/closeLoading');
     });
 
     const loadNewsItem = async () => {
       if (route.params['slug']) {
         await store.dispatch('pages/getBySlug', route.params['slug']);
-        store.commit('admin/setPageTitle', { title: page.value.title, saveButton: true });
+        store.commit('admin/setHeaderParams', { title: page.value.title, showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('pages/resetState');
-        store.commit('admin/setPageTitle', { title: 'Добавить страницу', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Добавить страницу', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(page, formUpdated, { deep: true });
+      store.commit('admin/closeLoading');
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

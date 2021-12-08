@@ -164,18 +164,18 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      store.commit('admin/setSubmit', submit);
       await store.dispatch('pages/getAll');
       await loadMenu();
+      store.commit('admin/closeLoading');
     });
 
     const loadMenu = async () => {
       if (route.params['id']) {
         await store.dispatch('menus/get', route.params['id']);
-        store.commit('admin/setPageTitle', { title: menu.value.name, saveButton: true });
+        store.commit('admin/setHeaderParams', { title: menu.value.name, showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('menus/resetState');
-        store.commit('admin/setPageTitle', { title: 'Добавить меню', saveButton: true });
+        store.commit('admin/setHeaderParams', { title: 'Добавить меню', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
