@@ -26,7 +26,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import IDivision from '@/interfaces/buildings/IDivision';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorInfoCard',

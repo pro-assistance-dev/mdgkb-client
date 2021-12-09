@@ -106,7 +106,7 @@ import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vu
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 

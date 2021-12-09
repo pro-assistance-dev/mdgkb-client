@@ -1,14 +1,14 @@
 import Division from '@/classes/buildings/Division';
-import DoctorRegalia from '@/classes/doctors/DoctorRegalia';
 import Education from '@/classes/educations/Education';
 import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
+import Regalia from '@/classes/Regalia';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
-import IDoctor from '@/interfaces/doctors/IDoctor';
-import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
-import IDoctorRegalia from '@/interfaces/doctors/IDoctorRegalia';
 import IEducation from '@/interfaces/education/IEducation';
+import IDoctor from '@/interfaces/IDoctor';
+import IDoctorComment from '@/interfaces/IDoctorComment';
+import IRegalia from '@/interfaces/IRegalia';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 import DoctorComment from './DoctorComment';
@@ -28,8 +28,8 @@ export default class Doctor implements IDoctor {
   doctorComments: IDoctorComment[] = [];
   academicDegree = '';
   academicRank = '';
-  doctorRegalias: IDoctorRegalia[] = [];
-  doctorRegaliasForDelete: string[] = [];
+  regalia: IRegalia[] = [];
+  regaliasForDelete: string[] = [];
   educations: IEducation[] = [];
   educationsForDelete: string[] = [];
   timetableDaysForDelete: string[] = [];
@@ -59,8 +59,8 @@ export default class Doctor implements IDoctor {
     }
     this.academicDegree = doctor.academicDegree;
     this.academicRank = doctor.academicRank;
-    if (doctor.doctorRegalias) {
-      this.doctorRegalias = doctor.doctorRegalias.map((item: IDoctorRegalia) => new DoctorRegalia(item));
+    if (doctor.regalia) {
+      this.regalia = doctor.regalia.map((item: IRegalia) => new Regalia(item));
     }
     if (doctor.educations) {
       this.educations = doctor.educations.map((item: IEducation) => new Education(item));

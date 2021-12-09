@@ -1,6 +1,6 @@
-import IDoctor from '@/interfaces/doctors/IDoctor';
-import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import IDoctor from '@/interfaces/IDoctor';
+import IDoctorComment from '@/interfaces/IDoctorComment';
 
 export interface State {
   items: IDoctor[];

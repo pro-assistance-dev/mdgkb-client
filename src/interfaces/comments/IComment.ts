@@ -1,5 +1,5 @@
 import IDivision from '@/interfaces/buildings/IDivision';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 import IUser from '@/interfaces/IUser';
 import INews from '@/interfaces/news/INews';
 

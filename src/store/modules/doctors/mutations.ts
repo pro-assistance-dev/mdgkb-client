@@ -1,17 +1,17 @@
 import { MutationTree } from 'vuex';
 
-import Doctor from '@/classes/doctors/Doctor';
-import DoctorComment from '@/classes/doctors/DoctorComment';
-import DoctorRegalia from '@/classes/doctors/DoctorRegalia';
+import Doctor from '@/classes/Doctor';
+import DoctorComment from '@/classes/DoctorComment';
 import Education from '@/classes/educations/Education';
 import EducationAccreditation from '@/classes/educations/EducationAccreditation';
 import EducationCertification from '@/classes/educations/EducationCertification';
 import FileInfo from '@/classes/File/FileInfo';
+import Regalia from '@/classes/Regalia';
 import Timetable from '@/classes/timetable/Timetable';
-import IDoctor from '@/interfaces/doctors/IDoctor';
-import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDoctor from '@/interfaces/IDoctor';
+import IDoctorComment from '@/interfaces/IDoctorComment';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 
@@ -119,7 +119,7 @@ const mutations: MutationTree<State> = {
     state.item.educations[educationIndex].educationAccreditation = undefined;
   },
   addRegalia(state) {
-    state.item.doctorRegalias.push(new DoctorRegalia());
+    state.item.doctorRegalias.push(new Regalia());
   },
 
   setTimetable(state, timetable: ITimetable) {

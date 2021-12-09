@@ -1,4 +1,4 @@
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default interface IEducationalOrganizationTeacher {
   id?: string;

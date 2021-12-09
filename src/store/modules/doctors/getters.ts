@@ -1,10 +1,10 @@
 import { GetterTree } from 'vuex';
 
-import IDoctor from '@/interfaces/doctors/IDoctor';
-import IDoctorComment from '@/interfaces/doctors/IDoctorComment';
 import IEducation from '@/interfaces/education/IEducation';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFIlesList from '@/interfaces/files/IFIlesList';
+import IDoctor from '@/interfaces/IDoctor';
+import IDoctorComment from '@/interfaces/IDoctorComment';
 import IHuman from '@/interfaces/IHuman';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import RootState from '@/store/types';
