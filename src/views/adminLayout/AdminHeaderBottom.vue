@@ -5,7 +5,7 @@
       <h4 v-else style="margin-left: 20px">{{ headerParams.title }}</h4>
       <div class="button-group">
         <div v-for="(item, i) in headerParams.buttons" :key="i">
-          <el-button v-if="item.action" round size="small" :type="item.type" @click.prevent="item.action">{{ item.text }}</el-button>
+          <el-button v-if="item.action" round size="small" :type="item.type" @click.prevent="item.action()">{{ item.text }}</el-button>
         </div>
       </div>
     </div>

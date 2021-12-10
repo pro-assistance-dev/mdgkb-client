@@ -21,7 +21,7 @@ export default interface IDoctor {
   doctorComments: IDoctorComment[];
   academicDegree: string;
   academicRank: string;
-  regalia: IRegalia[];
+  regalias: IRegalia[];
   regaliasForDelete: string[];
   educations: IEducation[];
   educationsForDelete: string[];

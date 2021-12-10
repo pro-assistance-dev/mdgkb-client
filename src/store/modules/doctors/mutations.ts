@@ -119,7 +119,7 @@ const mutations: MutationTree<State> = {
     state.item.educations[educationIndex].educationAccreditation = undefined;
   },
   addRegalia(state) {
-    state.item.doctorRegalias.push(new Regalia());
+    state.item.regalias.push(new Regalia());
   },
 
   setTimetable(state, timetable: ITimetable) {

@@ -39,7 +39,7 @@ import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments.vue';
 import Timetable from '@/components/Timetable.vue';
-import IDoctor from '@/interfaces/doctors/IDoctor';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorPage',

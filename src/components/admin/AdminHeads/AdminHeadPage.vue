@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="doctor" label-position="top" :rules="rules">
+  <el-form v-if="mounted" ref="form" :model="head" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical">
@@ -7,33 +7,47 @@
             <template #header>
               <CardHeader :label="'Личная информация'" :add-button="false" />
             </template>
-            <HumanForm :store-module="'doctors'" />
+            <HumanForm :store-module="'heads'" />
           </el-card>
-          <TimetableConstructorV2 :store-module="'doctors'" />
-          <el-card>
-            <EducationForm :store-module="'doctors'" />
-          </el-card>
+          <TimetableConstructorV2 :store-module="'heads'" />
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
-          <AdminDoctorImage v-if="mounted" title="Загрузить фото" />
+          <el-card>
+            <template #header>Загрузить фото</template>
+            <UploaderSingleScan v-if="mounted" :file-info="head.photo" :height="300" :width="300" />
+          </el-card>
           <el-card>
             <template #header>
               <CardHeader :label="'Регалии, звания'" :add-button="false" />
             </template>
+            <el-form-item label="Является главным врачом" prop="isMain">
+              <el-checkbox v-model="head.isMain"></el-checkbox>
+            </el-form-item>
             <el-form-item label="Должность" prop="position">
-              <el-input v-model="doctor.position"></el-input>
+              <el-input v-model="head.position"></el-input>
             </el-form-item>
             <el-form-item label="Учёная степень">
-              <el-input v-model="doctor.academicDegree" />
+              <el-input v-model="head.academicDegree" />
             </el-form-item>
             <el-form-item label="Звание">
-              <el-input v-model="doctor.academicRank" />
+              <el-input v-model="head.academicRank" />
             </el-form-item>
-            <el-button @click="addRegalia"> Добавить регалию</el-button>
             <el-form-item label="Регалии">
-              <el-input v-for="regalia in doctor.doctorRegalias" :key="regalia" v-model="regalia.name" />
+              <el-button @click="addRegalia"> Добавить регалию</el-button>
+              <div v-for="(regalia, i) in head.regalias" :key="i">
+                <el-input v-model="regalia.name" />
+                <el-button @click="removeRegalia(i)">Удалить регалию</el-button>
+              </div>
+            </el-form-item>
+
+            <el-form-item label="Отделы в подчинении">
+              <el-button @click="addDepartment"> Добавить отдел</el-button>
+              <div v-for="(department, i) in head.departments" :key="i">
+                <el-input v-model="department.name" />
+                <el-button @click="removeDepartment(i)">Удалить отдел</el-button>
+              </div>
             </el-form-item>
           </el-card>
         </el-container>
@@ -51,30 +65,27 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
-import DoctorRules from '@/classes/DoctorRules';
-import AdminDoctorImage from '@/components/admin/AdminDoctors/AdminDoctorImage.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
-import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
-import IDoctor from '@/interfaces/IDoctor';
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import IHead from '@/interfaces/IHead';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
-  components: { TimetableConstructorV2, HumanForm, ImageCropper, AdminDoctorImage, EducationForm, CardHeader },
+  components: { UploaderSingleScan, TimetableConstructorV2, HumanForm, ImageCropper, CardHeader },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const form = ref();
-    const rules = ref(DoctorRules);
     const mounted = ref(false);
 
     const divisionOptions = ref([new Division()]);
-    const doctor: Ref<IDoctor> = computed(() => store.getters['doctors/item']);
+    const head: Ref<IHead> = computed(() => store.getters['heads/item']);
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -82,66 +93,60 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (!doctor.value.fileInfo.fileSystemPath) {
-        ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
-        saveButtonClick.value = false;
-        return;
-      }
       try {
         if (route.params['id']) {
-          await store.dispatch('doctors/update', doctor.value);
+          await store.dispatch('heads/update', head.value);
         } else {
-          await store.dispatch('doctors/create', doctor.value);
+          await store.dispatch('heads/create', head.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : router.push('/admin/doctors');
+      next ? next() : router.push('/admin/heads');
     };
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await loadDivisionOptions();
-      await loadDoctor();
+      await load();
       store.commit('admin/closeLoading');
     });
 
-    const loadDivisionOptions = async (): Promise<void> => {
-      await store.dispatch('divisions/getAll');
-      divisionOptions.value = store.getters['divisions/divisions'];
-    };
-
-    const loadDoctor = async (): Promise<void> => {
+    const load = async (): Promise<void> => {
       if (route.params['id']) {
-        await store.dispatch('doctors/get', route.params['id']);
+        await store.dispatch('heads/get', route.params['id']);
         store.commit('admin/setHeaderParams', {
-          title: doctor.value.human.getFullName(),
+          title: head.value.human.getFullName(),
           showBackButton: true,
           buttons: [{ action: submit }],
         });
       } else {
-        store.commit('doctors/resetState');
-        store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
+        store.commit('heads/resetState');
+        store.commit('admin/setHeaderParams', { title: 'Добавить руководителя', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(doctor, formUpdated, { deep: true });
+      watch(head, formUpdated, { deep: true });
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
     });
 
-    const addRegalia = () => store.commit('doctors/addRegalia');
+    const addRegalia = () => head.value.addRegalia();
+    const removeRegalia = (i: number) => head.value.removeRegalia(i);
+    const addDepartment = () => head.value.addDepartment();
+    const removeDepartment = (i: number) => head.value.removeDepartment(i);
 
     return {
+      removeDepartment,
+      addDepartment,
+      removeRegalia,
       addRegalia,
-      rules,
       submit,
-      doctor,
+      head,
       divisionOptions,
       form,
       mounted,

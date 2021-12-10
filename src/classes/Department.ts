@@ -1,18 +1,17 @@
-import IRegalia from '@/interfaces/IRegalia';
+import IDepartment from '@/interfaces/IDepartment';
 
-export default class Regalia implements IRegalia {
+export default class Department implements IDepartment {
   id?: string;
   name = '';
   doctorId?: string;
   headId?: string;
 
-  constructor(i?: IRegalia) {
+  constructor(i?: IDepartment) {
     if (!i) {
       return;
     }
     this.id = i.id;
     this.name = i.name;
-    this.doctorId = i.doctorId;
     this.headId = i.headId;
   }
 }

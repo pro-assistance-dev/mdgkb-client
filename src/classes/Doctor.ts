@@ -28,7 +28,7 @@ export default class Doctor implements IDoctor {
   doctorComments: IDoctorComment[] = [];
   academicDegree = '';
   academicRank = '';
-  regalia: IRegalia[] = [];
+  regalias: IRegalia[] = [];
   regaliasForDelete: string[] = [];
   educations: IEducation[] = [];
   educationsForDelete: string[] = [];
@@ -59,8 +59,8 @@ export default class Doctor implements IDoctor {
     }
     this.academicDegree = doctor.academicDegree;
     this.academicRank = doctor.academicRank;
-    if (doctor.regalia) {
-      this.regalia = doctor.regalia.map((item: IRegalia) => new Regalia(item));
+    if (doctor.regalias) {
+      this.regalias = doctor.regalias.map((item: IRegalia) => new Regalia(item));
     }
     if (doctor.educations) {
       this.educations = doctor.educations.map((item: IEducation) => new Education(item));

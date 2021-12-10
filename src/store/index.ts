@@ -12,6 +12,7 @@ import { documentTypes } from '@/store/modules/documentTypes';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
+import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { map } from '@/store/modules/map';
 import { menus } from '@/store/modules/menus';
@@ -71,6 +72,7 @@ const store: StoreOptions<RootState> = {
     questions,
     events,
     timetablePatterns,
+    heads,
   },
 };
 

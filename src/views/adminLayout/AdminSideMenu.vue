@@ -116,15 +116,20 @@ export default defineComponent({
             to: '/admin/documents-types',
           },
           {
+            title: 'Врачи',
+            to: '/admin/doctors',
+            icon: 'el-icon-first-aid-kit',
+          },
+          {
+            title: 'Руководители',
+            to: '/admin/heads',
+            icon: 'el-icon-first-aid-kit',
+          },
+          {
             title: 'FAQ',
             to: '/admin/faqs',
           },
         ],
-      },
-      {
-        title: 'Врачи',
-        to: '/admin/doctors',
-        icon: 'el-icon-first-aid-kit',
       },
       {
         title: 'Вопросы',
