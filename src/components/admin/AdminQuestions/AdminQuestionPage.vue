@@ -1,15 +1,25 @@
 <template>
   <div class="wrapper">
-    <el-form ref="form" :key="question" :model="question" label-position="top">
+    <el-form ref="form" :key="question" :rules="rules" :model="question" label-position="top">
       <div class="flex-column">
-        <el-card header="Информация о пользователе">
+        <el-card>
+          <template #header>
+            <div class="info-header">
+              <span>Информация о пользователе</span>
+              <AdminQuestionStatus :question="question" />
+            </div>
+          </template>
           <div>
-            <span><b>Имя: </b></span>
-            <span>{{ question.user?.human?.name }}</span>
+            <span><b>ФИО заявителя: </b></span>
+            <span>{{ question.user?.human?.getFullName() }}</span>
           </div>
           <div>
             <span><b>Email: </b></span>
             <span>{{ question.user.email }}</span>
+          </div>
+          <div>
+            <span><b>Дата обращения: </b></span>
+            <span>{{ $dateFormatRu(question.date) }}</span>
           </div>
           <div>
             <span><b>Тема вопроса: </b></span>
@@ -17,20 +27,41 @@
           </div>
           <div>
             <span><b>Содержание обращения: </b></span>
-            <span>{{ question.originalQuestion }}</span>
+            <div style="white-space: pre-line">{{ question.originalQuestion }}</div>
+          </div>
+          <div v-if="question.answered">
+            <span><b>Ответ: </b></span>
+            <div style="white-space: pre-line">{{ question.originalAnswer }}</div>
           </div>
         </el-card>
-        <el-card header="Ответ пользователю">
-          <el-form-item>
-            <el-input v-model="question.originalAnswer" placeholder="Ответ пользователю" type="textarea"></el-input>
+
+        <el-card v-if="!question.answered" header="Ответ пользователю">
+          <el-form-item prop="originalAnswer">
+            <el-input
+              v-model="question.originalAnswer"
+              placeholder="Ответ пользователю"
+              type="textarea"
+              :autosize="{ minRows: 5, maxRows: 10 }"
+            ></el-input>
           </el-form-item>
         </el-card>
-        <el-card header="Публикация">
-          <el-form-item label="Вопрос для публикации">
-            <el-input v-model="question.question" placeholder="Вопрос для публикации" type="textarea"></el-input>
+
+        <el-card v-if="question.publishAgreement" header="Публикация">
+          <el-form-item label="Вопрос для публикации" prop="question">
+            <el-input
+              v-model="question.question"
+              placeholder="Вопрос для публикации"
+              type="textarea"
+              :autosize="{ minRows: 5, maxRows: 10 }"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="Ответ для публикации">
-            <el-input v-model="question.answer" placeholder="Ответ для публикации" type="textarea"></el-input>
+          <el-form-item label="Ответ для публикации" prop="answer">
+            <el-input
+              v-model="question.answer"
+              placeholder="Ответ для публикации"
+              type="textarea"
+              :autosize="{ minRows: 5, maxRows: 10 }"
+            ></el-input>
           </el-form-item>
         </el-card>
       </div>
@@ -41,17 +72,19 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
+import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
 import IQuestion from '@/interfaces/IQuestion';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminQuestionPage',
-  components: {},
+  components: { AdminQuestionStatus },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -59,28 +92,60 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const form = ref();
     const question: Ref<IQuestion> = computed<IQuestion>(() => store.getters['questions/item']);
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+    const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+    const rules = {
+      originalAnswer: [{ required: true, message: 'Необходимо указать ответ пользователю', trigger: 'blur' }],
+      question: [{ required: true, message: 'Необходимо указать вопрос для публикации', trigger: 'blur' }],
+      answer: [{ required: true, message: 'Необходимо указать ответ для публикации', trigger: 'blur' }],
+    };
 
-    const submit = async (next?: NavigationGuardNext) => {
+    const save = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      await store.dispatch('questions/update', question.value);
+      next ? next() : router.push('/admin/questions');
+      ElMessage({
+        type: 'info',
+        message: 'Изменения сохранены',
+      });
+      store.commit('questions/resetQuestion');
+    };
+
+    const update = async () => {
       saveButtonClick.value = true;
       if (!validate(form)) {
         saveButtonClick.value = false;
         return;
       }
-      await store.dispatch('questions/update', question.value);
-      next ? next() : await router.push('/admin/questions');
+      if (!question.value.answered && !question.value.publishAgreement) {
+        question.value.answered = true;
+        await store.dispatch('questions/update', question.value);
+      } else {
+        question.value.answered = true;
+        question.value.published = !question.value.published;
+        await store.dispatch('questions/update', question.value);
+      }
+      router.push('/admin/questions');
       store.commit('questions/resetQuestion');
     };
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('questions/get', route.params['id']);
+      if (question.value.isNew) {
+        question.value.changeNewStatus();
+        store.dispatch('questions/changeNewStatus', question.value);
+      }
       store.commit('admin/setHeaderParams', {
         title: 'Ответить на вопрос',
         showBackButton: true,
         buttons: [
-          { text: 'Сохранить и выйти', type: 'primary', action: submit },
-          { text: 'Ответить и опубликовать', action: submit },
+          { text: 'Сохранить и выйти', type: 'primary', action: save, condition: confirmLeave },
+          {
+            text: question.value.getUpdateButtonText(),
+            type: question.value.getUpdateButtonType(),
+            action: update,
+            condition: question.value.getUpdateCondition(),
+          },
         ],
       });
       // question.value.isNew = false;
@@ -91,14 +156,14 @@ export default defineComponent({
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
+      showConfirmModal(save, next);
     });
 
     return {
       mounted,
-      submit,
       question,
       form,
+      rules,
     };
   },
 });
@@ -114,5 +179,10 @@ export default defineComponent({
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+.info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>

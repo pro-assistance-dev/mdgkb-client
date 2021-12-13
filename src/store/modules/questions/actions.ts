@@ -46,6 +46,11 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
   },
+  changeNewStatus: async (_, question: IQuestion): Promise<void> => {
+    await httpClient.put<IQuestion, IQuestion>({
+      query: `new/${question.id}?isNew=${question.isNew}`,
+    });
+  },
 };
 
 export default actions;

@@ -17,7 +17,8 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IFaq[]>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ commit }, item: IFaq): Promise<void> => {
+  create: async ({ commit, state }, item: IFaq): Promise<void> => {
+    item.order = state.items.length;
     await httpClient.post<IFaq, IFaq>({
       payload: item,
     });
@@ -26,9 +27,8 @@ const actions: ActionTree<State, RootState> = {
   update: async (_, item: IFaq): Promise<void> => {
     await httpClient.put<IFaq, IFaq>({ query: `${item.id}`, payload: item });
   },
-  updateAll: async ({ commit }, items: IFaqWithDeleted): Promise<void> => {
-    const faqWithDelete = await httpClient.put<IFaqWithDeleted, IFaqWithDeleted>({ payload: items });
-    commit('setAll', faqWithDelete.faqs);
+  updateAll: async (_, items: IFaqWithDeleted): Promise<void> => {
+    await httpClient.put<IFaqWithDeleted, IFaqWithDeleted>({ payload: items });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

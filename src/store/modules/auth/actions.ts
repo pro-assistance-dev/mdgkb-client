@@ -12,12 +12,10 @@ const httpClient = new HttpClient('auth');
 const actions: ActionTree<State, RootState> = {
   login: async ({ commit }, user: IUser): Promise<void> => {
     const { user: newUser, token } = await httpClient.post<IUser, { user: IUser; token: IToken }>({ query: 'login', payload: user });
-    localStorage.setItem('token', token.accessToken);
     if (newUser) {
-      localStorage.setItem('user', JSON.stringify(newUser));
+      commit('setUser', newUser);
     }
-    commit('setToken', token);
-    commit('setUser', newUser);
+    commit('setToken', token.accessToken);
     commit('setIsAuth', true);
   },
   register: async ({ commit }, user: IUser): Promise<void> => {

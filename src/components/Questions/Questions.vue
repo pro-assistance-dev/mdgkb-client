@@ -1,18 +1,11 @@
 <template>
   <div class="header-center">
+    <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти вопрос" size="large" />
     <el-button type="success" @click="openQuestion">Задать вопрос</el-button>
   </div>
-  <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти вопрос" size="large" />
-  <div v-for="question in questionsList" :key="question.id">
-    <el-descriptions :column="1" border direction="horizontal" class="contact-form">
-      <el-descriptions-item label="Вопрос">
-        {{ question.question }}
-      </el-descriptions-item>
-      <el-descriptions-item label="Ответ">
-        {{ question.answer }}
-      </el-descriptions-item>
-    </el-descriptions>
-  </div>
+  <template v-for="item in questionsList" :key="item.id">
+    <QuestionCard :question="item.question" :answer="item.answer" :date="item.date" />
+  </template>
   <QuestionForm />
 </template>
 
@@ -20,12 +13,14 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import QuestionCard from '@/components/Questions/QuestionCard.vue';
 import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'Questions',
-  components: { QuestionForm },
+  components: { QuestionForm, QuestionCard },
+
   async setup() {
     const filter = ref('');
     const store = useStore();
@@ -76,8 +71,16 @@ export default defineComponent({
 .text-center {
   text-align: center;
 }
-
+.header-center {
+  display: flex;
+  .el-button {
+    margin-left: 10px;
+  }
+}
 h1 {
   font-size: 24px;
+}
+.el-card {
+  margin-top: 10px;
 }
 </style>
