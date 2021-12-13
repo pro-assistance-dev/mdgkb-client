@@ -4,13 +4,15 @@ export default class Faq implements IFaq {
   id?: string;
   answer = '';
   question = '';
+  order = 1;
 
-  constructor(i?: IFaq) {
-    if (!i) {
+  constructor(faq?: IFaq) {
+    if (!faq) {
       return;
     }
-    this.id = i.id;
-    this.answer = i.answer;
-    this.question = i.question;
+    this.id = faq.id;
+    this.answer = faq.answer;
+    this.question = faq.question;
+    this.order = faq.order;
   }
 }

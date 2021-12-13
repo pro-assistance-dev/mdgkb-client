@@ -7,9 +7,11 @@ import State from './state';
 const mutations: MutationTree<State> = {
   setUser(state, user: IUser) {
     state.user = user;
+    localStorage.setItem('user', JSON.stringify(user));
   },
   setToken(state, token: string) {
     state.token = token;
+    localStorage.setItem('token', token);
   },
   setIsAuth(state, isAuth: boolean) {
     state.isAuth = isAuth;

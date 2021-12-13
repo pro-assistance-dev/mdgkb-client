@@ -1,8 +1,5 @@
 <template>
   <div class="flex-column">
-    <!-- <div class="flex-row-between">
-      <el-button v-if="newQuestionsExists()" type="warning">Показать новые вопросы</el-button>
-    </div> -->
     <el-card>
       <el-table v-if="questions" :data="questions">
         <el-table-column label="Тема вопроса" sortable>
@@ -17,25 +14,16 @@
         </el-table-column>
         <el-table-column label="Статус">
           <template #default="scope">
-            <el-tag v-if="scope.row.isNew" size="small" type="warning">Новый</el-tag>
-            <el-tag v-if="!scope.row.publishAgreement" size="small" type="info">Публикация запрещена</el-tag>
-            <el-tag v-else-if="scope.row.published" size="small" type="success">Опубликован</el-tag>
-            <el-tag v-else size="small" type="danger">Неопубликован</el-tag>
+            <AdminQuestionStatus :question="scope.row" />
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="archived" label="Опубликован" sortable>
-          <template #default="scope">
-            <i v-if="scope.row.published" class="el-icon-check"></i>
-            <i v-else class="el-icon-minus"></i>
-          </template>
-        </el-table-column> -->
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
+              :show-check-button="true"
               :show-more-button="true"
-              :show-remove-button="true"
               @showMore="$router.push(`/admin/questions/${scope.row.id}`)"
-              @remove="remove(scope.row.id)"
+              @check="changeNewStatus(scope.row)"
             />
           </template>
         </el-table-column>
@@ -48,12 +36,13 @@
 import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 import { useStore } from 'vuex';
 
+import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'AdminQuestionsList',
-  components: { TableButtonGroup },
+  components: { TableButtonGroup, AdminQuestionStatus },
   setup() {
     const store = useStore();
 
@@ -66,20 +55,16 @@ export default defineComponent({
       store.commit('admin/closeLoading');
     });
 
-    const remove = async (id: string) => {
-      await store.dispatch('questions/remove', id);
-    };
-
-    const newQuestionsExists = (): boolean => {
-      return questions.value.some((item: IQuestion) => item.isNew);
-    };
-
     const publish = async (question: IQuestion) => {
       question.publish();
       await store.dispatch('questions/publish', question.id);
     };
 
-    return { questions, remove, newQuestionsExists, publish };
+    const changeNewStatus = async (question: IQuestion) => {
+      question.changeNewStatus();
+      await store.dispatch('questions/changeNewStatus', question);
+    };
+    return { questions, publish, changeNewStatus };
   },
 });
 </script>
@@ -105,9 +90,5 @@ $margin: 20px 0;
   align-items: center;
   justify-content: flex-end;
   margin: $margin;
-}
-
-.el-tag {
-  margin: 3px;
 }
 </style>

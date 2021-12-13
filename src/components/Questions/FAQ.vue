@@ -1,6 +1,9 @@
 <template>
+  <div class="faq-header">
+    <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти вопрос" size="large" />
+  </div>
   <el-collapse accordion>
-    <el-collapse-item v-for="(item, i) in faqList" :key="item.id" :name="i">
+    <el-collapse-item v-for="(item, i) in filteredFaqList" :key="item.id" :name="i">
       <template #title>
         <QuestionCircleOutlined />
         <b>{{ item.question }}</b>
@@ -12,7 +15,7 @@
 
 <script lang="ts">
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import IFaq from '@/interfaces/IFaq';
@@ -22,15 +25,28 @@ export default defineComponent({
   components: { QuestionCircleOutlined },
 
   setup() {
+    const filter: Ref<string> = ref('');
     const store = useStore();
     const faqList: ComputedRef<IFaq[]> = computed<IFaq[]>(() => store.getters['faqs/items']);
+    const filteredFaqList = computed((): IFaq[] => {
+      if (filter.value) {
+        return faqList.value.filter((faq: IFaq) => {
+          return (
+            faq.question.toLowerCase().includes(filter.value.toLowerCase()) || faq.answer.toLowerCase().includes(filter.value.toLowerCase())
+          );
+        });
+      } else {
+        return faqList.value;
+      }
+    });
 
     onBeforeMount(async () => {
       await store.dispatch('faqs/getAll');
     });
 
     return {
-      faqList,
+      filter,
+      filteredFaqList,
     };
   },
 });
@@ -65,5 +81,8 @@ export default defineComponent({
 .anticon {
   font-size: 20px;
   margin-right: 5px;
+}
+.faq-header {
+  margin-bottom: 20px;
 }
 </style>

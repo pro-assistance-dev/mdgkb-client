@@ -8,15 +8,19 @@ export default class Question implements IQuestion {
   originalQuestion = '';
   answer = '';
   originalAnswer = '';
-  publishAgreement = true;
-  published = false;
-  isNew = true;
   date = new Date();
   user = new User();
   userId?: string;
-  isOpened = false;
+  answered = false;
+  published = false;
+  isNew = true;
+  // Для пользователя
   answerIsRead = false;
+  // Согласия
+  publishAgreement = true;
   agreedWithPrivacyPolicy = false;
+  // Открытие модалки
+  isDialogOpened = false;
 
   constructor(question?: IQuestion) {
     if (!question) {
@@ -34,8 +38,9 @@ export default class Question implements IQuestion {
     if (question.date) {
       this.date = new Date(question.date);
     }
+    this.answered = question.answered;
+    this.userId = question.userId;
     this.originalQuestion = question.originalQuestion;
-    this.agreedWithPrivacyPolicy = question.agreedWithPrivacyPolicy;
     this.answer = question.answer;
     this.originalAnswer = question.originalAnswer;
     this.isNew = question.isNew;
@@ -51,5 +56,44 @@ export default class Question implements IQuestion {
       return;
     }
     this.published = false;
+  }
+
+  changeNewStatus(status?: boolean): void {
+    if (status !== undefined) {
+      this.isNew = status;
+    } else {
+      this.isNew = !this.isNew;
+    }
+  }
+
+  getUpdateButtonText(): string {
+    if (this.publishAgreement) {
+      if (this.published) {
+        return 'Сохранить и снять с публикации';
+      } else {
+        return 'Сохранить и опубликовать';
+      }
+    }
+    return 'Ответить';
+  }
+  getUpdateButtonType(): string {
+    if (this.publishAgreement) {
+      if (this.published) {
+        return 'danger';
+      } else {
+        return 'success';
+      }
+    }
+    return 'success';
+  }
+  getUpdateCondition(): boolean {
+    if (!this.publishAgreement) {
+      if (this.answered) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return true;
   }
 }

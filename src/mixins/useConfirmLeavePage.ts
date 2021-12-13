@@ -4,6 +4,7 @@ import { NavigationGuardNext } from 'vue-router';
 
 declare type SubmitCallback = (next: NavigationGuardNext) => void;
 interface IReturn {
+  confirmLeave: Ref<boolean>;
   saveButtonClick: Ref<boolean>;
   formUpdated: () => void;
   beforeWindowUnload: (e: Event) => void;
@@ -50,6 +51,7 @@ export default function (): IReturn {
   };
 
   return {
+    confirmLeave,
     saveButtonClick,
     beforeWindowUnload,
     formUpdated,

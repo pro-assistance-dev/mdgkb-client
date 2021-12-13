@@ -1,49 +1,49 @@
 <template>
   <el-card v-if="mounted">
     <template #header><h3 style="text-align: center; margin: 0">Ответы на ваши вопросы</h3></template>
-    <el-card v-for="question in user.questions" :key="question.id">
-      <div><b>Вопрос: </b> {{ question.originalQuestion }}</div>
-      <div v-if="question.originalAnswer">
-        <el-divider />
-        <b>Ответ: </b>
-        {{ question.originalAnswer }}
-      </div>
-      <div v-else>
-        <el-divider />
-        <b>Вопрос в стадии обработки </b>
-      </div>
-    </el-card>
+    <template v-for="item in userQuestions" :key="item.id">
+      <QuestionCard :question="item.originalQuestion" :answer="item.originalAnswer" :date="item.date" />
+    </template>
   </el-card>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IUser from '@/interfaces/IUser';
+import QuestionCard from '@/components/Questions/QuestionCard.vue';
+import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'ProfileQuestionPage',
+  components: { QuestionCard },
+
   setup() {
     const store = useStore();
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: Ref<IUser> = computed(() => store.getters['users/item']);
+    const userQuestions: ComputedRef<IQuestion[]> = computed(() => {
+      const user = store.getters['users/item'];
+      return user.questions.sort((a: IQuestion, b: IQuestion) => b.date.getTime() - a.date.getTime());
+    });
 
     const loadUser = async () => {
       await store.dispatch('users/get', userId.value);
       await store.dispatch('questions/readAnswers', userId.value);
-      user.value;
       mounted.value = true;
     };
     onMounted(loadUser);
 
     return {
       mounted,
-      user,
+      userQuestions,
     };
   },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-card {
+  margin-bottom: 10px;
+}
+</style>

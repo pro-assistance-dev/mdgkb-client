@@ -1,7 +1,9 @@
 import { MutationTree } from 'vuex';
 
 import Question from '@/classes/Question';
+import User from '@/classes/User';
 import IQuestion from '@/interfaces/IQuestion';
+import IUser from '@/interfaces/IUser';
 
 import { State } from './state';
 
@@ -17,11 +19,13 @@ const mutations: MutationTree<State> = {
     state.items.splice(index, 1);
   },
   openQuestion(state) {
-    state.question.isOpened = true;
-    console.log(state.question);
+    state.question.isDialogOpened = true;
   },
   resetQuestion(state) {
     state.question = new Question();
+  },
+  setUser(state, user: IUser) {
+    state.question.user = new User(user);
   },
 };
 
