@@ -14,6 +14,8 @@
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
             </el-form-item>
           </el-card>
+
+          <AdminDivisionVisitingRules />
           <TimetableConstructorV2 :store-module="'divisions'" />
           <ScheduleConstructor :store-module="'divisions'" />
           <AdminDivisionGallery />
@@ -61,12 +63,12 @@
           </el-card>
 
           <el-card>
-            <el-space>
-              <el-select v-model="newDoctorId" filterable placeholder="Выберите доктора">
+            <div class="flex-between">
+              <el-select v-model="newDoctorId" size="mini" filterable placeholder="Выберите доктора">
                 <el-option v-for="item in filteredDoctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
               </el-select>
-              <el-button type="success" style="margin: 20px" @click="addDoctor">Добавить доктора</el-button>
-            </el-space>
+              <el-button size="mini" type="success" style="margin: 20px" @click="addDoctor">Добавить доктора</el-button>
+            </div>
 
             <el-table :data="divisionDoctors">
               <el-table-column label="ФИО" sortable>
@@ -99,6 +101,7 @@ import { useStore } from 'vuex';
 
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
 import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisionGallery.vue';
+import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -112,7 +115,15 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
-  components: { ImageCropper, QuillEditor, TableButtonGroup, TimetableConstructorV2, ScheduleConstructor, AdminDivisionGallery },
+  components: {
+    ImageCropper,
+    QuillEditor,
+    TableButtonGroup,
+    TimetableConstructorV2,
+    ScheduleConstructor,
+    AdminDivisionGallery,
+    AdminDivisionVisitingRules,
+  },
 
   setup() {
     const store = useStore();
@@ -278,5 +289,10 @@ export default defineComponent({
 
 .content-card {
   height: 450px;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

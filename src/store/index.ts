@@ -31,6 +31,7 @@ import { users } from '@/store/modules/users';
 import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
 import { valueTypes } from '@/store/modules/valueTypes';
+import { visitingRules } from '@/store/modules/visitingRules';
 
 import RootState from './types';
 
@@ -73,6 +74,7 @@ const store: StoreOptions<RootState> = {
     events,
     timetablePatterns,
     heads,
+    visitingRules,
   },
 };
 

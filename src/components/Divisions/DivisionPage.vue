@@ -65,7 +65,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       window.scrollTo(0, 0);
-      await store.dispatch('divisions/get', route.params['id']);
+      await store.dispatch('divisions/get', route.params['slug']);
     });
 
     return {

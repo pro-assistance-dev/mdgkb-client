@@ -17,12 +17,11 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IFaq[]>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ commit, state }, item: IFaq): Promise<void> => {
+  create: async ({ state }, item: IFaq): Promise<void> => {
     item.order = state.items.length;
     await httpClient.post<IFaq, IFaq>({
       payload: item,
     });
-    commit('set');
   },
   update: async (_, item: IFaq): Promise<void> => {
     await httpClient.put<IFaq, IFaq>({ query: `${item.id}`, payload: item });

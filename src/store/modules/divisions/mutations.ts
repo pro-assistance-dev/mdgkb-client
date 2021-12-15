@@ -6,6 +6,7 @@ import DivisionImage from '@/classes/buildings/DivisionImage';
 import FileInfo from '@/classes/File/FileInfo';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
+import VisitingRule from '@/classes/VisitingRule';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
@@ -162,6 +163,17 @@ const mutations: MutationTree<State> = {
   },
   setParentIdToComment(state, parentId: string) {
     state.comment.divisionId = parentId;
+  },
+  addVisitingRule(state) {
+    const order = state.division.visitingRules.length;
+    state.division.visitingRules.push(VisitingRule.CreateVisitingRule(order));
+  },
+  removeVisitingRule(state, index: number) {
+    const id = state.division.visitingRules[index].id;
+    if (id) {
+      state.division.visitingRulesForDelete.push(id);
+    }
+    state.division.visitingRules.splice(index, 1);
   },
 };
 

@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import AboutInfo from '@/components/About/AboutInfo.vue';
@@ -68,7 +68,10 @@ export default defineComponent({
       }
     });
 
-    onMounted(loadDivisions);
+    onBeforeMount(async () => {
+      await loadDivisions();
+      await store.dispatch('visitingRules/getAll');
+    });
 
     return {
       divisionFilter,

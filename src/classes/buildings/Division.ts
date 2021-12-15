@@ -4,11 +4,13 @@ import Doctor from '@/classes/Doctor';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import Vacancy from '@/classes/Vacancy';
+import VisitingRule from '@/classes/VisitingRule';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IEntrance from '@/interfaces/buildings/IEntrance';
 import IDoctor from '@/interfaces/IDoctor';
+import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
@@ -23,6 +25,7 @@ export default class Division implements IDivision {
   email?: string = '';
   address?: string = '';
   floorId?: string;
+  showCommonVisitingRules = true;
   entranceId?: string;
   entrance?: IEntrance = new Entrance();
   slug?: string = '';
@@ -37,6 +40,8 @@ export default class Division implements IDivision {
   divisionImagesNames: string[] = [];
   divisionComments: IDivisionComment[] = [];
   timetableDaysForDelete: string[] = [];
+  visitingRules: IVisitingRule[] = [];
+  visitingRulesForDelete: string[] = [];
 
   constructor(division?: IDivision) {
     if (!division) {
@@ -50,6 +55,7 @@ export default class Division implements IDivision {
     this.address = division.address;
     this.floorId = division.floorId;
     this.entranceId = division.entranceId;
+    this.showCommonVisitingRules = division.showCommonVisitingRules;
     this.slug = division.slug;
     if (division.entrance) {
       this.entrance = new Entrance(division.entrance);
@@ -71,6 +77,9 @@ export default class Division implements IDivision {
     }
     if (division.vacancies) {
       this.vacancies = division.vacancies.map((item: IVacancy) => new Vacancy(item));
+    }
+    if (division.visitingRules) {
+      this.visitingRules = division.visitingRules.map((item: IVisitingRule) => new VisitingRule(item));
     }
   }
 }

@@ -2,6 +2,7 @@ import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IDoctor from '@/interfaces/IDoctor';
+import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
@@ -19,6 +20,7 @@ export default interface IDivision {
   entranceId?: string;
   entrance?: IEntrance;
   building?: IBuilding;
+  showCommonVisitingRules: boolean;
   slug?: string;
   doctors: IDoctor[];
   vacancies: IVacancy[];
@@ -31,4 +33,6 @@ export default interface IDivision {
   divisionImagesNames: string[];
   divisionComments: IDivisionComment[];
   timetableDaysForDelete: string[];
+  visitingRules: IVisitingRule[];
+  visitingRulesForDelete: string[];
 }

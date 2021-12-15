@@ -1,3 +1,6 @@
+import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+
+import AdminCommonVisitingRulesList from '@/components/admin/AdminCommonVisitingRules/AdminCommonVisitingRulesList.vue';
 import AdminBannersRoutes from '@/router/AdminBannersRoutes';
 import AdminCommentsRoutes from '@/router/AdminCommentsRoutes';
 import AdminDictionaryRoutes from '@/router/AdminDictionaryRoutes';
@@ -13,8 +16,21 @@ import AdminPagesRoutes from '@/router/AdminPagesRoutes';
 import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
 import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
+import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
+  {
+    path: '/admin/common-visiting-rules',
+    name: 'AdminCommonVisitingRulesList',
+    component: AdminCommonVisitingRulesList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
   ...AdminDoctorsRoutes,
   ...AdminDictionaryRoutes,
   ...AdminNewsRoutes,

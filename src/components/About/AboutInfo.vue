@@ -52,6 +52,27 @@
       <template #header>Госпитализации</template>
       <div></div>
     </el-card>
+    <el-card>
+      <template #header>Правила посещения</template>
+      <div v-if="division.showCommonVisitingRules">
+        <ul>
+          <h4>Общие правила посещения</h4>
+          <template v-for="item in commonVisitingRules" :key="item.id">
+            <div v-if="!item.isListItem">{{ item.text }}</div>
+            <li v-else>{{ item.text }}</li>
+          </template>
+        </ul>
+      </div>
+      <div v-if="division.visitingRules.length">
+        <ul>
+          <h4>Правила посещения отеделения</h4>
+          <template v-for="item in division.visitingRules" :key="item.id">
+            <div v-if="!item.isListItem">{{ item.text }}</div>
+            <li v-else>{{ item.text }}</li>
+          </template>
+        </ul>
+      </div>
+    </el-card>
     <el-card v-if="division.schedule.name">
       <template #header>{{ division.schedule.name }}</template>
       <div>
@@ -74,7 +95,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, onUnmounted, PropType, Ref, ref } from 'vue';
+import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
@@ -84,6 +106,7 @@ import PaidService from '@/components/PaidServices/PaidService.vue';
 import Timetable from '@/components/Timetable.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IPaidService from '@/interfaces/IPaidService';
+import IVisitingRule from '@/interfaces/IVisitingRule';
 
 export default defineComponent({
   name: 'AboutInfo',
@@ -95,6 +118,7 @@ export default defineComponent({
     },
   },
   setup() {
+    const store = useStore();
     let sum = ref(0);
     const ginService = ref();
     const otoService = ref();
@@ -102,6 +126,7 @@ export default defineComponent({
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
     const aroundTheClock: Ref = ref(true);
+    const commonVisitingRules: ComputedRef<IVisitingRule[]> = computed(() => store.getters['visitingRules/items']);
 
     let selectedServiceGin: IPaidService[] = [];
     let selectedServiceOto: IPaidService[] = [];
@@ -151,6 +176,7 @@ export default defineComponent({
       previousOffset,
       rememberedOffset,
       aroundTheClock,
+      commonVisitingRules,
     };
   },
 });
@@ -202,5 +228,8 @@ export default defineComponent({
 
 .nowPeriod {
   color: red;
+}
+h4 {
+  margin-bottom: 0;
 }
 </style>

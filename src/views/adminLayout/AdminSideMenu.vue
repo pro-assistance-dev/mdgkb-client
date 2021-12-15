@@ -100,6 +100,10 @@ export default defineComponent({
             to: '/admin/divisions',
           },
           {
+            title: 'Общие правила посещения',
+            to: '/admin/common-visiting-rules',
+          },
+          {
             title: 'Организации здравоохранения',
             to: '/admin/side-organizations',
           },
