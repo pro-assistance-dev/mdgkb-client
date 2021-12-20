@@ -19,7 +19,7 @@
       </el-card>
     </div>
   </div>
-  <div class="news-page-container">
+  <div v-if="page.pageDocuments.length" class="news-page-container">
     <el-card class="card-content news">
       <template #header>
         <div class="card-header">

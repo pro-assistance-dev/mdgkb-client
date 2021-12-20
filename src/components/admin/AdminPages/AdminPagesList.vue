@@ -7,6 +7,7 @@
     <el-card>
       <el-table v-if="pages" :data="pages">
         <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
+        <el-table-column prop="slug" label="Ссылка" sortable> </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
@@ -27,7 +28,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -39,6 +40,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
     const pages = computed(() => store.getters['pages/pages']);
 
     const loadNews = async (): Promise<void> => {
@@ -62,6 +64,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      console.log(route);
       store.commit('admin/showLoading');
       await loadNews();
       store.commit('admin/closeLoading');

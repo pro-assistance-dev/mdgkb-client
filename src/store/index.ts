@@ -21,6 +21,7 @@ import { newsSlides } from '@/store/modules/newsSlides';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { pages } from '@/store/modules/pages';
+import { projects } from '@/store/modules/projects';
 import { questions } from '@/store/modules/questions';
 import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
@@ -75,6 +76,7 @@ const store: StoreOptions<RootState> = {
     timetablePatterns,
     heads,
     visitingRules,
+    projects,
   },
 };
 

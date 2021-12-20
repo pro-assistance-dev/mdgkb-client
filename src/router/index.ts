@@ -19,6 +19,7 @@ import NewsRoutes from '@/router/NewsRoutes';
 import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
 import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
+import ProjectsRoutes from '@/router/ProjectsRoutes';
 import MainLayout from '@/views/main/MainLayout.vue';
 
 import store from '../store/index';
@@ -47,6 +48,11 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
+  },
+  {
+    path: '/:slug',
+    name: 'CustomPage',
+    component: CustomPage,
   },
   {
     path: '/main',
@@ -86,11 +92,6 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/custom-page/:slug',
-    name: 'CustomPage',
-    component: CustomPage,
-  },
-  {
     path: '/vacancies',
     name: 'VacanciesPage',
     component: VacanciesPage,
@@ -112,6 +113,7 @@ const routes: Array<RouteRecordRaw> = [
   ...PaidServicesRoutes,
   ...ProfileRoutes,
   ...EducationalOrganizationRoutes,
+  ...ProjectsRoutes,
   ...indexAdminRoutes,
   {
     path: '/:pathMatch(.*)*',
