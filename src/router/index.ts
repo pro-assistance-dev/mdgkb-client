@@ -5,6 +5,7 @@ import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
+import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
@@ -50,11 +51,6 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/:slug',
-    name: 'CustomPage',
-    component: CustomPage,
-  },
-  {
     path: '/main',
     name: 'MainPage',
     component: MainPage,
@@ -97,6 +93,11 @@ const routes: Array<RouteRecordRaw> = [
     component: VacanciesPage,
   },
   {
+    path: '/partners',
+    name: 'PartnersPage',
+    component: PartnersPage,
+  },
+  {
     path: '/questions',
     name: 'QuestionsAnswersPage',
     component: QuestionsAnswersPage,
@@ -115,6 +116,11 @@ const routes: Array<RouteRecordRaw> = [
   ...EducationalOrganizationRoutes,
   ...ProjectsRoutes,
   ...indexAdminRoutes,
+  {
+    path: '/pages/:slug',
+    name: 'CustomPage',
+    component: CustomPage,
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',

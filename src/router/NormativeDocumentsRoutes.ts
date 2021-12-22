@@ -5,7 +5,7 @@ import { isAuthorized } from '@/router/index';
 
 export default [
   {
-    path: '/normative-document-types',
+    path: '/normative-documents',
     name: 'NormativeDocuments',
     component: NormativeDocuments,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

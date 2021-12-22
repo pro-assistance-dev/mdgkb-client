@@ -130,6 +130,10 @@ export default defineComponent({
             icon: 'el-icon-first-aid-kit',
           },
           {
+            title: 'Наши партнеры',
+            to: '/admin/partners',
+          },
+          {
             title: 'Наши проекты',
             to: '/admin/projects',
           },

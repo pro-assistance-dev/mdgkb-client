@@ -65,6 +65,10 @@ export default defineComponent({
       type: Number,
       default: 200,
     },
+    cropRatio: {
+      type: Boolean,
+      default: true,
+    },
   },
   setup(props) {
     const fileList: Ref<IFilesList[]> = ref([]);
@@ -92,7 +96,7 @@ export default defineComponent({
     };
 
     const openCropper = (file: IFile) => {
-      const ratio = props.width / props.height;
+      const ratio = props.cropRatio ? props.width / props.height : 0;
       store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, ratio, props.fileInfo.id));
       cropperOpened.value = true;
     };
