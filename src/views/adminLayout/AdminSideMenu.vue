@@ -191,6 +191,11 @@ export default defineComponent({
           },
         ],
       },
+      {
+        title: 'Платные услуги',
+        to: '/admin/paid-programs-groups',
+        icon: 'el-icon-money',
+      },
     ]);
     return { menuList, closeDrawer, isCollapseSideMenu, activePath };
   },

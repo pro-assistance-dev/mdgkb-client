@@ -3,7 +3,6 @@ import IEducationalOrganizationManager from '@/interfaces/educationalOrganizatio
 import IEducationalOrganizationProperty from '@/interfaces/educationalOrganization/IEducationalOrganizationProperty';
 import IEducationalOrganizationTeacher from '@/interfaces/educationalOrganization/IEducationalOrganizationTeacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICrud from '@/interfaces/shared/ICrud';
 
 export default interface IEducationalOrganization {
   educationalOrganizationProperties: IEducationalOrganizationProperty[];
@@ -19,7 +18,7 @@ export default interface IEducationalOrganization {
   addDocumentType: () => void;
   removeDocumentType: (i: number) => void;
 
-  crud: ICrud;
+  // crud: ICrud;
 
   getFileInfos: () => IFileInfo[];
 }

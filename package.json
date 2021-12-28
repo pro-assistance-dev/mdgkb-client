@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
+    "@element-plus/icons-vue": "^0.2.4",
     "@jbtje/vue3pdf": "^1.0.1",
     "@vueup/vue-quill": "^1.0.0-beta.7",
     "axios": "^0.21.1",
@@ -24,6 +25,7 @@
     "vue": "^3.2.20",
     "vue-advanced-cropper": "^2.5.0",
     "vue-router": "^4.0.0-0",
+    "vuedraggable": "^4.1.0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {

@@ -21,7 +21,7 @@ export default class SubMenu implements ISubMenu {
 
   subSubMenus: ISubSubMenu[] = [];
   subSubMenusForDelete: string[] = [];
-  crud: ICrud = new Crud('menus');
+  crud: ICrud = new Crud('menus', 'menus');
 
   iconId?: string;
   icon = new FileInfo();

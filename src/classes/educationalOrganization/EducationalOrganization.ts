@@ -2,14 +2,12 @@ import EducationalOrganizationDocumentType from '@/classes/educationalOrganizati
 import EducationalOrganizationManager from '@/classes/educationalOrganization/EducationalOrganizationManager';
 import EducationalOrganizationProperty from '@/classes/educationalOrganization/EducationalOrganizationProperty';
 import EducationalOrganizationTeacher from '@/classes/educationalOrganization/EducationalOrganizationTeacher';
-import Crud from '@/classes/shared/Crud';
 import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
 import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
 import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
 import IEducationalOrganizationProperty from '@/interfaces/educationalOrganization/IEducationalOrganizationProperty';
 import IEducationalOrganizationTeacher from '@/interfaces/educationalOrganization/IEducationalOrganizationTeacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICrud from '@/interfaces/shared/ICrud';
 
 export default class EducationalOrganization implements IEducationalOrganization {
   educationalOrganizationProperties: IEducationalOrganizationProperty[] = [];
@@ -23,7 +21,7 @@ export default class EducationalOrganization implements IEducationalOrganization
   educationalOrganizationDocumentTypes: IEducationalOrganizationDocumentType[] = [];
   educationalOrganizationDocumentTypesForDelete: string[] = [];
 
-  crud: ICrud = new Crud('educationalOrganization');
+  // crud: ICrud = new Crud('educationalOrganization');
 
   constructor(educationalOrganization?: IEducationalOrganization) {
     if (!educationalOrganization) {

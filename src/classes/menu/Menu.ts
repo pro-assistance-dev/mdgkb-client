@@ -3,13 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 import FileInfo from '@/classes/File/FileInfo';
 import SubMenu from '@/classes/menu/SubMenu';
 import Page from '@/classes/page/Page';
-import Crud from '@/classes/shared/Crud';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IMenu from '@/interfaces/menu/IMenu';
 import ISubMenu from '@/interfaces/menu/ISubMenu';
 import ISubSubMenu from '@/interfaces/menu/ISubSubMenu';
-import ICrud from '@/interfaces/shared/ICrud';
 
 export default class Menu implements IMenu {
   id?: string;
@@ -28,7 +26,7 @@ export default class Menu implements IMenu {
   iconId?: string;
   icon = new FileInfo();
 
-  crud: ICrud = new Crud('menus');
+  // crud: ICrud = new Crud('menus', 'menus');
 
   constructor(menu?: IMenu) {
     if (!menu) {
@@ -49,7 +47,6 @@ export default class Menu implements IMenu {
     if (menu.subMenus) {
       this.subMenus = menu.subMenus.map((i: ISubMenu) => new SubMenu(i));
     }
-    this.crud = new Crud('menus');
 
     this.iconId = menu.iconId;
     if (menu.icon) {

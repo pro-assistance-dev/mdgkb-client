@@ -3,7 +3,6 @@ import IFiler from '@/interfaces/files/IFiler';
 import IOrdered from '@/interfaces/IOrdered';
 import ISubMenu from '@/interfaces/menu/ISubMenu';
 import IPage from '@/interfaces/page/IPage';
-import ICrud from '@/interfaces/shared/ICrud';
 
 export default interface IMenu extends IFiler, IOrdered {
   id?: string;
@@ -27,6 +26,6 @@ export default interface IMenu extends IFiler, IOrdered {
 
   getLink: () => string;
 
-  crud: ICrud;
+  // crud: ICrud;
   getFileInfos: () => IFileInfo[];
 }

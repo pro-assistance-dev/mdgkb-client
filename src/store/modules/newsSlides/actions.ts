@@ -27,7 +27,7 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
   },
-  updateAll: async ({ commit, state }): Promise<void> => {
+  updateAll: async ({ state }): Promise<void> => {
     await httpClient.put<INewsSlide[], INewsSlide[]>({ payload: state.items });
   },
 };

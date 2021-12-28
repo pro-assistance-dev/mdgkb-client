@@ -21,6 +21,8 @@ import { newsSlides } from '@/store/modules/newsSlides';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { pages } from '@/store/modules/pages';
+import { paidPrograms } from '@/store/modules/paidPrograms';
+import { paidProgramsGroups } from '@/store/modules/paidProgramsGroups';
 import { partners } from '@/store/modules/partners';
 import { partnerTypes } from '@/store/modules/partnerTypes';
 import { projects } from '@/store/modules/projects';
@@ -38,7 +40,7 @@ import { visitingRules } from '@/store/modules/visitingRules';
 
 import RootState from './types';
 
-const store: StoreOptions<RootState> = {
+const s: StoreOptions<RootState> = {
   state: {
     layout: 'mainLayout',
   },
@@ -77,11 +79,13 @@ const store: StoreOptions<RootState> = {
     events,
     timetablePatterns,
     heads,
+    paidProgramsGroups,
     visitingRules,
     projects,
+    paidPrograms,
     partners,
     partnerTypes,
   },
 };
 
-export default new Vuex.Store<RootState>(store);
+export default new Vuex.Store<RootState>(s);

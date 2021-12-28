@@ -1,12 +1,10 @@
-import { Router } from 'vue-router';
-import { Store } from 'vuex';
-
 export default interface ICrud {
   storeModule: string;
-  router: Router;
-  store: Store<unknown>;
+  // route: string;
+  // router?: Router;
+  // store?: Store<unknown>;
 
-  edit: (id: string) => void;
+  edit: (id: string) => Promise<void>;
   create: () => void;
   remove: (id: string) => Promise<void>;
 

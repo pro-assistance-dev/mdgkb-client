@@ -18,6 +18,7 @@ import indexAdminRoutes from '@/router/indexAdminRoutes';
 import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
 import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
+import PaidProgramsRoutes from '@/router/PaidProgramsRoutes';
 import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
@@ -115,6 +116,7 @@ const routes: Array<RouteRecordRaw> = [
   ...ProfileRoutes,
   ...EducationalOrganizationRoutes,
   ...ProjectsRoutes,
+  ...PaidProgramsRoutes,
   ...indexAdminRoutes,
   {
     path: '/pages/:slug',
