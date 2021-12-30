@@ -25,6 +25,7 @@ import { paidPrograms } from '@/store/modules/paidPrograms';
 import { paidProgramsGroups } from '@/store/modules/paidProgramsGroups';
 import { partners } from '@/store/modules/partners';
 import { partnerTypes } from '@/store/modules/partnerTypes';
+import { preparations } from '@/store/modules/preparations';
 import { projects } from '@/store/modules/projects';
 import { questions } from '@/store/modules/questions';
 import search from '@/store/modules/search';
@@ -85,6 +86,7 @@ const s: StoreOptions<RootState> = {
     paidPrograms,
     partners,
     partnerTypes,
+    preparations,
   },
 };
 

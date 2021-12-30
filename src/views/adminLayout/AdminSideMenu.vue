@@ -138,6 +138,10 @@ export default defineComponent({
             to: '/admin/projects',
           },
           {
+            title: 'Подготовка к исследованиям',
+            to: '/admin/preparations',
+          },
+          {
             title: 'FAQ',
             to: '/admin/faqs',
           },

@@ -6,6 +6,7 @@ import DispanserizationPage from '@/components/Dispanserization/Dispanserization
 import MainPage from '@/components/Main/MainPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
+import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
@@ -102,6 +103,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/questions',
     name: 'QuestionsAnswersPage',
     component: QuestionsAnswersPage,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/preparations',
+    name: 'PreparationsPage',
+    component: PreparationsPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
