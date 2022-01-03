@@ -8,7 +8,7 @@
           </div>
         </template>
 
-        <div class="article-body" v-html="pageContent"></div>
+        <div v-html="pageContent"></div>
 
         <el-divider />
         <div class="article-footer">
@@ -17,6 +17,7 @@
           </div>
         </div>
       </el-card>
+      <ImageGallery :images="page.pageImages" />
     </div>
   </div>
   <div v-if="page.pageDocuments.length" class="news-page-container">
@@ -47,20 +48,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import NewsComment from '@/classes/news/NewsComment';
+import ImageGallery from '@/components/ImageGallery.vue';
+import IPage from '@/interfaces/page/IPage';
 export default defineComponent({
   name: 'CustomPage',
+  components: { ImageGallery },
   async setup() {
     let comment = ref(new NewsComment());
     const commentInput = ref();
     const store = useStore();
     const route = useRoute();
     const slug = computed(() => route.params['slug']);
-    const page = computed(() => store.getters['pages/page']);
+    const page: ComputedRef<IPage> = computed(() => store.getters['pages/page']);
 
     watch(slug, () => {
       if (slug.value) {
@@ -176,9 +180,9 @@ h3 {
   text-align: center;
 }
 
-:deep(p) {
-  text-align: justify;
-}
+//:deep(p) {
+//  text-align: justify;
+//}
 
 .article-footer {
   display: flex;
