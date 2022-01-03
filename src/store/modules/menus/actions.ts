@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
-import IMenu from '@/interfaces/menu/IMenu';
+import IMenu from '@/interfaces/IMenu';
+import IMenusWithDeleted from '@/interfaces/IMenusWithDeleted';
 import INews from '@/interfaces/news/INews';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -42,6 +43,16 @@ const actions: ActionTree<State, RootState> = {
   updateAll: async ({ commit }, items: IMenu[]): Promise<void> => {
     await httpClient.put<IMenu[], IMenu[]>({ payload: items });
     commit('set');
+  },
+  updateMany: async ({ commit, state }): Promise<void> => {
+    commit(
+      'setAll',
+      await httpClient.put<IMenusWithDeleted, IMenusWithDeleted>({
+        payload: { menus: state.items, menusForDeleted: state.itemsForDelete },
+        fileInfos: [],
+        isFormData: true,
+      })
+    );
   },
 };
 

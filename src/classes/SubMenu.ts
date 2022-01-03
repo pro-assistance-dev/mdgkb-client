@@ -1,26 +1,24 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import FileInfo from '@/classes/File/FileInfo';
-import SubSubMenu from '@/classes/menu/SubSubMenu';
 import Page from '@/classes/page/Page';
 import Crud from '@/classes/shared/Crud';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
-import ISubMenu from '@/interfaces/menu/ISubMenu';
-import ISubSubMenu from '@/interfaces/menu/ISubSubMenu';
+import ISubMenu from '@/interfaces/ISubMenu';
 import ICrud from '@/interfaces/shared/ICrud';
 
 export default class SubMenu implements ISubMenu {
   id?: string;
   name = '';
   link = '';
+  selected = false;
+  editMode = false;
 
   page = new Page();
   pageId?: string;
-  order = 1;
+  order = 0;
   menuId?: string;
 
-  subSubMenus: ISubSubMenu[] = [];
-  subSubMenusForDelete: string[] = [];
   crud: ICrud = new Crud('menus', 'menus');
 
   iconId?: string;
@@ -41,10 +39,6 @@ export default class SubMenu implements ISubMenu {
     this.order = menu.order;
     this.menuId = menu.menuId;
 
-    if (menu.subSubMenus) {
-      this.subSubMenus = menu.subSubMenus.map((i: ISubSubMenu) => new SubSubMenu(i));
-    }
-
     this.iconId = menu.iconId;
     if (menu.icon) {
       this.icon = new FileInfo(menu.icon);
@@ -59,10 +53,6 @@ export default class SubMenu implements ISubMenu {
       return this.page.getLink();
     }
     return '';
-  }
-
-  withoutChildren(): boolean {
-    return this.subSubMenus.length === 0;
   }
 
   isLink(): boolean {

@@ -1,6 +1,7 @@
-import IMenu from '@/interfaces/menu/IMenu';
+import IMenu from '@/interfaces/IMenu';
 
 export interface State {
-  menus: IMenu[];
-  menu: IMenu;
+  items: IMenu[];
+  item: IMenu;
+  itemsForDelete: string[];
 }

@@ -1,5 +1,5 @@
-import PreparationToTag from '@/classes/PreaparationToTag';
 import PreparationRulesGroup from '@/classes/PreparationRulesGroup';
+import PreparationToTag from '@/classes/PreparationToTag';
 import IPreparation from '@/interfaces/IPreparation';
 import IPreparationRulesGroup from '@/interfaces/IPreparationRulesGroup';
 import IPreparationToTag from '@/interfaces/IPreparationToTag';

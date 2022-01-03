@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Menu from '@/classes/menu/Menu';
+import Menu from '@/classes/Menu';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -10,8 +10,9 @@ import { State } from './state';
 
 export const getDefaultState = (): State => {
   return {
-    menus: [],
-    menu: new Menu(),
+    items: [],
+    item: new Menu(),
+    itemsForDelete: [],
   };
 };
 

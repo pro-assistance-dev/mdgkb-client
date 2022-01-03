@@ -1,13 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import FileInfo from '@/classes/File/FileInfo';
-import SubMenu from '@/classes/menu/SubMenu';
 import Page from '@/classes/page/Page';
+import SubMenu from '@/classes/SubMenu';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IMenu from '@/interfaces/menu/IMenu';
-import ISubMenu from '@/interfaces/menu/ISubMenu';
-import ISubSubMenu from '@/interfaces/menu/ISubSubMenu';
+import IMenu from '@/interfaces/IMenu';
+import ISubMenu from '@/interfaces/ISubMenu';
 
 export default class Menu implements IMenu {
   id?: string;
@@ -16,6 +15,8 @@ export default class Menu implements IMenu {
   top = true;
   side = true;
   order = 0;
+  selected = false;
+  editMode = false;
 
   page = new Page();
   pageId?: string;
@@ -81,7 +82,6 @@ export default class Menu implements IMenu {
     fileInfos.push(this.icon);
     this.subMenus.forEach((subMenu: ISubMenu) => {
       fileInfos.push(subMenu.icon);
-      subMenu.subSubMenus.forEach((subSubMenu: ISubSubMenu) => fileInfos.push(subSubMenu.icon));
     });
     return fileInfos;
   }
@@ -92,5 +92,17 @@ export default class Menu implements IMenu {
     }
     this.icon.originalName = file.name;
     this.icon.file = file.raw;
+  }
+
+  addSubMenu(): void {
+    this.subMenus.push(new SubMenu());
+  }
+
+  removeSubMenu(index: number): void {
+    const idForDelete = this.subMenus[index].id;
+    if (idForDelete) {
+      this.subMenusForDelete.push(idForDelete);
+    }
+    this.subMenus.splice(index, 1);
   }
 }
