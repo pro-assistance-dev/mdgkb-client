@@ -1,13 +1,18 @@
 import { MutationTree } from 'vuex';
 
 import Preparation from '@/classes/Preparation';
+import PreparationTag from '@/classes/PreparationTag';
 import IPreparation from '@/interfaces/IPreparation';
+import IPreparationTag from '@/interfaces/IPreparationTag';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: IPreparation[]) {
     state.items = items.map((i: IPreparation) => new Preparation(i));
+  },
+  setAllTags(state, items: IPreparationTag[]) {
+    state.tags = items.map((i: IPreparationTag) => new PreparationTag(i));
   },
   set(state, item: IPreparation) {
     state.item = new Preparation(item);

@@ -1,7 +1,5 @@
 <template>
-  <el-dialog v-if="mounted && preparation.selected" v-model="preparation.selected" :title="preparation.name" width="80%">
-    <div class="contact-form"></div>
-  </el-dialog>
+  <el-dialog v-if="mounted && preparation.selected" v-model="preparation.selected" :title="preparation.name" width="80%"> </el-dialog>
 </template>
 
 <script lang="ts">

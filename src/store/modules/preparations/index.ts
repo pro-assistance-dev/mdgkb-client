@@ -13,6 +13,7 @@ export const getDefaultState = (): State => {
     items: [],
     itemsForDelete: [],
     item: new Preparation(),
+    tags: [],
   };
 };
 

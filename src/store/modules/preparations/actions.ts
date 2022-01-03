@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import IPreparation from '@/interfaces/IPreparation';
 import IPreparationsWithDeleted from '@/interfaces/IPreparationsWithDeleted';
+import IPreparationTag from '@/interfaces/IPreparationTag';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -12,6 +13,9 @@ const httpClient = new HttpClient('preparations');
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
     commit('setAll', await httpClient.get<IPreparation[]>());
+  },
+  getAllTags: async ({ commit }): Promise<void> => {
+    commit('setAllTags', await httpClient.get<IPreparationTag[]>({ query: '/tags' }));
   },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<IPreparation[]>({ query: `${id}` });

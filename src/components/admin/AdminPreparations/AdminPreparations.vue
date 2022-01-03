@@ -5,6 +5,13 @@
         <el-input v-model="preparation.name"></el-input>
         <el-button type="danger" size="medium" icon="el-icon-delete" @click="removePreparation(i)" />
         <el-button type="success" size="medium" icon="el-icon-edit" @click="preparation.editMode = false" />
+        <el-checkbox
+          v-for="tag in preparationsTags"
+          :key="tag.id"
+          :label="tag.name"
+          :model-value="preparation.findTag(tag.id)"
+          @change="preparation.addTag($event, tag.id)"
+        />
       </div>
       <div v-else class="preparation-show" :class="{ 'preparation-selected': preparation.selected }" @click="selectPreparation(i)">
         <div class="preparation-show-body">{{ preparation.name }}</div>
@@ -40,6 +47,7 @@ import { useStore } from 'vuex';
 
 import Preparation from '@/classes/Preparation';
 import IPreparation from '@/interfaces/IPreparation';
+import IPreparationTag from '@/interfaces/IPreparationTag';
 
 export default defineComponent({
   name: 'AdminPreparations',
@@ -47,6 +55,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const preparations: ComputedRef<IPreparation[]> = computed(() => store.getters['preparations/items']);
+    const preparationsTags: ComputedRef<IPreparationTag[]> = computed(() => store.getters['preparations/tags']);
     const mounted: Ref<boolean> = ref(false);
     const selectedPreparation: Ref<IPreparation | undefined> = ref(undefined);
 
@@ -60,6 +69,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('preparations/getAll');
+      await store.dispatch('preparations/getAllTags');
       store.commit('admin/setHeaderParams', {
         title: 'Подготовка к исследованиям',
         buttons: [{ text: 'Сохранить', type: 'primary', action: save }],
@@ -75,7 +85,7 @@ export default defineComponent({
     const removePreparation = (i: number) => {
       const idForDelete = preparations.value[i].id;
       if (idForDelete) {
-        store.commit('preparations/addToDelete', idForDelete);
+        store.commit('preparations/addToDeleting', idForDelete);
       }
       preparations.value.splice(i, 1);
       if (selectedPreparation.value && selectedPreparation.value.id === idForDelete) {
@@ -93,6 +103,7 @@ export default defineComponent({
     };
 
     return {
+      preparationsTags,
       selectedPreparation,
       selectPreparation,
       removePreparation,
