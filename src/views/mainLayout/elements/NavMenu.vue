@@ -90,7 +90,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
 
-    const menus = computed(() => store.getters['menus/menus']);
+    const menus = computed(() => store.getters['menus/items']);
     const route = useRoute();
 
     const menuClickHandler = (link: string) => {

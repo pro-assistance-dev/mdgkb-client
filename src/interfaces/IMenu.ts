@@ -1,30 +1,33 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFiler from '@/interfaces/files/IFiler';
 import IOrdered from '@/interfaces/IOrdered';
-import ISubSubMenu from '@/interfaces/menu/ISubSubMenu';
+import ISubMenu from '@/interfaces/ISubMenu';
 import IPage from '@/interfaces/page/IPage';
-import ICrud from '@/interfaces/shared/ICrud';
 
-export default interface ISubMenu extends IFiler, IOrdered {
+export default interface IMenu extends IFiler, IOrdered {
   id?: string;
   name: string;
   link: string;
-  menuId?: string;
-
+  top: boolean;
+  side: boolean;
+  selected: boolean;
+  editMode: boolean;
   page: IPage;
   pageId?: string;
 
-  subSubMenus: ISubSubMenu[];
-  subSubMenusForDelete: string[];
+  subMenus: ISubMenu[];
+  subMenusForDelete: string[];
 
   withoutChildren: () => boolean;
   isPageLink: () => boolean;
   isLink: () => boolean;
 
-  getLink: () => string;
-
   iconId?: string;
   icon: IFileInfo;
 
-  crud: ICrud;
+  getLink: () => string;
+  addSubMenu: () => void;
+  removeSubMenu: (index: number) => void;
+  // crud: ICrud;
+  getFileInfos: () => IFileInfo[];
 }
