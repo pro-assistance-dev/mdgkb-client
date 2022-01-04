@@ -43,8 +43,8 @@ export default class Page implements IPage {
   }
 
   getLink(): string {
-    if (this.link !== '') {
-      return `/custom-page/${this.slug}`;
+    if (this.slug !== '') {
+      return `/pages/${this.slug}`;
     }
     return '404';
   }

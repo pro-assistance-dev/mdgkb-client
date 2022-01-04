@@ -11,10 +11,12 @@
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
             <TableButtonGroup
+              :show-more-button="true"
               :show-edit-button="true"
               :show-remove-button="true"
               @edit="edit(scope.row.id)"
               @remove="remove(scope.row.id)"
+              @showMore="$router.push(scope.row.getLink())"
             />
           </template>
         </el-table-column>
