@@ -200,6 +200,11 @@ export default defineComponent({
         to: '/admin/paid-programs-groups',
         icon: 'el-icon-money',
       },
+      {
+        title: 'Правила для доноров',
+        to: '/admin/donor-rules',
+        icon: 'el-icon-plus',
+      },
     ]);
     return { menuList, closeDrawer, isCollapseSideMenu, activePath };
   },

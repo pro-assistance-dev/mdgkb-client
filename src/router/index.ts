@@ -3,6 +3,7 @@ import { createRouter, createWebHistory, NavigationGuardNext, RouteRecordRaw } f
 import AboutPage from '@/components/About/AboutPage.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
+import DonorRules from '@/components/DonorRules/DonorRules.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
@@ -111,6 +112,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/preparations',
     name: 'PreparationsPage',
     component: PreparationsPage,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/donor-rules',
+    name: 'DonorRules',
+    component: DonorRules,
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },

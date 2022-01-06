@@ -1,6 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
 import ProfileChildrenPage from '@/components/Profile/ProfileChildrenPage.vue';
+import ProfileDonor from '@/components/Profile/ProfileDonor.vue';
 import ProfileEditPage from '@/components/Profile/ProfileEditPage.vue';
 import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
 import ProfileQuestionPage from '@/components/Profile/ProfileQuestionPage.vue';
@@ -31,6 +32,16 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     path: '/profile/questions',
     name: 'ProfileQuestions',
     component: ProfileQuestionPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: { profile: true },
+  },
+  {
+    path: '/profile/donor',
+    name: 'ProfileDonor',
+    component: ProfileDonor,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

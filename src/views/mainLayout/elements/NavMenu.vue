@@ -2,70 +2,70 @@
   <div v-if="vertical" style="margin: 10px">
     <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="menuClickHandler('/')" />
   </div>
-  <el-menu :ellipsis="false" class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
-    <template v-for="(menu, i) in menus" :key="menu.id">
-      <el-menu-item
-        v-if="menu.withoutChildren()"
-        :index="String(menu.getLink())"
-        class="header-bottom-menu-item"
-        @click="menuClickHandler(menu.getLink())"
-      >
-        <div class="icon">
-          <object v-if="menu.icon.fileSystemPath" :data="menu.icon.getImageUrl()" class="menu-img" />
-          <strong>{{ menu.name }}</strong>
-        </div>
-      </el-menu-item>
-      <el-sub-menu
-        v-else
-        :popper-class="'sub-menu-popover'"
-        :show-timeout="50"
-        :hide-timeout="100"
-        :index="String(i)"
-        class="header-bottom-menu-item"
-      >
-        <template #title
-          ><span class="header-bottom-menu-item">
-            <strong>{{ menu.name }}</strong></span
-          ></template
-        >
-        <template v-for="subMenu in menu.subMenus" :key="subMenu.id">
-          <el-menu-item
-            v-if="subMenu.withoutChildren()"
-            :index="String(subMenu.link)"
-            class="header-bottom-submenu-item"
-            @click="menuClickHandler(subMenu.getLink())"
-          >
-            <div class="icon">
-              <object v-if="subMenu.icon.fileSystemPath" :data="subMenu.icon.getImageUrl()" class="menu-img" />
-            </div>
-            <strong> {{ subMenu.name }}</strong>
-          </el-menu-item>
-          <el-sub-menu
-            v-else
-            :popper-class="'sub-sub-menu-popover'"
-            :show-timeout="50"
-            :hide-timeout="100"
-            :index="String(subMenu.link)"
-            class="header-bottom-submenu-item-title"
-          >
-            <template #title
-              ><strong>{{ subMenu.name }}</strong></template
-            >
-            <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">
-              <el-menu-item :index="String(subSubMenu.link)" class="header-bottom-submenu-item" @click="menuClickHandler(subSubMenu.link)">
-                <div class="icon">
-                  <object v-if="subSubMenu.icon.fileSystemPath" :data="subSubMenu.icon.getImageUrl()" class="menu-img" />
-                  <strong>
-                    {{ subSubMenu.name }}
-                  </strong>
-                </div>
-              </el-menu-item>
-            </template>
-          </el-sub-menu>
-        </template>
-      </el-sub-menu>
-    </template>
-  </el-menu>
+  <!--  <el-menu :ellipsis="false" class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">-->
+  <!--    <template v-for="(menu, i) in menus" :key="menu.id">-->
+  <!--      <el-menu-item-->
+  <!--        v-if="menu.withoutChildren()"-->
+  <!--        :index="String(menu.getLink())"-->
+  <!--        class="header-bottom-menu-item"-->
+  <!--        @click="menuClickHandler(menu.getLink())"-->
+  <!--      >-->
+  <!--        <div class="icon">-->
+  <!--          <object v-if="menu.icon.fileSystemPath" :data="menu.icon.getImageUrl()" class="menu-img" />-->
+  <!--          <strong>{{ menu.name }}</strong>-->
+  <!--        </div>-->
+  <!--      </el-menu-item>-->
+  <!--      <el-sub-menu-->
+  <!--        v-else-->
+  <!--        :popper-class="'sub-menu-popover'"-->
+  <!--        :show-timeout="50"-->
+  <!--        :hide-timeout="100"-->
+  <!--        :index="String(i)"-->
+  <!--        class="header-bottom-menu-item"-->
+  <!--      >-->
+  <!--        <template #title-->
+  <!--          ><span class="header-bottom-menu-item">-->
+  <!--            <strong>{{ menu.name }}</strong></span-->
+  <!--          ></template-->
+  <!--        >-->
+  <!--        <template v-for="subMenu in menu.subMenus" :key="subMenu.id">-->
+  <!--          <el-menu-item-->
+  <!--            v-if="subMenu.withoutChildren()"-->
+  <!--            :index="String(subMenu.link)"-->
+  <!--            class="header-bottom-submenu-item"-->
+  <!--            @click="menuClickHandler(subMenu.getLink())"-->
+  <!--          >-->
+  <!--            <div class="icon">-->
+  <!--              <object v-if="subMenu.icon.fileSystemPath" :data="subMenu.icon.getImageUrl()" class="menu-img" />-->
+  <!--            </div>-->
+  <!--            <strong> {{ subMenu.name }}</strong>-->
+  <!--          </el-menu-item>-->
+  <!--          <el-sub-menu-->
+  <!--            v-else-->
+  <!--            :popper-class="'sub-sub-menu-popover'"-->
+  <!--            :show-timeout="50"-->
+  <!--            :hide-timeout="100"-->
+  <!--            :index="String(subMenu.link)"-->
+  <!--            class="header-bottom-submenu-item-title"-->
+  <!--          >-->
+  <!--            <template #title-->
+  <!--              ><strong>{{ subMenu.name }}</strong></template-->
+  <!--            >-->
+  <!--            <template v-for="subSubMenu in subMenu.subSubMenus" :key="subSubMenu.id">-->
+  <!--              <el-menu-item :index="String(subSubMenu.link)" class="header-bottom-submenu-item" @click="menuClickHandler(subSubMenu.link)">-->
+  <!--                <div class="icon">-->
+  <!--                  <object v-if="subSubMenu.icon.fileSystemPath" :data="subSubMenu.icon.getImageUrl()" class="menu-img" />-->
+  <!--                  <strong>-->
+  <!--                    {{ subSubMenu.name }}-->
+  <!--                  </strong>-->
+  <!--                </div>-->
+  <!--              </el-menu-item>-->
+  <!--            </template>-->
+  <!--          </el-sub-menu>-->
+  <!--        </template>-->
+  <!--      </el-sub-menu>-->
+  <!--    </template>-->
+  <!--  </el-menu>-->
 </template>
 
 <script lang="ts">

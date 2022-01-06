@@ -1,12 +1,13 @@
 import { MutationTree } from 'vuex';
 
+import User from '@/classes/User';
 import IUser from '@/interfaces/IUser';
 
 import State from './state';
 
 const mutations: MutationTree<State> = {
   setUser(state, user: IUser) {
-    state.user = user;
+    state.user = new User(user);
     localStorage.setItem('user', JSON.stringify(user));
   },
   setToken(state, token: string) {
