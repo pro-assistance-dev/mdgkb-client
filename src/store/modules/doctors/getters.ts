@@ -18,6 +18,9 @@ const getters: GetterTree<State, RootState> = {
   item(state): IDoctor {
     return state.item;
   },
+  count(state): number {
+    return state.count;
+  },
   filteredDoctors(state): IDoctor[] | undefined {
     const { filteredDoctors } = state;
     return filteredDoctors;

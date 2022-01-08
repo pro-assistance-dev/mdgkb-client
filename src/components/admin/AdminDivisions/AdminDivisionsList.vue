@@ -13,6 +13,11 @@
         <el-table-column prop="email" label="Email" sortable> </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
+            <el-switch v-model="scope.row.show" @change="update(scope.row)" />
+          </template>
+        </el-table-column>
+        <el-table-column width="50" fixed="right" align="center">
+          <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"
               :show-remove-button="true"
@@ -35,6 +40,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import IDivision from '@/interfaces/buildings/IDivision';
 
 export default defineComponent({
   name: 'AdminDivisionsList',
@@ -45,6 +51,7 @@ export default defineComponent({
     const divisions = computed(() => store.getters['divisions/divisions']);
 
     onBeforeMount(async () => {
+      store.commit('divisions/setOnlyShowed', false);
       store.commit('admin/showLoading');
       await loadDivisions();
       store.commit('admin/closeLoading');
@@ -58,11 +65,13 @@ export default defineComponent({
       });
     };
 
+    const update = async (division: IDivision) => await store.dispatch('divisions/update', division);
+
     const create = () => router.push(`/admin/divisions/new`);
     const edit = (id: string) => router.push(`/admin/divisions/${id}`);
     const remove = async (id: string) => await store.dispatch('divisions/remove', id);
 
-    return { divisions, remove, edit, create };
+    return { divisions, remove, edit, create, update };
   },
 });
 </script>

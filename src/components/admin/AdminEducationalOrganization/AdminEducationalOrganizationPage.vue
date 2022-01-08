@@ -31,6 +31,7 @@
           </el-card>
           <AdminEducationalOrganizationManagers />
           <AdminEducationalOrganizationTeachers />
+          <AdminEducationalOrganizationAcademics />
         </el-container>
       </el-col>
 
@@ -63,7 +64,7 @@
             >
               <el-space>
                 <el-form-item style="width: 500px">
-                  <el-input v-mode\l="documentTypeToDocument.document.name" placeholder="Название документа"> </el-input>
+                  <el-input v-model="documentTypeToDocument.document.name" placeholder="Название документа"> </el-input>
                 </el-form-item>
                 <el-form-item>
                   <el-button icon="el-icon-delete" type="danger" @click="documentType.removeDocument(i)"></el-button>
@@ -119,6 +120,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import { useStore } from 'vuex';
 
+import AdminEducationalOrganizationAcademics from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationAcademics.vue';
 import AdminEducationalOrganizationManagers from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationManagers.vue';
 import AdminEducationalOrganizationTeachers from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationTeachers.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
@@ -129,6 +131,7 @@ import validate from '@/mixins/validate';
 export default defineComponent({
   name: 'AdminEducationalOrganizationPage',
   components: {
+    AdminEducationalOrganizationAcademics,
     CardHeader,
     AdminEducationalOrganizationManagers,
     AdminEducationalOrganizationTeachers,

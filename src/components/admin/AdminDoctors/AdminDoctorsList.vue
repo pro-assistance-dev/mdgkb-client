@@ -1,9 +1,6 @@
 <template>
   <div class="flex-column">
-    <!-- <div class="flex-row-between"> -->
-    <!-- <el-button type="primary" @click="create">Добавить врача</el-button> -->
-    <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
-    <!-- </div> -->
+    <RemoteSearch />
     <el-card>
       <el-table :data="doctors">
         <el-table-column label="ФИО" sortable>
@@ -23,7 +20,9 @@
         </el-table-column>
         <el-table-column label="Отделение" sortable>
           <template #default="scope">
-            {{ scope.row.division.name }}
+            <el-tag class="tag-link" size="small" @click="$router.push(`/admin/divisions/${scope.row.division.id}`)">
+              {{ scope.row.division.name }}
+            </el-tag>
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
@@ -31,16 +30,14 @@
             <TableButtonGroup
               :show-edit-button="true"
               :show-remove-button="true"
-              @edit="edit(scope.row.id)"
+              @edit="edit(scope.row.human.slug)"
               @remove="remove(scope.row.id)"
             />
           </template>
         </el-table-column>
       </el-table>
+      <Pagination />
     </el-card>
-    <div class="flex-row-end">
-      <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
-    </div>
   </div>
 </template>
 
@@ -49,11 +46,13 @@ import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Pagination from '@/components/admin/Pagination.vue';
+import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
 export default defineComponent({
   name: 'AdminDoctorsList',
-  components: { TableButtonGroup },
+  components: { TableButtonGroup, Pagination, RemoteSearch },
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -61,17 +60,19 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
+      store.commit('filter/setStoreModule', 'doctors');
       await loadDivisions();
+      store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
     });
 
     const loadDivisions = async (): Promise<void> => {
-      await store.dispatch('doctors/getAll');
+      await store.dispatch('doctors/getAll', store.getters['filter/filterQuery']);
       store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
     };
 
     const create = () => router.push(`/admin/doctors/new`);
-    const edit = (id: string) => router.push(`/admin/doctors/${id}`);
+    const edit = (slug: string) => router.push(`/admin/doctors/${slug}`);
     const remove = async (id: string) => await store.dispatch('doctors/remove', id);
     const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
 
@@ -101,5 +102,18 @@ $margin: 20px 0;
   align-items: center;
   justify-content: flex-end;
   margin: $margin;
+}
+
+.tag-link {
+  margin: 2px;
+  transition: all 0.2s;
+  color: blue;
+  border-color: blue;
+  border-radius: 20px;
+  &:hover {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+  }
 }
 </style>

@@ -36,30 +36,30 @@
                 <el-option v-for="item in buildingsOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
-            <el-form-item label="Этаж" prop="floorId">
-              <el-select
-                v-model="division.floorId"
-                placeholder="Выберите этаж"
-                :disabled="division.buildingId ? false : true"
-                @change="changeDivisionAddress"
-              >
-                <template v-if="division.buildingId && buildingOption">
-                  <el-option v-for="item in buildingOption.floors" :key="item.id" :label="item.number" :value="item.id" />
-                </template>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Вход" prop="entranceId">
-              <el-select
-                v-model="division.entranceId"
-                placeholder="Выберите вход"
-                :disabled="division.buildingId && buildingOption.entrances.length ? false : true"
-                @change="changeDivisionAddress"
-              >
-                <template v-if="division.buildingId && buildingOption">
+            <template v-if="division.buildingId && buildingOption">
+              <el-form-item label="Этаж" prop="floorId">
+                <el-select
+                  v-model="division.floorId"
+                  placeholder="Выберите этаж"
+                  :disabled="division.buildingId ? false : true"
+                  @change="changeDivisionAddress"
+                >
+                  <el-option v-for="item in buildingOption.floors" :key="item.id" :label="item.number" :value="item.id">
+                    {{ item.number }}</el-option
+                  >
+                </el-select>
+              </el-form-item>
+              <el-form-item label="Вход" prop="entranceId">
+                <el-select
+                  v-model="division.entranceId"
+                  placeholder="Выберите вход"
+                  :disabled="division.buildingId && buildingOption.entrances.length ? false : true"
+                  @change="changeDivisionAddress"
+                >
                   <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
-                </template>
-              </el-select>
-            </el-form-item>
+                </el-select>
+              </el-form-item>
+            </template>
           </el-card>
 
           <el-card>
@@ -76,9 +76,24 @@
                   {{ scope.row.human.getFullName() }}
                 </template>
               </el-table-column>
+              <el-table-column label="Должность" sortable>
+                <template #default="scope">
+                  {{ scope.row.position }}
+                </template>
+              </el-table-column>
+              <el-table-column label="Отображать" sortable>
+                <template #default="scope">
+                  <el-switch v-model="scope.row.show" />
+                </template>
+              </el-table-column>
               <el-table-column width="50" fixed="right" align="center">
                 <template #default="scope">
-                  <TableButtonGroup :show-remove-button="true" @remove="removeDoctor(scope.row.id)" />
+                  <TableButtonGroup
+                    :show-more-button="true"
+                    :show-remove-button="true"
+                    @remove="removeDoctor(scope.row.id)"
+                    @showMore="$router.push(`/admin/doctors/${scope.row.id}`)"
+                  />
                 </template>
               </el-table-column>
             </el-table>
@@ -95,7 +110,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -107,6 +122,7 @@ import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
+import IDivision from '@/interfaces/buildings/IDivision';
 import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/IDoctor';
@@ -133,7 +149,7 @@ export default defineComponent({
     const rules = ref(DivisioinRules);
     const mounted = ref(false);
 
-    const division = computed(() => store.getters['divisions/division']);
+    const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
     const doctors = computed(() => store.getters['doctors/doctors']);
     const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
     const divisionDoctors = computed(() => store.getters['doctors/divisionDoctors']);
@@ -144,13 +160,14 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
+      store.commit('divisions/setOnlyShowed', false);
       store.commit('admin/showLoading');
-      await loadB1uildingOptions();
+      await loadBuildingOptions();
       await loadDivision();
       store.commit('admin/closeLoading');
     });
 
-    const loadB1uildingOptions = async (): Promise<void> => {
+    const loadBuildingOptions = async (): Promise<void> => {
       await store.dispatch('buildings/getAll');
     };
     const loadDivision = async (): Promise<void> => {
@@ -158,7 +175,7 @@ export default defineComponent({
       store.commit('divisions/resetState');
       if (route.params['id']) {
         await store.dispatch('divisions/get', route.params['id']);
-        store.dispatch('doctors/setDivisionDoctorsByDivisionId', route.params['id']);
+        await store.dispatch('doctors/setDivisionDoctorsByDivisionId', route.params['id']);
         if (division.value.floorId) {
           store.commit('buildings/setBuildingByFloorId', division.value.floorId);
           division.value.buildingId = buildingOption.value.id;

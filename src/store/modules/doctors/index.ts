@@ -17,6 +17,7 @@ export const getDefaultState = (): State => {
     divisionDoctors: [],
     fileList: [],
     comment: new DoctorComment(),
+    count: 0,
   };
 };
 

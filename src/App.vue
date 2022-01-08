@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from '@vue/runtime-core';
+import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
 import AdminLayout from '@/views/admin/AdminLayout.vue';
@@ -34,6 +35,11 @@ export default defineComponent({
         store.commit('auth/setIsAuth', true);
       }
     };
+
+    onBeforeMount(async (): Promise<void> => {
+      await store.dispatch('meta/getSchema');
+    });
+
     onMounted(() => {
       setLocalStorageToVuex();
     });

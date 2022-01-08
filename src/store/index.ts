@@ -13,15 +13,18 @@ import { donorRules } from '@/store/modules/donorRules';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
+import { filter } from '@/store/modules/filter';
 import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { map } from '@/store/modules/map';
 import { menus } from '@/store/modules/menus';
+import { meta } from '@/store/modules/meta';
 import { news } from '@/store/modules/news';
 import { newsSlides } from '@/store/modules/newsSlides';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { pages } from '@/store/modules/pages';
+import { pagination } from '@/store/modules/pagination';
 import { paidPrograms } from '@/store/modules/paidPrograms';
 import { paidProgramsGroups } from '@/store/modules/paidProgramsGroups';
 import { partners } from '@/store/modules/partners';
@@ -89,6 +92,9 @@ const s: StoreOptions<RootState> = {
     partnerTypes,
     preparations,
     donorRules,
+    filter,
+    meta,
+    pagination,
   },
 };
 

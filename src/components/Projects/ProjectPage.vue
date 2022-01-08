@@ -28,7 +28,6 @@ export default defineComponent({
     const project: ComputedRef<IProject> = computed(() => store.getters['projects/item']);
 
     onBeforeMount(async () => {
-      console.log(route.params['slug']);
       await store.dispatch('projects/getBySlug', route.params['slug']);
     });
 

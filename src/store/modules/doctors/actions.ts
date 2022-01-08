@@ -1,7 +1,10 @@
 import { ActionTree } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
+import IDoctorsWithCount from '@/interfaces/IDoctorsWithCount';
+import ISearch from '@/interfaces/ISearch';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -10,8 +13,8 @@ import { State } from './state';
 const httpClient = new HttpClient('doctors');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, limit): Promise<void> => {
-    commit('setAll', await httpClient.get<IDoctor[]>({ query: limit ? `?limit=${limit}` : '' }));
+  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    commit('setAll', await httpClient.get<IDoctorsWithCount[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
   get: async ({ commit }, id: string) => {
     commit('set', await httpClient.get<IDoctor>({ query: `${id}` }));
@@ -59,6 +62,20 @@ const actions: ActionTree<State, RootState> = {
   deleteComment: async ({ commit }, comment: IDoctorComment): Promise<void> => {
     await httpClient.delete({ query: `comment/${comment.id}` });
     commit('deleteCommentFromNews', comment);
+  },
+  search: async ({ commit }, search: ISearch): Promise<void> => {
+    const items = await httpClient.get<IDoctor[]>({ query: `search?query=${search.query}` });
+    if (items) {
+      items.forEach((i: IDoctor) => {
+        if (i.id) {
+          search.searchObjects.push({ value: `${i.human.surname} ${i.human.name} ${i.human.patronymic}`, id: i.human.slug });
+        }
+      });
+    }
+  },
+  getAllById: async ({ commit }, id: string): Promise<void> => {
+    const res = await httpClient.get<IDoctor>({ query: id });
+    commit('setAll', { doctors: [res], count: 1 });
   },
 };
 

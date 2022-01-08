@@ -59,6 +59,9 @@ const mutations: MutationTree<State> = {
     });
     state.division.timetable = new Timetable();
   },
+  setOnlyShowed(state, onlyShowed: boolean) {
+    state.onlyShowed = onlyShowed;
+  },
 
   // setTimetable(state, timetable: ITimetable) {
   //   if (!state.division) {

@@ -15,11 +15,13 @@ export default interface IDivision {
   info?: string;
   phone?: string;
   email?: string;
+  show: boolean;
   address?: string;
   floorId?: string;
   entranceId?: string;
   entrance?: IEntrance;
   building?: IBuilding;
+  buildingId?: string;
   showCommonVisitingRules: boolean;
   slug?: string;
   doctors: IDoctor[];

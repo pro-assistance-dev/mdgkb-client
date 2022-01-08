@@ -19,6 +19,7 @@ export default class Doctor implements IDoctor {
   humanId?: string;
   division?: IDivision;
   divisionId?: string;
+  show = false;
   timetable: ITimetable = new Timetable();
   timetableId?: string;
   position?: string;
@@ -34,36 +35,36 @@ export default class Doctor implements IDoctor {
   educationsForDelete: string[] = [];
   timetableDaysForDelete: string[] = [];
 
-  constructor(doctor?: IDoctor) {
-    if (!doctor) {
+  constructor(i?: IDoctor) {
+    if (!i) {
       return;
     }
-    this.id = doctor.id;
-    this.human = new Human(doctor.human);
-    this.humanId = doctor.humanId;
-    this.division = new Division(doctor.division);
-    // TODO Исправить)
-    if (doctor.divisionId !== '00000000-0000-0000-0000-000000000000') this.divisionId = doctor.divisionId;
-    if (doctor.timetable) {
-      this.timetable = new Timetable(doctor.timetable);
+    this.id = i.id;
+    this.human = new Human(i.human);
+    this.humanId = i.humanId;
+    this.division = new Division(i.division);
+    this.show = i.show;
+    this.divisionId = i.divisionId;
+    if (i.timetable) {
+      this.timetable = new Timetable(i.timetable);
     }
-    this.timetableId = doctor.timetableId;
-    this.position = doctor.position;
-    this.tags = doctor.tags;
-    this.fileInfoId = doctor.fileInfoId;
-    if (doctor.fileInfo) {
-      this.fileInfo = new FileInfo(doctor.fileInfo);
+    this.timetableId = i.timetableId;
+    this.position = i.position;
+    this.tags = i.tags;
+    this.fileInfoId = i.fileInfoId;
+    if (i.fileInfo) {
+      this.fileInfo = new FileInfo(i.fileInfo);
     }
-    if (doctor.doctorComments) {
-      this.doctorComments = doctor.doctorComments.map((item: IDoctorComment) => new DoctorComment(item));
+    if (i.doctorComments) {
+      this.doctorComments = i.doctorComments.map((item: IDoctorComment) => new DoctorComment(item));
     }
-    this.academicDegree = doctor.academicDegree;
-    this.academicRank = doctor.academicRank;
-    if (doctor.regalias) {
-      this.regalias = doctor.regalias.map((item: IRegalia) => new Regalia(item));
+    this.academicDegree = i.academicDegree;
+    this.academicRank = i.academicRank;
+    if (i.regalias) {
+      this.regalias = i.regalias.map((item: IRegalia) => new Regalia(item));
     }
-    if (doctor.educations) {
-      this.educations = doctor.educations.map((item: IEducation) => new Education(item));
+    if (i.educations) {
+      this.educations = i.educations.map((item: IEducation) => new Education(item));
     }
   }
 }

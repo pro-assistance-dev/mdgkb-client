@@ -8,4 +8,5 @@ export interface State {
   galleryList: IFilesList[];
   curGalleryCropIndex: number;
   comment: IDivisionComment;
+  onlyShowed: boolean;
 }

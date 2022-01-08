@@ -9,4 +9,5 @@ export interface State {
   divisionDoctors: IDoctor[];
   fileList: IFilesList[];
   comment: IDoctorComment;
+  count: number;
 }

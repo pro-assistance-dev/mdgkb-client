@@ -12,6 +12,7 @@ export default interface IDoctor {
   humanId?: string;
   division?: IDivision;
   divisionId?: string;
+  show: boolean;
   timetable: ITimetable;
   timetableId?: string;
   position?: string;

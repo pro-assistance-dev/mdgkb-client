@@ -1,13 +1,16 @@
+import EducationalOrganizationAcademic from '@/classes/educationalOrganization/EducationalOrganizationAcademic';
 import EducationalOrganizationDocumentType from '@/classes/educationalOrganization/EducationalOrganizationDocumentType';
 import EducationalOrganizationManager from '@/classes/educationalOrganization/EducationalOrganizationManager';
 import EducationalOrganizationProperty from '@/classes/educationalOrganization/EducationalOrganizationProperty';
 import EducationalOrganizationTeacher from '@/classes/educationalOrganization/EducationalOrganizationTeacher';
 import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
+import IEducationalOrganizationAcademic from '@/interfaces/educationalOrganization/IEducationalOrganizationAcademic';
 import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
 import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
 import IEducationalOrganizationProperty from '@/interfaces/educationalOrganization/IEducationalOrganizationProperty';
 import IEducationalOrganizationTeacher from '@/interfaces/educationalOrganization/IEducationalOrganizationTeacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default class EducationalOrganization implements IEducationalOrganization {
   educationalOrganizationProperties: IEducationalOrganizationProperty[] = [];
@@ -21,32 +24,38 @@ export default class EducationalOrganization implements IEducationalOrganization
   educationalOrganizationDocumentTypes: IEducationalOrganizationDocumentType[] = [];
   educationalOrganizationDocumentTypesForDelete: string[] = [];
 
-  // crud: ICrud = new Crud('educationalOrganization');
+  educationalOrganizationAcademics: IEducationalOrganizationAcademic[] = [];
+  educationalOrganizationAcademicsForDelete: string[] = [];
 
-  constructor(educationalOrganization?: IEducationalOrganization) {
-    if (!educationalOrganization) {
+  constructor(i?: IEducationalOrganization) {
+    if (!i) {
       return;
     }
 
-    if (educationalOrganization.educationalOrganizationProperties) {
-      this.educationalOrganizationProperties = educationalOrganization.educationalOrganizationProperties.map(
-        (i: IEducationalOrganizationProperty) => new EducationalOrganizationProperty(i)
+    if (i.educationalOrganizationProperties) {
+      this.educationalOrganizationProperties = i.educationalOrganizationProperties.map(
+        (item: IEducationalOrganizationProperty) => new EducationalOrganizationProperty(item)
       );
     }
-    if (educationalOrganization.educationalOrganizationManagers) {
-      this.educationalOrganizationManagers = educationalOrganization.educationalOrganizationManagers.map(
-        (i: IEducationalOrganizationManager) => new EducationalOrganizationManager(i)
+    if (i.educationalOrganizationManagers) {
+      this.educationalOrganizationManagers = i.educationalOrganizationManagers.map(
+        (item: IEducationalOrganizationManager) => new EducationalOrganizationManager(item)
       );
     }
-    if (educationalOrganization.educationalOrganizationTeachers) {
-      this.educationalOrganizationTeachers = educationalOrganization.educationalOrganizationTeachers.map(
-        (i: IEducationalOrganizationTeacher) => new EducationalOrganizationTeacher(i)
+    if (i.educationalOrganizationTeachers) {
+      this.educationalOrganizationTeachers = i.educationalOrganizationTeachers.map(
+        (item: IEducationalOrganizationTeacher) => new EducationalOrganizationTeacher(item)
+      );
+    }
+    if (i.educationalOrganizationAcademics) {
+      this.educationalOrganizationAcademics = i.educationalOrganizationAcademics.map(
+        (item: IEducationalOrganizationTeacher) => new EducationalOrganizationAcademic(item)
       );
     }
 
-    if (educationalOrganization.educationalOrganizationDocumentTypes) {
-      this.educationalOrganizationDocumentTypes = educationalOrganization.educationalOrganizationDocumentTypes.map(
-        (i: IEducationalOrganizationDocumentType) => new EducationalOrganizationDocumentType(i)
+    if (i.educationalOrganizationDocumentTypes) {
+      this.educationalOrganizationDocumentTypes = i.educationalOrganizationDocumentTypes.map(
+        (item: IEducationalOrganizationDocumentType) => new EducationalOrganizationDocumentType(item)
       );
     }
   }
@@ -62,5 +71,19 @@ export default class EducationalOrganization implements IEducationalOrganization
 
   getFileInfos(): IFileInfo[] {
     return EducationalOrganizationDocumentType.GetFileInfos(this.educationalOrganizationDocumentTypes);
+  }
+
+  addAcademic(doctor: IDoctor): void {
+    const item = new EducationalOrganizationAcademic();
+    item.doctorId = doctor.id;
+    item.doctor = doctor;
+  }
+
+  removeAcademic(index: number): void {
+    const id = this.educationalOrganizationAcademics[index].id;
+    if (id) {
+      this.educationalOrganizationAcademicsForDelete.push(id);
+    }
+    this.educationalOrganizationAcademics.splice(index, 0);
   }
 }

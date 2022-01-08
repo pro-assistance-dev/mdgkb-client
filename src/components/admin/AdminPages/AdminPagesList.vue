@@ -66,7 +66,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      console.log(route);
       store.commit('admin/showLoading');
       await loadNews();
       store.commit('admin/closeLoading');

@@ -12,11 +12,12 @@ import { State } from './state';
 const httpClient = new HttpClient('divisions');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IDivision[]>());
+  getAll: async ({ commit, state }): Promise<void> => {
+    commit('setAll', await httpClient.get<IDivision[]>({ query: state.onlyShowed ? '?showed=true' : '' }));
   },
-  get: async ({ commit }, id: string) => {
-    commit('set', await httpClient.get<IDivision>({ query: `${id}` }));
+  get: async ({ commit, state }, id: string) => {
+    const query = id + (state.onlyShowed ? '?showed=true' : '');
+    commit('set', await httpClient.get<IDivision>({ query: query }));
   },
   create: async ({ commit }, division: IDivision): Promise<void> => {
     const fileInfos: IFileInfo[] = [];
@@ -28,9 +29,11 @@ const actions: ActionTree<State, RootState> = {
   },
   update: async ({ commit }, division: IDivision): Promise<void> => {
     const fileInfos: IFileInfo[] = [];
-    division.divisionImages.forEach((image: IDivisionImage) => {
-      if (image.fileInfo) fileInfos.push(image.fileInfo);
-    });
+    if (division.divisionImages) {
+      division.divisionImages.forEach((image: IDivisionImage) => {
+        if (image.fileInfo) fileInfos.push(image.fileInfo);
+      });
+    }
     await httpClient.put<IDivision, IDivision>({ query: `${division.id}`, payload: division, fileInfos: fileInfos, isFormData: true });
     commit('set');
   },

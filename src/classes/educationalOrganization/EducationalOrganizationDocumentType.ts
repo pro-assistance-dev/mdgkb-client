@@ -31,7 +31,6 @@ export default class EducationalOrganizationDocumentType implements IEducational
   }
   removeDocument(i: number): void {
     const idForDelete = this.educationalOrganizationDocumentTypeDocuments[i].id;
-    console.log(idForDelete);
     if (idForDelete) {
       this.educationalOrganizationDocumentTypeDocumentsForDelete.push(idForDelete);
     }

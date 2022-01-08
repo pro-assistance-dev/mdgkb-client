@@ -52,7 +52,7 @@ export default defineComponent({
     const mount = ref(false);
 
     onBeforeMount(async () => {
-      await store.dispatch('doctors/get', route.params['id']);
+      await store.dispatch('doctors/get', route.params['slug']);
       mount.value = true;
     });
 

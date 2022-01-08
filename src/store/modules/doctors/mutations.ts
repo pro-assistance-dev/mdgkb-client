@@ -12,6 +12,7 @@ import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
+import IDoctorsWithCount from '@/interfaces/IDoctorsWithCount';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 
@@ -19,8 +20,9 @@ import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, doctors: IDoctor[]) {
-    state.items = doctors?.map((a: IDoctor) => new Doctor(a));
+  setAll(state, doctorsWithCount: IDoctorsWithCount) {
+    state.items = doctorsWithCount.doctors.map((a: IDoctor) => new Doctor(a));
+    state.count = doctorsWithCount.count;
   },
   set(state, doctor: IDoctor) {
     state.item = new Doctor(doctor);

@@ -19,6 +19,11 @@
         <el-container direction="vertical">
           <AdminDoctorImage v-if="mounted" title="Загрузить фото" />
           <el-card>
+            <el-form-item label="Отображать на сайте" prop="position">
+              <el-switch v-model="doctor.show"></el-switch>
+            </el-form-item>
+          </el-card>
+          <el-card>
             <template #header>
               <CardHeader :label="'Регалии, звания'" :add-button="false" />
             </template>
@@ -82,11 +87,11 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (!doctor.value.fileInfo.fileSystemPath) {
-        ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
-        saveButtonClick.value = false;
-        return;
-      }
+      // if (!doctor.value.fileInfo.fileSystemPath) {
+      //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
+      //   saveButtonClick.value = false;
+      //   return;
+      // }
       try {
         if (route.params['id']) {
           await store.dispatch('doctors/update', doctor.value);

@@ -203,7 +203,6 @@ const mutations: MutationTree<State> = {
         url: file.src,
       };
     }
-    console.log(state.newsItem.newsImages);
   },
   removeFromGallery(state, file: IFile) {
     const index = state.galleryList.findIndex((i) => i.url === file.url);

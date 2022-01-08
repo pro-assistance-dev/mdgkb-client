@@ -51,6 +51,7 @@ export default defineComponent({
 
     // Methods
     const loadDivisions = async (): Promise<void> => {
+      store.commit('divisions/setOnlyShowed', true);
       await store.dispatch('divisions/getAll');
       divisions.value = store.getters['divisions/divisions'];
       await loadDivision(divisions.value[0].id);

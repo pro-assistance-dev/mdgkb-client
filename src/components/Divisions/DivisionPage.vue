@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -54,6 +54,7 @@ import Comments from '@/components/Comments.vue';
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import Timetable from '@/components/Timetable.vue';
+import IDivision from '@/interfaces/buildings/IDivision';
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -61,11 +62,12 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const division = computed(() => store.getters['divisions/division']);
+    const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
 
     onBeforeMount(async () => {
       window.scrollTo(0, 0);
       await store.dispatch('divisions/get', route.params['slug']);
+      store.commit('divisions/setOnlyShowed', true);
     });
 
     return {
