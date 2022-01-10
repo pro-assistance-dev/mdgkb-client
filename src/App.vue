@@ -11,6 +11,7 @@ import { defineComponent, onMounted } from '@vue/runtime-core';
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
+import TokenService from '@/services/Token';
 import AdminLayout from '@/views/admin/AdminLayout.vue';
 import MainLayout from '@/views/main/MainLayout.vue';
 
@@ -27,7 +28,7 @@ export default defineComponent({
     // TODO безопасно ли это?
     const setLocalStorageToVuex = () => {
       const userData = localStorage.getItem('user');
-      const token = localStorage.getItem('token');
+      const token = TokenService.getAccessToken();
       if (userData && token) {
         const user = new User(JSON.parse(userData));
         store.commit('auth/setToken', token);

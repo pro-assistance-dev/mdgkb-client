@@ -1,7 +1,7 @@
-import axios from 'axios';
-
 import { IBodilessParams, IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import axiosInstance from '@/services/Axios';
+import TokenService from '@/services/Token';
 
 export default class HttpClient {
   endpoint: string;
@@ -35,10 +35,10 @@ export default class HttpClient {
     const isBlob = params?.isBlob;
     const headers = params?.headers;
 
-    const { data, headers: resHeaders } = await axios({
+    const { data, headers: resHeaders } = await axiosInstance({
       url: this.buildUrl(params?.query),
       method: 'get',
-      headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
+      headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
       responseType: !isBlob ? 'json' : 'blob',
     });
     if (!isBlob) {
@@ -58,10 +58,10 @@ export default class HttpClient {
 
   async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
     const { payload, fileInfos, query, headers, isFormData } = params;
-    const { data } = await axios({
+    const { data } = await axiosInstance({
       url: this.buildUrl(query),
       method: 'post',
-      headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
+      headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
       data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
     });
 
@@ -71,10 +71,10 @@ export default class HttpClient {
   async put<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
     const { payload, fileInfos, query, headers, isFormData } = params;
 
-    const { data } = await axios({
+    const { data } = await axiosInstance({
       url: this.buildUrl(query),
       method: 'put',
-      headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
+      headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
       data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
     });
 
@@ -84,10 +84,10 @@ export default class HttpClient {
   async delete<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
     const { payload, fileInfos, query, headers, isFormData } = params;
 
-    const { data } = await axios({
+    const { data } = await axiosInstance({
       url: this.buildUrl(query),
       method: 'delete',
-      headers: { ...(headers ?? this.headers), token: localStorage.getItem('token') },
+      headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
       data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
     });
 

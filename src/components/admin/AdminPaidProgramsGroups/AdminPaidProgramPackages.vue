@@ -3,7 +3,7 @@
     <template #header>
       <span>Пакет</span>
       <el-button v-if="paidPackage.id" type="danger" icon="el-icon-delete" @click="removePackage(paidPackage.id)"></el-button>
-      <el-button v-else type="success" icon="el-icon-plus" @click="paidProgram.addPackage">Создать пакет</el-button>
+      <el-button v-else type="success" icon="el-icon-plus" @click="paidProgram.addPackage()">Создать пакет</el-button>
     </template>
     <div v-if="paidPackage.id">
       <div>

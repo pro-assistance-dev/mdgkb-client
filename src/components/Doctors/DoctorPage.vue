@@ -5,11 +5,12 @@
     </div>
     <div class="right-side">
       <el-card>
+        `
         <template #header>
           <div class="card-header">
             <h2>{{ doctor.human.getFullName() }}</h2>
-          </div>
-        </template>
+          </div> </template
+        >`
         <div class="flex-row">
           <div class="doctor-img-container">
             <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />

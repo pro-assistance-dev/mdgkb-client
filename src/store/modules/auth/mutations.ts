@@ -1,7 +1,9 @@
 import { MutationTree } from 'vuex';
 
 import User from '@/classes/User';
+import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
+import TokenService from '@/services/Token';
 
 import State from './state';
 
@@ -10,9 +12,8 @@ const mutations: MutationTree<State> = {
     state.user = new User(user);
     localStorage.setItem('user', JSON.stringify(user));
   },
-  setToken(state, token: string) {
-    state.token = token;
-    localStorage.setItem('token', token);
+  setTokens(state, tokens: ITokens) {
+    TokenService.setTokens(tokens);
   },
   setIsAuth(state, isAuth: boolean) {
     state.isAuth = isAuth;

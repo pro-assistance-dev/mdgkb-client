@@ -19,17 +19,41 @@
       <el-button icon="el-icon-plus" type="success" @click="paidProgram.addOptionsGroup()"></el-button>
     </template>
     <template v-else>
-      <div v-for="optionsGroup in paidProgram.paidProgramOptionsGroups" :key="optionsGroup.id">
-        <h4>{{ optionsGroup.name }}</h4>
-        <el-button
-          v-for="option in optionsGroup.paidProgramOptions"
-          :key="option.id"
-          :type="option.selected ? 'primary' : ''"
-          @click="paidProgram.selectOption(option)"
-        >
-          {{ option.name }}
-        </el-button>
-      </div>
+      <draggable
+        class="options-groups"
+        :list="paidProgram.paidProgramOptionsGroups"
+        item-key="id"
+        handle=".handle"
+        @end="sort(paidProgram.paidProgramOptionsGroups)"
+      >
+        <template #item="{ element }">
+          <el-card class="options-groups-card">
+            <template #header>
+              <div class="card-header">
+                <span>{{ element.name }}</span>
+                <el-icon class="handle"><Grid /></el-icon>
+              </div>
+            </template>
+
+            <draggable
+              class="groups"
+              :list="element.paidProgramOptions"
+              item-key="id"
+              handle=".handle"
+              @end="sort(element.paidProgramOptions)"
+            >
+              <template #item="{ element }">
+                <div>
+                  <el-icon class="handle"><Grid /></el-icon>
+                  <el-button :type="element.selected ? 'primary' : ''" @click="paidProgram.selectOption(element)">
+                    {{ element.name }}
+                  </el-button>
+                </div>
+              </template>
+            </draggable>
+          </el-card>
+        </template>
+      </draggable>
     </template>
   </el-card>
 </template>
@@ -37,20 +61,23 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
+import { Grid } from '@element-plus/icons-vue';
 import { computed, defineComponent, Ref, ref } from 'vue';
+import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
 import IPaidProgram from '@/interfaces/IPaidProgram';
-
+import sort from '@/mixins/sort';
 export default defineComponent({
   name: 'AdminPaidProgramOptions',
-  components: {},
+  components: { draggable, Grid },
   setup() {
     const store = useStore();
     const mounted: Ref<boolean> = ref(false);
     const editMode: Ref<boolean> = ref(false);
     const paidProgram: Ref<IPaidProgram> = computed<IPaidProgram>(() => store.getters['paidPrograms/item']);
     return {
+      sort,
       editMode,
       mounted,
       paidProgram,
@@ -69,5 +96,18 @@ export default defineComponent({
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.options-groups {
+  display: flex;
+  justify-content: space-around;
+  &-card {
+    width: 400px;
+    margin: 10px 10px;
+  }
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
