@@ -6,15 +6,17 @@ export default class EducationalOrganizationTeacher implements IEducationalOrgan
   id?: string;
   doctorId?: string;
   doctor: IDoctor = new Doctor();
+  position = '';
 
-  constructor(educationalOrganizationTeacher?: IEducationalOrganizationTeacher) {
-    if (!educationalOrganizationTeacher) {
+  constructor(i?: IEducationalOrganizationTeacher) {
+    if (!i) {
       return;
     }
-    this.id = educationalOrganizationTeacher.id;
-    this.doctorId = educationalOrganizationTeacher.doctorId;
-    if (educationalOrganizationTeacher.doctor) {
-      this.doctor = new Doctor(educationalOrganizationTeacher.doctor);
+    this.id = i.id;
+    this.doctorId = i.doctorId;
+    this.position = i.position;
+    if (i.doctor) {
+      this.doctor = new Doctor(i.doctor);
     }
   }
 }

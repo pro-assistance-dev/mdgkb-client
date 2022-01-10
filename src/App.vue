@@ -31,7 +31,7 @@ export default defineComponent({
       const token = TokenService.getAccessToken();
       if (userData && token) {
         const user = new User(JSON.parse(userData));
-        store.commit('auth/setToken', token);
+        store.commit('auth/setTokens', token);
         store.commit('auth/setUser', user);
         store.commit('auth/setIsAuth', true);
       }

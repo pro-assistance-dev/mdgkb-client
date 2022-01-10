@@ -150,7 +150,7 @@ export default defineComponent({
     const mounted = ref(false);
 
     const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
-    const doctors = computed(() => store.getters['doctors/doctors']);
+    const doctors = computed(() => store.getters['doctors/items']);
     const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
     const divisionDoctors = computed(() => store.getters['doctors/divisionDoctors']);
     const newDoctorId = ref();

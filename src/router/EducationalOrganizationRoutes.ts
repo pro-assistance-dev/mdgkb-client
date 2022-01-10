@@ -1,8 +1,8 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminEducationalOrganizationAcademics from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationAcademics.vue';
 import AdditionalEducation from '@/components/EducationalOrganization/AdditionalEducation/AdditionalEducation.vue';
 import AspiranturaPage from '@/components/EducationalOrganization/Aspirantura/AspiranturaPage.vue';
+import EducationalOrganizationAcademics from '@/components/EducationalOrganization/EducationalOrganizationAcademics.vue';
 import EducationalOrganizationDocuments from '@/components/EducationalOrganization/EducationalOrganizationDocuments.vue';
 import EducationalOrganizationInfo from '@/components/EducationalOrganization/EducationalOrganizationInfo.vue';
 import EducationalOrganizationStructure from '@/components/EducationalOrganization/EducationalOrganizationStructure.vue';
@@ -37,8 +37,8 @@ export default [
   },
   {
     path: '/educational-organization/academics',
-    name: 'AdminEducationalOrganizationAcademics',
-    component: AdminEducationalOrganizationAcademics,
+    name: 'EducationalOrganizationAcademics',
+    component: EducationalOrganizationAcademics,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

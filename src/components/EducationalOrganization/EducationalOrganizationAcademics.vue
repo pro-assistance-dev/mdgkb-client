@@ -1,6 +1,12 @@
 <template>
   <el-container direction="vertical">
     <h2 style="text-align: center">Учёный совет</h2>
+
+    <el-card v-if="educationalOrganisation.educationalOrganizationAcademics.length" class="card-content">
+      <div v-for="item in educationalOrganisation.educationalOrganizationAcademics" :key="item.id" class="doctors-wrapper">
+        <DoctorInfoCard :doctor="item.doctor" :division="item.doctor.division" />
+      </div>
+    </el-card>
   </el-container>
 </template>
 
@@ -8,11 +14,12 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
 
 export default defineComponent({
   name: 'EducationalOrganizationAcademics',
-
+  components: { DoctorInfoCard },
   setup() {
     const mounted = ref(false);
     const store = useStore();
@@ -21,7 +28,6 @@ export default defineComponent({
     const educationalOrganisation: Ref<IEducationalOrganization> = computed(
       () => store.getters['educationalOrganization/educationalOrganization']
     );
-    const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
 
     onBeforeMount(async () => {
       await store.dispatch('educationalOrganization/get');
@@ -29,7 +35,6 @@ export default defineComponent({
     });
 
     return {
-      filteredDoctors,
       mounted,
       // rules,
       educationalOrganisation,

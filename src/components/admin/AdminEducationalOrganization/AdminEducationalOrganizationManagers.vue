@@ -39,7 +39,7 @@ export default defineComponent({
     const mounted = ref(false);
     const store = useStore();
     const form = ref();
-    const doctors = computed(() => store.getters['doctors/doctors']);
+    const doctors = computed(() => store.getters['doctors/items']);
     const managers = computed(() => store.getters['educationalOrganization/managers']);
     const newId = ref();
     const newRole = ref();

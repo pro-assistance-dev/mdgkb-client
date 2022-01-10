@@ -4,7 +4,7 @@
       <el-select v-model="newId" filterable placeholder="Выберите преподавателя">
         <el-option v-for="item in doctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
       </el-select>
-      <el-button type="success" style="margin: 20px" @click="add">Добавить преподавателя</el-button>
+      <el-button type="success" style="margin: 20px" @click="add">Добавить научного руководителя</el-button>
     </el-space>
 
     <el-table :data="educationOrganisation.educationalOrganizationAcademics">
@@ -37,8 +37,10 @@ export default defineComponent({
     const mounted = ref(false);
     const store = useStore();
     const form = ref();
-    const doctors = computed(() => store.getters['doctors/doctors']);
-    const educationOrganisation: ComputedRef<IEducationalOrganization> = computed(() => store.getters['educationalOrganization/item']);
+    const doctors = computed(() => store.getters['doctors/items']);
+    const educationOrganisation: ComputedRef<IEducationalOrganization> = computed(
+      () => store.getters['educationalOrganization/educationalOrganization']
+    );
     const newId = ref();
 
     const add = () => {

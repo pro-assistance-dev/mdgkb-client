@@ -4,4 +4,5 @@ export default interface IEducationalOrganizationTeacher {
   id?: string;
   doctorId?: string;
   doctor: IDoctor;
+  position: string;
 }

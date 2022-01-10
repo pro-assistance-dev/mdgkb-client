@@ -25,7 +25,7 @@ const actions: ActionTree<State, RootState> = {
     if (newUser) {
       localStorage.setItem('user', JSON.stringify(newUser));
     }
-    commit('setToken', token.accessToken);
+    commit('setTokens', token);
     commit('setUser', newUser);
     commit('setIsAuth', true);
   },

@@ -4,6 +4,7 @@
       <el-select v-model="newId" filterable placeholder="Выберите преподавателя">
         <el-option v-for="item in doctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
       </el-select>
+      <el-input v-model="newPosition" placeholder="Роль руководителя"> </el-input>
       <el-button type="success" style="margin: 20px" @click="add">Добавить преподавателя</el-button>
     </el-space>
 
@@ -37,15 +38,17 @@ export default defineComponent({
     const mounted = ref(false);
     const store = useStore();
     const form = ref();
-    const doctors = computed(() => store.getters['doctors/doctors']);
+    const doctors = computed(() => store.getters['doctors/items']);
     const teachers = computed(() => store.getters['educationalOrganization/teachers']);
     const newId = ref();
+    const newPosition = ref('');
 
     const add = () => {
       const doctor = doctors.value?.find((i: IDoctor) => i.id === newId.value);
       const teacher = new EducationalOrganizationTeacher();
       teacher.doctorId = newId.value;
       teacher.doctor = doctor;
+      teacher.position = newPosition.value;
       store.commit('educationalOrganization/addTeacher', teacher);
     };
     const remove = (index: number) => {
@@ -53,6 +56,7 @@ export default defineComponent({
     };
 
     return {
+      newPosition,
       teachers,
       newId,
       doctors,

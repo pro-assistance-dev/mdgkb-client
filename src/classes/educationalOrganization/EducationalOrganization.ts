@@ -49,7 +49,7 @@ export default class EducationalOrganization implements IEducationalOrganization
     }
     if (i.educationalOrganizationAcademics) {
       this.educationalOrganizationAcademics = i.educationalOrganizationAcademics.map(
-        (item: IEducationalOrganizationTeacher) => new EducationalOrganizationAcademic(item)
+        (item: IEducationalOrganizationAcademic) => new EducationalOrganizationAcademic(item)
       );
     }
 
@@ -77,6 +77,7 @@ export default class EducationalOrganization implements IEducationalOrganization
     const item = new EducationalOrganizationAcademic();
     item.doctorId = doctor.id;
     item.doctor = doctor;
+    this.educationalOrganizationAcademics.push(item);
   }
 
   removeAcademic(index: number): void {
