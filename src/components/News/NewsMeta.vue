@@ -28,6 +28,7 @@ import { useStore } from 'vuex';
 import NewsLike from '@/classes/news/NewsLike';
 import INews from '@/interfaces/news/INews';
 import INewsLike from '@/interfaces/news/INewsLike';
+import TokenService from '@/services/Token';
 
 export default defineComponent({
   name: 'NewsMeta',
@@ -43,9 +44,9 @@ export default defineComponent({
     const store = useStore();
     const user = computed(() => store.getters['auth/user']);
     const isAuth = computed(() => store.getters['auth/isAuth']);
-    const token = computed(() => store.getters['auth/token']);
     const createLike = async (news: INews): Promise<void> => {
-      if (!token.value) {
+      const token = TokenService.getAccessToken();
+      if (!token) {
         ElMessage({
           message: 'Пожалуйста, авторизируйтесь',
           type: 'warning',
@@ -59,7 +60,8 @@ export default defineComponent({
     };
 
     const deleteLike = async (news: INews): Promise<void> => {
-      if (!token.value) {
+      const token = TokenService.getAccessToken();
+      if (!token) {
         ElMessage({
           message: 'Пожалуйста, авторизируйтесь',
           type: 'warning',

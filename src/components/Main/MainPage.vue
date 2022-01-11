@@ -80,6 +80,7 @@ import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IComment from '@/interfaces/comments/IComment';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import INewsParams from '@/interfaces/news/INewsParams';
 import ITag from '@/interfaces/news/ITag';
 
@@ -133,7 +134,9 @@ export default defineComponent({
     };
 
     const loadDoctors = async (): Promise<void> => {
-      await store.dispatch('doctors/getAll', 4);
+      const filter: IFilterQuery = store.getters['filter/filterQuery'];
+      filter.limit = 8;
+      await store.dispatch('doctors/getAll', filter);
     };
 
     const loadComments = async (): Promise<void> => {

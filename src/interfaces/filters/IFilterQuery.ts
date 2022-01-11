@@ -3,6 +3,7 @@ import ISortModel from '@/interfaces/filters/ISortModel';
 
 export default interface IFilterQuery {
   id?: string;
+  limit: number;
   offset: number;
   filterModels: IFilterModel[];
   sortModels: ISortModel[];

@@ -9,7 +9,6 @@
       </el-dropdown-menu>
     </template>
   </el-dropdown>
-
   <el-dropdown v-else>
     <el-button v-if="showButtonName" icon="el-icon-user" round>Профиль</el-button>
     <el-button v-else class="menu-item" icon="el-icon-user"></el-button>

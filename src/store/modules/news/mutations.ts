@@ -152,7 +152,9 @@ const mutations: MutationTree<State> = {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
     const deleteLike = (news: INews) => {
       const index = news.newsLikes.findIndex((i: INewsLike) => i.id === newsLike.id);
-      news.newsLikes.splice(index);
+      if (index > -1) {
+        news.newsLikes.splice(index, 1);
+      }
     };
     if (news) deleteLike(news);
     if (state.newsItem) deleteLike(state.newsItem);

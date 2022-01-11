@@ -5,8 +5,8 @@
       <el-tab-pane label="Текущая информация для поступающих" name="Этапы поступления"><OrdinaturaStages /></el-tab-pane>
       <el-tab-pane label="Документы для поступления" name="Документы для поступления"><OrdinaturaDocumentsForAdmission /></el-tab-pane>
       <el-tab-pane label="Вступительные испытания" name="Вступительные испытания"><OrdinaturaExams /></el-tab-pane>
-      <el-tab-pane label="План набора и поданные заявления" name="Вступительные испытания"><OrdinaturaExams /></el-tab-pane>
-      <el-tab-pane label="Образцы документов" name="Вступительные испытания"><OrdinaturaExams /></el-tab-pane>
+      <el-tab-pane label="План набора и поданные заявления" name="План набора и поданные заявления"><OrdinaturaExams /></el-tab-pane>
+      <el-tab-pane label="Образцы документов" name="Образцы документов"><OrdinaturaExams /></el-tab-pane>
     </el-tabs>
   </div>
 </template>

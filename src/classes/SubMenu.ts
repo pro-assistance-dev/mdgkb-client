@@ -13,6 +13,7 @@ export default class SubMenu implements ISubMenu {
   link = '';
   selected = false;
   editMode = false;
+  color = '';
 
   page = new Page();
   pageId?: string;
@@ -24,24 +25,25 @@ export default class SubMenu implements ISubMenu {
   iconId?: string;
   icon = new FileInfo();
 
-  constructor(menu?: ISubMenu) {
-    if (!menu) {
+  constructor(i?: ISubMenu) {
+    if (!i) {
       return;
     }
-    this.id = menu.id;
-    this.name = menu.name;
-    this.link = menu.link;
+    this.id = i.id;
+    this.name = i.name;
+    this.link = i.link;
 
     if (this.page) {
-      this.page = new Page(menu.page);
+      this.page = new Page(i.page);
     }
-    this.pageId = menu.pageId;
-    this.order = menu.order;
-    this.menuId = menu.menuId;
+    this.pageId = i.pageId;
+    this.order = i.order;
+    this.menuId = i.menuId;
+    this.color = i.color;
 
-    this.iconId = menu.iconId;
-    if (menu.icon) {
-      this.icon = new FileInfo(menu.icon);
+    this.iconId = i.iconId;
+    if (i.icon) {
+      this.icon = new FileInfo(i.icon);
     }
   }
 
