@@ -47,6 +47,7 @@ export default class Menu implements IMenu {
 
     if (menu.subMenus) {
       this.subMenus = menu.subMenus.map((i: ISubMenu) => new SubMenu(i));
+      this.setColorsForSubMenus();
     }
 
     this.iconId = menu.iconId;
@@ -104,5 +105,14 @@ export default class Menu implements IMenu {
       this.subMenusForDelete.push(idForDelete);
     }
     this.subMenus.splice(index, 1);
+  }
+
+  setColorsForSubMenus(): void {
+    const colors: string[] = ['#00A248', '#E63021', '#006BB5', '#F3911F', '#6F6D6B'];
+    let i = 0;
+    this.subMenus.forEach((subMenu) => {
+      subMenu.color = colors[i];
+      i === colors.length - 1 ? (i = 0) : i++;
+    });
   }
 }
