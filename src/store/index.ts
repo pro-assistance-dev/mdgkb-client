@@ -24,6 +24,7 @@ import { pages } from '@/store/modules/pages';
 import { partners } from '@/store/modules/partners';
 import { partnerTypes } from '@/store/modules/partnerTypes';
 import { projects } from '@/store/modules/projects';
+import { publicDocumentTypes } from '@/store/modules/publicDocumentTypes';
 import { questions } from '@/store/modules/questions';
 import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
@@ -81,6 +82,7 @@ const store: StoreOptions<RootState> = {
     projects,
     partners,
     partnerTypes,
+    publicDocumentTypes,
   },
 };
 

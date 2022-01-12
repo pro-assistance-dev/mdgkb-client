@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import Document from '@/classes/document/Document';
 import DocumentTypeField from '@/classes/document/DocumentTypeField';
 import FileInfo from '@/classes/File/FileInfo';
+import IDocument from '@/interfaces/document/IDocument';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IDocumentTypeField from '@/interfaces/document/IDocumentTypeField';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
@@ -16,6 +18,9 @@ export default class DocumentType implements IDocumentType {
 
   scans: IFileInfo[] = [];
   scansForDelete: string[] = [];
+
+  documents: IDocument[] = [];
+  documentsForDelete: string[] = [];
 
   documentFields: IDocumentTypeField[] = [];
   documentFieldsForDelete: string[] = [];
@@ -34,6 +39,9 @@ export default class DocumentType implements IDocumentType {
     this.scanId = i.scanId;
     if (i.documentFields) {
       this.documentFields = i.documentFields.map((item: IDocumentTypeField) => new DocumentTypeField(item));
+    }
+    if (i.documents) {
+      this.documents = i.documents.map((item: IDocument) => new Document(item));
     }
 
     if (i.scans) {
@@ -63,6 +71,15 @@ export default class DocumentType implements IDocumentType {
     this.scan.originalName = file.name;
     this.scan.file = file.raw;
   }
-
+  addDocument(): void {
+    this.documents.push(new Document());
+  }
+  removeDocument(index: number): void {
+    const idForDelete = this.documents[index].id;
+    if (idForDelete) {
+      this.documentsForDelete.push(idForDelete);
+    }
+    this.documents.splice(index, 1);
+  }
   // findDocument();
 }

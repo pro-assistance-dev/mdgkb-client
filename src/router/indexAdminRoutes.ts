@@ -15,6 +15,7 @@ import AdminNewsSlideRoutes from '@/router/AdminNewsSlideRoutes';
 import AdminPagesRoutes from '@/router/AdminPagesRoutes';
 import AdminPartnersRoutes from '@/router/AdminPartnersRoutes';
 import AdminProjectRoutes from '@/router/AdminProjectRoutes';
+import AdminPublicDocumentTypesRoutes from '@/router/AdminPublicDocumentTypesRoutes';
 import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
 import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
@@ -50,4 +51,5 @@ export default [
   ...AdminHeadsRoutes,
   ...AdminProjectRoutes,
   ...AdminPartnersRoutes,
+  ...AdminPublicDocumentTypesRoutes,
 ];
