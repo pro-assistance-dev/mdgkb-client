@@ -3,8 +3,11 @@ import IDocumentScan from '@/interfaces/document/IDocumentScan';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
+import IFile from '../files/IFile';
+
 export default interface IDocument {
   id?: string;
+  name: string;
   documentTypeId?: string;
   documentType?: IDocumentType;
 
@@ -15,4 +18,6 @@ export default interface IDocument {
   getFileInfos: () => IFileInfo[];
 
   getScan: () => IFileInfo;
+  uploadScan: (file: IFile) => IFileInfo;
+  deleteScan: () => void;
 }

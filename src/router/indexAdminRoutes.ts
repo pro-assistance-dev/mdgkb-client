@@ -18,6 +18,7 @@ import AdminPaidServicesGroupsRoutes from '@/router/AdminPaidServicesGroupsRoute
 import AdminPartnersRoutes from '@/router/AdminPartnersRoutes';
 import AdminPreparations from '@/router/AdminPreparations';
 import AdminProjectRoutes from '@/router/AdminProjectRoutes';
+import AdminPublicDocumentTypesRoutes from '@/router/AdminPublicDocumentTypesRoutes';
 import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
 import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
@@ -67,4 +68,5 @@ export default [
   ...AdminProjectRoutes,
   ...AdminPartnersRoutes,
   ...AdminPreparations,
+  ...AdminPublicDocumentTypesRoutes,
 ];

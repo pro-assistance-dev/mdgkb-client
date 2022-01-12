@@ -5,6 +5,7 @@ import IDocument from '@/interfaces/document/IDocument';
 import IDocumentFieldValue from '@/interfaces/document/IDocumentFieldValue';
 import IDocumentScan from '@/interfaces/document/IDocumentScan';
 import IDocumentType from '@/interfaces/document/IDocumentType';
+import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default class Document implements IDocument {
@@ -24,6 +25,7 @@ export default class Document implements IDocument {
       return;
     }
     this.id = i?.id;
+    this.name = i.name;
     this.documentTypeId = i.documentTypeId;
     if (i.documentType) {
       this.documentType = new DocumentType(i.documentType);
@@ -42,5 +44,21 @@ export default class Document implements IDocument {
 
   getScan(): IFileInfo {
     return this.documentsScans[0].scan;
+  }
+
+  uploadScan(file: IFile): IFileInfo {
+    const newDocScan = DocumentScan.CreateNewScan(file);
+    this.documentsScans.push(newDocScan);
+    return newDocScan.scan;
+  }
+
+  deleteScan(): IFileInfo {
+    const fileForDelete = this.documentsScans[0];
+    const idForDelete = fileForDelete.id;
+    if (idForDelete) {
+      this.documentsScansForDelete.push(idForDelete);
+    }
+    this.documentsScans.splice(0, 1);
+    return fileForDelete.scan;
   }
 }

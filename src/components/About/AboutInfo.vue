@@ -8,7 +8,6 @@
       </div>
     </el-card>
   </div>
-
   <el-container direction="vertical">
     <h1 style="text-align: center">{{ division.name }}</h1>
     <el-card>

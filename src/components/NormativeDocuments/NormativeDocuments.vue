@@ -1,6 +1,6 @@
 <template>
   <!-- <div v-for="type of normativeDocumentTypes" :key="type.id"> -->
-  <el-container direction="vertical">
+  <el-container v-if="mounted" direction="vertical">
     <div class="header-center">
       <h2>Нормативные документы</h2>
     </div>
@@ -71,7 +71,7 @@ export default defineComponent({
     const store = useStore();
     const filePath = ref('');
     const modalOpen = ref(false);
-    const normativeDocuments = computed(() => store.getters['normativeDocuments/document-types']);
+    const normativeDocuments = computed(() => store.getters['normativeDocuments/documents']);
     const normativeDocumentsList = computed((): INormativeDocument => {
       if (filter.value) {
         return normativeDocuments.value.filter((o: INormativeDocument) => {
@@ -83,8 +83,10 @@ export default defineComponent({
     });
     const normativeDocumentTypes = ref();
     const activeName = ref(1);
+    const mounted = ref(false);
 
     const getFileUrl = (path: string): string => {
+      console.log(path);
       return `${process.env.VUE_APP_STATIC_URL}/${path}`;
     };
 
@@ -98,6 +100,7 @@ export default defineComponent({
       await store.dispatch('normativeDocuments/getAll');
       await store.dispatch('normativeDocumentTypes/getAll');
       normativeDocumentTypes.value = store.getters['normativeDocumentTypes/types'];
+      mounted.value = true;
     });
 
     const collapseChangeHandler = () => {
@@ -115,6 +118,7 @@ export default defineComponent({
       openModal,
       filter,
       collapseChangeHandler,
+      mounted,
     };
   },
 });

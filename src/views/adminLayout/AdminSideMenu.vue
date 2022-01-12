@@ -177,6 +177,11 @@ export default defineComponent({
         icon: 'el-icon-time',
       },
       {
+        title: 'Раздел документы',
+        to: '/admin/public-document-types',
+        icon: 'el-icon-document',
+      },
+      {
         title: 'Структура сайта',
         to: '/',
         icon: 'el-icon-data-board',

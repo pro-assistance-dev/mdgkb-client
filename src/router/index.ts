@@ -3,6 +3,7 @@ import { createRouter, createWebHistory, NavigationGuardNext, RouteRecordRaw } f
 import AboutPage from '@/components/About/AboutPage.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
+import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
 import DonorRules from '@/components/DonorRules/DonorRules.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
@@ -124,6 +125,11 @@ const routes: Array<RouteRecordRaw> = [
       isAuthorized(next);
     },
   },
+  {
+    path: '/public-documents',
+    name: 'PublicDocumentsList',
+    component: PublicDocumentsList,
+  },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
   ...DivisionsRoutes,
@@ -151,6 +157,9 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+router.beforeEach(() => {
+  window.scrollTo(0, 0);
 });
 
 // router.beforeEach(isAuthorized);
