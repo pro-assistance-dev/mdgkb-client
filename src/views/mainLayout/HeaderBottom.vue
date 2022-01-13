@@ -84,8 +84,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
@@ -100,6 +100,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
@@ -112,8 +113,11 @@ export default defineComponent({
 
     const login = () => store.commit('auth/openModal', true);
     const register = () => store.commit('auth/openModal');
-    const logout = async () => await store.dispatch('auth/logout');
-    const isAuth = computed(() => store.getters['auth/isAuth']);
+    const logout = async () => {
+      const curRoute = route.name;
+      await router.push(curRoute as string);
+      await store.dispatch('auth/logout');
+    };
 
     const handleScroll = () => {
       if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
@@ -151,7 +155,6 @@ export default defineComponent({
       login,
       register,
       logout,
-      isAuth,
       nav,
       tabletWindow,
       mobileWindow,

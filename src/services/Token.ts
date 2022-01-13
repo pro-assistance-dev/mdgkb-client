@@ -1,9 +1,18 @@
 import ITokens from '@/interfaces/ITokens';
 
 const TokenService = (() => {
+  function _isAuth(): boolean {
+    const token = _getAccessToken();
+    return !(!token || token === 'undefined');
+  }
+
   function _setToken(tokenObj: ITokens) {
-    localStorage.setItem('access_token', tokenObj.accessToken);
-    localStorage.setItem('refresh_token', tokenObj.refreshToken);
+    if (tokenObj.accessToken) {
+      localStorage.setItem('access_token', tokenObj.accessToken);
+    }
+    if (tokenObj.refreshToken) {
+      localStorage.setItem('refresh_token', tokenObj.refreshToken);
+    }
   }
   function _getAccessToken() {
     return localStorage.getItem('access_token');
@@ -16,6 +25,7 @@ const TokenService = (() => {
     localStorage.removeItem('refresh_token');
   }
   return {
+    isAuth: _isAuth,
     setTokens: _setToken,
     getAccessToken: _getAccessToken,
     getRefreshToken: _getRefreshToken,

@@ -54,6 +54,7 @@ export default defineComponent({
     const filterNews = async (tag: ITag): Promise<void> => {
       await store.dispatch('news/addFilterTag', tag);
       await store.dispatch('tags/filterTagList', filterTags.value);
+      await store.dispatch('news/getAll');
     };
 
     return {
