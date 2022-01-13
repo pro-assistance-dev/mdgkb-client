@@ -22,6 +22,18 @@
       {{ tag.label }}
     </el-tag>
   </el-card>
+  <div class="filter-for-tags">
+    <div class="filter-for-tags-title">
+      <div class="filter-for-tags-title-child">Фильтры&nbsp;по&nbsp;тэгам</div>
+      <div class="filter-for-tags-title-child"><button class="filter-for-tags-reset">Сбросить&nbsp;все</button></div>
+    </div>
+    <div class="filter-for-tags-button">
+      <div class="filter-for-tags-button-child"><button class="filter-button">Здоровье</button></div>
+      <div class="filter-for-tags-button-child"><button class="filter-button">Важное</button></div>
+      <div class="filter-for-tags-button-child"><button class="filter-button">Событие</button></div>
+      <div class="filter-for-tags-button-child"><button class="filter-button">Мероприятие</button></div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -87,5 +99,72 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.filter-for-tags {
+  margin-top: 20px;
+  background: #ffffff;
+  border: none;
+  border-radius: 5px;
+}
+
+.filter-for-tags-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  border-bottom: #e3e8f0 solid 1px;
+}
+
+.filter-for-tags-title-child {
+  font-family: roboto;
+  font-size: 0.9rem;
+  color: #888888;
+  display: inline;
+  padding: 10px 15px 10px 15px;
+}
+
+.filter-for-tags-reset {
+  background: #bfbfbf;
+  height: 20px;
+  border-radius: 10px;
+  border: none;
+  font-family: roboto;
+  font-size: 0.8rem;
+  color: #ffffff;
+  &:hover {
+    background-color: #888888;
+  }
+}
+
+.filter-for-tags-button {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding-left: 15px;
+  flex-flow: row wrap;
+  padding: 8px 15px 15px 15px;
+}
+
+.filter-for-tags-button-child {
+  display: flex;
+  margin-top: 7px;
+}
+
+.filter-button {
+  height: 24px;
+  background-color: #ffffff;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  margin-right: 12px;
+  padding-right: 10px;
+  padding-left: 10px;
+  transition: all 0.2s;
+  color: #2754eb;
+  border: #2754eb solid 1px;
+  border-radius: 5px;
+  &:hover {
+    background-color: #2754eb;
+    color: white;
+  }
 }
 </style>

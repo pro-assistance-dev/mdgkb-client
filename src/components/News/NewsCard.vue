@@ -1,7 +1,20 @@
 <template>
   <el-card class="card" :body-style="{ padding: '0px', height: '100%' }" @click="$router.push(`/news/${news.slug}`)">
     <div class="flex-between-columm front">
-      <div class="tags tags-top">
+      <div class="image">
+        <div>
+          <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
+          <img v-else src="../../assets/img/310x310.png" />
+        </div>
+      </div>
+      <div class="tags">
+        <NewsMeta :news="news" />
+      </div>
+      <div class="card-content">
+        <div class="title">{{ news.title }}</div>
+        <div class="text" v-html="news.content"></div>
+      </div>
+      <div class="tags tags-buttom">
         <el-tag
           v-for="newsToTag in news.newsToTags.slice(0, 3)"
           :key="newsToTag.id"
@@ -12,19 +25,6 @@
         >
           {{ newsToTag.tag.label }}
         </el-tag>
-      </div>
-
-      <div class="image">
-        <div>
-          <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
-          <img v-else src="../../assets/img/310x310.png" />
-        </div>
-      </div>
-      <div class="card-content">
-        <div>{{ news.title }}</div>
-      </div>
-      <div class="tags">
-        <NewsMeta :news="news" />
       </div>
     </div>
   </el-card>
@@ -66,8 +66,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 $card-border-radius: 15px;
-$card-content-padding: 10px;
-$card-content-outpadding: 0 - 24px;
+$card-content-padding: 15px;
+$card-content-outpadding: 0px;
 $card-width: 300px;
 
 .card {
@@ -110,14 +110,22 @@ $card-width: 300px;
   }
 
   .card-content {
-    padding: $card-content-padding;
-    height: 100%;
+    padding-left: $card-content-padding;
+    padding-right: $card-content-padding;
+    max-height: 200px;
+    overflow: hidden;
+    overflow-wrap: break-word;
 
     .title {
       font-size: 1.1rem;
-      font-weight: bold;
-      height: 50%;
-      margin-bottom: 20px;
+      font-weight: normal;
+      color: #343e5c;
+    }
+
+    .text {
+      font-size: 0.9rem;
+      font-weight: normal;
+      color: #a1a7bd;
     }
   }
 }
@@ -145,7 +153,8 @@ $card-width: 300px;
   .tags {
     padding-left: $card-content-padding;
     padding-right: $card-content-padding;
-    margin-bottom: $card-content-padding;
+    padding-bottom: $card-content-padding;
+    padding-top: $card-content-padding;
   }
 
   .tags-top {
@@ -157,13 +166,15 @@ $card-width: 300px;
 
 .tags {
   .tag-link {
-    margin: 2px;
+    margin-right: 12px;
+    padding-right: 10px;
+    padding-left: 10px;
     transition: all 0.2s;
-    color: blue;
-    border-color: blue;
-    border-radius: 20px;
+    color: #2754eb;
+    border-color: #2754eb;
+    border-radius: 5px;
     &:hover {
-      background-color: blue;
+      background-color: #2754eb;
       color: white;
       cursor: pointer;
     }
@@ -216,5 +227,11 @@ $card-width: 300px;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
+}
+
+.tags-buttom {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  min-height: 24px;
 }
 </style>

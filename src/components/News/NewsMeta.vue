@@ -93,13 +93,10 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #4a4a4a;
+  color: #a1a7bd;
   font-size: 16px;
   margin-bottom: 10px;
   opacity: 0.75;
-  div {
-    padding: 0 5px;
-  }
 }
 
 .icon {
