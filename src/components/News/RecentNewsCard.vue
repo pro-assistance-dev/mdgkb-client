@@ -6,7 +6,7 @@
           <h3>Читайте также</h3>
         </template>
         <template #default="scope">
-          <div class="recent-news-item" @click="$router.push(`/news/${scope.row.slug}`)">
+          <div class="recent-news-item" @click="getNewsAndRecent(scope.row.slug)">
             <div class="item-title">{{ scope.row.title }}</div>
             <div class="item-footer">
               <div class="icon">
@@ -25,10 +25,10 @@
 <script lang="ts">
 import { EyeOutlined } from '@ant-design/icons-vue';
 import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import INews from '@/interfaces/news/INews';
-import INewsParams from '@/interfaces/news/INewsParams';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 
 export default defineComponent({
@@ -39,25 +39,32 @@ export default defineComponent({
     const store = useStore();
     const recentNewsList = computed(() => store.getters['news/news'].filter((item: INews) => item.id !== news.value.id));
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
-
+    const router = useRouter();
     onBeforeMount(async () => {
-      const params: INewsParams = {
-        limit: 5,
-        orderByView: true,
-      };
+      // const params: INewsParams = {
+      //   limit: 5,
+      //   orderByView: true,
+      // };
       let filterTags: string[] = [];
       news.value.newsToTags.forEach((newsToTag: INewsToTag) => {
         if (newsToTag.tagId) {
           filterTags.push(newsToTag.tagId);
         }
       });
-      if (filterTags.length) {
-        params.filterTags = filterTags;
-      }
-      await store.dispatch('news/getAll', params);
+      // if (filterTags.length) {
+      //   params.filterTags = filterTags;
+      // }
+      // await store.dispatch('news/getAll', params);
+      // await store.dispatch('news/getAll');
     });
 
+    const getNewsAndRecent = async (slug: string): Promise<void> => {
+      await router.push(`/news/${slug}`);
+      await store.dispatch('news/getAll');
+    };
+
     return {
+      getNewsAndRecent,
       recentNewsList,
     };
   },

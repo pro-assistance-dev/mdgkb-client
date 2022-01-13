@@ -38,7 +38,7 @@
               effect="plain"
               class="tag-link"
               size="small"
-              @click.stop="filterNews(newsToTag.tag.id)"
+              @click.stop="filterNews(newsToTag.tag)"
             >
               {{ newsToTag.tag.label }}
             </el-tag>
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -68,6 +68,9 @@ import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
+import INews from '@/interfaces/news/INews';
+import ITag from '@/interfaces/news/ITag';
+import router from '@/router';
 
 export default defineComponent({
   name: 'NewsList',
@@ -79,7 +82,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const slug = computed(() => route.params['slug']);
-    const news = computed(() => store.getters['news/newsItem']);
+    const news: ComputedRef<INews> = computed<INews>(() => store.getters['news/newsItem']);
 
     watch(slug, () => {
       if (slug.value) {
@@ -87,8 +90,12 @@ export default defineComponent({
         window.scrollTo(0, 0);
       }
     });
-    await store.dispatch('news/get', slug.value);
-    await store.dispatch('news/getAll', news.value.publishedOn);
+
+    onBeforeMount(async () => {
+      await store.dispatch('news/get', slug.value);
+      await store.dispatch('news/getAll');
+    });
+
     const newsContent = computed(() =>
       news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'
     );
@@ -97,7 +104,13 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
+    const filterNews = async (tag: ITag): Promise<void> => {
+      await store.dispatch('news/addFilterTag', tag);
+      await router.push('/news');
+    };
+
     return {
+      filterNews,
       rules,
       comment,
       news,
@@ -246,5 +259,13 @@ h3 {
 
 .event-registration-button {
   margin: 15px 0;
+}
+
+.tag-link {
+  &:hover {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+  }
 }
 </style>

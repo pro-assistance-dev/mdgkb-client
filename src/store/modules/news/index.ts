@@ -3,6 +3,7 @@ import { Module } from 'vuex';
 import EventApplication from '@/classes/news/EventApplication';
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
+import NewsParams from '@/classes/NewsParams';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -26,6 +27,8 @@ export const getDefaultState = (): State => {
     comment: new NewsComment(),
     eventMode: false,
     eventApplication: new EventApplication(),
+    params: new NewsParams(),
+    count: 0,
   };
 };
 

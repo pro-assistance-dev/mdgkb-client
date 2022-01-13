@@ -40,14 +40,17 @@ export default defineComponent({
     const tagListVisible = ref(false);
     const removeFilterTag = async (id: string) => {
       await store.dispatch('news/removeFilterTag', id);
+      await store.dispatch('news/getAll');
       await store.dispatch('tags/filterTagList', filterTags.value);
     };
     const addFilterTag = async (tag: ITag): Promise<void> => {
       await store.dispatch('news/addFilterTag', tag);
+      await store.dispatch('news/getAll');
       await store.dispatch('tags/filterTagList', filterTags.value);
     };
     const resetFilterTags = async () => {
       await store.dispatch('news/resetFilterTags');
+      await store.dispatch('news/getAll');
       await store.dispatch('tags/filterTagList', filterTags.value);
     };
     const loadTagList = async () => {

@@ -24,6 +24,7 @@ import PaidProgramsRoutes from '@/router/PaidProgramsRoutes';
 import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
+import TokenService from '@/services/Token';
 import MainLayout from '@/views/main/MainLayout.vue';
 
 import store from '../store/index';
@@ -37,8 +38,7 @@ export const isAuthorized = (next: NavigationGuardNext): void => {
 };
 
 export const authGuard = (): void => {
-  const user = localStorage.getItem('user');
-  if (!user) {
+  if (!TokenService.isAuth()) {
     router.push('/');
   }
 };

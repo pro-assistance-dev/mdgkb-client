@@ -85,7 +85,9 @@ export default defineComponent({
     });
 
     const submitForm = async (): Promise<void> => {
-      if (!validate(myForm)) return;
+      if (!validate(myForm, true)) {
+        return;
+      }
       try {
         if (isLogin.value) {
           await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });

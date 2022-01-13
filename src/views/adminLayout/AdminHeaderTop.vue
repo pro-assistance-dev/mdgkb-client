@@ -49,7 +49,7 @@ export default defineComponent({
 
     const logout = async () => {
       await store.dispatch('auth/logout');
-      await router.push('/news');
+      await router.push('/');
     };
 
     return { collapseSideMenu, openDrawer, logout };

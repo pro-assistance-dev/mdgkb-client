@@ -13,50 +13,50 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileInfoPage',
     component: ProfileInfoPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
       authGuard();
+      if (next) isAuthorized(next);
     },
-    meta: { profile: true },
+    meta: { protected: true, profile: true },
   },
   {
     path: '/profile/edit',
     name: 'ProfileEditPage',
     component: ProfileEditPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
       authGuard();
+      if (next) isAuthorized(next);
     },
-    meta: { profile: true },
+    meta: { protected: true, profile: true },
   },
   {
     path: '/profile/questions',
     name: 'ProfileQuestions',
     component: ProfileQuestionPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
       authGuard();
+      if (next) isAuthorized(next);
     },
-    meta: { profile: true },
+    meta: { protected: true, profile: true },
   },
   {
     path: '/profile/donor',
     name: 'ProfileDonor',
     component: ProfileDonor,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
       authGuard();
+      if (next) isAuthorized(next);
     },
-    meta: { profile: true },
+    meta: { protected: true, profile: true },
   },
   {
     path: '/profile/children',
     name: 'ProfileChildren',
     component: ProfileChildrenPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
       authGuard();
+      isAuthorized(next);
     },
-    meta: { profile: true },
+    meta: { protected: true, profile: true },
   },
 ];
 
