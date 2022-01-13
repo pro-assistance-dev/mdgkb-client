@@ -13,9 +13,16 @@
   </div>
   <div v-if="newsPage" class="card-meta share">
     <div>Поделиться:</div>
-    <FacebookOutlined />
-    <InstagramOutlined />
-    <TwitterOutlined />
+    <ShareNetwork
+      v-for="share in shares"
+      :key="share.name"
+      :network="share.name"
+      :url="getUrl()"
+      :title="news.title"
+      :description="news.title"
+    >
+      <component :is="share.icon" class="anticon" :icon="['fab', 'vk']"></component>
+    </ShareNetwork>
   </div>
 </template>
 
@@ -29,7 +36,6 @@ import NewsLike from '@/classes/news/NewsLike';
 import INews from '@/interfaces/news/INews';
 import INewsLike from '@/interfaces/news/INewsLike';
 import TokenService from '@/services/Token';
-
 export default defineComponent({
   name: 'NewsMeta',
   components: { LikeOutlined, LikeFilled, EyeOutlined, FacebookOutlined, InstagramOutlined, TwitterOutlined },
@@ -40,10 +46,17 @@ export default defineComponent({
     },
     newsPage: { type: Boolean },
   },
-  async setup() {
+  async setup(props) {
     const store = useStore();
     const user = computed(() => store.getters['auth/user']);
     const isAuth = computed(() => store.getters['auth/isAuth']);
+
+    const shares = [
+      { name: 'facebook', icon: 'FacebookOutlined' },
+      { name: 'twitter', icon: 'TwitterOutlined' },
+      { name: 'VK', icon: 'font-awesome-icon' },
+    ];
+
     const createLike = async (news: INews): Promise<void> => {
       const token = TokenService.getAccessToken();
       if (!token) {
@@ -79,7 +92,14 @@ export default defineComponent({
       return i > -1;
     };
 
+    const getUrl = (): string => {
+      const host = process.env.VUE_APP_API_HOST;
+      return `${host}/news/${props.news.slug}`;
+    };
+
     return {
+      shares,
+      getUrl,
       liked,
       createLike,
       deleteLike,
@@ -121,6 +141,13 @@ export default defineComponent({
 
 .anticon-like:hover {
   transform: scale(1.2);
+}
+
+.anticon {
+  color: #4a4a4a;
+  &:hover {
+    transform: scale(1.1);
+  }
 }
 
 .liked {

@@ -14,10 +14,22 @@ import { useStore } from 'vuex';
 import fillDateFormat from '@/services/DateFormat';
 
 const app = createApp(App);
+import VueSocialSharing from 'vue-social-sharing';
 
 app.config.globalProperties.$dateFormatRu = fillDateFormat;
 app.config.globalProperties.$store = useStore();
 app.config.globalProperties.$sanitize = sanitizeHTML;
+
+app.use(VueSocialSharing);
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faVk } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faVk);
+
+app.component('FontAwesomeIcon', FontAwesomeIcon);
+
 app.use(store);
 app.use(router);
 app.use(setupElementPlusComponents);

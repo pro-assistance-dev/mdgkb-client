@@ -20,6 +20,9 @@ const mutations: MutationTree<State> = {
   setStoreModule(state, storeModule: string) {
     state.storeModule = storeModule;
   },
+  setAction(state, action: string) {
+    state.action = action;
+  },
   setOffset(state, offset: number) {
     state.filterQuery.offset = offset;
   },
