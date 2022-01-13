@@ -312,7 +312,7 @@ export default defineComponent({
 .drawer {
   display: none;
 }
-@media screen and (max-width: 1650px) {
+@media screen and (max-width: 980px) {
   .menu-container-center {
     display: none;
   }
