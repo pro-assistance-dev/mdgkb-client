@@ -20,12 +20,8 @@ const httpClient = new HttpClient('news');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit, state }): Promise<void> => {
-    // if (state.filterTags.length > 0) {
-    //   state.news = [];
-    // }
-    commit('setFilteredNews');
     state.params.filterTags = state.filterTags.map((tag: ITag) => tag.id);
-    if (state.news.length) {
+    if (state.news[state.news.length - 1]) {
       state.params.publishedOn = state.news[state.news.length - 1].publishedOn;
     } else {
       state.params.publishedOn = undefined;

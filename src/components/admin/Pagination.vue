@@ -23,6 +23,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const storeModule: string = store.getters['filter/storeModule'];
+    const action: string = store.getters['filter/action'];
 
     const count: Ref<number> = computed(() => store.getters[`${storeModule}/count`]);
     const curPage: Ref<number> = computed(() => store.getters['pagination/curPage']);
@@ -34,7 +35,7 @@ export default defineComponent({
       });
       store.commit('pagination/setCurPage', pageNum);
       store.commit('filter/setOffset', pageNum - 1);
-      await store.dispatch(`${storeModule}/getAll`, store.getters['filter/filterQuery']);
+      await store.dispatch(`${storeModule}/${action}`, store.getters['filter/filterQuery']);
       const div = document.getElementsByClassName('el-table__body-wrapper');
       div[0].scrollTop = 0;
       loading.close();

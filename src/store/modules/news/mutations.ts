@@ -21,13 +21,13 @@ import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
-    if (items.length === 0) {
-      state.allNewsLoaded = true;
-      return;
-    }
     state.allNewsLoaded = false;
     const news = items.map((i: INews) => new News(i));
     state.news.push(...news);
+    if (items.length === 0 || (state.params.limit && state.params.limit > items.length)) {
+      state.allNewsLoaded = true;
+      return;
+    }
   },
   clearNews(state) {
     state.news = [];
@@ -113,6 +113,7 @@ const mutations: MutationTree<State> = {
       if (state.newsItem.id) {
         newsToTag.newsId = state.newsItem.id;
       }
+      newsToTag.tagId = tag.id;
       state.newsItem.newsToTags.push(newsToTag);
       newsToTag.tag = tag;
       return;

@@ -60,7 +60,7 @@ export default defineComponent({
     const loadMore = async () => {
       loading.value = true;
       await store.dispatch('news/getAll');
-      store.commit('news/setFilteredNews');
+      // store.commit('news/setFilteredNews');
     };
 
     return {

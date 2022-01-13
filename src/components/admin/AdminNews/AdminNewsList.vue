@@ -80,6 +80,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       store.commit('filter/setStoreModule', 'news');
+      store.commit('filter/setAction', 'getAllAdmin');
       await loadNews();
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');

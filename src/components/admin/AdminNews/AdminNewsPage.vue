@@ -29,10 +29,10 @@
           <el-container direction="vertical">
             <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
             <el-card>
-              <template #header>Статус</template>
+              <template #header>Время и статус публикации</template>
               <el-space direction="vertical" alignment="start" :size="10">
                 <el-form-item prop="publishedOn">
-                  <el-date-picker v-model="news.publishedOn" format="DD.MM.YYYY H:m:s" type="datetime" placeholder="Дата публикации" />
+                  <el-date-picker v-model="news.publishedOn" format="DD.MM.YYYY HH:mm" type="datetime" placeholder="Дата публикации" />
                 </el-form-item>
               </el-space>
             </el-card>

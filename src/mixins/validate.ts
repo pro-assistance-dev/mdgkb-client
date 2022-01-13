@@ -2,7 +2,6 @@ import { ElMessage } from 'element-plus';
 import { Ref } from 'vue';
 
 import MessageError from '@/classes/messages/MessageError';
-import MessageSuccess from '@/classes/messages/MessageSuccess';
 import IForm from '@/interfaces/elements/IForm';
 
 export default function validate(form: Ref<IForm>, ignoreSuccess?: boolean): boolean {
@@ -15,9 +14,6 @@ export default function validate(form: Ref<IForm>, ignoreSuccess?: boolean): boo
       ElMessage.error(new MessageError(errorFields));
       validationResult = false;
       return false;
-    }
-    if (!ignoreSuccess) {
-      ElMessage(new MessageSuccess());
     }
     return true;
   });

@@ -4,7 +4,7 @@ import ITag from '@/interfaces/news/ITag';
 
 export default class NewsToTag implements INewsToTag {
   id?: string;
-  tagId = '';
+  tagId?: string;
   tag: ITag = new Tag();
   newsId?: string;
 

@@ -18,8 +18,8 @@ const getters: GetterTree<State, RootState> = {
     }
     return state.filterQuery;
   },
-  storeAction(state): string {
-    return state.storeAction;
+  action(state): string {
+    return state.action;
   },
 };
 
