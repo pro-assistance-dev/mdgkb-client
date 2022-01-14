@@ -74,7 +74,6 @@ export default defineComponent({
 }
 .main-carousel-container {
   margin-top: 5px !important;
-  max-width: 1920px;
   margin: 0 auto;
 }
 </style>
