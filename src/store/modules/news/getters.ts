@@ -7,6 +7,7 @@ import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import IEventApplication from '@/interfaces/news/IEventApplication';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
+import INewsImage from '@/interfaces/news/INewsImage';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ITag from '@/interfaces/news/ITag';
 import RootState from '@/store/types';
@@ -62,6 +63,9 @@ const getters: GetterTree<State, RootState> = {
   },
   eventApplication(state): IEventApplication {
     return state.eventApplication;
+  },
+  galleryListV2(state): INewsImage[] {
+    return state.newsItem.newsImages;
   },
 };
 

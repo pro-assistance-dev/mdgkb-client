@@ -221,6 +221,14 @@ const mutations: MutationTree<State> = {
   setEventMode(state, eventMode: boolean) {
     state.eventMode = eventMode;
   },
+  updateGalleryImageDescription(state, file: INewsImage) {
+    state.newsItem.newsImages.map((item: INewsImage) => {
+      if (item.id === file.id) {
+        item.description = file.description;
+      }
+      return item;
+    });
+  },
 };
 
 export default mutations;
