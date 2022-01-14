@@ -13,10 +13,13 @@ const getters: GetterTree<State, RootState> = {
     return state.storeModule;
   },
   filterQuery(state): IFilterQuery {
+    if (!state.filterQuery.limit) {
+      state.filterQuery.limit = 25;
+    }
     return state.filterQuery;
   },
-  storeAction(state): string {
-    return state.storeAction;
+  action(state): string {
+    return state.action;
   },
 };
 

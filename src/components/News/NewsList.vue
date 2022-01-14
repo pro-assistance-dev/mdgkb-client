@@ -11,15 +11,7 @@
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
         <el-row>
-          <el-col
-            v-for="item in filteredNews"
-            :key="item.id"
-            :xl="8"
-            :lg="8"
-            :md="12"
-            :sm="12"
-            :style="{ padding: '10px', display: 'flex' }"
-          >
+          <el-col v-for="item in news" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12" :style="{ padding: '10px', display: 'flex' }">
             <div style="margin: 0 auto">
               <NewsCard :news="item" />
             </div>
@@ -41,8 +33,6 @@ import NewsFilters from '@/components/News/NewFilters.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
-import INewsParams from '@/interfaces/news/INewsParams';
-import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsList',
@@ -52,15 +42,13 @@ export default defineComponent({
     const store = useStore();
     const loading = ref(false);
     const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
-    const filteredNews = computed(() => store.getters['news/filteredNews']);
-    const filterTags = computed(() => store.getters['news/filterTags']);
     const mount = ref(false);
 
-    const defaultParams: INewsParams = { limit: 6 };
     const news = computed(() => store.getters['news/news']);
 
     const loadNews = async () => {
-      await store.dispatch('news/getAll', defaultParams);
+      store.commit('news/clearNews');
+      await store.dispatch('news/getAll');
       store.commit('news/setFilteredNews');
     };
 
@@ -71,13 +59,8 @@ export default defineComponent({
 
     const loadMore = async () => {
       loading.value = true;
-      const params: INewsParams = {
-        publishedOn: news.value[news.value.length - 1].publishedOn,
-        limit: 6,
-        filterTags: filterTags.value.map((tag: ITag) => tag.id),
-      };
-      await store.dispatch('news/getAll', params);
-      store.commit('news/setFilteredNews');
+      await store.dispatch('news/getAll');
+      // store.commit('news/setFilteredNews');
     };
 
     return {
@@ -86,7 +69,6 @@ export default defineComponent({
       loadMore,
       loadNews,
       news,
-      filteredNews,
       mount,
     };
   },

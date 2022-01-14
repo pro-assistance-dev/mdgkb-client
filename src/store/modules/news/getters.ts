@@ -18,6 +18,9 @@ const getters: GetterTree<State, RootState> = {
   news(state): INews[] | undefined {
     return state.news;
   },
+  count(state): number {
+    return state.count;
+  },
   filteredNews(state): INews[] | undefined {
     return state.filteredNews;
   },

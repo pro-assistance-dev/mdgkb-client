@@ -135,10 +135,10 @@ export default defineComponent({
 }
 
 .icon {
-  //   fill: #ffffff;
-  //display: flex;
-  //align-items: center;
-  //color: black;
+  fill: #ffffff;
+  display: flex;
+  align-items: center;
+  color: black;
 }
 
 .menu-img {

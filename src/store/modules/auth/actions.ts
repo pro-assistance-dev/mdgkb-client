@@ -28,7 +28,7 @@ const actions: ActionTree<State, RootState> = {
     commit('setUser', newUser);
     commit('setIsAuth', true);
   },
-  logout: async ({ commit }): Promise<void> => {
+  logout: async ({ commit, state }): Promise<void> => {
     TokenService.clearTokens();
     commit('setIsAuth', false);
   },

@@ -31,7 +31,10 @@
 <script lang="ts">
 import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+
+import { authGuard } from '@/router';
 
 export default defineComponent({
   name: 'LoginDropdownMenu',
@@ -40,11 +43,20 @@ export default defineComponent({
 
   async setup() {
     const store = useStore();
+    const router = useRouter();
+    const route = useRoute();
     const login = () => store.commit('auth/openModal', true);
     const register = () => store.commit('auth/openModal');
+
     const logout = async () => {
       await store.dispatch('auth/logout');
+      const curRoute = route.name;
+      const rr = router.options.routes.find((r) => r.name === curRoute);
+      if (rr && rr.meta && rr.meta.protected) {
+        authGuard();
+      }
     };
+
     const isAuth = computed(() => store.getters['auth/isAuth']);
     const isLaptopWindowWidth: Ref<boolean> = ref(window.matchMedia('(max-width: 1024px)').matches);
 

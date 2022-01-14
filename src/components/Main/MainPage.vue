@@ -81,8 +81,6 @@ import NewsCard from '@/components/News/NewsCard.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IComment from '@/interfaces/comments/IComment';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import INewsParams from '@/interfaces/news/INewsParams';
-import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'MainPage',
@@ -93,18 +91,16 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref<boolean>(false);
     const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
     const filteredNews = computed(() => store.getters['news/filteredNews']);
-    const filterTags = computed(() => store.getters['news/filterTags']);
 
     const divisions: Ref<IDivision[]> = ref([]);
     const selectedDivision = computed(() => store.getters['divisions/division']);
     const doctors = computed(() => store.getters['doctors/items']);
     const divisionFilter = ref('');
-    const defaultParams: INewsParams = { limit: 3 };
     const news = computed(() => store.getters['news/news']);
     const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
 
     const loadNews = async () => {
-      await store.dispatch('news/getAll', defaultParams);
+      await store.dispatch('news/getAll');
       await store.commit('news/setFilteredNews');
     };
 
@@ -118,12 +114,12 @@ export default defineComponent({
 
     const loadMore = async () => {
       loading.value = true;
-      const params: INewsParams = {
-        publishedOn: news.value[news.value.length - 1].publishedOn,
-        limit: 6,
-        filterTags: filterTags.value.map((tag: ITag) => tag.id),
-      };
-      await store.dispatch('news/getAll', params);
+      // const params: INewsParams = {
+      //   publishedOn: news.value[news.value.length - 1].publishedOn,
+      //   limit: 6,
+      //   filterTags: filterTags.value.map((tag: ITag) => tag.id),
+      // };
+      await store.dispatch('news/getAll');
       await store.commit('news/setFilteredNews');
     };
 

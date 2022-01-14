@@ -1,9 +1,5 @@
 <template>
   <div class="flex-column">
-    <!-- <div class="flex-row-between"> -->
-    <!-- <el-button type="primary" @click="$router.push('/admin/news/new')">Добавить новость</el-button> -->
-    <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
-    <!-- </div> -->
     <el-card>
       <el-table v-if="news" :data="news">
         <el-table-column prop="title" label="Заголовок" sortable width="500px"> </el-table-column>
@@ -35,7 +31,7 @@
       </el-table>
     </el-card>
     <div class="flex-row-end">
-      <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
+      <Pagination />
     </div>
   </div>
 </template>
@@ -45,13 +41,13 @@ import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import INews from '@/interfaces/news/INews';
-import INewsParams from '@/interfaces/news/INewsParams';
 
 export default defineComponent({
   name: 'AdminNewsList',
-  components: { TableButtonGroup },
+  components: { TableButtonGroup, Pagination },
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -71,8 +67,10 @@ export default defineComponent({
     };
 
     const loadNews = async (): Promise<void> => {
-      const defaultParams: INewsParams = { limit: 100 };
-      await store.dispatch('news/getAll', defaultParams);
+      store.commit('news/clearNews');
+      const filter = store.getters['filter/filterQuery'];
+      filter.limit = 25;
+      await store.dispatch('news/getAllAdmin', filter);
       store.commit('admin/setHeaderParams', {
         title: 'Новости',
         buttons: [{ text: 'Добавить новость', type: 'primary', action: addNews }],
@@ -81,7 +79,10 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
+      store.commit('filter/setStoreModule', 'news');
+      store.commit('filter/setAction', 'getAllAdmin');
       await loadNews();
+      store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
     });
 

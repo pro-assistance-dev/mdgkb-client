@@ -1,26 +1,45 @@
 <template>
-  <div v-for="rule in donorRules" :key="rule.id">
-    <div>
-      <div v-if="rule.isFavourite()">В избранном</div>
-      <el-input v-model="rule.name" />
-      <el-button size="medium" icon="el-icon-user" @click="addToUser(rule)" />
-      <img :src="rule.image.getFileUrl()" alt="" />
-    </div>
+  <div class="wrapper">
+    <el-card v-for="rule in donorRules" :key="rule.id" class="donor-card">
+      <div class="flex-column">
+        <div class="flex-row">
+          <div class="donor-img-container">
+            <img v-if="rule.image.fileSystemPath" :src="rule.image.getImageUrl()" alt="alt" @error="errorImg" @click="showRule(rule)" />
+            <img v-else src="@/assets/img/310x310.png" />
+          </div>
+          <div class="flex-column">
+            <el-icon @click="addToUser(rule)"><Star /></el-icon>
+          </div>
+        </div>
+        <!--      <span>Отделение: {{ division.name }}</span>-->
+        <!--      <span>Образование: {{ donor.education }}</span>-->
+      </div>
+    </el-card>
   </div>
+
+  <el-dialog v-model="visible" width="40%" :top="'5vh'" lock-scroll="true">
+    <div class="scale-image-container">
+      <img v-if="currentRule.image.fileSystemPath" class="scale-image" :src="currentRule.image.getImageUrl()" alt="alt" @error="errorImg" />
+    </div>
+  </el-dialog>
 </template>
 
 <script lang="ts">
+import { Star } from '@element-plus/icons-vue';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import DonorRule from '@/classes/DonorRule';
 import IDonorRule from '@/interfaces/IDonorRule';
 export default defineComponent({
   name: 'DonorRules',
+  components: { Star },
   setup() {
     const store = useStore();
     const donorRules: ComputedRef<IDonorRule[]> = computed(() => store.getters['donorRules/donorRules']);
+    const currentRule: Ref<IDonorRule> = ref(new DonorRule());
     const mounted: Ref<boolean> = ref(false);
-
+    const visible: Ref<boolean> = ref(false);
     const addToUser = async (rule: IDonorRule) => {
       if (rule.isFavourite()) {
         rule.removeFavourite();
@@ -35,57 +54,67 @@ export default defineComponent({
       await store.dispatch('donorRules/getAll');
     });
 
+    const showRule = (rule: IDonorRule) => {
+      currentRule.value = rule;
+      visible.value = !visible.value;
+    };
+
     return {
+      currentRule,
       addToUser,
       mounted,
       donorRules,
+      visible,
+      showRule,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.groups {
+.wrapper {
   display: flex;
   flex-wrap: wrap;
 }
-
-.menu-show {
-  height: 150px;
-  width: 120px;
-}
-.donorRules-flex {
-  display: flex;
-  flex-wrap: wrap;
-}
-.menu-card {
-  border: black 1px solid;
+.donor-card {
+  width: 30%;
+  border-radius: 15px;
   margin: 10px;
-  padding: 10px;
-}
-.menu-show {
-  border: black 1px solid;
-  margin: 10px;
-  padding: 10px;
-
-  &-body {
-    height: 80%;
-  }
-
-  &-footer {
-    display: flex;
-    height: 20%;
-    margin-bottom: 0;
-  }
+  color: #4a4a4a;
+  font-size: 14px;
 
   &:hover {
-    border: 2px;
     cursor: pointer;
-    background: #7a7a7a;
+    margin-top: 5px;
+  }
+
+  .donor-img-container {
+    margin: 0 10px 10px 0;
+    img {
+      width: 120px;
+    }
+  }
+  .donor-name {
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .flex-row {
+    display: flex;
+  }
+  .flex-column {
+    display: flex;
+    flex-direction: column;
   }
 }
 
-.menu-selected {
-  background: #0075b2;
+.scale-image-container {
+  width: 100%;
+  height: 100%;
+  //margin: 50px;
+}
+.scale-image {
+  width: 100%;
+  height: 100%;
 }
 </style>

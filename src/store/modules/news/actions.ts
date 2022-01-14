@@ -1,13 +1,14 @@
 import { ActionTree } from 'vuex';
 
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import INewsWithCount from '@/interfaces/INewsWithCount';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import IEventApplication from '@/interfaces/news/IEventApplication';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
-import INewsParams from '@/interfaces/news/INewsParams';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ITag from '@/interfaces/news/ITag';
 import HttpClient from '@/services/HttpClient';
@@ -18,33 +19,20 @@ import { State } from './state';
 const httpClient = new HttpClient('news');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }, params?: INewsParams): Promise<void> => {
-    let query = '';
-    if (params && params.limit) {
-      query = `?limit=${params.limit}`;
+  getAll: async ({ commit, state }): Promise<void> => {
+    state.params.filterTags = state.filterTags.map((tag: ITag) => tag.id);
+    if (state.news[state.news.length - 1]) {
+      state.params.publishedOn = state.news[state.news.length - 1].publishedOn;
+    } else {
+      state.params.publishedOn = undefined;
     }
-    if (params && params.limit && params.publishedOn) {
-      query = `?publishedOn=${params.publishedOn}&limit=${params.limit}`;
-    }
-    if (params && params.limit && params.publishedOn && params.filterTags?.length) {
-      query = `?publishedOn=${params.publishedOn}&limit=${params.limit}&filterTags=${params.filterTags}`;
-    }
-    if (params && params.limit && params.orderByView && !params.filterTags?.length) {
-      query = `?orderByView=true&limit=${params.limit}`;
-    }
-    if (params && params.limit && params.orderByView && params.filterTags?.length) {
-      query = `?orderByView=true&limit=${params.limit}&filterTags=${params.filterTags}`;
-    }
-    if (state.eventMode) {
-      query.length ? (query = `${query}&events=true`) : (query = '?events=true');
-    }
-    const res = await httpClient.get<{ data: INews[] }>({ query: query });
-    if (res && params && !params.publishedOn) {
-      commit('setAll', res);
-    }
-    if (res && params && params.publishedOn) {
-      commit('appendToAll', res);
-    }
+    const res = await httpClient.get<{ data: INews[] }>({ query: state.params.toUrl() });
+    commit('setAll', res);
+  },
+
+  getAllAdmin: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+    const query = `admin/${filterQuery.toUrl()}`;
+    commit('setAllAdmin', await httpClient.get<INewsWithCount[]>({ query: query }));
   },
   get: async ({ commit }, slug: string): Promise<void> => {
     const res = await httpClient.get<INews>({ query: `${slug}` });

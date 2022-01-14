@@ -7,6 +7,7 @@ import NewsImage from '@/classes/news/NewsImage';
 import NewsToTag from '@/classes/news/NewsToTag';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import INewsWithCount from '@/interfaces/INewsWithCount';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
@@ -20,16 +21,23 @@ import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: INews[]) {
-    state.news = items.map((i: INews) => new News(i));
-  },
-  appendToAll(state, items: INews[]) {
-    if (items.length === 0) {
-      state.allNewsLoaded = true;
-      return;
-    }
     state.allNewsLoaded = false;
     const news = items.map((i: INews) => new News(i));
     state.news.push(...news);
+    if (items.length === 0 || (state.params.limit && state.params.limit > items.length)) {
+      state.allNewsLoaded = true;
+      return;
+    }
+  },
+  clearNews(state) {
+    state.news = [];
+  },
+  count(state): number {
+    return state.count;
+  },
+  setAllAdmin(state, items: INewsWithCount) {
+    state.news = items.news.map((a: INews) => new News(a));
+    state.count = items.count;
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
@@ -45,6 +53,7 @@ const mutations: MutationTree<State> = {
         state.galleryList.push(file);
       }
     });
+    state.news = [];
   },
   resetState(state) {
     Object.assign(state, getDefaultState());
@@ -67,26 +76,32 @@ const mutations: MutationTree<State> = {
     if (!state.filterTags.some((i) => i.id === tag.id)) {
       state.filterTags.push(tag);
     }
+    state.news = [];
   },
   removeFilterTag(state, id: string) {
     const index = state.filterTags.findIndex((i: ITag) => i.id === id);
     state.filterTags.splice(index, 1);
+    state.news = [];
   },
   resetFilterTags(state) {
     state.filterTags = [];
+    state.news = [];
   },
   setFilteredNews(state) {
     if (!state.filterTags.length) {
-      state.filteredNews = state.news;
       return;
     }
-    state.filteredNews = state.news.filter((newsItem: INews) => {
+    const filteredNews = state.news.filter((newsItem: INews) => {
       return state.filterTags.every((tag) => {
         return newsItem.newsToTags.some((newsToTag: INewsToTag) => {
           return newsToTag.tagId === tag.id;
         });
       });
     });
+    if (filteredNews.length) {
+      state.news = filteredNews;
+    }
+    // state.params =
   },
   chooseTag(state, tag: ITag) {
     if (!state.newsItem || !state.newsItem.newsToTags) {
@@ -98,6 +113,7 @@ const mutations: MutationTree<State> = {
       if (state.newsItem.id) {
         newsToTag.newsId = state.newsItem.id;
       }
+      newsToTag.tagId = tag.id;
       state.newsItem.newsToTags.push(newsToTag);
       newsToTag.tag = tag;
       return;
@@ -220,6 +236,8 @@ const mutations: MutationTree<State> = {
   },
   setEventMode(state, eventMode: boolean) {
     state.eventMode = eventMode;
+    state.params.events = eventMode;
+    state.news = [];
   },
   updateGalleryImageDescription(state, file: INewsImage) {
     state.newsItem.newsImages.map((item: INewsImage) => {
