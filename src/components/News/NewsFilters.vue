@@ -1,37 +1,38 @@
 <template>
-  <el-card style="margin-top: 20px">
-    <template #header>
-      <div class="card-header">
-        <span>Фильтры</span>
-        <div style="display: flex">
-          <el-popover :width="200" :visible="tagListVisible">
-            <div class="popover-body">
-              <el-tag v-for="tag in filteredTagList" :key="tag.id" class="tag-list-item" @click="addFilterTag(tag)">
-                {{ tag.label }}
-              </el-tag>
-            </div>
-            <template #reference>
-              <el-button class="tag-link" size="small" icon="el-icon-plus" @click="tagListVisible = !tagListVisible"></el-button>
-            </template>
-          </el-popover>
-          <el-button class="tag-link" size="small" @click="resetFilterTags">Сбросить</el-button>
-        </div>
-      </div>
-    </template>
-    <el-tag v-for="tag in filterTags" :key="tag.id" effect="plain" class="tag-link" closable @close="removeFilterTag(tag.id)">
-      {{ tag.label }}
-    </el-tag>
-  </el-card>
+  <!--  <el-card style="margin-top: 20px">-->
+  <!--    <template #header>-->
+  <!--      <div class="card-header">-->
+  <!--        <span>Фильтры</span>-->
+  <!--        <div style="display: flex">-->
+  <!--          <el-popover :width="200" :visible="tagListVisible">-->
+  <!--            <div class="popover-body">-->
+  <!--              <el-tag v-for="tag in filteredTagList" :key="tag.id" class="tag-list-item" @click="addFilterTag(tag)">-->
+  <!--                {{ tag.label }}-->
+  <!--              </el-tag>-->
+  <!--            </div>-->
+  <!--            <template #reference>-->
+  <!--              <el-button class="tag-link" size="small" icon="el-icon-plus" @click="tagListVisible = !tagListVisible"></el-button>-->
+  <!--            </template>-->
+  <!--          </el-popover>-->
+  <!--          <el-button class="tag-link" size="small" @click="resetFilterTags">Сбросить</el-button>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--    </template>-->
+  <!--    <el-tag v-for="tag in filterTags" :key="tag.id" effect="plain" class="tag-link" closable @close="removeFilterTag(tag.id)">-->
+  <!--      {{ tag.label }}-->
+  <!--    </el-tag>-->
+  <!--  </el-card>-->
   <div class="filter-for-tags">
     <div class="filter-for-tags-title">
       <div class="filter-for-tags-title-child">Фильтры&nbsp;по&nbsp;тэгам</div>
-      <div class="filter-for-tags-title-child"><button class="filter-for-tags-reset">Сбросить&nbsp;все</button></div>
+      <div class="filter-for-tags-title-child">
+        <button class="filter-for-tags-reset" @click="resetFilterTags">Сбросить&nbsp;все</button>
+      </div>
     </div>
     <div class="filter-for-tags-button">
-      <div class="filter-for-tags-button-child"><button class="filter-button">Здоровье</button></div>
-      <div class="filter-for-tags-button-child"><button class="filter-button">Важное</button></div>
-      <div class="filter-for-tags-button-child"><button class="filter-button">Событие</button></div>
-      <div class="filter-for-tags-button-child"><button class="filter-button">Мероприятие</button></div>
+      <div v-for="tag in filteredTagList" :key="tag.id" class="filter-for-tags-button-child">
+        <button :class="{ 'tag-hovered': tag.selected }" class="filter-button" @click="chooseTag(tag)">{{ tag.label }}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -50,6 +51,7 @@ export default defineComponent({
     const tagList = computed(() => store.getters['tags/items']);
     const filteredTagList = computed(() => store.getters['tags/filteredTagList']);
     const tagListVisible = ref(false);
+
     const removeFilterTag = async (id: string) => {
       await store.dispatch('news/removeFilterTag', id);
       await store.dispatch('news/getAll');
@@ -68,8 +70,20 @@ export default defineComponent({
     const loadTagList = async () => {
       await store.dispatch('tags/getAll');
     };
+
+    const chooseTag = async (tag: ITag) => {
+      if (tag.selected) {
+        await store.dispatch('news/removeFilterTag', tag.id);
+      } else {
+        await store.dispatch('news/addFilterTag', tag);
+      }
+      tag.selected = !tag.selected;
+      await store.dispatch('news/getAll');
+    };
+
     onMounted(loadTagList);
     return {
+      chooseTag,
       addFilterTag,
       resetFilterTags,
       removeFilterTag,
@@ -163,8 +177,14 @@ export default defineComponent({
   border: #2754eb solid 1px;
   border-radius: 5px;
   &:hover {
+    cursor: pointer;
     background-color: #2754eb;
     color: white;
   }
+}
+
+.tag-hovered {
+  background-color: #2754eb;
+  color: white;
 }
 </style>

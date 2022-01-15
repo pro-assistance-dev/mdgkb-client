@@ -45,6 +45,7 @@
     </el-form>
 
     <ImageCropper />
+    <AdminNewsDoctors />
   </div>
 </template>
 
@@ -58,6 +59,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import NewsRules from '@/classes/news/NewsRules';
+import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageGallery from '@/components/admin/AdminNews/AdminNewsPageGallery.vue';
 import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMainImage.vue';
@@ -78,6 +80,7 @@ export default defineComponent({
     AdminNewsPagePreviewImage,
     AdminNewsPageGallery,
     AdminNewsPageMainImage,
+    AdminNewsDoctors,
   },
   setup() {
     const store = useStore();
@@ -95,6 +98,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
+      await store.dispatch('doctors/getAll');
       await loadNewsItem();
       store.commit('admin/closeLoading');
     });

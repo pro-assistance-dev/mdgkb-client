@@ -4,6 +4,7 @@ export default class Tag implements ITag {
   id?: string;
   color = '';
   label = '';
+  selected = false;
 
   constructor(i?: ITag) {
     if (!i) return;

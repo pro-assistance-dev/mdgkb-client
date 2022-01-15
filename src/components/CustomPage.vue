@@ -13,7 +13,7 @@
         <el-divider />
         <div class="article-footer">
           <div class="article-footer-item">
-            <el-button style="height: 20px" @click="$router.push('/')">Вернуться назад</el-button>
+            <el-button style="height: 20px" @click="$router.go(-1)">Вернуться назад</el-button>
           </div>
         </div>
       </el-card>

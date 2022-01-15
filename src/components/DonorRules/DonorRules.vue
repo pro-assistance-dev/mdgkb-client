@@ -40,6 +40,7 @@ export default defineComponent({
     const currentRule: Ref<IDonorRule> = ref(new DonorRule());
     const mounted: Ref<boolean> = ref(false);
     const visible: Ref<boolean> = ref(false);
+
     const addToUser = async (rule: IDonorRule) => {
       if (rule.isFavourite()) {
         rule.removeFavourite();

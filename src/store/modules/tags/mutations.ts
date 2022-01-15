@@ -26,6 +26,9 @@ const mutations: MutationTree<State> = {
       state.filteredTagList = state.items;
       return;
     }
+    // state.filteredTagList.forEach((tag: ITag) => {
+    //   tag.selected =
+    // })
     state.filteredTagList = state.items.filter((el) => {
       return !items.find((element) => {
         return element.id === el.id;

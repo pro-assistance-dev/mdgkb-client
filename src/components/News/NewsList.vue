@@ -29,10 +29,10 @@
 import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import NewsFilters from '@/components/News/NewFilters.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
+import NewsFilters from '@/components/News/NewsFilters.vue';
 
 export default defineComponent({
   name: 'NewsList',

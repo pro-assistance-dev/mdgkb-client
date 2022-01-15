@@ -1,14 +1,17 @@
 import FileInfo from '@/classes/File/FileInfo';
 import Event from '@/classes/news/Event';
 import NewsComment from '@/classes/news/NewsComment';
+import NewsDoctor from '@/classes/news/NewsDoctor';
 import NewsImage from '@/classes/news/NewsImage';
 import NewsLike from '@/classes/news/NewsLike';
 import NewsToCategory from '@/classes/news/NewsToCategory';
 import NewsToTag from '@/classes/news/NewsToTag';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDoctor from '@/interfaces/IDoctor';
 import IEvent from '@/interfaces/news/IEvent';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
+import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
 import INewsToCategory from '@/interfaces/news/INewsToCategory';
@@ -30,6 +33,8 @@ export default class News implements INews {
   publishedOn: Date = new Date();
   newsLikes: INewsLike[] = [];
   newsComments: INewsComment[] = [];
+  newsDoctors: INewsDoctor[] = [];
+  newsDoctorsForDelete: string[] = [];
   newsImages: INewsImage[] = [];
   newsImagesForDelete: string[] = [];
   newsImagesNames: string[] = [];
@@ -68,11 +73,29 @@ export default class News implements INews {
     if (news.newsComments) {
       this.newsComments = news.newsComments.map((item: INewsComment) => new NewsComment(item));
     }
+    if (news.newsDoctors) {
+      this.newsDoctors = news.newsDoctors.map((item: INewsDoctor) => new NewsDoctor(item));
+    }
     if (news.newsImages) {
       this.newsImages = news.newsImages.map((item: INewsImage) => new NewsImage(item));
     }
     if (news.event) {
       this.event = new Event(news.event);
     }
+  }
+
+  addDoctor(doctor: IDoctor): void {
+    const newsDoctor = new NewsDoctor();
+    newsDoctor.doctorId = doctor.id;
+    newsDoctor.doctor = doctor;
+    this.newsDoctors.push(newsDoctor);
+  }
+
+  removeDoctor(index: number): void {
+    const idForDelete = this.newsDoctors[index].id;
+    if (idForDelete) {
+      this.newsDoctorsForDelete.push(idForDelete);
+    }
+    this.newsDoctors.splice(index, 1);
   }
 }

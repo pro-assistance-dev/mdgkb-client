@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, ComputedRef, defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
 
 import NewsMeta from '@/components/News/NewsMeta.vue';
@@ -49,11 +49,16 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const filterTags = computed(() => store.getters['news/filterTags']);
+    const filteredTagList: ComputedRef<ITag[]> = computed(() => store.getters['tags/filteredTagList']);
 
     const filterNews = async (tag: ITag): Promise<void> => {
+      tag.selected = !tag.selected;
+      filteredTagList.value.forEach((filterTag: ITag) => {
+        if (filterTag.id === tag.id) {
+          filterTag.selected = true;
+        }
+      });
       await store.dispatch('news/addFilterTag', tag);
-      await store.dispatch('tags/filterTagList', filterTags.value);
       await store.dispatch('news/getAll');
     };
 
