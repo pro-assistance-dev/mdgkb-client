@@ -49,9 +49,10 @@ export default class DonorRule implements IDonorRule {
     return this.donorRulesUsers.length > 0;
   }
 
-  addFavourite(): void {
+  addFavourite(userId: string): void {
     const donorRuleUser = new DonorRuleUser();
     donorRuleUser.donorRuleId = this.id;
+    donorRuleUser.userId = userId;
     this.donorRulesUsers.push(donorRuleUser);
   }
 
