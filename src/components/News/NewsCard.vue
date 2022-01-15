@@ -1,5 +1,5 @@
 <template>
-  <el-card class="card" :body-style="{ padding: '0px', height: '100%' }" @click="$router.push(`/news/${news.slug}`)">
+  <div class="card" :body-style="{ padding: '0px', height: '100%' }" @click="$router.push(`/news/${news.slug}`)">
     <div class="flex-between-columm front">
       <div class="image">
         <div>
@@ -27,7 +27,7 @@
         </el-tag>
       </div>
     </div>
-  </el-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -71,7 +71,10 @@ $card-content-outpadding: 0px;
 $card-width: 300px;
 
 .card {
-  border-radius: $card-border-radius;
+  background: #ffffff;
+  background-clip: padding-box;
+  border-radius: 5px;
+  border: rgba(0, 0, 0, 0.05) solid 1px;
   height: 100%;
   width: $card-width;
   transition: all 0.2s;
@@ -80,15 +83,14 @@ $card-width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
   &:hover {
-    // transform: scale(1.01);
-    // box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
       rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   }
 
   .transition-box {
-    border-radius: $card-border-radius;
+    border-radius: 5px;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -115,6 +117,7 @@ $card-width: 300px;
     max-height: 200px;
     overflow: hidden;
     overflow-wrap: break-word;
+    background: #ffffff;
 
     .title {
       font-size: 1.1rem;
@@ -155,6 +158,7 @@ $card-width: 300px;
     padding-right: $card-content-padding;
     padding-bottom: $card-content-padding;
     padding-top: $card-content-padding;
+    background: #ffffff;
   }
 
   .tags-top {

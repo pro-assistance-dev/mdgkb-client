@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin-top: 20px">
+  <el-card class="radius" style="margin-top: 20px" shadow="never">
     <template #header>
       <div class="card-header">
         <span>Фильтры</span>
@@ -103,7 +103,8 @@ export default defineComponent({
 .filter-for-tags {
   margin-top: 20px;
   background: #ffffff;
-  border: none;
+  background-clip: padding-box;
+  border: rgba(0, 0, 0, 0.05) solid 1px;
   border-radius: 5px;
 }
 
@@ -166,5 +167,11 @@ export default defineComponent({
     background-color: #2754eb;
     color: white;
   }
+}
+
+.radius.radius {
+  border: rgba(0, 0, 0, 0.05) solid 1px;
+  border-radius: 5;
+  background-clip: padding-box;
 }
 </style>
