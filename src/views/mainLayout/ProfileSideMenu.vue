@@ -22,8 +22,7 @@
         <span>Ответы на вопросы</span>
         <el-tag v-if="hasNewAnswers" class="badge" type="warning">{{ countNewAnswers }}</el-tag>
       </el-menu-item>
-      <el-menu-item index="6" @click="$router.push('/profile/donor')"
-        >>
+      <el-menu-item index="6" @click="$router.push('/profile/donor')">
         <i class="el-icon-first-aid-kit"></i>
         <span>Донорство крови</span>
       </el-menu-item>
