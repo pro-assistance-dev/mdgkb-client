@@ -34,6 +34,7 @@ import {
   ElPopconfirm,
   ElPopover,
   ElRadio,
+  ElRate,
   ElRow,
   ElScrollbar,
   ElSelect,
@@ -96,6 +97,7 @@ export const components = [
   ElSelectV2,
   ElTimeSelect,
   ElBadge,
+  ElRate,
 ];
 
 export const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];

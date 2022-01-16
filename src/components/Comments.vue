@@ -64,6 +64,7 @@
     <div class="add-comment">
       <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
         <el-form-item prop="comment.text">
+          <el-rate v-model="comment.comment.rating" allow-half />
           <el-input
             ref="commentInput"
             v-model="comment.comment.text"
@@ -94,11 +95,12 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
+import IComment from '@/interfaces/comments/IComment';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import INewsComment from '@/interfaces/news/INewsComment';
 import validate from '@/mixins/validate';
@@ -123,7 +125,7 @@ export default defineComponent({
     const comment = computed(() => store.getters[`${prop.storeName}/comment`]);
     const commentInput = ref();
     const store = useStore();
-    const comments = computed(() => store.getters[`${prop.storeName}/comments`]);
+    const comments: ComputedRef<IComment> = computed(() => store.getters[`${prop.storeName}/comments`]);
 
     const userId = computed(() => store.getters['auth/user']?.id);
     const userEmail = computed(() => store.getters['auth/user']?.email);

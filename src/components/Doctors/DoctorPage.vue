@@ -9,6 +9,8 @@
         <template #header>
           <div class="card-header">
             <h2>{{ doctor.human.getFullName() }}</h2>
+            <el-rate :model-value="countRating(doctor.doctorComments)" disabled show-score text-color="#ff9900" score-template="{value}">
+            </el-rate>
           </div> </template
         >`
         <div class="flex-row">
@@ -41,6 +43,7 @@ import { useStore } from 'vuex';
 import Comments from '@/components/Comments.vue';
 import Timetable from '@/components/Timetable.vue';
 import IDoctor from '@/interfaces/IDoctor';
+import countRating from '@/mixins/countRating';
 
 export default defineComponent({
   name: 'DoctorPage',
@@ -58,6 +61,7 @@ export default defineComponent({
     });
 
     return {
+      countRating,
       doctor,
       mount,
     };

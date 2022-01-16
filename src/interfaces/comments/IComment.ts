@@ -11,6 +11,7 @@ export default interface IComment {
   isEditing: boolean;
   modChecked: boolean;
   positive: boolean;
+  rating: number;
   title: string;
   link: string;
   commentTo: string;
