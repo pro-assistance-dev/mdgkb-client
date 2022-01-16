@@ -13,6 +13,7 @@ export default class PaidService implements IPaidService {
     }
     this.id = i.id;
     this.code = i.code;
+    this.name = i.name;
     this.price = i.price;
     this.duration = i.duration;
   }

@@ -1,5 +1,6 @@
 import DivisionComment from '@/classes/buildings/DivisionComment';
 import Entrance from '@/classes/buildings/Entrance';
+import DivisionPaidService from '@/classes/DivisionPaidService';
 import Doctor from '@/classes/Doctor';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
@@ -9,6 +10,7 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IEntrance from '@/interfaces/buildings/IEntrance';
+import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDoctor from '@/interfaces/IDoctor';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
@@ -44,6 +46,7 @@ export default class Division implements IDivision {
   visitingRules: IVisitingRule[] = [];
   visitingRulesForDelete: string[] = [];
   buildingId?: string;
+  divisionPaidServices: IDivisionPaidService[] = [];
   constructor(i?: IDivision) {
     if (!i) {
       return;
@@ -82,6 +85,9 @@ export default class Division implements IDivision {
     }
     if (i.visitingRules) {
       this.visitingRules = i.visitingRules.map((item: IVisitingRule) => new VisitingRule(item));
+    }
+    if (i.divisionPaidServices) {
+      this.divisionPaidServices = i.divisionPaidServices.map((item: IDivisionPaidService) => new DivisionPaidService(item));
     }
   }
 }

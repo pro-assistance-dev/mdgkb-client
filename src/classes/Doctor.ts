@@ -1,9 +1,11 @@
 import Division from '@/classes/buildings/Division';
 import Certificate from '@/classes/Certificate';
+import DoctorPaidService from '@/classes/DoctorPaidService';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
 import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
+import MedicalProfile from '@/classes/MedicalProfile';
 import Regalia from '@/classes/Regalia';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
@@ -12,7 +14,9 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICertificate from '@/interfaces/ICertificate';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
+import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IExperience from '@/interfaces/IExperience';
+import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IRegalia from '@/interfaces/IRegalia';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -36,6 +40,7 @@ export default class Doctor implements IDoctor {
   academicRank = '';
   regalias: IRegalia[] = [];
   regaliasForDelete: string[] = [];
+  doctorPaidServices: IDoctorPaidService[] = [];
   educations: IEducation[] = [];
   educationsForDelete: string[] = [];
   timetableDaysForDelete: string[] = [];
@@ -43,7 +48,8 @@ export default class Doctor implements IDoctor {
   certificatesForDelete: string[] = [];
   experiences: IExperience[] = [];
   experiencesForDelete: string[] = [];
-
+  medicalProfileId?: string;
+  medicalProfile?: IMedicalProfile;
   constructor(i?: IDoctor) {
     if (!i) {
       return;
@@ -61,6 +67,11 @@ export default class Doctor implements IDoctor {
     this.position = i.position;
     this.tags = i.tags;
     this.fileInfoId = i.fileInfoId;
+    this.medicalProfileId = i.medicalProfileId;
+    if (i.medicalProfile) {
+      this.medicalProfile = new MedicalProfile(i.medicalProfile);
+    }
+
     if (i.fileInfo) {
       this.fileInfo = new FileInfo(i.fileInfo);
     }
@@ -80,6 +91,9 @@ export default class Doctor implements IDoctor {
     }
     if (i.experiences) {
       this.experiences = i.experiences.map((item: IExperience) => new Experience(item));
+    }
+    if (i.doctorPaidServices) {
+      this.doctorPaidServices = i.doctorPaidServices.map((item: IDoctorPaidService) => new DoctorPaidService(item));
     }
   }
 

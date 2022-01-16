@@ -1,6 +1,7 @@
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
+import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDoctor from '@/interfaces/IDoctor';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
@@ -37,4 +38,5 @@ export default interface IDivision {
   timetableDaysForDelete: string[];
   visitingRules: IVisitingRule[];
   visitingRulesForDelete: string[];
+  divisionPaidServices: IDivisionPaidService[];
 }

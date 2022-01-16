@@ -3,8 +3,10 @@ import IEducation from '@/interfaces/education/IEducation';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICertificate from '@/interfaces/ICertificate';
 import IDoctorComment from '@/interfaces/IDoctorComment';
+import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
+import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IRegalia from '@/interfaces/IRegalia';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -30,10 +32,11 @@ export default interface IDoctor {
   educations: IEducation[];
   educationsForDelete: string[];
   timetableDaysForDelete: string[];
-
+  medicalProfileId?: string;
+  medicalProfile?: IMedicalProfile;
   experiences: IExperience[];
   experiencesForDelete: string[];
-
+  doctorPaidServices: IDoctorPaidService[];
   certificates: ICertificate[];
   certificatesForDelete: string[];
 
