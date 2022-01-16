@@ -36,4 +36,12 @@ export default interface IDoctor {
 
   certificates: ICertificate[];
   certificatesForDelete: string[];
+
+  addExperience: () => void;
+  removeExperience: (index: number) => void;
+
+  addCertificate: () => void;
+  removeCertificate: (index: number) => void;
+
+  getFileInfos: () => IFileInfo[];
 }

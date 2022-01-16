@@ -8,6 +8,7 @@ import Regalia from '@/classes/Regalia';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IEducation from '@/interfaces/education/IEducation';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICertificate from '@/interfaces/ICertificate';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
@@ -80,5 +81,40 @@ export default class Doctor implements IDoctor {
     if (i.experiences) {
       this.experiences = i.experiences.map((item: IExperience) => new Experience(item));
     }
+  }
+
+  addExperience(): void {
+    this.experiences.push(new Experience());
+  }
+
+  removeExperience(index: number): void {
+    const idForDelete = this.experiences[index].id;
+    if (idForDelete) {
+      this.experiencesForDelete.push(idForDelete);
+    }
+    this.experiences.splice(index, 1);
+  }
+
+  addCertificate(): void {
+    this.certificates.push(new Certificate());
+  }
+
+  removeCertificate(index: number): void {
+    const idForDelete = this.certificates[index].id;
+    if (idForDelete) {
+      this.certificatesForDelete.push(idForDelete);
+    }
+    this.certificates.splice(index, 1);
+  }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    this.certificates.forEach((i: ICertificate) => {
+      if (i.scan) {
+        fileInfos.push(i.scan);
+      }
+    });
+    fileInfos.push(this.fileInfo);
+    return fileInfos;
   }
 }
