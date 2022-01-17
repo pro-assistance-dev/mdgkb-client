@@ -12,7 +12,9 @@ export default class Education implements IEducation {
   institution = '';
   document = '';
   qualification = '';
-
+  end: Date = new Date();
+  specialization = '';
+  start: Date = new Date();
   educationSpeciality?: IEducationSpeciality;
   educationSpecialityId?: string;
 
@@ -33,6 +35,9 @@ export default class Education implements IEducation {
     this.institution = education.institution;
     this.document = education.document;
     this.qualification = education.qualification;
+    this.start = new Date(education.start);
+    this.end = new Date(education.end);
+    this.specialization = education.specialization;
     if (education.educationSpeciality) {
       this.educationSpeciality = new EducationSpeciality(education.educationSpeciality);
     }
@@ -46,5 +51,9 @@ export default class Education implements IEducation {
     }
     this.educationAccreditationId = education.educationAccreditationId;
     this.doctorId = education.doctorId;
+  }
+
+  getEndYear(): number {
+    return this.end.getFullYear();
   }
 }

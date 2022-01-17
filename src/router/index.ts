@@ -4,7 +4,7 @@ import AboutPage from '@/components/About/AboutPage.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
-import DonorRules from '@/components/DonorRules/DonorRules.vue';
+import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
@@ -119,8 +119,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/donor-rules',
-    name: 'DonorRules',
-    component: DonorRules,
+    name: 'DonorRulesPage',
+    component: DonorRulesPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },

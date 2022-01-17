@@ -34,6 +34,9 @@
     </el-card>
     <el-card>
       <template #header>Услуги-прайс</template>
+      <div v-for="paidService in division.divisionPaidServices" :key="paidService.id">
+        {{ paidService.paidService.name }}
+      </div>
       <el-collapse v-if="division.name === 'Гинекологическое отделение'" accordion>
         <PaidService ref="ginService" v-model:services="ginDiv" :title="'Открыть список'" @selectService="selectServiceGin" />
       </el-collapse>

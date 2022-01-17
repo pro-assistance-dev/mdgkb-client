@@ -12,6 +12,6 @@ export default interface IDonorRule extends IFiler, IOrdered {
   donorRulesUsers: IDonorRuleUser[];
 
   isFavourite: () => boolean;
-  addFavourite: () => void;
+  addFavourite: (userId: string) => void;
   removeFavourite: () => void;
 }
