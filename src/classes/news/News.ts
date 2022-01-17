@@ -40,6 +40,7 @@ export default class News implements INews {
   newsImagesNames: string[] = [];
   viewsCount = 0;
   event?: IEvent;
+  mainImageDescription = '';
 
   constructor(news?: INews) {
     if (!news) {
@@ -51,6 +52,7 @@ export default class News implements INews {
     this.previewText = news.previewText;
     this.fileInfoId = news.fileInfoId;
     this.mainImageId = news.mainImageId;
+    this.mainImageDescription = news.mainImageDescription;
     this.content = news.content;
     this.slug = news.slug;
     this.viewsCount = news.viewsCount;

@@ -10,6 +10,7 @@ import { State } from './state';
 export const state: State = {
   cropper: new Cropper(),
   cropperV2: new Cropper(),
+  curGalleryCropIndex: 0,
 };
 
 const namespaced = true;

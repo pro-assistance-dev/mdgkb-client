@@ -5,12 +5,13 @@
     </div>
     <div class="right-side">
       <el-card>
-        `
         <template #header>
           <div class="card-header">
             <h2>{{ doctor.human.getFullName() }}</h2>
-          </div> </template
-        >`
+            <el-rate :model-value="countRating(doctor.doctorComments)" disabled show-score text-color="#ff9900" score-template="{value}">
+            </el-rate>
+          </div>
+        </template>
         <div class="flex-row">
           <div class="doctor-img-container">
             <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
@@ -25,8 +26,14 @@
               <span class="link" @click="$router.push(`/divisions/${doctor.division.id}`)"> {{ doctor.division.name }}</span>
             </span>
             <span><b>Образование:</b> {{ doctor.education }}</span>
+            <span><b>Специализация:</b> {{ doctor.medicalProfile?.name }}</span>
           </div>
         </div>
+        <el-timeline>
+          <el-timeline-item v-for="education in doctor.educations" :key="education.institution" :timestamp="education.institution">
+            {{ education.getEndYear() }}
+          </el-timeline-item>
+        </el-timeline>
       </el-card>
       <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
     </div>
@@ -41,6 +48,7 @@ import { useStore } from 'vuex';
 import Comments from '@/components/Comments.vue';
 import Timetable from '@/components/Timetable.vue';
 import IDoctor from '@/interfaces/IDoctor';
+import countRating from '@/mixins/countRating';
 
 export default defineComponent({
   name: 'DoctorPage',
@@ -58,6 +66,7 @@ export default defineComponent({
     });
 
     return {
+      countRating,
       doctor,
       mount,
     };

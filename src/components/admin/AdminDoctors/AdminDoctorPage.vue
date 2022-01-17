@@ -13,6 +13,37 @@
           <el-card>
             <EducationForm :store-module="'doctors'" />
           </el-card>
+          <el-card>
+            <el-button @click="doctor.addExperience()">Добавить опыт работы</el-button>
+            <div v-for="(experience, i) in doctor.experiences" :key="experience.id">
+              <el-form-item label="Место работы">
+                <el-input v-model="experience.place" />
+              </el-form-item>
+              <el-form-item label="Должность">
+                <el-input v-model="experience.position" />
+              </el-form-item>
+              <el-form-item label="Начало">
+                <el-input-number v-model="experience.start" />
+              </el-form-item>
+              <el-form-item label="Конец">
+                <el-input-number v-model="experience.end" />
+              </el-form-item>
+              <el-form-item label="Должность">
+                <el-button @click="doctor.removeExperience(i)">Удалить опыт работы</el-button>
+              </el-form-item>
+            </div>
+          </el-card>
+
+          <el-card>
+            <el-button @click="doctor.addCertificate()">Добавить сертификат</el-button>
+            <div v-for="(certificate, i) in doctor.certificates" :key="certificate.id">
+              <el-form-item label="Название сертификата">
+                <el-input v-model="certificate.description" />
+              </el-form-item>
+              <UploaderSingleScan :crop-ratio="'1'" :file-info="certificate.scan" />
+              <el-button @click="doctor.removeCertificate(i)">Удалить сертификат</el-button>
+            </div>
+          </el-card>
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
@@ -33,12 +64,15 @@
             <el-form-item label="Учёная степень">
               <el-input v-model="doctor.academicDegree" />
             </el-form-item>
+            <el-form-item label="Ссылка на профиль в системе Московский врач">
+              <el-input v-model="doctor.mosDoctorLink" />
+            </el-form-item>
             <el-form-item label="Звание">
               <el-input v-model="doctor.academicRank" />
             </el-form-item>
             <el-button @click="addRegalia"> Добавить регалию</el-button>
             <el-form-item label="Регалии">
-              <el-input v-for="regalia in doctor.doctorRegalias" :key="regalia" v-model="regalia.name" />
+              <el-input v-for="regalia in doctor.regalias" :key="regalia" v-model="regalia.name" />
             </el-form-item>
           </el-card>
         </el-container>
@@ -63,13 +97,14 @@ import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
-  components: { TimetableConstructorV2, HumanForm, ImageCropper, AdminDoctorImage, EducationForm, CardHeader },
+  components: { TimetableConstructorV2, HumanForm, ImageCropper, AdminDoctorImage, EducationForm, CardHeader, UploaderSingleScan },
   setup() {
     const store = useStore();
     const route = useRoute();

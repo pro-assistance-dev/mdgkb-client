@@ -7,8 +7,10 @@ export default interface IEducation {
   type: string;
   institution: string;
   document: string;
+  specialization: string;
   qualification: string;
-
+  start: Date;
+  end: Date;
   educationSpeciality?: IEducationSpeciality;
   educationSpecialityId?: string;
 
@@ -19,4 +21,6 @@ export default interface IEducation {
   educationAccreditationId?: string;
 
   doctorId?: string;
+
+  getEndYear: () => number;
 }
