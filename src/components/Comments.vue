@@ -1,10 +1,8 @@
 <template>
-  <el-card class="card-content comments">
-    <template #header>
-      <div class="card-header">
-        <h3 class="title article-title">{{ !isReviews ? 'Комментарии' : 'Отзывы' }}</h3>
-      </div>
-    </template>
+  <div>
+    <div class="card-header">
+      <h3>{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</h3>
+    </div>
 
     <el-card v-for="item in comments" :key="item.comment.id" class="comments-card">
       <div v-if="item.comment.userId === userId && isAuth" class="comment-buttons">
@@ -68,7 +66,7 @@
             ref="commentInput"
             v-model="comment.comment.text"
             type="textarea"
-            :placeholder="!isReviews ? 'Оставьте комментарий' : 'Оставьте отзыв'"
+            :placeholder="!isReviews ? 'Напишите комментарий:' : 'Напишите отзыв:'"
             minlength="5"
             maxlength="500"
             show-word-limit
@@ -89,7 +87,7 @@
         </el-form-item>
       </el-form>
     </div>
-  </el-card>
+  </div>
 </template>
 
 <script lang="ts">
@@ -194,21 +192,18 @@ export default defineComponent({
   margin: 50px 0 50px 0;
 }
 
-h2,
 h3 {
-  margin: 0;
+  text-align: left;
+  margin-top: 0;
   color: black;
 }
 h3 {
   font-size: 20px;
 }
 
-.comments {
-  margin: 30px 0 0 0;
-  .comments-card {
-    position: relative;
-    margin: 20px 0 0 0;
-  }
+.comments-card {
+  position: relative;
+  margin: 20px 0 0 0;
 }
 
 .comment-header {
@@ -237,10 +232,6 @@ h3 {
   }
 }
 
-.send-comment {
-  margin-right: 0;
-}
-
 .card-content {
   margin-left: auto;
   margin-right: auto;
@@ -252,5 +243,14 @@ h3 {
 
 :deep(p) {
   text-align: justify;
+}
+.send-comment {
+  margin-right: 0;
+  border-radius: 10px;
+  background-color: #2754eb;
+  border-color: #2754eb;
+  &:hover {
+    background-color: darken(#2754eb, 10%);
+  }
 }
 </style>

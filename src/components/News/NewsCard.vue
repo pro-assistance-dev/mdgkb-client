@@ -1,5 +1,5 @@
 <template>
-  <el-card class="card" :body-style="{ padding: '0px', height: '100%' }" @click="$router.push(`/news/${news.slug}`)">
+  <el-card class="card-container" :body-style="{ padding: '0px', height: '100%' }" @click="$router.push(`/news/${news.slug}`)">
     <div class="flex-between-columm front">
       <div class="image">
         <div>
@@ -75,7 +75,7 @@ $card-content-padding: 15px;
 $card-content-outpadding: 0px;
 $card-width: 300px;
 
-.card {
+.card-container {
   border-radius: $card-border-radius;
   height: 100%;
   width: $card-width;

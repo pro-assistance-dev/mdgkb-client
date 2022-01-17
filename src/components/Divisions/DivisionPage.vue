@@ -79,7 +79,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 $left-side-max-width: 370px;
-$right-side-max-width: 800px;
+$right-side-max-width: 1000px;
 
 .division-page-container {
   display: flex;

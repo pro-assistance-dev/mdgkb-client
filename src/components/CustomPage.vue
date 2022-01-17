@@ -89,7 +89,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 $side-cotainer-max-width: 300px;
-$news-content-max-width: 800px;
+$news-content-max-width: 1000px;
 $card-margin-size: 30px;
 
 .news-page-container {

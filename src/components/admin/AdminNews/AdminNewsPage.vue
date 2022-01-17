@@ -18,6 +18,7 @@
                   style="min-height: 200px; max-height: 700px"
                   content-type="html"
                   theme="snow"
+                  :options="editorOption"
                 ></QuillEditor>
               </el-form-item>
             </el-card>
@@ -90,6 +91,26 @@ export default defineComponent({
     let isCropGalleryOpen = ref(false);
     const form = ref();
     const rules = ref(NewsRules);
+    const editorOption = {
+      modules: {
+        toolbar: [
+          ['полужирный', 'курсив', 'подчеркивание', 'зачеркивание'], // полужирный, курсив, подчеркивание, зачеркивание
+          ['blockquote'], // цитата, кодовый блок
+          [{ header: 1 }, { header: 2 }], // Заголовок в виде пар ключ-значение; 1, 2 означает размер шрифта
+          [{ script: 'sub' }, { script: 'super' }], // нижний индекс и нижний индекс
+          [{ indent: '- 1' }, { indent: '+ 1' }], // отступ
+          [{ direction: 'rtl' }], // направление текста
+          [{ size: ['small', false, 'large', 'huge'] }], // размер шрифта
+          [{ header: [1, 2, 3, 4, 5, 6, false] }], // Несколько уровней заголовка
+          // [{ color: [] }, { background: [] }], // цвет шрифта, цвет фона шрифта
+          // [{ font: [] }], // шрифт
+          [{ align: [] }], // Выравнивание
+          ['clean'], // Очистить стиль шрифта
+          ['image', 'video'], // Загрузить изображения, загрузить видео
+          ['link'],
+        ],
+      },
+    };
 
     const galleryList = computed(() => store.getters[`news/galleryList`]);
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
@@ -151,6 +172,7 @@ export default defineComponent({
 
     return {
       mounted,
+      editorOption,
       isCropGalleryOpen,
       galleryList,
       submit,
