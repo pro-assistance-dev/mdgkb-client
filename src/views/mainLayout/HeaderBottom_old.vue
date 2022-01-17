@@ -1,12 +1,24 @@
 <template>
   <!-- Spacer, which helps, when header becomes fixed -->
   <div v-if="scrollOffset >= 66" class="spacer">&nbsp;</div>
+  <!-- Adaptive side menu -->
+  <div class="drawer">
+    <el-drawer v-model="showDrawer" :size="'auto'" direction="ltr" :with-header="false">
+      <div class="drawer-block">
+        <NavMenu :vertical="true" style="min-width: 200px" @changeDrawerStatus="changeDrawerStatus" />
+      </div>
+    </el-drawer>
+  </div>
+  <!-- Fix header when headerTop was passed -->
   <div :class="{ fixed: scrollOffset >= 66 }">
-    <div class="header-menu">
+    <div class="header-bottom">
       <div class="container" style="height: 100%">
         <div class="menu-container">
           <div class="menu-container-left">
             <el-button icon="el-icon-s-unfold" class="menu-item open-menu-button" @click="changeDrawerStatus"></el-button>
+            <el-button v-if="scrollOffset >= 66 && !mobileWindow" class="menu-item">
+              <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" @click="$router.push('/')" />
+            </el-button>
           </div>
           <div class="menu-container-center">
             <NavMenu />
@@ -248,7 +260,7 @@ export default defineComponent({
 
 :deep(.el-button) {
   border: none;
-  background-color: #f5f6f8;
+  background-color: whitesmoke;
 
   i {
     font-size: 24px;
@@ -300,9 +312,8 @@ export default defineComponent({
 .drawer {
   display: none;
 }
-@media screen and (max-width: 1025px) {
+@media screen and (max-width: 980px) {
   .menu-container-center {
-    width: 320px;
     display: none;
   }
   .open-menu-button,
@@ -312,11 +323,6 @@ export default defineComponent({
 }
 :deep(.el-drawer__body) {
   padding: 0;
-  background-color: #f5f6f8;
-}
-
-.header-menu {
-  background: #f5f6f8;
-  height: 59px;
+  background-color: whitesmoke;
 }
 </style>

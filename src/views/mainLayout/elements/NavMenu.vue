@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-center" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
+  <div class="menu-center">
     <ul class="menu-center">
       <li v-for="menu in menus" :key="menu.id">
         <router-link class="link-menu" :to="menu.getLink()">{{ menu.name }}</router-link>
@@ -27,17 +27,8 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IMenu from '@/interfaces/elements/IMenu';
-
 export default defineComponent({
   name: 'NavMenu',
-  props: {
-    vertical: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['changeDrawerStatus'],
   setup(prop, { emit }) {
     let expand = ref(false);
     const activePath: Ref<string> = ref('');
@@ -48,7 +39,6 @@ export default defineComponent({
     const route = useRoute();
 
     const menuClickHandler = (link: string) => {
-      emit('changeDrawerStatus', false);
       router.push(link);
     };
 
@@ -64,11 +54,8 @@ export default defineComponent({
       }
     );
 
-    const collapseCard = () => menus.value.forEach((v: IMenu) => v.collapseCard());
-
     return {
       menus,
-      collapseCard,
       expand,
       activePath,
       menuClickHandler,
@@ -78,8 +65,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-/*Общие свойства, свойства для главной*/
-
 * {
   padding: 0px;
   margin: 0px;
@@ -106,63 +91,28 @@ html {
 
 ul.menu-center {
   display: flex;
-  height: 60px;
   align-items: center;
+  height: 56px;
 }
 
 ul.menu-center li {
+  display: inline;
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
-  display: inline;
-  text-align: center;
+  align-items: center;
   color: #343e5c;
+  height: auto;
+  background: #f5f6f8;
+  border: solid 1px #f5f6f8;
 }
 
 .link-menu {
   color: #343e5c;
   text-decoration: none;
   transition: color 0.3s ease 0s;
-  border: solid 1px #f5f6f8;
-  background: #f5f6f8;
-  padding: 20px 20px;
   text-transform: uppercase;
-}
-
-.link-menu:hover {
-  background: #ffffff;
-}
-
-.link-menu:active {
-  background: #ffffff;
-}
-
-.link-menu-selected {
-  color: var(--text-menu-color);
-  text-decoration: none;
-  transition: color 0.3s ease 0s;
-  border: solid 1px var(--menu-bg-color);
-  background: var(--main-bg-color);
-  padding: 20px 25px;
-}
-
-.title-box {
-  overflow: hidden;
-}
-
-.title {
-  height: 60px;
-  display: flex;
   align-items: center;
-}
-
-.title-box-text {
-  display: flex;
-  height: 80px;
-  align-items: center;
-  color: var(--text-menu-color);
-  border: solid 1px var(--border-color);
-  border-radius: 40px;
-  padding-left: 80px;
+  padding: 18px 20px 19px 20px;
 }
 
 h3 {
@@ -184,7 +134,6 @@ h3 {
   box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.2);
   justify-content: space-between;
   margin: 5px;
-  // position: relative;
 }
 
 .index-about-colomn-text {
@@ -228,8 +177,6 @@ h3 {
 
 .link-colomn {
   text-decoration: none;
-  // transition: color 0.3s ease 0s;
-  // color: #343e5c;
 }
 
 .icon-1 {
@@ -255,6 +202,10 @@ li .dropmenu {
   display: block;
 }
 
+.link-menu:focus-within {
+  background: #ffffff;
+}
+
 .index-about-column:hover {
   transform: scale(1.03);
   transition: 0.1s;
@@ -267,7 +218,12 @@ li .dropmenu {
   flex-flow: row wrap;
   padding: 1px 0px 1px 4px;
   background: #f5f6f8;
-  width: 635px;
+  width: 640px;
+}
+
+li:hover {
+  background: #ffffff;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1025px) {
@@ -280,9 +236,11 @@ li .dropmenu {
   }
 
   ul.menu-center {
+    display: block;
+  }
+
+  ul.menu-center li {
     display: flex;
-    width: auto;
-    align-items: center;
   }
 
   .subMenu-place {
