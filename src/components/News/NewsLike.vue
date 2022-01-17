@@ -97,7 +97,7 @@ export default defineComponent({
 }
 
 .anticon {
-  color: #4a4a4a;
+  color: #a1a7bd;
   &:hover {
     transform: scale(1.1);
   }

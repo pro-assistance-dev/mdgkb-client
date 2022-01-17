@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card-item">
     <h4>Врачи в статье</h4>
     <el-divider style="margin-bottom: 0" />
     <el-table :data="newsDoctors" cell-class-name="cell-row" :show-header="false">

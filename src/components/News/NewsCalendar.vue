@@ -1,5 +1,5 @@
 <template>
-  <calendar ref="calendar" locale="ru" :attributes="attributesProp" is-expanded @update:from-page="changeMonth">
+  <calendar ref="calendar" class="radius" locale="ru" :attributes="attributesProp" is-expanded @update:from-page="changeMonth">
     <template #day-popover="{ dayTitle, attributes }">
       <div style="text-align: center">
         {{ dayTitle }}
@@ -74,5 +74,11 @@ export default defineComponent({
   max-width: 200px;
   word-break: break-word;
   text-align: start;
+}
+
+.radius.radius {
+  border: rgba(0, 0, 0, 0.05) solid 1px;
+  border-radius: 5px;
+  background-clip: padding-box;
 }
 </style>

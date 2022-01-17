@@ -1,44 +1,25 @@
 <template>
-  <div v-if="vertical" style="margin: 10px">
-    <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="menuClickHandler('/')" />
+  <div class="menu-center">
+    <ul class="menu-center">
+      <li v-for="menu in menus" :key="menu.id">
+        <router-link class="link-menu" :to="menu.getLink()">{{ menu.name }}</router-link>
+        <ul v-if="!menu.withoutChildren()" class="dropmenu">
+          <div class="subMenu-place">
+            <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
+              <router-link class="link-colomn" :to="subMenu.link">
+                <div class="index-about-column">
+                  <div class="index-about-colomn-icon"></div>
+                  <div class="index-about-colomn-text">
+                    <h3>{{ subMenu.name }}</h3>
+                  </div>
+                </div>
+              </router-link>
+            </li>
+          </div>
+        </ul>
+      </li>
+    </ul>
   </div>
-  <el-menu :ellipsis="false" class="header-bottom-menu" :mode="vertical ? 'vertical' : 'horizontal'" :router="true" default-active="1x">
-    <template v-for="(menu, i) in menus" :key="menu.id">
-      <el-menu-item
-        v-if="menu.withoutChildren()"
-        :index="String(menu.getLink())"
-        class="header-bottom-menu-item"
-        @click="menuClickHandler(menu.getLink())"
-      >
-        <div class="icon">
-          <object v-if="menu.icon.fileSystemPath" :data="menu.icon.getImageUrl()" class="menu-img" />
-          <strong>{{ menu.name }}</strong>
-        </div>
-      </el-menu-item>
-      <el-sub-menu
-        v-else
-        :popper-class="'sub-menu-popover'"
-        :show-timeout="50"
-        :hide-timeout="100"
-        :index="String(i)"
-        class="header-bottom-menu-item"
-      >
-        <template #title
-          ><span class="header-bottom-menu-item">
-            <strong>{{ menu.name }}</strong></span
-          ></template
-        >
-        <template v-for="subMenu in menu.subMenus" :key="subMenu.id">
-          <el-menu-item :index="String(subMenu.link)" class="header-bottom-submenu-item" @click="menuClickHandler(subMenu.getLink())">
-            <div class="icon">
-              <object v-if="subMenu.icon.fileSystemPath" :data="subMenu.icon.getImageUrl()" class="menu-img" />
-            </div>
-            <strong> {{ subMenu.name }}</strong>
-          </el-menu-item>
-        </template>
-      </el-sub-menu>
-    </template>
-  </el-menu>
 </template>
 
 <script lang="ts">
@@ -97,56 +78,186 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-/* layout */
-.gridcontainer {
-  width: 50vw;
-
-  .grid {
-    padding: 2%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-    grid-auto-rows: 9rem;
-    grid-gap: 16px;
-    grid-auto-flow: dense;
-  }
-
-  .grid--big-columns {
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-  }
-
-  .grid--big-gap {
-    grid-gap: 2.5rem;
-  }
-
-  /* styling */
-
-  .card--expanded {
-    grid-column: span 3;
-    grid-row: span 3;
-    .card__img {
-      transform: scale(1.03);
-    }
-  }
+* {
+  padding: 0px;
+  margin: 0px;
 }
 
-.icon svg {
-  width: 20px;
-  margin-right: 10px;
+*,
+::after,
+::before {
+  box-sizing: initial;
 }
 
-.icon {
-  fill: #ffffff;
+html,
+body {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.hidden {
+  display: none;
+}
+
+ul.menu-center {
   display: flex;
   align-items: center;
-  color: black;
+  height: 56px;
 }
 
-.menu-img {
-  height: 18px;
-  width: 18px;
-  margin-right: 5px;
+ul.menu-center li {
+  display: inline;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  align-items: center;
+  color: #343e5c;
+  height: auto;
+  background: #f5f6f8;
+  border: solid 1px #f5f6f8;
 }
-:deep(.el-drawer__body) {
-  padding: 0 !important;
+
+.link-menu {
+  color: #343e5c;
+  text-decoration: none;
+  transition: color 0.3s ease 0s;
+  text-transform: uppercase;
+  align-items: center;
+  padding: 18px 20px 19px 20px;
+}
+
+h3 {
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 100%;
+  color: #343e5c;
+  font-weight: lighter;
+}
+
+.index-about-column {
+  display: flex;
+  width: 200px;
+  height: 100px;
+  // border: rgba(0, 0, 0, 0.05) solid 1px;
+  // border-radius: 5px;
+  background-clip: padding-box;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.index-about-colomn-text {
+  display: flex;
+  width: 70%;
+  align-items: center;
+  justify-content: left;
+  color: #343e5c;
+}
+
+.index-about-colomn-icon {
+  display: flex;
+  width: 30%;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+}
+
+.icon-menu {
+  width: 28px;
+  height: 28px;
+  stroke: #343e5c;
+  transition: 0.25s;
+  padding-right: 30px;
+}
+
+.icon-menu:hover {
+  stroke: #379fff;
+}
+
+.icon-info {
+  width: 20px;
+  height: 20px;
+  fill: #1979cf;
+  transition: 0.25s;
+}
+
+.icon-info:hover {
+  fill: #0034cf;
+}
+
+.link-colomn {
+  text-decoration: none;
+}
+
+.icon-1 {
+  width: 100px;
+  height: 100px;
+  fill: #0bae57;
+  transition: 0.25s;
+}
+
+li .dropmenu {
+  display: none;
+  position: absolute;
+  left: 45%;
+  transform: translateX(-45%);
+  z-index: 99;
+  margin-top: 22px;
+  cursor: pointer;
+}
+
+.link-menu:focus ~ .dropmenu,
+.link-menu:active ~ .dropmemu,
+.dropmenu:hover {
+  display: block;
+}
+
+.link-menu:focus-within {
+  background: #ffffff;
+}
+
+.index-about-column:hover {
+  transform: scale(1.03);
+  transition: 0.1s;
+}
+
+.subMenu-place {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-flow: row wrap;
+  padding: 1px 0px 1px 4px;
+  background: #f5f6f8;
+  width: 640px;
+}
+
+li:hover {
+  background: #ffffff;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1025px) {
+  .menu-center {
+    display: block;
+  }
+
+  .menu-center {
+    width: 320px;
+  }
+
+  ul.menu-center {
+    display: block;
+  }
+
+  ul.menu-center li {
+    display: flex;
+  }
+
+  .subMenu-place {
+    width: 210px;
+  }
 }
 </style>

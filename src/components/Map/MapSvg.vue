@@ -1,8 +1,11 @@
 <template>
   <div class="page-container">
+    {{ buildingId }}
+    {{ position }}
     <MapRouter />
     <div id="map-svg-container">
       <Component :is="require(`@/assets/img/map.svg`).default" id="map-svg"></Component>
+
       <MapPopover
         v-if="buildingId && position && building"
         :position="position"
@@ -57,6 +60,7 @@ export default defineComponent({
 
       setTimeout(function () {
         buildingId.value = item.id;
+        buildingId.value;
         item.classList.remove('flicker');
       }, 50);
     };
@@ -72,16 +76,16 @@ export default defineComponent({
       //     treeJump(n as HTMLElement);
       //   })
       // );
-
       buildingsRef.childNodes.forEach((item: EventTarget) => {
         const buildingId = (item as HTMLElement).id.replace('b-', '');
         const el = document.getElementById(`num-${buildingId}`);
         const b = document.getElementById((item as HTMLElement).id);
-
         if (el) {
           el.addEventListener('mouseover', () => {
             if (el) el.classList.add('red-num');
-            if (b) b.classList.add('hover-building');
+            if (b) {
+              b.classList.add('hover-building');
+            }
           });
         }
 
@@ -97,6 +101,7 @@ export default defineComponent({
 
         item.addEventListener('click', () => {
           const el = document.getElementById('map-svg-container');
+          console.log(el);
           if (!el) return;
           let parentPos = el.getBoundingClientRect(),
             childrenPos = (item as HTMLElement).getBoundingClientRect(),

@@ -1,21 +1,24 @@
 <template>
   <!-- Spacer, which helps, when header becomes fixed -->
   <div v-if="scrollOffset >= 66" class="spacer">&nbsp;</div>
+  <!-- Adaptive side menu -->
+  <div class="drawer">
+    <el-drawer v-model="showDrawer" :size="'auto'" direction="ltr" :with-header="false">
+      <div class="drawer-block">
+        <NavMenu :vertical="true" style="min-width: 200px" @changeDrawerStatus="changeDrawerStatus" />
+      </div>
+    </el-drawer>
+  </div>
+  <!-- Fix header when headerTop was passed -->
   <div :class="{ fixed: scrollOffset >= 66 }">
-    <div class="header-menu">
+    <div class="header-bottom">
       <div class="container" style="height: 100%">
         <div class="menu-container">
           <div class="menu-container-left">
-            <button class="link-menu">
-              <svg class="icon-menu">
-                <use xlink:href="#Main_menu_burger"></use>
-              </svg>
-            </button>
-            <ul class="dropmenu">
-              <li class="subMenu-place">
-                <NavMenu />
-              </li>
-            </ul>
+            <el-button icon="el-icon-s-unfold" class="menu-item open-menu-button" @click="changeDrawerStatus"></el-button>
+            <el-button v-if="scrollOffset >= 66 && !mobileWindow" class="menu-item">
+              <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" @click="$router.push('/')" />
+            </el-button>
           </div>
           <div class="menu-container-center">
             <NavMenu />
@@ -78,13 +81,6 @@
       </div>
     </div>
   </div>
-  <svg width="0" height="0" class="hidden">
-    <symbol id="Main_menu_burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M3 12H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M3 18H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-    </symbol>
-  </svg>
 </template>
 
 <script lang="ts">
@@ -174,12 +170,10 @@ export default defineComponent({
 }
 .menu-container-left {
   display: flex;
-  align-items: center;
 }
 .menu-container {
   display: flex;
-  // justify-content: space-evenly;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: 56px;
 
   &-left {
@@ -266,7 +260,7 @@ export default defineComponent({
 
 :deep(.el-button) {
   border: none;
-  background-color: #f5f6f8;
+  background-color: whitesmoke;
 
   i {
     font-size: 24px;
@@ -318,54 +312,7 @@ export default defineComponent({
 .drawer {
   display: none;
 }
-
-.icon-menu {
-  width: 28px;
-  height: 28px;
-  stroke: #343e5c;
-  transition: 0.25s;
-  padding-right: 30px;
-  padding-left: 15px;
-}
-
-.icon-menu:hover {
-  stroke: #379fff;
-}
-
-.menu-container-left {
-  align-items: center;
-  display: none;
-}
-
-li:hover {
-  background: #ffffff;
-  cursor: pointer;
-}
-
-.link-menu:focus ~ .dropmenu,
-.link-menu:active ~ .dropmemu,
-.dropmenu:hover {
-  display: block;
-}
-
-.link-menu:focus-within {
-  stroke: #379fff;
-}
-
-li .dropmenu {
-  position: absolute;
-  left: 45%;
-  transform: translateX(-45%);
-  z-index: 99;
-  margin-top: 22px;
-  cursor: pointer;
-}
-
-.dropmenu {
-  z-index: 98;
-}
-
-@media screen and (max-width: 1090px) {
+@media screen and (max-width: 980px) {
   .menu-container-center {
     display: none;
   }
@@ -373,46 +320,9 @@ li .dropmenu {
   .drawer {
     display: unset;
   }
-
-  .menu-container-left {
-    display: flex;
-    align-items: center;
-  }
 }
-
-.header-menu {
-  background: #f5f6f8;
-  height: 56px;
-}
-
-// li:hover {
-//   background: #ffffff;
-//   cursor: pointer;
-// }
-
-.dropmenu {
-  display: none;
-  position: relative;
-}
-
-.subMenu-place {
-  position: absolute;
-  top: 50px;
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  flex-flow: row wrap;
-  padding: 1px 0px 1px 0px;
-  width: 210px;
-  left: -50px;
-}
-
-button {
+:deep(.el-drawer__body) {
   padding: 0;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
-  cursor: pointer;
+  background-color: whitesmoke;
 }
 </style>

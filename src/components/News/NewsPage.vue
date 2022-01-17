@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="news-content-container">
-      <div class="card" style="padding: 30px">
+      <div class="card-item" style="padding: 30px">
         <div class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
           <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="errorImg" />
