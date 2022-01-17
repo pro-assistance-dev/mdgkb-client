@@ -18,6 +18,7 @@ export default class Comment implements IComment {
   positive = false;
   title = '';
   rating = 0;
+  answer = '';
   link = '';
   commentTo = '';
   news?: INews;
@@ -40,6 +41,7 @@ export default class Comment implements IComment {
     this.isEditing = comment.isEditing;
     this.rating = comment.rating;
     this.modChecked = comment.modChecked;
+    this.answer = comment.answer;
     this.positive = comment.positive;
     if (comment.user) {
       this.user = new User(comment.user);
