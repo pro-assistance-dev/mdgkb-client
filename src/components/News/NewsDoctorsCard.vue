@@ -1,26 +1,74 @@
 <template>
   <div class="card">
     <h4>Врачи в статье</h4>
-    <el-divider />
-    <div class="card-row">
-      <img :src="require(`@/assets/img/310x310.png`)" alt="" />
-      <div>
-        <div class="name">Поддубный Игорь</div>
-        <div class="regalis">научный руководитель отеделения, доктор медицинских наук</div>
+    <el-divider style="margin-bottom: 0" />
+    <el-table :data="newsDoctors" cell-class-name="cell-row" :show-header="false">
+      <el-table-column>
+        <template #default="scope">
+          <div
+            class="card-row"
+            @click="$router.push({ name: `DoctorPage`, params: { id: scope.row.doctor.id, slug: scope.row.doctor.human.slug } })"
+          >
+            <img
+              v-if="scope.row.doctor.fileInfo.fileSystemPath"
+              :src="scope.row.doctor.fileInfo.getImageUrl()"
+              alt="Фото врача"
+              @error="errorImg"
+            />
+            <img v-else src="@/assets/img/doctor-default.png" />
+            <div>
+              <div class="name">
+                <div>{{ scope.row.doctor.human.surname }}</div>
+                <div>{{ scope.row.doctor.human.name }}</div>
+              </div>
+              <div class="regalias">
+                <span>{{ scope.row.position }}</span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!-- <template v-for="newsDoctor in newsDoctors" :key="newsDoctor.id">
+      <div class="card-row">
+        <img v-if="newsDoctor.doctor.fileInfo.fileSystemPath" :src="newsDoctor.doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
+        <img v-else src="@/assets/img/doctor-default.png" />
+        <div>
+          <div class="name">
+            <div>{{ newsDoctor.doctor.human.surname }}</div>
+            <div>{{ newsDoctor.doctor.human.name }}</div>
+          </div>
+          <div class="regalias">
+            <span>{{ newsDoctor.position }}</span> -->
+    <!-- <template v-for="(regalia, index) in newsDoctor.doctor.regalias" :key="regalia.id">
+              <span v-if="index === 0">{{ regalia.name }}</span>
+              <span v-else>, {{ regalia.name }}</span>
+            </template> -->
+    <!-- </div>
+        </div>
       </div>
-    </div>
-    <div class="card-footer">
       <el-divider />
+    </template> -->
+    <div class="card-footer">
       <button>Все врачи</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+
+import INewsDoctor from '@/interfaces/news/INewsDoctor';
 
 export default defineComponent({
   name: 'NewsDoctorsCard',
+  props: {
+    newsDoctors: {
+      type: Object as PropType<INewsDoctor[]>,
+      required: true,
+    },
+  },
 });
 </script>
 
@@ -38,14 +86,14 @@ h4 {
   img {
     border-radius: 5px;
     margin-right: 10px;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
   }
 }
 .name {
   font-weight: bold;
 }
-.regalis {
+.regalias {
   font-size: 14px;
 }
 .card-footer {
@@ -64,5 +112,8 @@ h4 {
       background-color: darken(white, 10%);
     }
   }
+}
+:deep(.cell-row) {
+  cursor: pointer;
 }
 </style>

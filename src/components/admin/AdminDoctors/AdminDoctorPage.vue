@@ -48,7 +48,10 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
-          <AdminDoctorImage v-if="mounted" title="Загрузить фото" />
+          <el-card header="Фото">
+            <UploaderSingleScan :crop-ratio="'1'" :file-info="doctor.fileInfo" :height="300" :width="300" />
+          </el-card>
+          <!-- <AdminDoctorImage v-if="mounted" title="Загрузить фото" /> -->
           <el-card>
             <el-form-item label="Отображать на сайте" prop="position">
               <el-switch v-model="doctor.show"></el-switch>
@@ -91,7 +94,6 @@ import { useStore } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
 import DoctorRules from '@/classes/DoctorRules';
-import AdminDoctorImage from '@/components/admin/AdminDoctors/AdminDoctorImage.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
@@ -104,7 +106,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
-  components: { TimetableConstructorV2, HumanForm, ImageCropper, AdminDoctorImage, EducationForm, CardHeader, UploaderSingleScan },
+  components: { TimetableConstructorV2, HumanForm, ImageCropper, EducationForm, CardHeader, UploaderSingleScan },
   setup() {
     const store = useStore();
     const route = useRoute();

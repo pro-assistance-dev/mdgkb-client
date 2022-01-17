@@ -62,7 +62,7 @@
     <div class="add-comment">
       <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
         <el-form-item prop="comment.text">
-          <el-rate v-model="comment.comment.rating" allow-half />
+          <el-rate v-if="isReviews" v-model="comment.comment.rating" allow-half />
           <el-input
             ref="commentInput"
             v-model="comment.comment.text"
@@ -191,7 +191,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .add-comment {
-  margin: 50px 0 50px 0;
+  // margin: 50px 0 50px 0;
 }
 
 h3 {
@@ -205,7 +205,8 @@ h3 {
 
 .comments-card {
   position: relative;
-  margin: 20px 0 0 0;
+  // margin: 20px 0 0 0;
+  margin-bottom: 20px;
 }
 
 .comment-header {

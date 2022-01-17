@@ -3,7 +3,7 @@
     <h4>Читайте также</h4>
     <el-divider />
     <el-table :data="recentNewsList" cell-class-name="cell-row" :show-header="false">
-      <el-table-column header-align="center">
+      <el-table-column>
         <template #default="scope">
           <div class="recent-news-item" @click="getNewsAndRecent(scope.row.slug)">
             <div class="item-title">{{ scope.row.title }}</div>

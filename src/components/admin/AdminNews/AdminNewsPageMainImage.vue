@@ -1,37 +1,34 @@
 <template>
-  <el-card>
-    <template #header> Основное изображение </template>
-    <el-upload
-      ref="uploader"
-      :multiple="false"
-      class="avatar-uploader-cover"
-      action="#"
-      list-type="picture-card"
-      :file-list="fileList"
-      :auto-upload="false"
-      :limit="parseInt('1')"
-      :on-change="toggleUpload"
-      :class="{ hideUpload: !showUpload }"
-      accept="image/jpeg,image/png,image/jng"
-    >
-      <template #default>
-        <i class="el-icon-plus custom-plus"></i>
-      </template>
-      <template #file="{ file }">
-        <div>
-          <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-        </div>
-        <span class="el-upload-list__item-actions">
-          <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, 'main')">
-            <i class="el-icon-zoom-in"></i>
-          </span>
-          <span class="el-upload-list__item-delete" @click="handleRemove(file)">
-            <i class="el-icon-delete"></i>
-          </span>
+  <el-upload
+    ref="uploader"
+    :multiple="false"
+    class="avatar-uploader-cover"
+    action="#"
+    list-type="picture-card"
+    :file-list="fileList"
+    :auto-upload="false"
+    :limit="parseInt('1')"
+    :on-change="toggleUpload"
+    :class="{ hideUpload: !showUpload }"
+    accept="image/jpeg,image/png,image/jng"
+  >
+    <template #default>
+      <i class="el-icon-plus custom-plus"></i>
+    </template>
+    <template #file="{ file }">
+      <div>
+        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+      </div>
+      <span class="el-upload-list__item-actions">
+        <span class="el-upload-list__item-preview" @click="$emit('handlePictureCardPreview', file, 'main')">
+          <i class="el-icon-zoom-in"></i>
         </span>
-      </template>
-    </el-upload>
-  </el-card>
+        <span class="el-upload-list__item-delete" @click="handleRemove(file)">
+          <i class="el-icon-delete"></i>
+        </span>
+      </span>
+    </template>
+  </el-upload>
 </template>
 
 <script lang="ts">
@@ -89,7 +86,7 @@ $news-content-max-height: $news-content-max-width / 2;
 
 .avatar-uploader-cover {
   // height: 400px;
-  text-align: center;
+  // text-align: center;
 }
 
 .custom-plus {

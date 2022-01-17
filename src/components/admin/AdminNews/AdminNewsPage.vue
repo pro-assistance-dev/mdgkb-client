@@ -1,13 +1,15 @@
 <template>
   <div class="wrapper">
-    <el-form ref="form" :key="news" :model="news" :rules="rules">
+    <el-form ref="form" :key="news" :model="news" label-position="top" :rules="rules">
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <template #header>Заголовок</template>
-              <el-form-item prop="title">
+              <el-form-item prop="title" label="Заголовок:">
                 <el-input v-model="news.title" placeholder="Заголовок"></el-input>
+              </el-form-item>
+              <el-form-item prop="previewText" label="Превью новости:">
+                <el-input v-model="news.previewText" placeholder="Превью новости" type="textarea" :autosize="{ minRows: 2 }"></el-input>
               </el-form-item>
             </el-card>
             <el-card class="content-card">
@@ -22,7 +24,13 @@
                 ></QuillEditor>
               </el-form-item>
             </el-card>
-            <AdminNewsPageMainImage v-if="mounted" />
+            <el-card>
+              <template #header> Основное изображение </template>
+              <AdminNewsPageMainImage v-if="mounted" />
+              <el-form-item prop="mainImageDescription" label="Описание:">
+                <el-input v-model="news.mainImageDescription" placeholder="Описание"></el-input>
+              </el-form-item>
+            </el-card>
             <AdminNewsPageGallery v-if="mounted" />
           </el-container>
         </el-col>
@@ -39,6 +47,7 @@
             </el-card>
             <AdminNewsPageTags />
             <AdminNewsPagePreviewImage v-if="mounted" title="Загрузить превью новости" />
+            <AdminNewsDoctors />
           </el-container>
         </el-col>
       </el-row>
@@ -46,7 +55,6 @@
     </el-form>
 
     <ImageCropper />
-    <AdminNewsDoctors />
   </div>
 </template>
 

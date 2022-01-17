@@ -1,5 +1,5 @@
 <template>
-  <div class="news-page-container">
+  <div v-if="mounted" class="news-page-container">
     <div class="side-container hidden-md-and-down">
       <div class="side-item">
         <NewsCalendar />
@@ -7,8 +7,8 @@
       <div class="side-item">
         <RecentNewsCard />
       </div>
-      <div class="side-item">
-        <NewsDoctorsCard />
+      <div v-if="news.newsDoctors.length" class="side-item">
+        <NewsDoctorsCard :news-doctors="news.newsDoctors" />
       </div>
     </div>
     <div class="news-content-container">
@@ -16,8 +16,8 @@
         <div class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
           <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="errorImg" />
-          <div class="image-comment">Место под комментарий к картинке</div>
-          <div class="article-preview">Место под превью к новости</div>
+          <div class="image-comment">{{ news.mainImageDescription }}</div>
+          <div class="article-preview">{{ news.previewText }}</div>
         </div>
         <div v-if="news.event" class="card-header event-registration-button">
           <EventRegistration store-name="news" :parent-id="news.id" />
@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -62,6 +62,7 @@ export default defineComponent({
     const commentInput = ref();
     const store = useStore();
     const route = useRoute();
+    const mounted: Ref<boolean> = ref(false);
     const slug = computed(() => route.params['slug']);
     const news: ComputedRef<INews> = computed<INews>(() => store.getters['news/newsItem']);
 
@@ -75,6 +76,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('news/get', slug.value);
       await store.dispatch('news/getAll');
+      mounted.value = true;
     });
 
     const newsContent = computed(() =>
@@ -89,6 +91,7 @@ export default defineComponent({
       rules,
       comment,
       news,
+      mounted,
       newsContent,
       commentInput,
       commentForm,
