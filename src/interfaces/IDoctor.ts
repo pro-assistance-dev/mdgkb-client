@@ -7,6 +7,7 @@ import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
+import IPosition from '@/interfaces/IPosition';
 import IRegalia from '@/interfaces/IRegalia';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -20,7 +21,8 @@ export default interface IDoctor {
   show: boolean;
   timetable: ITimetable;
   timetableId?: string;
-  position?: string;
+  position?: IPosition;
+  positionId?: string;
   tags?: string;
   fileInfoId?: string;
   fileInfo: IFileInfo;

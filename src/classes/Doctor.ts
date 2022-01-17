@@ -6,6 +6,7 @@ import Experience from '@/classes/Experience';
 import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
 import MedicalProfile from '@/classes/MedicalProfile';
+import Position from '@/classes/Position';
 import Regalia from '@/classes/Regalia';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
@@ -17,6 +18,7 @@ import IDoctorComment from '@/interfaces/IDoctorComment';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IExperience from '@/interfaces/IExperience';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
+import IPosition from '@/interfaces/IPosition';
 import IRegalia from '@/interfaces/IRegalia';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -31,7 +33,8 @@ export default class Doctor implements IDoctor {
   show = false;
   timetable: ITimetable = new Timetable();
   timetableId?: string;
-  position?: string;
+  position?: IPosition;
+  positionId?: string;
   tags?: string;
   fileInfo = new FileInfo();
   fileInfoId?: string;
@@ -82,6 +85,10 @@ export default class Doctor implements IDoctor {
     this.academicRank = i.academicRank;
     if (i.regalias) {
       this.regalias = i.regalias.map((item: IRegalia) => new Regalia(item));
+    }
+    this.positionId = i.positionId;
+    if (i.position) {
+      this.position = new Position(i.position);
     }
     if (i.educations) {
       this.educations = i.educations.map((item: IEducation) => new Education(item));

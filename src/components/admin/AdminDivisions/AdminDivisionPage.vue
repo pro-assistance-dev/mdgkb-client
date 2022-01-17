@@ -78,7 +78,7 @@
               </el-table-column>
               <el-table-column label="Должность" sortable>
                 <template #default="scope">
-                  {{ scope.row.position }}
+                  {{ scope.row.position.name }}
                 </template>
               </el-table-column>
               <el-table-column label="Отображать" sortable>
