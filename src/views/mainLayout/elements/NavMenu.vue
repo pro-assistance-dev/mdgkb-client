@@ -27,8 +27,17 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import IMenu from '@/interfaces/elements/IMenu';
+
 export default defineComponent({
   name: 'NavMenu',
+  props: {
+    vertical: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['changeDrawerStatus'],
   setup(prop, { emit }) {
     let expand = ref(false);
     const activePath: Ref<string> = ref('');
@@ -39,6 +48,7 @@ export default defineComponent({
     const route = useRoute();
 
     const menuClickHandler = (link: string) => {
+      emit('changeDrawerStatus', false);
       router.push(link);
     };
 
@@ -54,8 +64,11 @@ export default defineComponent({
       }
     );
 
+    const collapseCard = () => menus.value.forEach((v: IMenu) => v.collapseCard());
+
     return {
       menus,
+      collapseCard,
       expand,
       activePath,
       menuClickHandler,
