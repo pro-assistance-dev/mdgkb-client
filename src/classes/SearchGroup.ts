@@ -4,6 +4,7 @@ import ISearchGroup from '@/interfaces/ISearchGroup';
 
 export default class SearchGroup implements ISearchGroup {
   id?: string;
+  key = '';
   label = '';
   order = '';
   route = '';
@@ -18,6 +19,7 @@ export default class SearchGroup implements ISearchGroup {
       return;
     }
     this.id = i.id;
+    this.key = i.key;
     this.label = i.label;
     this.order = i.order;
     this.route = i.route;

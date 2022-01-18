@@ -37,18 +37,6 @@
       <div v-for="paidService in division.divisionPaidServices" :key="paidService.id">
         {{ paidService.paidService.name }}
       </div>
-      <el-collapse v-if="division.name === 'Гинекологическое отделение'" accordion>
-        <PaidService ref="ginService" v-model:services="ginDiv" :title="'Открыть список'" @selectService="selectServiceGin" />
-      </el-collapse>
-      <el-collapse v-if="division.name === 'Оториноларингологическое отделение'" accordion>
-        <PaidService
-          v-if="division.name === 'Оториноларингологическое отделение'"
-          ref="otoService"
-          v-model:services="otoDiv"
-          :title="'Оториноларингологическое отделение'"
-          @selectService="selectServiceOto"
-        />
-      </el-collapse>
     </el-card>
     <el-card>
       <template #header>Госпитализации</template>
@@ -102,17 +90,13 @@ import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
-import { ginDiv } from '@/components/PaidServices/ginDiv';
-import { otoDiv } from '@/components/PaidServices/otoDiv';
-import PaidService from '@/components/PaidServices/PaidService.vue';
 import Timetable from '@/components/Timetable.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
-import IPaidService from '@/interfaces/IPaidService';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 
 export default defineComponent({
   name: 'AboutInfo',
-  components: { PaidService, DoctorInfoCard, ImageGallery, Timetable },
+  components: { DoctorInfoCard, ImageGallery, Timetable },
   props: {
     division: {
       type: Object as PropType<IDivision>,
@@ -130,24 +114,10 @@ export default defineComponent({
     const aroundTheClock: Ref = ref(true);
     const commonVisitingRules: ComputedRef<IVisitingRule[]> = computed(() => store.getters['visitingRules/items']);
 
-    let selectedServiceGin: IPaidService[] = [];
-    let selectedServiceOto: IPaidService[] = [];
-
     const calcSum = () => {
       sum.value = 0;
-      selectedServiceGin.forEach((s) => (sum.value = Number(s.price) + sum.value));
-      selectedServiceOto.forEach((s) => (sum.value = Number(s.price) + sum.value));
     };
 
-    const selectServiceGin = (services: IPaidService[]) => {
-      selectedServiceGin = services;
-      calcSum();
-    };
-
-    const selectServiceOto = (services: IPaidService[]) => {
-      selectedServiceOto = services;
-      calcSum();
-    };
     const clearSelectedService = () => {
       if (ginService.value) ginService.value.clearSelection();
       if (otoService.value) otoService.value.clearSelection();
@@ -170,10 +140,6 @@ export default defineComponent({
       ginService,
       otoService,
       sum,
-      selectServiceOto,
-      selectServiceGin,
-      ginDiv,
-      otoDiv,
       scrollOffset,
       previousOffset,
       rememberedOffset,

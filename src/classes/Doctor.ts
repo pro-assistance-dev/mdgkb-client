@@ -44,6 +44,7 @@ export default class Doctor implements IDoctor {
   regalias: IRegalia[] = [];
   regaliasForDelete: string[] = [];
   doctorPaidServices: IDoctorPaidService[] = [];
+  doctorPaidServicesForDelete: string[] = [];
   educations: IEducation[] = [];
   educationsForDelete: string[] = [];
   timetableDaysForDelete: string[] = [];
@@ -126,6 +127,18 @@ export default class Doctor implements IDoctor {
       this.certificatesForDelete.push(idForDelete);
     }
     this.certificates.splice(index, 1);
+  }
+
+  addDoctorPaidService(): void {
+    this.doctorPaidServices.push(new DoctorPaidService());
+  }
+
+  removeDoctorPaidService(index: number): void {
+    const idForDelete = this.doctorPaidServices[index].id;
+    if (idForDelete) {
+      this.doctorPaidServicesForDelete.push(idForDelete);
+    }
+    this.doctorPaidServices.splice(index, 1);
   }
 
   getFileInfos(): IFileInfo[] {

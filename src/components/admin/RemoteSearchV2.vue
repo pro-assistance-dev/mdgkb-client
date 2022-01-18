@@ -11,44 +11,61 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import SearchModel from '@/classes/SearchModel';
+import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearch from '@/interfaces/ISearchObject';
 import ISearchObject from '@/interfaces/ISearchObject';
+import { SearchModes } from '@/interfaces/SearchModes';
 
 export default defineComponent({
-  name: 'RemoteSearch',
+  name: 'RemoteSearchV2',
   props: {
-    storeModule: {
+    keyValue: {
+      type: String as PropType<string>,
+      default: '',
+    },
+    modelValue: {
       type: String as PropType<string>,
       default: '',
     },
   },
-  setup() {
+  emits: ['select'],
+  setup(props, { emit }) {
     const store = useStore();
-    const queryString: Ref<string> = ref('');
-    const storeModule: string = store.getters['filter/storeModule'];
+    const queryString: Ref<string> = ref(props.modelValue);
+
+    const searchGroups: ComputedRef<ISearchGroup[]> = computed<ISearchGroup[]>(() => store.getters['search/searchGroups']);
 
     const find = async (query: string, resolve: CallableFunction): Promise<void> => {
+      const searchModel = new SearchModel();
+      searchModel.searchMode = SearchModes.SearchModeObjects;
       const searchObjects: ISearchObject[] = [];
       if (query.length > 2) {
-        console.log(searchObjects, query);
-        await store.dispatch(`${storeModule}/search`, { query: query, searchObjects: searchObjects });
+        searchModel.query = query;
+        const groupForSearch = searchGroups.value.find((group: ISearchGroup) => group.key === props.keyValue);
+        if (groupForSearch) {
+          searchModel.searchGroup = groupForSearch;
+        }
+        await store.dispatch(`search/search`, searchModel);
       }
-      resolve(searchObjects);
+      // console.log()
+      resolve(searchModel.searchObjects);
     };
 
     const handleSearchInput = async (value: string): Promise<void> => {
-      console.log(1);
       if (value.length === 0) {
-        await store.dispatch(`${storeModule}/getAll`, store.getters['filter/filterQuery']);
+        await store.dispatch(`search/search`, store.getters['filter/filterQuery']);
       }
       store.commit('pagination/setCurPage', 0);
     };
 
     const handleSelect = async (item: ISearch): Promise<void> => {
-      await store.dispatch(`${storeModule}/getAllById`, item.id);
+      console.log(item);
+      emit('select', item);
+      // await store.dispatch(`${storeModule}/getAllById`, item.id);
     };
 
     return { queryString, handleSelect, find, handleSearchInput };

@@ -4,7 +4,7 @@ export default class PaidService implements IPaidService {
   id?: string;
   code = '';
   name = '';
-  price = '';
+  price = 0;
   duration = '';
 
   constructor(i?: IPaidService) {
