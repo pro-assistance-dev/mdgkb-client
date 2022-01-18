@@ -1,27 +1,37 @@
 <template>
   <div class="card-item">
     <ul>
-      <li>Информация о вступительном испытании</li>
-      <li>Информация о правилах проведения вступительных испытаний (тестирование)</li>
-      <li>Инструкция по вступительным испытаниям</li>
-      <li>Перечень вступительных испытаний</li>
-      <li>Расписание вступительных испытаний</li>
-      <li>Баллы за индивидуальные достижения</li>
+      <li v-for="file in files" :key="file.url">
+        <a target="_blank" :href="file.url" :download="file.download">{{ file.download }}</a>
+      </li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 
 export default defineComponent({
   name: 'OrdinaturaExams',
-
   setup() {
-    const mounted = ref(false);
+    const fileInfos = [
+      'Информация о вступительном испытании',
+      'Информация о правилах проведения вступительных испытаний (тестирование)',
+      'Инструкция по вступительным испытаниям',
+      'Перечень вступительных испытаний',
+      'Расписание вступительных испытаний',
+      'Баллы за индивидуальные достижения',
+    ];
+    const files: any = [];
+    onBeforeMount(() => {
+      const url = process.env.VUE_APP_STATIC_URL + '/educ/ord/exams/';
+      fileInfos.forEach((f: string, i: number) => {
+        files.push({ url: url + i + '.pdf', download: f });
+      });
+    });
 
     return {
-      mounted,
+      files,
     };
   },
 });

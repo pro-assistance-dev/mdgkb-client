@@ -1,25 +1,33 @@
 <template>
-  <div class="ques-answ-container">
-    <h1>Аспирантура</h1>
-    <el-tabs type="border-card" active-name="Вступительные испытания" :before-leave="test">
-      <el-tab-pane label="Вступительные испытания" name="Вступительные испытания">
-        <AspiranturaExams />
-      </el-tab-pane>
-      <el-tab-pane label="Документы для поступления" name="Документы для поступления">
-        <AspiranturaDocumentsForAdmission />
-      </el-tab-pane>
-      <el-tab-pane label="Образцы заявлений" name="Образцы заявлений">
-        <AspiranturaForms />
-      </el-tab-pane>
-      <el-tab-pane label="Положения и нормативные документы">
-        <AspiranturaNormativeDocuments />
-      </el-tab-pane>
-    </el-tabs>
+  <div class="ordinatura-page-container">
+    <div class="side-container">
+      <div class="side-item">
+        <div class="card-item">
+          <h4>Аспирантура</h4>
+          <el-divider />
+          <el-table :data="menu" cell-class-name="cell-row" :show-header="false">
+            <el-table-column>
+              <template #default="scope">
+                <div :class="isActive(scope.row.name)" @click="changeTab(scope.row.name)">
+                  {{ scope.row.name }}
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <AspiranturaExams v-if="activeMenuName === 'Вступительные испытания'" />
+      <AspiranturaDocumentsForAdmission v-if="activeMenuName === 'Документы для поступления'" />
+      <AspiranturaForms v-if="activeMenuName === 'Образцы заявлений'" />
+      <AspiranturaNormativeDocuments v-if="activeMenuName === 'Положения и нормативные документы'" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import AspiranturaDocumentsForAdmission from '@/components/EducationalOrganization/Aspirantura/AspiranturaDocumentsForAdmission.vue';
 import AspiranturaExams from '@/components/EducationalOrganization/Aspirantura/AspiranturaExams.vue';
@@ -31,19 +39,68 @@ export default defineComponent({
   components: { AspiranturaExams, AspiranturaDocumentsForAdmission, AspiranturaForms, AspiranturaNormativeDocuments },
 
   setup() {
-    return {};
+    const pageTitle: Ref<string> = ref('Вступительные испытания');
+    const activeMenuName: Ref<string> = ref('Вступительные испытания');
+
+    const menu = [
+      { name: 'Вступительные испытания' },
+      { name: 'Документы для поступления' },
+      { name: 'Образцы заявлений' },
+      { name: 'Положения и нормативные документы' },
+    ];
+
+    const isActive = (name: string): string => {
+      return name === activeMenuName.value ? 'is-active' : '';
+    };
+    const changeTab = (name: string) => {
+      activeMenuName.value = name;
+    };
+    const test = (activeName: string) => {
+      pageTitle.value = activeName;
+    };
+
+    return { test, menu, isActive, changeTab, pageTitle, activeMenuName };
   },
 });
 </script>
 
-<style>
-h1 {
-  text-align: center;
-  font-size: 24px;
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/ordinatura.scss';
+$side-cotainer-max-width: 300px;
+$content-max-width: 1000px;
+$card-margin-size: 30px;
+
+h4 {
+  margin: 0;
 }
-.ques-answ-container {
+.el-divider {
+  margin: 10px 0 0;
+}
+:deep(.cell) {
+  padding: 0 !important;
+}
+:deep(.cell-row) {
+  cursor: pointer;
+}
+.ordinatura-page-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.side-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  width: 100%;
+  max-width: $side-cotainer-max-width;
+  margin-right: $card-margin-size;
+
+  .side-item {
+    margin-bottom: $card-margin-size;
+  }
+}
+
+.content-container {
+  max-width: $content-max-width;
+  width: 100%;
 }
 </style>

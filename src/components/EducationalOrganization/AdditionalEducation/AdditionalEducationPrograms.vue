@@ -1,41 +1,74 @@
 <template>
-  <el-row :gutter="40">
-    <el-col :xl="18" :offset="3">
-      <h4 style="text-align: center">Базовые программы</h4>
-      <el-table :data="basePrograms" border direction="horizontal">
-        <el-table-column label="Программа" prop="program" />
-        <el-table-column label="Кол-во часов" prop="hours" />
-        <el-table-column label="Стоимость" prop="cost" />
-      </el-table>
-    </el-col>
-  </el-row>
-  <el-row :gutter="40">
-    <el-col :xl="24">
-      <h4 style="text-align: center">Дополнительные профессиональные программы до 36 часов по госзаданию на 2019 год</h4>
-      <el-table :data="additionalPrograms" border direction="horizontal">
-        <el-table-column label="Программа" width="600" prop="name" />
-        <el-table-column label="Дата" prop="teacher" />
-        <el-table-column label="Часов" prop="hours" width="70" />
-        <el-table-column label="Время" prop="start" width="100" />
-        <el-table-column label="Слушателей" width="120" prop="listeners" />
-      </el-table>
-    </el-col>
-  </el-row>
-  <ul>
-    <li>Инструкция по записи на цикл НМО</li>
-    <li>Презентация по циклу НМО Педиатрия</li>
-    <li>Информация по циклу Педиатрия</li>
-  </ul>
+  <div class="card-item">
+    <h4 style="text-align: center">Базовые программы</h4>
+    <el-table :data="basePrograms" border direction="horizontal">
+      <el-table-column label="Программа" prop="program" />
+      <el-table-column label="Кол-во часов" prop="hours" />
+      <el-table-column label="Стоимость" prop="cost" />
+    </el-table>
+  </div>
+  <div class="card-item">
+    <h4 style="text-align: center">Дополнительные профессиональные программы до 36 часов по госзаданию на 2019 год</h4>
+    <el-table :data="additionalPrograms" border direction="horizontal">
+      <el-table-column label="Программа" width="600" prop="name" />
+      <el-table-column label="Дата" prop="teacher" />
+      <el-table-column label="Часов" prop="hours" width="70" />
+      <el-table-column label="Время" prop="start" width="100" />
+      <el-table-column label="Слушателей" width="120" prop="listeners" />
+    </el-table>
+  </div>
+
+  <div class="card-item">
+    <ul>
+      <li v-for="file in ped" :key="file.url">
+        <a target="_blank" :href="file.url" :download="file.download">{{ file.download }}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-item">
+    <div class="card-item">
+      <div>
+        Информируем Вас о том, что ГБУЗ «Морозовская ДГКБ ДЗМ» с 20.09.2021 по 18.10.202, с 19.10.2021 по 18.11.201, с 22.11.2021 по
+        17.12.2021 года организует проведение цикла повышения квалификации «Педиатрия». Образовательная программа включена в систему
+        непрерывного медицинского образования.
+      </div>
+      <div>Для получения баллов НМО слушателям будет необходимо:</div>
+      <div>
+        Прослушать необходимое количество времени онлайн-лекции образовательной программы, аккредитованной НМО. Подтвердить своё присутствие
+        на экране по ходу трансляции необходимое количество раз. Свидетельства НМО направляются по электронной почте слушателям, выполнившим
+        необходимые условия.
+      </div>
+      <div>Используя индивидуальный код, полученные кредиты будут зачтены в личном кабинете слушателя на сайте edu.rosminzdrav.ru.</div>
+      <div>Форма обучения: очно-заочная (с применением дистанционных технологий)</div>
+      <div>Продолжительность обучения: 144 часа (144 ЗЕТ)</div>
+      <div>Контингент: врачи-педиатры учреждений Департамента здравоохранения города Москвы.</div>
+      <div>Обучение на бюджетной основе (за счет средств ДЗМ).</div>
+      <div>
+        Дополнительную информацию по вопросам обучения можно получить у специалиста отдела постдипломного образования ГБУЗ «Морозовская
+        детская городская клиническая больница» ДЗМ Боголюбской Юлии Вячеславовны.
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 
 export default defineComponent({
   name: 'AdditionalEducationPrograms',
   components: {},
 
   setup() {
+    const fileInfos = ['Инструкция по записи на цикл НМО', 'Презентация по циклу НМО Педиатрия'];
+    const ped: any = [];
+
+    onBeforeMount(() => {
+      const url = process.env.VUE_APP_STATIC_URL + '/educ/dop/ped/';
+      fileInfos.forEach((f: string, i: number) => {
+        ped.push({ url: url + i + '.pdf', download: f });
+      });
+    });
+
     const basePrograms = [
       {
         program: 'Повышение квалификации',
@@ -156,19 +189,13 @@ export default defineComponent({
       },
     ];
 
-    return { basePrograms, additionalPrograms };
+    return { basePrograms, additionalPrograms, ped };
   },
 });
 </script>
-
-<style>
-h1 {
-  text-align: center;
-  font-size: 24px;
-}
-.ques-answ-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/ordinatura.scss';
+.el-descriptions__label {
+  font-size: 15px;
 }
 </style>
