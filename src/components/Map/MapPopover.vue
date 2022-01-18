@@ -1,5 +1,5 @@
 <template>
-  <el-card id="ppvr" class="card" :style="`position: absolute; right: 0; top: 0;`">
+  <el-card id="ppvr" class="card-container" :style="`position: absolute; right: 0; top: 0;`">
     <template #header>
       <div class="card-header">
         <div class="card-header-title">{{ building.name }}</div>
@@ -55,7 +55,7 @@ export default defineComponent({
 $card-content-padding: 24px;
 $card-content-outpadding: 24px;
 
-.card {
+.card-container {
   z-index: 999;
 
   .floor-number {

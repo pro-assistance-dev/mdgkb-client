@@ -39,11 +39,15 @@ export default interface IDoctor {
   experiences: IExperience[];
   experiencesForDelete: string[];
   doctorPaidServices: IDoctorPaidService[];
+  doctorPaidServicesForDelete: string[];
   certificates: ICertificate[];
   certificatesForDelete: string[];
 
   addExperience: () => void;
   removeExperience: (index: number) => void;
+
+  addDoctorPaidService: () => void;
+  removeDoctorPaidService: (index: number) => void;
 
   addCertificate: () => void;
   removeCertificate: (index: number) => void;

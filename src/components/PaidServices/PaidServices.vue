@@ -13,13 +13,13 @@
     </div>
 
     <el-collapse accordion>
-      <PaidService ref="ginService" v-model:services="ginDiv" :title="'Гинекологическое отделение'" @selectService="selectServiceGin" />
-      <PaidService
-        ref="otoService"
-        v-model:services="otoDiv"
-        :title="'Оториноларингологическое отделение'"
-        @selectService="selectServiceOto"
-      />
+      <!--      <PaidService ref="ginService" v-model:services="ginDiv" :title="'Гинекологическое отделение'" @selectService="selectServiceGin" />-->
+      <!--      <PaidService-->
+      <!--        ref="otoService"-->
+      <!--        v-model:services="otoDiv"-->
+      <!--        :title="'Оториноларингологическое отделение'"-->
+      <!--        @selectService="selectServiceOto"-->
+      <!--      />-->
     </el-collapse>
   </div>
 </template>
@@ -27,14 +27,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 
-import { ginDiv } from '@/components/PaidServices/ginDiv';
-import { otoDiv } from '@/components/PaidServices/otoDiv';
-import PaidService from '@/components/PaidServices/PaidService.vue';
 import IPaidService from '@/interfaces/IPaidService';
 
 export default defineComponent({
   name: 'PaidServices',
-  components: { PaidService },
+  components: {},
   setup() {
     let sum = ref(0);
     const ginService = ref();
@@ -83,8 +80,6 @@ export default defineComponent({
       sum,
       selectServiceOto,
       selectServiceGin,
-      ginDiv,
-      otoDiv,
       scrollOffset,
       previousOffset,
       rememberedOffset,

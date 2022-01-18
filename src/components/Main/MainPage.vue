@@ -108,7 +108,7 @@ export default defineComponent({
       await loadNews();
       await loadDivisions();
       await loadDoctors();
-      await loadComments();
+      // await loadComments();
       mounted.value = true;
     });
 

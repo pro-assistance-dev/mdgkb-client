@@ -44,11 +44,27 @@
               <el-button @click="doctor.removeCertificate(i)">Удалить сертификат</el-button>
             </div>
           </el-card>
+          <el-card>
+            <el-button @click="doctor.addDoctorPaidService()">Добавить услуги</el-button>
+            <div v-for="(doctorPaidService, i) in doctor.doctorPaidServices" :key="doctorPaidService.id">
+              <el-form-item label="Услуга">
+                <RemoteSearchV2
+                  :key-value="'paidService'"
+                  :model-value="doctorPaidService.paidService.name"
+                  @select="doctorPaidService.paidServiceId = $event.id"
+                />
+              </el-form-item>
+              <el-button @click="doctor.removeDoctorPaidService(i)">Удалить услугу</el-button>
+            </div>
+          </el-card>
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
-          <AdminDoctorImage v-if="mounted" title="Загрузить фото" />
+          <el-card header="Фото">
+            <UploaderSingleScan :crop-ratio="'1'" :file-info="doctor.fileInfo" :height="300" :width="300" />
+          </el-card>
+          <!-- <AdminDoctorImage v-if="mounted" title="Загрузить фото" /> -->
           <el-card>
             <el-form-item label="Отображать на сайте" prop="position">
               <el-switch v-model="doctor.show"></el-switch>
@@ -59,16 +75,16 @@
               <CardHeader :label="'Регалии, звания'" :add-button="false" />
             </template>
             <el-form-item label="Должность" prop="position">
-              <el-input v-model="doctor.position"></el-input>
+              <RemoteSearchV2 :key-value="'position'" :model-value="doctor.position.name" @select="selectPosition" />
             </el-form-item>
             <el-form-item label="Учёная степень">
               <el-input v-model="doctor.academicDegree" />
             </el-form-item>
-            <el-form-item label="Ссылка на профиль в системе Московский врач">
-              <el-input v-model="doctor.mosDoctorLink" />
-            </el-form-item>
             <el-form-item label="Звание">
               <el-input v-model="doctor.academicRank" />
+            </el-form-item>
+            <el-form-item label="Ссылка на профиль в системе Московский врач">
+              <el-input v-model="doctor.mosDoctorLink" />
             </el-form-item>
             <el-button @click="addRegalia"> Добавить регалию</el-button>
             <el-form-item label="Регалии">
@@ -91,26 +107,36 @@ import { useStore } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
 import DoctorRules from '@/classes/DoctorRules';
-import AdminDoctorImage from '@/components/admin/AdminDoctors/AdminDoctorImage.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import RemoteSearchV2 from '@/components/admin/RemoteSearchV2.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDoctor from '@/interfaces/IDoctor';
+import ISearchObject from '@/interfaces/ISearchObject';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
-  components: { TimetableConstructorV2, HumanForm, ImageCropper, AdminDoctorImage, EducationForm, CardHeader, UploaderSingleScan },
+  components: {
+    TimetableConstructorV2,
+    HumanForm,
+    ImageCropper,
+    EducationForm,
+    CardHeader,
+    UploaderSingleScan,
+    RemoteSearchV2,
+  },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const form = ref();
     const rules = ref(DoctorRules);
+
     const mounted = ref(false);
 
     const divisionOptions = ref([new Division()]);
@@ -122,6 +148,7 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
+
       // if (!doctor.value.fileInfo.fileSystemPath) {
       //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
       //   saveButtonClick.value = false;
@@ -144,6 +171,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
+      await store.dispatch('search/searchGroups');
       await loadDivisionOptions();
       await loadDoctor();
       store.commit('admin/closeLoading');
@@ -177,7 +205,17 @@ export default defineComponent({
 
     const addRegalia = () => store.commit('doctors/addRegalia');
 
+    const selectPosition = (event: ISearchObject) => {
+      doctor.value.positionId = event.id;
+    };
+
+    const selectPaidService = (event: ISearchObject) => {
+      doctor.value.positionId = event.id;
+    };
+
     return {
+      selectPaidService,
+      selectPosition,
       addRegalia,
       rules,
       submit,

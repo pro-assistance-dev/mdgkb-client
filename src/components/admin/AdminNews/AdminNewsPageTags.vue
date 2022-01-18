@@ -127,21 +127,23 @@ export default defineComponent({
   flex-wrap: wrap;
   justify-content: flex-start;
 
-  .el-checkbox {
+  :deep(.el-checkbox) {
+    padding: 0 10px;
     margin: 5px !important;
   }
 }
 
 .delete-tag-icon {
-  margin-left: 20%;
+  margin-left: 0 5px;
   transition: all 0.1s;
 
   &:hover {
     font-weight: bold;
-    margin-bottom: 10px;
+    transform: scale(1.1);
+    color: red;
+    // margin-bottom: 10px;
   }
 }
-
 .flex-row-between {
   display: flex;
   justify-content: space-between;

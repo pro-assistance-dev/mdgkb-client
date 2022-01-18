@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <el-space>
-      <el-select v-model="newId" filterable placeholder="Выберите преподавателя">
+      <el-select v-model="newId" filterable placeholder="Выберите врача">
         <el-option v-for="item in doctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
       </el-select>
       <el-button type="success" style="margin: 20px" @click="add">Добавить врача</el-button>

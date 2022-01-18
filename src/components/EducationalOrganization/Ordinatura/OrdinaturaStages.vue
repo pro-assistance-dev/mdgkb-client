@@ -1,5 +1,80 @@
 <template>
-  <el-row :gutter="40"> </el-row>
+  <div class="card-item">
+    <h2>Подача документов и испытания</h2>
+    <div v-for="(freeStage, index) in freeStages" :key="freeStage.stage">
+      <el-divider v-if="index !== 0"></el-divider>
+      <h3>{{ freeStage.stage }}</h3>
+      <span>C {{ freeStage.start }}</span>
+      <span> по {{ freeStage.end }}</span>
+    </div>
+  </div>
+
+  <div class="card-item">
+    <h2>Целевая ординатура</h2>
+    <h3>Крайний срок подачи заявления о согласии на зачисление</h3>
+    <div>19 июля, 16:00</div>
+    <el-divider></el-divider>
+    <h3>Сроки зачисления (издание приказа)</h3>
+    <div>20 августа</div>
+    <el-divider></el-divider>
+    <h3>Основание для зачисления</h3>
+    <ul>
+      <li>Заявление</li>
+      <li>Договор с Департаментом здравоохранения г.Москвы</li>
+      <li>Балл тестирования (вступительное испытание): от 70</li>
+      <li>Полный пакет документов</li>
+    </ul>
+  </div>
+
+  <div class="card-item">
+    <h2>Информация для иностранных граждан</h2>
+    <ul>
+      <li>Обучение проводится только на русском языке</li>
+      <li>
+        Места в ординатуре иностранным гражданам и лицам без гражданства, с видом на жительство в РФ, выделяются из квоты для обучающихся по
+        договорам об оказании платных услуг
+      </li>
+    </ul>
+  </div>
+
+  <div class="card-item">
+    <h2>Места по договорам об оказании платных образовательных услуг</h2>
+    <h3>Проведение конкурса</h3>
+    <div>18 августа</div>
+    <el-divider></el-divider>
+    <h3>Крайний срок подачи заявления о согласии на зачисление</h3>
+    <ul>
+      <li><b>1 этап:</b><span> до 20 августа, 16.00</span></li>
+      <li><b>2 этап: </b> до 25 августа, 16.00</li>
+    </ul>
+    <el-divider></el-divider>
+    <h3>Сроки заключения договоров</h3>
+    <div>19 августа - 27 августа</div>
+    <el-divider></el-divider>
+    <h3>Сроки зачисления (издание приказа)</h3>
+    <div>30 августа</div>
+    <el-divider></el-divider>
+    <h3>Основние для зачисления</h3>
+    <ul>
+      <li>Заявление</li>
+      <li>Балл тестирования (вступительное испытание): от 70</li>
+      <li>Рекомендация к зачислению приёмной комиссией МДГКБ на основе конкурса индивидуальных баллов</li>
+      <li>Договор об оказании платных образовательных услуг</li>
+      <li>Оплата обучения</li>
+      <li>Полный пакет документов</li>
+    </ul>
+  </div>
+
+  <div class="card-item">
+    <h2>Стоимость обучения о договорам об оказании платных образовательных услуг</h2>
+    <el-table :data="paid" direction="horizontal">
+      <el-table-column prop="code" label="Код специальности" />
+      <el-table-column label="Наименование программы ординатуры" prop="name" />
+      <el-table-column label="Стоимость за год" prop="cost" />
+    </el-table>
+  </div>
+
+  <!-- <el-row :gutter="40"> </el-row>
   <el-row :gutter="40">
     <el-col :xl="12" :offset="6">
       <h4 style="text-align: center">Подача документов и испытания</h4>
@@ -67,19 +142,17 @@
         <el-table-column label="Стоимость за год" prop="cost" />
       </el-table>
     </el-col>
-  </el-row>
+  </el-row> -->
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'OrdinaturaStages',
 
   setup() {
     const mounted = ref(false);
-    const store = useStore();
     const freeStages = [
       {
         stage: 'Приём документов',
@@ -170,7 +243,8 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/ordinatura.scss';
 .el-descriptions__label {
   font-size: 15px;
 }

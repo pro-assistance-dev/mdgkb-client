@@ -1,5 +1,5 @@
 <template>
-  <div class="news-page-container">
+  <div v-if="mounted" class="news-page-container">
     <div class="side-container hidden-md-and-down">
       <div class="side-item">
         <NewsCalendar />
@@ -7,56 +7,38 @@
       <div class="side-item">
         <RecentNewsCard />
       </div>
+      <div v-if="news.newsDoctors.length" class="side-item">
+        <NewsDoctorsCard :news-doctors="news.newsDoctors" />
+      </div>
     </div>
     <div class="news-content-container">
-      <el-card class="news-image-container">
-        <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="errorImg" />
-        <img v-else src="../../assets/img/310x310.png" />
-      </el-card>
-
-      <el-card class="card-content news">
-        <template #header>
-          <div class="card-header">
-            <h2 class="title article-title">{{ news.title }}</h2>
-          </div>
-          <div v-if="news.event" class="card-header event-registration-button">
-            <EventRegistration store-name="news" :parent-id="news.id" />
-          </div>
-        </template>
+      <div class="card-item" style="padding: 30px">
+        <div class="card-header">
+          <h2 class="title article-title">{{ news.title }}</h2>
+          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="errorImg" />
+          <div class="image-comment">{{ news.mainImageDescription }}</div>
+          <div class="article-preview">{{ news.previewText }}</div>
+        </div>
+        <div v-if="news.event" class="card-header event-registration-button">
+          <EventRegistration store-name="news" :parent-id="news.id" />
+        </div>
+        <el-divider />
 
         <div class="article-body" v-html="newsContent"></div>
-
+        <template v-if="news.newsImages.length > 0">
+          <ImageGallery :images="news.newsImages" />
+        </template>
         <el-divider />
-        <div class="article-footer">
-          <div class="article-footer-item">
-            <el-button style="height: 20px" @click="$router.go(-1)">Вернуться назад</el-button>
-          </div>
-          <div class="tags-container article-footer-item">
-            <el-tag
-              v-for="newsToTag in news.newsToTags"
-              :key="newsToTag.id"
-              effect="plain"
-              class="tag-link"
-              size="small"
-              @click.stop="filterNews(newsToTag.tag)"
-            >
-              {{ newsToTag.tag.label }}
-            </el-tag>
-          </div>
-          <div class="right-footer article-footer-item">
-            <NewsMeta :news="news" :news-page="true" />
-          </div>
-        </div>
-      </el-card>
-
-      <ImageGallery :images="news.newsImages" />
-      <Comments store-name="news" :parent-id="news.id" />
+        <NewsPageFooter :news="news" />
+        <el-divider />
+        <Comments store-name="news" :parent-id="news.id" />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -66,21 +48,21 @@ import Comments from '@/components/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
-import NewsMeta from '@/components/News/NewsMeta.vue';
+import NewsDoctorsCard from '@/components/News/NewsDoctorsCard.vue';
+import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
 import INews from '@/interfaces/news/INews';
-import ITag from '@/interfaces/news/ITag';
-import router from '@/router';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsMeta, NewsCalendar, RecentNewsCard, ImageGallery, Comments, EventRegistration },
+  components: { NewsDoctorsCard, NewsPageFooter, NewsCalendar, RecentNewsCard, ImageGallery, Comments, EventRegistration },
 
   async setup() {
     let comment = ref(new NewsComment());
     const commentInput = ref();
     const store = useStore();
     const route = useRoute();
+    const mounted: Ref<boolean> = ref(false);
     const slug = computed(() => route.params['slug']);
     const news: ComputedRef<INews> = computed<INews>(() => store.getters['news/newsItem']);
 
@@ -94,6 +76,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('news/get', slug.value);
       await store.dispatch('news/getAll');
+      mounted.value = true;
     });
 
     const newsContent = computed(() =>
@@ -104,16 +87,11 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
-    const filterNews = async (tag: ITag): Promise<void> => {
-      await store.dispatch('news/addFilterTag', tag);
-      await router.push('/news');
-    };
-
     return {
-      filterNews,
       rules,
       comment,
       news,
+      mounted,
       newsContent,
       commentInput,
       commentForm,
@@ -125,7 +103,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 $side-cotainer-max-width: 300px;
-$news-content-max-width: 800px;
+$news-content-max-width: 1000px;
 $card-margin-size: 30px;
 
 .news-page-container {
@@ -162,49 +140,12 @@ $card-margin-size: 30px;
 
 h2,
 h3 {
-  margin: 0;
+  margin-top: 0;
   color: black;
+  text-align: center;
 }
 h3 {
   font-size: 20px;
-}
-
-.comments {
-  margin: $card-margin-size 0 0 0;
-  .comments-card {
-    position: relative;
-    margin: 20px 0 0 0;
-  }
-}
-
-.comment-header {
-  text-align: right;
-  margin: 5px 0;
-  .comment-email {
-    float: left;
-    font-weight: bold;
-  }
-  .comment-date {
-    color: #4a4a4a;
-    opacity: 0.75;
-  }
-}
-.comment-buttons {
-  position: absolute;
-  z-index: 2;
-  top: 5px;
-  right: 5px;
-  display: flex;
-  :deep(.el-button) {
-    padding: 5px;
-    margin: 0 !important;
-    min-height: unset;
-    border: none;
-  }
-}
-
-.send-comment {
-  margin-right: 0;
 }
 
 .card-content {
@@ -213,59 +154,42 @@ h3 {
 }
 
 .card-header {
-  text-align: center;
+  img {
+    width: 100%;
+    border-radius: 5px;
+    // max-height: $news-content-max-width / 2;
+  }
+  .image-comment {
+    color: #b4b9ca;
+    margin-left: 5px;
+    font-size: 14px;
+  }
+  .article-preview {
+    margin-top: 10px;
+  }
 }
 
 :deep(p) {
   text-align: justify;
 }
 
-.article-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.article-footer-item {
-  padding: 10px;
-}
-
-@media only screen and (max-width: 992px) {
-  .article-footer {
-    flex-direction: column-reverse;
-  }
-}
-
-.tags-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  :deep(.el-tag) {
-    margin: 5px;
-  }
-}
-
-:deep(img) {
-  max-width: 760px;
-}
-
 .news-image-container {
   margin-bottom: $card-margin-size;
   img {
     width: 100%;
-    max-height: $news-content-max-width / 2;
   }
 }
-
 .event-registration-button {
   margin: 15px 0;
 }
 
-.tag-link {
-  &:hover {
-    background-color: blue;
-    color: white;
-    cursor: pointer;
-  }
+:deep(a) {
+  color: inherit !important;
+}
+
+:deep(blockquote) {
+  border-left: 5px solid #2467a6;
+  margin-left: 0;
+  padding-left: 50px;
 }
 </style>

@@ -1,25 +1,27 @@
 <template>
-  <el-card>
-    <el-table :data="recentNewsList" cell-class-name="cell-row">
-      <el-table-column header-align="center">
-        <template #header>
-          <h3>Читайте также</h3>
-        </template>
+  <div class="card-item">
+    <h4>Читайте также</h4>
+    <el-divider />
+    <el-table :data="recentNewsList" cell-class-name="cell-row" :show-header="false">
+      <el-table-column>
         <template #default="scope">
           <div class="recent-news-item" @click="getNewsAndRecent(scope.row.slug)">
             <div class="item-title">{{ scope.row.title }}</div>
             <div class="item-footer">
+              <div class="item-date">{{ $dateFormatRu(scope.row.publishedOn, true) }}</div>
               <div class="icon">
                 <EyeOutlined />
                 <span>{{ scope.row.viewsCount }}</span>
               </div>
-              <div class="item-date">{{ $dateFormatRu(scope.row.publishedOn, true) }}</div>
             </div>
           </div>
         </template>
       </el-table-column>
     </el-table>
-  </el-card>
+    <div class="recent-news-footer">
+      <button @click="$router.push('/news')">Все новости</button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -37,7 +39,7 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const recentNewsList = computed(() => store.getters['news/news'].filter((item: INews) => item.id !== news.value.id));
+    const recentNewsList = computed(() => store.getters['news/news'].filter((item: INews) => item.id !== news.value.id).slice(0, 3));
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
     const router = useRouter();
     onBeforeMount(async () => {
@@ -95,12 +97,38 @@ export default defineComponent({
     font-size: 16px;
   }
 }
-h3 {
-  margin: 0;
+h4 {
   color: black;
+  margin: 0;
+}
+.item-footer {
+  color: #a1a7bd;
 }
 
 :deep(.cell-row) {
   cursor: pointer;
+}
+.el-divider {
+  margin: 10px 0 0;
+}
+:deep(.cell) {
+  padding: 0 !important;
+}
+.recent-news-footer {
+  margin: 10px;
+  margin-bottom: 0;
+  text-align: center;
+  button {
+    background-color: white;
+    border-radius: 10px;
+    padding: 7px 20px;
+    font-size: 14px;
+    border: 1px solid #4a4a4a;
+    transition: background-color 0.25s ease;
+    &:hover {
+      cursor: pointer;
+      background-color: darken(white, 10%);
+    }
+  }
 }
 </style>

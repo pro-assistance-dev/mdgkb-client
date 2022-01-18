@@ -1,13 +1,15 @@
 <template>
   <div class="wrapper">
-    <el-form ref="form" :key="news" :model="news" :rules="rules">
+    <el-form ref="form" :key="news" :model="news" label-position="top" :rules="rules">
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <template #header>Заголовок</template>
-              <el-form-item prop="title">
+              <el-form-item prop="title" label="Заголовок:">
                 <el-input v-model="news.title" placeholder="Заголовок"></el-input>
+              </el-form-item>
+              <el-form-item prop="previewText" label="Превью новости:">
+                <el-input v-model="news.previewText" placeholder="Превью новости" type="textarea" :autosize="{ minRows: 2 }"></el-input>
               </el-form-item>
             </el-card>
             <el-card class="content-card">
@@ -18,10 +20,17 @@
                   style="min-height: 200px; max-height: 700px"
                   content-type="html"
                   theme="snow"
+                  :options="editorOption"
                 ></QuillEditor>
               </el-form-item>
             </el-card>
-            <AdminNewsPageMainImage v-if="mounted" />
+            <el-card>
+              <template #header> Основное изображение </template>
+              <AdminNewsPageMainImage v-if="mounted" />
+              <el-form-item prop="mainImageDescription" label="Описание:">
+                <el-input v-model="news.mainImageDescription" placeholder="Описание"></el-input>
+              </el-form-item>
+            </el-card>
             <AdminNewsPageGallery v-if="mounted" />
           </el-container>
         </el-col>
@@ -38,6 +47,7 @@
             </el-card>
             <AdminNewsPageTags />
             <AdminNewsPagePreviewImage v-if="mounted" title="Загрузить превью новости" />
+            <AdminNewsDoctors />
           </el-container>
         </el-col>
       </el-row>
@@ -45,7 +55,6 @@
     </el-form>
 
     <ImageCropper />
-    <AdminNewsDoctors />
   </div>
 </template>
 
@@ -90,6 +99,26 @@ export default defineComponent({
     let isCropGalleryOpen = ref(false);
     const form = ref();
     const rules = ref(NewsRules);
+    const editorOption = {
+      modules: {
+        toolbar: [
+          ['полужирный', 'курсив', 'подчеркивание', 'зачеркивание'], // полужирный, курсив, подчеркивание, зачеркивание
+          ['blockquote'], // цитата, кодовый блок
+          [{ header: 1 }, { header: 2 }], // Заголовок в виде пар ключ-значение; 1, 2 означает размер шрифта
+          [{ script: 'sub' }, { script: 'super' }], // нижний индекс и нижний индекс
+          [{ indent: '- 1' }, { indent: '+ 1' }], // отступ
+          [{ direction: 'rtl' }], // направление текста
+          [{ size: ['small', false, 'large', 'huge'] }], // размер шрифта
+          [{ header: [1, 2, 3, 4, 5, 6, false] }], // Несколько уровней заголовка
+          // [{ color: [] }, { background: [] }], // цвет шрифта, цвет фона шрифта
+          // [{ font: [] }], // шрифт
+          [{ align: [] }], // Выравнивание
+          ['clean'], // Очистить стиль шрифта
+          ['image', 'video'], // Загрузить изображения, загрузить видео
+          ['link'],
+        ],
+      },
+    };
 
     const galleryList = computed(() => store.getters[`news/galleryList`]);
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
@@ -151,6 +180,7 @@ export default defineComponent({
 
     return {
       mounted,
+      editorOption,
       isCropGalleryOpen,
       galleryList,
       submit,

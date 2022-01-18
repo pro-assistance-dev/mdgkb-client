@@ -50,7 +50,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .gallery-container {
   margin-top: 30px;
-  max-width: 800px;
+  max-width: 1000px;
   img {
     width: 100%;
     max-width: 100%;
