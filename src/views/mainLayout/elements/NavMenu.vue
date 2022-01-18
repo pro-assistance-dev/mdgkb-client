@@ -105,18 +105,24 @@ html {
 ul.menu-center {
   display: flex;
   align-items: center;
-  height: 56px;
+  height: auto;
 }
 
 ul.menu-center li {
   display: inline;
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
-  align-items: center;
-  color: #343e5c;
-  height: auto;
-  background: #f5f6f8;
-  border: solid 1px #f5f6f8;
+  border-right: 1px solid #dfe4ee;
+  padding: 19px 0px 19px 0px;
+}
+
+ul.menu-center li:last-child {
+  border-right: none;
+}
+
+ul.dropmenu li {
+  border-right: none;
+  padding: 0px;
 }
 
 .link-menu {
@@ -125,7 +131,14 @@ ul.menu-center li {
   transition: color 0.3s ease 0s;
   text-transform: uppercase;
   align-items: center;
-  padding: 18px 20px 19px 20px;
+  padding: 20px 20px 21px 20px;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  background: #f0f2f7;
+}
+
+.link-menu:hover {
+  background: #ffffff;
 }
 
 h3 {
@@ -210,7 +223,7 @@ li .dropmenu {
 }
 
 .link-menu:focus ~ .dropmenu,
-.link-menu:active ~ .dropmemu,
+.link-menu:active ~ .dropmenu,
 .dropmenu:hover {
   display: block;
 }
@@ -231,7 +244,7 @@ li .dropmenu {
   flex-flow: row wrap;
   padding: 1px 0px 1px 4px;
   background: #f5f6f8;
-  width: 640px;
+  width: 636px;
 }
 
 li:hover {
