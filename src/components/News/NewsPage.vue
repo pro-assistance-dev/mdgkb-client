@@ -182,4 +182,14 @@ h3 {
 .event-registration-button {
   margin: 15px 0;
 }
+
+:deep(a) {
+  color: inherit !important;
+}
+
+:deep(blockquote) {
+  border-left: 5px solid #2467a6;
+  margin-left: 0;
+  padding-left: 50px;
+}
 </style>

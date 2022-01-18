@@ -1,13 +1,24 @@
 <template>
-  <div class="ques-answ-container">
-    <h1>Ординатура</h1>
-    <el-tabs type="border-card" :active-name="pageTitle" :before-leave="test">
+  <div>
+    <div class="card-item">
+      <h1>Ординатура</h1>
+      <div class="ordinatura-menu">
+        <div v-for="item in menu" :key="item.name" class="ordinatura-menu-item" @click="changeTab(item.name)">
+          <div :class="isActive(item.name)">{{ item.name }}</div>
+        </div>
+      </div>
+
+      <!-- <el-tabs type="border-card" :active-name="pageTitle" :before-leave="test">
       <el-tab-pane label="Текущая информация для поступающих" name="Этапы поступления"><OrdinaturaStages /></el-tab-pane>
       <el-tab-pane label="Документы для поступления" name="Документы для поступления"><OrdinaturaDocumentsForAdmission /></el-tab-pane>
       <el-tab-pane label="Вступительные испытания" name="Вступительные испытания"><OrdinaturaExams /></el-tab-pane>
       <el-tab-pane label="План набора и поданные заявления" name="План набора и поданные заявления"><OrdinaturaExams /></el-tab-pane>
       <el-tab-pane label="Образцы документов" name="Образцы документов"><OrdinaturaExams /></el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
+    </div>
+    <OrdinaturaStages v-if="activeMenuName === 'Текущая информация для поступающих'" />
+    <OrdinaturaDocumentsForAdmission v-if="activeMenuName === 'Документы для поступления'" />
+    <OrdinaturaExams v-if="activeMenuName === 'Вступительные испытания'" />
   </div>
 </template>
 
@@ -20,31 +31,66 @@ import OrdinaturaStages from '@/components/EducationalOrganization/Ordinatura/Or
 
 export default defineComponent({
   name: 'OrdinaturaPage',
-  components: { OrdinaturaStages, OrdinaturaDocumentsForAdmission, OrdinaturaExams },
+  components: { OrdinaturaStages, OrdinaturaExams, OrdinaturaDocumentsForAdmission },
 
   setup() {
     const pageTitle: Ref<string> = ref('Этапы поступления');
-
+    const activeMenuName: Ref<string> = ref('Текущая информация для поступающих');
+    const menu = [
+      { name: 'Текущая информация для поступающих' },
+      { name: 'Документы для поступления' },
+      { name: 'Вступительные испытания' },
+      { name: 'План набора и поданные заявления' },
+      { name: 'Образцы документов' },
+    ];
+    const isActive = (name: string): string => {
+      return name === activeMenuName.value ? 'is-active' : '';
+    };
+    const changeTab = (name: string) => {
+      activeMenuName.value = name;
+    };
     const test = (activeName: string) => {
       pageTitle.value = activeName;
     };
 
     return {
       test,
+      menu,
+      isActive,
+      changeTab,
       pageTitle,
+      activeMenuName,
     };
   },
 });
 </script>
 
-<style>
-h1 {
-  text-align: center;
-  font-size: 24px;
-}
-.ques-answ-container {
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/ordinatura.scss';
+.ordinatura-menu {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.anticon {
+  font-size: 40px;
+  margin-right: 10px;
+}
+.ordinatura-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid rgb(black, 0.1);
+  border-radius: 5px;
+  background-color: #f5f6f8;
+  &:hover {
+    cursor: pointer;
+    background-color: darken(#f5f6f8, 1.2);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  }
+}
+.is-active {
+  color: #42a4f5;
 }
 </style>

@@ -106,19 +106,9 @@ body > .el-container::v-deep {
   opacity: 0.7;
 }
 
-a {
-  color: inherit;
-}
-
-blockquote {
-  border-left: 5px solid #2467a6;
-  margin-left: 0;
-  padding-left: 50px;
-}
-
 .card-item {
   border-radius: 5px;
-  border: 1px solid rgb(black, 0.05);
+  border: 2px solid rgb(black, 0.1);
   padding: 15px;
   background-color: white;
 }
