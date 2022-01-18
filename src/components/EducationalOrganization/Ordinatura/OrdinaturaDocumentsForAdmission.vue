@@ -2,7 +2,7 @@
   <div class="card-item">
     <div>Приём документов строго с 5 июля, 10.00 до 13 августа, 17.00</div>
     <ul>
-      <li>Через форму</li>
+      <li><b>Через форму</b></li>
       <li>
         <div>
           <div><b>Email:</b> pdo@morozgkb.ru</div>

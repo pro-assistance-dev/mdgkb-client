@@ -1,36 +1,46 @@
 <template>
   <el-row :gutter="40">
-    <el-col :xl="12" :offset="6">
+    <div class="card-item">
       <ul>
-        <li>Заявление</li>
-        <li>Договор о платных образовательных услугах</li>
-        <li>Положение о порядке подачи и рассмотрения апелляций в период проведения вступительных испытаний (форма в конце)</li>
+        <li v-for="file in files" :key="file.url">
+          <a target="_blank" :href="file.url" :download="file.download">{{ file.download }}</a>
+        </li>
       </ul>
-    </el-col>
+    </div>
   </el-row>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 
 export default defineComponent({
   name: 'AspiranturaForms',
   components: {},
 
   setup() {
-    return;
+    const fileInfos = [
+      'Заявление',
+      'Договор о платных образовательных услугах',
+      'Положение о порядке подачи и рассмотрения апелляций в период проведения вступительных испытаний (форма в конце)',
+    ];
+    const files: any = [];
+    onBeforeMount(() => {
+      const url = process.env.VUE_APP_STATIC_URL + '/educ/asp/forms/';
+      fileInfos.forEach((f: string, i: number) => {
+        files.push({ url: url + i + '.pdf', download: f });
+      });
+    });
+
+    return {
+      files,
+    };
   },
 });
 </script>
 
-<style>
-h1 {
-  text-align: center;
-  font-size: 24px;
-}
-.ques-answ-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/ordinatura.scss';
+.el-descriptions__label {
+  font-size: 15px;
 }
 </style>
