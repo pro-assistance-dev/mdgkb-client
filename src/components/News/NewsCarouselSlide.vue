@@ -2,17 +2,18 @@
   <div class="slide-container" :style="{ 'background-image': `url(${url})` }">
     <div class="slide-body">
       <div class="text" :style="{ color: `${item.color}` }">
-        <h1>{{ item.title }}</h1>
-        <div>{{ item.content }}</div>
+        <div class="title">{{ item.title }}</div>
+        <div class="content">{{ item.content }}</div>
       </div>
       <div class="slide-buttons">
         <button
           v-for="(button, i) in item.newsSlideButtons"
           :key="i"
           :style="{
+            boxShadow: `${button.shadow ? '0px 5px 2.5px rgba(147,147,147,0.3) ' : ''}`,
             'background-color': button.backgroundColor ? button.backgroundColor : 'white',
             color: button.color ? button.color : 'black',
-            border: `1px solid ${button.color ? button.color : 'black'}`,
+            border: `${button.borderColor ? button.borderColor + ' 1px solid' : 'none'}`,
           }"
           @click="$router.push(button.link)"
         >
@@ -107,8 +108,16 @@ export default defineComponent({
     max-width: 50%;
     max-height: 100%;
     overflow: hidden;
-    div {
+    .title {
+      font-size: 42px;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .content {
+      margin: 10px 0;
       font-size: 16px;
+      font-family: 'Open Sans', serif;
     }
   }
 
@@ -118,15 +127,15 @@ export default defineComponent({
     flex-wrap: wrap;
     button {
       margin: 5px;
-      font-size: 10px;
+      font-size: 11px;
       text-transform: uppercase;
       padding: 12px 20px;
       border-radius: 25px;
       white-space: nowrap;
+
       &:hover {
         cursor: pointer;
-        filter: brightness(150%);
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.35) !important;
       }
     }
   }

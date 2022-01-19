@@ -7,6 +7,8 @@ export default class NewsSlideButton implements INewsSlideButton {
   backgroundColor = '#FFFFFF';
   order = 1;
   link = '';
+  borderColor = '';
+  shadow = false;
 
   constructor(newsSlideButton?: INewsSlideButton) {
     if (!newsSlideButton) {
@@ -18,5 +20,7 @@ export default class NewsSlideButton implements INewsSlideButton {
     this.backgroundColor = newsSlideButton.backgroundColor;
     this.order = newsSlideButton.order;
     this.link = newsSlideButton.link;
+    this.borderColor = newsSlideButton.borderColor;
+    this.shadow = newsSlideButton.shadow;
   }
 }

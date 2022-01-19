@@ -78,21 +78,21 @@
       </div>
     </div>
   </div>
-  <svg width="0" height="0" class="hidden">
-    <symbol id="Main_menu_burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M3 12H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M3 18H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-    </symbol>
+  <!--  <svg width="0" height="0" class="hidden" display="none">-->
+  <!--    <symbol id="Main_menu_burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">-->
+  <!--      <path d="M3 12H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>-->
+  <!--      <path d="M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>-->
+  <!--      <path d="M3 18H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>-->
+  <!--    </symbol>-->
 
-    <svg width="0" height="0" class="hidden">
-      <symbol id="icon-info" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path
-          d="M9 15H11V9H9V15ZM10 5C9.5 5 9 5.5 9 6C9 6.5 9.5 7 10 7C10.5 7 11 6.5 11 6C11 5.5 10.5 5 10 5ZM10 1C5 1 1 5 1 10C1 15 5 19 10 19C15 19 19 15 19 10C19 5 15 1 10 1ZM10 17C6.1 17 3 13.9 3 10C3 6.1 6.1 3 10 3C13.9 3 17 6.1 17 10C17 13.9 13.9 17 10 17Z"
-        ></path>
-      </symbol>
-    </svg>
-  </svg>
+  <!--&lt;!&ndash;    <svg width="0" height="0" class="hidden">&ndash;&gt;-->
+  <!--&lt;!&ndash;      <symbol id="icon-info" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">&ndash;&gt;-->
+  <!--&lt;!&ndash;        <path&ndash;&gt;-->
+  <!--&lt;!&ndash;          d="M9 15H11V9H9V15ZM10 5C9.5 5 9 5.5 9 6C9 6.5 9.5 7 10 7C10.5 7 11 6.5 11 6C11 5.5 10.5 5 10 5ZM10 1C5 1 1 5 1 10C1 15 5 19 10 19C15 19 19 15 19 10C19 5 15 1 10 1ZM10 17C6.1 17 3 13.9 3 10C3 6.1 6.1 3 10 3C13.9 3 17 6.1 17 10C17 13.9 13.9 17 10 17Z"&ndash;&gt;-->
+  <!--&lt;!&ndash;        ></path>&ndash;&gt;-->
+  <!--&lt;!&ndash;      </symbol>&ndash;&gt;-->
+  <!--&lt;!&ndash;    </svg>&ndash;&gt;-->
+  <!--  </svg>-->
 </template>
 
 <script lang="ts">
@@ -395,6 +395,12 @@ li .dropmenu {
   height: auto;
   border-top: 1px solid #dfe4ee;
   box-shadow: 0 4px 4px (rgba($color: #000000, $alpha: 0.2));
+  position: relative;
+  z-index: 5;
+}
+
+.header-menu:after {
+  z-index: -40;
 }
 
 // li:hover {

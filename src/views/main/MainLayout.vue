@@ -73,7 +73,8 @@ export default defineComponent({
   min-height: calc(100vh - 124px);
 }
 .main-carousel-container {
-  margin-top: 5px !important;
-  margin: 0 auto;
+  margin: 0 auto 30px; // + 20px от контейнера элемента = как в макете - 50px
+  position: relative;
+  z-index: 0;
 }
 </style>
