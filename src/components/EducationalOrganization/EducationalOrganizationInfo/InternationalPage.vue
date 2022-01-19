@@ -1,14 +1,17 @@
 <template>
-  <el-container direction="vertical">
-    <h1 style="text-align: center">Основные сведения</h1>
-    <el-card>
-      <el-descriptions :column="1" border direction="horizontal">
-        <el-descriptions-item v-for="prop in educationalOrganisation.educationalOrganizationProperties" :key="prop.id" :label="prop.name">
-          {{ prop.value }}
-        </el-descriptions-item>
-      </el-descriptions>
-    </el-card>
-  </el-container>
+  <h2>Международное сотрудничество</h2>
+  <div class="card-item">
+    <ul>
+      <li>
+        <a
+          target="_blank"
+          href="http://xn--90adclrioar.xn--p1ai/wp-content/uploads/2021/02/%D0%9C%D0%B5%D0%B6%D0%B4%D1%83%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D0%BE%D0%B5-%D1%81%D0%BE%D1%82%D1%80%D1%83%D0%B4%D0%BD%D0%B8%D1%87%D0%B5%D1%81%D1%82%D0%B2%D0%BE.pdf"
+        >
+          Международное сотрудничество
+        </a>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">
@@ -18,7 +21,7 @@ import { useStore } from 'vuex';
 import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
 
 export default defineComponent({
-  name: 'EducationalOrganizationInfo',
+  name: 'InternationalPage',
 
   setup() {
     const mounted = ref(false);
@@ -44,8 +47,8 @@ export default defineComponent({
   },
 });
 </script>
-
-<style>
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/ordinatura.scss';
 .el-descriptions__label {
   font-size: 15px;
 }
