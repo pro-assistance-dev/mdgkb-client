@@ -25,17 +25,25 @@
       </el-timeline>
     </el-card>
   </el-container>
+
+  <h2 style="text-align: center">Педагогический состав</h2>
+  <el-card v-if="educationalOrganisation.educationalOrganizationTeachers.length" class="card-content">
+    <div v-for="item in educationalOrganisation.educationalOrganizationTeachers" :key="item.id" class="doctors-wrapper">
+      <DoctorInfoCard :doctor="item.doctor" :division="item.doctor.division" />
+    </div>
+  </el-card>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
 import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
 
 export default defineComponent({
-  name: 'EducationalOrganizationStructure',
-
+  name: 'ManagersPage',
+  components: { DoctorInfoCard },
   setup() {
     const mounted = ref(false);
     const store = useStore();
@@ -60,15 +68,9 @@ export default defineComponent({
   },
 });
 </script>
-
-<style>
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/ordinatura.scss';
 .el-descriptions__label {
   font-size: 15px;
-}
-.flex-row {
-  display: flex;
-}
-.doctor-img-container {
-  margin: 0 10px 10px 0;
 }
 </style>
