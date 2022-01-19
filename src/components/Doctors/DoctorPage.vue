@@ -1,43 +1,45 @@
 <template>
   <div v-if="mount" class="doctor-page-container">
-    <div class="left-side">
+    <!-- <div class="left-side">
       <Timetable :timetable="doctor.timetable" />
     </div>
-    <div class="right-side">
-      <el-card>
-        <template #header>
-          <div class="card-header">
-            <h2>{{ doctor.human.getFullName() }}</h2>
-            <el-rate :model-value="countRating(doctor.doctorComments)" disabled show-score text-color="#ff9900" score-template="{value}">
-            </el-rate>
-          </div>
-        </template>
-        <div class="flex-row">
-          <div class="doctor-img-container">
-            <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
-            <img v-else src="@//assets/img/310x310.png" />
-          </div>
-          <div class="flex-column">
-            <span><b>Должность:</b> {{ doctor.position }}</span>
-            <span>{{ doctor.tags }}</span>
-            <span><b>Прием:</b> {{ doctor.division.address }}</span>
-            <span>
-              <b>Отделение:</b>
-              <span class="link" @click="$router.push(`/divisions/${doctor.division.id}`)"> {{ doctor.division.name }}</span>
-            </span>
-            <span><b>Образование:</b> {{ doctor.education }}</span>
-            <span><b>Специализация:</b> {{ doctor.medicalProfile?.name }}</span>
-          </div>
+    <div class="right-side"> -->
+    <DoctorInfo :doctor="doctor" />
+
+    <!-- <el-card>
+      <template #header>
+        <div class="card-header">
+          <h2>{{ doctor.human.getFullName() }}</h2>
+          <el-rate :model-value="countRating(doctor.doctorComments)" disabled show-score text-color="#ff9900" score-template="{value}">
+          </el-rate>
         </div>
-        <el-timeline>
-          <el-timeline-item v-for="education in doctor.educations" :key="education.institution" :timestamp="education.institution">
-            {{ education.getEndYear() }}
-          </el-timeline-item>
-        </el-timeline>
-      </el-card>
-      <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
-    </div>
+      </template>
+      <div class="flex-row">
+        <div class="doctor-img-container">
+          <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
+          <img v-else src="@//assets/img/310x310.png" />
+        </div>
+        <div class="flex-column">
+          <span><b>Должность:</b> {{ doctor.position }}</span>
+          <span>{{ doctor.tags }}</span>
+          <span><b>Прием:</b> {{ doctor.division.address }}</span>
+          <span>
+            <b>Отделение:</b>
+            <span class="link" @click="$router.push(`/divisions/${doctor.division.id}`)"> {{ doctor.division.name }}</span>
+          </span>
+          <span><b>Образование:</b> {{ doctor.education }}</span>
+          <span><b>Специализация:</b> {{ doctor.medicalProfile?.name }}</span>
+        </div>
+      </div>
+      <el-timeline>
+        <el-timeline-item v-for="education in doctor.educations" :key="education.institution" :timestamp="education.institution">
+          {{ education.getEndYear() }}
+        </el-timeline-item>
+      </el-timeline>
+    </el-card> -->
+    <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
   </div>
+  <!-- </div> -->
 </template>
 
 <script lang="ts">
@@ -46,13 +48,13 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments.vue';
-import Timetable from '@/components/Timetable.vue';
+import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import countRating from '@/mixins/countRating';
 
 export default defineComponent({
   name: 'DoctorPage',
-  components: { Comments, Timetable },
+  components: { Comments, DoctorInfo },
 
   setup() {
     const store = useStore();
@@ -75,19 +77,19 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-$left-side-max-width: 370px;
-$right-side-max-width: 1000px;
+// $left-side-max-width: 370px;
+// $right-side-max-width: 1000px;
 
 .doctor-page-container {
-  display: flex;
-  justify-content: center;
+  // display: flex;
+  // justify-content: center;
   margin: 0 auto;
   .left-side {
     margin-right: 20px;
-    max-width: $left-side-max-width;
+    // max-width: $left-side-max-width;
   }
   .right-side {
-    max-width: $right-side-max-width;
+    // max-width: $right-side-max-width;
   }
 }
 h2 {

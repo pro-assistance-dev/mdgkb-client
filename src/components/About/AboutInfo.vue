@@ -17,7 +17,7 @@
     <el-card v-if="division.doctors.length">
       <template #header>Врачебный состав</template>
       <div class="doctors-wrapper">
-        <DoctorInfoCard v-for="item in division.doctors" :key="item.id" :doctor="item" :division="division" />
+        <DoctorInfoCard v-for="item in division.doctors" :key="item.id" :doctor="item" />
       </div>
     </el-card>
     <el-card>
@@ -88,7 +88,7 @@
 import { computed, ComputedRef, defineComponent, onMounted, onUnmounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
+import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import Timetable from '@/components/Timetable.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
@@ -114,9 +114,9 @@ export default defineComponent({
     const aroundTheClock: Ref = ref(true);
     const commonVisitingRules: ComputedRef<IVisitingRule[]> = computed(() => store.getters['visitingRules/items']);
 
-    const calcSum = () => {
-      sum.value = 0;
-    };
+    // const calcSum = () => {
+    //   sum.value = 0;
+    // };
 
     const clearSelectedService = () => {
       if (ginService.value) ginService.value.clearSelection();

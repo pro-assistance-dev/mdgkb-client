@@ -24,7 +24,7 @@
           </div>
         </template>
         <div v-for="item in division.doctors" :key="item.id" class="doctors-wrapper">
-          <DoctorInfoCard :doctor="item" :division="division" />
+          <DoctorInfoCard :doctor="item" />
         </div>
       </el-card>
       <el-card v-if="division.phone || division.email || division.address" class="card-content">
@@ -51,7 +51,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments.vue';
-import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
+import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import Timetable from '@/components/Timetable.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
