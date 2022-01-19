@@ -51,7 +51,7 @@
       </el-row>
 
       <div class="doctors-wrapper">
-        <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" :division="item.division" />
+        <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
       </div>
 
       <el-row>
@@ -73,8 +73,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import CommentParams from '@/classes/comments/CommentParams';
-import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
+import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import CommentCard from '@/components/Main/CommentCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
@@ -135,12 +134,12 @@ export default defineComponent({
       await store.dispatch('doctors/getAll', filter);
     };
 
-    const loadComments = async (): Promise<void> => {
-      const params = new CommentParams();
-      params.positive = true;
-      params.limit = 10;
-      await store.dispatch('comments/getAll', params);
-    };
+    // const loadComments = async (): Promise<void> => {
+    //   const params = new CommentParams();
+    //   params.positive = true;
+    //   params.limit = 10;
+    //   await store.dispatch('comments/getAll', params);
+    // };
 
     const list: ComputedRef<IDivision[]> = computed((): IDivision[] => {
       if (divisionFilter.value) {

@@ -1,0 +1,124 @@
+@import "./favorite.scss";
+
+.card-item {
+  display: flex;
+  padding: 25px;
+  margin-bottom: 30px;
+  &-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 35px;
+    .doctor-img {
+      position: relative;
+      z-index: 1;
+      img {
+        border-radius: 5px;
+        height: 280px;
+        width: 280px;
+      }
+      .favor {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 2;
+      }
+    }
+  }
+  &-middle {
+    width: 100%;
+    font-size: 14px;
+    letter-spacing: 1px;
+    .division-name {
+      color: #a1a7bd;
+      margin-bottom: 5px;
+      font-size: 11px;
+    }
+    .doctor-name {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .tag-link {
+      text-align: center;
+      border-radius: 15px;
+      background-color: #2754eb;
+      border-color: #2754eb;
+      color: white;
+      padding: 2px 10px;
+      display: inline-block;
+      width: auto;
+      word-wrap: break-word;
+      font-size: 11px;
+      &:hover {
+        background-color: darken(#2754eb, 10%);
+        color: white;
+        cursor: pointer;
+      }
+    }
+    a {
+      color: #2754eb;
+      text-decoration: none;
+    }
+    .tag-link,
+    .regalias-list,
+    .address {
+      margin-bottom: 15px;
+    }
+    &-bottom {
+      max-width: 300px;
+    }
+    .mos-doctor-img {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      line-height: 1.1;
+      &-container {
+        display: flex;
+        align-items: center;
+      }
+      img {
+        width: 40px;
+        margin-right: 5px;
+      }
+    }
+  }
+  &-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    button {
+      margin: 10px 0;
+      width: 230px;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 10px;
+      background-color: #31af5e;
+      padding: 15px 0px;
+      height: auto;
+      letter-spacing: 2px;
+      color: white;
+      border: 1px solid rgb(black, 0.05);
+      &:hover {
+        cursor: pointer;
+        background-color: lighten(#31af5e, 10%);
+      }
+    }
+    .consult {
+      color: #31af5e;
+      background-color: white;
+      border-color: #31af5e;
+      &:hover {
+        background-color: darken(white, 10%);
+      }
+    }
+    .review {
+      background-color: #ff4e3c;
+      &:hover {
+        background-color: lighten(#ff4e3c, 10%);
+      }
+    }
+  }
+}

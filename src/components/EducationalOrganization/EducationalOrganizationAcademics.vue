@@ -4,7 +4,7 @@
 
     <el-card v-if="educationalOrganisation.educationalOrganizationAcademics.length" class="card-content">
       <div v-for="item in educationalOrganisation.educationalOrganizationAcademics" :key="item.id" class="doctors-wrapper">
-        <DoctorInfoCard :doctor="item.doctor" :division="item.doctor.division" />
+        <DoctorInfoCard :doctor="item.doctor" />
       </div>
     </el-card>
   </el-container>
@@ -14,7 +14,7 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import DoctorInfoCard from '@/components/DoctorInfoCard.vue';
+import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
 
 export default defineComponent({
