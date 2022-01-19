@@ -5,4 +5,6 @@ export default interface INewsSlideButton {
   backgroundColor: string;
   order: number;
   link: string;
+  borderColor: string;
+  shadow: boolean;
 }

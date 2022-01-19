@@ -74,9 +74,9 @@
             <template #header>
               <CardHeader :label="'Регалии, звания'" :add-button="false" />
             </template>
-            <el-form-item label="Должность" prop="position">
-              <RemoteSearchV2 :key-value="'position'" :model-value="doctor.position.name" @select="selectPosition" />
-            </el-form-item>
+            <!--            <el-form-item label="Должность" prop="position">-->
+            <!--              <RemoteSearchV2 :key-value="'position'" :model-value="doctor.position.name" @select="selectPosition" />-->
+            <!--            </el-form-item>-->
             <el-form-item label="Учёная степень">
               <el-input v-model="doctor.academicDegree" />
             </el-form-item>
@@ -164,7 +164,7 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : router.push('/admin/doctors');
+      next ? next() : await router.push('/admin/doctors');
     };
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();

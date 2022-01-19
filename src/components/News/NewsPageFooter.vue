@@ -1,7 +1,7 @@
 <template>
   <div class="article-footer">
     <div class="top-footer">
-      <div class="date-meta">{{ $dateFormatRu(news.publishedOn, true) }}</div>
+      <div class="date-meta">{{ $dateFormatRu(news.publishedOn, true, true) }}</div>
       <div class="card-meta">
         <div class="views">
           <EyeOutlined />

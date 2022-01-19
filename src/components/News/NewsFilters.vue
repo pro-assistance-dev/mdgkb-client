@@ -1,27 +1,4 @@
 <template>
-  <el-card class="radius" style="margin-top: 20px" shadow="never">
-    <template #header>
-      <div class="card-header">
-        <span>Фильтры</span>
-        <div style="display: flex">
-          <el-popover :width="200" :visible="tagListVisible">
-            <div class="popover-body">
-              <el-tag v-for="tag in filteredTagList" :key="tag.id" class="tag-list-item" @click="addFilterTag(tag)">
-                {{ tag.label }}
-              </el-tag>
-            </div>
-            <template #reference>
-              <el-button class="tag-link" size="small" icon="el-icon-plus" @click="tagListVisible = !tagListVisible"></el-button>
-            </template>
-          </el-popover>
-          <el-button class="tag-link" size="small" @click="resetFilterTags">Сбросить</el-button>
-        </div>
-      </div>
-    </template>
-    <el-tag v-for="tag in filterTags" :key="tag.id" effect="plain" class="tag-link" closable @close="removeFilterTag(tag.id)">
-      {{ tag.label }}
-    </el-tag>
-  </el-card>
   <div class="filter-for-tags">
     <div class="filter-for-tags-title">
       <div class="filter-for-tags-title-child">Фильтры&nbsp;по&nbsp;тэгам</div>

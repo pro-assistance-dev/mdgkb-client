@@ -34,6 +34,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+    const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
     const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
@@ -51,6 +52,23 @@ export default defineComponent({
       await store.dispatch('auth/logout');
     };
 
+    const handleScroll = () => {
+      if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
+        rememberedOffset.value = 0;
+      }
+      previousOffset.value = scrollOffset.value;
+      scrollOffset.value = window.scrollY;
+    };
+
+    onMounted(() => {
+      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', () => {
+        tabletWindow.value = window.matchMedia('(max-width: 768px)').matches;
+        mobileWindow.value = window.matchMedia('(max-width: 480px)').matches;
+      });
+    });
+    onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+
     const showDrawer = ref(false);
     const changeDrawerStatus = (status?: boolean) => {
       if (status !== undefined) {
@@ -62,6 +80,7 @@ export default defineComponent({
     const showSearchDrawer = () => store.commit('search/toggleDrawer', true);
 
     return {
+      scrollOffset,
       previousOffset,
       rememberedOffset,
       showDrawer,

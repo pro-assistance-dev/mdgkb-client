@@ -12,22 +12,31 @@
 import { defineComponent, onBeforeMount } from 'vue';
 
 export default defineComponent({
-  name: 'AdditionalEducationNormativeDocuments',
-  components: {},
-
+  name: 'OrdinaturaExams',
   setup() {
-    const fileInfos = ['Порядок организации и осуществления образовательной деятельности по дополнительным профессиональным программам'];
+    const fileInfos = [
+      'План набора в ординатуру 2021',
+      'Поданные заявления (поименный список)',
+      'Поданные заявления (на специальность)',
+      'Рейтинг',
+      'Конкурс',
+      'Конкурс. Итоги',
+    ];
     const files: any = [];
     onBeforeMount(() => {
-      const url = process.env.VUE_APP_STATIC_URL + '/educ/dop/docs/';
+      const url = process.env.VUE_APP_STATIC_URL + '/educ/ord/plan/';
       fileInfos.forEach((f: string, i: number) => {
         files.push({ url: url + i + '.pdf', download: f });
       });
     });
-    return { files };
+
+    return {
+      files,
+    };
   },
 });
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
 .el-descriptions__label {

@@ -40,7 +40,6 @@ export default defineComponent({
     };
 
     const handleSearchInput = async (value: string): Promise<void> => {
-      console.log(1);
       if (value.length === 0) {
         await store.dispatch(`${storeModule}/getAll`, store.getters['filter/filterQuery']);
       }

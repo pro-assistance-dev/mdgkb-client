@@ -28,6 +28,8 @@
       <OrdinaturaStages v-if="activeMenuName === 'Текущая информация для поступающих'" />
       <OrdinaturaDocumentsForAdmission v-if="activeMenuName === 'Документы для поступления'" />
       <OrdinaturaExams v-if="activeMenuName === 'Вступительные испытания'" />
+      <OrdinaturaPlan v-if="activeMenuName === 'План набора и поданные заявления'" />
+      <OrdinaturaDocs v-if="activeMenuName === 'Образцы документов'" />
     </div>
   </div>
 </template>
@@ -35,13 +37,15 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
 
+import OrdinaturaDocs from '@/components/EducationalOrganization/Ordinatura/OrdinaturaDocs.vue';
 import OrdinaturaDocumentsForAdmission from '@/components/EducationalOrganization/Ordinatura/OrdinaturaDocumentsForAdmission.vue';
 import OrdinaturaExams from '@/components/EducationalOrganization/Ordinatura/OrdinaturaExams.vue';
+import OrdinaturaPlan from '@/components/EducationalOrganization/Ordinatura/OrdinaturaPlan.vue';
 import OrdinaturaStages from '@/components/EducationalOrganization/Ordinatura/OrdinaturaStages.vue';
 
 export default defineComponent({
   name: 'OrdinaturaPage',
-  components: { OrdinaturaStages, OrdinaturaExams, OrdinaturaDocumentsForAdmission },
+  components: { OrdinaturaStages, OrdinaturaExams, OrdinaturaDocumentsForAdmission, OrdinaturaPlan, OrdinaturaDocs },
 
   setup() {
     const pageTitle: Ref<string> = ref('Этапы поступления');
