@@ -1,25 +1,23 @@
 <template>
-  <div class="menu-center">
-    <ul class="menu-center">
-      <li v-for="menu in menus" :key="menu.id">
-        <router-link class="link-menu" :to="menu.getLink()">{{ menu.name }}</router-link>
-        <ul v-if="!menu.withoutChildren()" class="dropmenu">
-          <div class="subMenu-place">
-            <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
-              <router-link class="link-colomn" :to="subMenu.link">
-                <div class="index-about-column">
-                  <div class="index-about-colomn-icon"></div>
-                  <div class="index-about-colomn-text">
-                    <h3>{{ subMenu.name }}</h3>
-                  </div>
+  <ul class="menu-center-list">
+    <li v-for="menu in menus" :key="menu.id">
+      <router-link class="link-menu" :to="menu.getLink()">{{ menu.name }}</router-link>
+      <ul v-if="!menu.withoutChildren()" class="dropmenu">
+        <div class="subMenu-place">
+          <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
+            <router-link class="link-colomn" :to="subMenu.link">
+              <div class="index-about-column">
+                <div class="index-about-colomn-icon"></div>
+                <div class="index-about-colomn-text">
+                  <h3>{{ subMenu.name }}</h3>
                 </div>
-              </router-link>
-            </li>
-          </div>
-        </ul>
-      </li>
-    </ul>
-  </div>
+              </div>
+            </router-link>
+          </li>
+        </div>
+      </ul>
+    </li>
+  </ul>
 </template>
 
 <script lang="ts">
@@ -102,21 +100,26 @@ html {
   display: none;
 }
 
-ul.menu-center {
+.menu-center {
+  min-width: 792px;
+  height: 58px;
+}
+
+ul.menu-center-list {
   display: flex;
   align-items: center;
   height: auto;
 }
 
-ul.menu-center li {
+ul.menu-center-list li {
   display: inline;
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
   border-right: 1px solid #dfe4ee;
-  padding: 19px 0px 19px 0px;
+  padding: 21px 0px 19px 0px;
 }
 
-ul.menu-center li:last-child {
+ul.menu-center-list li:last-child {
   border-right: none;
 }
 
@@ -131,7 +134,7 @@ ul.dropmenu li {
   transition: color 0.3s ease 0s;
   text-transform: uppercase;
   align-items: center;
-  padding: 20px 20px 21px 20px;
+  padding: 22px 20px 21px 20px;
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
   background: #f0f2f7;
@@ -215,8 +218,8 @@ h3 {
 li .dropmenu {
   display: none;
   position: absolute;
-  left: 45%;
-  transform: translateX(-45%);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 99;
   margin-top: 22px;
   cursor: pointer;
@@ -255,22 +258,6 @@ li:hover {
 @media screen and (max-width: 1025px) {
   .menu-center {
     display: block;
-  }
-
-  .menu-center {
-    width: 320px;
-  }
-
-  ul.menu-center {
-    display: block;
-  }
-
-  ul.menu-center li {
-    display: flex;
-  }
-
-  .subMenu-place {
-    width: 210px;
   }
 }
 </style>
