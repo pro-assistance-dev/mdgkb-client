@@ -95,4 +95,7 @@ h4 {
   max-width: $content-max-width;
   width: 100%;
 }
+.is-active {
+  color: #42a4f5;
+}
 </style>
