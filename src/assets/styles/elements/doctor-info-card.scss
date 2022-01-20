@@ -49,6 +49,10 @@
     .division-name {
       color: #a1a7bd;
       margin-bottom: 5px;
+      &:hover{
+        cursor: pointer;
+        color:darken(#a1a7bd, 20%);
+      }
     }
     .doctor-name {
       cursor: pointer;

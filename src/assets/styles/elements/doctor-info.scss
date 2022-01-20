@@ -33,6 +33,10 @@
       color: #a1a7bd;
       margin-bottom: 5px;
       font-size: 11px;
+      &:hover{
+        cursor: pointer;
+        color:darken(#a1a7bd, 20%);
+      }
     }
     .doctor-name {
       font-size: 26px;

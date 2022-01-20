@@ -17,14 +17,14 @@
         </div>
       </div>
       <div class="flex-column right-side">
-        <div class="division-name">
+        <div class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)">
           {{ doctor.division.name }}
         </div>
         <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
           {{ doctor.human.getFullName() }}
         </div>
         <div class="spec-list">
-          <div class="tag-link">
+          <div v-if="doctor.medicalProfile" class="tag-link">
             {{ doctor.medicalProfile.name }}
           </div>
         </div>

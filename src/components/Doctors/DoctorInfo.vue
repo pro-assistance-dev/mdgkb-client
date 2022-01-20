@@ -12,7 +12,7 @@
     </div>
 
     <div class="card-item-middle">
-      <div class="division-name">
+      <div class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)">
         {{ doctor.division.name }}
       </div>
       <div class="doctor-name">
