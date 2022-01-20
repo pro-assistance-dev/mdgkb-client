@@ -54,6 +54,7 @@ export default class Doctor implements IDoctor {
   experiencesForDelete: string[] = [];
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;
+  mosDoctorLink?: string;
   constructor(i?: IDoctor) {
     if (!i) {
       return;
@@ -71,6 +72,7 @@ export default class Doctor implements IDoctor {
     this.position = i.position;
     this.tags = i.tags;
     this.fileInfoId = i.fileInfoId;
+    this.mosDoctorLink = i.mosDoctorLink;
     this.medicalProfileId = i.medicalProfileId;
     if (i.medicalProfile) {
       this.medicalProfile = new MedicalProfile(i.medicalProfile);
@@ -150,5 +152,9 @@ export default class Doctor implements IDoctor {
     });
     fileInfos.push(this.fileInfo);
     return fileInfos;
+  }
+
+  getMosDoctorLink() {
+    return `https://mosgorzdrav.ru/ru-RU/moscowDoctor/default/card/${this.mosDoctorLink}.html`;
   }
 }

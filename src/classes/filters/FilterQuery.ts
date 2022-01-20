@@ -9,6 +9,7 @@ export default class FilterQuery implements IFilterQuery {
   withDeleted = false;
   offset = 0;
   limit = 0;
+  main = false;
 
   toUrl(): string {
     const offset = `offset=${this.offset}`;
@@ -20,7 +21,8 @@ export default class FilterQuery implements IFilterQuery {
       return `sortModel=${JSON.stringify(sortModels)}`;
     });
     const withDeleted = `withDeleted=${this.withDeleted}`;
-    let url = `?${[offset, limit, ...filterModels, ...sortModels, withDeleted].join('&')}`;
+    const main = `main=${this.main}`;
+    let url = `?${[offset, limit, ...filterModels, ...sortModels, withDeleted, main].join('&')}`;
     if (this.id) {
       url = `${this.id}${url}`;
     }

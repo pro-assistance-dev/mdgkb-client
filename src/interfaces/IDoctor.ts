@@ -42,7 +42,6 @@ export default interface IDoctor {
   doctorPaidServicesForDelete: string[];
   certificates: ICertificate[];
   certificatesForDelete: string[];
-
   addExperience: () => void;
   removeExperience: (index: number) => void;
 
@@ -53,4 +52,5 @@ export default interface IDoctor {
   removeCertificate: (index: number) => void;
 
   getFileInfos: () => IFileInfo[];
+  getMosDoctorLink: () => string;
 }

@@ -21,6 +21,10 @@
       <div class="tag-link">
         {{ doctor.medicalProfile.name }}
       </div>
+
+      <div class="tag-link">
+        {{ doctor.position.name }}
+      </div>
       <div class="card-item-middle-bottom">
         <div class="regalias-list">
           <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
@@ -39,10 +43,12 @@
           <div class="mos-doctor-img-container">
             <img src="@/assets/img/mos-doctor.png" />
           </div>
-          <div>
-            <div>Московский</div>
-            <div>врач</div>
-          </div>
+          <a :href="doctor.getMosDoctorLink()">
+            <div>
+              <div>Московский</div>
+              <div>врач</div>
+            </div>
+          </a>
         </div>
       </div>
     </div>

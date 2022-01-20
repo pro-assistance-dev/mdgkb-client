@@ -131,6 +131,7 @@ export default defineComponent({
     const loadDoctors = async (): Promise<void> => {
       const filter: IFilterQuery = store.getters['filter/filterQuery'];
       filter.limit = 8;
+      filter.main = true;
       await store.dispatch('doctors/getAll', filter);
     };
 

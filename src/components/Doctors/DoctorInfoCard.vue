@@ -10,11 +10,13 @@
           </div>
         </div>
         <DoctorRating :doctor="doctor" />
-        <div class="mos-doctor-img">
-          <img src="@/assets/img/mos-doctor.png" />
-          <span>Московский</span>
-          <span>врач</span>
-        </div>
+        <a :href="doctor.getMosDoctorLink()">
+          <div class="mos-doctor-img">
+            <img src="@/assets/img/mos-doctor.png" />
+            <span>Московский</span>
+            <span>врач</span>
+          </div>
+        </a>
       </div>
       <div class="flex-column right-side">
         <div class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)">

@@ -5,6 +5,7 @@ export default interface IFilterQuery {
   id?: string;
   limit: number;
   offset: number;
+  main: boolean;
   filterModels: IFilterModel[];
   sortModels: ISortModel[];
   withDeleted: boolean;
