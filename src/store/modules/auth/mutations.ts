@@ -1,8 +1,10 @@
 import { MutationTree } from 'vuex';
 
 import User from '@/classes/User';
+import IDoctorUser from '@/interfaces/IDoctorUser';
 import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
+import FavouriteService from '@/services/Favourite';
 import TokenService from '@/services/Token';
 
 import State from './state';
@@ -31,6 +33,10 @@ const mutations: MutationTree<State> = {
   },
   toggleIsLoginModal(state) {
     state.isLoginModal = !state.isLoginModal;
+  },
+  setFavourite(state, user: IUser) {
+    const doctorsFavourite = user.doctorsUsers.map((i: IDoctorUser) => i.doctorId);
+    FavouriteService.setFavourite('doctor', doctorsFavourite);
   },
 };
 

@@ -26,6 +26,8 @@ export default interface IDoctor {
   tags?: string;
   fileInfoId?: string;
   fileInfo: IFileInfo;
+  photoMiniId?: string;
+  photoMini: IFileInfo;
   doctorComments: IDoctorComment[];
   academicDegree: string;
   academicRank: string;

@@ -5,7 +5,7 @@
         <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
         <img v-else src="@/assets/img/doctor-default.png" />
         <div class="favor">
-          <HeartOutlined />
+          <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
         </div>
       </div>
       <DoctorRating :doctor="doctor" />
@@ -62,15 +62,15 @@
 </template>
 
 <script lang="ts">
-import { HeartOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType } from 'vue';
 
 import DoctorRating from '@/components/Doctors/DoctorRating.vue';
+import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorInfo',
-  components: { HeartOutlined, DoctorRating },
+  components: { FavouriteIcon, DoctorRating },
   props: {
     doctor: { type: Object as PropType<IDoctor>, required: true },
   },

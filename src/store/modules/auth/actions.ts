@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
+import FavouriteService from '@/services/Favourite';
 import HttpClient from '@/services/HttpClient';
 import TokenService from '@/services/Token';
 import RootState from '@/store/types';
@@ -18,6 +19,7 @@ const actions: ActionTree<State, RootState> = {
     }
     commit('setTokens', tokens);
     commit('setIsAuth', true);
+    commit('setFavourite', newUser);
   },
   register: async ({ commit }, user: IUser): Promise<void> => {
     const { user: newUser, tokens } = await httpClient.post<IUser, { user: IUser; tokens: ITokens }>({ query: 'register', payload: user });
@@ -30,6 +32,7 @@ const actions: ActionTree<State, RootState> = {
   },
   logout: async ({ commit, state }): Promise<void> => {
     TokenService.clearTokens();
+    FavouriteService.clearFavourite();
     commit('setIsAuth', false);
   },
   refreshToken: async ({ commit }): Promise<void> => {

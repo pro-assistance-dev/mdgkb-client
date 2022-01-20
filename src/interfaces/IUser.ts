@@ -1,4 +1,5 @@
 import IChild from '@/interfaces/IChild';
+import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IHuman from '@/interfaces/IHuman';
@@ -14,6 +15,7 @@ export default interface IUser {
   children: IChild[];
   childrenForDelete: string[];
   donorRulesUsers: IDonorRuleUser[];
+  doctorsUsers: IDoctorUser[];
 
   hasNewAnswers: () => boolean;
   countNewAnswers: () => number;

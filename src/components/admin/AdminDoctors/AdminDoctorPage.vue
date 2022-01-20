@@ -64,7 +64,9 @@
           <el-card header="Фото">
             <UploaderSingleScan :crop-ratio="'1'" :file-info="doctor.fileInfo" :height="300" :width="300" />
           </el-card>
-          <!-- <AdminDoctorImage v-if="mounted" title="Загрузить фото" /> -->
+          <el-card header="Фото-миниатюра">
+            <UploaderSingleScan :crop-ratio="'1'" :file-info="doctor.photoMini" :height="300" :width="300" />
+          </el-card>
           <el-card>
             <el-form-item label="Отображать на сайте" prop="position">
               <el-switch v-model="doctor.show"></el-switch>

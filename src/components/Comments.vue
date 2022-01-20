@@ -62,7 +62,7 @@
     <div class="add-comment">
       <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
         <el-form-item prop="comment.text">
-          <el-rate v-if="isReviews" v-model="comment.comment.rating" allow-half />
+          <el-rate v-if="isReviews" v-model="comment.comment.rating" />
           <el-input
             ref="commentInput"
             v-model="comment.comment.text"

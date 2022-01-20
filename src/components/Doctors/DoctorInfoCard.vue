@@ -3,10 +3,10 @@
     <div class="flex-row">
       <div class="flex-column left-side">
         <div class="doctor-img" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
-          <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
+          <img v-if="doctor.photoMini.fileSystemPath" :src="doctor.photoMini.getImageUrl()" alt="alt" @error="errorImg" />
           <img v-else src="@/assets/img/doctor-default.png" />
           <div class="favor">
-            <HeartOutlined />
+            <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
           </div>
         </div>
         <DoctorRating :doctor="doctor" />
@@ -71,15 +71,15 @@
 </template>
 
 <script lang="ts">
-import { HeartOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType } from 'vue';
 
 import DoctorRating from '@/components/Doctors/DoctorRating.vue';
+import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorInfoCard',
-  components: { HeartOutlined, DoctorRating },
+  components: { DoctorRating, FavouriteIcon },
   props: {
     doctor: { type: Object as PropType<IDoctor>, required: true },
   },

@@ -1,9 +1,11 @@
 import Child from '@/classes/Child';
+import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import Human from '@/classes/Human';
 import Question from '@/classes/Question';
 import IChild from '@/interfaces/IChild';
+import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IQuestion from '@/interfaces/IQuestion';
@@ -20,7 +22,7 @@ export default class User implements IUser {
   children: IChild[] = [];
   childrenForDelete: string[] = [];
   donorRulesUsers: IDonorRuleUser[] = [];
-
+  doctorsUsers: IDoctorUser[] = [];
   constructor(i?: IUser) {
     if (!i) return;
     this.id = i.id;
@@ -37,6 +39,9 @@ export default class User implements IUser {
     }
     if (i.donorRulesUsers) {
       this.donorRulesUsers = i.donorRulesUsers.map((item: IDonorRuleUser) => new DonorRuleUser(item));
+    }
+    if (i.doctorsUsers) {
+      this.doctorsUsers = i.doctorsUsers.map((item: IDoctorUser) => new DoctorUser(item));
     }
   }
 

@@ -38,6 +38,8 @@ export default class Doctor implements IDoctor {
   tags?: string;
   fileInfo = new FileInfo();
   fileInfoId?: string;
+  photoMini = new FileInfo();
+  photoMiniId?: string;
   doctorComments: IDoctorComment[] = [];
   academicDegree = '';
   academicRank = '';
@@ -72,6 +74,7 @@ export default class Doctor implements IDoctor {
     this.position = i.position;
     this.tags = i.tags;
     this.fileInfoId = i.fileInfoId;
+    this.photoMiniId = i.photoMiniId;
     this.mosDoctorLink = i.mosDoctorLink;
     this.medicalProfileId = i.medicalProfileId;
     if (i.medicalProfile) {
@@ -80,6 +83,9 @@ export default class Doctor implements IDoctor {
 
     if (i.fileInfo) {
       this.fileInfo = new FileInfo(i.fileInfo);
+    }
+    if (i.photoMini) {
+      this.photoMini = new FileInfo(i.photoMini);
     }
     if (i.doctorComments) {
       this.doctorComments = i.doctorComments.map((item: IDoctorComment) => new DoctorComment(item));
@@ -151,10 +157,11 @@ export default class Doctor implements IDoctor {
       }
     });
     fileInfos.push(this.fileInfo);
+    fileInfos.push(this.photoMini);
     return fileInfos;
   }
 
-  getMosDoctorLink() {
+  getMosDoctorLink(): string {
     return `https://mosgorzdrav.ru/ru-RU/moscowDoctor/default/card/${this.mosDoctorLink}.html`;
   }
 }
