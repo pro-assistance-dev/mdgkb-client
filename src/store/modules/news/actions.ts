@@ -34,6 +34,9 @@ const actions: ActionTree<State, RootState> = {
     const query = `admin/${filterQuery.toUrl()}`;
     commit('setAllAdmin', await httpClient.get<INewsWithCount[]>({ query: query }));
   },
+  getAllMain: async ({ commit }): Promise<void> => {
+    commit('setAllMain', await httpClient.get<INewsWithCount[]>({ query: 'main' }));
+  },
   get: async ({ commit }, slug: string): Promise<void> => {
     const res = await httpClient.get<INews>({ query: `${slug}` });
     commit('set', res);

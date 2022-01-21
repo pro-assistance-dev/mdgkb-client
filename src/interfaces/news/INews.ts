@@ -15,6 +15,8 @@ export default interface INews {
   previewText: string;
   content: string;
   slug: string;
+  main: boolean;
+  subMain: boolean;
   newsToCategories: INewsToCategory[];
   newsToTags: INewsToTag[];
   fileInfoId?: string;

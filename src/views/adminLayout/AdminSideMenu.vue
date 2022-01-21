@@ -145,6 +145,10 @@ export default defineComponent({
             title: 'FAQ',
             to: '/admin/faqs',
           },
+          {
+            title: 'Сертификаты',
+            to: '/admin/certificates',
+          },
         ],
       },
       {

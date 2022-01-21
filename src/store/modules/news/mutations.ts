@@ -39,6 +39,9 @@ const mutations: MutationTree<State> = {
     state.news = items.news.map((a: INews) => new News(a));
     state.count = items.count;
   },
+  setAllMain(state, items: INews[]) {
+    state.news = items.map((a: INews) => new News(a));
+  },
   set(state, item?: INews) {
     state.newsItem = new News(item);
     if (state.newsItem.fileInfo.fileSystemPath) state.previewFileList[0] = state.newsItem.fileInfo.getFileListObject();

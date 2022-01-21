@@ -1,5 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
+import AdminCertificates from '@/components/admin/AdminCertificates/AdminCertificates.vue';
 import AdminCommonVisitingRulesList from '@/components/admin/AdminCommonVisitingRules/AdminCommonVisitingRulesList.vue';
 import AdminDonorRules from '@/components/admin/AdminDonorRules/AdminDonorRules.vue';
 import AdminBannersRoutes from '@/router/AdminBannersRoutes';
@@ -41,6 +42,18 @@ export default [
     path: '/admin/donor-rules',
     name: 'AdminDonorRules',
     component: AdminDonorRules,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/certificates',
+    name: 'AdminCertificates',
+    component: AdminCertificates,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

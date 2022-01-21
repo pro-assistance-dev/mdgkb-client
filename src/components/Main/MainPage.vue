@@ -35,15 +35,24 @@
           <h1>Последние новости</h1>
         </el-col>
       </el-row>
-
       <el-row>
-        <el-col v-for="item in filteredNews" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12" :style="{ padding: '10px', display: 'flex' }">
+        <h1>Главная</h1>
+        <NewsCard :news="mainNews" />
+      </el-row>
+      <el-row>
+        <h1>2 главных</h1>
+        <NewsCard :news="subMainNews[0]" />
+        <NewsCard :news="subMainNews[1]" />
+      </el-row>
+      <el-row>
+        <h1>6 недавних</h1>
+
+        <el-col v-for="item in recentNews" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12" :style="{ padding: '10px', display: 'flex' }">
           <div style="margin: 0 auto">
             <NewsCard :news="item" />
           </div>
         </el-col>
       </el-row>
-
       <el-row>
         <el-col>
           <h1>Наши врачи</h1>
@@ -88,39 +97,29 @@ export default defineComponent({
     const store = useStore();
     const loading: Ref<boolean> = ref<boolean>(false);
     const mounted: Ref<boolean> = ref<boolean>(false);
-    const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
-    const filteredNews = computed(() => store.getters['news/filteredNews']);
 
     const divisions: Ref<IDivision[]> = ref([]);
     const selectedDivision = computed(() => store.getters['divisions/division']);
     const doctors = computed(() => store.getters['doctors/items']);
     const divisionFilter = ref('');
-    const news = computed(() => store.getters['news/news']);
+    const mainNews = computed(() => store.getters['news/main']);
+    const subMainNews = computed(() => store.getters['news/subMain']);
+    const recentNews = computed(() => store.getters['news/recent']);
     const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
 
     const loadNews = async () => {
-      await store.dispatch('news/getAll');
+      store.commit('news/clearNews');
+      await store.dispatch('news/getAllMain');
       await store.commit('news/setFilteredNews');
     };
 
     onBeforeMount(async () => {
       await loadNews();
-      await loadDivisions();
-      await loadDoctors();
+      // await loadDivisions();
+      // await loadDoctors();
       // await loadComments();
       mounted.value = true;
     });
-
-    const loadMore = async () => {
-      loading.value = true;
-      // const params: INewsParams = {
-      //   publishedOn: news.value[news.value.length - 1].publishedOn,
-      //   limit: 6,
-      //   filterTags: filterTags.value.map((tag: ITag) => tag.id),
-      // };
-      await store.dispatch('news/getAll');
-      await store.commit('news/setFilteredNews');
-    };
 
     // Methods
     const loadDivisions = async (): Promise<void> => {
@@ -151,6 +150,9 @@ export default defineComponent({
     });
 
     return {
+      mainNews,
+      subMainNews,
+      recentNews,
       doctors,
       divisionFilter,
       divisions,
@@ -158,11 +160,7 @@ export default defineComponent({
       list,
       loadDivisions,
 
-      allNewsLoaded,
       loading,
-      loadMore,
-      news,
-      filteredNews,
       comments,
       mounted,
     };

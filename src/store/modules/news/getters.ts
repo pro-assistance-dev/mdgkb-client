@@ -18,6 +18,15 @@ const getters: GetterTree<State, RootState> = {
   news(state): INews[] | undefined {
     return state.news;
   },
+  main(state): INews | undefined {
+    return state.news.find((item: INews) => item.main);
+  },
+  subMain(state): INews[] {
+    return state.news.filter((item: INews) => item.subMain);
+  },
+  recent(state): INews[] {
+    return state.news.filter((item: INews) => !item.main && !item.subMain);
+  },
   count(state): number {
     return state.count;
   },

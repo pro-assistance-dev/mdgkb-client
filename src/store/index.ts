@@ -4,6 +4,7 @@ import { admin } from '@/store/modules/admin';
 import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
+import { certificates } from '@/store/modules/certificates';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
@@ -97,6 +98,7 @@ const s: StoreOptions<RootState> = {
     meta,
     pagination,
     publicDocumentTypes,
+    certificates,
   },
 };
 

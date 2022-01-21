@@ -24,6 +24,8 @@ export default class News implements INews {
   previewText = '';
   content = '';
   slug = '';
+  main = false;
+  subMain = false;
   newsToTags: INewsToTag[] = [];
   newsToCategories: INewsToCategory[] = [];
   fileInfo: IFileInfo = new FileInfo();
@@ -55,6 +57,8 @@ export default class News implements INews {
     this.mainImageDescription = news.mainImageDescription;
     this.content = news.content;
     this.slug = news.slug;
+    this.main = news.main;
+    this.subMain = news.subMain;
     this.viewsCount = news.viewsCount;
     if (news.newsToCategories) {
       this.newsToCategories = news.newsToCategories.map((item: INewsToCategory) => new NewsToCategory(item));
