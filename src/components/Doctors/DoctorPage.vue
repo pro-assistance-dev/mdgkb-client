@@ -1,10 +1,13 @@
 <template>
   <div v-if="mount" class="doctor-page-container">
-    <!-- <div class="left-side">
-      <Timetable :timetable="doctor.timetable" />
-    </div>
-    <div class="right-side"> -->
+    <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>
     <DoctorInfo :doctor="doctor" />
+    <DoctorEducation />
+    <DoctorWorkExperience />
+    <DoctorServices />
+    <DoctorCertificates />
+    <DoctorDateAndTime />
+    <DoctorReviews />
 
     <!-- <el-card>
       <template #header>
@@ -48,13 +51,28 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments.vue';
+import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
+import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
+import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
 import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
+import DoctorReviews from '@/components/Doctors/DoctorReviews.vue';
+import DoctorServices from '@/components/Doctors/DoctorServices.vue';
+import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import countRating from '@/mixins/countRating';
 
 export default defineComponent({
   name: 'DoctorPage',
-  components: { Comments, DoctorInfo },
+  components: {
+    Comments,
+    DoctorInfo,
+    DoctorEducation,
+    DoctorWorkExperience,
+    DoctorServices,
+    DoctorCertificates,
+    DoctorDateAndTime,
+    DoctorReviews,
+  },
 
   setup() {
     const store = useStore();
@@ -116,5 +134,16 @@ h2 {
     cursor: pointer;
     text-decoration: underline;
   }
+}
+
+.title-out {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  color: #343e5c;
+  height: 50px;
+  align-items: center;
+  font-weight: bold;
 }
 </style>
