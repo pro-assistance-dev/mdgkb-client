@@ -6,6 +6,7 @@ import DispanserizationPage from '@/components/Dispanserization/Dispanserization
 import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
+import MedicalProfilesPage from '@/components/MedicalProfiles/MedicalProfilesPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
@@ -121,6 +122,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/donor-rules',
     name: 'DonorRulesPage',
     component: DonorRulesPage,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/medical-profiles',
+    name: 'MedicalProfilesPage',
+    component: MedicalProfilesPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
