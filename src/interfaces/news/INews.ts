@@ -26,6 +26,9 @@ export default interface INews {
   mainImage: IFileInfo;
   mainImageDescription: string;
   publishedOn: Date;
+  articleLink: string;
+  isArticle: boolean;
+
   newsLikes: INewsLike[];
   newsComments: INewsComment[];
   newsDoctors: INewsDoctor[];

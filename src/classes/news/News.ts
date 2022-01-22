@@ -34,6 +34,8 @@ export default class News implements INews {
   fileInfoId?: string;
   mainImage = new FileInfo();
   mainImageId?: string;
+  articleLink = '';
+  isArticle = false;
   publishedOn: Date = new Date();
   newsLikes: INewsLike[] = [];
   newsComments: INewsComment[] = [];
@@ -64,6 +66,8 @@ export default class News implements INews {
     this.main = news.main;
     this.subMain = news.subMain;
     this.viewsCount = news.viewsCount;
+    this.articleLink = news.articleLink;
+    this.isArticle = news.isArticle;
     if (news.newsToCategories) {
       this.newsToCategories = news.newsToCategories.map((item: INewsToCategory) => new NewsToCategory(item));
     }
