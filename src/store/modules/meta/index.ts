@@ -9,6 +9,7 @@ import { State } from './state';
 
 export const state: State = {
   count: 0,
+  socials: [],
 };
 
 const namespaced = true;
