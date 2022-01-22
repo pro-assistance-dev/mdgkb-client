@@ -142,6 +142,7 @@ h2 {
   letter-spacing: 0.1em;
   font-size: 12px;
   color: #343e5c;
+  margin-left: 4px;
   height: 50px;
   align-items: center;
   font-weight: bold;
