@@ -2,6 +2,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDoctor from '@/interfaces/IDoctor';
 import IEvent from '@/interfaces/news/IEvent';
 import INewsComment from '@/interfaces/news/INewsComment';
+import INewsDivision from '@/interfaces/news/INewsDivision';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
@@ -28,6 +29,8 @@ export default interface INews {
   newsLikes: INewsLike[];
   newsComments: INewsComment[];
   newsDoctors: INewsDoctor[];
+  newsDivisions: INewsDivision[];
+  newsDivisionsForDelete: string[];
   newsDoctorsForDelete: string[];
   newsImages: INewsImage[];
   newsImagesForDelete: string[];

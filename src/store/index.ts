@@ -18,6 +18,7 @@ import { filter } from '@/store/modules/filter';
 import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { map } from '@/store/modules/map';
+import { medicalProfiles } from '@/store/modules/medicalProfiles';
 import { menus } from '@/store/modules/menus';
 import { meta } from '@/store/modules/meta';
 import { news } from '@/store/modules/news';
@@ -99,6 +100,7 @@ const s: StoreOptions<RootState> = {
     pagination,
     publicDocumentTypes,
     certificates,
+    medicalProfiles,
   },
 };
 
