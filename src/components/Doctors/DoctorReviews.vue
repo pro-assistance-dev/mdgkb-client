@@ -1,7 +1,7 @@
 <template>
-  <div class="reviews">
-    <div class="title-in">Отзывы (1):</div>
-    <div class="reviews-point">
+  <div id="reviews" class="reviews">
+    <div class="title-in">Отзывы ({{ comments.length }}):</div>
+    <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
       <div class="reviews-block">
         <div class="user-avatar">
           <svg class="icon-avatar">
@@ -9,17 +9,14 @@
           </svg>
         </div>
         <div class="reviews-info">
-          <h3 class="name">Юлия</h3>
-          <h4 class="reviews-date-time">Отзыв от 14 августа 2020, 17:00</h4>
+          <h3 class="name">{{ item.comment.user.human.name }}</h3>
+          <h4 class="reviews-date-time">Отзыв от {{ $dateFormatRu(item.comment.publishedOn, true, true) }}</h4>
           <h4 class="reviews-text">
-            Текст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст
-            отзыва Текст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст
-            отзываТекст отзываТекст отзываТекст отзыва Текст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст отзываТекст
-            отзываТекст отзыва
+            {{ item.comment.text }}
           </h4>
         </div>
       </div>
-      <div class="review-for-review">
+      <div v-if="item.comment.answer" class="review-for-review">
         <div class="mdgkb-avatar">
           <svg class="mdgkb-avatar">
             <use xlink:href="#avatar"></use>
@@ -27,20 +24,29 @@
         </div>
         <div class="review-for-review-info">
           <h4 class="review-for-review-text">
-            Текст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на
-            отзывТекст отзыва на отзывТекст отзыва на отзыв Текст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на
-            отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзыв Текст отзыва на
-            отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на
-            отзывТекст отзыва на отзывТекст отзыва на отзыв Текст отзыва на отзывТекст отзыва на отзывТекст отзыва на отзывТекст отзыва на
-            отзывТекст отзыва на отзыв
+            {{ item.comment.answer }}
           </h4>
         </div>
       </div>
     </div>
-    <div class="leave-a-review">
+    <div id="leave-a-review" class="leave-a-review">
       <h4>Оставить отзыв:</h4>
-      <textarea placeholder="Напишите отзыв:"></textarea>
-      <div class="button-block"><button>ОТПРАВИТЬ ОТЗЫВ</button></div>
+      <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
+        <el-form-item prop="comment.text">
+          <textarea
+            ref="commentInput"
+            v-model="comment.comment.text"
+            type="textarea"
+            :placeholder="!isReviews ? 'Напишите комментарий:' : 'Напишите отзыв:'"
+            show-word-limit
+            :autosize="{ minRows: 3, maxRows: 6 }"
+            @focus="isAuth ? null : openLoginModal()"
+          ></textarea>
+          <div class="button-block" @click="isAuth ? sendComment(comment) : openLoginModal()">
+            <button type="button">ОТПРАВИТЬ ОТЗЫВ</button>
+          </div>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
   <svg width="0" height="0" class="hidden">
@@ -52,7 +58,103 @@
   </svg>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+import { ElMessage } from 'element-plus';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
+
+import CommentRules from '@/classes/news/CommentRules';
+import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
+import IComment from '@/interfaces/comments/IComment';
+import IDoctorComment from '@/interfaces/IDoctorComment';
+import INewsComment from '@/interfaces/news/INewsComment';
+import validate from '@/mixins/validate';
+
+export default defineComponent({
+  name: 'Comments',
+  props: {
+    storeName: {
+      type: String,
+      required: true,
+    },
+    parentId: {
+      type: String,
+      required: true,
+    },
+    isReviews: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  async setup(prop) {
+    const comment = computed(() => store.getters[`${prop.storeName}/comment`]);
+    const commentInput = ref();
+    const store = useStore();
+    const comments: ComputedRef<IComment[]> = computed(() => store.getters[`${prop.storeName}/comments`]);
+
+    const userId = computed(() => store.getters['auth/user']?.id);
+    const userEmail = computed(() => store.getters['auth/user']?.email);
+    const isAuth = computed(() => store.getters['auth/isAuth']);
+
+    const commentForm = ref();
+    const editCommentForm = ref();
+    const rules = ref(CommentRules);
+
+    const sendComment = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
+      if (!validate(commentForm)) return;
+      store.commit(`${prop.storeName}/setParentIdToComment`, prop.parentId);
+      if (userEmail.value) item.comment.user.email = userEmail.value;
+      if (userId.value) item.comment.userId = userId.value;
+      try {
+        await store.dispatch(`${prop.storeName}/createComment`, item);
+      } catch (e) {
+        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        return;
+      }
+      commentForm.value.clearValidate();
+    };
+
+    const removeComment = async (commentId: string) => {
+      await store.dispatch(`${prop.storeName}/removeComment`, commentId);
+    };
+    const editComment = (commentId: string) => {
+      store.commit(`${prop.storeName}/editComment`, commentId);
+    };
+    const saveCommentChanges = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
+      if (!validate(editCommentForm)) return;
+      try {
+        await store.dispatch(`${prop.storeName}/updateComment`, item);
+      } catch (e) {
+        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        return;
+      }
+    };
+
+    const openLoginModal = () => {
+      if (!isAuth.value) {
+        store.commit('auth/openModal', true);
+        commentInput.value.blur();
+      }
+    };
+
+    return {
+      rules,
+      openLoginModal,
+      removeComment,
+      userId,
+      sendComment,
+      comment,
+      isAuth,
+      commentInput,
+      commentForm,
+      editComment,
+      saveCommentChanges,
+      editCommentForm,
+      comments,
+    };
+  },
+});
+</script>
 
 <style scoped lang="scss">
 * {
@@ -231,6 +333,10 @@ button {
   border: none;
   margin-top: 40px;
   padding: 0px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .button-block {

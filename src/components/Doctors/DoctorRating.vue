@@ -8,7 +8,7 @@
     :colors="['#FF4D3B', '#FF4D3B', '#FF4D3B']"
   >
   </el-rate>
-  <a href="">{{ doctor.doctorComments.length }} отзывов</a>
+  <a class="doctor-reviews" @click="$scroll('reviews')">{{ doctor.doctorComments.length }} отзывов</a>
 </template>
 
 <script lang="ts">
@@ -46,5 +46,9 @@ a {
   letter-spacing: 1px;
   font-weight: bold;
   font-size: 11px;
+  &:hover {
+    color: darken(#2754eb, 10%);
+    cursor: pointer;
+  }
 }
 </style>

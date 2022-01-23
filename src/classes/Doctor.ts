@@ -33,6 +33,7 @@ export default class Doctor implements IDoctor {
   show = false;
   timetable: ITimetable = new Timetable();
   timetableId?: string;
+  onlineDoctorId?: string;
   position?: IPosition;
   positionId?: string;
   tags?: string;
@@ -77,6 +78,7 @@ export default class Doctor implements IDoctor {
     this.photoMiniId = i.photoMiniId;
     this.mosDoctorLink = i.mosDoctorLink;
     this.medicalProfileId = i.medicalProfileId;
+    this.onlineDoctorId = i.onlineDoctorId;
     if (i.medicalProfile) {
       this.medicalProfile = new MedicalProfile(i.medicalProfile);
     }
@@ -163,5 +165,9 @@ export default class Doctor implements IDoctor {
 
   getMosDoctorLink(): string {
     return `https://mosgorzdrav.ru/ru-RU/moscowDoctor/default/card/${this.mosDoctorLink}.html`;
+  }
+
+  getOnlineDoctorLink(): string {
+    return `https://morozdgkb.onlinedoctor.ru/doctors/${this.onlineDoctorId}/`;
   }
 }

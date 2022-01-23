@@ -12,6 +12,7 @@ import sanitizeHTML from 'sanitize-html';
 import { useStore } from 'vuex';
 
 import fillDateFormat from '@/services/DateFormat';
+import scroll from '@/services/Scroll';
 
 const app = createApp(App);
 import VueSocialSharing from 'vue-social-sharing';
@@ -19,6 +20,7 @@ import VueSocialSharing from 'vue-social-sharing';
 app.config.globalProperties.$dateFormatRu = fillDateFormat;
 app.config.globalProperties.$store = useStore();
 app.config.globalProperties.$sanitize = sanitizeHTML;
+app.config.globalProperties.$scroll = scroll;
 
 app.use(VueSocialSharing);
 

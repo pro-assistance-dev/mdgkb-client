@@ -18,6 +18,7 @@ export default interface IDoctor {
   division?: IDivision;
   divisionId?: string;
   mosDoctorLink?: string;
+  onlineDoctorId?: string;
   show: boolean;
   timetable: ITimetable;
   timetableId?: string;
@@ -55,4 +56,5 @@ export default interface IDoctor {
 
   getFileInfos: () => IFileInfo[];
   getMosDoctorLink: () => string;
+  getOnlineDoctorLink: () => string;
 }

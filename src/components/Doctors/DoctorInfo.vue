@@ -55,8 +55,12 @@
 
     <div class="card-item-right">
       <button>Запись на прием</button>
-      <button class="consult">Онлайн консультация</button>
-      <button class="review">Оставить отзыв</button>
+      <a v-if="doctor.onlineDoctorId" :href="doctor.getOnlineDoctorLink()" target="_blank">
+        <button class="consult">Онлайн консультация</button>
+      </a>
+      <a @click="$scroll('leave-a-review')">
+        <button class="review">Оставить отзыв</button>
+      </a>
     </div>
   </div>
 </template>
@@ -67,7 +71,6 @@ import { defineComponent, PropType } from 'vue';
 import DoctorRating from '@/components/Doctors/DoctorRating.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import IDoctor from '@/interfaces/IDoctor';
-
 export default defineComponent({
   name: 'DoctorInfo',
   components: { FavouriteIcon, DoctorRating },

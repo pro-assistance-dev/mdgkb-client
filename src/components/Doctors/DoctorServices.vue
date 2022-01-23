@@ -3,16 +3,38 @@
     <div class="title-in">Оказываемые услуги</div>
     <div class="point">
       <ul class="services-list">
-        <li class="services-list-item"><h4 class="point-text">Услуга 1</h4></li>
-        <li class="services-list-item"><h4 class="point-text">Услуга 2</h4></li>
-        <li class="services-list-item"><h4 class="point-text">Услуга 3</h4></li>
+        <li v-for="paidService in paidServices.splice(0, 15)" :key="paidService.id" class="services-list-item">
+          <h4 class="point-text">{{ paidService.paidService.name }}</h4>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+import { computed, ComputedRef, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
+import IWithPaidService from '@/interfaces/IWithPaidService';
+
+export default defineComponent({
+  name: 'DoctorServices',
+  props: {
+    storeName: {
+      type: String,
+      required: true,
+    },
+  },
+  async setup(prop) {
+    const store = useStore();
+    const paidServices: ComputedRef<IWithPaidService[]> = computed(() => store.getters[`${prop.storeName}/paidServices`]);
+
+    return {
+      paidServices,
+    };
+  },
+});
+</script>
 <style scoped lang="scss">
 * {
   padding: 0px;

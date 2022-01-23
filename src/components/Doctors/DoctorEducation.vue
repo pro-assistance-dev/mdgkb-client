@@ -3,18 +3,10 @@
     <div class="title-in">Образование</div>
     <div class="point">
       <ul class="point-list">
-        <li class="point-list-item">
+        <li v-for="education in educations" :key="education.id" class="point-list-item">
           <div class="point-info">
-            <h3 class="point-year">1982</h3>
-            <h4 class="point-text">Окончила Ростовский институт Дружбы Народов по специальности “Педиатрия”.</h4>
-          </div>
-        </li>
-        <li class="point-list-item">
-          <div class="point-info">
-            <h3 class="point-year">1984</h3>
-            <h4 class="point-text">
-              Окончила интернатуру по специальности “Инфекционист” на базе Липецкой городской инфекционной больницы.
-            </h4>
+            <h3 class="point-year">{{ education.getEndYear() }}</h3>
+            <h4 class="point-text">{{ education.institution }}. {{ education.type }}. {{ education.specialization }}</h4>
           </div>
         </li>
       </ul>
@@ -22,8 +14,30 @@
   </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+import { computed, ComputedRef, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
+import IEducation from '@/interfaces/education/IEducation';
+
+export default defineComponent({
+  name: 'Education',
+  props: {
+    storeName: {
+      type: String,
+      required: true,
+    },
+  },
+  async setup(prop) {
+    const store = useStore();
+    const educations: ComputedRef<IEducation[]> = computed(() => store.getters[`${prop.storeName}/educations`]);
+
+    return {
+      educations,
+    };
+  },
+});
+</script>
 <style scoped lang="scss">
 * {
   padding: 0px;

@@ -6,6 +6,7 @@ import IFIlesList from '@/interfaces/files/IFIlesList';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import IHuman from '@/interfaces/IHuman';
+import IWithPaidService from '@/interfaces/IWithPaidService';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import RootState from '@/store/types';
 
@@ -46,6 +47,9 @@ const getters: GetterTree<State, RootState> = {
   },
   educations(state): IEducation[] {
     return state.item.educations;
+  },
+  paidServices(state): IWithPaidService[] {
+    return state.item.doctorPaidServices;
   },
   timetable(state): ITimetable {
     return state.item.timetable;
