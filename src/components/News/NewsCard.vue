@@ -124,14 +124,14 @@ $card-width: 300px;
 
     .title {
       font-size: 1.1rem;
-      font-weight: normal;
+      font-weight: bold;
       color: #343e5c;
     }
 
     .text {
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: normal;
-      color: #a1a7bd;
+      color: #4a4a4a;
     }
   }
 }
