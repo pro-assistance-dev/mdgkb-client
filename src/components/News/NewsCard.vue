@@ -1,11 +1,9 @@
 <template>
-  <div class="card" :body-style="{ padding: '0px', height: '100%' }" @click="$router.push(`/news/${news.slug}`)">
+  <div class="card" :body-style="{ padding: '0px', height: '75%' }" @click="$router.push(`/news/${news.slug}`)">
     <div class="flex-between-columm front">
       <div class="image">
-        <div>
-          <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
-          <img v-else src="../../assets/img/310x310.png" />
-        </div>
+        <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
+        <img v-else src="../../assets/img/310x310.png" />
       </div>
       <div class="tags">
         <NewsMeta :news="news" />
@@ -90,8 +88,8 @@ $card-width: 300px;
   justify-content: space-between;
   overflow: hidden;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-      rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
+      rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
   }
 
   .transition-box {
@@ -139,21 +137,17 @@ $card-width: 300px;
 }
 
 .image {
-  width: 100%;
-  padding-top: 100%;
   position: relative;
-  div {
+  overflow: hidden;
+  padding-top: 75% !important;
+  img {
     position: absolute;
-    top: 0;
-    height: 100%;
-    left: -50%;
-    width: 200%;
-    display: flex;
-    justify-content: center;
-    img {
-      height: 100%;
-      width: auto;
-    }
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
   }
 }
 
