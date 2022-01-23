@@ -31,6 +31,7 @@
     </div>
     <div id="leave-a-review" class="leave-a-review">
       <h4>Оставить отзыв:</h4>
+      <el-rate v-if="isReviews" v-model="comment.comment.rating" class="rate" />
       <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
         <el-form-item prop="comment.text">
           <textarea
@@ -342,5 +343,9 @@ button {
 .button-block {
   display: flex;
   justify-content: right;
+}
+
+.rate {
+  margin-top: 10px;
 }
 </style>

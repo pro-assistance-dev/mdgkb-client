@@ -39,7 +39,7 @@
             </a>
           </span>
         </div>
-        <div class="mos-doctor-img">
+        <div v-if="doctor.mosDoctorLink" class="mos-doctor-img">
           <div class="mos-doctor-img-container">
             <img src="@/assets/img/mos-doctor.png" />
           </div>

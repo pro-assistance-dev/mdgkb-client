@@ -35,8 +35,10 @@ const mutations: MutationTree<State> = {
     state.isLoginModal = !state.isLoginModal;
   },
   setFavourite(state, user: IUser) {
-    const doctorsFavourite = user.doctorsUsers.map((i: IDoctorUser) => i.doctorId);
-    FavouriteService.setFavourite('doctor', doctorsFavourite);
+    if (user.doctorsUsers) {
+      const doctorsFavourite = user.doctorsUsers.map((i: IDoctorUser) => i.doctorId);
+      FavouriteService.setFavourite('doctor', doctorsFavourite);
+    }
   },
 };
 

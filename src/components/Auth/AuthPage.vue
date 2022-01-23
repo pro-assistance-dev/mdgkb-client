@@ -95,6 +95,7 @@ export default defineComponent({
           await store.dispatch('auth/register', form.value);
         }
       } catch (error) {
+        console.log(error);
         ElMessage({ message: 'Неверный логин или пароль', type: 'error' });
         return;
       }
