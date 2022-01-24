@@ -9,6 +9,7 @@ import State from './state';
 
 export const state: State = {
   comments: [],
+  positiveMode: true,
 };
 
 const namespaced = true;

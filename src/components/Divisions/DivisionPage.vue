@@ -50,7 +50,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Comments from '@/components/Comments.vue';
+import Comments from '@/components/CommentsOld.vue';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import Timetable from '@/components/Timetable.vue';

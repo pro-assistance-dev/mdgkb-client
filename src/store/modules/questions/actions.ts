@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IQuestion from '@/interfaces/IQuestion';
 import INews from '@/interfaces/news/INews';
 import HttpClient from '@/services/HttpClient';
@@ -10,8 +11,13 @@ import { State } from './state';
 const httpClient = new HttpClient('questions');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, published: boolean): Promise<void> => {
-    commit('setAll', await httpClient.get<IQuestion[]>({ query: `?published=${published}` }));
+  getAll: async ({ commit }, query: IFilterQuery): Promise<void> => {
+    const items = await httpClient.get<IQuestion[]>({ query: query.toUrl() });
+    if (query.pagination.cursorMode) {
+      commit('appendToAll', items);
+      return;
+    }
+    commit('setAll', items);
   },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<INews>({ query: `${id}` });

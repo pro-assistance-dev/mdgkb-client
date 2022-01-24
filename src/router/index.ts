@@ -14,6 +14,7 @@ import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vu
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
+import CommentsRoutes from '@/router/CommentsRoutes';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
 import DoctorsRoutes from '@/router/DoctorsRoutes';
 import EducationalOrganizationRoutes from '@/router/EducationalOrganizationRoutes';
@@ -146,6 +147,7 @@ const routes: Array<RouteRecordRaw> = [
   ...NewsRoutes,
   ...NormativeDocumentsRoutes,
   ...PaidServicesRoutes,
+  ...CommentsRoutes,
   ...ProfileRoutes,
   ...EducationalOrganizationRoutes,
   ...ProjectsRoutes,

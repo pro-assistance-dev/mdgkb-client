@@ -1,31 +1,53 @@
 <template>
-  <div class="ques-answ-container">
-    <h1>{{ pageTitle }}</h1>
-    <el-tabs type="border-card" :active-name="pageTitle" :before-leave="test">
-      <el-tab-pane label="Часто задаваемые вопросы" name="Часто задаваемые вопросы"><FAQ /></el-tab-pane>
-      <el-tab-pane label="Вопросы и ответы" name="Вопросы и ответы"><Questions /></el-tab-pane>
-    </el-tabs>
+  <div>
+    <el-row :gutter="40">
+      <el-col :xl="6" :lg="6" :md="24" class="calendar">
+        <div class="left-side-container">
+          <ModeButtons
+            :store-mode="false"
+            :store-module="'comments'"
+            :first-mode="'Faq'"
+            :second-mode="'Вопрос-ответ'"
+            @changeMode="setFaqMode"
+          />
+        </div>
+      </el-col>
+      <el-col :xl="18" :lg="18" :md="24">
+        <RemoteSearch />
+        <FAQ v-if="faqMode" />
+        <Questions v-else />
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
 
+import RemoteSearch from '@/components/admin/RemoteSearch.vue';
+import ModeButtons from '@/components/ModeButtons.vue';
 import FAQ from '@/components/Questions/FAQ.vue';
 import Questions from '@/components/Questions/Questions.vue';
 
 export default defineComponent({
   name: 'QuestionsAnswersPage',
-  components: { FAQ, Questions },
+
+  components: { FAQ, Questions, ModeButtons, RemoteSearch },
 
   setup() {
     const pageTitle: Ref<string> = ref('Часто задаваемые вопросы');
-
+    const faqMode: Ref<boolean> = ref(false);
     const test = (activeName: string) => {
       pageTitle.value = activeName;
     };
 
+    const setFaqMode = (faqModeCondition: boolean) => {
+      faqMode.value = faqModeCondition;
+    };
+
     return {
+      setFaqMode,
+      faqMode,
       test,
       pageTitle,
     };

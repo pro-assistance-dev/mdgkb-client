@@ -60,16 +60,14 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
+
       store.commit('filter/setStoreModule', 'doctors');
-      await loadDivisions();
+      await store.dispatch('doctors/getAll', store.getters['filter/filterQuery']);
+
+      store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
     });
-
-    const loadDivisions = async (): Promise<void> => {
-      await store.dispatch('doctors/getAll', store.getters['filter/filterQuery']);
-      store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
-    };
 
     const create = () => router.push(`/admin/doctors/new`);
     const edit = (slug: string) => router.push(`/admin/doctors/${slug}`);

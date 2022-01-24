@@ -44,7 +44,7 @@ import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
 import NewsComment from '@/classes/news/NewsComment';
-import Comments from '@/components/Comments.vue';
+import Comments from '@/components/CommentsOld.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';

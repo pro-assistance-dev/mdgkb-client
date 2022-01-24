@@ -27,6 +27,9 @@ const mutations: MutationTree<State> = {
       return i;
     });
   },
+  setFirstModeCondition(state, positiveMode: boolean) {
+    state.positiveMode = positiveMode;
+  },
 };
 
 export default mutations;

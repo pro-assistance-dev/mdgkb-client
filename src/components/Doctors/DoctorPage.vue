@@ -7,7 +7,7 @@
     <DoctorServices :store-name="'doctors'" />
     <DoctorCertificates />
     <DoctorDateAndTime />
-    <DoctorReviews store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
+    <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
   </div>
 </template>
 
@@ -16,11 +16,11 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Comments from '@/components/Comments.vue';
 import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
 import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
-import DoctorReviews from '@/components/Doctors/DoctorReviews.vue';
 import DoctorServices from '@/components/Doctors/DoctorServices.vue';
 import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue';
 import IDoctor from '@/interfaces/IDoctor';
@@ -35,7 +35,7 @@ export default defineComponent({
     DoctorServices,
     DoctorCertificates,
     DoctorDateAndTime,
-    DoctorReviews,
+    Comments,
   },
 
   setup() {
