@@ -8,7 +8,7 @@
     </div>
     <div class="filter-for-tags-button">
       <div v-for="tag in filteredTagList" :key="tag.id" class="filter-for-tags-button-child">
-        <button :class="{ 'tag-hovered': tag.selected }" class="filter-button" @click="chooseTag(tag)">{{ tag.label }}</button>
+        <button :class="{ 'filter-button-selected': tag.selected }" class="filter-button" @click="chooseTag(tag)">{{ tag.label }}</button>
       </div>
     </div>
   </div>
@@ -37,9 +37,11 @@ export default defineComponent({
     const addFilterTag = async (tag: ITag): Promise<void> => {
       await store.dispatch('news/addFilterTag', tag);
       await store.dispatch('news/getAll');
+      console.log(filterTags.value);
       await store.dispatch('tags/filterTagList', filterTags.value);
     };
     const resetFilterTags = async () => {
+      filterTags.value.forEach((tag: ITag) => (tag.selected = false));
       await store.dispatch('news/resetFilterTags');
       await store.dispatch('news/getAll');
       await store.dispatch('tags/filterTagList', filterTags.value);
@@ -124,6 +126,7 @@ export default defineComponent({
   font-size: 0.8rem;
   color: #ffffff;
   &:hover {
+    cursor: pointer;
     background-color: #888888;
   }
 }
@@ -158,6 +161,11 @@ export default defineComponent({
     cursor: pointer;
     background-color: #2754eb;
     color: white;
+  }
+
+  &-selected {
+    color: #ffffff;
+    background-color: #2754eb;
   }
 }
 

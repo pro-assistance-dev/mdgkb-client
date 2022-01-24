@@ -1,5 +1,5 @@
 <template>
-  <div class="card-item flex-column" style="background-image: ">
+  <div class="card-item flex-column">
     <div class="flex-row">
       <div class="flex-column left-side">
         <div class="doctor-img" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
@@ -10,7 +10,7 @@
           </div>
         </div>
         <DoctorRating :doctor="doctor" />
-        <a :href="doctor.getMosDoctorLink()">
+        <a v-if="doctor.mosDoctorLink" :href="doctor.getMosDoctorLink()">
           <div class="mos-doctor-img">
             <img src="@/assets/img/mos-doctor.png" />
             <span>Московский</span>
@@ -26,7 +26,7 @@
           {{ doctor.human.getFullName() }}
         </div>
         <div class="spec-list">
-          <div v-if="doctor.medicalProfile" class="tag-link">
+          <div v-if="doctor.medicalProfile" class="tag-link" @click="$router.push(`/doctors?medical-profile=${doctor.medicalProfile.id}`)">
             {{ doctor.medicalProfile.name }}
           </div>
         </div>
@@ -38,7 +38,7 @@
         <div class="address">
           <span v-if="doctor.division.address">
             Адрес приема:
-            <a>
+            <a @click="$router.push(`/map/${doctor.division.id}`)">
               {{ doctor.division.address }}
             </a>
           </span>

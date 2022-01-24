@@ -69,6 +69,14 @@
     .regalias-list,
     .address {
       margin-bottom: 15px;
+      a {
+        color: #2754eb;
+        text-decoration: none;
+        &:hover {
+          cursor: pointer;
+          color: darken(#2754eb, 30%)
+        }
+      }
     }
     &-bottom {
       max-width: 300px;

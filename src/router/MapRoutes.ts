@@ -5,6 +5,14 @@ import { isAuthorized } from '@/router/index';
 
 export default [
   {
+    path: '/map/:id',
+    name: 'MapWithDivision',
+    component: MapPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
     path: '/map',
     name: 'Map',
     component: MapPage,

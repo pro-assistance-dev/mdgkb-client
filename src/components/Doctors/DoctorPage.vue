@@ -8,41 +8,7 @@
     <DoctorCertificates />
     <DoctorDateAndTime />
     <DoctorReviews store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
-
-    <!-- <el-card>
-      <template #header>
-        <div class="card-header">
-          <h2>{{ doctor.human.getFullName() }}</h2>
-          <el-rate :model-value="countRating(doctor.doctorComments)" disabled show-score text-color="#ff9900" score-template="{value}">
-          </el-rate>
-        </div>
-      </template>
-      <div class="flex-row">
-        <div class="doctor-img-container">
-          <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
-          <img v-else src="@//assets/img/310x310.png" />
-        </div>
-        <div class="flex-column">
-          <span><b>Должность:</b> {{ doctor.position }}</span>
-          <span>{{ doctor.tags }}</span>
-          <span><b>Прием:</b> {{ doctor.division.address }}</span>
-          <span>
-            <b>Отделение:</b>
-            <span class="link" @click="$router.push(`/divisions/${doctor.division.id}`)"> {{ doctor.division.name }}</span>
-          </span>
-          <span><b>Образование:</b> {{ doctor.education }}</span>
-          <span><b>Специализация:</b> {{ doctor.medicalProfile?.name }}</span>
-        </div>
-      </div>
-      <el-timeline>
-        <el-timeline-item v-for="education in doctor.educations" :key="education.institution" :timestamp="education.institution">
-          {{ education.getEndYear() }}
-        </el-timeline-item>
-      </el-timeline>
-    </el-card> -->
-    <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
   </div>
-  <!-- </div> -->
 </template>
 
 <script lang="ts">
@@ -50,7 +16,6 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Comments from '@/components/Comments.vue';
 import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
@@ -64,7 +29,6 @@ import countRating from '@/mixins/countRating';
 export default defineComponent({
   name: 'DoctorPage',
   components: {
-    Comments,
     DoctorInfo,
     DoctorEducation,
     DoctorWorkExperience,

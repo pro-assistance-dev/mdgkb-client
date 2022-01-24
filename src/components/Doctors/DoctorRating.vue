@@ -8,15 +8,15 @@
     :colors="['#FF4D3B', '#FF4D3B', '#FF4D3B']"
   >
   </el-rate>
-  <a class="doctor-reviews" @click="$scroll('reviews')">{{ doctor.doctorComments.length }} отзывов</a>
+  <a class="doctor-reviews" @click="$scroll('reviews')">{{ buildNameNumbers(doctor.doctorComments, ['отзыв', 'отзыва', 'отзывов']) }}</a>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 import IDoctor from '@/interfaces/IDoctor';
+import buildNameNumbers from '@/mixins/buildNameNumbers';
 import countRating from '@/mixins/countRating';
-
 export default defineComponent({
   name: 'DoctorRating',
   props: {
@@ -27,7 +27,7 @@ export default defineComponent({
   },
 
   setup() {
-    return { countRating };
+    return { countRating, buildNameNumbers };
   },
 });
 </script>
