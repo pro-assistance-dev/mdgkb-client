@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :body-style="{ padding: '0px', height: '100%' }" @click="$router.push(`/news/${news.slug}`)">
+  <div class="card" :body-style="{ padding: '0px', height: '100%' }">
     <div class="flex-between-columm front">
       <div class="image">
         <div>

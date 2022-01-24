@@ -1,0 +1,58 @@
+<template>
+  <div class="review-card-container">
+    <div class="review-card">
+      <div class="review-card-content">{{ item.text }}</div>
+      <a href="">Подробнее</a>
+    </div>
+    <div class="review-card-container-date">
+      {{ $dateFormatRu(item.publishedOn, true) }}
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+import IComment from '@/interfaces/comments/IComment';
+
+export default defineComponent({
+  name: 'ReviewCard',
+  props: {
+    item: {
+      type: Object as PropType<IComment>,
+      required: true,
+    },
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+.review-card-container {
+  display: flex;
+  flex-direction: column;
+  &-date {
+    margin-top: 10px;
+    color: #a1a7bd;
+    letter-spacing: 1px;
+    font-size: 13px;
+  }
+}
+.review-card {
+  background-color: #c9d4fa;
+  width: 270px;
+  padding: 20px;
+  border-radius: 25px 25px 0 25px;
+  color: black;
+  font-size: 14px;
+  letter-spacing: 1px;
+  &-content {
+    max-height: 125px;
+    overflow: hidden;
+    margin-bottom: 5px;
+  }
+  a {
+    color: #2754eb;
+    text-decoration: unset;
+  }
+}
+</style>

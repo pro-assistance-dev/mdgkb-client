@@ -7,6 +7,8 @@
     <div class="main-carousel-container">
       <NewsCarousel v-if="$route.meta.carousel" />
     </div>
+    <MainHeaderButtons v-if="$route.meta.main" />
+    <MainInfo v-if="$route.meta.main" />
     <div class="page-container">
       <div class="container">
         <el-main>
@@ -38,6 +40,8 @@
 import { defineComponent } from 'vue';
 
 import AuthPage from '@/components/Auth/AuthPage.vue';
+import MainHeaderButtons from '@/components/Main/MainHeaderButtons.vue';
+import MainInfo from '@/components/Main/MainInfo.vue';
 import NewsCarousel from '@/components/News/NewsCarousel.vue';
 import SearchDrawer from '@/views/mainLayout/elements/SearchDrawer.vue';
 import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
@@ -57,6 +61,8 @@ export default defineComponent({
     ProfileSideMenu,
     NewsCarousel,
     SearchDrawer,
+    MainHeaderButtons,
+    MainInfo,
   },
 });
 </script>
@@ -73,8 +79,13 @@ export default defineComponent({
   min-height: calc(100vh - 124px);
 }
 .main-carousel-container {
-  margin: 0 auto 30px; // + 20px от контейнера элемента = как в макете - 50px
+  // margin: 0 auto 30px; // + 20px от контейнера элемента = как в макете - 50px
   position: relative;
   z-index: 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+:deep(.el-main) {
+  // padding: 0;
+  // margin: 0;
 }
 </style>

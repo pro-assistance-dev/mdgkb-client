@@ -29,6 +29,10 @@
         border-radius: 50%;
       }
     }
+    a {
+      color: inherit;
+      text-decoration: unset;
+    }
     .mos-doctor-img {
       cursor: pointer;
       display: flex;
@@ -41,6 +45,7 @@
       margin-bottom: 5px;
       img {
         width: 40px;
+        margin-bottom: 5px;
       }
     }
   }
