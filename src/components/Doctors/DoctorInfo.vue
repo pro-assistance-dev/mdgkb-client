@@ -18,11 +18,11 @@
       <div class="doctor-name">
         {{ doctor.human.getFullName() }}
       </div>
-      <div class="tag-link">
+      <div class="tag-link" @click="$router.push(`/doctors?medical-profile=${doctor.medicalProfile.id}`)">
         {{ doctor.medicalProfile.name }}
       </div>
 
-      <div class="tag-link">
+      <div class="tag-link" @click="$router.push(`/doctors?position=${doctor.position.id}`)">
         {{ doctor.position.name }}
       </div>
       <div class="card-item-middle-bottom">
@@ -34,7 +34,7 @@
         <div class="address">
           <span v-if="doctor.division.address">
             Адрес приема:
-            <a>
+            <a @click="$router.push(`/map/${doctor.division.id}`)">
               {{ doctor.division.address }}
             </a>
           </span>
