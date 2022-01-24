@@ -15,18 +15,22 @@
           </p>
           <div class="info-container-left-icons">
             <div class="info-container-left-icons-item">
+              <component :is="require(`@/assets/img/main-page/icons/4.svg`).default" />
               <h4>31</h4>
               <span>профиль медицинской помощи</span>
             </div>
             <div class="info-container-left-icons-item">
+              <component :is="require(`@/assets/img/main-page/icons/2.svg`).default" />
               <h4>48</h4>
               <span>отделений</span>
             </div>
             <div class="info-container-left-icons-item">
+              <component :is="require(`@/assets/img/main-page/icons/3.svg`).default" />
               <h4>700</h4>
               <span>врачей</span>
             </div>
             <div class="info-container-left-icons-item">
+              <component :is="require(`@/assets/img/main-page/icons/1.svg`).default" />
               <h4>45</h4>
               <span>медицинких специальностей</span>
             </div>
@@ -35,10 +39,10 @@
         <div class="info-container-right">
           <el-carousel trigger="click" height="620px" :interval="5000" indicator-position="outside">
             <el-carousel-item>
-              <h3 class="small">1</h3>
+              <img src="@/assets/img/main-page/templates/main-info.png" />
             </el-carousel-item>
             <el-carousel-item>
-              <h3 class="small">2</h3>
+              <img src="@/assets/img/main-page/templates/main-info.png" style="transform: scaleX(-1)" />
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -83,11 +87,16 @@ export default defineComponent({
       grid-template-rows: 1fr 1fr;
       grid-gap: 25px 80px;
       align-self: center;
+      svg {
+        font-size: 50px;
+        height: 50px;
+        fill: #2754eb;
+      }
       &-item {
         h4 {
           margin: 0;
           font-size: 43px;
-          color: blue;
+          color: #2754eb;
         }
         max-width: 150px;
         display: flex;
@@ -101,12 +110,16 @@ export default defineComponent({
   &-right {
     flex: 50%;
     margin-left: 15px;
+    img {
+      height: 100%;
+      width: 100%;
+    }
   }
 }
 .el-carousel,
 .el-carousel__container,
 .el-carousel__item {
-  background-color: gray;
+  // background-color: gray;
   border-radius: 5px;
 }
 </style>

@@ -90,7 +90,7 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import IComment from '@/interfaces/comments/IComment';
 
 export default defineComponent({
-  name: 'MainPageV2',
+  name: 'MainPageOldVersion',
   components: { NewsCalendar, NewsCard, DoctorInfoCard, CommentCard },
   setup() {
     const store = useStore();

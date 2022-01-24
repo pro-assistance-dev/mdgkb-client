@@ -2,6 +2,7 @@
   <div class="spec-serv-card">
     <div class="spec-serv-card-img">
       <img v-if="item.fileInfo && item.fileInfo.fileSystemPath" :src="item.fileInfo.getImageUrl()" />
+      <img v-else-if="item.imgName" :src="require(`@/assets/img/main-page/templates/${item.imgName}`)" />
       <img v-else src="@/assets/img/310x310.png" />
     </div>
     <div class="spec-serv-card-container">
