@@ -22,13 +22,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import IComment from '@/interfaces/comments/IComment';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 
 export default defineComponent({
   name: 'CommentsList',
@@ -42,10 +43,11 @@ export default defineComponent({
     const route = useRoute();
     const comments: Ref<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
     const mount = ref(false);
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     onBeforeMount(async () => {
-      store.commit('filter/setStoreModule', 'doctors');
-      await store.dispatch('comments/getAll');
+      store.commit('filter/setStoreModule', 'comments');
+      await store.dispatch('comments/getAll', filterQuery.value);
       mount.value = true;
     });
     return {

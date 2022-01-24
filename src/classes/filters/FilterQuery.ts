@@ -13,6 +13,7 @@ export default class FilterQuery implements IFilterQuery {
   offset = 0;
   limit = 0;
   main = false;
+  allLoaded = false;
 
   toUrl(): string {
     // const offset = `offset=${this.pagination.offset}`;

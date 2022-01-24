@@ -4,4 +4,5 @@ export interface State {
   items: IQuestion[];
   item: IQuestion;
   question: IQuestion;
+  allLoaded: boolean;
 }

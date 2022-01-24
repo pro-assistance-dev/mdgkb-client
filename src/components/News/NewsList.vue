@@ -79,6 +79,7 @@ export default defineComponent({
 .calendar {
   margin-bottom: 40px;
 }
+
 .load-more {
   margin: 50px 0 50px 0;
   text-align: center;

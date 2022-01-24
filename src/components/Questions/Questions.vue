@@ -6,6 +6,7 @@
   <template v-for="item in questionsList" :key="item.id">
     <QuestionCard :question="item.question" :answer="item.answer" :date="item.date" />
   </template>
+  <LoadMoreButton @loadMore="loadMore" />
   <QuestionForm />
 </template>
 
@@ -13,6 +14,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import QuestionCard from '@/components/Questions/QuestionCard.vue';
 import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -20,7 +22,7 @@ import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'Questions',
-  components: { QuestionForm, QuestionCard },
+  components: { LoadMoreButton, QuestionForm, QuestionCard },
   async setup() {
     const filter = ref('');
     const store = useStore();
@@ -49,7 +51,15 @@ export default defineComponent({
 
     const openQuestion = () => store.commit('questions/openQuestion');
 
+    const loadMore = async () => {
+      const lastDate = questions.value[questions.value.length - 1].date;
+      filterQuery.value.pagination.cursor.value = lastDate;
+      filterQuery.value.pagination.cursor.initial = false;
+      await store.dispatch('questions/getAll', filterQuery.value);
+    };
+
     return {
+      loadMore,
       openQuestion,
       filePath,
       questions,

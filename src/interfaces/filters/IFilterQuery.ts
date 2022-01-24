@@ -11,6 +11,7 @@ export default interface IFilterQuery {
   pagination: IPagination;
   sortModels: ISortModel[];
   withDeleted: boolean;
+  allLoaded: boolean;
 
   toUrl: () => string;
 }

@@ -3,6 +3,6 @@ import ICursor from '@/interfaces/ICursor';
 
 export default class Cursor implements ICursor {
   operation: Operators = Operators.Lt;
-  value = '';
+  value?: unknown;
   initial = true;
 }

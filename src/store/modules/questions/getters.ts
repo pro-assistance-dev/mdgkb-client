@@ -15,6 +15,9 @@ const getters: GetterTree<State, RootState> = {
   question(state): IQuestion {
     return state.question;
   },
+  allLoaded(state): boolean {
+    return state.allLoaded;
+  },
 };
 
 export default getters;

@@ -21,6 +21,9 @@ const getters: GetterTree<State, RootState> = {
   action(state): string {
     return state.action;
   },
+  allLoaded(state): boolean {
+    return state.filterQuery.allLoaded;
+  },
 };
 
 export default getters;
