@@ -33,8 +33,8 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #4a4a4a;
-  font-size: 16px;
+  color: #a1a7bd;
+  font-size: 14px;
   margin-bottom: 10px;
   opacity: 0.75;
 }

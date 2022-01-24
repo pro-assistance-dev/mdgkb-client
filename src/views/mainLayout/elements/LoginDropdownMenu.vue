@@ -92,16 +92,18 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f0f2f7;
+  border: none;
 }
 .menu-item:hover {
-  background-color: #e4e5e7;
+  background-color: #ffffff;
 }
 .el-button:hover {
   color: inherit;
 }
 :deep(.el-button) {
   border: none;
-  background-color: whitesmoke;
+  background-color: #e4e5e7;
 
   i {
     font-size: 24px;
