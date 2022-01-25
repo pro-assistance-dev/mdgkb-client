@@ -1,27 +1,31 @@
 <template>
-  <div class="card" :body-style="{ padding: '0px', height: '75%' }" @click="$router.push(`/news/${news.slug}`)">
+  <div
+    :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
+    :body-style="{ padding: '0px', height: '75%' }"
+    @click="$router.push(`/news/${news.slug}`)"
+  >
     <div class="flex-between-columm front">
       <div class="image">
         <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
         <img v-else src="../../assets/img/310x310.png" />
       </div>
-      <div class="tags">
-        <NewsMeta :news="news" />
-      </div>
       <div class="card-content">
         <div class="title">{{ news.title }}</div>
-        <div class="text" v-html="news.content"></div>
+        <div v-if="!article && !main" class="text" v-html="news.content"></div>
       </div>
-      <div class="tags tags-buttom">
+      <div class="tags">
+        <NewsMeta :news="news" :article="article" />
+      </div>
+      <div class="tags-top">
         <el-tag
           v-for="newsToTag in news.newsToTags.slice(0, 3)"
           :key="newsToTag.id"
           effect="plain"
-          class="tag-link"
-          size="small"
+          class="news-tag-link"
+          :size="article || main ? 'mini' : 'small'"
           @click.stop="filterNews(newsToTag.tag)"
         >
-          {{ newsToTag.tag.label }}
+          <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
       </div>
     </div>
@@ -43,6 +47,14 @@ export default defineComponent({
     news: {
       type: Object as PropType<INews>,
       required: true,
+    },
+    article: {
+      type: Boolean,
+      default: false,
+    },
+    main: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {
@@ -121,17 +133,23 @@ $card-width: 300px;
     overflow: hidden;
     overflow-wrap: break-word;
     background: #ffffff;
+    height: 100%;
 
     .title {
-      font-size: 1.1rem;
+      font-size: 16px;
       font-weight: bold;
       color: #343e5c;
+      margin-top: 10px;
     }
 
     .text {
-      font-size: 1rem;
+      font-size: 14px;
       font-weight: normal;
       color: #4a4a4a;
+      margin-top: 5px;
+      :deep(p) {
+        margin: 0;
+      }
     }
   }
 }
@@ -153,33 +171,16 @@ $card-width: 300px;
 
 .front {
   .tags {
-    padding-left: $card-content-padding;
-    padding-right: $card-content-padding;
-    padding-bottom: $card-content-padding;
-    padding-top: $card-content-padding;
+    padding: 10px $card-content-padding;
     background: #ffffff;
   }
 
   .tags-top {
-    margin-top: $card-content-padding;
+    margin: $card-content-padding 0 0 $card-content-padding;
     z-index: 1;
     position: absolute;
-  }
-}
-
-.tags {
-  .tag-link {
-    margin-right: 12px;
-    padding-right: 10px;
-    padding-left: 10px;
-    transition: all 0.2s;
-    color: #2754eb;
-    border-color: #2754eb;
-    border-radius: 5px;
-    &:hover {
-      background-color: #2754eb;
-      color: white;
-      cursor: pointer;
+    .news-tag-link {
+      margin-right: 10px;
     }
   }
 }
@@ -236,5 +237,60 @@ $card-width: 300px;
   padding-top: 20px;
   padding-bottom: 10px;
   min-height: 24px;
+}
+
+.article-card {
+  width: 220px;
+  height: 320px;
+  .image {
+    padding-top: 180px;
+  }
+  :deep(.title) {
+    font-size: 12px !important;
+  }
+  .card-meta {
+    font-size: 11px;
+    :deep(.anticon) {
+      font-size: 12px;
+      height: 12px;
+    }
+  }
+  .tags-top {
+    margin: 10px 0 0 10px;
+  }
+  .news-tag-link {
+    font-size: 8px;
+  }
+}
+.main-card {
+  width: 270px;
+  height: 280px;
+  .image {
+    padding-top: 180px;
+  }
+  :deep(.title) {
+    font-size: 14px !important;
+    margin-top: 5px !important;
+  }
+  .card-meta {
+    font-size: 12px;
+    :deep(.anticon) {
+      font-size: 12px;
+      height: 12px;
+    }
+  }
+  .tags-top {
+    margin: 5px 0 0 5px;
+  }
+  .news-tag-link {
+    font-size: 8px;
+  }
+  .card-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .tags {
+    padding: 5px 10px;
+  }
 }
 </style>

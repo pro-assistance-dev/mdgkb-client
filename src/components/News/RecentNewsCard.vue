@@ -1,7 +1,9 @@
 <template>
   <div class="card-item">
-    <h4>Читайте также</h4>
-    <el-divider />
+    <template v-if="!main">
+      <h4>Читайте также</h4>
+      <el-divider />
+    </template>
     <el-table :data="recentNewsList" cell-class-name="cell-row" :show-header="false">
       <el-table-column>
         <template #default="scope">
@@ -18,7 +20,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="recent-news-footer">
+    <div v-if="!main" class="recent-news-footer">
       <button @click="$router.push('/news')">Все новости</button>
     </div>
   </div>
@@ -36,10 +38,22 @@ import INewsToTag from '@/interfaces/news/INewsToTag';
 export default defineComponent({
   name: 'RecentNewsCard',
   components: { EyeOutlined },
+  props: {
+    main: {
+      type: Boolean,
+      default: false,
+    },
+    newsNumber: {
+      type: Number,
+      default: 3,
+    },
+  },
 
-  setup() {
+  setup(props) {
     const store = useStore();
-    const recentNewsList = computed(() => store.getters['news/news'].filter((item: INews) => item.id !== news.value.id).slice(0, 3));
+    const recentNewsList = computed(() =>
+      store.getters['news/news'].filter((item: INews) => item.id !== news.value.id).slice(0, props.newsNumber)
+    );
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
     const router = useRouter();
     onBeforeMount(async () => {
@@ -74,6 +88,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.card-item {
+  padding: 0;
+}
 .recent-news-item {
   display: flex;
   flex-direction: column;
@@ -99,7 +116,7 @@ export default defineComponent({
 }
 h4 {
   color: black;
-  margin: 0;
+  margin: 15px 0 0 10px;
 }
 .item-footer {
   color: #a1a7bd;
@@ -111,12 +128,12 @@ h4 {
 .el-divider {
   margin: 10px 0 0;
 }
-:deep(.cell) {
-  padding: 0 !important;
-}
+// :deep(.cell) {
+// padding: 0 !important;
+// }
 .recent-news-footer {
   margin: 10px;
-  margin-bottom: 0;
+  margin-bottom: 15px;
   text-align: center;
   button {
     background-color: white;

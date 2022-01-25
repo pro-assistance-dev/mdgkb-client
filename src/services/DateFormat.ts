@@ -1,7 +1,10 @@
-export default function fillDateFormat(date: Date, monthLong?: boolean, time?: boolean): string {
+export default function fillDateFormat(date: Date, monthLong?: boolean, time?: boolean, monthShort?: boolean): string {
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
   if (monthLong) {
     options.month = 'long';
+  }
+  if (monthShort) {
+    options.month = 'short';
   }
   if (time) {
     options.hour = 'numeric';

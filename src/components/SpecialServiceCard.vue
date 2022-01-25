@@ -1,5 +1,5 @@
 <template>
-  <div class="spec-serv-card">
+  <div class="spec-serv-card card-hover">
     <div class="spec-serv-card-img">
       <img v-if="item.fileInfo && item.fileInfo.fileSystemPath" :src="item.fileInfo.getImageUrl()" />
       <img v-else-if="item.imgName" :src="require(`@/assets/img/main-page/templates/${item.imgName}`)" />
@@ -34,7 +34,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   width: 270px;
-  border-radius: 0 0 5px 5px;
+  border-radius: 5px;
   // height: 360px;
   &-img {
     width: 100%;
@@ -43,13 +43,15 @@ export default defineComponent({
     overflow: hidden;
     img {
       width: 100%;
+      height: 100%;
       border-radius: 5px 5px 0 0;
     }
   }
   &-container {
+    border: rgba(0, 0, 0, 0.05) solid 1px;
+    border-top: unset;
     padding: 10px;
     border-radius: 0 0 5px 5px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
     background-clip: padding-box;
   }
   &-title {

@@ -93,7 +93,7 @@ export default defineComponent({
 }
 :deep(.el-carousel__item) {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
   flex-wrap: wrap;
 }

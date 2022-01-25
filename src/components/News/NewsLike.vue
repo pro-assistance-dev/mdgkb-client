@@ -78,14 +78,12 @@ export default defineComponent({
 .icon {
   user-select: none;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   transition: all 0.2s;
   margin-right: 3px;
 
   .anticon {
     padding-right: 5px;
-    font-size: 20px;
-    height: 20px;
   }
 }
 .like {
@@ -97,7 +95,6 @@ export default defineComponent({
 }
 
 .anticon {
-  color: #a1a7bd;
   &:hover {
     transform: scale(1.1);
   }

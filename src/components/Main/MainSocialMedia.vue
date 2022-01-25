@@ -84,9 +84,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-:deep(.el-carousel__item) {
-  align-items: flex-start;
-}
-</style>

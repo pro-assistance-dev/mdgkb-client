@@ -1,11 +1,14 @@
 <template>
   <div class="card-meta" style="margin-bottom: 0">
-    <div class="date-meta">{{ $dateFormatRu(news.publishedOn, true) }}</div>
-    <div class="icon">
-      <EyeOutlined />
-      <span>{{ news.viewsCount }} </span>
+    <div v-if="article" class="date-meta">{{ $dateFormatRu(news.publishedOn, true, true, true) }}</div>
+    <div v-else class="date-meta">{{ $dateFormatRu(news.publishedOn, true, true) }}</div>
+    <div class="icons">
+      <div class="icon">
+        <EyeOutlined />
+        <span>{{ news.viewsCount }} </span>
+      </div>
+      <NewsLikes :news="news" />
     </div>
-    <NewsLikes :news="news" />
   </div>
 </template>
 
@@ -24,6 +27,10 @@ export default defineComponent({
       type: Object as PropType<INews>,
       required: true,
     },
+    article: {
+      type: Boolean,
+      default: false,
+    },
   },
 });
 </script>
@@ -34,7 +41,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   color: #a1a7bd;
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 10px;
   opacity: 0.75;
 }
@@ -43,12 +50,17 @@ export default defineComponent({
   display: flex;
   align-items: center;
   transition: all 0.2s;
-  margin-right: 3px;
+  margin-right: 10px;
 
   .anticon {
     padding-right: 5px;
-    font-size: 20px;
-    height: 20px;
   }
+}
+.icons {
+  display: flex;
+}
+:deep(.anticon) {
+  font-size: 17px;
+  height: 17px;
 }
 </style>
