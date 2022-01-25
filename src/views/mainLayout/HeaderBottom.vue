@@ -3,8 +3,12 @@
       <div class="container">
         <div class="menu">
           <div class="menu-left"><BurgerMobile /></div>
-          <div class="left-block"></div>
-          <div class="left-block"></div>
+          <div class="left-block2"></div>
+          <div class="left-block">
+            <el-button v-if="scrollOffset >= 66 && !mobileWindow" class="menu-item">
+              <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" @click="$router.push('/')" />
+            </el-button>
+          </div>
           <div class="menu-center"><NavMenu /></div>
           <div class="menu-right"><PhoneInfo /></div>
         </div>  
@@ -138,12 +142,32 @@ export default defineComponent({
   height: auto;
 }
 
+.left-block {
+  min-width: 204px;
+}
+
 .menu-left {
   display:none;
   align-items: center;
 }
 
-@media screen and (max-width: 1025px) {
+.menu-item {
+  padding: 23px;
+  height: 58px;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f2f7;
+  border: none;
+  border-radius: 0px;
+}
+.menu-item:hover {
+  background-color: #ffffff;
+}
+
+@media screen and (max-width: 1226px) {
   .menu-center {
     display: none;
   }

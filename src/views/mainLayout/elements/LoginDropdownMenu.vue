@@ -86,7 +86,8 @@ export default defineComponent({
   margin-right: 5px;
 }
 .menu-item {
-  height: 56px;
+  padding: 23px;
+  height: 58px;
   cursor: pointer;
   text-align: center;
   display: flex;
@@ -94,6 +95,7 @@ export default defineComponent({
   justify-content: center;
   background-color: #f0f2f7;
   border: none;
+  border-radius: 0px;
 }
 .menu-item:hover {
   background-color: #ffffff;
