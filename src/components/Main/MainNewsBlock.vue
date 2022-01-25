@@ -37,7 +37,6 @@ export default defineComponent({
       store.commit('news/clearNews');
       await store.dispatch('news/getAllMain');
       await store.commit('news/setFilteredNews');
-      console.log(news.value);
       mounted.value = true;
     });
 

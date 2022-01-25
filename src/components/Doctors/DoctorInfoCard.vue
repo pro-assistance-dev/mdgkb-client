@@ -3,8 +3,8 @@
     <div class="flex-row">
       <div class="flex-column left-side">
         <div class="doctor-img" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
-          <!-- <img v-if="doctor.photoMini.fileSystemPath" :src="doctor.photoMini.getImageUrl()" alt="alt" @error="errorImg" /> -->
-          <img src="@/assets/img/doctor-default.png" />
+          <img v-if="doctor.photoMini.fileSystemPath" :src="doctor.photoMini.getImageUrl()" alt="alt" @error="errorImg" />
+          <img v-else src="@/assets/img/doctor-default.png" />
           <div class="favor">
             <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
           </div>
@@ -82,6 +82,17 @@ export default defineComponent({
   components: { DoctorRating, FavouriteIcon },
   props: {
     doctor: { type: Object as PropType<IDoctor>, required: true },
+  },
+  setup() {
+    const errorImg = (event: Event) => {
+      if (event.target) {
+        (event.target as HTMLImageElement).src = require('@/assets/img/doctor-default.png');
+      }
+    };
+
+    return {
+      errorImg,
+    };
   },
 });
 </script>
