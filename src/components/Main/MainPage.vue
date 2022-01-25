@@ -1,6 +1,7 @@
 <template>
   <MainHeaderButtons />
   <MainInfo />
+  <MainNewsBlock />
   <MainSpecialServices />
   <MainDoctors />
   <MainMedicalProfiles />
@@ -22,6 +23,7 @@ import MainEvents from '@/components/Main/MainEvents.vue';
 import MainHeaderButtons from '@/components/Main/MainHeaderButtons.vue';
 import MainInfo from '@/components/Main/MainInfo.vue';
 import MainMedicalProfiles from '@/components/Main/MainMedicalProfiles.vue';
+import MainNewsBlock from '@/components/Main/MainNewsBlock.vue';
 import MainPageFooter from '@/components/Main/MainPageFooter.vue';
 import MainReviews from '@/components/Main/MainReviews.vue';
 import MainSocialMedia from '@/components/Main/MainSocialMedia.vue';
@@ -41,12 +43,7 @@ export default defineComponent({
     MainHeaderButtons,
     MainInfo,
     MainPageFooter,
+    MainNewsBlock,
   },
 });
 </script>
-
-<style scoped lang="scss">
-:deep(.el-main) {
-  padding: 0;
-}
-</style>

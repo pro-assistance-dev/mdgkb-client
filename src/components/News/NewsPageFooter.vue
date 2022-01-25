@@ -16,11 +16,11 @@
           v-for="newsToTag in news.newsToTags"
           :key="newsToTag.id"
           effect="dark"
-          class="tag-link"
+          class="news-tag-link"
           size="small"
           @click.stop="filterNews(newsToTag.tag)"
         >
-          {{ newsToTag.tag.label }}
+          <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
       </div>
       <div class="card-meta share">
@@ -131,27 +131,19 @@ export default defineComponent({
 .top-footer {
   margin-bottom: 15px;
 }
-.tag-link {
-  border-radius: 10px;
-  background-color: #2754eb;
-  border-color: #2754eb;
-  margin: 0 10px 0 0;
-  &:hover {
-    background-color: darken(#2754eb, 10%);
-    color: white;
-    transform: scale(1.05);
-    cursor: pointer;
-  }
-}
 .tags-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
-.anticon {
+:deep(.anticon) {
   padding-right: 5px;
+  font-size: 20px;
+  height: 20px;
 }
 .views {
   margin-right: 15px;
+  display: flex;
+  align-items: flex-start;
 }
 </style>

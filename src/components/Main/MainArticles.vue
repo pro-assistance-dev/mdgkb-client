@@ -1,8 +1,8 @@
 <template>
   <component :is="'MainContainer'" header-title="Статьи" header-button-title="Все статьи">
-    <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="500px">
+    <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
       <el-carousel-item v-for="(news, i) in carousel" :key="i">
-        <NewsCard v-for="item in news" :key="item.id" :news="item" />
+        <NewsCard v-for="item in news" :key="item.id" :news="item" :article="true" />
       </el-carousel-item>
     </el-carousel>
   </component>
