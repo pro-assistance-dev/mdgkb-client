@@ -9,6 +9,10 @@ const mutations: MutationTree<State> = {
   setAll(state, comments: IComment[]) {
     state.comments = comments.map((i: IComment) => new Comment(i));
   },
+  appendToAll(state, items: IComment[]) {
+    const comments = items.map((i: IComment) => new Comment(i));
+    state.comments.push(...comments);
+  },
   markPositive(state, comment: IComment) {
     state.comments = state.comments.map((i: IComment) => {
       if (comment.id === i.id) {

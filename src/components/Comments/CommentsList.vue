@@ -3,7 +3,7 @@
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
         <div class="left-side-container">
-          <ModeButtons :store-module="'comments'" :first-mode="'Положительные'" :second-mode="'Отрицательные'" />
+          <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />
           <!--          <NewsCalendar />-->
           <!--          <NewsFilters />-->
         </div>
@@ -16,6 +16,7 @@
           <br />
           <br />
         </div>
+        <LoadMoreButton @loadMore="loadMore" />
       </el-col>
     </el-row>
   </div>
@@ -26,16 +27,22 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FilterModel from '@/classes/filters/FilterModel';
 import RemoteSearch from '@/components/admin/RemoteSearch.vue';
+import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import IComment from '@/interfaces/comments/IComment';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import { Operators } from '@/interfaces/filters/Operators';
+import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'CommentsList',
   components: {
     ModeButtons,
     RemoteSearch,
+    LoadMoreButton,
   },
 
   setup() {
@@ -44,13 +51,44 @@ export default defineComponent({
     const comments: Ref<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
     const mount = ref(false);
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     onBeforeMount(async () => {
-      store.commit('filter/setStoreModule', 'comments');
-      await store.dispatch('comments/getAll', filterQuery.value);
+      await store.dispatch('meta/getSchema');
+      await loadComments(true);
       mount.value = true;
     });
+
+    const loadComments = async (positiveMode: boolean) => {
+      setPositiveMode(positiveMode);
+      await store.dispatch('comments/getAll', filterQuery.value);
+    };
+
+    const loadMore = async () => {
+      const lastDate = comments.value[comments.value.length - 1].publishedOn;
+      filterQuery.value.pagination.cursor.value = lastDate;
+      filterQuery.value.pagination.cursor.initial = false;
+      filterQuery.value.pagination.cursorMode = true;
+      await store.dispatch('comments/getAll', filterQuery.value);
+    };
+
+    const setPositiveMode = (positiveMode: boolean) => {
+      const filterModel = FilterModel.CreateFilterModel(
+        schema.value.commentsSchema.tableName,
+        schema.value.commentsSchema.positive,
+        DataTypes.String
+      );
+      filterModel.operator = Operators.Eq;
+      filterModel.value1 = String(positiveMode);
+      filterQuery.value.filterModels = [];
+      filterQuery.value.filterModels.push(filterModel);
+      filterQuery.value.pagination.cursorMode = false;
+    };
+
     return {
+      loadComments,
+      setPositiveMode,
+      loadMore,
       comments,
       mount,
     };
