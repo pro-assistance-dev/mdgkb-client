@@ -1,20 +1,20 @@
 @forward "~element-plus/theme-chalk/src/common/var.scss" with (
-  $font-path:'~element-plus/theme-chalk/fonts'
+  $font-path: "~element-plus/theme-chalk/fonts"
 );
-@import '~element-plus/theme-chalk/src/index.scss';
-@import '~element-plus/theme-chalk/display.css';
+@import "~element-plus/theme-chalk/src/index.scss";
+@import "~element-plus/theme-chalk/display.css";
 
 // HELPERS
-@import './helpers/shadows';
+@import "./helpers/shadows";
 
 // LAYOUTS
-@import 'elements/layout/header-top';
-@import 'elements/layout/header-bottom';
-@import 'elements/layout/footer-top';
-@import 'elements/layout/footer-bottom';
-@import 'elements/grid';
-@import 'elements/calendar';
-@import 'elements/ql';
+@import "elements/layout/header-top";
+@import "elements/layout/header-bottom";
+@import "elements/layout/footer-top";
+@import "elements/layout/footer-bottom";
+@import "elements/grid";
+@import "elements/calendar";
+@import "elements/ql";
 
 html,
 body {
@@ -38,7 +38,7 @@ body {
   font-weight: normal;
   color: #4a4a4a;
   line-height: 1.5;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   height: 100%;
 }
 
@@ -88,12 +88,14 @@ body > .el-container::v-deep {
   }
 }
 
-.el-message-box__btns, .el-popconfirm__action {
+.el-message-box__btns,
+.el-popconfirm__action {
   display: flex;
   flex-direction: row-reverse;
 }
 
-.el-message-box__btns .el-button, .el-popconfirm__action .el-button {
+.el-message-box__btns .el-button,
+.el-popconfirm__action .el-button {
   margin-right: 10px;
 }
 
@@ -108,11 +110,12 @@ body > .el-container::v-deep {
 
 .card-item {
   border-radius: 5px;
-  border: 2px solid rgb(black, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   padding: 15px;
   background-color: white;
+  background-clip: padding-box;
 }
 
 .el-button {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }

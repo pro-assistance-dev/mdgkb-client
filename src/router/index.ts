@@ -60,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/main',
     name: 'MainPage',
     component: MainPage,
-    meta: { carousel: true },
+    meta: { carousel: true, main: true },
     // beforeEnter: isAuthorized,
   },
   {
