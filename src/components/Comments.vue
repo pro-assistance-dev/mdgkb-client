@@ -18,9 +18,7 @@
       </div>
       <div v-if="item.comment.answer" class="review-for-review">
         <div class="mdgkb-avatar">
-          <svg class="mdgkb-avatar">
-            <use xlink:href="#avatar"></use>
-          </svg>
+          <Component :is="require(`@/assets/img/mdgkb-avatar.svg`).default" id="mdgkb-avatar-svg"></Component>
         </div>
         <div class="review-for-review-info">
           <h4 class="review-for-review-text">
