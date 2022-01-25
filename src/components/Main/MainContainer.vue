@@ -1,15 +1,17 @@
 <template>
-  <div class="main-page-container">
-    <div class="main-page-container-header">
-      <div class="main-page-container-header-title">{{ headerTitle }}</div>
-      <button v-if="headerButtonTitle">
-        {{ headerButtonTitle }}
-        <el-icon><right /></el-icon>
-      </button>
-    </div>
-    <slot></slot>
-    <div v-if="footerButtonTitle" class="main-page-container-footer">
-      <button>{{ footerButtonTitle }}</button>
+  <div :style="{ 'background-color': backgroundColor }">
+    <div class="main-page-container container">
+      <div class="main-page-container-header">
+        <div class="main-page-container-header-title">{{ headerTitle }}</div>
+        <button v-if="headerButtonTitle">
+          {{ headerButtonTitle }}
+          <el-icon><right /></el-icon>
+        </button>
+      </div>
+      <slot></slot>
+      <div v-if="footerButtonTitle" class="main-page-container-footer">
+        <button>{{ footerButtonTitle }}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -31,6 +33,10 @@ export default defineComponent({
       default: '',
     },
     footerButtonTitle: {
+      type: String,
+      default: '',
+    },
+    backgroundColor: {
       type: String,
       default: '',
     },
@@ -80,7 +86,7 @@ export default defineComponent({
       letter-spacing: 1px;
       cursor: pointer;
       &:hover {
-        background-color: darken(#2754ec, 5%);
+        background-color: darken(#2754ec, 10%);
       }
     }
   }

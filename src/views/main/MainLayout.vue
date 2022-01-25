@@ -7,9 +7,10 @@
     <div class="main-carousel-container">
       <NewsCarousel v-if="$route.meta.carousel" />
     </div>
-    <MainHeaderButtons v-if="$route.meta.main" />
-    <MainInfo v-if="$route.meta.main" />
-    <div class="page-container">
+    <div v-if="$route.meta.main">
+      <slot />
+    </div>
+    <div v-else class="page-container">
       <div class="container">
         <el-main>
           <template v-if="$route.meta.profile" #default>
@@ -28,11 +29,11 @@
           </template>
         </el-main>
       </div>
-      <div class="footer-container">
-        <FooterTop />
-        <FooterBottom />
-      </div>
     </div>
+  </div>
+  <div class="footer-container">
+    <FooterTop />
+    <FooterBottom />
   </div>
 </template>
 
@@ -40,8 +41,6 @@
 import { defineComponent } from 'vue';
 
 import AuthPage from '@/components/Auth/AuthPage.vue';
-import MainHeaderButtons from '@/components/Main/MainHeaderButtons.vue';
-import MainInfo from '@/components/Main/MainInfo.vue';
 import NewsCarousel from '@/components/News/NewsCarousel.vue';
 import SearchDrawer from '@/views/mainLayout/elements/SearchDrawer.vue';
 import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
@@ -61,8 +60,6 @@ export default defineComponent({
     ProfileSideMenu,
     NewsCarousel,
     SearchDrawer,
-    MainHeaderButtons,
-    MainInfo,
   },
 });
 </script>

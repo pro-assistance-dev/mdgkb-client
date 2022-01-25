@@ -51,7 +51,7 @@ export default defineComponent({
         description: 'certificate.png',
       },
       {
-        description: 'main-info.png',
+        description: 'certificate.png',
       },
     ];
 

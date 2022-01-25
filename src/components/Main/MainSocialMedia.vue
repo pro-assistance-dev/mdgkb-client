@@ -1,5 +1,5 @@
 <template>
-  <component :is="'MainContainer'" header-title="Соцсети">
+  <component :is="'MainContainer'" header-title="Соцсети" background-color="white">
     <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
       <el-carousel-item v-for="(socialMedias, i) in carousel" :key="i">
         <SocialMediaCard v-for="item in socialMedias" :key="item.id" :item="item" />

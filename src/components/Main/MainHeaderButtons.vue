@@ -51,7 +51,7 @@ button {
   border: none;
   width: 230px;
   height: 60px;
-  padding: 0;
+  padding: 0 25px;
   font-size: 14px;
   color: white;
   font-weight: bold;
@@ -59,25 +59,25 @@ button {
   cursor: pointer;
 }
 .el-icon {
-  margin-right: 5px;
+  margin-right: 20px;
   font-size: 22px;
 }
 .blue-button {
   background-color: #2754ec;
   &:hover {
-    background-color: darken(#2754ec, 5%);
+    background-color: darken(#2754ec, 10%);
   }
 }
 .green-button {
   background-color: #31af5e;
   &:hover {
-    background-color: darken(#31af5e, 5%);
+    background-color: darken(#31af5e, 10%);
   }
 }
 .orange-button {
   background-color: #f3911c;
   &:hover {
-    background-color: darken(#f3911c, 5%);
+    background-color: darken(#f3911c, 10%);
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <component :is="'MainContainer'" header-title="Мероприятия" header-button-title="Все мероприятия">
+  <component :is="'MainContainer'" header-title="Мероприятия" header-button-title="Все мероприятия" background-color="white">
     <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="200px">
       <el-carousel-item v-for="(events, i) in carousel" :key="i">
         <MainEventCard v-for="item in events" :key="item.id" :item="item" />

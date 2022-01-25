@@ -1,5 +1,5 @@
 <template>
-  <component :is="'MainContainer'" header-title="Отзывы" footer-button-title="Все отзывы">
+  <component :is="'MainContainer'" header-title="Отзывы" footer-button-title="Все отзывы" background-color="white">
     <div class="main-page-reviews">
       <ReviewCard v-for="item in reviews" :key="item.id" :item="item" />
     </div>
