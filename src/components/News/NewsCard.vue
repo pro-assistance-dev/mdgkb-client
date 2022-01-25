@@ -6,8 +6,9 @@
   >
     <div class="flex-between-columm front">
       <div class="image">
-        <img v-if="news.fileInfo.fileSystemPath" :src="news.fileInfo.getImageUrl()" alt="alt" />
-        <img v-else src="../../assets/img/310x310.png" />
+        <img :src="news.getImageUrl()" alt="alt" />
+        <!--        <img src="../../assets/news/img44.jpg" alt="alt" />-->
+        <!--        <img v-else src="../../assets/img/310x310.png" />-->
       </div>
       <div class="card-content">
         <div class="title">{{ news.title }}</div>

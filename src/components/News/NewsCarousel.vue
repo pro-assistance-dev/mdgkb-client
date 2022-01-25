@@ -1,5 +1,5 @@
 <template>
-  <el-carousel v-if="mount" height="340px" autoplay :interval="5000" indicator-position="outside">
+  <el-carousel v-if="mount" height="340px" autoplay :interval="5000">
     <el-carousel-item v-for="item in slides" :key="item.id">
       <NewsCarouselSlide :item="item" />
     </el-carousel-item>

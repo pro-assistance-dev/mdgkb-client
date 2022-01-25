@@ -1,5 +1,5 @@
 <template>
-  <component :is="'MainContainer'" header-title="Наши специалисты" header-button-title="Все врачи">
+  <component :is="'MainContainer'" header-title="Наши специалисты" header-button-title="Все врачи" header-button-link="/doctors">
     <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
       <el-carousel-item v-for="(doctors, i) in carousel" :key="i">
         <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />

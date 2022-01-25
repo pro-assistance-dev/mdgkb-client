@@ -3,14 +3,14 @@
     <div class="main-page-container container">
       <div class="main-page-container-header">
         <div class="main-page-container-header-title">{{ headerTitle }}</div>
-        <button v-if="headerButtonTitle">
+        <button v-if="headerButtonTitle" @click="$router.push(headerButtonLink)">
           {{ headerButtonTitle }}
           <el-icon><right /></el-icon>
         </button>
       </div>
       <slot></slot>
       <div v-if="footerButtonTitle" class="main-page-container-footer">
-        <button>{{ footerButtonTitle }}</button>
+        <button @click="$router.push(footerButtonLink)">{{ footerButtonTitle }}</button>
       </div>
     </div>
   </div>
@@ -32,7 +32,15 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    headerButtonLink: {
+      type: String,
+      default: '',
+    },
     footerButtonTitle: {
+      type: String,
+      default: '',
+    },
+    footerButtonLink: {
       type: String,
       default: '',
     },
@@ -66,6 +74,9 @@ export default defineComponent({
       color: blue;
       letter-spacing: 2px;
       cursor: pointer;
+      &:hover {
+        color: darken(blue, 20%);
+      }
     }
     .el-icon {
       margin-left: 10px;

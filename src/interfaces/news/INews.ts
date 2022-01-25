@@ -41,6 +41,8 @@ export default interface INews {
   viewsCount: number;
   event?: IEvent;
 
+  getImageUrl: () => string;
+
   addDoctor: (doctor: IDoctor) => void;
   removeDoctor: (index: number) => void;
 }

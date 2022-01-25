@@ -1,5 +1,11 @@
 <template>
-  <component :is="'MainContainer'" v-if="mounted" header-title="Главные новости" header-button-title="Все новости">
+  <component
+    :is="'MainContainer'"
+    v-if="mounted"
+    header-button-link="/news"
+    header-title="Главные новости"
+    header-button-title="Все новости"
+  >
     <div class="main-news-block">
       <div class="main-news-block-left">
         <MainBigNewsCard :news="news[7]" />
@@ -37,7 +43,6 @@ export default defineComponent({
       store.commit('news/clearNews');
       await store.dispatch('news/getAllMain');
       await store.commit('news/setFilteredNews');
-      console.log(news.value);
       mounted.value = true;
     });
 

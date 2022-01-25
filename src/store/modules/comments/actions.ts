@@ -22,6 +22,10 @@ const actions: ActionTree<State, RootState> = {
     }
     commit('setAll', items);
   },
+  getAllMain: async ({ commit }): Promise<void> => {
+    const items = await httpClient.get<IComment[]>({ query: '/main' });
+    commit('setAll', items);
+  },
   modChecked: async (_, comment: IComment): Promise<void> => {
     await httpClient.put<IComment, IComment>({ query: `${comment.id}`, payload: comment });
   },
