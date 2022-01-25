@@ -7,7 +7,10 @@
     <div class="main-carousel-container">
       <NewsCarousel v-if="$route.meta.carousel" />
     </div>
-    <div class="page-container">
+    <div v-if="$route.meta.main">
+      <slot />
+    </div>
+    <div v-else class="page-container">
       <div class="container">
         <el-main>
           <template v-if="$route.meta.profile" #default>
@@ -26,11 +29,11 @@
           </template>
         </el-main>
       </div>
-      <div class="footer-container">
-        <FooterTop />
-        <FooterBottom />
-      </div>
     </div>
+  </div>
+  <div class="footer-container">
+    <FooterTop />
+    <FooterBottom />
   </div>
 </template>
 
@@ -73,8 +76,13 @@ export default defineComponent({
   min-height: calc(100vh - 124px);
 }
 .main-carousel-container {
-  margin: 0 auto 30px; // + 20px от контейнера элемента = как в макете - 50px
+  // margin: 0 auto 30px; // + 20px от контейнера элемента = как в макете - 50px
   position: relative;
   z-index: 0;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+:deep(.el-main) {
+  // padding: 0;
+  // margin: 0;
 }
 </style>
