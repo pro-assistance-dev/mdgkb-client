@@ -4,7 +4,7 @@
     style="width: 100%; margin-bottom: 20px; margin-right: 10px"
     popper-class="wide-dropdown"
     :fetch-suggestions="find"
-    placeholder="Найти"
+    :placeholder="placeholder"
     @select="handleSelect"
     @input="handleSearchInput"
   />
@@ -23,6 +23,10 @@ export default defineComponent({
     storeModule: {
       type: String as PropType<string>,
       default: '',
+    },
+    placeholder: {
+      type: String,
+      default: 'Поиск',
     },
   },
   setup() {

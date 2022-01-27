@@ -81,6 +81,7 @@ export default defineComponent({
     &:hover {
       cursor: pointer;
       border: 4px #4f4d4d;
+      background-color: white;
     }
 
     &-container {
@@ -98,15 +99,15 @@ export default defineComponent({
   background: #2754eb;
   color: white;
   &:hover {
-    background-color: #1b4bea;
+    background-color: darken(#2754eb, 10%);
     border-color: #b5b5b5;
   }
 }
 
 .right-round {
-  border-radius: 0 100em 100em 0;
+  border-radius: 0 10px 10px 0;
 }
 .left-round {
-  border-radius: 100em 0 0 100em;
+  border-radius: 10px 0 0 10px;
 }
 </style>

@@ -95,6 +95,9 @@
         width: 40px;
         margin-right: 5px;
       }
+      a {
+        color: black
+      }
     }
   }
   &-right {
@@ -116,7 +119,7 @@
       border: 1px solid rgb(black, 0.05);
       &:hover {
         cursor: pointer;
-        background-color: lighten(#31af5e, 10%);
+        background-color: darken(#31af5e, 10%);
       }
     }
     .consult {
@@ -130,7 +133,7 @@
     .review {
       background-color: #ff4e3c;
       &:hover {
-        background-color: lighten(#ff4e3c, 10%);
+        background-color: darken(#ff4e3c, 10%);
       }
     }
   }

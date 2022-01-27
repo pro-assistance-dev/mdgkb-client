@@ -1,34 +1,37 @@
 <template>
-  <div v-if="mount">
-    <el-row :gutter="40">
-      <el-col :xl="6" :lg="6" :md="24" class="calendar">
-        <div class="left-side-container">
-          <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />
-          <!--          <NewsCalendar />-->
-          <!--          <NewsFilters />-->
-        </div>
-      </el-col>
-      <el-col :xl="18" :lg="18" :md="24">
+  <div v-if="mount" class="comments-list-container">
+    <div class="comments-list-container-left">
+      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />
+      <button class="leave-review-button" @click="showDialog = true">Оставить отзыв</button>
+    </div>
+    <div class="comments-list-container-right">
+      <div class="comments-list-container-right-header card-item">
+        <h2>Комментарии и отзывы</h2>
         <RemoteSearch />
-        <div v-for="comment in comments" :key="comment.id">
-          {{ comment.text }}
-          <br />
-          <br />
-          <br />
-        </div>
-        <LoadMoreButton @loadMore="loadMore" />
-      </el-col>
-    </el-row>
+      </div>
+      <div v-for="comment in comments" :key="comment.id" class="card-item">
+        <CommentCard :comment="comment" />
+      </div>
+      <LoadMoreButton @loadMore="loadMore" />
+    </div>
   </div>
+  <el-dialog v-model="showDialog">
+    <template #title>
+      <h3>Оставить отзыв</h3>
+    </template>
+    <template #footer>
+      <button>Отправить отзыв</button>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import RemoteSearch from '@/components/admin/RemoteSearch.vue';
+import CommentCard from '@/components/Comments/CommentCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import IComment from '@/interfaces/comments/IComment';
@@ -43,15 +46,16 @@ export default defineComponent({
     ModeButtons,
     RemoteSearch,
     LoadMoreButton,
+    CommentCard,
   },
 
   setup() {
     const store = useStore();
-    const route = useRoute();
     const comments: Ref<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
     const mount = ref(false);
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const showDialog: Ref<boolean> = ref(false);
 
     onBeforeMount(async () => {
       await store.dispatch('meta/getSchema');
@@ -91,62 +95,63 @@ export default defineComponent({
       loadMore,
       comments,
       mount,
+      showDialog,
     };
   },
 });
 </script>
 
 <style scoped lang="scss">
-// $left-side-max-width: 370px;
-// $right-side-max-width: 1000px;
+$side-cotainer-max-width: 300px;
 
-.doctor-page-container {
-  // display: flex;
-  // justify-content: center;
-  margin: 0 auto;
-  .left-side {
-    margin-right: 20px;
-    // max-width: $left-side-max-width;
-  }
-  .right-side {
-    // max-width: $right-side-max-width;
-  }
-}
-h2 {
-  margin: 0;
-}
-.card-header {
-  text-align: center;
-}
-.doctor-img-container {
-  margin: 0 10px 10px 0;
-  img {
-    width: 150px;
-  }
-}
-.flex-row {
+.comments-list-container {
   display: flex;
+  &-left {
+    max-width: $side-cotainer-max-width;
+    margin-right: 30px;
+  }
+  &-right {
+    &-header {
+      h2 {
+        margin-top: 0;
+        font-size: 24px;
+        text-align: center;
+      }
+      margin-top: 10px;
+    }
+  }
 }
-.flex-column {
-  display: flex;
-  flex-direction: column;
+.leave-review-button {
+  width: 100%;
 }
-.link {
+button {
+  margin: 10px 0;
+  min-width: 230px;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 10px;
+  background-color: #2754ec;
+  padding: 15px 0px;
+  height: auto;
+  letter-spacing: 2px;
+  color: white;
+  border: 1px solid rgb(black, 0.05);
   &:hover {
     cursor: pointer;
-    text-decoration: underline;
+    background-color: darken(#2754ec, 10%);
   }
 }
 
-.title-out {
-  display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 12px;
-  color: #343e5c;
-  margin-left: 4px;
-  height: 50px;
-  align-items: center;
+.card-item {
+  padding-right: 30px;
+  margin-bottom: 20px;
+}
+
+:deep(.el-dialog__title) {
   font-weight: bold;
+}
+h3 {
+  margin: 0;
+  text-align: center;
 }
 </style>
