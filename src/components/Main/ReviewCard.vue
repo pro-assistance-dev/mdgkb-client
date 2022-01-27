@@ -2,7 +2,7 @@
   <div class="review-card-container">
     <div class="review-card">
       <div class="review-card-content">{{ item.text }}</div>
-      <a href="">Подробнее</a>
+      <a href="" @click="$router.push('/comments')">Подробнее</a>
     </div>
     <div class="review-card-container-date">
       {{ $dateFormatRu(item.publishedOn, true) }}

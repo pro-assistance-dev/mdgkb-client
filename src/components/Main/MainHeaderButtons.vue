@@ -7,10 +7,12 @@
       </button>
     </div>
     <div class="button-container">
-      <button class="green-button">
-        <el-icon><cellphone /></el-icon>
-        Телемедицина
-      </button>
+      <a href="https://morozdgkb.onlinedoctor.ru/doctors/" class="tele-link">
+        <button class="green-button">
+          <el-icon><cellphone /></el-icon>
+          Телемедицина
+        </button>
+      </a>
     </div>
     <div class="button-container">
       <button class="orange-button">
@@ -36,6 +38,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.tele-link {
+  text-decoration: none;
+}
 .buttons-container {
   display: flex;
   align-items: center;

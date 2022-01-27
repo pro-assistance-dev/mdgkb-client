@@ -115,4 +115,12 @@ export default class News implements INews {
     }
     this.newsDoctors.splice(index, 1);
   }
+
+  getImageUrl(): string {
+    if (this.fileInfo.fileSystemPath) {
+      return this.fileInfo.getFileUrl();
+    }
+    const numberOfImg = Math.floor(Math.random() * (50 - 1 + 1) + 1);
+    return require(`../../assets/news/img${numberOfImg}.jpg`);
+  }
 }

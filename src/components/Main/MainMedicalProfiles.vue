@@ -1,5 +1,10 @@
 <template>
-  <component :is="'MainContainer'" header-title="Профили медицинской помощи" footer-button-title="Все профили">
+  <component
+    :is="'MainContainer'"
+    header-title="Профили медицинской помощи"
+    footer-button-title="Все профили"
+    footer-button-link="/medical-profiles"
+  >
     <div class="main-medical-profiles">
       <div v-for="item in items" :key="item.name" class="main-medical-profiles-card card-hover">
         {{ item.name }}

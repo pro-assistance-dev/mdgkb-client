@@ -1,5 +1,11 @@
 <template>
-  <component :is="'MainContainer'" v-if="mounted" header-title="Главные новости" header-button-title="Все новости">
+  <component
+    :is="'MainContainer'"
+    v-if="mounted"
+    header-button-link="/news"
+    header-title="Главные новости"
+    header-button-title="Все новости"
+  >
     <div class="main-news-block">
       <div class="main-news-block-left">
         <MainBigNewsCard :news="news[7]" />

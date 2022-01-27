@@ -1,7 +1,7 @@
 <template>
   <div
     class="big-news-card card-hover"
-    :style="{ 'background-image': 'url(' + require('@/assets/img/310x310.png') + ')' }"
+    :style="{ 'background-image': 'url(' + news.getImageUrl() + ')' }"
     @click="$router.push(`/news/${news.slug}`)"
   >
     <div class="big-news-card-container">
