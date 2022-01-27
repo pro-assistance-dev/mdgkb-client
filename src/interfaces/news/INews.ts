@@ -45,4 +45,6 @@ export default interface INews {
 
   addDoctor: (doctor: IDoctor) => void;
   removeDoctor: (index: number) => void;
+
+  getStrippedContent: () => string;
 }

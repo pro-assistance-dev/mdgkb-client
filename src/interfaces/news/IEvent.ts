@@ -5,7 +5,7 @@ import INews from '@/interfaces/news/INews';
 export default interface IEvent {
   id?: string;
   newsId?: string;
-  news?: INews;
+  news: INews;
   startDate: Date;
   endDate: Date;
   eventApplications: IEventApplication[];

@@ -123,4 +123,9 @@ export default class News implements INews {
     const numberOfImg = Math.floor(Math.random() * (50 - 1 + 1) + 1);
     return require(`../../assets/news/img${numberOfImg}.jpg`);
   }
+
+  getStrippedContent(): string {
+    const regex = /(<([^>]+)>)/gi;
+    return this.content.replace(regex, '');
+  }
 }

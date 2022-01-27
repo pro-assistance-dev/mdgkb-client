@@ -5,7 +5,7 @@
       <span v-if="formatDate(item.startDate)"> - {{ formatDate(item.endDate) }}</span>
     </div>
     <div class="event-card-container-time">{{ formatTime(item.startDate) }}</div>
-    <div v-if="item.news.content" class="event-card-container-content">{{ item.news.content.substring(0, 40) }}</div>
+    <div v-if="item.news.content" class="event-card-container-content">{{ item.news.getStrippedContent().substring(0, 40) }}</div>
     <a @click="$router.push(`/news/${item.news.slug}`)">{{ item.news.title }}</a>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const formatDate = (date: Date): string => {
       const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
       return Intl.DateTimeFormat('ru-RU', options).format(new Date(date));

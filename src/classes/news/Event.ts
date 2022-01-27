@@ -9,7 +9,7 @@ import INews from '@/interfaces/news/INews';
 export default class Event implements IEvent {
   id?: string;
   newsId?: string;
-  news?: INews;
+  news: INews = new News();
   eventApplications: IEventApplication[] = [];
   form: IForm = new Form();
   startDate = new Date();
