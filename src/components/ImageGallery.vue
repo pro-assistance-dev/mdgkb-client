@@ -1,7 +1,7 @@
 <template>
   <div class="image-gallery-container">
     <div v-if="images.length > 0" class="gallery-container">
-      <el-carousel arrow="always" :interval="4000" indicator-position="outside">
+      <el-carousel arrow="always" :interval="4000">
         <el-carousel-item v-for="image in images" :key="image.id">
           <img :src="image.fileInfo.getImageUrl()" :alt="image.fileInfo.originalName" @click="imgClickHandler(image.fileInfo)" />
         </el-carousel-item>

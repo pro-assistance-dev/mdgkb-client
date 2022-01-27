@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import IEvent from '@/interfaces/news/IEvent';
 import IEventApplication from '@/interfaces/news/IEventApplication';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
@@ -19,6 +20,9 @@ const actions: ActionTree<State, RootState> = {
       isBlob: true,
       downloadFileName: 'Список заявок',
     });
+  },
+  getAllMain: async ({ commit }): Promise<void> => {
+    commit('setAll', await httpClient.get<IEvent[]>({ query: 'main' }));
   },
 };
 

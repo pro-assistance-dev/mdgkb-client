@@ -1,27 +1,43 @@
 <template>
   <div class="event-card-container">
     <div class="event-card-container-title">
-      <span>{{ item.dateStart }}</span>
-      <span v-if="item.dateEnd"> - {{ item.dateEnd }}</span>
+      <span>{{ formatDate(item.startDate) }}</span>
+      <span v-if="formatDate(item.startDate)"> - {{ formatDate(item.endDate) }}</span>
     </div>
-    <div class="event-card-container-time">{{ item.time }}</div>
-    <div v-if="item.content" class="event-card-container-content">{{ item.content }}</div>
-    <a href="">{{ item.linkText }}</a>
+    <div class="event-card-container-time">{{ formatTime(item.startDate) }}</div>
+    <div v-if="item.news.content" class="event-card-container-content">{{ item.news.content.substring(0, 40) }}</div>
+    <a @click="$router.push(`/news/${item.news.slug}`)">{{ item.news.title }}</a>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IEventTemplate from '@/interfaces/IEventTemplate';
+import IEvent from '@/interfaces/news/IEvent';
 
 export default defineComponent({
   name: 'MainEventCard',
   props: {
     item: {
-      type: Object as PropType<IEventTemplate>,
+      type: Object as PropType<IEvent>,
       required: true,
     },
+  },
+  setup() {
+    const formatDate = (date: Date): string => {
+      const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
+      return Intl.DateTimeFormat('ru-RU', options).format(new Date(date));
+    };
+
+    const formatTime = (date: Date): string => {
+      const options: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
+      return Intl.DateTimeFormat('ru-RU', options).format(new Date(date));
+    };
+
+    return {
+      formatDate,
+      formatTime,
+    };
   },
 });
 </script>
@@ -32,6 +48,7 @@ export default defineComponent({
   flex-direction: column;
   width: 165px;
   letter-spacing: 1px;
+
   &-title {
     font-weight: bold;
   }
@@ -43,13 +60,33 @@ export default defineComponent({
     color: #a1a7bd;
     margin: 10px 0;
   }
+
+  &-content {
+    overflow: hidden;
+  }
+
   &-content,
   a {
     font-size: 12px;
+    overflow: hidden;
   }
   a {
     color: #2754eb;
     text-decoration: unset;
+    &:hover {
+      cursor: pointer;
+      color: darken(#2754eb, 10%);
+    }
+  }
+
+  a:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(180deg, transparent, white 50%);
   }
 }
 </style>

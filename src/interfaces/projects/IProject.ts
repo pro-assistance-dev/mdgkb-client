@@ -1,3 +1,5 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
+
 import IProjectItem from './IProjectItem';
 
 export default interface IProject {
@@ -5,6 +7,8 @@ export default interface IProject {
   title: string;
   content: string;
   slug: string;
+  image: IFileInfo;
+  imageId?: string;
 
   projectItems: IProjectItem[];
   projectItemsForDelete: string[];
