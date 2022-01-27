@@ -2,12 +2,19 @@
   <div class="footer-bottom">
     <div class="container">
       <el-row align="middle" justify="center">
-        <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
+        <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="4">
           <div class="image flex-center">
             <img src="@/assets/img/mdgkb-logo-vert.png" />
           </div>
         </el-col>
-        <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+        <el-col :xl="2">
+          <div class="flex-center">
+            <a id="specialButton" href="#">
+              <i class="el-icon-view"></i>
+            </a>
+          </div>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6">
           <div class="flex-center">
             119049 г. Москва,<br />
             4-й Добрынинский переулок, дом 1/9

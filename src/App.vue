@@ -42,8 +42,6 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      // const b = new bvi.Bvi();
-      // console.log(b);
       setLocalStorageToVuex();
     });
   },
