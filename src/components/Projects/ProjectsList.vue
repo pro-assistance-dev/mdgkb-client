@@ -3,70 +3,15 @@
     <h2>Проекты</h2>
     <div class="project-content">
       <ul class="project-content-list">
-        <li>
+        <li v-for="item in projects" :key="item.id" @click="$router.push(`/projects/${item.slug}`)">
           <div class="project-content-item">
-            <a class="project-link" href="#">
-              <div class="project-colomn-img">Img</div>
-              <div class="project-colomn-text">
-                <h2>Заголовок</h2>
-                <h3>Превью текст</h3>
-              </div>
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="project-content-item">
-            <a class="project-link" href="#">
-              <div class="project-colomn-img">Img</div>
-              <div class="project-colomn-text">
-                <h2>Заголовок</h2>
-                <h3>Превью текст</h3>
-              </div>
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="project-content-item">
-            <a class="project-link" href="#">
-              <div class="project-colomn-img">Img</div>
-              <div class="project-colomn-text">
-                <h2>Заголовок</h2>
-                <h3>Превью текст</h3>
-              </div>
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="project-content-item">
-            <a class="project-link" href="#">
-              <div class="project-colomn-img">Img</div>
-              <div class="project-colomn-text">
-                <h2>Заголовок</h2>
-                <h3>Превью текст</h3>
-              </div>
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="project-content-item">
-            <a class="project-link" href="#">
-              <div class="project-colomn-img">Img</div>
-              <div class="project-colomn-text">
-                <h2>Заголовок</h2>
-                <h3>Превью текст</h3>
-              </div>
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="project-content-item">
-            <a class="project-link" href="#">
-              <div class="project-colomn-img">Img</div>
-              <div class="project-colomn-text">
-                <h2>Заголовок</h2>
-                <h3>Превью текст</h3>
-              </div>
-            </a>
+            <div class="project-colomn-img">
+              <img src="../../assets/news/img44.jpg" alt="alt" />
+            </div>
+            <div class="project-colomn-text">
+              <div class="project-colomn-text-h2">{{ item.title }}</div>
+              <div class="project-colomn-text-h3" v-html="item.content"></div>
+            </div>
           </div>
         </li>
       </ul>
@@ -75,13 +20,13 @@
       <button class="add-button">Загрузить еще</button>
     </div>
 
-    <el-card>
+    <!-- <el-card>
       <div class="project-list">
         <span v-for="item in projects" :key="item.id" @click="$router.push(`/projects/${item.slug}`)">
           <span class="project-link">{{ item.title }}</span>
         </span>
       </div>
-    </el-card>
+    </el-card> -->
   </div>
 </template>
 
@@ -128,21 +73,34 @@ h2 {
 /* Progect page */
 
 /* Font */
+
 .project-colomn-text {
+  margin: 20px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+}
+
+.project-colomn-text-h2 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  overflow-wrap: break-word;
+  color: #343e5c;
+  text-align: left;
+  margin: 12px 0;
+  justify-content: left;
+}
+
+.project-colomn-text-h3 {
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   overflow-wrap: break-word;
-  h2 {
-    color: #343e5c;
-    padding: 0px 12px;
-    text-align: left;
-    margin: 12px 0;
-  }
-  h3 {
-    color: #4a4a4a;
-    padding: 0px 12px;
-    margin: 0px;
-  }
+  color: #4a4a4a;
+  text-align: left;
+  margin: 0px;
+  justify-content: left;
 }
 
 .project-title {
@@ -171,22 +129,30 @@ ul {
   margin: 0;
 }
 
-.project-content-list {
-  display: flex;
-  justify-content: space-around;
-}
-
 .project-content-item {
-  display: flex;
-  max-width: 402px;
+  // display: flex;
+  position: relative;
+  max-width: 400px;
   height: 500px;
   background: #ffffff;
   margin-top: 20px;
+  margin-left: 3%;
+  margin-right: 3%;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   overflow: hidden;
   transition: 0.3s;
+}
+
+.project-content-item:after {
+  content: ' ';
+  display: block;
+  background-color: #ffffff;
+  height: 20px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 
 .project-link {
@@ -212,7 +178,7 @@ ul {
 .project-content-list {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
@@ -242,5 +208,33 @@ ul {
   background: #ecf5ff;
   border-color: #c6e2ff;
   color: #409eff;
+}
+
+.text {
+  font-size: 14px;
+  font-weight: normal;
+  color: #4a4a4a;
+  margin-top: 5px;
+  :deep(p) {
+    margin: 0;
+  }
+}
+
+.indent-20 {
+  height: 20px;
+}
+
+.project-colomn-img {
+  position: relative;
+  overflow: hidden;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+  }
 }
 </style>
