@@ -130,7 +130,6 @@ ul {
 }
 
 .project-content-item {
-  // display: flex;
   position: relative;
   max-width: 400px;
   height: 500px;
