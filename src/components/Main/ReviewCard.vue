@@ -2,7 +2,7 @@
   <div class="review-card-container">
     <div class="review-card">
       <div class="review-card-content">{{ item.text }}</div>
-      <a href="" @click="$router.push('/comments')">Подробнее</a>
+      <a @click="$emit('showMore')">Подробнее</a>
     </div>
     <div class="review-card-container-date">
       {{ $dateFormatRu(item.publishedOn, true) }}
@@ -23,6 +23,7 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['showMore'],
 });
 </script>
 
@@ -51,6 +52,7 @@ export default defineComponent({
     margin-bottom: 5px;
   }
   a {
+    cursor: pointer;
     color: #2754eb;
     text-decoration: unset;
   }

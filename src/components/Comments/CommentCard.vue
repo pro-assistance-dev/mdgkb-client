@@ -94,6 +94,7 @@ export default defineComponent({
   color: #5d6477;
   margin-top: 25px;
   text-align: justify;
+  margin-right: 10px;
 }
 
 .review-for-review {
