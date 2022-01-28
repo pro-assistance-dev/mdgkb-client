@@ -1,11 +1,17 @@
 <template>
   <div class="social-media-card">
-    <img class="social-media-card-img" src="@/assets/img/310x310.png" />
+    <img class="social-media-card-img" :src="item.image" />
+
     <div class="social-media-card-header">
-      <component :is="require(`@/assets/img/main-page/icons/social/${item.icon}.svg`).default" class="social-media-card-header-icon" />
-      <div class="social-media-card-header-title">{{ item.title }}</div>
+      <a :href="item.link" class="social-media-card-link" target="_blank">
+        <component :is="require(`@/assets/img/main-page/icons/social/${item.icon}.svg`).default" class="social-media-card-header-icon" />
+      </a>
+      <a :href="item.link" class="social-media-card-link" target="_blank">
+        <div class="social-media-card-header-title">{{ item.title }}</div>
+      </a>
     </div>
-    <div class="social-media-card-content">{{ item.content }}</div>
+
+    <div class="social-media-card-content">{{ item.description }}</div>
   </div>
 </template>
 
@@ -29,6 +35,13 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   width: 170px;
+  &-link {
+    color: inherit;
+    text-decoration: unset;
+    &:hover {
+      cursor: pointer;
+    }
+  }
   &-img {
     height: 170px;
     border-radius: 10px;

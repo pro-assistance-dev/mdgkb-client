@@ -1,5 +1,8 @@
+import { SocialTypes } from '@/interfaces/SocialTypes';
+
 export default interface ISocial {
-  caption: string;
-  permalink: string;
-  mediaUrl: string;
+  type: SocialTypes;
+  description: string;
+  link: string;
+  image: string;
 }

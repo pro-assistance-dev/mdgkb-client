@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import ISocial from '@/interfaces/ISocial';
+import ISocialMedia from '@/interfaces/ISocialMedia';
 import ISchema from '@/interfaces/schema/ISchema';
 import RootState from '@/store/types';
 
@@ -13,8 +13,8 @@ const getters: GetterTree<State, RootState> = {
   schema(state): ISchema | undefined {
     return state.schema;
   },
-  socials(state): ISocial[] {
-    return state.socials;
+  socialMedia(state): ISocialMedia[] {
+    return state.socialMedia;
   },
 };
 

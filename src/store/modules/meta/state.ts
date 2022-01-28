@@ -1,8 +1,8 @@
-import ISocial from '@/interfaces/ISocial';
+import ISocialMedia from '@/interfaces/ISocialMedia';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export interface State {
   count: number;
   schema?: ISchema;
-  socials: ISocial[];
+  socialMedia: ISocialMedia[];
 }

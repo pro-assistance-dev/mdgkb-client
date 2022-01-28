@@ -1,7 +1,10 @@
+import { SocialTypes } from '@/interfaces/SocialTypes';
+
 export default interface ISocialMedia {
-  id?: string;
-  img?: string;
   icon: string;
   title: string;
-  content: string;
+  type: SocialTypes;
+  description: string;
+  link: string;
+  image: string;
 }

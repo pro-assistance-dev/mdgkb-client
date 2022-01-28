@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import Social from '@/classes/Social';
-import ISocial from '@/interfaces/ISocial';
+import SocialMedia from '@/classes/SocialMedia';
+import ISocialMedia from '@/interfaces/ISocialMedia';
 import ISchema from '@/interfaces/schema/ISchema';
 
 import { State } from './state';
@@ -13,8 +13,8 @@ const mutations: MutationTree<State> = {
   setSchema(state, schema: ISchema) {
     state.schema = schema;
   },
-  setSocials(state, items: ISocial[]) {
-    state.socials = items.map((i: ISocial) => new Social(i));
+  setSocialMedia(state, items: ISocialMedia[]) {
+    state.socialMedia = items.map((i: ISocialMedia) => new SocialMedia(i));
   },
 };
 

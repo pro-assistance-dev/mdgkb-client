@@ -15,8 +15,8 @@ const actions: ActionTree<State, RootState> = {
     const data = await httpClient.get<number>({ query: `schema` });
     commit('setSchema', data);
   },
-  getSocial: async ({ commit }): Promise<void> => {
-    commit('setSocials', await httpClient.get<number>({ query: `social` }));
+  getSocialMedia: async ({ commit }): Promise<void> => {
+    commit('setSocialMedia', await httpClient.get<number>({ query: `social` }));
   },
 };
 
