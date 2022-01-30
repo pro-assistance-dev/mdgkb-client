@@ -6,7 +6,8 @@ import DispanserizationPage from '@/components/Dispanserization/Dispanserization
 import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
-import MedicalOrganizationStructure from '@/components/MedicalOrganizationStructure/MedicalOrganizationStructure.vue';
+import MedicalOrganization from '@/components/MedicalOrganization/MedicalOrganization.vue';
+import MedicalOrganizationStructure from '@/components/MedicalOrganization/MedicalOrganizationStructure.vue';
 import MedicalProfilesPage from '@/components/MedicalProfiles/MedicalProfilesPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
@@ -108,6 +109,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/medical-organization-structure',
     name: 'MedicalOrganizationStructure',
     component: MedicalOrganizationStructure,
+  },
+  {
+    path: '/medical-organization',
+    name: 'MedicalOrganization',
+    component: MedicalOrganization,
   },
   {
     path: '/questions',
