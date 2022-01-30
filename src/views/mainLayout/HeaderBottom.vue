@@ -109,7 +109,7 @@ export default defineComponent({
   box-shadow: 0 4px 4px (rgba($color: #000000, $alpha: 0.2));
 
   display: flex;
-  top: 0;
+  top: -2px;
   z-index: 99;
   height: 58px;
   position: sticky;
