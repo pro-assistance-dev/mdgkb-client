@@ -79,8 +79,6 @@ export default {
   top: 100px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 101;
-  // opacity: 100%;
 }
 
 .button-field {
