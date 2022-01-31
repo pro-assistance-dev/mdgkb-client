@@ -157,9 +157,9 @@ input {
 .field-text {
   display: flex;
   justify-content: center;
-  font-size: 12px;
+  font-size: 14px;
   font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #cdcecf;
+  color: #9d9d9d;
   font-weight: normal;
 }
 
