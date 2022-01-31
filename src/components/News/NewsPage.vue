@@ -19,8 +19,13 @@
           <div class="image-comment">{{ news.mainImageDescription }}</div>
           <div class="article-preview">{{ news.previewText }}</div>
         </div>
-        <div v-if="news.event" class="card-header event-registration-button">
+        <div v-if="news.event" class="card-header action-container">
           <EventRegistration store-name="news" :parent-id="news.id" />
+        </div>
+        <div v-if="news.isArticle" class="card-header action-container">
+          <a :href="news.articleLink">
+            <el-button class="action-container-button" type="primary"> Перейти к статье </el-button>
+          </a>
         </div>
         <el-divider />
 
@@ -179,8 +184,19 @@ h3 {
     width: 100%;
   }
 }
-.event-registration-button {
+.action-container {
   margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  &-button {
+    margin-right: 0;
+    border-radius: 10px;
+    background-color: #2754eb;
+    border-color: #2754eb;
+    &:hover {
+      background-color: darken(#2754eb, 10%);
+    }
+  }
 }
 
 :deep(a) {

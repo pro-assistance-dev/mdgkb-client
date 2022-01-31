@@ -1,5 +1,5 @@
 <template>
-  <el-button type="primary" @click="eventFormVisible = true">Зарегистрироваться на мероприятие </el-button>
+  <el-button class="send-comment" type="primary" @click="eventFormVisible = true">Зарегистрироваться на мероприятие </el-button>
   <el-dialog v-model="eventFormVisible" title="Регистрация">
     <div class="add-comment">
       <el-form ref="form" :model="eventApplication">
@@ -121,6 +121,12 @@ h3 {
 
 .send-comment {
   margin-right: 0;
+  border-radius: 10px;
+  background-color: #2754eb;
+  border-color: #2754eb;
+  &:hover {
+    background-color: darken(#2754eb, 10%);
+  }
 }
 
 .card-content {

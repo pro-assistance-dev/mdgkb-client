@@ -9,6 +9,7 @@ import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
 import IRegalia from '@/interfaces/IRegalia';
+import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 export default interface IDoctor {
@@ -47,7 +48,7 @@ export default interface IDoctor {
   certificatesForDelete: string[];
   addExperience: () => void;
   removeExperience: (index: number) => void;
-
+  newsDoctors: INewsDoctor[];
   addDoctorPaidService: () => void;
   removeDoctorPaidService: (index: number) => void;
 

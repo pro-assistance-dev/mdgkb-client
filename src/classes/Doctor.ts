@@ -6,6 +6,7 @@ import Experience from '@/classes/Experience';
 import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
 import MedicalProfile from '@/classes/MedicalProfile';
+import NewsDoctor from '@/classes/news/NewsDoctor';
 import Position from '@/classes/Position';
 import Regalia from '@/classes/Regalia';
 import Timetable from '@/classes/timetable/Timetable';
@@ -20,6 +21,7 @@ import IExperience from '@/interfaces/IExperience';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
 import IRegalia from '@/interfaces/IRegalia';
+import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 import DoctorComment from './DoctorComment';
@@ -41,6 +43,7 @@ export default class Doctor implements IDoctor {
   fileInfoId?: string;
   photoMini = new FileInfo();
   photoMiniId?: string;
+  newsDoctors: INewsDoctor[] = [];
   doctorComments: IDoctorComment[] = [];
   academicDegree = '';
   academicRank = '';
@@ -112,6 +115,9 @@ export default class Doctor implements IDoctor {
     }
     if (i.doctorPaidServices) {
       this.doctorPaidServices = i.doctorPaidServices.map((item: IDoctorPaidService) => new DoctorPaidService(item));
+    }
+    if (i.newsDoctors) {
+      this.newsDoctors = i.newsDoctors.map((item: INewsDoctor) => new NewsDoctor(item));
     }
   }
 

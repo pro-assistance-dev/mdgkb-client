@@ -7,6 +7,7 @@
     <DoctorServices :store-name="'doctors'" />
     <DoctorCertificates />
     <DoctorDateAndTime />
+    <DoctorNews :news-doctors="doctor.newsDoctors" />
     <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
   </div>
 </template>
@@ -21,6 +22,7 @@ import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
 import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
+import DoctorNews from '@/components/Doctors/DoctorNews.vue';
 import DoctorServices from '@/components/Doctors/DoctorServices.vue';
 import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue';
 import IDoctor from '@/interfaces/IDoctor';
@@ -36,6 +38,7 @@ export default defineComponent({
     DoctorCertificates,
     DoctorDateAndTime,
     Comments,
+    DoctorNews,
   },
 
   setup() {
