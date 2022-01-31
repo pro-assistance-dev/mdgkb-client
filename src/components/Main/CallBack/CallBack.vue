@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="modal-box" tabindex="-1" @click.self="close" @keydown.esc="close">
+    <div class="button-field">
+      <BaseModalButtonClose @click="close" />
+    </div>
     <form class="modal-callback">
       <div class="modal-callback-title">
         <h3>Заказ обратного звонка</h3>
@@ -26,26 +29,54 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
+import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 export default {
-  name: 'CallBack',
+  components: {
+    BaseModalButtonClose,
+  },
+  emits: ['close'],
+  mounted() {
+    this.$el.focus();
+  },
+  methods: {
+    close() {
+      this.$emit('close');
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
+.hidden {
+  display: none;
+}
+
 * {
   padding: 0px;
   margin: 0px;
 }
 
-.modal-callback {
-  width: 310px;
-  height: auto;
+.modal-box {
   background: #ffffff;
   border: 1px solid #dcdfe6;
   border-radius: 5px;
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.button-field {
+  display: flex;
+  justify-content: right;
+}
+
+.modal-callback {
   padding: 20px;
-  position: relative;
+  width: 310px;
+  height: auto;
 }
 
 input {

@@ -38,14 +38,11 @@
       </li>
     </ul>
   </div>
-  <CallBack />
 </template>
 
 <script lang="ts">
-import CallBack from '@/components/MedicalOrganization/CallBack.vue';
 export default {
   name: 'MedicalOrganization',
-  components: { CallBack },
 };
 </script>
 

@@ -15,10 +15,11 @@
       </a>
     </div>
     <div class="button-container">
-      <button class="orange-button">
+      <button class="orange-button" @click="isCallBackModalOpen = true">
         <el-icon><phone-filled /></el-icon>
         Обратный звонок
       </button>
+      <CallBack v-if="isCallBackModalOpen" @close="isCallBackModalOpen = false" />
     </div>
   </div>
 </template>
@@ -27,12 +28,23 @@
 import { Calendar, Cellphone, PhoneFilled } from '@element-plus/icons-vue';
 import { defineComponent } from 'vue';
 
+import CallBack from '@/components/Main/CallBack/CallBack.vue';
+
 export default defineComponent({
   name: 'MainHeaderButtons',
   components: {
     Calendar,
     Cellphone,
     PhoneFilled,
+    CallBack,
+  },
+
+  emits: ['close'],
+
+  data() {
+    return {
+      isCallBackModalOpen: false,
+    };
   },
 });
 </script>
