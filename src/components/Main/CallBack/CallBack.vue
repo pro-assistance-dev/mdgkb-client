@@ -1,31 +1,33 @@
 <template>
-  <div class="modal-box" tabindex="-1" @click.self="close" @keydown.esc="close">
-    <div class="button-field">
-      <BaseModalButtonClose @click="close" />
+  <div class="modal-field" tabindex="-1" @click.self="close" @keydown.esc="close">
+    <div class="modal-box">
+      <div class="button-field">
+        <BaseModalButtonClose @click="close" />
+      </div>
+      <form class="modal-callback">
+        <div class="modal-callback-title">
+          <h3>Заказ обратного звонка</h3>
+        </div>
+        <div class="form-callback">
+          <label for="name" class="field-name">Имя</label>
+          <div class="name-block">
+            <input id="name" type="text" class="field-name" name="name" placeholder="Ваше имя" />
+          </div>
+        </div>
+        <div class="form-callback">
+          <label for="phone" class="phone-name">Телефон</label>
+          <div class="phone-block">
+            <input id="phone" type="text" class="phone-name" placeholder="+7(xxx) xxx xx xx" />
+          </div>
+        </div>
+        <div class="field-text">Мы перезвоним Вам в течение дня</div>
+        <div class="form-callback">
+          <div class="send">
+            <button type="submit" class="submit">Заказать</button>
+          </div>
+        </div>
+      </form>
     </div>
-    <form class="modal-callback">
-      <div class="modal-callback-title">
-        <h3>Заказ обратного звонка</h3>
-      </div>
-      <div class="form-callback">
-        <label for="name" class="field-name">Имя</label>
-        <div class="name-block">
-          <input id="name" type="text" class="field-name" name="name" placeholder="Ваше имя" />
-        </div>
-      </div>
-      <div class="form-callback">
-        <label for="phone" class="phone-name">Телефон</label>
-        <div class="phone-block">
-          <input id="phone" type="text" class="phone-name" placeholder="+7(xxx) xxx xx xx" />
-        </div>
-      </div>
-      <div class="field-text">Мы перезвоним Вам в течение дня</div>
-      <div class="form-callback">
-        <div class="send">
-          <button type="submit" class="submit">Заказать</button>
-        </div>
-      </div>
-    </form>
   </div>
 </template>
 
@@ -57,6 +59,18 @@ export default {
   margin: 0px;
 }
 
+.modal-field {
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  z-index: 100;
+  position: fixed;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 93%;
+}
+
 .modal-box {
   background: #ffffff;
   border: 1px solid #dcdfe6;
@@ -65,7 +79,8 @@ export default {
   top: 100px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 100;
+  z-index: 101;
+  // opacity: 100%;
 }
 
 .button-field {
