@@ -14,6 +14,7 @@ import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
+import SiteMap from '@/components/SiteMap/SiteMap.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
 import CommentsRoutes from '@/router/CommentsRoutes';
@@ -151,6 +152,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/public-documents',
     name: 'PublicDocumentsList',
     component: PublicDocumentsList,
+  },
+  {
+    path: '/site-map',
+    name: 'SiteMap',
+    component: SiteMap,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,

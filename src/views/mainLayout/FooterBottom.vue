@@ -13,6 +13,9 @@
               <i class="el-icon-view"></i>
             </a>
           </div>
+          <div class="flex-center">
+            <a class="site-map" href="/site-map">Карта сайта</a>
+          </div>
         </el-col>
         <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="6">
           <div class="flex-center">
@@ -60,3 +63,22 @@ export default {
   name: 'FooterBottom',
 };
 </script>
+
+<style scoped lang="scss">
+.site-map {
+  text-decoration: none;
+  font-family: 'Comfortaa', 'Open-sans', sans-serif;
+  font-size: 16px;
+  color: #4a4a4a;
+}
+
+a:link {
+  color: #4a4a4a;
+}
+a:hover {
+  color: #379fff;
+}
+a:active {
+  color: #379fff;
+}
+</style>
