@@ -20,14 +20,14 @@ import IWithPaidService from '@/interfaces/IWithPaidService';
 export default defineComponent({
   name: 'DoctorServices',
   props: {
-    storeName: {
+    storeModule: {
       type: String,
       required: true,
     },
   },
   async setup(prop) {
     const store = useStore();
-    const paidServices: ComputedRef<IWithPaidService[]> = computed(() => store.getters[`${prop.storeName}/paidServices`]);
+    const paidServices: ComputedRef<IWithPaidService[]> = computed(() => store.getters[`${prop.storeModule}/paidServices`]);
 
     return {
       paidServices,

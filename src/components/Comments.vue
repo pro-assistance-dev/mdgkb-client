@@ -44,7 +44,7 @@ export default defineComponent({
   name: 'Comments',
   components: { CommentCard },
   props: {
-    storeName: {
+    storeModule: {
       type: String,
       required: true,
     },
@@ -58,10 +58,10 @@ export default defineComponent({
     },
   },
   async setup(prop) {
-    const comment = computed(() => store.getters[`${prop.storeName}/comment`]);
+    const comment = computed(() => store.getters[`${prop.storeModule}/comment`]);
     const commentInput = ref();
     const store = useStore();
-    const comments: ComputedRef<IComment[]> = computed(() => store.getters[`${prop.storeName}/comments`]);
+    const comments: ComputedRef<IComment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
 
     const userId = computed(() => store.getters['auth/user']?.id);
     const userEmail = computed(() => store.getters['auth/user']?.email);
@@ -73,11 +73,11 @@ export default defineComponent({
 
     const sendComment = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
       if (!validate(commentForm)) return;
-      store.commit(`${prop.storeName}/setParentIdToComment`, prop.parentId);
+      store.commit(`${prop.storeModule}/setParentIdToComment`, prop.parentId);
       if (userEmail.value) item.comment.user.email = userEmail.value;
       if (userId.value) item.comment.userId = userId.value;
       try {
-        await store.dispatch(`${prop.storeName}/createComment`, item);
+        await store.dispatch(`${prop.storeModule}/createComment`, item);
       } catch (e) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
@@ -86,15 +86,15 @@ export default defineComponent({
     };
 
     const removeComment = async (commentId: string) => {
-      await store.dispatch(`${prop.storeName}/removeComment`, commentId);
+      await store.dispatch(`${prop.storeModule}/removeComment`, commentId);
     };
     const editComment = (commentId: string) => {
-      store.commit(`${prop.storeName}/editComment`, commentId);
+      store.commit(`${prop.storeModule}/editComment`, commentId);
     };
     const saveCommentChanges = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
       if (!validate(editCommentForm)) return;
       try {
-        await store.dispatch(`${prop.storeName}/updateComment`, item);
+        await store.dispatch(`${prop.storeModule}/updateComment`, item);
       } catch (e) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;

@@ -14,7 +14,10 @@ export default class ContactInfo implements IContactInfo {
   postAddresses: IPostAddress[] = [new PostAddress()];
   telephoneNumbers: ITelephoneNumber[] = [new TelephoneNumber()];
   websites: IWebsite[] = [new Website()];
-
+  emailsForDelete: string[] = [];
+  postAddressesForDelete: string[] = [];
+  telephoneNumbersForDelete: string[] = [];
+  websitesForDelete: string[] = [];
   constructor(i?: IContactInfo) {
     if (!i) {
       return;
@@ -33,7 +36,18 @@ export default class ContactInfo implements IContactInfo {
       this.websites = i.websites.map((site) => new Website(site));
     }
   }
-
+  addEmail(): void {
+    this.emails.push(new Email());
+  }
+  addPostAddress(): void {
+    this.postAddresses.push(new PostAddress());
+  }
+  addTelephoneNumber(): void {
+    this.telephoneNumbers.push(new TelephoneNumber());
+  }
+  addWebsite(): void {
+    this.websites.push(new Website());
+  }
   pushFirstInfo(): void {
     if (!this.emails.length) {
       this.emails.push(new Email());

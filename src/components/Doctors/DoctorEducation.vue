@@ -23,14 +23,14 @@ import IEducation from '@/interfaces/education/IEducation';
 export default defineComponent({
   name: 'Education',
   props: {
-    storeName: {
+    storeModule: {
       type: String,
       required: true,
     },
   },
   async setup(prop) {
     const store = useStore();
-    const educations: ComputedRef<IEducation[]> = computed(() => store.getters[`${prop.storeName}/educations`]);
+    const educations: ComputedRef<IEducation[]> = computed(() => store.getters[`${prop.storeModule}/educations`]);
 
     return {
       educations,

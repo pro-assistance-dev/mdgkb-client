@@ -13,7 +13,7 @@
     <div v-else class="page-container">
       <div class="container">
         <el-main>
-          <template v-if="$route.meta.profile" #default>
+          <template v-if="$route.meta.profile">
             <div class="profile-container">
               <ProfileSideMenu />
               <div style="width: 100%">
@@ -21,7 +21,7 @@
               </div>
             </div>
           </template>
-          <template v-else #default>
+          <template v-else>
             <slot />
           </template>
           <template #fallback>

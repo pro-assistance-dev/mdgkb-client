@@ -10,6 +10,7 @@
             <HumanForm :store-module="'heads'" />
           </el-card>
           <TimetableConstructorV2 :store-module="'heads'" />
+          <AdminContactInfo store-module="heads" />
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
@@ -65,6 +66,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
+import AdminContactInfo from '@/components/admin/AdminContactInfo.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
@@ -76,7 +78,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
-  components: { UploaderSingleScan, TimetableConstructorV2, HumanForm, ImageCropper, CardHeader },
+  components: { AdminContactInfo, UploaderSingleScan, TimetableConstructorV2, HumanForm, ImageCropper, CardHeader },
   setup() {
     const store = useStore();
     const route = useRoute();

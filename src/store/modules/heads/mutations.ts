@@ -1,8 +1,10 @@
 import { MutationTree } from 'vuex';
 
 import Head from '@/classes/Head';
+import Timetable from '@/classes/timetable/Timetable';
 import IHead from '@/interfaces/IHead';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 
 import { getDefaultState } from '.';
 import { State } from './state';
@@ -22,6 +24,17 @@ const mutations: MutationTree<State> = {
   },
   resetState(state) {
     Object.assign(state, getDefaultState());
+  },
+  removeTimetable(state) {
+    if (!state.item) {
+      return;
+    }
+    state.item.timetable.timetableDays.forEach((day: ITimetableDay) => {
+      // if (day.id) {
+      //   state.item.timetableDaysForDelete.push(day.id);
+      // }
+    });
+    state.item.timetable = new Timetable();
   },
 };
 

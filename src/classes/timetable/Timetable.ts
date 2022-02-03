@@ -20,6 +20,17 @@ export default class Timetable implements ITimetable {
       this.timetableDays = timetable.timetableDays.map((item: ITimetableDay) => new TimetableDay(item));
     }
   }
+
+  getOnlyWorkDays(): string[] {
+    const workDays: string[] = [];
+    this.timetableDays.forEach((day: ITimetableDay) => {
+      if (!day.isWeekend) {
+        workDays.push(day.getPeriodWithName());
+      }
+    });
+    return workDays;
+  }
+
   static CreateStandartTimetable(weekdays: IWeekday[]): Timetable {
     const timetable = new Timetable();
     timetable.timetableDays = TimetableDay.CreateStandartWeek(weekdays);

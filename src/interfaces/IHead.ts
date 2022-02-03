@@ -1,3 +1,4 @@
+import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDepartment from '@/interfaces/IDepartment';
 import IHuman from '@/interfaces/IHuman';
@@ -18,6 +19,8 @@ export default interface IHead {
   regalias: IRegalia[];
   regaliasForDelete: string[];
   isMain: boolean;
+  contactInfo: IContactInfo;
+  contactInfoId?: string;
 
   departments: IDepartment[];
   departmentsForDelete: string[];

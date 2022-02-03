@@ -6,7 +6,8 @@ export default interface ITimetable {
   timetableDays: ITimetableDay[];
   timetableDaysForDelete: string[];
 
-  getNowDay(): ITimetableDay;
+  getNowDay: () => ITimetableDay;
   isWorkTime: () => boolean;
   isAroundTheClock: () => boolean;
+  getOnlyWorkDays: () => string[];
 }

@@ -13,10 +13,16 @@
                   </div>
                 </div>
                 <div class="main-doctor-title">
-                  <h3 class="main-doctor-title-h3">Горев Валерий Викторович</h3>
-                  <h2 class="main-doctor-title-h2">Главный врач</h2>
-                  <h3 class="contact-h3">Тел: +7999 999 99 99</h3>
-                  <h3 class="contact-h3">email: 12345@mail.ru</h3>
+                  <h3 class="main-doctor-title-h3">{{ mainDoctor.human.getFullName() }}</h3>
+                  <h2 class="main-doctor-title-h2">{{ mainDoctor.position }}</h2>
+                  <div v-for="phone in mainDoctor.contactInfo.telephoneNumbers" :key="phone.id">
+                    <h3 class="contact-h3">{{ phone.description }}: {{ phone.number }}</h3>
+                  </div>
+                  <div v-for="email in mainDoctor.contactInfo.emails" :key="email.id">
+                    <h3 class="contact-h3">{{ email.description }}: {{ email.address }}</h3>
+                  </div>
+                  <h3 class="contact-h3">Приём граждан:</h3>
+                  <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay">{{ workDay }}</div>
                 </div>
               </div>
               <div class="main-doctor-line">
@@ -28,20 +34,26 @@
           </div>
           <div class="right-content-block">
             <ul class="vice-doctor-list">
-              <li>
+              <li v-for="head in heads" :key="head.id">
                 <div class="vice-doctor">
                   <div class="vice-doctor-line"></div>
                   <div class="vice-doctor-info">
                     <div class="vice-doctor-avatar">
                       <div class="doctor-avatar">
-                        <img src="../../assets/doctors/Andzhel.jpg" alt="alt" />
+                        <img :src="head.photo.getImageUrl()" alt="alt" />
                       </div>
                     </div>
                     <div class="vice-doctor-title">
-                      <h3 class="vice-doctor-title-h3">Анджель Андрей Евгеньевич</h3>
-                      <h2 class="vice-doctor-title-h2">Заместитель главного врача по медицинской части</h2>
-                      <h3 class="contact-h3">Тел: +7999 999 99 99</h3>
-                      <h3 class="contact-h3">email: 12345@mail.ru</h3>
+                      <h3 class="vice-doctor-title-h3">{{ head.human.getFullName() }}</h3>
+                      <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
+                      <div v-for="phone in head.contactInfo.telephoneNumbers" :key="phone.id">
+                        <h3 class="contact-h3">{{ phone.description }} <span v-if="phone.description">:</span> {{ phone.number }}</h3>
+                      </div>
+                      <div v-for="email in head.contactInfo.emails" :key="email.id">
+                        <h3 class="contact-h3">{{ email.description }}<span v-if="email.description">:</span> {{ email.address }}</h3>
+                      </div>
+                      <h3 v-if="head.timetable.getOnlyWorkDays().length" class="contact-h3">Приём граждан:</h3>
+                      <div v-for="workDay in head.timetable.getOnlyWorkDays()" :key="workDay">{{ workDay }}</div>
                     </div>
                   </div>
                   <div class="vice-doctor-line">
@@ -53,179 +65,40 @@
                 <div class="divisions">
                   <div class="divisions-first">
                     <ul class="divisions-first-ul">
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
+                      <li v-for="department in head.departments" :key="department.id">
+                        <div v-if="!department.isDivision" class="divisions-first-item">{{ department.name }}</div>
+                        <div
+                          v-else
+                          style="cursor: pointer"
+                          class="divisions-first-item"
+                          @click="$router.push(`/divisions/${department.division.id}`)"
+                        >
+                          {{ department.name }}
+                        </div>
                       </li>
                     </ul>
                   </div>
                   <div class="divisions-second"></div>
                 </div>
               </li>
-              <li>
-                <div class="vice-doctor">
-                  <div class="vice-doctor-line"></div>
-                  <div class="vice-doctor-info">
-                    <div class="vice-doctor-avatar">
-                      <div class="doctor-avatar">
-                        <img src="../../assets/doctors/Kuleshov.jpg" alt="alt" />
+              <div class="divisions">
+                <div class="divisions-first">
+                  <ul class="divisions-first-ul">
+                    <li v-for="department in mainDoctor.departments" :key="department.id">
+                      <div v-if="!department.isDivision" class="divisions-first-item">{{ department.name }}</div>
+                      <div
+                        v-else
+                        style="cursor: pointer"
+                        class="divisions-first-item"
+                        @click="$router.push(`/divisions/${department.division.slug}`)"
+                      >
+                        {{ department.name }}
                       </div>
-                    </div>
-                    <div class="vice-doctor-title">
-                      <h3 class="vice-doctor-title-h3">Кулешов Николай Николаевич</h3>
-                      <h2 class="vice-doctor-title-h2">Заместитель главного врача по медицинской части</h2>
-                      <h3 class="contact-h3">Тел: +7999 999 99 99</h3>
-                      <h3 class="contact-h3">email: 12345@mail.ru</h3>
-                    </div>
-                  </div>
-                  <div class="vice-doctor-line">
-                    <svg class="icon-main-doctor-arrow">
-                      <use xlink:href="#right-arrow"></use>
-                    </svg>
-                  </div>
+                    </li>
+                  </ul>
                 </div>
-                <div class="divisions">
-                  <div class="divisions-first">
-                    <ul class="divisions-first-ul">
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="divisions-second"></div>
-                </div>
-              </li>
-              <li>
-                <div class="vice-doctor">
-                  <div class="doctor-line"></div>
-                  <div class="vice-doctor-info">
-                    <div class="vice-doctor-avatar">
-                      <div class="doctor-avatar">
-                        <img src="../../assets/doctors/Tenovskaya.jpg" alt="alt" />
-                      </div>
-                    </div>
-                    <div class="vice-doctor-title">
-                      <h3 class="vice-doctor-title-h3">Теновская Татьяна Александровна</h3>
-                      <h2 class="vice-doctor-title-h2">Заместитель главного врача по клинико-экспертной работе</h2>
-                      <h3 class="contact-h3">Тел: +7999 999 99 99</h3>
-                      <h3 class="contact-h3">email: 12345@mail.ru</h3>
-                    </div>
-                  </div>
-                  <div class="vice-doctor-line">
-                    <svg class="icon-main-doctor-arrow">
-                      <use xlink:href="#right-arrow"></use>
-                    </svg>
-                  </div>
-                </div>
-                <div class="divisions">
-                  <div class="divisions-first">
-                    <ul class="divisions-first-ul">
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение 1</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение Подразделение</div>
-                      </li>
-                      <li>
-                        <div class="divisions-first-item">Подразделение Подразделение</div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="divisions-second"></div>
-                </div>
-              </li>
+                <div class="divisions-second"></div>
+              </div>
             </ul>
           </div>
         </div>
@@ -243,8 +116,34 @@
 </template>
 
 <script lang="ts">
+import { computed, onBeforeMount, Ref, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+
+import IHead from '@/interfaces/IHead';
+import countRating from '@/mixins/countRating';
+
 export default {
   name: 'MedicalOrganizationStructure',
+  setup() {
+    const store = useStore();
+    const route = useRoute();
+    const heads: Ref<IHead[]> = computed<IHead[]>(() => store.getters['heads/heads']);
+    const mainDoctor: Ref<IHead> = computed<IHead>(() => store.getters['heads/mainDoctor']);
+    const mount = ref(false);
+
+    onBeforeMount(async () => {
+      await store.dispatch('heads/getAll');
+      mount.value = true;
+    });
+
+    return {
+      countRating,
+      heads,
+      mainDoctor,
+      mount,
+    };
+  },
 };
 </script>
 
@@ -256,7 +155,7 @@ export default {
 
 .container-box {
   display: flex;
-  position: sticky;
+  //position: sticky;
 }
 
 .content-box {
