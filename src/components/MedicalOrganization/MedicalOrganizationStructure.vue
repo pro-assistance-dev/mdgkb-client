@@ -1,107 +1,103 @@
 <template>
-  <div class="container-box">
-    <div class="content-box">
-      <div class="content-block">
-        <div class="structure-title"><h1>Структура и органы управления</h1></div>
-        <div class="box">
-          <div class="left-content-block">
-            <div class="main-doctor">
-              <div class="main-doctor-info">
-                <div class="main-doctor-avatar">
+  <div class="content-block">
+    <div class="structure-title"><h2>Структура и органы управления</h2></div>
+    <div class="box">
+      <div class="left-content-block">
+        <div class="main-doctor">
+          <div class="main-doctor-info">
+            <div class="main-doctor-avatar">
+              <div class="doctor-avatar">
+                <img src="../../assets/doctors/Gorev_V_3.jpg" alt="alt" />
+              </div>
+            </div>
+            <div class="main-doctor-title">
+              <h3 class="main-doctor-title-h3">{{ mainDoctor.human.getFullName() }}</h3>
+              <h2 class="main-doctor-title-h2">{{ mainDoctor.position }}</h2>
+              <div v-for="phone in mainDoctor.contactInfo.telephoneNumbers" :key="phone.id">
+                <h3 class="contact-h3">{{ phone.description }}: {{ phone.number }}</h3>
+              </div>
+              <div v-for="email in mainDoctor.contactInfo.emails" :key="email.id">
+                <h3 class="contact-h3">{{ email.description }}: {{ email.address }}</h3>
+              </div>
+              <h3 class="contact-h3">Приём граждан:</h3>
+              <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay">{{ workDay }}</div>
+            </div>
+          </div>
+          <div class="main-doctor-line">
+            <svg class="icon-main-doctor-arrow">
+              <use xlink:href="#right-arrow"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="right-content-block">
+        <ul class="vice-doctor-list">
+          <li v-for="head in heads" :key="head.id">
+            <div class="vice-doctor">
+              <div class="vice-doctor-line"></div>
+              <div class="vice-doctor-info">
+                <div class="vice-doctor-avatar">
                   <div class="doctor-avatar">
-                    <img src="../../assets/doctors/Gorev_V_3.jpg" alt="alt" />
+                    <img :src="head.photo.getImageUrl()" alt="alt" />
                   </div>
                 </div>
-                <div class="main-doctor-title">
-                  <h3 class="main-doctor-title-h3">{{ mainDoctor.human.getFullName() }}</h3>
-                  <h2 class="main-doctor-title-h2">{{ mainDoctor.position }}</h2>
-                  <div v-for="phone in mainDoctor.contactInfo.telephoneNumbers" :key="phone.id">
-                    <h3 class="contact-h3">{{ phone.description }}: {{ phone.number }}</h3>
+                <div class="vice-doctor-title">
+                  <h3 class="vice-doctor-title-h3">{{ head.human.getFullName() }}</h3>
+                  <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
+                  <div v-for="phone in head.contactInfo.telephoneNumbers" :key="phone.id">
+                    <h3 class="contact-h3">{{ phone.description }} <span v-if="phone.description">:</span> {{ phone.number }}</h3>
                   </div>
-                  <div v-for="email in mainDoctor.contactInfo.emails" :key="email.id">
-                    <h3 class="contact-h3">{{ email.description }}: {{ email.address }}</h3>
+                  <div v-for="email in head.contactInfo.emails" :key="email.id">
+                    <h3 class="contact-h3">{{ email.description }}<span v-if="email.description">:</span> {{ email.address }}</h3>
                   </div>
-                  <h3 class="contact-h3">Приём граждан:</h3>
-                  <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay">{{ workDay }}</div>
+                  <h3 v-if="head.timetable.getOnlyWorkDays().length" class="contact-h3">Приём граждан:</h3>
+                  <div v-for="workDay in head.timetable.getOnlyWorkDays()" :key="workDay">{{ workDay }}</div>
                 </div>
               </div>
-              <div class="main-doctor-line">
+              <div class="vice-doctor-line">
                 <svg class="icon-main-doctor-arrow">
                   <use xlink:href="#right-arrow"></use>
                 </svg>
               </div>
             </div>
-          </div>
-          <div class="right-content-block">
-            <ul class="vice-doctor-list">
-              <li v-for="head in heads" :key="head.id">
-                <div class="vice-doctor">
-                  <div class="vice-doctor-line"></div>
-                  <div class="vice-doctor-info">
-                    <div class="vice-doctor-avatar">
-                      <div class="doctor-avatar">
-                        <img :src="head.photo.getImageUrl()" alt="alt" />
-                      </div>
+            <div class="divisions">
+              <div class="divisions-first">
+                <ul class="divisions-first-ul">
+                  <li v-for="department in head.departments" :key="department.id">
+                    <div v-if="!department.isDivision" class="divisions-first-item">{{ department.name }}</div>
+                    <div
+                      v-else
+                      style="cursor: pointer"
+                      class="divisions-first-item"
+                      @click="$router.push(`/divisions/${department.division.id}`)"
+                    >
+                      {{ department.name }}
                     </div>
-                    <div class="vice-doctor-title">
-                      <h3 class="vice-doctor-title-h3">{{ head.human.getFullName() }}</h3>
-                      <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
-                      <div v-for="phone in head.contactInfo.telephoneNumbers" :key="phone.id">
-                        <h3 class="contact-h3">{{ phone.description }} <span v-if="phone.description">:</span> {{ phone.number }}</h3>
-                      </div>
-                      <div v-for="email in head.contactInfo.emails" :key="email.id">
-                        <h3 class="contact-h3">{{ email.description }}<span v-if="email.description">:</span> {{ email.address }}</h3>
-                      </div>
-                      <h3 v-if="head.timetable.getOnlyWorkDays().length" class="contact-h3">Приём граждан:</h3>
-                      <div v-for="workDay in head.timetable.getOnlyWorkDays()" :key="workDay">{{ workDay }}</div>
-                    </div>
-                  </div>
-                  <div class="vice-doctor-line">
-                    <svg class="icon-main-doctor-arrow">
-                      <use xlink:href="#right-arrow"></use>
-                    </svg>
-                  </div>
-                </div>
-                <div class="divisions">
-                  <div class="divisions-first">
-                    <ul class="divisions-first-ul">
-                      <li v-for="department in head.departments" :key="department.id">
-                        <div v-if="!department.isDivision" class="divisions-first-item">{{ department.name }}</div>
-                        <div
-                          v-else
-                          style="cursor: pointer"
-                          class="divisions-first-item"
-                          @click="$router.push(`/divisions/${department.division.id}`)"
-                        >
-                          {{ department.name }}
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="divisions-second"></div>
-                </div>
-              </li>
-              <div class="divisions">
-                <div class="divisions-first">
-                  <ul class="divisions-first-ul">
-                    <li v-for="department in mainDoctor.departments" :key="department.id">
-                      <div v-if="!department.isDivision" class="divisions-first-item">{{ department.name }}</div>
-                      <div
-                        v-else
-                        style="cursor: pointer"
-                        class="divisions-first-item"
-                        @click="$router.push(`/divisions/${department.division.slug}`)"
-                      >
-                        {{ department.name }}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="divisions-second"></div>
+                  </li>
+                </ul>
               </div>
-            </ul>
+              <div class="divisions-second"></div>
+            </div>
+          </li>
+          <div class="divisions-bottom">
+            <div class="divisions-first">
+              <ul class="divisions-first-ul">
+                <li v-for="department in mainDoctor.departments" :key="department.id">
+                  <div v-if="!department.isDivision" class="divisions-first-item">{{ department.name }}</div>
+                  <div
+                    v-else
+                    style="cursor: pointer"
+                    class="divisions-first-item"
+                    @click="$router.push(`/divisions/${department.division.slug}`)"
+                  >
+                    {{ department.name }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="divisions-second"></div>
           </div>
-        </div>
+        </ul>
       </div>
     </div>
   </div>
@@ -155,12 +151,10 @@ export default {
 
 .container-box {
   display: flex;
-  //position: sticky;
 }
 
 .content-box {
   width: auto;
-  top: -20px;
   height: 100vh;
   position: sticky;
 }
@@ -172,12 +166,12 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 0px;
   color: #4a4a4a;
 
-  top: -20px;
+  top: 56px;
   z-index: 98;
-  height: 80px;
+  height: 75px;
   position: sticky;
 }
 
@@ -186,8 +180,10 @@ export default {
 }
 
 .content-block {
+  align-content: center;
   width: auto;
   height: auto;
+  position: sticky;
 }
 
 .box {
@@ -202,9 +198,9 @@ export default {
   justify-content: right;
   align-items: flex-start;
 
-  top: 60px;
-  z-index: 98;
-  height: 400px;
+  top: 140px;
+  z-index: 97;
+  height: 543px;
   position: sticky;
 }
 
@@ -218,7 +214,7 @@ export default {
 
 .main-doctor {
   width: 350px;
-  height: 400px;
+  height: auto;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -237,14 +233,16 @@ export default {
 .vice-doctor {
   display: flex;
   justify-content: left;
-  width: 270px;
+  width: 320px;
   height: auto;
   border-radius: 5px;
   align-items: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .vice-doctor-info {
-  width: 150px;
+  width: 200px;
   height: auto;
   background: #ffffff;
   border-radius: 5px;
@@ -254,8 +252,8 @@ export default {
 
 .vice-doctor-avatar {
   display: block;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   overflow: hidden;
   border-radius: 50%;
   margin-bottom: 10px;
@@ -267,8 +265,8 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
   }
 }
@@ -331,17 +329,23 @@ export default {
 }
 .divisions {
   width: 100%;
+  display: flex;
+  justify-content: left;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .divisions-first {
-  width: auto;
+  width: 100%;
   height: auto;
   border-radius: 5px;
   border: 1px solid #dcdfe6;
   background: #ffffff;
   padding: 10px 10px 0px 10px;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  align-content: center;
 }
 
 .divisions-first-item {
@@ -355,6 +359,10 @@ export default {
   padding: 5px 10px;
 }
 
+ul.divisions-first-ul {
+  width: 100%;
+}
+
 .divisions-first-ul li {
   display: flex;
   text-decoration: none;
@@ -364,6 +372,7 @@ export default {
   font-size: 14px;
   color: #4a4a4a;
   padding-bottom: 10px;
+  min-width: 100%;
 }
 
 .vice-doctor-list li {
@@ -389,5 +398,10 @@ export default {
   font-size: 12px;
   font-weight: lighter;
   color: #4a4a4a;
+}
+
+.divisions-bottom {
+  max-width: 242px;
+  margin-bottom: 50px;
 }
 </style>

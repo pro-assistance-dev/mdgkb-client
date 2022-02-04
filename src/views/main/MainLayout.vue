@@ -12,7 +12,7 @@
     </div>
     <div v-else class="page-container">
       <div class="container">
-        <el-main>
+        <div class="main-box">
           <template v-if="$route.meta.profile">
             <div class="profile-container">
               <ProfileSideMenu />
@@ -24,10 +24,10 @@
           <template v-else>
             <slot />
           </template>
-          <template #fallback>
+          <!-- <template #fallback>
             <div>Loading...</div>
-          </template>
-        </el-main>
+          </template> -->
+        </div>
       </div>
     </div>
   </div>
@@ -81,8 +81,9 @@ export default defineComponent({
   z-index: 0;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-:deep(.el-main) {
-  // padding: 0;
-  // margin: 0;
+
+.main-box {
+  padding-top: 0px;
+  margin: 20px;
 }
 </style>
