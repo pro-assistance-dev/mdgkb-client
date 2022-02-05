@@ -54,7 +54,10 @@ export default {
 }
 
 .contacts-data {
-  // line-height: 2;
+  background: #ffffff;
+  border: 1px solid #e4e7ed;
+  border-radius: 5px;
+  padding: 20px;
 }
 
 .contacts-data-h4 {
