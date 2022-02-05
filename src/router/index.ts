@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, NavigationGuardNext, RouteRecordRaw } from 'vue-router';
 
 import AboutPage from '@/components/About/AboutPage.vue';
+import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
@@ -157,6 +158,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/site-map',
     name: 'SiteMap',
     component: SiteMap,
+  },
+  {
+    path: '/contacts',
+    name: 'Contacts',
+    component: Contacts,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
