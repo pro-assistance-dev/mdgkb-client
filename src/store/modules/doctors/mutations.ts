@@ -20,9 +20,16 @@ import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, doctorsWithCount: IDoctorsWithCount) {
+  setAllAdmin(state, doctorsWithCount: IDoctorsWithCount) {
     state.items = doctorsWithCount.doctors.map((a: IDoctor) => new Doctor(a));
     state.count = doctorsWithCount.count;
+  },
+  appendToAll(state, items: IDoctor[]) {
+    const doctors = items.map((i: IDoctor) => new Doctor(i));
+    state.items.push(...doctors);
+  },
+  setAll(state, items: IDoctor[]) {
+    state.items = items.map((a: IDoctor) => new Doctor(a));
   },
   set(state, doctor: IDoctor) {
     state.item = new Doctor(doctor);

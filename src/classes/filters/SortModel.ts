@@ -9,11 +9,12 @@ export default class SortModel implements ISortModel {
   col = '';
   order: Orders | undefined;
 
-  static CreateSortModel(table: string, col: string): ISortModel {
+  static CreateSortModel(table: string, col: string, order?: Orders): ISortModel {
     const model = new SortModel();
     model.id = uuidv4();
     model.table = table;
     model.col = col;
+    // model.order = order
     return model;
   }
 

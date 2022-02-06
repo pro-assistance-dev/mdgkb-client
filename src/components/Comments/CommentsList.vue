@@ -69,19 +69,15 @@ export default defineComponent({
     };
 
     const loadMore = async () => {
-      const lastDate = comments.value[comments.value.length - 1].publishedOn;
-      filterQuery.value.pagination.cursor.value = lastDate;
+      const lastCursor = comments.value[comments.value.length - 1].publishedOn;
+      filterQuery.value.pagination.cursor.value = lastCursor;
       filterQuery.value.pagination.cursor.initial = false;
       filterQuery.value.pagination.cursorMode = true;
       await store.dispatch('comments/getAll', filterQuery.value);
     };
 
     const setPositiveMode = (positiveMode: boolean) => {
-      const filterModel = FilterModel.CreateFilterModel(
-        schema.value.commentsSchema.tableName,
-        schema.value.commentsSchema.positive,
-        DataTypes.String
-      );
+      const filterModel = FilterModel.CreateFilterModel(schema.value.comment.tableName, schema.value.comment.positive, DataTypes.String);
       filterModel.operator = Operators.Eq;
       filterModel.value1 = String(positiveMode);
       filterQuery.value.filterModels = [];

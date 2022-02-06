@@ -1,11 +1,13 @@
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
+import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
+import IDoctorSchema from '@/interfaces/schema/IDoctorSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
-import IPatientDiagnosisSchema from '@/interfaces/schema/IPatientDiagnosisSchema';
-import IPatientSchema from '@/interfaces/schema/IPatientSchema';
+import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 
 export default interface ISchema {
-  humanSchema: IHumanSchema;
-  commentsSchema: ICommentsSchema;
-  patientSchema: IPatientSchema;
-  patientDiagnosisSchema: IPatientDiagnosisSchema;
+  human: IHumanSchema;
+  comment: ICommentsSchema;
+  doctor: IDoctorSchema;
+  division: IDivisionSchema;
+  medicalProfile: IMedicalProfileSchema;
 }

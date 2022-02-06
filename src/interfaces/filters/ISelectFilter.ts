@@ -1,4 +1,4 @@
-import IOption from '@/interfaces/shared/IOption';
+import IOption from '@/interfaces/schema/IOption';
 
 export default interface ISelectFilter {
   title: string;

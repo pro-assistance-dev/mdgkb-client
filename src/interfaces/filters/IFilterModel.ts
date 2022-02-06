@@ -9,7 +9,9 @@ export default interface IFilterModel {
   type: DataTypes;
   date1?: Date;
   date2?: Date;
+  number: number;
   value1?: string;
+  boolean: boolean;
   set: string[];
 
   isSet: boolean;

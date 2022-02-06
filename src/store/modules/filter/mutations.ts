@@ -35,6 +35,7 @@ const mutations: MutationTree<State> = {
       filterModel.value1 = '';
       filterModel.date1 = undefined;
       filterModel.date2 = undefined;
+      filterModel.boolean = false;
       filterModel.set = [];
     });
     state.filterQuery.sortModels.forEach((sortModel: ISortModel) => {
@@ -51,6 +52,10 @@ const mutations: MutationTree<State> = {
     } else {
       state.filterQuery.filterModels.push(filterModel);
     }
+  },
+  replaceSortModel(state, sortModel: ISortModel) {
+    state.filterQuery.sortModels = [];
+    state.filterQuery.sortModels.push(sortModel);
   },
   setSortModel(state, sortModel: ISortModel) {
     let item = state.filterQuery.sortModels.find((i: ISortModel) => i.id === sortModel.id);

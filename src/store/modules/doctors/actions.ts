@@ -14,7 +14,18 @@ const httpClient = new HttpClient('doctors');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    commit('setAll', await httpClient.get<IDoctorsWithCount[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
+    const items = await httpClient.get<IDoctor[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    if (filterQuery && filterQuery.pagination.cursorMode) {
+      commit('appendToAll', items);
+      return;
+    }
+    commit('setAll', items);
+  },
+  getAllMain: async ({ commit }): Promise<void> => {
+    commit('setAll', await httpClient.get<IDoctor[]>({ query: '/main' }));
+  },
+  getAllAdmin: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    commit('setAllAdmin', await httpClient.get<IDoctorsWithCount[]>({ query: filterQuery ? '/admin' + filterQuery.toUrl() : '/admin' }));
   },
   get: async ({ commit }, id: string) => {
     commit('set', await httpClient.get<IDoctor>({ query: `${id}` }));

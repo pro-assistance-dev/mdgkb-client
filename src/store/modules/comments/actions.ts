@@ -11,10 +11,6 @@ const httpClient = new HttpClient('comments');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit, state }, query: IFilterQuery): Promise<void> => {
-    // if (!params) {
-    //   params = new CommentParams();
-    // }
-    // params.positive = state.positiveMode;
     const items = await httpClient.get<IComment[]>({ query: query ? query.toUrl() : '' });
     if (query.pagination.cursorMode) {
       commit('appendToAll', items);

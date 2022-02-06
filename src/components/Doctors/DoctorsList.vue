@@ -6,6 +6,43 @@
           <!--          <NewsEventsButtons @load="loadNews" />-->
           <!--          <NewsCalendar />-->
           <!--          <NewsFilters />-->
+          <FilterSelect
+            placeholder="Медицинское направление"
+            :options="schema.medicalProfile.options"
+            :table="schema.doctor.tableName"
+            :col="schema.doctor.medicalProfileId"
+            @load="loadDoctors"
+          />
+          <FilterSelect
+            placeholder="Отделение"
+            :options="schema.division.options"
+            :table="schema.doctor.tableName"
+            :col="schema.doctor.divisionId"
+            @load="loadDoctors"
+          />
+          <FilterCheckbox
+            label='Обладатели статуса "Московский врач"'
+            :table="schema.doctor.tableName"
+            :col="schema.doctor.mosDoctorLink"
+            :data-type="DataTypes.Boolean"
+            :operator="Operators.NotNull"
+            @load="loadDoctors"
+          />
+          <FilterCheckbox
+            label="С отзывами"
+            :table="schema.doctor.tableName"
+            :col="schema.doctor.commentsCount"
+            :data-type="DataTypes.Number"
+            :operator="Operators.Gt"
+            @load="loadDoctors"
+          />
+          <FilterReset @load="loadDoctors" />
+          <SortList
+            :table="schema.doctor.tableName"
+            :columns="[schema.doctor.commentsCount, schema.doctor.fullName]"
+            :labels="['По отзывам', 'По алфавиту']"
+            @load="loadDoctors"
+          />
         </div>
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -25,40 +62,87 @@
             </div>
           </el-col>
         </el-row>
+        <LoadMoreButton @loadMore="loadMore" />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
+import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterReset from '@/components/Filters/FilterResetButton.vue';
+import FilterSelect from '@/components/Filters/FilterSelect.vue';
+import LoadMoreButton from '@/components/LoadMoreButton.vue';
+import SortList from '@/components/SortList/SortList.vue';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import { Operators } from '@/interfaces/filters/Operators';
 import IDoctor from '@/interfaces/IDoctor';
-
+import IMedicalProfile from '@/interfaces/IMedicalProfile';
+import ISchema from '@/interfaces/schema/ISchema';
 export default defineComponent({
   name: 'DoctorPage',
   components: {
     DoctorInfoCard,
     RemoteSearch,
+    FilterSelect,
+    LoadMoreButton,
+    FilterReset,
+    FilterCheckbox,
+    SortList,
   },
 
   setup() {
     const store = useStore();
     const route = useRoute();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
+    const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
     const mount = ref(false);
 
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+
     onBeforeMount(async () => {
+      await store.dispatch('meta/getSchema');
       store.commit('filter/setStoreModule', 'doctors');
-      await store.dispatch('doctors/getAll');
+      await loadDoctors();
+      await loadFilters();
       mount.value = true;
     });
 
+    const loadMore = async () => {
+      const lastCursor = doctors.value[doctors.value.length - 1].human.getFullName();
+      filterQuery.value.pagination.cursor.value = lastCursor;
+      filterQuery.value.pagination.cursor.initial = false;
+      filterQuery.value.pagination.cursor.operation = Operators.Gt;
+      filterQuery.value.pagination.cursor.column = schema.value.doctor.fullName;
+      filterQuery.value.pagination.cursorMode = true;
+      await store.dispatch('doctors/getAll', filterQuery.value);
+    };
+
+    const loadDoctors = async () => {
+      filterQuery.value.pagination.cursorMode = false;
+      await store.dispatch('doctors/getAll', filterQuery.value);
+    };
+
+    const loadFilters = async () => {
+      await store.dispatch('meta/getOptions', schema.value.medicalProfile);
+      await store.dispatch('meta/getOptions', schema.value.division);
+    };
+
     return {
+      Operators,
+      DataTypes,
+      loadMore,
+      loadDoctors,
+      medicalProfiles,
+      schema,
       doctors,
       mount,
     };

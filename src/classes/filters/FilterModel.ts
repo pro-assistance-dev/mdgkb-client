@@ -12,6 +12,8 @@ export default class FilterModel implements IFilterModel {
   date1?: Date;
   date2?: Date;
   value1?: string = '';
+  boolean = false;
+  number = 0;
   type: DataTypes = DataTypes.String;
   set: string[] = [];
 
@@ -38,6 +40,15 @@ export default class FilterModel implements IFilterModel {
     filterModel.table = table;
     filterModel.col = col;
     filterModel.type = type;
+    if (filterModel.type === DataTypes.Number) {
+      filterModel.value1 = '0';
+    }
+    if (filterModel.type === DataTypes.String) {
+      filterModel.value1 = '';
+    }
+    if (filterModel.type === DataTypes.Boolean) {
+      filterModel.value1 = 'false';
+    }
     return filterModel;
   }
 
