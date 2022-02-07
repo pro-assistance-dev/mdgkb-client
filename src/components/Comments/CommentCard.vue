@@ -6,21 +6,23 @@
       </svg>
     </div>
     <div class="reviews-info">
-      <h3 v-if="comment.user.human.name" class="name">{{ comment.user.human.name }}</h3>
-      <h4 class="reviews-date-time">Отзыв от {{ $dateFormatRu(comment.publishedOn, true, true) }}</h4>
-      <h4 class="reviews-text">
-        {{ comment.text }}
-      </h4>
+      <h3 v-if="comment?.user?.human?.name" class="name">{{ comment.user.human.name }}</h3>
+      <h3 v-if="question?.user?.human?.name && isQuestion" class="name">{{ question.user.human.name }}</h3>
+
+      <h4 v-if="!isQuestion" class="reviews-date-time">Отзыв от {{ $dateFormatRu(comment.publishedOn, true, true) }}</h4>
+      <h4 v-else class="reviews-date-time">Вопрос от {{ $dateFormatRu(question.date, true, true) }}</h4>
+
+      <h4 v-if="!isQuestion" class="reviews-text">{{ comment.text }}</h4>
+      <h4 v-else class="reviews-text" white-space: pre-line>{{ question.question }}</h4>
     </div>
   </div>
-  <div v-if="comment.answer" class="review-for-review">
+  <div v-if="comment.answer || question.answer" class="review-for-review">
     <div class="mdgkb-avatar">
       <Component :is="require(`@/assets/img/mdgkb-avatar.svg`).default" id="mdgkb-avatar-svg"></Component>
     </div>
     <div class="review-for-review-info">
-      <h4 class="review-for-review-text">
-        {{ comment.answer }}
-      </h4>
+      <h4 v-if="!isQuestion" class="review-for-review-text">{{ comment.answer }}</h4>
+      <h4 v-else class="review-for-review-text" v-html="question.answer ? question.answer : 'Вопрос обрабатывается'"></h4>
     </div>
   </div>
   <svg width="0" height="0" class="hidden">
@@ -35,14 +37,24 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Question from '@/classes/Question';
 import IComment from '@/interfaces/comments/IComment';
+import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'CommentCard',
   props: {
     comment: {
       type: Object as PropType<IComment>,
-      required: true,
+      default: new Comment(),
+    },
+    question: {
+      type: Object as PropType<IQuestion>,
+      default: new Question(),
+    },
+    isQuestion: {
+      type: Boolean,
+      default: false,
     },
   },
 });
@@ -104,8 +116,8 @@ export default defineComponent({
 
 .mdgkb-avatar {
   display: flex;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   fill: #c7c7c7;
   border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
@@ -121,7 +133,6 @@ export default defineComponent({
 }
 
 .review-for-review-text {
-  display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   letter-spacing: 0.1em;
   font-size: 12px;
