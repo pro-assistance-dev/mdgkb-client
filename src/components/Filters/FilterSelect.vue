@@ -10,13 +10,7 @@
           @change="addFilterModel"
           @click="setTrigger('manual')"
         >
-          <el-option
-            v-for="(option, optionIndex) in options"
-            :key="optionIndex"
-            :label="option.label"
-            :value="option.value"
-            @click="setTrigger('click')"
-          ></el-option>
+          <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
         </el-select>
         <!--        </div>-->
       </el-form-item>
@@ -60,10 +54,8 @@ export default defineComponent({
     const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String));
     filterModel.value.operator = Operators.Eq;
 
-    const setTrigger = (trigger: string) => {
-      store.commit('filter/setTrigger', trigger);
-    };
     const addFilterModel = () => {
+      filterModel.value = FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String);
       store.commit('filter/setFilterModel', filterModel.value);
       emit('load');
     };
@@ -78,7 +70,6 @@ export default defineComponent({
       dropFilterModel,
       addFilterModel,
       filterModel,
-      setTrigger,
     };
   },
 });

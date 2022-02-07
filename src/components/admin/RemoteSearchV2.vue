@@ -17,7 +17,6 @@ import { useStore } from 'vuex';
 import SearchModel from '@/classes/SearchModel';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearch from '@/interfaces/ISearchObject';
-import ISearchObject from '@/interfaces/ISearchObject';
 import { SearchModes } from '@/interfaces/SearchModes';
 
 export default defineComponent({
@@ -28,6 +27,10 @@ export default defineComponent({
       default: '',
     },
     modelValue: {
+      type: String as PropType<string>,
+      default: '',
+    },
+    storeModule: {
       type: String as PropType<string>,
       default: '',
     },
@@ -42,7 +45,6 @@ export default defineComponent({
     const find = async (query: string, resolve: CallableFunction): Promise<void> => {
       const searchModel = new SearchModel();
       searchModel.searchMode = SearchModes.SearchModeObjects;
-      const searchObjects: ISearchObject[] = [];
       if (query.length > 2) {
         searchModel.query = query;
         const groupForSearch = searchGroups.value.find((group: ISearchGroup) => group.key === props.keyValue);
@@ -51,7 +53,6 @@ export default defineComponent({
         }
         await store.dispatch(`search/search`, searchModel);
       }
-      // console.log()
       resolve(searchModel.searchObjects);
     };
 
@@ -63,9 +64,11 @@ export default defineComponent({
     };
 
     const handleSelect = async (item: ISearch): Promise<void> => {
-      console.log(item);
+      if (props.storeModule != '') {
+        await store.dispatch(`${props.storeModule}/getAllById`, item.id);
+        return;
+      }
       emit('select', item);
-      // await store.dispatch(`${storeModule}/getAllById`, item.id);
     };
 
     return { queryString, handleSelect, find, handleSearchInput };

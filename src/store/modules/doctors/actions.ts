@@ -86,7 +86,7 @@ const actions: ActionTree<State, RootState> = {
   },
   getAllById: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<IDoctor>({ query: id });
-    commit('setAll', { doctors: [res], count: 1 });
+    commit('setAll', [res]);
   },
 };
 

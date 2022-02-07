@@ -4,4 +4,5 @@ export enum DataTypes {
   Boolean = 'boolean',
   Number = 'number',
   Set = 'set',
+  Join = 'join',
 }

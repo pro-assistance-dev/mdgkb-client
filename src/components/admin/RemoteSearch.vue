@@ -37,7 +37,6 @@ export default defineComponent({
     const find = async (query: string, resolve: CallableFunction): Promise<void> => {
       const searchObjects: ISearchObject[] = [];
       if (query.length > 2) {
-        console.log(searchObjects, query);
         await store.dispatch(`${storeModule}/search`, { query: query, searchObjects: searchObjects });
       }
       resolve(searchObjects);

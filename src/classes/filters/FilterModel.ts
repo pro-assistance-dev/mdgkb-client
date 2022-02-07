@@ -22,6 +22,7 @@ export default class FilterModel implements IFilterModel {
   joinTable = '';
   joinTableFk = '';
   joinTablePk = '';
+  joinTableId = '';
 
   isUnaryFilter(): boolean {
     return this.operator === Operators.Eq || this.operator === Operators.Gt || this.operator === Operators.Lt;
@@ -58,7 +59,8 @@ export default class FilterModel implements IFilterModel {
     joinTable: string,
     joinTablePk: string,
     joinTableFk: string,
-    type: DataTypes
+    type: DataTypes,
+    joinTableId?: string
   ): IFilterModel {
     const filterModel = new FilterModel();
     filterModel.id = uuidv4();
@@ -68,6 +70,9 @@ export default class FilterModel implements IFilterModel {
     filterModel.joinTableFk = joinTableFk;
     filterModel.col = col;
     filterModel.type = type;
+    if (joinTableId) {
+      filterModel.joinTableId = joinTableId;
+    }
     return filterModel;
   }
 }

@@ -2,6 +2,7 @@
   <div v-if="mount">
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
+        <RemoteSearchV2 :key-value="schema.doctor.key" store-module="doctors" />
         <div class="left-side-container">
           <!--          <NewsEventsButtons @load="loadNews" />-->
           <!--          <NewsCalendar />-->
@@ -36,6 +37,19 @@
             :operator="Operators.Gt"
             @load="loadDoctors"
           />
+
+          <!--          <FilterCheckbox-->
+          <!--            label="Избраннре"-->
+          <!--            :table="schema.doctor.tableName"-->
+          <!--            :col="schema.doctor.id"-->
+          <!--            :data-type="DataTypes.Join"-->
+          <!--            :operator="Operators.Eq"-->
+          <!--            :join-table="schema.doctorUser.tableName"-->
+          <!--            :join-table-fk="schema.doctorUser.userId"-->
+          <!--            :join-table-id="schema.doctorUser.userId"-->
+          <!--            @load="loadDoctors"-->
+          <!--          />-->
+
           <FilterReset @load="loadDoctors" />
           <SortList
             :table="schema.doctor.tableName"
@@ -74,6 +88,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import RemoteSearch from '@/components/admin/RemoteSearch.vue';
+import RemoteSearchV2 from '@/components/admin/RemoteSearchV2.vue';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
@@ -96,6 +111,7 @@ export default defineComponent({
     FilterReset,
     FilterCheckbox,
     SortList,
+    RemoteSearchV2,
   },
 
   setup() {
