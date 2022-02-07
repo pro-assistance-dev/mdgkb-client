@@ -14,6 +14,15 @@ const TokenService = (() => {
       localStorage.setItem('refresh_token', tokenObj.refreshToken);
     }
   }
+
+  function _getUserId() {
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      return JSON.parse(userString).id;
+    }
+    return '';
+  }
+
   function _getAccessToken() {
     return localStorage.getItem('access_token');
   }
@@ -29,6 +38,7 @@ const TokenService = (() => {
     setTokens: _setToken,
     getAccessToken: _getAccessToken,
     getRefreshToken: _getRefreshToken,
+    getUserId: _getUserId,
     clearTokens: _clearTokens,
   };
 })();

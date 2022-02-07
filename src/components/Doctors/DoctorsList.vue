@@ -37,18 +37,19 @@
             :operator="Operators.Gt"
             @load="loadDoctors"
           />
-
-          <!--          <FilterCheckbox-->
-          <!--            label="Избраннре"-->
-          <!--            :table="schema.doctor.tableName"-->
-          <!--            :col="schema.doctor.id"-->
-          <!--            :data-type="DataTypes.Join"-->
-          <!--            :operator="Operators.Eq"-->
-          <!--            :join-table="schema.doctorUser.tableName"-->
-          <!--            :join-table-fk="schema.doctorUser.userId"-->
-          <!--            :join-table-id="schema.doctorUser.userId"-->
-          <!--            @load="loadDoctors"-->
-          <!--          />-->
+          <FilterCheckbox
+            label="Избранное"
+            :table="schema.doctor.tableName"
+            :col="schema.doctor.id"
+            :data-type="DataTypes.Join"
+            :operator="Operators.Eq"
+            :join-table="schema.doctorUser.tableName"
+            :join-table-fk="schema.doctorUser.doctorId"
+            :join-table-pk="schema.doctor.id"
+            :join-table-id="TokenService.getUserId()"
+            :join-table-id-col="schema.doctorUser.userId"
+            @load="loadDoctors"
+          />
 
           <FilterReset @load="loadDoctors" />
           <SortList
@@ -101,6 +102,7 @@ import { Operators } from '@/interfaces/filters/Operators';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISchema from '@/interfaces/schema/ISchema';
+import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'DoctorPage',
   components: {
@@ -153,6 +155,7 @@ export default defineComponent({
     };
 
     return {
+      TokenService,
       Operators,
       DataTypes,
       loadMore,

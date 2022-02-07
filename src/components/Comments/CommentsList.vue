@@ -2,6 +2,16 @@
   <div v-if="mount" class="comments-list-container">
     <div class="comments-list-container-left">
       <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />
+      <FilterCheckbox
+        label="Свои отзывы"
+        :table="schema.comment.tableName"
+        :col="schema.comment.userId"
+        :data-type="DataTypes.String"
+        :operator="Operators.Eq"
+        :value="TokenService.getUserId()"
+        @load="loadCommentsWithoutMode"
+      />
+
       <button class="leave-review-button" @click="showDialog = true">Оставить отзыв</button>
     </div>
     <div class="comments-list-container-right">
@@ -32,6 +42,7 @@ import { useStore } from 'vuex';
 import FilterModel from '@/classes/filters/FilterModel';
 import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import CommentCard from '@/components/Comments/CommentCard.vue';
+import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import IComment from '@/interfaces/comments/IComment';
@@ -39,7 +50,7 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISchema from '@/interfaces/schema/ISchema';
-
+import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'CommentsList',
   components: {
@@ -47,6 +58,7 @@ export default defineComponent({
     RemoteSearch,
     LoadMoreButton,
     CommentCard,
+    FilterCheckbox,
   },
 
   setup() {
@@ -68,6 +80,10 @@ export default defineComponent({
       await store.dispatch('comments/getAll', filterQuery.value);
     };
 
+    const loadCommentsWithoutMode = async () => {
+      await store.dispatch('comments/getAll', filterQuery.value);
+    };
+
     const loadMore = async () => {
       const lastCursor = comments.value[comments.value.length - 1].publishedOn;
       filterQuery.value.pagination.cursor.value = lastCursor;
@@ -86,6 +102,11 @@ export default defineComponent({
     };
 
     return {
+      loadCommentsWithoutMode,
+      TokenService,
+      Operators,
+      DataTypes,
+      schema,
       loadComments,
       setPositiveMode,
       loadMore,

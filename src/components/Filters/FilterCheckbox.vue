@@ -40,7 +40,7 @@ export default defineComponent({
       default: '',
     },
     value: {
-      type: Number as PropType<number>,
+      type: Number as PropType<number | string>,
       default: 0,
     },
     joinTable: {
@@ -59,6 +59,10 @@ export default defineComponent({
       type: String as PropType<string>,
       default: '',
     },
+    joinTableIdCol: {
+      type: String as PropType<string>,
+      default: '',
+    },
   },
   emits: ['load'],
   setup(props, { emit }) {
@@ -70,12 +74,6 @@ export default defineComponent({
     });
 
     const addFilterModel = () => {
-      store.commit('filter/setFilterModel', filterModel.value);
-      emit('load');
-    };
-
-    const dropFilterModel = () => {
-      store.commit('filter/spliceFilterModel', filterModel.value.id);
       if (props.dataType === DataTypes.Join) {
         filterModel.value = FilterModel.CreateFilterModelWithJoin(
           props.table,
@@ -84,13 +82,25 @@ export default defineComponent({
           props.joinTablePk,
           props.joinTableFk,
           props.dataType,
-          props.joinTableId
+          props.joinTableId,
+          props.joinTableIdCol
         );
       } else {
         filterModel.value = FilterModel.CreateFilterModel(props.table, props.col, props.dataType);
         filterModel.value.operator = props.operator;
+        if (props.value && typeof props.value === 'string') {
+          filterModel.value.value1 = props.value;
+        }
       }
+      filterModel.value.boolean = true;
+      store.commit('filter/setFilterModel', filterModel.value);
+      emit('load');
+    };
 
+    const dropFilterModel = () => {
+      store.commit('filter/spliceFilterModel', filterModel.value.id);
+      filterModel.value = FilterModel.CreateFilterModel(props.table, props.col, props.dataType);
+      filterModel.value.operator = props.operator;
       emit('load');
     };
 

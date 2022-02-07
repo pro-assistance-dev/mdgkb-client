@@ -2,17 +2,9 @@
   <div class="filter-form">
     <el-form label-position="top">
       <el-form-item>
-        <!--        <div v-for="select in selectList" :key="select">-->
-        <el-select
-          v-model="filterModel.value1"
-          size="mini"
-          :placeholder="placeholder"
-          @change="addFilterModel"
-          @click="setTrigger('manual')"
-        >
+        <el-select v-model="filterModel.value1" size="mini" :placeholder="placeholder" @change="addFilterModel">
           <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
         </el-select>
-        <!--        </div>-->
       </el-form-item>
     </el-form>
   </div>
@@ -55,7 +47,6 @@ export default defineComponent({
     filterModel.value.operator = Operators.Eq;
 
     const addFilterModel = () => {
-      filterModel.value = FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String);
       store.commit('filter/setFilterModel', filterModel.value);
       emit('load');
     };

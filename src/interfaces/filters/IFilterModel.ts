@@ -24,4 +24,5 @@ export default interface IFilterModel {
   joinTableFk: string;
   joinTablePk: string;
   joinTableId: string;
+  joinTableIdCol: string;
 }
