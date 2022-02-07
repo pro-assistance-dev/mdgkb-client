@@ -1,8 +1,9 @@
 <template>
-  <div class="faq-header">
+  <div class="faq-header card-item">
+    <h2>Часто задаваемые вопросы</h2>
     <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти вопрос" size="large" />
   </div>
-  <el-collapse accordion>
+  <!-- <el-collapse>
     <el-collapse-item v-for="(item, i) in filteredFaqList" :key="item.id" :name="i">
       <template #title>
         <QuestionCircleOutlined />
@@ -10,7 +11,14 @@
       </template>
       <div v-html="item.answer"></div>
     </el-collapse-item>
-  </el-collapse>
+  </el-collapse> -->
+  <div v-for="item in filteredFaqList" :key="item.id" class="faq-card card-item">
+    <div class="faq-card-title">
+      <QuestionCircleOutlined />
+      <b>{{ item.question }}</b>
+    </div>
+    <div v-html="item.answer"></div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -83,6 +91,21 @@ export default defineComponent({
   margin-right: 5px;
 }
 .faq-header {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 20px;
+}
+.faq-card {
+  margin-bottom: 20px;
+  &-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+}
+h2 {
+  margin-top: 0;
+  font-size: 24px;
+  text-align: center;
 }
 </style>

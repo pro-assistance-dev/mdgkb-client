@@ -1,28 +1,26 @@
 <template>
-  <div class="header-center">
+  <div class="header-center card-item">
+    <h2>Вопросы и ответы</h2>
     <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти вопрос" size="large" />
-    <el-button type="success" @click="openQuestion">Задать вопрос</el-button>
   </div>
-  <template v-for="item in questionsList" :key="item.id">
-    <QuestionCard :question="item.question" :answer="item.answer" :date="item.date" />
-  </template>
+  <div v-for="item in questionsList" :key="item.id" class="card-item">
+    <CommentCard :is-question="true" :question="item" />
+  </div>
   <LoadMoreButton @loadMore="loadMore" />
-  <QuestionForm />
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import CommentCard from '@/components/Comments/CommentCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import QuestionCard from '@/components/Questions/QuestionCard.vue';
-import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'Questions',
-  components: { LoadMoreButton, QuestionForm, QuestionCard },
+  components: { LoadMoreButton, CommentCard },
   async setup() {
     const filter = ref('');
     const store = useStore();
@@ -72,10 +70,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.collapse {
-  margin-top: 10px;
-}
-
 .contact-form {
   margin: 20px 100px 20px 10px;
 }
@@ -85,6 +79,7 @@ export default defineComponent({
 }
 .header-center {
   display: flex;
+  flex-direction: column;
   .el-button {
     margin-left: 10px;
   }
@@ -94,5 +89,13 @@ h1 {
 }
 .el-card {
   margin-top: 10px;
+}
+.card-item {
+  margin-bottom: 20px;
+}
+h2 {
+  margin-top: 0;
+  font-size: 24px;
+  text-align: center;
 }
 </style>
