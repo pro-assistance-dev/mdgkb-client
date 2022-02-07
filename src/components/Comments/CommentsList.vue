@@ -126,14 +126,11 @@ $side-cotainer-max-width: 300px;
 }
 button {
   margin: 10px 0;
-  min-width: 230px;
-  font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   border-radius: 10px;
   background-color: #2754ec;
-  padding: 15px 0px;
+  padding: 15px 25px;
   height: auto;
-  letter-spacing: 2px;
   color: white;
   border: 1px solid rgb(black, 0.05);
   &:hover {
@@ -153,5 +150,19 @@ button {
 h3 {
   margin: 0;
   text-align: center;
+}
+
+@media only screen and (max-width: 1024px) {
+  .comments-list-container {
+    flex-direction: column;
+    align-items: center;
+    &-left {
+      max-width: 100%;
+      margin: 0;
+    }
+    button {
+      max-width: 300px;
+    }
+  }
 }
 </style>

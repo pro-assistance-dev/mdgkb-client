@@ -1,42 +1,41 @@
 <template>
-  <div>
-    <el-row :gutter="40">
-      <el-col :xl="6" :lg="6" :md="24" class="calendar">
-        <div class="left-side-container">
-          <ModeButtons
-            :store-mode="false"
-            :store-module="'comments'"
-            :first-mode="'Faq'"
-            :second-mode="'Вопрос-ответ'"
-            @changeMode="setFaqMode"
-          />
-        </div>
-      </el-col>
-      <el-col :xl="18" :lg="18" :md="24">
-        <RemoteSearch />
-        <FAQ v-if="faqMode" />
-        <Questions v-else />
-      </el-col>
-    </el-row>
+  <div class="ques-answ-container">
+    <div class="ques-answ-container-left">
+      <ModeButtons
+        :store-mode="false"
+        :store-module="'comments'"
+        :first-mode="'Faq'"
+        :second-mode="'Вопрос-ответ'"
+        @changeMode="setFaqMode"
+      />
+      <button @click="openQuestion">Задать вопрос</button>
+    </div>
+    <div class="ques-answ-container-right">
+      <FAQ v-if="faqMode" />
+      <Questions v-else />
+    </div>
   </div>
+  <QuestionForm />
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
+import { useStore } from 'vuex';
 
-import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import FAQ from '@/components/Questions/FAQ.vue';
+import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import Questions from '@/components/Questions/Questions.vue';
 
 export default defineComponent({
   name: 'QuestionsAnswersPage',
 
-  components: { FAQ, Questions, ModeButtons, RemoteSearch },
+  components: { FAQ, Questions, ModeButtons, QuestionForm },
 
   setup() {
+    const store = useStore();
     const pageTitle: Ref<string> = ref('Часто задаваемые вопросы');
-    const faqMode: Ref<boolean> = ref(false);
+    const faqMode: Ref<boolean> = ref(true);
     const test = (activeName: string) => {
       pageTitle.value = activeName;
     };
@@ -44,25 +43,54 @@ export default defineComponent({
     const setFaqMode = (faqModeCondition: boolean) => {
       faqMode.value = faqModeCondition;
     };
+    const openQuestion = () => store.commit('questions/openQuestion');
 
     return {
       setFaqMode,
       faqMode,
       test,
       pageTitle,
+      openQuestion,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  text-align: center;
-  font-size: 24px;
-}
+$side-cotainer-max-width: 300px;
 .ques-answ-container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  &-left {
+    margin-right: 30px;
+    flex-shrink: 0;
+    width: 300px;
+  }
+  &-right {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+button {
+  margin: 10px 0;
+  font-size: 16px;
+  border-radius: 10px;
+  background-color: #2754ec;
+  padding: 15px 25px;
+  width: 100%;
+  height: auto;
+  color: white;
+  border: 1px solid rgb(black, 0.05);
+  &:hover {
+    cursor: pointer;
+    background-color: darken(#2754ec, 10%);
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .ques-answ-container {
+    flex-direction: column;
+  }
 }
 </style>

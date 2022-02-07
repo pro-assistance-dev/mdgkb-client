@@ -9,7 +9,8 @@
     <div class="answer paragraph">
       <InfoCircleOutlined />
       <div style="white-space: pre-line">
-        {{ answer ? answer : 'Вопрос обрабатывается' }}
+        <div v-if="answer" v-html="answer"></div>
+        <div v-else>Вопрос обрабатывается</div>
       </div>
     </div>
     <div class="questoin-date">
