@@ -49,7 +49,7 @@ const getters: GetterTree<State, RootState> = {
     return state.item.educations;
   },
   paidServices(state): IWithPaidService[] {
-    return state.item.doctorPaidServices;
+    return state.item.doctorPaidServices?.splice(0, 15);
   },
   timetable(state): ITimetable {
     return state.item.timetable;

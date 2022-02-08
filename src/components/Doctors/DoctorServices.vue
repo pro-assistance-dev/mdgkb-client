@@ -3,7 +3,7 @@
     <div class="title-in">Оказываемые услуги</div>
     <div class="point">
       <ul class="services-list">
-        <li v-for="paidService in paidServices.splice(0, 15)" :key="paidService.id" class="services-list-item">
+        <li v-for="paidService in paidServices" :key="paidService.id" class="services-list-item">
           <h4 class="point-text">{{ paidService.paidService.name }}</h4>
         </li>
       </ul>

@@ -2,7 +2,7 @@
   <div class="page-container">
     <MapRouter />
     <div id="map-svg-container">
-      <Component :is="require(`@/assets/img/map.svg`).default" id="map-svg"></Component>
+      <Map id="map-svg" />
       <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
     </div>
   </div>
@@ -12,6 +12,7 @@
 import { defineComponent, onMounted, PropType, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
+import Map from '@/assets/img/map.svg';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IFloor from '@/interfaces/buildings/IFloor';
@@ -24,6 +25,7 @@ export default defineComponent({
   components: {
     MapPopover,
     MapRouter,
+    Map,
   },
   props: {
     buildings: {
