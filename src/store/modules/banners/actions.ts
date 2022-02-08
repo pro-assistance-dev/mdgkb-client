@@ -16,11 +16,11 @@ const actions: ActionTree<State, RootState> = {
     commit('set', await httpClient.get<IBanner>({ query: `${id}` }));
   },
   create: async ({ commit }, item: IBanner): Promise<void> => {
-    await httpClient.post<IBanner, IBanner>({ payload: item, fileInfos: [item.fileInfo], isFormData: true });
+    await httpClient.post<IBanner, IBanner>({ payload: item, fileInfos: item.getFileInfos(), isFormData: true });
     commit('set');
   },
   update: async ({ commit }, item: IBanner): Promise<void> => {
-    await httpClient.put<IBanner, IBanner>({ query: `${item.id}`, payload: item, fileInfos: [item.fileInfo], isFormData: true });
+    await httpClient.put<IBanner, IBanner>({ query: `${item.id}`, payload: item, fileInfos: item.getFileInfos(), isFormData: true });
     commit('set');
   },
   updateAll: async ({ commit }, items: IBanner[]): Promise<void> => {

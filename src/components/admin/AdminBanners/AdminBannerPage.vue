@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :model="banner" label-position="top" :rules="rules">
+  <el-form v-if="mounted" ref="form" :model="banner" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
         <el-container direction="vertical">
@@ -15,7 +15,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
         <el-container direction="vertical">
-          <AdminBannerImage v-if="mounted" />
+          <UploaderSingleScan crop-ratio="1" :file-info="banner.fileInfo" />
         </el-container>
       </el-col>
     </el-row>
@@ -26,20 +26,21 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import BannerRules from '@/classes/banners/BannerRules';
 import Division from '@/classes/buildings/Division';
-import AdminBannerImage from '@/components/admin/AdminBanners/AdminBannerImage.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import IBanner from '@/interfaces/banners/IBanner';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminBannerPage',
-  components: { ImageCropper, AdminBannerImage },
+  components: { ImageCropper, UploaderSingleScan },
 
   setup() {
     const store = useStore();
@@ -50,7 +51,7 @@ export default defineComponent({
     const mounted = ref(false);
 
     const divisionOptions = ref([new Division()]);
-    const banner = computed(() => store.getters['banners/banner']);
+    const banner: ComputedRef<IBanner> = computed<IBanner>(() => store.getters['banners/banner']);
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -82,6 +83,7 @@ export default defineComponent({
       store.commit('admin/showLoading');
       await loadBanner();
       store.commit('admin/closeLoading');
+      mounted.value = true;
     });
 
     const loadBanner = async (): Promise<void> => {

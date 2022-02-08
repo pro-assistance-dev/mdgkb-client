@@ -7,4 +7,6 @@ export default interface IBanner {
   listNumber?: number;
   fileInfo: IFileInfo;
   fileInfoId?: string;
+
+  getFileInfos: () => IFileInfo[];
 }
