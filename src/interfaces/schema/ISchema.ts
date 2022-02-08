@@ -7,7 +7,7 @@ import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 
 export default interface ISchema {
   human: IHumanSchema;
-  comment: ICommentsSchema;
+  comments: ICommentsSchema;
   doctor: IDoctorSchema;
   doctorUser: IDoctorUserSchema;
   division: IDivisionSchema;

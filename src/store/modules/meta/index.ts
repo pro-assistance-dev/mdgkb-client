@@ -10,6 +10,7 @@ import { State } from './state';
 export const state: State = {
   count: 0,
   socialMedia: [],
+  // schema: new Schema
 };
 
 const namespaced = true;

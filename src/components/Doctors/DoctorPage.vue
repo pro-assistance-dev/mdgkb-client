@@ -2,9 +2,9 @@
   <div v-if="mount" class="doctor-page-container">
     <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>
     <DoctorInfo :doctor="doctor" />
-    <DoctorEducation :store-name="'doctors'" />
+    <DoctorEducation :store-module="'doctors'" />
     <DoctorWorkExperience />
-    <DoctorServices :store-name="'doctors'" />
+    <DoctorServices :store-module="'doctors'" />
     <DoctorCertificates />
     <DoctorDateAndTime />
     <DoctorNews :news-doctors="doctor.newsDoctors" />

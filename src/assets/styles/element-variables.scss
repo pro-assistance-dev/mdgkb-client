@@ -142,3 +142,12 @@ body > .el-container::v-deep {
     cursor: pointer;
   }
 }
+
+a {
+  color: #2754eb;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    color: darken(#2754eb, 30%);
+  }
+}

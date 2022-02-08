@@ -14,6 +14,7 @@ import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
+import ServiceQualityAssessmentPage from '@/components/ServiceQualityAssessment/ServiceQualityAssessmentPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import SiteMap from '@/components/SiteMap/SiteMap.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
@@ -163,6 +164,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/contacts',
     name: 'Contacts',
     component: Contacts,
+  },
+  {
+    path: '/service-quality-assessment',
+    name: 'ServiceQualityAssessmentPage',
+    component: ServiceQualityAssessmentPage,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
