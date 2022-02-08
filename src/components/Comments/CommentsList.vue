@@ -1,18 +1,18 @@
 <template>
   <div v-if="mount" class="comments-list-container">
-    <div class="comments-list-container-left">
+    <div class="comments-list-container-left card-item">
       <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />
+      <button class="leave-review-button" @click="showDialog = true">Оставить отзыв</button>
+      <router-link to="/service-quality-assessment">Независимая оценка качества оказания услуг</router-link>
       <FilterCheckbox
         label="Свои отзывы"
-        :table="schema.comment.tableName"
-        :col="schema.comment.userId"
+        :table="schema.comments.tableName"
+        :col="schema.comments.userId"
         :data-type="DataTypes.String"
         :operator="Operators.Eq"
         :value="TokenService.getUserId()"
         @load="loadCommentsWithoutMode"
       />
-
-      <button class="leave-review-button" @click="showDialog = true">Оставить отзыв</button>
     </div>
     <div class="comments-list-container-right">
       <div class="comments-list-container-right-header card-item">
@@ -93,7 +93,7 @@ export default defineComponent({
     };
 
     const setPositiveMode = (positiveMode: boolean) => {
-      const filterModel = FilterModel.CreateFilterModel(schema.value.comment.tableName, schema.value.comment.positive, DataTypes.String);
+      const filterModel = FilterModel.CreateFilterModel(schema.value.comments.tableName, schema.value.comments.positive, DataTypes.String);
       filterModel.operator = Operators.Eq;
       filterModel.value1 = String(positiveMode);
       filterQuery.value.filterModels = [];
@@ -124,8 +124,10 @@ $side-cotainer-max-width: 300px;
 .comments-list-container {
   display: flex;
   &-left {
+    height: 100%;
     max-width: $side-cotainer-max-width;
     margin-right: 30px;
+    font-size: 14px;
   }
   &-right {
     &-header {
@@ -134,7 +136,6 @@ $side-cotainer-max-width: 300px;
         font-size: 24px;
         text-align: center;
       }
-      margin-top: 10px;
     }
   }
 }
