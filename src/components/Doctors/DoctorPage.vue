@@ -8,7 +8,7 @@
     <DoctorCertificates />
     <DoctorDateAndTime />
     <DoctorNews :news-doctors="doctor.newsDoctors" />
-    <Comments store-name="doctors" :parent-id="doctor.id" :is-reviews="true" />
+    <Comments store-module="doctors" :parent-id="doctor.id" :is-reviews="true" />
   </div>
 </template>
 
