@@ -2,7 +2,7 @@
   <div v-if="mount" class="comments-list-container">
     <div class="comments-list-container-left card-item">
       <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />
-      <button class="leave-review-button" @click="showDialog = true">Оставить отзыв</button>
+      <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить отзыв</button>
       <router-link to="/service-quality-assessment">Независимая оценка качества оказания услуг</router-link>
       <FilterCheckbox
         label="Свои отзывы"
@@ -29,9 +29,10 @@
     <template #title>
       <h3>Оставить отзыв</h3>
     </template>
-    <template #footer>
+    <CommentForm store-module="comments" :with-rating="false" :from-dialog="true" @closeDialog="showDialog = false" />
+    <!-- <template #footer>
       <button>Отправить отзыв</button>
-    </template>
+    </template> -->
   </el-dialog>
 </template>
 
@@ -42,6 +43,7 @@ import { useStore } from 'vuex';
 import FilterModel from '@/classes/filters/FilterModel';
 import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import CommentCard from '@/components/Comments/CommentCard.vue';
+import CommentForm from '@/components/Comments/CommentForm.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
@@ -51,6 +53,7 @@ import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISchema from '@/interfaces/schema/ISchema';
 import TokenService from '@/services/Token';
+
 export default defineComponent({
   name: 'CommentsList',
   components: {
@@ -59,6 +62,7 @@ export default defineComponent({
     LoadMoreButton,
     CommentCard,
     FilterCheckbox,
+    CommentForm,
   },
 
   setup() {
@@ -68,6 +72,13 @@ export default defineComponent({
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const showDialog: Ref<boolean> = ref(false);
+    const isAuth = computed(() => store.getters['auth/isAuth']);
+
+    const openLoginModal = () => {
+      if (!isAuth.value) {
+        store.commit('auth/openModal', true);
+      }
+    };
 
     onBeforeMount(async () => {
       await store.dispatch('meta/getSchema');
@@ -113,6 +124,8 @@ export default defineComponent({
       comments,
       mount,
       showDialog,
+      openLoginModal,
+      isAuth,
     };
   },
 });

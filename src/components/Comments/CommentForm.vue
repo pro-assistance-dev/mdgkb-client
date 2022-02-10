@@ -1,48 +1,38 @@
 <template>
-  <div id="reviews" class="reviews">
-    <div class="title-in">Отзывы ({{ comments.length }}):</div>
-    <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
-      <CommentCard :comment="item.comment" />
+  <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
+    <el-rate v-if="isReviews && withRating" v-model="comment.comment.rating" class="rate" />
+    <el-form-item prop="comment.text">
+      <textarea
+        ref="commentInput"
+        v-model="comment.comment.text"
+        type="textarea"
+        :placeholder="!isReviews ? 'Напишите комментарий:' : 'Напишите отзыв:'"
+        show-word-limit
+        :autosize="{ minRows: 3, maxRows: 6 }"
+        @focus="isAuth ? null : openLoginModal()"
+      ></textarea>
+    </el-form-item>
+    <div class="button-block">
+      <button type="button" :class="{ 'blue-btn': !isReviews }" @click="isAuth ? sendComment(comment) : openLoginModal()">
+        ОТПРАВИТЬ {{ !isReviews ? 'КОММЕНТАРИЙ' : 'ОТЗЫВ' }}
+      </button>
     </div>
-    <div id="leave-a-review" class="leave-a-review">
-      <h4>Оставить отзыв:</h4>
-      <el-rate v-if="isReviews" v-model="comment.comment.rating" class="rate" />
-      <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
-        <el-form-item prop="comment.text">
-          <textarea
-            ref="commentInput"
-            v-model="comment.comment.text"
-            type="textarea"
-            :placeholder="!isReviews ? 'Напишите комментарий:' : 'Напишите отзыв:'"
-            show-word-limit
-            :autosize="{ minRows: 3, maxRows: 6 }"
-            @focus="isAuth ? null : openLoginModal()"
-          ></textarea>
-        </el-form-item>
-        <div class="button-block">
-          <button type="button" @click="isAuth ? sendComment(comment) : openLoginModal()">ОТПРАВИТЬ ОТЗЫВ</button>
-        </div>
-      </el-form>
-    </div>
-  </div>
+  </el-form>
 </template>
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
-import CommentCard from '@/components/Comments/CommentCard.vue';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
-import IComment from '@/interfaces/comments/IComment';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import INewsComment from '@/interfaces/news/INewsComment';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
-  name: 'Comments',
-  components: { CommentCard },
+  name: 'CommentForm',
   props: {
     storeModule: {
       type: String,
@@ -50,19 +40,27 @@ export default defineComponent({
     },
     parentId: {
       type: String,
-      required: true,
+      default: '',
     },
     isReviews: {
+      type: Boolean,
+      default: true,
+    },
+    withRating: {
+      type: Boolean,
+      default: true,
+    },
+    fromDialog: {
       type: Boolean,
       default: false,
     },
   },
-  async setup(prop) {
-    const comment = computed(() => store.getters[`${prop.storeModule}/comment`]);
-    const commentInput = ref();
-    const store = useStore();
-    const comments: ComputedRef<IComment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
+  emits: ['closeDialog'],
 
+  setup(prop, { emit }) {
+    const store = useStore();
+    const commentInput = ref();
+    const comment = computed(() => store.getters[`${prop.storeModule}/comment`]);
     const userId = computed(() => store.getters['auth/user']?.id);
     const userEmail = computed(() => store.getters['auth/user']?.email);
     const isAuth = computed(() => store.getters['auth/isAuth']);
@@ -71,9 +69,17 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
+    const openLoginModal = () => {
+      if (!isAuth.value) {
+        store.commit('auth/openModal', true);
+        commentInput.value.blur();
+      }
+    };
     const sendComment = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
       if (!validate(commentForm)) return;
-      store.commit(`${prop.storeModule}/setParentIdToComment`, prop.parentId);
+      if (prop.parentId) {
+        store.commit(`${prop.storeModule}/setParentIdToComment`, prop.parentId);
+      }
       if (userEmail.value) item.comment.user.email = userEmail.value;
       if (userId.value) item.comment.userId = userId.value;
       try {
@@ -83,6 +89,9 @@ export default defineComponent({
         return;
       }
       commentForm.value.clearValidate();
+      if (prop.fromDialog) {
+        emit('closeDialog');
+      }
     };
 
     const removeComment = async (commentId: string) => {
@@ -101,13 +110,6 @@ export default defineComponent({
       }
     };
 
-    const openLoginModal = () => {
-      if (!isAuth.value) {
-        store.commit('auth/openModal', true);
-        commentInput.value.blur();
-      }
-    };
-
     return {
       rules,
       openLoginModal,
@@ -121,80 +123,12 @@ export default defineComponent({
       editComment,
       saveCommentChanges,
       editCommentForm,
-      comments,
     };
   },
 });
 </script>
 
-<style scoped lang="scss">
-* {
-  padding: 0px;
-  margin: 0px;
-}
-
-*,
-::after,
-::before {
-  box-sizing: initial;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-.hidden {
-  display: none;
-}
-
-.reviews {
-  display: block;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  background-clip: padding-box;
-  margin-top: 30px;
-  padding: 0px 40px 0px 23px;
-  margin-bottom: 170px;
-}
-
-.title-in {
-  display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  font-size: 22px;
-  letter-spacing: 0.1em;
-  color: #343e5c;
-  height: 60px;
-  align-items: center;
-  font-weight: bold;
-}
-
-.reviews-point {
-  display: block;
-  margin-left: 10px;
-  margin-top: 15px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid #d2dae7;
-  background-clip: padding-box;
-}
-
-.leave-a-review {
-  display: block;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  font-size: 20px;
-  letter-spacing: 0.1em;
-  color: #343e5c;
-  align-items: center;
-  font-weight: bold;
-  padding: 40px 190px 35px 175px;
-  align-items: right;
-}
-
+<style lang="scss" scoped>
 textarea {
   background: #ffffff;
   border-radius: 5px;
@@ -215,8 +149,6 @@ textarea {
 }
 
 button {
-  height: 42px;
-  width: 203px;
   background-color: #ff4e3c;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 12px;
@@ -224,10 +156,17 @@ button {
   color: #ffffff;
   border-radius: 8px;
   border: none;
-  padding: 0px;
+  padding: 15px 30px;
 
   &:hover {
     cursor: pointer;
+    background-color: darken(#ff4e3c, 10%);
+  }
+}
+.blue-btn {
+  background-color: #2754eb;
+  &:hover {
+    background-color: darken(#2754eb, 10%);
   }
 }
 

@@ -34,6 +34,10 @@ const mutations: MutationTree<State> = {
   setFirstModeCondition(state, positiveMode: boolean) {
     state.positiveMode = positiveMode;
   },
+  setComment(state, comment: IComment) {
+    state.comment.comment = new Comment();
+    state.comments.unshift(new Comment(comment));
+  },
 };
 
 export default mutations;

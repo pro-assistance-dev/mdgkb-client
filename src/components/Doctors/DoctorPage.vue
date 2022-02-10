@@ -17,7 +17,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Comments from '@/components/Comments.vue';
+import Comments from '@/components/Comments/Comments.vue';
 import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
@@ -116,5 +116,8 @@ h2 {
   height: 50px;
   align-items: center;
   font-weight: bold;
+}
+:deep(.leave-a-review) {
+  padding: 40px 190px 35px 175px;
 }
 </style>

@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 
+import NewsComment from '@/classes/news/NewsComment';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -10,6 +11,7 @@ import State from './state';
 export const state: State = {
   comments: [],
   positiveMode: true,
+  comment: new NewsComment(),
 };
 
 const namespaced = true;

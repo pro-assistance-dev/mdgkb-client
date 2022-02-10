@@ -36,7 +36,7 @@
         <el-divider />
         <NewsPageFooter :news="news" />
         <el-divider />
-        <Comments store-name="news" :parent-id="news.id" />
+        <Comments store-module="news" :parent-id="news.id" :is-reviews="false" />
       </div>
     </div>
   </div>
@@ -49,7 +49,7 @@ import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
 import NewsComment from '@/classes/news/NewsComment';
-import Comments from '@/components/CommentsOld.vue';
+import Comments from '@/components/Comments/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';

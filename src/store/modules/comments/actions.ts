@@ -25,6 +25,10 @@ const actions: ActionTree<State, RootState> = {
   modChecked: async (_, comment: IComment): Promise<void> => {
     await httpClient.put<IComment, IComment>({ query: `${comment.id}`, payload: comment });
   },
+  createComment: async ({ state, commit }): Promise<void> => {
+    const res = await httpClient.post<IComment, IComment>({ payload: state.comment.comment });
+    commit('setComment', res);
+  },
 };
 
 export default actions;
