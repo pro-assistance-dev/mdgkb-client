@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Calendar, Cellphone, PhoneFilled } from '@element-plus/icons-vue';
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import CallBack from '@/components/Main/CallBack/CallBack.vue';
 
@@ -38,12 +38,11 @@ export default defineComponent({
     PhoneFilled,
     CallBack,
   },
-
   emits: ['close'],
-
-  data() {
+  setup() {
+    const isCallBackModalOpen: Ref<boolean> = ref(false);
     return {
-      isCallBackModalOpen: false,
+      isCallBackModalOpen,
     };
   },
 });

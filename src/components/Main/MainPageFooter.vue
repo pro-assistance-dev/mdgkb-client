@@ -7,18 +7,30 @@
       <div class="main-page-footer-right-container">
         <div class="main-page-footer-right-container-title">Вы можете записаться на прием к online или заказав обратный звонок</div>
         <div class="main-page-footer-right-container-buttons">
-          <button>Обратный звонок</button>
+          <button @click="isCallBackModalOpen = true">Обратный звонок</button>
           <button>Записаться online</button>
         </div>
       </div>
     </div>
+    <CallBack v-if="isCallBackModalOpen" @close="isCallBackModalOpen = false" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
+
+import CallBack from '@/components/Main/CallBack/CallBack.vue';
 export default defineComponent({
   name: 'MainPageFooter',
+  components: {
+    CallBack,
+  },
+  setup() {
+    const isCallBackModalOpen: Ref<boolean> = ref(false);
+    return {
+      isCallBackModalOpen,
+    };
+  },
 });
 </script>
 

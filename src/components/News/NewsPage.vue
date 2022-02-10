@@ -19,7 +19,7 @@
           <div class="image-comment">{{ news.mainImageDescription }}</div>
           <div class="article-preview">{{ news.previewText }}</div>
         </div>
-        <div v-if="news.event" class="card-header action-container">
+        <div v-if="news.event.form.id" class="card-header action-container">
           <EventRegistration store-name="news" :parent-id="news.id" />
         </div>
         <div v-if="news.isArticle" class="card-header action-container">

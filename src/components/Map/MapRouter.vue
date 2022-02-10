@@ -80,7 +80,6 @@ export default defineComponent({
       let shortestRoute: (Element | null)[] = [];
 
       const findShortestRoute = (currentPoint: Element, neighbors: string | null, route?: (Element | null)[]): void => {
-        // console.log(currentPoint.getAttribute('id'), route);
         if (!currentPoint) {
           console.log(`Указанной точки не существует`);
           return;
@@ -99,12 +98,12 @@ export default defineComponent({
             currentPoint.getAttribute('data-entrance') === String(divisionB.value?.entrance?.number)) ||
           currentPoint.getAttribute('data-building') === divisionB.value?.id
         ) {
-          // console.log('Точка найдена');
-          // console.log('Route', shortestRoute);
           if (shortestRoute.length > newRoute.length || shortestRoute.length == 0) {
             shortestRoute = cloneDeep(newRoute);
-            // console.log('shortestRoute', shortestRoute);
           }
+          return;
+        }
+        if (shortestRoute.length && route && route.length > shortestRoute.length) {
           return;
         }
         const neighborsIdArray = neighbors.split(',');
@@ -188,7 +187,7 @@ export default defineComponent({
           ${divisionB.value.address ? divisionB.value.address : divisionB.value.name}
           </p>
         `,
-        duration: 0,
+        duration: 3000,
         position: 'bottom-left',
         type: 'success',
       });

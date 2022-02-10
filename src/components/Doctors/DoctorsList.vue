@@ -52,12 +52,7 @@
           />
 
           <FilterReset @load="loadDoctors" />
-          <SortList
-            :table="schema.doctor.tableName"
-            :columns="[schema.doctor.commentsCount, schema.doctor.fullName]"
-            :labels="['По отзывам', 'По алфавиту']"
-            @load="loadDoctors"
-          />
+          <SortList :models="createSortModels()" @load="loadDoctors" />
         </div>
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -88,6 +83,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import SortModel from '@/classes/filters/SortModel';
 import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import RemoteSearchV2 from '@/components/admin/RemoteSearchV2.vue';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
@@ -98,11 +94,14 @@ import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
+import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISchema from '@/interfaces/schema/ISchema';
 import TokenService from '@/services/Token';
+
 export default defineComponent({
   name: 'DoctorPage',
   components: {
@@ -154,7 +153,15 @@ export default defineComponent({
       await store.dispatch('meta/getOptions', schema.value.division);
     };
 
+    const createSortModels = (): ISortModel[] => {
+      return [
+        SortModel.CreateSortModel(schema.value.doctor.tableName, schema.value.doctor.fullName, Orders.Asc, 'По алфавиту', true),
+        SortModel.CreateSortModel(schema.value.doctor.tableName, schema.value.doctor.commentsCount, Orders.Desc, 'По отзывам', false),
+      ];
+    };
+
     return {
+      createSortModels,
       TokenService,
       Operators,
       DataTypes,

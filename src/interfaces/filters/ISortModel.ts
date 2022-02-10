@@ -5,7 +5,8 @@ export default interface ISortModel {
   table: string;
   col: string;
   order: Orders | undefined;
-
+  label: string;
+  default: boolean;
   isAsc: () => boolean;
   isDesc: () => boolean;
 }
