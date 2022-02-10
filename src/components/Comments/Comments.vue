@@ -2,7 +2,7 @@
   <div id="reviews" :class="{ reviews: isReviews }">
     <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</div>
     <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
-      <CommentCard :comment="item.comment" />
+      <CommentCard :comment="item.comment" :is-review="isReview" />
     </div>
     <div id="leave-a-review" class="leave-a-review">
       <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4>
