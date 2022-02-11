@@ -1,8 +1,10 @@
 import FileInfo from '@/classes/File/FileInfo';
 import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
+import MedicalProfileNews from '@/classes/MedicalProfileNews';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
+import IMedicalProfileNews from '@/interfaces/IMedicalProfileNews';
 
 export default class MedicalProfile implements IMedicalProfile {
   id?: string;
@@ -11,6 +13,7 @@ export default class MedicalProfile implements IMedicalProfile {
   icon: IFileInfo = new FileInfo();
   iconId?: string;
   medicalProfilesDivisions: IMedicalProfileDivision[] = [];
+  medicalProfilesNews: IMedicalProfileNews[] = [];
   background = '';
 
   constructor(i?: IMedicalProfile) {
@@ -27,6 +30,9 @@ export default class MedicalProfile implements IMedicalProfile {
     if (i.medicalProfilesDivisions) {
       this.medicalProfilesDivisions = i.medicalProfilesDivisions.map((item: IMedicalProfileDivision) => new MedicalProfileDivision(item));
     }
+    if (i.medicalProfilesNews) {
+      this.medicalProfilesNews = i.medicalProfilesNews.map((item: IMedicalProfileNews) => new MedicalProfileNews(item));
+    }
   }
 
   getIconUrl(): string {
@@ -34,7 +40,7 @@ export default class MedicalProfile implements IMedicalProfile {
       return this.icon.getFileUrl();
     }
     const numberOfImg = Math.floor(Math.random() * (70 - 1 + 1) + 1);
-    // return '';
-    return require(`../assets/medicine/${numberOfImg}.svg`);
+    return '';
+    // return require(`../assets/medicine/${numberOfImg}.svg`);
   }
 }
