@@ -6,8 +6,8 @@
       <router-link to="/service-quality-assessment">Независимая оценка качества оказания услуг</router-link>
       <FilterCheckbox
         label="Свои отзывы"
-        :table="schema.comments.tableName"
-        :col="schema.comments.userId"
+        :table="schema.comment.tableName"
+        :col="schema.comment.userId"
         :data-type="DataTypes.String"
         :operator="Operators.Eq"
         :value="TokenService.getUserId()"
@@ -104,7 +104,8 @@ export default defineComponent({
     };
 
     const setPositiveMode = (positiveMode: boolean) => {
-      const filterModel = FilterModel.CreateFilterModel(schema.value.comments.tableName, schema.value.comments.positive, DataTypes.String);
+      console.log(schema.value);
+      const filterModel = FilterModel.CreateFilterModel(schema.value.comment.tableName, schema.value.comment.positive, DataTypes.String);
       filterModel.operator = Operators.Eq;
       filterModel.value1 = String(positiveMode);
       filterQuery.value.filterModels = [];

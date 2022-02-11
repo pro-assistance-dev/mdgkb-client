@@ -4,6 +4,7 @@ import { admin } from '@/store/modules/admin';
 import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
+import { callbacks } from '@/store/modules/callbacks';
 import { certificates } from '@/store/modules/certificates';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
@@ -101,6 +102,7 @@ const s: StoreOptions<RootState> = {
     publicDocumentTypes,
     certificates,
     medicalProfiles,
+    callbacks,
   },
 };
 

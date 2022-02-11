@@ -4,49 +4,105 @@
       <div class="button-field">
         <BaseModalButtonClose @click="close" />
       </div>
-      <form class="modal-callback">
+      <el-form ref="callbackForm" class="modal-callback" :model="callback" :rules="rules">
         <div class="modal-callback-title">
           <h3>Заказ обратного звонка</h3>
         </div>
         <div class="form-callback">
-          <label for="name" class="field-name">Имя</label>
+          <label for="name" class="label field-name">Имя:</label>
           <div class="name-block">
-            <input id="name" type="text" class="field-name" name="name" placeholder="Ваше имя" />
+            <el-form-item prop="name">
+              <el-input id="name" v-model="callback.name" type="text" class="field-name" name="name" placeholder="Ваше имя" />
+            </el-form-item>
           </div>
         </div>
         <div class="form-callback">
-          <label for="phone" class="phone-name">Телефон</label>
+          <label for="phone" class="label phone-name">Телефон:</label>
           <div class="phone-block">
-            <input id="phone" type="text" class="phone-name" placeholder="+7(xxx) xxx xx xx" />
+            <el-form-item prop="phone">
+              <el-input
+                id="phone"
+                v-model="callback.phone"
+                type="tel"
+                class="phone-name"
+                placeholder="+7(___) ___ __ __"
+                @input="callback.formatPhoneNumber()"
+              />
+            </el-form-item>
+          </div>
+        </div>
+        <div class="form-callback">
+          <label for="phone" class="label phone-description">Комментарий:</label>
+          <div class="phone-block">
+            <el-form-item prop="description">
+              <el-input id="phone" v-model="callback.description" type="textarea" class="phone-description" placeholder="Комментарий" />
+            </el-form-item>
           </div>
         </div>
         <div class="field-text">Мы перезвоним Вам в течение дня</div>
         <div class="form-callback">
           <div class="send">
-            <button type="submit" class="submit">Заказать</button>
+            <button class="submit" @click.prevent="submit">Заказать</button>
           </div>
         </div>
-      </form>
+      </el-form>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { ElNotification } from 'element-plus';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
+
+import CallbackRequest from '@/classes/CallbackRequest';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-export default {
+import ICallbackRequest from '@/interfaces/ICallbackRequest';
+import validate from '@/mixins/validate';
+
+export default defineComponent({
+  name: 'CallBack',
   components: {
     BaseModalButtonClose,
   },
   emits: ['close'],
-  mounted() {
-    this.$el.focus();
+
+  setup(_, { emit }) {
+    const store = useStore();
+    const callbackForm = ref();
+    const callback: ComputedRef<ICallbackRequest> = computed(() => store.getters['callbacks/item']);
+    const rules = {
+      name: [{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }],
+      phone: [{ validator: CallbackRequest.validatePhone, trigger: 'blur' }],
+    };
+
+    const close = () => {
+      emit('close');
+    };
+
+    const submit = () => {
+      if (!validate(callbackForm)) {
+        return;
+      }
+      store.dispatch('callbacks/create');
+      emit('close');
+      ElNotification({
+        title: 'Обратный звонок',
+        message: 'Спасибо за заявку.\nМы вам перезвоним в ближайшее время',
+        type: 'success',
+        duration: 2000,
+      });
+    };
+
+    return {
+      close,
+      submit,
+      callback,
+      callbackForm,
+      rules,
+    };
   },
-  methods: {
-    close() {
-      this.$emit('close');
-    },
-  },
-};
+});
 </script>
 
 <style scoped lang="scss">
@@ -62,13 +118,13 @@ export default {
 .modal-field {
   width: 100%;
   height: 100%;
-  background: #000000;
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 100;
   position: fixed;
-  top: 0px;
+  top: 0;
+  left: 0;
   left: 50%;
   transform: translateX(-50%);
-  opacity: 93%;
 }
 
 .modal-box {
@@ -76,7 +132,7 @@ export default {
   border: 1px solid #dcdfe6;
   border-radius: 5px;
   position: fixed;
-  top: 100px;
+  top: 25%;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -88,6 +144,7 @@ export default {
 
 .modal-callback {
   padding: 20px;
+  padding-top: 0;
   width: 310px;
   height: auto;
 }
@@ -110,13 +167,16 @@ input {
   font-weight: normal;
   cursor: pointer;
   border: 1px solid #dcdfe6;
-  background: #ffffff;
+  // background: #ffffff;
   border-radius: 5px;
   padding: 8px 14px;
   width: 120px;
+  color: white;
+  background-color: #f3911c;
 }
 .submit:hover {
-  box-shadow: inset 0px -20px 20px #ffffff;
+  background-color: darken(#f3911c, 10%);
+  // box-shadow: inset 0px -20px 20px #ffffff;
 }
 
 .submit:focus {
@@ -125,6 +185,7 @@ input {
 
 .form-callback {
   margin: 20px;
+  padding-top: 5px;
 }
 
 .modal-callback-title {
@@ -174,5 +235,8 @@ input {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   margin: -1px;
+}
+:deep(.el-notification) {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 </style>

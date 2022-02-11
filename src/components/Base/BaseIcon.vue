@@ -1,5 +1,5 @@
 <template>
-  <svg width="16" height="16" class="BaseIcon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" v-html="path"></svg>
+  <svg width="20" height="20" class="BaseIcon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" v-html="path"></svg>
 </template>
 
 <script>
