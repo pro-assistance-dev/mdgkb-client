@@ -2,12 +2,8 @@
   <div class="education">
     <div class="title-in">Новости</div>
     <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
-      <el-carousel-item v-for="(newsDoctor, i) in carousel" :key="i">
-        <!--        <template >-->
-        <!--        <div class="news-container">-->
-        <NewsCard v-for="item in newsDoctor" :key="item.id" :news="item.news" :article="true" />
-        <!--        </div>-->
-        <!--        </template>-->
+      <el-carousel-item v-for="(newsGroup, i) in carousel" :key="i">
+        <NewsCard v-for="item in newsGroup" :key="item.id" :news="item.news" :article="true" />
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -17,22 +13,22 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import NewsCard from '@/components/News/NewsCard.vue';
-import INewsDoctor from '@/interfaces/news/INewsDoctor';
+import IWithNews from '@/interfaces/IWithNews';
 
 export default defineComponent({
-  name: 'DoctorNews',
+  name: 'NewsSlider',
   props: {
-    newsDoctors: {
-      type: Object as PropType<INewsDoctor[]>,
+    news: {
+      type: Object as PropType<IWithNews[]>,
       required: true,
     },
   },
   components: { NewsCard },
   async setup(props) {
-    const carousel: Ref<INewsDoctor[][]> = ref([]);
+    const carousel: Ref<IWithNews[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
 
-    const makeCarousel = (array: INewsDoctor[], size: number): INewsDoctor[][] => {
+    const makeCarousel = (array: IWithNews[], size: number): IWithNews[][] => {
       // size - number of banners in el-carousel-item
       const subarray = [];
       for (let i = 0; i < Math.ceil(array.length / size); i++) {
@@ -42,7 +38,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      carousel.value = makeCarousel(props.newsDoctors, 3);
+      carousel.value = makeCarousel(props.news, 3);
       mounted.value = true;
     });
 

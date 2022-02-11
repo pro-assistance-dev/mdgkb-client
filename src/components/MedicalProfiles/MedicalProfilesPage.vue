@@ -1,28 +1,36 @@
 <template>
-  <h1>{{ medicalProfile.name }}</h1>
-  <div class="wrapper"></div>
+  <div v-if="mounted">
+    <h1>{{ medicalProfile.name }}</h1>
+    <div class="wrapper">
+      <NewsSlider :news="medicalProfile.medicalProfilesNews" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import NewsSlider from '@/components/NewsSlider.vue';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 
 export default defineComponent({
   name: 'MedicalProfileList',
-  components: {},
+  components: { NewsSlider },
   setup() {
     const store = useStore();
     const route = useRoute();
+    const mounted: Ref<boolean> = ref(false);
     const medicalProfile: ComputedRef<IMedicalProfile> = computed(() => store.getters['medicalProfiles/item']);
 
     onBeforeMount(async () => {
       await store.dispatch('medicalProfiles/get', route.params['id']);
+      mounted.value = true;
     });
 
     return {
+      mounted,
       medicalProfile,
     };
   },
