@@ -31,6 +31,7 @@
     "vue-advanced-cropper": "^2.5.0",
     "vue-router": "^4.0.0-0",
     "vue-social-sharing": "^4.0.0-alpha4",
+    "vue-yandex-maps": "^0.12.3",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.0-0"
   },

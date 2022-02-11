@@ -40,7 +40,7 @@ export default defineComponent({
       const filter: IFilterQuery = store.getters['filter/filterQuery'];
       filter.limit = 8;
       filter.main = true;
-      await store.dispatch('doctors/getAll', filter);
+      await store.dispatch('doctors/getAllMain', filter);
       carousel.value = makeCarousel(doctors.value, 3);
       mounted.value = true;
     });

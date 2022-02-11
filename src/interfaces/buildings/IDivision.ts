@@ -1,8 +1,10 @@
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
+import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDoctor from '@/interfaces/IDoctor';
+import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
@@ -39,4 +41,10 @@ export default interface IDivision {
   visitingRules: IVisitingRule[];
   visitingRulesForDelete: string[];
   divisionPaidServices: IDivisionPaidService[];
+  hospitalizationContactInfoId?: string;
+  hospitalizationContactInfo?: IContactInfo;
+  hospitalizationDoctorId?: string;
+  hospitalizationDoctor?: IDoctor;
+
+  medicalProfilesDivisions: IMedicalProfileDivision[];
 }

@@ -9,6 +9,7 @@ import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import MedicalOrganization from '@/components/MedicalOrganization/MedicalOrganization.vue';
 import MedicalOrganizationStructure from '@/components/MedicalOrganization/MedicalOrganizationStructure.vue';
+import MedicalProfilesList from '@/components/MedicalProfiles/MedicalProfilesList.vue';
 import MedicalProfilesPage from '@/components/MedicalProfiles/MedicalProfilesPage.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
@@ -144,6 +145,14 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/medical-profiles',
+    name: 'MedicalProfilesList',
+    component: MedicalProfilesList,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/medical-profiles/:id',
     name: 'MedicalProfilesPage',
     component: MedicalProfilesPage,
     beforeEnter(to, from, next) {

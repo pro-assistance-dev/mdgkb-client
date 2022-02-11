@@ -1,7 +1,9 @@
 import DivisionComment from '@/classes/buildings/DivisionComment';
 import Entrance from '@/classes/buildings/Entrance';
+import ContactInfo from '@/classes/contacts/ContactInfo';
 import DivisionPaidService from '@/classes/DivisionPaidService';
 import Doctor from '@/classes/Doctor';
+import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import Vacancy from '@/classes/Vacancy';
@@ -10,8 +12,10 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IEntrance from '@/interfaces/buildings/IEntrance';
+import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDoctor from '@/interfaces/IDoctor';
+import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
@@ -47,6 +51,11 @@ export default class Division implements IDivision {
   visitingRulesForDelete: string[] = [];
   buildingId?: string;
   divisionPaidServices: IDivisionPaidService[] = [];
+  hospitalizationContactInfo?: IContactInfo;
+  hospitalizationContactInfoId?: string;
+  hospitalizationDoctorId?: string;
+  hospitalizationDoctor?: IDoctor;
+  medicalProfilesDivisions: IMedicalProfileDivision[] = [];
   constructor(i?: IDivision) {
     if (!i) {
       return;
@@ -88,6 +97,17 @@ export default class Division implements IDivision {
     }
     if (i.divisionPaidServices) {
       this.divisionPaidServices = i.divisionPaidServices.map((item: IDivisionPaidService) => new DivisionPaidService(item));
+    }
+    this.hospitalizationContactInfoId = i.hospitalizationContactInfoId;
+    this.hospitalizationDoctorId = i.hospitalizationDoctorId;
+    if (i.hospitalizationContactInfo) {
+      this.hospitalizationContactInfo = new ContactInfo(i.hospitalizationContactInfo);
+    }
+    if (i.hospitalizationDoctor) {
+      this.hospitalizationDoctor = new Doctor(i.hospitalizationDoctor);
+    }
+    if (i.medicalProfilesDivisions) {
+      this.medicalProfilesDivisions = i.medicalProfilesDivisions.map((item: IMedicalProfileDivision) => new MedicalProfileDivision(item));
     }
   }
 }

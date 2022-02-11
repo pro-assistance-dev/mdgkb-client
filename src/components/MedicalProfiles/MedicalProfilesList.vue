@@ -1,11 +1,18 @@
 <template>
-  <h1>{{ medicalProfile.name }}</h1>
-  <div class="wrapper"></div>
+  <h1>Профили помощи</h1>
+  <div class="wrapper">
+    <template v-for="medicalProfile in medicalProfiles" :key="medicalProfile.id">
+      <el-card class="donor-card">
+        <div class="donor-img-container">
+          <div class="donor-img-container">{{ medicalProfile.name }}</div>
+        </div>
+      </el-card>
+    </template>
+  </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
@@ -15,15 +22,14 @@ export default defineComponent({
   components: {},
   setup() {
     const store = useStore();
-    const route = useRoute();
-    const medicalProfile: ComputedRef<IMedicalProfile> = computed(() => store.getters['medicalProfiles/item']);
+    const medicalProfiles: ComputedRef<IMedicalProfile[]> = computed(() => store.getters['medicalProfiles/items']);
 
     onBeforeMount(async () => {
-      await store.dispatch('medicalProfiles/get', route.params['id']);
+      await store.dispatch('medicalProfiles/getAll');
     });
 
     return {
-      medicalProfile,
+      medicalProfiles,
     };
   },
 });

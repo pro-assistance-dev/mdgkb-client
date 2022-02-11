@@ -5,64 +5,52 @@
     footer-button-title="Все профили"
     footer-button-link="/medical-profiles"
   >
-    <div class="main-medical-profiles">
-      <div v-for="item in items" :key="item.name" class="main-medical-profiles-card card-hover">
-        {{ item.name }}
+    <div v-if="mounted" class="main-medical-profiles">
+      <div v-for="item in medicalProfiles.splice(0, 12)" :key="item.name">
+        <div
+          :style="{ 'background-color': item.background }"
+          class="main-medical-profiles-card card-hover"
+          @click="$router.push(`/medical-profiles/${item.id}`)"
+        >
+          {{ item.name }}
+        </div>
       </div>
     </div>
   </component>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { useStore } from 'vuex';
 
 import MainContainer from '@/components/Main/MainContainer.vue';
+import IMedicalProfile from '@/interfaces/IMedicalProfile';
 
 export default defineComponent({
   name: 'MainMedicalProfiles',
   components: { MainContainer },
   setup() {
-    const items = [
-      {
-        name: 'Педиатрия',
-      },
-      {
-        name: 'Нейрохирургия',
-      },
-      {
-        name: 'Травматология',
-      },
-      {
-        name: 'Ортопедия',
-      },
-      {
-        name: 'Челюстно-лицевая хирургия',
-      },
-      {
-        name: 'Детская хирургия',
-      },
-      {
-        name: 'Детская кардиология',
-      },
-      {
-        name: 'Ревматология',
-      },
-      {
-        name: 'Пульмонология',
-      },
-      {
-        name: 'Неврология',
-      },
-      {
-        name: 'Гематология',
-      },
-      {
-        name: 'Детская онкология',
-      },
-    ];
+    const store = useStore();
+    const medicalProfiles: ComputedRef<IMedicalProfile[]> = computed(() => store.getters['medicalProfiles/items']);
+    const mounted: Ref<boolean> = ref(false);
+    onBeforeMount(async () => {
+      await store.dispatch('medicalProfiles/getAll');
+      setColors();
+      mounted.value = true;
+    });
+
+    const setColors = (): void => {
+      const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
+      let i = 0;
+      medicalProfiles.value.forEach((item) => {
+        item.background = colors[i];
+        i === colors.length - 1 ? (i = 0) : i++;
+      });
+    };
 
     return {
-      items,
+      medicalProfiles,
+      mounted,
     };
   },
 });
