@@ -4,13 +4,16 @@
   </button>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from '@vue/runtime-core';
+
 import BaseIcon from '@/components/Base/BaseIcon.vue';
-export default {
+export default defineComponent({
+  name: 'BaseModalButtonClose',
   components: {
     BaseIcon,
   },
-};
+});
 </script>
 
 <style scoped lang="scss">
@@ -18,6 +21,7 @@ export default {
   outline: none;
   border: none;
   background: none;
-  padding-right: 3px;
+  padding-top: 5px;
+  padding-right: 5px;
 }
 </style>

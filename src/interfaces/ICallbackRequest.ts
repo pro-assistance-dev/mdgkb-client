@@ -3,4 +3,5 @@ export default interface ICallbackRequest {
   name: string;
   description: string;
   phone: string;
+  formatPhoneNumber: () => void;
 }
