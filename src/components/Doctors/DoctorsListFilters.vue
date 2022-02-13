@@ -1,52 +1,54 @@
 <template>
   <div class="left-side-container">
-    <RemoteSearchV2 :key-value="schema.doctor.key" store-module="doctors" />
-    <FilterSelect
-      placeholder="Медицинское направление"
-      :options="schema.medicalProfile.options"
-      :table="schema.doctor.tableName"
-      :col="schema.doctor.medicalProfileId"
-      @load="loadDoctors"
-    />
-    <FilterSelect
-      placeholder="Отделение"
-      :options="schema.division.options"
-      :table="schema.doctor.tableName"
-      :col="schema.doctor.divisionId"
-      @load="loadDoctors"
-    />
-    <FilterCheckbox
-      label='Обладатели статуса "Московский врач"'
-      :table="schema.doctor.tableName"
-      :col="schema.doctor.mosDoctorLink"
-      :data-type="DataTypes.Boolean"
-      :operator="Operators.NotNull"
-      @load="loadDoctors"
-    />
-    <FilterCheckbox
-      label="С отзывами"
-      :table="schema.doctor.tableName"
-      :col="schema.doctor.commentsCount"
-      :data-type="DataTypes.Number"
-      :operator="Operators.Gt"
-      @load="loadDoctors"
-    />
-    <FilterCheckbox
-      label="Избранное"
-      :table="schema.doctor.tableName"
-      :col="schema.doctor.id"
-      :data-type="DataTypes.Join"
-      :operator="Operators.Eq"
-      :join-table="schema.doctorUser.tableName"
-      :join-table-fk="schema.doctorUser.doctorId"
-      :join-table-pk="schema.doctor.id"
-      :join-table-id="TokenService.getUserId()"
-      :join-table-id-col="schema.doctorUser.userId"
-      @load="loadDoctors"
-    />
+    <el-form>
+      <RemoteSearchV2 :key-value="schema.doctor.key" store-module="doctors" />
+      <FilterSelect
+        placeholder="Медицинское направление"
+        :options="schema.medicalProfile.options"
+        :table="schema.doctor.tableName"
+        :col="schema.doctor.medicalProfileId"
+        @load="loadDoctors"
+      />
+      <FilterSelect
+        placeholder="Отделение"
+        :options="schema.division.options"
+        :table="schema.doctor.tableName"
+        :col="schema.doctor.divisionId"
+        @load="loadDoctors"
+      />
+      <FilterCheckbox
+        label='Обладатели статуса "Московский врач"'
+        :table="schema.doctor.tableName"
+        :col="schema.doctor.mosDoctorLink"
+        :data-type="DataTypes.Boolean"
+        :operator="Operators.NotNull"
+        @load="loadDoctors"
+      />
+      <FilterCheckbox
+        label="С отзывами"
+        :table="schema.doctor.tableName"
+        :col="schema.doctor.commentsCount"
+        :data-type="DataTypes.Number"
+        :operator="Operators.Gt"
+        @load="loadDoctors"
+      />
+      <FilterCheckbox
+        label="Избранное"
+        :table="schema.doctor.tableName"
+        :col="schema.doctor.id"
+        :data-type="DataTypes.Join"
+        :operator="Operators.Eq"
+        :join-table="schema.doctorUser.tableName"
+        :join-table-fk="schema.doctorUser.doctorId"
+        :join-table-pk="schema.doctor.id"
+        :join-table-id="TokenService.getUserId()"
+        :join-table-id-col="schema.doctorUser.userId"
+        @load="loadDoctors"
+      />
 
-    <FilterReset @load="loadDoctors" />
-    <SortList :models="createSortModels()" @load="loadDoctors" />
+      <FilterReset @load="loadDoctors" />
+      <SortList :models="createSortModels()" @load="loadDoctors" />
+    </el-form>
   </div>
 </template>
 
@@ -92,6 +94,7 @@ export default defineComponent({
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     onBeforeMount(async () => {
+      store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
       store.commit('filter/setStoreModule', 'doctors');
       await loadDoctors();
