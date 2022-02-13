@@ -88,9 +88,9 @@ export default defineComponent({
 
 .name {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-family: 'Open sans', sans-serif, Arial;
   font-size: 16px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   color: #343e5c;
   align-items: center;
   font-weight: bold;
@@ -98,17 +98,20 @@ export default defineComponent({
 
 .reviews-date-time {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 11px;
+  font-family: 'Open sans', sans-serif, Arial;
+  letter-spacing: 0.06em;
+  font-size: 12px;
   color: #a9aec4;
+  font-weight: normal;
+  margin: 0 0 0 0;
 }
 
 .reviews-text {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 12px;
+  font-family: 'Open sans', sans-serif, Arial;
+  letter-spacing: 0.05em;
+  font-weight: normal;
+  font-size: 14px;
   color: #5d6477;
   margin-top: 25px;
   text-align: justify;
@@ -132,18 +135,19 @@ export default defineComponent({
 
 .review-for-review-info {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-family: 'Open sans', sans-serif, Arial;
   letter-spacing: 0.1em;
   font-size: 12px;
   color: #5d6477;
 }
 
 .review-for-review-text {
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 12px;
+  font-family: 'Open sans', sans-serif, Arial;
+  letter-spacing: 0.05em;
+  font-weight: normal;
+  font-size: 14px;
   color: #5d6477;
-  margin-left: 20px;
+  margin: 0 0 0 20px;
   text-align: justify;
 }
 </style>
