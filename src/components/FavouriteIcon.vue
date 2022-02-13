@@ -1,10 +1,21 @@
 <template>
-  <HeartFilled v-if="isFavourite" @click.stop="removeFromUser" />
-  <HeartOutlined v-else @click.stop="add" />
+  <Component
+    :is="require(`@/assets/doctors/svg/heartfill.svg`).default"
+    v-if="isFavourite"
+    id="heartfill-svg"
+    class="heart"
+    @click.stop="removeFromUser"
+  ></Component>
+  <Component
+    :is="require(`@/assets/doctors/svg/heartstroke.svg`).default"
+    v-else
+    id="heartstroke-svg"
+    class="heart"
+    @click.stop="add"
+  ></Component>
 </template>
 
 <script lang="ts">
-import { HeartFilled, HeartOutlined } from '@ant-design/icons-vue';
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, ref, watch } from 'vue';
 import { useStore } from 'vuex';
@@ -14,7 +25,6 @@ import TokenService from '@/services/Token';
 
 export default defineComponent({
   name: 'DoctorPage',
-  components: { HeartOutlined, HeartFilled },
   props: {
     domainName: {
       type: String,
@@ -77,7 +87,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.is-favourite {
-  color: orange;
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.heart {
+  padding: 6px 3px 3px 3px;
 }
 </style>
