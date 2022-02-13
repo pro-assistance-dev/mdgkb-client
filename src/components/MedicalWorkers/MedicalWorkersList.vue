@@ -2,10 +2,17 @@
   <div v-if="mount">
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
-        <DoctorsListFilters />
+        <ModeButtons
+          :second-mode-active="doctorsMode"
+          :store-mode="false"
+          :first-mode="'Врачи'"
+          :second-mode="'Руководство'"
+          @changeMode="changeMode"
+        />
+        <DoctorsListFilters v-if="doctorsMode" />
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
-        <el-row>
+        <el-row v-if="doctorsMode">
           <el-col
             v-for="doctor in doctors"
             :key="doctor.id"
@@ -20,6 +27,9 @@
             </div>
           </el-col>
         </el-row>
+        <div v-else>
+          <MedicalOrganizationStructureVertical />
+        </div>
         <LoadMoreButton @loadMore="loadMore" />
       </el-col>
     </el-row>
@@ -28,12 +38,14 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import DoctorsListFilters from '@/components/Doctors/DoctorsListFilters.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
+import MedicalOrganizationStructureVertical from '@/components/MedicalOrganization/MedicalOrganizationStructureVertical.vue';
+import ModeButtons from '@/components/ModeButtons.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Operators } from '@/interfaces/filters/Operators';
@@ -44,16 +56,20 @@ import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'DoctorPage',
   components: {
+    MedicalOrganizationStructureVertical,
     DoctorsListFilters,
     DoctorInfoCard,
     LoadMoreButton,
+    ModeButtons,
   },
 
   setup() {
     const store = useStore();
     const route = useRoute();
+    const router = useRouter();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const mount = ref(false);
+    const doctorsMode: Ref<boolean> = ref(route.path === '/doctors');
 
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
@@ -62,6 +78,15 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       mount.value = true;
     });
+
+    const changeMode = async (doctorsModeActive: boolean) => {
+      doctorsMode.value = doctorsModeActive;
+      if (doctorsModeActive) {
+        await router.replace('/doctors');
+      } else {
+        await router.replace('/heads');
+      }
+    };
 
     const loadMore = async () => {
       const lastCursor = doctors.value[doctors.value.length - 1].human.getFullName();
@@ -74,6 +99,8 @@ export default defineComponent({
     };
 
     return {
+      doctorsMode,
+      changeMode,
       TokenService,
       Operators,
       DataTypes,

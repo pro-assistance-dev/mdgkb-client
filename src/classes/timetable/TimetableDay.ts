@@ -84,7 +84,7 @@ export default class TimetableDay implements ITimetableDay {
   getPeriodWithName(): string {
     let period = this.getPeriod();
     period = `${this.isWeekend ? 'выходной' : period} `;
-    period = `${this.weekday.name}: ${this.isWeekend ? 'выходной' : period} `;
+    period = `${this.weekday.shortName}: ${this.isWeekend ? 'выходной' : period} `;
     if (this.weekday.isToday()) {
       const arrow = '⇽';
       period = `${period} ${arrow}`;

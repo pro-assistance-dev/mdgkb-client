@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import DoctorPage from '@/components/Doctors/DoctorPage.vue';
-import DoctorsList from '@/components/Doctors/DoctorsList.vue';
+import MedicalWorkersList from '@/components/MedicalWorkers/MedicalWorkersList.vue';
 import { isAuthorized } from '@/router/index';
 
 export default [
@@ -14,11 +14,16 @@ export default [
     },
   },
   {
-    path: '/doctors/',
+    path: '/doctors',
     name: 'DoctorsList',
-    component: DoctorsList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    component: MedicalWorkersList,
   },
+  // {
+  //   path: '/doctors/',
+  //   name: 'DoctorsList',
+  //   component: DoctorsList,
+  //   beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+  //     isAuthorized(next);
+  //   },
+  // },
 ];

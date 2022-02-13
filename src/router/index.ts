@@ -11,6 +11,7 @@ import MedicalOrganization from '@/components/MedicalOrganization/MedicalOrganiz
 import MedicalOrganizationStructure from '@/components/MedicalOrganization/MedicalOrganizationStructure.vue';
 import MedicalProfilesList from '@/components/MedicalProfiles/MedicalProfilesList.vue';
 import MedicalProfilesPage from '@/components/MedicalProfiles/MedicalProfilesPage.vue';
+import MedicalWorkersList from '@/components/MedicalWorkers/MedicalWorkersList.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
@@ -144,14 +145,6 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/medical-profiles',
-    name: 'MedicalProfilesList',
-    component: MedicalProfilesList,
-    beforeEnter(to, from, next) {
-      isAuthorized(next);
-    },
-  },
-  {
     path: '/medical-profiles/:id',
     name: 'MedicalProfilesPage',
     component: MedicalProfilesPage,
@@ -160,9 +153,22 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: '/medical-profiles',
+    name: 'MedicalProfilesList',
+    component: MedicalProfilesList,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+    },
+  },
+  {
     path: '/public-documents',
     name: 'PublicDocumentsList',
     component: PublicDocumentsList,
+  },
+  {
+    path: '/heads',
+    name: 'HeadsList',
+    component: MedicalWorkersList,
   },
   {
     path: '/site-map',
