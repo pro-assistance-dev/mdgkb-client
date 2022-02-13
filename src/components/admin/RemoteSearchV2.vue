@@ -1,15 +1,17 @@
 <template>
-  <el-form-item>
-    <el-autocomplete
-      v-model="queryString"
-      style="width: 100%; margin-right: 10px"
-      popper-class="wide-dropdown"
-      :fetch-suggestions="find"
-      placeholder="Введите ФИО врача"
-      @select="handleSelect"
-      @input="handleSearchInput"
-    />
-  </el-form-item>
+  <el-form>
+    <el-form-item>
+      <el-autocomplete
+        v-model="queryString"
+        style="width: 100%; margin-right: 10px"
+        popper-class="wide-dropdown"
+        :fetch-suggestions="find"
+        :placeholder="placeHolder"
+        @select="handleSelect"
+        @input="handleSearchInput"
+      />
+    </el-form-item>
+  </el-form>
 </template>
 
 <script lang="ts">
@@ -35,6 +37,10 @@ export default defineComponent({
     storeModule: {
       type: String as PropType<string>,
       default: '',
+    },
+    placeHolder: {
+      type: String as PropType<string>,
+      default: 'Поиск',
     },
   },
   emits: ['select'],

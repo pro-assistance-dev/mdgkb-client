@@ -3,15 +3,15 @@
     <div class="filter-form">
       <el-form label-position="top" :model="filterModel">
         <el-form-item :label="label">
-          <el-select v-model="filterModel.operator" size="mini" placeholder="Выберите дату..." @click="setTrigger('manual')">
-            <el-option
-              v-for="(item, index) in filterList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-              @click="setTrigger('click')"
-            ></el-option>
-          </el-select>
+          <!--          <el-select v-model="filterModel.operator" size="mini" placeholder="Выберите дату..." @click="setTrigger('manual')">-->
+          <!--            <el-option-->
+          <!--              v-for="(item, index) in filterList"-->
+          <!--              :key="index"-->
+          <!--              :label="item.label"-->
+          <!--              :value="item.value"-->
+          <!--              @click="setTrigger('click')"-->
+          <!--            ></el-option>-->
+          <!--          </el-select>-->
         </el-form-item>
         <el-form-item v-if="filterModel.isUnaryFilter()">
           <el-date-picker v-model="filterModel.date1" size="mini" format="DD.MM.YYYY" @change="onchange"></el-date-picker>
@@ -30,10 +30,8 @@ import { defineComponent, PropType, Ref, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
-import OperatorsOptions from '@/classes/filters/OperatorsOptions';
 import FilterPopover from '@/components/Filters/FilterPopover.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IOption from '@/interfaces/shared/IOption';
 
 export default defineComponent({
   name: 'FilterSelectForm',
@@ -55,7 +53,7 @@ export default defineComponent({
   setup(props) {
     const { table, col } = toRefs(props);
     const store = useStore();
-    const filterList: IOption[] = OperatorsOptions;
+    // const filterList: IOption[] = OperatorsOptions;
     const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.Date));
     const value: Ref<string> = ref('');
 
@@ -76,7 +74,7 @@ export default defineComponent({
       addFilterModel,
       filterModel,
       setTrigger,
-      filterList,
+      // filterList,
       value,
     };
   },

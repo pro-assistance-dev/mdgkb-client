@@ -1,9 +1,11 @@
 <template>
-  <el-form-item>
-    <el-select v-model="selectedModel" :clearable="!defaultSortOn" placeholder="Сортировать" @change="setSort">
-      <el-option v-for="item in models" :key="item.label" :label="item.label" :value="item"> </el-option>
-    </el-select>
-  </el-form-item>
+  <el-form>
+    <el-form-item>
+      <el-select v-model="selectedModel" :clearable="!defaultSortOn" placeholder="Сортировать" @change="setSort">
+        <el-option v-for="item in models" :key="item.label" :label="item.label" :value="item"> </el-option>
+      </el-select>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script lang="ts">

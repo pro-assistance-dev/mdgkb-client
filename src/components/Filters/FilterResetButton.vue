@@ -1,7 +1,9 @@
 <template>
   <div class="load-more">
     <el-row class="mb-4">
-      <el-button native-type="reset" type="primary" round @click="reset">Сбросить фильтры</el-button>
+      <el-form>
+        <el-button native-type="reset" type="primary" round @click="reset">Сбросить фильтры</el-button>
+      </el-form>
     </el-row>
   </div>
 </template>
