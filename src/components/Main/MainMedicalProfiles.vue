@@ -12,7 +12,9 @@
           class="main-medical-profiles-card card-hover"
           @click="$router.push(`/medical-profiles/${item.id}`)"
         >
-          {{ item.name }}
+          <div class="main-medical-profiles-card-name">
+            {{ item.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -47,8 +49,11 @@ export default defineComponent({
         i === colors.length - 1 ? (i = 0) : i++;
       });
     };
-
+    const getIcon = (i: number): string => {
+      return `/src/assets/medicine/${i + 1}.png`;
+    };
     return {
+      getIcon,
       medicalProfiles,
       mounted,
     };
@@ -73,6 +78,16 @@ export default defineComponent({
     height: 0;
     padding-top: 20px;
     padding-bottom: 100%;
+    &-name {
+      height: 20%;
+    }
+    &-svg {
+      max-height: 150px;
+      max-width: 150px;
+      margin: 5px;
+      transform: scale(0.65);
+      fill: white;
+    }
   }
 }
 </style>

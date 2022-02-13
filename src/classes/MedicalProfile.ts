@@ -14,6 +14,7 @@ export default class MedicalProfile implements IMedicalProfile {
   iconId?: string;
   medicalProfilesDivisions: IMedicalProfileDivision[] = [];
   medicalProfilesNews: IMedicalProfileNews[] = [];
+  fill = '';
   background = '';
 
   constructor(i?: IMedicalProfile) {
@@ -39,7 +40,7 @@ export default class MedicalProfile implements IMedicalProfile {
     if (this.icon.fileSystemPath) {
       return this.icon.getFileUrl();
     }
-    const numberOfImg = Math.floor(Math.random() * (70 - 1 + 1) + 1);
+    // const numberOfImg = Math.floor(Math.random() * (70 - 1 + 1) + 1);
     return '';
     // return require(`../assets/medicine/${numberOfImg}.svg`);
   }

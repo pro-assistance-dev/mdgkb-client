@@ -46,9 +46,9 @@ export default defineComponent({
     const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String));
     filterModel.value.operator = Operators.Eq;
 
-    const addFilterModel = () => {
+    const addFilterModel = (value: unknown) => {
       store.commit('filter/setFilterModel', filterModel.value);
-      emit('load');
+      emit('load', value);
     };
 
     const dropFilterModel = () => {

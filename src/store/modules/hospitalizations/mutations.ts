@@ -1,21 +1,16 @@
 import { MutationTree } from 'vuex';
 
-import Hospitalization from '@/classes/hospitalizations/Hospitalization';
-import IHospitalization from '@/interfaces/hospitalizations/IHospitalization';
+import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
+import IHospitalizationType from '@/interfaces/IHospitalizationType';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, hospitalizations: IHospitalization[]) {
-    state.paidHospitalizations = [];
-    state.insuranceHospitalizations = [];
-    hospitalizations?.forEach((item: IHospitalization) => {
-      if (item.paid) {
-        state.paidHospitalizations.push(new Hospitalization(item));
-      } else {
-        state.insuranceHospitalizations.push(new Hospitalization(item));
-      }
-    });
+  setAll(state, hospitalizations: IHospitalizationType[]) {
+    state.items = hospitalizations.map((item: IHospitalizationType) => new HospitalizationType(item));
+  },
+  selectHospitalization(state, hospitalization: IHospitalizationType) {
+    state.selectedHospitalization = hospitalization;
   },
 };
 
