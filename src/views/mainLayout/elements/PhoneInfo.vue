@@ -3,14 +3,10 @@
     <li>
       <div v-if="scrollOffset >= 66" class="menu-right-block">
         <div class="login-and-search">
-            <LoginDropdownMenu />
-            <!-- <svg class="icon-search">
-              <use xlink:href="#icon-search"></use>
-            </svg> -->
-            <el-button class="search" v-if="scrollOffset >= 66 || tabletWindow" icon="el-icon-search" @click="showSearchDrawer"></el-button>
+          <LoginDropdownMenu />
+          <el-button v-if="scrollOffset >= 66 || tabletWindow" class="search" icon="el-icon-search" @click="showSearchDrawer"></el-button>
         </div>
       </div>
-      
     </li>
     <li>
       <div v-if="scrollOffset < 66" class="menu-right-block">
@@ -37,19 +33,24 @@
           <small>Вход на территорию больницы с 1-ого Добрынинского переулка.</small>
         </div>
         <div class="icons">
-          <a href="#" class="social-icon">
+          <a href="https://www.facebook.com/Morozdgkbdzm/" class="social-icon" target="_blank">
             <svg class="icon-fb">
               <use xlink:href="#icon-FB"></use>
             </svg>
           </a>
-          <a href="#" class="social-icon">
+          <a href="https://www.instagram.com/Morozdgkbdzm/" class="social-icon" target="_blank">
             <svg class="icon-insta">
               <use xlink:href="#icon-insta"></use>
             </svg>
           </a>
-          <a href="#" class="social-icon">
+          <a href="https://www.youtube.com/channel/UCG0gK-lfsZUVe6TvTrZh8uA" class="social-icon" target="_blank">
             <svg class="icon-yt">
               <use xlink:href="#icon-YT"></use>
+            </svg>
+          </a>
+          <a href="https://vk.com/morozdgkbdzm" class="social-icon" target="_blank">
+            <svg class="icon-vk">
+              <use xlink:href="#icon-VK"></use>
             </svg>
           </a>
         </div>
@@ -70,10 +71,17 @@
       ></path>
     </symbol>
 
-    <symbol id="icon-FB" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
-      <path
-        d="M28.3442 0H1.65583C1.21668 0 0.795511 0.174453 0.484982 0.484982C0.174453 0.795511 0 1.21668 0 1.65583V28.3446C0.000110489 28.7837 0.174613 29.2047 0.48513 29.5152C0.795647 29.8256 1.21675 30 1.65583 30H16.0238V18.3825H12.1142V13.855H16.0238V10.5158C16.0238 6.64083 18.3904 4.53125 21.8471 4.53125C23.5029 4.53125 24.9258 4.65417 25.3408 4.70958V8.75917L22.9433 8.76042C21.0633 8.76042 20.6996 9.65375 20.6996 10.9646V13.8554H25.1829L24.5992 18.3829H20.6996V30H28.3446C28.7837 29.9999 29.2047 29.8254 29.5152 29.5149C29.8256 29.2044 30 28.7832 30 28.3442V1.65583C30 1.21668 29.8255 0.795511 29.515 0.484982C29.2045 0.174453 28.7833 0 28.3442 0Z"
-      ></path>
+    <symbol id="icon-FB" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+      <g clip-path="url(#clip0_1218_48)">
+        <path
+          d="M182.594 0C81.445 0 0 81.445 0 182.594V817.407C0 918.556 81.445 1000 182.594 1000H526.657V609.063H423.282V468.313H526.657V348.063C526.657 253.588 587.736 166.844 728.438 166.844C785.406 166.844 827.532 172.313 827.532 172.313L824.219 303.751C824.219 303.751 781.256 303.345 734.375 303.345C683.636 303.345 675.5 326.723 675.5 365.533V468.314H828.25L821.594 609.064H675.5V1000H817.406C918.555 1000 1000 918.557 1000 817.408V182.595C1000 81.446 918.555 0.001 817.406 0.001H182.593L182.594 0Z"
+        ></path>
+      </g>
+      <defs>
+        <clipPath id="clip0_1218_48">
+          <rect width="1000" height="1000" fill="white"></rect>
+        </clipPath>
+      </defs>
     </symbol>
 
     <symbol id="icon-YT" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
@@ -82,10 +90,18 @@
       ></path>
     </symbol>
 
-    <!-- <symbol  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-search">
-      <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M20.9999 20.9999L16.6499 16.6499" stroke="black" stroke-linecap="round" stroke-linejoin="round"></path>
-    </symbol> -->
+    <symbol id="icon-VK" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+      <g clip-path="url(#clip0_1218_46)">
+        <path
+          d="M20.911 0H11.088C2.12402 0 -0.000976562 2.125 -0.000976562 11.089V20.912C-0.000976562 29.876 2.12402 32.001 11.088 32.001H20.911C29.875 32.001 32 29.876 32 20.912V11.089C32 2.125 29.854 0 20.911 0ZM25.833 22.828H23.51C22.63 22.828 22.359 22.13 20.776 20.526C19.401 19.193 18.792 19.016 18.453 19.016C17.974 19.016 17.838 19.151 17.838 19.808V21.907C17.838 22.47 17.661 22.808 16.171 22.808C13.707 22.808 10.973 21.318 9.05602 18.542C6.16502 14.474 5.37402 11.427 5.37402 10.797C5.37402 10.458 5.50902 10.141 6.16002 10.141H8.48802C9.07702 10.141 9.30102 10.412 9.53002 11.042C10.681 14.365 12.598 17.276 13.389 17.276C13.681 17.276 13.816 17.141 13.816 16.396V12.964C13.727 11.381 12.894 11.245 12.894 10.683C12.894 10.412 13.118 10.141 13.477 10.141H17.138C17.633 10.141 17.815 10.412 17.815 10.995V15.625C17.815 16.125 18.039 16.302 18.174 16.302C18.466 16.302 18.716 16.125 19.257 15.583C20.929 13.708 22.127 10.817 22.127 10.817C22.283 10.478 22.554 10.161 23.143 10.161H25.471C26.169 10.161 26.325 10.52 26.169 11.02C25.877 12.374 23.028 16.395 23.028 16.395C22.783 16.801 22.689 16.978 23.028 17.431C23.278 17.77 24.091 18.473 24.632 19.103C25.627 20.233 26.392 21.181 26.596 21.837C26.825 22.488 26.487 22.827 25.83 22.827L25.833 22.828Z"
+        ></path>
+      </g>
+      <defs>
+        <clipPath id="clip0_1218_46">
+          <rect width="32" height="32" fill="white"></rect>
+        </clipPath>
+      </defs>
+    </symbol>
   </svg>
 </template>
 
@@ -230,40 +246,53 @@ ul.menu-right li {
 .icon-fb {
   width: 25px;
   height: 25px;
-  fill: #1979cf;
+  fill: #406cff;
   transition: 0.25s;
   cursor: pointer;
   padding: 10px;
 }
 
 .icon-fb:hover {
-  fill: #0034cf;
+  fill: #133dcc;
 }
 
 .icon-insta {
   width: 25px;
   height: 25px;
-  fill: #1979cf;
+  fill: #406cff;
   transition: 0.25s;
   cursor: pointer;
   padding: 10px;
 }
 
 .icon-insta:hover {
-  fill: #0034cf;
+  fill: #133dcc;
 }
 
 .icon-yt {
   width: 25px;
   height: 25px;
-  fill: #1979cf;
+  fill: #406cff;
   transition: 0.25s;
   cursor: pointer;
   padding: 10px;
 }
 
 .icon-yt:hover {
-  fill: #0034cf;
+  fill: #133dcc;
+}
+
+.icon-vk {
+  width: 25px;
+  height: 25px;
+  fill: #406cff;
+  transition: 0.25s;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.icon-vk:hover {
+  fill: #133dcc;
 }
 
 .info {
@@ -323,7 +352,7 @@ button {
 
 .search:hover {
   background-color: #ffffff;
-  color: #343e5c
+  color: #343e5c;
 }
 
 .login-and-search {
