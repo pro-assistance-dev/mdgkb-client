@@ -38,11 +38,11 @@ const mutations: MutationTree<State> = {
       filterModel.boolean = false;
       filterModel.set = [];
     });
-    state.filterQuery.sortModels.forEach((sortModel: ISortModel) => {
-      sortModel.order = undefined;
-    });
+    // state.filterQuery.sortModels.forEach((sortModel: ISortModel) => {
+    //   sortModel.order = undefined;
+    // });
     state.filterQuery.filterModels = [];
-    state.filterQuery.sortModels = [];
+    // state.filterQuery.sortModels = [];
   },
   setFilterModel(state, filterModel: IFilterModel) {
     filterModel.isSet = true;
@@ -71,7 +71,10 @@ const mutations: MutationTree<State> = {
   },
   spliceFilterModel(state, id: string) {
     const index = state.filterQuery.filterModels.findIndex((i: IFilterModel) => i.id === id);
-    if (index > -1) state.filterQuery.filterModels.splice(index, 1);
+    console.log(index);
+    if (index > -1) {
+      state.filterQuery.filterModels.splice(index, 1);
+    }
   },
 };
 

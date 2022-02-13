@@ -1,17 +1,16 @@
 <template>
   <el-form-item>
-    <el-select v-model="selectedModel" clearable placeholder="Сортировать" @change="setSort">
+    <el-select v-model="selectedModel" :clearable="!defaultSortOn" placeholder="Сортировать" @change="setSort">
       <el-option v-for="item in models" :key="item.label" :label="item.label" :value="item"> </el-option>
     </el-select>
   </el-form-item>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import ISortModel from '@/interfaces/filters/ISortModel';
-import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
   name: 'SortList',
@@ -27,24 +26,39 @@ export default defineComponent({
     const store = useStore();
     const storeModule: string = store.getters['filter/storeModule'];
     const storeAction: string = store.getters['filter/storeAction'];
-
-    // const selectedModel: Ref<ISortModel | undefined> = ref(props.models?.find((prop: ISortModel) => prop.default));
+    const defaultSortOn: Ref<boolean> = ref(false);
     const selectedModel: Ref<string> = ref('');
-
-    const options: Ref<IOption[]> = ref([]);
 
     const sort = async () => {
       await store.dispatch(`${storeModule}/${storeAction}`, store.getters['filter/filterQuery']);
     };
 
+    const setDefaultSort = () => {
+      const defaultSort = props.models.find((sortModel: ISortModel) => sortModel.default);
+      if (defaultSort) {
+        selectedModel.value = defaultSort.label;
+        store.commit('filter/replaceSortModel', defaultSort);
+      }
+      defaultSortOn.value = true;
+    };
+
+    onBeforeMount(async (): Promise<void> => {
+      setDefaultSort();
+    });
+
     const setSort = async (sortModel: ISortModel) => {
       selectedModel.value = sortModel.label;
-      store.commit('filter/replaceSortModel', sortModel);
+      if (sortModel) {
+        store.commit('filter/replaceSortModel', sortModel);
+        defaultSortOn.value = sortModel.default;
+      } else {
+        setDefaultSort();
+      }
       emit('load');
     };
 
     return {
-      options,
+      defaultSortOn,
       setSort,
       selectedModel,
       sort,

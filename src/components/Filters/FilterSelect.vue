@@ -2,7 +2,7 @@
   <div class="filter-form">
     <el-form :gutter="12" label-position="top">
       <el-form-item>
-        <el-select v-model="filterModel.value1" clearable :placeholder="placeholder" round @change="addFilterModel">
+        <el-select v-model="filterModel.value1" filterable clearable :placeholder="placeholder" round @change="addFilterModel">
           <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
         </el-select>
       </el-form-item>
@@ -46,8 +46,13 @@ export default defineComponent({
     const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String));
     filterModel.value.operator = Operators.Eq;
 
-    const addFilterModel = (value: unknown) => {
-      store.commit('filter/setFilterModel', filterModel.value);
+    const addFilterModel = (value: string) => {
+      if (!filterModel.value.value1) {
+        dropFilterModel();
+      }
+      if (filterModel.value.value1) {
+        store.commit('filter/setFilterModel', filterModel.value);
+      }
       emit('load', value);
     };
 
@@ -58,7 +63,6 @@ export default defineComponent({
     };
 
     return {
-      dropFilterModel,
       addFilterModel,
       filterModel,
     };
