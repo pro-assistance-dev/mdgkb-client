@@ -157,6 +157,18 @@ export default defineComponent({
   overflow-y: auto;
   width: 500px !important;
 }
+
+:deep(.el-checkbox__inner) {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #b5b5b5;
+}
+
+:deep(.el-checkbox__inner::after) {
+  height: 10px;
+  width: 6px;
+  top: 0px;
+}
 :deep(.el-checkbox__label) {
   display: block !important;
   word-wrap: break-word !important;

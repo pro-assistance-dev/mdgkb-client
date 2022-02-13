@@ -1,7 +1,9 @@
 <template>
-  <el-select v-model="selectedModel" class="m-2" placeholder="Select" size="large" @change="setSort">
-    <el-option v-for="item in models" :key="item.label" :label="item.label" :value="item"> </el-option>
-  </el-select>
+  <el-form-item>
+    <el-select v-model="selectedModel" clearable placeholder="Сортировать" @change="setSort">
+      <el-option v-for="item in models" :key="item.label" :label="item.label" :value="item"> </el-option>
+    </el-select>
+  </el-form-item>
 </template>
 
 <script lang="ts">
@@ -61,5 +63,30 @@ export default defineComponent({
 }
 .set {
   color: #5cb6ff;
+}
+
+:deep(.el-input__inner) {
+  border-radius: 20px;
+  padding-left: 25px;
+  height: 38px;
+  width: 100%;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+:deep(.el-input__inner::placeholder) {
+  color: #4a4a4a;
+}
+
+:deep(.el-select .el-input .el-select__caret) {
+  color: #4a4a4a;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.el-select {
+  width: 100%;
 }
 </style>

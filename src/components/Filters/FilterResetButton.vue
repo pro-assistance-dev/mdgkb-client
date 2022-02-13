@@ -1,6 +1,8 @@
 <template>
   <div class="load-more">
-    <el-button @click="reset">Очистить все фильтры</el-button>
+    <el-row class="mb-4">
+      <el-button native-type="reset" type="primary" round @click="reset">Сбросить фильтры</el-button>
+    </el-row>
   </div>
 </template>
 
@@ -28,4 +30,24 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 // @import '@/assets/elements/filterForm.scss';
+:deep(.el-button) {
+  background: #2754eb;
+  border: 1px solid#2754EB;
+  color: #ffffff;
+  margin-bottom: 20px;
+  min-height: 38px;
+  font-size: 14px;
+}
+
+:deep(.el-button:hover) {
+  background: darken(#2754eb, 10%);
+  border: 1px solid#2754EB;
+  color: #ffffff;
+}
+
+:deep(.el-button:active) {
+  background: #2754eb;
+  border: 1px solid#2754EB;
+  color: #ffffff;
+}
 </style>

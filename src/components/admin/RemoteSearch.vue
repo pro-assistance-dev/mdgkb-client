@@ -1,13 +1,15 @@
 <template>
-  <el-autocomplete
-    v-model="queryString"
-    style="width: 100%; margin-bottom: 20px; margin-right: 10px"
-    popper-class="wide-dropdown"
-    :fetch-suggestions="find"
-    :placeholder="placeholder"
-    @select="handleSelect"
-    @input="handleSearchInput"
-  />
+  <el-form-item>
+    <el-autocomplete
+      v-model="queryString"
+      style="width: 100%; margin-bottom: 20px; margin-right: 10px"
+      popper-class="wide-dropdown"
+      :fetch-suggestions="find"
+      :placeholder="placeholder"
+      @select="handleSelect"
+      @input="handleSearchInput"
+    />
+  </el-form-item>
 </template>
 
 <script lang="ts">
@@ -79,5 +81,15 @@ $margin: 20px 0;
   align-items: center;
   justify-content: flex-end;
   margin: $margin;
+}
+
+:deep(.el-input__inner) {
+  border-radius: 20px;
+  padding-left: 25px;
+  height: 38px;
+  width: 100%;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 15px;
 }
 </style>

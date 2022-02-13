@@ -1,8 +1,8 @@
 <template>
   <div class="filter-form">
-    <el-form :gutter="12" label-position="top">
+    <el-form :gutter="12" class="radius" label-position="top">
       <el-form-item>
-        <el-select v-model="filterModel.value1" clearable :placeholder="placeholder" round @change="addFilterModel">
+        <el-select v-model="filterModel.value1" size="mini" :placeholder="placeholder" @change="addFilterModel">
           <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
         </el-select>
       </el-form-item>
@@ -68,29 +68,4 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 // @import '@/assets/elements/filterForm.scss';
-
-:deep(.el-input__inner) {
-  border-radius: 20px;
-  padding-left: 25px;
-  height: 38px;
-  width: 100%;
-  display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  font-size: 15px;
-}
-
-:deep(.el-input__inner::placeholder) {
-  color: #4a4a4a;
-}
-
-:deep(.el-select .el-input .el-select__caret) {
-  color: #4a4a4a;
-  font-size: 16px;
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-.el-select {
-  width: 100%;
-}
 </style>

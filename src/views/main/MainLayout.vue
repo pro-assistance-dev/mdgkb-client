@@ -86,4 +86,16 @@ export default defineComponent({
   padding-top: 0px;
   margin: 20px;
 }
+
+:deep(.el-checkbox__inner) {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #b5b5b5;
+}
+
+:deep(.el-checkbox__inner::after) {
+  height: 10px;
+  width: 6px;
+  top: 0px;
+}
 </style>
