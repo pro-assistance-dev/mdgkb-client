@@ -18,7 +18,7 @@ export default class FilterQuery implements IFilterQuery {
   toUrl(): string {
     // const offset = `offset=${this.pagination.offset}`;
     // const limit = `limit=${this.pagination.limit}`;
-    const filterModels = this.filterModels.map((filterModel: IFilterModel) => {
+    const filterModels = this.filterModels?.map((filterModel: IFilterModel) => {
       return `filterModel=${JSON.stringify(filterModel)}`;
     });
     const sortModels = this.sortModels.map((sortModels: ISortModel) => {

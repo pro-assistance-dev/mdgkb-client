@@ -2,8 +2,10 @@
   <div class="filter-form">
     <el-form :gutter="12" label-position="top">
       <el-form-item>
-        <el-select v-model="filterModel.value1" filterable clearable :placeholder="placeholder" round @change="addFilterModel">
-          <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
+        <el-select v-model="filterModel.date1" filterable clearable placeholder="Выберите дату" round @change="addFilterModel">
+          <el-option label="Сегодня" :value="new Date()"></el-option>
+          <el-option label="Вчера" :value="new Date() - 1"></el-option>
+          <el-option label="Позавчера" :value="new Date() - 2"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -17,10 +19,9 @@ import { useStore } from 'vuex';
 import FilterModel from '@/classes/filters/FilterModel';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
-  name: 'FilterSelect',
+  name: 'FilterSelectDate',
   props: {
     table: {
       type: String as PropType<string>,
@@ -29,10 +30,6 @@ export default defineComponent({
     col: {
       type: String as PropType<string>,
       default: '',
-    },
-    options: {
-      type: Array as PropType<IOption[]>,
-      default: () => [],
     },
     placeholder: {
       type: String as PropType<string>,
@@ -43,10 +40,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const { table, col } = toRefs(props);
     const store = useStore();
-    const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String));
+    const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.Date));
     filterModel.value.operator = Operators.Eq;
 
     const addFilterModel = (value: string) => {
+      console.log(value);
       if (!filterModel.value.value1) {
         dropFilterModel();
       }

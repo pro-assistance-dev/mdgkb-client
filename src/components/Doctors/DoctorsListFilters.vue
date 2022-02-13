@@ -1,60 +1,58 @@
 <template>
   <div class="left-side-container">
-    <el-form>
-      <RemoteSearchV2 :key-value="schema.doctor.key" store-module="doctors" />
-      <FilterSelect
-        placeholder="Медицинское направление"
-        :options="schema.medicalProfile.options"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.medicalProfileId"
-        @load="loadDoctors"
-      />
-      <FilterSelect
-        placeholder="Отделение"
-        :options="schema.division.options"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.divisionId"
-        @load="loadDoctors"
-      />
-      <FilterCheckbox
-        label='Обладатели статуса "Московский врач"'
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.mosDoctorLink"
-        :data-type="DataTypes.Boolean"
-        :operator="Operators.NotNull"
-        @load="loadDoctors"
-      />
-      <FilterCheckbox
-        label="С отзывами"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.commentsCount"
-        :data-type="DataTypes.Number"
-        :operator="Operators.Gt"
-        @load="loadDoctors"
-      />
-      <FilterCheckbox
-        label="Избранное"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.id"
-        :data-type="DataTypes.Join"
-        :operator="Operators.Eq"
-        :join-table="schema.doctorUser.tableName"
-        :join-table-fk="schema.doctorUser.doctorId"
-        :join-table-pk="schema.doctor.id"
-        :join-table-id="TokenService.getUserId()"
-        :join-table-id-col="schema.doctorUser.userId"
-        @load="loadDoctors"
-      />
+    <RemoteSearchV2 :key-value="schema.doctor.key" @select="selectSearch" />
+    <FilterSelect
+      placeholder="Медицинское направление"
+      :options="schema.medicalProfile.options"
+      :table="schema.doctor.tableName"
+      :col="schema.doctor.medicalProfileId"
+      @load="loadDoctors"
+    />
+    <FilterSelect
+      placeholder="Отделение"
+      :options="schema.division.options"
+      :table="schema.doctor.tableName"
+      :col="schema.doctor.divisionId"
+      @load="loadDoctors"
+    />
+    <FilterCheckbox
+      label='Обладатели статуса "Московский врач"'
+      :table="schema.doctor.tableName"
+      :col="schema.doctor.mosDoctorLink"
+      :data-type="DataTypes.Boolean"
+      :operator="Operators.NotNull"
+      @load="loadDoctors"
+    />
+    <FilterCheckbox
+      label="С отзывами"
+      :table="schema.doctor.tableName"
+      :col="schema.doctor.commentsCount"
+      :data-type="DataTypes.Number"
+      :operator="Operators.Gt"
+      @load="loadDoctors"
+    />
+    <FilterCheckbox
+      label="Избранное"
+      :table="schema.doctor.tableName"
+      :col="schema.doctor.id"
+      :data-type="DataTypes.Join"
+      :operator="Operators.Eq"
+      :join-table="schema.doctorUser.tableName"
+      :join-table-fk="schema.doctorUser.doctorId"
+      :join-table-pk="schema.doctor.id"
+      :join-table-id="TokenService.getUserId()"
+      :join-table-id-col="schema.doctorUser.userId"
+      @load="loadDoctors"
+    />
 
-      <FilterReset @load="loadDoctors" />
-      <SortList :models="createSortModels()" @load="loadDoctors" />
-    </el-form>
+    <FilterReset @load="loadDoctors" />
+    <SortList :models="createSortModels()" @load="loadDoctors" />
   </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
@@ -70,6 +68,7 @@ import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
+import ISearchObject from '@/interfaces/ISearchObject';
 import ISchema from '@/interfaces/schema/ISchema';
 import TokenService from '@/services/Token';
 
@@ -86,6 +85,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
+    const router = useRouter();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
     const mount = ref(false);
@@ -114,6 +114,7 @@ export default defineComponent({
 
     const loadDoctors = async () => {
       filterQuery.value.pagination.cursorMode = false;
+      filterQuery.value.pagination.limit = 6;
       await store.dispatch('doctors/getAll', filterQuery.value);
     };
 
@@ -129,7 +130,12 @@ export default defineComponent({
       ];
     };
 
+    const selectSearch = async (event: ISearchObject): Promise<void> => {
+      await router.push(`/doctors/${event.id}`);
+    };
+
     return {
+      selectSearch,
       createSortModels,
       TokenService,
       Operators,

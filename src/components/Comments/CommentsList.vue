@@ -1,9 +1,8 @@
 <template>
   <div v-if="mount" class="comments-list-container">
     <div class="comments-list-container-left card-item">
-      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />
       <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить отзыв</button>
-      <router-link to="/service-quality-assessment">Независимая оценка качества оказания услуг</router-link>
+      <!--      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />-->
       <FilterCheckbox
         label="Свои отзывы"
         :table="schema.comment.tableName"
@@ -13,11 +12,30 @@
         :value="TokenService.getUserId()"
         @load="loadCommentsWithoutMode"
       />
+      <FilterCheckbox
+        label="С высоким рейтингом"
+        :table="schema.comment.tableName"
+        :col="schema.comment.rating"
+        :data-type="DataTypes.Number"
+        :operator="Operators.Gt"
+        :value="3"
+        @load="loadCommentsWithoutMode"
+      />
+      <FilterCheckbox
+        label="С низким рейтингом"
+        :table="schema.comment.tableName"
+        :col="schema.comment.rating"
+        :data-type="DataTypes.Number"
+        :operator="Operators.Lt"
+        :value="3"
+        @load="loadCommentsWithoutMode"
+      />
+      <FilterSelectDate :table="schema.comment.tableName" :col="schema.comment.publishedOn" @load="loadCommentsWithoutMode" />
+      <router-link to="/service-quality-assessment">Независимая оценка качества оказания услуг</router-link>
     </div>
     <div class="comments-list-container-right">
       <div class="comments-list-container-right-header card-item">
         <h2>Комментарии и отзывы</h2>
-        <RemoteSearch />
       </div>
       <div v-for="comment in comments" :key="comment.id" class="card-item">
         <CommentCard :comment="comment" />
@@ -41,12 +59,11 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
-import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import ModeButtons from '@/components/ModeButtons.vue';
 import IComment from '@/interfaces/comments/IComment';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -57,8 +74,7 @@ import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'CommentsList',
   components: {
-    ModeButtons,
-    RemoteSearch,
+    FilterSelectDate,
     LoadMoreButton,
     CommentCard,
     FilterCheckbox,
@@ -154,6 +170,7 @@ $side-cotainer-max-width: 300px;
 }
 .leave-review-button {
   width: 100%;
+  margin-bottom: 20px;
 }
 button {
   margin: 10px 0;
