@@ -40,7 +40,9 @@
       <div v-for="comment in comments" :key="comment.id" class="card-item">
         <CommentCard :comment="comment" />
       </div>
-      <LoadMoreButton @loadMore="loadMore" />
+      <div class="loadmore-button">
+        <LoadMoreButton @loadMore="loadMore" />
+      </div>
     </div>
   </div>
   <el-dialog v-model="showDialog">
@@ -199,6 +201,18 @@ h3 {
   margin: 0;
   text-align: center;
 }
+
+.loadmore-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  background: #4a4a4a;
+}
+// .loadmore-button {
+//   display: flex;
+//   justify-content: center;
+// }
 
 @media only screen and (max-width: 1024px) {
   .comments-list-container {

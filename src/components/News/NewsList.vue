@@ -18,7 +18,9 @@
           </el-col>
         </el-row>
         <div v-if="!allNewsLoaded" class="load-more">
-          <el-button @click="loadMore">Загрузить ещё</el-button>
+          <div class="loadmore-button">
+            <LoadMoreButton @loadMore="loadMore" />
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -29,6 +31,7 @@
 import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
@@ -36,7 +39,7 @@ import NewsFilters from '@/components/News/NewsFilters.vue';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters },
+  components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters, LoadMoreButton },
   emits: ['add', 'remove'],
   setup() {
     const store = useStore();
@@ -104,5 +107,10 @@ export default defineComponent({
 .left-side-container {
   margin: 10px auto;
   max-width: 700px;
+}
+
+.loadmore-button {
+  display: flex;
+  justify-content: center;
 }
 </style>

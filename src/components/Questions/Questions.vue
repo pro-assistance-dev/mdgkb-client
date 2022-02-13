@@ -6,7 +6,9 @@
   <div v-for="item in questionsList" :key="item.id" class="card-item">
     <CommentCard :is-question="true" :question="item" />
   </div>
-  <LoadMoreButton @loadMore="loadMore" />
+  <div class="loadmore-button">
+    <LoadMoreButton @loadMore="loadMore" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -97,5 +99,10 @@ h2 {
   margin-top: 0;
   font-size: 24px;
   text-align: center;
+}
+
+.loadmore-button {
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -30,7 +30,9 @@
         <div v-else>
           <MedicalOrganizationStructureVertical />
         </div>
-        <LoadMoreButton @loadMore="loadMore" />
+        <div class="loadmore-button">
+          <LoadMoreButton @loadMore="loadMore" />
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -165,5 +167,10 @@ h2 {
   height: 50px;
   align-items: center;
   font-weight: bold;
+}
+
+.loadmore-button {
+  display: flex;
+  justify-content: center;
 }
 </style>
