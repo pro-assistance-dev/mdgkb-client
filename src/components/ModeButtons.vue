@@ -23,6 +23,10 @@ export default defineComponent({
   name: 'ModeButtons',
   components: { FlagOutlined, BookOutlined },
   props: {
+    secondModeActive: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
     firstMode: {
       type: String as PropType<string>,
       default: '',
@@ -42,7 +46,7 @@ export default defineComponent({
   },
   emits: ['changeMode'],
   setup(props, { emit }) {
-    const firstModeActive = ref(true);
+    const firstModeActive = ref(props.secondModeActive);
     const store = useStore();
 
     const changeMode = async (firstModeCondition: boolean) => {

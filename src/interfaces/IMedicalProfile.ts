@@ -11,6 +11,7 @@ export default interface IMedicalProfile {
   medicalProfilesDivisions: IMedicalProfileDivision[];
   medicalProfilesNews: IMedicalProfileNews[];
   background: string;
+  fill: string;
 
   getIconUrl: () => string;
 }

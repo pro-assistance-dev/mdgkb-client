@@ -1,6 +1,6 @@
-import IHospitalization from '@/interfaces/hospitalizations/IHospitalization';
+import IHospitalizationType from '@/interfaces/IHospitalizationType';
 
 export interface State {
-  paidHospitalizations: IHospitalization[];
-  insuranceHospitalizations: IHospitalization[];
+  items: IHospitalizationType[];
+  selectedHospitalization?: IHospitalizationType;
 }

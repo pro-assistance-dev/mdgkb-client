@@ -1,6 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import HospitalizationList from '@/components/Hospitalizations/HospitalizationList.vue';
+import HospitalizationList from '@/components/Hospitalizations/HospitalizationsPage.vue';
 import { isAuthorized } from '@/router/index';
 
 export default [

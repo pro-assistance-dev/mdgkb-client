@@ -1,14 +1,14 @@
 import DocumentType from '@/classes/document/DocumentType';
-import Hospitalization from '@/classes/hospitalizations/Hospitalization';
+import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import IHospitalization from '@/interfaces/hospitalizations/IHospitalization';
-import IHospitalizationToDocumentType from '@/interfaces/hospitalizations/IHospitalizationToDocumentType';
+import IHospitalizationToDocumentType from '@/interfaces/IHospitalizationToDocumentType';
+import IHospitalizationType from '@/interfaces/IHospitalizationType';
 
 export default class HospitalizationToDocumentType implements IHospitalizationToDocumentType {
   id?: string;
   documentType?: IDocumentType;
   documentTypeId?: string;
-  hospitalization?: IHospitalization;
+  hospitalization?: IHospitalizationType;
   hospitalizationId?: string;
 
   constructor(hospitalizationToDocumentType?: IHospitalizationToDocumentType) {
@@ -21,7 +21,7 @@ export default class HospitalizationToDocumentType implements IHospitalizationTo
     }
     this.documentTypeId = hospitalizationToDocumentType.documentTypeId;
     if (hospitalizationToDocumentType.hospitalization) {
-      this.hospitalization = new Hospitalization(hospitalizationToDocumentType.hospitalization);
+      this.hospitalization = new HospitalizationType(hospitalizationToDocumentType.hospitalization);
     }
     this.hospitalizationId = hospitalizationToDocumentType.hospitalizationId;
   }

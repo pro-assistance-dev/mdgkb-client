@@ -1,16 +1,16 @@
 import { GetterTree } from 'vuex';
 
-import IHospitalization from '@/interfaces/hospitalizations/IHospitalization';
+import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  paidHospitalizations(state): IHospitalization[] {
-    return state.paidHospitalizations;
+  items(state): IHospitalizationType[] {
+    return state.items;
   },
-  insuranceHospitalizations(state): IHospitalization[] {
-    return state.insuranceHospitalizations;
+  selectedHospitalisation(state): IHospitalizationType | undefined {
+    return state.selectedHospitalization;
   },
 };
 
