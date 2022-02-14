@@ -6,7 +6,7 @@ import RootState from '@/store/types';
 
 import { State } from './state';
 
-const httpClient = new HttpClient('projects');
+const httpClient = new HttpClient('applications-cars');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
@@ -16,11 +16,9 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IApplicationCar[]>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ commit }, item: IApplicationCar): Promise<void> => {
-    const res = await httpClient.post<IApplicationCar, IApplicationCar>({
-      payload: item,
-    });
-    commit('set', res);
+  create: async ({ state, commit }): Promise<void> => {
+    await httpClient.post<IApplicationCar, IApplicationCar>({ payload: state.item, isFormData: true });
+    commit('resetItem');
   },
   update: async ({ commit }, item: IApplicationCar): Promise<void> => {
     const res = await httpClient.put<IApplicationCar, IApplicationCar>({ query: `${item.id}`, payload: item });

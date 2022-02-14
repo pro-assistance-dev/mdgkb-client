@@ -10,19 +10,22 @@
           <div class="enter-popover-container-header">
             <div>{{ chosenEntranceName }}</div>
           </div>
-          <button class="order-button">Заказать пропуск</button>
+          <button class="order-button" @click="openApplicationCarModal">Заказать пропуск</button>
         </div>
       </div>
     </div>
   </div>
+  <ApplicationCarModal :entrance-name="chosenEntranceName" />
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 import Map from '@/assets/img/map.svg';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
+import ApplicationCarModal from '@/components/Map/ApplicationCarModal.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IFloor from '@/interfaces/buildings/IFloor';
@@ -37,6 +40,7 @@ export default defineComponent({
     MapRouter,
     Map,
     BaseModalButtonClose,
+    ApplicationCarModal,
   },
   props: {
     buildings: {
@@ -49,6 +53,7 @@ export default defineComponent({
     let buildingId = ref('');
     let position = ref();
     let building = ref();
+    const store = useStore();
     const enterPopoverRef = ref<HTMLDivElement>();
     const entrances = [
       { id: 'barrier1', name: 'Вход для пациентов, записанных на прием в КДЦ' },
@@ -73,7 +78,6 @@ export default defineComponent({
       item.addEventListener('click', () => selectBarrier(item));
     };
     const selectBarrier = (item: Element) => {
-      console.log(item.id);
       entrances.forEach((el) => {
         if (el.id === item.id) {
           chosenEntranceName.value = el.name;
@@ -81,13 +85,17 @@ export default defineComponent({
       });
       if (!enterPopoverRef.value) return;
       enterPopoverRef.value.style.display = 'unset';
-      enterPopoverRef.value.style.top = item.getBoundingClientRect().top + document.documentElement.scrollTop - 100 + 'px';
-      enterPopoverRef.value.style.left = item.getBoundingClientRect().left - 300 + 'px';
+      enterPopoverRef.value.style.top = item.getBoundingClientRect().y + document.documentElement.scrollTop - 100 + 'px';
+      enterPopoverRef.value.style.left = item.getBoundingClientRect().x - 300 + 'px';
     };
 
     const closeEnterPopover = () => {
       if (!enterPopoverRef.value) return;
       enterPopoverRef.value.style.display = 'none';
+    };
+
+    const openApplicationCarModal = () => {
+      store.commit('applicationsCars/toggleCarModal', true);
     };
 
     const hoverBuilding = (item: HTMLElement) => {
@@ -210,6 +218,7 @@ export default defineComponent({
       enterPopoverRef,
       closeEnterPopover,
       chosenEntranceName,
+      openApplicationCarModal,
     };
   },
 });

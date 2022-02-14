@@ -19,6 +19,9 @@ const mutations: MutationTree<State> = {
   resetItem(state) {
     state.item = new ApplicationCar();
   },
+  toggleCarModal(state, value: boolean) {
+    state.isCarModalOpen = value;
+  },
 };
 
 export default mutations;
