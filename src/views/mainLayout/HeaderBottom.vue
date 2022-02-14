@@ -5,9 +5,11 @@
           <div class="menu-left"><BurgerMobile /></div>
           <div class="left-block2"></div>
           <div class="left-block">
-            <el-button v-if="scrollOffset >= 66 && !mobileWindow" class="menu-item">
-              <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" @click="$router.push('/')" />
-            </el-button>
+            <el-row class="mb-4">
+              <el-button class="menu-item" v-if="scrollOffset >= 66 && !mobileWindow" @click="$router.push('/')">
+                <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" />
+              </el-button>
+            </el-row>
           </div>
           <div class="menu-center"><NavMenu /></div>
           <div class="menu-right"><PhoneInfo /></div>
