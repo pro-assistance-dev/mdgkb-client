@@ -4,15 +4,25 @@
     <div id="map-svg-container">
       <Map id="map-svg" />
       <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
+      <div ref="enterPopoverRef" class="enter-popover">
+        <div class="card-item enter-popover-container">
+          <BaseModalButtonClose class="enter-popover-container-close" @click="closeEnterPopover" />
+          <div class="enter-popover-container-header">
+            <div>{{ chosenEntranceName }}</div>
+          </div>
+          <button class="order-button">Заказать пропуск</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref } from 'vue';
+import { defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import Map from '@/assets/img/map.svg';
+import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IFloor from '@/interfaces/buildings/IFloor';
@@ -26,6 +36,7 @@ export default defineComponent({
     MapPopover,
     MapRouter,
     Map,
+    BaseModalButtonClose,
   },
   props: {
     buildings: {
@@ -38,6 +49,13 @@ export default defineComponent({
     let buildingId = ref('');
     let position = ref();
     let building = ref();
+    const enterPopoverRef = ref<HTMLDivElement>();
+    const entrances = [
+      { id: 'barrier1', name: 'Вход для пациентов, записанных на прием в КДЦ' },
+      { id: 'barrier2', name: 'Вход для пациентов за экстренной медицинской помощью' },
+      { id: 'barrier3', name: 'Вход на территорию больницы' },
+    ];
+    const chosenEntranceName: Ref<string> = ref('');
 
     onMounted(() => {
       // decorAnimate();
@@ -47,7 +65,30 @@ export default defineComponent({
         return;
       }
       buildingsRef.childNodes.forEach((item: EventTarget) => setEventsOnBuilding(item));
+      const entersRef = document.querySelectorAll('.barrier');
+      entersRef.forEach((item: Element) => setEventsOnBarrier(item));
     });
+
+    const setEventsOnBarrier = (item: Element) => {
+      item.addEventListener('click', () => selectBarrier(item));
+    };
+    const selectBarrier = (item: Element) => {
+      console.log(item.id);
+      entrances.forEach((el) => {
+        if (el.id === item.id) {
+          chosenEntranceName.value = el.name;
+        }
+      });
+      if (!enterPopoverRef.value) return;
+      enterPopoverRef.value.style.display = 'unset';
+      enterPopoverRef.value.style.top = item.getBoundingClientRect().top + document.documentElement.scrollTop - 100 + 'px';
+      enterPopoverRef.value.style.left = item.getBoundingClientRect().left - 300 + 'px';
+    };
+
+    const closeEnterPopover = () => {
+      if (!enterPopoverRef.value) return;
+      enterPopoverRef.value.style.display = 'none';
+    };
 
     const hoverBuilding = (item: HTMLElement) => {
       buildingId.value = '';
@@ -166,6 +207,9 @@ export default defineComponent({
       position,
       treeJump,
       hoverBuilding,
+      enterPopoverRef,
+      closeEnterPopover,
+      chosenEntranceName,
     };
   },
 });
@@ -290,5 +334,51 @@ svg #decor > g.jump {
 
 .page-container {
   position: relative;
+}
+.barrier {
+  &:hover {
+    cursor: pointer;
+    filter: brightness(150%);
+  }
+}
+.enter-popover {
+  display: none;
+  position: absolute;
+  z-index: 80;
+  top: 0;
+  left: 0;
+  width: 250px;
+  .card-item {
+    padding-top: 5px;
+  }
+  &-container {
+    box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    position: relative;
+    &-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    &-header {
+      margin: 0 5px 5px 0;
+    }
+    .order-button {
+      padding: 5px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #2754ec;
+      border: none;
+      font-weight: bold;
+      width: 150px;
+      color: white;
+      &:hover {
+        background-color: darken(#2754ec, 10%);
+      }
+    }
+  }
 }
 </style>
