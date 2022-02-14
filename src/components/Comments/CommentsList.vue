@@ -203,11 +203,8 @@ h3 {
 }
 
 .loadmore-button {
-  width: 100%;
   display: flex;
   justify-content: center;
-  height: 100px;
-  background: #4a4a4a;
 }
 // .loadmore-button {
 //   display: flex;
