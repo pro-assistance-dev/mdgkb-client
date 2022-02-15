@@ -2,10 +2,16 @@
   <div class="filter-form">
     <el-form :gutter="12" label-position="top">
       <el-form-item>
-        <el-select v-model="filterModel.date1" filterable clearable placeholder="Выберите дату" round @change="addFilterModel">
-          <el-option label="Сегодня" :value="new Date()"></el-option>
-          <el-option label="Вчера" :value="new Date() - 1"></el-option>
-          <el-option label="Позавчера" :value="new Date() - 2"></el-option>
+        <el-select
+          v-model="selectedDateFilter"
+          value-key="id"
+          filterable
+          clearable
+          placeholder="Выберите дату"
+          round
+          @change="addFilterModel"
+        >
+          <el-option v-for="date in dates" :key="date.label" :label="date.label" :value="date.id"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -13,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, toRefs } from 'vue';
+import { defineComponent, PropType, Ref, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
@@ -42,25 +48,51 @@ export default defineComponent({
     const store = useStore();
     const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.Date));
     filterModel.value.operator = Operators.Eq;
+    const selectedDateFilter: Ref<string> = ref('');
+    const getDateDiff = (dateDiff: number) => {
+      let d = new Date();
+      d.setDate(d.getDate() + dateDiff);
+      return new Date(d.toDateString());
+    };
 
-    const addFilterModel = (value: string) => {
-      console.log(value);
-      if (!filterModel.value.value1) {
-        dropFilterModel();
+    const dates = [
+      { id: 1, label: 'Сегодня', dates: {}, date: new Date() },
+      { id: 2, label: 'Вчера', dates: {}, date: getDateDiff(-1) },
+      { id: 3, label: 'На прошлой неделе', dates: { date1: getDateDiff(-14), date2: getDateDiff(-7) } },
+      { id: 4, label: 'За прошлый месяц', dates: { date1: getDateDiff(-30), date2: getDateDiff(-1) } },
+    ];
+
+    const fillDates = (value: number) => {
+      const date = dates.find((date) => date.id === value);
+      if (!date) {
+        filterModel.value.date1 = undefined;
+        filterModel.value.date2 = undefined;
+        return;
       }
-      if (filterModel.value.value1) {
+      if (date.dates.date1 && date.dates.date2) {
+        filterModel.value.date1 = date.dates.date1;
+        filterModel.value.date2 = date.dates.date2;
+        filterModel.value.operator = Operators.Btw;
+      } else {
+        filterModel.value.operator = Operators.Eq;
+        filterModel.value.date1 = date.date;
+        filterModel.value.date2 = undefined;
+      }
+    };
+
+    const addFilterModel = (value: any) => {
+      fillDates(value);
+      if (!filterModel.value.date1) {
+        store.commit('filter/spliceFilterModel', filterModel.value.id);
+      } else {
         store.commit('filter/setFilterModel', filterModel.value);
       }
       emit('load', value);
     };
 
-    const dropFilterModel = () => {
-      store.commit('filter/spliceFilterModel', filterModel.value.id);
-      filterModel.value = FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String);
-      filterModel.value.operator = Operators.Eq;
-    };
-
     return {
+      selectedDateFilter,
+      dates,
       addFilterModel,
       filterModel,
     };

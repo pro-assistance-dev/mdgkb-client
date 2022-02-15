@@ -14,12 +14,12 @@
           <!--          </el-select>-->
         </el-form-item>
         <el-form-item v-if="filterModel.isUnaryFilter()">
-          <el-date-picker v-model="filterModel.date1" size="mini" format="DD.MM.YYYY" @change="onchange"></el-date-picker>
+          <el-date-picker v-model="filterModel.value1" size="mini" format="DD.MM.YYYY" @change="addFilterModel"></el-date-picker>
         </el-form-item>
-        <el-form-item v-if="filterModel.isBetweenFilter()">
-          <el-date-picker v-model="filterModel.date1" size="mini" format="DD.MM.YYYY" @change="onchange"></el-date-picker>
-          <el-date-picker v-model="filterModel.date2" size="mini" format="DD.MM.YYYY" @change="onchange"></el-date-picker>
-        </el-form-item>
+        <!--        <el-form-item v-if="filterModel.isBetweenFilter()">-->
+        <!--          <el-date-picker v-model="filterModel.date1" size="mini" format="DD.MM.YYYY" @change="addFilterModel"></el-date-picker>-->
+        <!--          <el-date-picker v-model="filterModel.date2" size="mini" format="DD.MM.YYYY" @change="addFilterModel"></el-date-picker>-->
+        <!--        </el-form-item>-->
       </el-form>
     </div>
   </component>
@@ -57,9 +57,6 @@ export default defineComponent({
     const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.Date));
     const value: Ref<string> = ref('');
 
-    const setTrigger = (trigger: string) => {
-      store.commit('filter/setTrigger', trigger);
-    };
     const addFilterModel = () => {
       store.commit('filter/setFilterModel', filterModel.value);
     };
@@ -73,7 +70,6 @@ export default defineComponent({
       dropFilterModel,
       addFilterModel,
       filterModel,
-      setTrigger,
       // filterList,
       value,
     };
