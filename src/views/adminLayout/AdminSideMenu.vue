@@ -149,6 +149,10 @@ export default defineComponent({
             title: 'Сертификаты',
             to: '/admin/certificates',
           },
+          {
+            title: 'Медицинские профили',
+            to: '/admin/medical-profiles',
+          },
         ],
       },
       {
