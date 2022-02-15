@@ -80,7 +80,7 @@ export default defineComponent({
       }
     };
 
-    const addFilterModel = (value: any) => {
+    const addFilterModel = (value: number) => {
       fillDates(value);
       if (!filterModel.value.date1) {
         store.commit('filter/spliceFilterModel', filterModel.value.id);
