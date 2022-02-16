@@ -4,6 +4,7 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -12,8 +13,13 @@ import { State } from './state';
 const httpClient = new HttpClient('divisions');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }): Promise<void> => {
-    commit('setAll', await httpClient.get<IDivision[]>({ query: state.onlyShowed ? '?showed=true' : '' }));
+  getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
+    const items = await httpClient.get<IDivision[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    if (filterQuery && filterQuery.pagination.cursorMode) {
+      commit('appendToAll', items);
+      return;
+    }
+    commit('setAll', items);
   },
   get: async ({ commit, state }, id: string) => {
     const query = id + (state.onlyShowed ? '?showed=true' : '');

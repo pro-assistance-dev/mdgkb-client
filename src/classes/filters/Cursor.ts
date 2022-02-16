@@ -6,4 +6,5 @@ export default class Cursor implements ICursor {
   column = '';
   value?: unknown;
   initial = true;
+  tableName = '';
 }

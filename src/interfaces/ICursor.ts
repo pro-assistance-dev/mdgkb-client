@@ -5,4 +5,5 @@ export default interface ICursor {
   column: string;
   operation: Operators;
   value?: unknown;
+  tableName: string;
 }

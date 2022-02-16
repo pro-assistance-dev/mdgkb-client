@@ -23,6 +23,10 @@ const mutations: MutationTree<State> = {
   resetState(state) {
     Object.assign(state, getDefaultState());
   },
+  appendToAll(state, items: IDivision[]) {
+    const divisions = items.map((i: IDivision) => new Division(i));
+    state.divisions.push(...divisions);
+  },
   setAll(state, divisions: IDivision[]) {
     state.divisions = divisions?.map((a: IDivision) => new Division(a));
   },

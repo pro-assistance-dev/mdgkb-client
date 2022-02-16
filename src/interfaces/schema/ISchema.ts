@@ -1,3 +1,4 @@
+import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
 import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
 import IDoctorSchema from '@/interfaces/schema/IDoctorSchema';
@@ -11,5 +12,6 @@ export default interface ISchema {
   doctor: IDoctorSchema;
   doctorUser: IDoctorUserSchema;
   division: IDivisionSchema;
+  center: ICenterSchema;
   medicalProfile: IMedicalProfileSchema;
 }
