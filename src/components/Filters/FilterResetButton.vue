@@ -32,6 +32,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 // @import '@/assets/elements/filterForm.scss';
+
+.load-more {
+  display: flex;
+  justify-content: center;
+}
 :deep(.el-button) {
   background: #2754eb;
   border: 1px solid#2754EB;

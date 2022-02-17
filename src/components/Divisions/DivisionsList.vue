@@ -65,4 +65,9 @@ export default defineComponent({
   height: 350px;
   margin: 0 auto;
 }
+
+.loadmore-button {
+  display: flex;
+  justify-content: center;
+}
 </style>

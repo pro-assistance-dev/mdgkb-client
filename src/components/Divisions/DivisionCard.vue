@@ -3,7 +3,6 @@
     <div class="flex-row">
       <div class="flex-column left-side">
         <div class="doctor-img" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
-          <!--          <img v-if="doctor.photoMini.fileSystemPath" :src="doctor.photoMini.getImageUrl()" alt="alt" @error="errorImg" />-->
           <img src="@/assets/img/building-default.png" />
           <div class="favor">
             <FavouriteIcon :domain-id="division.id" domain-name="division" />
@@ -15,15 +14,25 @@
         <div class="doctor-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
           {{ division.name }}
         </div>
-        <div class="address">
-          <span v-if="division.getAddress()">
-            Адрес:
-            <a @click="$router.push(`/map/${division.id}`)">
-              {{ division.address }}
-            </a>
-          </span>
+        <div class="spec-list">
+          <div
+            v-for="profile in division.medicalProfilesDivisions"
+            :key="profile.id"
+            class="tag-link"
+            @click="$router.push(`/medical-profiles/${profile.medicalProfile.id}`)"
+          >
+            {{ profile.medicalProfile.name }}
+          </div>
         </div>
       </div>
+    </div>
+    <div class="address">
+      <span v-if="division.getAddress()">
+        Адрес:
+        <a @click="$router.push(`/map/${division.id}`)">
+          {{ division.address }}
+        </a>
+      </span>
     </div>
     <div v-if="division.phone">Телефон: {{ division.phone }}</div>
     <div v-if="division.email">Email: {{ division.phone }}</div>
@@ -62,4 +71,17 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/doctor-info-card.scss';
+
+.tag-link {
+  margin: 2px;
+  font-size: 10px;
+  transition: all 0.2s;
+  border-color: blue;
+  border-radius: 20px;
+  &:hover {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+  }
+}
 </style>

@@ -26,7 +26,7 @@
           {{ doctor.human.getFullName() }}
         </div>
         <div class="spec-list">
-          <div v-if="doctor.medicalProfile" class="tag-link" @click="$router.push(`/doctors?medical-profile=${doctor.medicalProfile.id}`)">
+          <div v-if="doctor.medicalProfile" class="tag-link" @click="$router.push(`/medical-profiles/${doctor.medicalProfile.id}`)">
             {{ doctor.medicalProfile.name }}
           </div>
         </div>

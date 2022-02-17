@@ -9,7 +9,7 @@
           second-mode="Центры"
           @changeMode="changeMode"
         />
-        <!--        <divisionsListFilters v-if="divisionsMode" />-->
+        <DivisionsListFilters v-if="divisionsMode" />
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
         <DivisionsList v-if="divisionsMode" />
@@ -26,6 +26,7 @@ import { useStore } from 'vuex';
 
 import CentersList from '@/components/Divisions/CentersList.vue';
 import DivisionsList from '@/components/Divisions/DivisionsList.vue';
+import DivisionsListFilters from '@/components/Divisions/DivisionsListFilters.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
@@ -37,6 +38,7 @@ export default defineComponent({
     CentersList,
     DivisionsList,
     ModeButtons,
+    DivisionsListFilters,
   },
 
   setup() {
