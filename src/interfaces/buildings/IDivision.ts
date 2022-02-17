@@ -47,4 +47,6 @@ export default interface IDivision {
   hospitalizationDoctor?: IDoctor;
 
   medicalProfilesDivisions: IMedicalProfileDivision[];
+
+  getAddress: () => string;
 }

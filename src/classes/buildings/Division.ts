@@ -110,4 +110,11 @@ export default class Division implements IDivision {
       this.medicalProfilesDivisions = i.medicalProfilesDivisions.map((item: IMedicalProfileDivision) => new MedicalProfileDivision(item));
     }
   }
+
+  getAddress(): string {
+    if (this.entrance && this.entrance.building) {
+      return this.entrance.building.address;
+    }
+    return '';
+  }
 }

@@ -1,19 +1,46 @@
 <template>
   <div class="card-item flex-column">
     <div class="flex-row">
-      {{ division.name }}
+      <div class="flex-column left-side">
+        <div class="doctor-img" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
+          <!--          <img v-if="doctor.photoMini.fileSystemPath" :src="doctor.photoMini.getImageUrl()" alt="alt" @error="errorImg" />-->
+          <img src="@/assets/img/building-default.png" />
+          <div class="favor">
+            <FavouriteIcon :domain-id="division.id" domain-name="division" />
+          </div>
+        </div>
+        <RatingBlock :division="division" />
+      </div>
+      <div class="flex-column right-side">
+        <div class="doctor-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.human.slug } })">
+          {{ division.name }}
+        </div>
+        <div class="address">
+          <span v-if="division.getAddress()">
+            Адрес приема:
+            <a @click="$router.push(`/map/${division.id}`)">
+              {{ division.address }}
+            </a>
+          </span>
+        </div>
+      </div>
     </div>
+    <!--    <div class="doctor-card-footer">-->
+    <!--      <button>Запись на прием</button>-->
+    <!--    </div>-->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import RatingBlock from '@/components/Divisions/RatingBlock.vue';
+import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 
 export default defineComponent({
   name: 'DivisionCard',
-  components: {},
+  components: { RatingBlock, FavouriteIcon },
   props: {
     division: { type: Object as PropType<IDivision>, required: true },
   },

@@ -1,6 +1,8 @@
 <template>
-  <div v-if="mount">
-    <DivisionCard v-for="division in divisions" :key="division.id" :division="division" />
+  <div v-if="mount" class="card-flex-container">
+    <div v-for="division in divisions" :key="division.id" class="card-container">
+      <DivisionCard :division="division" />
+    </div>
   </div>
   <div class="loadmore-button">
     <LoadMoreButton @loadMore="loadMore" />
@@ -30,14 +32,14 @@ export default defineComponent({
 
     const loadMore = async () => {
       const lastCursor = divisions.value[divisions.value.length - 1].name;
-      console.log(schema.value.division.name);
       filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
-      console.log(filterQuery.value.pagination);
       await store.dispatch('divisions/getAll', filterQuery.value);
     };
 
     onBeforeMount(async () => {
-      console.log(filterQuery.value.pagination);
+      store.commit(`filter/resetQueryFilter`);
+      filterQuery.value.pagination.cursorMode = false;
+      store.commit('filter/setStoreModule', 'divisions');
       await store.dispatch('divisions/getAll', filterQuery.value);
       mount.value = true;
     });
@@ -53,4 +55,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/doctor-info-card.scss';
+
+.card-flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.card-container {
+  height: 350px;
+  margin: 0 auto;
+}
 </style>
