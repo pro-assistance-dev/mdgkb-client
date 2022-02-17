@@ -58,6 +58,26 @@
         </div>
         <el-divider />
         <div class="article-body" v-html="medicalProfile.description"></div>
+        <el-divider />
+        <div class="bottom-footer">
+          <div></div>
+          <div class="card-meta share">
+            <div style="margin-right: 5px">Поделиться:</div>
+            <ShareNetwork
+              v-for="share in shares"
+              :key="share.name"
+              :network="share.name"
+              :url="getUrl()"
+              :title="medicalProfile.name"
+              :description="medicalProfile.description"
+            >
+              <div class="share-item">
+                <img class="black" :src="require(`@/assets/img/social/${share.icon}.png`)" :alt="share.name" />
+                <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.png`)" :alt="share.name" />
+              </div>
+            </ShareNetwork>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -87,7 +107,18 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    return { chooseRandomBrandColor, mounted, medicalProfile };
+    const shares = [
+      { name: 'facebook', icon: 'fb' },
+      { name: 'twitter', icon: 'twitter' },
+      { name: 'VK', icon: 'vk' },
+    ];
+
+    const getUrl = (): string => {
+      const host = process.env.VUE_APP_API_HOST;
+      return `${host}/medical-profiles/${route.params['id']}`;
+    };
+
+    return { chooseRandomBrandColor, mounted, medicalProfile, shares, getUrl };
   },
 });
 </script>
@@ -97,6 +128,10 @@ $side-container-max-width: 300px;
 $medical-profile-content-max-width: 1000px;
 $card-margin-size: 30px;
 
+.bottom-footer {
+  display: flex;
+  justify-content: space-between;
+}
 .title-icon {
   text-align: center;
 }
@@ -219,6 +254,38 @@ h4 {
     &:hover {
       cursor: pointer;
       background-color: darken(white, 10%);
+    }
+  }
+}
+
+.card-meta {
+  display: flex;
+  margin-top: 10px;
+}
+
+.share {
+  display: flex;
+  align-items: center;
+  img {
+    margin-left: 15px;
+    height: 25px;
+  }
+  .anticon {
+    margin: 5px;
+    font-size: 30px;
+  }
+  .share-item {
+    .colored {
+      display: none;
+    }
+    &:hover {
+      .colored {
+        display: unset;
+        transform: scale(1.1);
+      }
+      .black {
+        display: none;
+      }
     }
   }
 }

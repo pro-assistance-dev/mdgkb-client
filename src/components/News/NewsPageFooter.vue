@@ -71,6 +71,7 @@ export default defineComponent({
       { name: 'twitter', icon: 'twitter' },
       { name: 'VK', icon: 'vk' },
     ];
+
     const filterNews = async (tag: ITag): Promise<void> => {
       await store.dispatch('news/addFilterTag', tag);
       await router.push('/news');
