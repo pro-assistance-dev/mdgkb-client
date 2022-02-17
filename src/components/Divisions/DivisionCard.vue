@@ -2,7 +2,7 @@
   <div class="card-item flex-column">
     <div class="flex-row">
       <div class="flex-column left-side">
-        <div class="doctor-img" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
+        <div class="doctor-img" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
           <!--          <img v-if="doctor.photoMini.fileSystemPath" :src="doctor.photoMini.getImageUrl()" alt="alt" @error="errorImg" />-->
           <img src="@/assets/img/building-default.png" />
           <div class="favor">
@@ -12,12 +12,12 @@
         <RatingBlock :division="division" />
       </div>
       <div class="flex-column right-side">
-        <div class="doctor-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.human.slug } })">
+        <div class="doctor-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
           {{ division.name }}
         </div>
         <div class="address">
           <span v-if="division.getAddress()">
-            Адрес приема:
+            Адрес:
             <a @click="$router.push(`/map/${division.id}`)">
               {{ division.address }}
             </a>
@@ -25,9 +25,11 @@
         </div>
       </div>
     </div>
-    <!--    <div class="doctor-card-footer">-->
-    <!--      <button>Запись на прием</button>-->
-    <!--    </div>-->
+    <div v-if="division.phone">Телефон: {{ division.phone }}</div>
+    <div v-if="division.email">Email: {{ division.phone }}</div>
+    <div class="doctor-card-footer">
+      <button>Запись на прием</button>
+    </div>
   </div>
 </template>
 

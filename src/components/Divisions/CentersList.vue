@@ -1,6 +1,8 @@
 <template>
-  <div v-if="mount">
-    <CenterCard v-for="center in centers" :key="center.id" :center="center" />
+  <div v-if="mount" class="card-flex-container">
+    <div v-for="center in centers" :key="center.id" class="card-container">
+      <CenterCard :center="center" />
+    </div>
   </div>
   <div class="loadmore-button">
     <LoadMoreButton @loadMore="loadMore" />
@@ -52,4 +54,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/doctor-info-card.scss';
+
+.card-flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.card-container {
+  height: 350px;
+  margin: 0 auto;
+}
 </style>
