@@ -1,8 +1,11 @@
 <template>
   <h2>Профили помощи</h2>
+  <div class="filter-form">
+    <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти профиль" class="filter" size="large" />
+  </div>
   <div class="wrapper">
     <div v-if="mounted" class="main-medical-profiles">
-      <div v-for="item in medicalProfiles" :key="item.name">
+      <div v-for="item in list" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -40,6 +43,7 @@ export default defineComponent({
     const store = useStore();
     const medicalProfiles: ComputedRef<IMedicalProfile[]> = computed(() => store.getters['medicalProfiles/items']);
     const mounted: Ref<boolean> = ref(false);
+    const filter = ref('');
     onBeforeMount(async () => {
       await store.dispatch('medicalProfiles/getAll');
       setColors();
@@ -57,7 +61,20 @@ export default defineComponent({
     const getIcon = (i: number): string => {
       return `/src/assets/medicine/${i + 1}.png`;
     };
+
+    const list = computed((): IMedicalProfile[] => {
+      if (filter.value) {
+        return medicalProfiles.value.filter((i: IMedicalProfile) => {
+          if (i.name) return i.name.toLowerCase().includes(filter.value.toLowerCase());
+        });
+      } else {
+        return medicalProfiles.value;
+      }
+    });
+
     return {
+      list,
+      filter,
       getIcon,
       medicalProfiles,
       mounted,
@@ -67,54 +84,34 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-// h1 {
-//   text-align: center;
-// }
+.filter-form {
+  margin: 10px 0;
+}
 
-// .donor-card {
-//   width: 400px;
-//   border-radius: 15px;
-//   margin: 10px;
-//   color: #4a4a4a;
-//   font-size: 14px;
-//   position: relative;
+:deep(.el-input__inner) {
+  border-radius: 20px;
+  padding-left: 25px;
+  height: 38px;
+  width: 100%;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
 
-//   &:hover {
-//     cursor: pointer;
-//     margin-top: 5px;
-//   }
+:deep(.el-input__inner::placeholder) {
+  color: #4a4a4a;
+}
 
-//   .donor-img-container {
-//     margin: 0 10px 10px 0;
-//     img {
-//       width: 100%;
-//     }
-//     .star-icon-container {
-//       position: absolute;
-//       top: 5px;
-//       right: 30px;
-//       transition: transform 0.2s;
-//       &:hover {
-//         cursor: pointer;
-//         transform: scale(1.1);
-//       }
-//       .icon {
-//         font-size: 30px;
-//         margin: 5px;
-//         background-color: white;
-//       }
-//       .favor {
-//         color: orange;
-//       }
-//     }
-//   }
-//   .donor-name {
-//     font-size: 16px;
-//     font-weight: 600;
-//     cursor: pointer;
-//   }
-// }
+:deep(.el-select .el-input .el-select__caret) {
+  color: #4a4a4a;
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 5px;
+}
 
+.el-select {
+  width: 100%;
+}
 h2 {
   text-align: center;
 }
