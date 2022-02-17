@@ -1,6 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
+import Pagination from '@/classes/filters/Pagination';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 
@@ -41,6 +42,7 @@ const mutations: MutationTree<State> = {
     // state.filterQuery.sortModels.forEach((sortModel: ISortModel) => {
     //   sortModel.order = undefined;
     // });
+    state.filterQuery.pagination = new Pagination();
     state.filterQuery.filterModels = [];
     // state.filterQuery.sortModels = [];
   },

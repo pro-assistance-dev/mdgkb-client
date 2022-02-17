@@ -35,6 +35,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      store.commit(`filter/resetQueryFilter`);
+      store.commit('filter/setStoreModule', 'centers');
       await store.dispatch('centers/getAll', filterQuery.value);
       mount.value = true;
     });
