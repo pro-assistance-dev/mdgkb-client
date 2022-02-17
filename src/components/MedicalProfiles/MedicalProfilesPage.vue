@@ -51,7 +51,9 @@
         <div class="card-header">
           <h2 class="title article-title">{{ medicalProfile.name }}</h2>
           <div class="title-icon">
-            <BaseIcon width="150" height="150" :color="chooseRandomBrandColor()" icon-name="2"><icon-2 /></BaseIcon>
+            <BaseIcon width="150" height="150" :color="chooseRandomBrandColor()" :icon-name="medicalProfile.icon">
+              <HelpProfileIcon :svg-code="medicalProfile.svgCode" />
+            </BaseIcon>
           </div>
         </div>
         <el-divider />
@@ -68,12 +70,12 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
-import Icon2 from '@/components/Base/MedicalIcons/icons/2.vue';
+import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import chooseRandomBrandColor from '@/mixins/brandColors';
 export default defineComponent({
   name: 'MedicalProfileList',
-  components: { BaseIcon, Icon2, EyeOutlined },
+  components: { BaseIcon, HelpProfileIcon, EyeOutlined },
   setup() {
     const store = useStore();
     const route = useRoute();

@@ -15,6 +15,11 @@
           <div class="main-medical-profiles-card-name">
             {{ item.name }}
           </div>
+          <div class="icon">
+            <BaseIcon width="90" height="90" :icon-name="item.icon">
+              <HelpProfileIcon :svg-code="item.svgCode" />
+            </BaseIcon>
+          </div>
         </div>
       </div>
     </div>
@@ -25,12 +30,18 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
+import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 
 export default defineComponent({
   name: 'MainMedicalProfiles',
-  components: { MainContainer },
+  components: {
+    MainContainer,
+    BaseIcon,
+    HelpProfileIcon,
+  },
   setup() {
     const store = useStore();
     const medicalProfiles: ComputedRef<IMedicalProfile[]> = computed(() => store.getters['medicalProfiles/items']);
@@ -89,5 +100,11 @@ export default defineComponent({
       fill: white;
     }
   }
+}
+.icon {
+  margin: 80px 30px 10px 30px;
+  // padding-top: 10px;
+  // border: 3px solid #ffffff;
+  border-radius: 5px;
 }
 </style>
