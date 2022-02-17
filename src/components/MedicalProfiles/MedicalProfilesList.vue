@@ -6,9 +6,9 @@
         <div class="donor-img-container">
           <div class="donor-img-container">{{ medicalProfile.name }}</div>
           <!-- var1: component -->
-          <icon-base width="100" height="100" color="#000000" :icon-name="medicalProfile.icon">
-            <help-profile-icon :svg-code="medicalProfile.svgCode" />
-          </icon-base>
+          <BaseIcon width="100" height="100" color="#000000" :icon-name="medicalProfile.icon">
+            <HelpProfileIcon :svg-code="medicalProfile.svgCode" />
+          </BaseIcon>
           <!-- var2: link -->
           <!-- <Component :is="require(`@/assets/medicalprofiles/svg/5.svg`).default" id="5-svg"></Component> -->
         </div>
@@ -21,14 +21,14 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
-import IconBase from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
+import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 
 export default defineComponent({
   name: 'MedicalProfileList',
   components: {
-    IconBase,
+    BaseIcon,
     HelpProfileIcon,
   },
   setup() {

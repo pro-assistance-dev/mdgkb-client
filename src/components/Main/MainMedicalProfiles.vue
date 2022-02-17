@@ -16,7 +16,9 @@
             {{ item.name }}
           </div>
           <div class="icon">
-            <icon-base width="90" height="90" :icon-name="item.icon"> <help-profile-icon :svg-code="item.svgCode" /></icon-base>
+            <BaseIcon width="90" height="90" :icon-name="item.icon">
+              <HelpProfileIcon :svg-code="item.svgCode" />
+            </BaseIcon>
           </div>
         </div>
       </div>
@@ -28,7 +30,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IconBase from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
+import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
@@ -37,7 +39,7 @@ export default defineComponent({
   name: 'MainMedicalProfiles',
   components: {
     MainContainer,
-    IconBase,
+    BaseIcon,
     HelpProfileIcon,
   },
   setup() {
