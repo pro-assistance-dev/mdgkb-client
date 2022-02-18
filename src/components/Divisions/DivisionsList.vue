@@ -1,10 +1,11 @@
 <template>
-  <div class="card-flex-container">
+  <div v-if="divisions.length" class="card-flex-container">
     <div v-for="division in divisions" :key="division.id" class="card-container">
       <DivisionCard :division="division" />
     </div>
   </div>
-  <div class="loadmore-button">
+  <h1 v-else class="text-center">Нет данных</h1>
+  <div v-if="divisions.length" class="loadmore-button">
     <LoadMoreButton @loadMore="loadMore" />
   </div>
 </template>
@@ -47,6 +48,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/doctor-info-card.scss';
+
+.text-center {
+  text-align: center;
+  justify-content: center;
+}
 
 .card-flex-container {
   display: flex;
