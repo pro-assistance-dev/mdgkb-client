@@ -1,6 +1,6 @@
 <template>
   <div class="left-side-container">
-    <RemoteSearchV2 :key-value="schema.division.key" @select="selectSearch" />
+    <RemoteSearch :key-value="schema.division.key" @select="selectSearch" />
     <FilterCheckbox
       label="С возможностью госпитализации"
       :table="schema.division.tableName"
@@ -9,8 +9,17 @@
       :operator="Operators.NotNull"
       @load="loadDivisions()"
     />
+    <FilterCheckbox
+      label="С отзывами"
+      :table="schema.division.tableName"
+      :col="schema.division.commentsCount"
+      :data-type="DataTypes.Number"
+      :operator="Operators.Gt"
+      @load="loadDivisions()"
+    />
+
     <FilterReset @load="loadDivisions" />
-    <!--    <SortList :models="createSortModels()" @load="loadDoctors" />-->
+    <SortList :models="createSortModels()" @load="loadDivisions" />
   </div>
 </template>
 
@@ -20,9 +29,10 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
-import RemoteSearchV2 from '@/components/admin/RemoteSearchV2.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
+import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
@@ -39,7 +49,8 @@ export default defineComponent({
   components: {
     FilterReset,
     FilterCheckbox,
-    RemoteSearchV2,
+    RemoteSearch,
+    SortList,
   },
 
   setup() {
@@ -82,8 +93,8 @@ export default defineComponent({
 
     const createSortModels = (): ISortModel[] => {
       return [
-        SortModel.CreateSortModel(schema.value.doctor.tableName, schema.value.doctor.fullName, Orders.Asc, 'По алфавиту', true),
-        SortModel.CreateSortModel(schema.value.doctor.tableName, schema.value.doctor.commentsCount, Orders.Desc, 'По отзывам', false),
+        SortModel.CreateSortModel(schema.value.division.tableName, schema.value.division.name, Orders.Asc, 'По алфавиту', true),
+        SortModel.CreateSortModel(schema.value.division.tableName, schema.value.division.commentsCount, Orders.Desc, 'По отзывам', false),
       ];
     };
 

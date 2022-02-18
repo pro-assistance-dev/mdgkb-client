@@ -2,13 +2,11 @@ import SearchGroup from '@/classes/SearchGroup';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearchModel from '@/interfaces/ISearchModel';
 import ISearchObject from '@/interfaces/ISearchObject';
-import { SearchModes } from '@/interfaces/SearchModes';
 
 export default class SearchModel implements ISearchModel {
   query = '';
   params = '';
   searchGroupId = '';
-  searchMode: SearchModes = SearchModes.SearchModeMain;
   searchGroups: ISearchGroup[] = [];
   searchGroup: ISearchGroup = new SearchGroup();
   searchObjects: ISearchObject[] = [];
@@ -27,7 +25,6 @@ export default class SearchModel implements ISearchModel {
   }
 
   toUrl(): string {
-    // return `{query=${this.query},searchGroupId=${this.searchGroupId}}`;
     return JSON.stringify(this);
   }
 }

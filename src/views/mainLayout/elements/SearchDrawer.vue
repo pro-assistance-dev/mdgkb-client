@@ -52,6 +52,7 @@ export default defineComponent({
       searchModel.value.searchGroups = [];
       searchInput.value.inputRef.focus();
     };
+
     const closeDrawer = () => store.commit('search/toggleDrawer', false);
 
     onBeforeMount(async () => {
@@ -62,7 +63,7 @@ export default defineComponent({
       searchModel.value.searchGroups = [];
       if (query.length > 2) {
         searchModel.value.query = query;
-        await store.dispatch('search/search', searchModel.value);
+        await store.dispatch('search/mainSearch', searchModel.value);
       }
     };
 

@@ -6,7 +6,7 @@ export default class SearchGroup implements ISearchGroup {
   id?: string;
   key = '';
   label = '';
-  order = '';
+  order = 0;
   route = '';
   table = '';
   searchColumn = '';

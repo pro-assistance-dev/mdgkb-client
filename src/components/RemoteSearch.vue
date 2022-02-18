@@ -21,10 +21,9 @@ import { useStore } from 'vuex';
 import SearchModel from '@/classes/SearchModel';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearch from '@/interfaces/ISearchObject';
-import { SearchModes } from '@/interfaces/SearchModes';
 
 export default defineComponent({
-  name: 'RemoteSearchV2',
+  name: 'RemoteSearch',
   props: {
     keyValue: {
       type: String as PropType<string>,
@@ -52,7 +51,6 @@ export default defineComponent({
 
     const find = async (query: string, resolve: CallableFunction): Promise<void> => {
       const searchModel = new SearchModel();
-      searchModel.searchMode = SearchModes.SearchModeObjects;
       if (query.length > 2) {
         searchModel.query = query;
         const groupForSearch = searchGroups.value.find((group: ISearchGroup) => group.key === props.keyValue);

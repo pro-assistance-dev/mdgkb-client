@@ -6,6 +6,7 @@ export default interface IDivisionSchema {
   ket: string;
   hospitalizationContactInfoId: string;
   label: string;
+  commentsCount: string;
   name: string;
   sortColumn: string;
   options: IOption[];

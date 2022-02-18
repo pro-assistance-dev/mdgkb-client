@@ -1,6 +1,5 @@
 <template>
   <div class="flex-column">
-    <RemoteSearch />
     <el-card>
       <el-table :data="doctors">
         <el-table-column label="ФИО" sortable>
@@ -47,12 +46,11 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Pagination from '@/components/admin/Pagination.vue';
-import RemoteSearch from '@/components/admin/RemoteSearch.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
 export default defineComponent({
   name: 'AdminDoctorsList',
-  components: { TableButtonGroup, Pagination, RemoteSearch },
+  components: { TableButtonGroup, Pagination },
   setup() {
     const store = useStore();
     const router = useRouter();

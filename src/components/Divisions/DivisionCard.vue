@@ -34,8 +34,8 @@
         </a>
       </span>
     </div>
-    <div v-if="division.phone">Телефон: {{ division.phone }}</div>
-    <div v-if="division.email">Email: {{ division.phone }}</div>
+    <div v-if="division.contactInfo.telephoneNumbers[0]">Телефон: {{ division.contactInfo.telephoneNumbers[0].number }}</div>
+    <div v-if="division.contactInfo.emails[0]">Email: {{ division.contactInfo.emails[0].address }}</div>
     <div class="doctor-card-footer">
       <button>Запись на прием</button>
     </div>

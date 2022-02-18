@@ -48,7 +48,7 @@
             <el-button @click="doctor.addDoctorPaidService()">Добавить услуги</el-button>
             <div v-for="(doctorPaidService, i) in doctor.doctorPaidServices" :key="doctorPaidService.id">
               <el-form-item label="Услуга">
-                <RemoteSearchV2
+                <RemoteSearch
                   :key-value="'paidService'"
                   :model-value="doctorPaidService.paidService.name"
                   @select="doctorPaidService.paidServiceId = $event.id"
@@ -77,7 +77,7 @@
               <CardHeader :label="'Регалии, звания'" :add-button="false" />
             </template>
             <!--            <el-form-item label="Должность" prop="position">-->
-            <!--              <RemoteSearchV2 :key-value="'position'" :model-value="doctor.position.name" @select="selectPosition" />-->
+            <!--              <RemoteSearch :key-value="'position'" :model-value="doctor.position.name" @select="selectPosition" />-->
             <!--            </el-form-item>-->
             <el-form-item label="Учёная степень">
               <el-input v-model="doctor.academicDegree" />
@@ -113,8 +113,8 @@ import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
-import RemoteSearchV2 from '@/components/admin/RemoteSearchV2.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -130,7 +130,7 @@ export default defineComponent({
     EducationForm,
     CardHeader,
     UploaderSingleScan,
-    RemoteSearchV2,
+    RemoteSearch,
   },
   setup() {
     const store = useStore();

@@ -1,6 +1,6 @@
 <template>
   <div class="left-side-container">
-    <RemoteSearchV2 :key-value="schema.doctor.key" @select="selectSearch" />
+    <RemoteSearch :key-value="schema.doctor.key" @select="selectSearch" />
     <FilterSelect
       placeholder="Медицинское направление"
       :options="schema.medicalProfile.options"
@@ -56,10 +56,10 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
-import RemoteSearchV2 from '@/components/admin/RemoteSearchV2.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -79,7 +79,7 @@ export default defineComponent({
     FilterReset,
     FilterCheckbox,
     SortList,
-    RemoteSearchV2,
+    RemoteSearch,
   },
 
   setup() {

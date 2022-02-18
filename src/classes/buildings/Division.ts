@@ -27,8 +27,6 @@ export default class Division implements IDivision {
   id?: string;
   name = '';
   info?: string = '';
-  phone?: string = '';
-  email?: string = '';
   address?: string = '';
   show = false;
   floorId?: string;
@@ -56,6 +54,9 @@ export default class Division implements IDivision {
   hospitalizationDoctorId?: string;
   hospitalizationDoctor?: IDoctor;
   medicalProfilesDivisions: IMedicalProfileDivision[] = [];
+  contactInfo: IContactInfo = new ContactInfo();
+  contactInfoId?: string;
+
   constructor(i?: IDivision) {
     if (!i) {
       return;
@@ -63,8 +64,11 @@ export default class Division implements IDivision {
     this.id = i.id;
     this.name = i.name;
     this.info = i.info;
-    this.phone = i.phone;
-    this.email = i.email;
+
+    if (i.contactInfo) {
+      this.contactInfo = new ContactInfo(i.contactInfo);
+    }
+    this.contactInfoId = i.contactInfoId;
     this.show = i.show;
     this.address = i.address;
     this.floorId = i.floorId;

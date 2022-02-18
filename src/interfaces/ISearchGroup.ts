@@ -4,7 +4,7 @@ export default interface ISearchGroup {
   id?: string;
   key: string;
   label: string;
-  order: string;
+  order: number;
   route: string;
   table: string;
   searchColumn: string;

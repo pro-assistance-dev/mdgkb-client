@@ -16,8 +16,6 @@ export default interface IDivision {
   id?: string;
   name: string;
   info?: string;
-  phone?: string;
-  email?: string;
   show: boolean;
   address?: string;
   floorId?: string;
@@ -43,6 +41,8 @@ export default interface IDivision {
   divisionPaidServices: IDivisionPaidService[];
   hospitalizationContactInfoId?: string;
   hospitalizationContactInfo?: IContactInfo;
+  contactInfo: IContactInfo;
+  contactInfoId?: string;
   hospitalizationDoctorId?: string;
   hospitalizationDoctor?: IDoctor;
 
