@@ -44,6 +44,7 @@ const mutations: MutationTree<State> = {
     // });
     state.filterQuery.pagination = new Pagination();
     state.filterQuery.filterModels = [];
+    state.filterQuery.allLoaded = false;
     // state.filterQuery.sortModels = [];
   },
   setFilterModel(state, filterModel: IFilterModel) {

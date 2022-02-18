@@ -38,6 +38,8 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit(`filter/resetQueryFilter`);
+      filterQuery.value.pagination.cursorMode = false;
+      filterQuery.value.pagination.limit = 6;
       store.commit('filter/setStoreModule', 'centers');
       await store.dispatch('centers/getAll', filterQuery.value);
       mount.value = true;

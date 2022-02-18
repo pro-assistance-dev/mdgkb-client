@@ -10,6 +10,10 @@ const mutations: MutationTree<State> = {
   resetState(state) {
     Object.assign(state, getDefaultState());
   },
+  appendToAll(state, items: ICenter[]) {
+    const centers = items.map((i: ICenter) => new Center(i));
+    state.items.push(...centers);
+  },
   setAll(state, items: ICenter[]) {
     state.items = items?.map((a: ICenter) => new Center(a));
   },

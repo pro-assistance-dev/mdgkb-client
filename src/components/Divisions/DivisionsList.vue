@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mount" class="card-flex-container">
+  <div class="card-flex-container">
     <div v-for="division in divisions" :key="division.id" class="card-container">
       <DivisionCard :division="division" />
     </div>
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import DivisionCard from '@/components/Divisions/DivisionCard.vue';
@@ -35,14 +35,6 @@ export default defineComponent({
       filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
       await store.dispatch('divisions/getAll', filterQuery.value);
     };
-
-    onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      filterQuery.value.pagination.cursorMode = false;
-      store.commit('filter/setStoreModule', 'divisions');
-      await store.dispatch('divisions/getAll', filterQuery.value);
-      mount.value = true;
-    });
 
     return {
       divisions,

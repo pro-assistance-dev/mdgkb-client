@@ -15,6 +15,9 @@ const httpClient = new HttpClient('divisions');
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
     const items = await httpClient.get<IDivision[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    if (filterQuery) {
+      filterQuery.setAllLoaded(items ? items.length : 0);
+    }
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);
       return;

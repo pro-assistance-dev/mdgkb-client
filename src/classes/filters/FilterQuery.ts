@@ -36,4 +36,10 @@ export default class FilterQuery implements IFilterQuery {
     }
     return url;
   }
+  setAllLoaded(loadedItemsLength: number): void {
+    if (loadedItemsLength >= this.pagination.limit) {
+      return;
+    }
+    this.allLoaded = true;
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="left-side-container">
+  <div v-if="mount" class="left-side-container">
     <RemoteSearch :key-value="schema.division.key" @select="selectSearch" />
     <FilterCheckbox
       label="С возможностью госпитализации"
@@ -82,6 +82,7 @@ export default defineComponent({
 
     const loadDivisions = async () => {
       filterQuery.value.pagination.cursorMode = false;
+      filterQuery.value.pagination.limit = 6;
       store.commit('filter/setStoreModule', 'divisions');
       await store.dispatch('divisions/getAll', filterQuery.value);
     };
@@ -99,7 +100,6 @@ export default defineComponent({
     };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      console.log(event);
       await router.push(`/divisions/${event.id}`);
     };
 
