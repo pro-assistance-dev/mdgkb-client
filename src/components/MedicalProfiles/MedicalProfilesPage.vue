@@ -3,7 +3,7 @@
     <div class="side-container hidden-md-and-down">
       <div v-if="medicalProfile.medicalProfilesDivisions.length" class="side-item">
         <div class="card-item">
-          <h4>Отделения по профилю</h4>
+          <h4 class="card-item-title">Отделения по профилю</h4>
           <el-divider />
 
           <el-table :data="medicalProfile.medicalProfilesDivisions" cell-class-name="cell-row" :show-header="false">
@@ -22,7 +22,7 @@
       </div>
       <div v-if="medicalProfile.medicalProfilesNews.length" class="side-item">
         <div class="card-item">
-          <h4>Новости медицинского профиля</h4>
+          <h4 class="card-item-title">Новости медицинского профиля</h4>
           <el-divider />
           <el-table :data="medicalProfile.medicalProfilesNews" cell-class-name="cell-row" :show-header="false">
             <el-table-column>
@@ -50,13 +50,13 @@
       <div class="card-item" style="padding: 30px">
         <div class="card-header">
           <h2 class="title article-title">{{ medicalProfile.name }}</h2>
-          <div class="title-icon">
-            <BaseIcon width="150" height="150" :color="chooseRandomBrandColor()" :icon-name="medicalProfile.icon">
-              <HelpProfileIcon :svg-code="medicalProfile.svgCode" />
-            </BaseIcon>
-          </div>
         </div>
         <el-divider />
+        <div class="title-icon">
+          <BaseIcon width="120" height="120" color="#ffffff" :background:="chooseRandomBrandColor()" :icon-name="medicalProfile.icon">
+            <HelpProfileIcon :svg-code="medicalProfile.svgCode" />
+          </BaseIcon>
+        </div>
         <div class="article-body" v-html="medicalProfile.description"></div>
         <el-divider />
         <div class="bottom-footer">
@@ -134,6 +134,19 @@ $card-margin-size: 30px;
 }
 .title-icon {
   text-align: center;
+  float: left;
+  padding: 20px;
+  background: #2754eb;
+  border-radius: 5px;
+  margin: 30px;
+}
+
+.article-title {
+  color: #4a4a4a;
+}
+
+.card-item-title {
+  color: #4a4a4a;
 }
 
 .medical-profile-page-container {
@@ -245,15 +258,16 @@ h4 {
   margin-bottom: 15px;
   text-align: center;
   button {
-    background-color: white;
-    border-radius: 10px;
-    padding: 7px 20px;
+    background-color: #2754eb;
+    border-radius: 40px;
+    color: #ffffff;
+    padding: 12px 23px;
     font-size: 14px;
-    border: 1px solid #4a4a4a;
+    border: none;
     transition: background-color 0.25s ease;
     &:hover {
       cursor: pointer;
-      background-color: darken(white, 10%);
+      background-color: darken(#2754eb, 10%);
     }
   }
 }
