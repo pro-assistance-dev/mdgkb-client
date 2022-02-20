@@ -21,6 +21,7 @@ import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizati
 import SiteMap from '@/components/SiteMap/SiteMap.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
 import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
+import AppointmentsRoutes from '@/router/AppointmentsRoutes';
 import CommentsRoutes from '@/router/CommentsRoutes';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
 import DoctorsRoutes from '@/router/DoctorsRoutes';
@@ -197,6 +198,7 @@ const routes: Array<RouteRecordRaw> = [
   ...EducationalOrganizationRoutes,
   ...ProjectsRoutes,
   ...PaidProgramsRoutes,
+  ...AppointmentsRoutes,
   ...indexAdminRoutes,
   {
     path: '/pages/:slug',

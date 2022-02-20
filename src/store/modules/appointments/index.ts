@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import ApplicationCar from '@/classes/ApplicationCar';
+import Appointment from '@/classes/Appointment';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,8 +11,7 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new ApplicationCar(),
-    isCarModalOpen: false,
+    item: new Appointment(),
   };
 };
 
@@ -20,7 +19,7 @@ const state = getDefaultState();
 console.log(state);
 const namespaced = true;
 
-export const applicationsCars: Module<State, RootState> = {
+export const appointments: Module<State, RootState> = {
   namespaced,
   state,
   getters,

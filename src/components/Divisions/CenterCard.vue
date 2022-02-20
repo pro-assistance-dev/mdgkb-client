@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="doctor-card-footer">
-      <button>Запись на прием</button>
+      <button @click="$router.push('/appointments/oms')">Запись на прием</button>
     </div>
   </div>
 </template>

@@ -54,7 +54,7 @@
     </div>
 
     <div class="card-item-right">
-      <button>Запись на прием</button>
+      <button @click="$router.push('/appointments/oms')">Запись на прием</button>
       <a v-if="doctor.onlineDoctorId" :href="doctor.getOnlineDoctorLink()" target="_blank">
         <button class="consult">Онлайн консультация</button>
       </a>

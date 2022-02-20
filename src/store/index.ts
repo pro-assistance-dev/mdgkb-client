@@ -2,6 +2,7 @@ import Vuex, { StoreOptions } from 'vuex';
 
 import { admin } from '@/store/modules/admin';
 import { applicationsCars } from '@/store/modules/applicationsCars';
+import { appointments } from '@/store/modules/appointments';
 import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
@@ -107,6 +108,7 @@ const s: StoreOptions<RootState> = {
     applicationsCars,
     callbacks,
     centers,
+    appointments,
   },
 };
 

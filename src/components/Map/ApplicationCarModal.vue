@@ -1,6 +1,9 @@
 <template>
   <el-dialog v-model="isOpen" :title="entranceName" @closed="close">
     <el-form ref="form" :model="applicationCard" :rules="rules" label-width="200px">
+      <el-form-item prop="user.email" label="Email">
+        <el-input v-model="applicationCard.user.email" placeholder="Email"></el-input>
+      </el-form-item>
       <el-form-item prop="date" label="Дата:">
         <el-date-picker v-model="applicationCard.date" format="DD.MM.YYYY HH:mm" type="datetime" placeholder="Дата" />
       </el-form-item>
@@ -23,7 +26,6 @@ import { useStore } from 'vuex';
 
 import IApplicationCar from '@/interfaces/IApplicationCar';
 import validate from '@/mixins/validate';
-
 export default defineComponent({
   name: 'ApplicationCarModal',
   props: {
@@ -38,7 +40,7 @@ export default defineComponent({
     const form = ref();
     const isOpen: ComputedRef<boolean> = computed(() => store.getters['applicationsCars/isCarModalOpen']);
     const applicationCard: ComputedRef<IApplicationCar> = computed(() => store.getters['applicationsCars/item']);
-
+    const isAuth = computed(() => store.getters['auth/isAuth']);
     const rules = {
       carBrand: [{ required: true, message: 'Необходимо указать гос.знак автомобиля', trigger: 'blur' }],
       carNumber: [{ required: true, message: 'Необходимо указать марку автомобиля', trigger: 'blur' }],
@@ -58,6 +60,7 @@ export default defineComponent({
     };
 
     return {
+      isAuth,
       isOpen,
       close,
       applicationCard,

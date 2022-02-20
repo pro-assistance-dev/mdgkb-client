@@ -8,6 +8,6 @@ export default interface IApplicationCar {
   divisionId?: string;
   division?: IDivision;
   userId?: string;
-  user?: IUser;
+  user: IUser;
   date: Date;
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="buttons-container">
     <div class="button-container">
-      <button class="blue-button">
+      <button class="blue-button" @click="$router.push('/appointments/oms')">
         <el-icon><calendar /></el-icon>
         Запись на прием
       </button>

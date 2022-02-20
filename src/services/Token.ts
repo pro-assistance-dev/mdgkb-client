@@ -23,6 +23,14 @@ const TokenService = (() => {
     return '';
   }
 
+  function _getUser() {
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      return JSON.parse(userString);
+    }
+    return;
+  }
+
   function _getAccessToken() {
     return localStorage.getItem('access_token');
   }
@@ -40,6 +48,7 @@ const TokenService = (() => {
     getRefreshToken: _getRefreshToken,
     getUserId: _getUserId,
     clearTokens: _clearTokens,
+    getUser: _getUser,
   };
 })();
 
