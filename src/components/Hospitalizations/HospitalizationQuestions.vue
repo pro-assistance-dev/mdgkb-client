@@ -8,14 +8,16 @@
       :col="schema.doctor.divisionId"
       @load="setDivision"
     />
-    <button @click="selectDivision(true)">Выбрать</button>
-    <button @click="selectDivision(false)">Я не знаю, какое отделение мне нужно</button>
+    <button class="select" @click="selectDivision(true)">Выбрать</button>
+    <button class="select_dont" @click="selectDivision(false)">Я не знаю, какое отделение мне нужно</button>
   </div>
   <div v-if="secondQuestion">
     <h4>Выберите предполагаемую дату госпитализации</h4>
-    <el-date-picker v-model="hospitalization.selectedHospitalisation.date"></el-date-picker>
-    <button @click="selectDate(true)">Выбрать</button>
-    <button @click="selectDate(false)">Я не знаю, какая дата мне нужна</button>
+    <el-date-picker v-model="hospitalization.selectedHospitalisation.date" class="secondQuestion"></el-date-picker><br />
+    <div class="select-block">
+      <button class="select" @click="selectDate(true)">Выбрать</button>
+      <button class="select_dont" @click="selectDate(false)">Я не знаю, какая дата мне нужна</button>
+    </div>
   </div>
 </template>
 
@@ -93,37 +95,42 @@ export default defineComponent({
   background: white;
 }
 
-.hospitalization-table {
-  width: 100%;
-  text-align: center;
-}
-
-.hospitalization-button {
+.select {
+  background: #2754eb;
   margin: 10px 0;
-  width: 230px;
-  font-weight: bold;
+  font-weight: normal;
   font-size: 14px;
-  border-radius: 10px;
-  padding: 15px 0px;
+  border-radius: 40px;
+  padding: 12px 23px;
   height: auto;
   letter-spacing: 2px;
   color: white;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: none;
+  margin-right: 30px;
 }
 
-.application {
-  background-color: #31af5e;
-  &:hover {
-    cursor: pointer;
-    background-color: darken(#31af5e, 10%);
-  }
+.select_dont {
+  background: #f49524;
+  margin: 10px 0;
+  font-weight: normal;
+  font-size: 14px;
+  border-radius: 40px;
+  padding: 12px 23px;
+  height: auto;
+  letter-spacing: 2px;
+  color: white;
+  border: none;
 }
 
-.docs {
-  background-color: #2754eb;
-  &:hover {
-    cursor: pointer;
-    background-color: darken(#2754eb, 10%);
-  }
+.select:hover {
+  background: darken(#2754eb, 10%);
+}
+
+.select_dont:hover {
+  background: darken(#f49524, 10%);
+}
+
+.select-block {
+  margin-top: 22px;
 }
 </style>

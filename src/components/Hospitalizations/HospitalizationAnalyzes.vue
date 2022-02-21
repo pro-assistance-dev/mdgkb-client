@@ -1,11 +1,17 @@
 <template>
-  <h4>Необходимые анализы</h4>
-  <div>
-    <HospitalizationAnalysisCard title="Ребенку" :analyzes="hospitalization.hospitalizationAnalyzes.filter((item) => item.children)" />
-    <HospitalizationAnalysisCard
-      title="Представителю"
-      :analyzes="hospitalization.hospitalizationAnalyzes.filter((item) => !item.children)"
-    />
+  <div class="block">
+    <h4>Необходимые анализы</h4>
+    <div class="wrapper">
+      <div class="card-space">
+        <HospitalizationAnalysisCard title="Ребенку" :analyzes="hospitalization.hospitalizationAnalyzes.filter((item) => item.children)" />
+      </div>
+      <div class="card-space">
+        <HospitalizationAnalysisCard
+          title="Представителю"
+          :analyzes="hospitalization.hospitalizationAnalyzes.filter((item) => !item.children)"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,6 +36,24 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.card-space {
+  padding-bottom: 20px;
+}
+
+.card-space:last-child {
+  padding-bottom: 0;
+}
+
+.block {
+  border: 1px solid #dcdfe6;
+  background-clip: padding-box;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: auto;
+  background: #ffffff;
+  padding: 0 20px 20px 20px;
+}
+
 .hospitalization-table-wrapper {
   background: white;
 }
