@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Информация о госпитализации</h1>
+    <h2>Информация о госпитализации</h2>
     <HospitalizationsTable @download-docs="downloadDocs" @sendApplication="sendApplication" />
     <div id="hospitalization-info">
       <HospitalizationQuestions v-if="showQuestions" @allQuestionsAnswered="allQuestionsAnswered" />
@@ -77,6 +77,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .hospitalization-table-wrapper {
   background: white;
 }

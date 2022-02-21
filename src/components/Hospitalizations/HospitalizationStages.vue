@@ -1,7 +1,11 @@
 <template>
-  <h4>Что нужно сделать для госпитализации</h4>
-  <div v-for="stage in hospitalization.selectedHospitalisation.hospitalizationStages" :key="stage.id">
-    <HospitalizationStageCard :stage="stage" />
+  <div class="block">
+    <h4>Что нужно сделать для госпитализации</h4>
+    <div class="wrapper">
+      <div v-for="stage in hospitalization.selectedHospitalisation.hospitalizationStages" :key="stage.id" class="card-space">
+        <HospitalizationStageCard :stage="stage" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,8 +30,22 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.hospitalization-table-wrapper {
-  background: white;
+.card-space {
+  padding-bottom: 20px;
+}
+
+.card-space:last-child {
+  padding-bottom: 0;
+}
+
+.block {
+  border: 1px solid #dcdfe6;
+  background-clip: padding-box;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: auto;
+  background: #ffffff;
+  padding: 0 20px 20px 20px;
 }
 
 .hospitalization-table {
@@ -62,5 +80,9 @@ export default defineComponent({
     cursor: pointer;
     background-color: darken(#2754eb, 10%);
   }
+}
+
+li {
+  list-style-position: inside;
 }
 </style>
