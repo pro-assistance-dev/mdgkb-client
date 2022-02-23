@@ -1,8 +1,6 @@
 <template>
-  <div class="container">
-    <div id="mapcontainer">
-      <map-svg :buildings="buildings"></map-svg>
-    </div>
+  <div class="map-container">
+    <map-svg :buildings="buildings"></map-svg>
   </div>
 </template>
 
@@ -31,4 +29,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.map-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+</style>
