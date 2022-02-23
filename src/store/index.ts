@@ -14,6 +14,7 @@ import { doctors } from '@/store/modules/doctors';
 import { documentTypes } from '@/store/modules/documentTypes';
 import { donorRules } from '@/store/modules/donorRules';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
+import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
 import { filter } from '@/store/modules/filter';
@@ -105,6 +106,7 @@ const s: StoreOptions<RootState> = {
     medicalProfiles,
     applicationsCars,
     callbacks,
+    entrances,
   },
 };
 

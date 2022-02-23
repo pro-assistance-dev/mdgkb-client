@@ -11,6 +11,7 @@ export default [
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
+    meta: { main: true },
   },
   {
     path: '/map',
@@ -19,5 +20,6 @@ export default [
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
+    meta: { main: true },
   },
 ];

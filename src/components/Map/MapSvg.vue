@@ -1,9 +1,9 @@
 <template>
   <div class="page-container">
-    <MapRouter />
     <div id="map-svg-container">
       <Map id="map-svg" />
       <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
+      <MapRouter />
       <div ref="enterPopoverRef" class="enter-popover">
         <div class="card-item enter-popover-container">
           <BaseModalButtonClose class="enter-popover-container-close" @click="closeEnterPopover" />
@@ -64,11 +64,15 @@ export default defineComponent({
 
     onMounted(() => {
       // decorAnimate();
+      hideRoutePoints();
+      toggleEnterNumbers();
       getRouteInfo();
+      const shadow = document.getElementById('shadow');
       const buildingsRef = document.getElementById('buildings');
-      if (!buildingsRef) {
+      if (!buildingsRef || !shadow) {
         return;
       }
+      shadow.style.display = 'none';
       buildingsRef.childNodes.forEach((item: EventTarget) => setEventsOnBuilding(item));
       const entersRef = document.querySelectorAll('.barrier');
       entersRef.forEach((item: Element) => setEventsOnBarrier(item));
@@ -206,6 +210,25 @@ export default defineComponent({
       setTimeout(function () {
         item.classList.remove('jump');
       }, 1000);
+    };
+
+    const toggleEnterNumbers = () => {
+      const numbers = document.getElementById('enter-numbers');
+      if (numbers) {
+        if (numbers.style.display === 'none') {
+          numbers.style.display = '';
+        } else {
+          numbers.style.display = 'none';
+        }
+      }
+    };
+
+    const hideRoutePoints = () => {
+      const routePointsRef = document.getElementById('route-points');
+      if (!routePointsRef) {
+        return;
+      }
+      routePointsRef.style.visibility = 'hidden';
     };
 
     return {
@@ -388,6 +411,18 @@ svg #decor > g.jump {
         background-color: darken(#2754ec, 10%);
       }
     }
+  }
+}
+
+#map-svg-container {
+  max-width: 1344px;
+  // margin: 0 auto;
+}
+.map-point {
+  transition: 0.3s;
+  &:hover {
+    fill: #ff4d3b;
+    cursor: pointer;
   }
 }
 </style>
