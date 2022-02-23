@@ -1,4 +1,4 @@
-import EducationalOrganizationDocumentTypeDocument from '@/classes/educationalOrganization/EducationalOrganizationDocumentTypeDocument';
+import EducationalOrganizationDocumentTypeDocument from '@/classes/EducationalOrganizationDocumentTypeDocument';
 import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
 import IEducationalOrganizationDocumentTypeDocument from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentTypeDocument';
 import IFileInfo from '@/interfaces/files/IFileInfo';

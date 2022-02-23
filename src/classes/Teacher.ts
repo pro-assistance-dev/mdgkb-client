@@ -1,14 +1,14 @@
 import Doctor from '@/classes/Doctor';
-import IEducationalOrganizationTeacher from '@/interfaces/educationalOrganization/IEducationalOrganizationTeacher';
+import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
 import IDoctor from '@/interfaces/IDoctor';
 
-export default class EducationalOrganizationTeacher implements IEducationalOrganizationTeacher {
+export default class Teacher implements ITeacher {
   id?: string;
   doctorId?: string;
   doctor: IDoctor = new Doctor();
   position = '';
 
-  constructor(i?: IEducationalOrganizationTeacher) {
+  constructor(i?: ITeacher) {
     if (!i) {
       return;
     }

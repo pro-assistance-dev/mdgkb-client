@@ -1,5 +1,5 @@
 import DocumentType from '@/classes/document/DocumentType';
-import EducationalOrganizationDocumentType from '@/classes/educationalOrganization/EducationalOrganizationDocumentType';
+import EducationalOrganizationDocumentType from '@/classes/EducationalOrganizationDocumentType';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
 import IEducationalOrganizationDocumentTypeDocument from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentTypeDocument';

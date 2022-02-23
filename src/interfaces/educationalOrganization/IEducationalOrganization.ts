@@ -2,7 +2,7 @@ import IEducationalOrganizationAcademic from '@/interfaces/educationalOrganizati
 import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
 import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
 import IEducationalOrganizationProperty from '@/interfaces/educationalOrganization/IEducationalOrganizationProperty';
-import IEducationalOrganizationTeacher from '@/interfaces/educationalOrganization/IEducationalOrganizationTeacher';
+import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDoctor from '@/interfaces/IDoctor';
 
@@ -11,8 +11,8 @@ export default interface IEducationalOrganization {
   educationalOrganizationPropertiesForDelete: string[];
   educationalOrganizationManagers: IEducationalOrganizationManager[];
   educationalOrganizationManagersForDelete: string[];
-  educationalOrganizationTeachers: IEducationalOrganizationTeacher[];
-  educationalOrganizationTeachersForDelete: string[];
+  teachers: ITeacher[];
+  teachersForDelete: string[];
 
   educationalOrganizationAcademics: IEducationalOrganizationAcademic[];
   educationalOrganizationAcademicsForDelete: string[];

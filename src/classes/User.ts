@@ -15,7 +15,7 @@ export default class User implements IUser {
   id?: string;
   email = '';
   password?: string = '';
-
+  phone = '';
   human = new Human();
   humanId?: string;
   questions: IQuestion[] = [];
@@ -28,7 +28,7 @@ export default class User implements IUser {
     this.id = i.id;
     this.email = i.email;
     this.password = i.password;
-
+    this.phone = i.phone;
     this.human = new Human(i.human);
     this.humanId = i.humanId;
     if (i.questions) {

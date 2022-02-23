@@ -1,10 +1,10 @@
 import { MutationTree } from 'vuex';
 
-import EducationalOrganization from '@/classes/educationalOrganization/EducationalOrganization';
-import EducationalOrganizationProperty from '@/classes/educationalOrganization/EducationalOrganizationProperty';
+import EducationalOrganization from '@/classes/EducationalOrganization';
+import EducationalOrganizationProperty from '@/classes/EducationalOrganizationProperty';
 import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
 import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
-import IEducationalOrganizationTeacher from '@/interfaces/educationalOrganization/IEducationalOrganizationTeacher';
+import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
 
 import { State } from './state';
 
@@ -35,15 +35,15 @@ const mutations: MutationTree<State> = {
     }
     state.educationalOrganization.educationalOrganizationManagers.splice(index, 0);
   },
-  addTeacher(state, teacher: IEducationalOrganizationTeacher) {
-    state.educationalOrganization.educationalOrganizationTeachers.push(teacher);
+  addTeacher(state, teacher: ITeacher) {
+    state.educationalOrganization.teachers.push(teacher);
   },
   removeTeacher(state, index: number) {
-    const id = state.educationalOrganization.educationalOrganizationTeachers[index].id;
+    const id = state.educationalOrganization.teachers[index].id;
     if (id) {
-      state.educationalOrganization.educationalOrganizationTeachersForDelete.push(id);
+      state.educationalOrganization.teachersForDelete.push(id);
     }
-    state.educationalOrganization.educationalOrganizationTeachers.splice(index, 0);
+    state.educationalOrganization.teachers.splice(index, 0);
   },
 };
 

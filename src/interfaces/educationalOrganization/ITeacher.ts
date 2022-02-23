@@ -1,6 +1,6 @@
 import IDoctor from '@/interfaces/IDoctor';
 
-export default interface IEducationalOrganizationTeacher {
+export default interface ITeacher {
   id?: string;
   doctorId?: string;
   doctor: IDoctor;

@@ -2,8 +2,8 @@
   <el-container direction="vertical">
     <h2 style="text-align: center">Педагогический состав</h2>
 
-    <el-card v-if="educationalOrganisation.educationalOrganizationTeachers.length" class="card-content">
-      <div v-for="item in educationalOrganisation.educationalOrganizationTeachers" :key="item.id" class="doctors-wrapper">
+    <el-card v-if="educationalOrganisation.teachers.length" class="card-content">
+      <div v-for="item in educationalOrganisation.teachers" :key="item.id" class="doctors-wrapper">
         <DoctorInfoCard :doctor="item.doctor" />
       </div>
     </el-card>

@@ -14,6 +14,7 @@ const httpClient = new HttpClient('divisions');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
+    console.log(filterQuery);
     const items = await httpClient.get<IDivision[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
       filterQuery.setAllLoaded(items ? items.length : 0);

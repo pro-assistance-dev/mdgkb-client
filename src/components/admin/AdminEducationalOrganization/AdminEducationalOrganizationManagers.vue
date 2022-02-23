@@ -28,7 +28,7 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import EducationalOrganizationManager from '@/classes/educationalOrganization/EducationalOrganizationManager';
+import EducationalOrganizationManager from '@/classes/EducationalOrganizationManager';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDoctor from '@/interfaces/IDoctor';
 

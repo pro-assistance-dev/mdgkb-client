@@ -79,6 +79,10 @@ export default defineComponent({
             title: 'Дополнительное профессиональное образование',
             to: '/admin/educational-organization',
           },
+          {
+            title: 'Программы ДПО',
+            to: '/admin/educational-organization/dpo/courses',
+          },
         ],
       },
       {

@@ -17,24 +17,20 @@
         </div>
       </div>
     </div>
-    <div class="content-container">
-      <AdditionalEducationPrograms v-if="activeMenuName === 'Программы'" />
-      <AdditionalEducationDocumentsForAdmission v-if="activeMenuName === 'Документы для обучения'" />
-      <AdditionalEducationNormativeDocuments v-if="activeMenuName === 'Нормативные документы'" />
-    </div>
+    <!--    <div class="content-container">-->
+    <!--      <AdditionalEducationPrograms v-if="activeMenuName === 'Программы'" />-->
+    <!--      <AdditionalEducationDocumentsForAdmission v-if="activeMenuName === 'Документы для обучения'" />-->
+    <!--      <AdditionalEducationNormativeDocuments v-if="activeMenuName === 'Нормативные документы'" />-->
+    <!--    </div>-->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
 
-import AdditionalEducationDocumentsForAdmission from '@/components/EducationalOrganization/AdditionalEducation/AdditionalEducationDocumentsForAdmission.vue';
-import AdditionalEducationNormativeDocuments from '@/components/EducationalOrganization/AdditionalEducation/AdditionalEducationNormativeDocuments.vue';
-import AdditionalEducationPrograms from '@/components/EducationalOrganization/AdditionalEducation/AdditionalEducationPrograms.vue';
-
 export default defineComponent({
   name: 'AdditionalEducation',
-  components: { AdditionalEducationDocumentsForAdmission, AdditionalEducationPrograms, AdditionalEducationNormativeDocuments },
+  components: {},
   setup() {
     const pageTitle: Ref<string> = ref('Программы');
     const activeMenuName: Ref<string> = ref('Программы');

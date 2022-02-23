@@ -4,14 +4,16 @@ export default class EducationalOrganizationProperty implements IEducationalOrga
   id?: string;
   name = '';
   value = '';
+  order = 0;
 
-  constructor(educationalOrganizationProperty?: IEducationalOrganizationProperty) {
-    if (!educationalOrganizationProperty) {
+  constructor(i?: IEducationalOrganizationProperty) {
+    if (!i) {
       return;
     }
 
-    this.id = educationalOrganizationProperty.id;
-    this.name = educationalOrganizationProperty.name;
-    this.value = educationalOrganizationProperty.value;
+    this.id = i.id;
+    this.name = i.name;
+    this.value = i.value;
+    this.order = i.order;
   }
 }

@@ -27,7 +27,7 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import EducationalOrganizationTeacher from '@/classes/educationalOrganization/EducationalOrganizationTeacher';
+import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDoctor from '@/interfaces/IDoctor';
 
@@ -45,7 +45,7 @@ export default defineComponent({
 
     const add = () => {
       const doctor = doctors.value?.find((i: IDoctor) => i.id === newId.value);
-      const teacher = new EducationalOrganizationTeacher();
+      const teacher = new Teacher();
       teacher.doctorId = newId.value;
       teacher.doctor = doctor;
       teacher.position = newPosition.value;

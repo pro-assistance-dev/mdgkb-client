@@ -8,6 +8,7 @@ import IQuestion from '@/interfaces/IQuestion';
 export default interface IUser {
   id?: string;
   email: string;
+  phone: string;
   password?: string;
   human: IHuman;
   humanId?: string;

@@ -63,19 +63,7 @@
           <div></div>
           <div class="card-meta share">
             <div style="margin-right: 5px">Поделиться:</div>
-            <ShareNetwork
-              v-for="share in shares"
-              :key="share.name"
-              :network="share.name"
-              :url="getUrl()"
-              :title="medicalProfile.name"
-              :description="medicalProfile.description"
-            >
-              <div class="share-item">
-                <img class="black" :src="require(`@/assets/img/social/${share.icon}.png`)" :alt="share.name" />
-                <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.png`)" :alt="share.name" />
-              </div>
-            </ShareNetwork>
+            <SharesBlock :title="medicalProfile.name" :description="medicalProfile.description" :url="getUrl()" />
           </div>
         </div>
       </div>
@@ -91,11 +79,12 @@ import { useStore } from 'vuex';
 
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
+import SharesBlock from '@/components/SharesBlock.vue';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import chooseRandomBrandColor from '@/mixins/brandColors';
 export default defineComponent({
   name: 'MedicalProfileList',
-  components: { BaseIcon, HelpProfileIcon, EyeOutlined },
+  components: { SharesBlock, BaseIcon, HelpProfileIcon, EyeOutlined },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -107,18 +96,12 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    const shares = [
-      { name: 'facebook', icon: 'fb' },
-      { name: 'twitter', icon: 'twitter' },
-      { name: 'VK', icon: 'vk' },
-    ];
-
     const getUrl = (): string => {
       const host = process.env.VUE_APP_API_HOST;
       return `${host}/medical-profiles/${route.params['id']}`;
     };
 
-    return { chooseRandomBrandColor, mounted, medicalProfile, shares, getUrl };
+    return { chooseRandomBrandColor, mounted, medicalProfile, getUrl };
   },
 });
 </script>

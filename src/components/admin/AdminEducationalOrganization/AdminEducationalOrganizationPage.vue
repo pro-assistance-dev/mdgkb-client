@@ -11,23 +11,32 @@
               <el-col :xl="7" :lg="7">Имя</el-col>
               <el-col :xl="7" :lg="7">Значение</el-col>
             </el-row>
-            <el-row v-for="prop in educationalOrganisation.educationalOrganizationProperties" :key="prop.id" :gutter="40">
-              <el-col :xl="7" :lg="7">
-                <el-form-item>
-                  <el-input v-model="prop.name"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :xl="15" :lg="15">
-                <el-form-item>
-                  <el-input v-model="prop.value"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :xl="1" :lg="1">
-                <el-form-item>
-                  <el-button icon="el-icon-delete" type="danger" @click="removeProperty(prop.id)"></el-button>
-                </el-form-item>
-              </el-col>
-            </el-row>
+            <draggable
+              class="groups"
+              :list="educationalOrganisation.educationalOrganizationProperties"
+              item-key="id"
+              @end="sort(educationalOrganisation.educationalOrganizationProperties)"
+            >
+              <template #item="{ element }">
+                <el-row :gutter="40">
+                  <el-col :xl="7" :lg="7">
+                    <el-form-item>
+                      <el-input v-model="element.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :xl="15" :lg="15">
+                    <el-form-item>
+                      <el-input v-model="element.value"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :xl="1" :lg="1">
+                    <el-form-item>
+                      <el-button icon="el-icon-delete" type="danger" @click="removeProperty(element.id)"></el-button>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </template>
+            </draggable>
           </el-card>
           <AdminEducationalOrganizationManagers />
           <AdminEducationalOrganizationTeachers />
@@ -118,6 +127,7 @@
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
+import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
 import AdminEducationalOrganizationAcademics from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationAcademics.vue';
@@ -125,9 +135,9 @@ import AdminEducationalOrganizationManagers from '@/components/admin/AdminEducat
 import AdminEducationalOrganizationTeachers from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationTeachers.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
+import sort from '@/mixins/sort';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
-
 export default defineComponent({
   name: 'AdminEducationalOrganizationPage',
   components: {
@@ -135,6 +145,7 @@ export default defineComponent({
     CardHeader,
     AdminEducationalOrganizationManagers,
     AdminEducationalOrganizationTeachers,
+    draggable,
   },
   setup() {
     const mounted = ref(false);
@@ -151,7 +162,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('doctors/getAll');
+      // await store.dispatch('doctors/getAll');
       await store.dispatch('educationalOrganization/get');
       store.commit('admin/setHeaderParams', { title: 'Образовательная организация', showBackButton: true, buttons: [{ action: submit }] });
       window.addEventListener('beforeunload', beforeWindowUnload);
@@ -191,6 +202,7 @@ export default defineComponent({
     };
 
     return {
+      sort,
       getFileUrl,
       storeModule,
       filteredDoctors,

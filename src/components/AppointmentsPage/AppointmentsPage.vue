@@ -5,55 +5,23 @@
         <ModeButtons :second-mode-active="omsMode" :store-mode="false" first-mode="ОМС" second-mode="ДМС" @changeMode="changeMode" />
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
-        <div class="flex-row card-item">
-          <div class="form">
-            <el-form>
-              <el-form-item>
-                <el-input placeholder="ФИО пациента"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-input placeholder="Адрес регистрации пациента"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-input placeholder="Email"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-input placeholder="Телефон"></el-input>
-              </el-form-item>
-              <el-form-item v-if="!appointment.mrt">
-                <el-input placeholder="Специальность врача"></el-input>
-              </el-form-item>
-              <el-form-item v-if="!appointment.mrt">
-                <el-input placeholder="Врач"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-checkbox v-model="appointment.mrt" label="МРТ/КТ" placeholder="МРТ/КТ"></el-checkbox>
-              </el-form-item>
-              <el-form-item v-if="appointment.mrt">
-                <el-checkbox v-model="appointment.mrtAnesthesia" label="Требуется анастезия" placeholder="МРТ/КТ"></el-checkbox>
-              </el-form-item>
-              <el-form-item v-if="appointment.mrt">
-                <el-input v-model="appointment.mrtZone" placeholder="Зона для исппледования МРТ/КТ"></el-input>
-              </el-form-item>
-              <el-form-item v-if="appointment.oms">
-                <el-input placeholder="Номер направления"></el-input>
-              </el-form-item>
-              <el-form-item v-if="appointment.oms">
-                <el-input placeholder="Номер поликлиники"></el-input>
-              </el-form-item>
-              <el-form-item v-if="appointment.oms">
-                <el-date-picker placeholder="Дата выдачи направления"></el-date-picker>
-              </el-form-item>
-            </el-form>
-            <div class="center-button">
-              <el-button native-type="reset" class="green-button" round @click="sendApplication">Записаться</el-button>
+        <div class="card-item">
+          <div class="flex-row">
+            <div class="form">
+              <AppointmentForm />
+            </div>
+            <hr class="gray-border" />
+            <div class="calendar-zone">
+              <AppointmentsCalendar @chooseDay="chooseDay" />
+              <hr class="gray-border" />
+              <div v-if="chosenDay">
+                <div class="middle-header">Время записи</div>
+                <AppointmentsSlots />
+              </div>
             </div>
           </div>
-          <hr class="gray-border" />
-          <div class="calendar-zone">
-            <AppointmentsCalendar @chooseDay="chooseDay" />
-            <hr class="gray-border" />
-            <AppointmentsSlots v-if="chosenDay" />
+          <div class="center-button">
+            <el-button native-type="reset" class="green-button" round @click="sendApplication">Записаться</el-button>
           </div>
         </div>
       </el-col>
@@ -66,6 +34,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import AppointmentForm from '@/components/AppointmentsPage/AppointmentForm.vue';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
@@ -75,6 +44,7 @@ import IAppointment from '@/interfaces/IAppointment';
 export default defineComponent({
   name: 'AppointmentsPage',
   components: {
+    AppointmentForm,
     AppointmentsSlots,
     AppointmentsCalendar,
     ModeButtons,
@@ -129,7 +99,14 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.middle-header {
+  font-weight: 400;
+  font-size: 18px;
+  text-align: center;
+}
+
 .center-button {
+  margin-top: 10px;
   text-align: center;
 }
 .green-button {
@@ -140,8 +117,11 @@ export default defineComponent({
     color: white;
   }
 }
-.flex-row {
+
+.card-item {
   margin-top: 10px;
+}
+.flex-row {
   justify-content: space-between;
 }
 .calendar-zone {
