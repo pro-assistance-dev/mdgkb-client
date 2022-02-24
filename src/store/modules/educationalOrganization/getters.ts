@@ -1,8 +1,8 @@
 import { GetterTree } from 'vuex';
 
-import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
-import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
-import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
+import IEducationalManager from '@/interfaces/IEducationalManager';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+import ITeacher from '@/interfaces/ITeacher';
 import RootState from '@/store/types';
 
 import { State } from './state';
@@ -11,7 +11,7 @@ const getters: GetterTree<State, RootState> = {
   educationalOrganization(state): IEducationalOrganization {
     return state.educationalOrganization;
   },
-  managers(state): IEducationalOrganizationManager[] {
+  managers(state): IEducationalManager[] {
     return state.educationalOrganization.educationalOrganizationManagers;
   },
   teachers(state): ITeacher[] {

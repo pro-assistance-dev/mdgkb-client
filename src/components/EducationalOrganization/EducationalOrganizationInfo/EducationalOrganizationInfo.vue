@@ -52,7 +52,7 @@ import PaidServicesPage from '@/components/EducationalOrganization/EducationalOr
 import StandartsPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/StandartsPage.vue';
 import StructurePage from '@/components/EducationalOrganization/EducationalOrganizationInfo/StructurePage.vue';
 import VacancyPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/VacancyPage.vue';
-import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'EducationalOrganizationInfo',

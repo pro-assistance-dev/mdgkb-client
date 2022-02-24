@@ -27,8 +27,8 @@ import { computed, ComputedRef, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
 import IDoctor from '@/interfaces/IDoctor';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'AdminEducationalOrganizationAcademics',

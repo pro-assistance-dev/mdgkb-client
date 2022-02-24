@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import Teacher from '@/classes/Teacher';
-import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
+import ITeacher from '@/interfaces/ITeacher';
 
 import { State } from './state';
 

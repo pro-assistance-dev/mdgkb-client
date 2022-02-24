@@ -39,7 +39,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
-import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'ManagersPage',

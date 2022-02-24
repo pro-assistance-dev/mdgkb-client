@@ -17,6 +17,7 @@ import { documentTypes } from '@/store/modules/documentTypes';
 import { donorRules } from '@/store/modules/donorRules';
 import { dpoBaseCourses } from '@/store/modules/dpoBaseCourses';
 import { dpoCourses } from '@/store/modules/dpoCourses';
+import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
@@ -117,6 +118,7 @@ const s: StoreOptions<RootState> = {
     dpoBaseCourses,
     teachers,
     entrances,
+    educationalManagers,
   },
 };
 

@@ -1,6 +1,6 @@
 import Doctor from '@/classes/Doctor';
-import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
 import IDoctor from '@/interfaces/IDoctor';
+import ITeacher from '@/interfaces/ITeacher';
 
 export default class Teacher implements ITeacher {
   id?: string;

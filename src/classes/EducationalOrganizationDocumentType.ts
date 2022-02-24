@@ -1,7 +1,7 @@
 import EducationalOrganizationDocumentTypeDocument from '@/classes/EducationalOrganizationDocumentTypeDocument';
-import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
-import IEducationalOrganizationDocumentTypeDocument from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentTypeDocument';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IEducationalOrganizationDocumentType from '@/interfaces/IEducationalOrganizationDocumentType';
+import IEducationalOrganizationDocumentTypeDocument from '@/interfaces/IEducationalOrganizationDocumentTypeDocument';
 
 export default class EducationalOrganizationDocumentType implements IEducationalOrganizationDocumentType {
   id?: string;

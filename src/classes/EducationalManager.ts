@@ -1,13 +1,15 @@
 import Doctor from '@/classes/Doctor';
 import IDoctor from '@/interfaces/IDoctor';
-import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
+import IEducationalManager from '@/interfaces/IEducationalManager';
 
-export default class EducationalOrganizationAcademic implements IEducationalOrganizationAcademic {
+export default class EducationalManager implements IEducationalManager {
   id?: string;
   doctorId?: string;
   doctor: IDoctor = new Doctor();
+  role = '';
+  managerOrder = 0;
 
-  constructor(i?: IEducationalOrganizationAcademic) {
+  constructor(i?: IEducationalManager) {
     if (!i) {
       return;
     }
@@ -16,5 +18,7 @@ export default class EducationalOrganizationAcademic implements IEducationalOrga
     if (i.doctor) {
       this.doctor = new Doctor(i.doctor);
     }
+    this.role = i.role;
+    this.managerOrder = i.managerOrder;
   }
 }

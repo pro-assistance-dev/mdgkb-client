@@ -1,4 +1,4 @@
-import IEducationalOrganizationProperty from '@/interfaces/educationalOrganization/IEducationalOrganizationProperty';
+import IEducationalOrganizationProperty from '@/interfaces/IEducationalOrganizationProperty';
 
 export default class EducationalOrganizationProperty implements IEducationalOrganizationProperty {
   id?: string;

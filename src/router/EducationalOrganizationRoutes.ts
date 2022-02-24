@@ -7,14 +7,13 @@ import AdditionalEducation from '@/components/EducationalOrganization/Dpo/DpoPag
 import EducationalOrganizationAcademics from '@/components/EducationalOrganization/EducationalOrganizationAcademics.vue';
 import EducationalOrganizationDocuments from '@/components/EducationalOrganization/EducationalOrganizationInfo/DocumentsPage.vue';
 import EducationalOrganizationInfo from '@/components/EducationalOrganization/EducationalOrganizationInfo/EducationalOrganizationInfo.vue';
-import EducationalOrganizationStructure from '@/components/EducationalOrganization/EducationalOrganizationInfo/StructurePage.vue';
-import EducationalOrganizationTeachers from '@/components/EducationalOrganization/EducationalOrganizationTeachers.vue';
 import OrdinaturaPage from '@/components/EducationalOrganization/Ordinatura/OrdinaturaPage.vue';
+import TeachersManagers from '@/components/EducationalOrganization/TeachersManagers/TeachersManagers.vue';
 import { isAuthorized } from '@/router/index';
 
 export default [
   {
-    path: '/educational-organization/info',
+    path: '/educational-info',
     name: 'EducationalOrganizationInfo',
     component: EducationalOrganizationInfo,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -22,23 +21,7 @@ export default [
     },
   },
   {
-    path: '/educational-organization/structure',
-    name: 'EducationalOrganizationStructure',
-    component: EducationalOrganizationStructure,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
-  },
-  {
-    path: '/educational-organization/teachers',
-    name: 'EducationalOrganizationTeachers',
-    component: EducationalOrganizationTeachers,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
-  },
-  {
-    path: '/educational-organization/academics',
+    path: '/academics',
     name: 'EducationalOrganizationAcademics',
     component: EducationalOrganizationAcademics,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -54,7 +37,7 @@ export default [
     },
   },
   {
-    path: '/educational-organization/ordinatura',
+    path: '/ordinatura',
     name: 'OrdinaturaPage',
     component: OrdinaturaPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -62,7 +45,7 @@ export default [
     },
   },
   {
-    path: '/educational-organization/aspirantura',
+    path: '/aspirantura',
     name: 'AspiranturaPage',
     component: AspiranturaPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -70,7 +53,7 @@ export default [
     },
   },
   {
-    path: '/educational-organization/additional-education',
+    path: '/additional-education',
     name: 'AdditionalEducation',
     component: AdditionalEducation,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -97,6 +80,22 @@ export default [
     path: '/dpo/courses/:id',
     name: 'DpoCoursePage',
     component: DpoCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/teachers',
+    name: 'Teachers',
+    component: TeachersManagers,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/educational-managers',
+    name: 'EducationalManagers',
+    component: TeachersManagers,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

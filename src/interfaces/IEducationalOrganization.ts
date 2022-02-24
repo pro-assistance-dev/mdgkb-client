@@ -1,15 +1,15 @@
-import IEducationalOrganizationAcademic from '@/interfaces/educationalOrganization/IEducationalOrganizationAcademic';
-import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
-import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
-import IEducationalOrganizationProperty from '@/interfaces/educationalOrganization/IEducationalOrganizationProperty';
-import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDoctor from '@/interfaces/IDoctor';
+import IEducationalManager from '@/interfaces/IEducationalManager';
+import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
+import IEducationalOrganizationDocumentType from '@/interfaces/IEducationalOrganizationDocumentType';
+import IEducationalOrganizationProperty from '@/interfaces/IEducationalOrganizationProperty';
+import ITeacher from '@/interfaces/ITeacher';
 
 export default interface IEducationalOrganization {
   educationalOrganizationProperties: IEducationalOrganizationProperty[];
   educationalOrganizationPropertiesForDelete: string[];
-  educationalOrganizationManagers: IEducationalOrganizationManager[];
+  educationalOrganizationManagers: IEducationalManager[];
   educationalOrganizationManagersForDelete: string[];
   teachers: ITeacher[];
   teachersForDelete: string[];

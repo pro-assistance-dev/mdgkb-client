@@ -1,4 +1,4 @@
-import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
+import ITeacher from '@/interfaces/ITeacher';
 
 export default interface IDpoBaseCourse {
   id?: string;

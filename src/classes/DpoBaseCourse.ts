@@ -1,6 +1,6 @@
 import Teacher from '@/classes/Teacher';
-import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
 import IDpoBaseCourse from '@/interfaces/IDpoBaseCourse';
+import ITeacher from '@/interfaces/ITeacher';
 
 export default class DpoBaseCourse implements IDpoBaseCourse {
   id?: string;

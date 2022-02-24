@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

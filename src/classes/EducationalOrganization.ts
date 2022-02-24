@@ -1,21 +1,21 @@
+import EducationalManager from '@/classes/EducationalManager';
 import EducationalOrganizationAcademic from '@/classes/EducationalOrganizationAcademic';
 import EducationalOrganizationDocumentType from '@/classes/EducationalOrganizationDocumentType';
-import EducationalOrganizationManager from '@/classes/EducationalOrganizationManager';
 import EducationalOrganizationProperty from '@/classes/EducationalOrganizationProperty';
 import Teacher from '@/classes/Teacher';
-import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
-import IEducationalOrganizationAcademic from '@/interfaces/educationalOrganization/IEducationalOrganizationAcademic';
-import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
-import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
-import IEducationalOrganizationProperty from '@/interfaces/educationalOrganization/IEducationalOrganizationProperty';
-import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDoctor from '@/interfaces/IDoctor';
+import IEducationalManager from '@/interfaces/IEducationalManager';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
+import IEducationalOrganizationDocumentType from '@/interfaces/IEducationalOrganizationDocumentType';
+import IEducationalOrganizationProperty from '@/interfaces/IEducationalOrganizationProperty';
+import ITeacher from '@/interfaces/ITeacher';
 
 export default class EducationalOrganization implements IEducationalOrganization {
   educationalOrganizationProperties: IEducationalOrganizationProperty[] = [];
   educationalOrganizationPropertiesForDelete: string[] = [];
-  educationalOrganizationManagers: IEducationalOrganizationManager[] = [];
+  educationalOrganizationManagers: IEducationalManager[] = [];
   educationalOrganizationManagersForDelete: string[] = [];
 
   teachers: ITeacher[] = [];
@@ -39,7 +39,7 @@ export default class EducationalOrganization implements IEducationalOrganization
     }
     if (i.educationalOrganizationManagers) {
       this.educationalOrganizationManagers = i.educationalOrganizationManagers.map(
-        (item: IEducationalOrganizationManager) => new EducationalOrganizationManager(item)
+        (item: IEducationalManager) => new EducationalManager(item)
       );
     }
     if (i.teachers) {

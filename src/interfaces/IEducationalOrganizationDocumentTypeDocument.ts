@@ -1,5 +1,5 @@
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import IEducationalOrganizationDocumentType from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentType';
+import IEducationalOrganizationDocumentType from '@/interfaces/IEducationalOrganizationDocumentType';
 
 export default interface IEducationalOrganizationDocumentTypeDocument {
   id?: string;

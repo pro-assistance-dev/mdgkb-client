@@ -2,9 +2,9 @@ import { MutationTree } from 'vuex';
 
 import EducationalOrganization from '@/classes/EducationalOrganization';
 import EducationalOrganizationProperty from '@/classes/EducationalOrganizationProperty';
-import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
-import IEducationalOrganizationManager from '@/interfaces/educationalOrganization/IEducationalOrganizationManager';
-import ITeacher from '@/interfaces/educationalOrganization/ITeacher';
+import IEducationalManager from '@/interfaces/IEducationalManager';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+import ITeacher from '@/interfaces/ITeacher';
 
 import { State } from './state';
 
@@ -25,7 +25,7 @@ const mutations: MutationTree<State> = {
     }
     state.educationalOrganization.educationalOrganizationPropertiesForDelete.push(id);
   },
-  addManager(state, manager: IEducationalOrganizationManager) {
+  addManager(state, manager: IEducationalManager) {
     state.educationalOrganization.educationalOrganizationManagers.push(manager);
   },
   removeManager(state, index: number) {

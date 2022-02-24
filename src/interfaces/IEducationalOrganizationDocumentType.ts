@@ -1,4 +1,4 @@
-import IEducationalOrganizationDocumentTypeDocument from '@/interfaces/educationalOrganization/IEducationalOrganizationDocumentTypeDocument';
+import IEducationalOrganizationDocumentTypeDocument from '@/interfaces/IEducationalOrganizationDocumentTypeDocument';
 
 export default interface IEducationalOrganizationDocumentType {
   id?: string;

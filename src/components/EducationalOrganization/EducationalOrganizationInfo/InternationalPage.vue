@@ -18,7 +18,7 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IEducationalOrganization from '@/interfaces/educationalOrganization/IEducationalOrganization';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'InternationalPage',
