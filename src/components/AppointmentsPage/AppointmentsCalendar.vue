@@ -28,7 +28,6 @@ export default defineComponent({
     ];
 
     const chooseDay = (day: Record<string, string>) => {
-      console.log(day.date);
       emit('chooseDay', day.date);
     };
 

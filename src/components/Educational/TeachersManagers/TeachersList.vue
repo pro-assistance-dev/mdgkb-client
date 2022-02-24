@@ -14,7 +14,7 @@
 import { computed, ComputedRef, defineComponent, Ref } from 'vue';
 import { useStore } from 'vuex';
 
-import TeacherCard from '@/components/EducationalOrganization/TeachersManagers/TeacherCard.vue';
+import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ITeacher from '@/interfaces/ITeacher';

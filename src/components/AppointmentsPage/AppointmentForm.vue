@@ -9,10 +9,12 @@
       </el-form-item>
     </template>
     <template v-else>
-      <el-select>
-        <el-option v-for="child in appointment.user.children" :key="child.id" :value="child.id" :label="child.human.getFullName()">
-        </el-option>
-      </el-select>
+      <el-form-item>
+        <el-select v-model="appointment.childId" placeholder="Выберите ребёнка">
+          <el-option v-for="child in appointment.user.children" :key="child.id" :value="child.id" :label="child.human.getFullName()">
+          </el-option>
+        </el-select>
+      </el-form-item>
     </template>
     <el-form-item v-if="!isAuth">
       <el-input v-model="appointment.user.email" placeholder="Email"></el-input>
@@ -21,11 +23,13 @@
       <el-input v-model="appointment.user.phone" placeholder="Телефон"></el-input>
     </el-form-item>
     <el-form-item v-if="!appointment.mrt">
-      <el-input placeholder="Специальность врача"></el-input>
+      <el-select v-model="appointment.specializationId" placeholder="Специальность врача">
+        <el-option v-for="option in schema.specialization.options" :key="option.value" :value="option.value" :label="option.label" />
+      </el-select>
     </el-form-item>
-    <el-form-item v-if="!appointment.mrt">
-      <el-input placeholder="Врач"></el-input>
-    </el-form-item>
+    <!--    <el-form-item v-if="!appointment.mrt">-->
+    <!--      <el-input placeholder="Врач"></el-input>-->
+    <!--    </el-form-item>-->
     <el-form-item>
       <el-checkbox v-model="appointment.mrt" label="МРТ/КТ" placeholder="МРТ/КТ"></el-checkbox>
     </el-form-item>
@@ -36,22 +40,23 @@
       <el-input v-model="appointment.mrtZone" placeholder="Зона для исппледования МРТ/КТ"></el-input>
     </el-form-item>
     <el-form-item v-if="appointment.oms">
-      <el-input placeholder="Номер направления"></el-input>
+      <el-input v-model="appointment.clinicReferralNumber" placeholder="Номер направления"></el-input>
     </el-form-item>
     <el-form-item v-if="appointment.oms">
-      <el-input placeholder="Номер поликлиники"></el-input>
+      <el-input v-model="appointment.clinicName" placeholder="Номер поликлиники"></el-input>
     </el-form-item>
-    <el-form-item v-if="appointment.oms">
+    <el-form-item v-if="appointment.oms" v-model="appointment.date">
       <el-date-picker placeholder="Дата выдачи направления"></el-date-picker>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import IAppointment from '@/interfaces/IAppointment';
+import ISchema from '@/interfaces/schema/ISchema';
 export default defineComponent({
   name: 'AppointmentForm',
   components: {},
@@ -62,7 +67,16 @@ export default defineComponent({
     const mount = ref(false);
     const appointment: ComputedRef<IAppointment> = computed(() => store.getters['appointments/item']);
     const isAuth = computed(() => store.getters['auth/isAuth']);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+
+    onBeforeMount(async () => {
+      await store.dispatch('meta/getSchema');
+      await store.dispatch('meta/getOptions', schema.value.specialization);
+      mount.value = true;
+    });
+
     return {
+      schema,
       isAuth,
       chosenDay,
       appointment,

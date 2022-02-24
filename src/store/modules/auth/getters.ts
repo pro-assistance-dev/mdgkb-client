@@ -10,8 +10,8 @@ const getters: GetterTree<State, RootState> = {
   token(state): string {
     return state.token;
   },
-  user(state): IUser | undefined {
-    return state.user;
+  user(): IUser | undefined {
+    return TokenService.getUser();
   },
   isAuth(state): boolean {
     state.isAuth = TokenService.isAuth();

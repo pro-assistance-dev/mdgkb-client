@@ -1,11 +1,11 @@
 <template>
-  <div v-if="dpoCourses.length" class="card-flex-container">
-    <div v-for="dpoCourse in dpoCourses" :key="dpoCourse.id" class="card-container">
-      <DpoCourseCard :dpo-course="dpoCourse" />
+  <div v-if="dpoBaseCourses.length" class="card-flex-container">
+    <div v-for="dpoCourse in dpoBaseCourses" :key="dpoCourse.id" class="card-container">
+      <DpoBaseCourseCard :dpo-base-course="dpoCourse" />
     </div>
   </div>
   <h1 v-else class="text-center">Нет данных</h1>
-  <div v-if="dpoCourses.length" class="loadmore-button">
+  <div v-if="dpoBaseCourses.length" class="loadmore-button">
     <LoadMoreButton @loadMore="loadMore" />
   </div>
 </template>
@@ -14,32 +14,32 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import DpoCourseCard from '@/components/EducationalOrganization/Dpo/DpoCourseCard.vue';
+import DpoBaseCourseCard from '@/components/Educational/Dpo/DpoBaseCourseCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import IDpoCourse from '@/interfaces/IDpoCourse';
+import IDpoBaseCourse from '@/interfaces/IDpoBaseCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
-  name: 'DpoCoursesList',
-  components: { DpoCourseCard, LoadMoreButton },
+  name: 'DpoBaseCoursesList',
+  components: { DpoBaseCourseCard, LoadMoreButton },
   setup() {
     const store = useStore();
     const mounted: Ref<boolean> = ref(false);
-    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
+    const dpoBaseCourses: Ref<IDpoBaseCourse[]> = computed<IDpoBaseCourse[]>(() => store.getters['dpoBaseCourses/items']);
 
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     const loadMore = async () => {
-      const lastCursor = dpoCourses.value[dpoCourses.value.length - 1].name;
-      filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
+      const lastCursor = dpoBaseCourses.value[dpoBaseCourses.value.length - 1].name;
+      filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
       await store.dispatch('dpoBaseCourses/getAll', filterQuery.value);
     };
 
     return {
-      dpoCourses,
+      dpoBaseCourses,
       loadMore,
     };
   },

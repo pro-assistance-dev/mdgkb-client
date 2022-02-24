@@ -37,11 +37,11 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
 
-import OrdinaturaDocs from '@/components/EducationalOrganization/Ordinatura/OrdinaturaDocs.vue';
-import OrdinaturaDocumentsForAdmission from '@/components/EducationalOrganization/Ordinatura/OrdinaturaDocumentsForAdmission.vue';
-import OrdinaturaExams from '@/components/EducationalOrganization/Ordinatura/OrdinaturaExams.vue';
-import OrdinaturaPlan from '@/components/EducationalOrganization/Ordinatura/OrdinaturaPlan.vue';
-import OrdinaturaStages from '@/components/EducationalOrganization/Ordinatura/OrdinaturaStages.vue';
+import OrdinaturaDocs from '@/components/Educational/Ordinatura/OrdinaturaDocs.vue';
+import OrdinaturaDocumentsForAdmission from '@/components/Educational/Ordinatura/OrdinaturaDocumentsForAdmission.vue';
+import OrdinaturaExams from '@/components/Educational/Ordinatura/OrdinaturaExams.vue';
+import OrdinaturaPlan from '@/components/Educational/Ordinatura/OrdinaturaPlan.vue';
+import OrdinaturaStages from '@/components/Educational/Ordinatura/OrdinaturaStages.vue';
 
 export default defineComponent({
   name: 'OrdinaturaPage',

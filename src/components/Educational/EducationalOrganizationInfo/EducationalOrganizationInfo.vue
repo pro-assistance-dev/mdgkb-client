@@ -39,19 +39,19 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import DocumentsPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/DocumentsPage.vue';
-import EducationPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/EducationPage.vue';
-import FinancePage from '@/components/EducationalOrganization/EducationalOrganizationInfo/FinancePage.vue';
-import InfoPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/InfoPage.vue';
-import InternationalPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/InternationalPage.vue';
-import InvalidsPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/InvalidsPage.vue';
-import ManagersPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/ManagersPage.vue';
-import MaterialPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/MaterialPage.vue';
-import MoneyPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/MoneyPage.vue';
-import PaidServicesPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/PaidServicesPage.vue';
-import StandartsPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/StandartsPage.vue';
-import StructurePage from '@/components/EducationalOrganization/EducationalOrganizationInfo/StructurePage.vue';
-import VacancyPage from '@/components/EducationalOrganization/EducationalOrganizationInfo/VacancyPage.vue';
+import DocumentsPage from '@/components/Educational/EducationalOrganizationInfo/DocumentsPage.vue';
+import EducationPage from '@/components/Educational/EducationalOrganizationInfo/EducationPage.vue';
+import FinancePage from '@/components/Educational/EducationalOrganizationInfo/FinancePage.vue';
+import InfoPage from '@/components/Educational/EducationalOrganizationInfo/InfoPage.vue';
+import InternationalPage from '@/components/Educational/EducationalOrganizationInfo/InternationalPage.vue';
+import InvalidsPage from '@/components/Educational/EducationalOrganizationInfo/InvalidsPage.vue';
+import ManagersPage from '@/components/Educational/EducationalOrganizationInfo/ManagersPage.vue';
+import MaterialPage from '@/components/Educational/EducationalOrganizationInfo/MaterialPage.vue';
+import MoneyPage from '@/components/Educational/EducationalOrganizationInfo/MoneyPage.vue';
+import PaidServicesPage from '@/components/Educational/EducationalOrganizationInfo/PaidServicesPage.vue';
+import StandartsPage from '@/components/Educational/EducationalOrganizationInfo/StandartsPage.vue';
+import StructurePage from '@/components/Educational/EducationalOrganizationInfo/StructurePage.vue';
+import VacancyPage from '@/components/Educational/EducationalOrganizationInfo/VacancyPage.vue';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({

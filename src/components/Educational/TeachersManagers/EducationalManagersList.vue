@@ -14,7 +14,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import EducationalManagerCard from '@/components/EducationalOrganization/TeachersManagers/EducationalManagerCard.vue';
+import EducationalManagerCard from '@/components/Educational/TeachersManagers/EducationalManagerCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IEducationalManager from '@/interfaces/IEducationalManager';

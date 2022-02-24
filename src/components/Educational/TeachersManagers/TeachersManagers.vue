@@ -23,9 +23,9 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import EducationalManagersList from '@/components/EducationalOrganization/TeachersManagers/EducationalManagersList.vue';
-import TeachersFilters from '@/components/EducationalOrganization/TeachersManagers/TeachersFilters.vue';
-import TeachersList from '@/components/EducationalOrganization/TeachersManagers/TeachersList.vue';
+import EducationalManagersList from '@/components/Educational/TeachersManagers/EducationalManagersList.vue';
+import TeachersFilters from '@/components/Educational/TeachersManagers/TeachersFilters.vue';
+import TeachersList from '@/components/Educational/TeachersManagers/TeachersList.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 
 export default defineComponent({

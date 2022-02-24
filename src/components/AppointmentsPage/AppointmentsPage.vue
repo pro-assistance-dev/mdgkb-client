@@ -16,7 +16,7 @@
               <hr class="gray-border" />
               <div v-if="chosenDay">
                 <div class="middle-header">Время записи</div>
-                <AppointmentsSlots />
+                <AppointmentsSlots @chooseSlot="chooseSlot" />
               </div>
             </div>
           </div>
@@ -76,14 +76,20 @@ export default defineComponent({
     };
 
     const sendApplication = async () => {
-      console.log(1);
+      await store.dispatch('appointments/create', appointment.value);
     };
 
-    const chooseDay = (day: string) => {
-      chosenDay.value = day;
+    const chooseDay = (day: Date) => {
+      appointment.value.date = day;
+      chosenDay.value = day.toString();
+    };
+
+    const chooseSlot = (slot: string) => {
+      appointment.value.time = slot;
     };
 
     return {
+      chooseSlot,
       chooseDay,
       chosenDay,
       appointment,

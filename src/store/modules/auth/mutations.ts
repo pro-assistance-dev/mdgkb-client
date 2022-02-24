@@ -14,18 +14,20 @@ const mutations: MutationTree<State> = {
     state.user = new User(user);
     localStorage.setItem('user', JSON.stringify(user));
   },
+  clearUser(state) {
+    localStorage.removeItem('user');
+  },
   setTokens(state, tokens: ITokens) {
     TokenService.setTokens(tokens);
+  },
+  clearTokens(state) {
+    TokenService.clearTokens();
   },
   setIsAuth(state, isAuth: boolean) {
     state.isAuth = isAuth;
   },
   openModal(state, login?: boolean) {
-    if (login) {
-      state.isLoginModal = true;
-    } else {
-      state.isLoginModal = false;
-    }
+    state.isLoginModal = !!login;
     state.authModalVisible = true;
   },
   closeModal(state) {
@@ -39,6 +41,9 @@ const mutations: MutationTree<State> = {
       const doctorsFavourite = user.doctorsUsers.map((i: IDoctorUser) => i.doctorId);
       FavouriteService.setFavourite('doctor', doctorsFavourite);
     }
+  },
+  clearFavourite(state) {
+    FavouriteService.clearFavourite();
   },
 };
 

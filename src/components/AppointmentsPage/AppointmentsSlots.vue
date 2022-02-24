@@ -1,6 +1,8 @@
 <template>
   <div class="slot-container">
-    <div v-for="slot in slots" :key="slot" class="slot">{{ slot }}</div>
+    <div v-for="slot in slots" :key="slot" class="slot" :class="{ 'with-background': selectedSlot === slot }" @click="chooseSlot(slot)">
+      {{ slot }}
+    </div>
   </div>
 </template>
 
@@ -11,11 +13,12 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 export default defineComponent({
   name: 'AppointmentsSlots',
-  setup() {
+  emits: ['chooseSlot'],
+  setup(props, { emit }) {
     const mount = ref(false);
     // eslint-disable-next-line no-undef
     const slots: Ref<string[]> = ref([]);
-
+    const selectedSlot: Ref<string> = ref('');
     const addMinutes = (time: string, minsToAdd: number): string => {
       function z(n: number) {
         return (n < 10 ? '0' : '') + n;
@@ -29,17 +32,22 @@ export default defineComponent({
       fillSlots();
     });
 
+    const chooseSlot = (slot: string) => {
+      selectedSlot.value = slot;
+      emit('chooseSlot', slot);
+    };
+
     const fillSlots = () => {
       let slot = '9:00';
       for (let i = 0; i < 20; i++) {
-        console.log(i);
         slots.value.push(slot);
         slot = addMinutes(slot, 20);
       }
-      console.log(slots);
     };
 
     return {
+      selectedSlot,
+      chooseSlot,
       slots,
       Operators,
       DataTypes,
@@ -74,5 +82,10 @@ export default defineComponent({
     background: #31af5e;
     color: white;
   }
+}
+
+.with-background {
+  background: #31af5e;
+  color: white;
 }
 </style>

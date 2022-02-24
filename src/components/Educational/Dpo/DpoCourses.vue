@@ -25,10 +25,10 @@ import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import DpoBaseCoursesFilters from '@/components/EducationalOrganization/Dpo/DpoBaseCoursesFilters.vue';
-import DpoBaseCoursesList from '@/components/EducationalOrganization/Dpo/DpoBaseCoursesList.vue';
-import DpoCoursesFilters from '@/components/EducationalOrganization/Dpo/DpoCoursesFilters.vue';
-import DpoCoursesList from '@/components/EducationalOrganization/Dpo/DpoCoursesList.vue';
+import DpoBaseCoursesFilters from '@/components/Educational/Dpo/DpoBaseCoursesFilters.vue';
+import DpoBaseCoursesList from '@/components/Educational/Dpo/DpoBaseCoursesList.vue';
+import DpoCoursesFilters from '@/components/Educational/Dpo/DpoCoursesFilters.vue';
+import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 
 export default defineComponent({
