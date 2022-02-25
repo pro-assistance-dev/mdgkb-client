@@ -195,7 +195,7 @@ export default {
   display: flex;
   width: 450px;
   min-height: 20px;
-  justify-content: right;
+  justify-content: space-between;
   align-items: flex-start;
 
   top: 140px;
@@ -218,7 +218,7 @@ export default {
   border-radius: 5px;
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: space-between;
 }
 
 .main-doctor-info {
