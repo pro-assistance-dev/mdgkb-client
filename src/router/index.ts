@@ -20,7 +20,6 @@ import ServiceQualityAssessmentPage from '@/components/ServiceQualityAssessment/
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import SiteMap from '@/components/SiteMap/SiteMap.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
-import VacanciesPage from '@/components/Vacansies/VacanciesPage.vue';
 import AppointmentsRoutes from '@/router/AppointmentsRoutes';
 import CommentsRoutes from '@/router/CommentsRoutes';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
@@ -35,6 +34,7 @@ import PaidProgramsRoutes from '@/router/PaidProgramsRoutes';
 import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
+import VacanciesRoutes from '@/router/VacanciesRoutes';
 import TokenService from '@/services/Token';
 import MainLayout from '@/views/main/MainLayout.vue';
 
@@ -100,11 +100,6 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
-  },
-  {
-    path: '/vacancies',
-    name: 'VacanciesPage',
-    component: VacanciesPage,
   },
   {
     path: '/partners',
@@ -200,6 +195,7 @@ const routes: Array<RouteRecordRaw> = [
   ...PaidProgramsRoutes,
   ...AppointmentsRoutes,
   ...indexAdminRoutes,
+  ...VacanciesRoutes,
   {
     path: '/pages/:slug',
     name: 'CustomPage',

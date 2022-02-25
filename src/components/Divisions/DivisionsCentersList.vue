@@ -1,7 +1,7 @@
 <template>
   <div v-if="mount">
     <el-row :gutter="40">
-      <el-col :xl="6" :lg="6" :md="24" class="calendar">
+      <el-col :xl="6" :lg="6" :md="24" class="filters">
         <ModeButtons
           :second-mode-active="divisionsMode"
           :store-mode="false"
@@ -132,5 +132,10 @@ h2 {
 .loadmore-button {
   display: flex;
   justify-content: center;
+}
+.filters {
+  position: sticky;
+  top: 79px;
+  height: 100%;
 }
 </style>

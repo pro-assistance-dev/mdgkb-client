@@ -1,6 +1,5 @@
 import { ActionTree } from 'vuex';
 
-import INews from '@/interfaces/news/INews';
 import IVacancy from '@/interfaces/vacancies/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
@@ -22,8 +21,8 @@ const actions: ActionTree<State, RootState> = {
       })
     );
   },
-  get: async ({ commit }, slug: string): Promise<void> => {
-    const res = await httpClient.get<INews>({ query: `${slug}` });
+  get: async ({ commit }, id: string): Promise<void> => {
+    const res = await httpClient.get<IVacancy>({ query: `${id}` });
     commit('set', res);
   },
   create: async ({ commit }, vacancy: IVacancy): Promise<void> => {

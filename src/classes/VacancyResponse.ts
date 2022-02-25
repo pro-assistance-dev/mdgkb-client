@@ -6,7 +6,6 @@ import VacancyResponseToDocument from '@/classes/VacancyResponseToDocument';
 import IDocument from '@/interfaces/document/IDocument';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IHuman from '@/interfaces/IHuman';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import IVacancyResponseToDocument from '@/interfaces/vacancyResponse/IVacancyResponseToDocument';
 
@@ -18,7 +17,7 @@ export default class VacancyResponse implements IVacancyResponse {
   viewed = false;
 
   opened = false;
-  human?: IHuman;
+  human = new Human();
   vacancyResponsesToDocuments: IVacancyResponseToDocument[] = [];
 
   constructor(i?: IVacancyResponse) {

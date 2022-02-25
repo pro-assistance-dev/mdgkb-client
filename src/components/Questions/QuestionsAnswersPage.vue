@@ -64,6 +64,9 @@ $side-cotainer-max-width: 300px;
     margin-right: 30px;
     flex-shrink: 0;
     width: 300px;
+    position: sticky;
+    top: 79px;
+    height: 100%;
   }
   &-right {
     margin-top: 10px;

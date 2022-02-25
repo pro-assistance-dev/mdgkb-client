@@ -1,6 +1,6 @@
 <template>
   <div v-if="mount" class="comments-list-container">
-    <div class="comments-list-container-left card-item">
+    <div class="comments-list-container-left">
       <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить отзыв</button>
       <!--      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />-->
       <FilterCheckbox
@@ -159,6 +159,9 @@ $side-cotainer-max-width: 300px;
     max-width: $side-cotainer-max-width;
     margin-right: 30px;
     font-size: 14px;
+    position: sticky;
+    top: 79px;
+    height: 100%;
   }
   &-right {
     &-header {
