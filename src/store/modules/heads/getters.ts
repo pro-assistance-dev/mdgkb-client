@@ -22,7 +22,6 @@ const getters: GetterTree<State, RootState> = {
     return state.items.filter((head: IHead) => !head.isMain);
   },
   item(state): IHead {
-    console.log(state.item);
     return state.item;
   },
   timetable(state): ITimetable {

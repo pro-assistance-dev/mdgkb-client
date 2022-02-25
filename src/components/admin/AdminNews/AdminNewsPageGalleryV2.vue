@@ -56,7 +56,6 @@ export default defineComponent({
     const fileList = computed(() => store.getters[`news/galleryListV2`]);
 
     const descriptionChangeHandler = (file: INewsImage) => {
-      console.log(file);
       store.commit('news/updateGalleryImageDescription', file);
     };
 
@@ -71,14 +70,12 @@ export default defineComponent({
     };
 
     const toggleUpload = (file: IFile) => {
-      console.log(file);
       store.commit('news/pushToNewsImages', file);
       store.commit('news/setCurGalleryCropIndex', fileList.value.length);
       openCropper(file);
     };
 
     const handlePictureCardPreview = (file: INewsImage) => {
-      console.log(file);
       // const index = fileList.value.findIndex((f: IFilesList) => f.name === file.name);
       const index = fileList.value.findIndex((item: INewsImage) => item.fileInfo?.originalName === file.fileInfo?.originalName);
       if (index > -1) store.commit('news/setCurGalleryCropIndex', index);

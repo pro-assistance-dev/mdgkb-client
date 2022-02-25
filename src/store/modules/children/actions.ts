@@ -1,17 +1,17 @@
 import { ActionTree } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import IDpoCourse from '@/interfaces/IDpoCourse';
+import IChild from '@/interfaces/IChild';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
-const httpClient = new HttpClient('dpo-courses');
+const httpClient = new HttpClient('children');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IDpoCourse[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    const items = await httpClient.get<IChild[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
       filterQuery.setAllLoaded(items ? items.length : 0);
     }
@@ -22,15 +22,15 @@ const actions: ActionTree<State, RootState> = {
     commit('setAll', items);
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IDpoCourse[]>({ query: `${id}` });
+    const res = await httpClient.get<IChild[]>({ query: `${id}` });
     commit('set', res);
   },
   create: async ({ state, commit }): Promise<void> => {
-    await httpClient.post<IDpoCourse, IDpoCourse>({ payload: state.item, isFormData: true });
-    commit('resetItem');
+    await httpClient.post<IChild, IChild>({ payload: state.item, isFormData: true });
+    // commit('resetItem');
   },
-  update: async ({ commit }, item: IDpoCourse): Promise<void> => {
-    const res = await httpClient.put<IDpoCourse, IDpoCourse>({ query: `${item.id}`, payload: item, isFormData: true });
+  update: async ({ commit }, item: IChild): Promise<void> => {
+    const res = await httpClient.put<IChild, IChild>({ query: `${item.id}`, payload: item, isFormData: true });
     commit('set', res);
   },
   remove: async ({ commit }, id: string): Promise<void> => {
@@ -38,7 +38,7 @@ const actions: ActionTree<State, RootState> = {
     commit('remove', id);
   },
   getBySlug: async ({ commit }, slug: string): Promise<void> => {
-    const res = await httpClient.get<IDpoCourse>({ query: `slug/${slug}` });
+    const res = await httpClient.get<IChild>({ query: `slug/${slug}` });
     commit('set', res);
   },
 };

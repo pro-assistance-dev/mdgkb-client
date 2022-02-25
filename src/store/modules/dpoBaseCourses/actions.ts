@@ -11,7 +11,6 @@ const httpClient = new HttpClient('dpo-base-courses');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
-    console.log('FILTER', filterQuery);
     const items = await httpClient.get<IDpoBaseCourse[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
       filterQuery.setAllLoaded(items ? items.length : 0);

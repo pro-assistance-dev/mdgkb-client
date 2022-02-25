@@ -74,7 +74,6 @@ const mutations: MutationTree<State> = {
   },
   spliceFilterModel(state, id: string) {
     const index = state.filterQuery.filterModels.findIndex((i: IFilterModel) => i.id === id);
-    console.log(index);
     if (index > -1) {
       state.filterQuery.filterModels.splice(index, 1);
     }

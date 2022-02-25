@@ -20,7 +20,6 @@ const FavouriteService = (() => {
     }
     const idArr = ids!.split(',');
     idArr.push(id);
-    console.log(idArr);
     _setFavourite(domain, idArr);
   }
 

@@ -9,6 +9,7 @@ import { buildings } from '@/store/modules/buildings';
 import { callbacks } from '@/store/modules/callbacks';
 import { centers } from '@/store/modules/centers';
 import { certificates } from '@/store/modules/certificates';
+import { children } from '@/store/modules/children';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
 import { divisions } from '@/store/modules/divisions';
@@ -119,6 +120,7 @@ const s: StoreOptions<RootState> = {
     teachers,
     entrances,
     educationalManagers,
+    children,
   },
 };
 

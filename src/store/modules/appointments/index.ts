@@ -16,7 +16,6 @@ export const getDefaultState = (): State => {
 };
 
 const state = getDefaultState();
-console.log(state);
 const namespaced = true;
 
 export const appointments: Module<State, RootState> = {

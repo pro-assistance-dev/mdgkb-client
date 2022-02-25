@@ -1,6 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import User from '@/classes/User';
+import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
 import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
@@ -13,6 +14,13 @@ const mutations: MutationTree<State> = {
   setUser(state, user: IUser) {
     state.user = new User(user);
     localStorage.setItem('user', JSON.stringify(user));
+  },
+  addChild(state, child: IChild) {
+    if (!state.user) {
+      return;
+    }
+    state.user.children.push(child);
+    localStorage.setItem('user', JSON.stringify(state.user));
   },
   clearUser(state) {
     localStorage.removeItem('user');

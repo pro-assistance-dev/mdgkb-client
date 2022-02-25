@@ -68,7 +68,6 @@ export default defineComponent({
         await store.dispatch('divisions/get', selectedDivisionId.value);
         hospitalization.value.selectedHospitalisation.divisionId = selectedDivisionId.value;
         hospitalization.value.selectedHospitalisation.division = selectedDivision.value;
-        console.log(hospitalization.value.selectedHospitalisation.division);
       }
       activesSecondQuestion();
     };

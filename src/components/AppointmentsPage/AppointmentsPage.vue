@@ -5,10 +5,13 @@
         <ModeButtons :second-mode-active="omsMode" :store-mode="false" first-mode="ОМС" second-mode="ДМС" @changeMode="changeMode" />
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
-        <div class="card-item">
+        <div v-if="createChildMode" class="card-item">
+          <ChildForm @createChild="createChild" />
+        </div>
+        <div v-else class="card-item">
           <div class="flex-row">
             <div class="form">
-              <AppointmentForm />
+              <AppointmentForm @createChildMode="changeCreateChildMode" />
             </div>
             <hr class="gray-border" />
             <div class="calendar-zone">
@@ -37,13 +40,16 @@ import { useStore } from 'vuex';
 import AppointmentForm from '@/components/AppointmentsPage/AppointmentForm.vue';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
+import ChildForm from '@/components/AppointmentsPage/ChildForm.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IAppointment from '@/interfaces/IAppointment';
+import IChild from '@/interfaces/IChild';
 export default defineComponent({
   name: 'AppointmentsPage',
   components: {
+    ChildForm,
     AppointmentForm,
     AppointmentsSlots,
     AppointmentsCalendar,
@@ -58,6 +64,7 @@ export default defineComponent({
     const mount = ref(false);
     const omsMode: Ref<boolean> = ref(route.path === '/appointments/oms');
     const appointment: ComputedRef<IAppointment> = computed(() => store.getters['appointments/item']);
+    const createChildMode: Ref<boolean> = ref(false);
 
     onBeforeMount(async () => {
       appointment.value.oms = omsMode.value;
@@ -88,7 +95,23 @@ export default defineComponent({
       appointment.value.time = slot;
     };
 
+    const changeCreateChildMode = () => {
+      createChildMode.value = true;
+    };
+
+    const createChild = async (child: IChild) => {
+      store.commit('auth/addChild', child);
+      await store.dispatch('children/create', child);
+      if (appointment.value.user) {
+        appointment.value.user.children.push(child);
+      }
+      createChildMode.value = false;
+    };
+
     return {
+      createChild,
+      createChildMode,
+      changeCreateChildMode,
       chooseSlot,
       chooseDay,
       chosenDay,
