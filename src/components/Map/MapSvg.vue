@@ -121,9 +121,12 @@ export default defineComponent({
             buildingId.value = b.id;
             const building = document.getElementById(`b-${b.number}`);
             if (building) {
-              setPosition(building as HTMLElement);
-              hoverBuilding(building as HTMLElement);
-              return;
+              const buildingNumber = building.id.split('-')[1];
+              const numberOfBuilding = document.getElementById(`num-${buildingNumber}`);
+              if (numberOfBuilding) {
+                selectBuilding(numberOfBuilding, building);
+                return;
+              }
             }
           }
         });
@@ -158,12 +161,12 @@ export default defineComponent({
       Array.from(document.querySelectorAll('.flicker')).forEach((el) => el.classList.remove('flicker'));
     };
 
-    const selectBuilding = (item: EventTarget, numberOfBuilding: HTMLElement, building: HTMLElement) => {
+    const selectBuilding = (numberOfBuilding: HTMLElement, building: HTMLElement) => {
       removeBuildingsStyle();
       numberOfBuilding.classList.add('red-num-stable');
       building.classList.add('hover-building-stable');
-      setPosition(item as HTMLElement);
-      hoverBuilding(item as HTMLElement);
+      setPosition(building);
+      hoverBuilding(building);
     };
 
     const hoverBuildingEvent = (numberOfBuilding: HTMLElement, building: HTMLElement) => {
@@ -182,9 +185,9 @@ export default defineComponent({
         return;
       }
       item.addEventListener('mouseover', () => hoverBuildingEvent(numberOfBuilding, building));
-      item.addEventListener('click', () => selectBuilding(item, numberOfBuilding, building));
+      item.addEventListener('click', () => selectBuilding(numberOfBuilding, building));
 
-      numberOfBuilding.addEventListener('click', () => selectBuilding(item, numberOfBuilding, building));
+      numberOfBuilding.addEventListener('click', () => selectBuilding(numberOfBuilding, building));
       numberOfBuilding.addEventListener('mouseover', () => hoverBuildingEvent(numberOfBuilding, building));
 
       item.addEventListener('mouseleave', () => {
