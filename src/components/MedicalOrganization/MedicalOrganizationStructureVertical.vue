@@ -400,7 +400,7 @@ ul.divisions-first-ul {
 
 .icon-main-doctor-arrow-bottom {
   width: 50px;
-  height: 100px;
+  height: 120px;
   fill: #ffffff;
   margin-left: 120px;
   padding-right: 30px;
