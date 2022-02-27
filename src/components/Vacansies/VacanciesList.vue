@@ -1,7 +1,7 @@
 <template>
   <div class="vacansies-container">
     <div class="vacansies-container-left">
-      <el-input placeholder="Поиск по вакансиям"></el-input>
+      <VacanciesFilters />
     </div>
     <div>
       <h2>Вакансии</h2>
@@ -13,22 +13,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
+import VacanciesFilters from '@/components/Vacansies/VacanciesFilters.vue';
 import VacancyCard from '@/components/Vacansies/VacancyCard.vue';
 
 export default defineComponent({
   name: 'VacanciesList',
-  components: { VacancyCard },
+  components: { VacanciesFilters, VacancyCard },
 
   setup() {
     const store = useStore();
     const vacancies = computed(() => store.getters['vacancies/vacancies']);
-
-    onBeforeMount(async () => {
-      await store.dispatch('vacancies/getAll');
-    });
 
     return {
       vacancies,

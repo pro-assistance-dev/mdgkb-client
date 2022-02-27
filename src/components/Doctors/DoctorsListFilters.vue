@@ -6,14 +6,14 @@
       :options="schema.medicalProfile.options"
       :table="schema.doctor.tableName"
       :col="schema.doctor.medicalProfileId"
-      @load="loadDoctors"
+      @load="load"
     />
     <FilterSelect
       placeholder="Отделение"
       :options="schema.division.options"
       :table="schema.doctor.tableName"
       :col="schema.doctor.divisionId"
-      @load="loadDoctors"
+      @load="load"
     />
     <FilterCheckbox
       label='Обладатели статуса "Московский врач"'
@@ -21,7 +21,7 @@
       :col="schema.doctor.mosDoctorLink"
       :data-type="DataTypes.Boolean"
       :operator="Operators.NotNull"
-      @load="loadDoctors"
+      @load="load"
     />
     <FilterCheckbox
       label="С отзывами"
@@ -29,7 +29,7 @@
       :col="schema.doctor.commentsCount"
       :data-type="DataTypes.Number"
       :operator="Operators.Gt"
-      @load="loadDoctors"
+      @load="load"
     />
     <FilterCheckbox
       label="Избранное"
@@ -42,17 +42,17 @@
       :join-table-pk="schema.doctor.id"
       :join-table-id="TokenService.getUserId()"
       :join-table-id-col="schema.doctorUser.userId"
-      @load="loadDoctors"
+      @load="load"
     />
 
-    <FilterReset @load="loadDoctors" />
-    <SortList :models="createSortModels()" @load="loadDoctors" />
+    <FilterReset @load="load" />
+    <SortList :models="createSortModels()" @load="load" />
   </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
@@ -84,7 +84,6 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const route = useRoute();
     const router = useRouter();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
@@ -97,22 +96,12 @@ export default defineComponent({
       store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
       store.commit('filter/setStoreModule', 'doctors');
-      await loadDoctors();
+      await load();
       await loadFilters();
       mount.value = true;
     });
 
-    const loadMore = async () => {
-      const lastCursor = doctors.value[doctors.value.length - 1].human.getFullName();
-      filterQuery.value.pagination.cursor.value = lastCursor;
-      filterQuery.value.pagination.cursor.initial = false;
-      filterQuery.value.pagination.cursor.operation = Operators.Gt;
-      filterQuery.value.pagination.cursor.column = schema.value.doctor.fullName;
-      filterQuery.value.pagination.cursorMode = true;
-      await store.dispatch('doctors/getAll', filterQuery.value);
-    };
-
-    const loadDoctors = async () => {
+    const load = async () => {
       filterQuery.value.pagination.cursorMode = false;
       filterQuery.value.pagination.limit = 6;
       await store.dispatch('doctors/getAll', filterQuery.value);
@@ -140,8 +129,7 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      loadMore,
-      loadDoctors,
+      load,
       medicalProfiles,
       schema,
       doctors,

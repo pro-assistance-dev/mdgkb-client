@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
@@ -10,8 +11,8 @@ import { State } from './state';
 const httpClient = new HttpClient('vacancies');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IVacancy[]>());
+  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    commit('setAll', await httpClient.get<IVacancy[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
   getAllWithResponses: async ({ commit }): Promise<void> => {
     commit(

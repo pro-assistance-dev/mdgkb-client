@@ -48,7 +48,6 @@
           label-width="100px"
           :label="documentType.name"
         >
-          {{ vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan.id }}
           <UploaderSingleScan :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan" />
         </el-form-item>
       </div>

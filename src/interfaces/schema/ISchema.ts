@@ -8,6 +8,7 @@ import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
 import ITeacherSchema from '@/interfaces/schema/ITeacherSchema';
+import IVacancySchema from '@/interfaces/schema/IVacancySchema';
 
 export default interface ISchema {
   human: IHumanSchema;
@@ -20,4 +21,5 @@ export default interface ISchema {
   teacher: ITeacherSchema;
   dpoCourse: IDpoCourse;
   specialization: ISpecializationSchema;
+  vacancy: IVacancySchema;
 }
