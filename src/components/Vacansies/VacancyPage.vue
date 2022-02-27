@@ -3,23 +3,29 @@
     <div class="card-item">
       <div class="vacancy-block">
         <div class="vacancy-title">{{ vacancy.title }}</div>
-        <div class="vacancy-salary">{{ vacancy.salary }}</div>
+        <div class="vacancy-salary">{{ vacancy.getSalary() }}</div>
       </div>
       <div class="vacancy-block">
         <div v-if="vacancy.experience"><b>Требуемый опыт работы:</b> {{ vacancy.experience }}</div>
         <div v-if="vacancy.schedule"><b>График работы:</b> {{ vacancy.schedule }}</div>
       </div>
-      <div v-if="vacancy.duties" class="vacancy-block">
+      <div v-if="vacancy.vacancyDuties" class="vacancy-block">
         <div><b>Должностные обязанности:</b></div>
-        <div>{{ vacancy.duties }}</div>
+        <ul>
+          <li v-for="duty in vacancy.vacancyDuties" :key="duty.id">{{ duty.name }}</li>
+        </ul>
       </div>
-      <div v-if="vacancy.requirements" class="vacancy-block">
+      <div v-if="vacancy.vacancyRequirements" class="vacancy-block">
         <div><b>Требования к кандидату:</b></div>
-        <div>{{ vacancy.requirements }}</div>
+        <ul>
+          <li v-for="requirement in vacancy.vacancyRequirements" :key="requirement.id">{{ requirement.name }}</li>
+        </ul>
       </div>
-      <div v-if="vacancy.description" class="vacancy-block">
+      <div v-if="vacancy.contactInfo" class="vacancy-block">
         <div><b>Контактная информация:</b></div>
-        <div>{{ vacancy.description }}</div>
+        <div class="vice-doctor-title">
+          <ContactBlock :contact-info="vacancy.contactInfo" />
+        </div>
       </div>
       <div class="vacancy-footer">
         <button @click="openRespondForm">Откликнуться</button>
@@ -28,7 +34,7 @@
     </div>
     <div v-if="showForm" id="vacancy-form" class="card-item">
       <div class="vacancy-title vacancy-block">Форма для отклика</div>
-      <VacancyResponseForm />
+      <VacancyResponseForm :vacancy-id="vacancy.id" />
     </div>
   </div>
 </template>
@@ -38,13 +44,14 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import ContactBlock from '@/components/ContactBlock.vue';
 import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue';
-import IVacancy from '@/interfaces/vacancies/IVacancy';
+import IVacancy from '@/interfaces/IVacancy';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'VacancyPage',
-  components: { VacancyResponseForm },
+  components: { ContactBlock, VacancyResponseForm },
 
   setup() {
     const store = useStore();
@@ -56,13 +63,13 @@ export default defineComponent({
       showForm.value = true;
     };
 
-    const openRespondForm = async () => {
-      await showFormFunc();
+    const openRespondForm = () => {
+      showFormFunc();
       scroll('vacancy-form');
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('vacancies/get', route.params['id']);
+      await store.dispatch('vacancies/getBySlug', route.params['slug']);
       if (route.query.respondForm) {
         openRespondForm();
       }
@@ -112,5 +119,11 @@ export default defineComponent({
   text-align: right;
   padding-right: 30px;
   padding-bottom: 30px;
+}
+
+.vice-doctor-title {
+  display: block;
+  width: auto;
+  height: auto;
 }
 </style>

@@ -1,4 +1,4 @@
-import IVacancy from '@/interfaces/vacancies/IVacancy';
+import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
 export interface State {

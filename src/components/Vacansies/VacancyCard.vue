@@ -6,11 +6,11 @@
           <b> {{ vacancy.title }}</b>
         </div>
         <div class="card-item-body">
-          <div v-if="vacancy.salary">
+          <div v-if="vacancy.getSalary()">
             <div>
               <b><i> Заработная плата:</i></b>
             </div>
-            {{ vacancy.salary }}
+            {{ vacancy.getSalary() }}
           </div>
           <div v-if="vacancy.experience">
             <div>
@@ -18,17 +18,12 @@
             </div>
             {{ vacancy.experience }}
           </div>
-          <div v-if="vacancy.description">
-            <div>
-              <b><i> Контактная информация:</i></b>
-            </div>
-            {{ vacancy.description }}
-          </div>
+          <ContactBlock :contact-info="vacancy.contactInfo" />
         </div>
       </div>
       <div class="card-item-footer">
-        <button @click="$router.push(`/vacancies/${vacancy.id}`)">Подробнее</button>
-        <button class="respond-btn" @click="$router.push(`/vacancies/${vacancy.id}?respondForm=open`)">Откликнуться</button>
+        <button @click="$router.push(`/vacancies/${vacancy.slug}`)">Подробнее</button>
+        <button class="respond-btn" @click="$router.push(`/vacancies/${vacancy.slug}?respondForm=open`)">Откликнуться</button>
       </div>
     </div>
   </div>
@@ -37,10 +32,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IVacancy from '@/interfaces/vacancies/IVacancy';
+import ContactBlock from '@/components/ContactBlock.vue';
+import IVacancy from '@/interfaces/IVacancy';
 
 export default defineComponent({
   name: 'VacanncyCard',
+  components: { ContactBlock },
   props: {
     vacancy: {
       type: Object as PropType<IVacancy>,

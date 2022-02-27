@@ -108,7 +108,6 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import Division from '@/classes/buildings/Division';
-import DoctorRules from '@/classes/DoctorRules';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
@@ -120,6 +119,7 @@ import IDoctor from '@/interfaces/IDoctor';
 import ISearchObject from '@/interfaces/ISearchObject';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
+import DoctorRules from '@/rules/DoctorRules';
 
 export default defineComponent({
   name: 'AdminDoctorPage',

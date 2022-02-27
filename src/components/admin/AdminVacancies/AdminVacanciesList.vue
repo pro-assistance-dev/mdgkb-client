@@ -51,7 +51,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IVacancy from '@/interfaces/vacancies/IVacancy';
+import IVacancy from '@/interfaces/IVacancy';
 
 export default defineComponent({
   name: 'AdminVacanciesList',

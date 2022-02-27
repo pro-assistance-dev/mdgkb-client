@@ -55,7 +55,7 @@ import { useStore } from 'vuex';
 import AdminVacanciesPageResponses from '@/components/admin/AdminVacancies/AdminVacanciesPageResponses.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
-import IVacancy from '@/interfaces/vacancies/IVacancy';
+import IVacancy from '@/interfaces/IVacancy';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 

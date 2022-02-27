@@ -24,6 +24,7 @@ export default class DocumentScan implements IDocumentScan {
   }
 
   getFileInfo(): IFileInfo {
+    this.scan.url = '';
     return this.scan;
   }
 

@@ -1,13 +1,15 @@
 import Document from '@/classes/document/Document';
 import DocumentScan from '@/classes/document/DocumentScan';
 import FileInfo from '@/classes/File/FileInfo';
-import Human from '@/classes/Human';
+import User from '@/classes/User';
 import VacancyResponseToDocument from '@/classes/VacancyResponseToDocument';
 import IDocument from '@/interfaces/document/IDocument';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IUser from '@/interfaces/IUser';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import IVacancyResponseToDocument from '@/interfaces/vacancyResponse/IVacancyResponseToDocument';
+import TokenService from '@/services/Token';
 
 export default class VacancyResponse implements IVacancyResponse {
   id?: string;
@@ -17,11 +19,15 @@ export default class VacancyResponse implements IVacancyResponse {
   viewed = false;
 
   opened = false;
-  human = new Human();
+  user?: IUser;
+  userId?: string;
   vacancyResponsesToDocuments: IVacancyResponseToDocument[] = [];
 
   constructor(i?: IVacancyResponse) {
     if (!i) {
+      if (TokenService.isAuth()) {
+        this.user = new User(TokenService.getUser());
+      }
       return;
     }
     this.id = i.id;
@@ -30,8 +36,9 @@ export default class VacancyResponse implements IVacancyResponse {
     this.responseDate = i.responseDate;
     this.viewed = i.viewed;
 
-    if (i.human) {
-      this.human = new Human(i.human);
+    this.userId = i.userId;
+    if (i.user) {
+      this.user = new User(i.user);
     }
     if (i.vacancyResponsesToDocuments) {
       this.vacancyResponsesToDocuments = i.vacancyResponsesToDocuments.map(

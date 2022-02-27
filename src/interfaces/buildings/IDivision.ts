@@ -5,10 +5,10 @@ import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
+import IVacancy from '@/interfaces/IVacancy';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
-import IVacancy from '@/interfaces/vacancies/IVacancy';
 
 import IEntrance from './IEntrance';
 

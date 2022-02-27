@@ -8,7 +8,7 @@ export default [
     component: VacanciesList,
   },
   {
-    path: '/vacancies/:id',
+    path: '/vacancies/:slug',
     name: 'VacancyPage',
     component: VacancyPage,
   },

@@ -1,7 +1,7 @@
 import IDocument from '@/interfaces/document/IDocument';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IHuman from '@/interfaces/IHuman';
+import IUser from '@/interfaces/IUser';
 import IVacancyResponseToDocument from '@/interfaces/vacancyResponse/IVacancyResponseToDocument';
 
 export default interface IVacancyResponse {
@@ -11,7 +11,8 @@ export default interface IVacancyResponse {
   coverLetter: string;
   viewed: boolean;
   opened: boolean;
-  human?: IHuman;
+  user?: IUser;
+  userId?: string;
   vacancyResponsesToDocuments: IVacancyResponseToDocument[];
 
   initDocuments: (documentsTypes: IDocumentType[]) => void;

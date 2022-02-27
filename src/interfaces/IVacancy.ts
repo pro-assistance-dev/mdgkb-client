@@ -1,16 +1,23 @@
 import IDivision from '@/interfaces/buildings/IDivision';
+import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import IVacancyDuty from '@/interfaces/IVacancyDuty';
+import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
 export default interface IVacancy {
   id?: string;
   title: string;
-  description: string;
+  slug: string;
+  contactInfo: IContactInfo;
+  contactInfoId?: string;
   specialization: string;
-  salary: string;
+  minSalary: number;
+  maxSalary: number;
+  salaryComment: string;
   archived: boolean;
-  requirements: string;
   experience: string;
-  duties: string;
+  vacancyDuties: IVacancyDuty[];
+  vacancyRequirements: IVacancyRequirement[];
   schedule: string;
   date: Date;
 
@@ -21,4 +28,6 @@ export default interface IVacancy {
 
   division?: IDivision;
   divisionId?: string;
+
+  getSalary: () => string;
 }

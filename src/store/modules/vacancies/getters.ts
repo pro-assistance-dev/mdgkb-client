@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import IVacancy from '@/interfaces/vacancies/IVacancy';
+import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import RootState from '@/store/types';
 

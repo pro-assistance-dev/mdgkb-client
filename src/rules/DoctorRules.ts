@@ -1,4 +1,4 @@
-import HumanRules from '@/classes/HumanRules';
+import HumanRules from '@/rules/HumanRules';
 
 export default {
   education: [{ required: true, message: 'Необходимо указать образование', trigger: 'blur' }],
