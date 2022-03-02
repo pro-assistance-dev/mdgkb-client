@@ -24,6 +24,7 @@ const mutations: MutationTree<State> = {
   },
   clearUser(state) {
     localStorage.removeItem('user');
+    state.user = undefined;
   },
   setTokens(state, tokens: ITokens) {
     TokenService.setTokens(tokens);

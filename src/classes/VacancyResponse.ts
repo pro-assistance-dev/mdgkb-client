@@ -27,7 +27,9 @@ export default class VacancyResponse implements IVacancyResponse {
     if (!i) {
       if (TokenService.isAuth()) {
         this.user = new User(TokenService.getUser());
+        return;
       }
+      this.user = new User();
       return;
     }
     this.id = i.id;
