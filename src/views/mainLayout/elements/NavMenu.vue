@@ -6,10 +6,16 @@
         <div class="subMenu-place">
           <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
             <router-link class="link-colomn" :to="subMenu.link">
-              <div class="index-about-column">
-                <div class="index-about-colomn-icon"></div>
+              <div class="index-about-column" :style="{ 'background-color': subMenu.background }">
+                <div class="index-about-colomn-icon">
+                  <div class="icon">
+                    <BaseIcon width="50" height="50" color="#ffffff" :icon-name="subMenu.iconName">
+                      <HelpProfileIcon :svg-code="subMenu.svgCode" />
+                    </BaseIcon>
+                  </div>
+                </div>
                 <div class="index-about-colomn-text">
-                  <h3>{{ subMenu.name }}</h3>
+                  {{ subMenu.name }}
                 </div>
               </div>
             </router-link>
@@ -21,14 +27,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IMenu from '@/interfaces/elements/IMenu';
+import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
+import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
+import IMenu from '@/interfaces/IMenu';
 
 export default defineComponent({
   name: 'NavMenu',
+  components: {
+    BaseIcon,
+    HelpProfileIcon,
+  },
   props: {
     vertical: {
       type: Boolean,
@@ -42,7 +54,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
 
-    const menus = computed(() => store.getters['menus/items']);
+    const menus: ComputedRef<IMenu[]> = computed(() => store.getters['menus/items']);
     const route = useRoute();
 
     const menuClickHandler = (link: string) => {
@@ -52,8 +64,19 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await store.dispatch('menus/getAll');
+      setColors();
       activePath.value = route.path;
     });
+
+    const setColors = (): void => {
+      const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
+
+      for (let menuIndex = 0; menuIndex < menus.value.length; menuIndex++) {
+        for (let subMenuIndex = 0; subMenuIndex < menus.value[menuIndex].subMenus.length; subMenuIndex++) {
+          menus.value[menuIndex].subMenus[subMenuIndex].background = colors[subMenuIndex % 4];
+        }
+      }
+    };
 
     watch(
       () => route.path,
@@ -62,11 +85,8 @@ export default defineComponent({
       }
     );
 
-    const collapseCard = () => menus.value.forEach((v: IMenu) => v.collapseCard());
-
     return {
       menus,
-      collapseCard,
       expand,
       activePath,
       menuClickHandler,
@@ -170,7 +190,7 @@ h3 {
   width: 70%;
   align-items: center;
   justify-content: left;
-  color: #343e5c;
+  color: #ffffff;
 }
 
 .index-about-colomn-icon {

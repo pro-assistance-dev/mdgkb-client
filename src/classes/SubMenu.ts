@@ -14,6 +14,7 @@ export default class SubMenu implements ISubMenu {
   selected = false;
   editMode = false;
   color = '';
+  background = '';
 
   page = new Page();
   pageId?: string;
@@ -24,6 +25,8 @@ export default class SubMenu implements ISubMenu {
 
   iconId?: string;
   icon = new FileInfo();
+  iconName = '';
+  svgCode = '';
 
   constructor(i?: ISubMenu) {
     if (!i) {
@@ -32,6 +35,8 @@ export default class SubMenu implements ISubMenu {
     this.id = i.id;
     this.name = i.name;
     this.link = i.link;
+    this.iconName = i.iconName;
+    this.svgCode = i.svgCode;
 
     if (this.page) {
       this.page = new Page(i.page);

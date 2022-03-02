@@ -121,15 +121,6 @@ h2 {
   justify-content: center;
 }
 
-// .scale-image-container {
-//   width: 100%;
-//   height: 100%;
-// }
-// .scale-image {
-//   width: 100%;
-//   height: 100%;
-// }
-
 .main-medical-profiles {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

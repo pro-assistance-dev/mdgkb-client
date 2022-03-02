@@ -34,13 +34,4 @@ export default class MedicalProfile implements IMedicalProfile {
       this.medicalProfilesNews = i.medicalProfilesNews.map((item: IMedicalProfileNews) => new MedicalProfileNews(item));
     }
   }
-
-  // getIconUrl(): string {
-  //   if (this.icon.fileSystemPath) {
-  //     return this.icon.getFileUrl();
-  //   }
-  //   // const numberOfImg = Math.floor(Math.random() * (70 - 1 + 1) + 1);
-  //   return '';
-  //   // return require(`../assets/medicine/${numberOfImg}.svg`);
-  // }
 }

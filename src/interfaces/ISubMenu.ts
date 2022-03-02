@@ -12,6 +12,7 @@ export default interface ISubMenu extends IFiler, IOrdered {
   selected: boolean;
   editMode: boolean;
   color: string;
+  background: string;
 
   page: IPage;
   pageId?: string;
@@ -23,6 +24,8 @@ export default interface ISubMenu extends IFiler, IOrdered {
 
   iconId?: string;
   icon: IFileInfo;
+  iconName: string;
+  svgCode: string;
 
   crud: ICrud;
 }
