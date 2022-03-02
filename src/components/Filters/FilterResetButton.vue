@@ -32,29 +32,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 // @import '@/assets/elements/filterForm.scss';
-
+@import '@/assets/styles/elements/blue-button.scss';
 .load-more {
   display: flex;
   justify-content: center;
-}
-:deep(.el-button) {
-  background: #2754eb;
-  border: 1px solid#2754EB;
-  color: #ffffff;
-  margin-bottom: 20px;
-  min-height: 38px;
-  font-size: 14px;
-}
-
-:deep(.el-button:hover) {
-  background: darken(#2754eb, 10%);
-  border: 1px solid#2754EB;
-  color: #ffffff;
-}
-
-:deep(.el-button:active) {
-  background: #2754eb;
-  border: 1px solid#2754EB;
-  color: #ffffff;
 }
 </style>

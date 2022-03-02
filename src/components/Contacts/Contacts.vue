@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="mounted" class="container">
     <div class="contacts-title"><h2>Контакты</h2></div>
     <div class="contacts-data">
       <contacts-data-h4
@@ -10,7 +10,9 @@
         Вход для пациентов, записанных на прием в КДЦ- с 4-го Добрынинского переулка.<br />
         Вход на территорию больницы для всех остальных- с 1-ого Добрынинского переулка.<br />
         Внимание! Вход всех посетителей в 1А корпус и оформление плановой госпитализации проводится через пункт термометрии.<br /><br />
-
+        <div class="map-container">
+          <yandex-map style="height: 400px" :coords="[55.725317, 37.619214]" zoom="16.24" :settings="settings" />
+        </div>
         <b>Call-центр:</b> +7 (495) 959-88-00, +7 (495) 959-88-03 круглосуточно<br />
         Запись на медицинские услуги также проводится в разделе «Запись на приём»<br />
         Запись на онлайн консультации проводятся в разделе «Телемедицина»<br /><br />
@@ -27,12 +29,36 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Contacts',
-};
+import { defineComponent, onMounted, ref } from 'vue';
+import { yandexMap } from 'vue-yandex-maps';
+
+export default defineComponent({
+  name: 'VacanciesFilters',
+  components: { yandexMap },
+
+  setup() {
+    const mounted = ref(false);
+    const settings = {
+      center: [55.74954, 37.621587],
+      zoom: 10,
+    };
+    onMounted(async () => {
+      mounted.value = true;
+    });
+
+    return {
+      mounted,
+      settings,
+    };
+  },
+});
 </script>
 
 <style scoped lang="scss">
+.map-container {
+  height: 400px;
+  margin: 10px 0 20px 0;
+}
 .container {
   width: 100%;
 }

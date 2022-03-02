@@ -16,6 +16,7 @@ import scroll from '@/services/Scroll';
 
 const app = createApp(App);
 import VueSocialSharing from 'vue-social-sharing';
+import YmapPlugin from 'vue-yandex-maps';
 
 app.config.globalProperties.$dateFormatRu = fillDateFormat;
 app.config.globalProperties.$store = useStore();
@@ -32,8 +33,17 @@ library.add(faVk);
 
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 
+const settings = {
+  apiKey: '',
+  lang: 'ru_RU',
+  coordorder: 'latlong',
+  enterprise: false,
+  version: '2.1',
+};
+
 app.use(store);
 app.use(router);
+app.use(YmapPlugin, settings);
 app.use(setupElementPlusComponents);
 app.use(setupElementPlusPlugins);
 

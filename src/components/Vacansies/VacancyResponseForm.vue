@@ -1,42 +1,47 @@
 <template>
   <div v-if="mounted" class="contact-form">
     <el-form ref="vacancyResponseForm" :model="vacancyResponse" label-width="120px" label-position="top" :rules="rules">
-      <div class="flex-row">
-        <el-form-item label="Фамилия" prop="user.human.surname">
-          <el-input v-model="vacancyResponse.user.human.surname"></el-input>
-        </el-form-item>
-        <el-form-item label="Имя" prop="user.human.name">
-          <el-input v-model="vacancyResponse.user.human.name"></el-input>
-        </el-form-item>
-        <el-form-item label="Отчество" prop="user.human.patronymic">
-          <el-input v-model="vacancyResponse.user.human.patronymic"></el-input>
-        </el-form-item>
+      <div v-if="!isAuth" class="flex-row justify-center mt-1 mb-1">
+        <el-button @click="register">Зарегистрируйтесь для доступа ко всем возможностям</el-button>
       </div>
-      <div class="flex-row justify-space-around">
-        <el-form-item label="Дата рождения" prop="user.human.dateBirth">
-          <el-date-picker
-            v-model="vacancyResponse.user.human.dateBirth"
-            type="date"
-            format="DD.MM.YYYY"
-            placeholder="Выберите дату"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="Пол" prop="user.human.isMale">
-          <el-select v-model="vacancyResponse.user.human.isMale" placeholder="Выберите пол">
-            <el-option label="Мужчина" :value="true"></el-option>
-            <el-option label="Женщина" :value="false"></el-option>
-          </el-select>
-        </el-form-item>
-      </div>
-      <div class="flex-row">
-        <el-form-item prop="user.email" label="Email" label-width="120px">
-          <el-input v-model="vacancyResponse.user.email"></el-input>
-        </el-form-item>
-        <el-form-item label="Телефон" label-width="120px" prop="user.phone">
-          <el-input v-model="vacancyResponse.user.phone"></el-input>
-        </el-form-item>
-      </div>
-      <el-form-item label="Информация" label-width="120px">
+      <template v-if="!isAuth">
+        <div class="flex-row">
+          <el-form-item label="Фамилия" prop="user.human.surname">
+            <el-input v-model="vacancyResponse.user.human.surname"></el-input>
+          </el-form-item>
+          <el-form-item label="Имя" prop="user.human.name">
+            <el-input v-model="vacancyResponse.user.human.name"></el-input>
+          </el-form-item>
+          <el-form-item label="Отчество" prop="user.human.patronymic">
+            <el-input v-model="vacancyResponse.user.human.patronymic"></el-input>
+          </el-form-item>
+        </div>
+        <div class="flex-row justify-space-around">
+          <el-form-item label="Дата рождения" prop="user.human.dateBirth">
+            <el-date-picker
+              v-model="vacancyResponse.user.human.dateBirth"
+              type="date"
+              format="DD.MM.YYYY"
+              placeholder="Выберите дату"
+            ></el-date-picker>
+          </el-form-item>
+          <el-form-item label="Пол" prop="user.human.isMale">
+            <el-select v-model="vacancyResponse.user.human.isMale" placeholder="Выберите пол">
+              <el-option label="Мужчина" :value="true"></el-option>
+              <el-option label="Женщина" :value="false"></el-option>
+            </el-select>
+          </el-form-item>
+        </div>
+        <div class="flex-row">
+          <el-form-item prop="user.email" label="Email" label-width="120px">
+            <el-input v-model="vacancyResponse.user.email"></el-input>
+          </el-form-item>
+          <el-form-item label="Телефон" label-width="120px" prop="user.phone">
+            <el-input v-model="vacancyResponse.user.phone"></el-input>
+          </el-form-item>
+        </div>
+      </template>
+      <el-form-item label="Сопроводительное письмо" label-width="120px">
         <el-input v-model="vacancyResponse.coverLetter" type="textarea" :rows="10"></el-input>
       </el-form-item>
       <div class="flex-row">
@@ -60,10 +65,11 @@
 
 <script lang="ts">
 import { ElNotification } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import User from '@/classes/User';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
@@ -89,6 +95,9 @@ export default defineComponent({
     const rules = ref(VacancyResponseRules);
     const vacancyResponseForm = ref();
 
+    const isAuth = computed(() => store.getters['auth/isAuth']);
+    const user = computed(() => store.getters['auth/user']);
+
     onBeforeMount(async () => {
       await store.dispatch('documentTypes/getDocumentsTypesForTables');
       await store.dispatch('documentTypes/getAll');
@@ -107,8 +116,14 @@ export default defineComponent({
       ElNotification({ title: 'Отклик на вакансию', message: 'Форма успешно отправлена', type: 'success' });
       await router.push('/vacancies');
     };
+    const register = () => store.commit('auth/openModal');
+
+    watch(user, () => (vacancyResponse.value.user = user.value ? new User(user.value) : new User()), { deep: true });
 
     return {
+      user,
+      register,
+      isAuth,
       vacancyResponseForm,
       rules,
       mounted,
@@ -128,6 +143,10 @@ export default defineComponent({
   flex-wrap: wrap;
   gap: 80px;
 }
+
+.justify-center {
+  justify-content: center;
+}
 .right-button {
   margin-top: 10px;
   display: flex;
@@ -135,5 +154,12 @@ export default defineComponent({
 }
 :deep(.avatar-uploader-cover) {
   text-align: unset;
+}
+
+.mt-1 {
+  margin-top: 10px;
+}
+.mb-1 {
+  margin-bottom: 10px;
 }
 </style>
