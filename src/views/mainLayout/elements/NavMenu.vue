@@ -191,6 +191,7 @@ h3 {
   align-items: center;
   justify-content: left;
   color: #ffffff;
+  padding-right: 10px;
 }
 
 .index-about-colomn-icon {
@@ -198,7 +199,7 @@ h3 {
   width: 30%;
   align-items: center;
   justify-content: center;
-  padding-left: 10px;
+  padding: 0 10px;
 }
 
 .icon-menu {
