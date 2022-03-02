@@ -175,10 +175,8 @@ h3 {
   display: flex;
   width: 200px;
   height: 100px;
-  // border: rgba(0, 0, 0, 0.05) solid 1px;
-  // border-radius: 5px;
   background-clip: padding-box;
-  background: #ffffff;
+  background: #dfe4ee;
   overflow: hidden;
   box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.2);
   justify-content: space-between;
@@ -272,7 +270,6 @@ li .dropmenu {
 }
 
 li:hover {
-  background: #ffffff;
   cursor: pointer;
 }
 
