@@ -13,7 +13,12 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      await store.dispatch('auth/refreshToken');
+      try {
+        await store.dispatch('auth/refreshToken');
+      } catch (e) {
+        await store.dispatch('auth/logout');
+        return;
+      }
       axiosInstance.defaults.headers.common['token'] = TokenService.getAccessToken();
       error.config.headers['token'] = TokenService.getAccessToken();
       error.config.baseURL = undefined;
