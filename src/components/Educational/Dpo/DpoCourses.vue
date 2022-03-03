@@ -9,10 +9,57 @@
           second-mode="Дополнительные программы"
           @changeMode="changeMode"
         />
-        <DpoCoursesFilters v-if="!baseCoursesMode" />
-        <DpoBaseCoursesFilters v-else />
+        <div class="search_block">
+          <DpoCoursesFilters v-if="!baseCoursesMode" />
+          <DpoBaseCoursesFilters v-else />
+        </div>
         <div class="links">
           <a type="primary" round @click="$router.push('/public-documents')">Нормативные документы</a>
+        </div>
+        <div class="contact-data">
+          <div class="contact-data-list-item">
+            <div class="contact-h3">
+              <div class="item">
+                <svg class="icon-time">
+                  <use xlink:href="#time"></use>
+                </svg>
+              </div>
+              <div class="item">Пн-Пт, с 9:00 до 17:00</div>
+            </div>
+          </div>
+          <div class="contact-data-list-item">
+            <div class="contact-h3">
+              <div class="item">
+                <svg class="icon-map-marker">
+                  <use xlink:href="#map-marker"></use>
+                </svg>
+              </div>
+              <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 22а, 1 этаж Отдел постдипломного образования</div>
+            </div>
+          </div>
+          <div class="contact-data-list-item">
+            <div class="contact-h3">
+              <div class="item">
+                <svg class="icon-phone">
+                  <use xlink:href="#phone"></use>
+                </svg>
+              </div>
+              <div class="item">
+                +7 (495) 959-88-01<br />
+                доб. 11-37 ДПО
+              </div>
+            </div>
+          </div>
+          <div class="contact-data-list-item">
+            <div class="contact-h3">
+              <div class="item">
+                <svg class="icon-email">
+                  <use xlink:href="#email"></use>
+                </svg>
+              </div>
+              <div class="item">pdo@morozdgkb.ru</div>
+            </div>
+          </div>
         </div>
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -35,6 +82,21 @@
         <symbol id="email" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
             d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22H17V20H12C7.66 20 4 16.34 4 12C4 7.66 7.66 4 12 4C16.34 4 20 7.66 20 12V13.43C20 14.22 19.29 15 18.5 15C17.71 15 17 14.22 17 13.43V12C17 9.24 14.76 7 12 7C9.24 7 7 9.24 7 12C7 14.76 9.24 17 12 17C13.38 17 14.64 16.44 15.54 15.53C16.19 16.42 17.31 17 18.5 17C20.47 17 22 15.4 22 13.43V12C22 6.48 17.52 2 12 2ZM12 15C10.34 15 9 13.66 9 12C9 10.34 10.34 9 12 9C13.66 9 15 10.34 15 12C15 13.66 13.66 15 12 15Z"
+          ></path>
+        </symbol>
+
+        <symbol id="time" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+          <path
+            d="M8 1C4.1402 1 1 4.1402 1 8C1 11.8598 4.1402 15 8 15C11.8598 15 15 11.8598 15 8C15 4.1402 11.8598 1 8 1ZM10.3051 11.2949L7.3 8.2898V3.8H8.7V7.7102L11.2949 10.3051L10.3051 11.2949Z"
+          ></path>
+        </symbol>
+
+        <symbol id="map-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+          <path
+            d="M7.99923 0.888916C6.61487 0.890072 5.28722 1.439 4.30625 2.4158C3.32529 3.39261 2.77072 4.71791 2.76367 6.10225C2.76367 8.1778 3.92812 9.91558 4.78145 11.1822L4.93701 11.4134C5.78602 12.6439 6.69682 13.8306 7.66589 14.9689L8.00367 15.3645L8.34145 14.9689C9.31041 13.8305 10.2212 12.6438 11.0703 11.4134L11.2259 11.1778C12.0748 9.91114 13.2392 8.1778 13.2392 6.10225C13.2322 4.71714 12.677 3.39117 11.6951 2.41424C10.7131 1.43731 9.38435 0.888898 7.99923 0.888916ZM7.99923 8.44447C7.42259 8.44447 6.85889 8.27348 6.37943 7.95311C5.89997 7.63275 5.52628 7.1774 5.30561 6.64465C5.08493 6.1119 5.0272 5.52568 5.13969 4.96012C5.25219 4.39456 5.52987 3.87505 5.93762 3.46731C6.34537 3.05956 6.86487 2.78188 7.43043 2.66938C7.99599 2.55688 8.58221 2.61462 9.11496 2.83529C9.64771 3.05597 10.1031 3.42966 10.4234 3.90912C10.7438 4.38858 10.9148 4.95227 10.9148 5.52892C10.9148 6.30217 10.6076 7.04375 10.0608 7.59053C9.51406 8.1373 8.77248 8.44447 7.99923 8.44447Z"
+          ></path>
+          <path
+            d="M8.00055 7.18665C8.91612 7.18665 9.65833 6.44444 9.65833 5.52887C9.65833 4.61331 8.91612 3.87109 8.00055 3.87109C7.08499 3.87109 6.34277 4.61331 6.34277 5.52887C6.34277 6.44444 7.08499 7.18665 8.00055 7.18665Z"
           ></path>
         </symbol>
       </svg>
@@ -90,7 +152,8 @@ export default defineComponent({
 }
 
 .links {
-  text-align: center;
+  text-align: left;
+  padding-left: 7px;
 }
 
 .icon-phone {
@@ -103,5 +166,66 @@ export default defineComponent({
   width: 20px;
   height: 20px;
   fill: #2754eb;
+}
+
+.icon-time {
+  width: 20px;
+  height: 20px;
+  fill: #2754eb;
+}
+
+.icon-map-marker {
+  width: 23px;
+  height: 23px;
+  fill: #2754eb;
+}
+
+.search_block {
+  padding-top: 10px;
+}
+
+.contact-data {
+  // background: #ffffff;
+  // border-radius: 5px;
+  // border: 1px solid #dcdfe6;
+  margin-top: 25px;
+}
+
+.contact-data-list {
+  list-style-type: none;
+}
+
+.contact-data-list-item-h4 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  overflow-wrap: break-word;
+  color: #4a4a4a;
+  text-align: left;
+  justify-content: left;
+}
+
+.contact-data-list-item {
+  padding-bottom: 20px;
+}
+
+.contact-h3 {
+  display: flex;
+  justify-content: left;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: lighter;
+  color: #4a4a4a;
+  align-content: center;
+  text-align: center;
+  margin: 2px;
+}
+
+.item {
+  font-size: 14px;
+  display: flex;
+  padding-right: 10px;
+  width: auto;
+  align-items: center;
+  text-align: left;
 }
 </style>
