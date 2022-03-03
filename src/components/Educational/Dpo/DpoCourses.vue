@@ -185,9 +185,6 @@ export default defineComponent({
 }
 
 .contact-data {
-  // background: #ffffff;
-  // border-radius: 5px;
-  // border: 1px solid #dcdfe6;
   margin-top: 25px;
 }
 

@@ -127,3 +127,48 @@
     cursor: pointer;
   }
 }
+
+.icon-phone {
+  width: 20px;
+  height: 20px;
+  fill: #2754eb;
+}
+
+.icon-email {
+  width: 20px;
+  height: 20px;
+  fill: #2754eb;
+}
+
+.icon-time {
+  width: 20px;
+  height: 20px;
+  fill: #2754eb;
+}
+
+.icon-map-marker {
+  width: 23px;
+  height: 23px;
+  fill: #2754eb;
+}
+
+.contact-h3 {
+  display: flex;
+  justify-content: left;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: lighter;
+  color: #4a4a4a;
+  align-content: center;
+  text-align: center;
+  margin: 2px;
+}
+
+.item {
+  font-size: 14px;
+  display: flex;
+  padding-right: 10px;
+  width: auto;
+  align-items: center;
+  text-align: left;
+}
