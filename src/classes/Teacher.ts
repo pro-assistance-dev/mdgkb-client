@@ -1,5 +1,7 @@
 import Doctor from '@/classes/Doctor';
+import DpoCourse from '@/classes/DpoCourse';
 import IDoctor from '@/interfaces/IDoctor';
+import IDpoCourse from '@/interfaces/IDpoCourse';
 import ITeacher from '@/interfaces/ITeacher';
 
 export default class Teacher implements ITeacher {
@@ -7,6 +9,7 @@ export default class Teacher implements ITeacher {
   doctorId?: string;
   doctor: IDoctor = new Doctor();
   position = '';
+  dpoCourses: IDpoCourse[] = [];
 
   constructor(i?: ITeacher) {
     if (!i) {
@@ -17,6 +20,9 @@ export default class Teacher implements ITeacher {
     this.position = i.position;
     if (i.doctor) {
       this.doctor = new Doctor(i.doctor);
+    }
+    if (i.dpoCourses) {
+      this.dpoCourses = i.dpoCourses.map((item: IDpoCourse) => new DpoCourse(item));
     }
   }
 }
