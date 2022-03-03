@@ -6,15 +6,15 @@
         <div class="subMenu-place">
           <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
             <router-link class="link-colomn" :to="subMenu.link">
-              <div class="index-about-column" :style="{ 'background-color': subMenu.background }">
+              <div class="index-about-column">
                 <div class="index-about-colomn-icon">
                   <div class="icon">
-                    <BaseIcon width="50" height="50" color="#ffffff" :icon-name="subMenu.iconName">
+                    <BaseIcon width="50" height="50" :color="subMenu.background" :icon-name="subMenu.iconName">
                       <HelpProfileIcon :svg-code="subMenu.svgCode" />
                     </BaseIcon>
                   </div>
                 </div>
-                <div class="index-about-colomn-text">
+                <div class="index-about-colomn-text" :style="{ color: subMenu.background }">
                   {{ subMenu.name }}
                 </div>
               </div>
@@ -176,7 +176,7 @@ h3 {
   width: 200px;
   height: 100px;
   background-clip: padding-box;
-  background: #dfe4ee;
+  background: #ffffff;
   overflow: hidden;
   box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.2);
   justify-content: space-between;
