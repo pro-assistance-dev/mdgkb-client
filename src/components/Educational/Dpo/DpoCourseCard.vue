@@ -2,7 +2,7 @@
   <div class="card-item flex-column">
     <div class="flex-row">
       <div>
-        <div class="doctor-name" @click="$router.push({ name: `DivisionPage`, params: { id: dpoCourse.id } })">
+        <div class="doctor-name" @click="$router.push(`/dpo/courses/${dpoCourse.id}`)">
           {{ dpoCourse.name }}
         </div>
         <div class="spec-list">

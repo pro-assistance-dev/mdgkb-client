@@ -35,7 +35,7 @@ export default defineComponent({
     const loadMore = async () => {
       const lastCursor = dpoCourses.value[dpoCourses.value.length - 1].name;
       filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
-      await store.dispatch('dpoBaseCourses/getAll', filterQuery.value);
+      await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };
 
     return {

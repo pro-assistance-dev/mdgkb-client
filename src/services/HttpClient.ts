@@ -34,23 +34,25 @@ export default class HttpClient {
   async get<ReturnType>(params?: IBodilessParams): Promise<ReturnType | void> {
     const isBlob = params?.isBlob;
     const headers = params?.headers;
-
-    const { data, headers: resHeaders } = await axiosInstance({
+    const res = await axiosInstance({
       url: this.buildUrl(params?.query),
       method: 'get',
       headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
       responseType: !isBlob ? 'json' : 'blob',
     });
+    if (!res) {
+      return;
+    }
     if (!isBlob) {
-      return data;
+      return res.data;
     }
 
-    const headerLine = resHeaders['content-disposition'];
+    const headerLine = res.headers['content-disposition'];
     const startFileNameIndex = headerLine.indexOf('"') + 1;
     const endFileNameIndex = headerLine.lastIndexOf('"');
     const filename = headerLine.substring(startFileNameIndex, endFileNameIndex);
 
-    const url = URL.createObjectURL(data);
+    const url = URL.createObjectURL(res.data);
     const fileName = HttpClient.getDownloadFileName(params?.downloadFileName, filename);
 
     return HttpClient.download(url, fileName);

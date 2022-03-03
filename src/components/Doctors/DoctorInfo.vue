@@ -18,7 +18,7 @@
       <div class="doctor-name">
         {{ doctor.human.getFullName() }}
       </div>
-      <div class="tag-link" @click="$router.push(`/doctors?medical-profile=${doctor.medicalProfile.id}`)">
+      <div v-if="doctor.medicalProfile" class="tag-link" @click="$router.push(`/doctors?medical-profile=${doctor.medicalProfile.id}`)">
         {{ doctor.medicalProfile.name }}
       </div>
 
