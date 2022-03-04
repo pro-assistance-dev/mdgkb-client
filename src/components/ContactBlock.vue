@@ -1,7 +1,7 @@
 <template>
   <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id">
     <div class="contact-h3">
-      <div v-if="phone.description" class="item">
+      <div v-if="phone.number" class="item">
         <svg class="icon-phone">
           <use xlink:href="#phone"></use>
         </svg>
@@ -11,7 +11,7 @@
   </div>
   <div v-for="email in contactInfo.emails" :key="email.id">
     <div class="contact-h3">
-      <div v-if="email.description" class="item">
+      <div v-if="email.address" class="item">
         <svg class="icon-email">
           <use xlink:href="#email"></use>
         </svg>

@@ -3,27 +3,30 @@
     <div class="card-item">
       <div>
         <div class="card-item-title">
-          <b> {{ vacancy.title }}</b>
+          {{ vacancy.title }}
         </div>
+        <hr class="hr-line" />
         <div class="card-item-body">
           <div v-if="vacancy.getSalary()">
-            <div>
-              <b><i> Заработная плата:</i></b>
+            <div>Заработная плата:</div>
+            <div class="color-font">
+              <i> {{ vacancy.getSalary() }} </i>
             </div>
-            {{ vacancy.getSalary() }}
           </div>
           <div v-if="vacancy.experience">
-            <div>
-              <b><i> Опыт работы:</i></b>
+            <div class="padding-block">Опыт работы:</div>
+            <div class="color-font">
+              <i> {{ vacancy.experience }} </i>
             </div>
-            {{ vacancy.experience }}
           </div>
-          <ContactBlock :contact-info="vacancy.contactInfo" />
         </div>
       </div>
       <div class="card-item-footer">
-        <button @click="$router.push(`/vacancies/${vacancy.slug}`)">Подробнее</button>
-        <button class="respond-btn" @click="$router.push(`/vacancies/${vacancy.slug}?respondForm=open`)">Откликнуться</button>
+        <div class="contact-block"><ContactBlock :contact-info="vacancy.contactInfo" /></div>
+        <div class="button-block">
+          <button @click="$router.push(`/vacancies/${vacancy.slug}`)">Подробнее</button>
+          <button class="respond-btn" @click="$router.push(`/vacancies/${vacancy.slug}?respondForm=open`)">Откликнуться</button>
+        </div>
       </div>
     </div>
   </div>
@@ -58,7 +61,7 @@ export default defineComponent({
   flex-direction: column;
   justify-content: space-between;
   font-size: 14px;
-  padding: 10px;
+  padding: 15px;
   height: 100%;
   &-title {
     font-size: 15px;
@@ -72,7 +75,7 @@ export default defineComponent({
     cursor: pointer;
     padding: 7px 15px;
     letter-spacing: 1px;
-    border-radius: 5px;
+    border-radius: 40px;
     border: none;
     background-color: #2754ec;
     color: white;
@@ -86,5 +89,44 @@ export default defineComponent({
       background-color: lighten(#31af5e, 10%);
     }
   }
+}
+
+.color-font {
+  color: #2754eb;
+}
+
+.card-item-title {
+  font-size: 16px;
+  min-height: 60px;
+  color: #343e5c;
+  font-weight: bold;
+}
+
+.padding-block {
+  padding-top: 5px;
+}
+
+.card-item-body {
+  padding-top: 5px;
+}
+
+.card-item-footer {
+  display: block;
+}
+
+.contact-block {
+  padding-bottom: 15px;
+}
+
+.button-block {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.hr-line {
+  border: none;
+  background-color: #e4e5e7; /* Цвет линии для браузера Firefox и Opera */
+  height: 1px;
+  background: #e4e5e7;
 }
 </style>
