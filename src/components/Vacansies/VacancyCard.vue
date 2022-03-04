@@ -1,28 +1,40 @@
 <template>
   <div class="card-item-container">
     <div class="card-item">
-      <div>
-        <div class="card-header">
-          <svg class="icon-vacancies">
-            <use xlink:href="#vacancies-icon"></use>
-          </svg>
-          <div class="card-item-title" @click="$router.push(`/vacancies/${vacancy.slug}`)">
-            {{ vacancy.title }}
-          </div>
-          <hr class="hr-line" />
+      <div class="card-header">
+        <div class="tags-top">
+          <el-tag :key="vacancy.id" effect="plain" class="vacancy-tag-link" :size="article || main ? 'mini' : 'small'">
+            <span>Врач</span>
+          </el-tag>
+          <el-tag
+            v-if="vacancy.schedule"
+            :key="vacancy.id"
+            effect="plain"
+            class="vacancy-tag-link"
+            :size="article || main ? 'mini' : 'small'"
+          >
+            <span>{{ vacancy.schedule }}</span>
+          </el-tag>
         </div>
-        <div class="card-item-body">
-          <div v-if="vacancy.getSalary()">
-            <div>Заработная плата:</div>
-            <div class="color-font">
-              <i> {{ vacancy.getSalary() }} </i>
-            </div>
+        <svg class="icon-vacancies">
+          <use xlink:href="#vacancies-icon"></use>
+        </svg>
+        <div class="card-item-title" @click="$router.push(`/vacancies/${vacancy.slug}`)">
+          {{ vacancy.title }}
+        </div>
+        <hr class="hr-line" />
+      </div>
+      <div class="card-item-body">
+        <div v-if="vacancy.getSalary()">
+          <div>Заработная плата:</div>
+          <div class="color-font">
+            <i> {{ vacancy.getSalary() }} </i>
           </div>
-          <div v-if="vacancy.experience">
-            <div class="padding-block">Опыт работы:</div>
-            <div class="color-font">
-              <i> {{ vacancy.experience }} </i>
-            </div>
+        </div>
+        <div v-if="vacancy.experience">
+          <div class="padding-block">Опыт работы:</div>
+          <div class="color-font">
+            <i> {{ vacancy.experience }} </i>
           </div>
         </div>
       </div>
@@ -48,6 +60,7 @@
 </template>
 
 <script lang="ts">
+import { ElTag } from 'element-plus';
 import { defineComponent, PropType } from 'vue';
 
 import ContactBlock from '@/components/ContactBlock.vue';
@@ -55,7 +68,7 @@ import IVacancy from '@/interfaces/IVacancy';
 
 export default defineComponent({
   name: 'VacanncyCard',
-  components: { ContactBlock },
+  components: { ContactBlock, ElTag },
   props: {
     vacancy: {
       type: Object as PropType<IVacancy>,
@@ -74,7 +87,9 @@ export default defineComponent({
   width: 300px;
   height: auto;
   padding-bottom: 40px;
+  position: relative;
 }
+
 .card-item {
   display: flex;
   flex-direction: column;
@@ -159,5 +174,30 @@ export default defineComponent({
   width: 80px;
   height: 80px;
   fill: #c4c4c4;
+}
+
+:deep(.el-tag--plain) {
+  background-color: #2754eb;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  padding: 1px 15px 0px 15px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+:deep(.el-tag--plain):hover {
+  background-color: #133dcc;
+}
+
+.card-header {
+  position: relative;
+}
+
+.tags-top {
+  display: flex;
+  justify-content: right;
+  position: absolute;
+  right: 0;
 }
 </style>

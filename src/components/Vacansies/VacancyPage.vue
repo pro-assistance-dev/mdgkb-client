@@ -3,22 +3,33 @@
     <div class="card-item">
       <div class="vacancy-block">
         <div class="vacancy-title">{{ vacancy.title }}</div>
-        <div class="vacancy-salary">{{ vacancy.getSalary() }}</div>
+        <div class="vacancy-salary">
+          <i>{{ vacancy.getSalary() }}</i>
+        </div>
       </div>
       <div class="vacancy-block">
-        <div v-if="vacancy.experience"><b>Требуемый опыт работы:</b> {{ vacancy.experience }}</div>
-        <div v-if="vacancy.schedule"><b>График работы:</b> {{ vacancy.schedule }}</div>
+        <div v-if="vacancy.experience">
+          <b>Требуемый опыт работы:</b> <i class="experience">{{ vacancy.experience }}</i>
+        </div>
+        <div v-if="vacancy.schedule" class="schedule-block">
+          <div class="schedule-item"><b>График работы:</b></div>
+          <span>{{ vacancy.schedule }}</span>
+        </div>
       </div>
       <div v-if="vacancy.vacancyDuties" class="vacancy-block">
         <div><b>Должностные обязанности:</b></div>
         <ul>
-          <li v-for="duty in vacancy.vacancyDuties" :key="duty.id">{{ duty.name }}</li>
+          <li v-for="duty in vacancy.vacancyDuties" :key="duty.id">
+            <i>{{ duty.name }}</i>
+          </li>
         </ul>
       </div>
       <div v-if="vacancy.vacancyRequirements" class="vacancy-block">
         <div><b>Требования к кандидату:</b></div>
         <ul>
-          <li v-for="requirement in vacancy.vacancyRequirements" :key="requirement.id">{{ requirement.name }}</li>
+          <li v-for="requirement in vacancy.vacancyRequirements" :key="requirement.id">
+            <i>{{ requirement.name }}</i>
+          </li>
         </ul>
       </div>
       <div v-if="vacancy.contactInfo" class="vacancy-block">
@@ -109,9 +120,14 @@ export default defineComponent({
   }
 }
 .vacancy-title {
-  font-size: 24px;
+  font-size: 21px;
   font-weight: bold;
 }
+
+.vacancy-salary {
+  color: #2754eb;
+}
+
 .vacancy-block {
   margin-bottom: 20px;
 }
@@ -125,5 +141,37 @@ export default defineComponent({
   display: block;
   width: auto;
   height: auto;
+}
+
+:deep(.el-tag--plain) {
+  background-color: #2754eb;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+  padding: 1px 15px 0px 15px;
+  cursor: pointer;
+}
+
+:deep(.el-tag--plain):hover {
+  background-color: #133dcc;
+}
+
+.schedule-block {
+  display: flex;
+  justify-content: left;
+}
+
+.experience {
+  color: #2754eb;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li:before {
+  content: '-';
+  position: relative;
+  left: -5px;
 }
 </style>
