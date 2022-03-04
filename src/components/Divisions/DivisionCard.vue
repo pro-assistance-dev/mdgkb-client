@@ -27,8 +27,8 @@
       </div>
     </div>
     <div class="contact-h3">
-      <div v-if="division.getAddress()" class="item">
-        <svg class="icon-map-marker">
+      <div class="item">
+        <svg v-if="division.getAddress()" class="icon-map-marker">
           <use xlink:href="#map-marker"></use>
         </svg>
       </div>
@@ -39,16 +39,16 @@
       </div>
     </div>
     <div class="contact-h3">
-      <div v-if="division.contactInfo.telephoneNumbers[0]" class="item">
-        <svg class="icon-phone">
+      <div class="item">
+        <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone">
           <use xlink:href="#phone"></use>
         </svg>
       </div>
       <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div>
     </div>
     <div class="contact-h3">
-      <div v-if="division.contactInfo.emails[0]" class="item">
-        <svg class="icon-email">
+      <div class="item">
+        <svg v-if="division.contactInfo.emails[0].address" class="icon-email">
           <use xlink:href="#email"></use>
         </svg>
       </div>
@@ -173,15 +173,10 @@ export default defineComponent({
 }
 
 .item {
-  font-size: 14px;
   display: flex;
   padding-right: 10px;
   width: auto;
   align-items: center;
   text-align: left;
-}
-
-.doctor-img {
-  // padding: 0 20px;
 }
 </style>

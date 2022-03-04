@@ -84,9 +84,6 @@
           <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
           <ContactBlock :contact-info="head.contactInfo" />
         </div>
-
-        <!-- <h3 v-if="head.timetable.getOnlyWorkDays().length" class="contact-h3">Приём граждан:</h3> -->
-        <!-- <div v-for="workDay in head.timetable.getOnlyWorkDays()" :key="workDay">{{ workDay }}</div> -->
         <div class="contact-h3">
           <div class="item">
             <svg v-if="head.timetable.getOnlyWorkDays().length" class="icon-time">

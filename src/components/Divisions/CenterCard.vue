@@ -16,7 +16,7 @@
         </div>
         <div class="contact-h3">
           <div class="item">
-            <svg class="icon-map-marker">
+            <svg v-if="center.address" class="icon-map-marker">
               <use xlink:href="#map-marker"></use>
             </svg>
           </div>
