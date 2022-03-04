@@ -32,12 +32,12 @@
           </div>
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-time">
+              <svg v-if="mainDoctor.timetable.getOnlyWorkDays().length" class="icon-time">
                 <use xlink:href="#time"></use>
               </svg>
             </div>
             <div class="time-block">
-              <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }}</div>
+              <span v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }} </span>
             </div>
           </div>
         </div>
@@ -84,14 +84,17 @@
           <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
           <ContactBlock :contact-info="head.contactInfo" />
         </div>
+
+        <!-- <h3 v-if="head.timetable.getOnlyWorkDays().length" class="contact-h3">Приём граждан:</h3> -->
+        <!-- <div v-for="workDay in head.timetable.getOnlyWorkDays()" :key="workDay">{{ workDay }}</div> -->
         <div class="contact-h3">
           <div class="item">
-            <svg class="icon-time">
+            <svg v-if="head.timetable.getOnlyWorkDays().length" class="icon-time">
               <use xlink:href="#time"></use>
             </svg>
           </div>
           <div class="time-block">
-            <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }}</div>
+            <div v-for="workDay in head.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }}</div>
           </div>
         </div>
       </div>
