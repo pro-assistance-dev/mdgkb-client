@@ -180,4 +180,8 @@ export default defineComponent({
   align-items: center;
   text-align: left;
 }
+
+.doctor-img {
+  // padding: 0 20px;
+}
 </style>

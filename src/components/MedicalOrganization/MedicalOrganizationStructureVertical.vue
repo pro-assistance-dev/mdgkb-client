@@ -36,7 +36,9 @@
                 <use xlink:href="#time"></use>
               </svg>
             </div>
-            <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }}</div>
+            <div class="time-block">
+              <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -88,7 +90,9 @@
               <use xlink:href="#time"></use>
             </svg>
           </div>
-          <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }}</div>
+          <div class="time-block">
+            <div v-for="workDay in mainDoctor.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -449,5 +453,11 @@ ul.divisions-first-ul {
   display: flex;
   padding-right: 10px;
   width: auto;
+  align-items: center;
+  text-align: left;
+}
+
+.time-block {
+  display: block;
 }
 </style>
