@@ -6,7 +6,7 @@
           <svg class="icon-vacancies">
             <use xlink:href="#vacancies-icon"></use>
           </svg>
-          <div class="card-item-title">
+          <div class="card-item-title" @click="$router.push(`/vacancies/${vacancy.slug}`)">
             {{ vacancy.title }}
           </div>
           <hr class="hr-line" />
@@ -119,6 +119,11 @@ export default defineComponent({
   min-height: 60px;
   color: #343e5c;
   font-weight: bold;
+  cursor: pointer;
+}
+
+.card-item-title:hover {
+  color: #2754eb;
 }
 
 .padding-block {
