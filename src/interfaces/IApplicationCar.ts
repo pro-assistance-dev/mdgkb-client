@@ -1,4 +1,5 @@
 import IDivision from '@/interfaces/buildings/IDivision';
+import IGate from '@/interfaces/IGate';
 import IUser from '@/interfaces/IUser';
 
 export default interface IApplicationCar {
@@ -7,6 +8,8 @@ export default interface IApplicationCar {
   carBrand: string;
   divisionId?: string;
   division?: IDivision;
+  gateId?: string;
+  gate?: IGate;
   userId?: string;
   user: IUser;
   date: Date;

@@ -11296,7 +11296,7 @@
      id="markers"
      transform="matrix(1.6091629,0,0,1.6091629,-181.75011,-79.301786)"><g
        id="barriers"><g
-   id="barrier1"
+   id="8ccf8e9b-b487-493e-b451-60b193181f07"
    class="barrier"
    transform="matrix(1.230941,0,0,1.230941,-76.870075,-28.597641)"><circle
      style="fill:#601c1c;fill-opacity:1"
@@ -11327,7 +11327,7 @@
        points="157.1,-236 156.2,-235.1 157.1,-235.1 158,-236 "
        class="st1"
        transform="translate(169.35978,358.93094)" /></g></g><g
-   id="barrier2"
+   id="235730bd-15bf-4c71-9364-e36cca331803"
    class="barrier"
    transform="matrix(1.230941,0,0,1.230941,320.88933,325.17783)"><circle
      style="fill:#601c1c;fill-opacity:1"
@@ -11356,7 +11356,7 @@
      points="157.1,-235.1 158,-236 157.1,-236 156.2,-235.1 "
      class="st1"
      transform="translate(169.35978,358.93094)" /></g><g
-   id="barrier3"
+   id="a351e15a-b39c-4a3e-a027-2de5ae43c707"
    class="barrier"
    transform="matrix(1.230941,0,0,1.230941,389.2097,116.59389)"><circle
      style="fill:#601c1c;fill-opacity:1"

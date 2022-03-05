@@ -4,22 +4,22 @@
       <Map id="map-svg" />
       <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
       <MapRouter />
-      <div ref="enterPopoverRef" class="enter-popover">
+      <div v-if="chosenGate" ref="enterPopoverRef" class="enter-popover">
         <div class="card-item enter-popover-container">
           <BaseModalButtonClose class="enter-popover-container-close" @click="closeEnterPopover" />
           <div class="enter-popover-container-header">
-            <div>{{ chosenEntranceName }}</div>
+            <div>{{ chosenGate.name }}</div>
           </div>
           <button class="order-button" @click="openApplicationCarModal">Заказать пропуск</button>
         </div>
       </div>
     </div>
   </div>
-  <ApplicationCarModal :entrance-name="chosenEntranceName" />
+  <ApplicationCarModal v-if="chosenGate" :gate="chosenGate" />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -29,6 +29,7 @@ import ApplicationCarModal from '@/components/Map/ApplicationCarModal.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IFloor from '@/interfaces/buildings/IFloor';
+import IGate from '@/interfaces/IGate';
 
 import MapPopover from './MapPopover.vue';
 import MapRouter from './MapRouter.vue';
@@ -55,12 +56,15 @@ export default defineComponent({
     let building = ref();
     const store = useStore();
     const enterPopoverRef = ref<HTMLDivElement>();
-    const entrances = [
-      { id: 'barrier1', name: 'Вход для пациентов, записанных на прием в КДЦ' },
-      { id: 'barrier2', name: 'Вход для пациентов за экстренной медицинской помощью' },
-      { id: 'barrier3', name: 'Вход на территорию больницы' },
-    ];
-    const chosenEntranceName: Ref<string> = ref('');
+    const gates: Ref<IGate[]> = computed(() => store.getters['gates/items']);
+    const chosenGate: Ref<IGate | undefined> = ref();
+
+    onBeforeMount(async (): Promise<void> => {
+      await store.dispatch('gates/getAll');
+      if (gates.value.length > 0) {
+        chosenGate.value = gates.value[0];
+      }
+    });
 
     onMounted(() => {
       // decorAnimate();
@@ -82,9 +86,9 @@ export default defineComponent({
       item.addEventListener('click', () => selectBarrier(item));
     };
     const selectBarrier = (item: Element) => {
-      entrances.forEach((el) => {
+      gates.value.forEach((el) => {
         if (el.id === item.id) {
-          chosenEntranceName.value = el.name;
+          chosenGate.value = el;
         }
       });
       if (!enterPopoverRef.value) return;
@@ -243,7 +247,7 @@ export default defineComponent({
       hoverBuilding,
       enterPopoverRef,
       closeEnterPopover,
-      chosenEntranceName,
+      chosenGate,
       openApplicationCarModal,
     };
   },

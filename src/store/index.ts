@@ -24,6 +24,7 @@ import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
 import { filter } from '@/store/modules/filter';
+import { gates } from '@/store/modules/gates';
 import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { map } from '@/store/modules/map';
@@ -121,6 +122,7 @@ const s: StoreOptions<RootState> = {
     entrances,
     educationalManagers,
     children,
+    gates,
   },
 };
 

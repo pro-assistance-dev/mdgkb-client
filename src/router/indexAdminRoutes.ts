@@ -3,6 +3,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import AdminCertificates from '@/components/admin/AdminCertificates/AdminCertificates.vue';
 import AdminCommonVisitingRulesList from '@/components/admin/AdminCommonVisitingRules/AdminCommonVisitingRulesList.vue';
 import AdminDonorRules from '@/components/admin/AdminDonorRules/AdminDonorRules.vue';
+import AdminAppointmentsRoutes from '@/router/AdminAppointmentsRoutes';
 import AdminBannersRoutes from '@/router/AdminBannersRoutes';
 import AdminCommentsRoutes from '@/router/AdminCommentsRoutes';
 import AdminDictionaryRoutes from '@/router/AdminDictionaryRoutes';
@@ -84,4 +85,5 @@ export default [
   ...AdminPreparations,
   ...AdminPublicDocumentTypesRoutes,
   ...AdminMedicalProfiles,
+  ...AdminAppointmentsRoutes,
 ];

@@ -21,7 +21,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button @click="createChildModeOn">Создать ребёнка</el-button>
+        <el-button @click="createChildModeOn">Добавить ребёнка</el-button>
       </el-form-item>
     </template>
     <el-form-item v-if="!isAuth">

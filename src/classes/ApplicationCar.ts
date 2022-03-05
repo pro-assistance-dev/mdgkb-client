@@ -1,7 +1,9 @@
 import Division from '@/classes/buildings/Division';
+import Gate from '@/classes/Gate';
 import User from '@/classes/User';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IApplicationCar from '@/interfaces/IApplicationCar';
+import IGate from '@/interfaces/IGate';
 import IUser from '@/interfaces/IUser';
 import TokenService from '@/services/Token';
 
@@ -14,6 +16,8 @@ export default class ApplicationCar implements IApplicationCar {
   divisionId?: string;
   user: IUser = new User();
   userId?: string;
+  gate?: IGate;
+  gateId?: string;
 
   constructor(i?: IApplicationCar) {
     if (!i) {
@@ -28,11 +32,15 @@ export default class ApplicationCar implements IApplicationCar {
     this.date = i.date;
     this.divisionId = i.divisionId;
     this.userId = i.userId;
+    this.gateId = i.gateId;
     if (i.division) {
       this.division = new Division(i.division);
     }
     if (i.user) {
       this.user = new User(i.user);
+    }
+    if (i.gate) {
+      this.gate = new Gate(i.gate);
     }
   }
 }
