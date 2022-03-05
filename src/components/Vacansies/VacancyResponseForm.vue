@@ -1,44 +1,46 @@
 <template>
   <div v-if="mounted" class="contact-form">
     <el-form ref="vacancyResponseForm" :model="vacancyResponse" label-width="120px" label-position="top" :rules="rules">
-      <div v-if="!isAuth" class="flex-row justify-center mt-1 mb-1">
-        <el-button @click="register">Зарегистрируйтесь для доступа ко всем возможностям</el-button>
-      </div>
       <template v-if="!isAuth">
-        <div class="flex-row">
-          <el-form-item label="Фамилия" prop="user.human.surname">
-            <el-input v-model="vacancyResponse.user.human.surname"></el-input>
-          </el-form-item>
-          <el-form-item label="Имя" prop="user.human.name">
-            <el-input v-model="vacancyResponse.user.human.name"></el-input>
-          </el-form-item>
-          <el-form-item label="Отчество" prop="user.human.patronymic">
-            <el-input v-model="vacancyResponse.user.human.patronymic"></el-input>
-          </el-form-item>
-        </div>
-        <div class="flex-row justify-space-around">
-          <el-form-item label="Дата рождения" prop="user.human.dateBirth">
-            <el-date-picker
-              v-model="vacancyResponse.user.human.dateBirth"
-              type="date"
-              format="DD.MM.YYYY"
-              placeholder="Выберите дату"
-            ></el-date-picker>
-          </el-form-item>
-          <el-form-item label="Пол" prop="user.human.isMale">
-            <el-select v-model="vacancyResponse.user.human.isMale" placeholder="Выберите пол">
-              <el-option label="Мужчина" :value="true"></el-option>
-              <el-option label="Женщина" :value="false"></el-option>
-            </el-select>
-          </el-form-item>
-        </div>
-        <div class="flex-row">
-          <el-form-item prop="user.email" label="Email" label-width="120px">
-            <el-input v-model="vacancyResponse.user.email"></el-input>
-          </el-form-item>
-          <el-form-item label="Телефон" label-width="120px" prop="user.phone">
-            <el-input v-model="vacancyResponse.user.phone"></el-input>
-          </el-form-item>
+        <div class="form-block">
+          <div class="flex-row">
+            <el-form-item label="Фамилия" prop="user.human.surname">
+              <el-input v-model="vacancyResponse.user.human.surname"></el-input>
+            </el-form-item>
+            <el-form-item label="Имя" prop="user.human.name">
+              <el-input v-model="vacancyResponse.user.human.name"></el-input>
+            </el-form-item>
+            <el-form-item label="Отчество" prop="user.human.patronymic">
+              <el-input v-model="vacancyResponse.user.human.patronymic"></el-input>
+            </el-form-item>
+          </div>
+
+          <div class="flex-row justify-space-around">
+            <div class="flex-group">
+              <el-form-item label="Дата рождения" prop="user.human.dateBirth">
+                <el-date-picker
+                  v-model="vacancyResponse.user.human.dateBirth"
+                  type="date"
+                  format="DD.MM.YYYY"
+                  placeholder="Выберите дату"
+                ></el-date-picker>
+              </el-form-item>
+              <el-form-item label="Пол" prop="user.human.isMale">
+                <el-select v-model="vacancyResponse.user.human.isMale" placeholder="Выберите пол">
+                  <el-option label="Мужчина" :value="true"></el-option>
+                  <el-option label="Женщина" :value="false"></el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+            <div class="flex-row">
+              <el-form-item prop="user.email" label="Email" label-width="120px">
+                <el-input v-model="vacancyResponse.user.email"></el-input>
+              </el-form-item>
+              <el-form-item label="Телефон" label-width="120px" prop="user.phone">
+                <el-input v-model="vacancyResponse.user.phone"></el-input>
+              </el-form-item>
+            </div>
+          </div>
         </div>
       </template>
       <el-form-item label="Сопроводительное письмо" label-width="120px">
@@ -56,8 +58,8 @@
           <UploaderSingleScan :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan" />
         </el-form-item>
       </div>
-      <div class="right-button">
-        <button type="success" @click.prevent="sendResponse()">Отправить форму</button>
+      <div v-if="!isAuth" class="response-child">
+        <button class="response" @click.prevent="sendResponse()">Отправить форму</button>
       </div>
     </el-form>
   </div>
@@ -116,13 +118,11 @@ export default defineComponent({
       ElNotification({ title: 'Отклик на вакансию', message: 'Форма успешно отправлена', type: 'success' });
       await router.push('/vacancies');
     };
-    const register = () => store.commit('auth/openModal');
 
     watch(user, () => (vacancyResponse.value.user = user.value ? new User(user.value) : new User()), { deep: true });
 
     return {
       user,
-      register,
       isAuth,
       vacancyResponseForm,
       rules,
@@ -139,9 +139,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .flex-row {
   justify-content: left;
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   gap: 80px;
+  width: 100%;
 }
 
 .justify-center {
@@ -161,5 +162,54 @@ export default defineComponent({
 }
 .mb-1 {
   margin-bottom: 10px;
+}
+
+.form-block {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.flex-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+:deep(.el-date-editor.el-input) {
+  width: 100%;
+}
+
+:deep(.el-select) {
+  width: 100%;
+}
+
+:deep(.el-form-item) {
+  margin-left: 20px;
+}
+
+.response {
+  background: #2754eb;
+  border-radius: 40px;
+  border: none;
+  font-family: roboto;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-left: 5px;
+  padding: 9px 18px;
+  text-align: center;
+  margin-right: 50px;
+  &:hover {
+    cursor: pointer;
+    background-color: #133dcc;
+  }
+}
+
+.response-child {
+  display: flex;
+  justify-content: right;
+}
+
+:deep(.el-form-item__label) {
+  line-height: 20px;
 }
 </style>

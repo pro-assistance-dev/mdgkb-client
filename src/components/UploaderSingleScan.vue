@@ -59,11 +59,11 @@ export default defineComponent({
     },
     height: {
       type: Number,
-      default: 200,
+      default: 100,
     },
     width: {
       type: Number,
-      default: 200,
+      default: 100,
     },
     cropRatio: {
       type: Boolean,
@@ -182,5 +182,11 @@ export default defineComponent({
 
 :deep(.el-upload-list__item) {
   transition: unset;
+}
+
+.flex-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 </style>

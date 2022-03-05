@@ -41,10 +41,17 @@
       <div class="vacancy-footer">
         <button @click="openRespondForm">Откликнуться</button>
       </div>
-      <!-- <div class="">{{ vacancy.schedule }}</div> -->
     </div>
-    <div v-if="showForm" id="vacancy-form" class="card-item">
-      <div class="vacancy-title vacancy-block">Форма для отклика</div>
+    <div v-if="showForm" id="vacancy-form">
+      <div class="header-block">
+        <div class="vacancy-title vacancy-block">Форма для отклика</div>
+        <div class="register-button">
+          <h5 class="reg-h5"><i>*для доступа ко всем возможностям</i></h5>
+          <div v-if="!isAuth" class="register-child">
+            <button class="register" @click="register">зарегистрируйтесь</button>
+          </div>
+        </div>
+      </div>
       <VacancyResponseForm :vacancy-id="vacancy.id" />
     </div>
   </div>
@@ -86,16 +93,39 @@ export default defineComponent({
       }
     });
 
+    const register = () => store.commit('auth/openModal');
+
     return {
       vacancy,
       openRespondForm,
       showForm,
+      register,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.flex-row {
+  justify-content: left;
+  display: block;
+  flex-wrap: wrap;
+  gap: 80px;
+  width: 100%;
+}
+
+.justify-center {
+  justify-content: center;
+}
+.right-button {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+:deep(.avatar-uploader-cover) {
+  text-align: unset;
+}
+
 .page-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -129,8 +159,10 @@ export default defineComponent({
 }
 
 .vacancy-block {
+  align-items: center;
   margin-bottom: 20px;
 }
+
 .vacancy-footer {
   text-align: right;
   padding-right: 30px;
@@ -173,5 +205,41 @@ ul li:before {
   content: '-';
   position: relative;
   left: -5px;
+}
+
+.header-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.register {
+  background: #2754eb;
+  border-radius: 40px;
+  border: none;
+  font-family: roboto;
+  font-size: 0.8rem;
+  color: #ffffff;
+  margin-left: 5px;
+  padding: 3px 18px;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+    background-color: #133dcc;
+  }
+}
+
+.reg-h5 {
+  font-size: 10px;
+  font-family: Roboto, Verdana, sans-serif;
+  font-weight: normal;
 }
 </style>
