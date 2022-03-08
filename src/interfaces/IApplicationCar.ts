@@ -13,4 +13,6 @@ export default interface IApplicationCar {
   userId?: string;
   user: IUser;
   date: Date;
+  movedIn: boolean;
+  movedOut: boolean;
 }

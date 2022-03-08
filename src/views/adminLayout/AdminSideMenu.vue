@@ -233,6 +233,11 @@ export default defineComponent({
         to: '/admin/donor-rules',
         icon: 'el-icon-plus',
       },
+            {
+        title: 'Заявки на въезд',
+        to: '/admin/application-for-entry',
+        icon: 'el-icon-guide',
+      },
     ]);
     return { menuList, closeDrawer, isCollapseSideMenu, activePath };
   },
@@ -269,3 +274,4 @@ $background-color: whitesmoke;
   margin-right: 20px;
 }
 </style>
+

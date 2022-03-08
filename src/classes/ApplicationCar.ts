@@ -18,6 +18,8 @@ export default class ApplicationCar implements IApplicationCar {
   userId?: string;
   gate?: IGate;
   gateId?: string;
+  movedIn = false;
+  movedOut =  false;
 
   constructor(i?: IApplicationCar) {
     if (!i) {
@@ -33,6 +35,8 @@ export default class ApplicationCar implements IApplicationCar {
     this.divisionId = i.divisionId;
     this.userId = i.userId;
     this.gateId = i.gateId;
+    this.movedIn = i.movedIn;
+    this.movedOut = i.movedOut;
     if (i.division) {
       this.division = new Division(i.division);
     }

@@ -25,6 +25,7 @@ import AdminPublicDocumentTypesRoutes from '@/router/AdminPublicDocumentTypesRou
 import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
 import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
+import AdminApplicationForEntryRoutes from '@/router/AdminApplicationForEntryRoutes';
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
@@ -64,6 +65,18 @@ export default [
       layout: 'AdminLayout',
     },
   },
+  // {
+  //   path: '/admin/application-for-entry',
+  //   name: 'AdminApplicationForEntry',
+  //   component: AdminApplicationForEntry,
+  //   beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+  //     isAuthorized(next);
+  //     authGuard();
+  //   },
+  //   meta: {
+  //     layout: 'AdminLayout',
+  //   },
+  // },
   ...AdminDoctorsRoutes,
   ...AdminDictionaryRoutes,
   ...AdminNewsRoutes,
@@ -86,4 +99,5 @@ export default [
   ...AdminPublicDocumentTypesRoutes,
   ...AdminMedicalProfiles,
   ...AdminAppointmentsRoutes,
+  ...AdminApplicationForEntryRoutes,
 ];

@@ -8,10 +8,10 @@
         <el-date-picker v-model="applicationCar.date" format="DD.MM.YYYY HH:mm" type="datetime" placeholder="Дата" />
       </el-form-item>
       <el-form-item prop="carBrand" label="Государственный регистрационный знак автомобиля:">
-        <el-input v-model="applicationCar.carBrand" placeholder="Государственный регистрационный знак автомобиля"></el-input>
+        <el-input v-model="applicationCar.carNumber" placeholder="Государственный регистрационный знак автомобиля"></el-input>
       </el-form-item>
       <el-form-item prop="carNumber" label="Марка автомобиля:">
-        <el-input v-model="applicationCar.carNumber" placeholder="Марка автомобиля"></el-input>
+        <el-input v-model="applicationCar.carBrand" placeholder="Марка автомобиля"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -44,8 +44,8 @@ export default defineComponent({
     const applicationCar: ComputedRef<IApplicationCar> = computed(() => store.getters['applicationsCars/item']);
     const isAuth = computed(() => store.getters['auth/isAuth']);
     const rules = {
-      carBrand: [{ required: true, message: 'Необходимо указать гос.знак автомобиля', trigger: 'blur' }],
-      carNumber: [{ required: true, message: 'Необходимо указать марку автомобиля', trigger: 'blur' }],
+      carNumber: [{ required: true, message: 'Необходимо указать гос.знак автомобиля', trigger: 'blur' }],
+      carBrand: [{ required: true, message: 'Необходимо указать марку автомобиля', trigger: 'blur' }],
       date: [{ type: 'date', required: true, message: 'Необходимо указать дату', trigger: 'change' }],
     };
 
