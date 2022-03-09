@@ -54,6 +54,8 @@ export default defineComponent({
     });
 
     const load = async () => {
+      filterQuery.value.pagination.cursorMode = false;
+      // filterQuery.value.pagination.limit = 100;
       store.commit('filter/setStoreModule', 'dpoCourses');
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };
@@ -71,7 +73,7 @@ export default defineComponent({
     };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/dpo-courses/${event.id}`);
+      await router.push(`/courses/${event.id}`);
     };
 
     return {

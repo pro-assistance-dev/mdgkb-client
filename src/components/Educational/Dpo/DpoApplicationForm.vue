@@ -130,7 +130,16 @@ export default defineComponent({
 :deep(.el-form-item__label) {
   line-height: 1.2;
 }
-:deep(a) {
-  color: blue !important;
+//:deep(a) {
+//  color: blue !important;
+//}
+
+a {
+  color: #2754eb;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    color: darken(#2754eb, 30%);
+  }
 }
 </style>

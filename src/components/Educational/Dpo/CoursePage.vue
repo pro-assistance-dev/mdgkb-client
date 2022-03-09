@@ -3,10 +3,18 @@
     <div class="side-container hidden-md-and-down">
       <div class="side-item">
         <div class="card-item" style="padding: 0">
-          <h4 class="card-item-title">Преподаватель</h4>
+          <h4 class="card-item-title">Преподаватели</h4>
           <el-divider />
           <div class="recent-news-item" @click="$router.push(`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`)">
             <div class="item-title">{{ dpoCourse.getMainTeacher().doctor.human.getFullName() }}</div>
+          </div>
+          <div
+            v-for="dpoCoursesTeacher in dpoCourse.dpoCoursesTeachers.filter((i) => !i.main)"
+            :key="dpoCoursesTeacher.id"
+            class="recent-news-item"
+            @click="$router.push(`/doctors/${dpoCoursesTeacher.teacher.doctor.human.slug}`)"
+          >
+            <div class="item-title">{{ dpoCoursesTeacher.teacher.doctor.human.getFullName() }}</div>
           </div>
           <div class="recent-news-footer">
             <button @click="$router.push('/teachers')">Все преподаватели</button>
@@ -22,7 +30,7 @@
             {{ $dateFormatRu(dpoCourse.dpoCoursesDates[0].start, true, false) }}
           </div>
           <div class="recent-news-footer">
-            <button @click="$router.push('/dpo/courses')">Все программы</button>
+            <button @click="$router.push('/dpo')">Все программы</button>
           </div>
         </div>
       </div>
