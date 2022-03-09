@@ -10,7 +10,7 @@
           @changeMode="changeMode"
         />
         <div class="search_block">
-          <DpoCoursesFilters v-if="!nmoMode" />
+          <DpoCoursesFilters v-if="!nmoMode" @load="load" />
         </div>
         <div class="links">
           <a type="primary" round @click="$router.push('/public-documents')">Нормативные документы</a>
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -33,6 +33,7 @@ import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.
 import DpoCoursesFilters from '@/components/Educational/Dpo/DpoCoursesFilters.vue';
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 
 export default defineComponent({
   name: 'DpoCourses',
@@ -45,13 +46,23 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
 
     const nmoMode: Ref<boolean> = ref(route.path === '/nmo');
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     onBeforeMount(async () => {
       // await store.dispatch('dpoCourses/getAll');
       mounted.value = true;
+      await load();
     });
 
+    const load = async () => {
+      filterQuery.value.pagination.cursorMode = false;
+      // filterQuery.value.pagination.limit = 100;
+      store.commit('filter/setStoreModule', 'dpoCourses');
+      await store.dispatch('dpoCourses/getAll', filterQuery.value);
+    };
+
     const changeMode = async (dpoModeActive: boolean) => {
+      // filterQuery.value.filterModels.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
       nmoMode.value = !dpoModeActive;
       if (nmoMode.value) {
         await router.replace('/nmo');
@@ -60,7 +71,7 @@ export default defineComponent({
       }
     };
 
-    return { nmoMode, changeMode, mounted };
+    return { nmoMode, changeMode, mounted, load };
   },
 });
 </script>

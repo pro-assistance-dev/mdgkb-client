@@ -19,18 +19,23 @@
           <div class="recent-news-footer">
             <button @click="$router.push('/teachers')">Все преподаватели</button>
           </div>
+          <div class="recent-news-footer">
+            <button @click="$router.push('/dpo')">Все программы</button>
+          </div>
         </div>
       </div>
 
       <div class="side-item">
         <div class="card-item">
           <div><b> Длительность курса:</b> {{ dpoCourse.hours }} ч.</div>
+        </div>
+      </div>
+
+      <div class="side-item">
+        <div class="card-item">
           <div>
-            <b> Курс начинается:</b> <br />
-            {{ $dateFormatRu(dpoCourse.dpoCoursesDates[0].start, true, false) }}
-          </div>
-          <div class="recent-news-footer">
-            <button @click="$router.push('/dpo')">Все программы</button>
+            <b>Даты проведения курса:</b> <br />
+            {{ dpoCourse.getClosestPeriod() }}
           </div>
         </div>
       </div>
@@ -100,6 +105,7 @@ export default defineComponent({
       showForm.value = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
     onBeforeMount(async () => {
       await store.dispatch('dpoCourses/get', route.params['id']);
       mounted.value = true;

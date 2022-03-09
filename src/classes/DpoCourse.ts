@@ -10,6 +10,7 @@ import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
 import removeFromClass from '@/mixins/removeFromClass';
+import fillDateFormat from '@/services/DateFormat';
 
 export default class DpoCourse implements IDpoCourse {
   id?: string;
@@ -91,5 +92,14 @@ export default class DpoCourse implements IDpoCourse {
   findSpecialization(id: string): boolean {
     const spec = this.dpoCoursesSpecializations.find((i: IDpoCourseSpecialization) => i.specializationId === id);
     return !!spec;
+  }
+
+  getClosestPeriod(): string {
+    if (!this.dpoCoursesDates[0] || !this.dpoCoursesDates[0]) {
+      return 'Даты неизвестны';
+    }
+    const dateStart = fillDateFormat(this.dpoCoursesDates[0].start);
+    const dateEnd = fillDateFormat(this.dpoCoursesDates[0].start);
+    return `${dateStart}-${dateEnd}`;
   }
 }

@@ -1,36 +1,42 @@
 <template>
   <div class="card-flex-container card-item">
     <h2>Дополнительные профессиональные программы</h2>
-    <table>
-      <thead>
-        <th>Название программы</th>
-        <th>Преподаватели</th>
-        <th>Часов</th>
-        <th></th>
-      </thead>
-      <tbody>
-        <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
-          <td>{{ dpoCourse.name }}</td>
-          <td>
-            <router-link :to="`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`">
-              {{ dpoCourse.getMainTeacher().doctor.human.getFullName() }}
-            </router-link>
-          </td>
-          <td style="text-align: center">{{ dpoCourse.hours }}</td>
-          <td>
-            <div class="btns">
-              <button @click="$router.push(`/courses/${dpoCourse.id}`)">Подробнее</button>
-              <button class="respond-btn" @click="$router.push(`/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table>
+        <thead>
+          <th>Название программы</th>
+          <th>Даты проведения</th>
+          <th>Руководитель</th>
+          <th>Часов</th>
+          <th></th>
+        </thead>
+        <tbody v-if="mounted">
+          <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
+            <td>{{ dpoCourse.name }}</td>
+            <td>
+              {{ dpoCourse.getClosestPeriod() }}
+            </td>
+            <td>
+              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
+                {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+              </router-link>
+            </td>
+            <td style="text-align: center">{{ dpoCourse.hours }}</td>
+            <td>
+              <div class="btns">
+                <button @click="$router.push(`/courses/${dpoCourse.id}`)">Подробнее</button>
+                <button class="respond-btn" @click="$router.push(`/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -42,10 +48,15 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
-
+    const mounted = ref(false);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+
+    onBeforeMount(async () => {
+      store.commit(`filter/resetQueryFilter`);
+      mounted.value = true;
+    });
 
     const loadMore = async () => {
       const lastCursor = dpoCourses.value[dpoCourses.value.length - 1].name;
@@ -54,6 +65,7 @@ export default defineComponent({
     };
 
     return {
+      mounted,
       dpoCourses,
       loadMore,
     };
@@ -78,10 +90,6 @@ export default defineComponent({
 .card-container {
   height: 350px;
   margin: 0 auto;
-}
-
-.card-item {
-  height: 100vh;
 }
 
 .loadmore-button {
@@ -113,15 +121,18 @@ export default defineComponent({
 }
 .card-item {
   width: 100%;
-}
-table {
-  border-collapse: collapse;
-  overflow: auto;
+  height: 100vh;
 }
 
-tbody {
+.table-container {
+  height: 90%;
   overflow: scroll;
 }
+table {
+  height: 100vh;
+  border-collapse: collapse;
+}
+
 td,
 th {
   border: 1px solid #dcdfe6;

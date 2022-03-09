@@ -28,4 +28,5 @@ export default interface IDpoCourse {
   addDates: () => void;
   addSpecialization: (specialization: ISpecialization) => void;
   findSpecialization: (id: string) => boolean;
+  getClosestPeriod: () => string;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mount" class="left-side-container">
+  <div class="left-side-container">
     <RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" />
 
     <SortList :models="createSortModels()" @load="load" />
@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
@@ -35,10 +35,9 @@ export default defineComponent({
     RemoteSearch,
     SortList,
   },
-
-  setup() {
+  emits: ['load'],
+  setup(props, { emit }) {
     const store = useStore();
-    const route = useRoute();
     const router = useRouter();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
@@ -47,18 +46,6 @@ export default defineComponent({
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
-    onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await load();
-      mount.value = true;
-    });
-
-    const load = async () => {
-      filterQuery.value.pagination.cursorMode = false;
-      // filterQuery.value.pagination.limit = 100;
-      store.commit('filter/setStoreModule', 'dpoCourses');
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
-    };
 
     const loadFilters = async () => {
       await store.dispatch('meta/getOptions', schema.value.teacher);
@@ -76,14 +63,18 @@ export default defineComponent({
       await router.push(`/courses/${event.id}`);
     };
 
+    const load = () => {
+      emit('load');
+    };
+
     return {
+      load,
       dpoCourses,
       selectSearch,
       createSortModels,
       TokenService,
       Operators,
       DataTypes,
-      load,
       medicalProfiles,
       schema,
       doctors,
