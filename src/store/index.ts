@@ -15,6 +15,7 @@ import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { documentTypes } from '@/store/modules/documentTypes';
 import { donorRules } from '@/store/modules/donorRules';
+import { dpoApplications } from '@/store/modules/dpoApplications';
 import { dpoBaseCourses } from '@/store/modules/dpoBaseCourses';
 import { dpoCourses } from '@/store/modules/dpoCourses';
 import { educationalManagers } from '@/store/modules/educationalManagers';
@@ -119,6 +120,7 @@ const s: StoreOptions<RootState> = {
     teachers,
     entrances,
     educationalManagers,
+    dpoApplications,
   },
 };
 

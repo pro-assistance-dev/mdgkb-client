@@ -200,7 +200,7 @@ h3 {
 }
 
 :deep(a) {
-  color: inherit !important;
+  color: inherit;
 }
 
 :deep(blockquote) {

@@ -2,17 +2,10 @@
   <div v-if="mounted">
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
-        <ModeButtons
-          :second-mode-active="baseCoursesMode"
-          :store-mode="false"
-          first-mode="Базовые программы"
-          second-mode="Дополнительные программы"
-          @changeMode="changeMode"
-        />
         <DpoCoursesFilters v-if="!baseCoursesMode" />
         <DpoBaseCoursesFilters v-else />
       </el-col>
-      <el-col :xl="18" :lg="18" :md="24">
+      <el-col :xl="18" :lg="18" :md="24" style="height: 100%; padding-right: 40px">
         <DpoBaseCoursesList v-if="baseCoursesMode" />
         <DpoCoursesList v-else />
       </el-col>
@@ -29,11 +22,10 @@ import DpoBaseCoursesFilters from '@/components/Educational/Dpo/DpoBaseCoursesFi
 import DpoBaseCoursesList from '@/components/Educational/Dpo/DpoBaseCoursesList.vue';
 import DpoCoursesFilters from '@/components/Educational/Dpo/DpoCoursesFilters.vue';
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
-import ModeButtons from '@/components/ModeButtons.vue';
 
 export default defineComponent({
   name: 'DpoCourses',
-  components: { DpoBaseCoursesFilters, DpoCoursesFilters, DpoCoursesList, ModeButtons, DpoBaseCoursesList },
+  components: { DpoBaseCoursesFilters, DpoCoursesFilters, DpoCoursesList, DpoBaseCoursesList },
 
   setup() {
     const store = useStore();

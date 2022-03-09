@@ -58,4 +58,11 @@ export default class FileInfo implements IFileInfo {
     this.file = file.blob;
     this.url = file.src;
   }
+
+  uploadAndSetFile(file: IFile): void {
+    this.uploadNewFile(file);
+    this.setFile(file);
+    this.file = file.raw;
+    this.url = file.url;
+  }
 }
