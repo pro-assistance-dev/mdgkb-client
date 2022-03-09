@@ -73,7 +73,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: calc(100vh - 124px);
+  // min-height: calc(100vh - 124px);
 }
 .main-carousel-container {
   // margin: 0 auto 30px; // + 20px от контейнера элемента = как в макете - 50px

@@ -2,8 +2,8 @@
   <div v-if="mount" class="left-side-container">
     <RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" />
 
-    <FilterReset @load="load" />
     <SortList :models="createSortModels()" @load="load" />
+    <FilterReset @load="load" />
   </div>
 </template>
 
