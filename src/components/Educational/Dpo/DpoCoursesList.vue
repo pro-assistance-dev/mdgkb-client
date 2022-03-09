@@ -12,15 +12,15 @@
         <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
           <td>{{ dpoCourse.name }}</td>
           <td>
-            <router-link :to="`/doctors/${dpoCourse.teacher.doctor.human.slug}`">
-              {{ dpoCourse.teacher.doctor.human.getFullName() }}
+            <router-link :to="`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`">
+              {{ dpoCourse.getMainTeacher().doctor.human.getFullName() }}
             </router-link>
           </td>
           <td style="text-align: center">{{ dpoCourse.hours }}</td>
           <td>
             <div class="btns">
-              <button @click="$router.push({ name: `DpoCoursePage`, params: { id: dpoCourse.id } })">Подробнее</button>
-              <button class="respond-btn" @click="$router.push(`/dpo/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button>
+              <button @click="$router.push(`/courses/${dpoCourse.id}`)">Подробнее</button>
+              <button class="respond-btn" @click="$router.push(`/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button>
             </div>
           </td>
         </tr>
@@ -80,6 +80,10 @@ export default defineComponent({
   margin: 0 auto;
 }
 
+.card-item {
+  height: 100vh;
+}
+
 .loadmore-button {
   display: flex;
   justify-content: center;
@@ -112,8 +116,12 @@ export default defineComponent({
 }
 table {
   border-collapse: collapse;
+  overflow: auto;
 }
 
+tbody {
+  overflow: scroll;
+}
 td,
 th {
   border: 1px solid #dcdfe6;

@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import DpoBaseCourse from '@/classes/DpoBaseCourse';
+import Specialization from '@/classes/Specialization';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,14 +11,14 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new DpoBaseCourse(),
+    item: new Specialization(),
   };
 };
 
 const state = getDefaultState();
 const namespaced = true;
 
-export const dpoBaseCourses: Module<State, RootState> = {
+export const specializations: Module<State, RootState> = {
   namespaced,
   state,
   getters,

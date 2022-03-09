@@ -46,7 +46,7 @@ export default defineComponent({
   },
   emits: ['changeMode'],
   setup(props, { emit }) {
-    const firstModeActive = ref(props.secondModeActive);
+    const firstModeActive = ref(!props.secondModeActive);
     const store = useStore();
 
     const changeMode = async (firstModeCondition: boolean) => {

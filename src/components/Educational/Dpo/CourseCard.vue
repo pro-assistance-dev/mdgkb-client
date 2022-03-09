@@ -33,7 +33,7 @@ import { defineComponent, PropType } from 'vue';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 
 export default defineComponent({
-  name: 'DpoCourseCard',
+  name: 'CourseCard',
   components: {},
   props: {
     dpoCourse: { type: Object as PropType<IDpoCourse>, required: true },

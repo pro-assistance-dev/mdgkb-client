@@ -1,3 +1,7 @@
+import IDpoCourseDates from '@/interfaces/IDpoCourseDates';
+import IDpoCourseSpecialization from '@/interfaces/IDpoCourseSpecialization';
+import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
+import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
 
 export default interface IDpoCourse {
@@ -5,9 +9,23 @@ export default interface IDpoCourse {
   name: string;
   description: string;
   order: number;
-  start: Date;
+  cost: number;
+  isNmo: boolean;
+  linkNmo: string;
   listeners: number;
   hours: number;
-  teacher: ITeacher;
-  teacherId?: string;
+  dpoCoursesTeachers: IDpoCourseTeacher[];
+  dpoCoursesTeachersForDelete: string[];
+  dpoCoursesSpecializations: IDpoCourseSpecialization[];
+  dpoCoursesSpecializationsForDelete: string[];
+  dpoCoursesDates: IDpoCourseDates[];
+  dpoCoursesDatesForDelete: string[];
+
+  addTeacher: (teacher: ITeacher) => void;
+  setMainTeacher: (index: number) => void;
+  getMainTeacher: () => ITeacher | undefined;
+
+  addDates: () => void;
+  addSpecialization: (specialization: ISpecialization) => void;
+  findSpecialization: (id: string) => boolean;
 }

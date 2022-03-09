@@ -1,15 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IDpoBaseCourse from '@/interfaces/IDpoBaseCourse';
+import ISpecialization from '@/interfaces/ISpecialization';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IDpoBaseCourse[] {
+  items(state): ISpecialization[] {
     return state.items;
   },
-  item(state): IDpoBaseCourse {
+  item(state): ISpecialization {
     return state.item;
   },
 };

@@ -5,8 +5,8 @@
         <div class="card-item" style="padding: 0">
           <h4 class="card-item-title">Преподаватель</h4>
           <el-divider />
-          <div class="recent-news-item" @click="$router.push(`/doctors/${dpoCourse.teacher.doctor.human.slug}`)">
-            <div class="item-title">{{ dpoCourse.teacher.doctor.human.getFullName() }}</div>
+          <div class="recent-news-item" @click="$router.push(`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`)">
+            <div class="item-title">{{ dpoCourse.getMainTeacher().doctor.human.getFullName() }}</div>
           </div>
           <div class="recent-news-footer">
             <button @click="$router.push('/teachers')">Все преподаватели</button>
@@ -19,7 +19,7 @@
           <div><b> Длительность курса:</b> {{ dpoCourse.hours }} ч.</div>
           <div>
             <b> Курс начинается:</b> <br />
-            {{ $dateFormatRu(dpoCourse.start, true, false) }}
+            {{ $dateFormatRu(dpoCourse.dpoCoursesDates[0].start, true, false) }}
           </div>
           <div class="recent-news-footer">
             <button @click="$router.push('/dpo/courses')">Все программы</button>
@@ -68,7 +68,7 @@ import chooseRandomBrandColor from '@/mixins/brandColors';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
-  name: 'DpoCoursePage',
+  name: 'CoursePage',
   components: { SharesBlock, HelpProfileIcon, BaseIcon, DpoApplicationForm },
 
   setup() {

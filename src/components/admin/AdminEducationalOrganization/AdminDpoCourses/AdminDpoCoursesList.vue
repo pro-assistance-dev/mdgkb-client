@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="dpoCourses">
+  <el-table v-if="mounted" :data="dpoCourses">
     <el-table-column label="Название" sortable>
       <template #default="scope">
         {{ scope.row.name }}
@@ -7,7 +7,10 @@
     </el-table-column>
     <el-table-column label="Преподаватель" sortable>
       <template #default="scope">
-        {{ scope.row.teacher.doctor.human.getFullName() }}
+        <div v-if="scope.row.getMainTeacher()">
+          {{ scope.row.getMainTeacher().doctor.human.getFullName() }}
+        </div>
+        <div v-else>Руководителя нет</div>
       </template>
     </el-table-column>
     <el-table-column width="50" fixed="right" align="center">

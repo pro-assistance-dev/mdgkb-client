@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import AspiranturaPage from '@/components/Educational/Aspirantura/AspiranturaPage.vue';
-import DpoCoursePage from '@/components/Educational/Dpo/DpoCoursePage.vue';
+import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoCourses.vue';
 import AdditionalEducation from '@/components/Educational/Dpo/DpoPage.vue';
 import EducationalOrganizationAcademics from '@/components/Educational/EducationalOrganizationAcademics.vue';
@@ -61,7 +61,7 @@ export default [
     },
   },
   {
-    path: '/dpo/courses',
+    path: '/dpo',
     name: 'DpoCourses',
     component: DpoCourses,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -69,17 +69,17 @@ export default [
     },
   },
   {
-    path: '/dpo/base-courses',
-    name: 'DpoBaseCourses',
+    path: '/nmo',
+    name: 'NmoCourses',
     component: DpoCourses,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
   },
   {
-    path: '/dpo/courses/:id',
-    name: 'DpoCoursePage',
-    component: DpoCoursePage,
+    path: '/courses/:id',
+    name: 'CoursePage',
+    component: CoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

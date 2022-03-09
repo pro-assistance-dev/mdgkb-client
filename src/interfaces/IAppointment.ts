@@ -1,8 +1,8 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IChild from '@/interfaces/IChild';
 import IDoctor from '@/interfaces/IDoctor';
+import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
-import ISpecialization from '@/interfaces/specialization/ISpecialization';
 
 export default interface IAppointment {
   id?: string;

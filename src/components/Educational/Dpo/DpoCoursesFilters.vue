@@ -54,8 +54,6 @@ export default defineComponent({
     });
 
     const load = async () => {
-      filterQuery.value.pagination.cursorMode = false;
-      filterQuery.value.pagination.limit = 6;
       store.commit('filter/setStoreModule', 'dpoCourses');
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };

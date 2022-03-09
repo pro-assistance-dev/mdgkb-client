@@ -1,17 +1,32 @@
+import DpoCourseDates from '@/classes/DpoCourseDates';
+import DpoCourseSpecialization from '@/classes/DpoCourseSpecialization';
+import DpoCourseTeacher from '@/classes/DpoCourseTeacher';
+import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import IDpoCourseDates from '@/interfaces/IDpoCourseDates';
+import IDpoCourseSpecialization from '@/interfaces/IDpoCourseSpecialization';
+import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
+import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
+import removeFromClass from '@/mixins/removeFromClass';
 
 export default class DpoCourse implements IDpoCourse {
   id?: string;
   name = '';
   description = '';
   hours = 0;
+  isNmo = false;
+  linkNmo = '';
   listeners = 0;
+  cost = 0;
   order = 0;
-  start = new Date();
-  teacher: ITeacher = new Teacher();
-  teacherId?: string;
+  dpoCoursesSpecializations: IDpoCourseSpecialization[] = [];
+  dpoCoursesSpecializationsForDelete: string[] = [];
+  dpoCoursesTeachers: IDpoCourseTeacher[] = [];
+  dpoCoursesTeachersForDelete: string[] = [];
+  dpoCoursesDates: IDpoCourseDates[] = [];
+  dpoCoursesDatesForDelete: string[] = [];
 
   constructor(i?: IDpoCourse) {
     if (!i) {
@@ -21,12 +36,60 @@ export default class DpoCourse implements IDpoCourse {
     this.name = i.name;
     this.description = i.description;
     this.hours = i.hours;
+    this.cost = i.cost;
+    this.isNmo = i.isNmo;
+    this.linkNmo = i.linkNmo;
     this.listeners = i.listeners;
     this.order = i.order;
-    this.start = i.start;
-    if (i.teacher) {
-      this.teacher = new Teacher(i.teacher);
+    if (i.dpoCoursesDates) {
+      this.dpoCoursesDates = i.dpoCoursesDates.map((item: IDpoCourseDates) => new DpoCourseDates(item));
     }
-    this.teacherId = i.teacherId;
+    if (i.dpoCoursesTeachers) {
+      this.dpoCoursesTeachers = i.dpoCoursesTeachers.map((item: IDpoCourseTeacher) => new DpoCourseTeacher(item));
+    }
+    if (i.dpoCoursesSpecializations) {
+      this.dpoCoursesSpecializations = i.dpoCoursesSpecializations.map(
+        (item: IDpoCourseSpecialization) => new DpoCourseSpecialization(item)
+      );
+    }
+  }
+
+  addTeacher(teacher: ITeacher): void {
+    const dpoCourseTeacher = new DpoCourseTeacher();
+    dpoCourseTeacher.teacher = new Teacher(teacher);
+    dpoCourseTeacher.teacherId = teacher.id;
+    this.dpoCoursesTeachers.push(dpoCourseTeacher);
+  }
+
+  setMainTeacher(index: number): void {
+    this.dpoCoursesTeachers.forEach((courseTeacher: IDpoCourseTeacher) => (courseTeacher.main = false));
+    this.dpoCoursesTeachers[index].main = true;
+  }
+
+  getMainTeacher(): ITeacher | undefined {
+    const mainDpoCoursesTeacher = this.dpoCoursesTeachers.find((item: IDpoCourseTeacher) => item.main);
+    if (mainDpoCoursesTeacher) {
+      return mainDpoCoursesTeacher.teacher;
+    }
+  }
+
+  addDates(): void {
+    this.dpoCoursesDates.push(new DpoCourseDates());
+  }
+
+  addSpecialization(specialization: ISpecialization): void {
+    const index = this.dpoCoursesSpecializations.findIndex((i: IDpoCourseSpecialization) => i.specializationId === specialization.id);
+    if (index > -1) {
+      removeFromClass(index, this.dpoCoursesSpecializations, this.dpoCoursesSpecializationsForDelete);
+      return;
+    }
+    const dpoCourseSpecialization = new DpoCourseSpecialization();
+    dpoCourseSpecialization.specialization = new Specialization(specialization);
+    dpoCourseSpecialization.specializationId = specialization.id;
+    this.dpoCoursesSpecializations.push(dpoCourseSpecialization);
+  }
+  findSpecialization(id: string): boolean {
+    const spec = this.dpoCoursesSpecializations.find((i: IDpoCourseSpecialization) => i.specializationId === id);
+    return !!spec;
   }
 }

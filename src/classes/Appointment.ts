@@ -1,14 +1,14 @@
 import Child from '@/classes/Child';
 import Doctor from '@/classes/Doctor';
 import FileInfo from '@/classes/File/FileInfo';
-import Specialization from '@/classes/specializations/Specialization';
+import Specialization from '@/classes/Specialization';
 import User from '@/classes/User';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IAppointment from '@/interfaces/IAppointment';
 import IChild from '@/interfaces/IChild';
 import IDoctor from '@/interfaces/IDoctor';
+import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
-import ISpecialization from '@/interfaces/specialization/ISpecialization';
 import TokenService from '@/services/Token';
 
 export default class Appointment implements IAppointment {
@@ -51,7 +51,7 @@ export default class Appointment implements IAppointment {
     }
     this.specializationId = i.specializationId;
     if (i.specialization) {
-      this.specialization = new Specialization(i.formScan);
+      this.specialization = new Specialization(i.specialization);
     }
     this.doctorId = i.doctorId;
     if (i.doctor) {
