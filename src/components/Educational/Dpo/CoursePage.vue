@@ -5,8 +5,12 @@
         <div class="card-item" style="padding: 0">
           <h4 class="card-item-title">Преподаватели</h4>
           <el-divider />
-          <div class="recent-news-item" @click="$router.push(`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`)">
-            <div class="item-title">{{ dpoCourse.getMainTeacher().doctor.human.getFullName() }}</div>
+          <div
+            v-if="dpoCourse.getMainTeacher()"
+            class="recent-news-item"
+            @click="$router.push(`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`)"
+          >
+            <div class="item-title">{{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}</div>
           </div>
           <div
             v-for="dpoCoursesTeacher in dpoCourse.dpoCoursesTeachers.filter((i) => !i.main)"
@@ -107,6 +111,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      store.commit(`filter/resetQueryFilter`);
       await store.dispatch('dpoCourses/get', route.params['id']);
       mounted.value = true;
       if (route.query.respondForm) {

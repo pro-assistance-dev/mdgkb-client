@@ -44,11 +44,11 @@ export default defineComponent({
       defaultSortOn.value = true;
     };
 
-    onBeforeMount(async (): Promise<void> => {
+    onBeforeMount((): void => {
       setDefaultSort();
     });
 
-    const setSort = async (sortModel: ISortModel) => {
+    const setSort = (sortModel: ISortModel) => {
       selectedModel.value = sortModel.label;
       if (sortModel) {
         store.commit('filter/replaceSortModel', sortModel);

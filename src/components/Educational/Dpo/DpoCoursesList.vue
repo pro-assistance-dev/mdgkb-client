@@ -36,10 +36,9 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 
@@ -51,17 +50,14 @@ export default defineComponent({
     const mounted = ref(false);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-
     onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
       mounted.value = true;
     });
 
     const loadMore = async () => {
       const lastCursor = dpoCourses.value[dpoCourses.value.length - 1].name;
-      filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
+      // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
+      // await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };
 
     return {

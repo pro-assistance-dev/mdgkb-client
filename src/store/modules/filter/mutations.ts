@@ -59,6 +59,7 @@ const mutations: MutationTree<State> = {
   replaceSortModel(state, sortModel: ISortModel) {
     state.filterQuery.sortModels = [];
     state.filterQuery.sortModels.push(sortModel);
+    console.log(state.filterQuery.sortModels);
   },
   setSortModel(state, sortModel: ISortModel) {
     let item = state.filterQuery.sortModels.find((i: ISortModel) => i.id === sortModel.id);

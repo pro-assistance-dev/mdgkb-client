@@ -2,17 +2,16 @@
   <div class="left-side-container">
     <RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" />
 
-    <SortList :models="createSortModels()" @load="load" />
+    <SortList :models="sortModels" @load="load" />
     <FilterReset @load="load" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import SortModel from '@/classes/filters/SortModel';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
@@ -20,9 +19,7 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
-import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
-import IDpoCourse from '@/interfaces/IDpoCourse';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISchema from '@/interfaces/schema/ISchema';
@@ -36,6 +33,12 @@ export default defineComponent({
     SortList,
   },
   emits: ['load'],
+  props: {
+    sortModels: {
+      type: Object as PropType<ISortModel[]>,
+      required: true,
+    },
+  },
   setup(props, { emit }) {
     const store = useStore();
     const router = useRouter();
@@ -45,23 +48,14 @@ export default defineComponent({
 
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
-
-    const loadFilters = async () => {
-      await store.dispatch('meta/getOptions', schema.value.teacher);
-    };
-
-    const createSortModels = (): ISortModel[] => {
-      return [
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true),
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.hours, Orders.Asc, 'По длительности', false),
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.start, Orders.Asc, 'По дате начала', false),
-      ];
-    };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await router.push(`/courses/${event.id}`);
     };
+
+    onMounted(() => {
+      emit('load');
+    });
 
     const load = () => {
       emit('load');
@@ -69,9 +63,7 @@ export default defineComponent({
 
     return {
       load,
-      dpoCourses,
       selectSearch,
-      createSortModels,
       TokenService,
       Operators,
       DataTypes,
