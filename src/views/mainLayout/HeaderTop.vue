@@ -3,7 +3,9 @@
     <div class="container">
       <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="$router.push('/')" />
       <div class="search">
-        <SeacrhBar />
+        <div class="search-block">
+          <SeacrhBar v-show="currentRoute !== 'SearchPage'" />
+        </div>
       </div>
       <div class="login-menu">
         <LoginDropdownMenu :show-button-name="true" />
@@ -13,7 +15,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
@@ -21,6 +24,21 @@ import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 export default defineComponent({
   name: 'HeaderTop',
   components: { LoginDropdownMenu, SeacrhBar },
+
+  //   setup () {
+  //   const currentRoute = computed(() => {
+  //     return useRoute().name
+  //   })
+  //   return { currentRoute }
+  // },
+
+    setup () {
+    const currentRoute = computed(() => {
+      return useRouter().currentRoute.value.name;
+    })
+    return {currentRoute}
+  }
+
 });
 </script>
 
@@ -54,6 +72,12 @@ export default defineComponent({
 .search {
   width: 100%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.search-block {
+  width: 400px;
 }
 @media screen and (max-width: 768px) {
   .container {
@@ -61,6 +85,7 @@ export default defineComponent({
   }
   .search {
     display: none;
+    max-width: 400px;
   }
 }
 </style>

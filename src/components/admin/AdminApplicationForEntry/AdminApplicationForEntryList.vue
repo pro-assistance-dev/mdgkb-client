@@ -19,12 +19,12 @@
         </el-table-column>
         <el-table-column prop="movedIn" label="Въехал" sortable>
           <template #default="scope">
-            {{ scope.row.movedIn ? 'Да' : '' }}
+            {{ scope.row.movedIn ? 'Да' : 'Нет' }}
           </template>
         </el-table-column>
         <el-table-column prop="movedOut" label="Выехал" sortable>
           <template #default="scope">
-            {{ scope.row.movedOut ? 'Да' : '' }}
+            {{ scope.row.movedOut ? 'Да' : 'Нет' }}
           </template>
         </el-table-column>                
         <!-- <el-table-column prop="date" label="Дата заявки" sortable> </el-table-column> -->

@@ -1,25 +1,50 @@
 <template>
   <div class="search-container">
-    <input ref="searchInput" type="text" placeholder="Введите свой запрос" @focus="showDrawer" />
-    <button><i class="el-icon-search"></i></button>
+    <form class="search-form" @submit.prevent="submitSearch">
+      <input ref="searchInput" type="text" placeholder="Введите свой запрос" v-model="searchInputText"/>
+      <button type="submit"><i class="el-icon-search"></i></button>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
+
 export default defineComponent({
   name: 'SearchBar',
   setup() {
     const store = useStore();
-    const searchInput = ref<HTMLElement | null>(null);
+    const router = useRouter();
+    const route = useRoute();
+    const searchInputText = ref<string>('');
+    const searchInput = ref<HTMLInputElement | null>(null);
+
+    onBeforeMount((): void => {
+      if (!route.query.q || !route.query.q.length) {
+        return;
+      }
+
+      searchInputText.value = route.query.q as string;
+    });
+    
     const showDrawer = () => {
       store.commit('search/toggleDrawer', true);
       searchInput.value?.blur();
     };
+
+    const submitSearch = async () => {
+      await router.push(`/search?q=${searchInputText.value}`);
+    };
+
+
+
     return {
       searchInput,
+      searchInputText,
       showDrawer,
+      submitSearch,
     };
   },
 });
@@ -44,8 +69,7 @@ input {
   border-right: none;
   border-radius: 20px 0 0 20px;
   color: $text-color;
-  width: 70%;
-  max-width: 400px;
+  width: 100%;
   &:focus {
     outline: none;
   }
@@ -59,5 +83,10 @@ button {
   border-radius: 0 20px 20px 0;
   color: white;
   background-color: $bg-color;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
 }
 </style>

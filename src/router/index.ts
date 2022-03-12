@@ -37,6 +37,8 @@ import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
 import TokenService from '@/services/Token';
 import MainLayout from '@/views/main/MainLayout.vue';
+import SearchPage from '@/components/Search/SearchPage.vue';
+
 
 import store from '../store/index';
 
@@ -181,6 +183,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'ServiceQualityAssessmentPage',
     component: ServiceQualityAssessmentPage,
   },
+  {
+    path: '/search',
+    name: 'SearchPage',
+    component: SearchPage,
+  },
+  
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
   ...DivisionsRoutes,

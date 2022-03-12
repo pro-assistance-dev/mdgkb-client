@@ -1,6 +1,8 @@
 <template>
-  <el-drawer v-model="isDrawerOpen" direction="ttb" title="Поиск по сайту" size="200px" @closed="closeDrawer" @opened="openDrawer">
-    <el-form>
+    <div class="search">
+      <SeacrhBar />
+    </div>
+    <!-- <el-form>
       <el-form-item>
         <el-select-v2
           ref="searchInput"
@@ -14,14 +16,13 @@
           @change="handleSelect"
           @focus="searchModel.searchGroups = []"
           @blur="searchModel.searchGroups = []"
-          round
         >
           <template #default="{ item }">
             <span class="result-item">{{ item.label }}</span>
           </template>
         </el-select-v2>
       </el-form-item>
-    </el-form>
+    </el-form> -->
     <div class="filters">
       <div>
         <ul class="tag-list">
@@ -30,25 +31,26 @@
           </li>
         </ul>
       </div>
-      <!-- <el-checkbox-group v-model="groups" :min="0" :max="1" @change="changeFilter">
-        <el-checkbox-button v-for="searchGroup in searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
-          
-        </el-checkbox-button>
-      </el-checkbox-group> -->
     </div>
-  </el-drawer>
+    <div class="search-result">
+
+    </div> 
 </template>
 
 <script lang="ts">
+import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearchModel from '@/interfaces/ISearchModel';
 
 export default defineComponent({
-  name: 'SearchDrawer',
+  name: 'SearchPage',
+  components: {
+      SeacrhBar
+  },
+
   setup() {
     const store = useStore();
     const searchInput = ref();
@@ -104,6 +106,7 @@ export default defineComponent({
     };
   },
 });
+
 </script>
 
 <style lang="scss" scoped>
@@ -136,7 +139,6 @@ export default defineComponent({
   padding-left: 0px;
 }
 
-
 .tag-item-batton {
   background: #ffffff;
   border-radius: 40px;
@@ -164,4 +166,12 @@ export default defineComponent({
 :deep(.el-select-v2__wrapper) {
   border-radius: 40px;
 }
+
+.search-result {
+  height: 400px;
+  background: #ffffff;
+  border: 1px solid #DCDFE6;
+  border-radius: 5px;
+}
+
 </style>

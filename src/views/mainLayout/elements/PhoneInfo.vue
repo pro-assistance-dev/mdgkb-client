@@ -4,7 +4,7 @@
       <div v-if="scrollOffset >= 66" class="menu-right-block">
         <div class="login-and-search">
           <LoginDropdownMenu />
-          <el-button v-if="scrollOffset >= 66 || tabletWindow" class="search" icon="el-icon-search" @click="showSearchDrawer"></el-button>
+          <el-button v-if="scrollOffset >= 66 || tabletWindow" class="search" icon="el-icon-search" @click="click"></el-button>
         </div>
       </div>
     </li>
@@ -127,6 +127,12 @@ export default defineComponent({
     const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
     const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
 
+    const click = () => {
+        router.push({
+            path: '/search'
+        })
+    }
+
     const nav = async (to: string) => {
       await router.push(to);
     };
@@ -179,6 +185,7 @@ export default defineComponent({
       tabletWindow,
       mobileWindow,
       showSearchDrawer,
+      click,
     };
   },
 });
