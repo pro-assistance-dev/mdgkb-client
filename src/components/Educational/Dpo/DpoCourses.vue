@@ -89,7 +89,6 @@ export default defineComponent({
       filterModel.value.boolean = nmoMode.value;
       filterModel.value.operator = Operators.Eq;
       filterModel.value.type = DataTypes.Boolean;
-      console.log(filterQuery.value.sortModels);
       store.commit('filter/setFilterModel', filterModel.value);
       await load();
       if (nmoMode.value) {
