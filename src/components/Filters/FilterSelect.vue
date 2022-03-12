@@ -16,6 +16,7 @@ import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import IOption from '@/interfaces/schema/IOption';
 
@@ -30,6 +31,10 @@ export default defineComponent({
       type: String as PropType<string>,
       default: '',
     },
+    operator: {
+      type: String as PropType<Operators>,
+      default: '',
+    },
     options: {
       type: Array as PropType<IOption[]>,
       default: () => [],
@@ -38,19 +43,65 @@ export default defineComponent({
       type: String as PropType<string>,
       default: '',
     },
+    dataType: {
+      type: String as PropType<DataTypes>,
+      default: '',
+    },
+    joinTable: {
+      type: String as PropType<string>,
+      default: '',
+    },
+    joinTableFk: {
+      type: String as PropType<string>,
+      default: '',
+    },
+    joinTablePk: {
+      type: String as PropType<string>,
+      default: '',
+    },
+    joinTableId: {
+      type: String as PropType<string>,
+      default: '',
+    },
+    joinTableIdCol: {
+      type: String as PropType<string>,
+      default: '',
+    },
   },
   emits: ['load'],
   setup(props, { emit }) {
     const { table, col } = toRefs(props);
     const store = useStore();
-    const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String));
-    filterModel.value.operator = Operators.Eq;
+
+    const createModel = (): IFilterModel => {
+      if (props.dataType === DataTypes.Join) {
+        return FilterModel.CreateFilterModelWithJoin(
+          props.table,
+          props.col,
+          props.joinTable,
+          props.joinTablePk,
+          props.joinTableFk,
+          props.dataType,
+          props.joinTableId,
+          props.joinTableIdCol
+        );
+      } else {
+        const fm = FilterModel.CreateFilterModel(props.table, props.col, props.dataType);
+        fm.operator = props.operator;
+        return fm;
+      }
+    };
+
+    const filterModel = ref(createModel());
+    // filterModel.value.operator = Operators.Eq;
 
     const addFilterModel = (value: string) => {
-      if (!filterModel.value.value1) {
+      if (!value.length) {
         dropFilterModel();
-      }
-      if (filterModel.value.value1) {
+      } else {
+        filterModel.value = createModel();
+        filterModel.value.value1 = value;
+        filterModel.value.joinTableId = value;
         store.commit('filter/setFilterModel', filterModel.value);
       }
       emit('load', value);
