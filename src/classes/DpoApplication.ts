@@ -48,10 +48,10 @@ export default class DpoApplication implements IDpoApplication {
       this.organizationApplication = new FileInfo(dpoApplication.organizationApplication);
     }
     if (dpoApplication.user) {
-      this.user = new User(this.user);
+      this.user = new User(dpoApplication.user);
     }
     if (dpoApplication.dpoCourse) {
-      this.dpoCourse = new DpoCourse(this.dpoCourse);
+      this.dpoCourse = new DpoCourse(dpoApplication.dpoCourse);
     }
     if (dpoApplication.paidEducationalServicesContract) {
       this.paidEducationalServicesContract = new FileInfo(dpoApplication.paidEducationalServicesContract);

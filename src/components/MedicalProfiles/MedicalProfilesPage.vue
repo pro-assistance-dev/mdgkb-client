@@ -183,9 +183,9 @@ h3 {
   text-align: justify;
 }
 
-:deep(a) {
-  color: inherit !important;
-}
+// :deep(a) {
+//   color: inherit !important;
+// }
 
 :deep(blockquote) {
   border-left: 5px solid #2467a6;
