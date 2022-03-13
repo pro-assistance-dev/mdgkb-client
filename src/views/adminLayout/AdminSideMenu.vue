@@ -94,6 +94,10 @@ export default defineComponent({
             title: 'Программы ДПО',
             to: '/admin/educational-organization/dpo/courses',
           },
+          {
+            title: 'Заявки ДПО',
+            to: '/admin/educational-organization/dpo/applications',
+          },
         ],
       },
       {
@@ -233,7 +237,7 @@ export default defineComponent({
         to: '/admin/donor-rules',
         icon: 'el-icon-plus',
       },
-            {
+      {
         title: 'Заявки на въезд',
         to: '/admin/application-for-entry',
         icon: 'el-icon-guide',
@@ -247,12 +251,33 @@ export default defineComponent({
 <style lang="scss" scoped>
 $background-color: whitesmoke;
 
+::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(245, 245, 245, 0.47);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  margin: 5px 0;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 20px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgba(85, 85, 85, 0.25);
+}
+
 .admin-side-menu {
   min-height: inherit;
   height: inherit;
   float: left;
   background-color: $background-color;
   border-right: 1px solid #e6e6e6;
+  overflow-y: scroll;
 
   :deep(.el-sub-menu__icon-arrow) {
     margin-left: 10px;
@@ -274,4 +299,3 @@ $background-color: whitesmoke;
   margin-right: 20px;
 }
 </style>
-

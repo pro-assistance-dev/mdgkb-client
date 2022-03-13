@@ -38,8 +38,7 @@ const actions: ActionTree<State, RootState> = {
         }
       }
     }
-    console.log(state.item);
-    await httpClient.post<IDpoApplication, IDpoApplication>({ payload: state.item, isFormData: true });
+    await httpClient.post<IDpoApplication, IDpoApplication>({ payload: state.item, isFormData: true, fileInfos: fileInfos });
     commit('resetItem');
   },
   update: async ({ commit }, item: IDpoApplication): Promise<void> => {
