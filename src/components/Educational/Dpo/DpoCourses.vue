@@ -81,6 +81,7 @@ export default defineComponent({
       store.commit('filter/setStoreModule', 'dpoCourses');
       filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
       setProgramsType();
+      await load();
     });
 
     const load = async () => {

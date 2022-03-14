@@ -11,69 +11,69 @@
             </el-card>
             <el-card class="content-card">
               <template #header>Контент</template>
-              <el-form-item prop="content">
+              <el-form-item prop="description">
                 <QuillEditor
-                  v-model="dpoCourse.description"
+                  v-model:content="dpoCourse.description"
                   style="min-height: 200px; max-height: 700px"
                   content-type="html"
                   theme="snow"
                 ></QuillEditor>
               </el-form-item>
             </el-card>
+            <el-card>
+              <template #header>Расписание курсов</template>
+              <el-button @click="dpoCourse.addDates()">Добавить даты</el-button>
+              <el-form-item prop="publishedOn">
+                <el-table :data="dpoCourse.dpoCoursesDates">
+                  <el-table-column label="Начало" sortable>
+                    <template #default="scope">
+                      <el-date-picker v-model="scope.row.start"></el-date-picker>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="Начало" sortable>
+                    <template #default="scope">
+                      <el-date-picker v-model="scope.row.end"></el-date-picker>
+                    </template>
+                  </el-table-column>
+                  <el-table-column width="50" fixed="right" align="center">
+                    <template #default="scope">
+                      <TableButtonGroup
+                        :show-remove-button="true"
+                        @remove="removeFromClass(scope.$index, dpoCourse.dpoCoursesDates, dpoCourse.dpoCoursesDatesForDelete)"
+                      />
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-card>
+            <el-card>
+              <template #header>Преподаватели</template>
+              <el-form-item prop="listeners">
+                <RemoteSearch :key-value="schema.teacher.key" @select="selectSearchTeacher" />
+                <el-button v-if="selectedTeacher.id" @click="dpoCourse.addTeacher(selectedTeacher)">Добавить</el-button>
+                <el-table :data="dpoCourse.dpoCoursesTeachers">
+                  <el-table-column label="ФИО" sortable>
+                    <template #default="scope">
+                      {{ scope.row.teacher.doctor.human.getFullName() }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="Руководитель программы" sortable>
+                    <template #default="scope">
+                      <el-checkbox v-model="scope.row.main" @change="dpoCourse.setMainTeacher(scope.$index)"></el-checkbox>
+                    </template>
+                  </el-table-column>
+                  <el-table-column width="50" fixed="right" align="center">
+                    <template #default="scope">
+                      <TableButtonGroup
+                        :show-remove-button="true"
+                        @remove="removeFromClass(scope.$index, dpoCourse.dpoCoursesTeachers, dpoCourse.dpoCoursesTeachersForDelete)"
+                      />
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-card>
           </el-container>
-          <el-card>
-            <template #header>Расписание курсов</template>
-            <el-button @click="dpoCourse.addDates()">Добавить даты</el-button>
-            <el-form-item prop="publishedOn">
-              <el-table :data="dpoCourse.dpoCoursesDates">
-                <el-table-column label="Начало" sortable>
-                  <template #default="scope">
-                    <el-date-picker v-model="scope.row.start"></el-date-picker>
-                  </template>
-                </el-table-column>
-                <el-table-column label="Начало" sortable>
-                  <template #default="scope">
-                    <el-date-picker v-model="scope.row.end"></el-date-picker>
-                  </template>
-                </el-table-column>
-                <el-table-column width="50" fixed="right" align="center">
-                  <template #default="scope">
-                    <TableButtonGroup
-                      :show-remove-button="true"
-                      @remove="removeFromClass(scope.$index, dpoCourse.dpoCoursesDates, dpoCourse.dpoCoursesDatesForDelete)"
-                    />
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-form-item>
-          </el-card>
-          <el-card>
-            <template #header>Преподаватели</template>
-            <el-form-item prop="listeners">
-              <RemoteSearch :key-value="schema.teacher.key" @select="selectSearchTeacher" />
-              <el-button v-if="selectedTeacher.id" @click="dpoCourse.addTeacher(selectedTeacher)">Добавить</el-button>
-              <el-table :data="dpoCourse.dpoCoursesTeachers">
-                <el-table-column label="ФИО" sortable>
-                  <template #default="scope">
-                    {{ scope.row.teacher.doctor.human.getFullName() }}
-                  </template>
-                </el-table-column>
-                <el-table-column label="Руководитель программы" sortable>
-                  <template #default="scope">
-                    <el-checkbox v-model="scope.row.main" @change="dpoCourse.setMainTeacher(scope.$index)"></el-checkbox>
-                  </template>
-                </el-table-column>
-                <el-table-column width="50" fixed="right" align="center">
-                  <template #default="scope">
-                    <TableButtonGroup
-                      :show-remove-button="true"
-                      @remove="removeFromClass(scope.$index, dpoCourse.dpoCoursesTeachers, dpoCourse.dpoCoursesTeachersForDelete)"
-                    />
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-form-item>
-          </el-card>
         </el-col>
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">

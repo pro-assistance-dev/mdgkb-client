@@ -1,36 +1,43 @@
 <template>
-  <div class="card-flex-container card-item">
-    <h2>Дополнительные профессиональные программы</h2>
-    <div class="table-container">
-      <table>
-        <thead>
-          <th>Название программы</th>
-          <th>Даты проведения</th>
-          <th>Руководитель</th>
-          <th>Часов</th>
-          <th></th>
-        </thead>
-        <tbody v-if="mounted">
-          <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
-            <td>{{ dpoCourse.name }}</td>
-            <td>
-              {{ dpoCourse.getClosestPeriod() }}
-            </td>
-            <td>
-              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
-                {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
-              </router-link>
-            </td>
-            <td style="text-align: center">{{ dpoCourse.hours }}</td>
-            <td>
-              <div class="btns">
-                <button @click="$router.push(`/courses/${dpoCourse.id}`)">Подробнее</button>
-                <button class="respond-btn" @click="$router.push(`/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div>
+    <div class="card-flex-container card-item">
+      <h2>Дополнительные профессиональные программы</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <th>Название программы</th>
+            <th>Даты проведения</th>
+            <th>Руководитель</th>
+            <th>Часов</th>
+            <th></th>
+          </thead>
+          <tbody v-if="mounted">
+            <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
+              <td>
+                <router-link :to="`/courses/${dpoCourse.id}`">{{ dpoCourse.name }}</router-link>
+              </td>
+              <td>
+                {{ dpoCourse.getClosestPeriod() }}
+              </td>
+              <td>
+                <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
+                  {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+                </router-link>
+              </td>
+              <td style="text-align: center">{{ dpoCourse.hours }}</td>
+              <td>
+                <div class="btns">
+                  <!-- <button @click="$router.push(`/courses/${dpoCourse.id}`)">Подробнее</button> -->
+                  <a v-if="dpoCourse.linkNmo" style="width: 100%" :href="dpoCourse.linkNmo" target="_blank">
+                    <button>Информация по циклу</button>
+                  </a>
+                  <button class="respond-btn" @click="$router.push(`/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -117,12 +124,12 @@ export default defineComponent({
 }
 .card-item {
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 .table-container {
-  height: 90%;
-  overflow: scroll;
+  height: 100%;
+  // overflow: scroll;
 }
 table {
   height: 100vh;
@@ -148,5 +155,10 @@ th:last-child {
 
 tr:nth-child(odd) {
   background-color: #f2f2f2;
+}
+tr {
+  &:hover {
+    background-color: #ecf5ff;
+  }
 }
 </style>

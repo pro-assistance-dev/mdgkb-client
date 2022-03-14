@@ -5,7 +5,7 @@
         {{ scope.row.name }}
       </template>
     </el-table-column>
-    <el-table-column label="Преподаватель" sortable>
+    <el-table-column label="Руководитель" sortable>
       <template #default="scope">
         <div v-if="scope.row.getMainTeacher()">
           {{ scope.row.getMainTeacher().doctor.human.getFullName() }}

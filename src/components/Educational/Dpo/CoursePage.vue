@@ -1,31 +1,42 @@
 <template>
   <div v-if="mounted" class="medical-profile-page-container">
     <div class="side-container hidden-md-and-down">
-      <div class="side-item">
-        <div class="card-item" style="padding: 0">
-          <h4 class="card-item-title">Преподаватели</h4>
-          <el-divider />
-          <div
+      <div class="side-item card-item">
+        <!-- <h4 class="card-item-title">Преподаватели</h4>
+          <el-divider /> -->
+        <div v-if="dpoCourse.getMainTeacher()">
+          <b>Руководитель:</b> <br />
+          <router-link
             v-if="dpoCourse.getMainTeacher()"
             class="recent-news-item"
-            @click="$router.push(`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`)"
+            :to="`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`"
+            style="padding-left: 0"
           >
-            <div class="item-title">{{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}</div>
-          </div>
-          <div
+            {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+          </router-link>
+        </div>
+        <div v-if="dpoCourse.dpoCoursesTeachers.filter((i) => !i.main).length">
+          <b>Преподаватели:</b> <br />
+          <router-link
             v-for="dpoCoursesTeacher in dpoCourse.dpoCoursesTeachers.filter((i) => !i.main)"
             :key="dpoCoursesTeacher.id"
             class="recent-news-item"
-            @click="$router.push(`/doctors/${dpoCoursesTeacher.teacher.doctor.human.slug}`)"
+            :to="`/doctors/${dpoCoursesTeacher.teacher.doctor.human.slug}`"
+            style="padding-left: 0"
           >
-            <div class="item-title">{{ dpoCoursesTeacher.teacher.doctor.human.getFullName() }}</div>
-          </div>
-          <div class="recent-news-footer">
-            <button @click="$router.push('/teachers')">Все преподаватели</button>
-          </div>
-          <div class="recent-news-footer">
-            <button @click="$router.push('/dpo')">Все программы</button>
-          </div>
+            {{ dpoCoursesTeacher.teacher.doctor.human.getFullName() }}
+          </router-link>
+        </div>
+        <div class="recent-news-footer">
+          <button @click="$router.push('/teachers')">Все преподаватели</button>
+        </div>
+        <div class="recent-news-footer">
+          <button @click="$router.push('/dpo')">Все программы</button>
+        </div>
+        <div class="recent-news-footer">
+          <a v-if="dpoCourse.linkNmo" :href="dpoCourse.linkNmo" target="_blank">
+            <button>Информация по циклу</button>
+          </a>
         </div>
       </div>
 
@@ -42,6 +53,11 @@
             {{ dpoCourse.getClosestPeriod() }}
           </div>
         </div>
+      </div>
+
+      <div v-if="dpoCourse.dpoCoursesSpecializations.length" class="side-item card-item">
+        <b>Специальности:</b> <br />
+        <div v-for="item in dpoCourse.dpoCoursesSpecializations" :key="item.id">{{ item.specialization.name }}</div>
       </div>
     </div>
     <div>

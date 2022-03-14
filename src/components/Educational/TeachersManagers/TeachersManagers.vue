@@ -3,7 +3,7 @@
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
         <ModeButtons
-          :second-mode-active="teachersMode"
+          :first-mode-active="teachersMode"
           :store-mode="false"
           first-mode="Преподаватели"
           second-mode="Руководство"
