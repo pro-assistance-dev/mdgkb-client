@@ -162,7 +162,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      // await store.dispatch('doctors/getAll');
+      await store.dispatch('doctors/getAll');
       await store.dispatch('educationalOrganization/get');
       store.commit('admin/setHeaderParams', { title: 'Образовательная организация', showBackButton: true, buttons: [{ action: submit }] });
       window.addEventListener('beforeunload', beforeWindowUnload);

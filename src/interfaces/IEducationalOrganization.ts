@@ -29,4 +29,10 @@ export default interface IEducationalOrganization {
 
   addAcademic: (doctor: IDoctor) => void;
   removeAcademic: (index: number) => void;
+
+  addProperty: () => void;
+  addManager: (manager: IEducationalManager) => void;
+  addTeacher: (teacher: ITeacher) => void;
+  doctorExistsInTeachers: (doctorId: string) => boolean;
+  doctorExistsInManagers: (doctorId: string) => boolean;
 }

@@ -67,19 +67,25 @@ export default defineComponent({
       ];
     };
 
+    const setProgramsType = () => {
+      filterModel.value.boolean = nmoMode.value;
+      filterModel.value.operator = Operators.Eq;
+      store.commit('filter/setFilterModel', filterModel.value);
+    };
+
     onBeforeMount(async () => {
+      store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
       sortModels.value = createSortModels();
       schemaGet.value = true;
       store.commit('filter/setStoreModule', 'dpoCourses');
       filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
-      filterModel.value.boolean = nmoMode.value;
-      filterModel.value.operator = Operators.Eq;
-      store.commit('filter/setFilterModel', filterModel.value);
+      setProgramsType();
     });
 
     const load = async () => {
       filterQuery.value.pagination.cursorMode = false;
+      setProgramsType();
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
       mounted.value = true;
     };

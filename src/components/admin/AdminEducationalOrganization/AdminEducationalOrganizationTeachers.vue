@@ -8,15 +8,23 @@
       <el-button type="success" style="margin: 20px" @click="add">Добавить преподавателя</el-button>
     </el-space>
 
-    <el-table :data="teachers">
+    <el-table :data="educationalOrganization.teachers">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
           {{ scope.row.doctor.human.getFullName() }}
         </template>
       </el-table-column>
+      <el-table-column label="Должность" sortable>
+        <template #default="scope">
+          {{ scope.row.position }}
+        </template>
+      </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-remove-button="true" @remove="remove(scope.$index)" />
+          <TableButtonGroup
+            :show-remove-button="true"
+            @remove="removeFromClass(scope.$index, educationalOrganization.teachers, educationalOrganization.teachersForDelete)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -24,13 +32,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import { computed, defineComponent, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDoctor from '@/interfaces/IDoctor';
-
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+import removeFromClass from '@/mixins/removeFromClass';
 export default defineComponent({
   name: 'AdminEducationalOrganizationTeachers',
   components: { TableButtonGroup },
@@ -39,29 +49,38 @@ export default defineComponent({
     const store = useStore();
     const form = ref();
     const doctors = computed(() => store.getters['doctors/items']);
-    const teachers = computed(() => store.getters['educationalOrganization/teachers']);
+    const educationalOrganization: Ref<IEducationalOrganization> = computed(
+      () => store.getters['educationalOrganization/educationalOrganization']
+    );
     const newId = ref();
     const newPosition = ref('');
 
+    const clearSelect = () => {
+      newId.value = undefined;
+      newPosition.value = '';
+    };
+
     const add = () => {
+      if (educationalOrganization.value.doctorExistsInTeachers(newId.value)) {
+        ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
+        return;
+      }
       const doctor = doctors.value?.find((i: IDoctor) => i.id === newId.value);
       const teacher = new Teacher();
       teacher.doctorId = newId.value;
       teacher.doctor = doctor;
       teacher.position = newPosition.value;
-      store.commit('educationalOrganization/addTeacher', teacher);
-    };
-    const remove = (index: number) => {
-      store.commit('educationalOrganization/removeTeacher', index);
+      educationalOrganization.value.addTeacher(teacher);
+      clearSelect();
     };
 
     return {
+      removeFromClass,
       newPosition,
-      teachers,
+      educationalOrganization,
       newId,
       doctors,
       add,
-      remove,
       mounted,
       form,
     };

@@ -16,7 +16,7 @@
       @load="load"
     />
     <SortList :models="sortModels" @load="load" />
-    <FilterReset @load="load" />
+    <FilterReset @load="resetFilter" />
   </div>
 </template>
 
@@ -79,7 +79,12 @@ export default defineComponent({
       emit('load');
     };
 
+    const resetFilter = () => {
+      emit('load');
+    };
+
     return {
+      resetFilter,
       load,
       selectSearch,
       TokenService,

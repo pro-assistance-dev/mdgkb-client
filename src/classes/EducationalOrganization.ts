@@ -85,4 +85,24 @@ export default class EducationalOrganization implements IEducationalOrganization
     }
     this.educationalOrganizationAcademics.splice(index, 0);
   }
+
+  addProperty(): void {
+    this.educationalOrganizationProperties.push(new EducationalOrganizationProperty());
+  }
+
+  addManager(manager: IEducationalManager): void {
+    this.educationalOrganizationManagers.push(manager);
+  }
+
+  addTeacher(teacher: ITeacher): void {
+    this.teachers.push(teacher);
+  }
+
+  doctorExistsInTeachers(doctorId: string): boolean {
+    return !!this.teachers.find((teacher: ITeacher) => teacher.doctorId === doctorId);
+  }
+
+  doctorExistsInManagers(doctorId: string): boolean {
+    return !!this.educationalOrganizationManagers.find((manager: IEducationalManager) => manager.doctorId === doctorId);
+  }
 }
