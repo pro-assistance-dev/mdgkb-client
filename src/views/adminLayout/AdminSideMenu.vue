@@ -58,13 +58,17 @@ export default defineComponent({
         icon: 'el-icon-tickets',
       },
       {
-        title: 'Запись ко врачу',
+        title: 'Запись к врачу',
         to: '/',
         icon: 'el-icon-school',
         children: [
           {
             title: 'Создать слоты для записи',
             to: '/admin/appointments/constructor',
+          },
+          {
+            title: 'Список записей',
+            to: '/admin/appointments/list',
           },
         ],
       },
