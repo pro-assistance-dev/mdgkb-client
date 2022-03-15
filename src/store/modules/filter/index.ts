@@ -13,6 +13,7 @@ export const state: State = {
   action: 'getAll',
   filterQuery: new FilterQuery(),
   sortModels: [],
+  setDefaultSortModel: false,
 };
 
 const namespaced = true;

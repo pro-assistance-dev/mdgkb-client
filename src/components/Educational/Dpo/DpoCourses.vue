@@ -87,6 +87,8 @@ export default defineComponent({
     });
 
     const load = async () => {
+      setProgramsType();
+      store.commit(`filter/checkSortModels`);
       filterQuery.value.pagination.cursorMode = false;
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
       mounted.value = true;

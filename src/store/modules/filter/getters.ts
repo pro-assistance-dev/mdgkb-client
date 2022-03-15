@@ -31,6 +31,9 @@ const getters: GetterTree<State, RootState> = {
   defaultSortModel(state): ISortModel | undefined {
     return state.sortModels.find((sortModel: ISortModel) => sortModel.default);
   },
+  setDefaultSortModel(state): boolean {
+    return state.setDefaultSortModel;
+  },
 };
 
 export default getters;

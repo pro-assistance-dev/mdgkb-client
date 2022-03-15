@@ -9,9 +9,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 
 export default defineComponent({
@@ -35,8 +36,10 @@ export default defineComponent({
     const defaultSortOn: Ref<boolean> = ref(false);
     const selectedModel: Ref<string> = ref('');
 
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+
     const sortModels: Ref<ISortModel[]> = computed(() => store.getters['filters/sortModels']);
-    const defaultSortModel: Ref<ISortModel> = computed(() => store.getters['filters/defaultSortModel']);
+    const setDefaultSortModel: Ref<boolean> = computed(() => store.getters['filter/setDefaultSortModel']);
 
     const sort = async () => {
       await store.dispatch(`${storeModule}/${storeAction}`, store.getters['filter/filterQuery']);
@@ -53,16 +56,21 @@ export default defineComponent({
       }
       defaultSortOn.value = true;
     };
+
     onBeforeMount((): void => {
-      if (props.storeMode) {
-        store.commit('filters/setSortModel', props.models);
-      }
+      // if (props.storeMode) {
+      //   store.commit('filters/setSortModel', props.models);
+      // }
       setDefaultSort();
     });
 
-    // watch(defaultSortModel, () => {
-    //   store.commit('filters/setUser', user.value);
-    // });
+    watch(setDefaultSortModel, () => {
+      console.log('watch');
+      if (filterQuery.value.sortModels.length === 0) {
+        setDefaultSort();
+      }
+      emit('load');
+    });
 
     const setSort = (sortModel: ISortModel) => {
       selectedModel.value = sortModel.label;
@@ -75,13 +83,7 @@ export default defineComponent({
       emit('load');
     };
 
-    return {
-      sortModels,
-      defaultSortOn,
-      setSort,
-      selectedModel,
-      sort,
-    };
+    return { setDefaultSortModel, filterQuery, sortModels, defaultSortOn, setSort, selectedModel, sort };
   },
 });
 </script>

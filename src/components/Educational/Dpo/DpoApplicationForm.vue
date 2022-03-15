@@ -113,7 +113,6 @@ export default defineComponent({
     onBeforeMount(async () => {
       store.commit('dpoApplications/setCourse', dpoCourse.value);
       store.commit('dpoApplications/setUser', user.value);
-      console.log('user.value', user.value);
       mounted.value = true;
     });
 

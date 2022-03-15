@@ -7,4 +7,5 @@ export interface State {
   storeModule: string;
   action: string;
   sortModels: ISortModel[];
+  setDefaultSortModel: boolean;
 }

@@ -80,7 +80,7 @@ export default defineComponent({
     };
 
     const resetFilter = () => {
-      emit('load');
+      store.commit('filter/setDefaultSortModel', true);
     };
 
     return {

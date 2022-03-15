@@ -81,6 +81,18 @@ const mutations: MutationTree<State> = {
       state.filterQuery.filterModels.splice(index, 1);
     }
   },
+  setDefaultSortModel(state, condition: boolean) {
+    state.setDefaultSortModel = condition;
+  },
+  checkSortModels(state) {
+    if (state.filterQuery.sortModels.length > 0) {
+      return;
+    }
+    const defaultSort = state.sortModels.find((sortModel: ISortModel) => sortModel.default);
+    if (defaultSort) {
+      state.filterQuery.sortModels.push(defaultSort);
+    }
+  },
 };
 
 export default mutations;
