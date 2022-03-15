@@ -1,6 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import ISortModel from '@/interfaces/filters/ISortModel';
 import RootState from '@/store/types';
 
 import { State } from './state';
@@ -23,6 +24,12 @@ const getters: GetterTree<State, RootState> = {
   },
   allLoaded(state): boolean {
     return state.filterQuery.allLoaded;
+  },
+  sortModels(state): ISortModel[] {
+    return state.sortModels;
+  },
+  defaultSortModel(state): ISortModel | undefined {
+    return state.sortModels.find((sortModel: ISortModel) => sortModel.default);
   },
 };
 

@@ -50,6 +50,7 @@ export default defineComponent({
     const divisionsMode: Ref<boolean> = ref(route.path === '/divisions');
 
     onBeforeMount(async () => {
+      store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
       mount.value = true;
     });
