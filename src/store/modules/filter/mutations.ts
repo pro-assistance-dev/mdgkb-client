@@ -45,7 +45,7 @@ const mutations: MutationTree<State> = {
     state.filterQuery.pagination = new Pagination();
     state.filterQuery.filterModels = [];
     state.filterQuery.allLoaded = false;
-    state.filterQuery.sortModels = state.filterQuery.sortModels.filter((sort: ISortModel) => sort.default);
+    state.filterQuery.sortModels = [];
   },
   setFilterModel(state, filterModel: IFilterModel) {
     filterModel.isSet = true;
@@ -59,6 +59,9 @@ const mutations: MutationTree<State> = {
   replaceSortModel(state, sortModel: ISortModel) {
     state.filterQuery.sortModels = [];
     state.filterQuery.sortModels.push(sortModel);
+  },
+  addSortModels(state, sortModels: ISortModel[]) {
+    state.sortModels = sortModels;
   },
   setSortModel(state, sortModel: ISortModel) {
     let item = state.filterQuery.sortModels.find((i: ISortModel) => i.id === sortModel.id);
@@ -76,6 +79,18 @@ const mutations: MutationTree<State> = {
     const index = state.filterQuery.filterModels.findIndex((i: IFilterModel) => i.id === id);
     if (index > -1) {
       state.filterQuery.filterModels.splice(index, 1);
+    }
+  },
+  setDefaultSortModel(state, condition: boolean) {
+    state.setDefaultSortModel = condition;
+  },
+  checkSortModels(state) {
+    if (state.filterQuery.sortModels.length > 0) {
+      return;
+    }
+    const defaultSort = state.sortModels.find((sortModel: ISortModel) => sortModel.default);
+    if (defaultSort) {
+      state.filterQuery.sortModels.push(defaultSort);
     }
   },
 };

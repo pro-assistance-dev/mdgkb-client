@@ -12,6 +12,8 @@ export const state: State = {
   storeModule: '',
   action: 'getAll',
   filterQuery: new FilterQuery(),
+  sortModels: [],
+  setDefaultSortModel: false,
 };
 
 const namespaced = true;

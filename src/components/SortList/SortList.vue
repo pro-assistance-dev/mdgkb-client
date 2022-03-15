@@ -2,16 +2,17 @@
   <el-form>
     <el-form-item>
       <el-select v-model="selectedModel" :clearable="!defaultSortOn" placeholder="Сортировать" @change="setSort">
-        <el-option v-for="item in models" :key="item.label" :label="item.label" :value="item"> </el-option>
+        <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item"> </el-option>
       </el-select>
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 
 export default defineComponent({
@@ -22,6 +23,10 @@ export default defineComponent({
       type: Array as PropType<ISortModel[]>,
       default: () => [],
     },
+    storeMode: {
+      type: Boolean as PropType<boolean>,
+      default: true,
+    },
   },
   emits: ['load'],
   setup(props, { emit }) {
@@ -31,11 +36,19 @@ export default defineComponent({
     const defaultSortOn: Ref<boolean> = ref(false);
     const selectedModel: Ref<string> = ref('');
 
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+
+    const sortModels: Ref<ISortModel[]> = computed(() => store.getters['filters/sortModels']);
+    const setDefaultSortModel: Ref<boolean> = computed(() => store.getters['filter/setDefaultSortModel']);
+
     const sort = async () => {
       await store.dispatch(`${storeModule}/${storeAction}`, store.getters['filter/filterQuery']);
     };
 
     const setDefaultSort = () => {
+      // const defaultSort: ISortModel | undefined = props.storeMode
+      //   ? defaultSortModel.value
+      //   : props.models.find((sortModel: ISortModel) => sortModel.default);
       const defaultSort = props.models.find((sortModel: ISortModel) => sortModel.default);
       if (defaultSort) {
         selectedModel.value = defaultSort.label;
@@ -45,7 +58,18 @@ export default defineComponent({
     };
 
     onBeforeMount((): void => {
+      // if (props.storeMode) {
+      //   store.commit('filters/setSortModel', props.models);
+      // }
       setDefaultSort();
+    });
+
+    watch(setDefaultSortModel, () => {
+      console.log('watch');
+      if (filterQuery.value.sortModels.length === 0) {
+        setDefaultSort();
+      }
+      emit('load');
     });
 
     const setSort = (sortModel: ISortModel) => {
@@ -59,12 +83,7 @@ export default defineComponent({
       emit('load');
     };
 
-    return {
-      defaultSortOn,
-      setSort,
-      selectedModel,
-      sort,
-    };
+    return { setDefaultSortModel, filterQuery, sortModels, defaultSortOn, setSort, selectedModel, sort };
   },
 });
 </script>

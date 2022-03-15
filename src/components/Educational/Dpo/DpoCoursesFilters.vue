@@ -15,7 +15,7 @@
       :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
       @load="load"
     />
-    <SortList :models="sortModels" @load="load" />
+    <SortList :models="sortModels" :store-mode="true" @load="load" />
     <FilterReset @load="resetFilter" />
   </div>
 </template>
@@ -80,7 +80,7 @@ export default defineComponent({
     };
 
     const resetFilter = () => {
-      emit('load');
+      store.commit('filter/setDefaultSortModel', true);
     };
 
     return {

@@ -12,7 +12,6 @@ const httpClient = new HttpClient('dpo-applications');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    console.log('FILTER', filterQuery);
     const items = await httpClient.get<IDpoApplication[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
       filterQuery.setAllLoaded(items ? items.length : 0);
