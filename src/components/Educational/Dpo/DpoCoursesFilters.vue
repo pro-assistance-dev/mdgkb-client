@@ -80,7 +80,8 @@ export default defineComponent({
     };
 
     const resetFilter = () => {
-      store.commit('filter/setDefaultSortModel', true);
+      store.commit(`filter/resetQueryFilter`);
+      store.commit('filter/setDefaultSortModel');
     };
 
     return {
