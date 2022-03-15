@@ -17,6 +17,11 @@
         </div>
       </div>
     </div>
+
+    <!-- <a v-if="dpoCourse.linkNmo" style="width: 100%" :href="dpoCourse.linkNmo" target="_blank">
+      <button>Информация по циклу</button>
+    </a> -->
+
     <!--    <div class="content-container">-->
     <!--      <AdditionalEducationPrograms v-if="activeMenuName === 'Программы'" />-->
     <!--      <AdditionalEducationDocumentsForAdmission v-if="activeMenuName === 'Документы для обучения'" />-->
@@ -26,14 +31,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
+import { useStore } from 'vuex';
+
+import IDpoCourse from '@/interfaces/IDpoCourse';
 
 export default defineComponent({
   name: 'AdditionalEducation',
   components: {},
   setup() {
+    const store = useStore();
     const pageTitle: Ref<string> = ref('Программы');
     const activeMenuName: Ref<string> = ref('Программы');
+    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
 
     const menu = [{ name: 'Программы' }, { name: 'Документы для обучения' }, { name: 'Нормативные документы' }];
 
@@ -47,7 +57,7 @@ export default defineComponent({
       pageTitle.value = activeName;
     };
 
-    return { test, menu, isActive, changeTab, pageTitle, activeMenuName };
+    return { test, menu, isActive, changeTab, pageTitle, activeMenuName, dpoCourses };
   },
 });
 </script>

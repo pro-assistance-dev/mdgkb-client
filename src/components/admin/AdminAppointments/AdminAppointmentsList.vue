@@ -1,27 +1,25 @@
 <template>
   <div class="flex-column">
     <el-card>
-      <el-table :data="doctors">
-        <el-table-column label="ФИО" sortable>
+      <el-table :data="appointments">
+        <el-table-column label="Дата" sortable>
           <template #default="scope">
-            {{ scope.row.human.getFullName() }}
+            {{ fillDateFormat(scope.row.date) }}
           </template>
         </el-table-column>
-        <el-table-column label="Пол" align="center" sortable>
+        <el-table-column label="Время" align="center" sortable>
           <template #default="scope">
-            {{ scope.row.human.getGender() }}
+            {{ scope.row.time }}
           </template>
         </el-table-column>
-        <el-table-column label="Дата рождения" sortable>
+        <el-table-column label="Пациент" sortable>
           <template #default="scope">
-            {{ fillDateFormat(scope.row.human.dateBirth) }}
+            {{ scope.row.child }}
           </template>
         </el-table-column>
-        <el-table-column label="Отделение" sortable>
+        <el-table-column label="Специальность" sortable>
           <template #default="scope">
-            <el-tag class="tag-link" size="small" @click="$router.push(`/admin/divisions/${scope.row.division.id}`)">
-              {{ scope.row.division.name }}
-            </el-tag>
+            {{ scope.row.specialization }}
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
@@ -54,25 +52,28 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const doctors = computed(() => store.getters['doctors/items']);
+    const appointments = computed(() => store.getters['appointments/items']);
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
 
-      store.commit('filter/setStoreModule', 'doctors');
-      await store.dispatch('doctors/getAll', store.getters['filter/filterQuery']);
+      store.commit('filter/setStoreModule', 'appointments');
+      await store.dispatch('appointments/getAll', store.getters['filter/filterQuery']);
 
-      store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
+      store.commit('admin/setHeaderParams', {
+        title: 'Записи к врачу',
+        buttons: [{ text: 'Добавить запись', type: 'primary', action: create }],
+      });
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
     });
 
-    const create = () => router.push(`/admin/doctors/new`);
-    const edit = (slug: string) => router.push(`/admin/doctors/${slug}`);
-    const remove = async (id: string) => await store.dispatch('doctors/remove', id);
+    const create = () => router.push(`/admin/appointments/new`);
+    const edit = (slug: string) => router.push(`/admin/appointments/${slug}`);
+    const remove = async (id: string) => await store.dispatch('appointments/remove', id);
     const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
 
-    return { doctors, remove, edit, create, fillDateFormat };
+    return { appointments, remove, edit, create, fillDateFormat };
   },
 });
 </script>

@@ -58,7 +58,7 @@
           <UploaderSingleScan :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan" />
         </el-form-item>
       </div>
-      <div v-if="!isAuth" class="response-child">
+      <div class="response-child">
         <button class="response" @click.prevent="sendResponse()">Отправить форму</button>
       </div>
     </el-form>

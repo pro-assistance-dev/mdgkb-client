@@ -24,7 +24,8 @@
             </div>
           </div>
           <div class="center-button">
-            <el-button native-type="reset" class="green-button" round @click="sendApplication">Записаться</el-button>
+            <button class="green-button" @click.prevent="submit">Записаться</button>
+            <AppointmentModal v-if="isAppointmentModalOpen" @close="isAppointmentModalOpen = false" />
           </div>
         </div>
       </el-col>
@@ -33,6 +34,7 @@
 </template>
 
 <script lang="ts">
+import { ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -46,6 +48,7 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IAppointment from '@/interfaces/IAppointment';
 import IChild from '@/interfaces/IChild';
+
 export default defineComponent({
   name: 'AppointmentsPage',
   components: {
@@ -108,6 +111,17 @@ export default defineComponent({
       createChildMode.value = false;
     };
 
+    const submit = async () => {
+      await store.dispatch('appointments/create', appointment.value);
+      store.commit('appointments/resetItem');
+      ElNotification({
+        title: 'Запись к врачу',
+        message: 'Запись успешно создана!',
+        type: 'success',
+        duration: 2000,
+      });
+    };
+
     return {
       createChild,
       createChildMode,
@@ -122,6 +136,7 @@ export default defineComponent({
       Operators,
       DataTypes,
       mount,
+      submit,
     };
   },
 });
@@ -138,12 +153,29 @@ export default defineComponent({
   margin-top: 10px;
   text-align: center;
 }
+// .green-button {
+//   background: #31af5e;
+//   color: white;
+//   &:hover {
+//     background: darken(#31af5e, 5%);
+//     color: white;
+//   }
+// }
+
 .green-button {
-  background: #31af5e;
-  color: white;
+  background: #0bae57;
+  border-radius: 40px;
+  border: none;
+  font-family: roboto;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-left: 5px;
+  margin-top: 30px;
+  padding: 10px 25px;
+  text-align: center;
   &:hover {
-    background: darken(#31af5e, 5%);
-    color: white;
+    cursor: pointer;
+    background-color: #2b9b53;
   }
 }
 
@@ -169,8 +201,5 @@ export default defineComponent({
 .appointment-container {
   display: flex;
   justify-content: space-between;
-}
-
-.white-block {
 }
 </style>
