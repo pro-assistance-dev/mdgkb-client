@@ -2,38 +2,44 @@
   <div>
     <div class="card-flex-container card-item">
       <h2>Дополнительные профессиональные программы</h2>
-      <div class="table-container">
-        <table>
+      <div class="no-progmam"><h3 v-if="dpoCourses.length == 0">Для данной специальности нет программ</h3></div>
+      <div v-if="dpoCourses.length !== 0" class="table-container">
+        <table class="table-list">
+          <colgroup>
+            <col width="50%" />
+            <col width="10%" />
+            <col width="20%" />
+            <col width="20%" />
+          </colgroup>
           <thead>
             <th>Название программы</th>
-            <th>Даты проведения</th>
-            <th>Руководитель</th>
             <th>Часов</th>
-            <th></th>
+            <th>Руководитель</th>
+            <th>Даты&nbsp;проведения</th>
           </thead>
           <tbody v-if="mounted">
             <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
               <td>
                 <router-link :to="`/courses/${dpoCourse.id}`">{{ dpoCourse.name }}</router-link>
               </td>
-              <td>
-                {{ dpoCourse.getClosestPeriod() }}
-              </td>
+              <td style="text-align: center">{{ dpoCourse.hours }}</td>
               <td>
                 <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
                   {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
                 </router-link>
               </td>
-              <td style="text-align: center">{{ dpoCourse.hours }}</td>
               <td>
-                <div class="btns">
-                  <!-- <button @click="$router.push(`/courses/${dpoCourse.id}`)">Подробнее</button> -->
-                  <a v-if="dpoCourse.linkNmo" style="width: 100%" :href="dpoCourse.linkNmo" target="_blank">
-                    <button>Информация по циклу</button>
-                  </a>
-                  <button class="respond-btn" @click="$router.push(`/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button>
-                </div>
+                {{ dpoCourse.getClosestPeriod() }}
               </td>
+              <!-- <td> -->
+              <!-- <div class="btns"> -->
+              <!-- <button @click="$router.push(`/courses/${dpoCourse.id}`)">Подробнее</button> -->
+              <!-- <a v-if="dpoCourse.linkNmo" style="width: 100%" :href="dpoCourse.linkNmo" target="_blank">
+                    <button>Информация по циклу</button>
+                  </a> -->
+              <!-- <button class="respond-btn" @click="$router.push(`/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button> -->
+              <!-- </div> -->
+              <!-- </td> -->
             </tr>
           </tbody>
         </table>
@@ -99,47 +105,49 @@ export default defineComponent({
   display: flex;
   justify-content: center;
 }
-.btns {
-  display: flex;
-  flex-direction: column;
-  button {
-    cursor: pointer;
-    padding: 7px 15px;
-    letter-spacing: 1px;
-    border-radius: 5px;
-    border: none;
-    background-color: #2754ec;
-    color: white;
-    &:hover {
-      background-color: lighten(#2754ec, 10%);
-    }
-  }
-  .respond-btn {
-    background-color: #31af5e;
-    margin-top: 5px;
-    &:hover {
-      background-color: lighten(#31af5e, 10%);
-    }
-  }
-}
+// .btns {
+//   display: flex;
+//   flex-direction: column;
+//   button {
+//     cursor: pointer;
+//     padding: 7px 15px;
+//     letter-spacing: 1px;
+//     border-radius: 5px;
+//     border: none;
+//     background-color: #2754ec;
+//     color: white;
+//     &:hover {
+//       background-color: lighten(#2754ec, 10%);
+//     }
+//   }
+//   .respond-btn {
+//     background-color: #31af5e;
+//     margin-top: 5px;
+//     &:hover {
+//       background-color: lighten(#31af5e, 10%);
+//     }
+//   }
+// }
 .card-item {
   width: 100%;
   height: 100%;
 }
 
 .table-container {
-  height: 100%;
+  width: 100%;
   // overflow: scroll;
 }
 table {
-  height: 100vh;
+  height: auto;
   border-collapse: collapse;
+  width: 100%;
 }
 
 td,
 th {
   border: 1px solid #dcdfe6;
   padding: 5px 7px 5px 7px;
+  height: auto;
 }
 
 th {
@@ -160,5 +168,14 @@ tr {
   &:hover {
     background-color: #ecf5ff;
   }
+}
+
+.no-progmam {
+  display: block;
+  color: #b5b5b5;
+}
+
+.card-flex-container {
+  display: block;
 }
 </style>
