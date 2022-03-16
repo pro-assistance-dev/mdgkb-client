@@ -1,16 +1,16 @@
 <template>
   <div class="search-container">
     <form class="search-form" @submit.prevent="submitSearch">
-      <input ref="searchInput" type="text" placeholder="Введите свой запрос" v-model="searchInputText"/>
+      <input ref="searchInput" v-model="searchInputText" type="text" placeholder="Введите свой запрос" />
       <button type="submit"><i class="el-icon-search"></i></button>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onBeforeMount } from 'vue';
+import { defineComponent, onBeforeMount, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'SearchBar',
@@ -28,7 +28,7 @@ export default defineComponent({
 
       searchInputText.value = route.query.q as string;
     });
-    
+
     const showDrawer = () => {
       store.commit('search/toggleDrawer', true);
       searchInput.value?.blur();
@@ -37,8 +37,6 @@ export default defineComponent({
     const submitSearch = async () => {
       await router.push(`/search?q=${searchInputText.value}`);
     };
-
-
 
     return {
       searchInput,

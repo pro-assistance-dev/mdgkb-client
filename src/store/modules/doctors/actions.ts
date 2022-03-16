@@ -79,7 +79,11 @@ const actions: ActionTree<State, RootState> = {
     if (items) {
       items.forEach((i: IDoctor) => {
         if (i.id) {
-          search.searchObjects.push({ value: `${i.human.surname} ${i.human.name} ${i.human.patronymic}`, id: i.human.slug });
+          search.searchObjects.push({
+            value: `${i.human.surname} ${i.human.name} ${i.human.patronymic}`,
+            id: i.human.slug,
+            description: '',
+          });
         }
       });
     }

@@ -1,8 +1,8 @@
 <template>
-    <div class="search">
-      <SeacrhBar />
-    </div>
-    <!-- <el-form>
+  <div class="search">
+    <SeacrhBar />
+  </div>
+  <!-- <el-form>
       <el-form-item>
         <el-select-v2
           ref="searchInput"
@@ -23,32 +23,38 @@
         </el-select-v2>
       </el-form-item>
     </el-form> -->
-    <div class="filters">
-      <div>
-        <ul class="tag-list">
-          <li v-for="searchGroup in searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
-            <button v-if="searchGroup.label" class="tag-item-batton" @click="register">{{ searchGroup.label }}</button>
-          </li>
-        </ul>
-      </div>
+  <div class="filters">
+    <div>
+      <ul class="tag-list">
+        <li v-for="searchGroup in searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
+          <button v-if="searchGroup.label" class="tag-item-batton" @click="register">{{ searchGroup.label }}</button>
+        </li>
+      </ul>
     </div>
-    <div class="search-result">
-
-    </div> 
+  </div>
+  <div class="search-result">
+    <div v-for="result in searchModel.searchGroup.options" :key="result.value">
+      <div class="search-result-title">
+        {{ result.label }}
+      </div>
+      <div class="search-result-description" v-html="result.description.substring(0, 100)"></div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearchModel from '@/interfaces/ISearchModel';
+import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({
   name: 'SearchPage',
   components: {
-      SeacrhBar
+    SeacrhBar,
   },
 
   setup() {
@@ -57,6 +63,7 @@ export default defineComponent({
     const searchString: Ref<string> = ref('');
     let groups: Ref<string[]> = ref([]);
     const router = useRouter();
+    const route = useRoute();
 
     const searchModel: ComputedRef<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
     const searchGroups: ComputedRef<ISearchGroup[]> = computed<ISearchGroup[]>(() => store.getters['search/searchGroups']);
@@ -70,7 +77,9 @@ export default defineComponent({
     const closeDrawer = () => store.commit('search/toggleDrawer', false);
 
     onBeforeMount(async () => {
-      await store.dispatch('search/searchGroups');
+      searchModel.value.query = route.query.q && typeof route.query.q === 'string' ? route.query.q : '';
+      // await store.dispatch('search/searchGroups');
+      await store.dispatch('search/searchV1', searchModel.value);
     });
 
     const find = async (query: string) => {
@@ -90,6 +99,7 @@ export default defineComponent({
         searchModel.value.searchGroupId = searchGroupIds[0];
       }
     };
+
     return {
       groups,
       changeFilter,
@@ -106,7 +116,6 @@ export default defineComponent({
     };
   },
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -170,8 +179,7 @@ export default defineComponent({
 .search-result {
   height: 400px;
   background: #ffffff;
-  border: 1px solid #DCDFE6;
+  border: 1px solid #dcdfe6;
   border-radius: 5px;
 }
-
 </style>
