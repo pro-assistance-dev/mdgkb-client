@@ -1,54 +1,33 @@
 <template>
-    <div class="search">
-      <SeacrhBar />
+  <div class="search">
+    <SeacrhBar />
+  </div>
+  <div class="filters">
+    <div>
+      <ul class="tag-list">
+        <li><button class="tag-item-batton">Все</button></li>
+        <li v-for="searchGroup in searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
+          <button v-if="searchGroup.label" class="tag-item-batton" @click="register">{{ searchGroup.label }}</button>
+        </li>
+      </ul>
     </div>
-    <!-- <el-form>
-      <el-form-item>
-        <el-select-v2
-          ref="searchInput"
-          v-model="value"
-          remote
-          :options="searchModel.searchGroups"
-          filterable
-          :remote-method="find"
-          style="width: 100%"
-          placeholder="Введите свой запрос"
-          @change="handleSelect"
-          @focus="searchModel.searchGroups = []"
-          @blur="searchModel.searchGroups = []"
-        >
-          <template #default="{ item }">
-            <span class="result-item">{{ item.label }}</span>
-          </template>
-        </el-select-v2>
-      </el-form-item>
-    </el-form> -->
-    <div class="filters">
-      <div>
-        <ul class="tag-list">
-          <li v-for="searchGroup in searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
-            <button v-if="searchGroup.label" class="tag-item-batton" @click="register">{{ searchGroup.label }}</button>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="search-result">
-
-    </div> 
+  </div>
+  <div class="search-result"></div>
 </template>
 
 <script lang="ts">
-import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearchModel from '@/interfaces/ISearchModel';
+import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({
   name: 'SearchPage',
   components: {
-      SeacrhBar
+    SeacrhBar,
   },
 
   setup() {
@@ -106,7 +85,6 @@ export default defineComponent({
     };
   },
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -170,8 +148,7 @@ export default defineComponent({
 .search-result {
   height: 400px;
   background: #ffffff;
-  border: 1px solid #DCDFE6;
+  border: 1px solid #dcdfe6;
   border-radius: 5px;
 }
-
 </style>
