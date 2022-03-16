@@ -31,15 +31,6 @@
               <td>
                 {{ dpoCourse.getClosestPeriod() }}
               </td>
-              <!-- <td> -->
-              <!-- <div class="btns"> -->
-              <!-- <button @click="$router.push(`/courses/${dpoCourse.id}`)">Подробнее</button> -->
-              <!-- <a v-if="dpoCourse.linkNmo" style="width: 100%" :href="dpoCourse.linkNmo" target="_blank">
-                    <button>Информация по циклу</button>
-                  </a> -->
-              <!-- <button class="respond-btn" @click="$router.push(`/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button> -->
-              <!-- </div> -->
-              <!-- </td> -->
             </tr>
           </tbody>
         </table>
@@ -105,29 +96,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
 }
-// .btns {
-//   display: flex;
-//   flex-direction: column;
-//   button {
-//     cursor: pointer;
-//     padding: 7px 15px;
-//     letter-spacing: 1px;
-//     border-radius: 5px;
-//     border: none;
-//     background-color: #2754ec;
-//     color: white;
-//     &:hover {
-//       background-color: lighten(#2754ec, 10%);
-//     }
-//   }
-//   .respond-btn {
-//     background-color: #31af5e;
-//     margin-top: 5px;
-//     &:hover {
-//       background-color: lighten(#31af5e, 10%);
-//     }
-//   }
-// }
+
 .card-item {
   width: 100%;
   height: 100%;

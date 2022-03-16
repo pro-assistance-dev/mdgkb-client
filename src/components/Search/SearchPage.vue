@@ -26,6 +26,7 @@
   <div class="filters">
     <div>
       <ul class="tag-list">
+        <li><button class="tag-item-batton">Все</button></li>
         <li v-for="searchGroup in searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
           <button v-if="searchGroup.label" class="tag-item-batton" @click="register">{{ searchGroup.label }}</button>
         </li>
@@ -40,6 +41,20 @@
       <div class="search-result-description" v-html="result.description.substring(0, 100)"></div>
     </div>
   </div>
+  <div class="search">
+    <SeacrhBar />
+  </div>
+  <div class="filters">
+    <div>
+      <ul class="tag-list">
+        <li><button class="tag-item-batton">Все</button></li>
+        <li v-for="searchGroup in searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
+          <button v-if="searchGroup.label" class="tag-item-batton" @click="register">{{ searchGroup.label }}</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="search-result"></div>
 </template>
 
 <script lang="ts">

@@ -18,10 +18,6 @@
       </div>
     </div>
 
-    <!-- <a v-if="dpoCourse.linkNmo" style="width: 100%" :href="dpoCourse.linkNmo" target="_blank">
-      <button>Информация по циклу</button>
-    </a> -->
-
     <!--    <div class="content-container">-->
     <!--      <AdditionalEducationPrograms v-if="activeMenuName === 'Программы'" />-->
     <!--      <AdditionalEducationDocumentsForAdmission v-if="activeMenuName === 'Документы для обучения'" />-->
