@@ -3,7 +3,7 @@
     v-model="authModalVisible"
     width="400px"
     :destroy-on-close="true"
-    :title="isLogin ? 'Вход' : 'Регистрация'"
+    :title="loginStatus === 'login' ? 'Вход' : loginStatus === 'register' ? 'Регистрация' : 'Восстановление пароля'"
     center
     @closed="closeModal"
   >
@@ -12,19 +12,23 @@
         <el-input v-model="form.email" placeholder="Email" type="email" @input="findEmail" />
       </el-form-item>
 
-      <el-form-item prop="password">
+      <el-form-item v-if="loginStatus === 'login' || loginStatus === 'register'" prop="password">
         <el-input v-model="form.password" placeholder="Пароль" type="password" />
       </el-form-item>
 
       <el-form-item style="text-align: center">
         <el-button type="primary" style="width: 60%" native-type="submit" @click.prevent="submitForm">
-          {{ isLogin ? 'Войти' : 'Зарегистрироваться' }}
+          {{ loginStatus === 'login' ? 'Войти' : loginStatus === 'register' ? 'Зарегистрироваться' : 'Отправить ссылку' }}
         </el-button>
       </el-form-item>
-      <el-form-item style="text-align: center">
-        <el-button type="text" @click.prevent="toggleIsLogin">
-          {{ isLogin ? 'Нет учётной записи?' : 'Уже зарегистрированы?' }}
-        </el-button>
+      <el-form-item v-if="loginStatus === 'login'" class="reg-item" style="text-align: center">
+        <el-button type="text" @click.prevent="setRegister"> Нет учетной записи? </el-button>
+      </el-form-item>
+      <el-form-item v-if="loginStatus === 'register'" class="reg-item" style="text-align: center">
+        <el-button type="text" @click.prevent="setLogin"> Уже зарегистрированы? </el-button>
+      </el-form-item>
+      <el-form-item v-if="loginStatus === 'login'" class="reg-item" style="text-align: center">
+        <el-button type="text" @click.prevent="setForgotPassword"> Забыли пароль? </el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -50,10 +54,12 @@ export default defineComponent({
       store.commit('auth/closeModal');
       form.value = new User();
     };
-    const toggleIsLogin = () => store.commit('auth/toggleIsLoginModal');
+    const setLogin = () => store.commit('auth/setLogin');
+    const setRegister = () => store.commit('auth/setRegister');
+    const setForgotPassword = () => store.commit('auth/setForgotPassword');
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
     const emailExists: Ref<boolean> = computed(() => store.getters['users/emailExists']);
-    const isLogin = computed(() => store.getters['auth/isLoginModal']);
+    const loginStatus: Ref<'login' | 'register' | 'forgotPassword'> = computed(() => store.getters['auth/loginStatus']);
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value.trim().length) {
@@ -61,7 +67,7 @@ export default defineComponent({
         return;
       }
       // await store.dispatch('users/findEmail', value);
-      if (!isLogin.value && value && emailExists.value) {
+      if (loginStatus.value === 'register' && value && emailExists.value) {
         callback(new Error('Ведённый email уже существует'));
       }
       callback();
@@ -89,10 +95,12 @@ export default defineComponent({
         return;
       }
       try {
-        if (isLogin.value) {
+        if (loginStatus.value === 'login') {
           await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });
-        } else {
+        } else if (loginStatus.value === 'register') {
           await store.dispatch('auth/register', form.value);
+        } else {
+          // TODO: Добавить экшн восстановления пароля
         }
       } catch (error) {
         console.log(error);
@@ -114,12 +122,14 @@ export default defineComponent({
       emailExists,
       form,
       submitForm,
-      toggleIsLogin,
       authModalVisible,
       closeModal,
-      isLogin,
       rules,
       myForm,
+      loginStatus,
+      setLogin,
+      setRegister,
+      setForgotPassword,
     };
   },
   methods: {
@@ -137,5 +147,9 @@ export default defineComponent({
 }
 .card-header {
   text-align: center;
+}
+
+.reg-item {
+  margin-bottom: 0;
 }
 </style>

@@ -24,8 +24,8 @@ const getters: GetterTree<State, RootState> = {
   authModalVisible(state): boolean {
     return state.authModalVisible;
   },
-  isLoginModal(state): boolean {
-    return state.isLoginModal;
+  loginStatus(state): 'login' | 'register' | 'forgotPassword' {
+    return state.loginStatus;
   },
 };
 

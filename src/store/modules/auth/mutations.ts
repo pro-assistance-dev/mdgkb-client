@@ -35,15 +35,21 @@ const mutations: MutationTree<State> = {
   setIsAuth(state, isAuth: boolean) {
     state.isAuth = isAuth;
   },
-  openModal(state, login?: boolean) {
-    state.isLoginModal = !!login;
+  openModal(state, loginStatus: 'login' | 'register' | 'forgotPassword') {
+    state.loginStatus = loginStatus;
     state.authModalVisible = true;
   },
   closeModal(state) {
     state.authModalVisible = false;
   },
-  toggleIsLoginModal(state) {
-    state.isLoginModal = !state.isLoginModal;
+  setLogin(state) {
+    state.loginStatus = 'login';
+  },
+  setRegister(state) {
+    state.loginStatus = 'register';
+  },
+  setForgotPassword(state) {
+    state.loginStatus = 'forgotPassword';
   },
   setFavourite(state, user: IUser) {
     if (user.doctorsUsers) {
