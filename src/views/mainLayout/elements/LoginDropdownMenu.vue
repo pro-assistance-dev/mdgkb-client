@@ -45,8 +45,8 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const login = () => store.commit('auth/openModal', true);
-    const register = () => store.commit('auth/openModal');
+    const login = () => store.commit('auth/openModal', 'login');
+    const register = () => store.commit('auth/openModal', 'register');
 
     const logout = async () => {
       await store.dispatch('auth/logout');

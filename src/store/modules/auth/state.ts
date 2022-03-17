@@ -5,5 +5,5 @@ export default interface State {
   token: string;
   isAuth: boolean;
   authModalVisible: boolean;
-  isLoginModal: boolean;
+  loginStatus: 'login' | 'register' | 'forgotPassword';
 }

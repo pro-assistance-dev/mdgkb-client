@@ -12,7 +12,7 @@ export const state: State = {
   token: '',
   isAuth: false,
   authModalVisible: false,
-  isLoginModal: true,
+  loginStatus: 'login',
 };
 
 const namespaced = true;
