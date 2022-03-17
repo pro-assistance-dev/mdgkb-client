@@ -93,13 +93,11 @@ export default defineComponent({
     };
 
     const filterModel = ref(createModel());
-    // filterModel.value.operator = Operators.Eq;
 
     const addFilterModel = (value: string) => {
       if (!value.length) {
-        dropFilterModel();
+        reloadModel();
       } else {
-        filterModel.value = createModel();
         filterModel.value.value1 = value;
         filterModel.value.joinTableId = value;
         store.commit('filter/setFilterModel', filterModel.value);
@@ -107,10 +105,9 @@ export default defineComponent({
       emit('load', value);
     };
 
-    const dropFilterModel = () => {
+    const reloadModel = () => {
       store.commit('filter/spliceFilterModel', filterModel.value.id);
-      filterModel.value = FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String);
-      filterModel.value.operator = Operators.Eq;
+      createModel();
     };
 
     return {
