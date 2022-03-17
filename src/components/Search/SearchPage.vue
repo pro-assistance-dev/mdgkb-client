@@ -178,9 +178,28 @@ export default defineComponent({
 }
 
 .search-result {
-  height: 400px;
   background: #ffffff;
   border: 1px solid #dcdfe6;
   border-radius: 5px;
+  padding: 20px;
+}
+
+.search-result-title {
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: lighter;
+  color: #c4c4c4;
+}
+
+.search-result-description {
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: lighter;
+  color: #343e5c;
+  margin-bottom: 40px;
+  &:hover {
+    cursor: pointer;
+    color: #133dcc;
+  }
 }
 </style>
