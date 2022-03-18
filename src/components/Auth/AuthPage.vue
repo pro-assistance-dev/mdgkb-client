@@ -100,11 +100,14 @@ export default defineComponent({
         } else if (loginStatus.value === 'register') {
           await store.dispatch('auth/register', form.value);
         } else {
-          // TODO: Добавить экшн восстановления пароля
+          await store.dispatch('auth/restorePassword', form.value);
+          ElMessage({ message: 'Ссылка для восстановления пароля отправлена на Вашу почту', type: 'success' });
         }
       } catch (error) {
         console.log(error);
-        ElMessage({ message: 'Неверный логин или пароль', type: 'error' });
+        if (loginStatus.value === 'login' || loginStatus.value === 'register') {
+          ElMessage({ message: 'Неверный логин или пароль', type: 'error' });
+        }
         return;
       }
       closeModal();

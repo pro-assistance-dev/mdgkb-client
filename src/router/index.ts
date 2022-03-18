@@ -16,6 +16,8 @@ import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
+import RefreshPasswordPage from '@/components/RefreshPasswordPage.vue';
+import SearchPage from '@/components/Search/SearchPage.vue';
 import ServiceQualityAssessmentPage from '@/components/ServiceQualityAssessment/ServiceQualityAssessmentPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import SiteMap from '@/components/SiteMap/SiteMap.vue';
@@ -37,8 +39,6 @@ import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
 import TokenService from '@/services/Token';
 import MainLayout from '@/views/main/MainLayout.vue';
-import SearchPage from '@/components/Search/SearchPage.vue';
-
 
 import store from '../store/index';
 
@@ -188,7 +188,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SearchPage',
     component: SearchPage,
   },
-  
+  {
+    path: '/restore/password/:userId/:uniqueId',
+    name: 'RefreshPasswordPage',
+    component: RefreshPasswordPage,
+  },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
   ...DivisionsRoutes,

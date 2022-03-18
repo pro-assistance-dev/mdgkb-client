@@ -24,6 +24,12 @@ const actions: ActionTree<State, RootState> = {
     commit('setTokens', tokens);
     commit('setIsAuth', true);
   },
+  restorePassword: async ({ commit }, user: IUser): Promise<void> => {
+    await httpClient.post<IUser, IUser>({ query: 'restore-password', payload: user });
+  },
+  refreshPassword: async ({ commit }, user: IUser): Promise<void> => {
+    await httpClient.put<IUser, IUser>({ query: 'refresh-password', payload: user });
+  },
   logout: async ({ commit, state }): Promise<void> => {
     commit('setIsAuth', false);
     commit('clearUser');
@@ -37,6 +43,9 @@ const actions: ActionTree<State, RootState> = {
         payload: { refreshToken: TokenService.getRefreshToken() },
       })
     );
+  },
+  checkUuid: async ({ commit }, checkObj: { userId: string; uniqueId: string }): Promise<void> => {
+    await httpClient.get<IUser>({ query: `check-uuid/${checkObj.userId}/${checkObj.uniqueId}` });
   },
 };
 
