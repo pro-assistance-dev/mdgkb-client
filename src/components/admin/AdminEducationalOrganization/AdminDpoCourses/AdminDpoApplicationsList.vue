@@ -1,5 +1,10 @@
 <template>
   <el-table v-if="mounted" :data="dpoApplications">
+    <el-table-column label="Дата подачи заявления" sortable>
+      <template #default="scope">
+        {{ $dateFormatRu(scope.row.createdAt, true, true) }}
+      </template>
+    </el-table-column>
     <el-table-column label="Email заявителя" sortable>
       <template #default="scope">
         {{ scope.row.user.email }}
@@ -10,31 +15,6 @@
         {{ scope.row.dpoCourse.name }}
       </template>
     </el-table-column>
-    <el-table-column label="Заявление на обучение от СЛУШАТЕЛЯ" sortable>
-      <template #default="scope">
-        <a v-if="scope.row.application.fileSystemPath" :href="scope.row.application.getFileUrl()" target="_blank">
-          {{ scope.row.application.originalName }}
-        </a>
-        <span v-else>Нет файла</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="Заявка от ОРГАНИЗАЦИИ на зачисление" sortable>
-      <template #default="scope">
-        <a v-if="scope.row.organizationApplication.fileSystemPath" :href="scope.row.organizationApplication.getFileUrl()" target="_blank">
-          {{ scope.row.organizationApplication.originalName }}
-        </a>
-        <span v-else>Нет файла</span>
-      </template>
-    </el-table-column>
-
-    <!-- <el-table-column label="Преподаватель" sortable>
-      <template #default="scope">
-        <div v-if="scope.row.getMainTeacher()">
-          {{ scope.row.getMainTeacher().doctor.human.getFullName() }}
-        </div>
-        <div v-else>Руководителя нет</div>
-      </template>
-    </el-table-column> -->
     <el-table-column width="50" fixed="right" align="center">
       <template #default="scope">
         <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
@@ -72,7 +52,6 @@ export default defineComponent({
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
       mounted.value = true;
-      console.log(dpoApplications.value);
     });
 
     // const create = () => router.push(`/admin/educational-organization/dpo/courses/new`);

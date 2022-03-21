@@ -2,6 +2,8 @@ import ValueType from '@/classes/ValueType';
 import IField from '@/interfaces/IField';
 import IValueType from '@/interfaces/IValueType';
 
+import FileInfo from './File/FileInfo';
+
 export default class Field implements IField {
   id?: string;
   name = '';
@@ -9,6 +11,8 @@ export default class Field implements IField {
   formId?: string;
   valueTypeId = '';
   valueType: IValueType = new ValueType();
+  file = new FileInfo();
+  fileId?: string;
 
   constructor(i?: IField) {
     if (!i) {
@@ -20,8 +24,12 @@ export default class Field implements IField {
     this.order = i.order;
     this.formId = i.formId;
     this.valueTypeId = i.valueTypeId;
+    this.fileId = i.fileId;
     if (i.valueType) {
       this.valueType = new ValueType(i.valueType);
+    }
+    if (i.file) {
+      this.file = new FileInfo(i.file);
     }
   }
 }

@@ -12,8 +12,9 @@
     <template #tip>
       <div v-if="fileInfo.originalName" class="file-name">
         <a :href="fileInfo.url" target="_blank">
-          {{ fileInfo.originalName }}
+          <div>{{ fileInfo.originalName }}</div>
         </a>
+        <el-button size="mini" icon="el-icon-close" @click="removeFile"></el-button>
       </div>
       <div v-else class="file-name">Файл не загружен</div>
     </template>
@@ -37,12 +38,15 @@ export default defineComponent({
 
   setup(props) {
     const changeFileHandler = (file: IFile) => {
-      console.log(file.url);
       props.fileInfo.uploadAndSetFile(file);
+    };
+    const removeFile = () => {
+      props.fileInfo.clearFile();
     };
 
     return {
       changeFileHandler,
+      removeFile,
     };
   },
 });
@@ -51,6 +55,18 @@ export default defineComponent({
 <style lang="scss" scoped>
 .file-name {
   margin-left: 5px;
+  display: flex;
+  align-items: center;
+  a {
+    line-height: 1.1;
+  }
+  .el-button {
+    margin-left: 2px;
+    padding: 5px;
+    margin: 0;
+    min-height: unset;
+    border: none;
+  }
 }
 .upload-container {
   display: flex;

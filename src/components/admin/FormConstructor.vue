@@ -5,17 +5,38 @@
         <div>
           <span> Форма </span>
         </div>
-        <el-button s size="small" type="success" icon="el-icon-plus" @click="form.addField()">Добавить поле </el-button>
+        <el-button s size="small" type="success" icon="el-icon-plus" @click="addField">Добавить поле </el-button>
       </div>
     </template>
-    <el-row v-for="field in form.fields" :key="field">
+    <el-table :data="form.fields">
+      <el-table-column label="Название поля формы" sortable>
+        <template #default="scope">
+          <el-input v-model="scope.row.name" placeholder="Имя поля" />
+        </template>
+      </el-table-column>
+      <el-table-column v-if="!filesOnly" label="Тип данных" sortable width="300px">
+        <template #default="scope">
+          <el-select v-model="scope.row.valueType" value-key="id" label="Тип данных" @change="changeHandler(scope.row)">
+            <el-option v-for="item in valueTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
+          </el-select>
+        </template>
+      </el-table-column>
+      <el-table-column label="Образец" sortable>
+        <template #default="scope">
+          <FileUploader v-if="scope.row.valueType.isFile()" :file-info="scope.row.file" />
+          <span v-else>Доступен только для файлов</span>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- <el-row v-for="field in form.fields" :key="field">
       <div style="margin: 10px">
         <el-input v-model="field.name" label="Имя поля" />
-        <el-select v-model="field.valueTypeId" label="Тип данных">
-          <el-option v-for="item in valueTypes" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+        <el-select v-model="field.valueType" value-key="id" label="Тип данных" @change="changeHandler(field)">
+          <el-option v-for="item in valueTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
         </el-select>
+        <FileUploader v-if="field.valueType.isFile()" :file-info="field.file" />
       </div>
-    </el-row>
+    </el-row> -->
   </el-card>
 </template>
 
@@ -23,26 +44,52 @@
 import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Field from '@/classes/Field';
+import ValueType from '@/classes/ValueType';
+import FileUploader from '@/components/FileUploader.vue';
+import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
 import IValueType from '@/interfaces/IValueType';
+
 export default defineComponent({
   name: 'FormConstructor',
-  components: {},
+  components: { FileUploader },
   props: {
     form: {
       type: Object as PropType<IForm>,
       required: true,
     },
+    filesOnly: {
+      type: Boolean,
+      dafault: false,
+    },
   },
-  setup() {
+  setup(props) {
     const store = useStore();
     const valueTypes: Ref<IValueType[]> = computed(() => store.getters['valueTypes/items']);
+    const addField = () => {
+      if (props.filesOnly) {
+        const fileValueType = valueTypes.value.find((el) => el.isFile());
+        const field = new Field();
+        field.valueType = new ValueType(fileValueType);
+        field.valueTypeId = fileValueType?.id ?? '';
+        props.form.addField(field);
+      } else {
+        props.form.addField();
+      }
+    };
 
     onBeforeMount(async () => {
       await store.dispatch('valueTypes/getAll');
     });
 
-    return { valueTypes };
+    const changeHandler = (field: IField) => {
+      if (field.valueType.id) {
+        field.valueTypeId = field.valueType.id;
+      }
+    };
+
+    return { valueTypes, changeHandler, addField };
   },
 });
 </script>

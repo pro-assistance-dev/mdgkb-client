@@ -1,32 +1,20 @@
 import IFileInfo from './files/IFileInfo';
 import IDpoCourse from './IDpoCourse';
+import IField from './IField';
+import IFieldValue from './IFieldValue';
 import IUser from './IUser';
 
 export default interface IDpoApplication {
   id?: string;
-  application: IFileInfo;
-  applicationId?: string;
-  organizationApplication: IFileInfo;
-  organizationApplicationId?: string;
-  paidEducationalServicesContract: IFileInfo;
-  paidEducationalServicesContractId?: string;
-  secondaryOrHigherMedicalEducation: IFileInfo;
-  secondaryOrHigherMedicalEducationId?: string;
-  postgraduateProfEducation: IFileInfo;
-  postgraduateProfEducationId?: string;
-  additionalProfEducation: IFileInfo;
-  additionalProfEducationId?: string;
-  specialistCertificate: IFileInfo;
-  specialistCertificateId?: string;
-  employmentHistory: IFileInfo;
-  employmentHistoryId?: string;
-  nameChangeDocument: IFileInfo;
-  nameChangeDocumentId?: string;
-  foreignStudentQualificationDocument: IFileInfo;
-  foreignStudentQualificationDocumentId?: string;
-
-  user: IUser;
   userId?: string;
-  dpoCourse: IDpoCourse;
   dpoCourseId?: string;
+  user: IUser;
+  dpoCourse: IDpoCourse;
+  createdAt: Date;
+  fieldValues: IFieldValue[];
+
+  getFileInfos: () => IFileInfo[];
+  initFieldsValues: (fields: IField[]) => void;
+  getFieldValue: (field: IField) => string | number | Date | IFileInfo | boolean | undefined;
+  findFieldValue: (fieldId: string) => IFieldValue | undefined;
 }

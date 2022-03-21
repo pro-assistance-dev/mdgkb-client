@@ -4,6 +4,8 @@ import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
 
+import IForm from './IForm';
+
 export default interface IDpoCourse {
   id?: string;
   name: string;
@@ -20,6 +22,8 @@ export default interface IDpoCourse {
   dpoCoursesSpecializationsForDelete: string[];
   dpoCoursesDates: IDpoCourseDates[];
   dpoCoursesDatesForDelete: string[];
+  formPattern: IForm;
+  formPatternId?: string;
 
   addTeacher: (teacher: ITeacher) => void;
   setMainTeacher: (index: number) => void;

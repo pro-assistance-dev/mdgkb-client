@@ -65,4 +65,13 @@ export default class FileInfo implements IFileInfo {
     this.file = file.raw;
     this.url = file.url;
   }
+
+  clearFile(): void {
+    console.log('clear');
+    this.url = '';
+    this.file = undefined;
+    this.fileSystemPath = '';
+    this.originalName = '';
+    this.category = '';
+  }
 }

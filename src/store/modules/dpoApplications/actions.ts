@@ -1,6 +1,5 @@
 import { ActionTree } from 'vuex';
 
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import HttpClient from '@/services/HttpClient';
@@ -26,19 +25,22 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDpoApplication[]>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ state, commit }): Promise<void> => {
-    const fileInfos: IFileInfo[] = [];
-    for (const key in state.item) {
-      if (Object.prototype.hasOwnProperty.call(state.item, key)) {
-        const property = state.item[key as keyof IDpoApplication];
-        const prorertyClassName = property?.constructor.name;
-        if (prorertyClassName === 'FileInfo' && (property as IFileInfo).originalName) {
-          fileInfos.push(property as IFileInfo);
-        }
-      }
-    }
-    await httpClient.post<IDpoApplication, IDpoApplication>({ payload: state.item, isFormData: true, fileInfos: fileInfos });
-    commit('resetItem');
+  create: async ({ state }): Promise<void> => {
+    // const fileInfos: IFileInfo[] = [];
+    // for (const key in state.item) {
+    //   if (Object.prototype.hasOwnProperty.call(state.item, key)) {
+    //     const property = state.item[key as keyof IDpoApplication];
+    //     const prorertyClassName = property?.constructor.name;
+    //     if (prorertyClassName === 'FileInfo' && (property as IFileInfo).originalName) {
+    //       fileInfos.push(property as IFileInfo);
+    //     }
+    //   }
+    // }
+    await httpClient.post<IDpoApplication, IDpoApplication>({
+      payload: state.item,
+      isFormData: true,
+      fileInfos: state.item.getFileInfos(),
+    });
   },
   update: async ({ commit }, item: IDpoApplication): Promise<void> => {
     const res = await httpClient.put<IDpoApplication, IDpoApplication>({ query: `${item.id}`, payload: item, isFormData: true });
