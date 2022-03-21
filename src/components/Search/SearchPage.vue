@@ -1,42 +1,41 @@
 <template>
-  <!-- <el-form>
-      <el-form-item>
-        <el-select-v2
-          ref="searchInput"
-          v-model="value"
-          remote
-          :options="searchModel.searchGroups"
-          filterable
-          :remote-method="find"
-          style="width: 100%"
-          placeholder="Введите свой запрос"
-          @change="handleSelect"
-          @focus="searchModel.searchGroups = []"
-          @blur="searchModel.searchGroups = []"
-        >
-          <template #default="{ item }">
-            <span class="result-item">{{ item.label }}</span>
-          </template>
-        </el-select-v2>
-      </el-form-item>
-    </el-form> -->
   <div class="search">
-    <SeacrhBar />
+    <SeacrhBar :is-search-page="true" @search="search" />
   </div>
   <div class="filters">
     <div>
       <ul class="tag-list">
-        <li><button class="tag-item-batton">Все</button></li>
-        <li v-for="searchGroup in searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
-          <button v-if="searchGroup.label" class="tag-item-batton" @click="register">{{ searchGroup.label }}</button>
+        <li>
+          <button
+            class="tag-item-batton"
+            :class="{ 'tag-active': searchModel.searchGroups.every((group) => group.active) }"
+            @click="selectSearchGroup(undefined)"
+          >
+            Все
+          </button>
+        </li>
+        <li v-for="searchGroup in searchModel.searchGroups" :key="searchGroup.id" cancelable="true" :label="searchGroup.id">
+          <button
+            v-if="searchGroup.label"
+            class="tag-item-batton"
+            :class="{ 'tag-active': searchModel.searchGroups.some((group) => !group.active) && searchGroup.active }"
+            @click="selectSearchGroup(searchGroup.id)"
+          >
+            {{ searchGroup.label }}
+          </button>
         </li>
       </ul>
     </div>
   </div>
   <div class="search-result">
-    <div v-for="result in searchModel.searchGroup.options" :key="result.value">
-      <div class="search-result-title">
-        {{ result.label }}
+    <div v-for="result in results" :key="result.value">
+      <div class="search-result-title" @click="$router.push(result.route)" v-html="result.label.substring(0, 100)"></div>
+      <div class="search-result-meta">
+        {{ result.searchGroup.label }}
+        <template v-for="meta in result.searchElementMetas" :key="meta.value">
+          <hr class="search-result-meta-delimitter" />
+          {{ meta.value }}
+        </template>
       </div>
       <div class="search-result-description" v-html="result.description.substring(0, 100)"></div>
     </div>
@@ -44,11 +43,11 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import ISearchGroup from '@/interfaces/ISearchGroup';
+import ISearchElement from '@/interfaces/ISearchElement';
 import ISearchModel from '@/interfaces/ISearchModel';
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
@@ -65,32 +64,25 @@ export default defineComponent({
     let groups: Ref<string[]> = ref([]);
     const router = useRouter();
     const route = useRoute();
+    const results: Ref<ISearchElement[]> = ref([]);
 
-    const searchModel: ComputedRef<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
-    const searchGroups: ComputedRef<ISearchGroup[]> = computed<ISearchGroup[]>(() => store.getters['search/searchGroups']);
+    const searchModel: Ref<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
     const isDrawerOpen: ComputedRef<boolean> = computed<boolean>(() => store.getters['search/isSearchDrawerOpen']);
 
     const openDrawer = () => {
-      searchModel.value.searchGroups = [];
       searchInput.value.inputRef.focus();
     };
 
     const closeDrawer = () => store.commit('search/toggleDrawer', false);
 
     onBeforeMount(async () => {
+      await store.dispatch('search/searchGroups');
       searchModel.value.query = route.query.q && typeof route.query.q === 'string' ? route.query.q : '';
-      // await store.dispatch('search/searchGroups');
-      await store.dispatch('search/searchV1', searchModel.value);
+      await selectSearchGroup(undefined);
     });
-
-    const find = async (query: string) => {
-      searchModel.value.searchGroups = [];
-      if (query.length > 2) {
-        searchModel.value.query = query;
-        await store.dispatch('search/mainSearch', searchModel.value);
-      }
-    };
-
+    onUnmounted(() => {
+      searchModel.value.query = '';
+    });
     const handleSelect = async (link: string) => {
       store.commit('search/toggleDrawer', false);
       await router.push(link);
@@ -101,15 +93,28 @@ export default defineComponent({
       }
     };
 
+    const selectSearchGroup = async (searchGroupId: string | undefined) => {
+      searchModel.value.setSearchGroup(searchGroupId);
+      await search();
+    };
+
+    const search = async () => {
+      searchModel.value.options = [];
+      searchModel.value.searchGroup.options = [];
+      await store.dispatch('search/searchV1', searchModel.value);
+      results.value = searchModel.value.searchGroup.options;
+    };
+
     return {
+      results,
+      search,
+      selectSearchGroup,
       groups,
       changeFilter,
-      searchGroups,
       value: ref([]),
       searchModel,
       handleSelect,
       searchString,
-      find,
       searchInput,
       isDrawerOpen,
       closeDrawer,
@@ -165,12 +170,12 @@ export default defineComponent({
     color: #ffffff;
     border: 1px solid #133dcc;
   }
-  &:active {
-    cursor: pointer;
-    background-color: #133dcc;
-    color: #ffffff;
-    border: 1px solid #133dcc;
-  }
+}
+
+.tag-active {
+  background-color: #133dcc;
+  color: #ffffff;
+  border: 1px solid #133dcc;
 }
 
 :deep(.el-select-v2__wrapper) {
@@ -182,24 +187,42 @@ export default defineComponent({
   border: 1px solid #dcdfe6;
   border-radius: 5px;
   padding: 20px;
-}
 
-.search-result-title {
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 12px;
-  font-weight: lighter;
-  color: #c4c4c4;
-}
+  &-title {
+    font-family: Roboto, Verdana, sans-serif;
+    font-size: 14px;
+    font-weight: lighter;
+    color: #343e5c;
 
-.search-result-description {
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 14px;
-  font-weight: lighter;
-  color: #343e5c;
-  margin-bottom: 40px;
-  &:hover {
-    cursor: pointer;
-    color: #133dcc;
+    &:hover {
+      cursor: pointer;
+      color: #133dcc;
+    }
+  }
+
+  &-meta {
+    font-family: Roboto, Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: lighter;
+    color: #c4c4c4;
+
+    &-delimitter {
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      margin: 0 5px 1px 5px;
+      vertical-align: middle;
+      border-radius: 1.5px;
+      //background-color: #696c71;
+      background-color: #c4c4c4;
+      border: none;
+    }
+  }
+  &-description {
+    font-family: Roboto, Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: lighter;
+    margin-bottom: 40px;
   }
 }
 </style>

@@ -1,4 +1,6 @@
+import SearchElement from '@/classes/SearchElement';
 import SearchGroup from '@/classes/SearchGroup';
+import ISearchElement from '@/interfaces/ISearchElement';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearchModel from '@/interfaces/ISearchModel';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -6,6 +8,8 @@ import ISearchObject from '@/interfaces/ISearchObject';
 export default class SearchModel implements ISearchModel {
   query = '';
   params = '';
+  suggester = false;
+  options: ISearchElement[] = [];
   searchGroupId = '';
   searchGroups: ISearchGroup[] = [];
   searchGroup: ISearchGroup = new SearchGroup();
@@ -22,9 +26,26 @@ export default class SearchModel implements ISearchModel {
     if (i.searchGroup) {
       this.searchGroup = new SearchGroup(i.searchGroup);
     }
+    if (i.options) {
+      this.options = i.options.map((item: ISearchElement) => new SearchElement(item));
+    }
   }
 
   toUrl(): string {
     return JSON.stringify(this);
+  }
+
+  setSearchGroup(groupId: string | undefined): void {
+    if (!groupId) {
+      console.log(this.searchGroups);
+      this.searchGroups.forEach((group: ISearchGroup) => {
+        group.active = true;
+        console.log(group.active);
+      });
+      return;
+    }
+    this.searchGroups.forEach((group: ISearchGroup) => {
+      group.active = group.id === groupId;
+    });
   }
 }
