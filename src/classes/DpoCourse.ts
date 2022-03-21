@@ -7,10 +7,13 @@ import IDpoCourse from '@/interfaces/IDpoCourse';
 import IDpoCourseDates from '@/interfaces/IDpoCourseDates';
 import IDpoCourseSpecialization from '@/interfaces/IDpoCourseSpecialization';
 import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
+import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
 import removeFromClass from '@/mixins/removeFromClass';
 import fillDateFormat from '@/services/DateFormat';
+
+import Form from './Form';
 
 export default class DpoCourse implements IDpoCourse {
   id?: string;
@@ -28,6 +31,8 @@ export default class DpoCourse implements IDpoCourse {
   dpoCoursesTeachersForDelete: string[] = [];
   dpoCoursesDates: IDpoCourseDates[] = [];
   dpoCoursesDatesForDelete: string[] = [];
+  formPattern: IForm = new Form();
+  formPatternId?: string;
 
   constructor(i?: IDpoCourse) {
     if (!i) {
@@ -42,6 +47,7 @@ export default class DpoCourse implements IDpoCourse {
     this.linkNmo = i.linkNmo;
     this.listeners = i.listeners;
     this.order = i.order;
+    this.formPatternId = i.formPatternId;
     if (i.dpoCoursesDates) {
       this.dpoCoursesDates = i.dpoCoursesDates.map((item: IDpoCourseDates) => new DpoCourseDates(item));
     }
@@ -52,6 +58,9 @@ export default class DpoCourse implements IDpoCourse {
       this.dpoCoursesSpecializations = i.dpoCoursesSpecializations.map(
         (item: IDpoCourseSpecialization) => new DpoCourseSpecialization(item)
       );
+    }
+    if (i.formPattern) {
+      this.formPattern = new Form(i.formPattern);
     }
   }
 

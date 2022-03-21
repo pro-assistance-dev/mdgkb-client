@@ -25,12 +25,20 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDpoCourse[]>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ state, commit }): Promise<void> => {
-    await httpClient.post<IDpoCourse, IDpoCourse>({ payload: state.item, isFormData: true });
-    commit('resetItem');
+  create: async ({ state }): Promise<void> => {
+    await httpClient.post<IDpoCourse, IDpoCourse>({
+      payload: state.item,
+      isFormData: true,
+      fileInfos: state.item.formPattern.getFileInfos(),
+    });
   },
-  update: async ({ commit }, item: IDpoCourse): Promise<void> => {
-    const res = await httpClient.put<IDpoCourse, IDpoCourse>({ query: `${item.id}`, payload: item, isFormData: true });
+  update: async ({ state, commit }): Promise<void> => {
+    const res = await httpClient.put<IDpoCourse, IDpoCourse>({
+      query: `${state.item.id}`,
+      payload: state.item,
+      isFormData: true,
+      fileInfos: state.item.formPattern.getFileInfos(),
+    });
     commit('set', res);
   },
   remove: async ({ commit }, id: string): Promise<void> => {

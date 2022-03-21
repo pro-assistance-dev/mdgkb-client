@@ -50,7 +50,7 @@
               <template #header>Преподаватели</template>
               <el-form-item prop="listeners">
                 <RemoteSearch :key-value="schema.teacher.key" @select="selectSearchTeacher" />
-                <el-button v-if="selectedTeacher.id" @click="dpoCourse.addTeacher(selectedTeacher)">Добавить</el-button>
+                <el-button v-if="selectedTeacher.id" @click="addTeacher()">Добавить</el-button>
                 <el-table :data="dpoCourse.dpoCoursesTeachers">
                   <el-table-column label="ФИО" sortable>
                     <template #default="scope">
@@ -78,12 +78,15 @@
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">
             <el-card>
-              <template #header>
+              <el-container direction="vertical">
                 <el-checkbox v-model="dpoCourse.isNmo">Программа НМО</el-checkbox>
-              </template>
-              <el-form-item v-if="dpoCourse.isNmo" prop="listeners" label="Ссылка">
-                <el-input v-model="dpoCourse.linkNmo" />
-              </el-form-item>
+                <el-form-item v-if="dpoCourse.isNmo" prop="listeners" label="Ссылка">
+                  <el-input v-model="dpoCourse.linkNmo" />
+                </el-form-item>
+                <el-select v-model="dpoCourse.formPattern" value-key="id" label="Шаблон формы" @change="changeFormPatternHandler()">
+                  <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
+                </el-select>
+              </el-container>
             </el-card>
             <el-card>
               <template #header>Количество слушателей</template>
@@ -125,14 +128,14 @@
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
@@ -155,11 +158,12 @@ export default defineComponent({
     let mounted = ref(false);
     const form = ref();
 
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
 
-    const dpoCourse: Ref<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
-    const specializations: Ref<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
-    const selectedTeacher: Ref<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
+    const dpoCourse: ComputedRef<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
+    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
+    const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
+    const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
@@ -167,6 +171,7 @@ export default defineComponent({
       await store.dispatch('teachers/getAll');
       await store.dispatch('specializations/getAll');
       await store.dispatch('search/searchGroups');
+      await store.dispatch('formPatterns/getAll');
       await loadItem();
       store.commit('admin/closeLoading');
     });
@@ -180,7 +185,7 @@ export default defineComponent({
           buttons: [{ action: submit }],
         });
       } else {
-        store.commit('dpoCourses/resetState');
+        store.commit('dpoCourses/resetItem');
         store.commit('admin/setHeaderParams', { title: 'Добавить программу', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
@@ -213,8 +218,12 @@ export default defineComponent({
     };
 
     const addTeacher = () => {
-      dpoCourse.value.dpoCoursesTeachers.push();
-      selectedTeacher.value = new Teacher();
+      dpoCourse.value.addTeacher(selectedTeacher.value);
+      store.commit('teachers/resetItem');
+    };
+
+    const changeFormPatternHandler = () => {
+      // dpoCourse.value.formPatternId = dpoCourse.value.formPattern.id
     };
 
     return {
@@ -228,6 +237,8 @@ export default defineComponent({
       dpoCourse,
       form,
       selectSearchTeacher,
+      formPatterns,
+      changeFormPatternHandler,
     };
   },
 });

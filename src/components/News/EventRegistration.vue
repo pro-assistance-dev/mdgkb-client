@@ -24,10 +24,12 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
+import User from '@/classes/User';
+import IUser from '@/interfaces/IUser';
 import IEvent from '@/interfaces/news/IEvent';
 import IEventApplication from '@/interfaces/news/IEventApplication';
 import validate from '@/mixins/validate';
@@ -42,8 +44,15 @@ export default defineComponent({
     const form = ref();
     const rules = ref(CommentRules);
     const eventFormVisible = ref(false);
+    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+    watch(user, () => {
+      eventApplication.value.user = new User(user.value);
+      eventApplication.value.userId = user.value.id;
+    });
 
     onBeforeMount(async () => {
+      eventApplication.value.user = new User(user.value);
+      eventApplication.value.userId = user.value.id;
       eventApplication.value.initFieldsValues(event.value.form.fields);
     });
 

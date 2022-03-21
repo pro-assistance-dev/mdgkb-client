@@ -1,3 +1,6 @@
+import IFileInfo from './files/IFileInfo';
+import IField from './IField';
+
 export default interface IFieldValue {
   id?: string;
   fieldId?: string;
@@ -5,4 +8,7 @@ export default interface IFieldValue {
   valueNumber?: number;
   valueDate?: Date;
   eventApplicationId?: string;
+  file: IFileInfo;
+  fileId?: string;
+  field: IField;
 }

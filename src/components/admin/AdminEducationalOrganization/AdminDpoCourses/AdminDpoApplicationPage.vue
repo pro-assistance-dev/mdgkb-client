@@ -16,36 +16,21 @@
           <template #header>
             <span>Документы</span>
           </template>
-          <table>
-            <thead>
-              <th>Название докумена</th>
-              <th>Ссылка</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Заявление на обучение от СЛУШАТЕЛЯ</td>
-                <td>
-                  <a v-if="dpoApplication.application.fileSystemPath" :href="dpoApplication.application.getFileUrl()" target="_blank">
-                    {{ dpoApplication.application.originalName }}
-                  </a>
-                  <span v-else>Нет файла</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Заявка от ОРГАНИЗАЦИИ на зачисление</td>
-                <td>
-                  <a
-                    v-if="dpoApplication.organizationApplication.fileSystemPath"
-                    :href="dpoApplication.organizationApplication.getFileUrl()"
-                    target="_blank"
-                  >
-                    {{ dpoApplication.organizationApplication.originalName }}
-                  </a>
-                  <span v-else>Нет файла</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <el-table :data="dpoApplication.fieldValues">
+            <el-table-column label="Название документа" sortable>
+              <template #default="scope">
+                {{ scope.row.field.name }}
+              </template>
+            </el-table-column>
+            <el-table-column label="Документ" sortable>
+              <template #default="scope">
+                <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
+                  {{ scope.row.file.originalName }}
+                </a>
+                <span v-else>Нет файла</span>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-card>
       </el-container>
     </el-form>
@@ -88,7 +73,7 @@ export default defineComponent({
       store.commit('admin/setHeaderParams', {
         title: `Заявка от ${dpoApplication.value.user.email}`,
         showBackButton: true,
-        buttons: [{ action: submit }],
+        // buttons: [{ action: submit }],
       });
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
