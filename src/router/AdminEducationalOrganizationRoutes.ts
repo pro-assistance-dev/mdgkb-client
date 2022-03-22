@@ -132,7 +132,7 @@ export default [
   },
   {
     path: '/admin/nmo/applications/:id',
-    name: 'AdminDpoApplicationPage',
+    name: 'AdminNmoApplicationPage',
     component: AdminDpoApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);

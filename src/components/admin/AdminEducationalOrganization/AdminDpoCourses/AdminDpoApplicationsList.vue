@@ -1,5 +1,10 @@
 <template>
   <el-table v-if="mounted" :data="dpoApplications">
+    <el-table-column>
+      <template #default="scope">
+        <el-tag v-if="scope.row.isNew" size="small" type="warning">Новая</el-tag>
+      </template>
+    </el-table-column>
     <el-table-column label="Дата подачи заявления" sortable>
       <template #default="scope">
         {{ $dateFormatRu(scope.row.createdAt, true, true) }}

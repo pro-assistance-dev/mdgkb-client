@@ -65,8 +65,17 @@ export default defineComponent({
       await store.dispatch('specializations/getAll');
       await store.dispatch('search/searchGroups');
       await loadItem();
+      await updateNew();
       store.commit('admin/closeLoading');
     });
+
+    const updateNew = async () => {
+      if (!dpoApplication.value.isNew) {
+        return;
+      }
+      dpoApplication.value.isNew = false;
+      await store.dispatch('dpoApplications/update', dpoApplication.value);
+    };
 
     const loadItem = async () => {
       await store.dispatch('dpoApplications/get', route.params['id']);

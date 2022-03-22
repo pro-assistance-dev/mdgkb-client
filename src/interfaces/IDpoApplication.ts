@@ -11,6 +11,7 @@ export default interface IDpoApplication {
   user: IUser;
   dpoCourse: IDpoCourse;
   createdAt: Date;
+  isNew: boolean;
   fieldValues: IFieldValue[];
 
   getFileInfos: () => IFileInfo[];
