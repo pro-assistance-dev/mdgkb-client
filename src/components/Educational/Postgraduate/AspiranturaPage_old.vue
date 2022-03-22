@@ -29,10 +29,10 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
 
-import AspiranturaDocumentsForAdmission from '@/components/Educational/Aspirantura/AspiranturaDocumentsForAdmission.vue';
-import AspiranturaExams from '@/components/Educational/Aspirantura/AspiranturaExams.vue';
-import AspiranturaForms from '@/components/Educational/Aspirantura/AspiranturaForms.vue';
-import AspiranturaNormativeDocuments from '@/components/Educational/Aspirantura/AspiranturaNormativeDocuments.vue';
+import AspiranturaDocumentsForAdmission from '@/components/Educational/Postgraduate/AspiranturaDocumentsForAdmission.vue';
+import AspiranturaExams from '@/components/Educational/Postgraduate/AspiranturaExams.vue';
+import AspiranturaForms from '@/components/Educational/Postgraduate/AspiranturaForms.vue';
+import AspiranturaNormativeDocuments from '@/components/Educational/Postgraduate/AspiranturaNormativeDocuments.vue';
 
 export default defineComponent({
   name: 'AspiranturaPage',

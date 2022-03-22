@@ -1,6 +1,5 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AspiranturaPage from '@/components/Educational/Aspirantura/AspiranturaPage.vue';
 import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoCourses.vue';
 import AdditionalEducation from '@/components/Educational/Dpo/DpoPage.vue';
@@ -8,6 +7,7 @@ import EducationalOrganizationAcademics from '@/components/Educational/Education
 import EducationalOrganizationDocuments from '@/components/Educational/EducationalOrganizationInfo/DocumentsPage.vue';
 import EducationalOrganizationInfo from '@/components/Educational/EducationalOrganizationInfo/EducationalOrganizationInfo.vue';
 import OrdinaturaPage from '@/components/Educational/Ordinatura/OrdinaturaPage.vue';
+import Postgraduate from '@/components/Educational/Postgraduate/Postgraduate.vue';
 import TeachersManagers from '@/components/Educational/TeachersManagers/TeachersManagers.vue';
 import { isAuthorized } from '@/router/index';
 
@@ -45,9 +45,17 @@ export default [
     },
   },
   {
-    path: '/aspirantura',
-    name: 'AspiranturaPage',
-    component: AspiranturaPage,
+    path: '/postgraduate',
+    name: 'Postgraduate',
+    component: Postgraduate,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/candidates_minimum',
+    name: 'candidates_minimum',
+    component: Postgraduate,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
