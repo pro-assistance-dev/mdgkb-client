@@ -111,6 +111,7 @@ export default defineComponent({
         return;
       }
       closeModal();
+      ElMessage({ message: 'Вы успешно вошли в систему', type: 'success' });
     };
 
     const findEmail = async (email: string) => {
