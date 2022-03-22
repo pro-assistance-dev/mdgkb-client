@@ -18,4 +18,6 @@ export default interface IDpoApplication {
   initFieldsValues: (fields: IField[]) => void;
   getFieldValue: (field: IField) => string | number | Date | IFileInfo | boolean | undefined;
   findFieldValue: (fieldId: string) => IFieldValue | undefined;
+  isFieldValuesModChecked: () => boolean;
+  changeFieldValuesModChecked: (modChecked: boolean) => void;
 }

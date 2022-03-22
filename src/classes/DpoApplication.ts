@@ -80,4 +80,10 @@ export default class DpoApplication implements IDpoApplication {
     });
     return fileInfos;
   }
+  isFieldValuesModChecked(): boolean {
+    return this.fieldValues.every((el) => el.modChecked === true);
+  }
+  changeFieldValuesModChecked(modChecked: boolean): void {
+    this.fieldValues.forEach((el: IFieldValue) => (el.modChecked = modChecked));
+  }
 }

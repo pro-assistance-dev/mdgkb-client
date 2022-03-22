@@ -10,6 +10,7 @@ export default class FieldValue implements IFieldValue {
   valueNumber?: number;
   valueDate?: Date;
   eventApplicationId?: string;
+  modChecked = false;
   file = new FileInfo();
   fileId?: string;
   field = new Field();
@@ -23,6 +24,7 @@ export default class FieldValue implements IFieldValue {
     this.eventApplicationId = i.eventApplicationId;
     this.valueString = i.valueString;
     this.valueNumber = i.valueNumber;
+    this.modChecked = i.modChecked;
     this.valueDate = i.valueDate;
     this.fileId = i.fileId;
     if (i.file) {

@@ -1,8 +1,10 @@
 <template>
   <el-table v-if="mounted" :data="dpoApplications">
-    <el-table-column>
+    <el-table-column label="Статус">
       <template #default="scope">
         <el-tag v-if="scope.row.isNew" size="small" type="warning">Новая</el-tag>
+        <el-tag v-if="scope.row.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
+        <el-tag v-else size="small" type="error">Данные не проверены</el-tag>
       </template>
     </el-table-column>
     <el-table-column label="Дата подачи заявления" sortable>
@@ -116,3 +118,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+:deep(.el-tag) {
+  margin-right: 5px;
+}
+</style>
