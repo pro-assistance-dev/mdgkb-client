@@ -96,11 +96,19 @@ export default defineComponent({
           },
           {
             title: 'Программы ДПО',
-            to: '/admin/educational-organization/dpo/courses',
+            to: '/admin/dpo/courses',
           },
           {
             title: 'Заявки ДПО',
-            to: '/admin/educational-organization/dpo/applications',
+            to: '/admin/dpo/applications',
+          },
+          {
+            title: 'Программы НМО',
+            to: '/admin/nmo/courses',
+          },
+          {
+            title: 'Заявки НМО',
+            to: '/admin/nmo/applications',
           },
           {
             title: 'Шаблоны форм для заявок',

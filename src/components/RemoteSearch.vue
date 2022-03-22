@@ -5,21 +5,20 @@
         v-model="queryString"
         style="width: 100%; margin-right: 10px"
         popper-class="wide-dropdown"
-        :fetch-suggestions="find"
         :placeholder="placeHolder"
+        :fetch-suggestions="find"
         @select="handleSelect"
-        @input="handleSearchInput"
       />
     </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import SearchModel from '@/classes/SearchModel';
 import ISearchGroup from '@/interfaces/ISearchGroup';
+import ISearchModel from '@/interfaces/ISearchModel';
 import ISearch from '@/interfaces/ISearchObject';
 
 export default defineComponent({
@@ -47,19 +46,17 @@ export default defineComponent({
     const store = useStore();
     const queryString: Ref<string> = ref(props.modelValue);
 
-    const searchGroups: ComputedRef<ISearchGroup[]> = computed<ISearchGroup[]>(() => store.getters['search/searchGroups']);
+    const searchModel: Ref<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
 
-    const find = async (query: string, resolve: CallableFunction): Promise<void> => {
-      const searchModel = new SearchModel();
-      if (query.length > 2) {
-        searchModel.query = query;
-        const groupForSearch = searchGroups.value.find((group: ISearchGroup) => group.key === props.keyValue);
-        if (groupForSearch) {
-          searchModel.searchGroup = groupForSearch;
-        }
-        await store.dispatch(`search/search`, searchModel);
+    const find = async (query: string, resolve: (arg: any) => void): Promise<void> => {
+      searchModel.value.searchObjects = [];
+      searchModel.value.query = query;
+      const groupForSearch = searchModel.value.searchGroups.find((group: ISearchGroup) => group.key === props.keyValue);
+      if (groupForSearch) {
+        searchModel.value.searchGroup = groupForSearch;
       }
-      resolve(searchModel.searchObjects);
+      await store.dispatch(`search/search`, searchModel.value);
+      resolve(searchModel.value.searchObjects);
     };
 
     const handleSearchInput = async (value: string): Promise<void> => {
@@ -75,6 +72,7 @@ export default defineComponent({
         return;
       }
       emit('select', item);
+      queryString.value = '';
     };
 
     return { queryString, handleSelect, find, handleSearchInput };

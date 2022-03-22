@@ -24,12 +24,18 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FilterModel from '@/classes/filters/FilterModel';
+import SortModel from '@/classes/filters/SortModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import { Orders } from '@/interfaces/filters/Orders';
 import IDpoApplication from '@/interfaces/IDpoApplication';
+import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'AdminDpoApplicationsList',
@@ -39,12 +45,51 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
 
     const dpoApplications: ComputedRef<IDpoApplication[]> = computed(() => store.getters['dpoApplications/items']);
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const filterModel = ref();
+
+    watch(route, async () => {
+      setType();
+      await store.dispatch('dpoApplications/getAll', filterQuery.value);
+    });
+
+    const setType = () => {
+      filterModel.value.boolean = route.path === '/admin/nmo/applications';
+      store.commit('filter/setFilterModel', filterModel.value);
+    };
+
+    const setFilter = async () => {
+      await store.dispatch('meta/getSchema');
+      store.commit(`filter/resetQueryFilter`);
+      store.commit(
+        'filter/replaceSortModel',
+        SortModel.CreateSortModel(
+          schema.value.dpoApplication.tableName,
+          schema.value.dpoApplication.createdAt,
+          Orders.Desc,
+          'По дате',
+          true
+        )
+      );
+
+      filterModel.value = FilterModel.CreateFilterModel(
+        schema.value.dpoApplication.tableName,
+        schema.value.dpoApplication.isNmo,
+        DataTypes.Boolean
+      );
+
+      filterQuery.value.pagination.cursorMode = false;
+      setType();
+    };
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('dpoApplications/getAll');
+      await setFilter();
+      await store.dispatch('dpoApplications/getAll', filterQuery.value);
       store.commit('admin/setHeaderParams', {
         title: 'Заявки ДПО',
         // buttons: [{ text: 'Добавить программу', type: 'primary', action: create }],
@@ -56,7 +101,7 @@ export default defineComponent({
 
     // const create = () => router.push(`/admin/educational-organization/dpo/courses/new`);
     // const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
-    const edit = (id: string) => router.push(`/admin/educational-organization/dpo/applications/${id}`);
+    const edit = (id: string) => router.push(`${route.path}/${id}`);
 
     return {
       mounted,

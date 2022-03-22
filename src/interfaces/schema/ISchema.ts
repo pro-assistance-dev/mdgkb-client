@@ -3,6 +3,7 @@ import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
 import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
 import IDoctorSchema from '@/interfaces/schema/IDoctorSchema';
 import IDoctorUserSchema from '@/interfaces/schema/IDoctorUserSchema';
+import IDpoApplicationSchema from '@/interfaces/schema/IDpoApplicationSchema';
 import IDpoCourse from '@/interfaces/schema/IDpoCourseSchema';
 import IDpoCourseSpecializationSchema from '@/interfaces/schema/IDpoCourseSpecializationSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
@@ -24,4 +25,5 @@ export default interface ISchema {
   specialization: ISpecializationSchema;
   vacancy: IVacancySchema;
   dpoCourseSpecialization: IDpoCourseSpecializationSchema;
+  dpoApplication: IDpoApplicationSchema;
 }
