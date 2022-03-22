@@ -1,16 +1,64 @@
 <template>
   <div v-if="mounted">
+    <i>
+      <div>Печать документов должна быть высокого качества.</div>
+      <div>При заполнении от руки – ПЕЧАТНЫМИ буквами.</div>
+      <div>Не допускается исправление ошибок путем зачеркивания или с помощью корректирующих средств.</div>
+      <div>
+        Все копии должны быть заверены в отделе кадров организации оригинальной печатью либо нотариально (исключая документы работников
+        МДГКБ).
+      </div>
+    </i>
+
     <el-form v-model="dpoApplication" label-position="top">
-      <i>
-        <div>Печать документов должна быть высокого качества.</div>
-        <div>При заполнении от руки – ПЕЧАТНЫМИ буквами.</div>
-        <div>Не допускается исправление ошибок путем зачеркивания или с помощью корректирующих средств.</div>
-        <div>
-          Все копии должны быть заверены в отделе кадров организации оригинальной печатью либо нотариально (исключая документы работников
-          МДГКБ).
-        </div>
-      </i>
-      <h4>Образцы:</h4>
+      <el-table :data="dpoCourse.formPattern.fields">
+        <el-table-column label="Наименование">
+          <template #default="scope">
+            {{ scope.row.name }}
+          </template>
+        </el-table-column>
+
+        <el-table-column label="Документ">
+          <template #default="scope">
+            <el-form-item v-if="scope.row.valueType.isString()" style="margin: 0">
+              <el-input v-model="dpoApplication.findFieldValue(scope.row.id).valueString" />
+            </el-form-item>
+            <el-form-item v-if="scope.row.valueType.isNumber()" style="margin: 0">
+              <el-input-number v-model="dpoApplication.findFieldValue(scope.row.id).valueNumber" />
+            </el-form-item>
+            <el-form-item v-if="scope.row.valueType.isDate()" style="margin: 0">
+              <el-date-picker v-model="dpoApplication.findFieldValue(scope.row.id).valueDate" />
+            </el-form-item>
+            <el-form-item v-if="scope.row.valueType.isFile()" style="margin: 0">
+              <FileUploader :file-info="dpoApplication.findFieldValue(scope.row.id).file" />
+            </el-form-item>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="Образец" sortable>
+          <template #default="scope">
+            <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
+              {{ scope.row.file.originalName }}
+            </a>
+            <span v-else>Нет файла</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- <div v-for="field in dpoCourse.formPattern.fields" :key="field.id">
+        <el-form-item v-if="field.valueType.isString()" :label="field.name">
+          <el-input v-model="dpoApplication.findFieldValue(field.id).valueString" />
+        </el-form-item>
+        <el-form-item v-if="field.valueType.isNumber()" :label="field.name">
+          <el-input-number v-model="dpoApplication.findFieldValue(field.id).valueNumber" />
+        </el-form-item>
+        <el-form-item v-if="field.valueType.isDate()" :label="field.name">
+          <el-date-picker v-model="dpoApplication.findFieldValue(field.id).valueDate" />
+        </el-form-item>
+        <el-form-item v-if="field.valueType.isFile()" :label="field.name">
+          <FileUploader :file-info="dpoApplication.findFieldValue(field.id).file" />
+        </el-form-item>
+      </div> -->
+      <!-- <h4>Образцы:</h4>
       <div>
         <li>
           <a href="http://мороздгкб.рф/wp-content/uploads/2018/09/Заявление-на-обучение-по-ДПП-1.pdf" target="_blank"
@@ -26,8 +74,8 @@
       </div>
       <h4>
         Перечень документов, необходимых для зачисления на циклы повышения квалификации или профессиональной переподготовки медработников:
-      </h4>
-      <el-form-item label="Заявление на обучение от СЛУШАТЕЛЯ:">
+      </h4> -->
+      <!-- <el-form-item label="Заявление на обучение от СЛУШАТЕЛЯ:">
         <FileUploader :file-info="dpoApplication.application" />
       </el-form-item>
       <el-form-item
@@ -67,7 +115,7 @@
         label="Свидетельство или письмо Рособрнадзора о признании документов иностранных государств об уровне образования и (или) квалификации на территории РФ (копии документов должны быть переведены на русский язык и заверены в установленном порядке):"
       >
         <FileUploader :file-info="dpoApplication.foreignStudentQualificationDocument" />
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <el-divider />
     <div style="text-align: right">
@@ -111,6 +159,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      store.commit('dpoApplications/resetItem');
+      dpoApplication.value.initFieldsValues(dpoCourse.value.formPattern.fields);
       store.commit('dpoApplications/setCourse', dpoCourse.value);
       store.commit('dpoApplications/setUser', user.value);
       mounted.value = true;
@@ -118,6 +168,7 @@ export default defineComponent({
 
     return {
       dpoApplication,
+      dpoCourse,
       mounted,
       submit,
     };

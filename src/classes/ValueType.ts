@@ -42,4 +42,8 @@ export default class ValueType implements IValueType {
   isBoolean(): boolean {
     return this.name === 'boolean';
   }
+
+  isFile(): boolean {
+    return this.name === 'file';
+  }
 }

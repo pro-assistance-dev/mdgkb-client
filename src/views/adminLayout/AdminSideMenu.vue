@@ -102,6 +102,10 @@ export default defineComponent({
             title: 'Заявки ДПО',
             to: '/admin/educational-organization/dpo/applications',
           },
+          {
+            title: 'Шаблоны форм для заявок',
+            to: '/admin/form-patterns',
+          },
         ],
       },
       {

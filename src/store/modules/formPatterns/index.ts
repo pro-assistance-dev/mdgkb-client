@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import DpoApplication from '@/classes/DpoApplication';
+import Form from '@/classes/Form';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,14 +11,14 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new DpoApplication(),
+    item: new Form(),
   };
 };
 
 const state = getDefaultState();
 const namespaced = true;
 
-export const dpoApplications: Module<State, RootState> = {
+export const formPatterns: Module<State, RootState> = {
   namespaced,
   state,
   getters,

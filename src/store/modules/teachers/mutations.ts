@@ -16,6 +16,10 @@ const mutations: MutationTree<State> = {
     const index = state.items.findIndex((i: ITeacher) => i.id === id);
     state.items.splice(index, 1);
   },
+  resetItem(state) {
+    state.item = new Teacher();
+    console.log('state.item', state.item);
+  },
 };
 
 export default mutations;

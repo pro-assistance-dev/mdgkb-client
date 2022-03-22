@@ -1,5 +1,7 @@
 import ValueType from '@/classes/ValueType';
 
+import IFileInfo from './files/IFileInfo';
+
 export default interface IField {
   id?: string;
   name: string;
@@ -7,4 +9,6 @@ export default interface IField {
   formId?: string;
   valueType: ValueType;
   valueTypeId: string;
+  file: IFileInfo;
+  fileId?: string;
 }

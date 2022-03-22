@@ -20,6 +20,9 @@ const mutations: MutationTree<State> = {
     const index = state.items.findIndex((i: IDpoCourse) => i.id === id);
     state.items.splice(index, 1);
   },
+  resetItem(state) {
+    state.item = new DpoCourse();
+  },
 };
 
 export default mutations;

@@ -1,81 +1,81 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDpoApplication from '@/interfaces/IDpoApplication';
+import IField from '@/interfaces/IField';
+import IFieldValue from '@/interfaces/IFieldValue';
 
 import DpoCourse from './DpoCourse';
-import FileInfo from './File/FileInfo';
+import Field from './Field';
+import FieldValue from './FieldValue';
 import User from './User';
 
 export default class DpoApplication implements IDpoApplication {
   id?: string;
-  application = new FileInfo();
-  applicationId?: string;
-  organizationApplication = new FileInfo();
-  organizationApplicationId?: string;
-  paidEducationalServicesContract = new FileInfo();
-  paidEducationalServicesContractId?: string;
-  secondaryOrHigherMedicalEducation = new FileInfo();
-  secondaryOrHigherMedicalEducationId?: string;
-  postgraduateProfEducation = new FileInfo();
-  postgraduateProfEducationId?: string;
-  additionalProfEducation = new FileInfo();
-  additionalProfEducationId?: string;
-  specialistCertificate = new FileInfo();
-  specialistCertificateId?: string;
-  employmentHistory = new FileInfo();
-  employmentHistoryId?: string;
-  nameChangeDocument = new FileInfo();
-  nameChangeDocumentId?: string;
-  foreignStudentQualificationDocument = new FileInfo();
-  foreignStudentQualificationDocumentId?: string;
-
-  user = new User();
   userId?: string;
-  dpoCourse = new DpoCourse();
   dpoCourseId?: string;
+  createdAt = new Date();
+  user = new User();
+  dpoCourse = new DpoCourse();
+  fieldValues: IFieldValue[] = [];
 
   constructor(dpoApplication?: IDpoApplication) {
     if (!dpoApplication) {
       return;
     }
     this.id = dpoApplication.id;
-    this.applicationId = dpoApplication.applicationId;
-    this.organizationApplicationId = dpoApplication.organizationApplicationId;
     this.userId = dpoApplication.userId;
+    this.createdAt = dpoApplication.createdAt;
     this.dpoCourseId = dpoApplication.dpoCourseId;
-    if (dpoApplication.application) {
-      this.application = new FileInfo(dpoApplication.application);
-    }
-    if (dpoApplication.organizationApplication) {
-      this.organizationApplication = new FileInfo(dpoApplication.organizationApplication);
-    }
     if (dpoApplication.user) {
       this.user = new User(dpoApplication.user);
     }
     if (dpoApplication.dpoCourse) {
       this.dpoCourse = new DpoCourse(dpoApplication.dpoCourse);
     }
-    if (dpoApplication.paidEducationalServicesContract) {
-      this.paidEducationalServicesContract = new FileInfo(dpoApplication.paidEducationalServicesContract);
+    if (dpoApplication.fieldValues) {
+      this.fieldValues = dpoApplication.fieldValues.map((item: IFieldValue) => new FieldValue(item));
     }
-    if (dpoApplication.secondaryOrHigherMedicalEducation) {
-      this.secondaryOrHigherMedicalEducation = new FileInfo(dpoApplication.secondaryOrHigherMedicalEducation);
+  }
+
+  findFieldValue(fieldId: string): IFieldValue | undefined {
+    return this.fieldValues.find((fieldValue: IFieldValue) => fieldId === fieldValue.fieldId);
+  }
+
+  getFieldValue(field: IField): string | number | Date | IFileInfo | boolean | undefined {
+    if (!field.id) {
+      return;
     }
-    if (dpoApplication.postgraduateProfEducation) {
-      this.postgraduateProfEducation = new FileInfo(dpoApplication.postgraduateProfEducation);
+    const fieldValue = this.findFieldValue(field.id);
+    if (!fieldValue) {
+      return;
     }
-    if (dpoApplication.additionalProfEducation) {
-      this.additionalProfEducation = new FileInfo(dpoApplication.additionalProfEducation);
+    if (field.valueType.isString()) {
+      return fieldValue.valueString;
     }
-    if (dpoApplication.specialistCertificate) {
-      this.specialistCertificate = new FileInfo(dpoApplication.specialistCertificate);
+    if (field.valueType.isNumber()) {
+      return fieldValue.valueNumber;
     }
-    if (dpoApplication.employmentHistory) {
-      this.employmentHistory = new FileInfo(dpoApplication.employmentHistory);
+    if (field.valueType.isDate()) {
+      return fieldValue.valueDate;
     }
-    if (dpoApplication.nameChangeDocument) {
-      this.nameChangeDocument = new FileInfo(dpoApplication.nameChangeDocument);
+    if (field.valueType.isFile()) {
+      return fieldValue.file;
     }
-    if (dpoApplication.foreignStudentQualificationDocument) {
-      this.foreignStudentQualificationDocument = new FileInfo(dpoApplication.foreignStudentQualificationDocument);
-    }
+  }
+  initFieldsValues(fields: IField[]): void {
+    fields.forEach((field: IField) => {
+      const fieldValue = new FieldValue();
+      fieldValue.fieldId = field.id;
+      fieldValue.field = new Field(field);
+      this.fieldValues.push(fieldValue);
+    });
+  }
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    this.fieldValues.forEach((i: IFieldValue) => {
+      if (i.file) {
+        fileInfos.push(i.file);
+      }
+    });
+    return fileInfos;
   }
 }
