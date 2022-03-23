@@ -202,13 +202,14 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
+      const typeCourse = dpoCourse.value.isNmo ? 'nmo' : 'dpo';
       if (!route.params['id']) {
         await store.dispatch('dpoCourses/create', dpoCourse.value);
-        await router.push('/admin/educational-organization/dpo/courses');
+        await router.push(`/admin/${typeCourse}/courses`);
         return;
       }
       await store.dispatch('dpoCourses/update', dpoCourse.value);
-      next ? next() : await router.push('/admin/educational-organization/dpo/courses');
+      next ? next() : await router.push(`/admin/${typeCourse}/courses`);
     };
 
     const addTeacher = async (searchObject: ISearchObject) => {
