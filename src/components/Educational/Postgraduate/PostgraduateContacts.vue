@@ -40,7 +40,7 @@
             <use xlink:href="#email"></use>
           </svg>
         </div>
-        <div class="item">pdo@morozdgkb.ru</div>
+        <div class="item">dpo@morozdgkb.ru</div>
       </div>
     </div>
   </div>

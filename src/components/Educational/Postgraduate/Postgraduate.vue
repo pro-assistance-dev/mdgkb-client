@@ -5,7 +5,7 @@
         <ModeButtons
           :second-mode-active="сmMode"
           :store-mode="false"
-          first-mode="Специальности с аспирантурой"
+          first-mode="Программы аспирантуры"
           second-mode="Кандидатский минимум"
           @changeMode="changeMode"
         />

@@ -5,7 +5,7 @@
       <li><b>Через форму</b></li>
       <li>
         <div>
-          <div><b>Email:</b> pdo@morozgkb.ru</div>
+          <div><b>Email:</b> dpo@morozgkb.ru</div>
           <div>Тема: Документы в ординатуру</div>
 
           Документы без темы не принимаются
