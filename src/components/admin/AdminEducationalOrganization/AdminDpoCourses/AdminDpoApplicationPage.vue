@@ -117,7 +117,8 @@ export default defineComponent({
         return;
       }
       await store.dispatch('dpoApplications/update', dpoApplication.value);
-      next ? next() : router.push('/admin/dpo/applications');
+      const typeCourse = dpoApplication.value.dpoCourse.isNmo ? 'nmo' : 'dpo';
+      next ? next() : await router.push(`/admin/${typeCourse}/applications`);
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
