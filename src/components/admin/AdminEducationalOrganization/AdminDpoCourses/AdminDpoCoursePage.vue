@@ -49,8 +49,7 @@
             <el-card>
               <template #header>Преподаватели</template>
               <el-form-item prop="listeners">
-                <RemoteSearch :key-value="schema.teacher.key" @select="selectSearchTeacher" />
-                <el-button v-if="selectedTeacher.id" @click="addTeacher()">Добавить</el-button>
+                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />
                 <el-table :data="dpoCourse.dpoCoursesTeachers">
                   <el-table-column label="ФИО" sortable>
                     <template #default="scope">
@@ -209,15 +208,11 @@ export default defineComponent({
         return;
       }
       await store.dispatch('dpoCourses/update', dpoCourse.value);
-      next ? next() : router.push('/admin/educational-organization/dpo/courses');
+      next ? next() : await router.push('/admin/educational-organization/dpo/courses');
     };
 
-    const selectSearchTeacher = async (searchObject: ISearchObject) => {
+    const addTeacher = async (searchObject: ISearchObject) => {
       await store.dispatch('teachers/get', searchObject.id);
-      // dpoCourse.value.teacherId = searchObject.id;
-    };
-
-    const addTeacher = () => {
       dpoCourse.value.addTeacher(selectedTeacher.value);
       store.commit('teachers/resetItem');
     };
@@ -230,13 +225,11 @@ export default defineComponent({
       specializations,
       removeFromClass,
       addTeacher,
-      selectedTeacher,
       schema,
       mounted,
       submit,
       dpoCourse,
       form,
-      selectSearchTeacher,
       formPatterns,
       changeFormPatternHandler,
     };

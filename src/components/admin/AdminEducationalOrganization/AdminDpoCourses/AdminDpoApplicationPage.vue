@@ -14,7 +14,23 @@
 
         <el-card>
           <template #header>
-            <span>Документы</span>
+            <div class="flex-between">
+              <span>Документы</span>
+              <div class="flex">
+                <span style="margin-right: 5px">Статус:</span>
+                <el-tag v-if="dpoApplication.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
+                <el-tag v-else size="small" type="error">Данные не проверены</el-tag>
+                <el-button
+                  :disabled="dpoApplication.isFieldValuesModChecked()"
+                  :type="dpoApplication.isFieldValuesModChecked() ? 'success' : 'primary'"
+                  size="small"
+                  style="margin-left: 5px"
+                  @click="dpoApplication.changeFieldValuesModChecked(true)"
+                >
+                  Пометить все
+                </el-button>
+              </div>
+            </div>
           </template>
           <el-table :data="dpoApplication.fieldValues">
             <el-table-column label="Название документа" sortable>
@@ -28,6 +44,11 @@
                   {{ scope.row.file.originalName }}
                 </a>
                 <span v-else>Нет файла</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="Проверено" width="100px" align="center">
+              <template #default="scope">
+                <el-checkbox v-model="scope.row.modChecked"></el-checkbox>
               </template>
             </el-table-column>
           </el-table>
@@ -65,15 +86,24 @@ export default defineComponent({
       await store.dispatch('specializations/getAll');
       await store.dispatch('search/searchGroups');
       await loadItem();
+      await updateNew();
       store.commit('admin/closeLoading');
     });
+
+    const updateNew = async () => {
+      if (!dpoApplication.value.isNew) {
+        return;
+      }
+      dpoApplication.value.isNew = false;
+      await store.dispatch('dpoApplications/update', dpoApplication.value);
+    };
 
     const loadItem = async () => {
       await store.dispatch('dpoApplications/get', route.params['id']);
       store.commit('admin/setHeaderParams', {
         title: `Заявка от ${dpoApplication.value.user.email}`,
         showBackButton: true,
-        // buttons: [{ action: submit }],
+        buttons: [{ action: submit }],
       });
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
@@ -87,7 +117,7 @@ export default defineComponent({
         return;
       }
       await store.dispatch('dpoApplications/update', dpoApplication.value);
-      next ? next() : router.push('/admin/educational-organization/dpo/applications');
+      next ? next() : router.push('/admin/dpo/applications');
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -128,5 +158,13 @@ th {
 
 th:last-child {
   border-right: 1px solid #dcdfe6;
+}
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+.flex {
+  display: flex;
+  align-items: center;
 }
 </style>

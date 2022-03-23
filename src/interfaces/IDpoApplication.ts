@@ -11,10 +11,13 @@ export default interface IDpoApplication {
   user: IUser;
   dpoCourse: IDpoCourse;
   createdAt: Date;
+  isNew: boolean;
   fieldValues: IFieldValue[];
 
   getFileInfos: () => IFileInfo[];
   initFieldsValues: (fields: IField[]) => void;
   getFieldValue: (field: IField) => string | number | Date | IFileInfo | boolean | undefined;
   findFieldValue: (fieldId: string) => IFieldValue | undefined;
+  isFieldValuesModChecked: () => boolean;
+  changeFieldValuesModChecked: (modChecked: boolean) => void;
 }

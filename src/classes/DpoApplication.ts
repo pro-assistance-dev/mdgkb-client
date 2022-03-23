@@ -14,6 +14,7 @@ export default class DpoApplication implements IDpoApplication {
   dpoCourseId?: string;
   createdAt = new Date();
   user = new User();
+  isNew = true;
   dpoCourse = new DpoCourse();
   fieldValues: IFieldValue[] = [];
 
@@ -24,6 +25,7 @@ export default class DpoApplication implements IDpoApplication {
     this.id = dpoApplication.id;
     this.userId = dpoApplication.userId;
     this.createdAt = dpoApplication.createdAt;
+    this.isNew = dpoApplication.isNew;
     this.dpoCourseId = dpoApplication.dpoCourseId;
     if (dpoApplication.user) {
       this.user = new User(dpoApplication.user);
@@ -77,5 +79,11 @@ export default class DpoApplication implements IDpoApplication {
       }
     });
     return fileInfos;
+  }
+  isFieldValuesModChecked(): boolean {
+    return this.fieldValues.every((el) => el.modChecked === true);
+  }
+  changeFieldValuesModChecked(modChecked: boolean): void {
+    this.fieldValues.forEach((el: IFieldValue) => (el.modChecked = modChecked));
   }
 }
