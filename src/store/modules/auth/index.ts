@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 
+import User from '@/classes/User';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -8,7 +9,7 @@ import mutations from './mutations';
 import State from './state';
 
 export const state: State = {
-  user: undefined,
+  user: new User(),
   token: '',
   isAuth: false,
   authModalVisible: false,
