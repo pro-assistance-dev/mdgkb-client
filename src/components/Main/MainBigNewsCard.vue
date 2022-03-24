@@ -51,13 +51,16 @@ export default defineComponent({
   height: 100%;
   width: 570px;
   border-radius: 5px;
-  color: white;
+  color: #343e5c;
   display: flex;
   align-items: flex-end;
   &-container {
+    background: #ffffff;
     display: flex;
     flex-direction: column;
-    margin: 25px;
+    padding: 10px 25px;
+    border-radius: 0 0 4px 4px;
+    // opacity: 0.9;
   }
   &-tags {
     margin-bottom: 10px;
@@ -72,7 +75,7 @@ export default defineComponent({
     margin-bottom: 10px;
   }
   .card-meta {
-    color: white;
+    color: #a1a7bd;
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 1px;
