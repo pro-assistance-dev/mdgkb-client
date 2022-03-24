@@ -37,18 +37,6 @@ export default [
     },
   },
   {
-    path: '/admin/nmo/courses',
-    name: 'AdminNmoCoursesList',
-    component: AdminDpoCoursesList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
     path: '/admin/dpo/courses/new',
     name: 'AdminDpoCoursePageCreate',
     component: AdminDpoCoursePage,
@@ -73,8 +61,20 @@ export default [
     },
   },
   {
+    path: '/admin/nmo/courses',
+    name: 'AdminNmoCoursesList',
+    component: AdminDpoCoursesList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
     path: '/admin/nmo/courses/new',
-    name: 'AdminDpoCoursePageCreate',
+    name: 'AdminNmoCoursePageCreate',
     component: AdminDpoCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -121,8 +121,32 @@ export default [
     },
   },
   {
+    path: '/admin/dpo/applications/new',
+    name: 'AdminDpoApplicationPageNew',
+    component: AdminDpoApplicationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
     path: '/admin/dpo/applications/:id',
     name: 'AdminDpoApplicationPage',
+    component: AdminDpoApplicationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/nmo/applications/new',
+    name: 'AdminNmoApplicationPageNew',
     component: AdminDpoApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -148,6 +172,18 @@ export default [
     path: '/admin/postgraduate-courses',
     name: 'AdminPostgraduateCoursesList',
     component: AdminPostgraduateCoursesList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/postgraduate-courses/new',
+    name: 'AdminPostgraduateCoursePageNew',
+    component: AdminPostgraduateCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

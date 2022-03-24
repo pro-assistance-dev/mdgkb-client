@@ -186,6 +186,12 @@ export default defineComponent({
     });
 
     const loadItem = async () => {
+      console.log('sdfsadfsadf');
+      console.log('sdfsadfsadf');
+      console.log('sdfsadfsadf');
+      console.log('sdfsadfsadf');
+      console.log('sdfsadfsadf');
+      console.log(route.params['id']);
       if (route.params['id']) {
         await store.dispatch('dpoCourses/get', route.params['id']);
         store.commit('admin/setHeaderParams', {
