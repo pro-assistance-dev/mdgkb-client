@@ -113,18 +113,10 @@ export default defineComponent({
         to: '/',
         icon: 'el-icon-document',
         children: [
-          {
-            title: 'Нормативные документы',
-            to: '/admin/normative-document-types',
-          },
-          {
-            title: 'Типы нормативных документов',
-            to: '/admin/normative-document-types',
-          },
-          {
-            title: 'Документы',
-            to: '/admin/documents-types',
-          },
+          // {
+          //   title: 'Документы',
+          //   to: '/admin/documents-types',
+          // },
           {
             title: 'Сертификаты',
             to: '/admin/certificates',
@@ -183,6 +175,10 @@ export default defineComponent({
           {
             title: 'Заявки НМО',
             to: '/admin/nmo/applications',
+          },
+          {
+            title: 'Программы аспирантуры',
+            to: '/admin/postgraduate-courses',
           },
           {
             title: 'Шаблоны форм для заявок',

@@ -25,7 +25,10 @@
         <div class="division-name" @click="$router.push(`/divisions/${teacher.doctor.division.id}`)">
           {{ teacher.doctor.division.name }}
         </div>
-        <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: doctor.human.slug } })">
+        <div
+          class="doctor-name"
+          @click="$router.push({ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.human.slug } })"
+        >
           {{ teacher.doctor.human.getFullName() }}
         </div>
         <div class="spec-list">

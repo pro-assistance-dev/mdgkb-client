@@ -11,7 +11,8 @@ const httpClient = new HttpClient('postgraduate-courses');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IPostgraduateCourse[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    //{ query: filterQuery ? filterQuery.toUrl() : '' }
+    const items = await httpClient.get<IPostgraduateCourse[]>();
     if (filterQuery) {
       filterQuery.setAllLoaded(items ? items.length : 0);
     }
@@ -29,7 +30,7 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.post<IPostgraduateCourse, IPostgraduateCourse>({
       payload: state.item,
       isFormData: true,
-      fileInfos: state.item.formPattern.getFileInfos(),
+      fileInfos: state.item.getFileInfos(),
     });
   },
   update: async ({ state, commit }): Promise<void> => {
@@ -37,7 +38,7 @@ const actions: ActionTree<State, RootState> = {
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,
-      fileInfos: state.item.formPattern.getFileInfos(),
+      fileInfos: state.item.getFileInfos(),
     });
     commit('set', res);
   },

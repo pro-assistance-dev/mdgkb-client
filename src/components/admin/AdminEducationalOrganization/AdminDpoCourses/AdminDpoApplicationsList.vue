@@ -17,6 +17,11 @@
         {{ scope.row.user.email }}
       </template>
     </el-table-column>
+    <el-table-column label="ФИО заявителя" sortable>
+      <template #default="scope">
+        {{ scope.row.user.human.getFullName() }}
+      </template>
+    </el-table-column>
     <el-table-column label="Наименование курса" sortable>
       <template #default="scope">
         {{ scope.row.dpoCourse.name }}

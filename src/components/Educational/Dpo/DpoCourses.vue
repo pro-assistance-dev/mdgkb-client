@@ -13,8 +13,12 @@
           <DpoCoursesFilters v-if="schemaGet" :sort-models="sortModels" @load="load" />
         </div>
         <div class="links">
-          <a type="primary" round @click="$router.push('/public-documents')">Нормативные документы</a>
+          <a type="primary" round @click="$router.push('/public-documents?dpo-common')">Нормативные документы</a>
         </div>
+        <div class="links">
+          <a type="primary" round @click="$router.push('/public-documents?doc=dpo-docs-for-educ')">Документы для обучения</a>
+        </div>
+
         <DpoCoursesContacts />
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -63,7 +67,7 @@ export default defineComponent({
       const sortModels: ISortModel[] = [
         SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true),
         SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.hours, Orders.Asc, 'По длительности', false),
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.start, Orders.Asc, 'По дате начала', false),
+        // SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.start, Orders.Asc, 'По дате начала', false),
       ];
       store.commit(`filter/addSortModels`, sortModels);
       return sortModels;

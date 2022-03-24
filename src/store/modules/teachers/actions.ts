@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ITeacher from '@/interfaces/ITeacher';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -9,8 +10,16 @@ import { State } from './state';
 const httpClient = new HttpClient('teachers');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<ITeacher[]>());
+  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    const items = await httpClient.get<ITeacher[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    if (filterQuery) {
+      filterQuery.setAllLoaded(items ? items.length : 0);
+    }
+    if (filterQuery && filterQuery.pagination.cursorMode) {
+      commit('appendToAll', items);
+      return;
+    }
+    commit('setAll', items);
   },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<ITeacher[]>({ query: `${id}` });

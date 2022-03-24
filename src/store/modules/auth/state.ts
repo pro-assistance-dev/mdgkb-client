@@ -1,7 +1,7 @@
 import IUser from '@/interfaces/IUser';
 
 export default interface State {
-  user?: IUser;
+  user: IUser;
   token: string;
   isAuth: boolean;
   authModalVisible: boolean;

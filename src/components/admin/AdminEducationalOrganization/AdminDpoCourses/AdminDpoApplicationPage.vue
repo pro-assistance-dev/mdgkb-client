@@ -7,7 +7,7 @@
             <span>Информация о заявителе</span>
           </template>
           <el-descriptions :column="1">
-            <!-- <el-descriptions-item label="ФИО">{{ dpoApplication.user.human.getFullName() }}</el-descriptions-item> -->
+            <el-descriptions-item label="ФИО">{{ dpoApplication.user.human.getFullName() }}</el-descriptions-item>
             <el-descriptions-item label="Email">{{ dpoApplication.user.email }}</el-descriptions-item>
           </el-descriptions>
         </el-card>

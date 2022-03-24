@@ -8,9 +8,9 @@
     :show-file-list="false"
     list-type="picture"
   >
-    <el-button size="mini" type="success">{{ fileInfo.originalName ? 'Обновить' : 'Загрузить' }}</el-button>
+    <el-button size="mini" type="success">{{ fileInfo && fileInfo.originalName ? 'Обновить' : 'Загрузить' }}</el-button>
     <template #tip>
-      <div v-if="fileInfo.originalName" class="file-name">
+      <div v-if="fileInfo && fileInfo.originalName" class="file-name">
         <a :href="fileInfo.url" target="_blank">
           <div>{{ fileInfo.originalName }}</div>
         </a>
