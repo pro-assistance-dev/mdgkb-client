@@ -25,6 +25,9 @@ export default interface IDpoCourse {
   formPattern: IForm;
   formPatternId?: string;
 
+  specialization?: ISpecialization;
+  specializationId?: string;
+
   addTeacher: (teacher: ITeacher) => void;
   setMainTeacher: (index: number) => void;
   getMainTeacher: () => ITeacher | undefined;

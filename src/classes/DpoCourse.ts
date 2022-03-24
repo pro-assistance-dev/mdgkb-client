@@ -25,6 +25,10 @@ export default class DpoCourse implements IDpoCourse {
   listeners = 0;
   cost = 0;
   order = 0;
+
+  specialization: ISpecialization = new Specialization();
+  specializationId?: string;
+
   dpoCoursesSpecializations: IDpoCourseSpecialization[] = [];
   dpoCoursesSpecializationsForDelete: string[] = [];
   dpoCoursesTeachers: IDpoCourseTeacher[] = [];
@@ -62,6 +66,11 @@ export default class DpoCourse implements IDpoCourse {
     if (i.formPattern) {
       this.formPattern = new Form(i.formPattern);
     }
+
+    if (i.specialization) {
+      this.specialization = new Specialization(i.specialization);
+    }
+    this.specializationId = i.specializationId;
   }
 
   addTeacher(teacher: ITeacher): void {
