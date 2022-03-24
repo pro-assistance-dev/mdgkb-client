@@ -6,7 +6,7 @@ import ITeacher from '@/interfaces/ITeacher';
 
 import IForm from './IForm';
 
-export default interface IDpoCourse {
+export default interface IPostgraduateCourse {
   id?: string;
   description: string;
   postgraduateCoursesTeachers: IPostgraduateCourseTeacher[];

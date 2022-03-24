@@ -2,7 +2,9 @@
   <div>
     <div class="card-flex-container card-item">
       <h2>Аспирантура</h2>
-      <div class="no-progmam"><h3 v-if="postgraduateCourses.length == 0">Сейчас нет программ аспирантуры ни для одной специальности</h3></div>
+      <div class="no-progmam">
+        <h3 v-if="postgraduateCourses.length == 0">Сейчас нет программ аспирантуры ни для одной специальности</h3>
+      </div>
       <div v-if="postgraduateCourses.length !== 0" class="table-container">
         <table class="table-list">
           <colgroup>
@@ -12,7 +14,7 @@
             <col width="30%" />
           </colgroup>
           <thead>
-            <th>Код профессии</th>
+            <th>Код</th>
             <th>Название специализации</th>
             <th>Уровень&nbsp;образования</th>
             <th>Квалификация</th>
@@ -20,18 +22,20 @@
           <tbody v-if="mounted">
             <tr v-for="postgraduateCourse in postgraduateCourses" :key="postgraduateCourse.id">
               <td>
-                <router-link :to="`/courses/${postgraduateCourse.id}`">{{ postgraduateCourse.code }}</router-link>
+                Код
+                <!-- <router-link :to="`/courses/${postgraduateCourse.id}`">{{ postgraduateCourse.code }}</router-link> -->
               </td>
-              <td style="text-align: center">{{ postgraduateCourse.specialization }}</td>
+              <td style="text-align: center">
+                название
+                <!-- {{ postgraduateCourse.specialization }} -->
+              </td>
               <td>
                 высшее образование - подготовка кадров высшей квалификации
                 <!-- <router-link :to="`/doctors/${postgraduateCourse.getMainTeacher()?.doctor.human.slug}`">
                   {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
                 </router-link> -->
               </td>
-              <td>
-                
-              </td>
+              <td>Квалификация</td>
             </tr>
           </tbody>
         </table>
@@ -51,7 +55,9 @@ export default defineComponent({
   name: 'PostgraduateList',
   setup() {
     const store = useStore();
-    const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed<IPostgraduateCourse[]>(() => store.getters['postgraduateCourses/items']);
+    const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed<IPostgraduateCourse[]>(
+      () => store.getters['postgraduateCourses/items']
+    );
     const mounted = ref(false);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
@@ -59,16 +65,16 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    const loadMore = async () => {
-      const lastCursor = postgraduateCourses.value[postgraduateCourses.value.length - 1].description;
-      // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.postgraduateCourse.name, schema.value.postgraduateCourse.tableName);
-      // await store.dispatch('postgraduateCourses/getAll', filterQuery.value);
-    };
+    // const loadMore = async () => {
+    //   const lastCursor = postgraduateCourses.value[postgraduateCourses.value.length - 1].description;
+    // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.postgraduateCourse.name, schema.value.postgraduateCourse.tableName);
+    // await store.dispatch('postgraduateCourses/getAll', filterQuery.value);
+    // };
 
     return {
       mounted,
       postgraduateCourses,
-      loadMore,
+      // loadMore,
     };
   },
 });
