@@ -84,7 +84,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'DpoCoursesContacts',
+  name: 'PostgraduateContacts',
   setup() {
     return {};
   },

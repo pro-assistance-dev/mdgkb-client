@@ -39,7 +39,7 @@ import ISchema from '@/interfaces/schema/ISchema';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
-  name: 'DpoCoursesFilters',
+  name: 'PostgraduateFilters',
   components: {
     FilterReset,
     RemoteSearch,

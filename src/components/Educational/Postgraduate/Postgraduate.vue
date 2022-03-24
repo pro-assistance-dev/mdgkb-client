@@ -9,9 +9,9 @@
           second-mode="Кандидатский минимум"
           @changeMode="changeMode"
         />
-        <div class="search_block">
+        <!-- <div class="search_block">
           <PostgraduateFilters v-if="schemaGet" :sort-models="sortModels" @load="load" />
-        </div>
+        </div> -->
         <div class="links">
           <a type="primary" round @click="$router.push('/public-documents')">Нормативные документы</a>
         </div>
