@@ -13,8 +13,12 @@
           <DpoCoursesFilters v-if="schemaGet" :sort-models="sortModels" @load="load" />
         </div>
         <div class="links">
-          <a type="primary" round @click="$router.push('/public-documents')">Нормативные документы</a>
+          <a type="primary" round @click="$router.push('/public-documents?dpo-common')">Нормативные документы</a>
         </div>
+        <div class="links">
+          <a type="primary" round @click="$router.push('/public-documents?doc=dpo-docs-for-educ')">Документы для обучения</a>
+        </div>
+
         <DpoCoursesContacts />
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
