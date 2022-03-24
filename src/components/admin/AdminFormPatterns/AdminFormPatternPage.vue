@@ -6,7 +6,7 @@
           <el-input v-model="formPattern.title" placeholder="Название"></el-input>
         </el-form-item>
       </el-card>
-      <FormConstructor :form="formPattern" :files-only="true" />
+      <FormConstructor :form="formPattern" />
     </el-form>
   </div>
 </template>

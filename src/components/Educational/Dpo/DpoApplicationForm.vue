@@ -1,121 +1,30 @@
 <template>
   <div v-if="mounted">
-    <i>
-      <div>Печать документов должна быть высокого качества.</div>
-      <div>При заполнении от руки – ПЕЧАТНЫМИ буквами.</div>
-      <div>Не допускается исправление ошибок путем зачеркивания или с помощью корректирующих средств.</div>
-      <div>
-        Все копии должны быть заверены в отделе кадров организации оригинальной печатью либо нотариально (исключая документы работников
-        МДГКБ).
-      </div>
-    </i>
-
     <el-form v-model="dpoApplication" label-position="top">
-      <el-table :data="dpoCourse.formPattern.fields">
-        <el-table-column label="Наименование">
-          <template #default="scope">
-            {{ scope.row.name }}
-          </template>
-        </el-table-column>
+      <el-form-item v-if="!user.email" label="Электронная почта" prop="user.email">
+        <el-input v-model="dpoApplication.user.email"></el-input>
+      </el-form-item>
+      <el-form-item v-if="!user.human.surname" label="Фамилия" prop="user.human.surname">
+        <el-input v-model="dpoApplication.user.human.surname"></el-input>
+      </el-form-item>
+      <el-form-item v-if="!user.human.name" label="Имя" prop="user.human.name">
+        <el-input v-model="dpoApplication.user.human.name"></el-input>
+      </el-form-item>
+      <el-form-item v-if="!user.human.patronymic" label="Отчество" prop="user.human.patronymic">
+        <el-input v-model="dpoApplication.user.human.patronymic"></el-input>
+      </el-form-item>
 
-        <el-table-column label="Документ">
-          <template #default="scope">
-            <el-form-item v-if="scope.row.valueType.isString()" style="margin: 0">
-              <el-input v-model="dpoApplication.findFieldValue(scope.row.id).valueString" />
-            </el-form-item>
-            <el-form-item v-if="scope.row.valueType.isNumber()" style="margin: 0">
-              <el-input-number v-model="dpoApplication.findFieldValue(scope.row.id).valueNumber" />
-            </el-form-item>
-            <el-form-item v-if="scope.row.valueType.isDate()" style="margin: 0">
-              <el-date-picker v-model="dpoApplication.findFieldValue(scope.row.id).valueDate" />
-            </el-form-item>
-            <el-form-item v-if="scope.row.valueType.isFile()" style="margin: 0">
-              <FileUploader :file-info="dpoApplication.findFieldValue(scope.row.id).file" />
-            </el-form-item>
-          </template>
-        </el-table-column>
+      <i>
+        <div>Печать документов должна быть высокого качества.</div>
+        <div>При заполнении от руки – ПЕЧАТНЫМИ буквами.</div>
+        <div>Не допускается исправление ошибок путем зачеркивания или с помощью корректирующих средств.</div>
+        <div>
+          Все копии должны быть заверены в отделе кадров организации оригинальной печатью либо нотариально (исключая документы работников
+          МДГКБ).
+        </div>
+      </i>
 
-        <el-table-column label="Образец" sortable>
-          <template #default="scope">
-            <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
-              {{ scope.row.file.originalName }}
-            </a>
-            <span v-else>Нет файла</span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- <div v-for="field in dpoCourse.formPattern.fields" :key="field.id">
-        <el-form-item v-if="field.valueType.isString()" :label="field.name">
-          <el-input v-model="dpoApplication.findFieldValue(field.id).valueString" />
-        </el-form-item>
-        <el-form-item v-if="field.valueType.isNumber()" :label="field.name">
-          <el-input-number v-model="dpoApplication.findFieldValue(field.id).valueNumber" />
-        </el-form-item>
-        <el-form-item v-if="field.valueType.isDate()" :label="field.name">
-          <el-date-picker v-model="dpoApplication.findFieldValue(field.id).valueDate" />
-        </el-form-item>
-        <el-form-item v-if="field.valueType.isFile()" :label="field.name">
-          <FileUploader :file-info="dpoApplication.findFieldValue(field.id).file" />
-        </el-form-item>
-      </div> -->
-      <!-- <h4>Образцы:</h4>
-      <div>
-        <li>
-          <a href="http://мороздгкб.рф/wp-content/uploads/2018/09/Заявление-на-обучение-по-ДПП-1.pdf" target="_blank"
-            >Заявление на обучение</a
-          >
-        </li>
-        <li>
-          <a href="http://мороздгкб.рф/wp-content/uploads/2018/10/Договор-с-физ.лицом.pdf" target="_blank">Договор с физическим лицом</a>
-        </li>
-        <li>
-          <a href="http://мороздгкб.рф/wp-content/uploads/2018/10/Договор-с-Юр.лицом.pdf" target="_blank">Договор с юридическим лицом</a>
-        </li>
-      </div>
-      <h4>
-        Перечень документов, необходимых для зачисления на циклы повышения квалификации или профессиональной переподготовки медработников:
-      </h4> -->
-      <!-- <el-form-item label="Заявление на обучение от СЛУШАТЕЛЯ:">
-        <FileUploader :file-info="dpoApplication.application" />
-      </el-form-item>
-      <el-form-item
-        label="Заявка от ОРГАНИЗАЦИИ на зачисление (на имя руководителя МДГКБ, только в том случае, если обучение будет оплачивать работодатель):"
-      >
-        <FileUploader :file-info="dpoApplication.organizationApplication" />
-      </el-form-item>
-      <el-form-item label="Договор на оказание платных образовательных услуг:">
-        <FileUploader :file-info="dpoApplication.paidEducationalServicesContract" />
-      </el-form-item>
-      <el-form-item label="Копия документа о среднем или высшем медицинском образовании:">
-        <FileUploader :file-info="dpoApplication.secondaryOrHigherMedicalEducation" />
-      </el-form-item>
-      <el-form-item
-        label="Копия документа о послевузовском профессиональном образовании (для лиц с высшим профессиональным медицинским образованием):"
-      >
-        <FileUploader :file-info="dpoApplication.postgraduateProfEducation" />
-      </el-form-item>
-      <el-form-item
-        label="Копия документа о дополнительном профессиональном образовании (повышении квалификации или профессиональной переподготовке):"
-      >
-        <FileUploader :file-info="dpoApplication.additionalProfEducation" />
-      </el-form-item>
-      <el-form-item label="Копия сертификата специалиста по данной специальности (при наличии):">
-        <FileUploader :file-info="dpoApplication.specialistCertificate" />
-      </el-form-item>
-      <el-form-item
-        label="Копия трудовой книжки с записью на последней странице «работает по настоящее время в должности …» (при наличии) или справку с места работы с указанием должности и стажа работы в ней (исключая работников МДГКБ):"
-      >
-        <FileUploader :file-info="dpoApplication.employmentHistory" />
-      </el-form-item>
-      <el-form-item label="Лицам, изменившим фамилию, имя или отчество необходимо предоставить копию подтверждающего документа:">
-        <FileUploader :file-info="dpoApplication.nameChangeDocument" />
-      </el-form-item>
-      <h4>Для иностранных граждан дополнительно:</h4>
-      <el-form-item
-        label="Свидетельство или письмо Рособрнадзора о признании документов иностранных государств об уровне образования и (или) квалификации на территории РФ (копии документов должны быть переведены на русский язык и заверены в установленном порядке):"
-      >
-        <FileUploader :file-info="dpoApplication.foreignStudentQualificationDocument" />
-      </el-form-item> -->
+      <FieldValuesForm :form="dpoCourse.formPattern" />
     </el-form>
     <el-divider />
     <div style="text-align: right">
@@ -129,14 +38,14 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
-import FileUploader from '@/components/FileUploader.vue';
+import FieldValuesForm from '@/components/FieldValuesForm.vue';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
   name: 'DpoApplicationForm',
-  components: { FileUploader },
+  components: { FieldValuesForm },
   emits: ['close'],
 
   setup(_, { emit }) {
@@ -145,11 +54,13 @@ export default defineComponent({
     const dpoApplication: ComputedRef<IDpoApplication> = computed<IDpoApplication>(() => store.getters['dpoApplications/item']);
     const dpoCourse: Ref<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
-    watch(user, () => {
+    const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
+    watch(isAuth, () => {
       store.commit('dpoApplications/setUser', user.value);
     });
 
     const submit = async () => {
+      store.commit('dpoApplications/setFieldValues', dpoCourse.value.formPattern.fieldValues);
       await store.dispatch('dpoApplications/create');
       ElMessage({
         type: 'success',
@@ -160,7 +71,8 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('dpoApplications/resetItem');
-      dpoApplication.value.initFieldsValues(dpoCourse.value.formPattern.fields);
+      dpoCourse.value.formPattern.initFieldsValues();
+      // dpoApplication.value.initFieldsValues(dpoCourse.value.formPattern.fields);
       store.commit('dpoApplications/setCourse', dpoCourse.value);
       store.commit('dpoApplications/setUser', user.value);
       mounted.value = true;
@@ -171,6 +83,8 @@ export default defineComponent({
       dpoCourse,
       mounted,
       submit,
+      user,
+      isAuth,
     };
   },
 });
