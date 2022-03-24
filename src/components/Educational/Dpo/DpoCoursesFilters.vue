@@ -2,7 +2,7 @@
   <div v-if="mount" class="left-side-container">
     <RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" />
     <FilterSelect
-      placeholder="Выбрать специализацию"
+      placeholder="Для кого читается курс"
       :options="schema.specialization.options"
       :table="schema.dpoCourse.tableName"
       :col="schema.specialization.id"
@@ -13,6 +13,15 @@
       :join-table-pk="schema.dpoCourse.id"
       :join-table-id="schema.dpoCourseSpecialization.specializationId"
       :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
+      @load="load"
+    />
+    <FilterSelect
+      placeholder="Специализация программы"
+      :options="schema.specialization.options"
+      :table="schema.dpoCourse.tableName"
+      :col="schema.dpoCourse.specializationId"
+      :data-type="DataTypes.String"
+      :operator="Operators.Eq"
       @load="load"
     />
     <SortList :models="sortModels" :store-mode="true" @load="load" />

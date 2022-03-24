@@ -6,6 +6,7 @@ export default interface IDpoCourseSchema {
   id: string;
   name: string;
   isNmo: string;
+  specializationId: string;
   hours: string;
   teacherId: string;
   listeners: string;

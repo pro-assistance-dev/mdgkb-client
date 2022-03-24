@@ -106,7 +106,15 @@
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header> Специальности </template>
+              <template #header>Специальность, по которой читается программа</template>
+              <el-form-item prop="listeners">
+                <el-select v-model="dpoCourse.specializationId" placeholder="Выбрать специальность">
+                  <el-option v-for="spec in specializations" :key="spec.id" :label="spec.name" :value="spec.id"> </el-option>
+                </el-select>
+              </el-form-item>
+            </el-card>
+            <el-card>
+              <template #header>Выбрать специальности, для которых читается программа </template>
               <el-checkbox
                 v-for="specialization in specializations"
                 :key="specialization.id"
@@ -127,6 +135,7 @@
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
+import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -134,6 +143,7 @@ import { useStore } from 'vuex';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
 import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -213,6 +223,14 @@ export default defineComponent({
     };
 
     const addTeacher = async (searchObject: ISearchObject) => {
+      const teacherExists = !!dpoCourse.value.dpoCoursesTeachers.find(
+        (courseTeacher: IDpoCourseTeacher) => courseTeacher.teacherId === searchObject.id
+      );
+
+      if (teacherExists) {
+        ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
+        return;
+      }
       await store.dispatch('teachers/get', searchObject.id);
       dpoCourse.value.addTeacher(selectedTeacher.value);
       store.commit('teachers/resetItem');

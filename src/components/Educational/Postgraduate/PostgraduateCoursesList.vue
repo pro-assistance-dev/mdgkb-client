@@ -22,12 +22,22 @@
           <tbody v-if="mounted">
             <tr v-for="postgraduateCourse in postgraduateCourses" :key="postgraduateCourse.id">
               <td>
-                Код
-                <!-- <router-link :to="`/courses/${postgraduateCourse.id}`">{{ postgraduateCourse.code }}</router-link> -->
+                <div
+                  v-for="postgraduateCoursesSpecialization in postgraduateCourse.postgraduateCoursesSpecializations"
+                  :key="postgraduateCoursesSpecialization.id"
+                >
+                  {{ postgraduateCoursesSpecialization.specialization.code }}
+                </div>
               </td>
               <td style="text-align: center">
-                название
-                <!-- {{ postgraduateCourse.specialization }} -->
+                <div
+                  v-for="postgraduateCoursesSpecialization in postgraduateCourse.postgraduateCoursesSpecializations"
+                  :key="postgraduateCoursesSpecialization.id"
+                >
+                  <router-link :to="`/postgraduate-courses/${postgraduateCourse.id}`">
+                    {{ postgraduateCoursesSpecialization.specialization.name }}
+                  </router-link>
+                </div>
               </td>
               <td>
                 высшее образование - подготовка кадров высшей квалификации
@@ -35,7 +45,7 @@
                   {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
                 </router-link> -->
               </td>
-              <td>Квалификация</td>
+              <td>{{ postgraduateCourse.description }}</td>
             </tr>
           </tbody>
         </table>
@@ -52,7 +62,7 @@ import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
-  name: 'PostgraduateList',
+  name: 'PostgraduateCoursesList',
   setup() {
     const store = useStore();
     const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed<IPostgraduateCourse[]>(

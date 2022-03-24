@@ -185,6 +185,10 @@ export default defineComponent({
             to: '/admin/nmo/applications',
           },
           {
+            title: 'Программы аспирантуры',
+            to: '/admin/postgraduate-courses',
+          },
+          {
             title: 'Шаблоны форм для заявок',
             to: '/admin/form-patterns',
           },

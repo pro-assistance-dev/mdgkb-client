@@ -18,7 +18,9 @@
         <PostgraduateContacts />
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
-        <PostgraduateList v-if="mounted" :cm-mode="сmMode" />
+        <PostgraduateCoursesList v-if="!сmMode" :cm-mode="сmMode" />
+
+        <CandidatesMinimum v-if="сmMode" :cm-mode="сmMode" />
       </el-col>
     </el-row>
   </div>
@@ -31,9 +33,9 @@ import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import SortModel from '@/classes/filters/SortModel';
+import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';
 import PostgraduateContacts from '@/components/Educational/Postgraduate/PostgraduateContacts.vue';
-import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
-import PostgraduateList from '@/components/Educational/Postgraduate/PostgraduateList.vue';
+import PostgraduateCoursesList from '@/components/Educational/Postgraduate/PostgraduateCoursesList.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -43,8 +45,8 @@ import { Orders } from '@/interfaces/filters/Orders';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
-  name: 'Postgraduate',
-  components: { PostgraduateContacts, PostgraduateFilters, PostgraduateList, ModeButtons },
+  name: 'PostgraduatePage',
+  components: { PostgraduateContacts, PostgraduateCoursesList, ModeButtons, CandidatesMinimum },
 
   setup() {
     const store = useStore();
@@ -53,7 +55,7 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const schemaGet: Ref<boolean> = ref(false);
 
-    const сmMode: Ref<boolean> = ref(route.path === '/candidates_minimum');
+    const cmMode: Ref<boolean> = ref(route.path === '/candidates-minimum');
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const filterModel = ref();
@@ -70,7 +72,7 @@ export default defineComponent({
     };
 
     const setProgramsType = () => {
-      filterModel.value.boolean = сmMode.value;
+      filterModel.value.boolean = cmMode.value;
       filterModel.value.operator = Operators.Eq;
       store.commit('filter/setFilterModel', filterModel.value);
     };
@@ -80,7 +82,7 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       sortModels.value = createSortModels();
       schemaGet.value = true;
-      store.commit('filter/setStoreModule', 'dpoCourses');
+      store.commit('filter/setStoreModule', 'postgraduateCourses');
       filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
       setProgramsType();
       await load();
@@ -90,25 +92,25 @@ export default defineComponent({
       setProgramsType();
       store.commit(`filter/checkSortModels`);
       filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
+      await store.dispatch('postgraduateCourses/getAll');
       mounted.value = true;
     };
 
-    const changeMode = async (dpoModeActive: boolean) => {
-      сmMode.value = !dpoModeActive;
-      filterModel.value.boolean = сmMode.value;
+    const changeMode = async (cmModeActive: boolean) => {
+      cmMode.value = !cmModeActive;
+      filterModel.value.boolean = cmMode.value;
       filterModel.value.operator = Operators.Eq;
       filterModel.value.type = DataTypes.Boolean;
       store.commit('filter/setFilterModel', filterModel.value);
       await load();
-      if (сmMode.value) {
-        await router.replace('/candidates_minimum');
+      if (cmMode.value) {
+        await router.replace('/candidates-minimum');
       } else {
-        await router.replace('/postgraduate');
+        await router.replace('/postgraduate-courses');
       }
     };
 
-    return { сmMode, changeMode, mounted, load, schemaGet, sortModels };
+    return { сmMode: cmMode, changeMode, mounted, load, schemaGet, sortModels };
   },
 });
 </script>

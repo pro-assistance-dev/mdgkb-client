@@ -9,6 +9,10 @@ const mutations: MutationTree<State> = {
   setAll(state, items: ITeacher[]) {
     state.items = items.map((i: ITeacher) => new Teacher(i));
   },
+  appendToAll(state, items: ITeacher[]) {
+    const itemsForAdding = items.map((i: ITeacher) => new Teacher(i));
+    state.items.push(...itemsForAdding);
+  },
   set(state, item: ITeacher) {
     state.item = new Teacher(item);
   },

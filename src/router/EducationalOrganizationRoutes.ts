@@ -7,7 +7,8 @@ import EducationalOrganizationAcademics from '@/components/Educational/Education
 import EducationalOrganizationDocuments from '@/components/Educational/EducationalOrganizationInfo/DocumentsPage.vue';
 import EducationalOrganizationInfo from '@/components/Educational/EducationalOrganizationInfo/EducationalOrganizationInfo.vue';
 import OrdinaturaPage from '@/components/Educational/Ordinatura/OrdinaturaPage.vue';
-import Postgraduate from '@/components/Educational/Postgraduate/Postgraduate.vue';
+import PostgraduateCoursePage from '@/components/Educational/Postgraduate/PostgraduateCoursePage.vue';
+import PostgraduatePage from '@/components/Educational/Postgraduate/PostgraduatePage.vue';
 import TeachersManagers from '@/components/Educational/TeachersManagers/TeachersManagers.vue';
 import { isAuthorized } from '@/router/index';
 
@@ -45,17 +46,25 @@ export default [
     },
   },
   {
-    path: '/postgraduate',
-    name: 'Postgraduate',
-    component: Postgraduate,
+    path: '/postgraduate-courses',
+    name: 'PostgraduatePage',
+    component: PostgraduatePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
   },
   {
-    path: '/candidates_minimum',
-    name: 'candidates_minimum',
-    component: Postgraduate,
+    path: '/postgraduate-courses/:id',
+    name: 'PostgraduateCoursePage',
+    component: PostgraduateCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/candidates-minimum',
+    name: 'CandidatesMinimum',
+    component: PostgraduatePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

@@ -1,3 +1,4 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
 import IPostgraduateCourseSpecialization from '@/interfaces/IPostgraduateCourseSpecialization';
 import IPostgraduateCourseTeacher from '@/interfaces/IPostgraduateCourseTeacher';
@@ -15,6 +16,8 @@ export default interface IPostgraduateCourse {
   postgraduateCoursesSpecializationsForDelete: string[];
   postgraduateCoursesDates: IPostgraduateCourseDates[];
   postgraduateCoursesDatesForDelete: string[];
+  questionsFile: IFileInfo;
+  questionsFileId?: string;
   formPattern: IForm;
   formPatternId?: string;
 
@@ -26,4 +29,5 @@ export default interface IPostgraduateCourse {
   addSpecialization: (specialization: ISpecialization) => void;
   findSpecialization: (id: string) => boolean;
   getClosestPeriod: () => string;
+  getFileInfos: () => IFileInfo[];
 }
