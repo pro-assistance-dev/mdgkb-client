@@ -64,7 +64,7 @@ export default defineComponent({
           img = props.item.laptopImg;
           break;
       }
-      url.value = img.getImageUrl();
+      url.value = img.url;
     };
 
     onBeforeMount(() => {

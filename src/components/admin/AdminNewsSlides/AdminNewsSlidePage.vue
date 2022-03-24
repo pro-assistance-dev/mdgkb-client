@@ -74,7 +74,7 @@
     <el-dialog v-model="showPreview" title="Предварительный просмотр" :fullscreen="previewFullScreen" width="80%">
       <AdminNewsSlidePreview />
       <template #footer>
-        <el-button type="success" @click="submit">Сохранить</el-button>
+        <el-button type="success" @click="() => submit()">Сохранить</el-button>
       </template>
     </el-dialog>
   </el-form>

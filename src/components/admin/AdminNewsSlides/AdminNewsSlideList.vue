@@ -1,12 +1,5 @@
 <template>
   <div class="flex-column">
-    <div class="flex-row-between">
-      <div class="table-buttons">
-        <el-button type="primary" @click="create">Добавить</el-button>
-        <el-button v-if="!isEdit" type="success" @click="editOrder">Редактировать порядок</el-button>
-        <el-button v-else type="success" @click="saveOrder">Сохранить порядок</el-button>
-      </div>
-    </div>
     <el-card>
       <el-table v-if="slides" :data="slides">
         <el-table-column v-if="isEdit" width="50" fixed="left" align="center">
@@ -58,6 +51,7 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const isEdit: Ref<boolean> = ref(false);
+    const isNotEdit: Ref<boolean> = ref(true);
     const slides: ComputedRef<INewsSlide[]> = computed(() => store.getters['newsSlides/items']);
 
     const create = (): void => {
@@ -72,17 +66,26 @@ export default defineComponent({
 
     const editOrder = () => {
       isEdit.value = true;
+      isNotEdit.value = false;
     };
 
     const saveOrder = async () => {
       await store.dispatch('newsSlides/updateAll');
       isEdit.value = false;
+      isNotEdit.value = true;
     };
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('newsSlides/getAll');
-      store.commit('admin/setHeaderParams', { title: 'Новости (слайдер)' });
+      store.commit('admin/setHeaderParams', {
+        title: 'Новости (слайдер)',
+        buttons: [
+          { text: 'Редактировать порядок', type: 'success', action: editOrder, condition: isNotEdit },
+          { text: 'Сохранить порядок', type: 'success', action: saveOrder, condition: isEdit },
+          { text: 'Добавить', type: 'primary', action: create },
+        ],
+      });
       store.commit('admin/closeLoading');
     });
 
