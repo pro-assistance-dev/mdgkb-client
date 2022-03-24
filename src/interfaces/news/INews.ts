@@ -26,6 +26,7 @@ export default interface INews {
   mainImage: IFileInfo;
   mainImageDescription: string;
   publishedOn: Date;
+  createdAt: Date;
   articleLink: string;
   isArticle: boolean;
 

@@ -13,6 +13,11 @@
             </span>
           </template>
         </el-table-column>
+        <el-table-column label="Дата создания" align="center" width="200" sortable>
+          <template #default="scope">
+            {{ $dateFormatRu(scope.row.createdAt) }}
+          </template>
+        </el-table-column>
         <el-table-column label="Дата публикации" align="center" width="200" sortable>
           <template #default="scope">
             {{ $dateFormatRu(scope.row.publishedOn) }}

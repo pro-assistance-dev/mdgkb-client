@@ -37,6 +37,7 @@ export default class News implements INews {
   articleLink = '';
   isArticle = false;
   publishedOn: Date = new Date();
+  createdAt: Date = new Date();
   newsLikes: INewsLike[] = [];
   newsComments: INewsComment[] = [];
   newsDoctors: INewsDoctor[] = [];
@@ -81,6 +82,7 @@ export default class News implements INews {
       this.mainImage = new FileInfo(news.mainImage);
     }
     this.publishedOn = news.publishedOn;
+    this.createdAt = news.createdAt;
     if (news.newsLikes) {
       this.newsLikes = news.newsLikes.map((item: INewsLike) => new NewsLike(item));
     }

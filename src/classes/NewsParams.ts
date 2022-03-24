@@ -2,6 +2,7 @@ import INewsParams from '@/interfaces/news/INewsParams';
 
 export default class NewsParams implements INewsParams {
   publishedOn?: Date;
+  createdAt?: Date;
   limit = 6;
   filterTags?: string[];
   orderByView = false;
