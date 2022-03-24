@@ -27,6 +27,9 @@ const actions: ActionTree<State, RootState> = {
   restorePassword: async ({ commit }, user: IUser): Promise<void> => {
     await httpClient.post<IUser, IUser>({ query: 'restore-password', payload: user });
   },
+  passwordChange: async ({ commit }, user: IUser): Promise<void> => {
+    await httpClient.post<IUser, IUser>({ query: 'password-change', payload: user });
+  },
   refreshPassword: async ({ commit }, user: IUser): Promise<void> => {
     await httpClient.put<IUser, IUser>({ query: 'refresh-password', payload: user });
   },

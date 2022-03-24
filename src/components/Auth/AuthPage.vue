@@ -3,22 +3,38 @@
     v-model="authModalVisible"
     width="400px"
     :destroy-on-close="true"
-    :title="loginStatus === 'login' ? 'Вход' : loginStatus === 'register' ? 'Регистрация' : 'Восстановление пароля'"
+    :title="
+      loginStatus === 'login'
+        ? 'Вход'
+        : loginStatus === 'register'
+        ? 'Регистрация'
+        : loginStatus === 'forgotPassword'
+        ? 'Восстановление пароля'
+        : 'Задайте новый пароль'
+    "
     center
     @closed="closeModal"
   >
     <el-form ref="myForm" label-width="0" :model="form" :rules="rules" @submit.prevent="submitForm">
-      <el-form-item prop="email">
+      <el-form-item v-if="loginStatus === 'login' || loginStatus === 'register' || loginStatus === 'forgotPassword'" prop="email">
         <el-input v-model="form.email" placeholder="Email" type="email" @input="findEmail" />
       </el-form-item>
 
-      <el-form-item v-if="loginStatus === 'login' || loginStatus === 'register'" prop="password">
+      <el-form-item v-if="loginStatus === 'login' || loginStatus === 'register' || loginStatus === 'passwordChange'" prop="password">
         <el-input v-model="form.password" placeholder="Пароль" type="password" />
       </el-form-item>
 
       <el-form-item style="text-align: center">
         <el-button type="primary" style="width: 60%" native-type="submit" @click.prevent="submitForm">
-          {{ loginStatus === 'login' ? 'Войти' : loginStatus === 'register' ? 'Зарегистрироваться' : 'Отправить ссылку' }}
+          {{
+            loginStatus === 'login'
+              ? 'Войти'
+              : loginStatus === 'register'
+              ? 'Зарегистрироваться'
+              : loginStatus === 'forgotPassword'
+              ? 'Отправить ссылку'
+              : 'Сохранить'
+          }}
         </el-button>
       </el-form-item>
       <el-form-item v-if="loginStatus === 'login'" class="reg-item" style="text-align: center">
@@ -57,9 +73,10 @@ export default defineComponent({
     const setLogin = () => store.commit('auth/setLogin');
     const setRegister = () => store.commit('auth/setRegister');
     const setForgotPassword = () => store.commit('auth/setForgotPassword');
+    const setPasswordChange = () => store.commit('auth/setPasswordChange');
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
     const emailExists: Ref<boolean> = computed(() => store.getters['users/emailExists']);
-    const loginStatus: Ref<'login' | 'register' | 'forgotPassword'> = computed(() => store.getters['auth/loginStatus']);
+    const loginStatus: Ref<'login' | 'register' | 'forgotPassword' | 'passwordChange'> = computed(() => store.getters['auth/loginStatus']);
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value.trim().length) {
@@ -99,14 +116,18 @@ export default defineComponent({
           await store.dispatch('auth/login', { email: form.value.email, password: form.value.password });
         } else if (loginStatus.value === 'register') {
           await store.dispatch('auth/register', form.value);
-        } else {
+        } else if (loginStatus.value === 'forgotPassword') {
           await store.dispatch('auth/restorePassword', form.value);
           ElMessage({ message: 'Ссылка для восстановления пароля отправлена на Вашу почту', type: 'success' });
+        } else {
+          // TODO добавить форму для замены пароля
         }
       } catch (error) {
         console.log(error);
         if (loginStatus.value === 'login' || loginStatus.value === 'register') {
           ElMessage({ message: 'Неверный логин или пароль', type: 'error' });
+        } else if (loginStatus.value === 'passwordChange') {
+          ElMessage({ message: 'Неверный пароль', type: 'error' });
         }
         return;
       }
@@ -134,6 +155,7 @@ export default defineComponent({
       setLogin,
       setRegister,
       setForgotPassword,
+      setPasswordChange,
     };
   },
   methods: {

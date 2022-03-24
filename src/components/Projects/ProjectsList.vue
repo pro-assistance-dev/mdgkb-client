@@ -190,8 +190,6 @@ ul {
 
 .add-button {
   display: flex;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
   margin: 50px 0 50px 0;
   padding: 12px 20px;
   font-family: Roboto, Verdana, sans-serif;
