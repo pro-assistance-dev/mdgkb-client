@@ -60,13 +60,13 @@
         <div v-for="item in dpoCourse.dpoCoursesSpecializations" :key="item.id">{{ item.specialization.name }}</div>
       </div>
     </div>
-    <div>
+    <div class="right-block">
       <div class="card-item" style="padding: 30px; margin-bottom: 20px">
         <div class="card-header">
           <h2 class="title article-title">{{ dpoCourse.name }}</h2>
         </div>
         <el-divider />
-        <div class="title-icon">
+        <div v-if="dpoCourse.description" class="title-icon">
           <BaseIcon width="120" height="120" color="#ffffff" :background:="chooseRandomBrandColor()" :icon-name="'Endoscopy'">
             <HelpProfileIcon :svg-code="svgDummy" />
           </BaseIcon>
@@ -182,6 +182,7 @@ $card-margin-size: 30px;
 
 .card-item-title {
   color: #4a4a4a;
+  width: 100%;
 }
 
 .medical-profile-page-container {
@@ -349,5 +350,13 @@ h4 {
     cursor: pointer;
     background-color: lighten(#31af5e, 10%);
   }
+}
+
+.right-block {
+  width: 100%;
+}
+
+.article-body {
+  min-height: 53.5vh;
 }
 </style>
