@@ -1,3 +1,4 @@
+import IHuman from '@/interfaces/IHuman';
 import ITokens from '@/interfaces/ITokens';
 
 const TokenService = (() => {
@@ -41,6 +42,13 @@ const TokenService = (() => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
   }
+
+  function _updateHuman(human: IHuman) {
+    const user = TokenService.getUser();
+    user.human = human;
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
   return {
     isAuth: _isAuth,
     setTokens: _setToken,
@@ -49,6 +57,7 @@ const TokenService = (() => {
     getUserId: _getUserId,
     clearTokens: _clearTokens,
     getUser: _getUser,
+    updateHuman: _updateHuman,
   };
 })();
 

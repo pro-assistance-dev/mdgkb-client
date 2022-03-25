@@ -2,8 +2,12 @@
   <div>
     <div class="card-flex-container card-item">
       <h2>Кандидатский минимум</h2>
-      <h3>Вопросы для подготовки к кандидаским экзаменам</h3>
 
+      <!--      <div v-for="">-->
+      <!--        -->
+      <!--      </div>-->
+
+      <h3>Вопросы для подготовки к кандидаским экзаменам</h3>
       <div class="questions-file-block">
         <div
           v-for="postgraduateCourse in postgraduateCourses.filter((course) => course.questionsFile.url)"

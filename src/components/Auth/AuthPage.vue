@@ -53,6 +53,7 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import User from '@/classes/User';
@@ -70,6 +71,9 @@ export default defineComponent({
       store.commit('auth/closeModal');
       form.value = new User();
     };
+
+    const route = useRoute();
+    const router = useRouter();
     const setLogin = () => store.commit('auth/setLogin');
     const setRegister = () => store.commit('auth/setRegister');
     const setForgotPassword = () => store.commit('auth/setForgotPassword');
@@ -119,8 +123,11 @@ export default defineComponent({
         } else if (loginStatus.value === 'forgotPassword') {
           await store.dispatch('auth/restorePassword', form.value);
           ElMessage({ message: 'Ссылка для восстановления пароля отправлена на Вашу почту', type: 'success' });
-        } else {
-          // TODO добавить форму для замены пароля
+          closeModal();
+          return;
+        } else if (loginStatus.value === 'passwordChange') {
+          await sendPassword();
+          return;
         }
       } catch (error) {
         console.log(error);
@@ -133,6 +140,17 @@ export default defineComponent({
       }
       closeModal();
       ElMessage({ message: 'Вы успешно вошли в систему', type: 'success' });
+    };
+
+    const sendPassword = async () => {
+      const userId = route.params['userId'];
+      if (userId && typeof userId === 'string') {
+        form.value.id = userId;
+      }
+      await store.dispatch('auth/refreshPassword', form.value);
+      await router.push('/main');
+      ElMessage({ message: 'Используйте новый пароль для входа в систему', type: 'success' });
+      store.commit('auth/setLogin');
     };
 
     const findEmail = async (email: string) => {

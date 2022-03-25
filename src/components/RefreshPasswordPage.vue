@@ -2,53 +2,49 @@
   <div class="title"><h2>Вы действительно хотите изменить пароль?</h2></div>
   <div class="news-page-container">
     <div class="news-content-container">
-      <!-- <div class="password-title"><h4>Задайте новый пароль</h4></div> -->
       <el-form>
-        <!-- <el-input class="password" v-model="newPassword" placeholder="Новый пароль"></el-input> -->
-        <!-- <button class="add-button" @click="sendPassword">Сохранить пароль</button> -->
-        <button class="yes-button" @click="passwordChange">Да</button>
+        <button class="yes-button" @click.prevent="passwordChange">Да</button>
         <button class="no-button" @click="$router.push('/')">Нет</button>
       </el-form>
-      <ImageGallery :images="page.pageImages" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ElMessage } from 'element-plus';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import NewsComment from '@/classes/news/NewsComment';
 import User from '@/classes/User';
-import ImageGallery from '@/components/ImageGallery.vue';
 import IUser from '@/interfaces/IUser';
 import IPage from '@/interfaces/page/IPage';
 export default defineComponent({
   name: 'RefreshPasswordPage',
-  components: { ImageGallery },
   async setup() {
     let comment = ref(new NewsComment());
     const commentInput = ref();
     const store = useStore();
     const route = useRoute();
-    const slug = computed(() => route.params['slug']);
+    const router = useRouter();
     const page: ComputedRef<IPage> = computed(() => store.getters['pages/page']);
     const user: Ref<IUser> = computed(() => new User());
     const newPassword: Ref<string> = ref('');
-    const passwordChange = () => store.commit('auth/openModal', 'passwordChange');
+
+    const passwordChange = () => {
+      store.commit('auth/openModal', 'passwordChange');
+    };
 
     onBeforeMount(async () => {
-      await store.dispatch('auth/checkUuid', { userId: route.params['userId'], uniqueId: route.params['uniqueId'] });
-      store.commit('divisions/setOnlyShowed', true);
-    });
-
-    watch(slug, () => {
-      if (slug.value) {
-        store.dispatch('news/get', slug.value);
-        window.scrollTo(0, 0);
+      try {
+        await store.dispatch('auth/checkUuid', { userId: route.params['userId'], uniqueId: route.params['uniqueId'] });
+      } catch (e) {
+        // await router.push('/main');
+        ElMessage({ message: 'Ссылка для восстановления пароля устарела', type: 'warning' });
       }
     });
+
     const sendPassword = async () => {
       const userId = route.params['userId'];
       if (userId && typeof userId === 'string') {
@@ -56,7 +52,9 @@ export default defineComponent({
       }
       user.value.password = newPassword.value;
       await store.dispatch('auth/refreshPassword', user.value);
+      await router.push('/main');
     };
+
     return { sendPassword, comment, page, newPassword, commentInput, passwordChange };
   },
 });
@@ -148,6 +146,7 @@ h4 {
 
 .yes-button:hover {
   background: #133dcc;
+  cursor: pointer;
 }
 
 .no-button {
@@ -162,5 +161,6 @@ h4 {
 
 .no-button:hover {
   background: #d12413;
+  cursor: pointer;
 }
 </style>
