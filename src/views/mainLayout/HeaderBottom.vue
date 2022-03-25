@@ -1,21 +1,22 @@
 <template>
-    <div class="navbar">
-      <div class="container">
-        <div class="menu">
-          <div class="menu-left"><BurgerMobile /></div>
-          <div class="left-block2"></div>
-          <div class="left-block">
-            <el-row class="mb-4">
-              <el-button class="menu-item" v-if="scrollOffset >= 66 && !mobileWindow" @click="$router.push('/')">
-                <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" />
-              </el-button>
-            </el-row>
-          </div>
-          <div class="menu-center"><NavMenu /></div>
-          <div class="menu-right"><PhoneInfo /></div>
-        </div>  
+  <div class="navbar">
+    <div class="app-title">{{ devTitle }}</div>
+    <div class="container">
+      <div class="menu">
+        <div class="menu-left"><BurgerMobile /></div>
+        <div class="left-block2"></div>
+        <div class="left-block">
+          <el-row class="mb-4">
+            <el-button v-if="scrollOffset >= 66 && !mobileWindow" class="menu-item" @click="$router.push('/')">
+              <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" />
+            </el-button>
+          </el-row>
+        </div>
+        <div class="menu-center"><NavMenu /></div>
+        <div class="menu-right"><PhoneInfo /></div>
       </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,16 +24,14 @@ import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
-import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
 import BurgerMobile from '@/views/mainLayout/elements/BurgerMobile.vue';
+import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
 import PhoneInfo from '@/views/mainLayout/elements/PhoneInfo.vue';
 
 export default defineComponent({
   name: 'HeaderBottom',
   components: {
     NavMenu,
-    LoginDropdownMenu,
     BurgerMobile,
     PhoneInfo,
   },
@@ -45,6 +44,7 @@ export default defineComponent({
     const rememberedOffset = ref(0);
     const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
     const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
+    const devTitle = process.env.VUE_APP_TITLE;
 
     const nav = async (to: string) => {
       await router.push(to);
@@ -98,15 +98,15 @@ export default defineComponent({
       tabletWindow,
       mobileWindow,
       showSearchDrawer,
+      devTitle,
     };
   },
 });
 </script>
 
 <style scoped lang="scss">
-
 .navbar {
-  background: #F0F2F7;
+  background: #f0f2f7;
   border-top: 1px solid #dfe4ee;
   box-shadow: 0 4px 4px (rgba($color: #000000, $alpha: 0.2));
 
@@ -149,7 +149,7 @@ export default defineComponent({
 }
 
 .menu-left {
-  display:none;
+  display: none;
   align-items: center;
 }
 
@@ -167,6 +167,17 @@ export default defineComponent({
 }
 .menu-item:hover {
   background-color: #ffffff;
+}
+
+.app-title {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 100;
+  padding: 0 6px;
+  background: #2754eb;
+  color: #ffffff;
+  border-radius: 2px;
 }
 
 @media screen and (max-width: 1226px) {
