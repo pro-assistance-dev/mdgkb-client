@@ -18,6 +18,15 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    storeMode: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+    orderedItems: {
+      type: Array as PropType<IOrdered[]>,
+      required: false,
+      default: () => [],
+    },
     storeModule: {
       type: String as PropType<string>,
       default: '',
@@ -29,7 +38,9 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const items: Ref<IOrdered[]> = computed(() => store.getters[`${props.storeModule}/${props.storeGetter}`]);
+    const items: Ref<IOrdered[]> = computed(() =>
+      props.storeMode ? store.getters[`${props.storeModule}/${props.storeGetter}`] : props.orderedItems
+    );
 
     const move = (up: boolean) => (up ? moveUp(items.value, props.index) : moveDown(items.value, props.index));
 

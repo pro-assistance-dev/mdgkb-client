@@ -9,6 +9,11 @@
       </div>
     </template>
     <el-table :data="form.fields">
+      <el-table-column width="50" fixed="left" align="center">
+        <template #default="scope">
+          <TableMover :ordered-items="form.fields" :index="scope.$index" />
+        </template>
+      </el-table-column>
       <el-table-column label="Название поля формы" sortable>
         <template #default="scope">
           <el-input v-model="scope.row.name" placeholder="Имя поля" />
@@ -46,6 +51,7 @@ import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
 import ValueType from '@/classes/ValueType';
+import TableMover from '@/components/admin/TableMover.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
@@ -53,7 +59,7 @@ import IValueType from '@/interfaces/IValueType';
 
 export default defineComponent({
   name: 'FormConstructor',
-  components: { FileUploader },
+  components: { FileUploader, TableMover },
   props: {
     form: {
       type: Object as PropType<IForm>,
