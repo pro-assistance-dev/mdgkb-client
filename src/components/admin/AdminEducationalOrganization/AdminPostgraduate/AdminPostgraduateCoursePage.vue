@@ -96,15 +96,17 @@
                 </el-select>
               </el-container>
             </el-card>
-            <template #header> Специальности </template>
-            <el-checkbox
-              v-for="specialization in specializations"
-              :key="specialization.id"
-              :model-value="postgraduateCourse.findSpecialization(specialization.id)"
-              @change="postgraduateCourse.addSpecialization(specialization)"
-            >
-              {{ specialization.name }}
-            </el-checkbox>
+            <el-card>
+              <template #header> Специальности </template>
+              <el-checkbox
+                v-for="specialization in specializations"
+                :key="specialization.id"
+                :model-value="postgraduateCourse.findSpecialization(specialization.id)"
+                @change="postgraduateCourse.addSpecialization(specialization)"
+              >
+                {{ specialization.name }}
+              </el-checkbox>
+            </el-card>
           </el-container>
         </el-col>
       </el-row>
