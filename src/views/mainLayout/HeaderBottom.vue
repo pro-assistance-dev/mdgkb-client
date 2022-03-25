@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <div class="app-title">{{ devTitle }}</div>
+    <div v-if="devTitle === 'dev'" class="app-title">Разработка</div>
     <div class="container">
       <div class="menu">
         <div class="menu-left"><BurgerMobile /></div>
@@ -44,7 +44,7 @@ export default defineComponent({
     const rememberedOffset = ref(0);
     const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
     const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
-    const devTitle = process.env.VUE_APP_TITLE;
+    const devTitle = process.env.VUE_APP_MODE;
 
     const nav = async (to: string) => {
       await router.push(to);
