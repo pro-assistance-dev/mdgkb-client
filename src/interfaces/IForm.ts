@@ -9,6 +9,7 @@ export default interface IForm {
   fields: IField[];
   fieldValues: IFieldValue[];
   fieldValuesForDelete: string[];
+  validated?: boolean;
 
   addField(field?: IField): void;
   removeField(index: number): void;

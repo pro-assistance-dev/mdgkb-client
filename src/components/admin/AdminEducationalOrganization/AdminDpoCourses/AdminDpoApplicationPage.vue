@@ -6,16 +6,22 @@
           <template #header>
             <span>Информация о программе</span>
           </template>
-          <el-select
+          <el-form-item
             v-if="isEditMode"
-            v-model="dpoApplication.dpoCourse"
-            value-key="id"
-            placeholder="Выберите программу"
-            style="width: 100%"
-            @change="courseChangeHandler"
+            label="Выберите программу"
+            prop="dpoCourseId"
+            :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
           >
-            <el-option v-for="item in dpoCourses" :key="item.id" :label="item.name" :value="item"> </el-option>
-          </el-select>
+            <el-select
+              v-model="dpoApplication.dpoCourse"
+              value-key="id"
+              placeholder="Выберите программу"
+              style="width: 100%"
+              @change="courseChangeHandler"
+            >
+              <el-option v-for="item in dpoCourses" :key="item.id" :label="item.name" :value="item"> </el-option>
+            </el-select>
+          </el-form-item>
           <el-descriptions v-else :column="1">
             <el-descriptions-item label="Наименование">{{ dpoApplication.dpoCourse.name }}</el-descriptions-item>
             <el-descriptions-item label="Тип программы">{{ dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-descriptions-item>
@@ -27,17 +33,21 @@
             <span>Информация о заявителе</span>
           </template>
           <div v-if="isEditMode">
-            <el-form-item label="Электронная почта" prop="user.email">
-              <el-input v-model="dpoApplication.user.email"></el-input>
+            <el-form-item
+              label="Электронная почта"
+              prop="user.email"
+              :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
+            >
+              <el-input v-model="dpoApplication.user.email" placeholder="Электронная почта"></el-input>
             </el-form-item>
             <el-form-item label="Фамилия" prop="user.human.surname">
-              <el-input v-model="dpoApplication.user.human.surname"></el-input>
+              <el-input v-model="dpoApplication.user.human.surname" placeholder="Фамилия"></el-input>
             </el-form-item>
             <el-form-item label="Имя" prop="user.human.name">
-              <el-input v-model="dpoApplication.user.human.name"></el-input>
+              <el-input v-model="dpoApplication.user.human.name" placeholder="Имя"></el-input>
             </el-form-item>
             <el-form-item label="Отчество" prop="user.human.patronymic">
-              <el-input v-model="dpoApplication.user.human.patronymic"></el-input>
+              <el-input v-model="dpoApplication.user.human.patronymic" placeholder="Отчество"></el-input>
             </el-form-item>
           </div>
           <el-descriptions v-else :column="1">
@@ -192,9 +202,10 @@ export default defineComponent({
     };
 
     const submit = async (next?: NavigationGuardNext) => {
+      dpoApplication.value.dpoCourse.formPattern.validate();
       store.commit('dpoApplications/setFieldValues', dpoApplication.value.dpoCourse.formPattern);
       saveButtonClick.value = true;
-      if (!validate(form)) {
+      if (!validate(form, true) || !dpoApplication.value.dpoCourse.formPattern.validated) {
         saveButtonClick.value = false;
         return;
       }
@@ -208,6 +219,7 @@ export default defineComponent({
     };
 
     const courseChangeHandler = () => {
+      dpoApplication.value.dpoCourseId = dpoApplication.value.dpoCourse.id;
       dpoApplication.value.removeAllFieldValues();
       // dpoApplication.value.dpoCourse.formPattern.removeAllFieldValues();
       dpoApplication.value.dpoCourse.formPattern.initFieldsValues();

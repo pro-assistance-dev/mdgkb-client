@@ -14,6 +14,7 @@ export default class Form implements IForm {
   fields: IField[] = [];
   fieldValues: IFieldValue[] = [];
   fieldValuesForDelete = [];
+  validated = true;
 
   constructor(i?: IForm) {
     if (!i) {
@@ -21,6 +22,9 @@ export default class Form implements IForm {
     }
     this.id = i.id;
     this.title = i.title;
+    if (i.validated) {
+      this.validated = i.validated;
+    }
     if (i.fields) {
       this.fields = i.fields.map((item: IField) => new Field(item));
     }
@@ -80,9 +84,11 @@ export default class Form implements IForm {
   }
 
   validate(): void {
+    this.validated = true;
     this.fieldValues.forEach((el: IFieldValue) => {
       if (el.field && el.field.required) {
         el.showError = true;
+        this.validated = false;
       }
     });
   }

@@ -7,16 +7,16 @@
         prop="user.email"
         :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
       >
-        <el-input v-model="dpoApplication.user.email"></el-input>
+        <el-input v-model="dpoApplication.user.email" placeholder="Электронная почта"></el-input>
       </el-form-item>
       <el-form-item v-if="!user.human.surname" label="Фамилия" prop="user.human.surname">
-        <el-input v-model="dpoApplication.user.human.surname"></el-input>
+        <el-input v-model="dpoApplication.user.human.surname" placeholder="Фамилия"></el-input>
       </el-form-item>
       <el-form-item v-if="!user.human.name" label="Имя" prop="user.human.name">
-        <el-input v-model="dpoApplication.user.human.name"></el-input>
+        <el-input v-model="dpoApplication.user.human.name" placeholder="Имя"></el-input>
       </el-form-item>
       <el-form-item v-if="!user.human.patronymic" label="Отчество" prop="user.human.patronymic">
-        <el-input v-model="dpoApplication.user.human.patronymic"></el-input>
+        <el-input v-model="dpoApplication.user.human.patronymic" placeholder="Отчество"></el-input>
       </el-form-item>
 
       <i>
@@ -69,7 +69,7 @@ export default defineComponent({
 
     const submit = async () => {
       dpoCourse.value.formPattern.validate();
-      if (!validate(form, true)) {
+      if (!validate(form, true) || !dpoCourse.value.formPattern.validated) {
         return;
       }
       store.commit('dpoApplications/setFieldValues', dpoCourse.value.formPattern);
