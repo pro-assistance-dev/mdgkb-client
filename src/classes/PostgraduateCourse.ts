@@ -1,5 +1,6 @@
 import FileInfo from '@/classes/File/FileInfo';
 import PostgraduateCourseDates from '@/classes/PostgraduateCourseDates';
+import PostgraduateCoursePlan from '@/classes/PostgraduateCoursePlan';
 import PostgraduateCourseSpecialization from '@/classes/PostgraduateCourseSpecialization';
 import PostgraduateCourseTeacher from '@/classes/PostgraduateCourseTeacher';
 import Specialization from '@/classes/Specialization';
@@ -8,6 +9,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IForm from '@/interfaces/IForm';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
+import IPostgraduateCoursePlan from '@/interfaces/IPostgraduateCoursePlan';
 import IPostgraduateCourseSpecialization from '@/interfaces/IPostgraduateCourseSpecialization';
 import IPostgraduateCourseTeacher from '@/interfaces/IPostgraduateCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -20,6 +22,8 @@ import Form from './Form';
 export default class PostgraduateCourse implements IPostgraduateCourse {
   id?: string;
   description = '';
+  educationForm = 'Очная';
+  years = 3;
   postgraduateCoursesSpecializations: IPostgraduateCourseSpecialization[] = [];
   postgraduateCoursesSpecializationsForDelete: string[] = [];
   postgraduateCoursesTeachers: IPostgraduateCourseTeacher[] = [];
@@ -30,6 +34,14 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
   formPatternId?: string;
   questionsFile: IFileInfo = new FileInfo();
   questionsFileId?: string;
+  programFile: IFileInfo = new FileInfo();
+  programFileId?: string;
+  calendar: IFileInfo = new FileInfo();
+  calendarId?: string;
+
+  postgraduateCoursePlans: IPostgraduateCoursePlan[] = [];
+  postgraduateCoursePlansForDelete: string[] = [];
+
   constructor(i?: IPostgraduateCourse) {
     if (!i) {
       return;
@@ -37,6 +49,8 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     this.id = i.id;
     this.description = i.description;
     this.formPatternId = i.formPatternId;
+    this.educationForm = i.educationForm;
+    this.years = i.years;
     if (i.postgraduateCoursesDates) {
       this.postgraduateCoursesDates = i.postgraduateCoursesDates.map((item: IPostgraduateCourseDates) => new PostgraduateCourseDates(item));
     }
@@ -55,6 +69,15 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     }
     if (i.questionsFile) {
       this.questionsFile = new FileInfo(i.questionsFile);
+    }
+    if (i.programFile) {
+      this.programFile = new FileInfo(i.programFile);
+    }
+    if (i.calendar) {
+      this.calendar = new FileInfo(i.calendar);
+    }
+    if (i.postgraduateCoursePlans) {
+      this.postgraduateCoursePlans = i.postgraduateCoursePlans.map((item: IPostgraduateCoursePlan) => new PostgraduateCoursePlan(item));
     }
     this.questionsFileId = i.questionsFileId;
   }
@@ -114,6 +137,30 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     if (this.questionsFile) {
       fileInfos.push(this.questionsFile);
     }
+    if (this.questionsFile) {
+      fileInfos.push(this.programFile);
+    }
+    if (this.calendar) {
+      fileInfos.push(this.programFile);
+    }
+    this.postgraduateCoursePlans.forEach((plan: IPostgraduateCoursePlan) => {
+      if (plan.plan) {
+        fileInfos.push(plan.plan);
+      }
+    });
+
     return fileInfos;
+  }
+
+  addPostgraduateCoursePlan(): void {
+    this.postgraduateCoursePlans.push(new PostgraduateCoursePlan());
+  }
+
+  getMainSpecialization(): string {
+    const spec = this.postgraduateCoursesSpecializations[0];
+    if (spec) {
+      return spec.specialization.name;
+    }
+    return '';
   }
 }

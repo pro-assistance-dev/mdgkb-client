@@ -4,8 +4,52 @@
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
+            <el-card>
+              <div class="files-block">
+                <el-card>
+                  <template #header>Вопросы для подготовки к кандидатскому экзамену </template>
+                  <FileUploader :file-info="postgraduateCourse.questionsFile" />
+                </el-card>
+                <el-card>
+                  <template #header>Образовательная программа</template>
+                  <FileUploader :file-info="postgraduateCourse.programFile" />
+                </el-card>
+                <el-card>
+                  <template #header>Календарный учебный график </template>
+                  <FileUploader :file-info="postgraduateCourse.calendar" />
+                </el-card>
+              </div>
+              <el-button @click="postgraduateCourse.addPostgraduateCoursePlan()">Добавить учебный план</el-button>
+              <el-table :data="postgraduateCourse.postgraduateCoursePlans">
+                <el-table-column label="Год" sortable>
+                  <template #default="scope">
+                    <el-date-picker v-model="scope.row.year" type="year" placeholder="Выберете год" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="Учебный план" sortable width="300px">
+                  <template #default="scope">
+                    <FileUploader :file-info="scope.row.plan" />
+                  </template>
+                </el-table-column>
+                <el-table-column width="50" fixed="right" align="center">
+                  <template #default="scope">
+                    <TableButtonGroup
+                      :show-remove-button="true"
+                      @remove="
+                        removeFromClass(
+                          scope.$index,
+                          postgraduateCourse.postgraduateCoursePlans,
+                          postgraduateCourse.postgraduateCoursePlansForDelete
+                        )
+                      "
+                    />
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-card>
+
             <el-card class="content-card">
-              <template #header>Контент</template>
+              <template #header>Описание</template>
               <el-form-item prop="description">
                 <QuillEditor
                   v-model:content="postgraduateCourse.description"
@@ -82,13 +126,21 @@
           </el-container>
         </el-col>
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
-          <FileUploader :file-info="postgraduateCourse.questionsFile" />
           <el-container direction="vertical">
+            <el-card>
+              <template #header> Форма обучения </template>
+              <el-input v-model="postgraduateCourse.educationForm"> </el-input>
+            </el-card>
+            <el-card>
+              <template #header> Нормативный срок обучения </template>
+              <el-input-number v-model="postgraduateCourse.years"> </el-input-number> года
+            </el-card>
             <el-card>
               <el-container direction="vertical">
                 <el-select
                   v-model="postgraduateCourse.formPattern"
                   value-key="id"
+                  placeholder="Выбрать форму для записи"
                   label="Шаблон формы"
                   @change="changeFormPatternHandler()"
                 >
@@ -174,7 +226,7 @@ export default defineComponent({
       if (route.params['id']) {
         await store.dispatch('postgraduateCourses/get', route.params['id']);
         store.commit('admin/setHeaderParams', {
-          title: 'Программа аспирантуры',
+          title: `Программа аспирантуры по специальности "${postgraduateCourse.value.getMainSpecialization()}"`,
           showBackButton: true,
           buttons: [{ action: submit }],
         });
@@ -213,7 +265,7 @@ export default defineComponent({
     };
 
     const changeFormPatternHandler = () => {
-      // postgraduateCourse.value.formPatternId = postgraduateCourse.value.formPattern.id
+      postgraduateCourse.value.formPatternId = postgraduateCourse.value.formPattern.id;
     };
 
     return {
@@ -233,6 +285,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.files-block {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0 10px 0;
+}
+
 .el-container {
   .el-card {
     margin-bottom: 20px;
