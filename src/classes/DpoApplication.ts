@@ -15,6 +15,7 @@ export default class DpoApplication implements IDpoApplication {
   isNew = true;
   dpoCourse = new DpoCourse();
   fieldValues: IFieldValue[] = [];
+  fieldValuesForDelete: string[] = [];
 
   constructor(dpoApplication?: IDpoApplication) {
     if (!dpoApplication) {
@@ -34,6 +35,7 @@ export default class DpoApplication implements IDpoApplication {
     if (dpoApplication.fieldValues) {
       this.fieldValues = dpoApplication.fieldValues.map((item: IFieldValue) => new FieldValue(item));
     }
+    this.dpoCourse.formPattern.fieldValues = this.fieldValues;
   }
 
   isFieldValuesModChecked(): boolean {
@@ -50,5 +52,10 @@ export default class DpoApplication implements IDpoApplication {
       }
     });
     return fileInfos;
+  }
+  removeAllFieldValues(): void {
+    this.fieldValues.forEach((el) => {
+      if (el.id) this.fieldValuesForDelete.push(el.id);
+    });
   }
 }

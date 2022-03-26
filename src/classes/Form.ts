@@ -13,6 +13,7 @@ export default class Form implements IForm {
 
   fields: IField[] = [];
   fieldValues: IFieldValue[] = [];
+  fieldValuesForDelete = [];
 
   constructor(i?: IForm) {
     if (!i) {
@@ -75,6 +76,14 @@ export default class Form implements IForm {
       fieldValue.fieldId = field.id;
       fieldValue.field = new Field(field);
       this.fieldValues.push(fieldValue);
+    });
+  }
+
+  validate(): void {
+    this.fieldValues.forEach((el: IFieldValue) => {
+      if (el.field && el.field.required) {
+        el.showError = true;
+      }
     });
   }
 }

@@ -8,6 +8,7 @@ export default interface IForm {
   title?: string;
   fields: IField[];
   fieldValues: IFieldValue[];
+  fieldValuesForDelete: string[];
 
   addField(field?: IField): void;
   removeField(index: number): void;
@@ -15,4 +16,5 @@ export default interface IForm {
   initFieldsValues: () => void;
   getFieldValue: (field: IField) => string | number | Date | IFileInfo | boolean | undefined;
   findFieldValue: (fieldId: string) => IFieldValue | undefined;
+  validate: () => void;
 }

@@ -4,7 +4,7 @@
       <template #default="scope">
         <el-tag v-if="scope.row.isNew" size="small" type="warning">Новая</el-tag>
         <el-tag v-if="scope.row.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
-        <el-tag v-else size="small" type="error">Данные не проверены</el-tag>
+        <el-tag v-else size="small" type="danger">Данные не проверены</el-tag>
       </template>
     </el-table-column>
     <el-table-column label="Дата подачи заявления" sortable>
@@ -63,6 +63,7 @@ export default defineComponent({
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const filterModel = ref();
+    const title = ref('');
 
     watch(route, async () => {
       setType();
@@ -70,7 +71,13 @@ export default defineComponent({
     });
 
     const setType = () => {
-      filterModel.value.boolean = route.path === '/admin/nmo/applications';
+      if (route.path === '/admin/nmo/applications') {
+        filterModel.value.boolean = true;
+        title.value = 'Заявки НМО';
+      } else {
+        filterModel.value.boolean = false;
+        title.value = 'Заявки ДПО';
+      }
       store.commit('filter/setFilterModel', filterModel.value);
     };
 
@@ -103,15 +110,15 @@ export default defineComponent({
       await setFilter();
       await store.dispatch('dpoApplications/getAll', filterQuery.value);
       store.commit('admin/setHeaderParams', {
-        title: 'Заявки ДПО',
-        // buttons: [{ text: 'Добавить программу', type: 'primary', action: create }],
+        title: title,
+        buttons: [{ text: 'Добавить заявку', type: 'primary', action: create }],
       });
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
       mounted.value = true;
     });
 
-    // const create = () => router.push(`/admin/educational-organization/dpo/courses/new`);
+    const create = () => router.push(`${route.path}/new`);
     // const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
     const edit = (id: string) => router.push(`${route.path}/${id}`);
 
@@ -126,6 +133,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 :deep(.el-tag) {
-  margin-right: 5px;
+  margin: 2px;
 }
 </style>

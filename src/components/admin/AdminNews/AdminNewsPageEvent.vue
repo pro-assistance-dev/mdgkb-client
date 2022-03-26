@@ -19,7 +19,7 @@ import { useStore } from 'vuex';
 
 import Event from '@/classes/news/Event';
 import AdminNewsPageEventApplications from '@/components/admin/AdminNews/AdminNewsPageEventApplications.vue';
-import FormConstructor from '@/components/admin/FormConstructor.vue';
+import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import INews from '@/interfaces/news/INews';
 
 export default defineComponent({

@@ -14,6 +14,8 @@ export default class FieldValue implements IFieldValue {
   file = new FileInfo();
   fileId?: string;
   field = new Field();
+  showError = false; // Display validation error
+  errorText = 'Это поле обязательно к заполнению';
 
   constructor(i?: IFieldValue) {
     if (!i) {
@@ -24,7 +26,15 @@ export default class FieldValue implements IFieldValue {
     this.eventApplicationId = i.eventApplicationId;
     this.valueString = i.valueString;
     this.valueNumber = i.valueNumber;
-    this.modChecked = i.modChecked;
+    if (i.errorText) {
+      this.errorText = i.errorText;
+    }
+    if (i.modChecked) {
+      this.modChecked = i.modChecked;
+    }
+    if (i.showError) {
+      this.showError = i.showError;
+    }
     this.valueDate = i.valueDate;
     this.fileId = i.fileId;
     if (i.file) {

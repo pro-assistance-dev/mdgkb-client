@@ -11,7 +11,7 @@
     <el-button size="mini" type="success">{{ fileInfo && fileInfo.originalName ? 'Обновить' : 'Загрузить' }}</el-button>
     <template #tip>
       <div v-if="fileInfo && fileInfo.originalName" class="file-name">
-        <a :href="fileInfo.url" target="_blank">
+        <a :href="fileInfo.getFileUrl()" target="_blank">
           <div>{{ fileInfo.originalName }}</div>
         </a>
         <el-button size="mini" icon="el-icon-close" @click="removeFile"></el-button>

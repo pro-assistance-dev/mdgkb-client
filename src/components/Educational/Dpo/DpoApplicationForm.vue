@@ -1,7 +1,12 @@
 <template>
   <div v-if="mounted">
-    <el-form v-model="dpoApplication" label-position="top">
-      <el-form-item v-if="!user.email" label="Электронная почта" prop="user.email">
+    <el-form ref="form" v-model="dpoApplication" :model="dpoApplication" label-position="top">
+      <el-form-item
+        v-if="!user.email"
+        label="Электронная почта"
+        prop="user.email"
+        :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
+      >
         <el-input v-model="dpoApplication.user.email"></el-input>
       </el-form-item>
       <el-form-item v-if="!user.human.surname" label="Фамилия" prop="user.human.surname">
@@ -38,10 +43,11 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
-import FieldValuesForm from '@/components/FieldValuesForm.vue';
+import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IUser from '@/interfaces/IUser';
+import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'DpoApplicationForm',
@@ -55,12 +61,18 @@ export default defineComponent({
     const dpoCourse: Ref<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
+    const form = ref();
+
     watch(isAuth, () => {
       store.commit('dpoApplications/setUser', user.value);
     });
 
     const submit = async () => {
-      store.commit('dpoApplications/setFieldValues', dpoCourse.value.formPattern.fieldValues);
+      dpoCourse.value.formPattern.validate();
+      if (!validate(form, true)) {
+        return;
+      }
+      store.commit('dpoApplications/setFieldValues', dpoCourse.value.formPattern);
       await store.dispatch('dpoApplications/create');
       ElMessage({
         type: 'success',
@@ -85,6 +97,7 @@ export default defineComponent({
       submit,
       user,
       isAuth,
+      form,
     };
   },
 });

@@ -17,7 +17,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FormConstructor from '@/components/admin/FormConstructor.vue';
+import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import IForm from '@/interfaces/IForm';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 
