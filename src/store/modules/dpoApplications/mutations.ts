@@ -5,7 +5,7 @@ import DpoCourse from '@/classes/DpoCourse';
 import User from '@/classes/User';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
-import IFieldValue from '@/interfaces/IFieldValue';
+import IForm from '@/interfaces/IForm';
 import IUser from '@/interfaces/IUser';
 
 import { State } from './state';
@@ -34,8 +34,8 @@ const mutations: MutationTree<State> = {
   setCourse(state, dpoCourse: IDpoCourse) {
     state.item.dpoCourse = new DpoCourse(dpoCourse);
   },
-  setFieldValues(state, fieldValues: IFieldValue[]) {
-    state.item.fieldValues = fieldValues;
+  setFieldValues(state, form: IForm) {
+    state.item.fieldValues = form.fieldValues;
   },
 };
 

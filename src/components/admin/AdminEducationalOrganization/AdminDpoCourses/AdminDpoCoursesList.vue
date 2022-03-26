@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -43,10 +43,11 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const dpoCourses: Ref<IDpoCourse[]> = computed(() => store.getters['dpoCourses/items']);
+    const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => store.getters['dpoCourses/items']);
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
     const filterModel = ref();
+    const title = ref('');
 
     watch(route, async () => {
       setProgramsType();
@@ -54,7 +55,13 @@ export default defineComponent({
     });
 
     const setProgramsType = () => {
-      filterModel.value.boolean = route.path === '/admin/nmo/courses';
+      if (route.path === '/admin/nmo/courses') {
+        filterModel.value.boolean = true;
+        title.value = 'НМО';
+      } else {
+        filterModel.value.boolean = false;
+        title.value = 'ДПО - дополнительные программы';
+      }
       store.commit('filter/setFilterModel', filterModel.value);
     };
 
@@ -71,7 +78,7 @@ export default defineComponent({
       setProgramsType();
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
       store.commit('admin/setHeaderParams', {
-        title: 'ДПО - дополнительные программы',
+        title: title,
         buttons: [{ text: 'Добавить программу', type: 'primary', action: create }],
       });
       store.commit('pagination/setCurPage', 1);

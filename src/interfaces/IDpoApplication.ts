@@ -12,8 +12,10 @@ export default interface IDpoApplication {
   createdAt: Date;
   isNew: boolean;
   fieldValues: IFieldValue[];
+  fieldValuesForDelete: string[];
 
   getFileInfos: () => IFileInfo[];
   isFieldValuesModChecked: () => boolean;
   changeFieldValuesModChecked: (modChecked: boolean) => void;
+  removeAllFieldValues: () => void;
 }

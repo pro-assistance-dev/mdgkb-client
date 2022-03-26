@@ -82,6 +82,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      isNmo: true,
     },
   },
   {
@@ -130,6 +131,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      isNmo: false,
     },
   },
   {
@@ -142,6 +144,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      isNmo: false,
     },
   },
   {
@@ -154,6 +157,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      isNmo: true,
     },
   },
   {
@@ -166,6 +170,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      isNmo: true,
     },
   },
   {
