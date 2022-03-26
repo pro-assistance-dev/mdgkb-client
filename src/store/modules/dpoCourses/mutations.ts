@@ -16,6 +16,9 @@ const mutations: MutationTree<State> = {
   set(state, item: IDpoCourse) {
     state.item = new DpoCourse(item);
   },
+  setIsNmo(state, isNmo: boolean) {
+    state.item.isNmo = isNmo;
+  },
   remove(state, id: string) {
     const index = state.items.findIndex((i: IDpoCourse) => i.id === id);
     state.items.splice(index, 1);

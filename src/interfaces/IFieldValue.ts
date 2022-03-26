@@ -6,10 +6,12 @@ export default interface IFieldValue {
   fieldId?: string;
   valueString?: string;
   valueNumber?: number;
-  modChecked: boolean;
+  modChecked?: boolean;
   valueDate?: Date;
   eventApplicationId?: string;
-  file: IFileInfo;
+  file?: IFileInfo;
   fileId?: string;
-  field: IField;
+  field?: IField;
+  showError?: boolean;
+  errorText?: string;
 }

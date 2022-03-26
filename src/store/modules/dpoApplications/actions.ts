@@ -35,8 +35,12 @@ const actions: ActionTree<State, RootState> = {
     });
     TokenService.updateHuman(new Human(state.item.user.human));
   },
-  update: async ({ commit }, item: IDpoApplication): Promise<void> => {
-    const res = await httpClient.put<IDpoApplication, IDpoApplication>({ query: `${item.id}`, payload: item, isFormData: true });
+  update: async ({ state, commit }): Promise<void> => {
+    const res = await httpClient.put<IDpoApplication, IDpoApplication>({
+      query: `${state.item.id}`,
+      payload: state.item,
+      isFormData: true,
+    });
     commit('set', res);
   },
   remove: async ({ commit }, id: string): Promise<void> => {

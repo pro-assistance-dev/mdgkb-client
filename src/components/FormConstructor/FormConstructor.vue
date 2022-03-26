@@ -32,6 +32,11 @@
           <span v-else>Доступен только для файлов</span>
         </template>
       </el-table-column>
+      <el-table-column label="Обязательное" width="150px" align="center">
+        <template #default="scope">
+          <el-checkbox v-model="scope.row.required"></el-checkbox>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- <el-row v-for="field in form.fields" :key="field">
       <div style="margin: 10px">

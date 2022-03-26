@@ -22,15 +22,15 @@ export default class FileInfo implements IFileInfo {
     this.fileSystemPath = i.fileSystemPath;
     this.category = i.category;
     this.file = i.file;
-    this.url = this.getImageUrl();
+    this.url = i.url;
   }
 
   getImageUrl(): string {
-    return `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
+    return this.url ? this.url : `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
   }
 
   getFileUrl(): string {
-    return `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
+    return this.url ? this.url : `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
   }
 
   getFileListObject(): IFilesList {
@@ -67,7 +67,6 @@ export default class FileInfo implements IFileInfo {
   }
 
   clearFile(): void {
-    console.log('clear');
     this.url = '';
     this.file = undefined;
     this.fileSystemPath = '';

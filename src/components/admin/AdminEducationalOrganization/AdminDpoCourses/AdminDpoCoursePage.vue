@@ -78,11 +78,11 @@
           <el-container direction="vertical">
             <el-card>
               <el-container direction="vertical">
-                <el-checkbox v-model="dpoCourse.isNmo">Программа НМО</el-checkbox>
-                <el-form-item v-if="dpoCourse.isNmo" prop="listeners" label="Ссылка">
-                  <el-input v-model="dpoCourse.linkNmo" />
+                <!-- <el-checkbox v-model="dpoCourse.isNmo">Программа НМО</el-checkbox> -->
+                <el-form-item v-if="dpoCourse.isNmo" prop="listeners" label="Ссылка НМО">
+                  <el-input v-model="dpoCourse.linkNmo" placeholder="Ссылка НМО" />
                 </el-form-item>
-                <el-select v-model="dpoCourse.formPattern" value-key="id" label="Шаблон формы" @change="changeFormPatternHandler()">
+                <el-select v-model="dpoCourse.formPattern" value-key="id" placeholder="Шаблон формы" @change="changeFormPatternHandler()">
                   <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
                 </el-select>
               </el-container>
@@ -195,6 +195,7 @@ export default defineComponent({
         });
       } else {
         store.commit('dpoCourses/resetItem');
+        if (route.meta.isNmo) store.commit('dpoCourses/setIsNmo', true);
         store.commit('admin/setHeaderParams', { title: 'Добавить программу', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
