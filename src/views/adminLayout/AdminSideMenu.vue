@@ -185,6 +185,10 @@ export default defineComponent({
             to: '/admin/postgraduate-applications',
           },
           {
+            title: 'Заявки на сдачу кандидатского экзамена',
+            to: '/admin/candidate-applications',
+          },
+          {
             title: 'Шаблоны форм для заявок',
             to: '/admin/form-patterns',
           },

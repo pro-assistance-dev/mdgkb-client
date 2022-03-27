@@ -44,6 +44,7 @@ export default class CandidateApplication implements ICandidateApplication {
         (item: ICandidateApplicationSpecialization) => new CandidateApplicationSpecialization(item)
       );
     }
+    this.candidateExam.formPattern.fieldValues = this.fieldValues;
   }
 
   isFieldValuesModChecked(): boolean {
