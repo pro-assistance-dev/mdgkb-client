@@ -30,6 +30,16 @@
       </i>
 
       <FieldValuesForm :form="candidateExam.formPattern" />
+
+      <h4>Выберете специализации для защиты</h4>
+      <el-checkbox
+        v-for="specialization in specializations"
+        :key="specialization.id"
+        :model-value="candidateApplication.findSpecialization(specialization.id)"
+        @change="candidateApplication.addSpecialization(specialization)"
+      >
+        {{ specialization.name }}
+      </el-checkbox>
     </el-form>
     <el-divider />
     <div style="text-align: right">
@@ -46,6 +56,7 @@ import { useStore } from 'vuex';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
 
@@ -64,7 +75,7 @@ export default defineComponent({
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
     const form = ref();
-
+    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
     watch(isAuth, () => {
       candidateApplication.value.user = user.value;
     });
@@ -84,6 +95,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      await store.dispatch('specializations/getAll');
       store.commit('candidateApplications/resetItem');
       candidateExam.value.formPattern.initFieldsValues();
       candidateApplication.value.candidateExam = candidateExam.value;
@@ -92,6 +104,7 @@ export default defineComponent({
     });
 
     return {
+      specializations,
       candidateApplication,
       candidateExam,
       mounted,
