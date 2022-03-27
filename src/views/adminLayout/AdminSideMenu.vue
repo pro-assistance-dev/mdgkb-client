@@ -181,6 +181,10 @@ export default defineComponent({
             to: '/admin/postgraduate-courses',
           },
           {
+            title: 'Заявки на обучение в аспирантуре',
+            to: '/admin/postgraduate-applications',
+          },
+          {
             title: 'Шаблоны форм для заявок',
             to: '/admin/form-patterns',
           },

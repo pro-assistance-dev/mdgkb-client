@@ -1,7 +1,7 @@
 import IFileInfo from './files/IFileInfo';
-import IPostgraduateCourse from './IPostgraduateCourse';
 import IField from './IField';
 import IFieldValue from './IFieldValue';
+import IPostgraduateCourse from './IPostgraduateCourse';
 import IUser from './IUser';
 
 export default interface IPostgraduateApplication {

@@ -137,11 +137,11 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     if (this.questionsFile) {
       fileInfos.push(this.questionsFile);
     }
-    if (this.questionsFile) {
+    if (this.programFile) {
       fileInfos.push(this.programFile);
     }
     if (this.calendar) {
-      fileInfos.push(this.programFile);
+      fileInfos.push(this.calendar);
     }
     this.postgraduateCoursePlans.forEach((plan: IPostgraduateCoursePlan) => {
       if (plan.plan) {

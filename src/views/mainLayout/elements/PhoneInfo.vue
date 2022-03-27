@@ -128,10 +128,10 @@ export default defineComponent({
     const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
 
     const click = () => {
-        router.push({
-            path: '/search'
-        })
-    }
+      router.push({
+        path: '/search',
+      });
+    };
 
     const nav = async (to: string) => {
       await router.push(to);

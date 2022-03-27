@@ -4,9 +4,9 @@ import IPagination from '@/interfaces/IPagination';
 
 export default interface IFilterQuery {
   id?: string;
+  param: string;
   limit: number;
   offset: number;
-  main: boolean;
   filterModels: IFilterModel[];
   pagination: IPagination;
   sortModels: ISortModel[];

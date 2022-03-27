@@ -6,6 +6,7 @@ import IFieldValue from './IFieldValue';
 export default interface IForm {
   id?: string;
   title?: string;
+  code: string;
   fields: IField[];
   fieldValues: IFieldValue[];
   fieldValuesForDelete: string[];

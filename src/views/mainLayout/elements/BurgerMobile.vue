@@ -10,9 +10,9 @@
         <li v-for="menu in menus" :key="menu.id">
           <router-link :to="menu.getLink()">{{ menu.name }}</router-link>
           <ul v-if="!menu.withoutChildren()">
-              <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
-                <router-link class="link-colomn" :to="subMenu.link">{{ subMenu.name }}</router-link>
-              </li>
+            <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
+              <router-link class="link-colomn" :to="subMenu.link">{{ subMenu.name }}</router-link>
+            </li>
           </ul>
         </li>
       </ul>
@@ -32,10 +32,9 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-
 export default defineComponent({
   name: 'BurgerMobile',
- 
+
   emits: ['changeDrawerStatus'],
   setup(prop, { emit }) {
     let expand = ref(false);
@@ -98,7 +97,7 @@ html {
   display: none;
 }
 
-.burger-drop{
+.burger-drop {
   align-content: center;
   display: flex;
 }
@@ -146,10 +145,10 @@ button {
 }
 
 .icon-menu:hover {
-  stroke: #0671BA;
+  stroke: #0671ba;
 }
 
-ul{
+ul {
   margin: 0;
   padding: 0;
 }
@@ -157,7 +156,7 @@ ul.drop-burger-menu-item li {
   background: #f0f2f7;
   border-bottom: 1px solid #dfe4ee;
   list-style: none;
-  width: 166px;       
+  width: 166px;
 }
 
 ul.drop-burger-menu-item li a {
@@ -185,10 +184,9 @@ ul.drop-burger-menu-item li:hover > ul {
   display: block;
 }
 
-ul.drop-burger-menu-item li:hover ul{
+ul.drop-burger-menu-item li:hover ul {
   position: absolute;
-  top: 0;       
+  top: 0;
   left: 165px;
 }
-
 </style>

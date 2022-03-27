@@ -18,6 +18,7 @@ export default class PostgraduateCoursePlan implements IPostgraduateCoursePlan {
     this.id = i.id;
     this.postgraduateCourseId = i.postgraduateCourseId;
     this.planId = i.planId;
+    this.year = new Date(i.year);
     if (i.postgraduateCourse) {
       this.postgraduateCourse = new PostgraduateCourse(i.postgraduateCourse);
     }

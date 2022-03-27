@@ -1,6 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-import { authGuard, isAuthorized } from '@/router/index';
+
 import AdminApplicationForEntry from '@/components/admin/AdminApplicationForEntry/AdminApplicationForEntryList.vue';
+import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
   {

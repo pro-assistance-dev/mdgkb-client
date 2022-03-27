@@ -1,53 +1,68 @@
 <template>
   <div>
     <div class="card-flex-container card-item">
-      <h2>Кандидатский минимум</h2>
-
-      <!--      <div v-for="">-->
-      <!--        -->
-      <!--      </div>-->
-
-      <h3>Вопросы для подготовки к кандидаским экзаменам</h3>
-      <div class="questions-file-block">
-        <div
-          v-for="postgraduateCourse in postgraduateCourses.filter((course) => course.questionsFile.url)"
-          :key="postgraduateCourse.id"
-          class="questions-file-element"
-        >
-          <a
-            v-if="postgraduateCourse.questionsFile.fileSystemPath"
-            :href="postgraduateCourse.questionsFile.getFileUrl()"
-            :download="postgraduateCourse.questionsFile.originalName"
-            target="_blank"
-            style="margin-right: 10px"
-          >
-            {{ postgraduateCourse.postgraduateCoursesSpecializations[0].specialization.name }}
-          </a>
+      <div class="card-item" style="padding: 30px; margin-bottom: 20px">
+        <div class="card-header">
+          <!--          <h2 class="title article-title">{{ dpoCourse.name }}</h2>-->
         </div>
+        <el-divider />
+        <!--        <div v-if="dpoCourse.description" class="title-icon">-->
       </div>
+      <!--        <div class="article-body" v-html="dpoCourse.description"></div>-->
+      <el-divider />
+      <div class="bottom-footer">
+        <!--          <SharesBlock :title="dpoCourse.name" :description="dpoCourse.description" :url="getUrl()" />-->
+        <button class="response-btn" @click="openRespondForm">Подать заявление</button>
+      </div>
+    </div>
+    <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
+      <h2 class="title article-title">Форма для подачи заявления</h2>
+      <el-divider />
+      <CandidateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
+import CandidateApplicationForm from '@/components/Educational/Postgraduate/CandidateApplicationForm.vue';
+import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISchema from '@/interfaces/schema/ISchema';
+import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'CandidatesMinimum',
+  components: { CandidateApplicationForm },
   setup() {
     const store = useStore();
-    const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed<IPostgraduateCourse[]>(
-      () => store.getters['postgraduateCourses/items']
-    );
+    const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
     const mounted = ref(false);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
+    const showForm: Ref<boolean> = ref(false);
+    const showFormFunc = () => {
+      showForm.value = true;
+    };
+
+    const openRespondForm = async () => {
+      await showFormFunc();
+      scroll('responce-form');
+    };
+    const closeRespondForm = () => {
+      showForm.value = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     onBeforeMount(async () => {
+      const route = useRoute();
+      await store.dispatch('candidateExams/get');
       mounted.value = true;
+      if (route.query.respondForm) {
+        openRespondForm();
+      }
     });
 
     // const loadMore = async () => {
@@ -58,92 +73,216 @@ export default defineComponent({
 
     return {
       mounted,
-      postgraduateCourses,
+      candidateExam,
       // loadMore,
+      showForm,
+      openRespondForm,
+      closeRespondForm,
     };
   },
 });
 </script>
 
-<style lang="scss" scoped>
-@import '@/assets/styles/elements/doctor-info-card.scss';
+<style scoped lang="scss">
+$side-container-max-width: 300px;
+$medical-profile-content-max-width: 1000px;
+$card-margin-size: 30px;
 
-.questions-file-block {
+.bottom-footer {
+  margin-top: 20px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
-.questions-file-element {
-  border: solid #2754eb;
-}
-.text-center {
+.title-icon {
   text-align: center;
-  justify-content: center;
+  float: left;
+  padding: 20px;
+  background: #2754eb;
+  border-radius: 5px;
+  margin: 30px;
 }
 
-.card-flex-container {
+.article-title {
+  color: #4a4a4a;
+}
+
+.card-item-title {
+  color: #4a4a4a;
+  width: 100%;
+}
+
+.medical-profile-page-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  padding: 10px;
-}
-.card-container {
-  height: 350px;
-  margin: 0 auto;
-}
-
-.loadmore-button {
-  display: flex;
   justify-content: center;
-}
-
-.card-item {
   width: 100%;
-  height: 100%;
+  margin: $card-margin-size 0;
 }
 
-.table-container {
+.side-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  // overflow: scroll;
-}
-table {
-  height: auto;
-  border-collapse: collapse;
-  width: 100%;
-}
+  max-width: $side-container-max-width;
+  margin-right: $card-margin-size;
 
-td,
-th {
-  border: 1px solid #dcdfe6;
-  padding: 5px 7px 5px 7px;
-  height: auto;
-}
-
-th {
-  text-align: left;
-  padding: 5px;
-  background-color: #dcdfe6;
-  border-right: 1px solid #f2f2f2;
-}
-
-th:last-child {
-  border-right: 1px solid #dcdfe6;
-}
-
-tr:nth-child(odd) {
-  background-color: #f2f2f2;
-}
-tr {
-  &:hover {
-    background-color: #ecf5ff;
+  .side-item {
+    margin-bottom: $card-margin-size;
   }
 }
 
-.no-progmam {
-  display: block;
-  color: #b5b5b5;
+.medical-profile-content-container {
+  max-width: $medical-profile-content-max-width;
+  width: 100%;
 }
 
-.card-flex-container {
-  display: block;
+.add-comment {
+  margin: 50px 0 50px 0;
+}
+
+.box-card {
+  margin: 10px 0 10px 0;
+}
+
+h2,
+h3 {
+  margin-top: 0;
+  color: black;
+  text-align: center;
+}
+h3 {
+  font-size: 20px;
+}
+
+.card-content {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+:deep(p) {
+  text-align: justify;
+}
+
+// :deep(a) {
+//   color: inherit !important;
+// }
+
+:deep(blockquote) {
+  border-left: 5px solid #2467a6;
+  margin-left: 0;
+  padding-left: 50px;
+}
+
+.recent-news-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  cursor: pointer;
+  .item-title {
+    font-weight: 600;
+  }
+  .item-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+  .icon {
+    user-select: none;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+    margin-right: 3px;
+  }
+  .anticon {
+    padding-right: 5px;
+    font-size: 16px;
+  }
+}
+h4 {
+  color: black;
+  margin: 15px 0 0 10px;
+}
+.item-footer {
+  color: #a1a7bd;
+}
+
+:deep(.cell-row) {
+  cursor: pointer;
+}
+.el-divider {
+  margin: 10px 0 0;
+}
+// :deep(.cell) {
+// padding: 0 !important;
+// }
+.recent-news-footer {
+  margin: 10px;
+  margin-bottom: 15px;
+  text-align: center;
+  button {
+    background-color: #2754eb;
+    border-radius: 40px;
+    color: #ffffff;
+    padding: 12px 23px;
+    font-size: 14px;
+    border: none;
+    transition: background-color 0.25s ease;
+    &:hover {
+      cursor: pointer;
+      background-color: darken(#2754eb, 10%);
+    }
+  }
+}
+
+.card-meta {
+  display: flex;
+  margin-top: 10px;
+}
+
+.share {
+  display: flex;
+  align-items: center;
+  img {
+    margin-left: 15px;
+    height: 25px;
+  }
+  .anticon {
+    margin: 5px;
+    font-size: 30px;
+  }
+  .share-item {
+    .colored {
+      display: none;
+    }
+    &:hover {
+      .colored {
+        display: unset;
+        transform: scale(1.1);
+      }
+      .black {
+        display: none;
+      }
+    }
+  }
+}
+:deep(.response-btn) {
+  border-radius: 20px;
+  background-color: #31af5e;
+  padding: 10px 20px;
+  height: auto;
+  letter-spacing: 2px;
+  color: white;
+  border: 1px solid rgb(black, 0.05);
+  &:hover {
+    cursor: pointer;
+    background-color: lighten(#31af5e, 10%);
+  }
+}
+
+.right-block {
+  width: 100%;
+}
+
+.article-body {
+  min-height: 53.5vh;
 }
 </style>

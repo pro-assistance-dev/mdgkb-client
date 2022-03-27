@@ -1,11 +1,11 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
+import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 
-import PostgraduateCourse from './PostgraduateCourse';
 import Field from './Field';
 import FieldValue from './FieldValue';
+import PostgraduateCourse from './PostgraduateCourse';
 import User from './User';
 
 export default class PostgraduateApplication implements IPostgraduateApplication {
@@ -36,6 +36,7 @@ export default class PostgraduateApplication implements IPostgraduateApplication
     if (postgraduateApplication.fieldValues) {
       this.fieldValues = postgraduateApplication.fieldValues.map((item: IFieldValue) => new FieldValue(item));
     }
+    this.postgraduateCourse.formPattern.fieldValues = this.fieldValues;
   }
 
   findFieldValue(fieldId: string): IFieldValue | undefined {

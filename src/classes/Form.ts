@@ -10,7 +10,7 @@ export default class Form implements IForm {
   id?: string;
   title?: string;
   name = '';
-
+  code = '';
   fields: IField[] = [];
   fieldValues: IFieldValue[] = [];
   fieldValuesForDelete = [];
@@ -25,6 +25,7 @@ export default class Form implements IForm {
     if (i.validated) {
       this.validated = i.validated;
     }
+    this.code = i.code;
     if (i.fields) {
       this.fields = i.fields.map((item: IField) => new Field(item));
     }

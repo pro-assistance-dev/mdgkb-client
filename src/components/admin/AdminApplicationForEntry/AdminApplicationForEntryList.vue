@@ -2,17 +2,17 @@
   <div class="flex-column">
     <el-card>
       <el-table :data="applicationsCars">
-        <el-table-column label="Номер Авто" sortable> 
+        <el-table-column label="Номер Авто" sortable>
           <template #default="scope">
             {{ scope.row.carNumber }}
-          </template>         
+          </template>
         </el-table-column>
-        <el-table-column label="ФИО" sortable> 
+        <el-table-column label="ФИО" sortable>
           <template #default="scope">
             {{ scope.row.user.human.getFullName() }}
-          </template>          
+          </template>
         </el-table-column>
-        <el-table-column  label="Дата заявки" sortable> 
+        <el-table-column label="Дата заявки" sortable>
           <template #default="scope">
             {{ $dateFormatRu(scope.row.date) }}
           </template>
@@ -26,7 +26,7 @@
           <template #default="scope">
             {{ scope.row.movedOut ? 'Да' : 'Нет' }}
           </template>
-        </el-table-column>                
+        </el-table-column>
         <!-- <el-table-column prop="date" label="Дата заявки" sortable> </el-table-column> -->
         <!-- <el-table-column prop="applicationsCar.user.human.getFullName()" label="ФИО" sortable> </el-table-column> -->
         <!-- <el-table-column prop="email" label="Email" sortable> </el-table-column> -->
@@ -58,12 +58,11 @@ import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IApplicationCar from '@/interfaces/IApplicationCar';
 
 export default defineComponent({
   name: 'AdminApplicationForEntryList',
-  components: { TableButtonGroup },
+  components: {},
   setup() {
     const store = useStore();
     const router = useRouter();

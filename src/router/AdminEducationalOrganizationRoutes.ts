@@ -5,6 +5,8 @@ import AdminDpoApplicationsList from '@/components/admin/AdminEducationalOrganiz
 import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursePage.vue';
 import AdminDpoCoursesList from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursesList.vue';
 import AdminEducationalOrganizationPage from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationPage.vue';
+import AdminPostgraduateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationPage.vue';
+import AdminPostgraduateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationsList.vue';
 import AdminPostgraduateCoursePage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursePage.vue';
 import AdminPostgraduateCoursesList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursesList.vue';
 import { authGuard, isAuthorized } from '@/router/index';
@@ -201,6 +203,30 @@ export default [
     path: '/admin/postgraduate-courses/:id',
     name: 'AdminPostgraduateCoursePage',
     component: AdminPostgraduateCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/postgraduate-applications',
+    name: 'AdminPostgraduateApplicationsList',
+    component: AdminPostgraduateApplicationsList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/postgraduate-applications/:id',
+    name: 'AdminPostgraduateApplicationPage',
+    component: AdminPostgraduateApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
@@ -32,13 +32,12 @@ export default defineComponent({
   //   return { currentRoute }
   // },
 
-    setup () {
+  setup() {
     const currentRoute = computed(() => {
       return useRouter().currentRoute.value.name;
-    })
-    return {currentRoute}
-  }
-
+    });
+    return { currentRoute };
+  },
 });
 </script>
 

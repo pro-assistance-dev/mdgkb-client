@@ -7,6 +7,8 @@ import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { callbacks } from '@/store/modules/callbacks';
+import { candidateApplications } from '@/store/modules/candidateApplications';
+import { candidateExams } from '@/store/modules/candidateExams';
 import { centers } from '@/store/modules/centers';
 import { certificates } from '@/store/modules/certificates';
 import { children } from '@/store/modules/children';
@@ -18,8 +20,6 @@ import { documentTypes } from '@/store/modules/documentTypes';
 import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
 import { dpoCourses } from '@/store/modules/dpoCourses';
-import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
-import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
 import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { entrances } from '@/store/modules/entrances';
@@ -44,6 +44,8 @@ import { paidPrograms } from '@/store/modules/paidPrograms';
 import { paidProgramsGroups } from '@/store/modules/paidProgramsGroups';
 import { partners } from '@/store/modules/partners';
 import { partnerTypes } from '@/store/modules/partnerTypes';
+import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
+import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
 import { preparations } from '@/store/modules/preparations';
 import { projects } from '@/store/modules/projects';
 import { publicDocumentTypes } from '@/store/modules/publicDocumentTypes';
@@ -130,7 +132,9 @@ const s: StoreOptions<RootState> = {
     dpoApplications,
     formPatterns,
     postgraduateCourses,
-    postgraduateApplications
+    postgraduateApplications,
+    candidateExams,
+    candidateApplications,
   },
 };
 

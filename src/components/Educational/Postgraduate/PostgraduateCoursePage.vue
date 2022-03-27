@@ -43,15 +43,62 @@
     <div>
       <div class="card-item" style="padding: 30px; margin-bottom: 20px">
         <div class="card-header">
-          <h2 class="title article-title">{{ postgraduateCourse.name }}</h2>
+          <h3 class="title article-title">Программа аспирантуры по специальности</h3>
+          <h2 class="title article-title">"{{ postgraduateCourse.getMainSpecialization() }}"</h2>
         </div>
         <el-divider />
-        <div class="title-icon">
-          <BaseIcon width="120" height="120" color="#ffffff" :background:="chooseRandomBrandColor()" :icon-name="'Endoscopy'">
-            <HelpProfileIcon :svg-code="svgDummy" />
-          </BaseIcon>
+        <div class="info-tags-block">
+          <el-tag v-if="postgraduateCourse.educationForm">Форма обучения: {{ postgraduateCourse.educationForm }}</el-tag>
+          <el-divider v-if="postgraduateCourse.educationForm" direction="vertical" />
+          <el-tag v-if="postgraduateCourse.years > 0">Нормативный срок обучения: {{ postgraduateCourse.years }} года </el-tag>
+          <el-divider v-if="postgraduateCourse.years > 0" direction="vertical" />
+          <el-tag>Язык обучения: русский</el-tag>
         </div>
-        <div class="article-body" v-html="postgraduateCourse.description"></div>
+        <el-divider />
+        <div class="info-tags-block">
+          <a
+            v-if="postgraduateCourse.programFile.fileSystemPath"
+            :href="postgraduateCourse.programFile.getFileUrl()"
+            :download="postgraduateCourse.programFile.originalName"
+            target="_blank"
+            style="margin-right: 10px"
+          >
+            Образовательная программа</a
+          >
+          <a
+            v-if="postgraduateCourse.calendar.fileSystemPath"
+            :href="postgraduateCourse.calendar.getFileUrl()"
+            :download="postgraduateCourse.calendar.originalName"
+            target="_blank"
+            style="margin-right: 10px"
+          >
+            Календарный учебный график</a
+          >
+          <a
+            v-if="postgraduateCourse.questionsFile.fileSystemPath"
+            :href="postgraduateCourse.questionsFile.getFileUrl()"
+            :download="postgraduateCourse.questionsFile.originalName"
+            target="_blank"
+            style="margin-right: 10px"
+          >
+            Вопросы для подготовки к кандидатскому экзамену</a
+          >
+        </div>
+        <el-divider />
+        <div v-if="postgraduateCourse.postgraduateCoursePlans.length > 0" class="info-block">
+          <div>Учебные планы</div>
+          <div>:</div>
+          <a
+            v-for="plan in postgraduateCourse.postgraduateCoursePlans"
+            :key="plan.id"
+            :href="plan.plan.getFileUrl()"
+            :download="plan.plan.originalName"
+            target="_blank"
+            style="margin-right: 10px"
+          >
+            {{ plan.year.getFullYear() }}</a
+          >
+        </div>
         <el-divider />
         <div class="bottom-footer">
           <SharesBlock :title="postgraduateCourse.name" :description="postgraduateCourse.description" :url="getUrl()" />
@@ -61,7 +108,7 @@
       <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
         <h2 class="title article-title">Форма для подачи заявления</h2>
         <el-divider />
-        <DpoApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
+        <PostgraduateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
       </div>
     </div>
   </div>
@@ -72,18 +119,14 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
-import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
-import DpoApplicationForm from '@/components/Educational/Dpo/DpoApplicationForm.vue';
+import PostgraduateApplicationForm from '@/components/Educational/Postgraduate/PostgraduateApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import chooseRandomBrandColor from '@/mixins/brandColors';
 import scroll from '@/services/Scroll';
-
 export default defineComponent({
   name: 'PostgraduateCoursePage',
-  components: { SharesBlock, HelpProfileIcon, BaseIcon, DpoApplicationForm },
-
+  components: { SharesBlock, PostgraduateApplicationForm },
   setup() {
     const fileInfos = ['Инструкция по записи на цикл НМО', 'Презентация по циклу НМО Педиатрия'];
     const ped: any = [];
@@ -141,6 +184,12 @@ export default defineComponent({
 $side-container-max-width: 300px;
 $medical-profile-content-max-width: 1000px;
 $card-margin-size: 30px;
+
+.info-tags-block {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0 10px;
+}
 
 .bottom-footer {
   margin-top: 20px;
@@ -329,5 +378,10 @@ h4 {
     cursor: pointer;
     background-color: lighten(#31af5e, 10%);
   }
+}
+.info-block {
+  margin: 10px 0 10px;
+  display: flex;
+  justify-content: center;
 }
 </style>

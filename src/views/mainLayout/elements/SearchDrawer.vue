@@ -11,10 +11,10 @@
           :remote-method="find"
           style="width: 100%"
           placeholder="Введите свой запрос"
+          round
           @change="handleSelect"
           @focus="searchModel.searchGroups = []"
           @blur="searchModel.searchGroups = []"
-          round
         >
           <template #default="{ item }">
             <span class="result-item">{{ item.label }}</span>
@@ -135,7 +135,6 @@ export default defineComponent({
   justify-content: left;
   padding-left: 0px;
 }
-
 
 .tag-item-batton {
   background: #ffffff;

@@ -6,13 +6,13 @@ import IPagination from '@/interfaces/IPagination';
 
 export default class FilterQuery implements IFilterQuery {
   id?: string;
+  param = '';
   filterModels: IFilterModel[] = [];
   sortModels: ISortModel[] = [];
   pagination: IPagination = new Pagination();
   withDeleted = false;
   offset = 0;
   limit = 0;
-  main = false;
   allLoaded = false;
 
   toUrl(): string {
@@ -29,8 +29,8 @@ export default class FilterQuery implements IFilterQuery {
     // const cursor = `operator=${JSON.stringify(this.pagination)}`;
 
     const withDeleted = `withDeleted=${this.withDeleted}`;
-    const main = `main=${this.main}`;
-    let url = `?${[...filterModels, ...sortModels, withDeleted, main, pagination].join('&')}`;
+    const param = `param=${this.param}`;
+    let url = `?${[...filterModels, ...sortModels, withDeleted, pagination, param].join('&')}`;
     if (this.id) {
       url = `${this.id}${url}`;
     }

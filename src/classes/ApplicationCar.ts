@@ -19,7 +19,7 @@ export default class ApplicationCar implements IApplicationCar {
   gate?: IGate;
   gateId?: string;
   movedIn = false;
-  movedOut =  false;
+  movedOut = false;
 
   constructor(i?: IApplicationCar) {
     if (!i) {
