@@ -4,6 +4,7 @@ import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import Human from '@/classes/Human';
 import Question from '@/classes/Question';
+import Role from '@/classes/Role';
 import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
@@ -18,6 +19,8 @@ export default class User implements IUser {
   phone = '';
   human = new Human();
   humanId?: string;
+  role = new Role();
+  roleId?: string;
   questions: IQuestion[] = [];
   children: IChild[] = [];
   childrenForDelete: string[] = [];
@@ -29,8 +32,14 @@ export default class User implements IUser {
     this.email = i.email;
     this.password = i.password;
     this.phone = i.phone;
-    this.human = new Human(i.human);
+    if (i.human) {
+      this.human = new Human(i.human);
+    }
     this.humanId = i.humanId;
+    if (i.role) {
+      this.role = new Role(i.role);
+    }
+    this.roleId = i.roleId;
     if (i.questions) {
       this.questions = i.questions.map((item: IQuestion) => new Question(item));
     }

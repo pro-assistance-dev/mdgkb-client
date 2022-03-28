@@ -4,6 +4,7 @@ import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IHuman from '@/interfaces/IHuman';
 import IQuestion from '@/interfaces/IQuestion';
+import IRole from '@/interfaces/IRole';
 
 export default interface IUser {
   id?: string;
@@ -17,7 +18,8 @@ export default interface IUser {
   childrenForDelete: string[];
   donorRulesUsers: IDonorRuleUser[];
   doctorsUsers: IDoctorUser[];
-
+  role: IRole;
+  roleId?: string;
   hasNewAnswers: () => boolean;
   countNewAnswers: () => number;
   readAllAnswers: () => void;
