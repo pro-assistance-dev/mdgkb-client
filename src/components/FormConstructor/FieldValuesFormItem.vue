@@ -1,23 +1,23 @@
 <template>
   <el-form-item v-if="field.valueType.isString()" style="margin: 0">
     <el-input v-model="fieldValue.valueString" :placeholder="field.name" />
-    <span v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</span>
+    <div v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
   <el-form-item v-if="field.valueType.isNumber()" style="margin: 0">
     <el-input-number v-model="fieldValue.valueNumber" />
-    <span v-if="fieldValue.showError && !fieldValue.valueNumber" class="form-item-error">{{ fieldValue.errorText }}</span>
+    <div v-if="fieldValue.showError && !fieldValue.valueNumber" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
   <el-form-item v-if="field.valueType.isDate()" style="margin: 0" :placeholder="field.name">
-    <el-date-picker v-model="fieldValue.valueDate" />
-    <span v-if="fieldValue.showError && !fieldValue.valueDate" class="form-item-error">{{ fieldValue.errorText }}</span>
+    <el-date-picker v-model="fieldValue.valueDate" :default-value="new Date()" />
+    <div v-if="fieldValue.showError && !fieldValue.valueDate" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
   <el-form-item v-if="field.valueType.isText()" style="margin: 0" :placeholder="field.name">
     <el-input v-model="fieldValue.valueString" type="textarea" />
-    <span v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</span>
+    <div v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
   <el-form-item v-if="field.valueType.isFile()" style="margin: 0">
     <FileUploader :file-info="fieldValue.file" />
-    <span v-if="fieldValue.showError && !fieldValue.file.fileSystemPath" class="form-item-error">{{ fieldValue.errorText }}</span>
+    <div v-if="fieldValue.showError && !fieldValue.file.fileSystemPath" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
 </template>
 

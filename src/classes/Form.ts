@@ -86,9 +86,11 @@ export default class Form implements IForm {
   validate(): void {
     this.validated = true;
     this.fieldValues.forEach((el: IFieldValue) => {
-      if (el.field && el.field.required) {
-        el.showError = true;
-        this.validated = false;
+      if (el.field?.required) {
+        el.validate();
+        if (el.showError) {
+          this.validated = false;
+        }
       }
     });
   }

@@ -44,4 +44,39 @@ export default class FieldValue implements IFieldValue {
       this.field = new Field(i.field);
     }
   }
+
+  validate(): void {
+    if (this.field.valueType.isString()) {
+      if (!this.valueString) {
+        this.showError = true;
+      } else {
+        this.showError = false;
+      }
+      return;
+    }
+    if (this.field.valueType.isNumber()) {
+      if (!this.valueNumber) {
+        this.showError = true;
+      } else {
+        this.showError = false;
+      }
+      return;
+    }
+    if (this.field.valueType.isDate()) {
+      if (!this.valueDate) {
+        this.showError = true;
+      } else {
+        this.showError = false;
+      }
+      return;
+    }
+    if (this.field.valueType.isFile()) {
+      if (!this.file.fileSystemPath) {
+        this.showError = true;
+      } else {
+        this.showError = false;
+      }
+      return;
+    }
+  }
 }

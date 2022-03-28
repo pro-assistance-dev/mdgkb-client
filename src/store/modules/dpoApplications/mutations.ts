@@ -37,6 +37,9 @@ const mutations: MutationTree<State> = {
   setFieldValues(state, form: IForm) {
     state.item.fieldValues = form.fieldValues;
   },
+  setEmailExists(state, emailExists: boolean) {
+    state.emailExists = emailExists;
+  },
 };
 
 export default mutations;
