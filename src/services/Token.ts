@@ -44,7 +44,9 @@ const TokenService = (() => {
   }
 
   function _updateHuman(human: IHuman) {
+    if (!_isAuth()) return;
     const user = TokenService.getUser();
+    if (!user) return;
     user.human = human;
     localStorage.setItem('user', JSON.stringify(user));
   }
