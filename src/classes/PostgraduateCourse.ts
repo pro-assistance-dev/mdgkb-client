@@ -1,3 +1,4 @@
+import DocumentType from '@/classes/document/DocumentType';
 import FileInfo from '@/classes/File/FileInfo';
 import PostgraduateCourseDates from '@/classes/PostgraduateCourseDates';
 import PostgraduateCoursePlan from '@/classes/PostgraduateCoursePlan';
@@ -5,6 +6,7 @@ import PostgraduateCourseSpecialization from '@/classes/PostgraduateCourseSpecia
 import PostgraduateCourseTeacher from '@/classes/PostgraduateCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
+import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IForm from '@/interfaces/IForm';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
@@ -23,6 +25,8 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
   id?: string;
   description = '';
   educationForm = 'Очная';
+  documentTypeId?: string;
+  documentType: IDocumentType = new DocumentType();
   years = 3;
   postgraduateCoursesSpecializations: IPostgraduateCourseSpecialization[] = [];
   postgraduateCoursesSpecializationsForDelete: string[] = [];
@@ -78,6 +82,10 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     }
     if (i.postgraduateCoursePlans) {
       this.postgraduateCoursePlans = i.postgraduateCoursePlans.map((item: IPostgraduateCoursePlan) => new PostgraduateCoursePlan(item));
+    }
+    this.documentTypeId = i.documentTypeId;
+    if (i.documentType) {
+      this.documentType = new DocumentType(i.documentType);
     }
     this.questionsFileId = i.questionsFileId;
   }

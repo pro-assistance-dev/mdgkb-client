@@ -46,6 +46,16 @@
                   </template>
                 </el-table-column>
               </el-table>
+
+              <el-select
+                v-model="postgraduateCourse.documentType"
+                value-key="id"
+                placeholder="Выбрать группу документов для отображения"
+                label="Документы для отображения"
+                @change="changeDocumentTypeHandler()"
+              >
+                <el-option v-for="item in documentTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
+              </el-select>
             </el-card>
 
             <el-card class="content-card">
@@ -177,6 +187,7 @@ import { useStore } from 'vuex';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
+import IDocumentType from '@/interfaces/document/IDocumentType';
 import IForm from '@/interfaces/IForm';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -210,6 +221,7 @@ export default defineComponent({
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
     const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
+    const documentTypes: ComputedRef<IDocumentType[]> = computed<IDocumentType[]>(() => store.getters['documentTypes/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
@@ -218,6 +230,7 @@ export default defineComponent({
       await store.dispatch('specializations/getAll');
       await store.dispatch('search/searchGroups');
       await store.dispatch('formPatterns/getAll');
+      await store.dispatch('documentTypes/getAll');
       await loadItem();
       store.commit('admin/closeLoading');
     });
@@ -267,8 +280,11 @@ export default defineComponent({
     const changeFormPatternHandler = () => {
       postgraduateCourse.value.formPatternId = postgraduateCourse.value.formPattern.id;
     };
-
+    const changeDocumentTypeHandler = () => {
+      postgraduateCourse.value.documentTypeId = postgraduateCourse.value.documentType.id;
+    };
     return {
+      documentTypes,
       specializations,
       removeFromClass,
       addTeacher,
@@ -279,6 +295,7 @@ export default defineComponent({
       form,
       formPatterns,
       changeFormPatternHandler,
+      changeDocumentTypeHandler,
     };
   },
 });

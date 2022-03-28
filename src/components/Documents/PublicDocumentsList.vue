@@ -32,7 +32,7 @@
                 <template #default="scope">
                   <a
                     v-if="scope.row.documentsScans[0].scan"
-                    :href="scope.row?.documentsScans[0]?.scan.url"
+                    :href="scope.row?.documentsScans[0].scan.getFileUrl()"
                     :download="scope.row?.documentsScans[0]?.scan.originalName"
                     target="_blank"
                     style="margin-right: 10px"

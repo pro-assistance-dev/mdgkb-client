@@ -100,6 +100,22 @@
           >
         </div>
         <el-divider />
+        <div v-if="postgraduateCourse.documentType.documents.length > 0">
+          <h4>Документы</h4>
+          <ul>
+            <li v-for="document in postgraduateCourse.documentType.documents" :key="document.id">
+              <a
+                :href="document.documentsScans[0].scan.getFileUrl()"
+                :download="document.documentsScans[0]?.scan.originalName"
+                target="_blank"
+                style="margin-right: 10px"
+              >
+                {{ document.name }}</a
+              >
+            </li>
+          </ul>
+        </div>
+        <el-divider />
         <div class="bottom-footer">
           <SharesBlock :title="postgraduateCourse.name" :description="postgraduateCourse.description" :url="getUrl()" />
           <button class="response-btn" @click="openRespondForm">Подать заявление</button>

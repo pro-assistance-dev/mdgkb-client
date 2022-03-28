@@ -1,3 +1,4 @@
+import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
 import IPostgraduateCoursePlan from '@/interfaces/IPostgraduateCoursePlan';
@@ -47,4 +48,7 @@ export default interface IPostgraduateCourse {
 
   addPostgraduateCoursePlan: () => void;
   getMainSpecialization: () => string;
+
+  documentTypeId?: string;
+  documentType: IDocumentType;
 }

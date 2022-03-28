@@ -55,7 +55,7 @@ import { useStore } from 'vuex';
 
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
-import IDpoCourse from '@/interfaces/IDpoCourse';
+import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
@@ -71,7 +71,7 @@ export default defineComponent({
     const candidateApplication: ComputedRef<ICandidateApplication> = computed<ICandidateApplication>(
       () => store.getters['candidateApplications/item']
     );
-    const candidateExam: Ref<IDpoCourse> = computed<IDpoCourse>(() => store.getters['candidateExams/item']);
+    const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
     const form = ref();
