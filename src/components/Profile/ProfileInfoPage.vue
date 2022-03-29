@@ -369,7 +369,6 @@ ul.children-list li {
 
 ul.parent-info-list {
   padding: 0;
-  // margin-top: 30px;
 }
 
 ul.parent-info-list li {
