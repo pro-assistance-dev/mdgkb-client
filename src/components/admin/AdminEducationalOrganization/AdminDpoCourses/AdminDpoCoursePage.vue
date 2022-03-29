@@ -142,6 +142,7 @@ import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
 import IForm from '@/interfaces/IForm';
@@ -168,7 +169,7 @@ export default defineComponent({
     const form = ref();
 
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const dpoCourse: ComputedRef<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
     const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
@@ -177,6 +178,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
+      await store.dispatch('meta/getSchema');
       await store.dispatch('teachers/getAll');
       await store.dispatch('specializations/getAll');
       await store.dispatch('search/searchGroups');
@@ -187,7 +189,9 @@ export default defineComponent({
 
     const loadItem = async () => {
       if (route.params['id']) {
-        await store.dispatch('dpoCourses/get', route.params['id']);
+        store.commit(`filter/resetQueryFilter`);
+        filterQuery.value.setParams(schema.value.dpoCourse.slug, route.params['id'] as string);
+        await store.dispatch('dpoCourses/get', filterQuery.value);
         store.commit('admin/setHeaderParams', {
           title: dpoCourse.value.name,
           showBackButton: true,

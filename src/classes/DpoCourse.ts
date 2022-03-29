@@ -17,6 +17,7 @@ import Form from './Form';
 
 export default class DpoCourse implements IDpoCourse {
   id?: string;
+  slug = '';
   name = '';
   description = '';
   hours = 0;
@@ -44,6 +45,7 @@ export default class DpoCourse implements IDpoCourse {
     }
     this.id = i.id;
     this.name = i.name;
+    this.slug = i.slug;
     this.description = i.description;
     this.hours = i.hours;
     this.cost = i.cost;

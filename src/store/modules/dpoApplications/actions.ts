@@ -35,6 +35,13 @@ const actions: ActionTree<State, RootState> = {
     });
     TokenService.updateHuman(new Human(state.item.user.human));
   },
+  emailExists: async ({ state, commit }, courseId): Promise<void> => {
+    if (state.item.user.email.length < 3) {
+      return;
+    }
+    const res = await httpClient.get<IDpoApplication[]>({ query: `email-exists/${state.item.user.email}/${courseId}` });
+    commit('setEmailExists', res);
+  },
   update: async ({ state, commit }): Promise<void> => {
     const res = await httpClient.put<IDpoApplication, IDpoApplication>({
       query: `${state.item.id}`,

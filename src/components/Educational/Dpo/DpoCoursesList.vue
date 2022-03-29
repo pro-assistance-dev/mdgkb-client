@@ -1,40 +1,38 @@
 <template>
-  <div>
-    <div class="card-flex-container card-item">
-      <h2>Дополнительные профессиональные программы</h2>
-      <div class="no-progmam"><h3 v-if="dpoCourses.length == 0">Для данной специальности нет программ</h3></div>
-      <div v-if="dpoCourses.length !== 0" class="table-container">
-        <table class="table-list">
-          <colgroup>
-            <col width="50%" />
-            <col width="10%" />
-            <col width="20%" />
-            <col width="20%" />
-          </colgroup>
-          <thead>
-            <th>Название программы</th>
-            <th>Часов</th>
-            <th>Руководитель</th>
-            <th>Даты&nbsp;проведения</th>
-          </thead>
-          <tbody v-if="mounted">
-            <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
-              <td>
-                <router-link :to="`/courses/${dpoCourse.id}`">{{ dpoCourse.name }}</router-link>
-              </td>
-              <td style="text-align: center">{{ dpoCourse.hours }}</td>
-              <td>
-                <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
-                  {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
-                </router-link>
-              </td>
-              <td>
-                {{ dpoCourse.getClosestPeriod() }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="card-flex-container card-item">
+    <h2>Дополнительные профессиональные программы</h2>
+    <div class="no-progmam"><h3 v-if="dpoCourses.length == 0">Для данной специальности нет программ</h3></div>
+    <div v-if="dpoCourses.length !== 0" class="table-container">
+      <table class="table-list">
+        <colgroup>
+          <col width="50%" />
+          <col width="10%" />
+          <col width="20%" />
+          <col width="20%" />
+        </colgroup>
+        <thead>
+          <th>Название программы</th>
+          <th>Часов</th>
+          <th>Руководитель</th>
+          <th>Даты&nbsp;проведения</th>
+        </thead>
+        <tbody v-if="mounted">
+          <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
+            <td>
+              <router-link :to="`/courses/${dpoCourse.slug}`">{{ dpoCourse.name }}</router-link>
+            </td>
+            <td style="text-align: center">{{ dpoCourse.hours }}</td>
+            <td>
+              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
+                {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+              </router-link>
+            </td>
+            <td>
+              {{ dpoCourse.getClosestPeriod() }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -99,7 +97,7 @@ export default defineComponent({
 
 .card-item {
   width: 100%;
-  height: 100%;
+  padding: 10px 20px 20px;
 }
 
 .table-container {

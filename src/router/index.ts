@@ -3,6 +3,7 @@ import { createRouter, createWebHistory, NavigationGuardNext, RouteRecordRaw } f
 import AboutPage from '@/components/About/AboutPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
+import DevPage from '@/components/DevPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
@@ -38,6 +39,7 @@ import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
 import TokenService from '@/services/Token';
+import UserService from '@/services/User';
 import MainLayout from '@/views/main/MainLayout.vue';
 
 import store from '../store/index';
@@ -53,6 +55,12 @@ export const isAuthorized = (next: NavigationGuardNext): void => {
 export const authGuard = (): void => {
   if (!TokenService.isAuth()) {
     router.push('/');
+  }
+};
+
+export const devGuard = (): void => {
+  if (!UserService.isAdmin()) {
+    router.push('/dev');
   }
 };
 
@@ -212,6 +220,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/pages/:slug',
     name: 'CustomPage',
     component: CustomPage,
+  },
+  {
+    path: '/dev',
+    name: 'DevPage',
+    component: DevPage,
   },
   {
     path: '/:pathMatch(.*)*',

@@ -1,13 +1,16 @@
 <template>
   <div v-if="mounted">
     <el-form ref="form" v-model="dpoApplication" :model="dpoApplication" label-position="top">
-      <el-form-item
-        v-if="!user.email"
-        label="Электронная почта"
-        prop="user.email"
-        :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
-      >
-        <el-input v-model="dpoApplication.user.email" placeholder="Электронная почта"></el-input>
+      <div v-if="emailExists & !isAuth" class="error-block-message">
+        Заявка с указанным адресом электронной почты уже зарегистрирована. Для просмотра данных по заявке, пожалуйста,
+        <a @click="openLoginModal"> авторизируйтесь</a> и перейдите в личный кабинет.
+      </div>
+      <div v-else-if="emailExists & isAuth" class="error-block-message">
+        Вы уже подавали заявку на данную программу. Для просмотра данных по заявке, пожалуйста, перейдите в
+        <a> личный кабинет</a>.
+      </div>
+      <el-form-item v-if="!user.email" label="Электронная почта" prop="user.email" :rules="rules.email">
+        <el-input v-model="dpoApplication.user.email" placeholder="Электронная почта" @input="findEmail"></el-input>
       </el-form-item>
       <el-form-item v-if="!user.human.surname" label="Фамилия" prop="user.human.surname">
         <el-input v-model="dpoApplication.user.human.surname" placeholder="Фамилия"></el-input>
@@ -40,10 +43,11 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IUser from '@/interfaces/IUser';
@@ -58,14 +62,42 @@ export default defineComponent({
     const store = useStore();
     const mounted = ref(false);
     const dpoApplication: ComputedRef<IDpoApplication> = computed<IDpoApplication>(() => store.getters['dpoApplications/item']);
-    const dpoCourse: Ref<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
-    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
-    const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
+    const dpoCourse: ComputedRef<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
+    const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
+    const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
+    const emailExists: ComputedRef<boolean> = computed(() => store.getters['dpoApplications/emailExists']);
     const form = ref();
 
-    watch(isAuth, () => {
+    const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
+      if (!value.trim().length) {
+        callback(new Error('Необходимо указать email'));
+        return;
+      }
+      // await store.dispatch('users/findEmail', value);
+      if (value && emailExists.value) {
+        callback(new Error('Ведённый email уже существует'));
+      }
+      callback();
+      return;
+    };
+    const rules = {
+      email: [
+        { required: true, validator: emailRule, trigger: 'blur' },
+        { type: 'email', message: 'Пожалуйста, введите корректный email', trigger: 'blur' },
+      ],
+    };
+
+    watch(isAuth, async () => {
       store.commit('dpoApplications/setUser', user.value);
+      await store.dispatch('dpoApplications/emailExists', dpoCourse.value.id);
     });
+
+    const findEmail = async () => {
+      await store.dispatch('dpoApplications/emailExists', dpoCourse.value.id);
+    };
+    const openLoginModal = () => {
+      store.commit('auth/openModal', 'login');
+    };
 
     const submit = async () => {
       dpoCourse.value.formPattern.validate();
@@ -82,6 +114,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      await store.dispatch('dpoApplications/emailExists', dpoCourse.value.id);
       store.commit('dpoApplications/resetItem');
       dpoCourse.value.formPattern.initFieldsValues();
       // dpoApplication.value.initFieldsValues(dpoCourse.value.formPattern.fields);
@@ -98,6 +131,10 @@ export default defineComponent({
       user,
       isAuth,
       form,
+      findEmail,
+      rules,
+      emailExists,
+      openLoginModal,
     };
   },
 });
@@ -118,5 +155,15 @@ a {
     cursor: pointer;
     color: darken(#2754eb, 30%);
   }
+}
+.error-block-message {
+  font-size: 14px;
+  // max-width: 350px;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: #f56c6c;
+  border: 1px solid #f56c6c;
+  background-color: lighten(#f56c6c, 25%);
 }
 </style>

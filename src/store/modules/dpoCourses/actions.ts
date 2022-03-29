@@ -21,8 +21,8 @@ const actions: ActionTree<State, RootState> = {
     }
     commit('setAll', items);
   },
-  get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IDpoCourse[]>({ query: `${id}` });
+  get: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+    const res = await httpClient.get<IDpoCourse[]>({ query: `get${filterQuery.toUrl()}` });
     commit('set', res);
   },
   create: async ({ state }): Promise<void> => {

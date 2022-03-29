@@ -15,7 +15,7 @@
     </el-table-column>
     <el-table-column width="50" fixed="right" align="center">
       <template #default="scope">
-        <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" />
+        <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.slug)" />
       </template>
     </el-table-column>
   </el-table>

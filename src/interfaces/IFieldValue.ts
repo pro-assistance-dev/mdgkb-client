@@ -14,4 +14,5 @@ export default interface IFieldValue {
   field?: IField;
   showError?: boolean;
   errorText?: string;
+  validate: () => void;
 }

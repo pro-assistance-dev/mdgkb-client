@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import AppointmentsPage from '@/components/AppointmentsPage/AppointmentsPage.vue';
-import { isAuthorized } from '@/router/index';
+import { devGuard, isAuthorized } from '@/router/index';
 
 export default [
   {
@@ -10,6 +10,7 @@ export default [
     component: AppointmentsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
+      devGuard();
     },
   },
   {
@@ -18,6 +19,7 @@ export default [
     component: AppointmentsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
+      devGuard();
     },
   },
 ];
