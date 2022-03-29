@@ -4,7 +4,8 @@ import IPagination from '@/interfaces/IPagination';
 
 export default interface IFilterQuery {
   id?: string;
-  param: string;
+  col: string;
+  value: string;
   limit: number;
   offset: number;
   filterModels: IFilterModel[];
@@ -15,4 +16,5 @@ export default interface IFilterQuery {
 
   toUrl: () => string;
   setAllLoaded: (loadedItemsLength: number) => void;
+  setParams: (col: string, value: string) => void;
 }

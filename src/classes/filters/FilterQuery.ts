@@ -6,7 +6,8 @@ import IPagination from '@/interfaces/IPagination';
 
 export default class FilterQuery implements IFilterQuery {
   id?: string;
-  param = '';
+  col = '';
+  value = '';
   filterModels: IFilterModel[] = [];
   sortModels: ISortModel[] = [];
   pagination: IPagination = new Pagination();
@@ -29,8 +30,9 @@ export default class FilterQuery implements IFilterQuery {
     // const cursor = `operator=${JSON.stringify(this.pagination)}`;
 
     const withDeleted = `withDeleted=${this.withDeleted}`;
-    const param = `param=${this.param}`;
-    let url = `?${[...filterModels, ...sortModels, withDeleted, pagination, param].join('&')}`;
+    const col = `col=${this.col}`;
+    const value = `value=${this.value}`;
+    let url = `?${[...filterModels, ...sortModels, withDeleted, pagination, col, value].join('&')}`;
     if (this.id) {
       url = `${this.id}${url}`;
     }
@@ -41,5 +43,10 @@ export default class FilterQuery implements IFilterQuery {
       return;
     }
     this.allLoaded = true;
+  }
+
+  setParams(col: string, value: string): void {
+    this.col = col;
+    this.value = value;
   }
 }

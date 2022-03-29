@@ -9,6 +9,7 @@ import IForm from './IForm';
 export default interface IDpoCourse {
   id?: string;
   name: string;
+  slug: string;
   description: string;
   order: number;
   cost: number;

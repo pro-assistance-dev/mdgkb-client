@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -96,7 +96,9 @@ import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import DpoApplicationForm from '@/components/Educational/Dpo/DpoApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/mixins/brandColors';
 import scroll from '@/services/Scroll';
 
@@ -110,6 +112,8 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const dpoCourse: Ref<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
     const mounted: Ref<boolean> = ref(false);
     const showForm: Ref<boolean> = ref(false);
@@ -127,8 +131,10 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      await store.dispatch('meta/getSchema');
       store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('dpoCourses/get', route.params['id']);
+      filterQuery.value.setParams(schema.value.dpoCourse.slug, route.params['id'] as string);
+      await store.dispatch('dpoCourses/get', filterQuery.value);
       mounted.value = true;
       if (route.query.respondForm) {
         openRespondForm();
