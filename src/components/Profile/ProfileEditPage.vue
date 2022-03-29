@@ -13,165 +13,7 @@
     </div>
   </div>
   <div class="right-block">
-    <el-form>
-      <div class="line-item">
-        <div class="item-block">
-          <div class="item-title"><h5>ФАМИЛИЯ&nbsp;*</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-input placeholder="Введите фамилию" minlength="2"></el-input>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-title"><h5>ИМЯ&nbsp;*</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-input placeholder="Введите имя" minlength="2" />
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-title"><h5>ОТЧЕСТВО</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-input placeholder="Введите отчество" minlength="2" />
-            </el-form-item>
-          </div>
-        </div>
-      </div>
-
-      <div class="line-item">
-        <div class="item-block">
-          <div class="item-title"><h5>ПОЛ</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-select round>
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-title"><h5>СЕМЕЙНЫЙ&nbsp;СТАТУС</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-select round>
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-title"><h5>ДАТА&nbsp;РОЖДЕНИЯ *</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-date-picker placeholder="Выберите дату"></el-date-picker>
-            </el-form-item>
-          </div>
-        </div>
-      </div>
-
-      <div class="line-item">
-        <div class="item-block-1">
-          <div class="item-title"><h5>ДОКУМЕНТ&nbsp;УДОСТОВЕРЯЮЩИЙ&nbsp;ЛИЧНОСТЬ</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-select round>
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block-2">
-          <div class="item-title"><h5>СЕРИЯ</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-input placeholder="Серия" minlength="4" />
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block-2">
-          <div class="item-title"><h5>НОМЕР</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-input placeholder="Номер" minlength="6" />
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block-3">
-          <div class="item-title"><h5>КЕМ&nbsp;ВЫДАН</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-select round>
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-      </div>
-
-      <div class="line-item">
-        <div class="item-block-4">
-          <div class="item-title"><h5>АДРЕС&nbsp;*</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-input placeholder="Введите адрес" minlength="10" />
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block-3">
-          <div class="item-title"><h5>КОНТАКТНЫЙ&nbsp;ТЕЛЕФОН&nbsp;*</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-input placeholder="Телефон" minlength="10" />
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block-3">
-          <div class="item-title"><h5>ПОЧТА&nbsp;*</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-input placeholder="Почта" minlength="9" />
-            </el-form-item>
-          </div>
-        </div>
-      </div>
-
-      <div class="line-item">
-        <div class="item-block">
-          <div class="item-title"><h5>ЯЗЫК&nbsp;*</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-select round>
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-title"><h5>РЕЛИГИОЗНАЯ&nbsp;ПРИНАДЛЕЖНОСТЬ</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-select round>
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-title"><h5>ЭТНИЧЕСКАЯ&nbsp;ПРИНАДЛЕЖНОСТЬ</h5></div>
-          <div class="item-data">
-            <el-form-item>
-              <el-select round>
-                <el-option></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-      </div>
-    </el-form>
-
+    <HumanForm :store-module="'users'" />
     <div class="line-item">
       <div class="item-data">
         <button class="plus-button">
@@ -224,12 +66,12 @@
 import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 
-// import HumanForm from '@/components/admin/HumanForm.vue';
+import HumanForm from '@/components/admin/HumanForm.vue';
 import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileEditPage',
-  // components: { HumanForm },
+  components: { HumanForm },
   setup() {
     const store = useStore();
 
@@ -258,52 +100,9 @@ export default defineComponent({
   width: 880px;
 }
 
-h2,
-h3 {
-  color: #343e5c;
-  font-weight: normal;
-  margin: 0;
-}
-
-h4 {
-  margin: 0;
-  font-weight: normal;
-  font-size: 15px;
-}
-
-h5 {
-  margin: 0;
-  font-weight: normal;
-  font-size: 11px;
-}
-
-.right-block {
-  background: #ffffff;
-  border-radius: 5px;
-  padding: 20px;
-  width: 840px;
-}
-
-.item-title {
-  display: flex;
-  width: 100%;
-  color: #a3a9be;
-  margin-bottom: 3px;
-}
-
-.item-data {
-  width: 100%;
-  color: #343e5c;
-}
-
 .title-left {
   display: flex;
   justify-content: left;
-}
-
-.title-right {
-  display: flex;
-  justify-content: right;
 }
 
 .cancel-button {
@@ -339,11 +138,9 @@ h5 {
   background: #133dcc;
 }
 
-.icon-arrow-right {
-  width: 24px;
-  height: 40px;
-  fill: #343e5c;
-  margin: 0 15px;
+.title-right {
+  display: flex;
+  justify-content: right;
 }
 
 .line-item {
@@ -352,80 +149,42 @@ h5 {
   width: 100%;
 }
 
-.item-block {
-  width: 31%;
-  height: 60px;
-  padding-bottom: 15px;
-}
-
-:deep(.el-form-item__content) {
+.item-data {
   width: 100%;
-}
-
-:deep(.el-input__inner) {
-  border-radius: 40px;
-  padding-left: 25px;
-  height: 32px;
-  width: 100%;
-  display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  font-size: 15px;
-}
-
-:deep(.el-input__inner::placeholder) {
-  color: #4a4a4a;
-}
-
-:deep(.el-select .el-input .el-select__caret) {
-  color: #343e5c;
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-.el-select {
-  width: 100%;
-}
-
-:deep(.el-input__prefix) {
-  left: 230px;
-  top: -3px;
-}
-
-:deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
-  width: 100%;
-}
-
-:deep(.el-input__icon) {
   color: #343e5c;
 }
 
-:deep(.el-input__suffix) {
-  top: -3px;
+h2,
+h3 {
+  color: #343e5c;
+  font-weight: normal;
+  margin: 0;
 }
 
-.item-block-1 {
-  width: 38.5%;
-  height: 60px;
-  padding-bottom: 15px;
+h4 {
+  margin: 0;
+  font-weight: normal;
+  font-size: 15px;
 }
 
-.item-block-2 {
-  width: 14%;
-  height: 60px;
-  padding-bottom: 15px;
+h5 {
+  margin: 0;
+  font-weight: normal;
+  font-size: 11px;
 }
 
-.item-block-3 {
-  width: 23%;
-  height: 60px;
-  padding-bottom: 15px;
+.icon-arrow-right {
+  width: 24px;
+  height: 40px;
+  fill: #343e5c;
+  margin: 0 15px;
 }
 
-.item-block-4 {
-  width: 47%;
-  height: 60px;
-  padding-bottom: 15px;
+.right-block {
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 20px;
+  width: 840px;
 }
 
 .icon-plus {
