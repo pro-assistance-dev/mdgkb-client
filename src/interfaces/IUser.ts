@@ -6,6 +6,10 @@ import IHuman from '@/interfaces/IHuman';
 import IQuestion from '@/interfaces/IQuestion';
 import IRole from '@/interfaces/IRole';
 
+import ICandidateApplication from './ICandidateApplication';
+import IDpoApplication from './IDpoApplication';
+import IPostgraduateApplication from './IPostgraduateApplication';
+
 export default interface IUser {
   id?: string;
   email: string;
@@ -16,6 +20,12 @@ export default interface IUser {
   questions: IQuestion[];
   children: IChild[];
   childrenForDelete: string[];
+  dpoApplications: IDpoApplication[];
+  dpoApplicationsForDelete: string[];
+  postgraduateApplications: IPostgraduateApplication[];
+  postgraduateApplicationsForDelete: string[];
+  candidateApplications: ICandidateApplication[];
+  candidateApplicationsForDelete: string[];
   donorRulesUsers: IDonorRuleUser[];
   doctorsUsers: IDoctorUser[];
   role: IRole;

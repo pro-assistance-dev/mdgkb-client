@@ -1,14 +1,20 @@
+import CandidateApplication from '@/classes/CandidateApplication';
 import Child from '@/classes/Child';
 import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
+import DpoApplication from '@/classes/DpoApplication';
 import Human from '@/classes/Human';
+import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import Question from '@/classes/Question';
 import Role from '@/classes/Role';
+import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
+import IDpoApplication from '@/interfaces/IDpoApplication';
+import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
 
@@ -26,6 +32,13 @@ export default class User implements IUser {
   childrenForDelete: string[] = [];
   donorRulesUsers: IDonorRuleUser[] = [];
   doctorsUsers: IDoctorUser[] = [];
+  dpoApplications: IDpoApplication[] = [];
+  dpoApplicationsForDelete: string[] = [];
+  postgraduateApplications: IPostgraduateApplication[] = [];
+  postgraduateApplicationsForDelete: string[] = [];
+  candidateApplications: ICandidateApplication[] = [];
+  candidateApplicationsForDelete: string[] = [];
+
   constructor(i?: IUser) {
     if (!i) return;
     this.id = i.id;
@@ -51,6 +64,15 @@ export default class User implements IUser {
     }
     if (i.doctorsUsers) {
       this.doctorsUsers = i.doctorsUsers.map((item: IDoctorUser) => new DoctorUser(item));
+    }
+    if (i.dpoApplications) {
+      this.dpoApplications = i.dpoApplications.map((item: IDpoApplication) => new DpoApplication(item));
+    }
+    if (i.postgraduateApplications) {
+      this.postgraduateApplications = i.postgraduateApplications.map((item: IPostgraduateApplication) => new PostgraduateApplication(item));
+    }
+    if (i.candidateApplications) {
+      this.candidateApplications = i.candidateApplications.map((item: ICandidateApplication) => new CandidateApplication(item));
     }
   }
 
@@ -87,5 +109,41 @@ export default class User implements IUser {
     if (index > -1) {
       this.donorRulesUsers.splice(index, 1);
     }
+  }
+
+  addDpoApplication(): void {
+    this.dpoApplications.push(new DpoApplication());
+  }
+
+  removeDpoApplication(index: number): void {
+    const idForDelete = this.dpoApplications[index].id;
+    if (idForDelete) {
+      this.dpoApplicationsForDelete.push(idForDelete);
+    }
+    this.dpoApplications.splice(index, 1);
+  }
+
+  addCandidateApplication(): void {
+    this.candidateApplications.push(new CandidateApplication());
+  }
+
+  removeCandidateApplication(index: number): void {
+    const idForDelete = this.candidateApplications[index].id;
+    if (idForDelete) {
+      this.candidateApplicationsForDelete.push(idForDelete);
+    }
+    this.candidateApplications.splice(index, 1);
+  }
+
+  addPostgraduateApplication(): void {
+    this.postgraduateApplications.push(new PostgraduateApplication());
+  }
+
+  removePostgraduateApplication(index: number): void {
+    const idForDelete = this.dpoApplications[index].id;
+    if (idForDelete) {
+      this.dpoApplicationsForDelete.push(idForDelete);
+    }
+    this.dpoApplications.splice(index, 1);
   }
 }
