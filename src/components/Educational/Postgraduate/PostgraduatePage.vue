@@ -15,6 +15,16 @@
         <div class="links">
           <a type="primary" round @click="$router.push('/public-documents')">Нормативные документы</a>
         </div>
+        <div v-for="postgraduateDocumentType in postgraduateDocumentTypes" :key="postgraduateDocumentType">
+          <div>
+            <b>{{ postgraduateDocumentType.documentType.name }}</b>
+          </div>
+          <ul v-for="document in postgraduateDocumentType.documentType.documents" :key="document.id">
+            <a :href="document?.documentsScans[0]?.scan.getFileUrl()" target="_blank">
+              {{ document.documentsScans[0]?.scan?.originalName }}
+            </a>
+          </ul>
+        </div>
         <PostgraduateContacts />
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -42,6 +52,7 @@ import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
+import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
@@ -54,7 +65,7 @@ export default defineComponent({
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const schemaGet: Ref<boolean> = ref(false);
-
+    const postgraduateDocumentTypes: Ref<IPostgraduateDocumentType[]> = computed(() => store.getters['postgraduateDocumentTypes/items']);
     const cmMode: Ref<boolean> = ref(route.path === '/candidates-minimum');
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
@@ -82,6 +93,7 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       sortModels.value = createSortModels();
       schemaGet.value = true;
+      await store.dispatch('postgraduateDocumentTypes/getAll');
       store.commit('filter/setStoreModule', 'postgraduateCourses');
       filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
       setProgramsType();
@@ -110,7 +122,7 @@ export default defineComponent({
       }
     };
 
-    return { сmMode: cmMode, changeMode, mounted, load, schemaGet, sortModels };
+    return { сmMode: cmMode, changeMode, mounted, load, schemaGet, sortModels, postgraduateDocumentTypes };
   },
 });
 </script>

@@ -21,6 +21,7 @@ import AdminNewsSlideRoutes from '@/router/AdminNewsSlideRoutes';
 import AdminPagesRoutes from '@/router/AdminPagesRoutes';
 import AdminPaidServicesGroupsRoutes from '@/router/AdminPaidServicesGroupsRoutes';
 import AdminPartnersRoutes from '@/router/AdminPartnersRoutes';
+import AdminPermissionsRoutes from '@/router/AdminPermissionsRoutes';
 import AdminPreparations from '@/router/AdminPreparations';
 import AdminProjectRoutes from '@/router/AdminProjectRoutes';
 import AdminPublicDocumentTypesRoutes from '@/router/AdminPublicDocumentTypesRoutes';
@@ -102,4 +103,5 @@ export default [
   ...AdminAppointmentsRoutes,
   ...AdminApplicationForEntryRoutes,
   ...AdminFormPatternRoutes,
+  ...AdminPermissionsRoutes,
 ];

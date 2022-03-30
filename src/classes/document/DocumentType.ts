@@ -82,4 +82,12 @@ export default class DocumentType implements IDocumentType {
     this.documents.splice(index, 1);
   }
   // findDocument();
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    this.documents.forEach((i: IDocument) => {
+      fileInfos.push(...i.getFileInfos());
+    });
+    return fileInfos;
+  }
 }

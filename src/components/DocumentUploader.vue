@@ -11,7 +11,7 @@
     <el-button size="mini" type="success">{{ document.documentsScans.length ? 'Обновить' : 'Загрузить' }}</el-button>
     <template #tip>
       <div v-if="document.documentsScans[0]?.scan" class="file-name">
-        <a :href="document?.documentsScans[0]?.scan.url" target="_blank">
+        <a :href="document?.documentsScans[0]?.scan.getFileUrl()" target="_blank">
           {{ document.documentsScans[0]?.scan?.originalName }}
         </a>
       </div>
