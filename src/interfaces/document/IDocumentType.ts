@@ -26,6 +26,6 @@ export default interface IDocumentType {
 
   documentFields: IDocumentTypeField[];
   documentFieldsForDelete: string[];
-
+  getFileInfos: () => IFileInfo[];
   // findDocument: (documents: IDocument[]) => IDocument;
 }

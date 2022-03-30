@@ -46,6 +46,7 @@ import { partners } from '@/store/modules/partners';
 import { partnerTypes } from '@/store/modules/partnerTypes';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
+import { postgraduateDocumentTypes } from '@/store/modules/postgraduateDocumentTypes';
 import { preparations } from '@/store/modules/preparations';
 import { projects } from '@/store/modules/projects';
 import { publicDocumentTypes } from '@/store/modules/publicDocumentTypes';
@@ -135,6 +136,7 @@ const s: StoreOptions<RootState> = {
     postgraduateApplications,
     candidateExams,
     candidateApplications,
+    postgraduateDocumentTypes,
   },
 };
 

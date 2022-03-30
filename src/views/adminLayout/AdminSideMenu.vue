@@ -153,8 +153,8 @@ export default defineComponent({
             to: '/admin/educational-organization',
           },
           {
-            title: 'Ординатура/аспирантура (абитуриенту)',
-            to: '/admin/educational-organization',
+            title: 'Аспирантура',
+            to: '/admin/postgraduate',
           },
           {
             title: 'Дополнительное профессиональное образование',
@@ -299,6 +299,11 @@ export default defineComponent({
             title: 'Платные услуги',
             to: '/admin/paid-programs-groups',
             icon: 'el-icon-money',
+          },
+          {
+            title: 'Клиентские доступы',
+            to: '/admin/path-permissions',
+            icon: 'el-icon-user',
           },
         ],
       },

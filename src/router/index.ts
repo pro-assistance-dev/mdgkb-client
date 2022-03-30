@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, NavigationGuardNext, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
@@ -62,6 +62,18 @@ export const devGuard = (): void => {
   if (!UserService.isAdmin()) {
     router.push('/dev');
   }
+};
+
+export const adminGuard = async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {
+  if (to.path != '/main') {
+    try {
+      await store.dispatch('auth/checkPathPermissions', { userRole: 'USER', path: to.path });
+    } catch (e) {
+      console.log(e);
+    }
+    // await router.push('/');
+  }
+  next();
 };
 
 const routes: Array<RouteRecordRaw> = [
@@ -238,10 +250,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
 router.beforeEach(() => {
   window.scrollTo(0, 0);
 });
 
 // router.beforeEach(isAuthorized);
-
+router.beforeEach(adminGuard);
 export default router;

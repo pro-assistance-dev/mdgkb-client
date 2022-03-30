@@ -21,7 +21,9 @@
           <el-dropdown-item icon="el-icon-question" @click="$router.push('/profile/questions')">Ответы на вопросы</el-dropdown-item>
           <el-dropdown-item icon="el-icon-first-aid-kit">Донорство крови</el-dropdown-item>
         </div>
-        <el-dropdown-item icon="el-icon-setting" @click="$router.push('/admin/news')">Кабинет администратора</el-dropdown-item>
+        <el-dropdown-item v-if="UserService.isAdmin()" icon="el-icon-setting" @click="$router.push('/admin/news')"
+          >Кабинет администратора</el-dropdown-item
+        >
         <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -35,7 +37,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import { authGuard } from '@/router';
-
+import UserService from '@/services/User';
 export default defineComponent({
   name: 'LoginDropdownMenu',
   components: { LoginOutlined, LogoutOutlined, UserAddOutlined },
@@ -67,6 +69,7 @@ export default defineComponent({
     });
 
     return {
+      UserService,
       logout,
       isAuth,
       login,
