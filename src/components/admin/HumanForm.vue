@@ -4,8 +4,8 @@
       <div class="item-block">
         <div class="item-title"><h5>ФАМИЛИЯ&nbsp;*</h5></div>
         <div class="item-data">
-          <el-form-item label="ФАМИЛИЯ" prop="human.surname" label-position="top">
-            <el-input v-model="human.surname"></el-input>
+          <el-form-item label="ФАМИЛИЯ" prop="human.surname">
+            <el-input v-model="human.surname" placeholder="Введите фамилию"></el-input>
           </el-form-item>
         </div>
       </div>
@@ -13,7 +13,7 @@
         <div class="item-title"><h5>ИМЯ&nbsp;*</h5></div>
         <div class="item-data">
           <el-form-item label="ИМЯ" prop="human.name">
-            <el-input v-model="human.name"></el-input>
+            <el-input v-model="human.name" placeholder="Введите имя"></el-input>
           </el-form-item>
         </div>
       </div>
@@ -21,7 +21,7 @@
         <div class="item-title"><h5>ОТЧЕСТВО</h5></div>
         <div class="item-data">
           <el-form-item label="Введите отчество" prop="human.patronymic">
-            <el-input v-model="human.patronymic"></el-input>
+            <el-input v-model="human.patronymic" placeholder="Введите отчество"></el-input>
           </el-form-item>
         </div>
       </div>

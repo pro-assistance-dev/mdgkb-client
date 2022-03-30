@@ -1,7 +1,7 @@
 <template>
   <div class="title">
     <h2><b>Мой профиль</b></h2>
-    <button class="edit-button">
+    <button class="edit-button" @click="$router.push('/profile/edit')">
       <svg class="icon-edit">
         <use xlink:href="#profile-edit"></use>
       </svg>
@@ -20,95 +20,105 @@
           <use xlink:href="#avatar"></use>
         </svg>
       </div>
-      <div class="user-name">
-        <h3>Имя пользователя</h3>
-      </div>
-      <div class="user-info">
-        <div class="contact-mail">
-          <svg class="icon-email">
-            <use xlink:href="#profile-email"></use>
-          </svg>
-          <h4>email@mail.com</h4>
+      <el-form :model="user">
+        <div class="user-name">
+          <el-form-item label="Имя">
+            <h3>Пользователь{{ user.human.name }}</h3>
+          </el-form-item>
         </div>
-        <div class="contact-phone">
-          <svg class="icon-phone">
-            <use xlink:href="#profile-phone"></use>
-          </svg>
-          <h4>+7 123 456 78 90</h4>
+        <div class="user-info">
+          <div class="contact-mail">
+            <svg class="icon-email">
+              <use xlink:href="#profile-email"></use>
+            </svg>
+            <el-form-item prop="email" label="Email">
+              <h4>{{ user.email }}</h4>
+            </el-form-item>
+          </div>
+          <div class="contact-phone">
+            <svg class="icon-phone">
+              <use xlink:href="#profile-phone"></use>
+            </svg>
+            <el-form-item prop="phone" label="Phone">
+              <h4>+1 234 567 89 00{{ user.phone }}</h4>
+            </el-form-item>
+          </div>
         </div>
-      </div>
-      <div class="children">
-        <h5>ИНФОРМАЦИЯ О ДЕТЯХ</h5>
-        <div>
-          <ul class="children-list">
-            <li>
-              <svg class="icon-children">
-                <use xlink:href="#avatar"></use>
-              </svg>
+        <div class="children">
+          <h5>ИНФОРМАЦИЯ О ДЕТЯХ</h5>
+          <div>
+            <ul class="children-list">
+              <li>
+                <svg class="icon-children">
+                  <use xlink:href="#avatar"></use>
+                </svg>
+              </li>
+              <li>
+                <svg class="icon-children">
+                  <use xlink:href="#avatar"></use>
+                </svg>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </el-form>
+    </div>
+    <div class="colonm-right">
+      <el-form :model="user">
+        <div class="parent-info">
+          <h2>Информация о родителе</h2>
+          <ul class="parent-info-list">
+            <li class="list-item">
+              <div class="list-item">
+                <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
+                <div class="item-data"><h4>1 января 1990 г.</h4></div>
+              </div>
             </li>
-            <li>
-              <svg class="icon-children">
-                <use xlink:href="#avatar"></use>
-              </svg>
+            <li class="list-item">
+              <div class="list-item">
+                <div class="item-title"><h5>ПОЛ</h5></div>
+                <div class="item-data"><h4>Мужской</h4></div>
+              </div>
+            </li>
+            <li class="list-item">
+              <div class="list-item">
+                <div class="item-title"><h5>ЯЗЫК</h5></div>
+                <div class="item-data"><h4>Русский</h4></div>
+              </div>
+            </li>
+            <li class="list-item">
+              <div class="list-item">
+                <div class="item-title"><h5>СЕМЕЙНЫЙ СТАТУС</h5></div>
+                <div class="item-data"><h4>Женат</h4></div>
+              </div>
+            </li>
+            <li class="list-item">
+              <div class="list-item">
+                <div class="item-title"><h5>АДРЕС</h5></div>
+                <div class="item-data"><h4>103132, Москва, Кремль</h4></div>
+              </div>
+            </li>
+            <li class="list-item">
+              <div class="list-item">
+                <div class="item-title"><h5>ДОКУМЕНТ УДОСТОВЕРЯЮЩИЙ ЛИЧНОСТЬ</h5></div>
+                <div class="item-data"><h4>Паспорт 12 34 123456 Выдан ОВД Центральный</h4></div>
+              </div>
+            </li>
+            <li class="list-item">
+              <div class="list-item">
+                <div class="item-title"><h5>РЕЛИГИОЗНАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>
+                <div class="item-data"><h4>Христианин</h4></div>
+              </div>
+            </li>
+            <li class="list-item">
+              <div class="list-item">
+                <div class="item-title"><h5>ЭТНИЧЕСКАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>
+                <div class="item-data"><h4>Русский</h4></div>
+              </div>
             </li>
           </ul>
         </div>
-      </div>
-    </div>
-    <div class="colonm-right">
-      <div class="parent-info">
-        <h2>Информация о родителе</h2>
-        <ul class="parent-info-list">
-          <li class="list-item">
-            <div class="list-item">
-              <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
-              <div class="item-data"><h4>1 января 1990 г.</h4></div>
-            </div>
-          </li>
-          <li class="list-item">
-            <div class="list-item">
-              <div class="item-title"><h5>ПОЛ</h5></div>
-              <div class="item-data"><h4>Мужской</h4></div>
-            </div>
-          </li>
-          <li class="list-item">
-            <div class="list-item">
-              <div class="item-title"><h5>ЯЗЫК</h5></div>
-              <div class="item-data"><h4>Русский</h4></div>
-            </div>
-          </li>
-          <li class="list-item">
-            <div class="list-item">
-              <div class="item-title"><h5>СЕМЕЙНЫЙ СТАТУС</h5></div>
-              <div class="item-data"><h4>Женат</h4></div>
-            </div>
-          </li>
-          <li class="list-item">
-            <div class="list-item">
-              <div class="item-title"><h5>АДРЕС</h5></div>
-              <div class="item-data"><h4>103132, Москва, Кремль</h4></div>
-            </div>
-          </li>
-          <li class="list-item">
-            <div class="list-item">
-              <div class="item-title"><h5>ДОКУМЕНТ УДОСТОВЕРЯЮЩИЙ ЛИЧНОСТЬ</h5></div>
-              <div class="item-data"><h4>Паспорт 12 34 123456 Выдан ОВД Центральный</h4></div>
-            </div>
-          </li>
-          <li class="list-item">
-            <div class="list-item">
-              <div class="item-title"><h5>РЕЛИГИОЗНАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>
-              <div class="item-data"><h4>Христианин</h4></div>
-            </div>
-          </li>
-          <li class="list-item">
-            <div class="list-item">
-              <div class="item-title"><h5>ЭТНИЧЕСКАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>
-              <div class="item-data"><h4>Русский</h4></div>
-            </div>
-          </li>
-        </ul>
-      </div>
+      </el-form>
     </div>
   </div>
   <!-- <el-card v-if="mounted">
@@ -221,6 +231,10 @@ h5 {
   border: 1px solid #a3a9be;
   color: #a3a9be;
   align-items: center;
+}
+
+.edit-button:hover {
+  background: #ffffff;
 }
 
 .icon-edit {
@@ -399,5 +413,13 @@ ul.parent-info-list li:last-child {
   display: flex;
   width: 50%;
   color: #343e5c;
+}
+
+:deep(.el-form-item__label) {
+  display: none;
+}
+
+:deep(.el-form-item) {
+  margin: 0;
 }
 </style>

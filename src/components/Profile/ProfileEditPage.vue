@@ -8,7 +8,7 @@
       <h2>Редактировать профиль</h2>
     </div>
     <div class="title-right">
-      <button class="cancel-button">Отмена</button>
+      <button class="cancel-button" @click="$router.push('/profile')">Отмена</button>
       <button class="save-button">Сохранить</button>
     </div>
   </div>
@@ -175,7 +175,7 @@ h5 {
 
 .icon-arrow-right {
   width: 24px;
-  height: 40px;
+  height: 36px;
   fill: #343e5c;
   margin: 0 15px;
 }

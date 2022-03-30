@@ -183,6 +183,7 @@ export default defineComponent({
       }
       try {
         await store.dispatch('educationalOrganization/update', educationalOrganisation.value);
+        ElMessage({ message: 'Сохранено', type: 'success' });
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
