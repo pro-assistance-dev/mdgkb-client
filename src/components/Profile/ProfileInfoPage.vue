@@ -16,14 +16,16 @@
             <use xlink:href="#profile-edit"></use>
           </svg>
         </button>
-        <svg class="icon-avatar">
-          <use xlink:href="#avatar"></use>
-        </svg>
+        <div class="avatar-block">
+          <div class="avatar">
+            <img src="../../assets/doctors/Gorev_V_3.jpg" alt="alt" />
+          </div>
+        </div>
       </div>
       <el-form :model="user">
         <div class="user-name">
           <el-form-item label="Имя">
-            <h3>Пользователь{{ user.human.name }}</h3>
+            <h3>Имя пользователя{{ user.human.name }}</h3>
           </el-form-item>
         </div>
         <div class="user-info">
@@ -222,7 +224,29 @@ h5 {
   font-size: 11px;
 }
 
+.avatar {
+  display: block;
+  width: 272px;
+  height: 272px;
+  overflow: hidden;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 272px;
+    height: 272px;
+    object-fit: cover;
+  }
+}
+
 .edit-button {
+  cursor: pointer;
   display: flex;
   padding: 7px 18px;
   font-family: Roboto, Verdana, sans-serif;
@@ -258,10 +282,16 @@ h5 {
 }
 
 .icon-edit-foto {
+  cursor: pointer;
   width: 15px;
   height: 15px;
-  stroke: #a3a9be;
+  stroke: #777777;
   fill: none;
+}
+
+.icon-edit-foto:hover {
+  stroke: #777777;
+  fill: #ffffff;
 }
 
 .right-block {
@@ -288,7 +318,6 @@ h5 {
 
 .user-avatar {
   position: sticky;
-  background: #e4e5e7;
   width: 273px;
   height: 273px;
   border-radius: 5px;

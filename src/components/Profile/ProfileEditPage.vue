@@ -106,6 +106,7 @@ export default defineComponent({
 }
 
 .cancel-button {
+  cursor: pointer;
   display: flex;
   padding: 7px 18px;
   font-family: Roboto, Verdana, sans-serif;
@@ -123,6 +124,7 @@ export default defineComponent({
 }
 
 .save-button {
+  cursor: pointer;
   display: flex;
   padding: 7px 18px;
   font-family: Roboto, Verdana, sans-serif;

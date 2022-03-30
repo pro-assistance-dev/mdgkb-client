@@ -201,6 +201,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'RefreshPasswordPage',
     component: RefreshPasswordPage,
   },
+
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
   ...DivisionsRoutes,
