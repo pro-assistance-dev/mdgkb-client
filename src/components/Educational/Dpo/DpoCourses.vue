@@ -3,15 +3,15 @@
   <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
   <!--  </div>-->
   <div class="filter-block">
-    <DpoCoursesFilters v-if="mounted" :modes="modes" @selectMode="selectMode" />
+    <DpoCoursesFilters v-if="mounted" :modes="modes" @selectMode="selectMode" @load="load" />
     <!-- <DpoCoursesFilters v-if="schemaGet" :sort-models="sortModels" @load="load" /> -->
   </div>
 
-  <div class="sort">
-    <div class="sort-item-1">
-      <div class="item-1"><h3>Дата&nbsp;проведения</h3></div>
-      <div class="item-2"><SortList :models="sortModels" :store-mode="true" @load="load" /></div>
-    </div>
+  <div v-if="mounted" class="sort">
+    <!--    <div class="sort-item-1">-->
+    <!--      <div class="item-1"><h3>Дата&nbsp;проведения</h3></div>-->
+    <!--      <div class="item-2"><SortList :models="sortModels" :store-mode="true" @load="load" /></div>-->
+    <!--    </div>-->
     <div class="sort-item-2">
       <div class="item-3"><h3>Сортировать</h3></div>
       <div class="item-4"><SortList :models="sortModels" :store-mode="true" @load="load" /></div>

@@ -1,7 +1,7 @@
 <template>
   <el-form>
     <el-form-item>
-      <el-select v-model="selectedModel" :clearable="!defaultSortOn" placeholder="По популярности" @change="setSort">
+      <el-select v-model="selectedModel" :clearable="!defaultSortOn" :placeholder="selectedModel" @change="setSort">
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item"> </el-option>
       </el-select>
     </el-form-item>

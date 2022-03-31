@@ -1,23 +1,35 @@
 <template>
   <div v-if="mount" class="horizontal">
     <div class="block-item"><DpoChoice :modes="modes" @selectMode="$emit('selectMode', $event)" /></div>
-    <!--    <div class="block-item"><RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" /></div>-->
-    <!--    <div class="block-item">-->
-    <!--      <FilterSelect-->
-    <!--        placeholder="Для кого читается курс"-->
-    <!--        :options="schema.specialization.options"-->
-    <!--        :table="schema.dpoCourse.tableName"-->
-    <!--        :col="schema.specialization.id"-->
-    <!--        :data-type="DataTypes.Join"-->
-    <!--        :operator="Operators.Eq"-->
-    <!--        :join-table="schema.dpoCourseSpecialization.tableName"-->
-    <!--        :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"-->
-    <!--        :join-table-pk="schema.dpoCourse.id"-->
-    <!--        :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
-    <!--        :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
-    <!--        @load="load"-->
-    <!--      />-->
-    <!--    </div>-->
+    <div class="block-item"><RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" /></div>
+    <div class="block-item">
+      <FilterCheckbox
+        :table="schema.dpoCourse.tableName"
+        :col="schema.dpoCourse.isNmo"
+        :data-type="DataTypes.Boolean"
+        label="Курсы НМО"
+        :operator="Operators.Eq"
+        @load="load"
+      >
+      </FilterCheckbox>
+    </div>
+
+    <div class="block-item">
+      <FilterSelect
+        placeholder="Для кого читается курс"
+        :options="schema.specialization.options"
+        :table="schema.dpoCourse.tableName"
+        :col="schema.specialization.id"
+        :data-type="DataTypes.Join"
+        :operator="Operators.Eq"
+        :join-table="schema.dpoCourseSpecialization.tableName"
+        :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"
+        :join-table-pk="schema.dpoCourse.id"
+        :join-table-id="schema.dpoCourseSpecialization.specializationId"
+        :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
+        @load="load"
+      />
+    </div>
     <!--    <div class="block-item">-->
     <!--      <FilterSelect-->
     <!--        placeholder="Специализация программы"-->
@@ -42,6 +54,9 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import DpoChoice from '@/components/Educational/Dpo/DpoChoice.vue';
+import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterSelect from '@/components/Filters/FilterSelect.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IDoctor from '@/interfaces/IDoctor';
@@ -54,10 +69,11 @@ import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'DpoCoursesFilters',
   components: {
+    FilterCheckbox,
     // FilterReset,
-    // RemoteSearch,
+    RemoteSearch,
     // SortList,
-    // FilterSelect,
+    FilterSelect,
     DpoChoice,
   },
   emits: ['load', 'selectMode'],
@@ -86,7 +102,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      // await store.dispatch('meta/getOptions', schema.value.specialization);
+      await store.dispatch('meta/getOptions', schema.value.specialization);
       mount.value = true;
     });
 

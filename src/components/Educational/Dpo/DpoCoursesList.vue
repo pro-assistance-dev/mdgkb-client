@@ -120,7 +120,7 @@ th {
 th {
   text-align: left;
   padding: 2px 0 0 3px;
-  background-color: #EFF2F6;
+  background-color: #eff2f6;
   // border-right: 1px solid #f2f2f2;
   height: 20px;
 }
@@ -155,6 +155,6 @@ h4 {
   margin: 0px;
   font-size: 11px;
   font-weight: normal;
-  color: #A3A5B9;
+  color: #a3a5b9;
 }
 </style>
