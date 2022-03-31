@@ -20,6 +20,7 @@
 
   <template v-if="mounted">
     <DpoCoursesList v-if="mode === 'programs'" />
+    <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
     <DpoCoursesContacts v-if="mode === 'info'" />
   </template>
 </template>
@@ -31,10 +32,12 @@ import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import SortModel from '@/classes/filters/SortModel';
+import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
 import DpoCoursesFilters from '@/components/Educational/Dpo/DpoCoursesFilters.vue';
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import IDocumentType from '@/interfaces/document/IDocumentType';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
@@ -45,7 +48,7 @@ import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'DpoCourses',
-  components: { DpoCoursesContacts, DpoCoursesFilters, DpoCoursesList, SortList },
+  components: { DocumentsList, DpoCoursesContacts, DpoCoursesFilters, DpoCoursesList, SortList },
 
   setup() {
     const store = useStore();
@@ -57,6 +60,7 @@ export default defineComponent({
 
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => store.getters['dpoDocumentTypes/items']);
+    const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const filterModel = ref();
     const sortModels: Ref<ISortModel[]> = ref([]);
@@ -64,8 +68,11 @@ export default defineComponent({
     const modes: Ref<IOption[]> = ref([]);
 
     const selectMode = (value: string): void => {
-      console.log(value);
       mode.value = value;
+      const dpoDocumentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
+      if (dpoDocumentType) {
+        selectedDocumentType.value = dpoDocumentType.documentType;
+      }
     };
 
     const createSortModels = (): ISortModel[] => {
@@ -121,7 +128,7 @@ export default defineComponent({
     //   }
     // };
 
-    return { mode, mounted, load, schemaGet, sortModels, modes, selectMode };
+    return { selectedDocumentType, mode, mounted, load, schemaGet, sortModels, modes, selectMode };
   },
 });
 </script>
