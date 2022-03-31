@@ -1,50 +1,56 @@
 <template>
-  <div class="contact-data">
-    <div class="contact-data-list-item">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-time">
-            <use xlink:href="#time"></use>
-          </svg>
-        </div>
-        <div class="item">Пн-Пт, с 9:00 до 17:00</div>
-      </div>
-    </div>
-    <div class="contact-data-list-item">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-map-marker">
-            <use xlink:href="#map-marker"></use>
-          </svg>
-        </div>
-        <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 22а, 1 этаж Отдел постдипломного образования</div>
-      </div>
-    </div>
-    <div class="contact-data-list-item">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-phone">
-            <use xlink:href="#phone"></use>
-          </svg>
-        </div>
-        <div class="item">
-          +7 (495) 959-88-01<br />
-          доб. 11-37 ДПО
+  <div v-if="mounted" class="flex">
+    <div class="contact-data">
+      <div class="contact-data-list-item">
+        <div class="contact-h3">
+          <div class="item">
+            <svg class="icon-time">
+              <use xlink:href="#time"></use>
+            </svg>
+          </div>
+          <div class="item">Пн-Пт, с 9:00 до 17:00</div>
         </div>
       </div>
-    </div>
-    <div class="contact-data-list-item">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-email">
-            <use xlink:href="#email"></use>
-          </svg>
+      <div class="contact-data-list-item">
+        <div class="contact-h3">
+          <div class="item">
+            <svg class="icon-map-marker">
+              <use xlink:href="#map-marker"></use>
+            </svg>
+          </div>
+          <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 22а, 1 этаж Отдел постдипломного образования</div>
         </div>
-        <div class="item">dpo@morozdgkb.ru</div>
+      </div>
+      <div class="contact-data-list-item">
+        <div class="contact-h3">
+          <div class="item">
+            <svg class="icon-phone">
+              <use xlink:href="#phone"></use>
+            </svg>
+          </div>
+          <div class="item">
+            +7 (495) 959-88-01<br />
+            доб. 11-37 ДПО
+          </div>
+        </div>
+      </div>
+      <div class="contact-data-list-item">
+        <div class="contact-h3">
+          <div class="item">
+            <svg class="icon-email">
+              <use xlink:href="#email"></use>
+            </svg>
+          </div>
+          <div class="item">dpo@morozdgkb.ru</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-data">
+      <div class="map-container">
+        <yandex-map style="height: 400px" :coords="[55.725317, 37.619214]" zoom="16.24" :settings="settings" />
       </div>
     </div>
   </div>
-
   <svg width="0" height="0" class="hidden">
     <symbol id="phone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
       <path
@@ -81,16 +87,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import { yandexMap } from 'vue-yandex-maps';
 
 export default defineComponent({
   name: 'DpoCoursesContacts',
+  components: { yandexMap },
   setup() {
-    return {};
+    const mounted = ref(false);
+    const settings = {
+      center: [55.74954, 37.621587],
+      zoom: 10,
+    };
+    onMounted(async () => {
+      mounted.value = true;
+    });
+
+    return { settings, mounted };
   },
 });
 </script>
 <style lang="scss" scoped>
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
 @import '@/assets/styles/elements/ordinatura.scss';
 .el-descriptions__label {
   font-size: 15px;
@@ -169,5 +190,14 @@ export default defineComponent({
   width: auto;
   align-items: center;
   text-align: left;
+}
+
+.map-data {
+  width: 100%;
+}
+.map-container {
+  width: 100%;
+  height: 400px;
+  margin: 10px 0 20px 0;
 }
 </style>

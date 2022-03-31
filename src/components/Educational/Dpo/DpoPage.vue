@@ -7,7 +7,7 @@
     <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
   </div>
 
-  <div v-if="mounted" class="sort">
+  <div v-if="mounted && (mode === 'programs' || mode === '')" class="sort">
     <div class="sort-item-2">
       <div class="item-3"><h3>Сортировать</h3></div>
       <div class="item-4">
@@ -96,7 +96,7 @@ export default defineComponent({
           modes.value.push({ value: docType.documentType.id, label: docType.documentType.name });
         }
       });
-      modes.value.push({ value: 'info', label: 'Информация' });
+      modes.value.push({ value: 'info', label: 'Контакты' });
     };
 
     onBeforeMount(async () => {

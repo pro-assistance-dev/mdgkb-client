@@ -1,16 +1,18 @@
 <template>
   <button @click="savePaths">Сохранить на сервере</button>
-  <div v-for="path in paths" :key="path">
-    {{ path.path }}
+  <div v-for="path in clientPermissions" :key="path">
+    {{ path.resource }}
   </div>
 </template>
 
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+
+import IPathPermission from '@/interfaces/IPathPermission';
 
 export default defineComponent({
   name: 'AdminGallery',
@@ -19,15 +21,16 @@ export default defineComponent({
       type: String as PropType<string>,
       default: '',
     },
-    storeAction: {
-      type: String as PropType<string>,
-      default: 'pushToImages',
-    },
   },
   setup(props) {
     const store = useStore();
     const router = useRouter();
     const paths = router.getRoutes();
+    const clientPermissions: Ref<IPathPermission[]> = computed(() => store.getters['auth/clientPermissions']);
+
+    onBeforeMount(async () => {
+      await store.dispatch('auth/getAllPathPermissions');
+    });
 
     const savePaths = async () => {
       const pathsForSend: string[] = [];
@@ -38,6 +41,7 @@ export default defineComponent({
     };
 
     return {
+      clientPermissions,
       savePaths,
       paths,
     };
