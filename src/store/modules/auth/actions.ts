@@ -53,8 +53,11 @@ const actions: ActionTree<State, RootState> = {
   checkPathPermissions: async ({ commit }, checkObj: { userRole: string; path: string }): Promise<void> => {
     await httpClient.get<IUser>({ query: `check-path-permissions/${checkObj.userRole}/${checkObj.path}` });
   },
-  saveClientPermissions: async ({ commit }, paths: string[]): Promise<void> => {
-    await httpClient.put<string[], string[]>({ query: 'save-client-permissions', payload: paths });
+  savePathPermissions: async ({ commit }, paths: string[]): Promise<void> => {
+    await httpClient.put<string[], string[]>({ query: 'path-permissions', payload: paths });
+  },
+  getAllPathPermissions: async ({ commit }, paths: string[]): Promise<void> => {
+    await httpClient.put<string[], string[]>({ query: 'path-permissions', payload: paths });
   },
 };
 

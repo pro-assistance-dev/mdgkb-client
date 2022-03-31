@@ -1,55 +1,35 @@
 <template>
-    <el-form>
-        <el-select v-model="value" class="m-2" placeholder="Выберите раздел">
-        <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-        />
-        </el-select>
-    </el-form>
+  <el-form>
+    <el-select v-model="selectedMode" class="m-2" placeholder="Выберите раздел" @change="$emit('selectMode', $event)">
+      <el-option v-for="item in modes" :key="item.value" :label="item.label" :value="item.value" />
+    </el-select>
+  </el-form>
 </template>
 
 <script lang="ts">
-import {defineComponent, ref } from 'vue';
+import { defineComponent, PropType, Ref, ref } from 'vue';
+
+import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
   name: 'DpoChoice',
-
+  props: {
+    modes: {
+      type: Array as PropType<IOption[]>,
+      required: false,
+      default: () => [],
+    },
+  },
+  emits: ['selectMode'],
   setup() {
     const value = ref('');
-
-    const options = [
-      {
-        value: "dpo",
-        label: "Программы ДПО",
-      },
-      {
-        value: "npo",
-        label: "Программы НПО",
-      },
-      {
-        value: "docRegulatory",
-        label: "Нормативные документы",
-      },
-      {
-        value: "docTraining",
-        label: "Документы для обучения",
-      },
-      {
-        value: "info",
-        label: "Информация",
-      },
-    ];
-
-      return { options };
+    const selectedMode: Ref<string> = ref('');
+    return { selectedMode };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-
 :deep(.el-form-item__content) {
   width: 100%;
 }
@@ -96,5 +76,4 @@ export default defineComponent({
 :deep(.el-input__suffix) {
   top: -2px;
 }
-
 </style>

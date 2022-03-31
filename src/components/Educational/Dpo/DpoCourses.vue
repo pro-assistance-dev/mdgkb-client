@@ -1,57 +1,27 @@
 <template>
-  <div class="way">
-    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>
-  </div>
+  <!--  <div class="way">-->
+  <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
+  <!--  </div>-->
   <div class="filter-block">
-    <DpoCoursesFilters />
+    <DpoCoursesFilters :modes="modes" @selectMode="selectMode" />
     <!-- <DpoCoursesFilters v-if="schemaGet" :sort-models="sortModels" @load="load" /> -->
   </div>
-
-<!-- TODO
-Ниже блок hidden - не отображается на странице -->
-  <div class="hidden">
-    <el-row :gutter="40">
-      <el-col :xl="6" :lg="6" :md="24" class="calendar">
-        <ModeButtons
-          :second-mode-active="nmoMode"
-          :store-mode="false"
-          first-mode="Программы ДПО"
-          second-mode="Программы НМО"
-          @changeMode="changeMode"
-        />
-
-        <div class="search_block">
-          <DpoCoursesFilters v-if="schemaGet" :sort-models="sortModels" @load="load" />
-        </div>
-        <div class="links">
-          <a type="primary" round @click="$router.push('/public-documents?dpo-common')">Нормативные документы</a>
-        </div>
-        <div class="links">
-          <a type="primary" round @click="$router.push('/public-documents?doc=dpo-docs-for-educ')">Документы для обучения</a>
-        </div>
-
-        <DpoCoursesContacts />
-      </el-col>
-      <el-col :xl="18" :lg="18" :md="24">
-        <DpoCoursesList v-if="mounted" :nmo-mode="nmoMode" />
-      </el-col>
-    </el-row>
-  </div>
-<!-- конец скрытого блока -->
-
-
 
   <div class="sort">
     <div class="sort-item-1">
       <div class="item-1"><h3>Дата&nbsp;проведения</h3></div>
       <div class="item-2"><SortList :models="sortModels" :store-mode="true" @load="load" /></div>
-    </div> 
+    </div>
     <div class="sort-item-2">
       <div class="item-3"><h3>Сортировать</h3></div>
       <div class="item-4"><SortList :models="sortModels" :store-mode="true" @load="load" /></div>
-    </div> 
+    </div>
   </div>
-  <DpoCoursesList v-if="mounted" :nmo-mode="nmoMode" />
+
+  <template v-if="mounted">
+    <DpoCoursesList v-if="mode === 'programs'" />
+    <DpoCoursesContacts v-if="mode === 'info'" />
+  </template>
 </template>
 
 <script lang="ts">
@@ -61,22 +31,21 @@ import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import SortModel from '@/classes/filters/SortModel';
-import SortList from '@/components/SortList/SortList.vue';
 import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
 import DpoCoursesFilters from '@/components/Educational/Dpo/DpoCoursesFilters.vue';
-import DpoChoice from '@/components/Educational/Dpo/DpoChoice.vue';
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
-import ModeButtons from '@/components/ModeButtons.vue';
+import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
-import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
+import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
+import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'DpoCourses',
-  components: { DpoCoursesContacts, DpoCoursesFilters, DpoCoursesList, ModeButtons, DpoChoice, SortList },
+  components: { DpoCoursesContacts, DpoCoursesFilters, DpoCoursesList, SortList },
 
   setup() {
     const store = useStore();
@@ -84,12 +53,20 @@ export default defineComponent({
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const schemaGet: Ref<boolean> = ref(false);
+    const mode: Ref<string> = ref('');
 
-    const nmoMode: Ref<boolean> = ref(route.path === '/nmo');
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => store.getters['dpoDocumentTypes/items']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const filterModel = ref();
     const sortModels: Ref<ISortModel[]> = ref([]);
+
+    const modes: Ref<IOption[]> = ref([]);
+
+    const selectMode = (value: string): void => {
+      console.log(value);
+      mode.value = value;
+    };
 
     const createSortModels = (): ISortModel[] => {
       const sortModels: ISortModel[] = [
@@ -101,46 +78,50 @@ export default defineComponent({
       return sortModels;
     };
 
-    const setProgramsType = () => {
-      filterModel.value.boolean = nmoMode.value;
-      filterModel.value.operator = Operators.Eq;
-      store.commit('filter/setFilterModel', filterModel.value);
+    const setModes = async () => {
+      await store.dispatch('dpoDocumentTypes/getAll');
+      modes.value.push({ value: 'programs', label: 'Программы' });
+      documentTypes.value.forEach((docType: IDpoDocumentType) => {
+        if (docType.documentType.id) {
+          modes.value.push({ value: docType.documentType.id, label: docType.documentType.name });
+        }
+      });
+      modes.value.push({ value: 'info', label: 'Информация' });
     };
 
     onBeforeMount(async () => {
       store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
+      await setModes();
       sortModels.value = createSortModels();
       schemaGet.value = true;
       store.commit('filter/setStoreModule', 'dpoCourses');
       filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
-      setProgramsType();
       await load();
     });
 
     const load = async () => {
-      setProgramsType();
       store.commit(`filter/checkSortModels`);
       filterQuery.value.pagination.cursorMode = false;
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
       mounted.value = true;
     };
 
-    const changeMode = async (dpoModeActive: boolean) => {
-      nmoMode.value = !dpoModeActive;
-      filterModel.value.boolean = nmoMode.value;
-      filterModel.value.operator = Operators.Eq;
-      filterModel.value.type = DataTypes.Boolean;
-      store.commit('filter/setFilterModel', filterModel.value);
-      await load();
-      if (nmoMode.value) {
-        await router.replace('/nmo');
-      } else {
-        await router.replace('/dpo');
-      }
-    };
+    // const changeMode = async (dpoModeActive: boolean) => {
+    //   nmoMode.value = !dpoModeActive;
+    //   filterModel.value.boolean = nmoMode.value;
+    //   filterModel.value.operator = Operators.Eq;
+    //   filterModel.value.type = DataTypes.Boolean;
+    //   store.commit('filter/setFilterModel', filterModel.value);
+    //   await load();
+    //   if (nmoMode.value) {
+    //     await router.replace('/nmo');
+    //   } else {
+    //     await router.replace('/dpo');
+    //   }
+    // };
 
-    return { nmoMode, changeMode, mounted, load, schemaGet, sortModels };
+    return { mode, mounted, load, schemaGet, sortModels, modes, selectMode };
   },
 });
 </script>
@@ -225,22 +206,17 @@ export default defineComponent({
   text-align: left;
 }
 
-
-
-
-
-
 :deep(.main-box) {
   margin: 0px !important;
 }
 
-:deep(.page-container ) {
-  background: #F6F6F6 !important;
+:deep(.page-container) {
+  background: #f6f6f6 !important;
 }
 
 .way {
   height: 40px;
-  background: #F6F6F6;
+  background: #f6f6f6;
 }
 
 h4 {
@@ -249,7 +225,7 @@ h4 {
   margin: 0px;
   font-size: 14px;
   font-weight: normal;
-  color: #343E5C;
+  color: #343e5c;
 }
 
 h3 {
@@ -258,12 +234,12 @@ h3 {
   margin: 0px;
   font-size: 16px;
   font-weight: normal;
-  color: #343E5C;
+  color: #343e5c;
 }
 
 .filter-block {
   height: 103px;
-  border: 1px solid #E4E6F2;
+  border: 1px solid #e4e6f2;
   border-radius: 5px;
   background: #ffffff;
 }
@@ -310,19 +286,17 @@ h3 {
 
 .item-2 {
   width: 138px;
-  display: flex;  
+  display: flex;
 }
 
 .item-3 {
   width: auto;
   display: flex;
-  margin-right: 20px;   
+  margin-right: 20px;
 }
 
 .item-4 {
   width: 188px;
-  display: flex;  
+  display: flex;
 }
-
-
 </style>

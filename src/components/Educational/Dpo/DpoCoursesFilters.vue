@@ -1,36 +1,38 @@
 <template>
-  <div class="horizontal" v-if="mount">
-    <div class="block-item"><DpoChoice /></div>
-    <div class="block-item"><RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" /></div>
-    <div class="block-item"><FilterSelect
-      placeholder="Для кого читается курс"
-      :options="schema.specialization.options"
-      :table="schema.dpoCourse.tableName"
-      :col="schema.specialization.id"
-      :data-type="DataTypes.Join"
-      :operator="Operators.Eq"
-      :join-table="schema.dpoCourseSpecialization.tableName"
-      :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"
-      :join-table-pk="schema.dpoCourse.id"
-      :join-table-id="schema.dpoCourseSpecialization.specializationId"
-      :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
-      @load="load"
-    /></div>
-    <div class="block-item"><FilterSelect
-      placeholder="Специализация программы"
-      :options="schema.specialization.options"
-      :table="schema.dpoCourse.tableName"
-      :col="schema.dpoCourse.specializationId"
-      :data-type="DataTypes.String"
-      :operator="Operators.Eq"
-      @load="load"
-    /></div>
+  <div v-if="mount" class="horizontal">
+    <div class="block-item"><DpoChoice :modes="modes" @selectMode="$emit('selectMode', $event)" /></div>
+    <!--    <div class="block-item"><RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" /></div>-->
+    <!--    <div class="block-item">-->
+    <!--      <FilterSelect-->
+    <!--        placeholder="Для кого читается курс"-->
+    <!--        :options="schema.specialization.options"-->
+    <!--        :table="schema.dpoCourse.tableName"-->
+    <!--        :col="schema.specialization.id"-->
+    <!--        :data-type="DataTypes.Join"-->
+    <!--        :operator="Operators.Eq"-->
+    <!--        :join-table="schema.dpoCourseSpecialization.tableName"-->
+    <!--        :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"-->
+    <!--        :join-table-pk="schema.dpoCourse.id"-->
+    <!--        :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
+    <!--        :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
+    <!--        @load="load"-->
+    <!--      />-->
+    <!--    </div>-->
+    <!--    <div class="block-item">-->
+    <!--      <FilterSelect-->
+    <!--        placeholder="Специализация программы"-->
+    <!--        :options="schema.specialization.options"-->
+    <!--        :table="schema.dpoCourse.tableName"-->
+    <!--        :col="schema.dpoCourse.specializationId"-->
+    <!--        :data-type="DataTypes.String"-->
+    <!--        :operator="Operators.Eq"-->
+    <!--        @load="load"-->
+    <!--      />-->
+    <!--    </div>-->
 
-<!-- Скрытый блок -->
-    <div class="hidden"><SortList :models="sortModels" :store-mode="true" @load="load" />
-    <FilterReset @load="resetFilter" /></div>
-<!-- конец скрытого блока -->
-
+    <!-- Скрытый блок -->
+    <!--    <div class="hidden"><SortList :models="sortModels" :store-mode="true" @load="load" /> <FilterReset @load="resetFilter" /></div>-->
+    <!-- конец скрытого блока -->
   </div>
 </template>
 
@@ -39,34 +41,35 @@ import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterReset from '@/components/Filters/FilterResetButton.vue';
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import DpoChoice from '@/components/Educational/Dpo/DpoChoice.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
+import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
   name: 'DpoCoursesFilters',
   components: {
-    FilterReset,
-    RemoteSearch,
-    SortList,
-    FilterSelect,
+    // FilterReset,
+    // RemoteSearch,
+    // SortList,
+    // FilterSelect,
     DpoChoice,
   },
-  emits: ['load'],
+  emits: ['load', 'selectMode'],
   props: {
-    sortModels: {
-      type: Object as PropType<ISortModel[]>,
-      required: true,
+    // sortModels: {
+    //   type: Object as PropType<ISortModel[]>,
+    //   required: true,
+    // },
+    modes: {
+      type: Array as PropType<IOption[]>,
+      required: false,
+      default: () => [],
     },
   },
   setup(props, { emit }) {
@@ -83,7 +86,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('meta/getOptions', schema.value.specialization);
+      // await store.dispatch('meta/getOptions', schema.value.specialization);
       mount.value = true;
     });
 
@@ -128,7 +131,6 @@ export default defineComponent({
     margin-right: 20px;
     // max-width: $left-side-max-width;
   }
-
 }
 h2 {
   margin: 0;
