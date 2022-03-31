@@ -3,7 +3,7 @@
   <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
   <!--  </div>-->
   <div class="filter-block">
-    <DpoCoursesFilters :modes="modes" @selectMode="selectMode" />
+    <DpoCoursesFilters v-if="mounted" :modes="modes" @selectMode="selectMode" />
     <!-- <DpoCoursesFilters v-if="schemaGet" :sort-models="sortModels" @load="load" /> -->
   </div>
 
@@ -98,13 +98,13 @@ export default defineComponent({
       store.commit('filter/setStoreModule', 'dpoCourses');
       filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
       await load();
+      mounted.value = true;
     });
 
     const load = async () => {
       store.commit(`filter/checkSortModels`);
       filterQuery.value.pagination.cursorMode = false;
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
-      mounted.value = true;
     };
 
     // const changeMode = async (dpoModeActive: boolean) => {

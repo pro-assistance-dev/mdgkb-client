@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import IOption from '@/interfaces/schema/IOption';
 
@@ -21,9 +21,16 @@ export default defineComponent({
     },
   },
   emits: ['selectMode'],
-  setup() {
+  setup(props, { emit }) {
     const value = ref('');
     const selectedMode: Ref<string> = ref('');
+
+    onBeforeMount(async () => {
+      // selectedMode.value.value = props.modes[0].value;
+      selectedMode.value = props.modes[0].label;
+      emit('selectMode', props.modes[0].value);
+    });
+
     return { selectedMode };
   },
 });
