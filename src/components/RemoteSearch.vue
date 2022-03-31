@@ -116,4 +116,8 @@ $margin: 20px 0;
 :deep(.el-input__suffix) {
   top: -2px;
 }
+
+.el-form {
+  width: 100%;
+}
 </style>

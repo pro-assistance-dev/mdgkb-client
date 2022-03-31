@@ -168,7 +168,7 @@ h2 {
 
 .title-out {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0.1em;
   font-size: 12px;
   color: #343e5c;
@@ -181,15 +181,43 @@ h2 {
 .horizontal {
   display: flex;
   justify-content: space-between;
+  // align-items: center;
 }
 
 .block-item {
-  align-items: center;
+  display: flex;
   width: 272px;
   margin-top: 22px;
 }
 
 .hidden {
   display: none;
+}
+
+:deep(.el-checkbox__label) {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: #343e5c;
+}
+
+// :deep(.el-input__inner) {
+//   padding-left: 25px;
+//   height: 38px;
+//   width: 100%;
+//   display: flex;
+//   font-family:Arial, Helvetica, sans-serif;
+//   font-size: 15px;
+// }
+
+// :deep(.el-form-item__content) {
+//   height: 38px;
+// }
+
+:deep(.el-autocomplete) {
+  height: 38px;
+}
+
+.el-select {
+  height: 38px;
 }
 </style>

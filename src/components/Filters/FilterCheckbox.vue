@@ -123,5 +123,36 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.filter-form {
+  align-items: center;
+  height: 38px;
+}
+
+.el-form-item {
+  align-items: center;
+  height: auto;
+}
+
+:deep(.el-form-item__content) {
+  margin-top: 6px;
+  height: 30px;
+}
+
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+  background-color: #2754eb;
+  border: 1px solid #2754eb;
+}
+
+:deep(.el-checkbox__inner:active) {
+  border-color: #2754eb;
+}
+
+:deep(.el-checkbox__inner:hover) {
+  border-color: #2754eb;
+}
+
+:deep(.el-checkbox__input.is-checked + .el-checkbox__label) {
+  color: #2754eb;
+}
 // @import '@/assets/elements/filterForm.scss';
 </style>

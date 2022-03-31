@@ -1,8 +1,10 @@
 <template>
   <el-form>
-    <el-select v-model="selectedMode" class="m-2" placeholder="Выберите раздел" @change="selectMode">
-      <el-option v-for="item in modes" :key="item.value" :label="item.label" :value="item.value" />
-    </el-select>
+    <el-form-item>
+      <el-select v-model="selectedMode" class="m-2" placeholder="Выберите раздел" @change="selectMode">
+        <el-option v-for="item in modes" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+    </el-form-item>
   </el-form>
 </template>
 
@@ -59,6 +61,7 @@ export default defineComponent({
 
 :deep(.el-input__inner) {
   border-radius: 5px;
+  border: none;
   padding-left: 25px;
   height: 34px;
   width: 100%;
@@ -108,5 +111,9 @@ export default defineComponent({
 
 :deep(.el-input__suffix) {
   top: -2px;
+}
+
+.el-form {
+  width: 100%;
 }
 </style>

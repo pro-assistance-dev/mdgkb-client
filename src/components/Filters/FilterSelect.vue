@@ -127,7 +127,7 @@ export default defineComponent({
   height: 34px;
   width: 100%;
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
 }
 
@@ -148,5 +148,9 @@ export default defineComponent({
 
 :deep(.el-input__suffix) {
   top: -2px;
+}
+
+.filter-form {
+  width: 100%;
 }
 </style>
