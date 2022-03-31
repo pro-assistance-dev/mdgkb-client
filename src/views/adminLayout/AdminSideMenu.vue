@@ -158,7 +158,7 @@ export default defineComponent({
           },
           {
             title: 'Дополнительное профессиональное образование',
-            to: '/admin/educational-organization',
+            to: '/admin/dpo',
           },
           {
             title: 'Программы ДПО',
