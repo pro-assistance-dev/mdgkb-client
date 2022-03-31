@@ -48,6 +48,7 @@ export default defineComponent({
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 15px;
   background: #2754eb;
+  color: #ffffff;
 }
 
 :deep(.el-input__inner::placeholder) {
