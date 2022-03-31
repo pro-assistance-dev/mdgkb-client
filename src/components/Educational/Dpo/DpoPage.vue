@@ -2,30 +2,28 @@
   <!--  <div class="way">-->
   <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
   <!--  </div>-->
-  <div v-if="mounted" class="filter-block">
-    <div class="full-width"></div>
-    <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-  </div>
-
-  <div v-if="mounted && (mode === 'programs' || mode === '')" class="sort">
-    <div class="sort-item-2">
-      <div class="item-3"><h3>Сортировать</h3></div>
-      <div class="item-4">
-        <SortList :models="sortModels" :store-mode="true" @load="load" />
+  <div v-if="mounted">
+    <div class="filter-block">
+      <div class="full-width"></div>
+      <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
+    </div>
+    <div v-if="mode === 'programs' || mode === ''" class="sort">
+      <div class="sort-item-2">
+        <div class="item-3"><h3>Сортировать</h3></div>
+        <div class="item-4">
+          <SortList :models="sortModels" :store-mode="true" @load="load" />
+        </div>
       </div>
     </div>
-  </div>
 
-  <template v-if="mounted">
     <DpoCoursesList v-if="mode === 'programs'" />
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
-    <DpoCoursesContacts v-if="mode === 'info'" />
-  </template>
+    <DpoCoursesContacts v-if="mode === 'contacts'" />
+  </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
@@ -50,12 +48,9 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const schemaGet: Ref<boolean> = ref(false);
-    const mode: Ref<string> = ref('');
-
+    const mode: Ref<string> = ref('programs');
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => store.getters['dpoDocumentTypes/items']);
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
@@ -65,7 +60,7 @@ export default defineComponent({
 
     const modes: Ref<IOption[]> = ref([]);
 
-    const selectMode = (value: string): void => {
+    const selectMode = async (value: string) => {
       if (value === mode.value) {
         return;
       }
@@ -96,7 +91,7 @@ export default defineComponent({
           modes.value.push({ value: docType.documentType.id, label: docType.documentType.name });
         }
       });
-      modes.value.push({ value: 'info', label: 'Контакты' });
+      modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 
     onBeforeMount(async () => {

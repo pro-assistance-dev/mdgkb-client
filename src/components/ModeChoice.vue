@@ -1,6 +1,6 @@
 <template>
   <el-form>
-    <el-select v-model="selectedMode" class="m-2" placeholder="Выберите раздел" @change="$emit('selectMode', $event)">
+    <el-select v-model="selectedMode" class="m-2" placeholder="Выберите раздел" @change="selectMode">
       <el-option v-for="item in modes" :key="item.value" :label="item.label" :value="item.value" />
     </el-select>
   </el-form>
@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import IOption from '@/interfaces/schema/IOption';
 
@@ -23,13 +24,30 @@ export default defineComponent({
   emits: ['selectMode'],
   setup(props, { emit }) {
     const selectedMode: Ref<string> = ref('');
+    const route = useRoute();
+    const router = useRouter();
 
-    onBeforeMount(async () => {
-      selectedMode.value = props.modes[0].label;
-      emit('selectMode', props.modes[0].value);
+    onBeforeMount(() => {
+      let routeMode = route.query.mode;
+      if (typeof routeMode === 'string') {
+        const mode = props.modes?.find((opt: IOption) => opt.value === routeMode);
+        if (mode) {
+          selectedMode.value = mode.label;
+          emit('selectMode', mode.value);
+        }
+      } else {
+        selectedMode.value = props.modes[0].label;
+        routeMode = props.modes[0].value;
+        selectMode(routeMode);
+      }
     });
 
-    return { selectedMode };
+    const selectMode = (value: string): void => {
+      emit('selectMode', value);
+      router.replace(`/dpo?mode=${value}`);
+    };
+
+    return { selectedMode, selectMode };
   },
 });
 </script>
