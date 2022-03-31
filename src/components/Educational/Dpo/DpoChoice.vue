@@ -47,14 +47,17 @@ export default defineComponent({
   height: 34px;
   width: 100%;
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   background: #2754eb;
   color: #ffffff;
+  letter-spacing: 0.1em;
 }
 
 :deep(.el-input__inner::placeholder) {
   color: #ffffff;
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 :deep(.el-select .el-input .el-select__caret) {
@@ -66,6 +69,12 @@ export default defineComponent({
 
 .el-select {
   width: 100%;
+}
+
+:deep(.el-select-dropdown__item) {
+  letter-spacing: 0.1em;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
 }
 
 :deep(.el-input__prefix) {
