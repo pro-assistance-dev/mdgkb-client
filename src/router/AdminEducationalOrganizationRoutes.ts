@@ -1,5 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
+import AdminDpo from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpo.vue';
 import AdminDpoApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationPage.vue';
 import AdminDpoApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationsList.vue';
 import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursePage.vue';
@@ -33,6 +34,18 @@ export default [
     path: '/admin/postgraduate',
     name: 'AdminPostgraduate',
     component: AdminPostgraduate,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/dpo',
+    name: 'AdminDpo',
+    component: AdminDpo,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
