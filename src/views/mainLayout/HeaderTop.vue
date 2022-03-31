@@ -51,7 +51,7 @@ export default defineComponent({
   align-items: center;
 }
 .header-logo-img {
-  margin-left: 10px;
+  margin-left: 0px;
 }
 
 .flex {

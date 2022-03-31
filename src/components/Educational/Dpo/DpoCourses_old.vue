@@ -1,15 +1,5 @@
 <template>
-  <div class="way">
-    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>
-  </div>
-  <div class="filter-block">
-    <DpoCoursesFilters />
-    <!-- <DpoCoursesFilters v-if="schemaGet" :sort-models="sortModels" @load="load" /> -->
-  </div>
-
-<!-- TODO
-Ниже блок hidden - не отображается на странице -->
-  <div class="hidden">
+  <div>
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
         <ModeButtons
@@ -19,7 +9,6 @@
           second-mode="Программы НМО"
           @changeMode="changeMode"
         />
-
         <div class="search_block">
           <DpoCoursesFilters v-if="schemaGet" :sort-models="sortModels" @load="load" />
         </div>
@@ -37,21 +26,6 @@
       </el-col>
     </el-row>
   </div>
-<!-- конец скрытого блока -->
-
-
-
-  <div class="sort">
-    <div class="sort-item-1">
-      <div class="item-1"><h3>Дата&nbsp;проведения</h3></div>
-      <div class="item-2"><SortList :models="sortModels" :store-mode="true" @load="load" /></div>
-    </div> 
-    <div class="sort-item-2">
-      <div class="item-3"><h3>Сортировать</h3></div>
-      <div class="item-4"><SortList :models="sortModels" :store-mode="true" @load="load" /></div>
-    </div> 
-  </div>
-  <DpoCoursesList v-if="mounted" :nmo-mode="nmoMode" />
 </template>
 
 <script lang="ts">
@@ -61,10 +35,8 @@ import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import SortModel from '@/classes/filters/SortModel';
-import SortList from '@/components/SortList/SortList.vue';
 import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
 import DpoCoursesFilters from '@/components/Educational/Dpo/DpoCoursesFilters.vue';
-import DpoChoice from '@/components/Educational/Dpo/DpoChoice.vue';
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -76,7 +48,7 @@ import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'DpoCourses',
-  components: { DpoCoursesContacts, DpoCoursesFilters, DpoCoursesList, ModeButtons, DpoChoice, SortList },
+  components: { DpoCoursesContacts, DpoCoursesFilters, DpoCoursesList, ModeButtons },
 
   setup() {
     const store = useStore();
@@ -224,105 +196,4 @@ export default defineComponent({
   align-items: center;
   text-align: left;
 }
-
-
-
-
-
-
-:deep(.main-box) {
-  margin: 0px !important;
-}
-
-:deep(.page-container ) {
-  background: #F6F6F6 !important;
-}
-
-.way {
-  height: 40px;
-  background: #F6F6F6;
-}
-
-h4 {
-  font-family: 'Open Sans', sans-serif;
-  letter-spacing: 0.1ex;
-  margin: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  color: #343E5C;
-}
-
-h3 {
-  font-family: 'Open Sans', sans-serif;
-  letter-spacing: 0.1ex;
-  margin: 0px;
-  font-size: 16px;
-  font-weight: normal;
-  color: #343E5C;
-}
-
-.filter-block {
-  height: 103px;
-  border: 1px solid #E4E6F2;
-  border-radius: 5px;
-  background: #ffffff;
-}
-
-.block-item {
-  width: 272px;
-  margin-top: 22px;
-}
-
-.sort {
-  height: 60px;
-}
-
-.hidden {
-  display: none;
-}
-
-.sort {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-}
-
-.sort-item-1 {
-  display: flex;
-  justify-content: space-between;
-  width: auto;
-  align-items: center;
-  margin-right: 30px;
-}
-
-.sort-item-2 {
-  display: flex;
-  justify-content: space-between;
-  width: auto;
-  align-items: center;
-}
-
-.item-1 {
-  width: auto;
-  display: flex;
-  margin-right: 20px;
-}
-
-.item-2 {
-  width: 138px;
-  display: flex;  
-}
-
-.item-3 {
-  width: auto;
-  display: flex;
-  margin-right: 20px;   
-}
-
-.item-4 {
-  width: 188px;
-  display: flex;  
-}
-
-
 </style>

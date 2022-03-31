@@ -124,7 +124,7 @@ export default defineComponent({
 :deep(.el-input__inner) {
   border-radius: 20px;
   padding-left: 25px;
-  height: 38px;
+  height: 34px;
   width: 100%;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
@@ -137,12 +137,16 @@ export default defineComponent({
 
 :deep(.el-select .el-input .el-select__caret) {
   color: #4a4a4a;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   margin-right: 5px;
 }
 
 .el-select {
   width: 100%;
+}
+
+:deep(.el-input__suffix) {
+  top: -2px;
 }
 </style>

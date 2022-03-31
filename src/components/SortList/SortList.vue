@@ -1,7 +1,7 @@
 <template>
   <el-form>
     <el-form-item>
-      <el-select v-model="selectedModel" :clearable="!defaultSortOn" placeholder="Сортировать" @change="setSort">
+      <el-select v-model="selectedModel" :clearable="!defaultSortOn" placeholder="По популярности" @change="setSort">
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item"> </el-option>
       </el-select>
     </el-form-item>
@@ -103,7 +103,7 @@ export default defineComponent({
 :deep(.el-input__inner) {
   border-radius: 20px;
   padding-left: 25px;
-  height: 38px;
+  height: 34px;
   width: 100%;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
@@ -123,5 +123,9 @@ export default defineComponent({
 
 .el-select {
   width: 100%;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 0px;
 }
 </style>

@@ -1,8 +1,7 @@
 <template>
-  <div class="horizontal" v-if="mount">
-    <div class="block-item"><DpoChoice /></div>
-    <div class="block-item"><RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" /></div>
-    <div class="block-item"><FilterSelect
+  <div v-if="mount" class="left-side-container">
+    <RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" />
+    <FilterSelect
       placeholder="Для кого читается курс"
       :options="schema.specialization.options"
       :table="schema.dpoCourse.tableName"
@@ -15,8 +14,8 @@
       :join-table-id="schema.dpoCourseSpecialization.specializationId"
       :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
       @load="load"
-    /></div>
-    <div class="block-item"><FilterSelect
+    />
+    <FilterSelect
       placeholder="Специализация программы"
       :options="schema.specialization.options"
       :table="schema.dpoCourse.tableName"
@@ -24,13 +23,9 @@
       :data-type="DataTypes.String"
       :operator="Operators.Eq"
       @load="load"
-    /></div>
-
-<!-- Скрытый блок -->
-    <div class="hidden"><SortList :models="sortModels" :store-mode="true" @load="load" />
-    <FilterReset @load="resetFilter" /></div>
-<!-- конец скрытого блока -->
-
+    />
+    <SortList :models="sortModels" :store-mode="true" @load="load" />
+    <FilterReset @load="resetFilter" />
   </div>
 </template>
 
@@ -41,7 +36,6 @@ import { useStore } from 'vuex';
 
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
-import DpoChoice from '@/components/Educational/Dpo/DpoChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -60,7 +54,6 @@ export default defineComponent({
     RemoteSearch,
     SortList,
     FilterSelect,
-    DpoChoice,
   },
   emits: ['load'],
   props: {
@@ -166,19 +159,5 @@ h2 {
   height: 50px;
   align-items: center;
   font-weight: bold;
-}
-
-.horizontal {
-  display: flex;
-  justify-content: space-between;
-}
-
-.block-item {
-  width: 272px;
-  margin-top: 22px;
-}
-
-.hidden {
-  display: none;
 }
 </style>

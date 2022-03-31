@@ -38,7 +38,7 @@ export default defineComponent({
     },
     placeHolder: {
       type: String as PropType<string>,
-      default: 'Поиск',
+      default: 'Начните вводить запрос',
     },
   },
   emits: ['select'],
@@ -106,10 +106,14 @@ $margin: 20px 0;
 :deep(.el-input__inner) {
   border-radius: 20px;
   padding-left: 25px;
-  height: 38px;
+  height: 34px;
   width: 100%;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 15px;
+}
+
+:deep(.el-input__suffix) {
+  top: -2px;
 }
 </style>

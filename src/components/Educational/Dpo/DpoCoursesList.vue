@@ -1,6 +1,5 @@
 <template>
   <div class="card-flex-container card-item">
-    <h2>Дополнительные профессиональные программы</h2>
     <div class="no-progmam"><h3 v-if="dpoCourses.length == 0">Для данной специальности нет программ</h3></div>
     <div v-if="dpoCourses.length !== 0" class="table-container">
       <table class="table-list">
@@ -8,13 +7,13 @@
           <col width="50%" />
           <col width="10%" />
           <col width="20%" />
-          <col width="20%" />
+          <col width="10%" />
         </colgroup>
         <thead>
-          <th>Название программы</th>
-          <th>Часов</th>
-          <th>Руководитель</th>
-          <th>Даты&nbsp;проведения</th>
+          <th><h4>НАЗВАНИЕ ПРОГРАММЫ</h4></th>
+          <th><h4>ДЛИТЕЛЬНОСТЬ</h4></th>
+          <th><h4>РУКОВОДИТЕЛЬ</h4></th>
+          <th><h4>ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>
         </thead>
         <tbody v-if="mounted">
           <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
@@ -97,7 +96,8 @@ export default defineComponent({
 
 .card-item {
   width: 100%;
-  padding: 10px 20px 20px;
+  border-radius: none;
+  border-bottom: none;
 }
 
 .table-container {
@@ -112,25 +112,27 @@ table {
 
 td,
 th {
-  border: 1px solid #dcdfe6;
-  padding: 5px 7px 5px 7px;
+  border-bottom: 1px solid #dcdfe6;
+  padding: 9px 7px 9px 7px;
   height: auto;
 }
 
 th {
   text-align: left;
-  padding: 5px;
-  background-color: #dcdfe6;
-  border-right: 1px solid #f2f2f2;
+  padding: 2px 0 0 3px;
+  background-color: #EFF2F6;
+  // border-right: 1px solid #f2f2f2;
+  height: 20px;
 }
 
-th:last-child {
-  border-right: 1px solid #dcdfe6;
-}
+// th:last-child {
+//   border-right: 1px solid #dcdfe6;
+// }
 
-tr:nth-child(odd) {
-  background-color: #f2f2f2;
-}
+// tr:nth-child(odd) {
+//   background-color: #f2f2f2;
+// }
+
 tr {
   &:hover {
     background-color: #ecf5ff;
@@ -144,5 +146,15 @@ tr {
 
 .card-flex-container {
   display: block;
+  padding: 0px;
+}
+
+h4 {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.1ex;
+  margin: 0px;
+  font-size: 11px;
+  font-weight: normal;
+  color: #A3A5B9;
 }
 </style>
