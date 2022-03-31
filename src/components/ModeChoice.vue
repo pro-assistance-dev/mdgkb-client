@@ -12,7 +12,7 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
-  name: 'DpoChoice',
+  name: 'ModeChoice',
   props: {
     modes: {
       type: Array as PropType<IOption[]>,

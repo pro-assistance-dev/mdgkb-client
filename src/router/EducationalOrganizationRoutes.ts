@@ -1,8 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
-import DpoCourses from '@/components/Educational/Dpo/DpoCourses.vue';
-import AdditionalEducation from '@/components/Educational/Dpo/DpoPage.vue';
+import DpoCourses from '@/components/Educational/Dpo/DpoPage.vue';
 import EducationalOrganizationAcademics from '@/components/Educational/EducationalOrganizationAcademics.vue';
 import EducationalOrganizationDocuments from '@/components/Educational/EducationalOrganizationInfo/DocumentsPage.vue';
 import EducationalOrganizationInfo from '@/components/Educational/EducationalOrganizationInfo/EducationalOrganizationInfo.vue';
@@ -65,14 +64,6 @@ export default [
     path: '/candidates-minimum',
     name: 'CandidatesMinimum',
     component: PostgraduatePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
-  },
-  {
-    path: '/additional-education',
-    name: 'AdditionalEducation',
-    component: AdditionalEducation,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

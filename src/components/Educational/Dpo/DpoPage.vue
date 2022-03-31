@@ -1,103 +1,309 @@
 <template>
-  <div class="ordinatura-page-container">
-    <div class="side-container">
-      <div class="side-item">
-        <div class="card-item">
-          <h4>Дополнительное профессиональное образование</h4>
-          <el-divider />
-          <el-table :data="menu" cell-class-name="cell-row" :show-header="false">
-            <el-table-column>
-              <template #default="scope">
-                <div :class="isActive(scope.row.name)" @click="changeTab(scope.row.name)">
-                  {{ scope.row.name }}
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
+  <!--  <div class="way">-->
+  <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
+  <!--  </div>-->
+  <div v-if="mounted" class="filter-block">
+    <div class="full-width"></div>
+    <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
+  </div>
+
+  <div v-if="mounted" class="sort">
+    <div class="sort-item-2">
+      <div class="item-3"><h3>Сортировать</h3></div>
+      <div class="item-4">
+        <SortList :models="sortModels" :store-mode="true" @load="load" />
       </div>
     </div>
-
-    <!--    <div class="content-container">-->
-    <!--      <AdditionalEducationPrograms v-if="activeMenuName === 'Программы'" />-->
-    <!--      <AdditionalEducationDocumentsForAdmission v-if="activeMenuName === 'Документы для обучения'" />-->
-    <!--      <AdditionalEducationNormativeDocuments v-if="activeMenuName === 'Нормативные документы'" />-->
-    <!--    </div>-->
   </div>
+
+  <template v-if="mounted">
+    <DpoCoursesList v-if="mode === 'programs'" />
+    <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
+    <DpoCoursesContacts v-if="mode === 'info'" />
+  </template>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IDpoCourse from '@/interfaces/IDpoCourse';
+import FilterModel from '@/classes/filters/FilterModel';
+import SortModel from '@/classes/filters/SortModel';
+import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
+import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
+import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
+import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
+import SortList from '@/components/SortList/SortList.vue';
+import IDocumentType from '@/interfaces/document/IDocumentType';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import ISortModel from '@/interfaces/filters/ISortModel';
+import { Orders } from '@/interfaces/filters/Orders';
+import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
+import IOption from '@/interfaces/schema/IOption';
+import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
-  name: 'AdditionalEducation',
-  components: {},
+  name: 'DpoPage',
+  components: { DocumentsList, DpoCoursesContacts, DpoFilters, DpoCoursesList, SortList },
+
   setup() {
     const store = useStore();
-    const pageTitle: Ref<string> = ref('Программы');
-    const activeMenuName: Ref<string> = ref('Программы');
-    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
+    const route = useRoute();
+    const router = useRouter();
+    const mounted: Ref<boolean> = ref(false);
+    const schemaGet: Ref<boolean> = ref(false);
+    const mode: Ref<string> = ref('');
 
-    const menu = [{ name: 'Программы' }, { name: 'Документы для обучения' }, { name: 'Нормативные документы' }];
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => store.getters['dpoDocumentTypes/items']);
+    const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const filterModel = ref();
+    const sortModels: Ref<ISortModel[]> = ref([]);
 
-    const isActive = (name: string): string => {
-      return name === activeMenuName.value ? 'is-active' : '';
-    };
-    const changeTab = (name: string) => {
-      activeMenuName.value = name;
-    };
-    const test = (activeName: string) => {
-      pageTitle.value = activeName;
+    const modes: Ref<IOption[]> = ref([]);
+
+    const selectMode = (value: string): void => {
+      if (value === mode.value) {
+        return;
+      }
+      mode.value = value;
+      const dpoDocumentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
+      if (dpoDocumentType) {
+        selectedDocumentType.value = dpoDocumentType.documentType;
+      } else {
+        selectedDocumentType.value = undefined;
+      }
     };
 
-    return { test, menu, isActive, changeTab, pageTitle, activeMenuName, dpoCourses };
+    const createSortModels = (): ISortModel[] => {
+      const sortModels: ISortModel[] = [
+        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true),
+        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.hours, Orders.Asc, 'По длительности', false),
+        // SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.start, Orders.Asc, 'По дате начала', false),
+      ];
+      store.commit(`filter/addSortModels`, sortModels);
+      return sortModels;
+    };
+
+    const setModes = async () => {
+      await store.dispatch('dpoDocumentTypes/getAll');
+      modes.value.push({ value: 'programs', label: 'Программы' });
+      documentTypes.value.forEach((docType: IDpoDocumentType) => {
+        if (docType.documentType.id) {
+          modes.value.push({ value: docType.documentType.id, label: docType.documentType.name });
+        }
+      });
+      modes.value.push({ value: 'info', label: 'Информация' });
+    };
+
+    onBeforeMount(async () => {
+      store.commit(`filter/resetQueryFilter`);
+      await store.dispatch('meta/getSchema');
+      await setModes();
+      sortModels.value = createSortModels();
+      schemaGet.value = true;
+      store.commit('filter/setStoreModule', 'dpoCourses');
+      filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
+      await load();
+      mounted.value = true;
+    });
+
+    const load = async () => {
+      store.commit(`filter/checkSortModels`);
+      filterQuery.value.pagination.cursorMode = false;
+      await store.dispatch('dpoCourses/getAll', filterQuery.value);
+    };
+
+    return { selectedDocumentType, mode, mounted, load, schemaGet, sortModels, modes, selectMode };
   },
 });
 </script>
-
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
-$side-cotainer-max-width: 300px;
-$content-max-width: 1000px;
-$card-margin-size: 30px;
+.el-descriptions__label {
+  font-size: 15px;
+}
+
+.links {
+  text-align: left;
+  padding-left: 7px;
+}
+
+.icon-phone {
+  width: 20px;
+  height: 20px;
+  fill: #2754eb;
+}
+
+.icon-email {
+  width: 20px;
+  height: 20px;
+  fill: #2754eb;
+}
+
+.icon-time {
+  width: 20px;
+  height: 20px;
+  fill: #2754eb;
+}
+
+.icon-map-marker {
+  width: 23px;
+  height: 23px;
+  fill: #2754eb;
+}
+
+.search_block {
+  padding-top: 10px;
+}
+
+.contact-data {
+  margin-top: 25px;
+}
+
+.contact-data-list {
+  list-style-type: none;
+}
+
+.contact-data-list-item-h4 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  overflow-wrap: break-word;
+  color: #4a4a4a;
+  text-align: left;
+  justify-content: left;
+}
+
+.contact-data-list-item {
+  padding-bottom: 20px;
+}
+
+.contact-h3 {
+  display: flex;
+  justify-content: left;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: lighter;
+  color: #4a4a4a;
+  align-content: center;
+  text-align: center;
+  margin: 2px;
+}
+
+.item {
+  font-size: 14px;
+  display: flex;
+  padding-right: 10px;
+  width: auto;
+  align-items: center;
+  text-align: left;
+}
+
+:deep(.main-box) {
+  margin: 0px !important;
+}
+
+:deep(.page-container) {
+  background: #f6f6f6 !important;
+}
+
+.way {
+  height: 40px;
+  background: #f6f6f6;
+}
 
 h4 {
-  margin: 0;
-}
-.el-divider {
-  margin: 10px 0 0;
-}
-:deep(.cell) {
-  padding: 0 !important;
-}
-:deep(.cell-row) {
-  cursor: pointer;
-}
-.ordinatura-page-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-.side-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: $side-cotainer-max-width;
-  margin-right: $card-margin-size;
-
-  .side-item {
-    margin-bottom: $card-margin-size;
-  }
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.1ex;
+  margin: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  color: #343e5c;
 }
 
-.content-container {
-  max-width: $content-max-width;
+h3 {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.1ex;
+  margin: 0px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #343e5c;
+}
+
+.filter-block {
+  height: 80px;
+  background: #ffffff;
+  z-index: 200;
+}
+
+.full-width {
+  background: #ffffff;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  height: 80px;
+  margin-top: 20px;
+  border: 1px solid #e4e6f2;
+  border-radius: 5px;
   width: 100%;
 }
-.is-active {
-  color: #42a4f5;
+
+.block-item {
+  width: 272px;
+  margin-top: 22px;
+}
+
+.sort {
+  height: 60px;
+}
+
+.hidden {
+  display: none;
+}
+
+.sort {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.sort-item-1 {
+  display: flex;
+  justify-content: space-between;
+  width: auto;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.sort-item-2 {
+  display: flex;
+  justify-content: space-between;
+  width: auto;
+  align-items: center;
+}
+
+.item-1 {
+  width: auto;
+  display: flex;
+  margin-right: 20px;
+}
+
+.item-2 {
+  width: 138px;
+  display: flex;
+}
+
+.item-3 {
+  width: auto;
+  display: flex;
+  margin-right: 20px;
+}
+
+.item-4 {
+  width: 188px;
+  display: flex;
 }
 </style>
