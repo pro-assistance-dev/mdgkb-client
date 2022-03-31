@@ -200,19 +200,6 @@ h2 {
   color: #343e5c;
 }
 
-// :deep(.el-input__inner) {
-//   padding-left: 25px;
-//   height: 38px;
-//   width: 100%;
-//   display: flex;
-//   font-family:Arial, Helvetica, sans-serif;
-//   font-size: 15px;
-// }
-
-// :deep(.el-form-item__content) {
-//   height: 38px;
-// }
-
 :deep(.el-autocomplete) {
   height: 38px;
 }
