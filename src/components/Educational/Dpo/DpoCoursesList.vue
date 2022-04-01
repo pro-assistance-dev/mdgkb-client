@@ -1,6 +1,6 @@
 <template>
+  <div class="no-progmam"><h3 v-if="dpoCourses.length == 0">Для данной специальности нет программ</h3></div>
   <div class="card-flex-container card-item">
-    <div class="no-progmam"><h3 v-if="dpoCourses.length == 0">Для данной специальности нет программ</h3></div>
     <div v-if="dpoCourses.length !== 0" class="table-container">
       <table class="table-list">
         <colgroup>
@@ -71,8 +71,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/doctor-info-card.scss';
-
 .text-center {
   text-align: center;
   justify-content: center;
@@ -95,7 +93,7 @@ export default defineComponent({
 }
 
 .card-item {
-  width: 100%;
+  // width: 100%;
   border-radius: none;
   border-bottom: none;
 }
@@ -121,17 +119,16 @@ th {
   text-align: left;
   padding: 2px 0 0 3px;
   background-color: #eff2f6;
-  // border-right: 1px solid #f2f2f2;
   height: 20px;
 }
 
-// th:last-child {
-//   border-right: 1px solid #dcdfe6;
-// }
+th:first-child {
+  border-radius: 5px 0 0 0;
+}
 
-// tr:nth-child(odd) {
-//   background-color: #f2f2f2;
-// }
+th:last-child {
+  border-radius: 0 5px 0 0;
+}
 
 tr {
   &:hover {
