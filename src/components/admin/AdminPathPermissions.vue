@@ -1,18 +1,38 @@
 <template>
   <button @click="savePaths">Сохранить на сервере</button>
-  <div v-for="path in clientPermissions" :key="path">
-    {{ path.resource }}
+  <div v-if="mounted">
+    <table class="table-list">
+      <thead>
+        <th>Клиентский доступ</th>
+        <th v-for="role in roles" :key="role.id">
+          <h4>{{ role.name }}</h4>
+        </th>
+      </thead>
+      <tbody>
+        <tr v-for="permission in permissions" :key="permission.resource">
+          <td>
+            {{ permission.resource }}
+          </td>
+          <td v-for="role in roles" :key="role.id">
+            <el-checkbox :model-value="permission.checkPermissionForRole(role.id)" @change="permission.setRole($event, role.id)">
+            </el-checkbox>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { RouteRecordNormalized, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import PathPermission from '@/classes/PathPermission';
 import IPathPermission from '@/interfaces/IPathPermission';
+import IRole from '@/interfaces/IRole';
 
 export default defineComponent({
   name: 'AdminGallery',
@@ -26,22 +46,33 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const paths = router.getRoutes();
-    const clientPermissions: Ref<IPathPermission[]> = computed(() => store.getters['auth/clientPermissions']);
-
+    const mounted: Ref<boolean> = ref(false);
+    const clientPermissions: Ref<IPathPermission[]> = computed(() => store.getters['auth/pathPermissions']);
+    const roles: Ref<IRole[]> = computed(() => store.getters['roles/items']);
+    const permissions: Ref<IPathPermission[]> = ref([]);
     onBeforeMount(async () => {
       await store.dispatch('auth/getAllPathPermissions');
+      await store.dispatch('roles/getAll');
+      permissions.value = paths.map((path: RouteRecordNormalized) => {
+        let permission = clientPermissions.value.find((p: IPathPermission) => p.resource === path.path);
+        if (permission) {
+          return permission;
+        }
+        permission = new PathPermission();
+        permission.resource = path.path;
+        return permission;
+      });
+      mounted.value = true;
     });
 
     const savePaths = async () => {
-      const pathsForSend: string[] = [];
-      paths.forEach((path) => {
-        pathsForSend.push(path.path);
-      });
-      await store.dispatch('auth/saveClientPermissions', pathsForSend);
+      await store.dispatch('auth/savePathPermissions', permissions.value);
     };
 
     return {
-      clientPermissions,
+      roles,
+      mounted,
+      permissions,
       savePaths,
       paths,
     };

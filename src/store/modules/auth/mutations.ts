@@ -1,8 +1,10 @@
 import { MutationTree } from 'vuex';
 
+import PathPermission from '@/classes/PathPermission';
 import User from '@/classes/User';
 import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
+import IPathPermission from '@/interfaces/IPathPermission';
 import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
 import FavouriteService from '@/services/Favourite';
@@ -63,6 +65,9 @@ const mutations: MutationTree<State> = {
   },
   clearFavourite(state) {
     FavouriteService.clearFavourite();
+  },
+  setPathPermissions(state, items: IPathPermission[]) {
+    state.pathPermissions = items.map((i: IPathPermission) => new PathPermission(i));
   },
 };
 

@@ -52,6 +52,7 @@ import { preparations } from '@/store/modules/preparations';
 import { projects } from '@/store/modules/projects';
 import { publicDocumentTypes } from '@/store/modules/publicDocumentTypes';
 import { questions } from '@/store/modules/questions';
+import { roles } from '@/store/modules/roles';
 import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { specializations } from '@/store/modules/specializations';
@@ -139,6 +140,7 @@ const s: StoreOptions<RootState> = {
     candidateApplications,
     postgraduateDocumentTypes,
     dpoDocumentTypes,
+    roles,
   },
 };
 

@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import IPathPermission from '@/interfaces/IPathPermission';
 import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
 import HttpClient from '@/services/HttpClient';
@@ -53,11 +54,11 @@ const actions: ActionTree<State, RootState> = {
   checkPathPermissions: async ({ commit }, checkObj: { userRole: string; path: string }): Promise<void> => {
     await httpClient.get<IUser>({ query: `check-path-permissions/${checkObj.userRole}/${checkObj.path}` });
   },
-  savePathPermissions: async ({ commit }, paths: string[]): Promise<void> => {
-    await httpClient.put<string[], string[]>({ query: 'path-permissions', payload: paths });
+  savePathPermissions: async ({ commit }, paths: IPathPermission[]): Promise<void> => {
+    await httpClient.put<IPathPermission[], IPathPermission[]>({ query: 'path-permissions', payload: paths });
   },
-  getAllPathPermissions: async ({ commit }, paths: string[]): Promise<void> => {
-    await httpClient.put<string[], string[]>({ query: 'path-permissions', payload: paths });
+  getAllPathPermissions: async ({ commit }): Promise<void> => {
+    commit('setPathPermissions', await httpClient.get<IPathPermission[]>({ query: 'path-permissions' }));
   },
 };
 

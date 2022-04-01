@@ -1,6 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import User from '@/classes/User';
+import IPathPermission from '@/interfaces/IPathPermission';
 import IUser from '@/interfaces/IUser';
 import TokenService from '@/services/Token';
 import RootState from '@/store/types';
@@ -26,6 +27,9 @@ const getters: GetterTree<State, RootState> = {
   },
   loginStatus(state): 'login' | 'register' | 'forgotPassword' | 'passwordChange' {
     return state.loginStatus;
+  },
+  pathPermissions(state): IPathPermission[] {
+    return state.pathPermissions;
   },
 };
 
