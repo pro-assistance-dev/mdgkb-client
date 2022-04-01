@@ -181,6 +181,7 @@ export default defineComponent({
 
 .contact-data-list-item {
   padding-bottom: 20px;
+  margin-left: 15px;
 }
 
 .contact-h3 {
