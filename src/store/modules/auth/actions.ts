@@ -51,8 +51,8 @@ const actions: ActionTree<State, RootState> = {
   checkUuid: async ({ commit }, checkObj: { userId: string; uniqueId: string }): Promise<void> => {
     await httpClient.get<IUser>({ query: `check-uuid/${checkObj.userId}/${checkObj.uniqueId}` });
   },
-  checkPathPermissions: async ({ commit }, checkObj: { userRole: string; path: string }): Promise<void> => {
-    await httpClient.get<IUser>({ query: `check-path-permissions/${checkObj.userRole}/${checkObj.path}` });
+  checkPathPermissions: async ({ commit }, path: string): Promise<void> => {
+    await httpClient.post<string, string>({ query: `check-path-permissions`, payload: path });
   },
   savePathPermissions: async ({ commit }, paths: IPathPermission[]): Promise<void> => {
     await httpClient.put<IPathPermission[], IPathPermission[]>({ query: 'path-permissions', payload: paths });
