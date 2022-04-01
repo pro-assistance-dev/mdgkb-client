@@ -21,8 +21,23 @@ export default class PathPermission implements IPathPermission {
 
   setRole(added: boolean, roleId: string): void {
     if (!added) {
-      const index = this.pathPermissionsRoles.findIndex((p: IPathPermissionRole) => p.roleId === roleId);
-      return removeFromClass(index, this.pathPermissionsRoles, this.pathPermissionsRolesForDelete);
+      return this.removeRole(roleId);
+    }
+    return this.addRole(roleId);
+  }
+
+  removeRole(roleId: string): void {
+    const index = this.pathPermissionsRoles.findIndex((p: IPathPermissionRole) => p.roleId === roleId);
+    if (index < 0) {
+      return;
+    }
+    return removeFromClass(index, this.pathPermissionsRoles, this.pathPermissionsRolesForDelete);
+  }
+
+  addRole(roleId: string): void {
+    const existingPermission = this.pathPermissionsRoles.find((p: IPathPermissionRole) => p.roleId === roleId);
+    if (existingPermission) {
+      return;
     }
     const pathPermissionRole = new PathPermissionRole();
     pathPermissionRole.roleId = roleId;

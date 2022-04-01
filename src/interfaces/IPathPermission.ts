@@ -7,4 +7,6 @@ export default interface IPathPermission {
   pathPermissionsRolesForDelete: string[];
   setRole: (added: boolean, roleId: string) => void;
   checkPermissionForRole: (roleId: string) => boolean;
+  addRole: (roleId: string) => void;
+  removeRole: (roleId: string) => void;
 }

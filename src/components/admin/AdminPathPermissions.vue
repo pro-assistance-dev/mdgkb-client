@@ -6,6 +6,7 @@
         <th>Клиентский доступ</th>
         <th v-for="role in roles" :key="role.id">
           <h4>{{ role.name }}</h4>
+          <button @click="setAll(role.id)">Выделить всё</button>
         </th>
       </thead>
       <tbody>
@@ -32,6 +33,7 @@ import { useStore } from 'vuex';
 
 import PathPermission from '@/classes/PathPermission';
 import IPathPermission from '@/interfaces/IPathPermission';
+import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
 import IRole from '@/interfaces/IRole';
 
 export default defineComponent({
@@ -69,7 +71,18 @@ export default defineComponent({
       await store.dispatch('auth/savePathPermissions', permissions.value);
     };
 
+    const setAll = (roleId: string): void => {
+      const hasRole = permissions.value.some((p: IPathPermission) =>
+        p.pathPermissionsRoles.some((r: IPathPermissionRole) => r.roleId === roleId)
+      );
+      if (hasRole) {
+        return permissions.value.forEach((p: IPathPermission) => p.removeRole(roleId));
+      }
+      return permissions.value.forEach((p: IPathPermission) => p.addRole(roleId));
+    };
+
     return {
+      setAll,
       roles,
       mounted,
       permissions,
