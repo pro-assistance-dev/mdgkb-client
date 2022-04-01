@@ -251,10 +251,6 @@ h3 {
   margin-top: 22px;
 }
 
-.sort {
-  height: 60px;
-}
-
 .hidden {
   display: none;
 }
@@ -263,6 +259,7 @@ h3 {
   display: flex;
   justify-content: right;
   align-items: center;
+  height: 60px;
 }
 
 .sort-item-1 {

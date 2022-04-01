@@ -73,7 +73,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #F6F6F6;
+  background: #f6f6f6;
   // min-height: calc(100vh - 124px);
 }
 .main-carousel-container {
@@ -86,6 +86,7 @@ export default defineComponent({
 .main-box {
   padding-top: 0px;
   margin: 20px 0;
+  min-height: 80vh;
 }
 
 :deep(.el-checkbox__inner) {

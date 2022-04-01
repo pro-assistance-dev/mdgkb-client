@@ -1,38 +1,36 @@
 <template>
   <div class="no-progmam"><h3 v-if="dpoCourses.length == 0">Для данной специальности нет программ</h3></div>
-  <div class="card-flex-container card-item">
-    <div v-if="dpoCourses.length !== 0" class="table-container">
-      <table class="table-list">
-        <colgroup>
-          <col width="50%" />
-          <col width="10%" />
-          <col width="20%" />
-          <col width="10%" />
-        </colgroup>
-        <thead>
-          <th><h4>НАЗВАНИЕ ПРОГРАММЫ</h4></th>
-          <th><h4>ДЛИТЕЛЬНОСТЬ</h4></th>
-          <th><h4>РУКОВОДИТЕЛЬ</h4></th>
-          <th><h4>ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>
-        </thead>
-        <tbody v-if="mounted">
-          <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
-            <td>
-              <router-link :to="`/courses/${dpoCourse.slug}`">{{ dpoCourse.name }}</router-link>
-            </td>
-            <td style="text-align: center">{{ dpoCourse.hours }}</td>
-            <td>
-              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
-                {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
-              </router-link>
-            </td>
-            <td>
-              {{ dpoCourse.getClosestPeriod() }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div v-if="dpoCourses.length !== 0" class="table-container">
+    <table class="table-list">
+      <colgroup>
+        <col width="50%" />
+        <col width="10%" />
+        <col width="20%" />
+        <col width="10%" />
+      </colgroup>
+      <thead>
+        <th><h4>НАЗВАНИЕ ПРОГРАММЫ</h4></th>
+        <th><h4>ДЛИТЕЛЬНОСТЬ</h4></th>
+        <th><h4>РУКОВОДИТЕЛЬ</h4></th>
+        <th><h4>ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>
+      </thead>
+      <tbody v-if="mounted">
+        <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
+          <td>
+            <router-link :to="`/courses/${dpoCourse.slug}`">{{ dpoCourse.name }}</router-link>
+          </td>
+          <td style="text-align: center">{{ dpoCourse.hours }}</td>
+          <td>
+            <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
+              {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+            </router-link>
+          </td>
+          <td>
+            {{ dpoCourse.getClosestPeriod() }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -100,8 +98,12 @@ export default defineComponent({
 
 .table-container {
   width: 100%;
-  // overflow: scroll;
+  border: 1px solid #dcdfe6;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  background: #ffffff;
 }
+
 table {
   height: auto;
   border-collapse: collapse;
