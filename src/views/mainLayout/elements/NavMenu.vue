@@ -1,7 +1,9 @@
 <template>
-  <ul class="menu-center-list">
+  <ul v-if="mounted" class="menu-center-list">
     <li v-for="menu in menus" :key="menu.id">
-      <router-link class="link-menu" :to="menu.getLink()">{{ menu.name }}</router-link>
+      <router-link class="link-menu" :to="menu.getLink()">
+        {{ menu.name }}
+      </router-link>
       <ul v-if="!menu.withoutChildren()" class="dropmenu">
         <div class="subMenu-place">
           <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
@@ -27,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch, WritableComputedRef } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -53,8 +55,11 @@ export default defineComponent({
     const activePath: Ref<string> = ref('');
     const store = useStore();
     const router = useRouter();
+    const mounted = ref(false);
+    const menus: WritableComputedRef<IMenu[]> = computed(() => store.getters['menus/menus']);
 
-    const menus: ComputedRef<IMenu[]> = computed(() => store.getters['menus/items']);
+    const isAuth = computed(() => store.getters['auth/isAuth']);
+
     const route = useRoute();
 
     const menuClickHandler = (link: string) => {
@@ -66,6 +71,7 @@ export default defineComponent({
       await store.dispatch('menus/getAll');
       setColors();
       activePath.value = route.path;
+      mounted.value = true;
     });
 
     const setColors = (): void => {
@@ -80,12 +86,13 @@ export default defineComponent({
 
     watch(
       () => route.path,
-      () => {
-        activePath.value = route.path;
-      }
+      () => (activePath.value = route.path)
     );
+    watch(isAuth, () => store.commit(`menus/setMenus`));
 
     return {
+      isAuth,
+      mounted,
       menus,
       expand,
       activePath,

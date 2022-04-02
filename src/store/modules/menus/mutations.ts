@@ -2,6 +2,7 @@ import { MutationTree } from 'vuex';
 
 import Menu from '@/classes/Menu';
 import IMenu from '@/interfaces/IMenu';
+import UserService from '@/services/User';
 
 import { getDefaultState } from '.';
 import { State } from './state';
@@ -9,6 +10,14 @@ import { State } from './state';
 const mutations: MutationTree<State> = {
   setAll(state, items: IMenu[]) {
     state.items = items.map((i: IMenu) => new Menu(i));
+    state.menus = items.map((i: IMenu) => new Menu(i));
+  },
+  setMenus(state) {
+    if (!UserService.isAdmin()) {
+      state.menus = state.items.filter((menu: IMenu) => !menu.hide);
+      return;
+    }
+    state.menus = state.items;
   },
   set(state, item?: IMenu) {
     state.item = new Menu(item);
