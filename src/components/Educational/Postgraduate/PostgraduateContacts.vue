@@ -1,50 +1,56 @@
 <template>
-  <div class="contact-data">
-    <div class="contact-data-list-item">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-time">
-            <use xlink:href="#time"></use>
-          </svg>
-        </div>
-        <div class="item">Пн-Пт, с 9:00 до 17:00</div>
-      </div>
-    </div>
-    <div class="contact-data-list-item">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-map-marker">
-            <use xlink:href="#map-marker"></use>
-          </svg>
-        </div>
-        <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 22а, 1 этаж Отдел постдипломного образования</div>
-      </div>
-    </div>
-    <div class="contact-data-list-item">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-phone">
-            <use xlink:href="#phone"></use>
-          </svg>
-        </div>
-        <div class="item">
-          +7 (495) 959-88-01<br />
-          доб. 11-37 Аспирантура
+  <div v-if="mounted" class="flex">
+    <div class="contact-data">
+      <div class="contact-data-list-item">
+        <div class="contact-h3">
+          <div class="item">
+            <svg class="icon-time">
+              <use xlink:href="#time"></use>
+            </svg>
+          </div>
+          <div class="item">Пн-Пт, с 9:00 до 17:00</div>
         </div>
       </div>
-    </div>
-    <div class="contact-data-list-item">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-email">
-            <use xlink:href="#email"></use>
-          </svg>
+      <div class="contact-data-list-item">
+        <div class="contact-h3">
+          <div class="item">
+            <svg class="icon-map-marker">
+              <use xlink:href="#map-marker"></use>
+            </svg>
+          </div>
+          <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 22а, 1 этаж Отдел постдипломного образования</div>
         </div>
-        <div class="item">dpo@morozdgkb.ru</div>
+      </div>
+      <div class="contact-data-list-item">
+        <div class="contact-h3">
+          <div class="item">
+            <svg class="icon-phone">
+              <use xlink:href="#phone"></use>
+            </svg>
+          </div>
+          <div class="item">
+            +7 (495) 959-88-01<br />
+            доб. 11-37 Аспирантура
+          </div>
+        </div>
+      </div>
+      <div class="contact-data-list-item">
+        <div class="contact-h3">
+          <div class="item">
+            <svg class="icon-email">
+              <use xlink:href="#email"></use>
+            </svg>
+          </div>
+          <div class="item">dpo@morozdgkb.ru</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-data">
+      <div class="map-container">
+        <yandex-map style="height: 600px" :coords="[55.725317, 37.619214]" zoom="16.24" :settings="settings" />
       </div>
     </div>
   </div>
-
   <svg width="0" height="0" class="hidden">
     <symbol id="phone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
       <path
@@ -81,16 +87,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import { yandexMap } from 'vue-yandex-maps';
 
 export default defineComponent({
   name: 'PostgraduateContacts',
+  components: { yandexMap },
   setup() {
-    return {};
+    const mounted = ref(false);
+    const settings = {
+      center: [55.74954, 37.621587],
+      zoom: 10,
+    };
+    onMounted(async () => {
+      mounted.value = true;
+    });
+
+    return { settings, mounted };
   },
 });
 </script>
 <style lang="scss" scoped>
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
 @import '@/assets/styles/elements/ordinatura.scss';
 .el-descriptions__label {
   font-size: 15px;
@@ -102,9 +123,10 @@ export default defineComponent({
 }
 
 .icon-phone {
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
+  width: 19px;
+  height: 19px;
+  fill: #ffffff;
+  stroke: #2754eb;
 }
 
 .icon-email {
@@ -114,14 +136,14 @@ export default defineComponent({
 }
 
 .icon-time {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   fill: #2754eb;
 }
 
 .icon-map-marker {
-  width: 23px;
-  height: 23px;
+  width: 22px;
+  height: 22px;
   fill: #2754eb;
 }
 
@@ -130,7 +152,15 @@ export default defineComponent({
 }
 
 .contact-data {
-  margin-top: 25px;
+  margin-top: 15px;
+  padding-top: 10px;
+  margin-right: 30px;
+  min-width: 272px;
+  max-width: 272px;
+  border: 1px solid #dee5ef;
+  border-radius: 5px;
+  background: #ffffff;
+  max-height: 270px;
 }
 
 .contact-data-list {
@@ -148,6 +178,7 @@ export default defineComponent({
 
 .contact-data-list-item {
   padding-bottom: 20px;
+  margin-left: 15px;
 }
 
 .contact-h3 {
@@ -169,5 +200,17 @@ export default defineComponent({
   width: auto;
   align-items: center;
   text-align: left;
+}
+
+.map-data {
+  width: 100%;
+  margin-top: 15px;
+  border: 1px solid #dee5ef;
+  border-radius: 5px;
+}
+.map-container {
+  width: 100%;
+  margin: 0;
+  height: 600px;
 }
 </style>

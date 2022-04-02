@@ -157,6 +157,10 @@ export default defineComponent({
             to: '/admin/postgraduate',
           },
           {
+            title: 'Кандидатские экзамены',
+            to: '/admin/candidate',
+          },
+          {
             title: 'Дополнительное профессиональное образование',
             to: '/admin/dpo',
           },

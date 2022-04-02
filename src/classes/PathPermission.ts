@@ -6,6 +6,7 @@ import removeFromClass from '@/mixins/removeFromClass';
 export default class PathPermission implements IPathPermission {
   id?: string;
   resource = '';
+  guestAllow = false;
   pathPermissionsRoles: IPathPermissionRole[] = [];
   pathPermissionsRolesForDelete: string[] = [];
   constructor(i?: IPathPermission) {
@@ -14,6 +15,7 @@ export default class PathPermission implements IPathPermission {
     }
     this.id = i.id;
     this.resource = i.resource;
+    this.guestAllow = i.guestAllow;
     if (i.pathPermissionsRoles) {
       this.pathPermissionsRoles = i.pathPermissionsRoles.map((i: IPathPermissionRole) => new PathPermissionRole(i));
     }

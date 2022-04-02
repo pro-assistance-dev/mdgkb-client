@@ -3,7 +3,8 @@
   <div v-if="mounted">
     <table class="table-list">
       <thead>
-        <th>Клиентский доступ</th>
+        <th>Клиентский путь</th>
+        <th>Гостевой доступ</th>
         <th v-for="role in roles" :key="role.id">
           <h4>{{ role.name }}</h4>
           <button @click="setAll(role.id)">Выделить всё</button>
@@ -11,6 +12,9 @@
       </thead>
       <tbody>
         <tr v-for="permission in permissions" :key="permission.resource">
+          <td v-for="role in roles" :key="role.id">
+            <el-checkbox v-model="permission.guestAllow"> </el-checkbox>
+          </td>
           <td>
             {{ permission.resource }}
           </td>

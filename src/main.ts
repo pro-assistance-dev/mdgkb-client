@@ -22,12 +22,15 @@ app.config.globalProperties.$dateFormatRu = fillDateFormat;
 app.config.globalProperties.$store = useStore();
 app.config.globalProperties.$sanitize = sanitizeHTML;
 app.config.globalProperties.$scroll = scroll;
+app.config.globalProperties.$buildUrl = buildUrl;
 
 app.use(VueSocialSharing);
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+import buildUrl from '@/services/BuildUrl';
 
 library.add(faVk);
 

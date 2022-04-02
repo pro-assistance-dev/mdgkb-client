@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="card-flex-container card-item">
-      <h2>Аспирантура</h2>
       <div class="no-progmam">
         <h3 v-if="postgraduateCourses.length == 0">Сейчас нет программ аспирантуры ни для одной специальности</h3>
       </div>

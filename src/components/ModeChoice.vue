@@ -22,6 +22,11 @@ export default defineComponent({
       required: false,
       default: () => [],
     },
+    path: {
+      type: String as PropType<string>,
+      required: false,
+      default: '',
+    },
   },
   emits: ['selectMode'],
   setup(props, { emit }) {
@@ -46,7 +51,7 @@ export default defineComponent({
 
     const selectMode = (value: string): void => {
       emit('selectMode', value);
-      router.replace(`/dpo?mode=${value}`);
+      router.replace(`/${props.path}?mode=${value}`);
     };
 
     return { selectedMode, selectMode };

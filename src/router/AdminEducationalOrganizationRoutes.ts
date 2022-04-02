@@ -6,6 +6,7 @@ import AdminDpoApplicationsList from '@/components/admin/AdminEducationalOrganiz
 import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursePage.vue';
 import AdminDpoCoursesList from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursesList.vue';
 import AdminEducationalOrganizationPage from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationPage.vue';
+import AdminCandidate from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidate.vue';
 import AdminCandidateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationPage.vue';
 import AdminCandidateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationsList.vue';
 import AdminPostgraduate from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduate.vue';
@@ -34,6 +35,18 @@ export default [
     path: '/admin/postgraduate',
     name: 'AdminPostgraduate',
     component: AdminPostgraduate,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/candidate',
+    name: 'AdminCandidate',
+    component: AdminCandidate,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

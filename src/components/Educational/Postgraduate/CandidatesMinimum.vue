@@ -1,17 +1,8 @@
 <template>
-  <div>
+  <div class="candidate-container">
     <div class="card-flex-container card-item">
-      <div class="card-item" style="padding: 30px; margin-bottom: 20px">
-        <div class="card-header">
-          <!--          <h2 class="title article-title">{{ dpoCourse.name }}</h2>-->
-        </div>
-        <el-divider />
-        <!--        <div v-if="dpoCourse.description" class="title-icon">-->
-      </div>
-      <!--        <div class="article-body" v-html="dpoCourse.description"></div>-->
-      <el-divider />
       <div class="bottom-footer">
-        <!--          <SharesBlock :title="dpoCourse.name" :description="dpoCourse.description" :url="getUrl()" />-->
+        <SharesBlock title="Кандидатский экзамен" description="Кандидатские экзамены в МДГКБ" :url="$buildUrl('candidate')" />
         <button class="response-btn" @click="openRespondForm">Подать заявление</button>
       </div>
     </div>
@@ -20,28 +11,35 @@
       <el-divider />
       <CandidateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
     </div>
+    <div v-for="docType in documentTypes" :key="docType.id">
+      <h3>{{ docType.documentType.name }}</h3>
+      <DocumentsList :documents="docType.documentType.documents" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidateApplicationForm from '@/components/Educational/Postgraduate/CandidateApplicationForm.vue';
+import SharesBlock from '@/components/SharesBlock.vue';
+import ICandidateDocumentType from '@/interfaces/ICandidateDocumentType';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISchema from '@/interfaces/schema/ISchema';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'CandidatesMinimum',
-  components: { CandidateApplicationForm },
+  components: { CandidateApplicationForm, DocumentsList, SharesBlock },
   setup() {
     const store = useStore();
     const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
     const mounted = ref(false);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-
+    const documentTypes: ComputedRef<ICandidateDocumentType[]> = computed(() => store.getters['candidateDocumentTypes/items']);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
       showForm.value = true;
@@ -57,6 +55,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      await store.dispatch('candidateDocumentTypes/getAll');
       const route = useRoute();
       await store.dispatch('candidateExams/get');
       mounted.value = true;
@@ -72,6 +71,7 @@ export default defineComponent({
     // };
 
     return {
+      documentTypes,
       mounted,
       candidateExam,
       // loadMore,
@@ -87,6 +87,10 @@ export default defineComponent({
 $side-container-max-width: 300px;
 $medical-profile-content-max-width: 1000px;
 $card-margin-size: 30px;
+
+.candidate-container {
+  margin-top: 20px;
+}
 
 .bottom-footer {
   margin-top: 20px;

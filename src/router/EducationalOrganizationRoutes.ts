@@ -45,7 +45,7 @@ export default [
     },
   },
   {
-    path: '/postgraduate-courses',
+    path: '/postgraduate',
     name: 'PostgraduatePage',
     component: PostgraduatePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

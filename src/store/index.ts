@@ -8,6 +8,7 @@ import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { callbacks } from '@/store/modules/callbacks';
 import { candidateApplications } from '@/store/modules/candidateApplications';
+import { candidateDocumentTypes } from '@/store/modules/candidateDocumentTypes';
 import { candidateExams } from '@/store/modules/candidateExams';
 import { centers } from '@/store/modules/centers';
 import { certificates } from '@/store/modules/certificates';
@@ -141,6 +142,7 @@ const s: StoreOptions<RootState> = {
     postgraduateDocumentTypes,
     dpoDocumentTypes,
     roles,
+    candidateDocumentTypes,
   },
 };
 

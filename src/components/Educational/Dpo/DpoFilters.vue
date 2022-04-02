@@ -1,6 +1,6 @@
 <template>
   <div v-if="mount" class="horizontal">
-    <div class="block-item"><ModeChoice :modes="modes" @selectMode="selectMode" /></div>
+    <div class="block-item"><ModeChoice path="dpo" :modes="modes" @selectMode="selectMode" /></div>
     <template v-if="mode === '' || mode === 'programs'">
       <div class="block-item"><RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" /></div>
       <div class="block-item">
