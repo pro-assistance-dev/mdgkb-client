@@ -10,6 +10,7 @@ export default interface IMenu extends IFiler, IOrdered {
   link: string;
   top: boolean;
   side: boolean;
+  hide: boolean;
   selected: boolean;
   editMode: boolean;
   page: IPage;

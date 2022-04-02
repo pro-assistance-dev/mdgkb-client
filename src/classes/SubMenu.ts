@@ -12,6 +12,7 @@ export default class SubMenu implements ISubMenu {
   name = '';
   link = '';
   selected = false;
+  hide = false;
   editMode = false;
   color = '';
   background = '';
@@ -34,6 +35,7 @@ export default class SubMenu implements ISubMenu {
     }
     this.id = i.id;
     this.name = i.name;
+    this.hide = i.hide;
     this.link = i.link;
     this.iconName = i.iconName;
     this.svgCode = i.svgCode;

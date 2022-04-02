@@ -14,6 +14,7 @@ export default class Menu implements IMenu {
   link = '';
   top = true;
   side = true;
+  hide = false;
   order = 0;
   selected = false;
   editMode = false;
@@ -36,6 +37,7 @@ export default class Menu implements IMenu {
     this.id = menu.id;
     this.name = menu.name;
     this.link = menu.link;
+    this.hide = menu.hide;
     this.top = menu.top;
     this.side = menu.side;
     this.order = menu.order;

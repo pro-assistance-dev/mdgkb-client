@@ -11,6 +11,7 @@ export default interface ISubMenu extends IFiler, IOrdered {
   menuId?: string;
   selected: boolean;
   editMode: boolean;
+  hide: boolean;
   color: string;
   background: string;
 
