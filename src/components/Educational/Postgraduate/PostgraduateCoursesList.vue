@@ -1,54 +1,52 @@
 <template>
   <div>
-    <div class="card-flex-container card-item">
-      <div class="no-progmam">
-        <h3 v-if="postgraduateCourses.length == 0">Сейчас нет программ аспирантуры ни для одной специальности</h3>
-      </div>
-      <div v-if="postgraduateCourses.length !== 0" class="table-container">
-        <table class="table-list">
-          <colgroup>
-            <col width="10%" />
-            <col width="30%" />
-            <col width="30%" />
-            <col width="30%" />
-          </colgroup>
-          <thead>
-            <th>Код</th>
-            <th>Название специализации</th>
-            <th>Уровень&nbsp;образования</th>
-            <th>Квалификация</th>
-          </thead>
-          <tbody v-if="mounted">
-            <tr v-for="postgraduateCourse in postgraduateCourses" :key="postgraduateCourse.id">
-              <td>
-                <div
-                  v-for="postgraduateCoursesSpecialization in postgraduateCourse.postgraduateCoursesSpecializations"
-                  :key="postgraduateCoursesSpecialization.id"
-                >
-                  {{ postgraduateCoursesSpecialization.specialization.code }}
-                </div>
-              </td>
-              <td style="text-align: center">
-                <div
-                  v-for="postgraduateCoursesSpecialization in postgraduateCourse.postgraduateCoursesSpecializations"
-                  :key="postgraduateCoursesSpecialization.id"
-                >
-                  <router-link :to="`/postgraduate-courses/${postgraduateCourse.id}`">
-                    {{ postgraduateCoursesSpecialization.specialization.name }}
-                  </router-link>
-                </div>
-              </td>
-              <td>
-                высшее образование - подготовка кадров высшей квалификации
-                <!-- <router-link :to="`/doctors/${postgraduateCourse.getMainTeacher()?.doctor.human.slug}`">
-                  {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
-                </router-link> -->
-              </td>
-              <td>{{ postgraduateCourse.description }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="no-progmam">
+      <h3 v-if="postgraduateCourses.length == 0">Сейчас нет программ аспирантуры ни для одной специальности</h3>
+    </div>
+    <div v-if="postgraduateCourses.length !== 0" class="table-container">
+      <table class="table-list">
+        <colgroup>
+          <col width="10%" />
+          <col width="30%" />
+          <col width="30%" />
+          <col width="30%" />
+        </colgroup>
+        <thead>
+          <th><h4>КОД</h4></th>
+          <th><h4>НАЗВАНИЕ&nbsp;СПЕЦИАЛИЗАЦИИ</h4></th>
+          <th><h4>УРОВЕНЬ&nbsp;ОБРАЗОВАНИЯ</h4></th>
+          <th><h4>КВАЛИФИКАЦИЯ</h4></th>
+        </thead>
+        <tbody v-if="mounted">
+          <tr v-for="postgraduateCourse in postgraduateCourses" :key="postgraduateCourse.id">
+            <td>
+              <div
+                v-for="postgraduateCoursesSpecialization in postgraduateCourse.postgraduateCoursesSpecializations"
+                :key="postgraduateCoursesSpecialization.id"
+              >
+                {{ postgraduateCoursesSpecialization.specialization.code }}
+              </div>
+            </td>
+            <td style="text-align: center">
+              <div
+                v-for="postgraduateCoursesSpecialization in postgraduateCourse.postgraduateCoursesSpecializations"
+                :key="postgraduateCoursesSpecialization.id"
+              >
+                <router-link :to="`/postgraduate-courses/${postgraduateCourse.id}`">
+                  {{ postgraduateCoursesSpecialization.specialization.name }}
+                </router-link>
+              </div>
+            </td>
+            <td>
+              высшее образование - подготовка кадров высшей квалификации
+              <!-- <router-link :to="`/doctors/${postgraduateCourse.getMainTeacher()?.doctor.human.slug}`">
+                {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
+              </router-link> -->
+            </td>
+            <td>{{ postgraduateCourse.description }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -90,7 +88,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/doctor-info-card.scss';
+// @import '@/assets/styles/elements/doctor-info-card.scss';
 
 .text-center {
   text-align: center;
@@ -114,14 +112,19 @@ export default defineComponent({
 }
 
 .card-item {
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  border-radius: none;
+  border-bottom: none;
 }
 
 .table-container {
   width: 100%;
-  // overflow: scroll;
+  border: 1px solid #dcdfe6;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  background: #ffffff;
 }
+
 table {
   height: auto;
   border-collapse: collapse;
@@ -130,25 +133,26 @@ table {
 
 td,
 th {
-  border: 1px solid #dcdfe6;
-  padding: 5px 7px 5px 7px;
+  border-bottom: 1px solid #dcdfe6;
+  padding: 9px 7px 9px 7px;
   height: auto;
 }
 
 th {
   text-align: left;
-  padding: 5px;
-  background-color: #dcdfe6;
-  border-right: 1px solid #f2f2f2;
+  padding: 2px 0 0 3px;
+  background-color: #eff2f6;
+  height: 20px;
+}
+
+th:first-child {
+  border-radius: 5px 0 0 0;
 }
 
 th:last-child {
-  border-right: 1px solid #dcdfe6;
+  border-radius: 0 5px 0 0;
 }
 
-tr:nth-child(odd) {
-  background-color: #f2f2f2;
-}
 tr {
   &:hover {
     background-color: #ecf5ff;
@@ -162,5 +166,14 @@ tr {
 
 .card-flex-container {
   display: block;
+}
+
+h4 {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.1ex;
+  margin: 0px;
+  font-size: 11px;
+  font-weight: normal;
+  color: #a3a5b9;
 }
 </style>
