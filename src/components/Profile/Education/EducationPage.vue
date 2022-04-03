@@ -3,20 +3,20 @@
     <h2><b>Мое образование</b></h2>
     <button class="edit-button" @click="$router.push('/profile/edit')">Подать заявку</button>
   </div>
-  <div class="no-progmam">
-    <h3 v-if="dpoCourses.length !== 0">У вас нет заявок</h3>
+  <div v-if="!applications.length" class="no-progmam">
+    <h3>У вас нет заявок</h3>
   </div>
-  <div class="my-block">
+  <div v-if="applications.length" class="my-block">
     <div class="yes-progmam">
       <div class="box">
-        <h2 v-if="dpoCourses.length == 0">
+        <h2>
           Мои заявки
-          <div class="sup-cymbol-counter">2</div>
+          <div v-if="applications.length" class="sup-cymbol-counter">{{ applications.length }}</div>
         </h2>
       </div>
     </div>
     <div class="card-flex-container card-item">
-      <div v-if="dpoCourses.length == 0" class="table-container">
+      <div class="table-container">
         <table class="table-list">
           <colgroup>
             <col width="40%" />
@@ -33,12 +33,26 @@
             <th><h4></h4></th>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
+            <tr v-for="application in applications" :key="application.id">
+              <td>
+                <div v-if="application.dpoCourse">
+                  <div v-for="dpoCourse in application.dpoCourses" :key="dpoCourse.id">{{ dpoCourse.name }}</div>
+                </div>
+                <div v-if="application.postgraduateCourse">
+                  <div v-for="postgraduateCourse in application.postgraduateCourses" :key="postgraduateCourse.id">
+                    {{ postgraduateCourse.educationForm }}
+                  </div>
+                </div>
+                <div v-if="application.candidateExam">Кандидатский минимум</div>
+              </td>
 
-              <td style="text-align: center"></td>
+              <td>
+                <div v-if="application.dpoCourse">ДПО</div>
+                <div v-if="application.postgraduateCourse">Аспирантура</div>
+                <div v-if="application.candidateExam">Кандидатский минимум</div>
+              </td>
 
-              <td></td>
+              <td>{{ fillDateFormat(application.createdAt) }}</td>
 
               <td>
                 <div class="box">
@@ -108,34 +122,39 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IDpoCourse from '@/interfaces/IDpoCourse';
-import ISchema from '@/interfaces/schema/ISchema';
+import ICandidateApplication from '@/interfaces/ICandidateApplication';
+import IDpoApplication from '@/interfaces/IDpoApplication';
+import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
+import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
   name: 'EducationPage',
   setup() {
     const store = useStore();
-    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
     const mounted = ref(false);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
+    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
+    const applications: (IDpoApplication | IPostgraduateApplication | ICandidateApplication)[] = [
+      ...user.value.dpoApplications,
+      ...user.value.postgraduateApplications,
+      ...user.value.candidateApplications,
+    ];
 
-    onBeforeMount(async () => {
+    const loadUser = async () => {
+      await store.dispatch('users/get', userId.value);
       mounted.value = true;
-    });
-
-    const loadMore = async () => {
-      const lastCursor = dpoCourses.value[dpoCourses.value.length - 1].name;
-      // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
-      // await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };
+    onMounted(loadUser);
 
     return {
       mounted,
-      dpoCourses,
-      loadMore,
+      user,
+      applications,
+      fillDateFormat,
     };
   },
 });
@@ -202,7 +221,12 @@ h3 {
 
 .table-container {
   width: 100%;
+  border: 1px solid #dcdfe6;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  background: #ffffff;
 }
+
 table {
   height: auto;
   border-collapse: collapse;
