@@ -1,9 +1,11 @@
 <template>
   <div class="title"><h2>Раздел находится в состоянии разработки</h2></div>
-  <el-form>
-    <button class="yes-button" @click.prevent="$router.back()">Вернуться назад</button>
-    <button class="no-button" @click="$router.push('/')">Вернуться на главную</button>
-  </el-form>
+  <div class="block">
+    <div class="button-block">
+      <button class="button" @click.prevent="$router.back()">Вернуться назад</button>
+      <button class="button" @click="$router.push('/')">Вернуться на главную</button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -90,34 +92,33 @@ h4 {
   margin: 0;
 }
 
-.yes-button {
-  padding: 12px 50px;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 12px;
-  border-radius: 40px;
-  border: none;
-  background: #2754eb;
-  color: #ffffff;
-  margin-right: 20px;
-}
-
-.yes-button:hover {
-  background: #133dcc;
+.button {
   cursor: pointer;
-}
-
-.no-button {
-  padding: 12px 50px;
+  display: flex;
+  padding: 7px 18px;
   font-family: Roboto, Verdana, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   border-radius: 40px;
-  border: none;
-  background: #ff4d3b;
-  color: #ffffff;
+  border: 1px solid #a3a9be;
+  color: #a3a9be;
+  align-items: center;
+  background: #ffffff;
 }
 
-.no-button:hover {
-  background: #d12413;
-  cursor: pointer;
+.button:hover {
+  background: #ecf5ff;
+}
+
+.block {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+}
+
+.button-block {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
