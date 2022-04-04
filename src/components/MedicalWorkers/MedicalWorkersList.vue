@@ -3,7 +3,7 @@
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="filters">
         <ModeButtons
-          :second-mode-active="doctorsMode"
+          :second-mode-active="!doctorsMode"
           :store-mode="false"
           :first-mode="'Врачи'"
           :second-mode="'Руководство'"

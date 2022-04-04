@@ -3,21 +3,28 @@
   <div v-if="dpoCourses.length !== 0" class="table-container">
     <table class="table-list">
       <colgroup>
-        <col width="50%" />
-        <col width="10%" />
+        <col width="60%" />
+        <col width="5%" />
+        <col width="5%" />
         <col width="20%" />
         <col width="10%" />
       </colgroup>
       <thead>
         <th><h4>НАЗВАНИЕ ПРОГРАММЫ</h4></th>
-        <th><h4>ДЛИТЕЛЬНОСТЬ</h4></th>
+        <th><h4>ТИП</h4></th>
+        <th><h4>ЧАСОВ</h4></th>
         <th><h4>РУКОВОДИТЕЛЬ</h4></th>
         <th><h4>ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>
       </thead>
       <tbody v-if="mounted">
         <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
           <td>
-            <router-link :to="`/courses/${dpoCourse.slug}`">{{ dpoCourse.name }}</router-link>
+            <router-link :to="`/courses/${dpoCourse.slug}`">
+              {{ dpoCourse.name }}
+            </router-link>
+          </td>
+          <td>
+            <el-tag :type="dpoCourse.isNmo ? 'primary' : 'warning'">{{ dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-tag>
           </td>
           <td style="text-align: center">{{ dpoCourse.hours }}</td>
           <td>

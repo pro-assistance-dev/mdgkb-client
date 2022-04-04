@@ -2,7 +2,14 @@
   <div class="filter-form">
     <el-form :gutter="12" label-position="top">
       <el-form-item>
-        <el-select v-model="filterModel.value1" filterable clearable :placeholder="placeholder" round @change="addFilterModel">
+        <el-select
+          v-model="filterModel.value1"
+          :filterable="filterable"
+          clearable
+          :placeholder="placeholder"
+          round
+          @change="addFilterModel"
+        >
           <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
         </el-select>
       </el-form-item>
@@ -66,6 +73,10 @@ export default defineComponent({
     joinTableIdCol: {
       type: String as PropType<string>,
       default: '',
+    },
+    filterable: {
+      type: Boolean as PropType<boolean>,
+      default: true,
     },
   },
   emits: ['load'],
