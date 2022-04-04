@@ -1,4 +1,5 @@
 <template>
+  <el-tag v-if="dpoApplications.some((app) => app.formValue.isNew)">Есть новые заявки</el-tag>
   <el-table v-if="mounted" :data="dpoApplications">
     <el-table-column label="Статус">
       <template #default="scope">
@@ -41,9 +42,11 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
+import SortModel from '@/classes/filters/SortModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import { Orders } from '@/interfaces/filters/Orders';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import ISchema from '@/interfaces/schema/ISchema';
 
@@ -82,16 +85,16 @@ export default defineComponent({
     const setFilter = async () => {
       await store.dispatch('meta/getSchema');
       store.commit(`filter/resetQueryFilter`);
-      // store.commit(
-      //   'filter/replaceSortModel',
-      //   SortModel.CreateSortModel(
-      //     schema.value.dpoApplication.tableName,
-      //     schema.value.dpoApplication.createdAt,
-      //     Orders.Desc,
-      //     'По дате',
-      //     true
-      //   )
-      // );
+      store.commit(
+        'filter/replaceSortModel',
+        SortModel.CreateSortModel(
+          schema.value.dpoApplication.tableName,
+          schema.value.dpoApplication.createdAt,
+          Orders.Desc,
+          'По дате',
+          true
+        )
+      );
 
       filterModel.value = FilterModel.CreateFilterModel(
         schema.value.dpoApplication.tableName,

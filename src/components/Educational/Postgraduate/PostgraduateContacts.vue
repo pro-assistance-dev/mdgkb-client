@@ -47,7 +47,7 @@
     </div>
     <div class="map-data">
       <div class="map-container">
-        <yandex-map style="height: 600px" :coords="[55.725317, 37.619214]" zoom="16.24" :settings="settings" />
+        <YandexMapComponent />
       </div>
     </div>
   </div>
@@ -88,22 +88,19 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { yandexMap } from 'vue-yandex-maps';
 
+import YandexMapComponent from '@/components/YandexMapComponent.vue';
 export default defineComponent({
   name: 'PostgraduateContacts',
-  components: { yandexMap },
+  components: { YandexMapComponent },
   setup() {
     const mounted = ref(false);
-    const settings = {
-      center: [55.74954, 37.621587],
-      zoom: 10,
-    };
+
     onMounted(async () => {
       mounted.value = true;
     });
 
-    return { settings, mounted };
+    return { mounted };
   },
 });
 </script>

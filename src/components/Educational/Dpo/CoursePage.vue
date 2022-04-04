@@ -125,6 +125,7 @@ export default defineComponent({
       await showFormFunc();
       scroll('responce-form');
     };
+
     const closeRespondForm = () => {
       showForm.value = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });

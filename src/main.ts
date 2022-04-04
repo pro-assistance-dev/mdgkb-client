@@ -36,17 +36,17 @@ library.add(faVk);
 
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 
-const settings = {
-  apiKey: '',
-  lang: 'ru_RU',
-  coordorder: 'latlong',
-  enterprise: false,
-  version: '2.1',
-};
+// const settings = {
+//   apiKey: '',
+//   lang: 'ru_RU',
+//   coordorder: 'latlong',
+//   enterprise: false,
+//   version: '2.1',
+// };
 
 app.use(store);
 app.use(router);
-app.use(YmapPlugin, settings);
+app.use(YmapPlugin);
 app.use(setupElementPlusComponents);
 app.use(setupElementPlusPlugins);
 
