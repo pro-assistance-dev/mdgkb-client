@@ -226,6 +226,18 @@ export default [
     },
   },
   {
+    path: '/admin/postgraduate-applications/new',
+    name: 'AdminPostgraduateApplicationPageNew',
+    component: AdminPostgraduateApplicationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
     path: '/admin/postgraduate-applications/:id',
     name: 'AdminPostgraduateApplicationPage',
     component: AdminPostgraduateApplicationPage,
@@ -241,6 +253,18 @@ export default [
     path: '/admin/candidate-applications',
     name: 'AdminCandidateApplicationsList',
     component: AdminCandidateApplicationsList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/candidate-applications/new',
+    name: 'AdminCandidateApplicationPageNew',
+    component: AdminCandidateApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

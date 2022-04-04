@@ -19,7 +19,7 @@
         <tbody v-if="mounted">
           <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
             <td>
-              <router-link :to="`/courses/${dpoCourse.slug}`">{{ dpoCourse.name }}</router-link>
+              <router-link :to="`/courses/${dpoCourse.id}`">{{ dpoCourse.name }}</router-link>
             </td>
             <td style="text-align: center">{{ dpoCourse.hours }}</td>
             <td>

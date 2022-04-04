@@ -12,4 +12,6 @@ export default interface IField {
   file: IFileInfo;
   fileId?: string;
   required?: boolean;
+
+  clearIds: () => void;
 }

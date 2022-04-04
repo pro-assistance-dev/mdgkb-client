@@ -36,4 +36,10 @@ export default class Field implements IField {
       this.file = new FileInfo(i.file);
     }
   }
+
+  clearIds(): void {
+    this.id = undefined;
+    this.formId = undefined;
+    this.fileId = undefined;
+  }
 }

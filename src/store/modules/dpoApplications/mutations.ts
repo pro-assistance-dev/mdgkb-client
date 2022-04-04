@@ -2,6 +2,7 @@ import { MutationTree } from 'vuex';
 
 import DpoApplication from '@/classes/DpoApplication';
 import DpoCourse from '@/classes/DpoCourse';
+import Form from '@/classes/Form';
 import User from '@/classes/User';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
@@ -29,16 +30,22 @@ const mutations: MutationTree<State> = {
     state.item = new DpoApplication();
   },
   setUser(state, user: IUser) {
-    state.item.user = new User(user);
+    state.item.formValue.user = new User(user);
   },
   setCourse(state, dpoCourse: IDpoCourse) {
     state.item.dpoCourse = new DpoCourse(dpoCourse);
-  },
-  setFieldValues(state, form: IForm) {
-    state.item.fieldValues = form.fieldValues;
+    state.item.dpoCourseId = state.item.dpoCourse.id;
   },
   setEmailExists(state, emailExists: boolean) {
     state.emailExists = emailExists;
+  },
+  setFormValue(state, form: IForm) {
+    state.item.formValue = new Form(form);
+  },
+  changeFormPattern(state, pattern: IForm) {
+    state.item.formValue.removeAllFieldsAndValues();
+    state.item.formValue.applyFormPatternFields(pattern);
+    state.item.formValue.initFieldsValues();
   },
 };
 

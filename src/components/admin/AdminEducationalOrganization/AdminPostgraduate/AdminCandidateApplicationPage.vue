@@ -4,22 +4,22 @@
       <el-container direction="vertical">
         <el-card>
           <template #header>
-            <span>Информация о программе</span>
+            <span>Информация об экзамене</span>
           </template>
           <el-form-item
             v-if="isEditMode"
-            label="Выберите программу"
-            prop="postgraduateCourseId"
+            label="Выберите экзамен"
+            prop="candidateExamId"
             :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
           >
             <el-select
-              v-model="application.postgraduateCourse"
+              v-model="application.candidateExam"
               value-key="id"
-              placeholder="Выберите программу"
+              placeholder="Выберите экзамен"
               style="width: 100%"
               @change="courseChangeHandler"
             >
-              <el-option v-for="item in postgraduateCourses" :key="item.id" :label="item.name" :value="item"> </el-option>
+              <el-option v-for="item in candidateExams" :key="item.id" :label="'Кандидатский экзамен'" :value="item"> </el-option>
             </el-select>
           </el-form-item>
           <el-descriptions v-else :column="1">
@@ -28,63 +28,9 @@
           </el-descriptions>
         </el-card>
 
-        <el-card>
-          <template #header>
-            <span>Информация о заявителе</span>
-          </template>
-          <div v-if="isEditMode">
-            <el-form-item
-              label="Электронная почта"
-              prop="user.email"
-              :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
-            >
-              <el-input v-model="application.user.email" placeholder="Электронная почта"></el-input>
-            </el-form-item>
-            <el-form-item label="Фамилия" prop="user.human.surname">
-              <el-input v-model="application.user.human.surname" placeholder="Фамилия"></el-input>
-            </el-form-item>
-            <el-form-item label="Имя" prop="user.human.name">
-              <el-input v-model="application.user.human.name" placeholder="Имя"></el-input>
-            </el-form-item>
-            <el-form-item label="Отчество" prop="user.human.patronymic">
-              <el-input v-model="application.user.human.patronymic" placeholder="Отчество"></el-input>
-            </el-form-item>
-          </div>
-          <el-descriptions v-else :column="1">
-            <el-descriptions-item label="Email">{{ application.user.email }}</el-descriptions-item>
-            <el-descriptions-item label="ФИО">{{ application.user.human.getFullName() }}</el-descriptions-item>
-          </el-descriptions>
-        </el-card>
-
-        <el-card v-if="isEditMode">
-          <template #header>
-            <span>Форма для подачи заявления</span>
-          </template>
-          <FieldValuesForm :form="application.candidateExam.formPattern" />
-        </el-card>
-
-        <el-card v-else>
-          <template #header>
-            <div class="flex-between">
-              <span>Данные формы</span>
-              <div class="flex">
-                <span style="margin-right: 5px">Статус:</span>
-                <el-tag v-if="application.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
-                <el-tag v-else size="small" type="danger">Данные не проверены</el-tag>
-                <el-button
-                  :disabled="application.isFieldValuesModChecked()"
-                  :type="application.isFieldValuesModChecked() ? 'success' : 'primary'"
-                  size="small"
-                  style="margin-left: 5px"
-                  @click="application.changeFieldValuesModChecked(true)"
-                >
-                  Пометить все
-                </el-button>
-              </div>
-            </div>
-          </template>
-          <FieldValuesFormResult :form="application.candidateExam.formPattern" />
-        </el-card>
+        <div v-if="application.candidateExam.id">
+          <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :validate-email="false" />
+        </div>
       </el-container>
     </el-form>
   </div>
@@ -95,18 +41,17 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
+import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
-import IDpoCourse from '@/interfaces/IDpoCourse';
+import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminCandidateApplicationPage',
-  components: { FieldValuesFormResult, FieldValuesForm },
+  components: { AdminFormValue },
 
   setup() {
     const store = useStore();
@@ -121,23 +66,23 @@ export default defineComponent({
     );
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-    const postgraduateCourses: ComputedRef<IDpoCourse[]> = computed(() => store.getters['postgraduateCourses/items']);
+    const candidateExams: Ref<ICandidateExam[]> = computed<ICandidateExam[]>(() => [store.getters['candidateExams/item']]);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактиварония');
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await loadDpoCourses();
+      await loadExam();
       await loadItem();
       await updateNew();
       store.commit('admin/closeLoading');
     });
 
-    const loadDpoCourses = async () => {
+    const loadExam = async () => {
       store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
-      await store.dispatch('postgraduateCourses/getAll');
+      await store.dispatch('candidateExams/get');
     };
 
     const changeEditMode = () => {
@@ -153,10 +98,10 @@ export default defineComponent({
       if (!route.params['id']) {
         return;
       }
-      if (!application.value.isNew) {
+      if (!application.value.formValue.isNew) {
         return;
       }
-      application.value.isNew = false;
+      application.value.formValue.isNew = false;
       await store.dispatch('candidateApplications/update', application.value);
     };
 
@@ -164,8 +109,9 @@ export default defineComponent({
       let pageTitle = '';
       if (route.params['id']) {
         await store.dispatch('candidateApplications/get', route.params['id']);
-        pageTitle = `Заявка от ${application.value.user.email}`;
+        pageTitle = `Заявление от ${application.value.formValue.user.email}`;
       } else {
+        pageTitle = 'Подача заявления на сдачу кандидатского';
         store.commit('candidateApplications/resetItem');
         isEditMode.value = true;
       }
@@ -180,28 +126,31 @@ export default defineComponent({
     };
 
     const submit = async (next?: NavigationGuardNext) => {
-      application.value.candidateExam.formPattern.validate();
-
-      // store.commit('candidateApplications/setFieldValues', application.value.postgraduateCourse.formPattern);
-      application.value.fieldValues = application.value.candidateExam.formPattern.fieldValues;
+      application.value.formValue.validate();
       saveButtonClick.value = true;
-      if (!validate(form, true) || !application.value.candidateExam.formPattern.validated) {
+      if (!validate(form, true) || !application.value.formValue.validated) {
         saveButtonClick.value = false;
         return;
       }
       if (route.params['id']) {
         await store.dispatch('candidateApplications/update');
       } else {
+        application.value.formValue.clearIds();
         await store.dispatch('candidateApplications/create');
       }
       next ? next() : await router.push(`/admin/candidate-applications`);
     };
 
     const courseChangeHandler = () => {
-      application.value.candidateExamId = application.value.candidateExam.id;
+      if (!route.params['id']) {
+        store.commit('candidateApplications/setExam', application.value.candidateExam);
+        store.commit('candidateApplications/setFormValue', application.value.candidateExam.formPattern);
+        application.value.formValue.initFieldsValues();
+      }
+      // application.value.candidateExamId = application.value.candidateExam.id;
       // application.value.removeAllFieldValues();
       // application.value.postgraduateCourse.formPattern.removeAllFieldValues();
-      application.value.candidateExam.formPattern.initFieldsValues();
+      // application.value.candidateExam.formPattern.initFieldsValues();
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -212,7 +161,7 @@ export default defineComponent({
       mounted,
       form,
       application,
-      postgraduateCourses,
+      candidateExams,
       isEditMode,
       courseChangeHandler,
     };

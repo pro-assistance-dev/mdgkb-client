@@ -33,13 +33,13 @@ const actions: ActionTree<State, RootState> = {
       isFormData: true,
       fileInfos: state.item.getFileInfos(),
     });
-    TokenService.updateHuman(new Human(state.item.user.human));
+    TokenService.updateHuman(new Human(state.item.formValue.user.human));
   },
   emailExists: async ({ state, commit }, courseId): Promise<void> => {
-    if (state.item.user.email.length < 3) {
+    if (state.item.formValue.user.email.length < 3) {
       return;
     }
-    const res = await httpClient.get<IDpoApplication[]>({ query: `email-exists/${state.item.user.email}/${courseId}` });
+    const res = await httpClient.get<boolean>({ query: `email-exists/${state.item.formValue.user.email}/${courseId}` });
     commit('setEmailExists', res);
   },
   update: async ({ state, commit }): Promise<void> => {
@@ -47,6 +47,7 @@ const actions: ActionTree<State, RootState> = {
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,
+      fileInfos: state.item.getFileInfos(),
     });
     commit('set', res);
   },

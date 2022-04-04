@@ -15,7 +15,7 @@
         <button class="response-btn" @click="openRespondForm">Подать заявление</button>
       </div>
     </div>
-    <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
+    <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px; margin-top: 20px">
       <h2 class="title article-title">Форма для подачи заявления</h2>
       <el-divider />
       <CandidateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
