@@ -11,11 +11,6 @@
   <div v-if="mounted" class="right-block">
     <div class="colonm-left">
       <div class="user-avatar">
-        <!--        <button class="edit-avatar">-->
-        <!--          <svg class="icon-edit-foto">-->
-        <!--            <use xlink:href="#profile-edit"></use>-->
-        <!--          </svg>-->
-        <!--        </button>-->
         <div class="avatar-block">
           <UploaderSingleScan
             crop-ratio="1"
@@ -25,9 +20,6 @@
             :width="273"
             @crop="saveAvatar"
           />
-          <!--          <div class="avatar">-->
-          <!--            <img src="../../assets/doctors/Gorev_V_3.jpg" alt="alt" />-->
-          <!--          </div>-->
         </div>
       </div>
       <el-form :model="user">
