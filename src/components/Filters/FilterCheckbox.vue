@@ -2,14 +2,14 @@
   <div class="filter-form">
     <el-form label-position="top">
       <el-form-item>
-        <el-checkbox v-model="filterModel.boolean" :label="label" size="mini" @change="changeFilterModel" />
+        <el-checkbox v-model="selected" :label="label" size="mini" @change="changeFilterModel" />
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, PropType, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
@@ -39,8 +39,8 @@ export default defineComponent({
       type: String as PropType<DataTypes>,
       default: '',
     },
-    value: {
-      type: Number as PropType<number | string>,
+    filterValue: {
+      type: Number as PropType<number | string | boolean>,
       default: 0,
     },
     joinTable: {
@@ -68,6 +68,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const filterModel = ref(FilterModel.CreateFilterModel(props.table, props.col, props.dataType));
+    const selected: Ref<boolean> = ref(false);
 
     onBeforeMount(() => {
       filterModel.value.operator = props.operator;
@@ -88,11 +89,15 @@ export default defineComponent({
       } else {
         filterModel.value = FilterModel.CreateFilterModel(props.table, props.col, props.dataType);
         filterModel.value.operator = props.operator;
-        if (props.value && typeof props.value === 'string') {
-          filterModel.value.value1 = props.value;
+        if (props.filterValue && typeof props.filterValue === 'string') {
+          filterModel.value.value1 = props.filterValue;
+        }
+        if (props.filterValue && typeof props.filterValue === 'boolean') {
+          filterModel.value.value1 = String(props.filterValue);
+          filterModel.value.boolean = props.filterValue;
         }
       }
-      filterModel.value.boolean = true;
+
       store.commit('filter/setFilterModel', filterModel.value);
       emit('load');
     };
@@ -105,6 +110,7 @@ export default defineComponent({
     };
 
     const changeFilterModel = (select: boolean) => {
+      selected.value = select;
       if (select) {
         addFilterModel();
         return;
@@ -113,6 +119,7 @@ export default defineComponent({
     };
 
     return {
+      selected,
       changeFilterModel,
       dropFilterModel,
       addFilterModel,

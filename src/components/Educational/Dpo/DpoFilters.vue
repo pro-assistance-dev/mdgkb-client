@@ -4,15 +4,16 @@
     <template v-if="mode === '' || mode === 'programs'">
       <div class="block-item"><RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" /></div>
       <div class="block-item">
-        <FilterCheckbox
+        <FilterSelect
+          placeholder="Все программы"
+          :options="nmoOptions"
           :table="schema.dpoCourse.tableName"
           :col="schema.dpoCourse.isNmo"
-          :data-type="DataTypes.Boolean"
-          label="Курсы НМО"
+          :data-type="DataTypes.String"
           :operator="Operators.Eq"
+          :filterable="false"
           @load="load"
-        >
-        </FilterCheckbox>
+        />
       </div>
 
       <div class="block-item">
@@ -41,7 +42,6 @@ import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -57,14 +57,10 @@ import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'DpoFilters',
   components: {
-    FilterCheckbox,
-    // FilterReset,
     RemoteSearch,
-    // SortList,
     FilterSelect,
     ModeChoice,
   },
-  emits: ['load', 'selectMode'],
   props: {
     mode: {
       type: String as PropType<string>,
@@ -77,13 +73,17 @@ export default defineComponent({
       default: () => [],
     },
   },
+  emits: ['load', 'selectMode'],
   setup(props, { emit }) {
     const store = useStore();
     const router = useRouter();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
     const mount = ref(false);
-
+    const nmoOptions: IOption[] = [
+      { value: 'true', label: 'Программы НМО' },
+      { value: 'false', label: 'Программы ДПО' },
+    ];
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
@@ -111,6 +111,7 @@ export default defineComponent({
       emit('selectMode', value);
     };
     return {
+      nmoOptions,
       selectMode,
       resetFilter,
       load,
