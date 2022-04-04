@@ -7,7 +7,7 @@
             <span>Информация об экзамене</span>
           </template>
           <el-form-item
-            v-if="isEditMode"
+            v-if="isEditMode && !application.candidateExamId"
             label="Выберите экзамен"
             prop="candidateExamId"
             :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"

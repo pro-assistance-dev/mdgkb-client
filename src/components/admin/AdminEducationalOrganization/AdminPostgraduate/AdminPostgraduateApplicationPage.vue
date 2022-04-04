@@ -7,7 +7,7 @@
             <span>Информация о программе</span>
           </template>
           <el-form-item
-            v-if="isEditMode"
+            v-if="isEditMode && !application.postgraduateCourseId"
             label="Выберите программу"
             prop="postgraduateCourseId"
             :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"

@@ -7,7 +7,7 @@
             <span>Информация о программе</span>
           </template>
           <el-form-item
-            v-if="isEditMode"
+            v-if="isEditMode && !dpoApplication.dpoCourseId"
             label="Выберите программу"
             prop="dpoCourseId"
             :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
