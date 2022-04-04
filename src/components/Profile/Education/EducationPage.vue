@@ -1,7 +1,7 @@
 <template>
   <div class="title">
     <h2><b>Мое образование</b></h2>
-    <button class="edit-button" @click="$router.push('/profile/edit')">Подать заявку</button>
+    <button class="give-button" @click="$router.push('/profile/edit')">Подать заявку</button>
   </div>
   <div v-if="!applications.length" class="no-progmam">
     <h3>У вас нет заявок</h3>
@@ -161,7 +161,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.edit-button {
+.give-button {
   cursor: pointer;
   display: flex;
   padding: 7px 18px;
@@ -173,7 +173,7 @@ export default defineComponent({
   align-items: center;
 }
 
-.edit-button:hover {
+.give-button:hover {
   background: #ffffff;
 }
 
