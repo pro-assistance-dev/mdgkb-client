@@ -2,24 +2,24 @@
   <el-table v-if="mounted" :data="dpoApplications">
     <el-table-column label="Статус">
       <template #default="scope">
-        <el-tag v-if="scope.row.isNew" size="small" type="warning">Новая</el-tag>
-        <el-tag v-if="scope.row.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
+        <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Новая</el-tag>
+        <el-tag v-if="scope.row.formValue.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
         <el-tag v-else size="small" type="danger">Данные не проверены</el-tag>
       </template>
     </el-table-column>
     <el-table-column label="Дата подачи заявления" sortable>
       <template #default="scope">
-        {{ $dateFormatRu(scope.row.createdAt, true, true) }}
+        {{ $dateFormatRu(scope.row.formValue.createdAt, true, true) }}
       </template>
     </el-table-column>
     <el-table-column label="Email заявителя" sortable>
       <template #default="scope">
-        {{ scope.row.user.email }}
+        {{ scope.row.formValue.user.email }}
       </template>
     </el-table-column>
     <el-table-column label="ФИО заявителя" sortable>
       <template #default="scope">
-        {{ scope.row.user.human.getFullName() }}
+        {{ scope.row.formValue.user.human.getFullName() }}
       </template>
     </el-table-column>
     <el-table-column label="Наименование курса" sortable>
@@ -41,11 +41,9 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
-import SortModel from '@/classes/filters/SortModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import { Orders } from '@/interfaces/filters/Orders';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import ISchema from '@/interfaces/schema/ISchema';
 
@@ -84,16 +82,16 @@ export default defineComponent({
     const setFilter = async () => {
       await store.dispatch('meta/getSchema');
       store.commit(`filter/resetQueryFilter`);
-      store.commit(
-        'filter/replaceSortModel',
-        SortModel.CreateSortModel(
-          schema.value.dpoApplication.tableName,
-          schema.value.dpoApplication.createdAt,
-          Orders.Desc,
-          'По дате',
-          true
-        )
-      );
+      // store.commit(
+      //   'filter/replaceSortModel',
+      //   SortModel.CreateSortModel(
+      //     schema.value.dpoApplication.tableName,
+      //     schema.value.dpoApplication.createdAt,
+      //     Orders.Desc,
+      //     'По дате',
+      //     true
+      //   )
+      // );
 
       filterModel.value = FilterModel.CreateFilterModel(
         schema.value.dpoApplication.tableName,
@@ -111,7 +109,7 @@ export default defineComponent({
       await store.dispatch('dpoApplications/getAll', filterQuery.value);
       store.commit('admin/setHeaderParams', {
         title: title,
-        buttons: [{ text: 'Добавить заявку', type: 'primary', action: create }],
+        buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
       });
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');

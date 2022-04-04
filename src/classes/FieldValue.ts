@@ -79,4 +79,9 @@ export default class FieldValue implements IFieldValue {
       return;
     }
   }
+
+  clearIds(): void {
+    this.id = undefined;
+    if (this.field) this.field.id = undefined;
+  }
 }

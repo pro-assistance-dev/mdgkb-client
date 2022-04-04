@@ -1,23 +1,19 @@
 <template>
   <div v-if="mounted">
     <el-form ref="form" v-model="candidateApplication" :model="candidateApplication" label-position="top">
-      <el-form-item
-        v-if="!user.email"
-        label="Электронная почта"
-        prop="user.email"
-        :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
-      >
-        <el-input v-model="candidateApplication.user.email" placeholder="Электронная почта"></el-input>
-      </el-form-item>
-      <el-form-item v-if="!user.human.surname" label="Фамилия" prop="user.human.surname">
-        <el-input v-model="candidateApplication.user.human.surname" placeholder="Фамилия"></el-input>
-      </el-form-item>
-      <el-form-item v-if="!user.human.name" label="Имя" prop="user.human.name">
-        <el-input v-model="candidateApplication.user.human.name" placeholder="Имя"></el-input>
-      </el-form-item>
-      <el-form-item v-if="!user.human.patronymic" label="Отчество" prop="user.human.patronymic">
-        <el-input v-model="candidateApplication.user.human.patronymic" placeholder="Отчество"></el-input>
-      </el-form-item>
+      <div style="margin-bottom: 10px">
+        <h4>Выберете специализации для защиты</h4>
+        <el-checkbox
+          v-for="specialization in specializations"
+          :key="specialization.id"
+          :model-value="candidateApplication.findSpecialization(specialization.id)"
+          @change="candidateApplication.addSpecialization(specialization)"
+        >
+          {{ specialization.name }}
+        </el-checkbox>
+      </div>
+
+      <UserForm :form="candidateApplication.formValue" :validate-email="false" />
 
       <i>
         <div>Печать документов должна быть высокого качества.</div>
@@ -29,17 +25,7 @@
         </div>
       </i>
 
-      <FieldValuesForm :form="candidateExam.formPattern" />
-
-      <h4>Выберете специализации для защиты</h4>
-      <el-checkbox
-        v-for="specialization in specializations"
-        :key="specialization.id"
-        :model-value="candidateApplication.findSpecialization(specialization.id)"
-        @change="candidateApplication.addSpecialization(specialization)"
-      >
-        {{ specialization.name }}
-      </el-checkbox>
+      <FieldValuesForm :form="candidateApplication.formValue" />
     </el-form>
     <el-divider />
     <div style="text-align: right">
@@ -54,6 +40,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { useStore } from 'vuex';
 
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import UserForm from '@/components/FormConstructor/UserForm.vue';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -62,7 +49,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'CandidateApplicationForm',
-  components: { FieldValuesForm },
+  components: { FieldValuesForm, UserForm },
   emits: ['close'],
 
   setup(_, { emit }) {
@@ -76,16 +63,18 @@ export default defineComponent({
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
     const form = ref();
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
-    watch(isAuth, () => {
-      candidateApplication.value.user = user.value;
+    const emailExists: ComputedRef<boolean> = computed(() => store.getters['candidateApplications/emailExists']);
+
+    watch(isAuth, async () => {
+      store.commit('candidateApplications/setUser', user.value);
     });
 
     const submit = async () => {
-      candidateExam.value.formPattern.validate();
-      if (!validate(form, true) || !candidateExam.value.formPattern.validated) {
+      candidateApplication.value.formValue.validate();
+      if (!validate(form, true) || !candidateApplication.value.formValue.validated) {
         return;
       }
-      candidateApplication.value.fieldValues = candidateExam.value.formPattern.fieldValues;
+      candidateApplication.value.formValue.clearIds();
       await store.dispatch('candidateApplications/create');
       ElMessage({
         type: 'success',
@@ -97,9 +86,10 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('specializations/getAll');
       store.commit('candidateApplications/resetItem');
-      candidateExam.value.formPattern.initFieldsValues();
-      candidateApplication.value.candidateExam = candidateExam.value;
-      candidateApplication.value.user = user.value;
+      store.commit('candidateApplications/setFormValue', candidateExam.value.formPattern);
+      candidateApplication.value.formValue.initFieldsValues();
+      store.commit('candidateApplications/setExam', candidateExam.value);
+      store.commit('candidateApplications/setUser', user.value);
       mounted.value = true;
     });
 
@@ -112,6 +102,7 @@ export default defineComponent({
       user,
       isAuth,
       form,
+      emailExists,
     };
   },
 });

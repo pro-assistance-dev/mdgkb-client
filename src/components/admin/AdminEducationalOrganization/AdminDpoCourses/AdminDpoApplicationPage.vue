@@ -28,63 +28,9 @@
           </el-descriptions>
         </el-card>
 
-        <el-card>
-          <template #header>
-            <span>Информация о заявителе</span>
-          </template>
-          <div v-if="isEditMode">
-            <el-form-item
-              label="Электронная почта"
-              prop="user.email"
-              :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
-            >
-              <el-input v-model="dpoApplication.user.email" placeholder="Электронная почта"></el-input>
-            </el-form-item>
-            <el-form-item label="Фамилия" prop="user.human.surname">
-              <el-input v-model="dpoApplication.user.human.surname" placeholder="Фамилия"></el-input>
-            </el-form-item>
-            <el-form-item label="Имя" prop="user.human.name">
-              <el-input v-model="dpoApplication.user.human.name" placeholder="Имя"></el-input>
-            </el-form-item>
-            <el-form-item label="Отчество" prop="user.human.patronymic">
-              <el-input v-model="dpoApplication.user.human.patronymic" placeholder="Отчество"></el-input>
-            </el-form-item>
-          </div>
-          <el-descriptions v-else :column="1">
-            <el-descriptions-item label="Email">{{ dpoApplication.user.email }}</el-descriptions-item>
-            <el-descriptions-item label="ФИО">{{ dpoApplication.user.human.getFullName() }}</el-descriptions-item>
-          </el-descriptions>
-        </el-card>
-
-        <el-card v-if="isEditMode">
-          <template #header>
-            <span>Форма для подачи заявления</span>
-          </template>
-          <FieldValuesForm :form="dpoApplication.dpoCourse.formPattern" />
-        </el-card>
-
-        <el-card v-else>
-          <template #header>
-            <div class="flex-between">
-              <span>Данные формы</span>
-              <div class="flex">
-                <span style="margin-right: 5px">Статус:</span>
-                <el-tag v-if="dpoApplication.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
-                <el-tag v-else size="small" type="danger">Данные не проверены</el-tag>
-                <el-button
-                  :disabled="dpoApplication.isFieldValuesModChecked()"
-                  :type="dpoApplication.isFieldValuesModChecked() ? 'success' : 'primary'"
-                  size="small"
-                  style="margin-left: 5px"
-                  @click="dpoApplication.changeFieldValuesModChecked(true)"
-                >
-                  Пометить все
-                </el-button>
-              </div>
-            </div>
-          </template>
-          <FieldValuesFormResult :form="dpoApplication.dpoCourse.formPattern" />
-        </el-card>
+        <div v-if="dpoApplication.dpoCourse.id">
+          <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
+        </div>
       </el-container>
     </el-form>
   </div>
@@ -97,20 +43,20 @@ import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import SortModel from '@/classes/filters/SortModel';
-import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
+import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Orders } from '@/interfaces/filters/Orders';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import IForm from '@/interfaces/IForm';
 import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminDpoApplicationPage',
-  components: { FieldValuesFormResult, FieldValuesForm },
+  components: { AdminFormValue },
 
   setup() {
     const store = useStore();
@@ -121,12 +67,14 @@ export default defineComponent({
     const filterModel = ref();
 
     const dpoApplication: ComputedRef<IDpoApplication> = computed<IDpoApplication>(() => store.getters['dpoApplications/item']);
+    const dpoApplicationFormValue: ComputedRef<IForm> = computed<IForm>(() => store.getters['dpoApplications/formValue']);
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
     const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => store.getters['dpoCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактиварония');
+    const emailExists: ComputedRef<boolean> = computed(() => store.getters['dpoApplications/emailExists']);
 
     watch(route, async () => {
       setProgramsType();
@@ -142,6 +90,7 @@ export default defineComponent({
       await loadDpoCourses();
       await loadItem();
       await updateNew();
+      await findEmail();
       store.commit('admin/closeLoading');
     });
 
@@ -171,10 +120,10 @@ export default defineComponent({
       if (!route.params['id']) {
         return;
       }
-      if (!dpoApplication.value.isNew) {
+      if (!dpoApplication.value.formValue.isNew) {
         return;
       }
-      dpoApplication.value.isNew = false;
+      dpoApplication.value.formValue.isNew = false;
       await store.dispatch('dpoApplications/update', dpoApplication.value);
     };
 
@@ -182,12 +131,12 @@ export default defineComponent({
       let pageTitle = '';
       if (route.params['id']) {
         await store.dispatch('dpoApplications/get', route.params['id']);
-        pageTitle = `Заявка от ${dpoApplication.value.user.email}`;
+        pageTitle = `Заявление от ${dpoApplication.value.formValue.user.email}`;
       } else {
         store.commit('dpoApplications/resetItem');
-        pageTitle = 'Создане заявки ДПО';
+        pageTitle = 'Подача заявления ДПО';
         if (route.meta.isNmo) {
-          pageTitle = 'Создане заявки НМО';
+          pageTitle = 'Подача заявления НМО';
         }
         isEditMode.value = true;
       }
@@ -201,28 +150,40 @@ export default defineComponent({
       watch(dpoApplication, formUpdated, { deep: true });
     };
 
+    const findEmail = async () => {
+      await store.dispatch('dpoApplications/emailExists', dpoApplication.value.dpoCourse.id);
+    };
+
     const submit = async (next?: NavigationGuardNext) => {
-      dpoApplication.value.dpoCourse.formPattern.validate();
-      store.commit('dpoApplications/setFieldValues', dpoApplication.value.dpoCourse.formPattern);
+      dpoApplication.value.formValue.validate();
       saveButtonClick.value = true;
-      if (!validate(form, true) || !dpoApplication.value.dpoCourse.formPattern.validated) {
+      if (!validate(form, true) || !dpoApplication.value.formValue.validated) {
         saveButtonClick.value = false;
         return;
       }
       if (route.params['id']) {
         await store.dispatch('dpoApplications/update');
       } else {
+        dpoApplication.value.formValue.clearIds();
         await store.dispatch('dpoApplications/create');
       }
       const typeCourse = dpoApplication.value.dpoCourse.isNmo ? 'nmo' : 'dpo';
       next ? next() : await router.push(`/admin/${typeCourse}/applications`);
     };
 
-    const courseChangeHandler = () => {
-      dpoApplication.value.dpoCourseId = dpoApplication.value.dpoCourse.id;
-      dpoApplication.value.removeAllFieldValues();
-      // dpoApplication.value.dpoCourse.formPattern.removeAllFieldValues();
-      dpoApplication.value.dpoCourse.formPattern.initFieldsValues();
+    const courseChangeHandler = async () => {
+      if (!route.params['id']) {
+        store.commit('dpoApplications/setCourse', dpoApplication.value.dpoCourse);
+        store.commit('dpoApplications/setFormValue', dpoApplication.value.dpoCourse.formPattern);
+        dpoApplication.value.formValue.initFieldsValues();
+      }
+      await findEmail();
+      // store.commit('dpoApplications/changeFormPattern', dpoApplication.value.dpoCourse.formPattern);
+      // const newForm = new Form(dpoApplication.value.formValue);
+      // dpoApplication.value.formValue.removeAllFieldsAndValues();
+      // dpoApplication.value.formValue.applyFormPatternFields(dpoApplication.value.dpoCourse.formPattern);
+      // dpoApplication.value.formValue.initFieldsValues();
+      // store.commit('dpoApplications/setFormValue', dpoApplication.value.dpoCourse.formPattern);
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -236,6 +197,9 @@ export default defineComponent({
       dpoCourses,
       isEditMode,
       courseChangeHandler,
+      dpoApplicationFormValue,
+      findEmail,
+      emailExists,
     };
   },
 });

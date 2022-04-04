@@ -1,23 +1,7 @@
 <template>
   <div v-if="mounted">
     <el-form ref="form" v-model="postgraduateApplication" :model="postgraduateApplication" label-position="top">
-      <el-form-item
-        v-if="!user.email"
-        label="Электронная почта"
-        prop="user.email"
-        :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
-      >
-        <el-input v-model="postgraduateApplication.user.email" placeholder="Электронная почта"></el-input>
-      </el-form-item>
-      <el-form-item v-if="!user.human.surname" label="Фамилия" prop="user.human.surname">
-        <el-input v-model="postgraduateApplication.user.human.surname" placeholder="Фамилия"></el-input>
-      </el-form-item>
-      <el-form-item v-if="!user.human.name" label="Имя" prop="user.human.name">
-        <el-input v-model="postgraduateApplication.user.human.name" placeholder="Имя"></el-input>
-      </el-form-item>
-      <el-form-item v-if="!user.human.patronymic" label="Отчество" prop="user.human.patronymic">
-        <el-input v-model="postgraduateApplication.user.human.patronymic" placeholder="Отчество"></el-input>
-      </el-form-item>
+      <UserForm :form="postgraduateApplication.formValue" :email-exists="emailExists" @findEmail="findEmail" />
 
       <i>
         <div>Печать документов должна быть высокого качества.</div>
@@ -29,7 +13,7 @@
         </div>
       </i>
 
-      <FieldValuesForm :form="postgraduateCourse.formPattern" />
+      <FieldValuesForm :form="postgraduateApplication.formValue" />
     </el-form>
     <el-divider />
     <div style="text-align: right">
@@ -44,6 +28,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { useStore } from 'vuex';
 
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IUser from '@/interfaces/IUser';
@@ -51,7 +36,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'PostgraduateApplicationForm',
-  components: { FieldValuesForm },
+  components: { FieldValuesForm, UserForm },
   emits: ['close'],
 
   setup(_, { emit }) {
@@ -63,19 +48,24 @@ export default defineComponent({
     const postgraduateCourse: Ref<IPostgraduateCourse> = computed<IPostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
+    const emailExists: ComputedRef<boolean> = computed(() => store.getters['postgraduateApplications/emailExists']);
     const form = ref();
 
-    watch(isAuth, () => {
-      postgraduateApplication.value.user = user.value;
+    watch(isAuth, async () => {
+      store.commit('postgraduateApplications/setUser', user.value);
+      await findEmail();
     });
 
+    const findEmail = async () => {
+      await store.dispatch('postgraduateApplications/emailExists', postgraduateCourse.value.id);
+    };
+
     const submit = async () => {
-      postgraduateCourse.value.formPattern.validate();
-      if (!validate(form, true) || !postgraduateCourse.value.formPattern.validated) {
+      postgraduateApplication.value.formValue.validate();
+      if (!validate(form, true) || !postgraduateApplication.value.formValue.validated) {
         return;
       }
-      postgraduateApplication.value.fieldValues = postgraduateCourse.value.formPattern.fieldValues;
-      // store.commit('postgraduateApplications/setFieldValues', postgraduateCourse.value.formPattern);
+      postgraduateApplication.value.formValue.clearIds();
       await store.dispatch('postgraduateApplications/create');
       ElMessage({
         type: 'success',
@@ -86,10 +76,11 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('postgraduateApplications/resetItem');
-      postgraduateCourse.value.formPattern.initFieldsValues();
-      // postgraduateApplication.value.initFieldsValues(postgraduateCourse.value.formPattern.fields);
-      postgraduateApplication.value.postgraduateCourse = postgraduateCourse.value;
-      postgraduateApplication.value.user = user.value;
+      store.commit('postgraduateApplications/setFormValue', postgraduateCourse.value.formPattern);
+      postgraduateApplication.value.formValue.initFieldsValues();
+      store.commit('postgraduateApplications/setCourse', postgraduateCourse.value);
+      store.commit('postgraduateApplications/setUser', user.value);
+      await findEmail();
       mounted.value = true;
     });
 
@@ -101,6 +92,8 @@ export default defineComponent({
       user,
       isAuth,
       form,
+      findEmail,
+      emailExists,
     };
   },
 });

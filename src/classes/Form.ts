@@ -5,6 +5,7 @@ import IFieldValue from '@/interfaces/IFieldValue';
 import IForm from '@/interfaces/IForm';
 
 import FieldValue from './FieldValue';
+import User from './User';
 
 export default class Form implements IForm {
   id?: string;
@@ -12,9 +13,14 @@ export default class Form implements IForm {
   name = '';
   code = '';
   fields: IField[] = [];
+  fieldsForDelete: string[] = [];
   fieldValues: IFieldValue[] = [];
-  fieldValuesForDelete = [];
+  fieldValuesForDelete: string[] = [];
   validated = true;
+  isNew = true;
+  createdAt: Date = new Date();
+  user = new User();
+  // changed = false;
 
   constructor(i?: IForm) {
     if (!i) {
@@ -22,10 +28,19 @@ export default class Form implements IForm {
     }
     this.id = i.id;
     this.title = i.title;
+    if (i.createdAt) {
+      this.createdAt = i.createdAt;
+    }
+    if (i.isNew !== undefined) {
+      this.isNew = i.isNew;
+    }
     if (i.validated) {
       this.validated = i.validated;
     }
     this.code = i.code;
+    if (i.user) {
+      this.user = new User(i.user);
+    }
     if (i.fields) {
       this.fields = i.fields.map((item: IField) => new Field(item));
     }
@@ -43,6 +58,15 @@ export default class Form implements IForm {
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
     this.fields.forEach((i: IField) => {
+      if (i.file) {
+        fileInfos.push(i.file);
+      }
+    });
+    return fileInfos;
+  }
+  getFieldValuesFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    this.fieldValues.forEach((i: IFieldValue) => {
       if (i.file) {
         fileInfos.push(i.file);
       }
@@ -95,4 +119,52 @@ export default class Form implements IForm {
       }
     });
   }
+
+  clearIds(): void {
+    this.id = undefined;
+    this.fields.forEach((el: IField) => {
+      el.clearIds();
+    });
+    this.fieldValues.forEach((el: IFieldValue) => {
+      el.clearIds();
+    });
+  }
+
+  removeAllFieldsAndValues(): void {
+    this.fields.forEach((el: IField) => {
+      if (el.id) this.fieldsForDelete.push(el.id);
+    });
+    this.fieldValues.forEach((el: IFieldValue) => {
+      if (el.id) this.fieldValuesForDelete.push(el.id);
+    });
+    this.fields = [];
+    this.fieldValues = [];
+  }
+  applyFormPatternFields(pattern: IForm): void {
+    this.fields = pattern.fields.map((el: IField) => {
+      el.formId = undefined;
+      el.fileId = undefined;
+      // const fieldValue = new FieldValue();
+      // fieldValue.fieldId = el.id;
+      // fieldValue.field = new Field(el);
+      // this.fieldValues.push(fieldValue);
+      return el;
+    });
+  }
+  isFieldValuesModChecked(): boolean {
+    return this.fieldValues.every((el) => el.modChecked === true);
+  }
+  changeFieldValuesModChecked(modChecked: boolean): void {
+    this.fieldValues.forEach((el: IFieldValue) => (el.modChecked = modChecked));
+  }
+  // static ApplyFormPattern(pattern: IForm): IForm {
+  //   const form = new Form(pattern);
+  //   form.id = undefined;
+  //   form.fields.forEach((el: IField) => {
+  // el.id = undefined;
+  //     el.formId = undefined;
+  //     el.fileId = undefined;
+  //   });
+  //   return form;
+  // }
 }

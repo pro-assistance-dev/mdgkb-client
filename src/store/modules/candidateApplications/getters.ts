@@ -12,6 +12,9 @@ const getters: GetterTree<State, RootState> = {
   item(state): ICandidateApplication {
     return state.item;
   },
+  emailExists(state): boolean {
+    return state.emailExists;
+  },
 };
 
 export default getters;

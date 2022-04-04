@@ -2,24 +2,24 @@
   <el-table v-if="mounted" :data="candidateApplications">
     <el-table-column label="Статус">
       <template #default="scope">
-        <el-tag v-if="scope.row.isNew" size="small" type="warning">Новая</el-tag>
-        <el-tag v-if="scope.row.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
+        <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Новая</el-tag>
+        <el-tag v-if="scope.row.formValue.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
         <el-tag v-else size="small" type="danger">Данные не проверены</el-tag>
       </template>
     </el-table-column>
     <el-table-column label="Дата подачи заявления" sortable>
       <template #default="scope">
-        {{ $dateFormatRu(scope.row.createdAt, true, true) }}
+        {{ $dateFormatRu(scope.row.formValue.createdAt, true, true) }}
       </template>
     </el-table-column>
     <el-table-column label="Email заявителя" sortable>
       <template #default="scope">
-        {{ scope.row.user.email }}
+        {{ scope.row.formValue.user.email }}
       </template>
     </el-table-column>
     <el-table-column label="ФИО заявителя" sortable>
       <template #default="scope">
-        {{ scope.row.user.human.getFullName() }}
+        {{ scope.row.formValue.user.human.getFullName() }}
       </template>
     </el-table-column>
     <el-table-column label="Специальности для защиты" sortable>
@@ -65,7 +65,7 @@ export default defineComponent({
       await store.dispatch('candidateApplications/getAll');
       store.commit('admin/setHeaderParams', {
         title: 'Заявки на обучение в аспирантуре',
-        buttons: [{ text: 'Добавить заявку', type: 'primary', action: create }],
+        buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
       });
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');

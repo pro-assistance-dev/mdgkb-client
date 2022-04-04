@@ -44,7 +44,6 @@ export default defineComponent({
   },
   setup(props) {
     const fieldValue: Ref<IFieldValue | undefined> = ref();
-
     onBeforeMount(() => {
       if (props.field.id) {
         fieldValue.value = props.form.findFieldValue(props.field.id);

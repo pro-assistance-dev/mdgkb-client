@@ -1,8 +1,10 @@
 import { MutationTree } from 'vuex';
 
+import Form from '@/classes/Form';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import User from '@/classes/User';
+import IForm from '@/interfaces/IForm';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IUser from '@/interfaces/IUser';
@@ -28,10 +30,17 @@ const mutations: MutationTree<State> = {
     state.item = new PostgraduateApplication();
   },
   setUser(state, user: IUser) {
-    state.item.user = new User(user);
+    state.item.formValue.user = new User(user);
   },
   setCourse(state, postgraduateCourse: IPostgraduateCourse) {
     state.item.postgraduateCourse = new PostgraduateCourse(postgraduateCourse);
+    state.item.postgraduateCourseId = state.item.postgraduateCourse.id;
+  },
+  setFormValue(state, form: IForm) {
+    state.item.formValue = new Form(form);
+  },
+  setEmailExists(state, emailExists: boolean) {
+    state.emailExists = emailExists;
   },
 };
 
