@@ -1,5 +1,5 @@
 <template>
-  <div class="title">
+  <div v-if="mounted" class="title">
     <h2><b>Мой профиль</b></h2>
     <button class="edit-button" @click="$router.push('/profile/edit')">
       <svg class="icon-edit">
@@ -8,18 +8,26 @@
       Редактировать
     </button>
   </div>
-  <div class="right-block">
+  <div v-if="mounted" class="right-block">
     <div class="colonm-left">
       <div class="user-avatar">
-        <button class="edit-avatar">
-          <svg class="icon-edit-foto">
-            <use xlink:href="#profile-edit"></use>
-          </svg>
-        </button>
+        <!--        <button class="edit-avatar">-->
+        <!--          <svg class="icon-edit-foto">-->
+        <!--            <use xlink:href="#profile-edit"></use>-->
+        <!--          </svg>-->
+        <!--        </button>-->
         <div class="avatar-block">
-          <div class="avatar">
-            <img src="../../assets/doctors/Gorev_V_3.jpg" alt="alt" />
-          </div>
+          <UploaderSingleScan
+            crop-ratio="1"
+            :emit-crop="true"
+            :file-info="user.human.photo"
+            :height="273"
+            :width="273"
+            @crop="saveAvatar"
+          />
+          <!--          <div class="avatar">-->
+          <!--            <img src="../../assets/doctors/Gorev_V_3.jpg" alt="alt" />-->
+          <!--          </div>-->
         </div>
       </div>
       <el-form :model="user">
@@ -42,33 +50,34 @@
               <use xlink:href="#profile-phone"></use>
             </svg>
             <el-form-item prop="phone" label="Phone">
-              <h4>+1 234 567 89 00{{ user.phone }}</h4>
+              <h4 v-if="user.phone">{{ user.phone }}</h4>
+              <h4 v-else>Не указан</h4>
             </el-form-item>
           </div>
         </div>
-        <div class="children">
-          <h5>ИНФОРМАЦИЯ О ДЕТЯХ</h5>
-          <div>
-            <ul class="children-list">
-              <li>
-                <svg class="icon-children">
-                  <use xlink:href="#avatar"></use>
-                </svg>
-              </li>
-              <li>
-                <svg class="icon-children">
-                  <use xlink:href="#avatar"></use>
-                </svg>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <!--        <div class="children">-->
+        <!--          <h5>ИНФОРМАЦИЯ О ДЕТЯХ</h5>-->
+        <!--          <div>-->
+        <!--            <ul class="children-list">-->
+        <!--              <li>-->
+        <!--                <svg class="icon-children">-->
+        <!--                  <use xlink:href="#avatar"></use>-->
+        <!--                </svg>-->
+        <!--              </li>-->
+        <!--              <li>-->
+        <!--                <svg class="icon-children">-->
+        <!--                  <use xlink:href="#avatar"></use>-->
+        <!--                </svg>-->
+        <!--              </li>-->
+        <!--            </ul>-->
+        <!--          </div>-->
+        <!--        </div>-->
       </el-form>
     </div>
     <div class="colonm-right">
       <el-form :model="user">
         <div class="parent-info">
-          <h2>Информация о родителе</h2>
+          <h2>Личная информация</h2>
           <ul class="parent-info-list">
             <li class="list-item">
               <div class="list-item">
@@ -82,42 +91,42 @@
                 <div class="item-data"><h4>Мужской</h4></div>
               </div>
             </li>
-            <li class="list-item">
-              <div class="list-item">
-                <div class="item-title"><h5>ЯЗЫК</h5></div>
-                <div class="item-data"><h4>Русский</h4></div>
-              </div>
-            </li>
-            <li class="list-item">
-              <div class="list-item">
-                <div class="item-title"><h5>СЕМЕЙНЫЙ СТАТУС</h5></div>
-                <div class="item-data"><h4>Женат</h4></div>
-              </div>
-            </li>
-            <li class="list-item">
-              <div class="list-item">
-                <div class="item-title"><h5>АДРЕС</h5></div>
-                <div class="item-data"><h4>103132, Москва, Кремль</h4></div>
-              </div>
-            </li>
-            <li class="list-item">
-              <div class="list-item">
-                <div class="item-title"><h5>ДОКУМЕНТ УДОСТОВЕРЯЮЩИЙ ЛИЧНОСТЬ</h5></div>
-                <div class="item-data"><h4>Паспорт 12 34 123456 Выдан ОВД Центральный</h4></div>
-              </div>
-            </li>
-            <li class="list-item">
-              <div class="list-item">
-                <div class="item-title"><h5>РЕЛИГИОЗНАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>
-                <div class="item-data"><h4>Христианин</h4></div>
-              </div>
-            </li>
-            <li class="list-item">
-              <div class="list-item">
-                <div class="item-title"><h5>ЭТНИЧЕСКАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>
-                <div class="item-data"><h4>Русский</h4></div>
-              </div>
-            </li>
+            <!--            <li class="list-item">-->
+            <!--              <div class="list-item">-->
+            <!--                <div class="item-title"><h5>ЯЗЫК</h5></div>-->
+            <!--                <div class="item-data"><h4>Русский</h4></div>-->
+            <!--              </div>-->
+            <!--            </li>-->
+            <!--            <li class="list-item">-->
+            <!--              <div class="list-item">-->
+            <!--                <div class="item-title"><h5>СЕМЕЙНЫЙ СТАТУС</h5></div>-->
+            <!--                <div class="item-data"><h4>Женат</h4></div>-->
+            <!--              </div>-->
+            <!--            </li>-->
+            <!--            <li class="list-item">-->
+            <!--              <div class="list-item">-->
+            <!--                <div class="item-title"><h5>АДРЕС</h5></div>-->
+            <!--                <div class="item-data"><h4>103132, Москва, Кремль</h4></div>-->
+            <!--              </div>-->
+            <!--            </li>-->
+            <!--            <li class="list-item">-->
+            <!--              <div class="list-item">-->
+            <!--                <div class="item-title"><h5>ДОКУМЕНТ УДОСТОВЕРЯЮЩИЙ ЛИЧНОСТЬ</h5></div>-->
+            <!--                <div class="item-data"><h4>Паспорт 12 34 123456 Выдан ОВД Центральный</h4></div>-->
+            <!--              </div>-->
+            <!--            </li>-->
+            <!--            <li class="list-item">-->
+            <!--              <div class="list-item">-->
+            <!--                <div class="item-title"><h5>РЕЛИГИОЗНАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>-->
+            <!--                <div class="item-data"><h4>Христианин</h4></div>-->
+            <!--              </div>-->
+            <!--            </li>-->
+            <!--            <li class="list-item">-->
+            <!--              <div class="list-item">-->
+            <!--                <div class="item-title"><h5>ЭТНИЧЕСКАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>-->
+            <!--                <div class="item-data"><h4>Русский</h4></div>-->
+            <!--              </div>-->
+            <!--            </li>-->
           </ul>
         </div>
       </el-form>
@@ -171,10 +180,12 @@
 import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileInfoPage',
+  components: { UploaderSingleScan },
   setup() {
     const store = useStore();
     const mounted = ref(false);
@@ -187,7 +198,12 @@ export default defineComponent({
     };
     onMounted(loadUser);
 
+    const saveAvatar = async () => {
+      await store.dispatch('users/update', user.value);
+    };
+
     return {
+      saveAvatar,
       mounted,
       user,
     };

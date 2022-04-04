@@ -48,6 +48,7 @@ export default defineComponent({
   components: {
     ImageCropperV2,
   },
+  emits: ['crop'],
   props: {
     withCrop: {
       type: Boolean,
@@ -69,8 +70,12 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    emitCrop: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const fileList: Ref<IFilesList[]> = ref([]);
     const heightWeight = computed(() => {
       return {
@@ -114,6 +119,9 @@ export default defineComponent({
       }
       showUpload.value = false;
       cropperOpened.value = false;
+      if (props.emitCrop) {
+        emit('crop');
+      }
     };
 
     onBeforeMount(() => {
@@ -151,9 +159,9 @@ export default defineComponent({
 }
 
 .custom-plus {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
+  //display: inline-block;
+  //vertical-align: middle;
+  //line-height: normal;
 }
 
 :deep(.el-upload) {

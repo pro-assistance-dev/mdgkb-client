@@ -1,5 +1,7 @@
 import ContactInfo from '@/classes/contacts/ContactInfo';
+import FileInfo from '@/classes/File/FileInfo';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IHuman from '@/interfaces/IHuman';
 
 export default class Human implements IHuman {
@@ -7,6 +9,8 @@ export default class Human implements IHuman {
   name = '';
   surname = '';
   patronymic = '';
+  photoId?: string;
+  photo: IFileInfo = new FileInfo();
   isMale = true;
   dateBirth?: Date;
   contactInfo: IContactInfo = new ContactInfo();
@@ -23,7 +27,11 @@ export default class Human implements IHuman {
     this.dateBirth = i.dateBirth;
     this.slug = i.slug;
 
-    if (i) {
+    if (i.photo) {
+      this.photo = new FileInfo(i.photo);
+    }
+
+    if (i.contactInfo) {
       this.contactInfo = new ContactInfo(i.contactInfo);
     }
   }

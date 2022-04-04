@@ -22,7 +22,10 @@ const actions: ActionTree<State, RootState> = {
     commit('emailExist', res);
   },
   update: async ({ commit }, item: IUser) => {
-    commit('set', await httpClient.put<IUser, IUser>({ query: `${item.id}`, payload: item, isFormData: true }));
+    commit(
+      'set',
+      await httpClient.put<IUser, IUser>({ query: `${item.id}`, fileInfos: item.getFileInfos(), payload: item, isFormData: true })
+    );
   },
   addToUser: async ({ commit }, item: IFavourite) => {
     await httpClient.post<IFavourite, IFavourite>({ query: `add-to-user/${item.domain}`, payload: { id: item.id } });

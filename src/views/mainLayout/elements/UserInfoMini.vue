@@ -2,7 +2,7 @@
   <div class="user-mini-info">
     <div class="avatar-block">
       <div class="avatar">
-        <img src="../../../assets/doctors/Gorev_V_3.jpg" alt="alt" />
+        <img :src="user.human.photo.getFileUrl()" alt="alt" />
       </div>
     </div>
     <el-form :model="user">

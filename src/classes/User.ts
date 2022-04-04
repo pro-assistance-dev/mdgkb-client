@@ -8,6 +8,7 @@ import Human from '@/classes/Human';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import Question from '@/classes/Question';
 import Role from '@/classes/Role';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
@@ -145,5 +146,11 @@ export default class User implements IUser {
       this.dpoApplicationsForDelete.push(idForDelete);
     }
     this.dpoApplications.splice(index, 1);
+  }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    fileInfos.push(this.human.photo);
+    return fileInfos;
   }
 }

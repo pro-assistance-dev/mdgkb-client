@@ -1,3 +1,4 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
@@ -39,4 +40,5 @@ export default interface IUser {
 
   getDonorRules: () => IDonorRule[];
   removeDonorRule: (ruleId: string) => void;
+  getFileInfos: () => IFileInfo[];
 }

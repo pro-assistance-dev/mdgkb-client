@@ -1,4 +1,5 @@
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default interface IHuman {
   id?: string;
@@ -9,6 +10,9 @@ export default interface IHuman {
   dateBirth?: Date;
   slug: string;
   getFullName: () => string;
+
+  photoId?: string;
+  photo: IFileInfo;
 
   contactInfo: IContactInfo;
 }

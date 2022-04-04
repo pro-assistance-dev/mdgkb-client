@@ -14,27 +14,27 @@
   </div>
   <div class="right-block">
     <HumanForm :store-module="'users'" />
-    <div class="line-item">
-      <div class="item-data">
-        <button class="plus-button">
-          ДОБАВИТЬ ДОВЕРЕННОЕ ЛИЦО
-          <svg class="icon-plus">
-            <use xlink:href="#profile-plus"></use>
-          </svg>
-        </button>
-      </div>
-    </div>
+    <!--    <div class="line-item">-->
+    <!--      <div class="item-data">-->
+    <!--        <button class="plus-button">-->
+    <!--          ДОБАВИТЬ ДОВЕРЕННОЕ ЛИЦО-->
+    <!--          <svg class="icon-plus">-->
+    <!--            <use xlink:href="#profile-plus"></use>-->
+    <!--          </svg>-->
+    <!--        </button>-->
+    <!--      </div>-->
+    <!--    </div>-->
 
-    <div class="line-item">
-      <div class="item-data">
-        <button class="plus-button-last">
-          ДОБАВИТЬ МОЮ КЛИНИКУ
-          <svg class="icon-plus">
-            <use xlink:href="#profile-plus"></use>
-          </svg>
-        </button>
-      </div>
-    </div>
+    <!--    <div class="line-item">-->
+    <!--      <div class="item-data">-->
+    <!--        <button class="plus-button-last">-->
+    <!--          ДОБАВИТЬ МОЮ КЛИНИКУ-->
+    <!--          <svg class="icon-plus">-->
+    <!--            <use xlink:href="#profile-plus"></use>-->
+    <!--          </svg>-->
+    <!--        </button>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
   <svg width="0" height="0" class="hidden">
     <symbol id="arrow-right-profile" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
