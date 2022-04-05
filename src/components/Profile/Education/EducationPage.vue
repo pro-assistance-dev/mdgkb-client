@@ -206,6 +206,7 @@ h3 {
 
 .title {
   display: flex;
+  position: relative;
   justify-content: space-between;
   margin-bottom: 20px;
   align-items: center;
@@ -411,7 +412,6 @@ h4 {
 }
 
 .give-button {
-  position: relative;
   display: inline-block;
   align-content: center;
 }
@@ -420,7 +420,7 @@ h4 {
   display: none;
   position: absolute;
   top: 60px;
-  left: 1054px;
+  right: 0;
   border-radius: 5px;
   border: 1px solid #dfe4ee;
   z-index: 1;
