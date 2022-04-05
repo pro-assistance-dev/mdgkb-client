@@ -1,7 +1,26 @@
 <template>
   <div class="title">
     <h2><b>Мое образование</b></h2>
-    <button class="give-button" @click="$router.push('/profile/edit')">Подать заявку</button>
+    <!-- <button class="give-button" @click="$router.push('/profile/edit')">Подать заявку</button> -->
+    <div class="give-drop">
+      <button class="give-button">Подать заявку</button>
+      <div class="drop-give-button">
+        <ul class="drop-give-button-item">
+          <li>
+            <!-- <button class="give-button" @click="$router.push('/dpo')">ДПО</button> -->
+            <router-link :to="`/dpo`">Выбрать&nbsp;из&nbsp;программ&nbsp;ДПО</router-link>
+          </li>
+          <li>
+            <!-- <button class="give-button" @click="$router.push('/dpo')">Аспирантура</button> -->
+            <router-link :to="`/postgraduate?mode=programs`">Выбрать&nbsp;из&nbsp;программ&nbsp;аспирантуры</router-link>
+          </li>
+          <li>
+            <router-link :to="`/postgraduate?mode=candidate`">Заявка&nbsp;на&nbsp;кандидатский&nbsp;минимум</router-link>
+            <!-- <button class="give-button" @click="$router.push('/dpo')">Аспирантура</button> -->
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
   <div v-if="!applications.length" class="no-progmam">
     <h3>У вас нет заявок</h3>
@@ -164,17 +183,18 @@ export default defineComponent({
 .give-button {
   cursor: pointer;
   display: flex;
-  padding: 7px 18px;
+  padding: 5px 18px;
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
-  border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border-radius: 5px;
+  // border: 1px solid #a3a9be;
+  color: #ffffff;
   align-items: center;
+  background: #2754eb;
 }
 
 .give-button:hover {
-  background: #ffffff;
+  background: #133dcc;
 }
 
 h2,
@@ -383,5 +403,101 @@ h4 {
 .icon-trash:hover {
   stroke: #e62c21;
   fill: none;
+}
+
+.give-drop {
+  align-content: center;
+  display: flex;
+}
+
+.give-button {
+  position: relative;
+  display: inline-block;
+  align-content: center;
+}
+
+.drop-give-button {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 1054px;
+  border-radius: 5px;
+  border: 1px solid #dfe4ee;
+  z-index: 1;
+}
+
+.give-button:focus ~ .drop-give-button,
+.give-button:active ~ .drop-give-button,
+.drop-give-button:hover {
+  display: block;
+}
+
+.give-button:focus-within {
+  stroke: #379fff;
+}
+
+button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+}
+
+.icon-menu {
+  width: 28px;
+  height: 28px;
+  stroke: #343e5c;
+  transition: 0.25s;
+  padding-right: 7px;
+  padding-left: 7px;
+  display: flex;
+}
+
+.icon-menu:hover {
+  stroke: #0671ba;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+ul.drop-give-button-item li {
+  background: #ffffff;
+  border-bottom: 1px solid #dfe4ee;
+  list-style: none;
+  width: auto;
+  padding-right: 10px;
+}
+
+ul.drop-give-button-item li a {
+  text-decoration: none;
+  display: block;
+  padding: 5px 5px 5px 15px;
+  color: #343e5c;
+  transition: color 0.3s ease 0s;
+  align-items: center;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+}
+
+ul.drop-give-button-item li ul {
+  display: none;
+}
+
+ul.drop-give-button-item li:hover {
+  position: relative;
+  background: #ecf5ff;
+}
+
+ul.drop-give-button-item li:first-child {
+  border-radius: 5px 5px 0 0;
+}
+
+ul.drop-give-button-item li:last-child {
+  border-radius: 0 0 5px 5px;
+  border-bottom: none;
 }
 </style>
