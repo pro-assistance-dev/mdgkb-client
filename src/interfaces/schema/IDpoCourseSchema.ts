@@ -16,4 +16,6 @@ export default interface IDpoCourseSchema {
   value: string;
   label: string;
   sortColumn: string;
+  minStart: string;
+  minEnd: string;
 }

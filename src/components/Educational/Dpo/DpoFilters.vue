@@ -16,6 +16,20 @@
         />
       </div>
 
+      <!--      <div class="block-item">-->
+      <!--        <FilterCheckbox-->
+      <!--          label="Только актуальные"-->
+      <!--          :options="nmoOptions"-->
+      <!--          :table="schema.dpoCourse.tableName"-->
+      <!--          :col="schema.dpoCourse.minStart"-->
+      <!--          :data-type="DataTypes.Date"-->
+      <!--          :operator="Operators.Gt"-->
+      <!--          :filter-value="new Date()"-->
+      <!--          :filterable="false"-->
+      <!--          @load="load"-->
+      <!--        />-->
+      <!--      </div>-->
+
       <div class="block-item">
         <FilterSelect
           placeholder="Для кого читается курс"

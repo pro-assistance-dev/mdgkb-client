@@ -40,8 +40,8 @@ export default defineComponent({
       default: '',
     },
     filterValue: {
-      type: Number as PropType<number | string | boolean>,
-      default: 0,
+      type: String as PropType<number | string | boolean | Date>,
+      default: '',
     },
     joinTable: {
       type: String as PropType<string>,
@@ -91,6 +91,9 @@ export default defineComponent({
         filterModel.value.operator = props.operator;
         if (props.filterValue && typeof props.filterValue === 'string') {
           filterModel.value.value1 = props.filterValue;
+        }
+        if (props.filterValue && props.dataType === DataTypes.Date) {
+          filterModel.value.date1 = props.filterValue as Date;
         }
         if (props.filterValue && typeof props.filterValue === 'boolean') {
           filterModel.value.value1 = String(props.filterValue);
