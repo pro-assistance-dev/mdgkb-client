@@ -4,7 +4,7 @@ import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
 import IDoctorSchema from '@/interfaces/schema/IDoctorSchema';
 import IDoctorUserSchema from '@/interfaces/schema/IDoctorUserSchema';
 import IDpoApplicationSchema from '@/interfaces/schema/IDpoApplicationSchema';
-import IDpoCourse from '@/interfaces/schema/IDpoCourseSchema';
+import IDpoCourseSchema from '@/interfaces/schema/IDpoCourseSchema';
 import IDpoCourseSpecializationSchema from '@/interfaces/schema/IDpoCourseSpecializationSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
@@ -21,7 +21,7 @@ export default interface ISchema {
   center: ICenterSchema;
   medicalProfile: IMedicalProfileSchema;
   teacher: ITeacherSchema;
-  dpoCourse: IDpoCourse;
+  dpoCourse: IDpoCourseSchema;
   specialization: ISpecializationSchema;
   vacancy: IVacancySchema;
   dpoCourseSpecialization: IDpoCourseSpecializationSchema;
