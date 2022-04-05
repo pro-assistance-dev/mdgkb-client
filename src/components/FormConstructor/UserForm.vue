@@ -5,7 +5,7 @@
   </div>
   <div v-else-if="showErrorMessage & emailExists & isAuth" class="error-block-message">
     Вы уже подавали заявку на данную программу. Для просмотра данных по заявке, пожалуйста, перейдите в
-    <a> личный кабинет</a>.
+    <a @click="$router.push('/profile')"> личный кабинет</a>.
   </div>
   <el-form-item v-if="!user.email || fromAdmin" label="Электронная почта" prop="formValue.user.email" :rules="rules.email">
     <el-input v-model="formValue.user.email" placeholder="Электронная почта" @input="findEmail"></el-input>
