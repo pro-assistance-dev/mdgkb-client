@@ -26,7 +26,6 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
 import SortModel from '@/classes/filters/SortModel';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';
@@ -35,7 +34,6 @@ import PostgraduateCoursesList from '@/components/Educational/Postgraduate/Postg
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
@@ -82,9 +80,27 @@ export default defineComponent({
 
     const createSortModels = (): ISortModel[] => {
       const sortModels: ISortModel[] = [
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true),
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.hours, Orders.Asc, 'По длительности', false),
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.start, Orders.Asc, 'По дате начала', false),
+        SortModel.CreateSortModel(
+          schema.value.postgraduateCourse.tableName,
+          schema.value.postgraduateCourse.name,
+          Orders.Asc,
+          'По алфавиту',
+          true
+        ),
+        SortModel.CreateSortModel(
+          schema.value.postgraduateCourse.tableName,
+          schema.value.postgraduateCourse.years,
+          Orders.Asc,
+          'По длительности обучения',
+          false
+        ),
+        SortModel.CreateSortModel(
+          schema.value.postgraduateCourse.tableName,
+          schema.value.postgraduateCourse.code,
+          Orders.Asc,
+          'По коду специальности',
+          false
+        ),
       ];
       store.commit(`filter/addSortModels`, sortModels);
       return sortModels;
@@ -108,16 +124,14 @@ export default defineComponent({
       await setModes();
       sortModels.value = createSortModels();
       schemaGet.value = true;
-      await store.dispatch('postgraduateDocumentTypes/getAll');
       store.commit('filter/setStoreModule', 'postgraduateCourses');
-      filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
       await load();
     });
 
     const load = async () => {
       store.commit(`filter/checkSortModels`);
       filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('postgraduateCourses/getAll');
+      await store.dispatch('postgraduateCourses/getAll', filterQuery.value);
       mounted.value = true;
     };
 

@@ -6,6 +6,7 @@
         <col width="60%" />
         <col width="5%" />
         <col width="5%" />
+        <col width="10%" />
         <col width="20%" />
         <col width="10%" />
       </colgroup>
@@ -13,6 +14,7 @@
         <th><h4>НАЗВАНИЕ ПРОГРАММЫ</h4></th>
         <th><h4>ТИП</h4></th>
         <th><h4>ЧАСОВ</h4></th>
+        <th><h4>СТОИМОСТЬ</h4></th>
         <th><h4>РУКОВОДИТЕЛЬ</h4></th>
         <th><h4>ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>
       </thead>
@@ -27,6 +29,7 @@
             <el-tag :type="dpoCourse.isNmo ? 'primary' : 'warning'">{{ dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-tag>
           </td>
           <td style="text-align: center">{{ dpoCourse.hours }}</td>
+          <td style="text-align: center">{{ dpoCourse.cost }} р.</td>
           <td>
             <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
               {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}

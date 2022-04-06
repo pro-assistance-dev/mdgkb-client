@@ -76,6 +76,7 @@ export default defineComponent({
     const createSortModels = (): ISortModel[] => {
       const sortModels: ISortModel[] = [
         SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true),
+        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.cost, Orders.Asc, 'По cтоимости', false),
         SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.hours, Orders.Asc, 'По длительности', false),
         SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.minStart, Orders.Asc, 'По дате начала', false),
       ];

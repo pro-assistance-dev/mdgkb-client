@@ -11,10 +11,24 @@ const mutations: MutationTree<State> = {
   setAll(state, items: IMenu[]) {
     state.items = items.map((i: IMenu) => new Menu(i));
     state.menus = items.map((i: IMenu) => new Menu(i));
+    if (!UserService.isAdmin()) {
+      state.menus = [];
+      state.items.forEach((i: IMenu) => {
+        if (!i.hide) {
+          state.menus.push(new Menu(i));
+        }
+      });
+      return;
+    }
   },
   setMenus(state) {
     if (!UserService.isAdmin()) {
-      state.menus = state.items.filter((menu: IMenu) => !menu.hide);
+      state.menus = [];
+      state.items.forEach((i: IMenu) => {
+        if (!i.hide) {
+          state.menus.push(new Menu(i));
+        }
+      });
       return;
     }
     state.menus = state.items;

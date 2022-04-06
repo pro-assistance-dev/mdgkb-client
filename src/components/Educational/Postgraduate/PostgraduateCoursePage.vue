@@ -44,7 +44,7 @@
       <div class="card-item" style="padding: 30px; margin-bottom: 20px">
         <div class="card-header">
           <h3 class="title article-title">Программа аспирантуры по специальности</h3>
-          <h2 class="title article-title">"{{ postgraduateCourse.getMainSpecialization() }}"</h2>
+          <h2 class="title article-title">"{{ postgraduateCourse.getMainSpecialization().name }}"</h2>
         </div>
         <el-divider />
         <div class="info-tags-block">

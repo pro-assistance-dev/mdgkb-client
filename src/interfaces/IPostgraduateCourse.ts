@@ -40,6 +40,8 @@ export default interface IPostgraduateCourse {
   setMainTeacher: (index: number) => void;
   getMainTeacher: () => ITeacher | undefined;
 
+  setMainSpecialization: (index: number) => void;
+  getMainSpecialization: () => ISpecialization;
   addDates: () => void;
   addSpecialization: (specialization: ISpecialization) => void;
   findSpecialization: (id: string) => boolean;
@@ -47,7 +49,6 @@ export default interface IPostgraduateCourse {
   getFileInfos: () => IFileInfo[];
 
   addPostgraduateCoursePlan: () => void;
-  getMainSpecialization: () => string;
 
   documentTypeId?: string;
   documentType: IDocumentType;

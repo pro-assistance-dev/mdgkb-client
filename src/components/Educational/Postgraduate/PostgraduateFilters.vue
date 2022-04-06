@@ -5,23 +5,29 @@
     </div>
     <template v-if="mode === '' || mode === 'programs'">
       <div class="block-item">
-        <RemoteSearch :key-value="schema.dpoCourse.key" @select="selectSearch" />
-      </div>
-      <div class="block-item">
-        <FilterSelect
-          placeholder="Выбрать специализацию"
-          :options="schema.specialization.options"
-          :table="schema.dpoCourse.tableName"
-          :col="schema.specialization.id"
-          :data-type="DataTypes.Join"
-          :operator="Operators.Eq"
-          :join-table="schema.dpoCourseSpecialization.tableName"
-          :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"
-          :join-table-pk="schema.dpoCourse.id"
-          :join-table-id="schema.dpoCourseSpecialization.specializationId"
-          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
+        <RemoteSearch
+          :key-value="schema.postgraduateCourse.key"
+          :table="schema.postgraduateCourse.tableName"
+          :col="schema.postgraduateCourse.name"
+          @select="selectSearch"
           @load="load"
         />
+      </div>
+      <div class="block-item">
+        <!--        <FilterSelect-->
+        <!--          placeholder="Выбрать специализацию"-->
+        <!--          :options="schema.specialization.options"-->
+        <!--          :table="schema.dpoCourse.tableName"-->
+        <!--          :col="schema.specialization.id"-->
+        <!--          :data-type="DataTypes.Join"-->
+        <!--          :operator="Operators.Eq"-->
+        <!--          :join-table="schema.dpoCourseSpecialization.tableName"-->
+        <!--          :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"-->
+        <!--          :join-table-pk="schema.dpoCourse.id"-->
+        <!--          :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
+        <!--          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
+        <!--          @load="load"-->
+        <!--        />-->
       </div>
     </template>
   </div>
@@ -32,7 +38,6 @@ import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -49,7 +54,7 @@ export default defineComponent({
   components: {
     ModeChoice,
     RemoteSearch,
-    FilterSelect,
+    // FilterSelect,
   },
   emits: ['load', 'selectMode'],
   props: {

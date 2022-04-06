@@ -8,6 +8,7 @@ export default class PostgraduateCourseSpecialization implements IPostgraduateCo
   id?: string;
   postgraduateCourse: IPostgraduateCourse = new PostgraduateCourse();
   postgraduateCourseId?: string;
+  main = false;
   specialization: ISpecialization = new Specialization();
   specializationId?: string;
 
@@ -16,6 +17,7 @@ export default class PostgraduateCourseSpecialization implements IPostgraduateCo
       return;
     }
     this.id = i.id;
+    this.main = i.main;
     if (i.specialization) {
       this.specialization = new Specialization(i.specialization);
     }

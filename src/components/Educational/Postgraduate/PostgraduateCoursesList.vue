@@ -7,42 +7,30 @@
       <table class="table-list">
         <colgroup>
           <col width="10%" />
-          <col width="30%" />
-          <col width="30%" />
+          <col width="40%" />
+          <col width="10%" />
+          <col width="10%" />
           <col width="30%" />
         </colgroup>
         <thead>
           <th><h4>КОД</h4></th>
-          <th><h4>НАЗВАНИЕ&nbsp;СПЕЦИАЛИЗАЦИИ</h4></th>
-          <th><h4>УРОВЕНЬ&nbsp;ОБРАЗОВАНИЯ</h4></th>
+          <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
+          <th><h4>ФОРМА ОБУЧЕНИЯ</h4></th>
+          <th><h4>ДЛИТЕЛЬНОСТЬ ОБУЧЕНИЯ</h4></th>
           <th><h4>КВАЛИФИКАЦИЯ</h4></th>
         </thead>
         <tbody v-if="mounted">
           <tr v-for="postgraduateCourse in postgraduateCourses" :key="postgraduateCourse.id">
             <td>
-              <div
-                v-for="postgraduateCoursesSpecialization in postgraduateCourse.postgraduateCoursesSpecializations"
-                :key="postgraduateCoursesSpecialization.id"
-              >
-                {{ postgraduateCoursesSpecialization.specialization.code }}
-              </div>
+              {{ postgraduateCourse.getMainSpecialization().code }}
             </td>
             <td style="text-align: center">
-              <div
-                v-for="postgraduateCoursesSpecialization in postgraduateCourse.postgraduateCoursesSpecializations"
-                :key="postgraduateCoursesSpecialization.id"
-              >
-                <router-link :to="`/postgraduate-courses/${postgraduateCourse.id}`">
-                  {{ postgraduateCoursesSpecialization.specialization.name }}
-                </router-link>
-              </div>
+              <router-link :to="`/postgraduate-courses/${postgraduateCourse.id}`">
+                {{ postgraduateCourse.getMainSpecialization().name }}
+              </router-link>
             </td>
-            <td>
-              высшее образование - подготовка кадров высшей квалификации
-              <!-- <router-link :to="`/doctors/${postgraduateCourse.getMainTeacher()?.doctor.human.slug}`">
-                {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
-              </router-link> -->
-            </td>
+            <td>{{ postgraduateCourse.educationForm }}</td>
+            <td>{{ buildNameNumbers([...Array(postgraduateCourse.years).keys()], ['год', 'года', 'лет']) }}</td>
             <td>{{ postgraduateCourse.description }}</td>
           </tr>
         </tbody>
@@ -57,7 +45,7 @@ import { useStore } from 'vuex';
 
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISchema from '@/interfaces/schema/ISchema';
-
+import buildNameNumbers from '@/mixins/buildNameNumbers';
 export default defineComponent({
   name: 'PostgraduateCoursesList',
   setup() {
@@ -72,16 +60,10 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    // const loadMore = async () => {
-    //   const lastCursor = postgraduateCourses.value[postgraduateCourses.value.length - 1].description;
-    // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.postgraduateCourse.name, schema.value.postgraduateCourse.tableName);
-    // await store.dispatch('postgraduateCourses/getAll', filterQuery.value);
-    // };
-
     return {
       mounted,
       postgraduateCourses,
-      // loadMore,
+      buildNameNumbers,
     };
   },
 });

@@ -88,7 +88,10 @@ export default defineComponent({
       () => route.path,
       () => (activePath.value = route.path)
     );
-    watch(isAuth, () => store.commit(`menus/setMenus`));
+    watch(isAuth, () => {
+      store.commit(`menus/setMenus`);
+      setColors();
+    });
 
     return {
       isAuth,

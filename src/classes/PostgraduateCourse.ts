@@ -102,6 +102,11 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     this.postgraduateCoursesTeachers[index].main = true;
   }
 
+  setMainSpecialization(index: number): void {
+    this.postgraduateCoursesSpecializations.forEach((i: IPostgraduateCourseSpecialization) => (i.main = false));
+    this.postgraduateCoursesSpecializations[index].main = true;
+  }
+
   getMainTeacher(): ITeacher | undefined {
     const mainPostgraduateCoursesTeacher = this.postgraduateCoursesTeachers.find((item: IPostgraduateCourseTeacher) => item.main);
     if (mainPostgraduateCoursesTeacher) {
@@ -164,11 +169,14 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     this.postgraduateCoursePlans.push(new PostgraduateCoursePlan());
   }
 
-  getMainSpecialization(): string {
-    const spec = this.postgraduateCoursesSpecializations[0];
+  getMainSpecialization(): ISpecialization {
+    const spec = this.postgraduateCoursesSpecializations.find((s: IPostgraduateCourseSpecialization) => s.main);
     if (spec) {
-      return spec.specialization.name;
+      return spec.specialization;
     }
-    return '';
+    if (this.postgraduateCoursesSpecializations.length > 0) {
+      return this.postgraduateCoursesSpecializations[0].specialization;
+    }
+    return new Specialization();
   }
 }

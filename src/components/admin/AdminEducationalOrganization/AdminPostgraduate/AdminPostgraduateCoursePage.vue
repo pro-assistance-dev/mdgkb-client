@@ -46,16 +46,6 @@
                   </template>
                 </el-table-column>
               </el-table>
-
-              <el-select
-                v-model="postgraduateCourse.documentType"
-                value-key="id"
-                placeholder="Выбрать группу документов для отображения"
-                label="Документы для отображения"
-                @change="changeDocumentTypeHandler()"
-              >
-                <el-option v-for="item in documentTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
-              </el-select>
             </el-card>
 
             <el-card class="content-card">
@@ -128,6 +118,24 @@
                           )
                         "
                       />
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-form-item>
+            </el-card>
+            <el-card>
+              <template #header>Специализации</template>
+              <el-form-item prop="listeners">
+                <!--                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />-->
+                <el-table :data="postgraduateCourse.postgraduateCoursesSpecializations">
+                  <el-table-column label="Название" sortable>
+                    <template #default="scope">
+                      {{ scope.row.specialization.name }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="Выбрать главную" sortable>
+                    <template #default="scope">
+                      <el-checkbox v-model="scope.row.main" @change="postgraduateCourse.setMainSpecialization(scope.$index)"></el-checkbox>
                     </template>
                   </el-table-column>
                 </el-table>

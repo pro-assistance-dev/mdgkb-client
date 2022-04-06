@@ -11,8 +11,7 @@ const httpClient = new HttpClient('postgraduate-courses');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
-    //{ query: filterQuery ? filterQuery.toUrl() : '' }
-    const items = await httpClient.get<IPostgraduateCourse[]>();
+    const items = await httpClient.get<IPostgraduateCourse[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
       filterQuery.setAllLoaded(items ? items.length : 0);
     }
