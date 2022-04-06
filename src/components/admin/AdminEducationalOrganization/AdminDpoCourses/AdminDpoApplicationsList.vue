@@ -110,6 +110,7 @@ export default defineComponent({
       store.commit('admin/showLoading');
       await setFilter();
       await store.dispatch('dpoApplications/getAll', filterQuery.value);
+      await store.dispatch('dpoApplications/subscribeCreate');
       store.commit('admin/setHeaderParams', {
         title: title,
         buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],

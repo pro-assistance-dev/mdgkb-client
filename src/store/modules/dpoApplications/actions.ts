@@ -59,6 +59,13 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDpoApplication>({ query: `slug/${slug}` });
     commit('set', res);
   },
+  subscribeCreate: async ({ commit }, slug: string): Promise<void> => {
+    const source = new EventSource('/api/v1/dpo-applications/subscribe-create');
+    source.onmessage = function (e) {
+      console.log(source);
+    };
+    source.addEventListener('dpoApplicationCreate', (e) => console.log(e));
+  },
 };
 
 export default actions;
