@@ -25,6 +25,7 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
   id?: string;
   description = '';
   educationForm = 'Очная';
+  slug = '';
   documentTypeId?: string;
   documentType: IDocumentType = new DocumentType();
   years = 3;
@@ -52,6 +53,7 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     }
     this.id = i.id;
     this.description = i.description;
+    this.slug = i.slug;
     this.formPatternId = i.formPatternId;
     this.educationForm = i.educationForm;
     this.years = i.years;

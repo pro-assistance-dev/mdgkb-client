@@ -25,7 +25,8 @@
               {{ postgraduateCourse.getMainSpecialization().code }}
             </td>
             <td style="text-align: center">
-              <router-link :to="`/postgraduate-courses/${postgraduateCourse.id}`">
+              {{ postgraduateCourse.slug }}
+              <router-link :to="`/postgraduate-courses/${postgraduateCourse.getMainSpecialization().slug}`">
                 {{ postgraduateCourse.getMainSpecialization().name }}
               </router-link>
             </td>

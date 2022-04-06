@@ -14,6 +14,7 @@ export default interface IPostgraduateCourse {
   description: string;
   educationForm: string;
   years: number;
+  slug: string;
   postgraduateCoursesTeachers: IPostgraduateCourseTeacher[];
   postgraduateCoursesTeachersForDelete: string[];
   postgraduateCoursesSpecializations: IPostgraduateCourseSpecialization[];

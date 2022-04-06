@@ -196,6 +196,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IForm from '@/interfaces/IForm';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -222,7 +223,7 @@ export default defineComponent({
     const form = ref();
 
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const postgraduateCourse: ComputedRef<IPostgraduateCourse> = computed<IPostgraduateCourse>(
       () => store.getters['postgraduateCourses/item']
     );
@@ -245,7 +246,8 @@ export default defineComponent({
 
     const loadItem = async () => {
       if (route.params['id']) {
-        await store.dispatch('postgraduateCourses/get', route.params['id']);
+        filterQuery.value.setParams(schema.value.dpoCourse.slug, route.params['id'] as string);
+        await store.dispatch('postgraduateCourses/get', filterQuery.value);
         store.commit('admin/setHeaderParams', {
           title: `Программа аспирантуры по специальности "${postgraduateCourse.value.getMainSpecialization()}"`,
           showBackButton: true,

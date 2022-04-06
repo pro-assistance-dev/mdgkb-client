@@ -131,13 +131,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import PostgraduateApplicationForm from '@/components/Educational/Postgraduate/PostgraduateApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
+import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/mixins/brandColors';
 import scroll from '@/services/Scroll';
 export default defineComponent({
@@ -149,6 +151,8 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const postgraduateCourse: Ref<IPostgraduateCourse> = computed<IPostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
     const mounted: Ref<boolean> = ref(false);
     const showForm: Ref<boolean> = ref(false);
@@ -166,8 +170,10 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      await store.dispatch('meta/getSchema');
       store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('postgraduateCourses/get', route.params['id']);
+      filterQuery.value.setParams(schema.value.dpoCourse.slug, route.params['id'] as string);
+      await store.dispatch('postgraduateCourses/get', filterQuery.value);
       mounted.value = true;
       if (route.query.respondForm) {
         openRespondForm();

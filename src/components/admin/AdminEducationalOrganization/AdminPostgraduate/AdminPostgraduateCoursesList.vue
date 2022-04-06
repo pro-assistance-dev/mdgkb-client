@@ -12,14 +12,9 @@
     </el-table-column>
     <el-table-column label="Специализация" sortable>
       <template #default="scope">
-        <div
-          v-for="postgraduateCoursesSpecialization in scope.row.postgraduateCoursesSpecializations"
-          :key="postgraduateCoursesSpecialization.id"
-        >
-          <router-link :to="`admin/postgraduate-courses/${scope.row.id}`">
-            {{ postgraduateCoursesSpecialization.specialization.name }}
-          </router-link>
-        </div>
+        <router-link :to="`/admin/postgraduate-courses/${scope.row.getMainSpecialization().slug}`">
+          {{ scope.row.getMainSpecialization().name }}
+        </router-link>
       </template>
     </el-table-column>
     <el-table-column label="Руководитель" sortable>
@@ -32,7 +27,12 @@
     </el-table-column>
     <el-table-column width="50" fixed="right" align="center">
       <template #default="scope">
-        <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" />
+        <TableButtonGroup
+          :show-edit-button="true"
+          :show-remove-button="true"
+          @remove="remove(scope.row.id)"
+          @edit="edit(scope.row.getMainSpecialization().slug)"
+        />
       </template>
     </el-table-column>
   </el-table>
