@@ -1,61 +1,64 @@
 <template>
   <div v-if="mount" class="horizontal">
-    <div class="block-item"><ModeChoice path="dpo" :modes="modes" @selectMode="selectMode" /></div>
-    <template v-if="mode === '' || mode === 'programs'">
-      <div class="block-item">
-        <RemoteSearch
-          :key-value="schema.dpoCourse.key"
-          :table="schema.dpoCourse.tableName"
-          :col="schema.dpoCourse.name"
-          @select="selectSearch"
-          @load="load"
-        />
-      </div>
-      <div class="block-item">
-        <FilterSelect
-          placeholder="Все программы"
+    <div class="line">
+      <div class="block-item"><ModeChoice path="dpo" :modes="modes" @selectMode="selectMode" /></div>
+      <template v-if="mode === '' || mode === 'programs'">
+        <div class="block-item">
+          <RemoteSearch
+            :key-value="schema.dpoCourse.key"
+            :table="schema.dpoCourse.tableName"
+            :col="schema.dpoCourse.name"
+            @select="selectSearch"
+            @load="load"
+          />
+        </div>
+        <div class="block-item">
+          <FilterSelect
+            placeholder="Все программы"
+            :options="nmoOptions"
+            :table="schema.dpoCourse.tableName"
+            :col="schema.dpoCourse.isNmo"
+            :data-type="DataTypes.String"
+            :operator="Operators.Eq"
+            :filterable="false"
+            @load="load"
+          />
+        </div>
+
+        <div class="block-item">
+          <FilterSelect
+            placeholder="Для кого читается курс"
+            :options="schema.specialization.options"
+            :table="schema.dpoCourse.tableName"
+            :col="schema.specialization.id"
+            :data-type="DataTypes.Join"
+            :operator="Operators.Eq"
+            :join-table="schema.dpoCourseSpecialization.tableName"
+            :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"
+            :join-table-pk="schema.dpoCourse.id"
+            :join-table-id="schema.dpoCourseSpecialization.specializationId"
+            :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
+            @load="load"
+          />
+        </div>
+      </template>
+      <template v-if="mode === '' || mode === 'programs'"> </template>
+    </div>
+    <div class="line">
+      <div class="block-item-1">
+        <FilterCheckbox
+          label="Только актуальные"
           :options="nmoOptions"
           :table="schema.dpoCourse.tableName"
-          :col="schema.dpoCourse.isNmo"
-          :data-type="DataTypes.String"
-          :operator="Operators.Eq"
+          :col="schema.dpoCourse.minStart"
+          :data-type="DataTypes.Date"
+          :operator="Operators.Gt"
+          :filter-value="new Date()"
           :filterable="false"
           @load="load"
         />
       </div>
-
-      <!--      <div class="block-item">-->
-      <!--        <FilterCheckbox-->
-      <!--          label="Только актуальные"-->
-      <!--          :options="nmoOptions"-->
-      <!--          :table="schema.dpoCourse.tableName"-->
-      <!--          :col="schema.dpoCourse.minStart"-->
-      <!--          :data-type="DataTypes.Date"-->
-      <!--          :operator="Operators.Gt"-->
-      <!--          :filter-value="new Date()"-->
-      <!--          :filterable="false"-->
-      <!--          @load="load"-->
-      <!--        />-->
-      <!--      </div>-->
-
-      <div class="block-item">
-        <FilterSelect
-          placeholder="Для кого читается курс"
-          :options="schema.specialization.options"
-          :table="schema.dpoCourse.tableName"
-          :col="schema.specialization.id"
-          :data-type="DataTypes.Join"
-          :operator="Operators.Eq"
-          :join-table="schema.dpoCourseSpecialization.tableName"
-          :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"
-          :join-table-pk="schema.dpoCourse.id"
-          :join-table-id="schema.dpoCourseSpecialization.specializationId"
-          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
-          @load="load"
-        />
-      </div>
-    </template>
-    <template v-if="mode === '' || mode === 'programs'"> </template>
+    </div>
   </div>
 </template>
 
@@ -64,6 +67,7 @@ import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -82,6 +86,7 @@ export default defineComponent({
     RemoteSearch,
     FilterSelect,
     ModeChoice,
+    FilterCheckbox,
   },
   props: {
     mode: {
@@ -202,6 +207,10 @@ h2 {
 }
 
 .horizontal {
+  width: 100%;
+}
+
+.line {
   display: flex;
   justify-content: space-between;
   // align-items: center;
@@ -211,6 +220,16 @@ h2 {
   display: flex;
   width: 272px;
   margin-top: 22px;
+  // background: #343e5c;
+  // z-index: 10;
+}
+
+.block-item-1 {
+  display: flex;
+  width: 272px;
+  // background: red;
+  // z-index: 300;
+  // height: 40px;
 }
 
 .hidden {

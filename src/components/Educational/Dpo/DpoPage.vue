@@ -229,7 +229,7 @@ h3 {
 }
 
 .filter-block {
-  height: 80px;
+  height: 145px;
   background: #ffffff;
   z-index: 200;
 }
@@ -239,16 +239,11 @@ h3 {
   position: absolute;
   left: 0px;
   top: 0;
-  height: 80px;
+  height: 145px;
   margin-top: 20px;
   border: 1px solid #e4e6f2;
   border-radius: 5px;
   width: 100%;
-}
-
-.block-item {
-  width: 272px;
-  margin-top: 22px;
 }
 
 .hidden {
