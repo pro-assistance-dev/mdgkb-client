@@ -6,17 +6,17 @@
     <div v-if="postgraduateCourses.length !== 0" class="table-container">
       <table class="table-list">
         <colgroup>
+          <col width="7%" />
+          <col width="43%" />
           <col width="10%" />
-          <col width="40%" />
-          <col width="10%" />
-          <col width="10%" />
-          <col width="30%" />
+          <col width="5%" />
+          <col width="35%" />
         </colgroup>
         <thead>
           <th><h4>КОД</h4></th>
           <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
           <th><h4>ФОРМА ОБУЧЕНИЯ</h4></th>
-          <th><h4>ДЛИТЕЛЬНОСТЬ ОБУЧЕНИЯ</h4></th>
+          <th><h4>СРОКИ</h4></th>
           <th><h4>КВАЛИФИКАЦИЯ</h4></th>
         </thead>
         <tbody v-if="mounted">
@@ -24,7 +24,7 @@
             <td>
               {{ postgraduateCourse.getMainSpecialization().code }}
             </td>
-            <td style="text-align: center">
+            <td>
               {{ postgraduateCourse.slug }}
               <router-link :to="`/postgraduate-courses/${postgraduateCourse.getMainSpecialization().slug}`">
                 {{ postgraduateCourse.getMainSpecialization().name }}
