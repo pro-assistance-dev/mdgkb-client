@@ -29,6 +29,7 @@
         <!--          @load="load"-->
         <!--        />-->
       </div>
+      <div class="block-item"></div>
     </template>
   </div>
 </template>
