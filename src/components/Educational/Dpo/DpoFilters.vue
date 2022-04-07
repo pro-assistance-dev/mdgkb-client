@@ -74,7 +74,6 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IDoctor from '@/interfaces/IDoctor';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
@@ -105,7 +104,6 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
-    const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
     const mount = ref(false);
     const nmoOptions: IOption[] = [
       { value: 'true', label: 'Программы НМО' },
@@ -146,7 +144,6 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      medicalProfiles,
       schema,
       doctors,
       mount,

@@ -38,6 +38,8 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
+import IDpoCourse from '@/interfaces/IDpoCourse';
+import IDpoCourseSpecialization from '@/interfaces/IDpoCourseSpecialization';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
@@ -52,6 +54,7 @@ export default defineComponent({
     const schemaGet: Ref<boolean> = ref(false);
     const mode: Ref<string> = ref('programs');
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
     const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => store.getters['dpoDocumentTypes/items']);
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
@@ -111,6 +114,12 @@ export default defineComponent({
       store.commit(`filter/checkSortModels`);
       filterQuery.value.pagination.cursorMode = false;
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
+      await store.dispatch('meta/getOptions', schema.value.specialization);
+      schema.value.specialization.options = schema.value.specialization.options.filter((o: IOption) => {
+        return dpoCourses.value.some((dpoCourse: IDpoCourse) => {
+          return dpoCourse.dpoCoursesSpecializations.some((s: IDpoCourseSpecialization) => s.specializationId === o.value);
+        });
+      });
     };
 
     return { selectedDocumentType, mode, mounted, load, schemaGet, sortModels, modes, selectMode };
