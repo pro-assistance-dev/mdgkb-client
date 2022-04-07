@@ -25,7 +25,7 @@
       <el-form :model="user">
         <div class="user-name">
           <el-form-item label="Имя">
-            <h3>Имя пользователя{{ user.human.name }}</h3>
+            <h3>{{ user?.human?.name ?? 'Имя пользователя' }}</h3>
           </el-form-item>
         </div>
         <div class="user-info">

@@ -8,7 +8,7 @@
     <el-form :model="user">
       <div class="user-name">
         <el-form-item label="Имя">
-          <h4>Имя пользователя{{ user.human.name }}</h4>
+          <h4>{{ user?.human?.name ?? 'Имя пользователя' }}</h4>
         </el-form-item>
       </div>
       <div class="user-info">
