@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="form.fields">
+  <el-table :data="formValue.fields">
     <el-table-column label="Наименование">
       <template #default="scope">
         {{ scope.row.name }}
@@ -8,7 +8,7 @@
 
     <el-table-column label="Данные">
       <template #default="scope">
-        <FieldValuesFormItem :form="form" :field="scope.row" />
+        <FieldValuesFormItem :form="formValue" :field="scope.row" />
       </template>
     </el-table-column>
 
@@ -24,10 +24,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { useStore } from 'vuex';
 
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
 import IForm from '@/interfaces/IForm';
+import IFormStatus from '@/interfaces/IFormStatus';
 
 export default defineComponent({
   name: 'FieldValuesForm',
@@ -37,6 +39,23 @@ export default defineComponent({
       type: Object as PropType<IForm>,
       required: true,
     },
+  },
+  setup(props) {
+    const store = useStore();
+    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
+    const formValue: Ref<IForm | undefined> = ref();
+
+    onBeforeMount(async () => {
+      formValue.value = props.form;
+      await store.dispatch('formStatuses/getAll');
+      if (!formValue.value.formStatus.label) {
+        formValue.value.setNewStatus(formStatuses.value);
+      }
+    });
+
+    return {
+      formValue,
+    };
   },
 });
 </script>

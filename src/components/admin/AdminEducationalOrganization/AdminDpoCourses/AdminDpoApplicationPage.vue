@@ -1,37 +1,46 @@
 <template>
   <div v-if="mounted" class="wrapper">
     <el-form ref="form" :key="dpoApplication" :model="dpoApplication" label-position="top">
-      <el-container direction="vertical">
-        <el-card>
-          <template #header>
-            <span>Информация о программе</span>
-          </template>
-          <el-form-item
-            v-if="isEditMode && !dpoApplication.dpoCourseId"
-            label="Выберите программу"
-            prop="dpoCourseId"
-            :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
-          >
-            <el-select
-              v-model="dpoApplication.dpoCourse"
-              value-key="id"
-              placeholder="Выберите программу"
-              style="width: 100%"
-              @change="courseChangeHandler"
+      <el-row :gutter="40">
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
+          <div v-if="dpoApplication.dpoCourse.id">
+            <AdminFormValue
+              :form="dpoApplication.formValue"
+              :is-edit-mode="isEditMode"
+              :email-exists="emailExists"
+              @findEmail="findEmail"
+            />
+          </div>
+          <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
+          <el-card>
+            <template #header>
+              <span>Информация о программе</span>
+            </template>
+            <el-form-item
+              v-if="isEditMode && !dpoApplication.dpoCourseId"
+              label="Выберите программу"
+              prop="dpoCourseId"
+              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
             >
-              <el-option v-for="item in dpoCourses" :key="item.id" :label="item.name" :value="item"> </el-option>
-            </el-select>
-          </el-form-item>
-          <el-descriptions v-else :column="1">
-            <el-descriptions-item label="Наименование">{{ dpoApplication.dpoCourse.name }}</el-descriptions-item>
-            <el-descriptions-item label="Тип программы">{{ dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-descriptions-item>
-          </el-descriptions>
-        </el-card>
-
-        <div v-if="dpoApplication.dpoCourse.id">
-          <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
-        </div>
-      </el-container>
+              <el-select
+                v-model="dpoApplication.dpoCourse"
+                value-key="id"
+                placeholder="Выберите программу"
+                style="width: 100%"
+                @change="courseChangeHandler"
+              >
+                <el-option v-for="item in dpoCourses" :key="item.id" :label="item.name" :value="item"> </el-option>
+              </el-select>
+            </el-form-item>
+            <el-descriptions v-else :column="1" border>
+              <el-descriptions-item label="Наименование">{{ dpoApplication.dpoCourse.name }}</el-descriptions-item>
+              <el-descriptions-item label="Тип программы">{{ dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-descriptions-item>
+            </el-descriptions>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-form>
   </div>
 </template>
@@ -50,6 +59,7 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IForm from '@/interfaces/IForm';
+import IFormStatus from '@/interfaces/IFormStatus';
 import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
@@ -75,6 +85,7 @@ export default defineComponent({
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактиварония');
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['dpoApplications/emailExists']);
+    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
 
     watch(route, async () => {
       setProgramsType();

@@ -9,7 +9,7 @@
     </div>
     <div class="title-right">
       <button class="cancel-button" @click="$router.push('/profile')">Отмена</button>
-      <button class="save-button">Сохранить</button>
+      <button class="save-button" @click="saveUser">Сохранить</button>
     </div>
   </div>
   <div class="right-block">
@@ -64,6 +64,7 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
@@ -74,7 +75,7 @@ export default defineComponent({
   components: { HumanForm },
   setup() {
     const store = useStore();
-
+    const router = useRouter();
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: Ref<IUser> = computed(() => store.getters['users/item']);
 
@@ -83,8 +84,14 @@ export default defineComponent({
     };
     onMounted(loadUser);
 
+    async function saveUser() {
+      await store.dispatch('users/update', user.value);
+      await router.push('/profile');
+    }
+
     return {
       user,
+      saveUser,
     };
   },
 });

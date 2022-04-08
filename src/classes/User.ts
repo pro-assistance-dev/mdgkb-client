@@ -15,9 +15,12 @@ import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IDpoApplication from '@/interfaces/IDpoApplication';
+import IForm from '@/interfaces/IForm';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
+
+import Form from './Form';
 
 export default class User implements IUser {
   id?: string;
@@ -39,6 +42,7 @@ export default class User implements IUser {
   postgraduateApplicationsForDelete: string[] = [];
   candidateApplications: ICandidateApplication[] = [];
   candidateApplicationsForDelete: string[] = [];
+  formValues: IForm[] = [];
 
   constructor(i?: IUser) {
     if (!i) return;
@@ -74,6 +78,9 @@ export default class User implements IUser {
     }
     if (i.candidateApplications) {
       this.candidateApplications = i.candidateApplications.map((item: ICandidateApplication) => new CandidateApplication(item));
+    }
+    if (i.formValues) {
+      this.formValues = i.formValues.map((item: IForm) => new Form(item));
     }
   }
 
