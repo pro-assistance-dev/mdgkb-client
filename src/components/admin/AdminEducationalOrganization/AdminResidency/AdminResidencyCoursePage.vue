@@ -5,12 +5,28 @@
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <el-form-item prop="title" label="Название:">
-                <el-input v-model="residencyCourse.name" placeholder="Заголовок"></el-input>
-              </el-form-item>
+              <div class="files-block">
+                <el-card>
+                  <template #header>Основная профессиональная программа Высшего образования </template>
+                  <FileUploader :file-info="residencyCourse.program" />
+                </el-card>
+                <el-card>
+                  <template #header>Аннотации рабочих программ дисциплин </template>
+                  <FileUploader :file-info="residencyCourse.annotation" />
+                </el-card>
+                <el-card>
+                  <template #header>График учебного процесса</template>
+                  <FileUploader :file-info="residencyCourse.schedule" />
+                </el-card>
+                <el-card>
+                  <template #header>Учебный план</template>
+                  <FileUploader :file-info="residencyCourse.plan" />
+                </el-card>
+              </div>
             </el-card>
+
             <el-card class="content-card">
-              <template #header>Контент</template>
+              <template #header>Описание</template>
               <el-form-item prop="description">
                 <QuillEditor
                   v-model:content="residencyCourse.description"
@@ -75,29 +91,21 @@
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">
             <el-card>
-              <template #header>Количество слушателей</template>
+              <template #header>Количество бюджетных мест</template>
               <el-form-item prop="listeners">
-                <el-input-number v-model="residencyCourse.listeners" />
+                <el-input-number v-model="residencyCourse.freePlaces" />
+              </el-form-item>
+            </el-card>
+            <el-card>
+              <template #header>Количество платных мест</template>
+              <el-form-item prop="listeners">
+                <el-input-number v-model="residencyCourse.paidPlaces" />
               </el-form-item>
             </el-card>
             <el-card>
               <template #header>Стоимость</template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="residencyCourse.cost" />
-              </el-form-item>
-            </el-card>
-            <el-card>
-              <template #header>Количество часов</template>
-              <el-form-item prop="listeners">
-                <el-input-number v-model="residencyCourse.hours" />
-              </el-form-item>
-            </el-card>
-            <el-card>
-              <template #header>Специальность, по которой читается программа</template>
-              <el-form-item prop="listeners">
-                <el-select v-model="residencyCourse.specializationId" placeholder="Выбрать специальность">
-                  <el-option v-for="spec in specializations" :key="spec.id" :label="spec.name" :value="spec.id"> </el-option>
-                </el-select>
               </el-form-item>
             </el-card>
             <el-card>
@@ -128,6 +136,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IForm from '@/interfaces/IForm';
@@ -144,6 +153,7 @@ import validate from '@/mixins/validate';
 export default defineComponent({
   name: 'AdminResidencyCoursePage',
   components: {
+    FileUploader,
     RemoteSearch,
     QuillEditor,
     TableButtonGroup,

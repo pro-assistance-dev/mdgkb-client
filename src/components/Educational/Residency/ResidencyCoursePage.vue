@@ -59,33 +59,42 @@
       </div>
       <el-divider />
       <div class="info-tags-block">
-        <!--        <a-->
-        <!--          v-if="residencyCourse.programFile.fileSystemPath"-->
-        <!--          :href="residencyCourse.programFile.getFileUrl()"-->
-        <!--          :download="residencyCourse.programFile.originalName"-->
-        <!--          target="_blank"-->
-        <!--          style="margin-right: 10px"-->
-        <!--        >-->
-        <!--          Образовательная программа</a-->
-        <!--        >-->
-        <!--        <a-->
-        <!--          v-if="residencyCourse.calendar.fileSystemPath"-->
-        <!--          :href="residencyCourse.calendar.getFileUrl()"-->
-        <!--          :download="residencyCourse.calendar.originalName"-->
-        <!--          target="_blank"-->
-        <!--          style="margin-right: 10px"-->
-        <!--        >-->
-        <!--          Календарный учебный график</a-->
-        <!--        >-->
-        <!--        <a-->
-        <!--          v-if="residencyCourse.questionsFile.fileSystemPath"-->
-        <!--          :href="residencyCourse.questionsFile.getFileUrl()"-->
-        <!--          :download="residencyCourse.questionsFile.originalName"-->
-        <!--          target="_blank"-->
-        <!--          style="margin-right: 10px"-->
-        <!--        >-->
-        <!--          Вопросы для подготовки к кандидатскому экзамену</a-->
-        <!--        >-->
+        <a
+          v-if="residencyCourse.program.fileSystemPath"
+          :href="residencyCourse.program.getFileUrl()"
+          :download="residencyCourse.program.originalName"
+          target="_blank"
+          style="margin-right: 10px"
+        >
+          Основная профессиональная программа Высшего образования</a
+        >
+        <a
+          v-if="residencyCourse.annotation.fileSystemPath"
+          :href="residencyCourse.annotation.getFileUrl()"
+          :download="residencyCourse.annotation.originalName"
+          target="_blank"
+          style="margin-right: 10px"
+        >
+          Аннотации рабочих программ дисциплин</a
+        >
+        <a
+          v-if="residencyCourse.schedule.fileSystemPath"
+          :href="residencyCourse.schedule.getFileUrl()"
+          :download="residencyCourse.schedule.originalName"
+          target="_blank"
+          style="margin-right: 10px"
+        >
+          График учебного процесса</a
+        >
+        <a
+          v-if="residencyCourse.plan.fileSystemPath"
+          :href="residencyCourse.plan.getFileUrl()"
+          :download="residencyCourse.plan.originalName"
+          target="_blank"
+          style="margin-right: 10px"
+        >
+          Учебный план</a
+        >
       </div>
       <el-divider />
       <!--      <div v-if="residencyCourse.residencyCoursePlans.length > 0" class="info-block">-->

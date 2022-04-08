@@ -29,7 +29,7 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.post<IResidencyCourse, IResidencyCourse>({
       payload: state.item,
       isFormData: true,
-      // fileInfos: state.item.getFileInfos(),
+      fileInfos: state.item.getFileInfos(),
     });
   },
   update: async ({ state, commit }): Promise<void> => {
@@ -37,7 +37,7 @@ const actions: ActionTree<State, RootState> = {
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,
-      // fileInfos: state.item.getFileInfos(),
+      fileInfos: state.item.getFileInfos(),
     });
     commit('set', res);
   },

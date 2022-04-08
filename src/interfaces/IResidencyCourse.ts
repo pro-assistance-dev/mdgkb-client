@@ -50,4 +50,5 @@ export default interface IResidencyCourse {
   setMainSpecialization: (index: number) => void;
 
   getMainSpecialization: () => ISpecialization;
+  getFileInfos: () => IFileInfo[];
 }

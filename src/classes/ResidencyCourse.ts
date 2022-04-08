@@ -152,4 +152,23 @@ export default class ResidencyCourse implements IResidencyCourse {
     }
     return new Specialization();
   }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    if (this.program) {
+      fileInfos.push(this.program);
+    }
+    if (this.annotation) {
+      fileInfos.push(this.annotation);
+    }
+    if (this.schedule) {
+      fileInfos.push(this.schedule);
+    }
+
+    if (this.plan) {
+      fileInfos.push(this.plan);
+    }
+
+    return fileInfos;
+  }
 }
