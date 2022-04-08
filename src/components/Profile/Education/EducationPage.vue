@@ -419,8 +419,8 @@ h4 {
 .drop-give-button {
   display: none;
   position: absolute;
-  top: 60px;
-  right: 0;
+  top: 40px;
+  right: -1px;
   border-radius: 5px;
   border: 1px solid #dfe4ee;
   z-index: 1;
