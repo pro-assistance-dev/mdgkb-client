@@ -13,6 +13,7 @@ import AdminDocumentsTypeRoutes from '@/router/AdminDocumentsTypeRoutes';
 import AdminEducationalOrganizationRoutes from '@/router/AdminEducationalOrganizationRoutes';
 import AdminFaqsRoutes from '@/router/AdminFaqsRoutes';
 import AdminFormPatternRoutes from '@/router/AdminFormPatternRoutes';
+import AdminFormStatusesRoutes from '@/router/AdminFormStatusesRoutes';
 import AdminHeadsRoutes from '@/router/AdminHeadsRoutes';
 import AdminMedicalProfiles from '@/router/AdminMedicalProfiles';
 import AdminMenusRoutes from '@/router/AdminMenusRoutes';
@@ -103,5 +104,6 @@ export default [
   ...AdminAppointmentsRoutes,
   ...AdminApplicationForEntryRoutes,
   ...AdminFormPatternRoutes,
+  ...AdminFormStatusesRoutes,
   ...AdminPermissionsRoutes,
 ];

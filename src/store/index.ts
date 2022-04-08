@@ -29,6 +29,7 @@ import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
 import { filter } from '@/store/modules/filter';
 import { formPatterns } from '@/store/modules/formPatterns';
+import { formStatuses } from '@/store/modules/formStatuses';
 import { gates } from '@/store/modules/gates';
 import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
@@ -143,6 +144,7 @@ const s: StoreOptions<RootState> = {
     dpoDocumentTypes,
     roles,
     candidateDocumentTypes,
+    formStatuses,
   },
 };
 
