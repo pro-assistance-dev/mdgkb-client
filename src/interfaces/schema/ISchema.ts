@@ -9,6 +9,7 @@ import IDpoCourseSpecializationSchema from '@/interfaces/schema/IDpoCourseSpecia
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSchema';
+import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
 import ITeacherSchema from '@/interfaces/schema/ITeacherSchema';
 import IVacancySchema from '@/interfaces/schema/IVacancySchema';
@@ -28,4 +29,5 @@ export default interface ISchema {
   dpoCourseSpecialization: IDpoCourseSpecializationSchema;
   dpoApplication: IDpoApplicationSchema;
   postgraduateCourse: IPostgraduateCourseSchema;
+  residencyCourse: IResidencyCourseSchema;
 }
