@@ -14,6 +14,10 @@ import AdminPostgraduateApplicationPage from '@/components/admin/AdminEducationa
 import AdminPostgraduateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationsList.vue';
 import AdminPostgraduateCoursePage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursePage.vue';
 import AdminPostgraduateCoursesList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursesList.vue';
+import AdminResidencyApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationPage.vue';
+import AdminResidencyApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationsList.vue';
+import AdminResidencyCoursePage from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursePage.vue';
+import AdminResidencyCoursesList from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursesList.vue';
 import { authGuard, isAuthorized } from '@/router/index';
 
 // import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminPostgraduateCoursePage.vue';
@@ -316,6 +320,78 @@ export default [
     path: '/admin/candidate-applications/:id',
     name: 'AdminCandidateApplicationPage',
     component: AdminCandidateApplicationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/residency/courses',
+    name: 'AdminResidencyCoursesList',
+    component: AdminResidencyCoursesList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/residency/courses/new',
+    name: 'AdminResidencyCoursePageCreate',
+    component: AdminResidencyCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/residency/courses/:id',
+    name: 'AdminResidencyCoursePageEdit',
+    component: AdminResidencyCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/residency-applications',
+    name: 'AdminResidencyApplicationsList',
+    component: AdminResidencyApplicationsList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/residency-applications/new',
+    name: 'AdminResidencyApplicationPageNew',
+    component: AdminResidencyApplicationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/residency-applications/:id',
+    name: 'AdminResidencyApplicationPage',
+    component: AdminResidencyApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

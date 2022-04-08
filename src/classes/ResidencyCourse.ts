@@ -86,4 +86,20 @@ export default class ResidencyCourse implements IResidencyCourse {
     const spec = this.residencyCoursesSpecializations.find((i: IResidencyCourseSpecialization) => i.specializationId === id);
     return !!spec;
   }
+
+  setMainSpecialization(index: number): void {
+    this.residencyCoursesSpecializations.forEach((i: IResidencyCourseSpecialization) => (i.main = false));
+    this.residencyCoursesSpecializations[index].main = true;
+  }
+
+  getMainSpecialization(): ISpecialization {
+    const spec = this.residencyCoursesSpecializations.find((s: IResidencyCourseSpecialization) => s.main);
+    if (spec) {
+      return spec.specialization;
+    }
+    if (this.residencyCoursesSpecializations.length > 0) {
+      return this.residencyCoursesSpecializations[0].specialization;
+    }
+    return new Specialization();
+  }
 }

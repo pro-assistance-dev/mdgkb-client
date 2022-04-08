@@ -1,18 +1,15 @@
 <template>
-  <el-table v-if="mounted" :data="postgraduateCourses">
+  <el-table v-if="mounted" :data="residencyCourses">
     <el-table-column label="Код специализации" sortable>
       <template #default="scope">
-        <div
-          v-for="postgraduateCoursesSpecialization in scope.row.postgraduateCoursesSpecializations"
-          :key="postgraduateCoursesSpecialization.id"
-        >
-          {{ postgraduateCoursesSpecialization.specialization.code }}
+        <div v-for="residencyCoursesSpecialization in scope.row.residencyCoursesSpecializations" :key="residencyCoursesSpecialization.id">
+          {{ residencyCoursesSpecialization.specialization.code }}
         </div>
       </template>
     </el-table-column>
     <el-table-column label="Специализация" sortable>
       <template #default="scope">
-        <router-link :to="`/admin/postgraduate-courses/${scope.row.getMainSpecialization().slug}`">
+        <router-link :to="`/admin/residency-courses/${scope.row.getMainSpecialization().slug}`">
           {{ scope.row.getMainSpecialization().name }}
         </router-link>
       </template>
@@ -47,18 +44,18 @@ import SortModel from '@/classes/filters/SortModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Orders } from '@/interfaces/filters/Orders';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
+import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
-  name: 'AdminPostgraduateCoursesList',
+  name: 'AdminResidencyCoursesList',
   components: { TableButtonGroup },
   setup() {
     const mounted = ref(false);
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed(() => store.getters['postgraduateCourses/items']);
+    const residencyCourses: Ref<IResidencyCourse[]> = computed(() => store.getters['residencyCourses/items']);
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
@@ -68,18 +65,12 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       store.commit(
         'filter/replaceSortModel',
-        SortModel.CreateSortModel(
-          schema.value.postgraduateCourse.tableName,
-          schema.value.postgraduateCourse.name,
-          Orders.Asc,
-          'По алфавиту',
-          true
-        )
+        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true)
       );
       filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('postgraduateCourses/getAll');
+      await store.dispatch('residencyCourses/getAll');
       store.commit('admin/setHeaderParams', {
-        title: 'Программы аспирантуры',
+        title: 'Программы ординатуры',
         buttons: [{ text: 'Добавить программу', type: 'primary', action: create }],
       });
       store.commit('pagination/setCurPage', 1);
@@ -89,10 +80,10 @@ export default defineComponent({
 
     const create = () => router.push(`${route.path}/new`);
     const edit = (id: string) => router.push(`${route.path}/${id}`);
-    const remove = async (id: string) => await store.dispatch('postgraduateCourses/remove', id);
+    const remove = async (id: string) => await store.dispatch('residencyCourses/remove', id);
     const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
 
-    return { mounted, postgraduateCourses, remove, edit, create, fillDateFormat };
+    return { mounted, residencyCourses, remove, edit, create, fillDateFormat };
   },
 });
 </script>

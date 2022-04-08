@@ -10,12 +10,13 @@ export default class ResidencyCourseSpecialization implements IResidencyCourseSp
   residencyCourseId?: string;
   specialization: ISpecialization = new Specialization();
   specializationId?: string;
-
+  main = false;
   constructor(i?: IResidencyCourseSpecialization) {
     if (!i) {
       return;
     }
     this.id = i.id;
+    this.main = i.main;
     if (i.specialization) {
       this.specialization = new Specialization(i.specialization);
     }

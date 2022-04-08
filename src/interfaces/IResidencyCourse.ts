@@ -24,4 +24,7 @@ export default interface IResidencyCourse {
 
   addSpecialization: (specialization: ISpecialization) => void;
   findSpecialization: (id: string) => boolean;
+  setMainSpecialization: (index: number) => void;
+
+  getMainSpecialization: () => ISpecialization;
 }
