@@ -1,38 +1,44 @@
 <template>
   <div>
     <div class="no-progmam">
-      <h3 v-if="postgraduateCourses.length == 0">Сейчас нет программ аспирантуры ни для одной специальности</h3>
+      <h3 v-if="residencyCourses.length == 0">Сейчас нет программ аспирантуры ни для одной специальности</h3>
     </div>
-    <div v-if="postgraduateCourses.length !== 0" class="table-container">
+    <div v-if="residencyCourses.length !== 0" class="table-container">
       <table class="table-list">
         <colgroup>
           <col width="7%" />
           <col width="43%" />
           <col width="10%" />
-          <col width="5%" />
-          <col width="35%" />
+          <col width="10%" />
+          <col width="30%" />
         </colgroup>
         <thead>
           <th><h4>КОД</h4></th>
           <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
-          <th><h4>ФОРМА ОБУЧЕНИЯ</h4></th>
-          <th><h4>СРОКИ</h4></th>
-          <th><h4>КВАЛИФИКАЦИЯ</h4></th>
+          <th><h4>БЕСПЛАТНЫЕ МЕСТА</h4></th>
+          <th><h4>ПЛАТНЫЕ МЕСТА</h4></th>
+          <th><h4>СТОИМОСТЬ</h4></th>
         </thead>
         <tbody v-if="mounted">
-          <tr v-for="postgraduateCourse in postgraduateCourses" :key="postgraduateCourse.id">
+          <tr v-for="residencyCourse in residencyCourses" :key="residencyCourse.id">
             <td>
-              {{ postgraduateCourse.getMainSpecialization().code }}
+              {{ residencyCourse.getMainSpecialization().code }}
             </td>
             <td>
-              {{ postgraduateCourse.slug }}
-              <router-link :to="`/postgraduate-courses/${postgraduateCourse.getMainSpecialization().slug}`">
-                {{ postgraduateCourse.getMainSpecialization().name }}
+              {{ residencyCourse.slug }}
+              <router-link :to="`/residency-courses/${residencyCourse.getMainSpecialization().slug}`">
+                {{ residencyCourse.getMainSpecialization().name }}
               </router-link>
             </td>
-            <td>{{ postgraduateCourse.educationForm }}</td>
-            <td>{{ buildNameNumbers([...Array(postgraduateCourse.years).keys()], ['год', 'года', 'лет']) }}</td>
-            <td>{{ postgraduateCourse.description }}</td>
+            <td>
+              {{ residencyCourse.freePlaces }}
+            </td>
+            <td>
+              {{ residencyCourse.paidPlaces }}
+            </td>
+            <td>
+              {{ residencyCourse.cost }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -44,16 +50,14 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
+import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 import buildNameNumbers from '@/mixins/buildNameNumbers';
 export default defineComponent({
   name: 'ResidencyCoursesList',
   setup() {
     const store = useStore();
-    const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed<IPostgraduateCourse[]>(
-      () => store.getters['postgraduateCourses/items']
-    );
+    const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => store.getters['residencyCourses/items']);
     const mounted = ref(false);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
@@ -63,7 +67,7 @@ export default defineComponent({
 
     return {
       mounted,
-      postgraduateCourses,
+      residencyCourses,
       buildNameNumbers,
     };
   },

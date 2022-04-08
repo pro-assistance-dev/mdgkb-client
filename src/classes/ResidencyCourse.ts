@@ -1,7 +1,11 @@
+import EducationYear from '@/classes/EducationYear';
+import FileInfo from '@/classes/File/FileInfo';
 import ResidencyCourseSpecialization from '@/classes/ResidencyCourseSpecialization';
 import ResidencyCourseTeacher from '@/classes/ResidencyCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import IEducationYear from '@/interfaces/IEducationYear';
 import IForm from '@/interfaces/IForm';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecialization';
@@ -18,13 +22,33 @@ export default class ResidencyCourse implements IResidencyCourse {
   name = '';
   description = '';
   listeners = 0;
-
+  cost = 0;
+  freePlaces = 0;
+  paidPlaces = 0;
   residencyCoursesSpecializations: IResidencyCourseSpecialization[] = [];
   residencyCoursesSpecializationsForDelete: string[] = [];
   residencyCoursesTeachers: IResidencyCourseTeacher[] = [];
   residencyCoursesTeachersForDelete: string[] = [];
   formPattern: IForm = new Form();
   formPatternId?: string;
+
+  program: IFileInfo = new FileInfo();
+  programId?: string;
+
+  annotation: IFileInfo = new FileInfo();
+  annotationId?: string;
+
+  plan: IFileInfo = new FileInfo();
+  planId?: string;
+
+  schedule: IFileInfo = new FileInfo();
+  scheduleId?: string;
+
+  startYear: IEducationYear = new EducationYear();
+  startYearId?: string;
+
+  endYear: IEducationYear = new EducationYear();
+  endYearId?: string;
 
   constructor(i?: IResidencyCourse) {
     if (!i) {
@@ -35,7 +59,9 @@ export default class ResidencyCourse implements IResidencyCourse {
     this.slug = i.slug;
     this.description = i.description;
 
-    this.listeners = i.listeners;
+    this.freePlaces = i.freePlaces;
+    this.cost = i.cost;
+    this.paidPlaces = i.paidPlaces;
     if (i.residencyCoursesTeachers) {
       this.residencyCoursesTeachers = i.residencyCoursesTeachers.map((item: IResidencyCourseTeacher) => new ResidencyCourseTeacher(item));
     }
@@ -46,6 +72,30 @@ export default class ResidencyCourse implements IResidencyCourse {
     }
     if (i.formPattern) {
       this.formPattern = new Form(i.formPattern);
+    }
+    this.programId = i.programId;
+    if (i.program) {
+      this.program = new FileInfo(i.program);
+    }
+    this.annotationId = i.annotationId;
+    if (i.annotation) {
+      this.annotation = new FileInfo(i.annotation);
+    }
+    this.planId = i.planId;
+    if (i.plan) {
+      this.plan = new FileInfo(i.plan);
+    }
+    this.scheduleId = i.scheduleId;
+    if (i.schedule) {
+      this.schedule = new FileInfo(i.schedule);
+    }
+    this.startYearId = i.startYearId;
+    if (i.startYear) {
+      this.startYear = new EducationYear(i.startYear);
+    }
+    this.endYearId = i.endYearId;
+    if (i.endYear) {
+      this.endYear = new EducationYear(i.endYear);
     }
   }
 

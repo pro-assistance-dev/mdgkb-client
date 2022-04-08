@@ -4,41 +4,41 @@
       <div class="left-field">
         <!-- <h4 class="card-item-title">Преподаватели</h4>
           <el-divider /> -->
-        <div v-if="postgraduateCourse.getMainTeacher()">
+        <div v-if="residencyCourse.getMainTeacher()">
           <b>Руководитель:</b> <br />
           <router-link
-            v-if="postgraduateCourse.getMainTeacher()"
+            v-if="residencyCourse.getMainTeacher()"
             class="recent-news-item"
-            :to="`/doctors/${postgraduateCourse.getMainTeacher().doctor.human.slug}`"
+            :to="`/doctors/${residencyCourse.getMainTeacher().doctor.human.slug}`"
             style="padding-left: 0"
           >
-            {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
+            {{ residencyCourse.getMainTeacher()?.doctor.human.getFullName() }}
           </router-link>
         </div>
-        <div v-if="postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main).length">
+        <div v-if="residencyCourse.residencyCoursesTeachers.filter((i) => !i.main).length">
           <b>Преподаватели:</b> <br />
           <router-link
-            v-for="postgraduateCoursesTeacher in postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main)"
-            :key="postgraduateCoursesTeacher.id"
+            v-for="residencyCoursesTeacher in residencyCourse.residencyCoursesTeachers.filter((i) => !i.main)"
+            :key="residencyCoursesTeacher.id"
             class="recent-news-item"
-            :to="`/doctors/${postgraduateCoursesTeacher.teacher.doctor.human.slug}`"
+            :to="`/doctors/${residencyCoursesTeacher.teacher.doctor.human.slug}`"
             style="padding-left: 0"
           >
-            {{ postgraduateCoursesTeacher.teacher.doctor.human.getFullName() }}
+            {{ residencyCoursesTeacher.teacher.doctor.human.getFullName() }}
           </router-link>
         </div>
         <div class="recent-news-footer">
           <button @click="$router.push('/teachers')">Все преподаватели</button>
         </div>
         <div class="recent-news-footer">
-          <button @click="$router.push('/dpo')">Все программы</button>
+          <button @click="$router.push('/residency')">Все программы</button>
         </div>
       </div>
 
-      <div v-if="postgraduateCourse.postgraduateCoursesSpecializations.length" class="left-field">
+      <div v-if="residencyCourse.residencyCoursesSpecializations.length" class="left-field">
         <div class="left-field-title">
           <b>Специальность:</b> <br />
-          <div v-for="item in postgraduateCourse.postgraduateCoursesSpecializations" :key="item.id" class="font">
+          <div v-for="item in residencyCourse.residencyCoursesSpecializations" :key="item.id" class="font">
             {{ item.specialization.name }}
           </div>
         </div>
@@ -47,115 +47,97 @@
     <div class="right-field" style="padding: 30px; margin-bottom: 20px">
       <div class="card-header">
         <h3 class="title article-title">Программа аспирантуры по специальности</h3>
-        <h2 class="title article-title">"{{ postgraduateCourse.getMainSpecialization().name }}"</h2>
+        <h2 class="title article-title">"{{ residencyCourse.getMainSpecialization().name }}"</h2>
       </div>
       <el-divider />
       <div class="info-tags-block">
-        <el-tag v-if="postgraduateCourse.educationForm">Форма обучения: {{ postgraduateCourse.educationForm }}</el-tag>
-        <el-divider v-if="postgraduateCourse.educationForm" direction="vertical" />
-        <el-tag v-if="postgraduateCourse.years > 0">Нормативный срок обучения: {{ postgraduateCourse.years }} года </el-tag>
-        <el-divider v-if="postgraduateCourse.years > 0" direction="vertical" />
+        <el-tag v-if="residencyCourse.educationForm">Форма обучения: {{ residencyCourse.educationForm }}</el-tag>
+        <el-divider v-if="residencyCourse.educationForm" direction="vertical" />
+        <el-tag v-if="residencyCourse.years > 0">Нормативный срок обучения: {{ residencyCourse.years }} года </el-tag>
+        <el-divider v-if="residencyCourse.years > 0" direction="vertical" />
         <el-tag>Язык обучения: русский</el-tag>
       </div>
       <el-divider />
       <div class="info-tags-block">
-        <a
-          v-if="postgraduateCourse.programFile.fileSystemPath"
-          :href="postgraduateCourse.programFile.getFileUrl()"
-          :download="postgraduateCourse.programFile.originalName"
-          target="_blank"
-          style="margin-right: 10px"
-        >
-          Образовательная программа</a
-        >
-        <a
-          v-if="postgraduateCourse.calendar.fileSystemPath"
-          :href="postgraduateCourse.calendar.getFileUrl()"
-          :download="postgraduateCourse.calendar.originalName"
-          target="_blank"
-          style="margin-right: 10px"
-        >
-          Календарный учебный график</a
-        >
-        <a
-          v-if="postgraduateCourse.questionsFile.fileSystemPath"
-          :href="postgraduateCourse.questionsFile.getFileUrl()"
-          :download="postgraduateCourse.questionsFile.originalName"
-          target="_blank"
-          style="margin-right: 10px"
-        >
-          Вопросы для подготовки к кандидатскому экзамену</a
-        >
+        <!--        <a-->
+        <!--          v-if="residencyCourse.programFile.fileSystemPath"-->
+        <!--          :href="residencyCourse.programFile.getFileUrl()"-->
+        <!--          :download="residencyCourse.programFile.originalName"-->
+        <!--          target="_blank"-->
+        <!--          style="margin-right: 10px"-->
+        <!--        >-->
+        <!--          Образовательная программа</a-->
+        <!--        >-->
+        <!--        <a-->
+        <!--          v-if="residencyCourse.calendar.fileSystemPath"-->
+        <!--          :href="residencyCourse.calendar.getFileUrl()"-->
+        <!--          :download="residencyCourse.calendar.originalName"-->
+        <!--          target="_blank"-->
+        <!--          style="margin-right: 10px"-->
+        <!--        >-->
+        <!--          Календарный учебный график</a-->
+        <!--        >-->
+        <!--        <a-->
+        <!--          v-if="residencyCourse.questionsFile.fileSystemPath"-->
+        <!--          :href="residencyCourse.questionsFile.getFileUrl()"-->
+        <!--          :download="residencyCourse.questionsFile.originalName"-->
+        <!--          target="_blank"-->
+        <!--          style="margin-right: 10px"-->
+        <!--        >-->
+        <!--          Вопросы для подготовки к кандидатскому экзамену</a-->
+        <!--        >-->
       </div>
       <el-divider />
-      <div v-if="postgraduateCourse.postgraduateCoursePlans.length > 0" class="info-block">
-        <div>Учебные планы</div>
-        <div>:</div>
-        <a
-          v-for="plan in postgraduateCourse.postgraduateCoursePlans"
-          :key="plan.id"
-          :href="plan.plan.getFileUrl()"
-          :download="plan.plan.originalName"
-          target="_blank"
-          style="margin-right: 10px"
-        >
-          {{ plan.year.getFullYear() }}</a
-        >
-      </div>
+      <!--      <div v-if="residencyCourse.residencyCoursePlans.length > 0" class="info-block">-->
+      <!--        <div>Учебные планы</div>-->
+      <!--        <div>:</div>-->
+      <!--        <a-->
+      <!--          v-for="plan in residencyCourse.residencyCoursePlans"-->
+      <!--          :key="plan.id"-->
+      <!--          :href="plan.plan.getFileUrl()"-->
+      <!--          :download="plan.plan.originalName"-->
+      <!--          target="_blank"-->
+      <!--          style="margin-right: 10px"-->
+      <!--        >-->
+      <!--          {{ plan.year.getFullYear() }}</a-->
+      <!--        >-->
+      <!--      </div>-->
       <el-divider />
-      <div v-if="postgraduateCourse.documentType.documents.length > 0">
-        <h4>Документы</h4>
-        <ul>
-          <li v-for="document in postgraduateCourse.documentType.documents" :key="document.id">
-            <a
-              :href="document.documentsScans[0].scan.getFileUrl()"
-              :download="document.documentsScans[0]?.scan.originalName"
-              target="_blank"
-              style="margin-right: 10px"
-            >
-              {{ document.name }}</a
-            >
-          </li>
-        </ul>
-      </div>
       <el-divider />
       <div class="bottom-footer">
-        <SharesBlock :title="postgraduateCourse.name" :description="postgraduateCourse.description" :url="getUrl()" />
+        <SharesBlock :title="residencyCourse.name" :description="residencyCourse.description" :url="getUrl()" />
         <button class="response-btn" @click="openRespondForm">Подать заявление</button>
       </div>
     </div>
     <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
       <h2 class="title article-title">Форма для подачи заявления</h2>
       <el-divider />
-      <PostgraduateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
+      <ResidencyApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import PostgraduateApplicationForm from '@/components/Educational/Postgraduate/PostgraduateApplicationForm.vue';
+import ResidencyApplicationForm from '@/components/Educational/Residency/ResidencyApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
+import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/mixins/brandColors';
 import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'ResidencyCoursePage',
-  components: { SharesBlock, PostgraduateApplicationForm },
+  components: { SharesBlock, ResidencyApplicationForm },
   setup() {
-    const fileInfos = ['Инструкция по записи на цикл НМО', 'Презентация по циклу НМО Педиатрия'];
-    const ped: any = [];
     const store = useStore();
-    const router = useRouter();
     const route = useRoute();
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const postgraduateCourse: Ref<IPostgraduateCourse> = computed<IPostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
+    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => store.getters['residencyCourses/item']);
     const mounted: Ref<boolean> = ref(false);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
@@ -174,8 +156,8 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('meta/getSchema');
       store.commit(`filter/resetQueryFilter`);
-      filterQuery.value.setParams(schema.value.dpoCourse.slug, route.params['id'] as string);
-      await store.dispatch('postgraduateCourses/get', filterQuery.value);
+      filterQuery.value.setParams(schema.value.residencyCourse.slug, route.params['id'] as string);
+      await store.dispatch('residencyCourses/get', filterQuery.value);
       mounted.value = true;
       if (route.query.respondForm) {
         openRespondForm();
@@ -184,7 +166,7 @@ export default defineComponent({
 
     const getUrl = (): string => {
       const host = process.env.VUE_APP_API_HOST;
-      return `${host}/postgraduate-courses/${route.params['id']}`;
+      return `${host}/residency-courses/${route.params['id']}`;
     };
     // TODO убрать
     const svgDummy =
@@ -192,7 +174,7 @@ export default defineComponent({
 
     return {
       chooseRandomBrandColor,
-      postgraduateCourse,
+      residencyCourse,
       getUrl,
       svgDummy,
       mounted,

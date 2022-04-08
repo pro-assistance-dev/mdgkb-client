@@ -1,3 +1,5 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import IEducationYear from '@/interfaces/IEducationYear';
 import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecialization';
 import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -10,7 +12,28 @@ export default interface IResidencyCourse {
   name: string;
   slug: string;
   description: string;
-  listeners: number;
+  freePlaces: number;
+  cost: number;
+
+  program: IFileInfo;
+  programId?: string;
+
+  annotation: IFileInfo;
+  annotationId?: string;
+
+  plan: IFileInfo;
+  planId?: string;
+
+  schedule: IFileInfo;
+  scheduleId?: string;
+
+  startYear: IEducationYear;
+  startYearId?: string;
+
+  endYear: IEducationYear;
+  endYearId?: string;
+
+  paidPlaces: number;
   residencyCoursesTeachers: IResidencyCourseTeacher[];
   residencyCoursesTeachersForDelete: string[];
   residencyCoursesSpecializations: IResidencyCourseSpecialization[];
