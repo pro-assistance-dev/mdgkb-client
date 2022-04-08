@@ -29,6 +29,7 @@ import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
 import { filter } from '@/store/modules/filter';
 import { formPatterns } from '@/store/modules/formPatterns';
+import { formStatuses } from '@/store/modules/formStatuses';
 import { gates } from '@/store/modules/gates';
 import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
@@ -53,6 +54,8 @@ import { preparations } from '@/store/modules/preparations';
 import { projects } from '@/store/modules/projects';
 import { publicDocumentTypes } from '@/store/modules/publicDocumentTypes';
 import { questions } from '@/store/modules/questions';
+import { residencyCourses } from '@/store/modules/residencyCourses';
+import { residencyDocumentTypes } from '@/store/modules/residencyDocumentTypes';
 import { roles } from '@/store/modules/roles';
 import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
@@ -143,6 +146,9 @@ const s: StoreOptions<RootState> = {
     dpoDocumentTypes,
     roles,
     candidateDocumentTypes,
+    residencyCourses,
+    residencyDocumentTypes,
+    formStatuses,
   },
 };
 

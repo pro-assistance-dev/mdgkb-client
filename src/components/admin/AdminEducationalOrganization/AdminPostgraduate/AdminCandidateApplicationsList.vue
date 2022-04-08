@@ -3,8 +3,12 @@
     <el-table-column label="Статус">
       <template #default="scope">
         <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Новая</el-tag>
-        <el-tag v-if="scope.row.formValue.isFieldValuesModChecked()" size="small" type="success">Данные проверены</el-tag>
-        <el-tag v-else size="small" type="danger">Данные не проверены</el-tag>
+        <el-tag
+          v-if="scope.row.formValue.formStatus.label"
+          size="small"
+          :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`"
+          >{{ scope.row.formValue.formStatus.label }}</el-tag
+        >
       </template>
     </el-table-column>
     <el-table-column label="Дата подачи заявления" sortable>

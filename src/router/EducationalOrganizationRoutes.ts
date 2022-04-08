@@ -5,9 +5,10 @@ import DpoCourses from '@/components/Educational/Dpo/DpoPage.vue';
 import EducationalOrganizationAcademics from '@/components/Educational/EducationalOrganizationAcademics.vue';
 import EducationalOrganizationDocuments from '@/components/Educational/EducationalOrganizationInfo/DocumentsPage.vue';
 import EducationalOrganizationInfo from '@/components/Educational/EducationalOrganizationInfo/EducationalOrganizationInfo.vue';
-import OrdinaturaPage from '@/components/Educational/Ordinatura/OrdinaturaPage.vue';
 import PostgraduateCoursePage from '@/components/Educational/Postgraduate/PostgraduateCoursePage.vue';
 import PostgraduatePage from '@/components/Educational/Postgraduate/PostgraduatePage.vue';
+import ResidencyCoursePage from '@/components/Educational/Residency/ResidencyCoursePage.vue';
+import ResidencyPage from '@/components/Educational/Residency/ResidencyPage.vue';
 import TeachersManagers from '@/components/Educational/TeachersManagers/TeachersManagers.vue';
 import { isAuthorized } from '@/router/index';
 
@@ -37,14 +38,6 @@ export default [
     },
   },
   {
-    path: '/ordinatura',
-    name: 'OrdinaturaPage',
-    component: OrdinaturaPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
-  },
-  {
     path: '/postgraduate',
     name: 'PostgraduatePage',
     component: PostgraduatePage,
@@ -56,6 +49,22 @@ export default [
     path: '/postgraduate-courses/:id',
     name: 'PostgraduateCoursePage',
     component: PostgraduateCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/residency',
+    name: 'ResidencyPage',
+    component: ResidencyPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/residency-courses/:id',
+    name: 'ResidencyCoursePage',
+    component: ResidencyCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

@@ -1,10 +1,18 @@
 import Field from '@/classes/Field';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import ICandidateApplication from '@/interfaces/ICandidateApplication';
+import IDpoApplication from '@/interfaces/IDpoApplication';
 import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
 import IForm from '@/interfaces/IForm';
+import IFormStatus from '@/interfaces/IFormStatus';
+import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 
+import CandidateApplication from './CandidateApplication';
+import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
+import FormStatus from './FormStatus';
+import PostgraduateApplication from './PostgraduateApplication';
 import User from './User';
 
 export default class Form implements IForm {
@@ -20,32 +28,48 @@ export default class Form implements IForm {
   isNew = true;
   createdAt: Date = new Date();
   user = new User();
+  formStatus = new FormStatus();
+  dpoApplication?: IDpoApplication;
+  postgraduateApplication?: IPostgraduateApplication;
+  candidateApplication?: ICandidateApplication;
   // changed = false;
 
-  constructor(i?: IForm) {
-    if (!i) {
+  constructor(form?: IForm) {
+    if (!form) {
       return;
     }
-    this.id = i.id;
-    this.title = i.title;
-    if (i.createdAt) {
-      this.createdAt = i.createdAt;
+    this.id = form.id;
+    this.title = form.title;
+    if (form.createdAt) {
+      this.createdAt = form.createdAt;
     }
-    if (i.isNew !== undefined) {
-      this.isNew = i.isNew;
+    if (form.isNew !== undefined) {
+      this.isNew = form.isNew;
     }
-    if (i.validated) {
-      this.validated = i.validated;
+    if (form.validated) {
+      this.validated = form.validated;
     }
-    this.code = i.code;
-    if (i.user) {
-      this.user = new User(i.user);
+    this.code = form.code;
+    if (form.user) {
+      this.user = new User(form.user);
     }
-    if (i.fields) {
-      this.fields = i.fields.map((item: IField) => new Field(item));
+    if (form.formStatus) {
+      this.formStatus = new FormStatus(form.formStatus);
     }
-    if (i.fieldValues) {
-      this.fieldValues = i.fieldValues.map((item: IFieldValue) => new FieldValue(item));
+    if (form.fields) {
+      this.fields = form.fields.map((item: IField) => new Field(item));
+    }
+    if (form.fieldValues) {
+      this.fieldValues = form.fieldValues.map((item: IFieldValue) => new FieldValue(item));
+    }
+    if (form.dpoApplication) {
+      this.dpoApplication = new DpoApplication(form.dpoApplication);
+    }
+    if (form.postgraduateApplication) {
+      this.postgraduateApplication = new PostgraduateApplication(form.postgraduateApplication);
+    }
+    if (form.candidateApplication) {
+      this.candidateApplication = new CandidateApplication(form.candidateApplication);
     }
   }
 
@@ -156,6 +180,17 @@ export default class Form implements IForm {
   }
   changeFieldValuesModChecked(modChecked: boolean): void {
     this.fieldValues.forEach((el: IFieldValue) => (el.modChecked = modChecked));
+  }
+  setNewStatus(statuses: IFormStatus[]): void {
+    statuses.forEach((el: IFormStatus) => {
+      if (el.isNew()) {
+        this.formStatus = new FormStatus(el);
+      }
+    });
+  }
+  setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
+    const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
+    this.formStatus = new FormStatus(newStatus);
   }
   // static ApplyFormPattern(pattern: IForm): IForm {
   //   const form = new Form(pattern);

@@ -196,6 +196,18 @@ export default defineComponent({
             title: 'Шаблоны форм для заявок',
             to: '/admin/form-patterns',
           },
+          {
+            title: 'Ординатура',
+            to: '/admin/residency',
+          },
+          {
+            title: 'Программы ординатуры',
+            to: '/admin/residency/courses',
+          },
+          {
+            title: 'Заявки ординатуры',
+            to: '/admin/residency/applications',
+          },
         ],
       },
       {

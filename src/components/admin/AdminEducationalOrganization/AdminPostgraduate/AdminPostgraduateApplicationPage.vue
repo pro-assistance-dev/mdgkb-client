@@ -1,39 +1,43 @@
 <template>
   <div v-if="mounted" class="wrapper">
     <el-form ref="form" :key="application" :model="application" label-position="top">
-      <el-container direction="vertical">
-        <el-card>
-          <template #header>
-            <span>Информация о программе</span>
-          </template>
-          <el-form-item
-            v-if="isEditMode && !application.postgraduateCourseId"
-            label="Выберите программу"
-            prop="postgraduateCourseId"
-            :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
-          >
-            <el-select
-              v-model="application.postgraduateCourse"
-              value-key="id"
-              placeholder="Выберите программу"
-              style="width: 100%"
-              @change="courseChangeHandler"
+      <el-row :gutter="40">
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
+          <div v-if="application.postgraduateCourse.id">
+            <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
+          </div>
+          <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
+          <el-card>
+            <template #header>
+              <span>Информация о программе</span>
+            </template>
+            <el-form-item
+              v-if="isEditMode && !application.postgraduateCourseId"
+              label="Выберите программу"
+              prop="postgraduateCourseId"
+              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
             >
-              <el-option v-for="item in postgraduateCourses" :key="item.id" :label="item.getMainSpecialization()" :value="item">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-descriptions v-else :column="1">
-            <el-descriptions-item label="Наименование">
-              {{ application.postgraduateCourse.getMainSpecialization() }}
-            </el-descriptions-item>
-          </el-descriptions>
-        </el-card>
-
-        <div v-if="application.postgraduateCourse.id">
-          <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
-        </div>
-      </el-container>
+              <el-select
+                v-model="application.postgraduateCourse"
+                value-key="id"
+                placeholder="Выберите программу"
+                style="width: 100%"
+                @change="courseChangeHandler"
+              >
+                <el-option v-for="item in postgraduateCourses" :key="item.id" :label="item.getMainSpecialization()" :value="item">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-descriptions v-else :column="1">
+              <el-descriptions-item label="Наименование">
+                {{ application.postgraduateCourse.getMainSpecialization() }}
+              </el-descriptions-item>
+            </el-descriptions>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-form>
   </div>
 </template>
