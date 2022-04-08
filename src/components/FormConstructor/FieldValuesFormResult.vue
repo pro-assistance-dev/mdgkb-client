@@ -19,7 +19,13 @@
         <a v-if="scope.row.field.valueType.isFile() && scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
           {{ scope.row.file.originalName }}
         </a>
-        <span v-else></span>
+        <span v-else>Не продоставлены</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="Является обязательным" width="130px" align="center">
+      <template #default="scope">
+        <i v-if="scope.row.field.required" class="el-icon-check"></i>
+        <i v-else class="el-icon-close"></i>
       </template>
     </el-table-column>
     <el-table-column label="Проверено" width="100px" align="center">

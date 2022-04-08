@@ -3,15 +3,15 @@
     <h2><b>Мое образование</b></h2>
     <button class="edit-button" @click="$router.push('/profile/edit')">Подать заявку</button>
   </div>
-  <div v-if="!applications.length" class="no-progmam">
+  <div v-if="!user.formValues.length" class="no-progmam">
     <h3>У вас нет заявок</h3>
   </div>
-  <div v-if="applications.length" class="my-block">
+  <div v-if="user.formValues.length" class="my-block">
     <div class="yes-progmam">
       <div class="box">
         <h2>
           Мои заявки
-          <div v-if="applications.length" class="sup-cymbol-counter">{{ applications.length }}</div>
+          <div v-if="user.formValues.length" class="sup-cymbol-counter">{{ user.formValues.length }}</div>
         </h2>
       </div>
     </div>
@@ -33,42 +33,46 @@
             <th><h4></h4></th>
           </thead>
           <tbody>
-            <tr v-for="application in applications" :key="application.id">
+            <tr v-for="formValue in user.formValues" :key="formValue.id">
               <td>
-                <div v-if="application.dpoCourse">
-                  <div v-for="dpoCourse in application.dpoCourses" :key="dpoCourse.id">{{ dpoCourse.name }}</div>
+                <div v-if="formValue.dpoApplication">
+                  {{ formValue.dpoApplication.dpoCourse.name }}
                 </div>
-                <div v-if="application.postgraduateCourse">
-                  <div v-for="postgraduateCourse in application.postgraduateCourses" :key="postgraduateCourse.id">
-                    {{ postgraduateCourse.educationForm }}
-                  </div>
+                <div v-if="formValue.postgraduateApplication">
+                  {{ formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization() }}
                 </div>
-                <div v-if="application.candidateExam">Кандидатский минимум</div>
+                <div v-if="formValue.candidateApplication">Кандидатский минимум</div>
               </td>
 
               <td>
-                <div v-if="application.dpoCourse">ДПО</div>
-                <div v-if="application.postgraduateCourse">Аспирантура</div>
-                <div v-if="application.candidateExam">Кандидатский минимум</div>
+                <div v-if="formValue.dpoApplication">{{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</div>
+                <div v-if="formValue.postgraduateApplication">Аспирантура</div>
+                <div v-if="formValue.candidateApplication">Кандидатский минимум</div>
               </td>
 
-              <td>{{ fillDateFormat(application.createdAt) }}</td>
+              <td>{{ fillDateFormat(formValue.createdAt) }}</td>
 
               <td>
                 <div class="box">
-                  На&nbsp;рассмотрении
-                  <div class="sup-cymbol-attention">!</div>
+                  <el-tag
+                    v-if="formValue.formStatus.label"
+                    size="small"
+                    :style="`background-color: inherit; color: ${formValue.formStatus.color}; border-color: ${formValue.formStatus.color}`"
+                    >{{ formValue.formStatus.label }}</el-tag
+                  >
+                  <!-- На&nbsp;рассмотрении
+                  <div class="sup-cymbol-attention">!</div> -->
                 </div>
               </td>
 
               <td>
                 <div class="table-box">
-                  <svg class="icon-edit">
+                  <svg v-if="formValue.formStatus.isEditable" class="icon-edit">
                     <use xlink:href="#profile-edit"></use>
                   </svg>
-                  <svg class="icon-trash">
+                  <!-- <svg class="icon-trash">
                     <use xlink:href="#trash"></use>
-                  </svg>
+                  </svg> -->
                 </div>
               </td>
             </tr>
@@ -125,9 +129,6 @@
 import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import ICandidateApplication from '@/interfaces/ICandidateApplication';
-import IDpoApplication from '@/interfaces/IDpoApplication';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
@@ -138,11 +139,6 @@ export default defineComponent({
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
     const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
-    const applications: (IDpoApplication | IPostgraduateApplication | ICandidateApplication)[] = [
-      ...user.value.dpoApplications,
-      ...user.value.postgraduateApplications,
-      ...user.value.candidateApplications,
-    ];
 
     const loadUser = async () => {
       await store.dispatch('users/get', userId.value);
@@ -153,7 +149,6 @@ export default defineComponent({
     return {
       mounted,
       user,
-      applications,
       fillDateFormat,
     };
   },
@@ -367,6 +362,7 @@ h4 {
 }
 
 .icon-edit:hover {
+  cursor: pointer;
   stroke: #2754eb;
   fill: none;
 }
@@ -381,6 +377,7 @@ h4 {
 }
 
 .icon-trash:hover {
+  cursor: pointer;
   stroke: #e62c21;
   fill: none;
 }

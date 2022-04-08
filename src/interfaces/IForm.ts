@@ -1,7 +1,11 @@
 import IField from '@/interfaces/IField';
 
 import IFileInfo from './files/IFileInfo';
+import ICandidateApplication from './ICandidateApplication';
+import IDpoApplication from './IDpoApplication';
 import IFieldValue from './IFieldValue';
+import IFormStatus from './IFormStatus';
+import IPostgraduateApplication from './IPostgraduateApplication';
 import IUser from './IUser';
 
 export default interface IForm {
@@ -11,11 +15,15 @@ export default interface IForm {
   fields: IField[];
   fieldsForDelete: string[];
   fieldValues: IFieldValue[];
+  formStatus: IFormStatus;
   fieldValuesForDelete: string[];
   validated?: boolean;
   createdAt?: Date;
   isNew: boolean;
   user: IUser;
+  dpoApplication?: IDpoApplication;
+  postgraduateApplication?: IPostgraduateApplication;
+  candidateApplication?: ICandidateApplication;
 
   addField(field?: IField): void;
   removeField(index: number): void;
@@ -30,4 +38,6 @@ export default interface IForm {
   applyFormPatternFields: (pattern: IForm) => void;
   isFieldValuesModChecked: () => boolean;
   changeFieldValuesModChecked: (modChecked: boolean) => void;
+  setNewStatus: (statuses: IFormStatus[]) => void;
+  setStatus: (status: IFormStatus, statuses: IFormStatus[]) => void;
 }

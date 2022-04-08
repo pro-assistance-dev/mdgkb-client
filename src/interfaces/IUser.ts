@@ -8,6 +8,7 @@ import IRole from '@/interfaces/IRole';
 
 import ICandidateApplication from './ICandidateApplication';
 import IDpoApplication from './IDpoApplication';
+import IForm from './IForm';
 import IPostgraduateApplication from './IPostgraduateApplication';
 
 export default interface IUser {
@@ -26,6 +27,7 @@ export default interface IUser {
   postgraduateApplicationsForDelete: string[];
   candidateApplications: ICandidateApplication[];
   candidateApplicationsForDelete: string[];
+  formValues: IForm[];
   donorRulesUsers: IDonorRuleUser[];
   doctorsUsers: IDoctorUser[];
   role: IRole;
