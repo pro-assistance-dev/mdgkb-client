@@ -36,17 +36,17 @@ const actions: ActionTree<State, RootState> = {
   },
   update: async (
     { state, commit },
-    { postgraduateDocumentTypes: postgraduateDocumentTypes, postgraduateDocumentTypesForDelete: postgraduateDocumentTypesForDelete }
+    { residencyDocumentTypes: residencyDocumentTypes, residencyDocumentTypesForDelete: residencyDocumentTypesForDelete }
   ): Promise<void> => {
-    console.log(postgraduateDocumentTypesForDelete);
+    console.log(residencyDocumentTypesForDelete);
     const fileInfos: IFileInfo[] = [];
-    postgraduateDocumentTypes.forEach((docType: IResidencyDocumentType) => {
+    residencyDocumentTypes.forEach((docType: IResidencyDocumentType) => {
       fileInfos.push(...docType.getFileInfos());
     });
     const res = await httpClient.put<unknown, unknown>({
       payload: {
-        postgraduateDocumentTypes: postgraduateDocumentTypes,
-        postgraduateDocumentTypesForDelete: postgraduateDocumentTypesForDelete,
+        residencyDocumentTypes: residencyDocumentTypes,
+        residencyDocumentTypesForDelete: residencyDocumentTypesForDelete,
       },
       isFormData: true,
       fileInfos: fileInfos,

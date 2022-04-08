@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="dpoDocumentTypes" label-position="top" :rules="rules">
+  <el-form v-if="mounted" ref="form" :model="residencyDocumentTypes" label-position="top" :rules="rules">
     <el-card>
       <template #header>
         <div class="card-header">
@@ -7,16 +7,16 @@
           <el-button type="success" @click="addDocType">Добавить тип</el-button>
         </div>
       </template>
-      <el-card v-for="(dpoDocType, docTypeIndex) in dpoDocumentTypes" :key="docTypeIndex">
+      <el-card v-for="(residencyDocType, docTypeIndex) in residencyDocumentTypes" :key="docTypeIndex">
         <template #header>
           <div class="card-header">
             <el-form-item style="margin: 0 10px 0 0; width: 100%">
-              <el-input v-model="dpoDocType.documentType.name" placeholder="Название типа документов"></el-input>
+              <el-input v-model="residencyDocType.documentType.name" placeholder="Название типа документов"></el-input>
             </el-form-item>
             <el-button type="danger" icon="el-icon-close" @click="removeDocType(docTypeIndex)"></el-button>
           </div>
         </template>
-        <el-table :data="dpoDocType.documentType.documents">
+        <el-table :data="residencyDocType.documentType.documents">
           <el-table-column prop="name" label="Название документа">
             <template #default="scope">
               <el-form-item size="mini" style="margin: 0">
@@ -31,10 +31,10 @@
           </el-table-column>
           <el-table-column width="70" align="center">
             <template #header>
-              <el-button type="success" icon="el-icon-plus" size="mini" @click="addDocument(dpoDocType.documentType)"></el-button>
+              <el-button type="success" icon="el-icon-plus" size="mini" @click="addDocument(residencyDocType.documentType)"></el-button>
             </template>
             <template #default="scope">
-              <TableButtonGroup :show-remove-button="true" @remove="removeDocument(dpoDocType.documentType, scope.$index)" />
+              <TableButtonGroup :show-remove-button="true" @remove="removeDocument(residencyDocType.documentType, scope.$index)" />
             </template>
           </el-table-column>
         </el-table>
@@ -49,17 +49,17 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import { useStore } from 'vuex';
 
-import DpoDocumentType from '@/classes/DpoDocumentType';
+import ResidencyDocumentType from '@/classes/ResidencyDocumentType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
+import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import removeFromClass from '@/mixins/removeFromClass';
 import sort from '@/mixins/sort';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 export default defineComponent({
-  name: 'AdminDpo',
+  name: 'AdminResidency',
   components: {
     DocumentUploader,
     TableButtonGroup,
@@ -70,16 +70,16 @@ export default defineComponent({
     const form = ref();
     const storeModule = 'educationalOrganization';
 
-    const dpoDocumentTypes: Ref<IDpoDocumentType[]> = computed(() => store.getters['dpoDocumentTypes/items']);
-    const dpoDocumentTypesForDelete: Ref<string[]> = ref([]);
+    const residencyDocumentTypes: Ref<IResidencyDocumentType[]> = computed(() => store.getters['residencyDocumentTypes/items']);
+    const residencyDocumentTypesForDelete: Ref<string[]> = ref([]);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('dpoDocumentTypes/getAll');
+      await store.dispatch('residencyDocumentTypes/getAll');
       store.commit('admin/setHeaderParams', { title: 'Сохранить', showBackButton: true, buttons: [{ action: submit }] });
-      watch(dpoDocumentTypes, formUpdated, { deep: true });
+      watch(residencyDocumentTypes, formUpdated, { deep: true });
       mounted.value = true;
       store.commit('admin/closeLoading');
     });
@@ -95,24 +95,25 @@ export default defineComponent({
         return;
       }
       try {
-        console.log(dpoDocumentTypesForDelete.value);
-        await store.dispatch('dpoDocumentTypes/update', {
-          dpoDocumentTypes: dpoDocumentTypes.value,
-          dpoDocumentTypesForDelete: dpoDocumentTypesForDelete.value,
+        console.log(residencyDocumentTypesForDelete.value);
+        await store.dispatch('residencyDocumentTypes/update', {
+          residencyDocumentTypes: residencyDocumentTypes.value,
+          residencyDocumentTypesForDelete: residencyDocumentTypesForDelete.value,
         });
         ElMessage({ message: 'Сохранено', type: 'success' });
       } catch (error) {
+        console.log(error);
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
     };
 
     const addDocType = (): void => {
-      dpoDocumentTypes.value.push(new DpoDocumentType());
+      residencyDocumentTypes.value.push(new ResidencyDocumentType());
     };
 
     const removeDocType = (index: number): void => {
-      removeFromClass(index, dpoDocumentTypes.value, dpoDocumentTypesForDelete.value);
+      removeFromClass(index, residencyDocumentTypes.value, residencyDocumentTypesForDelete.value);
     };
 
     const getFileUrl = (path: string): string => {
@@ -137,7 +138,7 @@ export default defineComponent({
       mounted,
       form,
       // rules,
-      dpoDocumentTypes,
+      residencyDocumentTypes,
       removeDocument,
       submit,
     };
