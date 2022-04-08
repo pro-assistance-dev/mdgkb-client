@@ -1,7 +1,7 @@
 <template>
   <div v-if="mount" class="horizontal">
     <div class="block-item">
-      <ModeChoice path="postgraduate" :modes="modes" @selectMode="selectMode" />
+      <ModeChoice path="residency" :modes="modes" @selectMode="selectMode" />
     </div>
     <template v-if="mode === '' || mode === 'programs'">
       <div class="block-item">

@@ -97,7 +97,6 @@ export default defineComponent({
           modes.value.push({ value: docType.documentType.id, label: docType.documentType.name });
         }
       });
-      modes.value.push({ value: 'candidate', label: 'Кандидатский минимум' });
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 
