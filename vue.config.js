@@ -1,5 +1,6 @@
 module.exports = {
   lintOnSave: false,
+  outputDir: './test',
   devServer: {
     disableHostCheck: true,
     host: process.env.VUE_APP_HOST,
