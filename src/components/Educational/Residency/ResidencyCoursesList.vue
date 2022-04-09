@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="no-progmam">
-      <h3 v-if="residencyCourses.length == 0">Сейчас нет программ аспирантуры ни для одной специальности</h3>
+      <h3 v-if="residencyCourses.length == 0">Сейчас нет программ ординатуры ни для одной специальности</h3>
     </div>
     <div v-if="residencyCourses.length !== 0" class="table-container">
       <table class="table-list">
         <colgroup>
           <col width="7%" />
-          <col width="43%" />
+          <col width="58%" />
           <col width="10%" />
           <col width="10%" />
-          <col width="30%" />
+          <col width="15%" />
         </colgroup>
         <thead>
           <th><h4>КОД</h4></th>
