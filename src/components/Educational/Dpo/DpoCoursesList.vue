@@ -33,6 +33,7 @@
             <router-link :to="`/courses/${dpoCourse.slug}`">
               {{ dpoCourse.name }}
             </router-link>
+            <button class="response-btn" @click="$router.push(`/courses/${dpoCourse.slug}?respondForm=open`)">Подать заявку</button>
           </td>
           <td>
             <el-tag :type="dpoCourse.isNmo ? 'primary' : 'warning'">{{ dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-tag>
@@ -134,6 +135,7 @@ th {
   border-bottom: 1px solid #dcdfe6;
   padding: 9px 7px 9px 7px;
   height: auto;
+  position: sticky;
 }
 
 th {
@@ -174,5 +176,29 @@ h4 {
   font-size: 11px;
   font-weight: normal;
   color: #a3a5b9;
+}
+
+:deep(.response-btn) {
+  display: none;
+  border-radius: 3px;
+  background-color: #ffffff;
+  padding: 1px 7px;
+  height: auto;
+  color: #a3a5b9;
+  border: 1px solid #a3a5b9;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: lighten(#31af5e, 10%);
+    color: white;
+    border: none;
+  }
+}
+
+td:hover .response-btn {
+  display: block;
 }
 </style>

@@ -49,7 +49,7 @@
         <h3 class="title article-title">Программа аспирантуры по специальности</h3>
         <h2 class="title article-title">"{{ residencyCourse.getMainSpecialization().name }}"</h2>
       </div>
-      <el-divider />
+      <!-- <el-divider /> -->
       <div class="info-tags-block">
         <el-tag v-if="residencyCourse.educationForm">Форма обучения: {{ residencyCourse.educationForm }}</el-tag>
         <el-divider v-if="residencyCourse.educationForm" direction="vertical" />
@@ -57,7 +57,7 @@
         <el-divider v-if="residencyCourse.years > 0" direction="vertical" />
         <el-tag>Язык обучения: русский</el-tag>
       </div>
-      <el-divider />
+      <!-- <el-divider /> -->
       <div class="info-tags-block">
         <a
           v-if="residencyCourse.program.fileSystemPath"
@@ -96,7 +96,7 @@
           Учебный план</a
         >
       </div>
-      <el-divider />
+      <!-- <el-divider /> -->
       <!--      <div v-if="residencyCourse.residencyCoursePlans.length > 0" class="info-block">-->
       <!--        <div>Учебные планы</div>-->
       <!--        <div>:</div>-->
@@ -111,17 +111,17 @@
       <!--          {{ plan.year.getFullYear() }}</a-->
       <!--        >-->
       <!--      </div>-->
-      <el-divider />
-      <el-divider />
+      <!-- <el-divider /> -->
+      <!-- <el-divider /> -->
       <div class="bottom-footer">
         <SharesBlock :title="residencyCourse.name" :description="residencyCourse.description" :url="getUrl()" />
         <button class="response-btn" @click="openRespondForm">Подать заявление</button>
       </div>
-    </div>
-    <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
-      <h2 class="title article-title">Форма для подачи заявления</h2>
-      <el-divider />
-      <ResidencyApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
+      <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
+        <h2 class="title article-title">Форма для подачи заявления</h2>
+        <!-- <el-divider /> -->
+        <ResidencyApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
+      </div>
     </div>
   </div>
 </template>
