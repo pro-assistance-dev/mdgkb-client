@@ -11,12 +11,12 @@
               <div class="index-about-column">
                 <div class="index-about-colomn-icon">
                   <div class="icon">
-                    <BaseIcon width="50" height="50" :color="subMenu.background" :icon-name="subMenu.iconName">
+                    <BaseIcon width="50" height="50" :color="getColor(subMenu.background)" :icon-name="subMenu.iconName">
                       <HelpProfileIcon :svg-code="subMenu.svgCode" />
                     </BaseIcon>
                   </div>
                 </div>
-                <div class="index-about-colomn-text" :style="{ color: subMenu.background }">
+                <div class="index-about-colomn-text" :style="{ color: getColor(subMenu.background) }">
                   {{ subMenu.name }}
                 </div>
               </div>
@@ -93,7 +93,12 @@ export default defineComponent({
       setColors();
     });
 
+    const getColor = (color: string) => {
+      return color;
+    };
+
     return {
+      getColor,
       isAuth,
       mounted,
       menus,
