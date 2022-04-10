@@ -10,6 +10,11 @@ export default interface IResidencyCourseSchema {
   teacherId: string;
   listeners: string;
   options: IOption[];
+  paidPlaces: string;
+  freePlaces: string;
+  startYear: string;
+  endYear: string;
+  cost: string;
   value: string;
   label: string;
   sortColumn: string;

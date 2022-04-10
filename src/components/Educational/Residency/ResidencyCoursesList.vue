@@ -15,6 +15,7 @@
         <thead>
           <th><h4>КОД</h4></th>
           <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
+          <th><h4>ГОДЫ</h4></th>
           <th><h4>БЕСПЛАТНЫЕ МЕСТА</h4></th>
           <th><h4>ПЛАТНЫЕ МЕСТА</h4></th>
           <th><h4>СТОИМОСТЬ</h4></th>
@@ -25,7 +26,6 @@
               {{ residencyCourse.getMainSpecialization().code }}
             </td>
             <td>
-              {{ residencyCourse.slug }}
               <router-link :to="`/residency-courses/${residencyCourse.getMainSpecialization().slug}`">
                 {{ residencyCourse.getMainSpecialization().name }}
               </router-link>
@@ -35,6 +35,9 @@
               >
                 Подать заявку
               </button>
+            </td>
+            <td>
+              {{ residencyCourse.getPeriod() }}
             </td>
             <td>
               {{ residencyCourse.freePlaces }}

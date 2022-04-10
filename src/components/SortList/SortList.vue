@@ -2,7 +2,7 @@
   <el-form>
     <el-form-item>
       <el-select v-model="selectedModel" :clearable="!defaultSortOn" :placeholder="selectedModel" @change="setSort">
-        <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item"> </el-option>
+        <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item" />
       </el-select>
     </el-form-item>
   </el-form>

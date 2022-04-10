@@ -24,7 +24,21 @@
                 </el-card>
               </div>
             </el-card>
-
+            <el-card>
+              <template #header>Основная профессиональная программа Высшего образования </template>
+              <div class="files-block">
+                <el-form-item label="Год начала">
+                  <el-select v-model="residencyCourse.startYearId">
+                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()" :value="year.id"> </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="Год конца">
+                  <el-select v-model="residencyCourse.endYearId">
+                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()" :value="year.id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </div>
+            </el-card>
             <el-card class="content-card">
               <template #header>Описание</template>
               <el-form-item prop="description">
@@ -139,6 +153,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IEducationYear from '@/interfaces/IEducationYear';
 import IForm from '@/interfaces/IForm';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
@@ -171,12 +186,14 @@ export default defineComponent({
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
     const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
+    const educationYears: ComputedRef<IEducationYear[]> = computed<IEducationYear[]>(() => store.getters['educationYears/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await store.dispatch('meta/getSchema');
       await store.dispatch('teachers/getAll');
+      await store.dispatch('educationYears/getAll');
       await store.dispatch('specializations/getAll');
       await store.dispatch('search/searchGroups');
       await store.dispatch('formPatterns/getAll');
@@ -242,6 +259,7 @@ export default defineComponent({
     };
 
     return {
+      educationYears,
       specializations,
       removeFromClass,
       addTeacher,
@@ -258,6 +276,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.files-block {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0 10px 0;
+}
 .el-container {
   .el-card {
     margin-bottom: 20px;

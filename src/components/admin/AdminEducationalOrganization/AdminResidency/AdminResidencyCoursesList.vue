@@ -9,7 +9,7 @@
     </el-table-column>
     <el-table-column label="Специализация" sortable>
       <template #default="scope">
-        <router-link :to="`/admin/residency-courses/${scope.row.getMainSpecialization().slug}`">
+        <router-link :to="`/admin/residency/courses/${scope.row.getMainSpecialization().slug}`">
           {{ scope.row.getMainSpecialization().name }}
         </router-link>
       </template>
