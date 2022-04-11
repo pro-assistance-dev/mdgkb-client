@@ -1,5 +1,5 @@
 <template>
-  <div class="slide-container" :style="{ 'background-image': `url('${getUrl()})'` }">
+  <div class="slide-container" :style="{ 'background-image': `url('${getUrl()}'` }">
     <div class="slide-body">
       <div class="text" :style="{ color: `${item.color}` }">
         <div class="title">{{ item.title }}</div>
