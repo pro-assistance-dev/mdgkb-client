@@ -1,5 +1,5 @@
 <template>
-  <div class="slide-container" :style="{ 'background-image': `url('${getUrl()}'` }">
+  <div v-if="mounted" class="slide-container" :style="{ backgroundImage: `url('${getUrl()}')` }">
     <div class="slide-body">
       <div class="text" :style="{ color: `${item.color}` }">
         <div class="title">{{ item.title }}</div>
@@ -44,7 +44,7 @@ export default defineComponent({
 
   setup(props) {
     const url: Ref<string> = ref<string>('');
-
+    const mounted: Ref<boolean> = ref(false);
     const resizeHandler = (): void => {
       let containerWidth: number;
       if (props.width) {
@@ -72,9 +72,11 @@ export default defineComponent({
     onBeforeMount(() => {
       resizeHandler();
       window.addEventListener('resize', resizeHandler);
+      mounted.value = true;
     });
 
     return {
+      mounted,
       getUrl,
       url,
     };
