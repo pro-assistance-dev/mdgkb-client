@@ -80,7 +80,7 @@ export default defineComponent({
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/courses/${event.id}`);
+      await router.push(`/postgraduate-courses/${event.id}`);
     };
 
     onBeforeMount(async () => {

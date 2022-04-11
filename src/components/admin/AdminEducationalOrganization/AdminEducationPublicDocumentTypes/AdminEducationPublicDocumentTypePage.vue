@@ -1,26 +1,12 @@
 <template>
   <div v-if="mounted" class="page-container">
-    <el-form ref="form" :rules="rules" :model="publicDocumentType" label-position="top">
+    <el-form ref="form" :rules="rules" :model="publicDocumentType.publicDocumentType" label-position="top">
       <el-card header="Раздел">
         <el-form-item label="Название раздела" prop="name">
-          <el-input v-model="publicDocumentType.name" placeholder="Название раздела"></el-input>
+          <el-input v-model="publicDocumentType.publicDocumentType.name" placeholder="Название раздела"></el-input>
         </el-form-item>
         <el-form-item label="Якорь" prop="routeAnchor">
-          <el-input v-model="publicDocumentType.routeAnchor" placeholder="Якорь"></el-input>
-        </el-form-item>
-        <el-form-item label="Поместить в раздел Образование" prop="routeAnchor">
-          <el-checkbox
-            :model-value="!!publicDocumentType.educationPublicDocumentType"
-            @change="publicDocumentType.setEducationPublicDocumentType($event)"
-          ></el-checkbox>
-        </el-form-item>
-        <el-form-item prop="description">
-          <QuillEditor
-            v-model:content="publicDocumentType.description"
-            style="min-height: 200px; max-height: 700px"
-            content-type="html"
-            theme="snow"
-          ></QuillEditor>
+          <el-input v-model="publicDocumentType.publicDocumentType.routeAnchor" placeholder="Якорь"></el-input>
         </el-form-item>
       </el-card>
       <el-card>
@@ -30,7 +16,7 @@
             <el-button type="success" @click="addDocType">Добавить тип</el-button>
           </div>
         </template>
-        <el-card v-for="(docType, docTypeIndex) in publicDocumentType.documentTypes" :key="docTypeIndex">
+        <el-card v-for="(docType, docTypeIndex) in publicDocumentType.publicDocumentType.documentTypes" :key="docTypeIndex">
           <template #header>
             <div class="card-header">
               <el-form-item
@@ -41,16 +27,6 @@
                 <el-input v-model="docType.name" placeholder="Название типа документов"></el-input>
               </el-form-item>
               <el-button type="danger" icon="el-icon-close" @click="removeDocType(docTypeIndex)"></el-button>
-            </div>
-            <div>
-              <el-form-item prop="description">
-                <QuillEditor
-                  v-model:content="docType.description"
-                  style="min-height: 200px; max-height: 700px"
-                  content-type="html"
-                  theme="snow"
-                ></QuillEditor>
-              </el-form-item>
             </div>
           </template>
           <el-table :data="docType.documents">
@@ -97,7 +73,6 @@
 </template>
 
 <script lang="ts">
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
@@ -106,13 +81,13 @@ import { useStore } from 'vuex';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
+import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
-  name: 'AdminPublicDocumentTypePage',
-  components: { DocumentUploader, TableButtonGroup, QuillEditor },
+  name: 'AdminEducationPublicDocumentTypePage',
+  components: { DocumentUploader, TableButtonGroup },
 
   setup() {
     const store = useStore();
@@ -120,7 +95,9 @@ export default defineComponent({
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
-    const publicDocumentType: ComputedRef<IPublicDocumentType> = computed(() => store.getters['publicDocumentTypes/item']);
+    const publicDocumentType: ComputedRef<IEducationPublicDocumentType> = computed(
+      () => store.getters['educationPublicDocumentTypes/item']
+    );
     const rules = {
       name: [{ required: true, message: 'Необходимо указать название раздела', trigger: 'blur' }],
       docName: [{ required: true, message: 'Необходимо указать название документа', trigger: 'blur' }],
@@ -130,11 +107,10 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const addDocType = () => {
-      store.commit('publicDocumentTypes/addDocType');
+      store.commit('educationPublicDocumentTypes/addDocType');
     };
-
     const removeDocType = (index: number) => {
-      store.commit('publicDocumentTypes/removeDocType', index);
+      store.commit('educationPublicDocumentTypes/removeDocType', index);
     };
 
     const addDocument = (docType: IDocumentType) => {
@@ -153,22 +129,22 @@ export default defineComponent({
       }
       try {
         if (route.params['id']) {
-          await store.dispatch('publicDocumentTypes/update', publicDocumentType.value);
+          await store.dispatch('educationPublicDocumentTypes/update', publicDocumentType.value);
         } else {
-          await store.dispatch('publicDocumentTypes/create', publicDocumentType.value);
+          await store.dispatch('educationPublicDocumentTypes/create', publicDocumentType.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : router.push('/admin/public-document-types');
+      next ? next() : router.push('/admin/education-public-document-types');
     };
 
     onBeforeMount(async () => {
-      store.commit('publicDocumentTypes/resetState');
+      store.commit('educationPublicDocumentTypes/resetState');
       store.commit('admin/showLoading');
       if (route.params['id']) {
-        await store.dispatch('publicDocumentTypes/get', route.params['id']);
+        await store.dispatch('educationPublicDocumentTypes/get', route.params['id']);
         store.commit('admin/setHeaderParams', { title: 'Обновить раздел', showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('admin/setHeaderParams', { title: 'Добавить раздел', showBackButton: true, buttons: [{ action: submit }] });
@@ -184,7 +160,7 @@ export default defineComponent({
     });
 
     onBeforeUnmount(() => {
-      store.commit('publicDocumentTypes/resetState');
+      store.commit('educationPublicDocumentTypes/resetState');
     });
 
     return {
