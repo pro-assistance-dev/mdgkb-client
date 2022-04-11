@@ -1,5 +1,5 @@
 <template>
-  <div class="slide-container" :style="{ 'background-image': `url(${url})` }">
+  <div class="slide-container" :style="{ 'background-image': `url(${getUrl()})` }">
     <div class="slide-body">
       <div class="text" :style="{ color: `${item.color}` }">
         <div class="title">{{ item.title }}</div>
@@ -67,12 +67,15 @@ export default defineComponent({
       url.value = img.getFileUrl();
     };
 
+    const getUrl = () => url.value;
+
     onBeforeMount(() => {
       resizeHandler();
       window.addEventListener('resize', resizeHandler);
     });
 
     return {
+      getUrl,
       url,
     };
   },
