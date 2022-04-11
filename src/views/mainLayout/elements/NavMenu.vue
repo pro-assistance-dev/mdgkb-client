@@ -1,7 +1,7 @@
 <template>
   <ul v-if="mounted" class="menu-center-list">
     <li v-for="menu in menus" :key="menu.id">
-      <router-link class="link-menu" :to="menu.getLink()">
+      <router-link class="link-menu" :to="menu.getLink()" :class="{ active: isActive(menu.link !== '' ? menu.link : menu.subMenus) }">
         {{ menu.name }}
       </router-link>
       <ul v-if="!menu.withoutChildren()" class="dropmenu">
@@ -97,6 +97,22 @@ export default defineComponent({
       return color;
     };
 
+    const isActive = (path: string | IMenu[]): boolean => {
+      // console.log("path:" + path);
+      // console.log("route.path: " + route.path);
+      if (!Array.isArray(path)) {
+        return route.path.startsWith(path);
+      }
+
+      for (const menu of path) {
+        if (route.path.startsWith(menu.link)) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
     return {
       getColor,
       isAuth,
@@ -105,6 +121,7 @@ export default defineComponent({
       expand,
       activePath,
       menuClickHandler,
+      isActive,
     };
   },
 });
@@ -286,6 +303,10 @@ li .dropmenu {
 
 li:hover {
   cursor: pointer;
+}
+
+.active {
+  background: #ffffff;
 }
 
 @media screen and (max-width: 1025px) {
