@@ -21,7 +21,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import ISearchModel from '@/interfaces/ISearchModel';
-import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
   name: 'SearchBar',
@@ -54,15 +53,17 @@ export default defineComponent({
     };
 
     const suggestSearch = async (queryString: string, cb: (arg: any) => void) => {
-      searchModel.value.suggester = true;
-      searchModel.value.query = queryString;
-      searchModel.value.options = [];
-      searchModel.value.searchGroup.options = [];
-      await store.dispatch('search/searchV1', searchModel.value);
-      const options = searchModel.value.options.map((opt: IOption) => {
-        return { label: opt.value, value: opt.label };
-      });
-      cb(options);
+      await router.push(`/dev`);
+      return;
+      // searchModel.value.suggester = true;
+      // searchModel.value.query = queryString;
+      // searchModel.value.options = [];
+      // searchModel.value.searchGroup.options = [];
+      // await store.dispatch('search/searchV1', searchModel.value);
+      // const options = searchModel.value.options.map((opt: IOption) => {
+      //   return { label: opt.value, value: opt.label };
+      // });
+      // cb(options);
     };
 
     const submitSearch = async () => {

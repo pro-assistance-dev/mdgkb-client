@@ -2,13 +2,13 @@
   <div class="card-item">
     <ul>
       <h2>{{ publicDocumentType.name }}</h2>
-      <div v-html="publicDocumentType.description"></div>
+      <div v-if="publicDocumentType.description != '<p>undefined</p>'" v-html="publicDocumentType.description"></div>
     </ul>
   </div>
   <div v-for="docType in publicDocumentType.documentTypes" :key="docType" class="card-item">
     <ul>
       <h2>{{ docType.name }}</h2>
-      <div v-html="docType.description"></div>
+      <div v-if="docType.description != '<p>undefined</p>'" v-html="docType.description"></div>
       <li v-for="file in docType.documents" :key="file.id">
         <a target="_blank" :href="file.getScan().getFileUrl()">{{ file.name }}</a>
       </li>

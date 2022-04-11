@@ -18,4 +18,5 @@ export default interface IFileInfo {
   setFile: (file: IFile) => void;
   uploadAndSetFile: (file: IFile) => void;
   clearFile: () => void;
+  errorImg: (event: Event) => void;
 }

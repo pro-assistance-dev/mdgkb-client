@@ -7,8 +7,8 @@
           <el-divider />
           <el-table :data="modes" cell-class-name="cell-row" :show-header="false">
             <el-table-column>
-              <template #default="scope">
-                <div :class="isActive(scope.row.value)" @click="changeTab(scope.row.value)">
+              <template #default="scope" @click="changeTab(scope.row.value)">
+                <div class="menu-item" :class="isActive(scope.row.value)" @click="changeTab(scope.row.value)">
                   {{ scope.row.label }}
                 </div>
               </template>
@@ -140,6 +140,10 @@ $side-cotainer-max-width: 300px;
 $content-max-width: 1000px;
 $card-margin-size: 30px;
 
+.menu-item {
+  padding: 10px 0;
+}
+
 h4 {
   margin: 0;
 }
@@ -150,6 +154,7 @@ h4 {
   padding: 0 !important;
 }
 :deep(.cell-row) {
+  padding: 0 !important;
   cursor: pointer;
 }
 .ordinatura-page-container {

@@ -2,7 +2,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import PaidProgramPage from '@/components/PaidPrograms/PaidProgramPage.vue';
 import PaidPrograms from '@/components/PaidPrograms/PaidPrograms.vue';
-import { isAuthorized } from '@/router/index';
+import { devGuard, isAuthorized } from '@/router/index';
 
 export default [
   {
@@ -11,6 +11,7 @@ export default [
     component: PaidPrograms,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
+      devGuard();
     },
   },
   {
@@ -19,6 +20,7 @@ export default [
     component: PaidProgramPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
+      devGuard();
     },
   },
 ];

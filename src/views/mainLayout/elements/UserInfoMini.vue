@@ -2,7 +2,7 @@
   <div class="user-mini-info">
     <div class="avatar-block">
       <div class="avatar">
-        <img :src="user.human.photo.getFileUrl()" alt="alt" @error="errorImg" />
+        <img :src="user.human.photo.getFileUrl()" alt="alt" @error="user.human.photo.errorImg($event)" />
       </div>
     </div>
     <el-form :model="user">
@@ -62,15 +62,8 @@ export default defineComponent({
 
     const user: Ref<IUser> = computed(() => store.getters['users/item']);
 
-    const errorImg = (event: Event) => {
-      if (event.target) {
-        (event.target as HTMLImageElement).src = require('@/assets/img/avatar.png');
-      }
-    };
-
     return {
       user,
-      errorImg,
     };
   },
 });
