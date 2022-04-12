@@ -7,12 +7,14 @@ import IFieldValue from '@/interfaces/IFieldValue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
+import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
 import CandidateApplication from './CandidateApplication';
 import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
 import FormStatus from './FormStatus';
 import PostgraduateApplication from './PostgraduateApplication';
+import ResidencyApplication from './ResidencyApplication';
 import User from './User';
 
 export default class Form implements IForm {
@@ -32,6 +34,7 @@ export default class Form implements IForm {
   dpoApplication?: IDpoApplication;
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
+  residencyApplication?: IResidencyApplication;
   // changed = false;
 
   constructor(form?: IForm) {
@@ -70,6 +73,9 @@ export default class Form implements IForm {
     }
     if (form.candidateApplication) {
       this.candidateApplication = new CandidateApplication(form.candidateApplication);
+    }
+    if (form.residencyApplication) {
+      this.residencyApplication = new ResidencyApplication(form.residencyApplication);
     }
   }
 

@@ -29,7 +29,7 @@
     </el-table-column>
     <el-table-column label="Наименование курса" sortable>
       <template #default="scope">
-        {{ scope.row.postgraduateCourse.getMainSpecialization() }}
+        {{ scope.row.postgraduateCourse.getMainSpecialization().name }}
       </template>
     </el-table-column>
     <el-table-column width="50" fixed="right" align="center">

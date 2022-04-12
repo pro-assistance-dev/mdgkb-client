@@ -44,78 +44,80 @@
         </div>
       </div>
     </div>
-    <div class="right-field" style="padding: 30px; margin-bottom: 20px">
-      <div class="card-header">
-        <h3 class="title article-title">Программа аспирантуры по специальности</h3>
-        <h2 class="title article-title">"{{ residencyCourse.getMainSpecialization().name }}"</h2>
-      </div>
-      <!-- <el-divider /> -->
-      <div class="info-tags-block">
-        <el-tag v-if="residencyCourse.educationForm">Форма обучения: {{ residencyCourse.educationForm }}</el-tag>
-        <el-divider v-if="residencyCourse.educationForm" direction="vertical" />
-        <el-tag v-if="residencyCourse.years > 0">Нормативный срок обучения: {{ residencyCourse.years }} года </el-tag>
-        <el-divider v-if="residencyCourse.years > 0" direction="vertical" />
-        <el-tag>Язык обучения: русский</el-tag>
-      </div>
-      <!-- <el-divider /> -->
-      <div class="info-tags-block">
-        <a
-          v-if="residencyCourse.program.fileSystemPath"
-          :href="residencyCourse.program.getFileUrl()"
-          :download="residencyCourse.program.originalName"
-          target="_blank"
-          style="margin-right: 10px"
-        >
-          Основная профессиональная программа Высшего образования</a
-        >
-        <a
-          v-if="residencyCourse.annotation.fileSystemPath"
-          :href="residencyCourse.annotation.getFileUrl()"
-          :download="residencyCourse.annotation.originalName"
-          target="_blank"
-          style="margin-right: 10px"
-        >
-          Аннотации рабочих программ дисциплин</a
-        >
-        <a
-          v-if="residencyCourse.schedule.fileSystemPath"
-          :href="residencyCourse.schedule.getFileUrl()"
-          :download="residencyCourse.schedule.originalName"
-          target="_blank"
-          style="margin-right: 10px"
-        >
-          График учебного процесса</a
-        >
-        <a
-          v-if="residencyCourse.plan.fileSystemPath"
-          :href="residencyCourse.plan.getFileUrl()"
-          :download="residencyCourse.plan.originalName"
-          target="_blank"
-          style="margin-right: 10px"
-        >
-          Учебный план</a
-        >
-      </div>
-      <!-- <el-divider /> -->
-      <!--      <div v-if="residencyCourse.residencyCoursePlans.length > 0" class="info-block">-->
-      <!--        <div>Учебные планы</div>-->
-      <!--        <div>:</div>-->
-      <!--        <a-->
-      <!--          v-for="plan in residencyCourse.residencyCoursePlans"-->
-      <!--          :key="plan.id"-->
-      <!--          :href="plan.plan.getFileUrl()"-->
-      <!--          :download="plan.plan.originalName"-->
-      <!--          target="_blank"-->
-      <!--          style="margin-right: 10px"-->
-      <!--        >-->
-      <!--          {{ plan.year.getFullYear() }}</a-->
-      <!--        >-->
-      <!--      </div>-->
-      <!-- <el-divider /> -->
-      <!-- <el-divider /> -->
-      <div class="bottom-footer">
-        <SharesBlock :title="residencyCourse.name" :description="residencyCourse.description" :url="getUrl()" />
-        <button class="response-btn" @click="openRespondForm">Подать заявление</button>
+    <div class="right-field">
+      <div class="card-item" style="margin-bottom: 20px">
+        <div class="card-header">
+          <h3 class="title article-title">Программа аспирантуры по специальности</h3>
+          <h2 class="title article-title">"{{ residencyCourse.getMainSpecialization().name }}"</h2>
+        </div>
+        <!-- <el-divider /> -->
+        <div class="info-tags-block">
+          <el-tag v-if="residencyCourse.educationForm">Форма обучения: {{ residencyCourse.educationForm }}</el-tag>
+          <el-divider v-if="residencyCourse.educationForm" direction="vertical" />
+          <el-tag v-if="residencyCourse.years > 0">Нормативный срок обучения: {{ residencyCourse.years }} года </el-tag>
+          <el-divider v-if="residencyCourse.years > 0" direction="vertical" />
+          <el-tag>Язык обучения: русский</el-tag>
+        </div>
+        <!-- <el-divider /> -->
+        <div class="info-tags-block">
+          <a
+            v-if="residencyCourse.program.fileSystemPath"
+            :href="residencyCourse.program.getFileUrl()"
+            :download="residencyCourse.program.originalName"
+            target="_blank"
+            style="margin-right: 10px"
+          >
+            Основная профессиональная программа Высшего образования</a
+          >
+          <a
+            v-if="residencyCourse.annotation.fileSystemPath"
+            :href="residencyCourse.annotation.getFileUrl()"
+            :download="residencyCourse.annotation.originalName"
+            target="_blank"
+            style="margin-right: 10px"
+          >
+            Аннотации рабочих программ дисциплин</a
+          >
+          <a
+            v-if="residencyCourse.schedule.fileSystemPath"
+            :href="residencyCourse.schedule.getFileUrl()"
+            :download="residencyCourse.schedule.originalName"
+            target="_blank"
+            style="margin-right: 10px"
+          >
+            График учебного процесса</a
+          >
+          <a
+            v-if="residencyCourse.plan.fileSystemPath"
+            :href="residencyCourse.plan.getFileUrl()"
+            :download="residencyCourse.plan.originalName"
+            target="_blank"
+            style="margin-right: 10px"
+          >
+            Учебный план</a
+          >
+        </div>
+        <!-- <el-divider /> -->
+        <!--      <div v-if="residencyCourse.residencyCoursePlans.length > 0" class="info-block">-->
+        <!--        <div>Учебные планы</div>-->
+        <!--        <div>:</div>-->
+        <!--        <a-->
+        <!--          v-for="plan in residencyCourse.residencyCoursePlans"-->
+        <!--          :key="plan.id"-->
+        <!--          :href="plan.plan.getFileUrl()"-->
+        <!--          :download="plan.plan.originalName"-->
+        <!--          target="_blank"-->
+        <!--          style="margin-right: 10px"-->
+        <!--        >-->
+        <!--          {{ plan.year.getFullYear() }}</a-->
+        <!--        >-->
+        <!--      </div>-->
+        <!-- <el-divider /> -->
+        <!-- <el-divider /> -->
+        <div class="bottom-footer">
+          <SharesBlock :title="residencyCourse.name" :description="residencyCourse.description" :url="getUrl()" />
+          <button class="response-btn" @click="openRespondForm">Подать заявление</button>
+        </div>
       </div>
       <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
         <h2 class="title article-title">Форма для подачи заявления</h2>
@@ -403,9 +405,9 @@ h4 {
 
 .right-field {
   width: 100%;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid #dcdfe6;
+  // background: #ffffff;
+  // border-radius: 5px;
+  // border: 1px solid #dcdfe6;
 }
 
 .left-field {

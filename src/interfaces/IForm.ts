@@ -6,6 +6,7 @@ import IDpoApplication from './IDpoApplication';
 import IFieldValue from './IFieldValue';
 import IFormStatus from './IFormStatus';
 import IPostgraduateApplication from './IPostgraduateApplication';
+import IResidencyApplication from './IResidencyApplication';
 import IUser from './IUser';
 
 export default interface IForm {
@@ -24,6 +25,7 @@ export default interface IForm {
   dpoApplication?: IDpoApplication;
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
+  residencyApplication?: IResidencyApplication;
 
   addField(field?: IField): void;
   removeField(index: number): void;

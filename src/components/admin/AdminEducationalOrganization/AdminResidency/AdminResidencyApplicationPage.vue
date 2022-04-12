@@ -1,15 +1,10 @@
 <template>
   <div v-if="mounted" class="wrapper">
-    <el-form ref="form" :key="dpoApplication" :model="dpoApplication" label-position="top">
+    <el-form ref="form" :key="application" :model="application" label-position="top">
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
-          <div v-if="dpoApplication.dpoCourse.id">
-            <AdminFormValue
-              :form="dpoApplication.formValue"
-              :is-edit-mode="isEditMode"
-              :email-exists="emailExists"
-              @findEmail="findEmail"
-            />
+          <div v-if="application.residencyCourse.id">
+            <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
           </div>
           <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
         </el-col>
@@ -19,24 +14,25 @@
               <span>Информация о программе</span>
             </template>
             <el-form-item
-              v-if="isEditMode && !dpoApplication.dpoCourseId"
+              v-if="isEditMode && !application.residencyCourseId"
               label="Выберите программу"
-              prop="dpoCourseId"
+              prop="residencyCourseId"
               :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
             >
               <el-select
-                v-model="dpoApplication.dpoCourse"
+                v-model="application.residencyCourse"
                 value-key="id"
                 placeholder="Выберите программу"
                 style="width: 100%"
                 @change="courseChangeHandler"
               >
-                <el-option v-for="item in dpoCourses" :key="item.id" :label="item.name" :value="item"> </el-option>
+                <el-option v-for="item in residencyCourses" :key="item.id" :label="item.getMainSpecialization()" :value="item"> </el-option>
               </el-select>
             </el-form-item>
-            <el-descriptions v-else :column="1" border>
-              <el-descriptions-item label="Наименование">{{ dpoApplication.dpoCourse.name }}</el-descriptions-item>
-              <el-descriptions-item label="Тип программы">{{ dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-descriptions-item>
+            <el-descriptions v-else :column="1">
+              <el-descriptions-item label="Наименование">
+                {{ application.residencyCourse.getMainSpecialization().name }}
+              </el-descriptions-item>
             </el-descriptions>
           </el-card>
         </el-col>
@@ -50,22 +46,14 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import SortModel from '@/classes/filters/SortModel';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import { Orders } from '@/interfaces/filters/Orders';
-import IDpoApplication from '@/interfaces/IDpoApplication';
-import IDpoCourse from '@/interfaces/IDpoCourse';
-import IForm from '@/interfaces/IForm';
-import IFormStatus from '@/interfaces/IFormStatus';
-import ISchema from '@/interfaces/schema/ISchema';
+import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
-  name: 'AdminDpoApplicationPage',
+  name: 'AdminResidencyApplicationPage',
   components: { AdminFormValue },
 
   setup() {
@@ -74,48 +62,29 @@ export default defineComponent({
     const router = useRouter();
     const mounted = ref(false);
     const form = ref();
-    const filterModel = ref();
 
-    const dpoApplication: ComputedRef<IDpoApplication> = computed<IDpoApplication>(() => store.getters['dpoApplications/item']);
-    const dpoApplicationFormValue: ComputedRef<IForm> = computed<IForm>(() => store.getters['dpoApplications/formValue']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-    const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => store.getters['dpoCourses/items']);
+    const application: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
+      () => store.getters['residencyApplications/item']
+    );
+    const residencyCourses: ComputedRef<IResidencyCourse[]> = computed(() => store.getters['residencyCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактиварония');
-    const emailExists: ComputedRef<boolean> = computed(() => store.getters['dpoApplications/emailExists']);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
-
-    watch(route, async () => {
-      setProgramsType();
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
-    });
-    const setProgramsType = () => {
-      filterModel.value.boolean = route.meta.isNmo;
-      store.commit('filter/setFilterModel', filterModel.value);
-    };
+    const emailExists: ComputedRef<boolean> = computed(() => store.getters['residencyApplications/emailExists']);
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await loadDpoCourses();
+      await loadCourses();
       await loadItem();
       await updateNew();
       await findEmail();
       store.commit('admin/closeLoading');
     });
 
-    const loadDpoCourses = async () => {
+    const loadCourses = async () => {
       store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
-      store.commit(
-        'filter/replaceSortModel',
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true)
-      );
-      filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
-      filterQuery.value.pagination.cursorMode = false;
-      setProgramsType();
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
+      await store.dispatch('residencyCourses/getAll');
     };
 
     const changeEditMode = () => {
@@ -127,28 +96,29 @@ export default defineComponent({
       }
     };
 
+    const findEmail = async () => {
+      await store.dispatch('residencyApplications/emailExists', application.value.residencyCourse.id);
+    };
+
     const updateNew = async () => {
       if (!route.params['id']) {
         return;
       }
-      if (!dpoApplication.value.formValue.isNew) {
+      if (!application.value.formValue.isNew) {
         return;
       }
-      dpoApplication.value.formValue.isNew = false;
-      await store.dispatch('dpoApplications/update', dpoApplication.value);
+      application.value.formValue.isNew = false;
+      await store.dispatch('residencyApplications/update', application.value);
     };
 
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
-        await store.dispatch('dpoApplications/get', route.params['id']);
-        pageTitle = `Заявление от ${dpoApplication.value.formValue.user.email}`;
+        await store.dispatch('residencyApplications/get', route.params['id']);
+        pageTitle = `Заявление от ${application.value.formValue.user.email}`;
       } else {
-        store.commit('dpoApplications/resetItem');
-        pageTitle = 'Подача заявления ДПО';
-        if (route.meta.isNmo) {
-          pageTitle = 'Подача заявления НМО';
-        }
+        pageTitle = 'Подача заявления на обучение в аспирантуре';
+        store.commit('residencyApplications/resetItem');
         isEditMode.value = true;
       }
       store.commit('admin/setHeaderParams', {
@@ -158,43 +128,36 @@ export default defineComponent({
       });
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(dpoApplication, formUpdated, { deep: true });
-    };
-
-    const findEmail = async () => {
-      await store.dispatch('dpoApplications/emailExists', dpoApplication.value.dpoCourse.id);
+      watch(application, formUpdated, { deep: true });
     };
 
     const submit = async (next?: NavigationGuardNext) => {
-      dpoApplication.value.formValue.validate();
+      application.value.formValue.validate();
       saveButtonClick.value = true;
-      if (!validate(form, true) || !dpoApplication.value.formValue.validated) {
+      if (!validate(form, true) || !application.value.formValue.validated) {
         saveButtonClick.value = false;
         return;
       }
       if (route.params['id']) {
-        await store.dispatch('dpoApplications/update');
+        await store.dispatch('residencyApplications/update');
       } else {
-        dpoApplication.value.formValue.clearIds();
-        await store.dispatch('dpoApplications/create');
+        application.value.formValue.clearIds();
+        await store.dispatch('residencyApplications/create');
       }
-      const typeCourse = dpoApplication.value.dpoCourse.isNmo ? 'nmo' : 'dpo';
-      next ? next() : await router.push(`/admin/${typeCourse}/applications`);
+      next ? next() : await router.push(`/admin/residency-applications`);
     };
 
     const courseChangeHandler = async () => {
       if (!route.params['id']) {
-        store.commit('dpoApplications/setCourse', dpoApplication.value.dpoCourse);
-        store.commit('dpoApplications/setFormValue', dpoApplication.value.dpoCourse.formPattern);
-        dpoApplication.value.formValue.initFieldsValues();
+        store.commit('residencyApplications/setCourse', application.value.residencyCourse);
+        store.commit('residencyApplications/setFormValue', application.value.residencyCourse.formPattern);
+        application.value.formValue.initFieldsValues();
       }
       await findEmail();
-      // store.commit('dpoApplications/changeFormPattern', dpoApplication.value.dpoCourse.formPattern);
-      // const newForm = new Form(dpoApplication.value.formValue);
-      // dpoApplication.value.formValue.removeAllFieldsAndValues();
-      // dpoApplication.value.formValue.applyFormPatternFields(dpoApplication.value.dpoCourse.formPattern);
-      // dpoApplication.value.formValue.initFieldsValues();
-      // store.commit('dpoApplications/setFormValue', dpoApplication.value.dpoCourse.formPattern);
+      // application.value.residencyCourseId = application.value.residencyCourse.id;
+      // application.value.removeAllFieldValues();
+      // application.value.residencyCourse.formPattern.removeAllFieldValues();
+      // application.value.residencyCourse.formPattern.initFieldsValues();
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -204,11 +167,10 @@ export default defineComponent({
     return {
       mounted,
       form,
-      dpoApplication,
-      dpoCourses,
+      application,
+      residencyCourses,
       isEditMode,
       courseChangeHandler,
-      dpoApplicationFormValue,
       findEmail,
       emailExists,
     };

@@ -1,7 +1,7 @@
 <template>
   <div v-if="mounted">
-    <el-form ref="form" v-model="postgraduateApplication" :model="postgraduateApplication" label-position="top">
-      <UserForm :form="postgraduateApplication.formValue" :email-exists="emailExists" @findEmail="findEmail" />
+    <el-form ref="form" v-model="residencyApplication" :model="residencyApplication" label-position="top">
+      <UserForm :form="residencyApplication.formValue" :email-exists="emailExists" @findEmail="findEmail" />
 
       <i>
         <div>Печать документов должна быть высокого качества.</div>
@@ -13,7 +13,7 @@
         </div>
       </i>
 
-      <FieldValuesForm :form="postgraduateApplication.formValue" />
+      <FieldValuesForm :form="residencyApplication.formValue" />
     </el-form>
     <el-divider />
     <div style="text-align: right">
@@ -29,8 +29,8 @@ import { useStore } from 'vuex';
 
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
+import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
 
@@ -42,31 +42,31 @@ export default defineComponent({
   setup(_, { emit }) {
     const store = useStore();
     const mounted = ref(false);
-    const postgraduateApplication: ComputedRef<IPostgraduateApplication> = computed<IPostgraduateApplication>(
-      () => store.getters['postgraduateApplications/item']
+    const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
+      () => store.getters['residencyApplications/item']
     );
-    const postgraduateCourse: Ref<IPostgraduateCourse> = computed<IPostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
+    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => store.getters['residencyCourses/item']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
-    const emailExists: ComputedRef<boolean> = computed(() => store.getters['postgraduateApplications/emailExists']);
+    const emailExists: ComputedRef<boolean> = computed(() => store.getters['residencyApplications/emailExists']);
     const form = ref();
 
     watch(isAuth, async () => {
-      store.commit('postgraduateApplications/setUser', user.value);
+      store.commit('residencyApplications/setUser', user.value);
       await findEmail();
     });
 
     const findEmail = async () => {
-      await store.dispatch('postgraduateApplications/emailExists', postgraduateCourse.value.id);
+      await store.dispatch('residencyApplications/emailExists', residencyCourse.value.id);
     };
 
     const submit = async () => {
-      postgraduateApplication.value.formValue.validate();
-      if (!validate(form, true) || !postgraduateApplication.value.formValue.validated) {
+      residencyApplication.value.formValue.validate();
+      if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
         return;
       }
-      postgraduateApplication.value.formValue.clearIds();
-      await store.dispatch('postgraduateApplications/create');
+      residencyApplication.value.formValue.clearIds();
+      await store.dispatch('residencyApplications/create');
       ElMessage({
         type: 'success',
         message: 'Заявка отправлена',
@@ -75,18 +75,19 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('postgraduateApplications/resetItem');
-      store.commit('postgraduateApplications/setFormValue', postgraduateCourse.value.formPattern);
-      postgraduateApplication.value.formValue.initFieldsValues();
-      store.commit('postgraduateApplications/setCourse', postgraduateCourse.value);
-      store.commit('postgraduateApplications/setUser', user.value);
+      console.log(residencyCourse.value);
+      store.commit('residencyApplications/resetItem');
+      store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
+      residencyApplication.value.formValue.initFieldsValues();
+      store.commit('residencyApplications/setCourse', residencyCourse.value);
+      store.commit('residencyApplications/setUser', user.value);
       await findEmail();
       mounted.value = true;
     });
 
     return {
-      postgraduateApplication,
-      postgraduateCourse,
+      residencyApplication,
+      residencyCourse,
       mounted,
       submit,
       user,

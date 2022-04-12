@@ -1,5 +1,5 @@
 <template>
-  <el-table v-if="mounted" :data="postgraduateApplications">
+  <el-table v-if="mounted" :data="residencyApplications">
     <el-table-column label="Статус">
       <template #default="scope">
         <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Новая</el-tag>
@@ -29,7 +29,7 @@
     </el-table-column>
     <el-table-column label="Наименование курса" sortable>
       <template #default="scope">
-        {{ scope.row.postgraduateCourse.getMainSpecialization() }}
+        {{ scope.row.residencyCourse.getMainSpecialization().name }}
       </template>
     </el-table-column>
     <el-table-column width="50" fixed="right" align="center">
@@ -46,10 +46,10 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
+import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
 export default defineComponent({
-  name: 'AdminPostgraduateApplicationsList',
+  name: 'AdminResidencyApplicationsList',
   components: { TableButtonGroup },
 
   setup() {
@@ -58,18 +58,16 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const postgraduateApplications: ComputedRef<IPostgraduateApplication[]> = computed(
-      () => store.getters['postgraduateApplications/items']
-    );
+    const residencyApplications: ComputedRef<IResidencyApplication[]> = computed(() => store.getters['residencyApplications/items']);
     // const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     // const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     // const filterModel = ref();
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('postgraduateApplications/getAll');
+      await store.dispatch('residencyApplications/getAll');
       store.commit('admin/setHeaderParams', {
-        title: 'Заявки на обучение в аспирантуре',
+        title: 'Заявки на обучение в ординатуре',
         buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
       });
       store.commit('pagination/setCurPage', 1);
@@ -83,7 +81,7 @@ export default defineComponent({
 
     return {
       mounted,
-      postgraduateApplications,
+      residencyApplications,
       edit,
     };
   },
