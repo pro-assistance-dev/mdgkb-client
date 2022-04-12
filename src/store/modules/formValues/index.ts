@@ -1,28 +1,27 @@
 import { Module } from 'vuex';
 
-import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
+import Form from '@/classes/Form';
 import RootState from '@/store/types';
 
+import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 import { State } from './state';
 
 export const getDefaultState = (): State => {
   return {
-    headerParams: new AdminHeaderParams(),
-    showHeader: false,
-    isCollapseSideMenu: true,
-    isDrawerOpen: false,
-    loading: undefined,
+    items: [],
+    item: new Form(),
   };
 };
 
 const state = getDefaultState();
 const namespaced = true;
 
-export const admin: Module<State, RootState> = {
+export const formValues: Module<State, RootState> = {
   namespaced,
   state,
   getters,
+  actions,
   mutations,
 };

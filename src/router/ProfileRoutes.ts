@@ -1,5 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
+import EditApplicationPage from '@/components/Profile/Education/EditApplicationPage.vue';
 import EducationPage from '@/components/Profile/Education/EducationPage.vue';
 import ProfileChildrenPage from '@/components/Profile/ProfileChildrenPage.vue';
 import ProfileDonor from '@/components/Profile/ProfileDonor.vue';
@@ -63,6 +64,16 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     path: '/profile/education',
     name: 'Education',
     component: EducationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard();
+      isAuthorized(next);
+    },
+    meta: { protected: true, profile: true },
+  },
+  {
+    path: '/profile/education/applications/:id',
+    name: 'EditApplicationPage',
+    component: EditApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       authGuard();
       isAuthorized(next);

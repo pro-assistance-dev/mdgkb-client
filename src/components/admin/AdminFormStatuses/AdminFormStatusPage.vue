@@ -20,6 +20,9 @@
         <el-form-item label="Цвет" prop="color">
           <el-color-picker v-model="formStatus.color"></el-color-picker>
         </el-form-item>
+        <el-form-item label="Исконка" prop="icon">
+          <UploaderSingleScan :file-info="formStatus.icon" :crop-ratio="false" />
+        </el-form-item>
       </el-card>
     </el-form>
   </div>
@@ -31,11 +34,13 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IForm from '@/interfaces/IForm';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminFormStatusPage',
+  components: { UploaderSingleScan },
 
   setup() {
     const store = useStore();

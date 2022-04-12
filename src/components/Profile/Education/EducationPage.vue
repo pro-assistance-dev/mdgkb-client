@@ -49,7 +49,7 @@
             <th><h4>ТИП</h4></th>
             <th><h4>ДАТА&nbsp;ПОДАЧИ</h4></th>
             <th><h4>СТАТУС</h4></th>
-            <th><h4></h4></th>
+            <th><h4>ДОСТУПНЫЕ ДЕЙСТВИЯ</h4></th>
           </thead>
           <tbody>
             <tr v-for="formValue in user.formValues" :key="formValue.id">
@@ -58,7 +58,7 @@
                   {{ formValue.dpoApplication.dpoCourse.name }}
                 </div>
                 <div v-if="formValue.postgraduateApplication">
-                  {{ formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization() }}
+                  {{ formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().name }}
                 </div>
                 <div v-if="formValue.candidateApplication">Кандидатский минимум</div>
               </td>
@@ -86,9 +86,45 @@
 
               <td>
                 <div class="table-box">
-                  <svg v-if="formValue.formStatus.isEditable" class="icon-edit">
-                    <use xlink:href="#profile-edit"></use>
-                  </svg>
+                  <div class="buttons-container">
+                    <!-- <svg
+                      v-if="formValue.formStatus.isEditable"
+                      class="icon-edit"
+                      @click="$router.push(`/profile/education/applications/${formValue.id}`)"
+                    >
+                      <use xlink:href="#profile-edit"></use>
+                    </svg> -->
+                    <div class="status-buttons">
+                      <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">
+                        <div v-if="item.childFormStatus.userActionName">
+                          <el-popover
+                            v-if="item.childFormStatus.icon.fileSystemPath"
+                            placement="top-start"
+                            width="auto"
+                            trigger="hover"
+                            :content="item.childFormStatus.userActionName"
+                          >
+                            <template #reference>
+                              <button>
+                                <img
+                                  :src="item.childFormStatus.icon.getImageUrl()"
+                                  alt="alt"
+                                  @click="updateFormStatus(formValue, item.childFormStatus)"
+                                />
+                              </button>
+                            </template>
+                          </el-popover>
+                          <button
+                            v-else
+                            :style="`background-color: ${item.childFormStatus.color}; color: white; border: 1px solid ${item.childFormStatus.color}`"
+                            @click="updateFormStatus(formValue, item.childFormStatus)"
+                          >
+                            {{ item.childFormStatus.userActionName }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <!-- <svg class="icon-trash">
                     <use xlink:href="#trash"></use>
                   </svg> -->
@@ -145,30 +181,50 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import IForm from '@/interfaces/IForm';
+import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
   name: 'EducationPage',
   setup() {
     const store = useStore();
+    const router = useRouter();
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
     const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
+    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
 
     const loadUser = async () => {
       await store.dispatch('users/get', userId.value);
       mounted.value = true;
     };
-    onMounted(loadUser);
+
+    const updateFormStatus = async (formValue: IForm, status: IFormStatus) => {
+      console.log(status.isSpecify());
+      if (status.isSpecify()) {
+        router.push(`/profile/education/applications/${formValue.id}`);
+        return;
+      }
+      // formValue.setStatus(status, formStatuses.value);
+      // await store.dispatch('formValues/update', formValue);
+    };
+    onBeforeMount(async () => {
+      await loadUser();
+      await store.dispatch('formStatuses/getAll');
+    });
 
     return {
       mounted,
       user,
       fillDateFormat,
+      formStatuses,
+      updateFormStatus,
     };
   },
 });
@@ -496,5 +552,32 @@ ul.drop-give-button-item li:first-child {
 ul.drop-give-button-item li:last-child {
   border-radius: 0 0 5px 5px;
   border-bottom: none;
+}
+.status-buttons {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  button {
+    img {
+      height: 25px;
+    }
+    margin-bottom: 2px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: 12px;
+    &:hover {
+      cursor: pointer;
+      filter: brightness(110%);
+    }
+  }
+}
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  button,
+  svg {
+    margin: 3px 0;
+  }
 }
 </style>

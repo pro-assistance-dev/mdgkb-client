@@ -32,7 +32,7 @@
             </el-form-item>
             <el-descriptions v-else :column="1">
               <el-descriptions-item label="Наименование">
-                {{ application.postgraduateCourse.getMainSpecialization() }}
+                {{ application.postgraduateCourse.getMainSpecialization().name }}
               </el-descriptions-item>
             </el-descriptions>
           </el-card>
