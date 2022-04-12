@@ -64,9 +64,12 @@
                   {{ formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().name }}
                 </router-link>
                 <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>
-                <div v-if="formValue.residencyApplication">
+                <router-link
+                  v-if="formValue.residencyApplication"
+                  :to="`/residency-courses/${formValue.residencyApplication.residencyCourse.getMainSpecialization().slug}`"
+                >
                   {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
-                </div>
+                </router-link>
               </td>
 
               <td>
@@ -75,7 +78,7 @@
                 </router-link>
                 <router-link v-if="formValue.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
                 <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>
-                <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=candidate`"> Ординатура </router-link>
+                <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
               </td>
 
               <td>{{ fillDateFormat(formValue.createdAt) }}</td>
