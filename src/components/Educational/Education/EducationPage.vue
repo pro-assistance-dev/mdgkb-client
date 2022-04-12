@@ -27,12 +27,13 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
-import InfoPage from '@/components/Educational/EducationalOrganizationInfo/InfoPage.vue';
-import PublicDocumentPage from '@/components/Educational/EducationalOrganizationInfo/PublicDocumentPage.vue';
-import StructurePage from '@/components/Educational/EducationalOrganizationInfo/StructurePage.vue';
+import InfoPage from '@/components/Educational/Education/InfoPage.vue';
+import PublicDocumentPage from '@/components/Educational/Education/PublicDocumentPage.vue';
+import StructurePage from '@/components/Educational/Education/StructurePage.vue';
 import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -41,7 +42,7 @@ import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
-  name: 'EducationalOrganizationInfo',
+  name: 'EducationPage',
   components: {
     InfoPage,
     StructurePage,
@@ -50,6 +51,8 @@ export default defineComponent({
   setup() {
     const mounted = ref(false);
     const store = useStore();
+    const router = useRouter();
+    const route = useRoute();
     const mode: Ref<string> = ref('info');
     const pageTitle: Ref<string> = ref('Основные сведения');
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
@@ -60,12 +63,20 @@ export default defineComponent({
 
     const setModes = async () => {
       modes.value.push({ value: 'info', label: 'Основные сведения' });
+      modes.value.push({ value: 'structure', label: 'Структура и орган управления организации' });
       publicDocumentsTypes.value.forEach((docType: IPublicDocumentType) => {
         if (docType.id) {
           modes.value.push({ value: docType.id, label: docType.name });
         }
       });
-      modes.value.push({ value: 'structure', label: 'Структура и орган управления организации' });
+    };
+
+    const setTabFromRoute = () => {
+      let routeMode = route.query.mode;
+      if (typeof routeMode === 'string' && modes.value.some((m: IOption) => m.value === routeMode)) {
+        mode.value = routeMode;
+      }
+      changeTab(mode.value);
     };
 
     const isActive = (name: string): string => {
@@ -73,9 +84,6 @@ export default defineComponent({
     };
 
     const changeTab = (value: string) => {
-      if (value === mode.value) {
-        return;
-      }
       mode.value = value;
       const dpoDocumentType = publicDocumentsTypes.value.find((dpoDocType: IPublicDocumentType) => dpoDocType.id === value);
       if (dpoDocumentType) {
@@ -83,6 +91,7 @@ export default defineComponent({
       } else {
         selectedDocumentType.value = undefined;
       }
+      router.replace(`/educational-info?mode=${mode.value}`);
     };
 
     const test = (activeName: string) => {
@@ -115,6 +124,7 @@ export default defineComponent({
       await loadDocs();
       await setModes();
       mounted.value = true;
+      setTabFromRoute();
     });
 
     return {

@@ -2,9 +2,8 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoPage.vue';
+import EducationPage from '@/components/Educational/Education/EducationPage.vue';
 import EducationalOrganizationAcademics from '@/components/Educational/EducationalOrganizationAcademics.vue';
-import EducationalOrganizationDocuments from '@/components/Educational/EducationalOrganizationInfo/DocumentsPage.vue';
-import EducationalOrganizationInfo from '@/components/Educational/EducationalOrganizationInfo/EducationalOrganizationInfo.vue';
 import PostgraduateCoursePage from '@/components/Educational/Postgraduate/PostgraduateCoursePage.vue';
 import PostgraduatePage from '@/components/Educational/Postgraduate/PostgraduatePage.vue';
 import ResidencyCoursePage from '@/components/Educational/Residency/ResidencyCoursePage.vue';
@@ -15,8 +14,8 @@ import { isAuthorized } from '@/router/index';
 export default [
   {
     path: '/educational-info',
-    name: 'EducationalOrganizationInfo',
-    component: EducationalOrganizationInfo,
+    name: 'EducationPage',
+    component: EducationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
@@ -25,14 +24,6 @@ export default [
     path: '/academics',
     name: 'EducationalOrganizationAcademics',
     component: EducationalOrganizationAcademics,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
-  },
-  {
-    path: '/educational-organization/document-types',
-    name: 'EducationalOrganizationDocuments',
-    component: EducationalOrganizationDocuments,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
