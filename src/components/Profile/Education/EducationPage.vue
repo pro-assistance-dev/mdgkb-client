@@ -41,7 +41,7 @@
             <col width="40%" />
             <col width="20%" />
             <col width="5%" />
-            <col width="20%" />
+            <col width="10%" />
             <col width="5%" />
           </colgroup>
           <thead>
@@ -54,19 +54,28 @@
           <tbody>
             <tr v-for="formValue in user.formValues" :key="formValue.id">
               <td>
-                <div v-if="formValue.dpoApplication">
+                <router-link v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.dpoCourse.slug}`">
                   {{ formValue.dpoApplication.dpoCourse.name }}
-                </div>
-                <div v-if="formValue.postgraduateApplication">
+                </router-link>
+                <router-link
+                  v-if="formValue.postgraduateApplication"
+                  :to="`/postgraduate-courses/${formValue.postgraduateApplication.postgraduateCourse.slug}`"
+                >
                   {{ formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().name }}
+                </router-link>
+                <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>
+                <div v-if="formValue.residencyApplication">
+                  {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
                 </div>
-                <div v-if="formValue.candidateApplication">Кандидатский минимум</div>
               </td>
 
               <td>
-                <div v-if="formValue.dpoApplication">{{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</div>
-                <div v-if="formValue.postgraduateApplication">Аспирантура</div>
-                <div v-if="formValue.candidateApplication">Кандидатский минимум</div>
+                <router-link v-if="formValue.dpoApplication" :to="`/dpo?mode=programs`">
+                  {{ formValue.dpoApplication.dpoCourse.name }}
+                </router-link>
+                <router-link v-if="formValue.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
+                <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>
+                <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=candidate`"> Ординатура </router-link>
               </td>
 
               <td>{{ fillDateFormat(formValue.createdAt) }}</td>

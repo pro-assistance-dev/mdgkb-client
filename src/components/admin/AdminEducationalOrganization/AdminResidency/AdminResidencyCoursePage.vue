@@ -123,6 +123,17 @@
               </el-form-item>
             </el-card>
             <el-card>
+              <template #header>Шаблон формы</template>
+              <el-select
+                v-model="residencyCourse.formPattern"
+                value-key="id"
+                placeholder="Шаблон формы"
+                @change="changeFormPatternHandler()"
+              >
+                <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
+              </el-select>
+            </el-card>
+            <el-card>
               <template #header>Выбрать специальности, для которых читается программа </template>
               <el-checkbox
                 v-for="specialization in specializations"
@@ -207,7 +218,7 @@ export default defineComponent({
         filterQuery.value.setParams(schema.value.residencyCourse.slug, route.params['id'] as string);
         await store.dispatch('residencyCourses/get', filterQuery.value);
         store.commit('admin/setHeaderParams', {
-          title: residencyCourse.value.name,
+          title: residencyCourse.value.getMainSpecialization().name,
           showBackButton: true,
           buttons: [{ action: submit }],
         });

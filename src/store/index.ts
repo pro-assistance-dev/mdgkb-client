@@ -56,6 +56,7 @@ import { preparations } from '@/store/modules/preparations';
 import { projects } from '@/store/modules/projects';
 import { publicDocumentTypes } from '@/store/modules/publicDocumentTypes';
 import { questions } from '@/store/modules/questions';
+import { residencyApplications } from '@/store/modules/residencyApplications';
 import { residencyCourses } from '@/store/modules/residencyCourses';
 import { residencyDocumentTypes } from '@/store/modules/residencyDocumentTypes';
 import { roles } from '@/store/modules/roles';
@@ -153,6 +154,7 @@ const s: StoreOptions<RootState> = {
     formStatuses,
     educationYears,
     formValues,
+    residencyApplications,
   },
 };
 
