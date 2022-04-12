@@ -1,3 +1,4 @@
+import IFileInfo from './files/IFileInfo';
 import IFormStatusToFormStatus from './IFormStatusToFormStatus';
 
 export default interface IFormStatus {
@@ -9,6 +10,12 @@ export default interface IFormStatus {
   userActionName: string;
   isEditable: boolean;
   formStatusToFormStatuses: IFormStatusToFormStatus[];
+  formStatusToFormStatusesForDelete: string[];
+
+  icon: IFileInfo;
+  iconId?: string;
 
   isNew: () => boolean;
+  isSpecify: () => boolean;
+  getFileInfos: () => IFileInfo[];
 }

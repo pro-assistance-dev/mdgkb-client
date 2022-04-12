@@ -14,9 +14,10 @@
       <div class="container">
         <div class="main-box">
           <template v-if="$route.meta.profile">
-            <div class="profile-container">
+            <div class="profile-page-container">
               <ProfileSideMenu />
-              <div style="width: 100%">
+              <div class="profile-page-container-main">
+                <ProfileHeader />
                 <slot />
               </div>
             </div>
@@ -47,6 +48,7 @@ import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
 import FooterTop from '@/views/mainLayout/FooterTop.vue';
 import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
 import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
+import ProfileHeader from '@/views/mainLayout/ProfileHeader.vue';
 import ProfileSideMenu from '@/views/mainLayout/ProfileSideMenu.vue';
 
 export default defineComponent({
@@ -60,14 +62,19 @@ export default defineComponent({
     ProfileSideMenu,
     NewsCarousel,
     SearchDrawer,
+    ProfileHeader,
   },
 });
 </script>
 
 <style scoped lang="scss">
-.profile-container {
+.profile-page-container {
   display: flex;
   width: 100%;
+  &-main {
+    max-width: 880px;
+    width: 100%;
+  }
 }
 .page-container {
   display: flex;

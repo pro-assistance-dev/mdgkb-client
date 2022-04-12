@@ -30,6 +30,7 @@ import { faqs } from '@/store/modules/faqs';
 import { filter } from '@/store/modules/filter';
 import { formPatterns } from '@/store/modules/formPatterns';
 import { formStatuses } from '@/store/modules/formStatuses';
+import { formValues } from '@/store/modules/formValues';
 import { gates } from '@/store/modules/gates';
 import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
@@ -145,6 +146,7 @@ const s: StoreOptions<RootState> = {
     roles,
     candidateDocumentTypes,
     formStatuses,
+    formValues,
   },
 };
 

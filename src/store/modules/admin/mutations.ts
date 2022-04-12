@@ -21,6 +21,9 @@ const mutations: MutationTree<State> = {
     state.isDrawerOpen = true;
     state.isCollapseSideMenu = false;
   },
+  showHeader(state, showHeader: boolean) {
+    state.showHeader = showHeader;
+  },
   showLoading(state) {
     state.loading = ElLoading.service({
       lock: true,

@@ -21,6 +21,7 @@
               multiple
               placeholder="Выберите статусы"
               style="width: 100%"
+              @remove-tag="(i) => scope.row.removeFormStatusToFormStatuses(i)"
             >
               <el-option v-for="item in formStatusToFormStatuses" :key="item.id" :label="item.childFormStatus.label" :value="item" />
             </el-select>
