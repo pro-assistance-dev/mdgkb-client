@@ -15,7 +15,7 @@ export default class DocumentType implements IDocumentType {
   singleScan = false;
   scan?: IFileInfo;
   scanId?: string;
-
+  description = '';
   scans: IFileInfo[] = [];
   scansForDelete: string[] = [];
 
@@ -32,7 +32,7 @@ export default class DocumentType implements IDocumentType {
     this.id = i?.id;
     this.name = i?.name ?? '';
     this.singleScan = i.singleScan;
-
+    this.description = i.description;
     if (i.scan) {
       this.scan = new FileInfo(i.scan);
     }

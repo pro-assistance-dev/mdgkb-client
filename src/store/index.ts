@@ -24,12 +24,14 @@ import { dpoCourses } from '@/store/modules/dpoCourses';
 import { dpoDocumentTypes } from '@/store/modules/dpoDocumentTypes';
 import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
+import { educationYears } from '@/store/modules/educationYears';
 import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
 import { filter } from '@/store/modules/filter';
 import { formPatterns } from '@/store/modules/formPatterns';
 import { formStatuses } from '@/store/modules/formStatuses';
+import { formValues } from '@/store/modules/formValues';
 import { gates } from '@/store/modules/gates';
 import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
@@ -149,6 +151,8 @@ const s: StoreOptions<RootState> = {
     residencyCourses,
     residencyDocumentTypes,
     formStatuses,
+    educationYears,
+    formValues,
   },
 };
 

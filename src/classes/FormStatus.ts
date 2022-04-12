@@ -1,6 +1,8 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 
+import FileInfo from './File/FileInfo';
 import FormStatusToFormStatus from './FormStatusToFormStatus';
 
 export default class FormStatus implements IFormStatus {
@@ -12,6 +14,10 @@ export default class FormStatus implements IFormStatus {
   userActionName = '';
   isEditable = false;
   formStatusToFormStatuses: IFormStatusToFormStatus[] = [];
+  formStatusToFormStatusesForDelete: string[] = [];
+
+  icon = new FileInfo();
+  iconId?: string;
 
   constructor(formStatus?: IFormStatus) {
     if (!formStatus) {
@@ -29,9 +35,29 @@ export default class FormStatus implements IFormStatus {
         (item: IFormStatusToFormStatus) => new FormStatusToFormStatus(item)
       );
     }
+    if (formStatus.icon) {
+      this.icon = new FileInfo(formStatus.icon);
+    }
+    this.iconId = formStatus.iconId;
   }
 
   isNew(): boolean {
     return this.label.toLocaleLowerCase() === 'новое';
+  }
+
+  isSpecify(): boolean {
+    return this.label.toLocaleLowerCase() === 'уточнено';
+  }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    fileInfos.push(this.icon);
+    return fileInfos;
+  }
+
+  removeFormStatusToFormStatuses(item: IFormStatusToFormStatus): void {
+    console.log('item.id ==>', item.id);
+    if (!item.id) return;
+    this.formStatusToFormStatusesForDelete.push(item.id);
   }
 }

@@ -29,6 +29,7 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.post<IFormStatus, IFormStatus>({
       payload: state.item,
       isFormData: true,
+      fileInfos: state.item.getFileInfos(),
     });
   },
   update: async ({ state, commit }): Promise<void> => {
@@ -36,6 +37,7 @@ const actions: ActionTree<State, RootState> = {
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,
+      fileInfos: state.item.getFileInfos(),
     });
     commit('set', res);
   },

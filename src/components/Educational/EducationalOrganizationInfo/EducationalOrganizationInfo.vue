@@ -5,11 +5,11 @@
         <div class="card-item">
           <h4>Сведения об образовательной организации</h4>
           <el-divider />
-          <el-table :data="menu" cell-class-name="cell-row" :show-header="false">
+          <el-table :data="modes" cell-class-name="cell-row" :show-header="false">
             <el-table-column>
-              <template #default="scope">
-                <div :class="isActive(scope.row.name)" @click="changeTab(scope.row.name)">
-                  {{ scope.row.name }}
+              <template #default="scope" @click="changeTab(scope.row.value)">
+                <div class="menu-item" :class="isActive(scope.row.value)" @click="changeTab(scope.row.value)">
+                  {{ scope.row.label }}
                 </div>
               </template>
             </el-table-column>
@@ -18,113 +18,117 @@
       </div>
     </div>
     <div class="content-container">
-      <InfoPage v-if="activeMenuName === 'Основные сведения'" />
-      <StructurePage v-if="activeMenuName === 'Структура и орган управления организации'" />
-      <DocumentsPage v-if="activeMenuName === 'Документы'" />
-      <EducationPage v-if="activeMenuName === 'Образование'" />
-      <StandartsPage v-if="activeMenuName === 'Образовательные стандарты'" />
-      <ManagersPage v-if="activeMenuName === 'Руководство. Педагогический состав'" />
-      <MaterialPage v-if="activeMenuName === 'Материально-техническое обеспечение и оснащенность образовательного процесса'" />
-      <MoneyPage v-if="activeMenuName === 'Стипендии и иные виды материальной поддержки'" />
-      <PaidServicesPage v-if="activeMenuName === 'Платные образовательные услуги'" />
-      <FinancePage v-if="activeMenuName === 'Финансово-хозяйственная деятельность'" />
-      <VacancyPage v-if="activeMenuName === 'Вакантные места для приема (перевода)'" />
-      <InvalidsPage v-if="activeMenuName === 'Доступная среда'" />
-      <InternationalPage v-if="activeMenuName === 'Международное сотрудничество'" />
+      <InfoPage v-if="mode === 'info'" />
+      <StructurePage v-if="mode === 'structure'" />
+      <PublicDocumentPage v-if="selectedDocumentType" :public-document-type="selectedDocumentType" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import DocumentsPage from '@/components/Educational/EducationalOrganizationInfo/DocumentsPage.vue';
-import EducationPage from '@/components/Educational/EducationalOrganizationInfo/EducationPage.vue';
-import FinancePage from '@/components/Educational/EducationalOrganizationInfo/FinancePage.vue';
+import FilterModel from '@/classes/filters/FilterModel';
 import InfoPage from '@/components/Educational/EducationalOrganizationInfo/InfoPage.vue';
-import InternationalPage from '@/components/Educational/EducationalOrganizationInfo/InternationalPage.vue';
-import InvalidsPage from '@/components/Educational/EducationalOrganizationInfo/InvalidsPage.vue';
-import ManagersPage from '@/components/Educational/EducationalOrganizationInfo/ManagersPage.vue';
-import MaterialPage from '@/components/Educational/EducationalOrganizationInfo/MaterialPage.vue';
-import MoneyPage from '@/components/Educational/EducationalOrganizationInfo/MoneyPage.vue';
-import PaidServicesPage from '@/components/Educational/EducationalOrganizationInfo/PaidServicesPage.vue';
-import StandartsPage from '@/components/Educational/EducationalOrganizationInfo/StandartsPage.vue';
+import PublicDocumentPage from '@/components/Educational/EducationalOrganizationInfo/PublicDocumentPage.vue';
 import StructurePage from '@/components/Educational/EducationalOrganizationInfo/StructurePage.vue';
-import VacancyPage from '@/components/Educational/EducationalOrganizationInfo/VacancyPage.vue';
+import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+import IOption from '@/interfaces/schema/IOption';
+import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'EducationalOrganizationInfo',
   components: {
     InfoPage,
     StructurePage,
-    DocumentsPage,
-    EducationPage,
-    StandartsPage,
-    ManagersPage,
-    MaterialPage,
-    MoneyPage,
-    FinancePage,
-    PaidServicesPage,
-    VacancyPage,
-    InvalidsPage,
-    InternationalPage,
+    PublicDocumentPage,
   },
   setup() {
     const mounted = ref(false);
     const store = useStore();
-
+    const mode: Ref<string> = ref('info');
     const pageTitle: Ref<string> = ref('Основные сведения');
-    const activeMenuName: Ref<string> = ref('Основные сведения');
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const publicDocumentsTypes: ComputedRef<IPublicDocumentType[]> = computed(() => store.getters['publicDocumentTypes/items']);
+    const selectedDocumentType: Ref<IPublicDocumentType | undefined> = ref(undefined);
+    const modes: Ref<IOption[]> = ref([]);
 
-    const menu = [
-      { name: 'Основные сведения' },
-      { name: 'Структура и орган управления организации' },
-      { name: 'Документы' },
-      { name: 'Образование' },
-      { name: 'Образовательные стандарты' },
-      { name: 'Руководство. Педагогический состав' },
-      { name: 'Материально-техническое обеспечение и оснащенность образовательного процесса' },
-      { name: 'Стипендии и иные виды материальной поддержки' },
-      { name: 'Платные образовательные услуги' },
-      { name: 'Финансово-хозяйственная деятельность' },
-      { name: 'Вакантные места для приема (перевода)' },
-      { name: 'Доступная среда' },
-      { name: 'Международное сотрудничество' },
-    ];
+    const setModes = async () => {
+      modes.value.push({ value: 'info', label: 'Основные сведения' });
+      publicDocumentsTypes.value.forEach((docType: IPublicDocumentType) => {
+        if (docType.id) {
+          modes.value.push({ value: docType.id, label: docType.name });
+        }
+      });
+      modes.value.push({ value: 'structure', label: 'Структура и орган управления организации' });
+    };
 
     const isActive = (name: string): string => {
-      return name === activeMenuName.value ? 'is-active' : '';
+      return name === mode.value ? 'is-active' : '';
     };
-    const changeTab = (name: string) => {
-      activeMenuName.value = name;
+
+    const changeTab = (value: string) => {
+      if (value === mode.value) {
+        return;
+      }
+      mode.value = value;
+      const dpoDocumentType = publicDocumentsTypes.value.find((dpoDocType: IPublicDocumentType) => dpoDocType.id === value);
+      if (dpoDocumentType) {
+        selectedDocumentType.value = dpoDocumentType;
+      } else {
+        selectedDocumentType.value = undefined;
+      }
     };
+
     const test = (activeName: string) => {
       pageTitle.value = activeName;
     };
-    // const rules = ref(SideOrganizationRules);
+
     const educationalOrganisation: Ref<IEducationalOrganization> = computed(
       () => store.getters['educationalOrganization/educationalOrganization']
     );
     const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
 
+    const loadDocs = async () => {
+      filterQuery.value.pagination.cursorMode = false;
+      const filterModel = FilterModel.CreateFilterModelWithJoin(
+        schema.value.publicDocumentType.tableName,
+        schema.value.publicDocumentType.id,
+        schema.value.educationPublicDocumentType.tableName,
+        schema.value.educationPublicDocumentType.id,
+        schema.value.educationPublicDocumentType.publicDocumentTypeId,
+        DataTypes.Join
+      );
+      store.commit('filter/setFilterModel', filterModel);
+      await store.dispatch('publicDocumentTypes/getAll', filterQuery.value);
+    };
+
     onBeforeMount(async () => {
+      store.commit(`filter/resetQueryFilter`);
+      await store.dispatch('meta/getSchema');
       await store.dispatch('educationalOrganization/get');
+      await loadDocs();
+      await setModes();
       mounted.value = true;
     });
 
     return {
+      mode,
+      publicDocumentsTypes,
       filteredDoctors,
       mounted,
-      // rules,
+      selectedDocumentType,
       educationalOrganisation,
       test,
-      menu,
+      modes,
       isActive,
       changeTab,
       pageTitle,
-      activeMenuName,
     };
   },
 });
@@ -136,6 +140,10 @@ $side-cotainer-max-width: 300px;
 $content-max-width: 1000px;
 $card-margin-size: 30px;
 
+.menu-item {
+  padding: 10px 0;
+}
+
 h4 {
   margin: 0;
 }
@@ -146,6 +154,7 @@ h4 {
   padding: 0 !important;
 }
 :deep(.cell-row) {
+  padding: 0 !important;
   cursor: pointer;
 }
 .ordinatura-page-container {

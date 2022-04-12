@@ -15,6 +15,9 @@ const getters: GetterTree<State, RootState> = {
   isDrawerOpen(state): boolean {
     return state.isDrawerOpen;
   },
+  showHeader(state): boolean {
+    return state.showHeader;
+  },
 };
 
 export default getters;

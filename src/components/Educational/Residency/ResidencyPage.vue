@@ -84,6 +84,34 @@ export default defineComponent({
           'По алфавиту',
           true
         ),
+        SortModel.CreateSortModel(
+          schema.value.residencyCourse.tableName,
+          schema.value.residencyCourse.startYear,
+          Orders.Asc,
+          'По году обучения',
+          true
+        ),
+        SortModel.CreateSortModel(
+          schema.value.residencyCourse.tableName,
+          schema.value.residencyCourse.freePlaces,
+          Orders.Asc,
+          'По количеству бесплатных мест',
+          true
+        ),
+        SortModel.CreateSortModel(
+          schema.value.residencyCourse.tableName,
+          schema.value.residencyCourse.paidPlaces,
+          Orders.Asc,
+          'По количеству платных мест',
+          true
+        ),
+        SortModel.CreateSortModel(
+          schema.value.residencyCourse.tableName,
+          schema.value.residencyCourse.cost,
+          Orders.Asc,
+          'По стоимости',
+          true
+        ),
       ];
       store.commit(`filter/addSortModels`, sortModels);
       return sortModels;

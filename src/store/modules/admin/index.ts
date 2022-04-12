@@ -10,6 +10,7 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     headerParams: new AdminHeaderParams(),
+    showHeader: false,
     isCollapseSideMenu: true,
     isDrawerOpen: false,
     loading: undefined,

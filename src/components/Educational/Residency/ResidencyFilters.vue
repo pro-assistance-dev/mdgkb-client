@@ -6,9 +6,9 @@
     <template v-if="mode === '' || mode === 'programs'">
       <div class="block-item">
         <RemoteSearch
-          :key-value="schema.postgraduateCourse.key"
-          :table="schema.postgraduateCourse.tableName"
-          :col="schema.postgraduateCourse.name"
+          :key-value="schema.residencyCourse.key"
+          :table="schema.residencyCourse.tableName"
+          :col="schema.residencyCourse.name"
           @select="selectSearch"
           @load="load"
         />
@@ -80,7 +80,7 @@ export default defineComponent({
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/courses/${event.id}`);
+      await router.push(`/residency-courses/${event.id}`);
     };
 
     onBeforeMount(async () => {

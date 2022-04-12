@@ -8,6 +8,20 @@
         <el-form-item label="Якорь" prop="routeAnchor">
           <el-input v-model="publicDocumentType.routeAnchor" placeholder="Якорь"></el-input>
         </el-form-item>
+        <el-form-item label="Поместить в раздел Образование" prop="routeAnchor">
+          <el-checkbox
+            :model-value="!!publicDocumentType.educationPublicDocumentType"
+            @change="publicDocumentType.setEducationPublicDocumentType($event)"
+          ></el-checkbox>
+        </el-form-item>
+        <el-form-item prop="description">
+          <QuillEditor
+            v-model:content="publicDocumentType.description"
+            style="min-height: 200px; max-height: 700px"
+            content-type="html"
+            theme="snow"
+          ></QuillEditor>
+        </el-form-item>
       </el-card>
       <el-card>
         <template #header>
@@ -27,6 +41,16 @@
                 <el-input v-model="docType.name" placeholder="Название типа документов"></el-input>
               </el-form-item>
               <el-button type="danger" icon="el-icon-close" @click="removeDocType(docTypeIndex)"></el-button>
+            </div>
+            <div>
+              <el-form-item prop="description">
+                <QuillEditor
+                  v-model:content="docType.description"
+                  style="min-height: 200px; max-height: 700px"
+                  content-type="html"
+                  theme="snow"
+                ></QuillEditor>
+              </el-form-item>
             </div>
           </template>
           <el-table :data="docType.documents">
@@ -73,6 +97,7 @@
 </template>
 
 <script lang="ts">
+import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
@@ -87,7 +112,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminPublicDocumentTypePage',
-  components: { DocumentUploader, TableButtonGroup },
+  components: { DocumentUploader, TableButtonGroup, QuillEditor },
 
   setup() {
     const store = useStore();
@@ -107,6 +132,7 @@ export default defineComponent({
     const addDocType = () => {
       store.commit('publicDocumentTypes/addDocType');
     };
+
     const removeDocType = (index: number) => {
       store.commit('publicDocumentTypes/removeDocType', index);
     };

@@ -188,6 +188,13 @@ export default class Form implements IForm {
       }
     });
   }
+  setCpecifyStatus(statuses: IFormStatus[]): void {
+    statuses.forEach((el: IFormStatus) => {
+      if (el.isSpecify()) {
+        this.formStatus = new FormStatus(el);
+      }
+    });
+  }
   setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
     const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);

@@ -48,7 +48,6 @@ export default defineComponent({
   components: {
     ImageCropperV2,
   },
-  emits: ['crop'],
   props: {
     withCrop: {
       type: Boolean,
@@ -75,6 +74,8 @@ export default defineComponent({
       default: false,
     },
   },
+  emits: ['crop'],
+
   setup(props, { emit }) {
     const fileList: Ref<IFilesList[]> = ref([]);
     const heightWeight = computed(() => {
@@ -155,7 +156,7 @@ export default defineComponent({
 
 .avatar-uploader-cover {
   // line-height: var(--height);
-  text-align: center;
+  // text-align: center;
 }
 
 .custom-plus {

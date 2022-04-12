@@ -11,7 +11,6 @@ export default [
     component: AdminMedicalProfilesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
     },
     meta: {
       layout: 'AdminLayout',
@@ -23,6 +22,7 @@ export default [
     component: AdminMedicalProfilePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
+
       authGuard();
     },
     meta: {

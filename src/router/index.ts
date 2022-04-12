@@ -168,6 +168,7 @@ const routes: Array<RouteRecordRaw> = [
     component: MedicalProfilesPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
+      devGuard();
     },
   },
   {
@@ -207,6 +208,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/search',
     name: 'SearchPage',
     component: SearchPage,
+    beforeEnter(to, from, next) {
+      isAuthorized(next);
+      devGuard();
+    },
   },
   {
     path: '/restore/password/:userId/:uniqueId',

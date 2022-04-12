@@ -26,9 +26,9 @@
     </el-card>
     <div class="card-item">
       <ul>
-        <li v-for="file in files" :key="file.url">
-          <a target="_blank" :href="file.url" :download="file.download">{{ file.download }}</a>
-        </li>
+        <a target="_blank" href="/teachers.pdf" download="Преподаватели"
+          >Сведения о персональном составе педагогических работников по реализуемым образовательным программам</a
+        >
       </ul>
     </div>
   </el-container>
