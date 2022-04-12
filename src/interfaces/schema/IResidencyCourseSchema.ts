@@ -13,7 +13,9 @@ export default interface IResidencyCourseSchema {
   paidPlaces: string;
   freePlaces: string;
   startYear: string;
+  startYearId: string;
   endYear: string;
+  endYearId: string;
   cost: string;
   value: string;
   label: string;

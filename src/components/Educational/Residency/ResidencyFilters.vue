@@ -14,20 +14,15 @@
         />
       </div>
       <div class="block-item">
-        <!--        <FilterSelect-->
-        <!--          placeholder="Выбрать специализацию"-->
-        <!--          :options="schema.specialization.options"-->
-        <!--          :table="schema.dpoCourse.tableName"-->
-        <!--          :col="schema.specialization.id"-->
-        <!--          :data-type="DataTypes.Join"-->
-        <!--          :operator="Operators.Eq"-->
-        <!--          :join-table="schema.dpoCourseSpecialization.tableName"-->
-        <!--          :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"-->
-        <!--          :join-table-pk="schema.dpoCourse.id"-->
-        <!--          :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
-        <!--          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
-        <!--          @load="load"-->
-        <!--        />-->
+        <FilterSelect
+          placeholder="Выбрать год"
+          :options="schema.educationYear.options"
+          :table="schema.residencyCourse.tableName"
+          :col="schema.residencyCourse.startYearId"
+          :data-type="DataTypes.String"
+          :operator="Operators.Eq"
+          @load="load"
+        />
       </div>
       <div class="block-item"></div>
     </template>
@@ -39,6 +34,7 @@ import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -55,7 +51,7 @@ export default defineComponent({
   components: {
     ModeChoice,
     RemoteSearch,
-    // FilterSelect,
+    FilterSelect,
   },
   emits: ['load', 'selectMode'],
   props: {
@@ -85,6 +81,8 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await store.dispatch('meta/getOptions', schema.value.specialization);
+      await store.dispatch('meta/getOptions', schema.value.educationYear);
+      schema.value.educationYear.options.forEach((o) => (o.label = new Date(o.label).getFullYear().toString()));
       mount.value = true;
     });
 
