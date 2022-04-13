@@ -1,5 +1,5 @@
 <template>
-  <div class="header-top">
+  <div id="header-top" class="header-top">
     <div class="container">
       <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="$router.push('/')" />
       <div class="search">
