@@ -11,6 +11,7 @@ import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSchema';
+import IPostgraduateCourseSpecializationSchema from '@/interfaces/schema/IPostgraduateCourseSpecializationSchema';
 import IPublicDocumentTypeSchema from '@/interfaces/schema/IPublicDocumentTypeSchema';
 import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
@@ -36,4 +37,5 @@ export default interface ISchema {
   educationPublicDocumentType: IEducationPublicDocumentTypeSchema;
   publicDocumentType: IPublicDocumentTypeSchema;
   educationYear: IEducationYearSchema;
+  postgraduateCourseSpecialization: IPostgraduateCourseSpecializationSchema;
 }

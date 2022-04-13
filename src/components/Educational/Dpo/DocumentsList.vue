@@ -3,14 +3,14 @@
     <table class="table-list">
       <colgroup>
         <col width="5%" />
-        <col width="70%" />
-        <col width="10%" />
+        <col width="80%" />
+        <!--        <col width="10%" />-->
         <col width="10%" />
       </colgroup>
       <thead>
         <th><h4></h4></th>
         <th><h4>НАЗВАНИЕ ДОКУМЕНТА</h4></th>
-        <th><h4>НАЗНАЧЕНИЕ</h4></th>
+        <!--        <th><h4>НАЗНАЧЕНИЕ</h4></th>-->
         <th style="text-align: center"><h4>ДЕЙСТВИЕ</h4></th>
       </thead>
       <tbody>
@@ -25,7 +25,7 @@
           <td>
             {{ document.name }}
           </td>
-          <td>ДПО</td>
+          <!--          <td>ДПО</td>-->
           <td style="text-align: center">
             <a class="download" :href="document.documentsScans[0]?.scan.getFileUrl()" target="_blank">Скачать</a>
           </td>

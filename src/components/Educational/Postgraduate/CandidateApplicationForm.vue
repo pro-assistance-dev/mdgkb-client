@@ -39,12 +39,16 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import FilterModel from '@/classes/filters/FilterModel';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
+import ISchema from '@/interfaces/schema/ISchema';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
@@ -58,6 +62,8 @@ export default defineComponent({
     const candidateApplication: ComputedRef<ICandidateApplication> = computed<ICandidateApplication>(
       () => store.getters['candidateApplications/item']
     );
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
@@ -84,7 +90,16 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('specializations/getAll');
+      const filterModel = FilterModel.CreateFilterModelWithJoin(
+        schema.value.specialization.tableName,
+        schema.value.specialization.id,
+        schema.value.postgraduateCourseSpecialization.tableName,
+        schema.value.postgraduateCourseSpecialization.id,
+        schema.value.postgraduateCourseSpecialization.specializationId,
+        DataTypes.Join
+      );
+      store.commit('filter/setFilterModel', filterModel);
+      await store.dispatch('specializations/getAll', filterQuery.value);
       store.commit('candidateApplications/resetItem');
       store.commit('candidateApplications/setFormValue', candidateExam.value.formPattern);
       candidateApplication.value.formValue.initFieldsValues();

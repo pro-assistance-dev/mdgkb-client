@@ -13,6 +13,7 @@ export default interface IForm {
   id?: string;
   title?: string;
   code: string;
+  emailNotify: boolean;
   fields: IField[];
   fieldsForDelete: string[];
   fieldValues: IFieldValue[];
@@ -27,8 +28,8 @@ export default interface IForm {
   candidateApplication?: ICandidateApplication;
   residencyApplication?: IResidencyApplication;
 
-  addField(field?: IField): void;
-  removeField(index: number): void;
+  addField: (field?: IField) => void;
+  removeField: (index: number) => void;
   getFileInfos: () => IFileInfo[];
   getFieldValuesFileInfos: () => IFileInfo[];
   initFieldsValues: () => void;

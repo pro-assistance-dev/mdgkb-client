@@ -118,8 +118,8 @@ export default class DpoCourse implements IDpoCourse {
     if (!this.dpoCoursesDates[0] || !this.dpoCoursesDates[0]) {
       return 'Даты неизвестны';
     }
-    const dateStart = fillDateFormat(this.dpoCoursesDates[0].start, false, false, false, true);
-    const dateEnd = fillDateFormat(this.dpoCoursesDates[0].start, false, false, false, true);
+    const dateStart = fillDateFormat(this.dpoCoursesDates[0].start, false, false, false);
+    const dateEnd = fillDateFormat(this.dpoCoursesDates[0].start, false, false, false);
     return `${dateStart}-${dateEnd}`;
   }
 }

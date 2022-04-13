@@ -6,12 +6,12 @@
         <button class="response-btn" @click="openRespondForm">Подать заявление</button>
       </div>
     </div>
-    <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px; margin-top: 20px">
+    <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px; margin: 20px 0 20px">
       <h2 class="title article-title">Форма для подачи заявления</h2>
       <el-divider />
       <CandidateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
     </div>
-    <div v-for="docType in documentTypes" :key="docType.id">
+    <div v-for="docType in documentTypes" :key="docType.id" class="docs-container">
       <h3>{{ docType.documentType.name }}</h3>
       <DocumentsList :documents="docType.documentType.documents" />
     </div>
@@ -87,6 +87,10 @@ export default defineComponent({
 $side-container-max-width: 300px;
 $medical-profile-content-max-width: 1000px;
 $card-margin-size: 30px;
+
+.docs-container {
+  margin-top: 20px;
+}
 
 .candidate-container {
   margin-top: 20px;

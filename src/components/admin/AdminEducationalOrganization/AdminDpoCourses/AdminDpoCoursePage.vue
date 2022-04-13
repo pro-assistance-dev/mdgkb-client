@@ -27,12 +27,12 @@
                 <el-table :data="dpoCourse.dpoCoursesDates">
                   <el-table-column label="Начало" sortable>
                     <template #default="scope">
-                      <el-date-picker v-model="scope.row.start"></el-date-picker>
+                      <el-date-picker v-model="scope.row.start" format="DD.MM.YYYY" placeholder="Дата"></el-date-picker>
                     </template>
                   </el-table-column>
                   <el-table-column label="Начало" sortable>
                     <template #default="scope">
-                      <el-date-picker v-model="scope.row.end"></el-date-picker>
+                      <el-date-picker v-model="scope.row.end" type="date" format="DD.MM.YYYY" placeholder="Дата"></el-date-picker>
                     </template>
                   </el-table-column>
                   <el-table-column width="50" fixed="right" align="center">

@@ -21,6 +21,7 @@ export default class Form implements IForm {
   id?: string;
   title?: string;
   name = '';
+  emailNotify = false;
   code = '';
   fields: IField[] = [];
   fieldsForDelete: string[] = [];
@@ -204,6 +205,7 @@ export default class Form implements IForm {
   setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
     const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);
+    this.emailNotify = true;
   }
   // static ApplyFormPattern(pattern: IForm): IForm {
   //   const form = new Form(pattern);

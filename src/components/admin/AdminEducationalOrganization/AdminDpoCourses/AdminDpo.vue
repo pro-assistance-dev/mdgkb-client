@@ -15,6 +15,16 @@
             </el-form-item>
             <el-button type="danger" icon="el-icon-close" @click="removeDocType(docTypeIndex)"></el-button>
           </div>
+          <div>
+            <el-form-item prop="description">
+              <QuillEditor
+                v-model:content="dpoDocType.documentType.description"
+                style="min-height: 200px; max-height: 700px"
+                content-type="html"
+                theme="snow"
+              ></QuillEditor>
+            </el-form-item>
+          </div>
         </template>
         <el-table :data="dpoDocType.documentType.documents">
           <el-table-column prop="name" label="Название документа">
@@ -44,6 +54,7 @@
 </template>
 
 <script lang="ts">
+import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
@@ -63,6 +74,7 @@ export default defineComponent({
   components: {
     DocumentUploader,
     TableButtonGroup,
+    QuillEditor,
   },
   setup() {
     const mounted = ref(false);

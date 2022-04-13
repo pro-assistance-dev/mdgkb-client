@@ -5,7 +5,7 @@ export default function fillDateFormat(
   monthShort?: boolean,
   onlyDayMonth?: boolean
 ): string {
-  const dayMonthYear = { year: 'numeric', month: 'numeric', day: 'numeric' };
+  const dayMonthYear = { year: '2-digit', month: 'numeric', day: 'numeric' };
   const dayMonth = { month: 'numeric', day: 'numeric' };
   const options: Intl.DateTimeFormatOptions = onlyDayMonth ? dayMonth : dayMonthYear;
 

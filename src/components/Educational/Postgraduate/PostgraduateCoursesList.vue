@@ -38,7 +38,7 @@
             </td>
             <td>{{ postgraduateCourse.educationForm }}</td>
             <td>{{ buildNameNumbers([...Array(postgraduateCourse.years).keys()], ['год', 'года', 'лет']) }}</td>
-            <td>{{ postgraduateCourse.description }}</td>
+            <td v-html="postgraduateCourse.description" />
           </tr>
         </tbody>
       </table>
