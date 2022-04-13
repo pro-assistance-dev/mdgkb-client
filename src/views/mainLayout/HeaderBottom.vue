@@ -1,5 +1,4 @@
 <template>
-  <div id="top" class="top"></div>
   <div class="navbar">
     <div v-if="devTitle === 'dev'" class="app-title">Разработка</div>
     <div class="container">
@@ -7,9 +6,9 @@
         <div class="menu-left"><BurgerMobile /></div>
         <div class="left-block2"></div>
         <div class="left-block">
-          <el-row class="mb-4">
+          <el-row class="mb-4" @click="$scroll('header-top')">
             <el-button v-if="scrollOffset >= 66 && !mobileWindow" class="menu-item" @click="$router.push('/')">
-              <a class="link" @click="$scroll('top')"><img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" /></a>
+              <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.png" />
             </el-button>
           </el-row>
         </div>
