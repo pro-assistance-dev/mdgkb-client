@@ -15,6 +15,16 @@
             </el-form-item>
             <el-button type="danger" icon="el-icon-close" @click="removeDocType(docTypeIndex)"></el-button>
           </div>
+          <div>
+            <el-form-item prop="description">
+              <QuillEditor
+                v-model:content="residencyDocType.documentType.description"
+                style="min-height: 200px; max-height: 700px"
+                content-type="html"
+                theme="snow"
+              ></QuillEditor>
+            </el-form-item>
+          </div>
         </template>
         <el-table :data="residencyDocType.documentType.documents">
           <el-table-column prop="name" label="Название документа">

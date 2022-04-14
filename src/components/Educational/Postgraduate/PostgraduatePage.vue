@@ -4,7 +4,7 @@
       <div class="full-width"></div>
       <PostgraduateFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
     </div>
-
+    <div v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'" v-html="selectedDocumentType.description" />
     <div v-if="mode === 'programs' || mode === ''" class="sort">
       <div class="sort-item-2">
         <div class="item-3"><h3>Сортировать</h3></div>
