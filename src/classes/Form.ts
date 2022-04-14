@@ -185,6 +185,9 @@ export default class Form implements IForm {
   isFieldValuesModChecked(): boolean {
     return this.fieldValues.every((el) => el.modChecked === true);
   }
+  haveModComments(): boolean {
+    return this.fieldValues.some((el) => el.modComment);
+  }
   changeFieldValuesModChecked(modChecked: boolean): void {
     this.fieldValues.forEach((el: IFieldValue) => (el.modChecked = modChecked));
   }
@@ -206,6 +209,12 @@ export default class Form implements IForm {
     const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);
     this.emailNotify = true;
+  }
+  getFieldsWithModComemnts(): IField[] {
+    return this.fields.filter((el: IField) => {
+      if (!el.id) return;
+      return this.findFieldValue(el.id)?.modComment && !this.findFieldValue(el.id)?.modChecked;
+    });
   }
   // static ApplyFormPattern(pattern: IForm): IForm {
   //   const form = new Form(pattern);

@@ -49,6 +49,18 @@ export default class FormStatus implements IFormStatus {
     return this.label.toLocaleLowerCase() === 'уточнено';
   }
 
+  isEnlisted(): boolean {
+    return this.label.toLocaleLowerCase() === 'зачислено';
+  }
+
+  isConsidering(): boolean {
+    return this.label.toLocaleLowerCase() === 'принято к рассмотрению';
+  }
+
+  isSpecifyRequired(): boolean {
+    return this.label.toLocaleLowerCase() === 'требует уточнения';
+  }
+
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
     fileInfos.push(this.icon);

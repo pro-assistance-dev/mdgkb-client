@@ -2,7 +2,7 @@
   <el-table v-if="mounted" :data="postgraduateApplications">
     <el-table-column label="Статус">
       <template #default="scope">
-        <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Новая</el-tag>
+        <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Не просмотрено</el-tag>
         <el-tag
           v-if="scope.row.formValue.formStatus.label"
           size="small"

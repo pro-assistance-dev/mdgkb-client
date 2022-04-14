@@ -8,7 +8,7 @@
         <ul class="drop-give-button-item">
           <li>
             <!-- <button class="give-button" @click="$router.push('/dpo')">ДПО</button> -->
-            <router-link :to="`/dpo`">Выбрать&nbsp;из&nbsp;программ&nbsp;ДПО</router-link>
+            <router-link :to="`/dpo`">Выбрать&nbsp;из&nbsp;программ&nbsp;ДПО, НМО</router-link>
           </li>
           <li>
             <!-- <button class="give-button" @click="$router.push('/dpo')">Аспирантура</button> -->
@@ -59,7 +59,7 @@
                 </router-link>
                 <router-link
                   v-if="formValue.postgraduateApplication"
-                  :to="`/postgraduate-courses/${formValue.postgraduateApplication.postgraduateCourse.slug}`"
+                  :to="`/postgraduate-courses/${formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().slug}`"
                 >
                   {{ formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().name }}
                 </router-link>
@@ -74,7 +74,7 @@
 
               <td>
                 <router-link v-if="formValue.dpoApplication" :to="`/dpo?mode=programs`">
-                  {{ formValue.dpoApplication.dpoCourse.name }}
+                  {{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}
                 </router-link>
                 <router-link v-if="formValue.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
                 <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>

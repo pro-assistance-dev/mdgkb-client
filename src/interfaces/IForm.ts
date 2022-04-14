@@ -40,6 +40,7 @@ export default interface IForm {
   removeAllFieldsAndValues: () => void;
   applyFormPatternFields: (pattern: IForm) => void;
   isFieldValuesModChecked: () => boolean;
+  haveModComments: () => boolean;
   changeFieldValuesModChecked: (modChecked: boolean) => void;
   setNewStatus: (statuses: IFormStatus[]) => void;
   setCpecifyStatus: (statuses: IFormStatus[]) => void;
