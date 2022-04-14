@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="formValue.fields">
+  <el-table :data="showModComments ? formValue.getFieldsWithModComemnts() : formValue.fields">
     <el-table-column label="Наименование">
       <template #default="scope">
         {{ scope.row.name }}
@@ -20,6 +20,12 @@
         <!-- <span v-else>Нет файла</span> -->
       </template>
     </el-table-column>
+
+    <el-table-column v-if="showModComments" label="Замечания" width="200px">
+      <template #default="scope">
+        {{ form.findFieldValue(scope.row.id).modComment }}
+      </template>
+    </el-table-column>
   </el-table>
 </template>
 
@@ -28,6 +34,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, r
 import { useStore } from 'vuex';
 
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
+import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 
@@ -38,6 +45,10 @@ export default defineComponent({
     form: {
       type: Object as PropType<IForm>,
       required: true,
+    },
+    showModComments: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props) {
@@ -50,6 +61,13 @@ export default defineComponent({
       await store.dispatch('formStatuses/getAll');
       if (!formValue.value.formStatus.label) {
         formValue.value.setNewStatus(formStatuses.value);
+      }
+      if (props.showModComments) {
+        formValue.value.fields = formValue.value.fields.filter((el: IField) => {
+          if (!el.id) return;
+          console.log('props.form.findFieldValue(el.id)?.modComment', props.form.findFieldValue(el.id)?.modComment);
+          return props.form.findFieldValue(el.id)?.modComment;
+        });
       }
     });
 

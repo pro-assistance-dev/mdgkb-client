@@ -1,7 +1,7 @@
 <template>
   <div v-if="mounted" class="card-item">
     <el-form ref="form" v-model="formValue" :model="formValue" label-position="top">
-      <FieldValuesForm :form="formValue" />
+      <FieldValuesForm :form="formValue" :show-mod-comments="true" />
     </el-form>
   </div>
 </template>

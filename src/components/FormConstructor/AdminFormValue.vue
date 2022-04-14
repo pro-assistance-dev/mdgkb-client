@@ -17,7 +17,7 @@
             v-if="item.childFormStatus.modActionName"
             size="small"
             :style="`background-color: ${item.childFormStatus.color}; color: white; border: 1px solid ${item.childFormStatus.color}`"
-            @click="formValue.setStatus(item.childFormStatus, formStatuses)"
+            @click.prevent="changeFormStatusHandler(item.childFormStatus)"
           >
             {{ item.childFormStatus.modActionName }}
           </button>
@@ -78,6 +78,7 @@
 </template>
 
 <script lang="ts">
+import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -116,6 +117,25 @@ export default defineComponent({
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
     const mounted = ref(false);
 
+    const changeFormStatusHandler = (status: IFormStatus) => {
+      if (!formValue.value) return;
+      if (status.isSpecifyRequired() && !formValue.value.haveModComments()) {
+        ElMessage({
+          message: 'Необходимо добавить замечания',
+          type: 'error',
+        });
+        return;
+      }
+      if ((status.isConsidering() || status.isEnlisted()) && !formValue.value.isFieldValuesModChecked()) {
+        ElMessage({
+          message: 'Не все данные формы проверены',
+          type: 'error',
+        });
+        return;
+      }
+      formValue.value.setStatus(status, formStatuses.value);
+    };
+
     onBeforeMount(async () => {
       await store.dispatch('formStatuses/getAll');
       formValue.value = props.form;
@@ -131,6 +151,7 @@ export default defineComponent({
       findEmail,
       formStatuses,
       mounted,
+      changeFormStatusHandler,
     };
   },
 });

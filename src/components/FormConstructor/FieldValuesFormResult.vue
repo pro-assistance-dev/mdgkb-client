@@ -28,9 +28,15 @@
         <i v-else class="el-icon-close"></i>
       </template>
     </el-table-column>
-    <el-table-column label="Проверено" width="100px" align="center">
+    <el-table-column label="Данные верны" width="100px" align="center">
       <template #default="scope">
-        <el-checkbox v-model="scope.row.modChecked"></el-checkbox>
+        <el-checkbox v-model="scope.row.modChecked" @change="changeModCheckedHandler(scope.row)"></el-checkbox>
+      </template>
+    </el-table-column>
+    <el-table-column label="Замечания" width="400px" align="start">
+      <template #default="scope">
+        <div v-if="scope.row.modChecked">{{ scope.row.modComment }}</div>
+        <el-input v-else v-model="scope.row.modComment" type="textarea" placeholder="Замечания" />
       </template>
     </el-table-column>
   </el-table>
@@ -39,6 +45,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import IFieldValue from '@/interfaces/IFieldValue';
 import IForm from '@/interfaces/IForm';
 
 export default defineComponent({
@@ -48,6 +55,15 @@ export default defineComponent({
       type: Object as PropType<IForm>,
       required: true,
     },
+  },
+
+  setup() {
+    const changeModCheckedHandler = (fieldValue: IFieldValue) => {
+      if (fieldValue.modChecked) {
+        fieldValue.modComment = '';
+      }
+    };
+    return { changeModCheckedHandler };
   },
 });
 </script>

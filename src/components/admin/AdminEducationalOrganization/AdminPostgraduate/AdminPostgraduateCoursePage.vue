@@ -249,7 +249,7 @@ export default defineComponent({
         filterQuery.value.setParams(schema.value.dpoCourse.slug, route.params['id'] as string);
         await store.dispatch('postgraduateCourses/get', filterQuery.value);
         store.commit('admin/setHeaderParams', {
-          title: `Программа аспирантуры по специальности "${postgraduateCourse.value.getMainSpecialization()}"`,
+          title: `Программа аспирантуры по специальности "${postgraduateCourse.value.getMainSpecialization().name}"`,
           showBackButton: true,
           buttons: [{ action: submit }],
         });

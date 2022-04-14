@@ -202,7 +202,7 @@ export default defineComponent({
           },
           {
             title: 'Программы ординатуры',
-            to: '/admin/residency-courses',
+            to: '/admin/residency/courses',
           },
           {
             title: 'Заявки ординатуры',

@@ -17,5 +17,8 @@ export default interface IFormStatus {
 
   isNew: () => boolean;
   isSpecify: () => boolean;
+  isSpecifyRequired: () => boolean;
+  isEnlisted: () => boolean;
+  isConsidering: () => boolean;
   getFileInfos: () => IFileInfo[];
 }

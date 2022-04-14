@@ -1,6 +1,5 @@
 <template>
   <div style="text-align: center; width: 100%">
-    {{ counts }}
     <el-pagination
       style="margin-top: 20px; margin-bottom: 20px"
       :current-page="curPage"
