@@ -4,6 +4,7 @@ import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoPage.vue';
 import EducationPage from '@/components/Educational/Education/EducationPage.vue';
 import EducationalOrganizationAcademics from '@/components/Educational/EducationalOrganizationAcademics.vue';
+import EducationCampaign from '@/components/Educational/EducationCampaign.vue';
 import PostgraduateCoursePage from '@/components/Educational/Postgraduate/PostgraduateCoursePage.vue';
 import PostgraduatePage from '@/components/Educational/Postgraduate/PostgraduatePage.vue';
 import ResidencyCoursePage from '@/components/Educational/Residency/ResidencyCoursePage.vue';
@@ -16,6 +17,14 @@ export default [
     path: '/educational-info',
     name: 'EducationPage',
     component: EducationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/education-campaign',
+    name: 'EducationCampaign',
+    component: EducationCampaign,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
