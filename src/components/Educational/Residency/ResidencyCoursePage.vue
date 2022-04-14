@@ -47,7 +47,7 @@
     <div class="right-field">
       <div class="card-item" style="margin-bottom: 20px">
         <div class="card-header">
-          <h3 class="title article-title">Программа аспирантуры по специальности</h3>
+          <h3 class="title article-title">Программа ординатуры по специальности</h3>
           <h2 class="title article-title">"{{ residencyCourse.getMainSpecialization().name }}"</h2>
         </div>
         <!-- <el-divider /> -->

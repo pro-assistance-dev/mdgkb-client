@@ -7,8 +7,8 @@
       <table class="table-list">
         <colgroup>
           <col width="7%" />
-          <col width="58%" />
-          <col width="10%" />
+          <col width="68%" />
+          <!--          <col width="10%" />-->
           <col width="10%" />
           <col width="15%" />
         </colgroup>
@@ -16,7 +16,7 @@
           <th><h4>КОД</h4></th>
           <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
           <th><h4>ГОДЫ</h4></th>
-          <th><h4>БЕСПЛАТНЫЕ МЕСТА</h4></th>
+          <!--          <th><h4>БЕСПЛАТНЫЕ МЕСТА</h4></th>-->
           <th><h4>ПЛАТНЫЕ МЕСТА</h4></th>
           <th><h4>СТОИМОСТЬ</h4></th>
         </thead>
@@ -39,9 +39,9 @@
             <td>
               {{ residencyCourse.getPeriod() }}
             </td>
-            <td>
-              {{ residencyCourse.freePlaces }}
-            </td>
+            <!--            <td>-->
+            <!--              {{ residencyCourse.freePlaces }}-->
+            <!--            </td>-->
             <td>
               {{ residencyCourse.paidPlaces }}
             </td>
