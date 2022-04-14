@@ -32,8 +32,8 @@ export default defineComponent({
   },
   setup() {
     const shares = [
-      { name: 'facebook', icon: 'fb' },
-      { name: 'twitter', icon: 'twitter' },
+      // { name: 'facebook', icon: 'fb' },
+      // { name: 'twitter', icon: 'twitter' },
       { name: 'VK', icon: 'vk' },
     ];
     return { shares };

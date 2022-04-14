@@ -26,22 +26,22 @@ export default class SocialMedia implements ISocialMedia {
     if (this.type === SocialTypes.YouTube) {
       this.icon = 'yt';
     }
-    if (this.type === SocialTypes.Facebook) {
-      this.icon = 'fb';
-    }
-    if (this.type === SocialTypes.Instagram) {
-      this.icon = 'ig';
-    }
+    // if (this.type === SocialTypes.Facebook) {
+    //   this.icon = 'fb';
+    // }
+    // if (this.type === SocialTypes.Instagram) {
+    //   this.icon = 'ig';
+    // }
   }
   setTitle(): void {
     if (this.type === SocialTypes.YouTube) {
       this.title = 'Морозовская детская больница';
     }
-    if (this.type === SocialTypes.Facebook) {
-      this.title = '@morozov2.0';
-    }
-    if (this.type === SocialTypes.Instagram) {
-      this.title = '@morozdgkbdzm';
-    }
+    // if (this.type === SocialTypes.Facebook) {
+    //   this.title = '@morozov2.0';
+    // }
+    // if (this.type === SocialTypes.Instagram) {
+    //   this.title = '@morozdgkbdzm';
+    // }
   }
 }

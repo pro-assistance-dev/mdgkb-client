@@ -67,8 +67,8 @@ export default defineComponent({
     const router = useRouter();
 
     const shares = [
-      { name: 'facebook', icon: 'fb' },
-      { name: 'twitter', icon: 'twitter' },
+      // { name: 'facebook', icon: 'fb' },
+      // { name: 'twitter', icon: 'twitter' },
       { name: 'VK', icon: 'vk' },
     ];
 

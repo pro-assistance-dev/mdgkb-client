@@ -19,8 +19,8 @@
 
         <b>Официальный сайт:</b> МОРОЗДГКБ.РФ<br />
         <b>Email:</b> mdgkb@zdrav.mos.ru<br />
-        <b>Facebook:</b> morozdgkbdzm<br />
-        <b>Instagram:</b> morozdgkbdzm<br />
+        <!-- <b>Facebook:</b> morozdgkbdzm<br /> -->
+        <!-- <b>Instagram:</b> morozdgkbdzm<br /> -->
         <b>Youtube:</b> youtube.com<br />
         <b>Вконтакте:</b> vk.com</contacts-data-h4
       >

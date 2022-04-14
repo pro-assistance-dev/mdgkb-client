@@ -33,7 +33,7 @@
         <el-col :xs="24" :sm="12" :md="4" :lg="4" :xl="4">
           <div class="flex-center">
             <div class="icons">
-              <a href="https://www.facebook.com/Morozdgkbdzm/" class="social-icon" target="_blank">
+              <!-- <a href="https://www.facebook.com/Morozdgkbdzm/" class="social-icon" target="_blank">
                 <svg class="icon-fb">
                   <use xlink:href="#icon-FB"></use>
                 </svg>
@@ -42,7 +42,7 @@
                 <svg class="icon-insta">
                   <use xlink:href="#icon-insta"></use>
                 </svg>
-              </a>
+              </a> -->
               <a href="https://www.youtube.com/channel/UCG0gK-lfsZUVe6TvTrZh8uA" class="social-icon" target="_blank">
                 <svg class="icon-yt">
                   <use xlink:href="#icon-YT"></use>
