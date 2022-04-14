@@ -65,7 +65,6 @@ export default defineComponent({
       if (props.showModComments) {
         formValue.value.fields = formValue.value.fields.filter((el: IField) => {
           if (!el.id) return;
-          console.log('props.form.findFieldValue(el.id)?.modComment', props.form.findFieldValue(el.id)?.modComment);
           return props.form.findFieldValue(el.id)?.modComment;
         });
       }

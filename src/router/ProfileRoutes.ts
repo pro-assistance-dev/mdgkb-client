@@ -18,7 +18,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
       authGuard();
       if (next) isAuthorized(next);
     },
-    meta: { protected: true, profile: true },
+    meta: { protected: true, profile: 'my' },
   },
   {
     path: '/profile/edit',
@@ -28,7 +28,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
       authGuard();
       if (next) isAuthorized(next);
     },
-    meta: { protected: true, profile: true },
+    meta: { protected: true, profile: 'my' },
   },
   {
     path: '/profile/questions',
@@ -68,7 +68,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
       authGuard();
       isAuthorized(next);
     },
-    meta: { protected: true, profile: true },
+    meta: { protected: true, profile: 'education' },
   },
   {
     path: '/profile/education/applications/:id',
@@ -78,7 +78,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
       authGuard();
       isAuthorized(next);
     },
-    meta: { protected: true, profile: true },
+    meta: { protected: true, profile: 'education' },
   },
 ];
 

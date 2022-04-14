@@ -1,12 +1,12 @@
 <template>
   <el-card>
     <UserInfoMini />
-    <el-menu default-active="1">
-      <el-menu-item index="1" @click="$router.push('/profile')">
+    <el-menu :default-active="activeRoute">
+      <el-menu-item index="my" @click="$router.push('/profile')">
         <i class="el-icon-house"></i>
         <span class="magrin-title">Мой профиль</span>
       </el-menu-item>
-      <el-menu-item index="2" @click="$router.push('/profile/education')">
+      <el-menu-item index="education" @click="$router.push('/profile/education')">
         <i class="el-icon-document"></i>
         <span class="magrin-title">Образование</span>
       </el-menu-item>
@@ -31,7 +31,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IUser from '@/interfaces/IUser';
@@ -41,6 +42,21 @@ export default defineComponent({
   components: { UserInfoMini },
   setup() {
     const store = useStore();
+    const route = useRoute();
+    const activeRoute: Ref<string> = ref('');
+
+    watch(route, () => {
+      setActiveMenu();
+    });
+
+    const setActiveMenu = () => {
+      if (!route.meta.profile) return;
+      activeRoute.value = route.meta.profile as string;
+    };
+
+    onBeforeMount(() => {
+      setActiveMenu();
+    });
 
     const user: Ref<IUser> = computed(() => store.getters['users/item']);
     const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
@@ -50,6 +66,7 @@ export default defineComponent({
       user,
       hasNewAnswers,
       countNewAnswers,
+      activeRoute,
     };
   },
 });
