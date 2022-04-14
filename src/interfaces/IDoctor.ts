@@ -23,7 +23,7 @@ export default interface IDoctor {
   show: boolean;
   timetable: ITimetable;
   timetableId?: string;
-  position?: IPosition;
+  position: IPosition;
   positionId?: string;
   tags?: string;
   fileInfoId?: string;

@@ -36,7 +36,7 @@ export default class Doctor implements IDoctor {
   timetable: ITimetable = new Timetable();
   timetableId?: string;
   onlineDoctorId?: string;
-  position?: IPosition;
+  position: IPosition = new Position();
   positionId?: string;
   tags?: string;
   fileInfo = new FileInfo();
