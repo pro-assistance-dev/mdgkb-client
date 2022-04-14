@@ -3,7 +3,6 @@
     :on-change="changeFileHandler"
     action="#"
     :auto-upload="false"
-    accept="application/pdf"
     class="upload-container"
     :show-file-list="false"
     list-type="picture"
