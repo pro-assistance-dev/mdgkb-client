@@ -54,6 +54,7 @@
 </template>
 
 <script lang="ts">
+import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
@@ -73,6 +74,7 @@ export default defineComponent({
   components: {
     DocumentUploader,
     TableButtonGroup,
+    QuillEditor,
   },
   setup() {
     const mounted = ref(false);
