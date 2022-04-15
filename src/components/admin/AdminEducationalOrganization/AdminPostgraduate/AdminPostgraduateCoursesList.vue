@@ -77,7 +77,7 @@ export default defineComponent({
         )
       );
       filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('postgraduateCourses/getAll');
+      await store.dispatch('postgraduateCourses/getAll', filterQuery.value);
       store.commit('admin/setHeaderParams', {
         title: 'Программы аспирантуры',
         buttons: [{ text: 'Добавить программу', type: 'primary', action: create }],
