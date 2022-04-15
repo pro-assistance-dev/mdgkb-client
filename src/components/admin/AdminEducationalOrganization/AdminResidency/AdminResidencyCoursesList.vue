@@ -65,10 +65,16 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       store.commit(
         'filter/replaceSortModel',
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true)
+        SortModel.CreateSortModel(
+          schema.value.residencyCourse.tableName,
+          schema.value.residencyCourse.name,
+          Orders.Asc,
+          'По алфавиту',
+          true
+        )
       );
       filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('residencyCourses/getAll');
+      await store.dispatch('residencyCourses/getAll', filterQuery.value);
       store.commit('admin/setHeaderParams', {
         title: 'Программы ординатуры',
         buttons: [{ text: 'Добавить программу', type: 'primary', action: create }],
