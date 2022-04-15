@@ -20,6 +20,9 @@ const mutations: MutationTree<State> = {
     const index = state.items.findIndex((i: ISpecialization) => i.id === id);
     state.items.splice(index, 1);
   },
+  resetItem(state) {
+    state.item = new Specialization();
+  },
 };
 
 export default mutations;

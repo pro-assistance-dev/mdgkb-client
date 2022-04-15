@@ -153,6 +153,10 @@ export default defineComponent({
             to: '/admin/educational-organization',
           },
           {
+            title: 'Специальности',
+            to: '/admin/educational/specializations',
+          },
+          {
             title: 'Аспирантура',
             to: '/admin/postgraduate',
           },

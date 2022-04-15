@@ -116,7 +116,7 @@ export default defineComponent({
     const showRemoveWarning = () => {
       ElMessage({
         type: 'warning',
-        message: 'Удаление отменено. Есть привызяанные отделения',
+        message: 'Удаление отменено. Есть привязанные отделения',
       });
     };
     const removeFloor = (id: string) => {
