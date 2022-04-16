@@ -18,6 +18,7 @@
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
     <CandidatesMinimum v-if="mode === 'candidate'" />
     <PostgraduateContacts v-if="mode === 'contacts'" />
+    <PostgraducateAcademics v-if="mode === 'academics'" />
   </div>
 </template>
 
@@ -32,6 +33,7 @@ import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesM
 import PostgraduateContacts from '@/components/Educational/Postgraduate/PostgraduateContacts.vue';
 import PostgraduateCoursesList from '@/components/Educational/Postgraduate/PostgraduateCoursesList.vue';
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
+import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -44,7 +46,15 @@ import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'PostgraduatePage',
-  components: { DocumentsList, SortList, PostgraduateFilters, PostgraduateContacts, PostgraduateCoursesList, CandidatesMinimum },
+  components: {
+    DocumentsList,
+    SortList,
+    PostgraduateFilters,
+    PostgraduateContacts,
+    PostgraduateCoursesList,
+    CandidatesMinimum,
+    PostgraducateAcademics,
+  },
 
   setup() {
     const store = useStore();
@@ -115,6 +125,7 @@ export default defineComponent({
         }
       });
       modes.value.push({ value: 'candidate', label: 'Кандидатский минимум' });
+      modes.value.push({ value: 'academics', label: 'Учёный совет' });
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 
