@@ -1,10 +1,10 @@
 <template>
-  <div class="title"><h2>Вы действительно хотите изменить пароль?</h2></div>
+  <div class="title"><h2>Установить пароль для личного кабинета?</h2></div>
   <div class="news-page-container">
     <div class="news-content-container">
       <el-form>
         <button class="yes-button" @click.prevent="passwordChange">Да</button>
-        <button class="no-button" @click="$router.push('/')">Нет</button>
+        <button class="no-button" @click="$router.push('/')">На главную</button>
       </el-form>
     </div>
   </div>
@@ -40,9 +40,10 @@ export default defineComponent({
       try {
         await store.dispatch('auth/checkUuid', { userId: route.params['userId'], uniqueId: route.params['uniqueId'] });
       } catch (e) {
-        // await router.push('/main');
-        ElMessage({ message: 'Ссылка для восстановления пароля устарела', type: 'warning' });
+        await router.push('/main');
+        ElMessage({ message: 'Ссылка устарела', type: 'warning' });
       }
+      passwordChange();
     });
 
     const sendPassword = async () => {

@@ -218,7 +218,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'RefreshPasswordPage',
     component: RefreshPasswordPage,
   },
-
+  {
+    path: '/access-profile/:userId/:uniqueId',
+    name: 'ProfilePasswordPage',
+    component: RefreshPasswordPage,
+  },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
   ...DivisionsRoutes,

@@ -1,7 +1,7 @@
 <template>
   <div class="main-page-footer">
     <div class="main-page-footer-left">
-      <img src="@/assets/img/main-page/templates/footer.png" />
+      <img src="@/assets/img/main-page/templates/footer.webp" />
     </div>
     <div class="main-page-footer-right">
       <div class="main-page-footer-right-container">

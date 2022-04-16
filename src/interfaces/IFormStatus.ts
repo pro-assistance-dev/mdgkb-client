@@ -9,6 +9,7 @@ export default interface IFormStatus {
   modActionName: string;
   userActionName: string;
   isEditable: boolean;
+  sendEmail: boolean;
   formStatusToFormStatuses: IFormStatusToFormStatus[];
   formStatusToFormStatusesForDelete: string[];
 

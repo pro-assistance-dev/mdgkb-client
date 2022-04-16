@@ -10,6 +10,7 @@ export default class FormStatus implements IFormStatus {
   name = '';
   label = '';
   color = '';
+  sendEmail = false;
   modActionName = '';
   userActionName = '';
   isEditable = false;
@@ -27,6 +28,7 @@ export default class FormStatus implements IFormStatus {
     this.name = formStatus.name;
     this.label = formStatus.label;
     this.color = formStatus.color;
+    this.sendEmail = formStatus.sendEmail;
     this.modActionName = formStatus.modActionName;
     this.userActionName = formStatus.userActionName;
     this.isEditable = formStatus.isEditable;
