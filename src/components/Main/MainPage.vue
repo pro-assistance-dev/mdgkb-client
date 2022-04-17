@@ -2,7 +2,7 @@
   <MainHeaderButtons />
   <MainInfo />
   <MainNewsBlock />
-  <MainSpecialServices />
+  <div class="hidden"><MainSpecialServices /></div>
   <MainDoctors />
   <MainMedicalProfiles />
   <MainEvents />
@@ -47,3 +47,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 980px) {
+  .hidden {
+    display: none;
+  }
+}
+</style>

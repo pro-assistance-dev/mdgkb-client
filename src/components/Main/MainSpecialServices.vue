@@ -58,5 +58,6 @@ export default defineComponent({
 .special-services-cards {
   display: flex;
   justify-content: space-between;
+  padding-left: 0;
 }
 </style>

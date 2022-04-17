@@ -87,4 +87,10 @@ export default defineComponent({
     max-width: 400px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .header-top {
+    display: none;
+  }
+}
 </style>

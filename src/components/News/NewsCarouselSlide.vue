@@ -10,10 +10,10 @@
           v-for="(button, i) in item.newsSlideButtons"
           :key="i"
           :style="{
-            boxShadow: `${button.shadow ? '0px 5px 2.5px rgba(147,147,147,0.3) ' : ''}`,
+            boxShadow: 'none',
             'background-color': button.backgroundColor ? button.backgroundColor : 'white',
             color: button.color ? button.color : 'black',
-            border: `${button.borderColor ? button.borderColor + ' 1px solid' : 'none'}`,
+            border: 'none',
           }"
           @click="$router.push(button.link)"
         >
@@ -131,10 +131,11 @@ export default defineComponent({
     display: flex;
     flex-wrap: wrap;
     button {
+      width: 160px;
+      height: 40px;
       margin: 5px;
       font-size: 11px;
       text-transform: uppercase;
-      padding: 12px 20px;
       border-radius: 25px;
       white-space: nowrap;
 
@@ -144,15 +145,50 @@ export default defineComponent({
       }
     }
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 980px) {
     .text {
       max-width: 100%;
+    }
+    .text {
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
+      .title {
+        font-size: 30px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+      .content {
+        margin: 10px 0;
+        font-size: 16px;
+        font-family: 'Open Sans', serif;
+      }
     }
   }
   @media screen and (max-width: 480px) {
     .slide-buttons {
+      align-items: center;
       button {
-        padding: 6px 10px;
+        width: 160px;
+        height: 40px;
+      }
+    }
+
+    .text {
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
+      .title {
+        font-size: 20px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+      .content {
+        margin: 10px 0;
+        font-size: 16px;
+        font-family: 'Open Sans', serif;
       }
     }
   }

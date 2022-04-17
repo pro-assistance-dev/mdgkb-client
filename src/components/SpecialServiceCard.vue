@@ -30,10 +30,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .spec-serv-card {
+  margin-left: 10px;
   background: #ffffff;
   display: flex;
   flex-direction: column;
-  width: 270px;
+  max-width: 270px;
   border-radius: 5px;
   // height: 360px;
   &-img {
@@ -61,6 +62,10 @@ export default defineComponent({
   }
   &-content {
     font-size: 11px;
+  }
+
+  .spec-serv-card:first-child {
+    margin-left: 0;
   }
 }
 </style>

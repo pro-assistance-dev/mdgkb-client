@@ -40,7 +40,8 @@ export default defineComponent({
 }
 .review-card {
   background-color: #c9d4fa;
-  width: 270px;
+  max-width: 270px;
+  margin-left: 10px;
   padding: 20px;
   border-radius: 25px 25px 0 25px;
   color: black;

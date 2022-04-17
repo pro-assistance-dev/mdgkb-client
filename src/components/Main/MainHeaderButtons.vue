@@ -96,4 +96,32 @@ button {
     background-color: darken(#f3911c, 10%);
   }
 }
+
+@media screen and (max-width: 980px) {
+  button {
+    display: flex;
+    margin: 10px 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 180px;
+    margin: 0 10px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .buttons-container {
+    justify-content: center;
+    padding: 10px;
+    display: block;
+    height: auto;
+  }
+
+  button {
+    display: flex;
+    margin: 10px 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 230px;
+  }
+}
 </style>

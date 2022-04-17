@@ -107,4 +107,10 @@ export default defineComponent({
   width: 6px;
   top: 0px;
 }
+
+@media screen and (max-width: 480px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
 </style>

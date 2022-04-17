@@ -11,8 +11,8 @@
         <MainBigNewsCard :news="news[7]" />
       </div>
       <div class="main-news-block-middle">
-        <NewsCard :news="news[1]" :main="true" />
-        <NewsCard :news="news[2]" :main="true" />
+        <div class="size"><NewsCard :news="news[1]" :main="true" /></div>
+        <div class="size"><NewsCard :news="news[2]" :main="true" /></div>
       </div>
       <div class="main-news-block-right">
         <RecentNewsCard :main="true" :news-number="5" />
@@ -58,14 +58,73 @@ export default defineComponent({
 .main-news-block {
   display: flex;
   justify-content: space-between;
-  height: 100%;
-  &-middle {
+  height: auto;
+}
+
+.main-news-block-left {
+  display: flex;
+  width: 47%;
+  padding-right: 10px;
+  max-height: 800px;
+}
+
+.main-news-block-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 270px;
+}
+
+.main-news-block-right {
+  width: 270px;
+  padding-left: 15px;
+}
+
+.size {
+  width: 100%;
+}
+
+@media screen and (max-width: 980px) {
+  .size {
+    width: 48%;
+    height: auto;
+  }
+
+  .colomn {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .main-news-block {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
+    padding: 0 15px 15px 15px;
   }
-  &-right {
-    width: 270px;
+
+  .main-news-block-left {
+    display: flex;
+    width: 100%;
+    height: 600px;
+    padding-bottom: 30px;
+  }
+
+  .main-news-block-middle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .main-news-block-right {
+    width: 100%;
+    padding-top: 30px;
+    padding-left: 0;
+  }
+  :deep(.main-page-container-header-title) {
+    margin-left: 15px;
   }
 }
 </style>

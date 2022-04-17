@@ -7,8 +7,11 @@
     background-color="white"
   >
     <div class="main-page-reviews">
-      <ReviewCard v-for="item in reviews" :key="item.id" :item="item" @showMore="showMore(item)" />
+      <!-- <div class="mobile1"><ReviewCard  v-for="item in reviews" :key="item.id" :item="item" @showMore="showMore(item)" /></div> -->
+      <ReviewCard v-for="item in reviews.splice(0, 3)" :key="item.id" :item="item" @showMore="showMore(item)" />
+      <!-- <div class="mobile3"><ReviewCard  v-for="item in reviews.splice(0, 2)" :key="item.id" :item="item" @showMore="showMore(item)" /></div> -->
     </div>
+
     <el-dialog v-model="showDialog">
       <CommentCard v-if="dialogComment" :comment="dialogComment" />
     </el-dialog>
@@ -58,5 +61,60 @@ export default defineComponent({
 .main-page-reviews {
   display: flex;
   justify-content: space-between;
+}
+
+// .mobile2 {
+//   display: none;
+// }
+
+// .mobile3 {
+//   display: none;
+// }
+
+// @media screen and (max-width: 1300px) {
+//   .mobile1 {
+//     display: none;
+//   }
+
+//   .mobile2 {
+//     display: block;
+//   }
+
+//   .mobile3 {
+//     display: none;
+//   }
+// }
+
+// @media screen and (max-width: 980px) {
+//   .mobile1 {
+//     display: none;
+//   }
+
+//   .mobile2 {
+//     display: none;
+//   }
+
+//   .mobile3 {
+//     display: block;
+//   }
+// }
+
+@media screen and (max-width: 650px) {
+  .main-page-reviews {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  // .mobile1 {
+  //   display: none;
+  // }
+
+  // .mobile2 {
+  //   display: none;
+  // }
+
+  // .mobile3 {
+  //   display: block;
+  // }
 }
 </style>

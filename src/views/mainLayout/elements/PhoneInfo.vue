@@ -1,20 +1,20 @@
 <template>
   <ul class="menu-right">
-    <li>
-      <div v-if="scrollOffset >= 66" class="menu-right-block">
+    <li class="login">
+      <div v-if="scrollOffset >= 66 || mobileWindow" class="menu-right-block">
         <div class="login-and-search">
           <LoginDropdownMenu />
           <el-button v-if="scrollOffset >= 66 || tabletWindow" class="search" icon="el-icon-search" @click="click"></el-button>
         </div>
       </div>
     </li>
-    <li>
+    <li class="phone">
       <div v-if="scrollOffset < 66" class="menu-right-block">
         <p class="phone">+7 (495) 959-88-00</p>
         <p class="phone">+7 (495) 959-88-03</p>
       </div>
     </li>
-    <li>
+    <li class="info">
       <button class="info">
         <svg class="icon-info">
           <use xlink:href="#icon-info"></use>
@@ -369,6 +369,35 @@ button {
 
 @media screen and (max-width: 480px) {
   .phone {
+    display: none;
+  }
+
+  .info {
+    display: none;
+  }
+
+  .menu-right ul {
+    display: flex;
+    width: auto;
+  }
+
+  .search {
+    margin-left: 0px;
+  }
+
+  .menu-right-block {
+    min-width: 0;
+    align-items: center;
+  }
+
+  ul.menu-right li {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .search {
     display: none;
   }
 }

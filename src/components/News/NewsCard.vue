@@ -7,8 +7,6 @@
     <div class="flex-between-columm front">
       <div class="image">
         <img :src="news.getImageUrl()" alt="alt" />
-        <!--        <img src="../../assets/news/img44.jpg" alt="alt" />-->
-        <!--        <img v-else src="../../assets/img/310x310.png" />-->
       </div>
       <div class="card-content">
         <div class="title">{{ news.title }}</div>
@@ -91,7 +89,7 @@ $card-width: 300px;
   background-clip: padding-box;
   border-radius: 5px;
   border: rgba(0, 0, 0, 0.05) solid 1px;
-  height: 100%;
+  height: 400px;
   width: $card-width;
   transition: all 0.2s;
   position: relative;
@@ -128,9 +126,10 @@ $card-width: 300px;
   }
 
   .card-content {
-    padding-left: $card-content-padding;
-    padding-right: $card-content-padding;
-    max-height: 200px;
+    width: auto;
+    // padding-left: $card-content-padding;
+    // padding-right: $card-content-padding;
+    max-height: calc(100% - 100px);
     overflow: hidden;
     overflow-wrap: break-word;
     background: #ffffff;
@@ -140,10 +139,12 @@ $card-width: 300px;
       font-size: 16px;
       font-weight: bold;
       color: #343e5c;
-      margin-top: 10px;
+      padding: 10px 10px 0 10px;
     }
 
     .text {
+      padding-left: $card-content-padding;
+      padding-right: $card-content-padding;
       font-size: 14px;
       font-weight: normal;
       color: #4a4a4a;
@@ -164,8 +165,8 @@ $card-width: 300px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
+    width: $card-width;
+    height: $card-width;
     object-fit: cover;
   }
 }
@@ -264,14 +265,15 @@ $card-width: 300px;
   }
 }
 .main-card {
-  width: 270px;
-  height: 280px;
+  width: 100%;
+  height: 100%;
   .image {
-    padding-top: 180px;
+    // padding-top: calc(100% - 120px);
   }
   :deep(.title) {
     font-size: 14px !important;
     margin-top: 5px !important;
+    width: auto;
   }
   .card-meta {
     font-size: 12px;
@@ -287,11 +289,37 @@ $card-width: 300px;
     font-size: 8px;
   }
   .card-content {
-    padding-left: 10px;
-    padding-right: 10px;
+    // padding-left: 10px;
+    // padding-right: 10px;
   }
   .tags {
     padding: 5px 10px;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .card {
+    width: 100%;
+  }
+
+  .card-content {
+    width: 100%;
+    word-wrap: break-word;
+  }
+
+  .image {
+    position: relative;
+    overflow: hidden;
+    padding-top: 75% !important;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 }
 </style>
