@@ -7,8 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from '@vue/runtime-core';
+import { defineComponent, onMounted, watch } from '@vue/runtime-core';
 import { onBeforeMount } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TokenService from '@/services/Token';
@@ -25,6 +26,17 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const route = useRoute();
+
+    watch(route, () => {
+      changeDocumentTitle();
+    });
+
+    const changeDocumentTitle = () => {
+      const defaultTitle = 'Морозовская детская городская клиническая больница';
+      document.title = route.meta.title ? `${defaultTitle} - ${route.meta.title}` : defaultTitle;
+    };
+
     // TODO безопасно ли это?
     const setLocalStorageToVuex = () => {
       const userData = localStorage.getItem('user');
@@ -38,6 +50,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async (): Promise<void> => {
+      changeDocumentTitle();
       await store.dispatch('meta/getSchema');
       await store.dispatch('search/searchGroups');
     });
