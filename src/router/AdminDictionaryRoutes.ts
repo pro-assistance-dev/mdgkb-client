@@ -6,10 +6,6 @@ import AdminDivisionPage from '@/components/admin/AdminDivisions/AdminDivisionPa
 import AdminDivisionsList from '@/components/admin/AdminDivisions/AdminDivisionsList.vue';
 import AdminSideOrganizationPage from '@/components/admin/AdminSideOrganizations/AdminSideOrganizationPage.vue';
 import AdminSideOrganizationsList from '@/components/admin/AdminSideOrganizations/AdminSideOrganizationsList.vue';
-import AdminNormativeDocumentPage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentPage.vue';
-import AdminNormativeDocumentsList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentsList.vue';
-import AdminNormativeDocumentTypePage from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypePage.vue';
-import AdminNormativeDocumentTypesList from '@/components/admin/NormativeDocuments/AdminNormativeDocumentTypesList.vue';
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
@@ -105,58 +101,6 @@ export default [
       isAuthorized(next);
       authGuard();
     },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/normative-document-types',
-    name: 'AdminNormativeDocuments',
-    component: AdminNormativeDocumentsList,
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/normative-document-types/new',
-    name: 'AdminNormativeDocumentNewPage',
-    component: AdminNormativeDocumentPage,
-    props: { isEdit: false },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/normative-document-types/:id',
-    name: 'AdminNormativeDocumentPage',
-    component: AdminNormativeDocumentPage,
-    props: { isEdit: true },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/normative-document-types',
-    name: 'AdminNormativeDocumentTypes',
-    component: AdminNormativeDocumentTypesList,
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/normative-document-types/new',
-    name: 'AdminNormativeDocumentTypeNewPage',
-    component: AdminNormativeDocumentTypePage,
-    props: { isEdit: false },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/normative-document-types/:id',
-    name: 'AdminNormativeDocumentTypePage',
-    component: AdminNormativeDocumentTypePage,
-    props: { isEdit: true },
     meta: {
       layout: 'AdminLayout',
     },

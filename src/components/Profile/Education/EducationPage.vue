@@ -218,13 +218,12 @@ export default defineComponent({
     };
 
     const updateFormStatus = async (formValue: IForm, status: IFormStatus) => {
-      console.log(status.isSpecify());
       if (status.isSpecify()) {
         router.push(`/profile/education/applications/${formValue.id}`);
         return;
       }
-      // formValue.setStatus(status, formStatuses.value);
-      // await store.dispatch('formValues/update', formValue);
+      formValue.setStatus(status, formStatuses.value);
+      await store.dispatch('formValues/update', formValue);
     };
     onBeforeMount(async () => {
       await loadUser();

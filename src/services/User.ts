@@ -1,6 +1,5 @@
 import IHuman from '@/interfaces/IHuman';
 import IUser from '@/interfaces/IUser';
-import { RoleName } from '@/interfaces/RoleName';
 import TokenService from '@/services/Token';
 
 const UserService = (() => {
@@ -25,7 +24,8 @@ const UserService = (() => {
     if (!user) {
       return false;
     }
-    return user.role.name === RoleName.Admin;
+
+    return user.role.name === 'ADMIN' || user.role.name.split('_')[0] === 'ADMIN';
   }
 
   function _updateHuman(human: IHuman) {

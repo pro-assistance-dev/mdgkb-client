@@ -17,6 +17,9 @@
         <el-form-item label="Форма доступна для редакторивания" prop="isEditable">
           <el-switch v-model="formStatus.isEditable" active-text="Да" inactive-text="Нет" />
         </el-form-item>
+        <el-form-item label="Слать email при смене статуса" prop="isEditable">
+          <el-switch v-model="formStatus.sendEmail" active-text="Да" inactive-text="Нет" />
+        </el-form-item>
         <el-form-item label="Цвет" prop="color">
           <el-color-picker v-model="formStatus.color"></el-color-picker>
         </el-form-item>
@@ -35,7 +38,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import IForm from '@/interfaces/IForm';
+import IFormStatus from '@/interfaces/IFormStatus';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 
 export default defineComponent({
@@ -47,7 +50,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const formStatus: ComputedRef<IForm> = computed<IForm>(() => store.getters['formStatuses/item']);
+    const formStatus: ComputedRef<IFormStatus> = computed<IFormStatus>(() => store.getters['formStatuses/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
 

@@ -32,7 +32,6 @@ import HospitalizationsRoutes from '@/router/HospitalizationsRoutes';
 import indexAdminRoutes from '@/router/indexAdminRoutes';
 import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
-import NormativeDocumentsRoutes from '@/router/NormativeDocumentsRoutes';
 import PaidProgramsRoutes from '@/router/PaidProgramsRoutes';
 import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
@@ -69,9 +68,8 @@ export const adminGuard = async (to: RouteLocationNormalized, from: RouteLocatio
     try {
       await store.dispatch('auth/checkPathPermissions', to.path);
     } catch (e) {
-      console.log(e);
+      await router.push('/');
     }
-    // await router.push('/');
   }
   next();
 };
@@ -90,7 +88,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/main',
     name: 'MainPage',
     component: MainPage,
-    meta: { carousel: true, main: true },
+    meta: { carousel: true, main: true, title: 'Главная' },
     // beforeEnter: isAuthorized,
   },
   {
@@ -218,13 +216,16 @@ const routes: Array<RouteRecordRaw> = [
     name: 'RefreshPasswordPage',
     component: RefreshPasswordPage,
   },
-
+  {
+    path: '/access-profile/:userId/:uniqueId',
+    name: 'ProfilePasswordPage',
+    component: RefreshPasswordPage,
+  },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
   ...DivisionsRoutes,
   ...MapRoutes,
   ...NewsRoutes,
-  ...NormativeDocumentsRoutes,
   ...PaidServicesRoutes,
   ...CommentsRoutes,
   ...ProfileRoutes,

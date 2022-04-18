@@ -39,10 +39,10 @@
         <div class="info-container-right">
           <el-carousel trigger="click" height="100%" width="auto" :interval="5000" indicator-position="outside">
             <el-carousel-item>
-              <img src="@/assets/img/main-page/templates/main-info.png" />
+              <img src="@/assets/img/main-page/templates/main-info.webp" />
             </el-carousel-item>
             <el-carousel-item>
-              <img src="@/assets/img/main-page/templates/main-info.png" style="transform: scaleX(-1)" />
+              <img src="@/assets/img/main-page/templates/main-info.webp" style="transform: scaleX(-1)" />
             </el-carousel-item>
           </el-carousel>
         </div>
