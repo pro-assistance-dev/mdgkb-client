@@ -126,7 +126,7 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Дополнительное профессиональное образование',
         to: '/admin/dpo',
-        showTo: [RoleName.Admin, RoleName.AdminPostgraduate],
+        showTo: [RoleName.Admin, RoleName.AdminDpo],
       },
       {
         title: 'Программы ДПО',
