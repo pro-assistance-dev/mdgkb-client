@@ -90,7 +90,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/main',
     name: 'MainPage',
     component: MainPage,
-    meta: { carousel: true, main: true },
+    meta: { carousel: true, main: true, title: 'Главная' },
     // beforeEnter: isAuthorized,
   },
   {
