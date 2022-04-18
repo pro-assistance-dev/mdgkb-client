@@ -4,7 +4,11 @@
     <table class="table-list">
       <thead>
         <th>Клиентский путь</th>
-        <th>Гостевой доступ</th>
+        <th>
+          Гостевой доступ
+          <button @click="setAllGuests()">Выделить всё</button>
+        </th>
+
         <th v-for="role in roles" :key="role.id">
           <h4>{{ role.name }}</h4>
           <button @click="setAll(role.id)">Выделить всё</button>
@@ -12,11 +16,11 @@
       </thead>
       <tbody>
         <tr v-for="permission in permissions" :key="permission.resource">
-          <td v-for="role in roles" :key="role.id">
-            <el-checkbox v-model="permission.guestAllow"> </el-checkbox>
-          </td>
           <td>
             {{ permission.resource }}
+          </td>
+          <td>
+            <el-checkbox v-model="permission.guestAllow"> </el-checkbox>
           </td>
           <td v-for="role in roles" :key="role.id">
             <el-checkbox :model-value="permission.checkPermissionForRole(role.id)" @change="permission.setRole($event, role.id)">
@@ -53,9 +57,12 @@ export default defineComponent({
     const router = useRouter();
     const paths = router.getRoutes();
     const mounted: Ref<boolean> = ref(false);
+    const filterString: Ref<string> = ref('');
+
     const clientPermissions: Ref<IPathPermission[]> = computed(() => store.getters['auth/pathPermissions']);
     const roles: Ref<IRole[]> = computed(() => store.getters['roles/items']);
     const permissions: Ref<IPathPermission[]> = ref([]);
+
     onBeforeMount(async () => {
       await store.dispatch('auth/getAllPathPermissions');
       await store.dispatch('roles/getAll');
@@ -84,8 +91,12 @@ export default defineComponent({
       }
       return permissions.value.forEach((p: IPathPermission) => p.addRole(roleId));
     };
-
+    const setAllGuests = () => {
+      const hasGuestAllow = permissions.value.some((p: IPathPermission) => p.guestAllow);
+      permissions.value.forEach((p: IPathPermission) => (p.guestAllow = !hasGuestAllow));
+    };
     return {
+      setAllGuests,
       setAll,
       roles,
       mounted,

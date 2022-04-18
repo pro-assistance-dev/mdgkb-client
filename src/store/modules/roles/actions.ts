@@ -27,7 +27,7 @@ const actions: ActionTree<State, RootState> = {
   },
   create: async ({ state }): Promise<void> => {
     await httpClient.post<IRole, IRole>({
-      // payload: state.item,
+      payload: state.item,
       isFormData: true,
       // fileInfos: state.item.getFileInfos(),
     });
