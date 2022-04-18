@@ -9,7 +9,7 @@
   <MainArticles />
   <MainReviews />
   <MainCertificates />
-  <MainSocialMedia />
+  <div class="hidden"><MainSocialMedia /></div>
   <MainPageFooter />
 </template>
 

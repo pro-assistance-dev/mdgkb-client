@@ -66,6 +66,7 @@ export default defineComponent({
       font-weight: bold;
     }
     button {
+      margin-right: 15px;
       display: flex;
       align-items: center;
       background-color: inherit;

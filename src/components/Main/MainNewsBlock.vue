@@ -101,7 +101,7 @@ export default defineComponent({
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    padding: 0 15px 15px 15px;
+    padding: 0 15px;
   }
 
   .main-news-block-left {
@@ -125,6 +125,34 @@ export default defineComponent({
   }
   :deep(.main-page-container-header-title) {
     margin-left: 15px;
+    letter-spacing: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-news-block {
+    padding: 0 5px;
+  }
+
+  :deep(.main-page-container-header-title) {
+    margin-left: 15px;
+    letter-spacing: 0;
+    font-size: 18px;
+  }
+
+  :deep(.main-page-container-header button) {
+    font-size: 12px;
+    margin: 0px;
+  }
+
+  :deep(.el-icon) {
+    width: 0.5em;
+    height: 0.5em;
+  }
+  :deep(.el-icon svg) {
+    width: 0.5em;
+    height: 0.5em;
+    padding-bottom: 6px;
   }
 }
 </style>

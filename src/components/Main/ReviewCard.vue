@@ -58,4 +58,10 @@ export default defineComponent({
     text-decoration: unset;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .review-card {
+    margin-left: 0px;
+  }
+}
 </style>

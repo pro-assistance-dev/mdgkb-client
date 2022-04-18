@@ -51,3 +51,34 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss" scoped>
+@media screen and (max-width: 980px) {
+  :deep(.main-page-container-header-title) {
+    margin-left: 15px;
+    letter-spacing: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :deep(.main-page-container-header-title) {
+    margin-left: 15px;
+    letter-spacing: 0;
+    font-size: 18px;
+  }
+
+  :deep(.main-page-container-header button) {
+    font-size: 12px;
+    margin: 0px;
+  }
+
+  :deep(.el-icon) {
+    width: 0.5em;
+    height: 0.5em;
+  }
+  :deep(.el-icon svg) {
+    width: 0.5em;
+    height: 0.5em;
+    padding-bottom: 6px;
+  }
+}
+</style>

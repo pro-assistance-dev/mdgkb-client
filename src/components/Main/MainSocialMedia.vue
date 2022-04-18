@@ -2,7 +2,7 @@
   <component :is="'MainContainer'" header-title="Соцсети" background-color="white">
     <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
       <el-carousel-item v-for="(socialMedias, i) in carousel" :key="i">
-        <SocialMediaCard v-for="item in socialMedias" :key="item.description" :item="item" />
+        <div class="size"><SocialMediaCard v-for="item in socialMedias" :key="item.description" :item="item" /></div>
       </el-carousel-item>
     </el-carousel>
   </component>
@@ -49,3 +49,19 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 980px) {
+  .size {
+    width: 170px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :deep(.main-page-container-header-title) {
+    margin-left: 15px;
+    letter-spacing: 0;
+    font-size: 18px;
+  }
+}
+</style>

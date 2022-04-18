@@ -78,6 +78,12 @@ export default defineComponent({
 .search-block {
   width: 400px;
 }
+
+.header-top {
+  padding-left: 10px;
+  // padding-right: 10px;
+}
+
 @media screen and (max-width: 768px) {
   .container {
     justify-content: space-between;

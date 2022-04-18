@@ -32,7 +32,7 @@
             <div class="info-container-left-icons-item">
               <component :is="require(`@/assets/img/main-page/icons/1.svg`).default" />
               <h4>45</h4>
-              <span>медицинких специальностей</span>
+              <span>медицинких специаль-<br />ностей</span>
             </div>
           </div>
         </div>
@@ -166,6 +166,7 @@ export default defineComponent({
           fill: #2754eb;
         }
         &-item {
+          margin: 20px -30px;
           h4 {
             margin: 0;
             font-size: 43px;

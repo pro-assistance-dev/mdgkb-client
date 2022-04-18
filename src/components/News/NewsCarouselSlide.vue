@@ -145,16 +145,16 @@ export default defineComponent({
       }
     }
   }
-  @media screen and (max-width: 980px) {
-    .text {
-      max-width: 100%;
-    }
+}
+
+@media screen and (max-width: 980px) {
+  .slide-body {
     .text {
       max-width: 100%;
       max-height: 100%;
       overflow: hidden;
       .title {
-        font-size: 30px;
+        font-size: 36px;
         font-family: 'Open Sans', sans-serif;
         font-weight: bold;
         margin: 10px 0;
@@ -166,21 +166,34 @@ export default defineComponent({
       }
     }
   }
-  @media screen and (max-width: 480px) {
+}
+
+@media screen and (max-width: 500px) {
+  .slide-body {
+    margin: 0 30px;
+
     .slide-buttons {
+      display: flex;
+      justify-content: center;
       align-items: center;
+      width: auto;
       button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 160px;
         height: 40px;
       }
     }
 
     .text {
+      margin-left: auto;
+      margin-right: auto;
       max-width: 100%;
       max-height: 100%;
       overflow: hidden;
       .title {
-        font-size: 20px;
+        font-size: 24px;
         font-family: 'Open Sans', sans-serif;
         font-weight: bold;
         margin: 10px 0;

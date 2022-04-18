@@ -268,7 +268,7 @@ $card-width: 300px;
   width: 100%;
   height: 100%;
   .image {
-    // padding-top: calc(100% - 120px);
+    padding-top: calc(100% - 120px);
   }
   :deep(.title) {
     font-size: 14px !important;
@@ -319,6 +319,31 @@ $card-width: 300px;
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+
+  .article-card {
+    width: 220px;
+    height: 320px;
+    margin: 0 10px 100px 0;
+    .image {
+      padding-top: 180px;
+    }
+    :deep(.title) {
+      font-size: 12px !important;
+    }
+    .card-meta {
+      font-size: 11px;
+      :deep(.anticon) {
+        font-size: 12px;
+        height: 12px;
+      }
+    }
+    .tags-top {
+      margin: 10px 0 0 10px;
+    }
+    .news-tag-link {
+      font-size: 8px;
     }
   }
 }

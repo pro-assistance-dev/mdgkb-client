@@ -25,7 +25,7 @@
     </div>
 
     <div v-if="mounted" class="main-medical-profiles-mobile1">
-      <div v-for="item in medicalProfiles.splice(0, 10)" :key="item.name">
+      <div v-for="item in medicalProfiles.splice(0, 12)" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -35,7 +35,7 @@
             {{ item.name }}
           </div>
           <div class="icon">
-            <BaseIcon width="90" height="90" :icon-name="item.icon">
+            <BaseIcon width="60" height="60" :icon-name="item.icon">
               <HelpProfileIcon :svg-code="item.svgCode" />
             </BaseIcon>
           </div>
@@ -44,7 +44,7 @@
     </div>
 
     <div v-if="mounted" class="main-medical-profiles-mobile2">
-      <div v-for="item in medicalProfiles.splice(0, 6)" :key="item.name">
+      <div v-for="item in medicalProfiles.splice(0, 12)" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -54,7 +54,7 @@
             {{ item.name }}
           </div>
           <div class="icon">
-            <BaseIcon width="90" height="90" :icon-name="item.icon">
+            <BaseIcon width="60" height="60" :icon-name="item.icon">
               <HelpProfileIcon :svg-code="item.svgCode" />
             </BaseIcon>
           </div>
@@ -63,7 +63,7 @@
     </div>
 
     <div v-if="mounted" class="main-medical-profiles-mobile3">
-      <div v-for="item in medicalProfiles.splice(0, 4)" :key="item.name">
+      <div v-for="item in medicalProfiles.splice(0, 9)" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -73,7 +73,26 @@
             {{ item.name }}
           </div>
           <div class="icon">
-            <BaseIcon width="90" height="90" :icon-name="item.icon">
+            <BaseIcon width="60" height="60" :icon-name="item.icon">
+              <HelpProfileIcon :svg-code="item.svgCode" />
+            </BaseIcon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="mounted" class="main-medical-profiles-mobile4">
+      <div v-for="item in medicalProfiles.splice(0, 8)" :key="item.name">
+        <div
+          :style="{ 'background-color': item.background }"
+          class="main-medical-profiles-card card-hover"
+          @click="$router.push(`/medical-profiles/${item.id}`)"
+        >
+          <div class="main-medical-profiles-card-name">
+            {{ item.name }}
+          </div>
+          <div class="icon">
+            <BaseIcon width="80" height="80" :icon-name="item.icon">
               <HelpProfileIcon :svg-code="item.svgCode" />
             </BaseIcon>
           </div>
@@ -178,6 +197,10 @@ export default defineComponent({
   display: none;
 }
 
+.main-medical-profiles-mobile4 {
+  display: none;
+}
+
 @media screen and (max-width: 1300px) {
   .main-medical-profiles {
     display: none;
@@ -191,9 +214,14 @@ export default defineComponent({
     display: none;
   }
 
+  .main-medical-profiles-mobile4 {
+    display: none;
+  }
+
   .main-medical-profiles-mobile1 {
+    margin: 0 15px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-gap: 30px;
     &-card {
@@ -218,6 +246,11 @@ export default defineComponent({
         fill: white;
       }
     }
+  }
+
+  :deep(.main-medical-profiles-card-name) {
+    font-size: 12px;
+    margin: 0 10px;
   }
 }
 
@@ -234,10 +267,15 @@ export default defineComponent({
     display: none;
   }
 
+  .main-medical-profiles-mobile4 {
+    display: none;
+  }
+
   .main-medical-profiles-mobile2 {
+    margin: 0 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     grid-gap: 30px;
     &-card {
       text-align: center;
@@ -254,13 +292,24 @@ export default defineComponent({
         height: 20%;
       }
       &-svg {
-        max-height: 150px;
-        max-width: 150px;
+        max-height: 100px;
+        max-width: 100px;
         margin: 5px;
         transform: scale(0.65);
         fill: white;
       }
     }
+  }
+  :deep(.main-medical-profiles-card-name) {
+    font-size: 12px;
+    margin: 0 10px;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  :deep(.main-page-container-header-title) {
+    margin-left: 15px;
+    letter-spacing: 0;
   }
 }
 
@@ -277,10 +326,15 @@ export default defineComponent({
     display: none;
   }
 
+  .main-medical-profiles-mobile4 {
+    display: none;
+  }
+
   .main-medical-profiles-mobile3 {
+    margin: 0 15px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     grid-gap: 30px;
     &-card {
       text-align: center;
@@ -307,7 +361,12 @@ export default defineComponent({
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 680px) {
+  :deep(.main-medical-profiles-card-name) {
+    font-size: 16px;
+    margin: 0 10px;
+  }
+
   .main-medical-profiles {
     display: none;
   }
@@ -317,6 +376,70 @@ export default defineComponent({
   }
 
   .main-medical-profiles-mobile2 {
+    display: none;
+  }
+
+  .main-medical-profiles-mobile3 {
+    display: none;
+  }
+
+  .main-medical-profiles-mobile4 {
+    margin: 0 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-gap: 30px;
+    &-card {
+      text-align: center;
+      border-radius: 5px;
+      background-color: #34adcb;
+      color: white;
+      letter-spacing: 1px;
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-top: 20px;
+      padding-bottom: 100%;
+      &-name {
+        height: 20%;
+      }
+      &-svg {
+        max-height: 150px;
+        max-width: 150px;
+        margin: 5px;
+        transform: scale(0.65);
+        fill: white;
+      }
+    }
+  }
+  :deep(.main-medical-profiles-card) {
+    padding: 20px 0 200px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  :deep(.main-medical-profiles-card) {
+    padding: 20px 0 170px;
+  }
+
+  :deep(.main-medical-profiles-card-name) {
+    font-size: 16px;
+    margin: 0 10px;
+  }
+
+  .main-medical-profiles {
+    display: none;
+  }
+
+  .main-medical-profiles-mobile1 {
+    display: none;
+  }
+
+  .main-medical-profiles-mobile2 {
+    display: none;
+  }
+
+  .main-medical-profiles-mobile4 {
     display: none;
   }
 
@@ -336,7 +459,7 @@ export default defineComponent({
       letter-spacing: 1px;
       position: relative;
       width: 100%;
-      height: 0;
+      height: 0px;
       padding-top: 20px;
       padding-bottom: 100%;
       &-name {
@@ -350,6 +473,30 @@ export default defineComponent({
         fill: white;
       }
     }
+  }
+  :deep(.main-page-container-header-title) {
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0;
+    font-size: 18px;
+  }
+
+  :deep(.main-page-container-header button) {
+    font-size: 12px;
+    margin: 0px;
+  }
+
+  :deep(.el-icon) {
+    width: 0.5em;
+    height: 0.5em;
+  }
+  :deep(.el-icon svg) {
+    width: 0.5em;
+    height: 0.5em;
+    padding-bottom: 6px;
+  }
+  :deep(.main-medical-profiles-card card-hover) {
+    height: 200px;
   }
 }
 </style>

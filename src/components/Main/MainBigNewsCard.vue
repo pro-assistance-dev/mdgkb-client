@@ -157,7 +157,51 @@ export default defineComponent({
     }
     &-title {
       font-weight: bold;
-      font-size: 26px;
+      font-size: 22px;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .card-meta {
+      color: #a1a7bd;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      :deep(.anticon) {
+        font-size: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .big-news-card {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    color: #343e5c;
+    display: flex;
+    align-items: flex-end;
+    &-container {
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      padding: 10px 25px;
+      border-radius: 0 0 4px 4px;
+      // opacity: 0.9;
+    }
+    &-tags {
+      margin-bottom: 10px;
+      .news-tag-link {
+        font-size: 12px;
+      }
+    }
+    &-title {
+      font-weight: bold;
+      font-size: 16px;
       letter-spacing: 1px;
       margin-bottom: 10px;
     }

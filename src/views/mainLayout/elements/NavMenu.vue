@@ -186,7 +186,7 @@ ul.dropmenu li {
   transition: color 0.3s ease 0s;
   text-transform: uppercase;
   align-items: center;
-  padding: 22px 20px 21px 20px;
+  padding: 22px 20px 20px 20px;
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
   background: #f0f2f7;
