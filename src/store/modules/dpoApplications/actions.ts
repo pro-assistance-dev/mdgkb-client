@@ -59,12 +59,12 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDpoApplication>({ query: `slug/${slug}` });
     commit('set', res);
   },
-  subscribeCreate: async (): Promise<void> => {
-    const source = await httpClient.subscribe<IDpoApplication>({ query: 'subscribe-create' });
+  subscribeCreate: async ({ commit }): Promise<void> => {
+    const c = new HttpClient('subscribe');
+    const source = await c.subscribe<IDpoApplication>({ query: 'dpo-application-create' });
     source.onmessage = function (e) {
-      console.log(source);
+      commit('appendToAll', [e.data]);
     };
-    source.addEventListener('dpoApplicationCreate', (e) => console.log(e));
   },
 };
 

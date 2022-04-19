@@ -23,6 +23,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await store.dispatch('dpoApplications/subscribeCreate');
+      await store.dispatch('residencyApplications/subscribeCreate');
     });
 
     return { isDrawerOpen, closeDrawer };
