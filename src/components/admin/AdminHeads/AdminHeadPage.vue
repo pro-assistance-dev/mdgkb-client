@@ -77,7 +77,7 @@ import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
-  name: 'AdminDoctorPage',
+  name: 'AdminHeadPage',
   components: { AdminContactInfo, UploaderSingleScan, TimetableConstructorV2, HumanForm, ImageCropper, CardHeader },
   setup() {
     const store = useStore();

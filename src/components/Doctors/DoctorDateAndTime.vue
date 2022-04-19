@@ -1,5 +1,5 @@
 <template>
-  <div class="Date-and-time">
+  <div v-if="false" class="Date-and-time">
     <div class="title-in">Дата и время приема</div>
   </div>
 </template>

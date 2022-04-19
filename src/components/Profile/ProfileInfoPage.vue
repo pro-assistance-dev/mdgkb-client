@@ -12,14 +12,7 @@
     <div class="colonm-left">
       <div class="user-avatar">
         <div class="avatar-block">
-          <UploaderSingleScan
-            crop-ratio="1"
-            :emit-crop="true"
-            :file-info="user.human.photo"
-            :height="273"
-            :width="273"
-            @crop="saveAvatar"
-          />
+          <UploaderSingleScan :emit-crop="true" :file-info="user.human.photo" :height="273" :width="273" @crop="saveAvatar" />
         </div>
       </div>
       <el-form :model="user">

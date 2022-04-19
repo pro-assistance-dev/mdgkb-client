@@ -7,7 +7,7 @@
         <el-option label="Дополнительно образование" :value="'Дополнительно образование'"></el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="УЧебное заведение">
+    <el-form-item label="Учебное заведение">
       <el-input v-model="education.institution" />
     </el-form-item>
     <el-form-item label="Диплом">

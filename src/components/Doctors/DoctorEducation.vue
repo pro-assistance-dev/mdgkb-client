@@ -1,5 +1,5 @@
 <template>
-  <div class="education">
+  <div v-if="educations.length" class="education">
     <div class="title-in">Образование</div>
     <div class="point">
       <ul class="point-list">

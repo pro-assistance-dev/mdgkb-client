@@ -13,7 +13,9 @@
     </div>
   </div>
   <div class="right-block">
-    <HumanForm :store-module="'users'" />
+    <el-form ref="form" label-position="top" :model="user" :rules="rules">
+      <HumanForm :store-module="'users'" />
+    </el-form>
     <!--    <div class="line-item">-->
     <!--      <div class="item-data">-->
     <!--        <button class="plus-button">-->
@@ -63,12 +65,14 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
 import IUser from '@/interfaces/IUser';
+import validate from '@/mixins/validate';
+import UserRules from '@/rules/UserRules';
 
 export default defineComponent({
   name: 'ProfileEditPage',
@@ -78,6 +82,8 @@ export default defineComponent({
     const router = useRouter();
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: Ref<IUser> = computed(() => store.getters['users/item']);
+    const rules = ref(UserRules);
+    const form = ref();
 
     const loadUser = async () => {
       await store.dispatch('users/get', userId.value);
@@ -85,6 +91,9 @@ export default defineComponent({
     onMounted(loadUser);
 
     async function saveUser() {
+      if (!validate(form)) {
+        return;
+      }
       await store.dispatch('users/update', user.value);
       await router.push('/profile');
     }
@@ -92,6 +101,8 @@ export default defineComponent({
     return {
       user,
       saveUser,
+      rules,
+      form,
     };
   },
 });

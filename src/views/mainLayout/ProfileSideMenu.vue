@@ -3,7 +3,7 @@
     <UserInfoMini />
     <ul>
       <li>
-        <router-link class="item-list" :to="`/profile`" active-class="active">
+        <router-link class="item-list" :to="`/profile`" :class="activeRoute === 'my' ? 'active' : ''">
           <svg class="icon-profile">
             <use xlink:href="#home"></use>
           </svg>
@@ -14,7 +14,7 @@
         </router-link>
       </li>
       <li>
-        <router-link class="item-list" :to="`/profile/education`" active-class="active">
+        <router-link class="item-list" :to="`/profile/education`" :class="activeRoute === 'education' ? 'active' : ''">
           <svg class="icon-education">
             <use xlink:href="#education"></use>
           </svg>
@@ -66,14 +66,18 @@ export default defineComponent({
 
     watch(route, () => {
       setActiveMenu();
+      console.log('activeRoute.value WATCH =>', activeRoute.value);
     });
 
     const setActiveMenu = () => {
+      console.log('route.meta.profile =>', route.meta.profile);
       if (!route.meta.profile) return;
       activeRoute.value = route.meta.profile as string;
+      console.log('activeRoute.value PROFILE =>', activeRoute.value);
     };
 
     onBeforeMount(() => {
+      console.log('profileside menu');
       setActiveMenu();
     });
 
@@ -176,10 +180,10 @@ export default defineComponent({
   display: flex;
 }
 
-a.router-link-active,
-li.item-list-active > a {
-  background: #ffffff;
-}
+// a.router-link-active,
+// li.item-list-active > a {
+//   background: #ffffff;
+// }
 
 .active {
   color: #ffffff;

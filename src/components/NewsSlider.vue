@@ -1,5 +1,5 @@
 <template>
-  <div class="education">
+  <div v-if="carousel.length" class="education">
     <div class="title-in">Новости</div>
     <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
       <el-carousel-item v-for="(newsGroup, i) in carousel" :key="i">
@@ -17,13 +17,13 @@ import IWithNews from '@/interfaces/IWithNews';
 
 export default defineComponent({
   name: 'NewsSlider',
+  components: { NewsCard },
   props: {
     news: {
       type: Object as PropType<IWithNews[]>,
       required: true,
     },
   },
-  components: { NewsCard },
   async setup(props) {
     const carousel: Ref<IWithNews[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);

@@ -1,8 +1,8 @@
 <template>
-  <el-form>
+  <div>
     <div class="line-item">
       <div class="item-block">
-        <div class="item-title"><h5>ФАМИЛИЯ&nbsp;*</h5></div>
+        <!-- <div class="item-title"><h5>ФАМИЛИЯ&nbsp;*</h5></div> -->
         <div class="item-data">
           <el-form-item label="ФАМИЛИЯ" prop="human.surname">
             <el-input v-model="human.surname" placeholder="Введите фамилию"></el-input>
@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="item-block">
-        <div class="item-title"><h5>ИМЯ&nbsp;*</h5></div>
+        <!-- <div class="item-title"><h5>ИМЯ&nbsp;*</h5></div> -->
         <div class="item-data">
           <el-form-item label="ИМЯ" prop="human.name">
             <el-input v-model="human.name" placeholder="Введите имя"></el-input>
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="item-block">
-        <div class="item-title"><h5>ОТЧЕСТВО</h5></div>
+        <!-- <div class="item-title"><h5>ОТЧЕСТВО</h5></div> -->
         <div class="item-data">
           <el-form-item label="Введите отчество" prop="human.patronymic">
             <el-input v-model="human.patronymic" placeholder="Введите отчество"></el-input>
@@ -29,7 +29,7 @@
 
     <div class="line-item">
       <div class="item-block">
-        <div class="item-title"><h5>ПОЛ</h5></div>
+        <!-- <div class="item-title"><h5>ПОЛ</h5></div> -->
         <div class="item-data">
           <el-form-item label="Пол" prop="human.isMale">
             <el-select v-model="human.isMale" placeholder="Выберите пол">
@@ -53,7 +53,7 @@
         <!--        </div>-->
       </div>
       <div class="item-block">
-        <div class="item-title"><h5>ДАТА&nbsp;РОЖДЕНИЯ *</h5></div>
+        <!-- <div class="item-title"><h5>ДАТА&nbsp;РОЖДЕНИЯ *</h5></div> -->
         <div class="item-data">
           <el-form-item label="Дата рождения" prop="human.dateBirth">
             <el-date-picker v-model="human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
@@ -170,7 +170,7 @@
     <!--        </div>-->
     <!--      </div>-->
     <!--    </div>-->
-  </el-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -244,6 +244,7 @@ h5 {
   width: 31%;
   height: 60px;
   padding-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 :deep(.el-form-item__content) {
@@ -317,6 +318,10 @@ h5 {
 }
 
 :deep(.el-form-item__label) {
-  display: none;
+  color: #a3a9be;
+  padding: 0 !important;
+  text-transform: uppercase;
+  margin-left: 5px;
+  // display: none;
 }
 </style>

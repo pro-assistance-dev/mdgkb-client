@@ -19,7 +19,7 @@ export default [
   },
   {
     path: '/admin/heads/new',
-    name: 'AdminDoctorPageCreate',
+    name: 'AdminHeadPageCreate',
     component: AdminHeadPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -31,7 +31,7 @@ export default [
   },
   {
     path: '/admin/heads/:id',
-    name: 'AdminDoctorPageEdit',
+    name: 'AdminHeadPageEdit',
     component: AdminHeadPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);

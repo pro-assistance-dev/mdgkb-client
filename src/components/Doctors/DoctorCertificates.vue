@@ -1,5 +1,5 @@
 <template>
-  <div class="certificates">
+  <div v-if="false" class="certificates">
     <div class="title-in">Сертификаты</div>
   </div>
 </template>

@@ -14,7 +14,7 @@
             <el-input v-model="element.name" />
             <el-button type="danger" size="medium" icon="el-icon-delete" @click.stop="donorRulesWithDeleted.removeDonorRule(index)" />
             <el-button type="info" size="medium" icon="el-icon-edit" @click="element.editMode = true" />
-            <UploaderSingleScan :crop-ratio="'1'" :file-info="element.image" />
+            <UploaderSingleScan :file-info="element.image" />
           </div>
         </div>
       </template>

@@ -12,27 +12,33 @@
     </div>
 
     <div class="card-item-middle">
-      <div class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)">
+      <div v-if="doctor.division?.name" class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)">
         {{ doctor.division.name }}
       </div>
       <div class="doctor-name">
         {{ doctor.human.getFullName() }}
       </div>
-      <div v-if="doctor.medicalProfile" class="tag-link" @click="$router.push(`/doctors?medical-profile=${doctor.medicalProfile.id}`)">
+      <div
+        v-if="doctor.medicalProfile?.name"
+        class="tag-link"
+        @click="$router.push(`/doctors?medical-profile=${doctor.medicalProfile.id}`)"
+      >
         {{ doctor.medicalProfile.name }}
       </div>
 
-      <div class="tag-link" @click="$router.push(`/doctors?position=${doctor.position.id}`)">
+      <div v-if="doctor.position?.name" class="tag-link" @click="$router.push(`/doctors?position=${doctor.position.id}`)">
         {{ doctor.position.name }}
       </div>
       <div class="card-item-middle-bottom">
         <div class="regalias-list">
           <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
-            <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
+            <div v-if="regalia?.name">
+              <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
+            </div>
           </template>
         </div>
         <div class="address">
-          <span v-if="doctor.division.address">
+          <span v-if="doctor.division?.address">
             Адрес приема:
             <a @click="$router.push(`/map/${doctor.division.id}`)">
               {{ doctor.division.address }}

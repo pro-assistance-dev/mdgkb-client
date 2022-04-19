@@ -40,11 +40,11 @@
               <el-form-item label="Название сертификата">
                 <el-input v-model="certificate.description" />
               </el-form-item>
-              <UploaderSingleScan :crop-ratio="'1'" :file-info="certificate.scan" />
+              <UploaderSingleScan :file-info="certificate.scan" />
               <el-button @click="doctor.removeCertificate(i)">Удалить сертификат</el-button>
             </div>
           </el-card>
-          <el-card>
+          <!-- <el-card>
             <el-button @click="doctor.addDoctorPaidService()">Добавить услуги</el-button>
             <div v-for="(doctorPaidService, i) in doctor.doctorPaidServices" :key="doctorPaidService.id">
               <el-form-item label="Услуга">
@@ -56,16 +56,16 @@
               </el-form-item>
               <el-button @click="doctor.removeDoctorPaidService(i)">Удалить услугу</el-button>
             </div>
-          </el-card>
+          </el-card> -->
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
           <el-card header="Фото">
-            <UploaderSingleScan :crop-ratio="'1'" :file-info="doctor.fileInfo" :height="300" :width="300" />
+            <UploaderSingleScan :file-info="doctor.fileInfo" :height="300" :width="300" />
           </el-card>
           <el-card header="Фото-миниатюра">
-            <UploaderSingleScan :crop-ratio="'1'" :file-info="doctor.photoMini" :height="300" :width="300" />
+            <UploaderSingleScan :file-info="doctor.photoMini" :height="300" :width="300" />
           </el-card>
           <el-card>
             <el-form-item label="Отображать на сайте">
@@ -76,9 +76,9 @@
             <template #header>
               <CardHeader :label="'Регалии, звания'" :add-button="false" />
             </template>
-            <el-form-item label="Должность" prop="position">
+            <!-- <el-form-item label="Должность" prop="position">
               <RemoteSearch :key-value="'position'" :model-value="doctor.position.name" @select="selectPosition" />
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="Учёная степень">
               <el-input v-model="doctor.academicDegree" />
             </el-form-item>
@@ -113,7 +113,6 @@ import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -130,7 +129,6 @@ export default defineComponent({
     EducationForm,
     CardHeader,
     UploaderSingleScan,
-    RemoteSearch,
   },
   setup() {
     const store = useStore();
@@ -150,12 +148,14 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
+      console.log('validate(form)', validate(form));
 
       // if (!doctor.value.fileInfo.fileSystemPath) {
       //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
       //   saveButtonClick.value = false;
       //   return;
       // }
+
       try {
         if (route.params['id']) {
           await store.dispatch('doctors/update', doctor.value);
@@ -207,8 +207,9 @@ export default defineComponent({
 
     const addRegalia = () => store.commit('doctors/addRegalia');
 
-    const selectPosition = (event: ISearchObject) => {
+    const selectPosition = async (event: ISearchObject) => {
       doctor.value.positionId = event.id;
+      await store.dispatch('');
     };
 
     const selectPaidService = (event: ISearchObject) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="services">
+  <div v-if="paidServices.length" class="services">
     <div class="title-in">Оказываемые услуги</div>
     <div class="point">
       <ul class="services-list">
