@@ -9,7 +9,6 @@ import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
-import SortModel from '@/classes/filters/SortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 
 export default defineComponent({
@@ -35,7 +34,8 @@ export default defineComponent({
     const storeAction: string = store.getters['filter/storeAction'];
     const Asc = Orders.Asc;
     const Desc = Orders.Desc;
-    const sortModel = ref(SortModel.CreateSortModel(table.value, col.value));
+    const sortModel = ref();
+    // const sortModel = ref(SortModel.CreateSortModel(table.value, col.value));
 
     const sort = async () => {
       store.commit('filter/setOffset', 0);

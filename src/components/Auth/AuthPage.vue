@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="authModalVisible"
-    width="400px"
+    width="320px"
     :destroy-on-close="true"
     :title="
       loginStatus === 'login'
@@ -25,7 +25,7 @@
       </el-form-item>
 
       <el-form-item style="text-align: center">
-        <el-button type="primary" style="width: 60%" native-type="submit" @click.prevent="submitForm">
+        <el-button type="primary" native-type="submit" @click.prevent="submitForm">
           {{
             loginStatus === 'login'
               ? 'Войти'

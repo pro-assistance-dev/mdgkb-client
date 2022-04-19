@@ -2,17 +2,14 @@
   <div class="card-item flex-column">
     <div class="flex-row">
       <div class="flex-column left-side">
-        <div
-          class="doctor-img"
-          @click="$router.push({ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.human.slug } })"
-        >
-          <img v-if="teacher.doctor.photoMini.fileSystemPath" :src="teacher.doctor.photoMini.getImageUrl()" alt="alt" @error="errorImg" />
-          <img v-else src="@/assets/img/doctor-default.png" />
-          <div class="favor">
-            <FavouriteIcon :domain-id="teacher.doctor.id" :domain-name="'doctor'" />
-          </div>
-        </div>
-        <DoctorRating :doctor="teacher.doctor" />
+        <AvatarWithFavourite
+          :image="teacher.doctor.photoMini"
+          error-img-name="doctor-default.png"
+          :domain-id="teacher.doctor.id"
+          domain-name="doctor"
+          :img-link="{ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.human.slug } }"
+        />
+        <Rating :comments="teacher.doctor.doctorComments" />
         <a v-if="teacher.doctor.mosDoctorLink" :href="teacher.doctor.getMosDoctorLink()">
           <div class="mos-doctor-img">
             <img src="@/assets/img/mos-doctor.png" />
@@ -56,13 +53,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import DoctorRating from '@/components/Doctors/DoctorRating.vue';
-import FavouriteIcon from '@/components/FavouriteIcon.vue';
+import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
+import Rating from '@/components/Rating.vue';
 import ITeacher from '@/interfaces/ITeacher';
 
 export default defineComponent({
   name: 'TeacherCard',
-  components: { DoctorRating, FavouriteIcon },
+  components: { Rating, AvatarWithFavourite },
   props: {
     teacher: { type: Object as PropType<ITeacher>, required: true },
   },

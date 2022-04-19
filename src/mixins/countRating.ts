@@ -1,8 +1,4 @@
-import IComment from '@/interfaces/comments/IComment';
-
-interface IWithComment {
-  comment: IComment;
-}
+import IWithComment from '@/interfaces/IWithComment';
 
 export default function countRating(items: IWithComment[]): number {
   const withoutZero = items.filter((o: IWithComment) => o.comment.rating !== 0);

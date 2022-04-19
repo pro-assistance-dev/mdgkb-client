@@ -30,7 +30,7 @@ import OperatorsTextOptions from '@/classes/filters/OperatorsTextOptions';
 import FilterPopover from '@/components/Filters/FilterPopover.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import IOption from '@/interfaces/shared/IOption';
+import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
   name: 'FilterTextForm',
@@ -77,5 +77,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/elements/filterForm.scss';
+// @import '@/assets/elements/filterForm.scss';
 </style>
