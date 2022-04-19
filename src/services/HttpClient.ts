@@ -96,6 +96,14 @@ export default class HttpClient {
     return data;
   }
 
+  async subscribe<PayloadType>(params: IBodyfulParams<PayloadType>): Promise<EventSource> {
+    const { query } = params;
+
+    const source = new EventSource(this.buildUrl(query));
+
+    return source;
+  }
+
   private buildUrl(query?: string): string {
     const baseUrl = process.env.VUE_APP_BASE_URL ?? '';
     const apiVersion = process.env.VUE_APP_API_V1 ?? '';
