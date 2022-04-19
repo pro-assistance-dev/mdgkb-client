@@ -121,8 +121,13 @@ export default defineComponent({
         } else if (loginStatus.value === 'register') {
           await store.dispatch('auth/register', form.value);
         } else if (loginStatus.value === 'forgotPassword') {
-          await store.dispatch('auth/restorePassword', form.value);
-          ElMessage({ message: 'Ссылка для восстановления пароля отправлена на Вашу почту', type: 'success' });
+          try {
+            await store.dispatch('auth/restorePassword', form.value);
+            ElMessage({ message: 'Ссылка для восстановления пароля отправлена на Вашу почту', type: 'success' });
+          } catch {
+            ElMessage({ message: 'Неверно указан email', type: 'error' });
+            return;
+          }
           closeModal();
           return;
         } else if (loginStatus.value === 'passwordChange') {
@@ -130,7 +135,6 @@ export default defineComponent({
           return;
         }
       } catch (error) {
-        console.log(error);
         if (loginStatus.value === 'login' || loginStatus.value === 'register') {
           ElMessage({ message: 'Неверный логин или пароль', type: 'error' });
         } else if (loginStatus.value === 'passwordChange') {
