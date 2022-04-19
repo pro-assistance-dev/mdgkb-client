@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import Human from '@/classes/Human';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IDpoApplication from '@/interfaces/IDpoApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import HttpClient from '@/services/HttpClient';
 import TokenService from '@/services/Token';
@@ -59,12 +60,12 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IResidencyApplication>({ query: `slug/${slug}` });
     commit('set', res);
   },
-  subscribeCreate: async ({ commit }, slug: string): Promise<void> => {
-    const source = new EventSource('/api/v1/dpo-applications/subscribe-create');
+  subscribeCreate: async ({ commit }): Promise<void> => {
+    const c = new HttpClient('subscribe');
+    const source = await c.subscribe<IDpoApplication>({ query: 'residency-application-create' });
     source.onmessage = function (e) {
-      console.log(source);
+      commit('appendToAll', [e.data]);
     };
-    source.addEventListener('dpoApplicationCreate', (e) => console.log(e));
   },
 };
 
