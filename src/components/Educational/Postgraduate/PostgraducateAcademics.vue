@@ -1,7 +1,7 @@
 <template>
   <div v-if="mounted && educationalOrganisation.educationalOrganizationAcademics.length" class="flex">
     <div v-for="item in educationalOrganisation.educationalOrganizationAcademics" :key="item.id" class="doctors-wrapper">
-      <DoctorInfoCard :doctor="item.doctor" />
+      <AcademicCard :doctor="item.doctor" />
     </div>
   </div>
 </template>
@@ -10,12 +10,12 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
+import AcademicCard from '@/components/Educational/AcademicCard.vue';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'PostgraduateAcademics',
-  components: { DoctorInfoCard },
+  components: { AcademicCard },
   setup() {
     const mounted = ref(false);
     const store = useStore();

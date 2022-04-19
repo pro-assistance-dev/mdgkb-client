@@ -8,7 +8,7 @@
           <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
         </div>
       </div>
-      <DoctorRating :doctor="doctor" />
+      <Rating :comments="doctor.doctorComments" />
     </div>
 
     <div class="card-item-middle">
@@ -68,12 +68,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import DoctorRating from '@/components/Doctors/DoctorRating.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
+import Rating from '@/components/Rating.vue';
 import IDoctor from '@/interfaces/IDoctor';
+
 export default defineComponent({
   name: 'DoctorInfo',
-  components: { FavouriteIcon, DoctorRating },
+  components: { FavouriteIcon, Rating },
   props: {
     doctor: { type: Object as PropType<IDoctor>, required: true },
   },
