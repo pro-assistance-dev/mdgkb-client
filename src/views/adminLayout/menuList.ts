@@ -24,16 +24,19 @@ const menuList: IAdminMenu[] = [
         title: 'Слайдер новостей',
         to: '/admin/news-slides',
         icon: 'el-icon-film',
+        showTo: [RoleName.Admin],
       },
       {
         title: 'Рекламные баннеры',
         to: '/admin/banners',
         icon: 'el-icon-film',
+        showTo: [RoleName.Admin],
       },
       {
         title: 'Вакансии',
         to: '/admin/vacancies',
         icon: 'el-icon-suitcase-1',
+        showTo: [RoleName.Admin],
       },
     ],
   },
@@ -41,24 +44,29 @@ const menuList: IAdminMenu[] = [
     title: 'Справочный раздел',
     to: '/',
     icon: 'el-icon-question',
+    showTo: [RoleName.Admin],
     children: [
       {
         title: 'Здания',
         to: '/admin/buildings',
+        showTo: [RoleName.Admin],
       },
       {
         title: 'Отделения',
         to: '/admin/divisions',
+        showTo: [RoleName.Admin],
       },
       {
         title: 'Руководители',
         to: '/admin/heads',
         icon: 'el-icon-first-aid-kit',
+        showTo: [RoleName.Admin],
       },
       {
         title: 'Врачи',
         to: '/admin/doctors',
         icon: 'el-icon-first-aid-kit',
+        showTo: [RoleName.Admin],
       },
     ],
   },
@@ -66,6 +74,7 @@ const menuList: IAdminMenu[] = [
     title: 'Документы',
     to: '/',
     icon: 'el-icon-document',
+    showTo: [RoleName.Admin],
     children: [
       // {
       //   title: 'Документы',
@@ -74,11 +83,13 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Сертификаты',
         to: '/admin/certificates',
+        showTo: [RoleName.Admin],
       },
       {
         title: 'Раздел документы',
         to: '/admin/public-document-types',
         icon: 'el-icon-document',
+        showTo: [RoleName.Admin],
       },
     ],
   },
@@ -86,14 +97,17 @@ const menuList: IAdminMenu[] = [
     title: 'Общее',
     to: '/',
     icon: 'el-icon-collection',
+    showTo: [RoleName.Admin],
     children: [
       {
         title: 'Наши партнеры',
         to: '/admin/partners',
+        showTo: [RoleName.Admin],
       },
       {
         title: 'Наши проекты',
         to: '/admin/projects',
+        showTo: [RoleName.Admin],
       },
     ],
   },

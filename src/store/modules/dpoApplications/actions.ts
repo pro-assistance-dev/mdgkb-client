@@ -60,7 +60,7 @@ const actions: ActionTree<State, RootState> = {
     commit('set', res);
   },
   subscribeCreate: async ({ commit }, slug: string): Promise<void> => {
-    const source = new EventSource('/api/v1/dpo-applications/subscribe-create');
+    const source = new EventSource('/api/v1/subscribe/dpo-application-create');
     source.onmessage = function (e) {
       console.log(source);
     };
