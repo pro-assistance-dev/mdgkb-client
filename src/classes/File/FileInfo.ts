@@ -74,9 +74,9 @@ export default class FileInfo implements IFileInfo {
     this.category = '';
   }
 
-  errorImg(event: Event): void {
+  errorImg(event: Event, errorImgName?: string): void {
     if (event.target) {
-      (event.target as HTMLImageElement).src = require('@/assets/img/avatar.png');
+      (event.target as HTMLImageElement).src = errorImgName ? require(`@/assets/img/${errorImgName}`) : require('@/assets/img/avatar.png');
     }
   }
 }

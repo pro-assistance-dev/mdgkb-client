@@ -1,6 +1,6 @@
 <template>
   <el-rate
-    :model-value="countRating(doctor.doctorComments)"
+    :model-value="countRating(comments)"
     size="large"
     disabled
     void-color="#A1A7BD"
@@ -8,21 +8,26 @@
     :colors="['#FF4D3B', '#FF4D3B', '#FF4D3B']"
   >
   </el-rate>
-  <a class="doctor-reviews" @click="$scroll('reviews')">{{ buildNameNumbers(doctor.doctorComments, ['отзыв', 'отзыва', 'отзывов']) }}</a>
+  <a v-if="withNumbers" @click="$scroll('reviews')">{{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}</a>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IDoctor from '@/interfaces/IDoctor';
+import IWithComment from '@/interfaces/IWithComment';
 import buildNameNumbers from '@/mixins/buildNameNumbers';
 import countRating from '@/mixins/countRating';
+
 export default defineComponent({
-  name: 'DoctorRating',
+  name: 'Rating',
   props: {
-    doctor: {
-      type: Object as PropType<IDoctor>,
+    comments: {
+      type: Object as PropType<IWithComment[]>,
       required: true,
+    },
+    withNumbers: {
+      type: Boolean,
+      default: true,
     },
   },
 

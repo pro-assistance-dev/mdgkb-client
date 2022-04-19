@@ -2,13 +2,13 @@
   <div class="card-item flex-column">
     <div class="flex-row">
       <div class="flex-column left-side">
-        <div class="doctor-img" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
-          <img src="@/assets/img/building-default.png" />
-          <div class="favor">
-            <FavouriteIcon :domain-id="division.id" domain-name="division" />
-          </div>
-        </div>
-        <RatingBlock :division="division" />
+        <AvatarWithFavourite
+          error-img-name="building-default.png"
+          :domain-id="division.id"
+          domain-name="division"
+          :img-link="{ name: `DivisionPage`, params: { id: division.id, slug: division.slug } }"
+        />
+        <Rating :comments="division.divisionComments" />
       </div>
       <div class="flex-column right-side">
         <div class="doctor-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
@@ -96,26 +96,15 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import RatingBlock from '@/components/Divisions/RatingBlock.vue';
-import FavouriteIcon from '@/components/FavouriteIcon.vue';
+import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
+import Rating from '@/components/Rating.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 
 export default defineComponent({
   name: 'DivisionCard',
-  components: { RatingBlock, FavouriteIcon },
+  components: { Rating, AvatarWithFavourite },
   props: {
     division: { type: Object as PropType<IDivision>, required: true },
-  },
-  setup() {
-    const errorImg = (event: Event) => {
-      if (event.target) {
-        (event.target as HTMLImageElement).src = require('@/assets/img/doctor-default.png');
-      }
-    };
-
-    return {
-      errorImg,
-    };
   },
 });
 </script>

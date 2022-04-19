@@ -4,6 +4,7 @@
       <svg class="icon-avatar">
         <use xlink:href="#avatar"></use>
       </svg>
+      <Rating :with-numbers="false" :comments="[{ comment: comment }]" />
     </div>
     <div class="reviews-info">
       <h3 v-if="comment?.user?.human?.name" class="name">{{ comment.user.human.name }}</h3>
@@ -40,11 +41,13 @@
 import { defineComponent, PropType } from 'vue';
 
 import Question from '@/classes/Question';
+import Rating from '@/components/Rating.vue';
 import IComment from '@/interfaces/comments/IComment';
 import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'CommentCard',
+  components: { Rating },
   props: {
     comment: {
       type: Object as PropType<IComment>,
@@ -67,6 +70,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.user-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .reviews-block {
   display: flex;
   margin-bottom: 20px;
