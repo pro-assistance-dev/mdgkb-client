@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="info-container-right">
-          <el-carousel trigger="click" height="100%" width="auto" :interval="5000" indicator-position="outside">
+          <el-carousel trigger="click" height="100%" width="auto" :interval="5000" indicator-position="inside">
             <el-carousel-item>
               <img src="@/assets/img/main-page/templates/main-info.webp" />
             </el-carousel-item>
