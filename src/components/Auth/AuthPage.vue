@@ -25,7 +25,7 @@
       </el-form-item>
 
       <el-form-item style="text-align: center">
-        <el-button type="primary" style="width: 60%" native-type="submit" @click.prevent="submitForm">
+        <el-button type="primary" native-type="submit" @click.prevent="submitForm">
           {{
             loginStatus === 'login'
               ? 'Войти'
@@ -199,8 +199,5 @@ export default defineComponent({
 
 .reg-item {
   margin-bottom: 0;
-}
-
-@media screen and (max-width: 980px) {
 }
 </style>
