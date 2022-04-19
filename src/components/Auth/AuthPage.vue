@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="authModalVisible"
-    width="400px"
+    width="320px"
     :destroy-on-close="true"
     :title="
       loginStatus === 'login'
@@ -195,5 +195,8 @@ export default defineComponent({
 
 .reg-item {
   margin-bottom: 0;
+}
+
+@media screen and (max-width: 980px) {
 }
 </style>
