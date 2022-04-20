@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mobile-help">
     <div class="line-item">
       <div class="item-block">
         <!-- <div class="item-title"><h5>ФАМИЛИЯ&nbsp;*</h5></div> -->
@@ -20,7 +20,7 @@
       <div class="item-block">
         <!-- <div class="item-title"><h5>ОТЧЕСТВО</h5></div> -->
         <div class="item-data">
-          <el-form-item label="Введите отчество" prop="human.patronymic">
+          <el-form-item label="Отчество" prop="human.patronymic">
             <el-input v-model="human.patronymic" placeholder="Введите отчество"></el-input>
           </el-form-item>
         </div>
@@ -39,18 +39,20 @@
           </el-form-item>
         </div>
       </div>
-      <div class="item-block">
-        <!--        <div class="item-title"><h5>СЕМЕЙНЫЙ&nbsp;СТАТУС</h5></div>-->
-        <!--        <div class="item-data">-->
-        <!--          <el-form-item>-->
-        <!--            <el-select v-model="human.isStatus" placeholder="Выберите статус">-->
-        <!--              <el-option v-if="human.isMale === true" label="Женат" :value="true"></el-option>-->
-        <!--              <el-option v-if="human.isMale === true" label="Холост" :value="false"></el-option>-->
-        <!--              <el-option v-if="human.isMale === false" label="Замужем" :value="true"></el-option>-->
-        <!--              <el-option v-if="human.isMale === false" label="Не замужем" :value="false"></el-option>-->
-        <!--            </el-select>-->
-        <!--          </el-form-item>-->
-        <!--        </div>-->
+      <div class="hidden-less-730">
+        <div class="item-block">
+          <!--        <div class="item-title"><h5>СЕМЕЙНЫЙ&nbsp;СТАТУС</h5></div>-->
+          <!--        <div class="item-data">-->
+          <!--          <el-form-item>-->
+          <!--            <el-select v-model="human.isStatus" placeholder="Выберите статус">-->
+          <!--              <el-option v-if="human.isMale === true" label="Женат" :value="true"></el-option>-->
+          <!--              <el-option v-if="human.isMale === true" label="Холост" :value="false"></el-option>-->
+          <!--              <el-option v-if="human.isMale === false" label="Замужем" :value="true"></el-option>-->
+          <!--              <el-option v-if="human.isMale === false" label="Не замужем" :value="false"></el-option>-->
+          <!--            </el-select>-->
+          <!--          </el-form-item>-->
+          <!--        </div>-->
+        </div>
       </div>
       <div class="item-block">
         <!-- <div class="item-title"><h5>ДАТА&nbsp;РОЖДЕНИЯ *</h5></div> -->
@@ -323,5 +325,64 @@ h5 {
   text-transform: uppercase;
   margin-left: 5px;
   // display: none;
+}
+
+:deep(.el-input__prefix) {
+  left: auto;
+  right: 10px;
+}
+
+@media screen and (max-width: 910px) {
+  .mobile-help {
+    display: flex;
+    justify-content: space-between;
+  }
+  .line-item {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  .line-item:last-child {
+    margin-right: 0;
+  }
+
+  .item-block {
+    width: 100%;
+    height: 60px;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .hidden-less-730 {
+    display: none;
+  }
+
+  .mobile-help {
+    display: block;
+    justify-content: space-between;
+  }
+  .line-item {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    margin-right: 20px;
+  }
+
+  .line-item:last-child {
+    margin-right: 0;
+  }
+
+  .item-block {
+    width: 100%;
+    height: 60px;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
 }
 </style>

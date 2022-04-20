@@ -5,47 +5,26 @@
         <img :src="user.human.photo.getFileUrl()" alt="alt" @error="user.human.photo.errorImg($event)" />
       </div>
     </div>
-    <el-form :model="user">
-      <div class="user-name">
-        <el-form-item label="Имя">
-          <h4>{{ user?.human?.name ?? 'Имя пользователя' }}</h4>
-        </el-form-item>
-      </div>
-      <div class="user-info">
-        <div class="contact-mail">
-          <el-form-item prop="email" label="Email">
-            <h4>{{ user.email }}</h4>
-          </el-form-item>
+    <div class="right-block">
+      <el-form :model="user">
+        <div class="user-name">
+          <div class="user-name-field">
+            <el-form-item label="Имя">
+              <h4>
+                <b>{{ user?.human?.name ?? 'Имя пользователя' }}</b>
+              </h4>
+            </el-form-item>
+          </div>
         </div>
-      </div>
-    </el-form>
-    <!-- <h4>Меню</h4>
-    <el-menu default-active="1">
-      <el-menu-item index="1" @click="$router.push('/profile')">
-        <i class="el-icon-warning-outline"></i>
-        <span>Информация</span>
-      </el-menu-item>
-      <el-menu-item index="2" @click="$router.push('/profile/edit')">
-        <i class="el-icon-user"></i>
-        <span>Редактировать профиль</span>
-      </el-menu-item>
-      <el-menu-item index="4" @click="$router.push('/profile/children')">
-        <i class="el-icon-user"></i>
-        <span>Мои дети</span>
-      </el-menu-item>
-    </el-menu>
-    <h4>Сервисы</h4>
-    <el-menu>
-      <el-menu-item index="5" @click="$router.push('/profile/questions')">
-        <i class="el-icon-question"></i>
-        <span>Ответы на вопросы</span>
-        <el-tag v-if="hasNewAnswers" class="badge" type="warning">{{ countNewAnswers }}</el-tag>
-      </el-menu-item>
-      <el-menu-item index="6" @click="$router.push('/profile/donor')">
-        <i class="el-icon-first-aid-kit"></i>
-        <span>Донорство крови</span>
-      </el-menu-item>
-    </el-menu> -->
+        <div class="user-info">
+          <div class="contact-mail">
+            <el-form-item prop="email" label="Email">
+              <h4>{{ user.email }}</h4>
+            </el-form-item>
+          </div>
+        </div>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -102,20 +81,27 @@ export default defineComponent({
   align-items: center;
   color: #a3a9be;
   height: 20px;
+  margin-bottom: 30px;
 }
 
 .user-name {
+  display: flex;
+  justify-content: center;
+}
+
+.user-name-field {
   display: flex;
   font-family: 'Open sans', sans-serif, Arial;
   justify-content: center;
   align-items: center;
   color: #343e5c;
-  height: 20px;
+  min-height: 20px;
+  margin: 0 10px 5px 10px;
+  text-align: center;
 }
 
 .user-mini-info {
-  justify-content: center;
-  height: 252px;
+  height: 100;
   align-content: center;
 }
 
@@ -123,6 +109,8 @@ h4 {
   margin: 0;
   font-weight: normal;
   font-size: 15px;
+  margin: 0;
+  padding: 0;
 }
 
 :deep(.el-form-item__label) {
@@ -131,5 +119,40 @@ h4 {
 
 :deep(.el-form-item) {
   margin: 0;
+}
+
+:deep(.el-form-item__content) {
+  line-height: 20px;
+}
+
+.right-block {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 560px) {
+  .user-mini-info {
+    display: flex;
+    justify-content: left;
+    height: 120px;
+    align-items: center;
+    background: #ffffff;
+  }
+  .avatar-block {
+    padding: 0;
+    margin: 10px 20px 0 10px;
+  }
+  .user-name-field {
+    text-align: left;
+    margin: 0 10px 5px 0px;
+  }
+  .contact-mail {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    color: #a3a9be;
+    height: 20px;
+    margin-bottom: 0;
+  }
 }
 </style>

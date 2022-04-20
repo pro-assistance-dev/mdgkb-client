@@ -18,7 +18,7 @@
           <svg class="icon-education">
             <use xlink:href="#education"></use>
           </svg>
-          Образование
+          Обратная связь
           <svg class="icon-arrow">
             <use xlink:href="#arrow"></use>
           </svg>
@@ -97,7 +97,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .profile-menu {
-  width: 272px;
+  min-width: 272px;
   background: #ffffff;
   height: 73vh;
   margin-right: 30px;
@@ -191,8 +191,29 @@ export default defineComponent({
   background: #2754eb;
 }
 
-@media screen and (max-width: 1024px) {
-  .el-card {
+@media screen and (max-width: 980px) {
+  .profile-menu {
+    margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .profile-menu {
+    min-width: 220px;
+    height: 73vh;
+  }
+
+  .icon-profile {
+    padding-left: 10px;
+  }
+
+  .icon-education {
+    padding-left: 10px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .profile-menu {
     display: none;
   }
 }
