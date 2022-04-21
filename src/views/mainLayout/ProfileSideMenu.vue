@@ -66,18 +66,14 @@ export default defineComponent({
 
     watch(route, () => {
       setActiveMenu();
-      console.log('activeRoute.value WATCH =>', activeRoute.value);
     });
 
     const setActiveMenu = () => {
-      console.log('route.meta.profile =>', route.meta.profile);
       if (!route.meta.profile) return;
       activeRoute.value = route.meta.profile as string;
-      console.log('activeRoute.value PROFILE =>', activeRoute.value);
     };
 
     onBeforeMount(() => {
-      console.log('profileside menu');
       setActiveMenu();
     });
 
