@@ -6,6 +6,7 @@ import IDoctorUserSchema from '@/interfaces/schema/IDoctorUserSchema';
 import IDpoApplicationSchema from '@/interfaces/schema/IDpoApplicationSchema';
 import IDpoCourseSchema from '@/interfaces/schema/IDpoCourseSchema';
 import IDpoCourseSpecializationSchema from '@/interfaces/schema/IDpoCourseSpecializationSchema';
+import IEducationalOrganizationAcademicSchema from '@/interfaces/schema/IEducationalOrganizationAcademicSchema';
 import IEducationPublicDocumentTypeSchema from '@/interfaces/schema/IEducationPublicDocumentTypeSchema';
 import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
@@ -38,4 +39,5 @@ export default interface ISchema {
   publicDocumentType: IPublicDocumentTypeSchema;
   educationYear: IEducationYearSchema;
   postgraduateCourseSpecialization: IPostgraduateCourseSpecializationSchema;
+  educationalOrganizationAcademic: IEducationalOrganizationAcademicSchema;
 }

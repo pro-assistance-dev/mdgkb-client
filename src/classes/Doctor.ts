@@ -17,6 +17,7 @@ import ICertificate from '@/interfaces/ICertificate';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
+import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
 import IExperience from '@/interfaces/IExperience';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
@@ -25,6 +26,7 @@ import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 import DoctorComment from './DoctorComment';
+import EducationalOrganizationAcademic from './EducationalOrganizationAcademic';
 
 export default class Doctor implements IDoctor {
   id?: string;
@@ -32,7 +34,7 @@ export default class Doctor implements IDoctor {
   humanId?: string;
   division?: IDivision;
   divisionId?: string;
-  show = false;
+  show = true;
   timetable: ITimetable = new Timetable();
   timetableId?: string;
   onlineDoctorId?: string;
@@ -61,6 +63,8 @@ export default class Doctor implements IDoctor {
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;
   mosDoctorLink?: string;
+  educationalOrganizationAcademic?: IEducationalOrganizationAcademic;
+
   constructor(i?: IDoctor) {
     if (!i) {
       return;
@@ -115,6 +119,9 @@ export default class Doctor implements IDoctor {
     }
     if (i.doctorPaidServices) {
       this.doctorPaidServices = i.doctorPaidServices.map((item: IDoctorPaidService) => new DoctorPaidService(item));
+    }
+    if (i.educationalOrganizationAcademic) {
+      this.educationalOrganizationAcademic = new EducationalOrganizationAcademic(i.educationalOrganizationAcademic);
     }
     if (i.newsDoctors) {
       this.newsDoctors = i.newsDoctors.map((item: INewsDoctor) => new NewsDoctor(item));
@@ -175,5 +182,15 @@ export default class Doctor implements IDoctor {
 
   getOnlineDoctorLink(): string {
     return `https://morozdgkb.onlinedoctor.ru/doctors/${this.onlineDoctorId}/`;
+  }
+
+  setAcademic(): void {
+    const newAcademic = new EducationalOrganizationAcademic();
+    if (!this.educationalOrganizationAcademic) {
+      newAcademic.doctorId = this.id;
+      this.educationalOrganizationAcademic = newAcademic;
+    } else {
+      this.educationalOrganizationAcademic = undefined;
+    }
   }
 }

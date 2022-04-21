@@ -24,8 +24,9 @@ const actions: ActionTree<State, RootState> = {
   getAllMain: async ({ commit }): Promise<void> => {
     commit('setAll', await httpClient.get<IDoctor[]>({ query: 'main' }));
   },
-  getAllAdmin: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    commit('setAllAdmin', await httpClient.get<IDoctorsWithCount[]>({ query: filterQuery ? '/admin' + filterQuery.toUrl() : '/admin' }));
+  getAllAdmin: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+    const query = `admin/${filterQuery.toUrl()}`;
+    commit('setAllAdmin', await httpClient.get<IDoctorsWithCount[]>({ query }));
   },
   get: async ({ commit }, id: string) => {
     commit('set', await httpClient.get<IDoctor>({ query: `${id}` }));

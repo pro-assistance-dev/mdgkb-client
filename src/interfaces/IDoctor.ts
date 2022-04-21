@@ -12,6 +12,8 @@ import IRegalia from '@/interfaces/IRegalia';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
+import IEducationalOrganizationAcademic from './IEducationalOrganizationAcademic';
+
 export default interface IDoctor {
   id?: string;
   human: IHuman;
@@ -46,6 +48,7 @@ export default interface IDoctor {
   doctorPaidServicesForDelete: string[];
   certificates: ICertificate[];
   certificatesForDelete: string[];
+  educationalOrganizationAcademic?: IEducationalOrganizationAcademic;
   addExperience: () => void;
   removeExperience: (index: number) => void;
   newsDoctors: INewsDoctor[];
@@ -58,4 +61,5 @@ export default interface IDoctor {
   getFileInfos: () => IFileInfo[];
   getMosDoctorLink: () => string;
   getOnlineDoctorLink: () => string;
+  setAcademic: () => void;
 }

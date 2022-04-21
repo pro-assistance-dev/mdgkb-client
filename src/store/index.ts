@@ -24,6 +24,7 @@ import { dpoCourses } from '@/store/modules/dpoCourses';
 import { dpoDocumentTypes } from '@/store/modules/dpoDocumentTypes';
 import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
+import { educationalOrganizationAcademics } from '@/store/modules/educationalOrganizationAcademics';
 import { educationYears } from '@/store/modules/educationYears';
 import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
@@ -155,6 +156,7 @@ const s: StoreOptions<RootState> = {
     educationYears,
     formValues,
     residencyApplications,
+    educationalOrganizationAcademics,
   },
 };
 
