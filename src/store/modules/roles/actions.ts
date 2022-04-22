@@ -36,7 +36,7 @@ const actions: ActionTree<State, RootState> = {
   update: async ({ state, commit }): Promise<void> => {
     const res = await httpClient.put<IRole, IRole>({
       query: `${state.item.id}`,
-      // payload: state.item,
+      payload: state.item,
       isFormData: true,
     });
     commit('set', res);
