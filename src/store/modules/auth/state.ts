@@ -8,4 +8,5 @@ export default interface State {
   authModalVisible: boolean;
   loginStatus: 'login' | 'register' | 'forgotPassword' | 'passwordChange';
   pathPermissions: IPathPermission[];
+  userPathPermissions: IPathPermission[];
 }

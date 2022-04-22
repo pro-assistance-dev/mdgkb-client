@@ -15,6 +15,7 @@ export const state: State = {
   authModalVisible: false,
   loginStatus: 'login',
   pathPermissions: [],
+  userPathPermissions: [],
 };
 
 const namespaced = true;

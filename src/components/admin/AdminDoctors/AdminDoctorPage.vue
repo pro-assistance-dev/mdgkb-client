@@ -61,16 +61,19 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
+          <el-card>
+            <el-form-item label="Отображать на сайте">
+              <el-switch v-model="doctor.show"></el-switch>
+            </el-form-item>
+            <el-form-item label="Член ученного совета">
+              <el-switch :model-value="!!doctor.educationalOrganizationAcademic" @change="academicChangeHandler"></el-switch>
+            </el-form-item>
+          </el-card>
           <el-card header="Фото">
             <UploaderSingleScan :file-info="doctor.fileInfo" :height="300" :width="300" />
           </el-card>
           <el-card header="Фото-миниатюра">
             <UploaderSingleScan :file-info="doctor.photoMini" :height="300" :width="300" />
-          </el-card>
-          <el-card>
-            <el-form-item label="Отображать на сайте">
-              <el-switch v-model="doctor.show"></el-switch>
-            </el-form-item>
           </el-card>
           <el-card>
             <template #header>
@@ -148,7 +151,6 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      console.log('validate(form)', validate(form));
 
       // if (!doctor.value.fileInfo.fileSystemPath) {
       //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
@@ -216,6 +218,10 @@ export default defineComponent({
       doctor.value.positionId = event.id;
     };
 
+    const academicChangeHandler = () => {
+      doctor.value.setAcademic();
+    };
+
     return {
       selectPaidService,
       selectPosition,
@@ -226,6 +232,7 @@ export default defineComponent({
       divisionOptions,
       form,
       mounted,
+      academicChangeHandler,
     };
   },
 });

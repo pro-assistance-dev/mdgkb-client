@@ -60,6 +60,9 @@ const actions: ActionTree<State, RootState> = {
   getAllPathPermissions: async ({ commit }): Promise<void> => {
     commit('setPathPermissions', await httpClient.get<IPathPermission[]>({ query: 'path-permissions' }));
   },
+  getUserPathPermissions: async ({ state, commit }): Promise<void> => {
+    commit('setUserPathPermissions', await httpClient.get<IPathPermission[]>({ query: `path-permissions/${state.user.roleId}` }));
+  },
 };
 
 export default actions;

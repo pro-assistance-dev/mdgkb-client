@@ -189,7 +189,10 @@ export default class Form implements IForm {
     return this.fieldValues.some((el) => el.modComment);
   }
   changeFieldValuesModChecked(modChecked: boolean): void {
-    this.fieldValues.forEach((el: IFieldValue) => (el.modChecked = modChecked));
+    this.fieldValues.forEach((el: IFieldValue) => {
+      el.modChecked = modChecked;
+      el.modComment = '';
+    });
   }
   setNewStatus(statuses: IFormStatus[]): void {
     statuses.forEach((el: IFormStatus) => {

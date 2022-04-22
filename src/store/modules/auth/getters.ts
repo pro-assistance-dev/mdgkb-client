@@ -31,6 +31,9 @@ const getters: GetterTree<State, RootState> = {
   pathPermissions(state): IPathPermission[] {
     return state.pathPermissions;
   },
+  userPathPermissions(state): IPathPermission[] {
+    return state.userPathPermissions;
+  },
 };
 
 export default getters;

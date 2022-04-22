@@ -25,19 +25,21 @@
 
       <el-menu-item v-else :index="item.to" @click="$router.push(item.to)">
         <i :class="item.icon"></i>
-        <template #title> {{ item.title }}asdfsdf </template>
+        <template #title>{{ item.title }}</template>
       </el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch, WritableComputedRef } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
+import IPathPermission from '@/interfaces/IPathPermission';
+import UserService from '@/services/User';
 
 export default defineComponent({
   name: 'AdminSideMenu',
@@ -51,13 +53,15 @@ export default defineComponent({
     const activePath: Ref<string> = ref('');
     const applicationsCounts: Ref<IApplicationsCount[]> = computed(() => store.getters['meta/applicationsCounts']);
     const mounted = ref(false);
+    const userPermissions: ComputedRef<IPathPermission[]> = computed(() => store.getters['auth/userPathPermissions']);
+
     watch(
       () => route.path,
       () => {
         activePath.value = route.path;
       }
     );
-    const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
+    const menus: WritableComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
 
     onBeforeMount(async () => {
       await store.dispatch('meta/getSchema');
@@ -65,7 +69,26 @@ export default defineComponent({
       console.log(menus);
       store.commit('admin/setApplicationsCounts', applicationsCounts.value);
       await store.dispatch('admin/subscribeApplicationsCountsGet');
+      await store.dispatch('auth/getUserPathPermissions');
+
       activePath.value = route.path;
+      const user = UserService.getUser();
+      if (!user) {
+        return;
+      }
+      menus.value = menus.value.filter((m: IAdminMenu) =>
+        userPermissions.value.some((permission: IPathPermission) => permission.resource === m.to)
+      );
+      // menus.value = menus.value.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+      menus.value.forEach((m: IAdminMenu) => {
+        if (!m.children) {
+          return;
+        }
+        m.children = m.children.filter((m: IAdminMenu) =>
+          userPermissions.value.some((permission: IPathPermission) => permission.resource === m.to)
+        );
+        // m.children = m.children.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+      });
       mounted.value = true;
     });
 

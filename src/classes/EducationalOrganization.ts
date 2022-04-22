@@ -83,7 +83,7 @@ export default class EducationalOrganization implements IEducationalOrganization
     if (id) {
       this.educationalOrganizationAcademicsForDelete.push(id);
     }
-    this.educationalOrganizationAcademics.splice(index, 0);
+    this.educationalOrganizationAcademics.splice(index, 1);
   }
 
   addProperty(): void {

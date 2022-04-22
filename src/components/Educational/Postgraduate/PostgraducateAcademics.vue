@@ -1,17 +1,21 @@
 <template>
-  <div v-if="mounted && educationalOrganisation.educationalOrganizationAcademics.length" class="flex">
-    <div v-for="item in educationalOrganisation.educationalOrganizationAcademics" :key="item.id" class="doctors-wrapper">
+  <div v-if="mounted && educationalOrganisationAcademics.length" class="flex">
+    <div v-for="item in educationalOrganisationAcademics" :key="item.id" class="doctors-wrapper">
       <AcademicCard :doctor="item.doctor" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import SortModel from '@/classes/filters/SortModel';
 import AcademicCard from '@/components/Educational/AcademicCard.vue';
-import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import { Orders } from '@/interfaces/filters/Orders';
+import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
+import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'PostgraduateAcademics',
@@ -19,21 +23,35 @@ export default defineComponent({
   setup() {
     const mounted = ref(false);
     const store = useStore();
-
-    // const rules = ref(SideOrganizationRules);
-    const educationalOrganisation: Ref<IEducationalOrganization> = computed(
-      () => store.getters['educationalOrganization/educationalOrganization']
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const educationalOrganisationAcademics: Ref<IEducationalOrganizationAcademic[]> = computed(
+      () => store.getters['educationalOrganizationAcademics/items']
     );
 
     onBeforeMount(async () => {
-      await store.dispatch('educationalOrganization/get');
+      store.commit(`filter/resetQueryFilter`);
+      await store.dispatch('meta/getSchema');
+      store.commit(
+        'filter/replaceSortModel',
+        SortModel.CreateSortModel(
+          schema.value.educationalOrganizationAcademic.tableName,
+          schema.value.educationalOrganizationAcademic.fullName,
+          Orders.Asc,
+          'По алфавиту',
+          true
+        )
+      );
+      filterQuery.value.pagination.cursorMode = false;
+      console.log(filterQuery.value);
+      await store.dispatch('educationalOrganizationAcademics/getAll', filterQuery.value);
+      store.commit('pagination/setCurPage', 1);
       mounted.value = true;
     });
 
     return {
       mounted,
-      // rules,
-      educationalOrganisation,
+      educationalOrganisationAcademics,
     };
   },
 });

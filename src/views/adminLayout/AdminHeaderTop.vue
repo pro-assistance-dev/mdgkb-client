@@ -8,51 +8,53 @@
       <h3>Панель управления МДГКБ</h3>
     </div>
     <div class="right-panel">
+      <el-dropdown>
+        <el-button>
+          <div class="user-info">
+            <div class="user-info-container">
+              <span>{{ user.email }}</span>
+              <span v-if="user.role.label">{{ user.role.label }}</span>
+              <span v-else>{{ user.role.name }}</span>
+            </div>
+            <i class="el-icon-user"></i></div
+        ></el-button>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
       <el-button icon="el-icon-s-home" @click="$router.push('/')"></el-button>
-      <!-- <el-menu mode="horizontal" default-active="0">
-        <el-menu-item index="1" @click="$router.push('/')">
-          <i class="el-icon-s-home"></i>
-        </el-menu-item>
-        <el-sub-menu index="2" popper-class="acc-popper">
-          <template #title>
-            <i class="el-icon-user"></i>
-          </template>
-          <el-menu-item index="2-1" @click="$router.push('/profile')">
-            <div style="margin: auto 0"><UserOutlined /><span> Профиль</span></div>
-          </el-menu-item>
-          <el-menu-item index="2-1" @click="$router.push('/news')">
-            <div style="margin: auto 0"><GlobalOutlined /><span> На сайт</span></div>
-          </el-menu-item>
-          <el-menu-item index="2-2" @click="logout">
-            <div style="margin: auto 0"><LogoutOutlined /><span> Выйти</span></div>
-          </el-menu-item>
-        </el-sub-menu>
-      </el-menu> -->
     </div>
   </div>
   <div class="spacer"></div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { LogoutOutlined } from '@ant-design/icons-vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import IUser from '@/interfaces/IUser';
+
 export default defineComponent({
   name: 'AdminHeaderTop',
+  components: { LogoutOutlined },
 
   setup() {
     const store = useStore();
     const router = useRouter();
     const collapseSideMenu = () => store.commit('admin/collapseSideMenu');
     const openDrawer = () => store.commit('admin/openDrawer');
+    const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
 
     const logout = async () => {
       await store.dispatch('auth/logout');
       await router.push('/');
     };
 
-    return { collapseSideMenu, openDrawer, logout };
+    return { collapseSideMenu, openDrawer, logout, user };
   },
 });
 </script>
@@ -124,5 +126,16 @@ $button-background-color: #fff;
 
 .anticon {
   margin-right: 5px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  &-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 10px;
+  }
 }
 </style>

@@ -5,6 +5,9 @@
         <el-form-item label="Название" prop="label">
           <el-input v-model="role.name" placeholder="Название"></el-input>
         </el-form-item>
+        <el-form-item label="Отображаемое название" prop="label">
+          <el-input v-model="role.label" placeholder="Отображаемое название"></el-input>
+        </el-form-item>
       </el-card>
     </el-form>
   </div>
