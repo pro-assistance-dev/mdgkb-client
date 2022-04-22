@@ -69,6 +69,9 @@ const mutations: MutationTree<State> = {
   setPathPermissions(state, items: IPathPermission[]) {
     state.pathPermissions = items.map((i: IPathPermission) => new PathPermission(i));
   },
+  setUserPathPermissions(state, items: IPathPermission[]) {
+    state.userPathPermissions = items.map((i: IPathPermission) => new PathPermission(i));
+  },
 };
 
 export default mutations;

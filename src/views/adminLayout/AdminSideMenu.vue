@@ -27,11 +27,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IAdminMenu from '@/interfaces/IAdminMenu';
+import IPathPermission from '@/interfaces/IPathPermission';
 import UserService from '@/services/User';
 import menuList from '@/views/adminLayout/menuList';
 
@@ -46,6 +47,8 @@ export default defineComponent({
     const route = useRoute();
     const activePath: Ref<string> = ref('');
     const mounted = ref(false);
+    const userPermissions: ComputedRef<IPathPermission[]> = computed(() => store.getters['auth/userPathPermissions']);
+
     watch(
       () => route.path,
       () => {
@@ -54,18 +57,26 @@ export default defineComponent({
     );
     const menus: Ref<IAdminMenu[]> = ref(menuList);
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
+      await store.dispatch('auth/getUserPathPermissions');
+
       activePath.value = route.path;
       const user = UserService.getUser();
       if (!user) {
         return;
       }
-      menus.value = menus.value.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+      menus.value = menus.value.filter((m: IAdminMenu) =>
+        userPermissions.value.some((permission: IPathPermission) => permission.resource === m.to)
+      );
+      // menus.value = menus.value.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
       menus.value.forEach((m: IAdminMenu) => {
         if (!m.children) {
           return;
         }
-        m.children = m.children.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+        m.children = m.children.filter((m: IAdminMenu) =>
+          userPermissions.value.some((permission: IPathPermission) => permission.resource === m.to)
+        );
+        // m.children = m.children.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
       });
       mounted.value = true;
     });
