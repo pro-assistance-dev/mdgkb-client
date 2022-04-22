@@ -1,5 +1,6 @@
 import { GetterTree } from 'vuex';
 
+import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import ISocialMedia from '@/interfaces/ISocialMedia';
 import ISchema from '@/interfaces/schema/ISchema';
 import RootState from '@/store/types';
@@ -15,6 +16,9 @@ const getters: GetterTree<State, RootState> = {
   },
   socialMedia(state): ISocialMedia[] {
     return state.socialMedia;
+  },
+  applicationsCounts(state): IApplicationsCount[] {
+    return state.applicationsCounts;
   },
 };
 

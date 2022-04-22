@@ -31,6 +31,9 @@ const actions: ActionTree<State, RootState> = {
   getSocialMedia: async ({ commit }): Promise<void> => {
     commit('setSocialMedia', await httpClient.get<number>({ query: `social` }));
   },
+  getApplicationsCounts: async ({ commit }): Promise<void> => {
+    commit('setApplicationsCounts', await httpClient.get<number>({ query: `get-applications-counts` }));
+  },
 };
 
 export default actions;

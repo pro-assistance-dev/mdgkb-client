@@ -3,6 +3,9 @@ import { MutationTree } from 'vuex';
 
 import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
 import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
+import IAdminMenu from '@/interfaces/IAdminMenu';
+import IApplicationsCount from '@/interfaces/IApplicationsCount';
+import ISchema from '@/interfaces/schema/ISchema';
 
 import { getDefaultState } from '.';
 import { State } from './state';
@@ -37,6 +40,25 @@ const mutations: MutationTree<State> = {
   },
   resetState(state) {
     Object.assign(state, getDefaultState());
+  },
+  setSchemaMenu(state, schema: ISchema) {
+    // state.menus.forEach()
+  },
+  setApplicationsCounts(state, items: IApplicationsCount[]) {
+    console.log(items);
+    items.forEach((i: IApplicationsCount) => {
+      let menu = state.menus.find((m: IAdminMenu) => m.tableName === i.tableName);
+      if (menu) {
+        menu.count = i.count;
+      }
+      state.menus.forEach((m: IAdminMenu) => {
+        menu = m.children?.find((cm: IAdminMenu) => cm.tableName === i.tableName);
+        if (menu) {
+          menu.count = i.count;
+        }
+      });
+    });
+    console.log(state.menus);
   },
 };
 

@@ -4,4 +4,6 @@ export default interface IAdminMenu {
   icon?: string;
   showTo?: string[];
   children?: IAdminMenu[];
+  tableName?: string;
+  count?: number;
 }

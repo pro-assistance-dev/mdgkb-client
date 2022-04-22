@@ -151,6 +151,7 @@ const menuList: IAdminMenu[] = [
         title: 'Заявки ДПО',
         to: '/admin/dpo/applications',
         showTo: [RoleName.Admin, RoleName.AdminDpo],
+        tableName: 'dpo_applications',
       },
       {
         title: 'Программы НМО',
@@ -161,6 +162,7 @@ const menuList: IAdminMenu[] = [
         title: 'Заявки НМО',
         to: '/admin/nmo/applications',
         showTo: [RoleName.Admin, RoleName.AdminDpo],
+        tableName: 'nmo_applications',
       },
       {
         title: 'Программы аспирантуры',
@@ -171,6 +173,7 @@ const menuList: IAdminMenu[] = [
         title: 'Заявки на обучение в аспирантуре',
         to: '/admin/postgraduate-applications',
         showTo: [RoleName.Admin, RoleName.AdminPostgraduate],
+        tableName: 'postgraduate_applications',
       },
       {
         title: 'Заявки на сдачу кандидатского экзамена',
@@ -191,6 +194,7 @@ const menuList: IAdminMenu[] = [
         title: 'Программы ординатуры',
         to: '/admin/residency/courses',
         showTo: [RoleName.Admin, RoleName.AdminResidency],
+        tableName: 'residency_applications',
       },
       {
         title: 'Заявки ординатуры',

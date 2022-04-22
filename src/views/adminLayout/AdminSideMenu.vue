@@ -10,30 +10,34 @@
     >
       <el-sub-menu v-if="item.children" :index="item.title">
         <template #title>
-          <i :class="item.icon"></i>
+          <i :class="item.icon"><el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="primary"></el-badge></i>
           <span class="row-menu-title">{{ item.title }}</span>
+          <el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="primary"></el-badge>
         </template>
+
         <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
-          {{ children.title }}
+          <div>
+            {{ children.title }}
+            <el-badge v-if="children.count > 0" :value="children.count" type="primary"></el-badge>
+          </div>
         </el-menu-item>
       </el-sub-menu>
 
       <el-menu-item v-else :index="item.to" @click="$router.push(item.to)">
         <i :class="item.icon"></i>
-        <template #title>{{ item.title }}</template>
+        <template #title> {{ item.title }}asdfsdf </template>
       </el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IAdminMenu from '@/interfaces/IAdminMenu';
-import UserService from '@/services/User';
-import menuList from '@/views/adminLayout/menuList';
+import IApplicationsCount from '@/interfaces/IApplicationsCount';
 
 export default defineComponent({
   name: 'AdminSideMenu',
@@ -45,6 +49,7 @@ export default defineComponent({
     const closeDrawer = () => store.commit('admin/closeDrawer');
     const route = useRoute();
     const activePath: Ref<string> = ref('');
+    const applicationsCounts: Ref<IApplicationsCount[]> = computed(() => store.getters['meta/applicationsCounts']);
     const mounted = ref(false);
     watch(
       () => route.path,
@@ -52,21 +57,15 @@ export default defineComponent({
         activePath.value = route.path;
       }
     );
-    const menus: Ref<IAdminMenu[]> = ref(menuList);
+    const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
+      await store.dispatch('meta/getSchema');
+      await store.dispatch('meta/getApplicationsCounts');
+      console.log(menus);
+      store.commit('admin/setApplicationsCounts', applicationsCounts.value);
+      await store.dispatch('admin/subscribeApplicationsCountsGet');
       activePath.value = route.path;
-      const user = UserService.getUser();
-      if (!user) {
-        return;
-      }
-      menus.value = menus.value.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
-      menus.value.forEach((m: IAdminMenu) => {
-        if (!m.children) {
-          return;
-        }
-        m.children = m.children.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
-      });
       mounted.value = true;
     });
 
