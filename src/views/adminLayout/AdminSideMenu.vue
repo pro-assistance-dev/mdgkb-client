@@ -10,9 +10,9 @@
     >
       <el-sub-menu v-if="item.children" :index="item.title">
         <template #title>
-          <i :class="item.icon"><el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="primary"></el-badge></i>
-          <span class="row-menu-title">{{ item.title }}</span>
+          <i :class="item.icon"></i>
           <el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="primary"></el-badge>
+          <span class="row-menu-title">{{ item.title }}</span>
         </template>
 
         <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
@@ -64,13 +64,13 @@ export default defineComponent({
     const menus: WritableComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
 
     onBeforeMount(async () => {
+      await store.dispatch('auth/getUserPathPermissions');
+      await store.commit('admin/filterMenus', userPermissions.value);
       await store.dispatch('meta/getSchema');
       await store.dispatch('meta/getApplicationsCounts');
       console.log(menus);
       store.commit('admin/setApplicationsCounts', applicationsCounts.value);
       await store.dispatch('admin/subscribeApplicationsCountsGet');
-      await store.dispatch('auth/getUserPathPermissions');
-
       activePath.value = route.path;
       const user = UserService.getUser();
       if (!user) {
