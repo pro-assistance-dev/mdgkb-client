@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -121,7 +121,12 @@ export default defineComponent({
       });
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
+      await store.dispatch('dpoApplications/subscribeCreate');
       mounted.value = true;
+    });
+
+    onBeforeUnmount(async () => {
+      await store.dispatch('dpoApplications/unsubscribeCreate');
     });
 
     const create = () => router.push(`${route.path}/new`);

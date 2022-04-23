@@ -11,6 +11,7 @@ import RootState from '@/store/types';
 import { State } from './state';
 
 const httpClient = new HttpClient('residency-applications');
+let source: EventSource | undefined = undefined;
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
@@ -62,10 +63,13 @@ const actions: ActionTree<State, RootState> = {
   },
   subscribeCreate: async ({ commit }): Promise<void> => {
     const c = new HttpClient('subscribe');
-    const source = await c.subscribe<IDpoApplication>({ query: 'residency-application-create' });
+    source = await c.subscribe<IDpoApplication>({ query: 'residency-application-create' });
     source.onmessage = function (e) {
       commit('appendToAll', [e.data]);
     };
+  },
+  unsubscribeCreate: async ({ commit }): Promise<void> => {
+    source?.close();
   },
 };
 

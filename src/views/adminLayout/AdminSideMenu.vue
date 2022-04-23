@@ -32,14 +32,13 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch, WritableComputedRef } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch, WritableComputedRef } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import IPathPermission from '@/interfaces/IPathPermission';
-import UserService from '@/services/User';
 
 export default defineComponent({
   name: 'AdminSideMenu',
@@ -66,30 +65,15 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('auth/getUserPathPermissions');
       await store.commit('admin/filterMenus', userPermissions.value);
-      await store.dispatch('meta/getSchema');
       await store.dispatch('meta/getApplicationsCounts');
-      console.log(menus);
       store.commit('admin/setApplicationsCounts', applicationsCounts.value);
       await store.dispatch('admin/subscribeApplicationsCountsGet');
       activePath.value = route.path;
-      const user = UserService.getUser();
-      if (!user) {
-        return;
-      }
-      menus.value = menus.value.filter((m: IAdminMenu) =>
-        userPermissions.value.some((permission: IPathPermission) => permission.resource === m.to)
-      );
-      // menus.value = menus.value.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
-      menus.value.forEach((m: IAdminMenu) => {
-        if (!m.children) {
-          return;
-        }
-        m.children = m.children.filter((m: IAdminMenu) =>
-          userPermissions.value.some((permission: IPathPermission) => permission.resource === m.to)
-        );
-        // m.children = m.children.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
-      });
       mounted.value = true;
+    });
+
+    onBeforeUnmount(async () => {
+      await store.dispatch('admin/unsubscribeApplicationsCountsGet');
     });
 
     return { menus, closeDrawer, isCollapseSideMenu, activePath, mounted };

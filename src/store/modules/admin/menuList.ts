@@ -349,6 +349,12 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-user',
         showTo: [RoleName.Admin],
       },
+      {
+        title: 'Пользователи',
+        to: '/admin/users',
+        icon: 'el-icon-user',
+        showTo: [RoleName.Admin],
+      },
     ],
   },
 ];

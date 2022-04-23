@@ -29,6 +29,7 @@ import AdminPublicDocumentTypesRoutes from '@/router/AdminPublicDocumentTypesRou
 import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
 import AdminRolesRoutes from '@/router/AdminRolesRoutes';
 import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
+import AdminUsersRoutes from '@/router/AdminUsersRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
 import { authGuard, isAuthorized } from '@/router/index';
 
@@ -108,4 +109,5 @@ export default [
   ...AdminFormStatusesRoutes,
   ...AdminPermissionsRoutes,
   ...AdminRolesRoutes,
+  ...AdminUsersRoutes,
 ];

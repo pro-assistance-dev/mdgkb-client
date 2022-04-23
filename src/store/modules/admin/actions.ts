@@ -6,15 +6,18 @@ import RootState from '@/store/types';
 
 import { State } from './state';
 
-const httpClient = new HttpClient('dpo-applications');
+let source: EventSource | undefined = undefined;
 
 const actions: ActionTree<State, RootState> = {
   subscribeApplicationsCountsGet: async ({ commit }): Promise<void> => {
     const c = new HttpClient('subscribe');
-    const source = await c.subscribe<IApplicationsCount[]>({ query: 'applications-counts-get' });
+    source = await c.subscribe<IApplicationsCount[]>({ query: 'applications-counts-get' });
     source.onmessage = function (e) {
       commit('setApplicationsCounts', JSON.parse(e.data));
     };
+  },
+  unsubscribeApplicationsCountsGet: async ({ commit }): Promise<void> => {
+    source?.close();
   },
 };
 

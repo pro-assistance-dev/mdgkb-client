@@ -11,6 +11,8 @@ import { State } from './state';
 
 const httpClient = new HttpClient('dpo-applications');
 
+let source: EventSource | undefined = undefined;
+
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
     const items = await httpClient.get<IDpoApplication[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
@@ -61,10 +63,13 @@ const actions: ActionTree<State, RootState> = {
   },
   subscribeCreate: async ({ commit }): Promise<void> => {
     const c = new HttpClient('subscribe');
-    const source = await c.subscribe<IDpoApplication>({ query: 'dpo-application-create' });
+    source = await c.subscribe<IDpoApplication>({ query: 'dpo-application-create' });
     source.onmessage = function (e) {
       commit('appendToAll', [e.data]);
     };
+  },
+  unsubscribeCreate: async ({ commit }): Promise<void> => {
+    source?.close();
   },
 };
 

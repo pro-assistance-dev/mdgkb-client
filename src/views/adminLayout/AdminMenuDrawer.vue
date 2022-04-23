@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 import AdminSideMenu from '@/views/adminLayout/AdminSideMenu.vue';
@@ -20,11 +20,6 @@ export default defineComponent({
     const store = useStore();
     const isDrawerOpen = computed(() => store.getters['admin/isDrawerOpen']);
     const closeDrawer = () => store.commit('admin/closeDrawer');
-
-    onBeforeMount(async () => {
-      await store.dispatch('dpoApplications/subscribeCreate');
-      await store.dispatch('residencyApplications/subscribeCreate');
-    });
 
     return { isDrawerOpen, closeDrawer };
   },
