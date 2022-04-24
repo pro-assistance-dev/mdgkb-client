@@ -52,6 +52,7 @@ export default defineComponent({
     });
 
     return {
+      count,
       storeModule,
       curPage,
       pageCount,

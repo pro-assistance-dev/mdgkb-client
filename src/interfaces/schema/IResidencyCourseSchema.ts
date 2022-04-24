@@ -1,15 +1,11 @@
-import IOption from '@/interfaces/schema/IOption';
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-export default interface IResidencyCourseSchema {
-  tableName: string;
-  key: string;
-  id: string;
+export default interface IResidencyCourseSchema extends IBaseSchema {
   name: string;
   slug: string;
   hours: string;
   teacherId: string;
   listeners: string;
-  options: IOption[];
   paidPlaces: string;
   freePlaces: string;
   startYear: string;
@@ -17,7 +13,4 @@ export default interface IResidencyCourseSchema {
   endYear: string;
   endYearId: string;
   cost: string;
-  value: string;
-  label: string;
-  sortColumn: string;
 }

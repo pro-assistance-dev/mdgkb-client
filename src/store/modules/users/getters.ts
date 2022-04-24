@@ -22,6 +22,9 @@ const getters: GetterTree<State, RootState> = {
   isFavourite(state) {
     return (domain: string, id: string) => FavouriteService.isFavourite(domain, id);
   },
+  count(state): number {
+    return state.count;
+  },
 };
 
 export default getters;

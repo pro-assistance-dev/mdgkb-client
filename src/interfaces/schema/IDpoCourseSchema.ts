@@ -1,9 +1,6 @@
-import IOption from '@/interfaces/schema/IOption';
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-export default interface IDpoCourseSchema {
-  tableName: string;
-  key: string;
-  id: string;
+export default interface IDpoCourseSchema extends IBaseSchema {
   name: string;
   slug: string;
   cost: string;
@@ -13,10 +10,6 @@ export default interface IDpoCourseSchema {
   teacherId: string;
   listeners: string;
   start: string;
-  options: IOption[];
-  value: string;
-  label: string;
-  sortColumn: string;
   minStart: string;
   minEnd: string;
 }

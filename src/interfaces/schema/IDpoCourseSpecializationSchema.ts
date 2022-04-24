@@ -1,8 +1,6 @@
-export default interface IDpoCourseSpecializationSchema {
-  tableName: string;
-  key: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-  id: string;
+export default interface IDpoCourseSpecializationSchema extends IBaseSchema {
   specializationId: string;
   dpoCourseId: string;
 }

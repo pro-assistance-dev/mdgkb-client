@@ -1,10 +1,13 @@
 <template>
   <div class="flex-column">
-    <el-form v-if="mounted" ref="form" :model="role" label-position="top">
+    <el-form v-if="mounted" ref="form" :model="user" label-position="top">
       <el-card>
-        <el-form-item label="Название" prop="label">
-          <el-input v-model="role.name" placeholder="Название"></el-input>
-        </el-form-item>
+        <el-form ref="form" label-position="top" :model="user">
+          <HumanForm :store-module="'users'" />
+        </el-form>
+        <el-select v-model="user.roleId">
+          <el-option v-for="role in schema.role.options" :key="role.value" :label="role.label" :value="role.value" />
+        </el-select>
       </el-card>
     </el-form>
   </div>
@@ -16,19 +19,22 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IRole from '@/interfaces/IRole';
+import HumanForm from '@/components/admin/HumanForm.vue';
+import IUser from '@/interfaces/IUser';
+import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 
 export default defineComponent({
-  name: 'AdminRolePage',
-  components: {},
-
+  name: 'AdminUserPage',
+  components: { HumanForm },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const role: ComputedRef<IRole> = computed<IRole>(() => store.getters['roles/item']);
+    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+
+    const user: ComputedRef<IUser> = computed<IUser>(() => store.getters['users/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
 
@@ -36,33 +42,35 @@ export default defineComponent({
       saveButtonClick.value = true;
       try {
         if (route.params['id']) {
-          await store.dispatch('roles/update', role.value);
+          await store.dispatch('users/update', user.value);
         } else {
-          await store.dispatch('roles/create', role.value);
+          await store.dispatch('users/create', user.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : router.push('/admin/roles');
+      next ? next() : router.push('/admin/users');
     };
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
+      await store.dispatch('meta/getSchema');
+      await store.dispatch('meta/getOptions', schema.value.role);
       if (route.params['id']) {
-        await store.dispatch('roles/get', route.params['id']);
+        await store.dispatch('users/get', route.params['id']);
         store.commit('admin/setHeaderParams', { title: 'Обновить роль', showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('admin/setHeaderParams', { title: 'Добавить роль', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(role, formUpdated, { deep: true });
+      watch(user, formUpdated, { deep: true });
       store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {
-      store.commit('roles/resetItem');
+      store.commit('users/resetItem');
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -70,9 +78,10 @@ export default defineComponent({
     });
 
     return {
-      role,
+      user,
       form,
       mounted,
+      schema,
     };
   },
 });

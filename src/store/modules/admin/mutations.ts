@@ -69,7 +69,6 @@ const mutations: MutationTree<State> = {
         }
       });
     });
-    console.log(state.menus);
   },
 };
 

@@ -1,6 +1,5 @@
-export default interface ITeacherSchema {
-  tableName: string;
-  key: string;
-  id: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
+
+export default interface ITeacherSchema extends IBaseSchema {
   fullName: string;
 }

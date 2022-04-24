@@ -1,7 +1,6 @@
-export default interface IDoctorSchema {
-  tableName: string;
-  key: string;
-  id: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
+
+export default interface IDoctorSchema extends IBaseSchema {
   medicalProfileId: string;
   divisionId: string;
   fullName: string;

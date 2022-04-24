@@ -32,6 +32,7 @@ import { faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import buildUrl from '@/services/BuildUrl';
+import Provider from '@/services/Provider';
 
 library.add(faVk);
 
@@ -52,7 +53,8 @@ app.use(setupElementPlusComponents, { locale: ru });
 app.use(setupElementPlusPlugins);
 
 // locale.use(lang);
-
+Provider.router = router;
+Provider.store = store;
 router.isReady().then(() => {
   app.mount('#app');
 });

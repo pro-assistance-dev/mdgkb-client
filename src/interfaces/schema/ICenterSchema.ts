@@ -1,10 +1,5 @@
-import IOption from '@/interfaces/schema/IOption';
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-export default interface ICenterSchema {
-  tableName: string;
-  value: string;
-  label: string;
+export default interface ICenterSchema extends IBaseSchema {
   name: string;
-  sortColumn: string;
-  options: IOption[];
 }

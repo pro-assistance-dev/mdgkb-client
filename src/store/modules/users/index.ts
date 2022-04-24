@@ -13,6 +13,7 @@ export const state: State = {
   item: new User(),
   emailExists: false,
   authPageEmail: '',
+  count: 0,
 };
 
 const namespaced = true;

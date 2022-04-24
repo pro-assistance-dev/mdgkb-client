@@ -1,5 +1,5 @@
 import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-export default interface IPublicDocumentTypeSchema extends IBaseSchema {
+export default interface IRoleSchema extends IBaseSchema {
   name: string;
 }

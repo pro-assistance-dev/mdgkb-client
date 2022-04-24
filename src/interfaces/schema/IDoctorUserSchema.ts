@@ -1,6 +1,6 @@
-export default interface IDoctorUserSchema {
-  tableName: string;
-  id: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
+
+export default interface IDoctorUserSchema extends IBaseSchema {
   userId: string;
   doctorId: string;
 }

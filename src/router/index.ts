@@ -64,7 +64,6 @@ export const devGuard = (): void => {
 };
 
 export const adminGuard = async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {
-  // console.log(to);
   if (to.path != '/main') {
     try {
       await store.dispatch('auth/checkPathPermissions', to.matched[0].path);

@@ -1,13 +1,7 @@
-import IOption from '@/interfaces/schema/IOption';
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-export default interface IDivisionSchema {
-  tableName: string;
-  value: string;
-  key: string;
+export default interface IDivisionSchema extends IBaseSchema {
   hospitalizationContactInfoId: string;
-  label: string;
   commentsCount: string;
   name: string;
-  sortColumn: string;
-  options: IOption[];
 }

@@ -1,10 +1,6 @@
-import IOption from '@/interfaces/schema/IOption';
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-export default interface IEducationYearSchema {
-  tableName: string;
-  value: string;
-  options: IOption[];
+export default interface IEducationYearSchema extends IBaseSchema {
   year: string;
   active: string;
-  sortColumn: string;
 }

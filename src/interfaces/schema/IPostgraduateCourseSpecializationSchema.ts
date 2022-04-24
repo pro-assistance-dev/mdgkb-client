@@ -1,7 +1,6 @@
-export default interface IPostgraduateCourseSpecializationSchema {
-  tableName: string;
-  key: string;
-  id: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
+
+export default interface IPostgraduateCourseSpecializationSchema extends IBaseSchema {
   specializationId: string;
   postgraduateCourseId: string;
 }

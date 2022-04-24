@@ -64,7 +64,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await store.dispatch('auth/getUserPathPermissions');
-      await store.commit('admin/filterMenus', userPermissions.value);
+      store.commit('admin/filterMenus', userPermissions.value);
       await store.dispatch('meta/getApplicationsCounts');
       store.commit('admin/setApplicationsCounts', applicationsCounts.value);
       await store.dispatch('admin/subscribeApplicationsCountsGet');

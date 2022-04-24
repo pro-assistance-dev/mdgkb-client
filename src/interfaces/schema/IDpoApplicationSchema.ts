@@ -1,7 +1,6 @@
-export default interface IDpoApplicationSchema {
-  tableName: string;
-  key: string;
-  id: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
+
+export default interface IDpoApplicationSchema extends IBaseSchema {
   createdAt: string;
   isNmo: string;
 }

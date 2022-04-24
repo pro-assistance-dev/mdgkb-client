@@ -7,7 +7,6 @@ import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
   items(state): IPublicDocumentType[] {
-    console.log(state.items);
     return state.items;
   },
   item(state): IPublicDocumentType {

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-column">
+  <div v-if="mounted" class="flex-column">
     <el-card>
       <el-table v-if="users" :data="users">
         <el-table-column label="email" sortable>
@@ -10,6 +10,11 @@
         <el-table-column label="Имя" sortable>
           <template #default="scope">
             <span>{{ scope.row.human.getFullName() }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Имя" sortable>
+          <template #default="scope">
+            <span>{{ scope.row.role.label }}</span>
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
@@ -23,49 +28,52 @@
           </template>
         </el-table-column>
       </el-table>
+      <Pagination />
     </el-card>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IUser from '@/interfaces/IUser';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminUsersList',
-  components: { TableButtonGroup },
+  components: { TableButtonGroup, Pagination },
 
   setup() {
-    const router = useRouter();
-    const store = useStore();
-    const users: ComputedRef<IUser[]> = computed<IUser[]>(() => store.getters['users/items']);
-    const roles: ComputedRef<IUser[]> = computed<IUser[]>(() => store.getters['roles/items']);
-
+    const users: ComputedRef<IUser[]> = computed<IUser[]>(() => Provider.store.getters['users/items']);
+    const roles: ComputedRef<IUser[]> = computed<IUser[]>(() => Provider.store.getters['roles/items']);
+    const mounted: Ref<boolean> = ref(false);
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
 
     const create = (): void => {
-      router.push('/admin/users/new');
+      Provider.router.push('/admin/users/new');
     };
     const remove = async (id: string): Promise<void> => {
-      await store.dispatch('users/remove', id);
+      await Provider.store.dispatch('users/remove', id);
     };
     const edit = (id: string): void => {
-      router.push(`/admin/users/${id}`);
+      Provider.router.push(`/admin/users/${id}`);
     };
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('users/getAll');
-      await store.dispatch('roles/getAll');
-      store.commit('admin/closeLoading');
-    });
+    const load = async (filterQuery: IFilterQuery) => {
+      await Provider.store.dispatch('users/getAll', filterQuery);
+      await Provider.store.dispatch('roles/getAll', filterQuery);
+      mounted.value = true;
+    };
+
+    Hooks.onBeforeMount(load, { pagination: { storeModule: 'users', action: 'getAll' }, sortModels: [] });
 
     return {
+      mounted,
       roles,
       users,
       create,

@@ -1,12 +1,5 @@
-import IOption from '@/interfaces/schema/IOption';
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-export default interface ISpecializationSchema {
-  tableName: string;
-  key: string;
-  id: string;
+export default interface ISpecializationSchema extends IBaseSchema {
   name: string;
-  value: string;
-  label: string;
-  sortColumn: string;
-  options: IOption[];
 }

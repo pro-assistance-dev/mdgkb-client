@@ -1,8 +1,5 @@
-export default interface IEducationalOrganizationAcademicSchema {
-  tableName: string;
-  key: string;
-  id: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
+
+export default interface IEducationalOrganizationAcademicSchema extends IBaseSchema {
   fullName: string;
-  value: string;
-  sortColumn: string;
 }

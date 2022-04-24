@@ -1,7 +1,7 @@
-export default interface IVacancySchema {
-  tableName: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
+
+export default interface IVacancySchema extends IBaseSchema {
   title: string;
-  key: string;
   slug: string;
   name: string;
   divisionId: string;

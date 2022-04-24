@@ -1,9 +1,5 @@
-import IOption from '@/interfaces/schema/IOption';
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
-export default interface IMedicalProfileSchema {
-  tableName: string;
-  value: string;
-  label: string;
-  sortColumn: string;
-  options: IOption[];
+export default interface IMedicalProfileSchema extends IBaseSchema {
+  name: string;
 }
