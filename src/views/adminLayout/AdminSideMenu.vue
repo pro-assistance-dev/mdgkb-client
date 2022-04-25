@@ -10,15 +10,17 @@
     >
       <el-sub-menu v-if="item.children" :index="item.title">
         <template #title>
-          <i :class="item.icon"></i>
-          <el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="primary"></el-badge>
-          <span class="row-menu-title">{{ item.title }}</span>
+          <div class="sub-menu-container">
+            <el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="danger"> </el-badge>
+            <i :class="item.icon"></i>
+            <span class="row-menu-title">{{ item.title }}</span>
+          </div>
         </template>
 
         <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
-          <div>
+          <div class="menu-item-container">
             {{ children.title }}
-            <el-badge v-if="children.count > 0" :value="children.count" type="primary"></el-badge>
+            <el-badge v-if="children.count > 0" :value="children.count" type="danger"></el-badge>
           </div>
         </el-menu-item>
       </el-sub-menu>
@@ -111,6 +113,7 @@ $background-color: whitesmoke;
   background-color: $background-color;
   border-right: 1px solid #e6e6e6;
   overflow-y: scroll;
+  overflow-x: hidden;
 
   :deep(.el-sub-menu__icon-arrow) {
     margin-left: 10px;
@@ -130,5 +133,20 @@ $background-color: whitesmoke;
 }
 .row-menu-title {
   margin-right: 20px;
+}
+.sub-menu-container {
+  position: relative;
+  .el-badge {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+  }
+}
+.menu-item-container {
+  display: flex;
+  align-items: center;
+  .el-badge {
+    margin-left: 5px;
+  }
 }
 </style>

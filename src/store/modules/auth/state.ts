@@ -9,4 +9,5 @@ export default interface State {
   loginStatus: 'login' | 'register' | 'forgotPassword' | 'passwordChange';
   pathPermissions: IPathPermission[];
   userPathPermissions: IPathPermission[];
+  count: number;
 }
