@@ -1,6 +1,8 @@
 import { ActionTree } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IPathPermission from '@/interfaces/IPathPermission';
+import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
 import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
 import HttpClient from '@/services/HttpClient';
@@ -59,6 +61,10 @@ const actions: ActionTree<State, RootState> = {
   },
   getAllPathPermissions: async ({ commit }): Promise<void> => {
     commit('setPathPermissions', await httpClient.get<IPathPermission[]>({ query: 'path-permissions' }));
+  },
+  getAllPathPermissionsAdmin: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+    const query = `path-permissions/admin/${filterQuery.toUrl()}`;
+    commit('setPathPermissionsAdmin', await httpClient.get<IPathPermissionsWithCount>({ query }));
   },
   getUserPathPermissions: async ({ state, commit }): Promise<void> => {
     commit('setUserPathPermissions', await httpClient.get<IPathPermission[]>({ query: `path-permissions/${state.user.roleId}` }));
