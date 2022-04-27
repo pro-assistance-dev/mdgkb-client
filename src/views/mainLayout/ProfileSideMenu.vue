@@ -18,7 +18,7 @@
           <svg class="icon-education">
             <use xlink:href="#education"></use>
           </svg>
-          Обратная связь
+          Образование
           <svg class="icon-arrow">
             <use xlink:href="#arrow"></use>
           </svg>

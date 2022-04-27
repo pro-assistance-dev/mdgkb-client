@@ -32,7 +32,7 @@
                   <div class="user-name">
                     <el-form-item label="Имя">
                       <h2>
-                        <b>{{ user?.human?.name ?? 'Имя пользователя' }}</b>
+                        <b>{{ user.human.getFullName() }}</b>
                       </h2>
                     </el-form-item>
                   </div>
@@ -89,7 +89,7 @@
               Образование
             </label>
             <div class="tab-content">
-              <ProfileEditPage />
+              <EducationPage />
             </div>
           </div>
         </div>
@@ -286,13 +286,14 @@
 import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import EducationPage from '@/components/Profile/Education/EducationPage.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IUser from '@/interfaces/IUser';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 export default defineComponent({
   name: 'ProfileInfoPage',
-  components: { UploaderSingleScan, UserInfoMini },
+  components: { UploaderSingleScan, UserInfoMini, EducationPage },
   setup() {
     const store = useStore();
     const mounted = ref(false);
