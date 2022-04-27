@@ -62,7 +62,6 @@
                 </div>
               </div>
               <div class="card-item">
-                <div class="item-el-title"><h4>Программа</h4></div>
                 <div class="item-el">
                   <router-link v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.dpoCourse.slug}`">
                     {{ formValue.dpoApplication.dpoCourse.name }}
@@ -86,8 +85,7 @@
               </div>
 
               <div class="card-item">
-                <div class="item-el-title"><h4>Тип</h4></div>
-                <div class="item-el">
+                <div class="item-el-tag">
                   <router-link v-if="formValue.dpoApplication" :to="`/dpo?mode=programs`">
                     {{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}
                   </router-link>
@@ -715,7 +713,6 @@ ul.drop-give-button-item li:last-child {
 .application-card {
   width: 100%;
   min-height: 20px;
-  border: 1px solid #dcdfe6;
   border-radius: 5px;
 }
 
@@ -753,14 +750,21 @@ ul.drop-give-button-item li:last-child {
 
 .item-el {
   display: flex;
-  text-align: right;
-  align-items: right;
+  text-align: left;
+  align-items: left;
 }
 
 ul.application-card {
   // text-decoration: none;
   list-style-type: none;
 }
+
+ul.application-card li {
+  border: 1px solid #dcdfe6;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
 .card-title {
   padding: 0 5px;
   background: #eff2f6;
@@ -770,10 +774,20 @@ ul.application-card {
 .card-footer {
   padding: 0 5px;
   display: flex;
-  justify-content: center;
+  justify-content: right;
   background: #eff2f6;
   height: 50px;
   border-radius: 0 0 5px 5px;
+}
+
+.item-el-tag {
+  a {
+    color: #ffffff;
+    font-size: 12px;
+    border-radius: 5px;
+    background: #006bb4;
+    padding: 5px 8px 5px 8px;
+  }
 }
 
 @media screen and (max-width: 980px) {
@@ -802,9 +816,29 @@ ul.application-card {
   .application-card {
     width: 100%;
     min-height: 20px;
-    border: 1px solid #dcdfe6;
-    border-radius: 5px;
-    margin-bottom: 30px;
+  }
+  .status-buttons {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    button {
+      img {
+        height: 25px;
+      }
+      margin-bottom: 2px;
+      margin-left: 15px;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-size: 12px;
+      &:hover {
+        cursor: pointer;
+        filter: brightness(110%);
+      }
+    }
+  }
+
+  .card-item {
+    justify-content: left;
   }
 }
 
@@ -827,9 +861,6 @@ ul.application-card {
   }
 
   .card-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 0 5px;
     width: calc(100% - 10px);
   }
