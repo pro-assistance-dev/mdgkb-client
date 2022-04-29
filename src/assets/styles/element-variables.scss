@@ -78,13 +78,13 @@ body > .el-container::v-deep {
 
 @media only screen and (max-width: 1216px) {
   .container {
-    max-width: 1152px;
+    max-width: 100%;
   }
 }
 
 @media only screen and (max-width: 1024px) {
   .container {
-    max-width: 960px;
+    max-width: 100%;
   }
 }
 

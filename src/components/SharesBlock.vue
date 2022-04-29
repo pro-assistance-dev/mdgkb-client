@@ -58,6 +58,8 @@ export default defineComponent({
     font-size: 30px;
   }
   .share-item {
+    display: flex;
+    align-items: center;
     .colored {
       display: none;
     }
@@ -68,6 +70,37 @@ export default defineComponent({
       }
       .black {
         display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .share {
+    display: flex;
+    align-items: center;
+    img {
+      margin-left: 0px;
+      height: 25px;
+    }
+    .anticon {
+      margin: 5px;
+      font-size: 30px;
+    }
+    .share-item {
+      display: flex;
+      align-items: center;
+      .colored {
+        display: none;
+      }
+      &:hover {
+        .colored {
+          display: unset;
+          transform: scale(1.1);
+        }
+        .black {
+          display: none;
+        }
       }
     }
   }

@@ -155,9 +155,8 @@ export default defineComponent({
 }
 
 .contact-data {
-  margin-top: 15px;
+  margin: 15px 30px 0 10px;
   padding-top: 10px;
-  margin-right: 30px;
   min-width: 272px;
   max-width: 272px;
   border: 1px solid #dee5ef;
@@ -207,7 +206,7 @@ export default defineComponent({
 
 .map-data {
   width: 100%;
-  margin-top: 15px;
+  margin: 15px 10px 0 0;
   border: 1px solid #dee5ef;
   border-radius: 5px;
 }
@@ -215,5 +214,27 @@ export default defineComponent({
   width: 100%;
   margin: 0;
   height: 600px;
+}
+
+@media screen and (max-width: 980px) {
+  .contact-data {
+    margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .contact-data {
+    margin-right: 10px;
+    min-width: 272px;
+    max-width: 100%;
+  }
+  .flex {
+    display: block;
+    justify-content: space-between;
+  }
+  .map-data {
+    margin: 15px 13px 0 10px;
+    width: calc(100% - 20px);
+  }
 }
 </style>
