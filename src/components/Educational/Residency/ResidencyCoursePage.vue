@@ -426,6 +426,18 @@ h4 {
 // :deep(.card-item) {
 //   background-color: red;
 // }
+@media screen and (max-width: 607px) {
+  .info-tags-block {
+    display: block;
+    margin: 5px;
+  }
+  .hidden-mobile {
+    display: none;
+  }
+  .tag {
+    margin: 5px;
+  }
+}
 
 @media screen and (max-width: 420px) {
   .size {
@@ -455,6 +467,10 @@ h4 {
   }
   h3 {
     font-size: 18px;
+  }
+
+  h2 {
+    font-size: 20px;
   }
 }
 

@@ -92,4 +92,62 @@ export default defineComponent({
     }
   }
 }
+
+@media screen and (max-width: 607px) {
+  .info-tags-block {
+    display: block;
+    margin: 5px;
+  }
+  .hidden-mobile {
+    display: none;
+  }
+  .tag {
+    margin: 5px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .size {
+    width: calc(100% - 10px);
+    padding: 0 5px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  :deep(.response-btn) {
+    font-size: 12px;
+    border-radius: 20px;
+    background-color: #31af5e;
+    padding: 0 10px;
+    height: 30px;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+  }
+
+  :deep(.card-item) {
+    padding: 15px 5px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .size {
+    width: calc(100% - 6px);
+    padding: 0 3px;
+  }
+  :deep(.card-item) {
+    padding: 15px 2px;
+  }
+}
 </style>
