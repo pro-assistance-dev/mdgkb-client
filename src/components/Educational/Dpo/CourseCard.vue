@@ -41,7 +41,7 @@ export default defineComponent({
   setup() {
     const errorImg = (event: Event) => {
       if (event.target) {
-        (event.target as HTMLImageElement).src = require('@/assets/img/doctor-default.png');
+        (event.target as HTMLImageElement).src = require('@/assets/img/doctor-default.webp');
       }
     };
 

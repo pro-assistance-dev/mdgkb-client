@@ -137,7 +137,7 @@ export default defineComponent({
       });
     };
     const getIcon = (i: number): string => {
-      return `/src/assets/medicine/${i + 1}.png`;
+      return `/src/assets/medicine/${i + 1}.webp`;
     };
     return {
       getIcon,

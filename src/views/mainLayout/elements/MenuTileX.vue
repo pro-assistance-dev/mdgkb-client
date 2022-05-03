@@ -1,7 +1,7 @@
 <template>
   <div id="item" :class="`${expand ? 'active' : ''} ff${item.id}`" @click.stop="expand = !expand">
     <div id="inner">
-      <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.png`)" />
+      <img id="bg" :src="require(`../../../assets/img/services-menu/banner/${item.id}.webp`)" />
       <div id="icon">
         <Component :is="require(`../../../assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
       </div>

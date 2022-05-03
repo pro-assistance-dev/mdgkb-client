@@ -4,7 +4,7 @@
       <div class="flex-column left-side">
         <AvatarWithFavourite
           :image="doctor.photoMini"
-          error-img-name="doctor-default.png"
+          error-img-name="doctor-default.webp"
           :domain-id="doctor.id"
           domain-name="doctor"
           :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } }"
@@ -12,7 +12,7 @@
         <Rating :comments="doctor.doctorComments" />
         <a v-if="doctor.mosDoctorLink" :href="doctor.getMosDoctorLink()">
           <div class="mos-doctor-img">
-            <img src="@/assets/img/mos-doctor.png" />
+            <img src="@/assets/img/mos-doctor.webp" />
             <span>Московский</span>
             <span>врач</span>
           </div>
@@ -53,7 +53,7 @@
       <div class="flex-row">
         <div class="doctor-img-container">
           <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
-          <img v-else src="@/assets/img/doctor-default.png" />
+          <img v-else src="@/assets/img/doctor-default.webp" />
         </div>
         <div class="flex-column">
           <span class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">

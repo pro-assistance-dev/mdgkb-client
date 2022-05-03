@@ -34,8 +34,8 @@
           :description="news.title"
         >
           <div class="share-item">
-            <img class="black" :src="require(`@/assets/img/social/${share.icon}.png`)" :alt="share.name" />
-            <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.png`)" :alt="share.name" />
+            <img class="black" :src="require(`@/assets/img/social/${share.icon}.webp`)" :alt="share.name" />
+            <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.webp`)" :alt="share.name" />
           </div>
         </ShareNetwork>
       </div>

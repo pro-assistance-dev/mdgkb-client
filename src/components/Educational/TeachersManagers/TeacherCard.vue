@@ -4,7 +4,7 @@
       <div class="flex-column left-side">
         <AvatarWithFavourite
           :image="teacher.doctor.photoMini"
-          error-img-name="doctor-default.png"
+          error-img-name="doctor-default.webp"
           :domain-id="teacher.doctor.id"
           domain-name="doctor"
           :img-link="{ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.human.slug } }"
@@ -12,7 +12,7 @@
         <Rating :comments="teacher.doctor.doctorComments" />
         <a v-if="teacher.doctor.mosDoctorLink" :href="teacher.doctor.getMosDoctorLink()">
           <div class="mos-doctor-img">
-            <img src="@/assets/img/mos-doctor.png" />
+            <img src="@/assets/img/mos-doctor.webp" />
             <span>Московский</span>
             <span>врач</span>
           </div>
@@ -66,7 +66,7 @@ export default defineComponent({
   setup() {
     const errorImg = (event: Event) => {
       if (event.target) {
-        (event.target as HTMLImageElement).src = require('@/assets/img/doctor-default.png');
+        (event.target as HTMLImageElement).src = require('@/assets/img/doctor-default.webp');
       }
     };
 

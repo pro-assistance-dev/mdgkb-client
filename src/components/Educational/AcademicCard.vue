@@ -4,7 +4,7 @@
       <div class="flex-column left-side">
         <AvatarWithFavourite
           :image="doctor.photoMini"
-          error-img-name="doctor-default.png"
+          error-img-name="doctor-default.webp"
           :domain-id="doctor.id"
           domain-name="doctor"
           :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } }"

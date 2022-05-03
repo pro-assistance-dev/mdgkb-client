@@ -15,7 +15,7 @@
               alt="Фото врача"
               @error="errorImg"
             />
-            <img v-else src="@/assets/img/doctor-default.png" />
+            <img v-else src="@/assets/img/doctor-default.webp" />
             <div>
               <div class="name">
                 <div>{{ scope.row.doctor.human.surname }}</div>
@@ -33,7 +33,7 @@
     <!-- <template v-for="newsDoctor in newsDoctors" :key="newsDoctor.id">
       <div class="card-row">
         <img v-if="newsDoctor.doctor.fileInfo.fileSystemPath" :src="newsDoctor.doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
-        <img v-else src="@/assets/img/doctor-default.png" />
+        <img v-else src="@/assets/img/doctor-default.webp" />
         <div>
           <div class="name">
             <div>{{ newsDoctor.doctor.human.surname }}</div>

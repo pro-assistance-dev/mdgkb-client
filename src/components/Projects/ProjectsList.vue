@@ -6,7 +6,7 @@
         <li v-for="item in projects" :key="item.id" @click="$router.push(`/projects/${item.slug}`)">
           <div class="project-content-item">
             <div class="project-colomn-img">
-              <img src="../../assets/news/img44.jpg" alt="alt" />
+              <img src="../../assets/news/img44.webp" alt="alt" />
             </div>
             <div class="project-colomn-text">
               <div class="project-colomn-text-h2">{{ item.title }}</div>

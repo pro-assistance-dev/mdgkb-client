@@ -3,7 +3,7 @@
     <div class="card-item-left">
       <div class="doctor-img">
         <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="doctor.fileInfo.errorImg" />
-        <img v-else src="@/assets/img/doctor-default.png" />
+        <img v-else src="@/assets/img/doctor-default.webp" />
         <div class="favor">
           <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
         </div>
@@ -47,7 +47,7 @@
         </div>
         <div v-if="doctor.mosDoctorLink" class="mos-doctor-img">
           <div class="mos-doctor-img-container">
-            <img src="@/assets/img/mos-doctor.png" />
+            <img src="@/assets/img/mos-doctor.webp" />
           </div>
           <a :href="doctor.getMosDoctorLink()">
             <div>

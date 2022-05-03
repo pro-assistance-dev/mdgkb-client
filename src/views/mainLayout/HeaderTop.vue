@@ -1,7 +1,7 @@
 <template>
   <div id="header-top" class="header-top">
     <div class="container">
-      <img src="@/assets/img/mdgkb-logo.png" class="header-logo-img" @click="$router.push('/')" />
+      <img src="@/assets/img/mdgkb-logo.webp" class="header-logo-img" @click="$router.push('/')" />
       <div class="search">
         <div class="search-block">
           <SeacrhBar v-show="currentRoute !== 'SearchPage'" />

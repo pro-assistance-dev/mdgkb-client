@@ -4,7 +4,7 @@
       <div class="main-doctor-info">
         <div class="main-doctor-avatar">
           <div class="doctor-avatar">
-            <img src="../../assets/doctors/Gorev_V_3.jpg" alt="alt" />
+            <img src="../../assets/doctors/Gorev_V_3.webp" alt="alt" />
           </div>
         </div>
         <div class="main-doctor-title">

@@ -8,7 +8,7 @@
         @error="errorImg"
         @click="$emit('showRule')"
       />
-      <img v-else src="@/assets/img/310x310.png" />
+      <img v-else src="@/assets/img/310x310.webp" />
       <div class="star-icon-container">
         <el-icon v-if="donorRule.isFavourite()" class="favor" @click="$emit('removeFromUser')"><StarFilled /></el-icon>
         <el-icon v-else @click="$emit('addToUser')"><Star /></el-icon>

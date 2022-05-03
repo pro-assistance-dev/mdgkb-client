@@ -123,7 +123,7 @@ export default class News implements INews {
       return this.fileInfo.getFileUrl();
     }
     const numberOfImg = Math.floor(Math.random() * (50 - 1 + 1) + 1);
-    return require(`../../assets/news/img${numberOfImg}.jpg`);
+    return require(`../../assets/news/img${numberOfImg}.webp`);
   }
 
   getStrippedContent(): string {
