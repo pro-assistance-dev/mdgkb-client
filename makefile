@@ -8,8 +8,3 @@ git_commit:
 
 git_push: git_commit
 	git push -u origin HEAD
-
-git_merge_dev: git_push
-	git fetch $(git rev-parse --abbrev-ref HEAD):develop
-	git checkout develop
-	git push
