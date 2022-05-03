@@ -66,7 +66,7 @@ export default defineComponent({
   margin-top: 20px;
 }
 
-.card-content {
+:deep(.card-content) {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
@@ -87,10 +87,10 @@ export default defineComponent({
   .article-body {
     text-align: justify;
   }
+}
 
-  .doctors-wrapper {
-    margin-top: 10px;
-  }
+.doctors-wrapper {
+  margin: 10px;
 }
 
 .el-descriptions__label {
@@ -101,5 +101,11 @@ export default defineComponent({
 }
 .doctor-img-container {
   margin: 0 10px 10px 0;
+}
+
+@media screen and (max-width: 687px) {
+  .flex {
+    justify-content: center;
+  }
 }
 </style>

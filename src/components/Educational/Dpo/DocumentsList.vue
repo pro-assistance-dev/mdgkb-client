@@ -23,7 +23,7 @@
             </div>
           </td>
           <td>
-            {{ document.name }}
+            <div class="text-size">{{ document.name }}</div>
           </td>
           <!--          <td>ДПО</td>-->
           <td style="text-align: center">
@@ -220,5 +220,35 @@ h4 {
 .item-4 {
   width: 188px;
   display: flex;
+}
+
+// @media screen and (max-width: 768px) {
+//   :deep(h2.ql-align-justify) {
+//     display: block;
+//     font-size: 1.0em;
+//     margin-block-start: 0.83em;
+//     margin-block-end: 0.83em;
+//     margin-inline-start: 0px;
+//     margin-inline-end: 0px;
+//     font-weight: bold;
+//   }
+// }
+
+@media screen and (max-width: 400px) {
+  .text-size {
+    font-size: 12px;
+  }
+
+  .download {
+    cursor: pointer;
+    padding: 3px 8px;
+    font-family: Roboto, Verdana, sans-serif;
+    font-size: 14px;
+    border-radius: 40px;
+    border: 1px solid #a3a9be;
+    color: #a3a9be;
+    align-items: center;
+    background: #eff2f6;
+  }
 }
 </style>

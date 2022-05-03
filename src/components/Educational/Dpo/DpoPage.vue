@@ -3,10 +3,15 @@
   <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
   <!--  </div>-->
   <div v-if="mounted">
-    <div class="filter-block">
+    <div v-if="mode === 'programs'" class="filter-block">
       <div class="full-width"></div>
       <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
     </div>
+    <div v-else class="filter-block-2">
+      <div class="full-width-2"></div>
+      <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
+    </div>
+
     <div v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'" v-html="selectedDocumentType.description" />
     <div v-if="mode === 'programs' || mode === ''" class="sort">
       <div class="sort-item-2">
@@ -245,7 +250,25 @@ h3 {
   z-index: 200;
 }
 
+.filter-block-2 {
+  height: 145px;
+  background: #ffffff;
+  z-index: 200;
+}
+
 .full-width {
+  background: #ffffff;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  height: 145px;
+  margin-top: 20px;
+  border: 1px solid #e4e6f2;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.full-width-2 {
   background: #ffffff;
   position: absolute;
   left: 0px;
@@ -266,6 +289,7 @@ h3 {
   justify-content: right;
   align-items: center;
   height: 60px;
+  padding: 0 10px;
 }
 
 .sort-item-1 {
@@ -303,5 +327,37 @@ h3 {
 .item-4 {
   width: 188px;
   display: flex;
+}
+
+@media screen and (max-width: 1216px) {
+  .full-width {
+    height: 200px;
+  }
+
+  .filter-block {
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 605px) {
+  .full-width {
+    height: 324px;
+  }
+
+  .filter-block {
+    height: 324px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .item-3 {
+    width: auto;
+    display: flex;
+    margin-right: 5px;
+  }
+  .item-4 {
+    width: 158px;
+    display: flex;
+  }
 }
 </style>

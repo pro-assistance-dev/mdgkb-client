@@ -1,31 +1,33 @@
 <template>
   <div v-if="mount" class="horizontal">
-    <div class="block-item">
-      <ModeChoice path="residency" :modes="modes" @selectMode="selectMode" />
+    <div class="line">
+      <div class="block-item">
+        <ModeChoice path="residency" :modes="modes" @selectMode="selectMode" />
+      </div>
+      <template v-if="mode === '' || mode === 'programs'">
+        <div class="block-item">
+          <RemoteSearch
+            :key-value="schema.residencyCourse.key"
+            :table="schema.residencyCourse.tableName"
+            :col="schema.residencyCourse.name"
+            @select="selectSearch"
+            @load="load"
+          />
+        </div>
+        <div class="block-item">
+          <FilterSelect
+            placeholder="Выбрать год"
+            :options="schema.educationYear.options"
+            :table="schema.residencyCourse.tableName"
+            :col="schema.residencyCourse.startYearId"
+            :data-type="DataTypes.String"
+            :operator="Operators.Eq"
+            @load="load"
+          />
+        </div>
+        <div class="block-item"></div>
+      </template>
     </div>
-    <template v-if="mode === '' || mode === 'programs'">
-      <div class="block-item">
-        <RemoteSearch
-          :key-value="schema.residencyCourse.key"
-          :table="schema.residencyCourse.tableName"
-          :col="schema.residencyCourse.name"
-          @select="selectSearch"
-          @load="load"
-        />
-      </div>
-      <div class="block-item">
-        <FilterSelect
-          placeholder="Выбрать год"
-          :options="schema.educationYear.options"
-          :table="schema.residencyCourse.tableName"
-          :col="schema.residencyCourse.startYearId"
-          :data-type="DataTypes.String"
-          :operator="Operators.Eq"
-          @load="load"
-        />
-      </div>
-      <div class="block-item"></div>
-    </template>
   </div>
 </template>
 
@@ -231,7 +233,7 @@ h2 {
 .block-item {
   display: flex;
   width: 272px;
-  margin-top: 22px;
+  margin: 0 10px;
 }
 
 .hidden {
@@ -250,5 +252,35 @@ h2 {
 
 .el-select {
   height: 38px;
+}
+
+.line {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 22px;
+}
+
+@media screen and (max-width: 1216px) {
+  .block-item {
+    min-width: 272px;
+    width: 31%;
+  }
+}
+
+@media screen and (max-width: 897px) {
+  .block-item {
+    min-width: 272px;
+    width: 46%;
+  }
+}
+
+@media screen and (max-width: 605px) {
+  .block-item {
+    min-width: 272px;
+    width: 100%;
+  }
 }
 </style>

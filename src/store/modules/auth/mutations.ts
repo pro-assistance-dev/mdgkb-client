@@ -5,6 +5,7 @@ import User from '@/classes/User';
 import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
 import IPathPermission from '@/interfaces/IPathPermission';
+import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
 import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
 import FavouriteService from '@/services/Favourite';
@@ -68,6 +69,10 @@ const mutations: MutationTree<State> = {
   },
   setPathPermissions(state, items: IPathPermission[]) {
     state.pathPermissions = items.map((i: IPathPermission) => new PathPermission(i));
+  },
+  setPathPermissionsAdmin(state, items: IPathPermissionsWithCount) {
+    state.pathPermissions = items.pathPermissions.map((i: IPathPermission) => new PathPermission(i));
+    state.count = items.count;
   },
   setUserPathPermissions(state, items: IPathPermission[]) {
     state.userPathPermissions = items.map((i: IPathPermission) => new PathPermission(i));

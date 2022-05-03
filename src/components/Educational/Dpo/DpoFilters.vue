@@ -210,23 +210,25 @@ h2 {
 .line {
   display: flex;
   justify-content: space-between;
-  // align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-top: 22px;
+}
+
+.line:last-child {
+  padding-top: 0px;
 }
 
 .block-item {
   display: flex;
   width: 272px;
-  margin-top: 22px;
-  // background: #343e5c;
-  // z-index: 10;
+  margin: 0 10px;
 }
 
 .block-item-1 {
   display: flex;
   width: 272px;
-  // background: red;
-  // z-index: 300;
-  // height: 40px;
+  margin: 0 10px;
 }
 
 .hidden {
@@ -245,5 +247,26 @@ h2 {
 
 .el-select {
   height: 38px;
+}
+
+@media screen and (max-width: 1216px) {
+  .block-item {
+    min-width: 272px;
+    width: 31%;
+  }
+}
+
+@media screen and (max-width: 897px) {
+  .block-item {
+    min-width: 272px;
+    width: 46%;
+  }
+}
+
+@media screen and (max-width: 605px) {
+  .block-item {
+    min-width: 272px;
+    width: 100%;
+  }
 }
 </style>

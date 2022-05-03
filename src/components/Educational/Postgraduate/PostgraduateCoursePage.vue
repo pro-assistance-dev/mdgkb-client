@@ -52,11 +52,11 @@
         </div>
         <!-- <el-divider /> -->
         <div class="info-tags-block">
-          <el-tag v-if="postgraduateCourse.educationForm">Форма обучения: {{ postgraduateCourse.educationForm }}</el-tag>
-          <el-divider v-if="postgraduateCourse.educationForm" direction="vertical" />
-          <el-tag v-if="postgraduateCourse.years > 0">Нормативный срок обучения: {{ postgraduateCourse.years }} года </el-tag>
-          <el-divider v-if="postgraduateCourse.years > 0" direction="vertical" />
-          <el-tag>Язык обучения: русский</el-tag>
+          <el-tag v-if="postgraduateCourse.educationForm" class="tag">Форма обучения: {{ postgraduateCourse.educationForm }}</el-tag>
+          <el-divider v-if="postgraduateCourse.educationForm" direction="vertical" class="hidden-mobile" />
+          <el-tag v-if="postgraduateCourse.years > 0" class="tag">Нормативный срок обучения: {{ postgraduateCourse.years }} года </el-tag>
+          <el-divider v-if="postgraduateCourse.years > 0" direction="vertical" class="hidden-mobile" />
+          <el-tag class="tag">Язык обучения: русский</el-tag>
         </div>
         <!-- <el-divider /> -->
         <div class="info-tags-block">
@@ -364,7 +364,6 @@ h4 {
 
 .card-meta {
   display: flex;
-  margin-top: 10px;
 }
 
 .share {
@@ -434,4 +433,62 @@ h4 {
 // :deep(.card-item) {
 //   background-color: red;
 // }
+
+@media screen and (max-width: 607px) {
+  .info-tags-block {
+    display: block;
+    margin: 5px;
+  }
+  .hidden-mobile {
+    display: none;
+  }
+  .tag {
+    margin: 5px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .size {
+    width: calc(100% - 10px);
+    padding: 0 5px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  :deep(.response-btn) {
+    font-size: 12px;
+    border-radius: 20px;
+    background-color: #31af5e;
+    padding: 0 10px;
+    height: 30px;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+  }
+
+  :deep(.card-item) {
+    padding: 15px 5px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .size {
+    width: calc(100% - 6px);
+    padding: 0 3px;
+  }
+  :deep(.card-item) {
+    padding: 15px 2px;
+  }
+}
 </style>

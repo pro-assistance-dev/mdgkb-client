@@ -11,6 +11,7 @@ import IEducationPublicDocumentTypeSchema from '@/interfaces/schema/IEducationPu
 import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
+import IPathPermissionsSchema from '@/interfaces/schema/IPathPermissionsSchema';
 import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSchema';
 import IPostgraduateCourseSpecializationSchema from '@/interfaces/schema/IPostgraduateCourseSpecializationSchema';
 import IPublicDocumentTypeSchema from '@/interfaces/schema/IPublicDocumentTypeSchema';
@@ -42,4 +43,5 @@ export default interface ISchema {
   postgraduateCourseSpecialization: IPostgraduateCourseSpecializationSchema;
   educationalOrganizationAcademic: IEducationalOrganizationAcademicSchema;
   role: IRoleSchema;
+  pathPermission: IPathPermissionsSchema;
 }

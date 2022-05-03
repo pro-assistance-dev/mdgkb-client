@@ -1,19 +1,21 @@
 <template>
-  <div class="candidate-container">
-    <div class="card-flex-container card-item">
-      <div class="bottom-footer">
-        <SharesBlock title="Кандидатский экзамен" description="Кандидатские экзамены в МДГКБ" :url="$buildUrl('candidate')" />
-        <button class="response-btn" @click="openRespondForm">Подать заявление</button>
+  <div class="size">
+    <div class="candidate-container">
+      <div class="card-flex-container card-item">
+        <div class="bottom-footer">
+          <SharesBlock title="Кандидатский экзамен" description="Кандидатские экзамены в МДГКБ" :url="$buildUrl('candidate')" />
+          <button class="response-btn" @click="openRespondForm">Подать заявление</button>
+        </div>
       </div>
-    </div>
-    <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px; margin: 20px 0 20px">
-      <h2 class="title article-title">Форма для подачи заявления</h2>
-      <el-divider />
-      <CandidateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
-    </div>
-    <div v-for="docType in documentTypes" :key="docType.id" class="docs-container">
-      <h3>{{ docType.documentType.name }}</h3>
-      <DocumentsList :documents="docType.documentType.documents" />
+      <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px; margin: 20px 0 20px">
+        <h2 class="title article-title">Форма для подачи заявления</h2>
+        <el-divider />
+        <CandidateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
+      </div>
+      <div v-for="docType in documentTypes" :key="docType.id" class="docs-container">
+        <h3>{{ docType.documentType.name }}</h3>
+        <DocumentsList :documents="docType.documentType.documents" />
+      </div>
     </div>
   </div>
 </template>
@@ -88,8 +90,14 @@ $side-container-max-width: 300px;
 $medical-profile-content-max-width: 1000px;
 $card-margin-size: 30px;
 
+.size {
+  width: calc(100% - 20px);
+  padding: 0 10px;
+}
+
 .docs-container {
   margin-top: 20px;
+  height: auto;
 }
 
 .candidate-container {
@@ -97,9 +105,9 @@ $card-margin-size: 30px;
 }
 
 .bottom-footer {
-  margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .title-icon {
   text-align: center;
@@ -243,35 +251,9 @@ h4 {
 
 .card-meta {
   display: flex;
-  margin-top: 10px;
+  // margin-top: 10px;
 }
 
-.share {
-  display: flex;
-  align-items: center;
-  img {
-    margin-left: 15px;
-    height: 25px;
-  }
-  .anticon {
-    margin: 5px;
-    font-size: 30px;
-  }
-  .share-item {
-    .colored {
-      display: none;
-    }
-    &:hover {
-      .colored {
-        display: unset;
-        transform: scale(1.1);
-      }
-      .black {
-        display: none;
-      }
-    }
-  }
-}
 :deep(.response-btn) {
   border-radius: 20px;
   background-color: #31af5e;
@@ -292,5 +274,46 @@ h4 {
 
 .article-body {
   min-height: 53.5vh;
+}
+
+@media screen and (max-width: 420px) {
+  .size {
+    width: calc(100% - 10px);
+    padding: 0 5px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  :deep(.response-btn) {
+    font-size: 12px;
+    border-radius: 20px;
+    background-color: #31af5e;
+    padding: 0 10px;
+    height: 30px;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+  }
+
+  :deep(.card-item) {
+    padding: 15px 5px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .size {
+    width: calc(100% - 6px);
+    padding: 0 3px;
+  }
+  :deep(.card-item) {
+    padding: 15px 2px;
+  }
 }
 </style>

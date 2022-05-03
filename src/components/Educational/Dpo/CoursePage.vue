@@ -1,87 +1,89 @@
 <template>
-  <div v-if="mounted" class="medical-profile-page-container">
-    <div class="side-container hidden-md-and-down">
-      <div class="side-item card-item">
-        <!-- <h4 class="card-item-title">Преподаватели</h4>
-          <el-divider /> -->
-        <div v-if="dpoCourse.getMainTeacher()">
-          <b>Руководитель:</b> <br />
-          <router-link
-            v-if="dpoCourse.getMainTeacher()"
-            class="recent-news-item"
-            :to="`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`"
-            style="padding-left: 0"
-          >
-            {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
-          </router-link>
-        </div>
-        <div v-if="dpoCourse.dpoCoursesTeachers.filter((i) => !i.main).length">
-          <b>Преподаватели:</b> <br />
-          <router-link
-            v-for="dpoCoursesTeacher in dpoCourse.dpoCoursesTeachers.filter((i) => !i.main)"
-            :key="dpoCoursesTeacher.id"
-            class="recent-news-item"
-            :to="`/doctors/${dpoCoursesTeacher.teacher.doctor.human.slug}`"
-            style="padding-left: 0"
-          >
-            {{ dpoCoursesTeacher.teacher.doctor.human.getFullName() }}
-          </router-link>
-        </div>
-        <div class="recent-news-footer">
-          <button @click="$router.push('/teachers')">Все преподаватели</button>
-        </div>
-        <div class="recent-news-footer">
-          <button @click="$router.push('/dpo')">Все программы</button>
-        </div>
-        <div class="recent-news-footer">
-          <a v-if="dpoCourse.linkNmo" :href="dpoCourse.linkNmo" target="_blank">
-            <button>Информация по циклу</button>
-          </a>
-        </div>
-      </div>
-
-      <div class="side-item">
-        <div class="card-item">
-          <div><b> Длительность курса:</b> {{ dpoCourse.hours }} ч.</div>
-        </div>
-      </div>
-
-      <div class="side-item">
-        <div class="card-item">
-          <div>
-            <b>Даты проведения курса:</b> <br />
-            {{ dpoCourse.getClosestPeriod() }}
+  <div class="size">
+    <div v-if="mounted" class="medical-profile-page-container">
+      <div class="side-container hidden-md-and-down">
+        <div class="side-item card-item">
+          <!-- <h4 class="card-item-title">Преподаватели</h4>
+            <el-divider /> -->
+          <div v-if="dpoCourse.getMainTeacher()">
+            <b>Руководитель:</b> <br />
+            <router-link
+              v-if="dpoCourse.getMainTeacher()"
+              class="recent-news-item"
+              :to="`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`"
+              style="padding-left: 0"
+            >
+              {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+            </router-link>
+          </div>
+          <div v-if="dpoCourse.dpoCoursesTeachers.filter((i) => !i.main).length">
+            <b>Преподаватели:</b> <br />
+            <router-link
+              v-for="dpoCoursesTeacher in dpoCourse.dpoCoursesTeachers.filter((i) => !i.main)"
+              :key="dpoCoursesTeacher.id"
+              class="recent-news-item"
+              :to="`/doctors/${dpoCoursesTeacher.teacher.doctor.human.slug}`"
+              style="padding-left: 0"
+            >
+              {{ dpoCoursesTeacher.teacher.doctor.human.getFullName() }}
+            </router-link>
+          </div>
+          <div class="recent-news-footer">
+            <button @click="$router.push('/teachers')">Все преподаватели</button>
+          </div>
+          <div class="recent-news-footer">
+            <button @click="$router.push('/dpo')">Все программы</button>
+          </div>
+          <div class="recent-news-footer">
+            <a v-if="dpoCourse.linkNmo" :href="dpoCourse.linkNmo" target="_blank">
+              <button>Информация по циклу</button>
+            </a>
           </div>
         </div>
-      </div>
 
-      <div v-if="dpoCourse.dpoCoursesSpecializations.length" class="side-item card-item">
-        <b>Специальности:</b> <br />
-        <div v-for="item in dpoCourse.dpoCoursesSpecializations" :key="item.id">{{ item.specialization.name }}</div>
-      </div>
-    </div>
-    <div class="right-block">
-      <div class="card-item" style="padding: 30px; margin-bottom: 20px">
-        <div class="card-header">
-          <h2 class="title article-title">{{ dpoCourse.name }}</h2>
+        <div class="side-item">
+          <div class="card-item">
+            <div><b> Длительность курса:</b> {{ dpoCourse.hours }} ч.</div>
+          </div>
         </div>
-        <el-divider />
-        <div v-if="dpoCourse.description" class="title-icon">
-          <BaseIcon width="120" height="120" color="#ffffff" :background:="chooseRandomBrandColor()" :icon-name="'Endoscopy'">
-            <HelpProfileIcon :svg-code="svgDummy" />
-          </BaseIcon>
+
+        <div class="side-item">
+          <div class="card-item">
+            <div>
+              <b>Даты проведения курса:</b> <br />
+              {{ dpoCourse.getClosestPeriod() }}
+            </div>
+          </div>
         </div>
-        <div class="article-body" v-html="dpoCourse.description"></div>
-        <el-divider />
-        <div class="bottom-footer">
-          <SharesBlock :title="dpoCourse.name" :description="dpoCourse.description" :url="getUrl()" />
-          <button class="response-btn" @click="openRespondForm">Подать заявление</button>
+
+        <div v-if="dpoCourse.dpoCoursesSpecializations.length" class="side-item card-item">
+          <b>Специальности:</b> <br />
+          <div v-for="item in dpoCourse.dpoCoursesSpecializations" :key="item.id">{{ item.specialization.name }}</div>
         </div>
       </div>
-      <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
-        <h2 class="title article-title">Форма для подачи заявления</h2>
-        <el-divider />
-        <DpoApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
+      <div class="right-block">
+        <div class="card-item">
+          <div class="card-header">
+            <h2 class="title article-title">{{ dpoCourse.name }}</h2>
+          </div>
+          <el-divider />
+          <div v-if="dpoCourse.description" class="title-icon">
+            <BaseIcon width="120" height="120" color="#ffffff" :background:="chooseRandomBrandColor()" :icon-name="'Endoscopy'">
+              <HelpProfileIcon :svg-code="svgDummy" />
+            </BaseIcon>
+          </div>
+          <div class="article-body" v-html="dpoCourse.description"></div>
+          <el-divider />
+          <div class="bottom-footer">
+            <SharesBlock :title="dpoCourse.name" :description="dpoCourse.description" :url="getUrl()" />
+            <button class="response-btn" @click="openRespondForm">Подать заявление</button>
+          </div>
+        </div>
+        <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
+          <h2 class="title article-title">Форма для подачи заявления</h2>
+          <el-divider />
+          <DpoApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
+        </div>
       </div>
     </div>
   </div>
@@ -316,7 +318,6 @@ h4 {
 
 .card-meta {
   display: flex;
-  margin-top: 10px;
 }
 
 .share {
@@ -365,5 +366,33 @@ h4 {
 
 .article-body {
   min-height: 53.5vh;
+}
+
+@media screen and (max-width: 400px) {
+  :deep(.response-btn) {
+    font-size: 12px;
+    border-radius: 20px;
+    background-color: #31af5e;
+    padding: 0 10px;
+    height: 30px;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+  }
+
+  :deep(.card-item) {
+    padding: 15px 5px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
 }
 </style>

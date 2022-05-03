@@ -11,7 +11,7 @@
           <div class="user-name-field">
             <el-form-item label="Имя">
               <h4>
-                <b>{{ user?.human?.name ?? 'Имя пользователя' }}</b>
+                <b>{{ user.human.getFullName() }}</b>
               </h4>
             </el-form-item>
           </div>
