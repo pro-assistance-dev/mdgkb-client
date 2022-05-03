@@ -9,6 +9,7 @@ export default class SearchModel implements ISearchModel {
   query = '';
   params = '';
   suggester = false;
+  mustBeTranslated = true;
   options: ISearchElement[] = [];
   searchGroupId = '';
   searchGroups: ISearchGroup[] = [];
@@ -37,10 +38,8 @@ export default class SearchModel implements ISearchModel {
 
   setSearchGroup(groupId: string | undefined): void {
     if (!groupId) {
-      console.log(this.searchGroups);
       this.searchGroups.forEach((group: ISearchGroup) => {
         group.active = true;
-        console.log(group.active);
       });
       return;
     }

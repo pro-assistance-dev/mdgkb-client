@@ -6,6 +6,7 @@ export default interface ISearchModel {
   query: string;
   params: string;
   suggester: boolean;
+  mustBeTranslated: boolean;
   options: ISearchElement[];
   searchGroupId: string;
   searchGroups: ISearchGroup[];

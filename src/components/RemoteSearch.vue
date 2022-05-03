@@ -8,6 +8,7 @@
         popper-class="wide-dropdown"
         :placeholder="placeHolder"
         :fetch-suggestions="find"
+        :trigger-on-focus="showSuggestions"
         @select="handleSelect"
       />
     </el-form-item>
@@ -57,6 +58,10 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       default: true,
     },
+    mustBeTranslated: {
+      type: Boolean as PropType<boolean>,
+      default: true,
+    },
   },
   emits: ['select', 'load', 'input'],
   setup(props, { emit }) {
@@ -69,13 +74,18 @@ export default defineComponent({
       searchForm.value.activated = true;
       searchModel.value.searchObjects = [];
       searchModel.value.query = query;
+      searchModel.value.mustBeTranslated = props.mustBeTranslated;
       const groupForSearch = searchModel.value.searchGroups.find((group: ISearchGroup) => group.key === props.keyValue);
       if (groupForSearch) {
         searchModel.value.searchGroup = groupForSearch;
       }
       await store.dispatch(`search/search`, searchModel.value);
       emit('input', searchModel.value.searchObjects);
-      resolve(searchModel.value.searchObjects);
+      if (props.showSuggestions) {
+        resolve(searchModel.value.searchObjects);
+        return;
+      }
+      resolve([]);
     };
 
     const handleSearchInput = async (value: string): Promise<void> => {

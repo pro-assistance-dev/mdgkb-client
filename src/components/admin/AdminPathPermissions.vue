@@ -3,7 +3,13 @@
     <div class="card-item filters">
       <div class="filters-block">
         <span>Найти:</span>
-        <RemoteSearch :key-value="schema.pathPermission.key" :model-value="searchString" :show-suggestions="false" @input="filterList" />
+        <RemoteSearch
+          :key-value="schema.pathPermission.key"
+          :model-value="searchString"
+          :show-suggestions="false"
+          :must-be-translated="false"
+          @input="filterList"
+        />
       </div>
       <div class="filters-block">
         <span>Сортировать:</span>
@@ -169,8 +175,8 @@ export default defineComponent({
         permission.resource = path.path;
         return permission;
       });
-      // await store.dispatch('auth/savePathPermissions', permissions.value);
-      // await store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+      await store.dispatch('auth/savePathPermissions', permissions.value);
+      await store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
       mounted.value = true;
