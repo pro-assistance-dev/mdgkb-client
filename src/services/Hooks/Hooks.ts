@@ -21,9 +21,9 @@ const Hooks = (() => {
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
       Provider.store.commit('admin/showLoading');
+      await Provider.store.dispatch('meta/getSchema');
       if (options?.pagination) {
         Provider.store.commit(`filter/resetQueryFilter`);
-        await Provider.store.dispatch('meta/getSchema');
         Provider.store.commit('filter/setStoreModule', options.pagination.storeModule);
         Provider.store.commit('filter/setAction', options.pagination.action);
         Provider.store.commit('pagination/setCurPage', 1);

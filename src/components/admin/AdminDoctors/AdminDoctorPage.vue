@@ -7,7 +7,7 @@
             <template #header>
               <CardHeader :label="'Личная информация'" :add-button="false" />
             </template>
-            <HumanForm :store-module="'doctors'" />
+            <HumanForm store-module="doctors" @input-name-complete="completeInput" />
           </el-card>
           <TimetableConstructorV2 :store-module="'doctors'" />
           <el-card>
@@ -70,10 +70,10 @@
             </el-form-item>
           </el-card>
           <el-card header="Фото">
-            <UploaderSingleScan :file-info="doctor.fileInfo" :height="300" :width="300" />
+            <UploaderSingleScan :file-info="doctor.fileInfo" :height="300" :width="300" @remove-file="doctor.removeFileInfo()" />
           </el-card>
           <el-card header="Фото-миниатюра">
-            <UploaderSingleScan :file-info="doctor.photoMini" :height="300" :width="300" />
+            <UploaderSingleScan :file-info="doctor.photoMini" :height="300" :width="300" @remove-file="doctor.removePhotoMini()" />
           </el-card>
           <el-card>
             <template #header>
@@ -100,51 +100,50 @@
       </el-col>
     </el-row>
   </el-form>
-
-  <ImageCropper />
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { computed, defineComponent, Ref, ref } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import Division from '@/classes/buildings/Division';
+import FilterModel from '@/classes/filters/FilterModel';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDoctor from '@/interfaces/IDoctor';
+import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 import DoctorRules from '@/rules/DoctorRules';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
   components: {
     TimetableConstructorV2,
     HumanForm,
-    ImageCropper,
     EducationForm,
     CardHeader,
     UploaderSingleScan,
   },
   setup() {
-    const store = useStore();
     const route = useRoute();
-    const router = useRouter();
     const form = ref();
     const rules = ref(DoctorRules);
-
     const mounted = ref(false);
 
     const divisionOptions = ref([new Division()]);
-    const doctor: Ref<IDoctor> = computed(() => store.getters['doctors/item']);
-
+    const doctor: Ref<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
+    const doctors: Ref<IDoctor[]> = computed(() => Provider.store.getters['doctors/items']);
+    let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       if (!validate(form)) {
@@ -160,58 +159,64 @@ export default defineComponent({
 
       try {
         if (route.params['id']) {
-          await store.dispatch('doctors/update', doctor.value);
+          await Provider.store.dispatch('doctors/update', doctor.value);
         } else {
-          await store.dispatch('doctors/create', doctor.value);
+          await Provider.store.dispatch('doctors/create', doctor.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : await router.push('/admin/doctors');
+      next ? next() : await Provider.router.push('/admin/doctors');
     };
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('search/searchGroups');
+    const load = async () => {
+      await Provider.store.dispatch('search/searchGroups');
       await loadDivisionOptions();
       await loadDoctor();
-      store.commit('admin/closeLoading');
-    });
+    };
+
+    Hooks.onBeforeMount(load);
 
     const loadDivisionOptions = async (): Promise<void> => {
-      await store.dispatch('divisions/getAll');
-      divisionOptions.value = store.getters['divisions/divisions'];
+      await Provider.store.dispatch('divisions/getAll');
+      divisionOptions.value = Provider.store.getters['divisions/divisions'];
     };
 
     const loadDoctor = async (): Promise<void> => {
       if (route.params['id']) {
-        await store.dispatch('doctors/get', route.params['id']);
-        store.commit('admin/setHeaderParams', {
+        await Provider.store.dispatch('doctors/get', route.params['id']);
+        Provider.store.commit('admin/setHeaderParams', {
           title: doctor.value.human.getFullName(),
           showBackButton: true,
           buttons: [{ action: submit }],
         });
       } else {
-        store.commit('doctors/resetState');
-        store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('doctors/resetState');
+        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(doctor, formUpdated, { deep: true });
+      // watch(doctor, formUpdated, { deep: true });
+
+      filterModel = FilterModel.CreateFilterModel(
+        Provider.schema.value.doctor.tableName,
+        Provider.schema.value.doctor.fullName,
+        DataTypes.String
+      );
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
     });
 
-    const addRegalia = () => store.commit('doctors/addRegalia');
+    const addRegalia = () => Provider.store.commit('doctors/addRegalia');
 
     const selectPosition = async (event: ISearchObject) => {
       doctor.value.positionId = event.id;
-      await store.dispatch('');
+      await Provider.store.dispatch('');
     };
 
     const selectPaidService = (event: ISearchObject) => {
@@ -222,7 +227,47 @@ export default defineComponent({
       doctor.value.setAcademic();
     };
 
+    const completeInput = async (human: IHuman) => {
+      if (!filterModel) {
+        return;
+      }
+      filterModel.value1 = human.getFullName();
+      Provider.setFilterModel(filterModel);
+      await Provider.store.dispatch('doctors/getAll', Provider.filterQuery.value);
+      if (doctors.value.length === 0) {
+        return;
+      }
+      await offerEditExistingDoctor();
+    };
+
+    const offerEditExistingDoctor = async () => {
+      const existingDoctor = doctors.value[0];
+      if (!existingDoctor) {
+        return;
+      }
+      ElMessageBox.confirm('Врач с введённым именем уже существует в системе', 'Отредактировать существующего врача?', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Перейти к редактированию',
+        cancelButtonText: 'Остаться в создании нового',
+      })
+        .then(async () => {
+          // Provider.router.push({ name: 'AdminEditDoctorPage', params: { id: existingDoctor.human.slug } });
+          await Provider.router.push(`/admin/doctors/${existingDoctor.human.slug}`);
+          await loadDoctor();
+        })
+        .catch((action: string) => {
+          if (action === 'cancel') {
+            ElMessage({
+              type: 'warning',
+              message: 'Врач с введённым именем уже существует в системе',
+            });
+          }
+        });
+    };
+
     return {
+      doctors,
+      completeInput,
       selectPaidService,
       selectPosition,
       addRegalia,

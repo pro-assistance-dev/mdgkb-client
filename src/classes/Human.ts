@@ -3,6 +3,7 @@ import FileInfo from '@/classes/File/FileInfo';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IHuman from '@/interfaces/IHuman';
+import StringsService from '@/services/Strings';
 
 export default class Human implements IHuman {
   id?: string;
@@ -45,5 +46,22 @@ export default class Human implements IHuman {
       return this.isMale ? 'Мужской' : 'Женский';
     }
     return this.isMale ? 'М' : 'Ж';
+  }
+
+  capitalizeName(): void {
+    this.name = StringsService.capitalizeString(this.name);
+    this.surname = StringsService.capitalizeString(this.surname);
+    this.patronymic = StringsService.capitalizeString(this.patronymic);
+  }
+
+  trimName(): void {
+    this.name = this.name.trim();
+    this.surname = this.surname.trim();
+    this.patronymic = this.patronymic.trim();
+  }
+
+  sanitizeName(): void {
+    this.capitalizeName();
+    this.trimName();
   }
 }

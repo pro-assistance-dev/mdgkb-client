@@ -5,7 +5,12 @@
         <!-- <div class="item-title"><h5>ФАМИЛИЯ&nbsp;*</h5></div> -->
         <div class="item-data">
           <el-form-item label="ФАМИЛИЯ" prop="human.surname">
-            <el-input v-model="human.surname" placeholder="Введите фамилию"></el-input>
+            <el-input
+              v-model="human.surname"
+              placeholder="Введите фамилию"
+              :formatter="firstLetterUpper"
+              @blur="checkCompleteName"
+            ></el-input>
           </el-form-item>
         </div>
       </div>
@@ -13,7 +18,7 @@
         <!-- <div class="item-title"><h5>ИМЯ&nbsp;*</h5></div> -->
         <div class="item-data">
           <el-form-item label="ИМЯ" prop="human.name">
-            <el-input v-model="human.name" placeholder="Введите имя"></el-input>
+            <el-input v-model="human.name" placeholder="Введите имя" @blur="checkCompleteName"></el-input>
           </el-form-item>
         </div>
       </div>
@@ -21,7 +26,7 @@
         <!-- <div class="item-title"><h5>ОТЧЕСТВО</h5></div> -->
         <div class="item-data">
           <el-form-item label="Отчество" prop="human.patronymic">
-            <el-input v-model="human.patronymic" placeholder="Введите отчество"></el-input>
+            <el-input v-model="human.patronymic" placeholder="Введите отчество" @blur="checkCompleteName"></el-input>
           </el-form-item>
         </div>
       </div>
@@ -176,6 +181,7 @@
 </template>
 
 <script lang="ts">
+import { watch } from '@vue/runtime-core';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -190,13 +196,24 @@ export default defineComponent({
       default: '',
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore();
     const form = ref();
 
     const human: Ref<IHuman> = computed(() => store.getters[`${props.storeModule}/item`].human);
 
+    const checkCompleteName = (n: string): void => {
+      if (!!human.value.name && !!human.value.surname && !!human.value.patronymic) {
+        emit('inputNameComplete', human.value);
+      }
+    };
+    const sanitizeName = () => human.value.sanitizeName();
+
+    watch(human, sanitizeName, { deep: true });
+
     return {
+      // firstLetterUpper,
+      checkCompleteName,
       human,
       form,
     };

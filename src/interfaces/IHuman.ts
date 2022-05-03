@@ -15,4 +15,5 @@ export default interface IHuman {
   photo: IFileInfo;
 
   contactInfo: IContactInfo;
+  sanitizeName: () => void;
 }
