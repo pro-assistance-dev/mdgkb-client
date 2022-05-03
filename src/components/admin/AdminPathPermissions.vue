@@ -1,82 +1,72 @@
 <template>
-  <div v-if="mounted" class="table-container">
-    <table class="table-list">
-      <thead>
-        <th style="text-align: start">Клиентский путь</th>
-        <th>
-          <div class="table-title">
-            <h4>Гостевой доступ</h4>
-            <div>
-              <el-button size="mini" @click="setAllGuests()">Выделить всё</el-button>
-            </div>
-          </div>
-        </th>
+  <div v-if="mounted" class="flex-column" style="height: 100%">
+    <div class="card-item filters">
+      <div class="filters-block">
+        <span>Найти:</span>
+        <RemoteSearch :key-value="schema.pathPermission.key" :model-value="searchString" :show-suggestions="false" @input="filterList" />
+      </div>
+      <div class="filters-block">
+        <span>Сортировать:</span>
+        <SortList :models="createSortModels()" @load="load" />
+      </div>
+    </div>
+    <div style="height: 100%; overflow: hidden" class="card-item">
+      <div class="table-container">
+        <table class="table-list">
+          <thead>
+            <th style="text-align: start">Клиентский путь</th>
+            <th>
+              <div class="table-title">
+                <h4>Гостевой доступ</h4>
+                <div>
+                  <el-button size="mini" @click="setAllGuests()">Выделить всё</el-button>
+                </div>
+              </div>
+            </th>
 
-        <th v-for="role in filteredRoles" :key="role.id" style="width 100%">
-          <div class="table-title">
-            <h4>{{ role.name }}</h4>
-            <div>
-              <el-button size="mini" @click="setAll(role.id)">Выделить всё</el-button>
-            </div>
-          </div>
-        </th>
-        <th v-if="selectRolesList.length">
-          <div class="table-title">
-            <div style="margin-bottom: 10px">
-              <el-select v-model="chosenRole" size="mini" value-key="id" label="Роль">
-                <el-option v-for="item in selectRolesList" :key="item.id" :label="item.name" :value="item"> </el-option>
-              </el-select>
-            </div>
-            <div>
-              <el-button size="mini" @click="addRole">Добавить</el-button>
-              <el-button size="mini" @click="addAllRoles">Все</el-button>
-            </div>
-          </div>
-        </th>
-      </thead>
-      <tbody>
-        <tr v-for="permission in permissions" :key="permission.resource">
-          <th>
-            {{ permission.resource }}
-          </th>
-          <td style="text-align: center">
-            <el-checkbox v-model="permission.guestAllow"> </el-checkbox>
-          </td>
-          <td v-for="role in filteredRoles" :key="role.id" style="text-align: center">
-            <el-checkbox :model-value="permission.checkPermissionForRole(role.id)" @change="permission.setRole($event, role.id)">
-            </el-checkbox>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <el-table :data="permissions" height="80vh">
-      <el-table-column prop="resource" label="Клиентский путь" width="300px"> </el-table-column>
-      <el-table-column label="Гостевой доступ" align="center">
-        <template #default="scope">
-          <el-checkbox v-model="scope.row.guestAllow"> </el-checkbox>
-        </template>
-      </el-table-column>
-      <el-table-column v-for="role in roles" :key="role.id" :label="role.name" align="center">
-        <template #default="scope">
-          <el-checkbox :model-value="scope.row.checkPermissionForRole(role.id)" @change="scope.row.setRole($event, role.id)"> </el-checkbox>
-        </template>
-      </el-table-column>
-      <el-table-column v-for="role in roles" :key="role.id" :label="role.name" align="center">
-        <template #default="scope">
-          <el-checkbox :model-value="scope.row.checkPermissionForRole(role.id)" @change="scope.row.setRole($event, role.id)"> </el-checkbox>
-        </template>
-      </el-table-column>
-      <el-table-column v-for="role in roles" :key="role.id" :label="role.name" align="center">
-        <template #default="scope">
-          <el-checkbox :model-value="scope.row.checkPermissionForRole(role.id)" @change="scope.row.setRole($event, role.id)"> </el-checkbox>
-        </template>
-      </el-table-column>
-      <el-table-column v-for="role in roles" :key="role.id" :label="role.name" align="center">
-        <template #default="scope">
-          <el-checkbox :model-value="scope.row.checkPermissionForRole(role.id)" @change="scope.row.setRole($event, role.id)"> </el-checkbox>
-        </template>
-      </el-table-column>
-    </el-table> -->
+            <th v-for="role in filteredRoles" :key="role.id" style="width 100%">
+              <div class="table-title">
+                <h4>{{ role.name }}</h4>
+                <div>
+                  <el-button size="mini" @click="setAll(role.id)">Выделить всё</el-button>
+                </div>
+              </div>
+            </th>
+            <th v-if="selectRolesList.length">
+              <div class="table-title">
+                <div style="margin-bottom: 10px">
+                  <el-select v-model="chosenRole" size="mini" value-key="id" label="Роль">
+                    <el-option v-for="item in selectRolesList" :key="item.id" :label="item.name" :value="item"> </el-option>
+                  </el-select>
+                </div>
+                <div>
+                  <el-button size="mini" @click="addRole">Добавить</el-button>
+                  <el-button size="mini" @click="addAllRoles">Все</el-button>
+                </div>
+              </div>
+            </th>
+          </thead>
+          <tbody>
+            <tr v-for="permission in filteredPathPermissions" :key="permission.resource">
+              <th style="min-width: 200px">
+                {{ permission.resource }}
+              </th>
+              <td style="text-align: center">
+                <el-checkbox v-model="permission.guestAllow" size="mini"> </el-checkbox>
+              </td>
+              <td v-for="role in filteredRoles" :key="role.id" style="text-align: center">
+                <el-checkbox
+                  size="mini"
+                  :model-value="permission.checkPermissionForRole(role.id)"
+                  @change="permission.setRole($event, role.id)"
+                >
+                </el-checkbox>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,30 +80,50 @@ import { useStore } from 'vuex';
 import SortModel from '@/classes/filters/SortModel';
 import PathPermission from '@/classes/PathPermission';
 import Role from '@/classes/Role';
+import RemoteSearch from '@/components/RemoteSearch.vue';
+import SortList from '@/components/SortList/SortList.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
 import IRole from '@/interfaces/IRole';
+import ISearchObject from '@/interfaces/ISearchObject';
 import { RoleName } from '@/interfaces/RoleName';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'AdminGallery',
+  components: {
+    SortList,
+    RemoteSearch,
+  },
   props: {
     storeModule: {
       type: String as PropType<string>,
       default: '',
     },
   },
+
   setup(props) {
     const store = useStore();
     const router = useRouter();
     const paths = router.getRoutes();
     const mounted: Ref<boolean> = ref(false);
     const filterString: Ref<string> = ref('');
+    const searchString: Ref<string> = ref('');
 
     const clientPermissions: Ref<IPathPermission[]> = computed(() => store.getters['auth/pathPermissions']);
+    const filteredPathPermissions: Ref<IPathPermission[]> = computed(() => {
+      if (!searchFilterPathPermissions.value.length) {
+        return clientPermissions.value;
+      }
+      return clientPermissions.value.filter((pathPermission: IPathPermission) => {
+        if (!pathPermission.id) return;
+        return searchFilterPathPermissions.value.includes(pathPermission.id);
+      });
+    });
+    const searchFilterPathPermissions: Ref<string[]> = ref([]);
     const roles: ComputedRef<IRole[]> = computed(() => store.getters['roles/items']);
     const selectRolesList: ComputedRef<IRole[]> = computed(() => roles.value.filter((role: IRole) => !filteredRoles.value.includes(role)));
     const filteredRoles: Ref<IRole[]> = ref([]);
@@ -124,8 +134,13 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
+      store.commit('admin/setHeaderParams', {
+        title: 'Клиентские доступы',
+        buttons: [{ text: 'Сохранить', action: savePaths }],
+      });
       store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
+      // await store.dispatch('meta/getOptions', schema.value.pathPermission);
       store.commit('filter/setStoreModule', 'auth');
       store.commit('filter/setAction', 'getAllPathPermissionsAdmin');
       store.commit(
@@ -133,7 +148,7 @@ export default defineComponent({
         SortModel.CreateSortModel(
           schema.value.pathPermission.tableName,
           schema.value.pathPermission.resource,
-          Orders.Asc,
+          Orders.Desc,
           'По алфавиту',
           true
         )
@@ -142,10 +157,6 @@ export default defineComponent({
       filterQuery.value.pagination.limit = 0;
       await store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
       // await store.dispatch('auth/getAllPathPermissions');
-      store.commit('admin/setHeaderParams', {
-        title: 'Клиентские доступы',
-        buttons: [{ text: 'Сохранить', action: savePaths }],
-      });
       await store.dispatch('roles/getAll');
       filteredRoles.value = roles.value.filter((role: IRole) => role.name === RoleName.User);
       permissions.value = paths.map((path: RouteRecordNormalized) => {
@@ -189,6 +200,31 @@ export default defineComponent({
       filteredRoles.value = roles.value;
       chosenRole.value = new Role();
     };
+    const filterList = (search: ISearchObject[]) => {
+      searchFilterPathPermissions.value = search.map((el) => el.id);
+    };
+    const createSortModels = (): ISortModel[] => {
+      return [
+        SortModel.CreateSortModel(
+          schema.value.pathPermission.tableName,
+          schema.value.pathPermission.resource,
+          Orders.Asc,
+          'По алфавиту (А-Я)',
+          true
+        ),
+        SortModel.CreateSortModel(
+          schema.value.pathPermission.tableName,
+          schema.value.pathPermission.resource,
+          Orders.Desc,
+          'По алфавиту (Я-А)',
+          true
+        ),
+      ];
+    };
+    const load = async () => {
+      await store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+    };
+
     return {
       setAllGuests,
       setAll,
@@ -202,68 +238,23 @@ export default defineComponent({
       selectRolesList,
       addRole,
       addAllRoles,
+      schema,
+      filterList,
+      searchString,
+      filteredPathPermissions,
+      createSortModels,
+      load,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-.gallery {
-  width: 100%;
-  text-align: center;
-}
-
-$news-content-max-width: 400px;
-$news-content-max-height: 165px;
-
-.hideUpload {
-  :deep(.el-upload) {
-    display: none;
-  }
-}
-
-.avatar-uploader-cover {
-  // height: 400px;
-  text-align: center;
-  align-content: center;
-}
-
-.custom-plus {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
-}
-
-:deep(.el-upload) {
-  width: $news-content-max-width;
-  height: $news-content-max-height;
-  background: white;
-  text-align: center;
-  line-height: $news-content-max-height;
-}
-
-:deep(.el-upload-list__item) {
-  width: $news-content-max-width !important;
-  height: $news-content-max-height !important;
-}
-
-:deep(.el-upload-list__item-thumbnail) {
-  width: $news-content-max-width !important;
-  height: $news-content-max-height !important;
-}
-
-:deep(.el-upload-list__item) {
-  transition: unset;
-}
-
-.card-header {
-  text-align: start;
-}
-
+// table
 .table-container {
-  overflow: scroll;
-  height: 100%;
+  overflow: auto;
   width: auto;
+  height: inherit;
 }
 thead th {
   position: -webkit-sticky; /* for Safari */
@@ -276,6 +267,10 @@ tbody th {
   position: sticky;
   left: 0;
 }
+tr th {
+  // font-weight: normal;
+  vertical-align: middle;
+}
 
 thead th:first-child {
   left: 0;
@@ -284,6 +279,7 @@ thead th:first-child {
 tr th:first-child {
   z-index: 1;
   text-align: start;
+  font-weight: normal;
 }
 
 thead th,
@@ -297,7 +293,6 @@ tbody th {
 }
 td,
 th {
-  padding: 0.5em;
   border: 1px solid #ebeef5;
 }
 table {
@@ -312,11 +307,56 @@ tr:hover {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  padding: 5px;
+  h4 {
+    margin: 0;
+  }
   .el-button {
     width: auto;
   }
 }
 th {
   vertical-align: baseline;
+}
+// page container
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+// scroll
+::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(245, 245, 245, 0.47);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  margin: 5px 0;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 20px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: rgba(85, 85, 85, 0.25);
+}
+// filters
+.filters {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  &-block {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    span {
+      margin: 0 10px;
+    }
+  }
 }
 </style>

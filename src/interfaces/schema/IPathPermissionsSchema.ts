@@ -1,8 +1,5 @@
-export default interface IPathPermissionsSchema {
-  tableName: string;
-  key: string;
-  id: string;
-  value: string;
+import IBaseSchema from '@/interfaces/schema/IBaseSchema';
+
+export default interface IPathPermissionsSchema extends IBaseSchema {
   resource: string;
-  sortColumn: string;
 }

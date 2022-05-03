@@ -1,6 +1,6 @@
 <template>
   <el-form @submit.prevent="onEnter">
-    <el-form-item>
+    <el-form-item style="margin: 0">
       <el-autocomplete
         ref="searchForm"
         v-model="queryString"
@@ -53,8 +53,12 @@ export default defineComponent({
       type: String as PropType<string>,
       default: 'Начните вводить запрос',
     },
+    showSuggestions: {
+      type: Boolean as PropType<boolean>,
+      default: true,
+    },
   },
-  emits: ['select', 'load'],
+  emits: ['select', 'load', 'input'],
   setup(props, { emit }) {
     const store = useStore();
     const queryString: Ref<string> = ref(props.modelValue);
@@ -70,6 +74,7 @@ export default defineComponent({
         searchModel.value.searchGroup = groupForSearch;
       }
       await store.dispatch(`search/search`, searchModel.value);
+      emit('input', searchModel.value.searchObjects);
       resolve(searchModel.value.searchObjects);
     };
 
