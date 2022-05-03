@@ -73,7 +73,7 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    watch(sortModel, () => {
+    watch(setDefaultSortModel, () => {
       if (filterQuery.value.sortModels.length === 0) {
         setDefaultSort();
       }
