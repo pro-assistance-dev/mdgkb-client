@@ -34,6 +34,9 @@ const getters: GetterTree<State, RootState> = {
   setDefaultSortModel(state): boolean {
     return state.setDefaultSortModel;
   },
+  sortModel(state): ISortModel {
+    return state.filterQuery.sortModels[0];
+  },
 };
 
 export default getters;

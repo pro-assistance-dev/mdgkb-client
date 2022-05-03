@@ -112,6 +112,7 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const filterString: Ref<string> = ref('');
     const searchString: Ref<string> = ref('');
+    const sortString: Ref<string> = ref('');
 
     const clientPermissions: Ref<IPathPermission[]> = computed(() => store.getters['auth/pathPermissions']);
     const filteredPathPermissions: Ref<IPathPermission[]> = computed(() => {
@@ -148,7 +149,7 @@ export default defineComponent({
         SortModel.CreateSortModel(
           schema.value.pathPermission.tableName,
           schema.value.pathPermission.resource,
-          Orders.Desc,
+          Orders.Asc,
           'По алфавиту',
           true
         )
@@ -244,6 +245,7 @@ export default defineComponent({
       filteredPathPermissions,
       createSortModels,
       load,
+      sortString,
     };
   },
 });

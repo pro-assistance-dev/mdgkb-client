@@ -1,7 +1,7 @@
 <template>
-  <el-form>
+  <el-form v-if="mounted">
     <el-form-item>
-      <el-select v-model="selectedModel" :clearable="!defaultSortOn" :placeholder="selectedModel" @change="setSort">
+      <el-select v-model="sortModel" value-key="label" :clearable="!defaultSortOn" :placeholder="sortModel.label" @change="setSort">
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item" />
       </el-select>
     </el-form-item>
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -35,8 +35,16 @@ export default defineComponent({
     const storeAction: string = store.getters['filter/storeAction'];
     const defaultSortOn: Ref<boolean> = ref(false);
     const selectedModel: Ref<string> = ref('');
-
+    const sortModel: WritableComputedRef<ISortModel> = computed({
+      get(): ISortModel {
+        return store.getters['filter/sortModel'];
+      },
+      set(sortModel: ISortModel): void {
+        store.commit('filter/replaceSortModel', sortModel);
+      },
+    });
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const mounted: Ref<boolean> = ref(false);
 
     const sortModels: Ref<ISortModel[]> = computed(() => store.getters['filters/sortModels']);
     const setDefaultSortModel: Ref<boolean> = computed(() => store.getters['filter/setDefaultSortModel']);
@@ -62,28 +70,38 @@ export default defineComponent({
       //   store.commit('filters/setSortModel', props.models);
       // }
       setDefaultSort();
+      mounted.value = true;
     });
 
-    watch(setDefaultSortModel, () => {
-      console.log('watch');
+    watch(sortModel, () => {
       if (filterQuery.value.sortModels.length === 0) {
         setDefaultSort();
       }
       emit('load');
     });
 
-    const setSort = (sortModel: ISortModel) => {
-      selectedModel.value = sortModel.label;
-      if (sortModel) {
-        store.commit('filter/replaceSortModel', sortModel);
-        defaultSortOn.value = sortModel.default;
-      } else {
-        setDefaultSort();
-      }
+    const setSort = () => {
+      // selectedModel.value = sortModel.label;
+      // if (sortModel.value) {
+      //   store.commit('filter/replaceSortModel', sortModel);
+      //   defaultSortOn.value = sortModel.value.default;
+      // } else {
+      //   setDefaultSort();
+      // }
       emit('load');
     };
 
-    return { setDefaultSortModel, filterQuery, sortModels, defaultSortOn, setSort, selectedModel, sort };
+    return {
+      setDefaultSortModel,
+      filterQuery,
+      sortModels,
+      defaultSortOn,
+      setSort,
+      selectedModel,
+      sort,
+      sortModel,
+      mounted,
+    };
   },
 });
 </script>
