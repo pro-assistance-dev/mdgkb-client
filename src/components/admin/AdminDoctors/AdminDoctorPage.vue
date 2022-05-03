@@ -70,10 +70,10 @@
             </el-form-item>
           </el-card>
           <el-card header="Фото">
-            <UploaderSingleScan :file-info="doctor.fileInfo" :height="300" :width="300" />
+            <UploaderSingleScan :file-info="doctor.fileInfo" :height="300" :width="300" @remove-file="doctor.removeFileInfo()" />
           </el-card>
           <el-card header="Фото-миниатюра">
-            <UploaderSingleScan :file-info="doctor.photoMini" :height="300" :width="300" />
+            <UploaderSingleScan :file-info="doctor.photoMini" :height="300" :width="300" @remove-file="doctor.removePhotoMini()" />
           </el-card>
           <el-card>
             <template #header>
@@ -100,21 +100,18 @@
       </el-col>
     </el-row>
   </el-form>
-
-  <ImageCropper />
 </template>
 
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import Division from '@/classes/buildings/Division';
 import FilterModel from '@/classes/filters/FilterModel';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -133,14 +130,12 @@ export default defineComponent({
   components: {
     TimetableConstructorV2,
     HumanForm,
-    ImageCropper,
     EducationForm,
     CardHeader,
     UploaderSingleScan,
   },
   setup() {
     const route = useRoute();
-    const router = useRouter();
     const form = ref();
     const rules = ref(DoctorRules);
     const mounted = ref(false);
@@ -172,7 +167,7 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : await router.push('/admin/doctors');
+      next ? next() : await Provider.router.push('/admin/doctors');
     };
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
@@ -242,7 +237,7 @@ export default defineComponent({
       if (doctors.value.length === 0) {
         return;
       }
-      offerEditExistingDoctor();
+      await offerEditExistingDoctor();
     };
 
     const offerEditExistingDoctor = async () => {
@@ -257,9 +252,8 @@ export default defineComponent({
       })
         .then(async () => {
           // Provider.router.push({ name: 'AdminEditDoctorPage', params: { id: existingDoctor.human.slug } });
-          await router.push(`/admin/doctors/${existingDoctor.human.slug}`);
+          await Provider.router.push(`/admin/doctors/${existingDoctor.human.slug}`);
           await loadDoctor();
-          // Provider.router.go(0);
         })
         .catch((action: string) => {
           if (action === 'cancel') {

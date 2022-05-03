@@ -62,4 +62,7 @@ export default interface IDoctor {
   getMosDoctorLink: () => string;
   getOnlineDoctorLink: () => string;
   setAcademic: () => void;
+
+  removeFileInfo: () => void;
+  removePhotoMini: () => void;
 }
