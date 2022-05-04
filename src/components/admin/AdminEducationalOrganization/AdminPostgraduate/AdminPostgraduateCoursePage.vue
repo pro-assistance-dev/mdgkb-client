@@ -158,6 +158,12 @@
               <el-input-number v-model="postgraduateCourse.years"> </el-input-number> года
             </el-card>
             <el-card>
+              <template #header>Стоимость</template>
+              <el-form-item prop="listeners">
+                <el-input-number v-model="postgraduateCourse.cost" />
+              </el-form-item>
+            </el-card>
+            <el-card>
               <el-container direction="vertical">
                 <el-select
                   v-model="postgraduateCourse.formPattern"
