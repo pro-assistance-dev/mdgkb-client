@@ -11,6 +11,10 @@
                   <FileUploader :file-info="postgraduateCourse.questionsFile" />
                 </el-card>
                 <el-card>
+                  <template #header>Аннотации рабочих программ дисциплин </template>
+                  <FileUploader :file-info="postgraduateCourse.annotation" />
+                </el-card>
+                <el-card>
                   <template #header>Образовательная программа</template>
                   <FileUploader :file-info="postgraduateCourse.programFile" />
                 </el-card>

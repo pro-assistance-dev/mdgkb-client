@@ -43,6 +43,8 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
   programFileId?: string;
   calendar: IFileInfo = new FileInfo();
   calendarId?: string;
+  annotation: IFileInfo = new FileInfo();
+  annotationId?: string;
 
   postgraduateCoursePlans: IPostgraduateCoursePlan[] = [];
   postgraduateCoursePlansForDelete: string[] = [];
@@ -81,6 +83,10 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     }
     if (i.calendar) {
       this.calendar = new FileInfo(i.calendar);
+    }
+    this.annotationId = i.annotationId;
+    if (i.annotation) {
+      this.annotation = new FileInfo(i.annotation);
     }
     if (i.postgraduateCoursePlans) {
       this.postgraduateCoursePlans = i.postgraduateCoursePlans.map((item: IPostgraduateCoursePlan) => new PostgraduateCoursePlan(item));
@@ -157,6 +163,9 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     }
     if (this.calendar) {
       fileInfos.push(this.calendar);
+    }
+    if (this.annotation) {
+      fileInfos.push(this.annotation);
     }
     this.postgraduateCoursePlans.forEach((plan: IPostgraduateCoursePlan) => {
       if (plan.plan) {

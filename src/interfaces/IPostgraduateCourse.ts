@@ -22,6 +22,9 @@ export default interface IPostgraduateCourse {
   postgraduateCoursesDates: IPostgraduateCourseDates[];
   postgraduateCoursesDatesForDelete: string[];
 
+  annotation: IFileInfo;
+  annotationId?: string;
+
   questionsFile: IFileInfo;
   questionsFileId?: string;
 
