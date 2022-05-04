@@ -10,6 +10,7 @@
         :fetch-suggestions="find"
         :trigger-on-focus="showSuggestions"
         @select="handleSelect"
+        @input="handleInput"
       />
     </el-form-item>
   </el-form>
@@ -119,7 +120,13 @@ export default defineComponent({
       searchForm.value.close();
     };
 
-    return { searchForm, onEnter, queryString, handleSelect, find, handleSearchInput };
+    const handleInput = (i: string) => {
+      if (i.length === 0) {
+        emit('input', []);
+      }
+    };
+
+    return { searchForm, onEnter, queryString, handleSelect, find, handleSearchInput, handleInput };
   },
 });
 </script>
