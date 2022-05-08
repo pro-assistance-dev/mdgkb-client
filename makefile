@@ -14,6 +14,12 @@ git_commit:
 	git add .
 	git commit -m "$m"
 
+git_merge: git_push
+	git checkout develop
+	git pull
+	git merge @{-1}
+	git push
+
 # example: make git_feature n=1
 git_feature:
 	git flow feature start PORTAL-$n
