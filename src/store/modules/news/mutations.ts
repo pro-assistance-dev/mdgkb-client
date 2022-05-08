@@ -20,27 +20,25 @@ import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: INews[]) {
+  setAll(state, items: INewsWithCount) {
     state.allNewsLoaded = false;
-    const news = items.map((i: INews) => new News(i));
-    state.news.push(...news);
-    if (items.length === 0 || (state.params.limit && state.params.limit > items.length)) {
+    state.count = items.count;
+    state.news = items.news.map((i: INews) => new News(i));
+    if (items.news.length === 0 || (state.params.limit && state.params.limit > items.news.length)) {
       state.allNewsLoaded = true;
       return;
     }
+  },
+  appendToAll(state, items: INewsWithCount) {
+    const itemsForAdding = items.news.map((i: INews) => new News(i));
+    state.news.push(...itemsForAdding);
+    state.count = items.count;
   },
   clearNews(state) {
     state.news = [];
   },
   count(state): number {
     return state.count;
-  },
-  setAllAdmin(state, items: INewsWithCount) {
-    state.news = items.news.map((a: INews) => new News(a));
-    state.count = items.count;
-  },
-  setAllMain(state, items: INews[]) {
-    state.news = items.map((a: INews) => new News(a));
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
@@ -65,11 +63,11 @@ const mutations: MutationTree<State> = {
     if (!state.newsItem) return;
     state.newsItem.fileInfo = new FileInfo();
   },
-  setCalendarNews(state, items: INews[]) {
+  setCalendarNews(state, items: INewsWithCount) {
     if (!items) {
       return;
     }
-    state.calendarNews = items.map((i: INews) => new News(i));
+    state.calendarNews = items.news.map((i: INews) => new News(i));
   },
   remove(state, id: string) {
     const index = state.news.findIndex((i: INews) => i.id === id);

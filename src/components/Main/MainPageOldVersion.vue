@@ -108,7 +108,7 @@ export default defineComponent({
 
     const loadNews = async () => {
       store.commit('news/clearNews');
-      await store.dispatch('news/getAllMain');
+      // await store.dispatch('news/getAllMain');
       await store.commit('news/setFilteredNews');
     };
 

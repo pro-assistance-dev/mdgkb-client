@@ -22,29 +22,45 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
+import SortModel from '@/classes/filters/SortModel';
 import MainBigNewsCard from '@/components/Main/MainBigNewsCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
+import { Orders } from '@/interfaces/filters/Orders';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'MainNewsBlock',
   components: { MainContainer, NewsCard, MainBigNewsCard, RecentNewsCard },
 
   setup() {
-    const store = useStore();
-    const news = computed(() => store.getters['news/news']);
+    const news = computed(() => Provider.store.getters['news/news']);
     const mounted: Ref<boolean> = ref(false);
 
-    onBeforeMount(async () => {
-      store.commit('news/clearNews');
-      await store.dispatch('news/getAllMain');
-      await store.commit('news/setFilteredNews');
+    const createFilterModels = () => {
+      const modelForMainNews = SortModel.CreateSortModel(Provider.schema.value.news.tableName, Provider.schema.value.news.main);
+      const modelForSubMainNews = SortModel.CreateSortModel(Provider.schema.value.news.tableName, Provider.schema.value.news.subMain);
+      const modelForPublishedOnMainNews = SortModel.CreateSortModel(
+        Provider.schema.value.news.tableName,
+        Provider.schema.value.news.publishedOn,
+        Orders.Desc
+      );
+      Provider.setSortModels(modelForMainNews, modelForSubMainNews, modelForPublishedOnMainNews);
+      Provider.filterQuery.value.limit = 8;
+    };
+
+    const load = async () => {
+      createFilterModels();
+      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      await Provider.store.commit('news/setFilteredNews');
       mounted.value = true;
-    });
+    };
+
+    Hooks.onBeforeMount(load);
 
     return {
       news,

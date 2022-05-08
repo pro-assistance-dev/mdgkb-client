@@ -14,20 +14,23 @@
 <script lang="ts">
 import { Calendar, PopoverRow } from 'v-calendar';
 import { computed, defineComponent, onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
 
+import FilterModel from '@/classes/filters/FilterModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import { Operators } from '@/interfaces/filters/Operators';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'NewsCalendar',
   components: { Calendar, PopoverRow },
 
   setup() {
-    const store = useStore();
     const calendar = ref();
-    const news = computed(() => store.getters['news/calendarNews']);
-    const calendarMeta = computed(() => store.getters['news/calendarMeta']);
+    const news = computed(() => Provider.store.getters['news/calendarNews']);
+    const calendarMeta = computed(() => Provider.store.getters['news/calendarMeta']);
     const randomDotColor = () => {
       const colors = ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
       return colors[Math.floor(Math.random() * colors.length)];
@@ -48,9 +51,26 @@ export default defineComponent({
         };
       }),
     ]);
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.news.tableName,
+      Provider.schema.value.news.publishedOn,
+      DataTypes.Date
+    );
     const changeMonth = async (page: ICalendarMeta): Promise<void> => {
+      if (!page.year || !page.month) {
+        return;
+      }
+      const fq = new FilterQuery();
+      filterModel.operator = Operators.Btw;
+      const dateFrom = new Date(page.year, page.month - 1, 1);
+      const dateTo = new Date(page.year, page.month, 1);
+      filterModel.date1 = dateFrom;
+      filterModel.date2 = dateTo;
+      fq.filterModels.push(filterModel);
+      await Provider.store.dispatch('news/getByMonth', fq);
+
       const params: ICalendarMeta = { month: page.month, year: page.year };
-      await store.dispatch('news/getByMonth', params);
+      Provider.store.commit('news/updateCalendarMeta', params);
     };
     const loadCalendarMeta = async () => {
       if (calendarMeta.value) {

@@ -28,47 +28,73 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
+import FilterModel from '@/classes/filters/FilterModel';
+import SortModel from '@/classes/filters/SortModel';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
 import NewsFilters from '@/components/News/NewsFilters.vue';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import { Operators } from '@/interfaces/filters/Operators';
+import { Orders } from '@/interfaces/filters/Orders';
+import INews from '@/interfaces/news/INews';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'NewsList',
   components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters, LoadMoreButton },
   emits: ['add', 'remove'],
   setup() {
-    const store = useStore();
-    const loading = ref(false);
-    const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
+    const allNewsLoaded = computed(() => Provider.store.getters['news/allNewsLoaded']);
     const mount = ref(false);
+    const loading = ref(false);
 
-    const news = computed(() => store.getters['news/news']);
+    const news: ComputedRef<INews[]> = computed(() => Provider.store.getters['news/news']);
 
     const loadNews = async () => {
-      store.commit('news/clearNews');
-      await store.dispatch('news/getAll');
-      store.commit('news/setFilteredNews');
+      Provider.store.commit('news/clearNews');
+      Provider.filterQuery.value.pagination.limit = 6;
+      Provider.filterQuery.value.pagination.cursorMode = true;
+      const sortModel = SortModel.CreateSortModel(
+        Provider.schema.value.news.tableName,
+        Provider.schema.value.news.publishedOn,
+        Orders.Desc
+      );
+      Provider.setSortModel(sortModel);
+      const filterOnPublish = FilterModel.CreateFilterModel(
+        Provider.schema.value.news.tableName,
+        Provider.schema.value.news.publishedOn,
+        DataTypes.Date
+      );
+      filterOnPublish.date1 = new Date();
+      filterOnPublish.operator = Operators.Lt;
+      Provider.setFilterModel(filterOnPublish);
+      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      Provider.store.commit('news/setFilteredNews');
+      mount.value = true;
     };
 
-    onBeforeMount(async () => {
-      await loadNews();
-      mount.value = true;
-    });
+    Hooks.onBeforeMount(loadNews);
 
     const loadMore = async () => {
       loading.value = true;
-      await store.dispatch('news/getAll');
-      // store.commit('news/setFilteredNews');
+      Provider.filterQuery.value.pagination.cursor.value = news.value[news.value.length - 1].publishedOn;
+      Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
+      Provider.filterQuery.value.pagination.cursor.column = Provider.schema.value.news.publishedOn;
+      Provider.filterQuery.value.pagination.cursor.initial = false;
+      Provider.filterQuery.value.pagination.cursorMode = true;
+
+      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      // Provider.store.commit('news/setFilteredNews');
     };
 
     return {
-      allNewsLoaded,
       loading,
+      allNewsLoaded,
       loadMore,
       loadNews,
       news,
