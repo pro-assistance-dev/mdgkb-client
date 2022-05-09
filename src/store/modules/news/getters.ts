@@ -15,7 +15,6 @@ import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
   news(state): INews[] | undefined {
-    console.log(state.news);
     return state.news;
   },
   main(state): INews | undefined {
