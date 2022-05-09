@@ -64,7 +64,7 @@ const actions: ActionTree<State, RootState> = {
     news.newsImages.forEach((image: INewsImage) => {
       if (image.fileInfo) fileInfos.push(image.fileInfo);
     });
-    fileInfos.push(news.fileInfo);
+    fileInfos.push(news.previewImage);
     fileInfos.push(news.mainImage);
     await httpClient.post<INews, INews>({ payload: news, fileInfos: fileInfos, isFormData: true });
     commit('set');
@@ -74,7 +74,7 @@ const actions: ActionTree<State, RootState> = {
     news.newsImages.forEach((image: INewsImage) => {
       if (image.fileInfo) fileInfos.push(image.fileInfo);
     });
-    fileInfos.push(news.fileInfo);
+    fileInfos.push(news.previewImage);
     fileInfos.push(news.mainImage);
     await httpClient.put<INews, INews>({
       query: `${news.id}`,

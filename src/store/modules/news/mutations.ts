@@ -42,8 +42,6 @@ const mutations: MutationTree<State> = {
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
-    if (state.newsItem.fileInfo.fileSystemPath) state.previewFileList[0] = state.newsItem.fileInfo.getFileListObject();
-    if (state.newsItem.mainImage.fileSystemPath) state.mainImageList[0] = state.newsItem.mainImage.getFileListObject();
     state.galleryList = [];
     state.newsItem.newsImages.forEach((i: INewsImage) => {
       if (!i.fileInfo) {
@@ -58,10 +56,6 @@ const mutations: MutationTree<State> = {
   },
   resetState(state) {
     Object.assign(state, getDefaultState());
-  },
-  clearPreviewFile(state) {
-    if (!state.newsItem) return;
-    state.newsItem.fileInfo = new FileInfo();
   },
   setCalendarNews(state, items: INewsWithCount) {
     if (!items) {
@@ -155,11 +149,6 @@ const mutations: MutationTree<State> = {
   setParentIdToComment(state, parentId: string) {
     state.comment.newsId = parentId;
   },
-  setFileInfo(state, fileInfo: IFileInfo) {
-    if (state.newsItem) {
-      state.newsItem.fileInfo = fileInfo;
-    }
-  },
   setMainImage(state, fileInfo: IFileInfo) {
     if (state.newsItem) {
       state.newsItem.mainImage = fileInfo;
@@ -191,13 +180,6 @@ const mutations: MutationTree<State> = {
     const image = FileInfo.CreatePreviewFile(file, 'gallery');
     if (image.fileSystemPath) state.newsItem.newsImagesNames.push(image.fileSystemPath);
     state.newsItem.newsImages.push(new NewsImage({ fileInfo: image }));
-  },
-  setPreviewFile(state, file: IFile) {
-    state.newsItem.fileInfo.file = file.blob;
-    state.newsItem.fileInfo.category = 'previewFile';
-    if (state.newsItem.fileInfo.fileSystemPath) {
-      state.previewFileList[0] = { name: state.newsItem.fileInfo.fileSystemPath, url: file.src };
-    }
   },
   saveFromCropperMain(state, file: IFile) {
     state.newsItem.mainImage.file = file.blob;

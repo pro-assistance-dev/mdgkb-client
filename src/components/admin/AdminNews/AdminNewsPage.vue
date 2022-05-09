@@ -26,7 +26,7 @@
             </el-card>
             <el-card>
               <template #header> Основное изображение </template>
-              <AdminNewsPageMainImage v-if="mounted" />
+              <UploaderSingleScan :file-info="news.mainImage" :height="200" :width="400" @remove-file="news.removeMainImage()" />
               <el-form-item prop="mainImageDescription" label="Описание:">
                 <el-input v-model="news.mainImageDescription" placeholder="Описание"></el-input>
               </el-form-item>
@@ -46,7 +46,10 @@
               </el-space>
             </el-card>
             <AdminNewsPageTags />
-            <AdminNewsPagePreviewImage v-if="mounted" title="Загрузить превью новости" />
+            <el-card>
+              <template #header> Загрузить превью новости </template>
+              <UploaderSingleScan :file-info="news.previewImage" :height="300" :width="300" @remove-file="news.removePreviewImage()" />
+            </el-card>
             <AdminNewsDoctors />
           </el-container>
         </el-col>
@@ -62,19 +65,16 @@
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
-import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import NewsRules from '@/classes/news/NewsRules';
 import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageGallery from '@/components/admin/AdminNews/AdminNewsPageGallery.vue';
-import AdminNewsPageMainImage from '@/components/admin/AdminNews/AdminNewsPageMainImage.vue';
-import AdminNewsPagePreviewImage from '@/components/admin/AdminNews/AdminNewsPagePreviewImage.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import INews from '@/interfaces/news/INews';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
@@ -82,13 +82,12 @@ import validate from '@/mixins/validate';
 export default defineComponent({
   name: 'AdminNewsPage',
   components: {
+    UploaderSingleScan,
     AdminNewsPageEvent,
     ImageCropper,
     QuillEditor,
     AdminNewsPageTags,
-    AdminNewsPagePreviewImage,
     AdminNewsPageGallery,
-    AdminNewsPageMainImage,
     AdminNewsDoctors,
   },
   setup() {
@@ -98,7 +97,7 @@ export default defineComponent({
     let mounted = ref(false);
     let isCropGalleryOpen = ref(false);
     const form = ref();
-    const rules = ref(NewsRules);
+    // const rules = ref(NewsRules);
     const editorOption = {
       modules: {
         toolbar: [
@@ -159,16 +158,16 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (!news.value.fileInfo.fileSystemPath) {
-        ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
-        saveButtonClick.value = false;
-        return;
-      }
-      if (!news.value.mainImage.originalName) {
-        ElMessage({ message: 'Пожалуйста, добавьте основную картинку', type: 'error' });
-        saveButtonClick.value = false;
-        return;
-      }
+      // if (!news.value.previewImage.fileSystemPath) {
+      //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
+      //   saveButtonClick.value = false;
+      //   return;
+      // }
+      // if (!news.value.mainImage.originalName) {
+      //   ElMessage({ message: 'Пожалуйста, добавьте основную картинку', type: 'error' });
+      //   saveButtonClick.value = false;
+      //   return;
+      // }
       if (!route.params['slug']) {
         await store.dispatch('news/create', news.value);
         await router.push('/admin/news');
@@ -185,7 +184,6 @@ export default defineComponent({
       galleryList,
       submit,
       news,
-      rules,
       form,
     };
   },

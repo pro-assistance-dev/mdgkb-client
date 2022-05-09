@@ -44,13 +44,12 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 
-import SortModel from '@/classes/filters/SortModel';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import { Orders } from '@/interfaces/filters/Orders';
 import INews from '@/interfaces/news/INews';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'AdminNewsList',
@@ -74,18 +73,12 @@ export default defineComponent({
     const loadNews = async (): Promise<void> => {
       Provider.store.commit('news/clearNews');
       Provider.filterQuery.value.limit = 25;
-
+      Provider.setSortModels(NewsSortsLib.byPublishedOn());
       await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Новости',
         buttons: [{ text: 'Добавить новость', type: 'primary', action: addNews }],
       });
-      const sortModel = SortModel.CreateSortModel(
-        Provider.schema.value.news.tableName,
-        Provider.schema.value.news.publishedOn,
-        Orders.Desc
-      );
-      Provider.setSortModels(sortModel);
       mounted.value = true;
     };
     Hooks.onBeforeMount(loadNews, {
