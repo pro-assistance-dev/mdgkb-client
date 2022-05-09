@@ -232,7 +232,7 @@ export default defineComponent({
         return;
       }
       filterModel.value1 = human.getFullName();
-      Provider.setFilterModel(filterModel);
+      Provider.setFilterModels(filterModel);
       await Provider.store.dispatch('doctors/getAll', Provider.filterQuery.value);
       if (doctors.value.length === 0) {
         return;

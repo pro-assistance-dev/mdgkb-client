@@ -48,4 +48,5 @@ export default interface INews {
   removeDoctor: (index: number) => void;
 
   getStrippedContent: () => string;
+  getTagsIds: () => string[];
 }

@@ -84,7 +84,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      console.log(residencyCourse.value);
       store.commit('residencyApplications/resetItem');
       store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
       residencyApplication.value.formValue.initFieldsValues();

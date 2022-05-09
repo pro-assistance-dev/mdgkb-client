@@ -24,6 +24,7 @@ const actions: ActionTree<State, RootState> = {
       commit('appendToAll', items);
       return;
     }
+    console.log('items', items);
     commit('setAll', items);
   },
   // getAll: async ({ commit, state }): Promise<void> => {

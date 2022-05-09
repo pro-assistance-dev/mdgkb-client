@@ -12,6 +12,7 @@ import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 import INewsSchema from '@/interfaces/schema/INewsSchema';
+import INewsToTag from '@/interfaces/schema/INewsToTag';
 import IPathPermissionsSchema from '@/interfaces/schema/IPathPermissionsSchema';
 import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSchema';
 import IPostgraduateCourseSpecializationSchema from '@/interfaces/schema/IPostgraduateCourseSpecializationSchema';
@@ -46,4 +47,5 @@ export default interface ISchema {
   role: IRoleSchema;
   pathPermission: IPathPermissionsSchema;
   news: INewsSchema;
+  newsToTag: INewsToTag;
 }

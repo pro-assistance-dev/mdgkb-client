@@ -22,6 +22,7 @@ import { Operators } from '@/interfaces/filters/Operators';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
 import Provider from '@/services/Provider';
+import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 
 export default defineComponent({
   name: 'NewsCalendar',
@@ -66,7 +67,7 @@ export default defineComponent({
       const dateTo = new Date(page.year, page.month, 1);
       filterModel.date1 = dateFrom;
       filterModel.date2 = dateTo;
-      fq.filterModels.push(filterModel);
+      fq.filterModels.push(filterModel, NewsFiltersLib.onlyPublished());
       await Provider.store.dispatch('news/getByMonth', fq);
 
       const params: ICalendarMeta = { month: page.month, year: page.year };

@@ -1,4 +1,4 @@
-import { computed, ComputedRef, onBeforeMount } from 'vue';
+import { onBeforeMount } from 'vue';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
@@ -17,7 +17,7 @@ export interface IPaginationOptions {
 type func = (filterQuery: IFilterQuery) => void;
 
 const Hooks = (() => {
-  const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
+  // const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
       Provider.store.commit('admin/showLoading');
@@ -31,8 +31,10 @@ const Hooks = (() => {
       if (options && options.sortModels.length > 0) {
         Provider.store.commit('filter/replaceSortModel', options.sortModels[0]);
       }
-      filterQuery.value.pagination.cursorMode = false;
-      await f(filterQuery.value);
+      if (Provider.filterQuery.value) {
+        Provider.filterQuery.value.pagination.cursorMode = false;
+      }
+      await f(Provider.filterQuery.value);
 
       Provider.store.commit('admin/closeLoading');
     });

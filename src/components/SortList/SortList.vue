@@ -46,7 +46,7 @@ export default defineComponent({
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const mounted: Ref<boolean> = ref(false);
 
-    const sortModels: Ref<ISortModel[]> = computed(() => store.getters['filters/sortModels']);
+    const sortModels: Ref<ISortModel[]> = computed(() => store.getters['filter/sortModels']);
     const setDefaultSortModel: Ref<boolean> = computed(() => store.getters['filter/setDefaultSortModel']);
 
     const sort = async () => {
@@ -67,7 +67,7 @@ export default defineComponent({
 
     onBeforeMount((): void => {
       // if (props.storeMode) {
-      //   store.commit('filters/setSortModel', props.models);
+      //   store.commit('filter/setSortModel', props.models);
       // }
       setDefaultSort();
       mounted.value = true;

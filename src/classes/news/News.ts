@@ -130,4 +130,14 @@ export default class News implements INews {
     const regex = /(<([^>]+)>)/gi;
     return this.content.replace(regex, '');
   }
+
+  getTagsIds(): string[] {
+    const idArr: string[] = [];
+    this.newsToTags.forEach((ntt: INewsToTag) => {
+      if (ntt.tagId) {
+        idArr.push(ntt.tagId);
+      }
+    });
+    return idArr;
+  }
 }

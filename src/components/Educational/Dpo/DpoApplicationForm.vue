@@ -72,7 +72,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      console.log('mount');
       store.commit('dpoApplications/resetItem');
       store.commit('dpoApplications/setFormValue', dpoCourse.value.formPattern);
       dpoApplication.value.formValue.initFieldsValues();

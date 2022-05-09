@@ -33,7 +33,7 @@ export default defineComponent({
       store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
       store.commit(
-        'filter/replaceSortModel',
+        'filters/replaceSortModel',
         SortModel.CreateSortModel(
           schema.value.educationalOrganizationAcademic.tableName,
           schema.value.educationalOrganizationAcademic.fullName,
@@ -43,7 +43,6 @@ export default defineComponent({
         )
       );
       filterQuery.value.pagination.cursorMode = false;
-      console.log(filterQuery.value);
       await store.dispatch('educationalOrganizationAcademics/getAll', filterQuery.value);
       store.commit('pagination/setCurPage', 1);
       mounted.value = true;

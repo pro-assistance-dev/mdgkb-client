@@ -4,9 +4,9 @@
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
         <div class="left-side-container">
-          <NewsEventsButtons @load="loadNews" />
+          <NewsEventsButtons @load="load" />
           <NewsCalendar />
-          <NewsFilters />
+          <NewsFilters @load="load" @load-news="loadNews" />
         </div>
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -30,19 +30,17 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import SortModel from '@/classes/filters/SortModel';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
 import NewsFilters from '@/components/News/NewsFilters.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import { Orders } from '@/interfaces/filters/Orders';
 import INews from '@/interfaces/news/INews';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'NewsList',
@@ -56,23 +54,16 @@ export default defineComponent({
     const news: ComputedRef<INews[]> = computed(() => Provider.store.getters['news/news']);
 
     const loadNews = async () => {
-      Provider.store.commit('news/clearNews');
+      Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 6;
       Provider.filterQuery.value.pagination.cursorMode = true;
-      const sortModel = SortModel.CreateSortModel(
-        Provider.schema.value.news.tableName,
-        Provider.schema.value.news.publishedOn,
-        Orders.Desc
-      );
-      Provider.setSortModel(sortModel);
-      const filterOnPublish = FilterModel.CreateFilterModel(
-        Provider.schema.value.news.tableName,
-        Provider.schema.value.news.publishedOn,
-        DataTypes.Date
-      );
-      filterOnPublish.date1 = new Date();
-      filterOnPublish.operator = Operators.Lt;
-      Provider.setFilterModel(filterOnPublish);
+      Provider.setSortModels(NewsSortsLib.byPublishedOn());
+      Provider.setFilterModels(NewsFiltersLib.onlyPublished());
+      await load();
+    };
+
+    const load = async () => {
+      Provider.store.commit('news/clearNews');
       await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
       Provider.store.commit('news/setFilteredNews');
       mount.value = true;
@@ -93,6 +84,7 @@ export default defineComponent({
     };
 
     return {
+      load,
       loading,
       allNewsLoaded,
       loadMore,

@@ -45,7 +45,7 @@ const mutations: MutationTree<State> = {
     state.menus = state.menus.filter((m: IAdminMenu) =>
       userPermissions.some((permission: IPathPermission) => permission.resource === m.to)
     );
-    // state.menus = state.menus.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+    // state.menus = state.menus.filters((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
     state.menus.forEach((m: IAdminMenu) => {
       if (!m.children) {
         return;
@@ -53,7 +53,7 @@ const mutations: MutationTree<State> = {
       m.children = m.children.filter((m: IAdminMenu) =>
         userPermissions.some((permission: IPathPermission) => permission.resource === m.to)
       );
-      // m.children = m.children.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+      // m.children = m.children.filters((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
     });
   },
   setApplicationsCounts(state, items: IApplicationsCount[]) {

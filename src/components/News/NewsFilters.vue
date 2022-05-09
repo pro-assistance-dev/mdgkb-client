@@ -16,53 +16,60 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
 
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ITag from '@/interfaces/news/ITag';
+import Provider from '@/services/Provider';
+import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 
 export default defineComponent({
   name: 'NewsFilters',
-  setup() {
-    const store = useStore();
-    const filterTags = computed(() => store.getters['news/filterTags']);
-    const tagList = computed(() => store.getters['tags/items']);
-    const filteredTagList = computed(() => store.getters['tags/filteredTagList']);
+  emits: ['load', 'loadNews'],
+  setup(_, { emit }) {
+    const filterTags = computed(() => Provider.store.getters['news/filterTags']);
+    const tagList = computed(() => Provider.store.getters['tags/items']);
+    const filteredTagList = computed(() => Provider.store.getters['tags/filteredTagList']);
     const tagListVisible = ref(false);
 
+    let filterModel: IFilterModel = NewsFiltersLib.filterByTags([]);
     const removeFilterTag = async (id: string) => {
-      await store.dispatch('news/removeFilterTag', id);
-      await store.dispatch('news/getAll');
-      await store.dispatch('tags/filterTagList', filterTags.value);
+      dropFilterModel();
     };
-    const addFilterTag = async (tag: ITag): Promise<void> => {
-      await store.dispatch('news/addFilterTag', tag);
-      await store.dispatch('news/getAll');
-      await store.dispatch('tags/filterTagList', filterTags.value);
-    };
+
     const resetFilterTags = async () => {
-      filterTags.value.forEach((tag: ITag) => (tag.selected = false));
-      await store.dispatch('news/resetFilterTags');
-      await store.dispatch('news/getAll');
-      await store.dispatch('tags/filterTagList', filterTags.value);
+      dropFilterModel();
+      filteredTagList.value.forEach((tag: ITag) => (tag.selected = false));
+      await Provider.store.dispatch('news/resetFilterTags');
+      emit('loadNews');
     };
+
     const loadTagList = async () => {
-      await store.dispatch('tags/getAll');
+      await Provider.store.dispatch('tags/getAll');
+    };
+
+    const dropFilterModel = () => {
+      Provider.store.commit('filter/spliceFilterModel', filterModel.id);
+      filterModel = NewsFiltersLib.filterByTags([]);
     };
 
     const chooseTag = async (tag: ITag) => {
-      if (tag.selected) {
-        await store.dispatch('news/removeFilterTag', tag.id);
-      } else {
-        await store.dispatch('news/addFilterTag', tag);
+      if (!tag.id) {
+        return;
       }
       tag.selected = !tag.selected;
-      await store.dispatch('news/getAll');
+      filterModel.addToSet(tag.id);
+      if (filterModel.set.length > 0) {
+        Provider.setFilterModels(filterModel);
+        emit('load');
+      } else {
+        dropFilterModel();
+        emit('loadNews');
+      }
     };
 
     onMounted(loadTagList);
     return {
       chooseTag,
-      addFilterTag,
       resetFilterTags,
       removeFilterTag,
       filterTags,

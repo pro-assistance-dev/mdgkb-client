@@ -24,7 +24,7 @@ export default class Building implements IBuilding {
     this.description = i.description;
     if (i.floors) {
       this.floors = i.floors.map((item: IFloor) => new Floor(item));
-      // .sort((a: IFloor, b: IFloor) => {
+      // .sorts((a: IFloor, b: IFloor) => {
       //   if (a.number && b.number) {
       //     return a.number - b.number;
       //   }
@@ -35,7 +35,7 @@ export default class Building implements IBuilding {
     }
     if (i.entrances) {
       this.entrances = i.entrances.map((item: IEntrance) => new Entrance(item));
-      // .sort((a: IEntrance, b: IEntrance) => {
+      // .sorts((a: IEntrance, b: IEntrance) => {
       //   if (a.number && b.number) {
       //     return a.number - b.number;
       //   }

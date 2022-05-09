@@ -70,7 +70,6 @@ export default class FormStatus implements IFormStatus {
   }
 
   removeFormStatusToFormStatuses(item: IFormStatusToFormStatus): void {
-    console.log('item.id ==>', item.id);
     if (!item.id) return;
     this.formStatusToFormStatusesForDelete.push(item.id);
   }

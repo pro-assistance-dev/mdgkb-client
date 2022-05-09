@@ -61,14 +61,14 @@ export default defineComponent({
     const filteredTagList: ComputedRef<ITag[]> = computed(() => store.getters['tags/filteredTagList']);
 
     const filterNews = async (tag: ITag): Promise<void> => {
-      tag.selected = !tag.selected;
-      filteredTagList.value.forEach((filterTag: ITag) => {
-        if (filterTag.id === tag.id) {
-          filterTag.selected = true;
-        }
-      });
-      await store.dispatch('news/addFilterTag', tag);
-      await store.dispatch('news/getAll');
+      // tag.selected = !tag.selected;
+      // filteredTagList.value.forEach((filterTag: ITag) => {
+      //   if (filterTag.id === tag.id) {
+      //     filterTag.selected = true;
+      //   }
+      // });
+      // await store.dispatch('news/addFilterTag', tag);
+      // await store.dispatch('news/getAll');
     };
 
     return {

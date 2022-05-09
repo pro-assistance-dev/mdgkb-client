@@ -85,7 +85,7 @@ export default defineComponent({
         Provider.schema.value.news.publishedOn,
         Orders.Desc
       );
-      Provider.setSortModel(sortModel);
+      Provider.setSortModels(sortModel);
       mounted.value = true;
     };
     Hooks.onBeforeMount(loadNews, {
