@@ -1,8 +1,8 @@
 <template>
   <div class="size">
     <div v-if="mounted" class="medical-profile-page-container">
-      <div class="side-container hidden-md-and-down">
-        <div class="left-field">
+      <div class="side-container">
+        <div class="side-item card-item">
           <!-- <h4 class="card-item-title">Преподаватели</h4>
             <el-divider /> -->
           <div v-if="residencyCourse.getMainTeacher()">
@@ -28,11 +28,13 @@
               {{ residencyCoursesTeacher.teacher.doctor.human.getFullName() }}
             </router-link>
           </div>
-          <div class="recent-news-footer">
-            <button @click="$router.push('/teachers')">Все преподаватели</button>
-          </div>
-          <div class="recent-news-footer">
-            <button @click="$router.push('/residency')">Все программы</button>
+          <div class="button-block">
+            <div class="recent-news-footer">
+              <button @click="$router.push('/teachers')">Все преподаватели</button>
+            </div>
+            <div class="recent-news-footer">
+              <button @click="$router.push('/residency')">Все программы</button>
+            </div>
           </div>
         </div>
 
@@ -242,7 +244,6 @@ $card-margin-size: 30px;
 .side-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
   width: $side-container-max-width;
   margin-right: $card-margin-size;
 
@@ -404,13 +405,6 @@ h4 {
   justify-content: center;
 }
 
-.right-field {
-  width: 100%;
-  // background: #ffffff;
-  // border-radius: 5px;
-  // border: 1px solid #dcdfe6;
-}
-
 .left-field {
   width: 303px;
 }
@@ -421,6 +415,64 @@ h4 {
 
 .font {
   color: #343e5c;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .medical-profile-page-container {
+    display: block;
+  }
+  .side-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0px;
+
+    .side-item {
+      margin-bottom: $card-margin-size;
+    }
+  }
+
+  .recent-news-footer {
+    width: 48%;
+  }
+
+  .button-block {
+    display: flex;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .medical-profile-page-container {
+    display: block;
+  }
+  .side-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0px;
+
+    .side-item {
+      margin-bottom: $card-margin-size;
+    }
+  }
+
+  .recent-news-footer {
+    margin: 0px;
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  .button-block {
+    display: block;
+  }
 }
 
 // :deep(.card-item) {

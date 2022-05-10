@@ -1,7 +1,7 @@
 <template>
   <div class="size">
     <div v-if="mounted" class="medical-profile-page-container">
-      <div class="side-container hidden-md-and-down">
+      <div class="side-container">
         <div class="side-item card-item">
           <!-- <h4 class="card-item-title">Преподаватели</h4>
             <el-divider /> -->
@@ -28,16 +28,18 @@
               {{ dpoCoursesTeacher.teacher.doctor.human.getFullName() }}
             </router-link>
           </div>
-          <div class="recent-news-footer">
-            <button @click="$router.push('/teachers')">Все преподаватели</button>
-          </div>
-          <div class="recent-news-footer">
-            <button @click="$router.push('/dpo')">Все программы</button>
-          </div>
-          <div class="recent-news-footer">
-            <a v-if="dpoCourse.linkNmo" :href="dpoCourse.linkNmo" target="_blank">
-              <button>Информация по циклу</button>
-            </a>
+          <div class="button-block">
+            <div class="recent-news-footer">
+              <button @click="$router.push('/teachers')">Все преподаватели</button>
+            </div>
+            <div class="recent-news-footer">
+              <button @click="$router.push('/dpo')">Все программы</button>
+            </div>
+            <div class="recent-news-footer">
+              <a :href="dpoCourse.linkNmo" target="_blank">
+                <button>Информация по циклу</button>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -204,8 +206,7 @@ $card-margin-size: 30px;
 .side-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: $side-container-max-width;
+  width: $side-container-max-width;
   margin-right: $card-margin-size;
 
   .side-item {
@@ -301,11 +302,13 @@ h4 {
   margin: 10px;
   margin-bottom: 15px;
   text-align: center;
+  width: 248px;
   button {
+    width: 100%;
     background-color: #2754eb;
-    border-radius: 40px;
+    border-radius: 5px;
     color: #ffffff;
-    padding: 12px 23px;
+    padding: 12px 0px;
     font-size: 14px;
     border: none;
     transition: background-color 0.25s ease;
@@ -366,6 +369,82 @@ h4 {
 
 .article-body {
   min-height: 53.5vh;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .medical-profile-page-container {
+    display: block;
+  }
+  .side-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0px;
+
+    .side-item {
+      margin-bottom: $card-margin-size;
+    }
+  }
+
+  .recent-news-footer {
+    margin: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 32%;
+    button {
+      width: 100%;
+      background-color: #2754eb;
+      border-radius: 5px;
+      color: #ffffff;
+      padding: 12px 0px;
+      font-size: 14px;
+      border: none;
+      transition: background-color 0.25s ease;
+      &:hover {
+        cursor: pointer;
+        background-color: darken(#2754eb, 10%);
+      }
+    }
+  }
+  .button-block {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .recent-news-footer {
+    margin: 0px;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+    button {
+      width: 100%;
+      background-color: #2754eb;
+      border-radius: 5px;
+      color: #ffffff;
+      padding: 12px 0px;
+      font-size: 14px;
+      border: none;
+      transition: background-color 0.25s ease;
+      &:hover {
+        cursor: pointer;
+        background-color: darken(#2754eb, 10%);
+      }
+    }
+  }
+
+  .button-block {
+    display: block;
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 400px) {
