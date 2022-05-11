@@ -25,7 +25,7 @@
         </el-table-column>
         <el-table-column prop="date" label="Дата добавления" align="center" width="200" sortable>
           <template #default="scope">
-            {{ $dateFormatRu(scope.row.date) }}
+            {{ $dateTimeFormatter.format(scope.row.date) }}
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">

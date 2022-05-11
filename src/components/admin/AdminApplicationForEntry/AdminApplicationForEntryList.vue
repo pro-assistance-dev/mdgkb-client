@@ -14,7 +14,7 @@
         </el-table-column>
         <el-table-column label="Дата заявки" sortable>
           <template #default="scope">
-            {{ $dateFormatRu(scope.row.date) }}
+            {{ $dateTimeFormatter.format(scope.row.date) }}
           </template>
         </el-table-column>
         <el-table-column prop="movedIn" label="Въехал" sortable>

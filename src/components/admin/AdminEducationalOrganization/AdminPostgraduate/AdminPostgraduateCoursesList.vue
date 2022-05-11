@@ -90,9 +90,8 @@ export default defineComponent({
     const create = () => router.push(`${route.path}/new`);
     const edit = (id: string) => router.push(`${route.path}/${id}`);
     const remove = async (id: string) => await store.dispatch('postgraduateCourses/remove', id);
-    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
 
-    return { mounted, postgraduateCourses, remove, edit, create, fillDateFormat };
+    return { mounted, postgraduateCourses, remove, edit, create };
   },
 });
 </script>

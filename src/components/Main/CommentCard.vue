@@ -8,7 +8,7 @@
         </div>
         <div class="right">
           <span class="name">{{ comment.user.email }}</span>
-          <span class="time">{{ $dateFormatRu(comment.publishedOn, true) }}</span>
+          <span class="time">{{ $dateTimeFormatter.format(comment.publishedOn, { month: 'long' }) }}</span>
         </div>
       </div>
     </template>
