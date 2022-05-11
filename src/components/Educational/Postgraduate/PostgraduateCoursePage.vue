@@ -37,6 +37,13 @@
             </div>
           </div>
 
+          <div class="left-field">
+            <div class="left-field-title">
+              <b>Стоимость:</b> <br />
+              <div class="font">{{ postgraduateCourse.cost }} рублей.</div>
+            </div>
+          </div>
+
           <div v-if="postgraduateCourse.postgraduateCoursesSpecializations.length" class="left-field">
             <div class="left-field-title">
               <b>Специальность:</b> <br />
@@ -71,6 +78,15 @@
               style="margin-right: 10px"
             >
               Образовательная программа</a
+            >
+            <a
+              v-if="postgraduateCourse.annotation.fileSystemPath"
+              :href="postgraduateCourse.annotation.getFileUrl()"
+              :download="postgraduateCourse.annotation.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Аннотации рабочих программ дисциплин</a
             >
             <a
               v-if="postgraduateCourse.calendar.fileSystemPath"
