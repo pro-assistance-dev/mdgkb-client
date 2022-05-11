@@ -108,7 +108,7 @@ export default defineComponent({
 
     const loadNews = async () => {
       store.commit('news/clearNews');
-      await store.dispatch('news/getAllMain');
+      // await store.dispatch('news/getAllMain');
       await store.commit('news/setFilteredNews');
     };
 
@@ -127,10 +127,10 @@ export default defineComponent({
     };
 
     // const loadDoctors = async (): Promise<void> => {
-    //   const filter: IFilterQuery = store.getters['filter/filterQuery'];
-    //   filter.limit = 8;
-    //   filter.main = true;
-    //   await store.dispatch('doctors/getAll', filter);
+    //   const filters: IFilterQuery = store.getters['filter/filterQuery'];
+    //   filters.limit = 8;
+    //   filters.main = true;
+    //   await store.dispatch('doctors/getAll', filters);
     // };
 
     // const loadComments = async (): Promise<void> => {

@@ -52,7 +52,7 @@ const mutations: MutationTree<State> = {
       m.children = m.children.filter((m: IAdminMenu) =>
         userPermissions.some((permission: IPathPermission) => permission.resource === m.to)
       );
-      // m.children = m.children.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+      // m.children = m.children.filters((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
     });
   },
   setApplicationsCounts(state, items: IApplicationsCount[]) {

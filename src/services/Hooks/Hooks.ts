@@ -1,4 +1,4 @@
-import { computed, ComputedRef, onBeforeMount } from 'vue';
+import { onBeforeMount } from 'vue';
 
 import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -19,13 +19,13 @@ export interface IPaginationOptions {
 type func = (filterQuery: IFilterQuery) => void;
 
 const Hooks = (() => {
-  const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
+  // const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
       Provider.store.commit('admin/showLoading');
+      Provider.store.commit(`filter/resetQueryFilter`);
       await Provider.store.dispatch('meta/getSchema');
       if (options?.pagination) {
-        Provider.store.commit(`filter/resetQueryFilter`);
         Provider.store.commit('filter/setStoreModule', options.pagination.storeModule);
         Provider.store.commit('filter/setAction', options.pagination.action);
         Provider.store.commit('pagination/setCurPage', 1);
@@ -36,8 +36,10 @@ const Hooks = (() => {
       if (options && options.sortModels.length > 0) {
         Provider.store.commit('filter/replaceSortModel', options.sortModels[0]);
       }
-      filterQuery.value.pagination.cursorMode = false;
-      await f(filterQuery.value);
+      if (Provider.filterQuery.value) {
+        Provider.filterQuery.value.pagination.cursorMode = false;
+      }
+      await f(Provider.filterQuery.value);
 
       Provider.store.commit('admin/closeLoading');
     });

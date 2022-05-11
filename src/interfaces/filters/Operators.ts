@@ -1,5 +1,6 @@
 export enum Operators {
   Eq = '=',
+  Ne = '!=',
   Gt = '>',
   Lt = '<',
   Btw = 'between',

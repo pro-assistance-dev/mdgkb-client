@@ -11,6 +11,10 @@
                   <FileUploader :file-info="postgraduateCourse.questionsFile" />
                 </el-card>
                 <el-card>
+                  <template #header>Аннотации рабочих программ дисциплин </template>
+                  <FileUploader :file-info="postgraduateCourse.annotation" />
+                </el-card>
+                <el-card>
                   <template #header>Образовательная программа</template>
                   <FileUploader :file-info="postgraduateCourse.programFile" />
                 </el-card>
@@ -152,6 +156,12 @@
             <el-card>
               <template #header> Нормативный срок обучения </template>
               <el-input-number v-model="postgraduateCourse.years"> </el-input-number> года
+            </el-card>
+            <el-card>
+              <template #header>Стоимость</template>
+              <el-form-item prop="listeners">
+                <el-input-number v-model="postgraduateCourse.cost" />
+              </el-form-item>
             </el-card>
             <el-card>
               <el-container direction="vertical">

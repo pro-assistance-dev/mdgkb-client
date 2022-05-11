@@ -58,7 +58,7 @@ export default defineComponent({
     const dates = [
       { id: 1, label: 'Сегодня', dates: {}, date: new Date() },
       { id: 2, label: 'Вчера', dates: {}, date: getDateDiff(-1) },
-      { id: 3, label: 'На прошлой неделе', dates: { date1: getDateDiff(-14), date2: getDateDiff(-7) } },
+      { id: 3, label: 'На прошлой неделе', dates: { date1: getDateDiff(-7), date2: getDateDiff(-1) } },
       { id: 4, label: 'За прошлый месяц', dates: { date1: getDateDiff(-30), date2: getDateDiff(-1) } },
     ];
 

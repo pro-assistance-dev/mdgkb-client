@@ -30,8 +30,8 @@ export default class News implements INews {
   subMain = false;
   newsToTags: INewsToTag[] = [];
   newsToCategories: INewsToCategory[] = [];
-  fileInfo: IFileInfo = new FileInfo();
-  fileInfoId?: string;
+  previewImage: IFileInfo = new FileInfo();
+  previewImageId?: string;
   mainImage = new FileInfo();
   mainImageId?: string;
   articleLink = '';
@@ -59,7 +59,7 @@ export default class News implements INews {
     this.status = news.status;
     this.title = news.title;
     this.previewText = news.previewText;
-    this.fileInfoId = news.fileInfoId;
+    this.previewImageId = news.previewImageId;
     this.mainImageId = news.mainImageId;
     this.mainImageDescription = news.mainImageDescription;
     this.content = news.content;
@@ -75,8 +75,8 @@ export default class News implements INews {
     if (news.newsToTags) {
       this.newsToTags = news.newsToTags.map((item: INewsToTag) => new NewsToTag(item));
     }
-    if (news.fileInfo) {
-      this.fileInfo = new FileInfo(news.fileInfo);
+    if (news.previewImage) {
+      this.previewImage = new FileInfo(news.previewImage);
     }
     if (news.mainImage) {
       this.mainImage = new FileInfo(news.mainImage);
@@ -119,8 +119,8 @@ export default class News implements INews {
   }
 
   getImageUrl(): string {
-    if (this.fileInfo.fileSystemPath) {
-      return this.fileInfo.getFileUrl();
+    if (this.previewImage.fileSystemPath) {
+      return this.previewImage.getFileUrl();
     }
     const numberOfImg = Math.floor(Math.random() * (50 - 1 + 1) + 1);
     return require(`../../assets/news/img${numberOfImg}.webp`);
@@ -129,5 +129,24 @@ export default class News implements INews {
   getStrippedContent(): string {
     const regex = /(<([^>]+)>)/gi;
     return this.content.replace(regex, '');
+  }
+
+  getTagsIds(): string[] {
+    const idArr: string[] = [];
+    this.newsToTags.forEach((ntt: INewsToTag) => {
+      if (ntt.tagId) {
+        idArr.push(ntt.tagId);
+      }
+    });
+    return idArr;
+  }
+
+  removeMainImage(): void {
+    this.mainImage = new FileInfo();
+    this.mainImageId = undefined;
+  }
+  removePreviewImage(): void {
+    this.previewImage = new FileInfo();
+    this.previewImageId = undefined;
   }
 }

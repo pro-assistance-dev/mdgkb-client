@@ -5,7 +5,7 @@
         <NewsCalendar />
       </div>
       <div class="side-item">
-        <RecentNewsCard />
+        <RecentNewsCard :key="$route.fullPath" />
       </div>
       <div v-if="news.newsDoctors.length" class="side-item">
         <NewsDoctorsCard :news-doctors="news.newsDoctors" />
@@ -20,7 +20,7 @@
           <div class="article-preview">{{ news.previewText }}</div>
         </div>
         <div v-if="news.event && news.event.form.id" class="card-header action-container">
-          <EventRegistration store-name="news" :parent-id="news.id" />
+          <EventRegistration Provider.store-name="news" :parent-id="news.id" />
         </div>
         <div v-if="news.isArticle" class="card-header action-container">
           <a :href="news.articleLink">
@@ -36,20 +36,18 @@
         <el-divider />
         <NewsPageFooter :news="news" />
         <el-divider />
-        <Comments store-module="news" :parent-id="news.id" :is-reviews="false" />
+        <!--        <Comments Provider.store-module="news" :parent-id="news.id" :is-reviews="false" />-->
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
 import NewsComment from '@/classes/news/NewsComment';
-import Comments from '@/components/Comments/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
@@ -57,31 +55,51 @@ import NewsDoctorsCard from '@/components/News/NewsDoctorsCard.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
 import INews from '@/interfaces/news/INews';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsDoctorsCard, NewsPageFooter, NewsCalendar, RecentNewsCard, ImageGallery, Comments, EventRegistration },
+  components: { NewsDoctorsCard, NewsPageFooter, NewsCalendar, RecentNewsCard, ImageGallery, EventRegistration },
 
   async setup() {
     let comment = ref(new NewsComment());
     const commentInput = ref();
-    const store = useStore();
     const route = useRoute();
     const mounted: Ref<boolean> = ref(false);
     const slug = computed(() => route.params['slug']);
-    const news: ComputedRef<INews> = computed<INews>(() => store.getters['news/newsItem']);
+    const news: ComputedRef<INews> = computed<INews>(() => Provider.store.getters['news/newsItem']);
 
-    watch(slug, () => {
+    watch(slug, async () => {
       if (slug.value) {
-        store.dispatch('news/get', slug.value);
+        await load();
       }
     });
 
-    onBeforeMount(async () => {
-      await store.dispatch('news/get', slug.value);
-      await store.dispatch('news/getAll');
+    const load = async () => {
+      await Provider.store.dispatch('news/get', slug.value);
+      await loadRelatedNews();
       mounted.value = true;
-    });
+      window.scrollTo(0, 0);
+    };
+
+    const loadRelatedNews = async () => {
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 3;
+      Provider.setSortModels(NewsSortsLib.byViewsCount(), NewsSortsLib.byPublishedOn());
+
+      Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.excludeSlug(slug.value as string));
+      Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.excludeSlug(slug.value as string));
+      const filtersIds = news.value.getTagsIds();
+      if (filtersIds.length > 0) {
+        Provider.setFilterModels(NewsFiltersLib.filterByTags(filtersIds));
+      }
+      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+    };
+
+    Hooks.onBeforeMount(load);
 
     const newsContent = computed(() =>
       news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'

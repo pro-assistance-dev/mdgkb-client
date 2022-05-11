@@ -20,14 +20,19 @@ import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: INews[]) {
+  setAll(state, items: INewsWithCount) {
     state.allNewsLoaded = false;
-    const news = items.map((i: INews) => new News(i));
-    state.news.push(...news);
-    if (items.length === 0 || (state.params.limit && state.params.limit > items.length)) {
+    state.count = items.count;
+    state.news = items.news.map((i: INews) => new News(i));
+    if (items.news.length === 0 || (state.params.limit && state.params.limit > items.news.length)) {
       state.allNewsLoaded = true;
       return;
     }
+  },
+  appendToAll(state, items: INewsWithCount) {
+    const itemsForAdding = items.news.map((i: INews) => new News(i));
+    state.news.push(...itemsForAdding);
+    state.count = items.count;
   },
   clearNews(state) {
     state.news = [];
@@ -35,17 +40,8 @@ const mutations: MutationTree<State> = {
   count(state): number {
     return state.count;
   },
-  setAllAdmin(state, items: INewsWithCount) {
-    state.news = items.news.map((a: INews) => new News(a));
-    state.count = items.count;
-  },
-  setAllMain(state, items: INews[]) {
-    state.news = items.map((a: INews) => new News(a));
-  },
   set(state, item?: INews) {
     state.newsItem = new News(item);
-    if (state.newsItem.fileInfo.fileSystemPath) state.previewFileList[0] = state.newsItem.fileInfo.getFileListObject();
-    if (state.newsItem.mainImage.fileSystemPath) state.mainImageList[0] = state.newsItem.mainImage.getFileListObject();
     state.galleryList = [];
     state.newsItem.newsImages.forEach((i: INewsImage) => {
       if (!i.fileInfo) {
@@ -61,15 +57,11 @@ const mutations: MutationTree<State> = {
   resetState(state) {
     Object.assign(state, getDefaultState());
   },
-  clearPreviewFile(state) {
-    if (!state.newsItem) return;
-    state.newsItem.fileInfo = new FileInfo();
-  },
-  setCalendarNews(state, items: INews[]) {
+  setCalendarNews(state, items: INewsWithCount) {
     if (!items) {
       return;
     }
-    state.calendarNews = items.map((i: INews) => new News(i));
+    state.calendarNews = items.news.map((i: INews) => new News(i));
   },
   remove(state, id: string) {
     const index = state.news.findIndex((i: INews) => i.id === id);
@@ -157,11 +149,6 @@ const mutations: MutationTree<State> = {
   setParentIdToComment(state, parentId: string) {
     state.comment.newsId = parentId;
   },
-  setFileInfo(state, fileInfo: IFileInfo) {
-    if (state.newsItem) {
-      state.newsItem.fileInfo = fileInfo;
-    }
-  },
   setMainImage(state, fileInfo: IFileInfo) {
     if (state.newsItem) {
       state.newsItem.mainImage = fileInfo;
@@ -193,13 +180,6 @@ const mutations: MutationTree<State> = {
     const image = FileInfo.CreatePreviewFile(file, 'gallery');
     if (image.fileSystemPath) state.newsItem.newsImagesNames.push(image.fileSystemPath);
     state.newsItem.newsImages.push(new NewsImage({ fileInfo: image }));
-  },
-  setPreviewFile(state, file: IFile) {
-    state.newsItem.fileInfo.file = file.blob;
-    state.newsItem.fileInfo.category = 'previewFile';
-    if (state.newsItem.fileInfo.fileSystemPath) {
-      state.previewFileList[0] = { name: state.newsItem.fileInfo.fileSystemPath, url: file.src };
-    }
   },
   saveFromCropperMain(state, file: IFile) {
     state.newsItem.mainImage.file = file.blob;

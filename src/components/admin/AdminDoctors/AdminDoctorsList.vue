@@ -78,7 +78,7 @@ export default defineComponent({
       store.commit('filter/setStoreModule', 'doctors');
       store.commit('filter/setAction', 'getAllAdmin');
       store.commit(
-        'filter/replaceSortModel',
+        'filters/replaceSortModel',
         SortModel.CreateSortModel(schema.value.doctor.tableName, schema.value.doctor.fullName, Orders.Asc, 'По алфавиту', true)
       );
       filterQuery.value.pagination.cursorMode = false;

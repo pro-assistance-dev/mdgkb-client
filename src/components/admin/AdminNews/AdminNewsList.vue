@@ -1,5 +1,8 @@
 <template>
-  <div class="flex-column">
+  <div v-if="mounted" class="flex-column">
+    <RemoteSearch :key-value="schema.news.key" @select="selectSearch" />
+    <SortList :models="sortList" :store-mode="true" @load="loadNews" />
+    <FilterSelectDate :table="schema.news.tableName" :col="schema.news.publishedOn" placeholder="Дата публикации" @load="loadNews" />
     <el-card>
       <el-table v-if="news" :data="news">
         <el-table-column prop="title" label="Заголовок" sortable width="400px"> </el-table-column>
@@ -42,56 +45,69 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
+import SortList from '@/components/SortList/SortList.vue';
+import ISortModel from '@/interfaces/filters/ISortModel';
+import ISearchObject from '@/interfaces/ISearchObject';
 import INews from '@/interfaces/news/INews';
+import ISchema from '@/interfaces/schema/ISchema';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'AdminNewsList',
-  components: { TableButtonGroup, Pagination },
+  components: { FilterSelectDate, TableButtonGroup, Pagination, RemoteSearch, SortList },
   setup() {
-    const store = useStore();
-    const router = useRouter();
-    const news = computed(() => store.getters['news/news']);
-
+    const news = computed(() => Provider.store.getters['news/news']);
+    const mounted = ref(false);
     const addNews = () => {
-      router.push('/admin/news/new');
+      Provider.router.push('/admin/news/new');
     };
-
+    const sortList: Ref<ISortModel[]> = ref([]);
+    const schema: Ref<ISchema> = ref(Provider.schema.value);
     const edit = async (id: string): Promise<void> => {
       const item = news.value.find((i: INews) => i.id === id);
-      if (item) await router.push(`/admin/news/${item.slug}`);
+      if (item) await Provider.router.push(`/admin/news/${item.slug}`);
     };
 
     const remove = async (id: string) => {
-      await store.dispatch('news/remove', id);
+      await Provider.store.dispatch('news/remove', id);
     };
 
     const loadNews = async (): Promise<void> => {
-      store.commit('news/clearNews');
-      const filter = store.getters['filter/filterQuery'];
-      filter.limit = 25;
-      await store.dispatch('news/getAllAdmin', filter);
-      store.commit('admin/setHeaderParams', {
+      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+    };
+
+    const load = async (): Promise<void> => {
+      sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
+      Provider.store.commit('news/clearNews');
+      Provider.filterQuery.value.limit = 25;
+      Provider.setSortModels(NewsSortsLib.byPublishedOn());
+      await loadNews();
+      Provider.store.commit('admin/setHeaderParams', {
         title: 'Новости',
         buttons: [{ text: 'Добавить новость', type: 'primary', action: addNews }],
       });
+      schema.value = Provider.schema.value;
+      mounted.value = true;
     };
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      store.commit('filter/setStoreModule', 'news');
-      store.commit('filter/setAction', 'getAllAdmin');
-      await loadNews();
-      store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'news', action: 'getAll' },
+      sortModels: [],
     });
 
-    return { news, edit, remove };
+    const selectSearch = async (event: ISearchObject): Promise<void> => {
+      await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.id } });
+    };
+
+    return { news, edit, remove, mounted, selectSearch, schema, sortList, loadNews };
   },
 });
 </script>

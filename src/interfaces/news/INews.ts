@@ -20,8 +20,8 @@ export default interface INews {
   subMain: boolean;
   newsToCategories: INewsToCategory[];
   newsToTags: INewsToTag[];
-  fileInfoId?: string;
-  fileInfo: IFileInfo;
+  previewImageId?: string;
+  previewImage: IFileInfo;
   mainImageId?: string;
   mainImage: IFileInfo;
   mainImageDescription: string;
@@ -48,4 +48,7 @@ export default interface INews {
   removeDoctor: (index: number) => void;
 
   getStrippedContent: () => string;
+  getTagsIds: () => string[];
+  removeMainImage: () => void;
+  removePreviewImage: () => void;
 }

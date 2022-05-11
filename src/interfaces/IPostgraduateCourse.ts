@@ -15,12 +15,16 @@ export default interface IPostgraduateCourse {
   educationForm: string;
   years: number;
   slug: string;
+  cost: number;
   postgraduateCoursesTeachers: IPostgraduateCourseTeacher[];
   postgraduateCoursesTeachersForDelete: string[];
   postgraduateCoursesSpecializations: IPostgraduateCourseSpecialization[];
   postgraduateCoursesSpecializationsForDelete: string[];
   postgraduateCoursesDates: IPostgraduateCourseDates[];
   postgraduateCoursesDatesForDelete: string[];
+
+  annotation: IFileInfo;
+  annotationId?: string;
 
   questionsFile: IFileInfo;
   questionsFileId?: string;

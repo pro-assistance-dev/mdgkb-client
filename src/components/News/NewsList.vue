@@ -4,9 +4,9 @@
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
         <div class="left-side-container">
-          <NewsEventsButtons @load="loadNews" />
+          <NewsEventsButtons @load="load" />
           <NewsCalendar />
-          <NewsFilters />
+          <NewsFilters @load="load" @load-news="loadNews" />
         </div>
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -28,47 +28,65 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
 import NewsFilters from '@/components/News/NewsFilters.vue';
+import { Operators } from '@/interfaces/filters/Operators';
+import INews from '@/interfaces/news/INews';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'NewsList',
   components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters, LoadMoreButton },
   emits: ['add', 'remove'],
   setup() {
-    const store = useStore();
-    const loading = ref(false);
-    const allNewsLoaded = computed(() => store.getters['news/allNewsLoaded']);
+    const allNewsLoaded = computed(() => Provider.store.getters['news/allNewsLoaded']);
     const mount = ref(false);
+    const loading = ref(false);
 
-    const news = computed(() => store.getters['news/news']);
+    const news: ComputedRef<INews[]> = computed(() => Provider.store.getters['news/news']);
 
     const loadNews = async () => {
-      store.commit('news/clearNews');
-      await store.dispatch('news/getAll');
-      store.commit('news/setFilteredNews');
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 6;
+      Provider.filterQuery.value.pagination.cursorMode = true;
+      Provider.setSortModels(NewsSortsLib.byPublishedOn());
+      Provider.setFilterModels(NewsFiltersLib.onlyPublished());
+      await load();
     };
 
-    onBeforeMount(async () => {
-      await loadNews();
+    const load = async () => {
+      Provider.store.commit('news/clearNews');
+      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      Provider.store.commit('news/setFilteredNews');
       mount.value = true;
-    });
+    };
+
+    Hooks.onBeforeMount(loadNews);
 
     const loadMore = async () => {
       loading.value = true;
-      await store.dispatch('news/getAll');
-      // store.commit('news/setFilteredNews');
+      Provider.filterQuery.value.pagination.cursor.value = news.value[news.value.length - 1].publishedOn;
+      Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
+      Provider.filterQuery.value.pagination.cursor.column = Provider.schema.value.news.publishedOn;
+      Provider.filterQuery.value.pagination.cursor.initial = false;
+      Provider.filterQuery.value.pagination.cursorMode = true;
+
+      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      // Provider.store.commit('news/setFilteredNews');
     };
 
     return {
-      allNewsLoaded,
+      load,
       loading,
+      allNewsLoaded,
       loadMore,
       loadNews,
       news,

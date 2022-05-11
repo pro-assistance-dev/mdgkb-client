@@ -116,6 +116,13 @@ export default defineComponent({
           'По коду специальности',
           false
         ),
+        SortModel.CreateSortModel(
+          schema.value.postgraduateCourse.tableName,
+          schema.value.postgraduateCourse.cost,
+          Orders.Asc,
+          'По стоимости',
+          false
+        ),
       ];
       store.commit(`filter/addSortModels`, sortModels);
       return sortModels;

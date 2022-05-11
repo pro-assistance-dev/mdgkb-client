@@ -61,11 +61,14 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDpoApplication>({ query: `slug/${slug}` });
     commit('set', res);
   },
-  subscribeCreate: async ({ commit }): Promise<void> => {
+  subscribeCreate: async ({ commit }, isNmo: boolean): Promise<void> => {
     const c = new HttpClient('subscribe');
     source = await c.subscribe<IDpoApplication>({ query: 'dpo-application-create' });
     source.onmessage = function (e) {
-      commit('appendToAll', [e.data]);
+      const application = JSON.parse(e.data) as IDpoApplication;
+      if (application.dpoCourse.isNmo === isNmo) {
+        commit('unshiftToAll', application);
+      }
     };
   },
   unsubscribeCreate: async ({ commit }): Promise<void> => {
