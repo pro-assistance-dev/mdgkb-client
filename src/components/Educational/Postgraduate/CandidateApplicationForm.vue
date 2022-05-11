@@ -50,6 +50,7 @@ import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
 import ISchema from '@/interfaces/schema/ISchema';
 import validate from '@/mixins/validate';
+import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'CandidateApplicationForm',
@@ -76,6 +77,15 @@ export default defineComponent({
     });
 
     const submit = async () => {
+      if (emailExists.value) {
+        ElMessage({
+          type: 'error',
+          dangerouslyUseHTMLString: true,
+          message: document.querySelector('#error-block-message')?.innerHTML || '',
+        });
+        scroll('error-block-message');
+        return;
+      }
       candidateApplication.value.formValue.validate();
       if (!validate(form, true) || !candidateApplication.value.formValue.validated) {
         return;

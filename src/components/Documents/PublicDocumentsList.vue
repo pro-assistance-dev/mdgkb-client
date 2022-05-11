@@ -24,7 +24,7 @@
               </el-table-column>
               <el-table-column prop="name" align="left" min-width="130" resizable>
                 <!-- <template #header>
-                  <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти документ" size="large" />
+                  <el-input v-model="filters" prefix-icon="el-icon-search" placeholder="Найти документ" size="large" />
                 </template> -->
                 <template #default="scope"> {{ scope.row.name }} </template>
               </el-table-column>

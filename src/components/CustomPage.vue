@@ -69,7 +69,6 @@ export default defineComponent({
     watch(slug, () => {
       if (slug.value) {
         store.dispatch('news/get', slug.value);
-        window.scrollTo(0, 0);
       }
     });
     await store.dispatch('pages/getBySlug', slug.value);

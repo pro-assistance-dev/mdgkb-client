@@ -42,6 +42,7 @@ import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
+import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'ResidencyApplicationForm',
@@ -70,6 +71,15 @@ export default defineComponent({
     };
 
     const submit = async () => {
+      if (emailExists.value) {
+        ElMessage({
+          type: 'error',
+          dangerouslyUseHTMLString: true,
+          message: document.querySelector('#error-block-message')?.innerHTML || '',
+        });
+        scroll('error-block-message');
+        return;
+      }
       residencyApplication.value.formValue.validate();
       if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
         return;
@@ -84,7 +94,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      console.log(residencyCourse.value);
       store.commit('residencyApplications/resetItem');
       store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
       residencyApplication.value.formValue.initFieldsValues();

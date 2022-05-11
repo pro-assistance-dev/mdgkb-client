@@ -74,7 +74,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['crop'],
+  emits: ['crop', 'removeFile'],
 
   setup(props, { emit }) {
     const fileList: Ref<IFilesList[]> = ref([]);
@@ -110,6 +110,7 @@ export default defineComponent({
     const handleRemove = () => {
       uploader.value.clearFiles();
       showUpload.value = !showUpload.value;
+      emit('removeFile');
     };
 
     const crop = (file: IFile) => {

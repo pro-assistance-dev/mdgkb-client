@@ -13,7 +13,9 @@ export default class AdminHeaderParams implements IAdminHeaderParams {
       return;
     }
     this.title = adminHeaderParams.title;
-    this.showBackButton = adminHeaderParams.showBackButton;
+    if (adminHeaderParams.showBackButton !== undefined) {
+      this.showBackButton = adminHeaderParams.showBackButton;
+    }
     if (adminHeaderParams.buttons) {
       this.buttons = adminHeaderParams.buttons.map((item: IAdminButtonParams) => new AdminButtonParams(item));
     }

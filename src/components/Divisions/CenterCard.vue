@@ -4,7 +4,7 @@
       <div class="flex-column left-side">
         <div class="doctor-img" @click="$router.push({ name: `CenterPage`, params: { id: center.id, slug: center.slug } })">
           <!--          <img v-if="doctor.photoMini.fileSystemPath" :src="doctor.photoMini.getImageUrl()" alt="alt" @error="errorImg" />-->
-          <img src="@/assets/img/building-default.png" />
+          <img src="@/assets/img/building-default.webp" />
           <div class="favor">
             <FavouriteIcon :domain-id="center.id" domain-name="center" />
           </div>
@@ -82,7 +82,7 @@ export default defineComponent({
   setup() {
     const errorImg = (event: Event) => {
       if (event.target) {
-        (event.target as HTMLImageElement).src = require('@/assets/img/doctor-default.png');
+        (event.target as HTMLImageElement).src = require('@/assets/img/doctor-default.webp');
       }
     };
 

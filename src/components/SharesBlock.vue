@@ -3,8 +3,8 @@
     <div style="margin-right: 5px">Поделиться:</div>
     <ShareNetwork v-for="share in shares" :key="share.name" :network="share.name" :url="url" :title="title" :description="description">
       <div class="share-item">
-        <img class="black" :src="require(`@/assets/img/social/${share.icon}.png`)" :alt="share.name" />
-        <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.png`)" :alt="share.name" />
+        <img class="black" :src="require(`@/assets/img/social/${share.icon}.webp`)" :alt="share.name" />
+        <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.webp`)" :alt="share.name" />
       </div>
     </ShareNetwork>
   </div>

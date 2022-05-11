@@ -3,7 +3,7 @@
     <div class="flex-row">
       <div class="flex-column left-side">
         <AvatarWithFavourite
-          error-img-name="building-default.png"
+          error-img-name="building-default.webp"
           :domain-id="division.id"
           domain-name="division"
           :img-link="{ name: `DivisionPage`, params: { id: division.id, slug: division.slug } }"

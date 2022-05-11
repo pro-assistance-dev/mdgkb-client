@@ -1,6 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminDoctorPage from '@/components/admin/AdminDoctors/AdminDoctorPage.vue';
+import AdminDoctorPageContainer from '@/components/admin/AdminDoctors/AdminDoctorPageContainer.vue';
 import AdminDoctorsList from '@/components/admin/AdminDoctors/AdminDoctorsList.vue';
 import { authGuard, isAuthorized } from '@/router/index';
 
@@ -20,7 +20,7 @@ export default [
   {
     path: '/admin/doctors/new',
     name: 'AdminNewDoctorPage',
-    component: AdminDoctorPage,
+    component: AdminDoctorPageContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
@@ -32,7 +32,7 @@ export default [
   {
     path: '/admin/doctors/:id',
     name: 'AdminEditDoctorPage',
-    component: AdminDoctorPage,
+    component: AdminDoctorPageContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

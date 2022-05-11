@@ -73,6 +73,8 @@ export default defineComponent({
 
     watch(route, async () => {
       setType();
+      await unsubscribe();
+      await subscribe();
       await store.dispatch('dpoApplications/getAll', filterQuery.value);
     });
 
@@ -91,7 +93,7 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       store.commit(`filter/resetQueryFilter`);
       store.commit(
-        'filter/replaceSortModel',
+        'filters/replaceSortModel',
         SortModel.CreateSortModel(
           schema.value.dpoApplication.tableName,
           schema.value.dpoApplication.createdAt,
@@ -121,10 +123,19 @@ export default defineComponent({
       });
       store.commit('pagination/setCurPage', 1);
       store.commit('admin/closeLoading');
-      await store.dispatch('dpoApplications/subscribeCreate');
+      await subscribe();
+      window.addEventListener('beforeunload', unsubscribe);
       mounted.value = true;
     });
 
+    const subscribe = async () => {
+      const isNmo = route.path === '/admin/nmo/applications';
+      await store.dispatch('dpoApplications/subscribeCreate', isNmo);
+    };
+
+    const unsubscribe = async () => {
+      await store.dispatch('dpoApplications/unsubscribeCreate');
+    };
     onBeforeUnmount(async () => {
       await store.dispatch('dpoApplications/unsubscribeCreate');
     });

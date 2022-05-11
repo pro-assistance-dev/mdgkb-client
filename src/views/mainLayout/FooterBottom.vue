@@ -4,7 +4,7 @@
       <el-row align="middle" justify="center">
         <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="4">
           <div class="image flex-center">
-            <img src="@/assets/img/mdgkb-logo-vert.png" />
+            <img src="@/assets/img/mdgkb-logo-vert.webp" />
           </div>
         </el-col>
         <el-col :xl="2">

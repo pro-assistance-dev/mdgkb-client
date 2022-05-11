@@ -70,7 +70,7 @@ export default defineComponent({
       store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
       store.commit(
-        'filter/replaceSortModel',
+        'filters/replaceSortModel',
         SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true)
       );
       filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);

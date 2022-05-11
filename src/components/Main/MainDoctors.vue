@@ -12,9 +12,9 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
@@ -37,9 +37,9 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      const filter: IFilterQuery = store.getters['filter/filterQuery'];
-      filter.limit = 8;
-      await store.dispatch('doctors/getAllMain', filter);
+      const fq = new FilterQuery();
+      fq.pagination.limit = 8;
+      await store.dispatch('doctors/getAllMain', fq);
       carousel.value = makeCarousel(doctors.value, 3);
       mounted.value = true;
     });

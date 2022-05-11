@@ -56,6 +56,7 @@ export default defineComponent({
     );
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
     const router = useRouter();
+
     onBeforeMount(async () => {
       // const params: INewsParams = {
       //   limit: 5,
@@ -76,10 +77,11 @@ export default defineComponent({
 
     const getNewsAndRecent = async (slug: string): Promise<void> => {
       await router.push(`/news/${slug}`);
-      await store.dispatch('news/getAll');
+      // await store.dispatch('news/getAll');
     };
 
     return {
+      news,
       getNewsAndRecent,
       recentNewsList,
     };

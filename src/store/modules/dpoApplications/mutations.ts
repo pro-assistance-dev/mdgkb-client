@@ -19,6 +19,9 @@ const mutations: MutationTree<State> = {
     const itemsForAdding = items.map((i: IDpoApplication) => new DpoApplication(i));
     state.items.push(...itemsForAdding);
   },
+  unshiftToAll(state, item: IDpoApplication) {
+    state.items.unshift(new DpoApplication(item));
+  },
   set(state, item: IDpoApplication) {
     state.item = new DpoApplication(item);
   },

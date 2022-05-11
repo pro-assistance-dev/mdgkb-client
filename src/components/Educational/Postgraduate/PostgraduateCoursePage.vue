@@ -174,7 +174,7 @@ export default defineComponent({
     };
     const closeRespondForm = () => {
       showForm.value = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      scroll();
     };
 
     onBeforeMount(async () => {

@@ -1,7 +1,7 @@
 <template>
-  <el-form>
+  <el-form v-if="mounted">
     <el-form-item>
-      <el-select v-model="selectedModel" :clearable="!defaultSortOn" :placeholder="selectedModel" @change="setSort">
+      <el-select v-model="sortModel" value-key="label" :clearable="!defaultSortOn" :placeholder="sortModel.label" @change="setSort">
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item" />
       </el-select>
     </el-form-item>
@@ -9,11 +9,11 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'SortList',
@@ -30,19 +30,26 @@ export default defineComponent({
   },
   emits: ['load'],
   setup(props, { emit }) {
-    const store = useStore();
-    const storeModule: string = store.getters['filter/storeModule'];
-    const storeAction: string = store.getters['filter/storeAction'];
+    const storeModule: string = Provider.store.getters['filter/storeModule'];
+    const storeAction: string = Provider.store.getters['filter/storeAction'];
     const defaultSortOn: Ref<boolean> = ref(false);
     const selectedModel: Ref<string> = ref('');
+    const sortModel: WritableComputedRef<ISortModel> = computed({
+      get(): ISortModel {
+        return Provider.store.getters['filter/sortModel'];
+      },
+      set(sortModel: ISortModel): void {
+        Provider.store.commit('filter/replaceSortModel', sortModel);
+      },
+    });
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
+    const mounted: Ref<boolean> = ref(false);
 
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-
-    const sortModels: Ref<ISortModel[]> = computed(() => store.getters['filters/sortModels']);
-    const setDefaultSortModel: Ref<boolean> = computed(() => store.getters['filter/setDefaultSortModel']);
+    const sortModels: Ref<ISortModel[]> = computed(() => Provider.store.getters['filter/sortModels']);
+    const setDefaultSortModel: Ref<boolean> = computed(() => Provider.store.getters['filter/setDefaultSortModel']);
 
     const sort = async () => {
-      await store.dispatch(`${storeModule}/${storeAction}`, store.getters['filter/filterQuery']);
+      await Provider.store.dispatch(`${storeModule}/${storeAction}`, Provider.store.getters['filter/filterQuery']);
     };
 
     const setDefaultSort = () => {
@@ -52,38 +59,48 @@ export default defineComponent({
       const defaultSort = props.models.find((sortModel: ISortModel) => sortModel.default);
       if (defaultSort) {
         selectedModel.value = defaultSort.label;
-        store.commit('filter/replaceSortModel', defaultSort);
+        Provider.store.commit('filter/replaceSortModel', defaultSort);
       }
       defaultSortOn.value = true;
     };
 
     onBeforeMount((): void => {
       // if (props.storeMode) {
-      //   store.commit('filters/setSortModel', props.models);
+      //   Provider.store.commit('filter/setSortModel', props.models);
       // }
       setDefaultSort();
+      mounted.value = true;
     });
 
     watch(setDefaultSortModel, () => {
-      console.log('watch');
       if (filterQuery.value.sortModels.length === 0) {
         setDefaultSort();
       }
       emit('load');
     });
 
-    const setSort = (sortModel: ISortModel) => {
-      selectedModel.value = sortModel.label;
-      if (sortModel) {
-        store.commit('filter/replaceSortModel', sortModel);
-        defaultSortOn.value = sortModel.default;
-      } else {
-        setDefaultSort();
-      }
+    const setSort = () => {
+      // selectedModel.value = sortModel.label;
+      // if (sortModel.value) {
+      //   Provider.store.commit('filter/replaceSortModel', sortModel);
+      //   defaultSortOn.value = sortModel.value.default;
+      // } else {
+      //   setDefaultSort();
+      // }
       emit('load');
     };
 
-    return { setDefaultSortModel, filterQuery, sortModels, defaultSortOn, setSort, selectedModel, sort };
+    return {
+      setDefaultSortModel,
+      filterQuery,
+      sortModels,
+      defaultSortOn,
+      setSort,
+      selectedModel,
+      sort,
+      sortModel,
+      mounted,
+    };
   },
 });
 </script>

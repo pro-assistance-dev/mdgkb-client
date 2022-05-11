@@ -67,7 +67,7 @@ export default defineComponent({
       store.commit(`filter/resetQueryFilter`);
       await store.dispatch('meta/getSchema');
       store.commit(
-        'filter/replaceSortModel',
+        'filters/replaceSortModel',
         SortModel.CreateSortModel(
           schema.value.postgraduateCourse.tableName,
           schema.value.postgraduateCourse.name,

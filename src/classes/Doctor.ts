@@ -193,4 +193,13 @@ export default class Doctor implements IDoctor {
       this.educationalOrganizationAcademic = undefined;
     }
   }
+
+  removeFileInfo(): void {
+    this.fileInfo = new FileInfo();
+    this.fileInfoId = undefined;
+  }
+  removePhotoMini(): void {
+    this.photoMini = new FileInfo();
+    this.photoMiniId = undefined;
+  }
 }

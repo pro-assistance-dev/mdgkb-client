@@ -63,7 +63,8 @@
           <col width="43%" />
           <col width="10%" />
           <col width="10%" />
-          <col width="30%" />
+          <col width="20%" />
+          <col width="10%" />
         </colgroup>
         <thead>
           <th><h4>КОД</h4></th>
@@ -71,6 +72,7 @@
           <th><h4>ФОРМА ОБУЧЕНИЯ</h4></th>
           <th><h4>СРОКИ</h4></th>
           <th><h4>КВАЛИФИКАЦИЯ</h4></th>
+          <th><h4>СТОИМОСТЬ</h4></th>
         </thead>
         <tbody v-if="mounted">
           <tr v-for="postgraduateCourse in postgraduateCourses" :key="postgraduateCourse.id">
@@ -92,6 +94,9 @@
             <td>{{ postgraduateCourse.educationForm }}</td>
             <td>{{ buildNameNumbers([...Array(postgraduateCourse.years).keys()], ['год', 'года', 'лет']) }}</td>
             <td v-html="postgraduateCourse.description" />
+            <td>
+              {{ postgraduateCourse.cost }}
+            </td>
           </tr>
         </tbody>
       </table>

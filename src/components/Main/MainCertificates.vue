@@ -33,25 +33,25 @@ export default defineComponent({
 
     const items = [
       {
-        description: 'certificate.png',
+        description: 'certificate.webp',
       },
       {
-        description: 'certificate.png',
+        description: 'certificate.webp',
       },
       {
-        description: 'certificate.png',
+        description: 'certificate.webp',
       },
       {
-        description: 'certificate.png',
+        description: 'certificate.webp',
       },
       {
-        description: 'certificate.png',
+        description: 'certificate.webp',
       },
       {
-        description: 'certificate.png',
+        description: 'certificate.webp',
       },
       {
-        description: 'certificate.png',
+        description: 'certificate.webp',
       },
     ];
 
