@@ -72,4 +72,22 @@ export default defineComponent({
   justify-content: flex-start;
   align-items: center;
 }
+
+@media screen and (max-width: 1280px) {
+  .upload-container {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .upload-container {
+    display: flex;
+  }
+}
+
+// @media screen and (max-width: 1024px) {
+//   .upload-container {
+//     display: block;
+//   }
+// }
 </style>
