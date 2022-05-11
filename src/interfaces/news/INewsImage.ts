@@ -4,6 +4,7 @@ export default interface INewsImage {
   id?: string;
   newsId?: string;
   fileInfoId?: string;
-  fileInfo?: IFileInfo;
+  order: number;
+  fileInfo: IFileInfo;
   description?: string;
 }

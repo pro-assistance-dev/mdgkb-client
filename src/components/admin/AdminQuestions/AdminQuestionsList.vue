@@ -9,7 +9,7 @@
         </el-table-column>
         <el-table-column label="Дата" sortable>
           <template #default="scope">
-            {{ $dateFormatRu(scope.row.date) }}
+            {{ $dateTimeFormatter.format(scope.row.date) }}
           </template>
         </el-table-column>
         <el-table-column label="Статус">

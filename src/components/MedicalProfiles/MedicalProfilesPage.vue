@@ -30,7 +30,7 @@
                 <div class="recent-news-item" @click="$router.push(`/news/${scope.row.news.slug}`)">
                   <div class="item-title">{{ scope.row.news.title }}</div>
                   <div class="item-footer">
-                    <div class="item-date">{{ $dateFormatRu(scope.row.news.publishedOn, true) }}</div>
+                    <div class="item-date">{{ $dateTimeFormatter.format(scope.row.news.publishedOn, { month: 'long' }) }}</div>
                     <div class="icon">
                       <EyeOutlined />
                       <span>{{ scope.row.news.viewsCount }}</span>

@@ -18,12 +18,12 @@
         </el-table-column>
         <el-table-column label="Дата создания" align="center" width="200" sortable>
           <template #default="scope">
-            {{ $dateFormatRu(scope.row.createdAt) }}
+            {{ $dateTimeFormatter.format(scope.row.createdAt) }}
           </template>
         </el-table-column>
         <el-table-column label="Дата публикации" align="center" width="200" sortable>
           <template #default="scope">
-            {{ $dateFormatRu(scope.row.publishedOn) }}
+            {{ $dateTimeFormatter.format(scope.row.publishedOn) }}
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">

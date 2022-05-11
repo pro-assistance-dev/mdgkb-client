@@ -4,7 +4,7 @@
       <el-table :data="appointments">
         <el-table-column label="Дата" sortable>
           <template #default="scope">
-            {{ fillDateFormat(scope.row.date) }}
+            {{ $dateTimeFormatter.format(scope.row.date) }}
           </template>
         </el-table-column>
         <el-table-column label="Время" align="center" sortable>
@@ -71,9 +71,8 @@ export default defineComponent({
     const create = () => router.push(`/admin/appointments/new`);
     const edit = (slug: string) => router.push(`/admin/appointments/${slug}`);
     const remove = async (id: string) => await store.dispatch('appointments/remove', id);
-    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
 
-    return { appointments, remove, edit, create, fillDateFormat };
+    return { appointments, remove, edit, create };
   },
 });
 </script>

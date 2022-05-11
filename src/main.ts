@@ -12,14 +12,13 @@ import './assets/styles/element-variables.scss';
 import sanitizeHTML from 'sanitize-html';
 import { useStore } from 'vuex';
 
-import fillDateFormat from '@/services/DateFormat';
 import scroll from '@/services/Scroll';
 
 const app = createApp(App);
 import VueSocialSharing from 'vue-social-sharing';
 import YmapPlugin from 'vue-yandex-maps';
 
-app.config.globalProperties.$dateFormatRu = fillDateFormat;
+app.config.globalProperties.$dateTimeFormatter = new DateTimeFormatter('ru-RU');
 app.config.globalProperties.$store = useStore();
 app.config.globalProperties.$sanitize = sanitizeHTML;
 app.config.globalProperties.$scroll = scroll;
@@ -32,6 +31,7 @@ import { faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import buildUrl from '@/services/BuildUrl';
+import DateTimeFormatter from '@/services/DateFormat';
 import Provider from '@/services/Provider';
 
 library.add(faVk);

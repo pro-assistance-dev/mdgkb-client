@@ -17,7 +17,7 @@ import IPostgraduateCourseTeacher from '@/interfaces/IPostgraduateCourseTeacher'
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
 import removeFromClass from '@/mixins/removeFromClass';
-import fillDateFormat from '@/services/DateFormat';
+import DateTimeFormatter from '@/services/DateFormat';
 
 import Form from './Form';
 
@@ -150,9 +150,9 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     if (!this.postgraduateCoursesDates[0] || !this.postgraduateCoursesDates[0]) {
       return 'Даты неизвестны';
     }
-    const dateStart = fillDateFormat(this.postgraduateCoursesDates[0].start);
-    const dateEnd = fillDateFormat(this.postgraduateCoursesDates[0].start);
-    return `${dateStart}-${dateEnd}`;
+    return new DateTimeFormatter().getPeriod(this.postgraduateCoursesDates[0].start, this.postgraduateCoursesDates[0].end, {
+      year: '2-digit',
+    });
   }
 
   getFileInfos(): IFileInfo[] {

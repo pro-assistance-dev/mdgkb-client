@@ -19,7 +19,7 @@
           </div>
           <div>
             <span><b>Дата обращения: </b></span>
-            <span>{{ $dateFormatRu(question.date) }}</span>
+            <span>{{ $dateTimeFormatter.format(question.date) }}</span>
           </div>
           <div>
             <span><b>Тема вопроса: </b></span>

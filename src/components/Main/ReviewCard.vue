@@ -5,7 +5,7 @@
       <a @click="$emit('showMore')">Подробнее</a>
     </div>
     <div class="review-card-container-date">
-      {{ $dateFormatRu(item.publishedOn, true) }}
+      {{ $dateTimeFormatter.format(item.publishedOn, { month: 'long' }) }}
     </div>
   </div>
 </template>

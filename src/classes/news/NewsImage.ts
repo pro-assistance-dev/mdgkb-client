@@ -5,14 +5,16 @@ import INewsImage from '@/interfaces/news/INewsImage';
 export default class NewsImage implements INewsImage {
   id?: string;
   newsId?: string;
+  order = 0;
   fileInfoId?: string;
-  fileInfo?: IFileInfo;
+  fileInfo: IFileInfo = new FileInfo();
   description?: string;
 
   constructor(i?: INewsImage) {
     if (!i) return;
     this.id = i.id;
     this.fileInfoId = i.fileInfoId;
+    this.order = i.order;
     this.description = i.description;
     if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
   }

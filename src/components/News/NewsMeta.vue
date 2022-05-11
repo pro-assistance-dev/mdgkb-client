@@ -1,7 +1,7 @@
 <template>
   <div class="card-meta" style="margin-bottom: 0">
-    <div v-if="article" class="date-meta">{{ $dateFormatRu(news.publishedOn, true, true, true) }}</div>
-    <div v-else class="date-meta">{{ $dateFormatRu(news.publishedOn, true, true) }}</div>
+    <div v-if="article" class="date-meta">{{ $dateTimeFormatter.format(news.publishedOn, { month: 'long' }) }}</div>
+    <div v-else class="date-meta">{{ $dateTimeFormatter.format(news.publishedOn, { month: 'long' }) }}</div>
     <div class="icons">
       <div class="icon">
         <EyeOutlined />

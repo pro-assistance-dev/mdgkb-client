@@ -18,7 +18,7 @@
         </el-table-column>
         <el-table-column label="Дата рождения" sortable>
           <template #default="scope">
-            {{ fillDateFormat(scope.row.human.dateBirth) }}
+            {{ $dateTimeFormatter.format(scope.row.human.dateBirth) }}
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
@@ -71,9 +71,8 @@ export default defineComponent({
     const create = () => router.push(`/admin/heads/new`);
     const edit = (id: string) => router.push(`/admin/heads/${id}`);
     const remove = async (id: string) => await store.dispatch('heads /remove', id);
-    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
 
-    return { doctors, remove, edit, create, fillDateFormat };
+    return { doctors, remove, edit, create };
   },
 });
 </script>

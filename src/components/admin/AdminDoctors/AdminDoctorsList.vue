@@ -15,7 +15,7 @@
         </el-table-column>
         <el-table-column label="Дата рождения" sortable>
           <template #default="scope">
-            {{ fillDateFormat(scope.row.human.dateBirth) }}
+            {{ $dateTimeFormatter.format(scope.row.human.dateBirth) }}
           </template>
         </el-table-column>
         <el-table-column label="Отделение" sortable>
@@ -93,12 +93,11 @@ export default defineComponent({
     const create = () => router.push(`/admin/doctors/new`);
     const edit = (slug: string) => router.push(`/admin/doctors/${slug}`);
     const remove = async (id: string) => await store.dispatch('doctors/remove', id);
-    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await router.push({ name: `AdminEditDoctorPage`, params: { id: event.id } });
     };
 
-    return { doctors, remove, edit, create, fillDateFormat, mounted, schema, selectSearch };
+    return { doctors, remove, edit, create, mounted, schema, selectSearch };
   },
 });
 </script>

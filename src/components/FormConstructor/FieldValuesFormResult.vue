@@ -14,7 +14,7 @@
           {{ scope.row.valueNumber }}
         </div>
         <div v-if="scope.row.field.valueType.isDate() && scope.row.valueDate">
-          {{ $dateFormatRu(scope.row.valueDate) }}
+          {{ $dateTimeFormatter.format(scope.row.valueDate) }}
         </div>
         <a v-if="scope.row.field.valueType.isFile() && scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
           {{ scope.row.file.originalName }}

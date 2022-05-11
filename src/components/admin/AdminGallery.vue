@@ -1,92 +1,49 @@
 <template>
-  <el-card class="gallery">
-    <template #header>
-      <div class="card-header">Галерея</div>
+  <draggable class="groups" :list="fileList" item-key="id" handle=".el-icon-s-grid" @end="sort(fileList)">
+    <template #item="{ element, index }">
+      <div>
+        <i class="el-icon-s-grid drug-icon" />
+        <UploaderSingleScan
+          :file-info="element.fileInfo"
+          :height="165"
+          :width="400"
+          @remove-file="removeFromClass(index, fileList, fileListForDelete)"
+        ></UploaderSingleScan>
+      </div>
     </template>
-    <el-upload
-      ref="uploader"
-      :multiple="false"
-      class="avatar-uploader"
-      action="#"
-      list-type="picture-card"
-      :file-list="fileList"
-      :auto-upload="false"
-      :on-change="toggleUpload"
-      accept="image/jpeg,image/png,image/jng"
-    >
-      <template #default>
-        <i class="el-icon-plus"></i>
-      </template>
-      <template #file="{ file }">
-        <div>
-          <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
-        </div>
-        <span class="el-upload-list__item-actions">
-          <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-            <i class="el-icon-zoom-in"></i>
-          </span>
-          <span class="el-upload-list__item-delete" @click="handleRemove(file)">
-            <i class="el-icon-delete"></i>
-          </span>
-        </span>
-      </template>
-    </el-upload>
-  </el-card>
+  </draggable>
+  <el-button @click="$emit('addImage')">Добавить изображение</el-button>
 </template>
 
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { computed, defineComponent, PropType } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
+import draggable from 'vuedraggable';
 
-import Cropper from '@/classes/cropper/Cropper';
-import IFile from '@/interfaces/files/IFile';
-import IFilesList from '@/interfaces/files/IFIlesList';
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import IFiler from '@/interfaces/IFiler';
+import removeFromClass from '@/mixins/removeFromClass';
+import sort from '@/mixins/sort';
 
 export default defineComponent({
   name: 'AdminGallery',
+  components: { UploaderSingleScan, draggable },
+  emits: ['addImage'],
   props: {
-    storeModule: {
-      type: String as PropType<string>,
-      default: '',
+    fileList: {
+      type: Array as PropType<IFiler[]>,
+      default: () => [],
     },
-    storeAction: {
-      type: String as PropType<string>,
-      default: 'pushToImages',
+    fileListForDelete: {
+      type: Array as PropType<string[]>,
+      default: () => [],
     },
   },
   setup(props) {
-    const store = useStore();
-    const fileList = computed(() => store.getters[`${props.storeModule}/galleryList`]);
-
-    const openCropper = (file: IFile) => {
-      store.commit('cropper/open', Cropper.CreateCropper(file.url, props.storeModule, 'saveFromCropperGallery', 8 / 3.3));
-    };
-
-    const toggleUpload = (file: IFile) => {
-      store.commit(`${props.storeModule}/${props.storeAction}`, file);
-      store.commit(`${props.storeModule}/setCurGalleryCropIndex`, fileList.value.length);
-      openCropper(file);
-    };
-
-    const handlePictureCardPreview = (file: IFile) => {
-      const index = fileList.value.findIndex((f: IFilesList) => f.name === file.name);
-      if (index > -1) {
-        store.commit(`${props.storeModule}/setCurGalleryCropIndex`, index);
-      }
-      openCropper(file);
-    };
-
-    const handleRemove = (file: IFile) => {
-      store.commit(`${props.storeModule}/removeFromGallery`, file);
-    };
-
     return {
-      handlePictureCardPreview,
-      fileList,
-      toggleUpload,
-      handleRemove,
+      sort,
+      removeFromClass,
     };
   },
 });

@@ -13,7 +13,7 @@
     </el-table-column>
     <el-table-column label="Дата подачи заявления" sortable>
       <template #default="scope">
-        {{ $dateFormatRu(scope.row.formValue.createdAt, true, true) }}
+        {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}
       </template>
     </el-table-column>
     <el-table-column label="Email заявителя" sortable>
