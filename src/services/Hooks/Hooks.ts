@@ -1,5 +1,6 @@
 import { onBeforeMount } from 'vue';
 
+import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import Provider from '@/services/Provider';
@@ -7,6 +8,7 @@ import Provider from '@/services/Provider';
 export interface IHooksOptions {
   pagination?: IPaginationOptions;
   sortModels: ISortModel[];
+  adminHeader?: IAdminHeaderParams;
 }
 
 export interface IPaginationOptions {
@@ -27,6 +29,9 @@ const Hooks = (() => {
         Provider.store.commit('filter/setStoreModule', options.pagination.storeModule);
         Provider.store.commit('filter/setAction', options.pagination.action);
         Provider.store.commit('pagination/setCurPage', 1);
+      }
+      if (options?.adminHeader) {
+        Provider.store.commit('admin/setHeaderParams', options.adminHeader);
       }
       if (options && options.sortModels.length > 0) {
         Provider.store.commit('filter/replaceSortModel', options.sortModels[0]);

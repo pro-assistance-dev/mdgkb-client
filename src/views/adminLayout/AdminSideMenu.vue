@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted" class="admin-side-menu">
+  <div v-if="mounted" :key="menus" class="admin-side-menu">
     <el-menu
       v-for="item in menus"
       :key="item.title"
@@ -8,7 +8,7 @@
       background-color="whitesmoke"
       @select="closeDrawer"
     >
-      <el-sub-menu v-if="item.children" :index="item.title">
+      <el-sub-menu v-if="item.children.length" :index="item.title">
         <template #title>
           <div class="sub-menu-container">
             <el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="danger"> </el-badge>
@@ -24,17 +24,18 @@
           </div>
         </el-menu-item>
       </el-sub-menu>
-
-      <el-menu-item v-else :index="item.to" @click="$router.push(item.to)">
-        <i :class="item.icon"></i>
-        <template #title>{{ item.title }}</template>
-      </el-menu-item>
+      <div v-else>
+        <el-menu-item v-if="item.to !== '/'" :index="item.to" @click="$router.push(item.to)">
+          <i :class="item.icon"></i>
+          <template #title>{{ item.title }}</template>
+        </el-menu-item>
+      </div>
     </el-menu>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch, WritableComputedRef } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -55,6 +56,7 @@ export default defineComponent({
     const applicationsCounts: Ref<IApplicationsCount[]> = computed(() => store.getters['meta/applicationsCounts']);
     const mounted = ref(false);
     const userPermissions: ComputedRef<IPathPermission[]> = computed(() => store.getters['auth/userPathPermissions']);
+    const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
 
     watch(
       () => route.path,
@@ -62,7 +64,6 @@ export default defineComponent({
         activePath.value = route.path;
       }
     );
-    const menus: WritableComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
 
     onBeforeMount(async () => {
       await store.dispatch('auth/getUserPathPermissions');

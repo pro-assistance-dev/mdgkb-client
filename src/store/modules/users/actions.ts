@@ -27,6 +27,9 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IUser[]>({ query: `get-by-email/${email}` });
     commit('emailExist', res);
   },
+  create: async ({ commit }, item: IUser) => {
+    commit('set', await httpClient.post<IUser, IUser>({ fileInfos: item.getFileInfos(), payload: item, isFormData: true }));
+  },
   update: async ({ commit }, item: IUser) => {
     commit(
       'set',

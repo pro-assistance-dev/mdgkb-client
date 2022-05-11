@@ -19,6 +19,7 @@ import IForm from '@/interfaces/IForm';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
+import IOption from '@/interfaces/schema/IOption';
 
 import Form from './Form';
 
@@ -159,5 +160,11 @@ export default class User implements IUser {
     const fileInfos: IFileInfo[] = [];
     fileInfos.push(this.human.photo);
     return fileInfos;
+  }
+
+  setDefaultRole(options: IOption[]): void {
+    this.roleId = options.find(
+      (option) => option.label === 'Пользователь' || option.value === '8dac3c71-43e1-476b-82fa-454313684685'
+    )?.value;
   }
 }

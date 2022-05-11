@@ -65,7 +65,6 @@ export default defineComponent({
     const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
 
     onBeforeMount(async () => {
-      window.scrollTo(0, 0);
       await store.dispatch('divisions/get', route.params['slug']);
       store.commit('divisions/setOnlyShowed', true);
     });

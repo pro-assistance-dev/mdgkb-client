@@ -32,6 +32,7 @@ import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
+import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'DpoApplicationForm',
@@ -58,6 +59,15 @@ export default defineComponent({
     };
 
     const submit = async () => {
+      if (emailExists.value) {
+        ElMessage({
+          type: 'error',
+          dangerouslyUseHTMLString: true,
+          message: document.querySelector('#error-block-message')?.innerHTML || '',
+        });
+        scroll('error-block-message');
+        return;
+      }
       dpoApplication.value.formValue.validate();
       if (!validate(form, true) || !dpoApplication.value.formValue.validated) {
         return;

@@ -1,9 +1,9 @@
 <template>
-  <div v-if="showErrorMessage & emailExists & !isAuth" class="error-block-message">
+  <div v-if="showErrorMessage & emailExists & !isAuth" id="error-block-message" class="error-block-message">
     Заявка с указанным адресом электронной почты уже зарегистрирована. Для просмотра данных по заявке, пожалуйста,
     <a @click="openLoginModal"> авторизируйтесь</a> и перейдите в личный кабинет.
   </div>
-  <div v-else-if="showErrorMessage & emailExists & isAuth" class="error-block-message">
+  <div v-else-if="showErrorMessage & emailExists & isAuth" id="error-block-message" class="error-block-message">
     Вы уже подавали заявку на данную программу. Для просмотра данных по заявке, пожалуйста, перейдите в
     <a @click="$router.push('/profile')"> личный кабинет</a>.
   </div>
