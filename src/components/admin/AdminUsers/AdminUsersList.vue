@@ -70,7 +70,14 @@ export default defineComponent({
       mounted.value = true;
     };
 
-    Hooks.onBeforeMount(load, { pagination: { storeModule: 'users', action: 'getAll' }, sortModels: [] });
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'users', action: 'getAll' },
+      sortModels: [],
+      adminHeader: {
+        title: 'Пользователи',
+        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+      },
+    });
 
     return {
       mounted,

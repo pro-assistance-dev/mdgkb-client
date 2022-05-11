@@ -79,6 +79,7 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
+import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { RouteRecordNormalized, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -183,7 +184,15 @@ export default defineComponent({
     });
 
     const savePaths = async () => {
-      await store.dispatch('auth/savePathPermissions', permissions.value);
+      try {
+        await store.dispatch('auth/savePathPermissions', clientPermissions.value);
+      } catch {
+        return;
+      }
+      ElMessage({
+        message: 'Сохранено',
+        type: 'success',
+      });
     };
 
     const setAll = (roleId: string): void => {

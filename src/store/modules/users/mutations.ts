@@ -21,6 +21,9 @@ const mutations: MutationTree<State> = {
   emailExist(state, emailExists: boolean) {
     state.emailExists = emailExists;
   },
+  resetItem(state) {
+    state.item = new User();
+  },
 };
 
 export default mutations;

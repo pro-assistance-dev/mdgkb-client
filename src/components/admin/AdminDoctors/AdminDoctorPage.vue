@@ -7,7 +7,7 @@
             <template #header>
               <CardHeader :label="'Личная информация'" :add-button="false" />
             </template>
-            <HumanForm store-module="doctors" @input-name-complete="completeInput" />
+            <HumanForm :with-styles="false" store-module="doctors" @input-name-complete="completeInput" />
           </el-card>
           <TimetableConstructorV2 :store-module="'doctors'" />
           <el-card>
@@ -173,12 +173,19 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
+      console.log('onbeforemount');
       await Provider.store.dispatch('search/searchGroups');
       await loadDivisionOptions();
       await loadDoctor();
     };
 
     Hooks.onBeforeMount(load);
+    // watch(
+    //   () => route.path,
+    //   async () => {
+    //     await load();
+    //   }
+    // );
 
     const loadDivisionOptions = async (): Promise<void> => {
       await Provider.store.dispatch('divisions/getAll');

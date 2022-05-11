@@ -6,6 +6,7 @@ import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import IPathPermission from '@/interfaces/IPathPermission';
+import menuList from '@/store/modules/admin/menuList';
 
 import { getDefaultState } from '.';
 import { State } from './state';
@@ -42,9 +43,7 @@ const mutations: MutationTree<State> = {
     Object.assign(state, getDefaultState());
   },
   filterMenus(state, userPermissions: IPathPermission[]) {
-    state.menus = state.menus.filter((m: IAdminMenu) =>
-      userPermissions.some((permission: IPathPermission) => permission.resource === m.to)
-    );
+    state.menus = menuList.filter((m: IAdminMenu) => userPermissions.some((permission: IPathPermission) => permission.resource === m.to));
     // state.menus = state.menus.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
     state.menus.forEach((m: IAdminMenu) => {
       if (!m.children) {

@@ -11,6 +11,7 @@ import ICandidateApplication from './ICandidateApplication';
 import IDpoApplication from './IDpoApplication';
 import IForm from './IForm';
 import IPostgraduateApplication from './IPostgraduateApplication';
+import IOption from './schema/IOption';
 
 export default interface IUser {
   id?: string;
@@ -43,4 +44,5 @@ export default interface IUser {
   getDonorRules: () => IDonorRule[];
   removeDonorRule: (ruleId: string) => void;
   getFileInfos: () => IFileInfo[];
+  setDefaultRole: (options: IOption[]) => void;
 }
