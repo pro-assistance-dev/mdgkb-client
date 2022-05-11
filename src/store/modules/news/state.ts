@@ -1,4 +1,3 @@
-import IFilesList from '@/interfaces/files/IFIlesList';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import IEventApplication from '@/interfaces/news/IEventApplication';
 import INews from '@/interfaces/news/INews';
@@ -14,10 +13,6 @@ export interface State {
   allNewsLoaded: boolean;
   calendarNews: INews[];
   calendarMeta?: ICalendarMeta;
-  previewFileList: IFilesList[];
-  mainImageList: IFilesList[];
-  galleryList: IFilesList[];
-  curGalleryCropIndex: number;
   comment: INewsComment;
   eventMode: boolean;
   eventApplication: IEventApplication;

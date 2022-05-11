@@ -31,7 +31,14 @@
                 <el-input v-model="news.mainImageDescription" placeholder="Описание"></el-input>
               </el-form-item>
             </el-card>
-            <AdminNewsPageGallery v-if="mounted" />
+            <el-card>
+              <template #header> Галерея </template>
+              <AdminGallery
+                :file-list="news.newsImages"
+                :file-list-for-delete="news.newsImagesForDelete"
+                @add-image="news.addNewsImage()"
+              />
+            </el-card>
           </el-container>
         </el-col>
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
@@ -69,25 +76,26 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import AdminGallery from '@/components/admin/AdminGallery.vue';
 import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
-import AdminNewsPageGallery from '@/components/admin/AdminNews/AdminNewsPageGallery.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import INews from '@/interfaces/news/INews';
+import removeFromClass from '@/mixins/removeFromClass';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminNewsPage',
   components: {
+    AdminGallery,
     UploaderSingleScan,
     AdminNewsPageEvent,
     ImageCropper,
     QuillEditor,
     AdminNewsPageTags,
-    AdminNewsPageGallery,
     AdminNewsDoctors,
   },
   setup() {
@@ -178,6 +186,7 @@ export default defineComponent({
     };
 
     return {
+      removeFromClass,
       mounted,
       editorOption,
       isCropGalleryOpen,

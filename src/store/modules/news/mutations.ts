@@ -1,12 +1,8 @@
 import { MutationTree } from 'vuex';
 
-import FileInfo from '@/classes/File/FileInfo';
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
-import NewsImage from '@/classes/news/NewsImage';
 import NewsToTag from '@/classes/news/NewsToTag';
-import IFile from '@/interfaces/files/IFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import INewsWithCount from '@/interfaces/INewsWithCount';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
@@ -42,16 +38,6 @@ const mutations: MutationTree<State> = {
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
-    state.galleryList = [];
-    state.newsItem.newsImages.forEach((i: INewsImage) => {
-      if (!i.fileInfo) {
-        return;
-      }
-      const file = i.fileInfo.getFileListObject();
-      if (file) {
-        state.galleryList.push(file);
-      }
-    });
     state.news = [];
   },
   resetState(state) {
@@ -149,11 +135,6 @@ const mutations: MutationTree<State> = {
   setParentIdToComment(state, parentId: string) {
     state.comment.newsId = parentId;
   },
-  setMainImage(state, fileInfo: IFileInfo) {
-    if (state.newsItem) {
-      state.newsItem.mainImage = fileInfo;
-    }
-  },
   deleteLikeFromNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);
     const deleteLike = (news: INews) => {
@@ -174,48 +155,6 @@ const mutations: MutationTree<State> = {
   },
   updateCalendarMeta(state, meta: ICalendarMeta) {
     state.calendarMeta = meta;
-  },
-  pushToNewsImages(state, file: IFile) {
-    if (!state.newsItem) return;
-    const image = FileInfo.CreatePreviewFile(file, 'gallery');
-    if (image.fileSystemPath) state.newsItem.newsImagesNames.push(image.fileSystemPath);
-    state.newsItem.newsImages.push(new NewsImage({ fileInfo: image }));
-  },
-  saveFromCropperMain(state, file: IFile) {
-    state.newsItem.mainImage.file = file.blob;
-    state.newsItem.mainImage.category = 'mainImage';
-    if (state.newsItem.mainImage.fileSystemPath) {
-      state.mainImageList.push({ name: state.newsItem.mainImage.fileSystemPath, url: file.src });
-    }
-  },
-  saveFromCropperGallery(state, file: IFile) {
-    const prevFileInfo = state.newsItem.newsImages[state.curGalleryCropIndex].fileInfo;
-    if (!prevFileInfo) return;
-    const fileInfo = FileInfo.CreatePreviewFile(file, 'gallery');
-    fileInfo.fileSystemPath = prevFileInfo.fileSystemPath;
-
-    const i = state.newsItem.newsImagesNames.findIndex((i: string) => i === fileInfo.fileSystemPath);
-    if (i < 0 && fileInfo.fileSystemPath) state.newsItem.newsImagesNames.push(fileInfo.fileSystemPath);
-
-    state.newsItem.newsImages[state.curGalleryCropIndex].fileInfo = fileInfo;
-    if (fileInfo.fileSystemPath) {
-      state.galleryList[state.curGalleryCropIndex] = {
-        name: fileInfo.fileSystemPath,
-        url: file.src,
-      };
-    }
-  },
-  removeFromGallery(state, file: IFile) {
-    const index = state.galleryList.findIndex((i) => i.url === file.url);
-    if (index > -1) {
-      state.galleryList.splice(index, 1);
-      const id = state.newsItem.newsImages[index].id;
-      if (id) state.newsItem.newsImagesForDelete.push(id);
-      state.newsItem.newsImages.splice(index, 1);
-    }
-  },
-  setCurGalleryCropIndex(state, index: number) {
-    state.curGalleryCropIndex = index;
   },
   setEventMode(state, eventMode: boolean) {
     state.eventMode = eventMode;
