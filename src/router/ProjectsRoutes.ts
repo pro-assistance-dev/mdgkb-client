@@ -8,6 +8,7 @@ export default [
   {
     path: '/projects',
     name: 'ProjectsList',
+    meta: { title: 'Наши проекты' },
     component: ProjectsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -16,6 +17,7 @@ export default [
   {
     path: '/projects/:slug',
     name: 'ProjectPage',
+    meta: { title: 'Наши проекты - ' },
     component: ProjectPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
