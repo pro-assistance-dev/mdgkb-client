@@ -66,7 +66,7 @@
                         <div class="list-item">
                           <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
                           <div class="item-data">
-                            <h4>{{ fillDateFormat(user.human.dateBirth, true, false, false) }}</h4>
+                            <h4>{{ $dateTimeFormatter.format(user.human.dateBirth, { month: 'long' }) }}</h4>
                           </div>
                         </div>
                       </li>
@@ -170,7 +170,7 @@
                   <div class="list-item">
                     <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
                     <div class="item-data">
-                      <h4>{{ fillDateFormat(user.human.dateBirth, true, false, false) }}</h4>
+                      <h4>{{ $dateTimeFormatter.format(user.human.dateBirth, { month: 'long' }) }}</h4>
                     </div>
                   </div>
                 </li>
@@ -293,7 +293,6 @@ import { useStore } from 'vuex';
 import EducationPage from '@/components/Profile/Education/EducationPage.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IUser from '@/interfaces/IUser';
-import fillDateFormat from '@/services/DateFormat';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 export default defineComponent({
@@ -319,7 +318,6 @@ export default defineComponent({
       saveAvatar,
       mounted,
       user,
-      fillDateFormat,
     };
   },
 });
