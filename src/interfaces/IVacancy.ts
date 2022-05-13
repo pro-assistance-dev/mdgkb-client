@@ -17,7 +17,9 @@ export default interface IVacancy {
   archived: boolean;
   experience: string;
   vacancyDuties: IVacancyDuty[];
+  vacancyDutiesForDelete: string[];
   vacancyRequirements: IVacancyRequirement[];
+  vacancyRequirementsForDelete: string[];
   schedule: string;
   date: Date;
 
@@ -30,4 +32,6 @@ export default interface IVacancy {
   divisionId?: string;
 
   getSalary: () => string;
+  addRequirement: () => void;
+  addDuty: () => void;
 }

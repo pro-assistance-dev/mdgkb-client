@@ -6,17 +6,29 @@
           <el-form-item label="Название">
             <el-input v-model="vacancy.title" placeholder="Название"> </el-input>
           </el-form-item>
-          <el-form-item label="Заработная плата">
-            <el-input v-model="vacancy.salary" placeholder="Заработная плата"> </el-input>
+          <el-form-item label="Минимальная заработная плата">
+            <el-input-number v-model="vacancy.minSalary" placeholder="Минимальная заработная плата" />
+          </el-form-item>
+          <el-form-item label="Максимальная заработная плата">
+            <el-input-number v-model="vacancy.maxSalary" placeholder="Максимальная заработная плата" />
           </el-form-item>
           <el-form-item label="График работы">
             <el-input v-model="vacancy.schedule" placeholder="График работы"> </el-input>
           </el-form-item>
+
           <el-form-item label="Должностные обязанности">
-            <el-input v-model="vacancy.duties" placeholder="Требования к кандидату" type="textarea" :rows="4"> </el-input>
+            <SortableInputsList
+              :sortable-list="vacancy.vacancyDuties"
+              :sortable-list-for-delete="vacancy.vacancyDutiesForDelete"
+              @add-element="vacancy.addDuty()"
+            />
           </el-form-item>
           <el-form-item label="Требования к кандидату">
-            <el-input v-model="vacancy.requirements" placeholder="Требования к кандидату" type="textarea" :rows="4"> </el-input>
+            <SortableInputsList
+              :sortable-list="vacancy.vacancyRequirements"
+              :sortable-list-for-delete="vacancy.vacancyRequirementsForDelete"
+              @add-element="vacancy.addRequirement()"
+            />
           </el-form-item>
           <el-form-item label="Стаж">
             <el-input v-model="vacancy.experience" placeholder="Стаж"> </el-input>
@@ -54,6 +66,7 @@ import { useStore } from 'vuex';
 
 import AdminVacanciesPageResponses from '@/components/admin/AdminVacancies/AdminVacanciesPageResponses.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
+import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IVacancy from '@/interfaces/IVacancy';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
@@ -61,7 +74,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
-  components: { CardHeader, AdminVacanciesPageResponses },
+  components: { SortableInputsList, CardHeader, AdminVacanciesPageResponses },
   setup() {
     const store = useStore();
     const route = useRoute();

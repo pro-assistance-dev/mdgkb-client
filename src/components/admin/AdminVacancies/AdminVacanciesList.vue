@@ -11,13 +11,13 @@
             <el-tag>Новых отзывов: {{ scope.row.countResponses(true) }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="Заголовок" sortable>
+        <el-table-column prop="title" label="Название" sortable>
           <template #default="scope">
             {{ scope.row.title }}
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="Описание" sortable> </el-table-column>
-        <el-table-column prop="specialization" label="Специализация" sortable> </el-table-column>
+        <el-table-column prop="minSalary" label="Минимальная зарплата" sortable> </el-table-column>
+        <el-table-column prop="maxSalary" label="Максимальная зарплата" sortable> </el-table-column>
         <el-table-column prop="archived" label="Архивирована" sortable>
           <template #default="scope">
             {{ scope.row.archived ? 'Архивирована' : '' }}

@@ -10,7 +10,7 @@
     <el-table-column prop="responseDate" label="Дата" sortable> </el-table-column>
     <el-table-column prop="coverLetter" label="ФИО" sortable>
       <template #default="scope">
-        {{ scope.row.human.getFullName() }}
+        {{ scope.row.user.human.getFullName() }}
       </template>
     </el-table-column>
 

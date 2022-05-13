@@ -25,7 +25,9 @@ export default class Vacancy implements IVacancy {
   vacancyResponses: IVacancyResponse[] = [];
   experience = '';
   vacancyDuties: IVacancyDuty[] = [];
+  vacancyDutiesForDelete = [];
   vacancyRequirements: IVacancyRequirement[] = [];
+  vacancyRequirementsForDelete = [];
   schedule = '';
   division?: IDivision;
   divisionId?: string;
@@ -86,5 +88,13 @@ export default class Vacancy implements IVacancy {
       return `От ${this.minSalary} руб. до ${this.maxSalary} руб.`;
     }
     return `${this.minSalary} руб.`;
+  }
+
+  addDuty(): void {
+    this.vacancyDuties.push(new VacancyDuty());
+  }
+
+  addRequirement(): void {
+    this.vacancyRequirements.push(new VacancyRequirement());
   }
 }
