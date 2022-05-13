@@ -21,7 +21,10 @@ export default class DateTimeFormat {
     this.locale = locale ?? this.locale;
   }
 
-  format(date: Date, options?: CustomDateTimeFormatOptions): string {
+  format(date?: Date, options?: CustomDateTimeFormatOptions): string {
+    if (!date) {
+      return '';
+    }
     const opt: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: undefined, minute: undefined };
     if (options) {
       opt.year = options.year ?? opt.year;
