@@ -1,12 +1,23 @@
 <template>
-  <div class="flex-column">
+  <div v-if="mounted" class="flex-column">
+    <RemoteSearch :key-value="schema.vacancy.key" @select="selectSearch" />
+    <SortList :models="sortList" :store-mode="true" @load="load" />
+    <FilterCheckbox
+      :table="schema.vacancy.tableName"
+      :col="schema.vacancy.responsesCount"
+      label="С отзывами"
+      :data-type="DataTypes.Number"
+      :operator="Operators.Gt"
+      :filter-value="0"
+      @load="load"
+    />
     <div class="flex-row-between">
       <el-button round size="medium" type="primary" @click="create">Создать вакансию</el-button>
       <el-button v-if="newResponsesExists()" round size="medium" type="warning">Показать новые отклики</el-button>
     </div>
     <el-card>
       <el-table v-if="vacancies" :data="vacancies">
-        <el-table-column prop="title" label="Заголовок" sortable>
+        <el-table-column prop="title" label="Новых отзывов">
           <template #default="scope">
             <el-tag>Новых отзывов: {{ scope.row.countResponses(true) }}</el-tag>
           </template>
@@ -46,34 +57,46 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
+import SortList from '@/components/SortList/SortList.vue';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import { Operators } from '@/interfaces/filters/Operators';
+import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
 
 export default defineComponent({
   name: 'AdminVacanciesList',
-  components: { TableButtonGroup },
+  components: { FilterCheckbox, TableButtonGroup, RemoteSearch, SortList },
   setup() {
-    const store = useStore();
-    const router = useRouter();
+    const vacancies: Ref<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
 
-    const vacancies: Ref<IVacancy[]> = computed(() => store.getters['vacancies/vacancies']);
-
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('vacancies/getAllWithResponses');
-      store.commit('admin/setHeaderParams', { title: 'Вакансии' });
-      store.commit('admin/closeLoading');
-    });
-
-    const remove = async (id: string) => {
-      await store.dispatch('vacancies/remove', id);
+    const load = async () => {
+      Provider.setSortList(
+        VacanciesSortsLib.byTitle(),
+        VacanciesSortsLib.byDate(),
+        VacanciesSortsLib.byMinSalary(),
+        VacanciesSortsLib.byMaxSalary(),
+        VacanciesSortsLib.byResponsesCount()
+      );
+      Provider.setSortModels(VacanciesSortsLib.byTitle());
+      await Provider.store.dispatch('vacancies/getAll', Provider.filterQuery.value);
+      Provider.store.commit('admin/setHeaderParams', { title: 'Вакансии' });
     };
 
-    const create = () => router.push(`/admin/vacancies/new`);
+    Hooks.onBeforeMount(load);
+
+    const remove = async (id: string) => {
+      await Provider.store.dispatch('vacancies/remove', id);
+    };
+
+    const create = () => Provider.router.push(`/admin/vacancies/new`);
 
     const newResponsesExists = (): boolean => {
       return vacancies.value.some((vacancy: IVacancy) => vacancy.withNewResponses());
@@ -81,10 +104,27 @@ export default defineComponent({
 
     const archive = async (vacancy: IVacancy) => {
       vacancy.archived = !vacancy.archived;
-      await store.dispatch('vacancies/update', vacancy);
+      await Provider.store.dispatch('vacancies/update', vacancy);
     };
 
-    return { vacancies, remove, create, newResponsesExists, archive };
+    const selectSearch = async (event: ISearchObject): Promise<void> => {
+      await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.id } });
+    };
+
+    return {
+      Operators,
+      load,
+      vacancies,
+      remove,
+      create,
+      newResponsesExists,
+      archive,
+      selectSearch,
+      DataTypes,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
+      sortList: Provider.sortList,
+    };
   },
 });
 </script>
