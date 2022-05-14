@@ -278,7 +278,7 @@ li .dropmenu {
 
 .link-menu:focus ~ .dropmenu,
 .link-menu:active ~ .dropmenu,
-.dropmenu:hover {
+.dropmenu:active {
   display: block;
 }
 
