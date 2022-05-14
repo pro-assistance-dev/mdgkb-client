@@ -16,6 +16,7 @@ export default [
   {
     path: '/educational-info',
     name: 'EducationPage',
+    meta: { title: 'Сведения об образовательной организации' },
     component: EducationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -24,6 +25,7 @@ export default [
   {
     path: '/education-campaign',
     name: 'EducationCampaign',
+    meta: { title: 'Приёмная кампания' },
     component: EducationCampaign,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -32,6 +34,7 @@ export default [
   {
     path: '/academics',
     name: 'EducationalOrganizationAcademics',
+    meta: { title: 'Учёный совет' },
     component: EducationalOrganizationAcademics,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -40,6 +43,7 @@ export default [
   {
     path: '/postgraduate',
     name: 'PostgraduatePage',
+    meta: { title: 'Аспирантура' },
     component: PostgraduatePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -48,6 +52,7 @@ export default [
   {
     path: '/postgraduate-courses/:id',
     name: 'PostgraduateCoursePage',
+    meta: { title: 'Аспирантура - курс' },
     component: PostgraduateCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -56,6 +61,7 @@ export default [
   {
     path: '/residency',
     name: 'ResidencyPage',
+    meta: { title: 'Ординатура' },
     component: ResidencyPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -64,6 +70,7 @@ export default [
   {
     path: '/residency-courses/:id',
     name: 'ResidencyCoursePage',
+    meta: { title: 'Ординатура - курс' },
     component: ResidencyCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -72,6 +79,7 @@ export default [
   {
     path: '/candidates-minimum',
     name: 'CandidatesMinimum',
+    meta: { title: 'Кандидатский минимум' },
     component: PostgraduatePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -80,6 +88,7 @@ export default [
   {
     path: '/dpo',
     name: 'DpoCourses',
+    meta: { title: 'ДПО' },
     component: DpoCourses,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -88,6 +97,7 @@ export default [
   {
     path: '/nmo',
     name: 'NmoCourses',
+    meta: { title: 'НМО' },
     component: DpoCourses,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -96,6 +106,7 @@ export default [
   {
     path: '/courses/:id',
     name: 'CoursePage',
+    meta: { title: 'ДПО - курс' },
     component: CoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -104,6 +115,7 @@ export default [
   {
     path: '/teachers',
     name: 'Teachers',
+    meta: { title: 'Преподаватели' },
     component: TeachersManagers,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -112,6 +124,7 @@ export default [
   {
     path: '/educational-managers',
     name: 'EducationalManagers',
+    meta: { title: 'Руководство' },
     component: TeachersManagers,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);

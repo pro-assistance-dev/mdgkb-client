@@ -7,6 +7,7 @@ export default [
   {
     path: '/comments',
     name: 'CommentsList',
+    meta: { title: 'Отзывы' },
     component: CommentsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
