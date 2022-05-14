@@ -9,7 +9,7 @@
       <ul class="drop-burger-menu-item">
         <li v-for="menu in menus" :key="menu.id">
           <router-link :to="menu.getLink()">{{ menu.name }}</router-link>
-          <ul v-if="!menu.withoutChildren()">
+          <ul v-if="!menu.withoutChildren()" class="drop-burger-submenu-item">
             <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
               <router-link class="link-colomn" :to="subMenu.link">{{ subMenu.name }}</router-link>
             </li>
@@ -116,7 +116,7 @@ html {
 
 .burger-menu:focus ~ .drop-burger-menu,
 .burger-menu:active ~ .drop-burger-menu,
-.drop-burger-menu:hover {
+.drop-burger-menu:active {
   display: block;
 }
 
@@ -156,19 +156,27 @@ ul.drop-burger-menu-item li {
   background: #f0f2f7;
   border-bottom: 1px solid #dfe4ee;
   list-style: none;
-  width: 166px;
+  // width: 166px;
+  width: 320px;
 }
 
 ul.drop-burger-menu-item li a {
   text-decoration: none;
   display: block;
-  padding: 5px 5px 5px 15px;
+  padding: 15px 15px 15px 15px;
   color: #343e5c;
   transition: color 0.3s ease 0s;
   text-transform: uppercase;
   align-items: center;
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
+  background: #2754eb;
+  color: #ffffff;
+}
+
+ul.drop-burger-menu-item li a:hover {
+  background: #ffffff;
+  color: #2754eb;
 }
 
 ul.drop-burger-menu-item li ul {
@@ -187,6 +195,33 @@ ul.drop-burger-menu-item li:hover > ul {
 ul.drop-burger-menu-item li:hover ul {
   position: absolute;
   top: 0;
-  left: 165px;
+  left: 154px;
+}
+
+ul.drop-burger-submenu-item li a {
+  text-decoration: none;
+  display: block;
+  padding: 15px 15px 15px 15px;
+  color: #343e5c;
+  transition: color 0.3s ease 0s;
+  text-transform: uppercase;
+  align-items: center;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  background: #ffffff;
+  color: #2754eb;
+}
+
+ul.drop-burger-submenu-item li a:hover {
+  background: #2754eb;
+  color: #ffffff;
+}
+
+ul.drop-burger-submenu-item li {
+  background: #f0f2f7;
+  border-bottom: 1px solid #dfe4ee;
+  list-style: none;
+  width: 166px;
+  // width: 320px;
 }
 </style>

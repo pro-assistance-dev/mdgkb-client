@@ -65,7 +65,9 @@
                       <li class="list-item">
                         <div class="list-item">
                           <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
-                          <div class="item-data"><h4>1 января 1990 г.</h4></div>
+                          <div class="item-data">
+                            <h4>{{ $dateTimeFormatter.format(user.human.dateBirth) }}</h4>
+                          </div>
                         </div>
                       </li>
                       <li class="list-item">
@@ -117,7 +119,7 @@
             <div class="user-name">
               <el-form-item label="Имя">
                 <h2>
-                  <b>{{ user?.human?.name ?? 'Имя пользователя' }}</b>
+                  <b>{{ user.human.getFullName() }}</b>
                 </h2>
               </el-form-item>
             </div>
@@ -167,7 +169,9 @@
                 <li class="list-item">
                   <div class="list-item">
                     <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
-                    <div class="item-data"><h4>1 января 1990 г.</h4></div>
+                    <div class="item-data">
+                      <h4>{{ $dateTimeFormatter.format(user.human.dateBirth, { month: 'long' }) }}</h4>
+                    </div>
                   </div>
                 </li>
                 <li class="list-item">

@@ -36,7 +36,7 @@
               <AdminGallery
                 :file-list="news.newsImages"
                 :file-list-for-delete="news.newsImagesForDelete"
-                @add-image="news.addNewsImage()"
+                @add-element="news.addNewsImage()"
               />
             </el-card>
           </el-container>
