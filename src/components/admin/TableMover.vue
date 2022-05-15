@@ -42,7 +42,9 @@ export default defineComponent({
       props.storeMode ? store.getters[`${props.storeModule}/${props.storeGetter}`] : props.orderedItems
     );
 
-    const move = (up: boolean) => (up ? moveUp(items.value, props.index) : moveDown(items.value, props.index));
+    const move = (up: boolean) => {
+      up ? moveUp(items.value, props.index) : moveDown(items.value, props.index);
+    };
 
     return {
       items,
