@@ -1,10 +1,13 @@
 <template>
-  <div class="wrapper">
+  <div v-if="mounted" class="wrapper">
     <el-form ref="form" :key="vacancy" label-position="top" :model="vacancy">
       <el-container direction="vertical">
         <el-card>
           <el-form-item label="Название">
             <el-input v-model="vacancy.title" placeholder="Название"> </el-input>
+          </el-form-item>
+          <el-form-item label="Активна">
+            <el-switch v-model="vacancy.active" />
           </el-form-item>
           <el-form-item label="Минимальная заработная плата">
             <el-input-number v-model="vacancy.minSalary" placeholder="Минимальная заработная плата" />
@@ -33,9 +36,6 @@
           <el-form-item label="Стаж">
             <el-input v-model="vacancy.experience" placeholder="Стаж"> </el-input>
           </el-form-item>
-          <el-form-item label="Описание">
-            <el-input v-model="vacancy.description" placeholder="Описание" type="textarea" :rows="4" />
-          </el-form-item>
           <el-form-item label="Отделение">
             <el-select v-model="vacancy.divisionId" clearable>
               <el-option v-for="division in divisions" :key="division.id" :label="division.name" :value="division.id" />
@@ -60,9 +60,8 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import AdminVacanciesPageResponses from '@/components/admin/AdminVacancies/AdminVacanciesPageResponses.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
@@ -71,40 +70,36 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import IVacancy from '@/interfaces/IVacancy';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
   components: { SortableInputsList, CardHeader, AdminVacanciesPageResponses },
   setup() {
-    const store = useStore();
     const route = useRoute();
-    const router = useRouter();
-    let mounted = ref(false);
     const form = ref();
-    const vacancy: Ref<IVacancy> = computed<IVacancy>(() => store.getters['vacancies/vacancy']);
-    const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => store.getters['divisions/divisions']);
+    const vacancy: Ref<IVacancy> = computed<IVacancy>(() => Provider.store.getters['vacancies/vacancy']);
+    const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => Provider.store.getters['divisions/divisions']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('divisions/getAll');
-
+    const load = async () => {
+      await Provider.store.dispatch('divisions/getAll');
       if (route.params['id']) {
-        await store.dispatch('vacancies/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: vacancy.value.title, showBackButton: true, buttons: [{ action: submit }] });
+        await Provider.store.dispatch('vacancies/get', route.params['id']);
+        Provider.store.commit('admin/setHeaderParams', { title: vacancy.value.title, showBackButton: true, buttons: [{ action: submit }] });
       } else {
-        store.commit('vacancies/resetState');
-        store.commit('admin/setHeaderParams', { title: 'Добавить меню', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('vacancies/resetState');
+        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить меню', showBackButton: true, buttons: [{ action: submit }] });
       }
+      await Provider.store.dispatch('documentTypes/getDocumentsTypesForTables');
+      await Provider.store.dispatch('documentTypes/getAll');
 
-      await store.dispatch('documentTypes/getDocumentsTypesForTables');
-      await store.dispatch('documentTypes/getAll');
-
-      mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(vacancy, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
-    });
+    };
+
+    Hooks.onBeforeMount(load);
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
@@ -117,20 +112,22 @@ export default defineComponent({
         return;
       }
       if (!route.params['id']) {
-        await store.dispatch('vacancies/create', vacancy.value);
-        await router.push('/admin/vacancies');
+        await Provider.store.dispatch('vacancies/create', vacancy.value);
+        await Provider.router.push('/admin/vacancies');
         return;
       }
-      await store.dispatch('vacancies/update', vacancy.value);
-      next ? next() : await router.push('/admin/vacancies');
+      await Provider.store.dispatch('vacancies/update', vacancy.value);
+      next ? next() : await Provider.router.push('/admin/vacancies');
     };
 
     return {
       divisions,
-      mounted,
       submit,
       vacancy,
       form,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
+      sortList: Provider.sortList,
     };
   },
 });

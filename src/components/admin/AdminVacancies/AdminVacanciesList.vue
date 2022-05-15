@@ -11,30 +11,54 @@
       :filter-value="0"
       @load="load"
     />
+    <FilterCheckbox
+      :table="schema.vacancy.tableName"
+      :col="schema.vacancy.newResponsesCount"
+      label="С новыми отзывами"
+      :data-type="DataTypes.Number"
+      :operator="Operators.Gt"
+      :filter-value="0"
+      @load="load"
+    />
+    <FilterCheckbox
+      :table="schema.vacancy.tableName"
+      :col="schema.vacancy.active"
+      label="Активные"
+      :data-type="DataTypes.Boolean"
+      :operator="Operators.Eq"
+      :filter-value="true"
+      @load="load"
+    />
+
     <div class="flex-row-between">
       <el-button round size="medium" type="primary" @click="create">Создать вакансию</el-button>
       <el-button v-if="newResponsesExists()" round size="medium" type="warning">Показать новые отклики</el-button>
     </div>
     <el-card>
       <el-table v-if="vacancies" :data="vacancies">
-        <el-table-column prop="title" label="Новых отзывов">
+        <el-table-column prop="title" label="Отзывов">
           <template #default="scope">
-            <el-tag>Новых отзывов: {{ scope.row.countResponses(true) }}</el-tag>
+            <el-tag>Отзывов: {{ scope.row.responsesCount }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="Название" sortable>
+        <el-table-column prop="title" label="Новых отзывов">
+          <template #default="scope">
+            <el-tag>Новых отзывов: {{ scope.row.newResponsesCount }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="title" label="Название">
           <template #default="scope">
             {{ scope.row.title }}
           </template>
         </el-table-column>
-        <el-table-column prop="minSalary" label="Минимальная зарплата" sortable> </el-table-column>
-        <el-table-column prop="maxSalary" label="Максимальная зарплата" sortable> </el-table-column>
-        <el-table-column prop="archived" label="Архивирована" sortable>
+        <el-table-column prop="minSalary" label="Минимальная зарплата"> </el-table-column>
+        <el-table-column prop="maxSalary" label="Максимальная зарплата"> </el-table-column>
+        <el-table-column prop="archived" label="Активна">
           <template #default="scope">
-            {{ scope.row.archived ? 'Архивирована' : '' }}
+            <el-switch v-model="scope.row.active" @change="setActive(scope.row)" />
           </template>
         </el-table-column>
-        <el-table-column prop="date" label="Дата добавления" align="center" width="200" sortable>
+        <el-table-column prop="date" label="Дата добавления" align="center" width="200">
           <template #default="scope">
             {{ $dateTimeFormatter.format(scope.row.date) }}
           </template>
@@ -43,11 +67,9 @@
           <template #default="scope">
             <TableButtonGroup
               :show-edit-button="true"
-              :show-archive-button="true"
               :show-remove-button="true"
               @edit="$router.push(`/admin/vacancies/${scope.row.id}`)"
               @remove="remove(scope.row.id)"
-              @archive="archive(scope.row)"
             />
           </template>
         </el-table-column>
@@ -102,8 +124,7 @@ export default defineComponent({
       return vacancies.value.some((vacancy: IVacancy) => vacancy.withNewResponses());
     };
 
-    const archive = async (vacancy: IVacancy) => {
-      vacancy.archived = !vacancy.archived;
+    const setActive = async (vacancy: IVacancy) => {
       await Provider.store.dispatch('vacancies/update', vacancy);
     };
 
@@ -112,13 +133,13 @@ export default defineComponent({
     };
 
     return {
+      setActive,
       Operators,
       load,
       vacancies,
       remove,
       create,
       newResponsesExists,
-      archive,
       selectSearch,
       DataTypes,
       mounted: Provider.mounted,

@@ -7,6 +7,8 @@ export default interface IVacancySchema extends IBaseSchema {
   minSalary: string;
   maxSalary: string;
   responsesCount: string;
+  newResponsesCount: string;
+  active: string;
   date: string;
   divisionId: string;
   fullName: string;
