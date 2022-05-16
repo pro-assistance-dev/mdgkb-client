@@ -1,6 +1,5 @@
 import { computed, ComputedRef, Ref, ref } from 'vue';
 
-type CallbackFunction = () => void;
 import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
