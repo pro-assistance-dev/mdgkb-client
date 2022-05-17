@@ -149,6 +149,7 @@ $card-width: 300px;
       font-weight: normal;
       color: #4a4a4a;
       margin-top: 5px;
+      line-height: 1.7;
       :deep(p) {
         margin: 0;
       }
@@ -297,54 +298,54 @@ $card-width: 300px;
   }
 }
 
-@media screen and (max-width: 980px) {
-  .card {
-    width: 100%;
-  }
+// @media screen and (max-width: 980px) {
+//   .card {
+//     width: 100%;
+//   }
 
-  .card-content {
-    width: 100%;
-    word-wrap: break-word;
-  }
+//   .card-content {
+//     width: 100%;
+//     word-wrap: break-word;
+//   }
 
-  .image {
-    position: relative;
-    overflow: hidden;
-    padding-top: 75% !important;
-    img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
+//   .image {
+//     position: relative;
+//     overflow: hidden;
+//     padding-top: 75% !important;
+//     img {
+//       position: absolute;
+//       top: 50%;
+//       left: 50%;
+//       transform: translate(-50%, -50%);
+//       width: 100%;
+//       height: 100%;
+//       object-fit: cover;
+//     }
+//   }
 
-  .article-card {
-    width: 220px;
-    height: 320px;
-    margin: 0 10px 100px 0;
-    .image {
-      padding-top: 180px;
-    }
-    :deep(.title) {
-      font-size: 12px !important;
-    }
-    .card-meta {
-      font-size: 11px;
-      :deep(.anticon) {
-        font-size: 12px;
-        height: 12px;
-      }
-    }
-    .tags-top {
-      margin: 10px 0 0 10px;
-    }
-    .news-tag-link {
-      font-size: 8px;
-    }
-  }
-}
+//   .article-card {
+//     width: 220px;
+//     height: 320px;
+//     margin: 0 10px 100px 0;
+//     .image {
+//       padding-top: 180px;
+//     }
+//     :deep(.title) {
+//       font-size: 12px !important;
+//     }
+//     .card-meta {
+//       font-size: 11px;
+//       :deep(.anticon) {
+//         font-size: 12px;
+//         height: 12px;
+//       }
+//     }
+//     .tags-top {
+//       margin: 10px 0 0 10px;
+//     }
+//     .news-tag-link {
+//       font-size: 8px;
+//     }
+//   }
+// }
 </style>
