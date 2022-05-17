@@ -22,6 +22,7 @@ const Hooks = (() => {
   // const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
+      Provider.mounted.value = false;
       Provider.store.commit('admin/showLoading');
       Provider.store.commit(`filter/resetQueryFilter`);
       await Provider.store.dispatch('meta/getSchema');
@@ -42,6 +43,7 @@ const Hooks = (() => {
       await f(Provider.filterQuery.value);
 
       Provider.store.commit('admin/closeLoading');
+      Provider.mounted.value = true;
     });
   };
 

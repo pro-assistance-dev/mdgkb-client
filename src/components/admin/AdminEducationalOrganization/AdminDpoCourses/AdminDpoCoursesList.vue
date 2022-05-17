@@ -89,9 +89,8 @@ export default defineComponent({
     const create = () => router.push(`${route.path}/new`);
     const edit = (id: string) => router.push(`${route.path}/${id}`);
     const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
-    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
 
-    return { mounted, dpoCourses, remove, edit, create, fillDateFormat };
+    return { mounted, dpoCourses, remove, edit, create };
   },
 });
 </script>

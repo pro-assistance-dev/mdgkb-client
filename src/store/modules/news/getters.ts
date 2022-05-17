@@ -1,12 +1,10 @@
 import { GetterTree } from 'vuex';
 
 import News from '@/classes/news/News';
-import IFilesList from '@/interfaces/files/IFIlesList';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import IEventApplication from '@/interfaces/news/IEventApplication';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
-import INewsImage from '@/interfaces/news/INewsImage';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ITag from '@/interfaces/news/ITag';
 import RootState from '@/store/types';
@@ -54,9 +52,6 @@ const getters: GetterTree<State, RootState> = {
   calendarMeta(state): ICalendarMeta | undefined {
     return state.calendarMeta;
   },
-  galleryList(state): IFilesList[] {
-    return state.galleryList;
-  },
   comment(state): INewsComment {
     return state.comment;
   },
@@ -65,9 +60,6 @@ const getters: GetterTree<State, RootState> = {
   },
   eventApplication(state): IEventApplication {
     return state.eventApplication;
-  },
-  galleryListV2(state): INewsImage[] {
-    return state.newsItem.newsImages;
   },
 };
 

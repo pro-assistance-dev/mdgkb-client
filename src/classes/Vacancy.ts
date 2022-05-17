@@ -20,12 +20,16 @@ export default class Vacancy implements IVacancy {
   salaryComment = '';
   minSalary = 0;
   maxSalary = 0;
-  archived = false;
+  active = false;
+  responsesCount = 0;
+  newResponsesCount = 0;
 
   vacancyResponses: IVacancyResponse[] = [];
   experience = '';
   vacancyDuties: IVacancyDuty[] = [];
+  vacancyDutiesForDelete = [];
   vacancyRequirements: IVacancyRequirement[] = [];
+  vacancyRequirementsForDelete = [];
   schedule = '';
   division?: IDivision;
   divisionId?: string;
@@ -38,6 +42,8 @@ export default class Vacancy implements IVacancy {
     this.id = i.id;
     this.slug = i.slug;
     this.title = i.title;
+    this.responsesCount = i.responsesCount;
+    this.newResponsesCount = i.newResponsesCount;
     if (i.contactInfo) {
       this.contactInfo = new ContactInfo(i.contactInfo);
     }
@@ -46,7 +52,7 @@ export default class Vacancy implements IVacancy {
     this.minSalary = i.minSalary;
     this.maxSalary = i.maxSalary;
     this.salaryComment = i.salaryComment;
-    this.archived = i.archived;
+    this.active = i.active;
     this.experience = i.experience;
     this.schedule = i.schedule;
     this.date = i.date;
@@ -86,5 +92,13 @@ export default class Vacancy implements IVacancy {
       return `От ${this.minSalary} руб. до ${this.maxSalary} руб.`;
     }
     return `${this.minSalary} руб.`;
+  }
+
+  addDuty(): void {
+    this.vacancyDuties.push(new VacancyDuty());
+  }
+
+  addRequirement(): void {
+    this.vacancyRequirements.push(new VacancyRequirement());
   }
 }

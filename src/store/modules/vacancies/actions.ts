@@ -12,7 +12,12 @@ const httpClient = new HttpClient('vacancies');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    commit('setAll', await httpClient.get<IVacancy[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
+    const items = await httpClient.get<IVacancy[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    if (filterQuery && filterQuery.pagination.cursorMode) {
+      commit('appendToAll', items);
+      return;
+    }
+    commit('setAll', items);
   },
   getAllWithResponses: async ({ commit }): Promise<void> => {
     commit(

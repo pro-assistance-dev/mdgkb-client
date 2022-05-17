@@ -103,6 +103,10 @@ export default class News implements INews {
     }
   }
 
+  addNewsImage(): void {
+    this.newsImages.push(new NewsImage());
+  }
+
   addDoctor(doctor: IDoctor): void {
     const newsDoctor = new NewsDoctor();
     newsDoctor.doctorId = doctor.id;

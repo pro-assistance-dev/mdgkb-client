@@ -11,7 +11,7 @@ import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
 import removeFromClass from '@/mixins/removeFromClass';
-import fillDateFormat from '@/services/DateFormat';
+import DateTimeFormatter from '@/services/DateFormat';
 
 import Form from './Form';
 
@@ -118,8 +118,6 @@ export default class DpoCourse implements IDpoCourse {
     if (!this.dpoCoursesDates[0] || !this.dpoCoursesDates[0]) {
       return 'Даты неизвестны';
     }
-    const dateStart = fillDateFormat(this.dpoCoursesDates[0].start, false, false, false);
-    const dateEnd = fillDateFormat(this.dpoCoursesDates[0].start, false, false, false);
-    return `${dateStart}-${dateEnd}`;
+    return new DateTimeFormatter().getPeriod(this.dpoCoursesDates[0].start, this.dpoCoursesDates[0].end, { year: '2-digit' });
   }
 }

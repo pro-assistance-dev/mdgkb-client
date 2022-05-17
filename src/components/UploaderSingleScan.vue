@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts">
+import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -108,9 +109,19 @@ export default defineComponent({
     };
 
     const handleRemove = () => {
-      uploader.value.clearFiles();
-      showUpload.value = !showUpload.value;
-      emit('removeFile');
+      ElMessageBox.confirm('Вы уверены?', 'Вы хотите удалить изображение', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Удалить',
+        cancelButtonText: 'Не удалять',
+      })
+        .then(() => {
+          uploader.value.clearFiles();
+          showUpload.value = !showUpload.value;
+          emit('removeFile');
+        })
+        .catch((action: string) => {
+          return;
+        });
     };
 
     const crop = (file: IFile) => {

@@ -29,7 +29,7 @@
       </div>
       <div class="comment-header" align="justify">
         <span class="comment-email">{{ item.comment.user.email }}</span>
-        <span class="comment-date">{{ $dateFormatRu(item.comment.publishedOn, true) }}</span>
+        <span class="comment-date">{{ $dateTimeFormatter.format(item.comment.publishedOn, { month: 'long' }) }}</span>
       </div>
       <el-form v-if="item.comment.isEditing" ref="editCommentForm" :model="item" :rules="rules">
         <el-form-item prop="text">

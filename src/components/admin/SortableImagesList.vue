@@ -12,7 +12,7 @@
       </div>
     </template>
   </draggable>
-  <el-button @click="$emit('addImage')">Добавить изображение</el-button>
+  <el-button @click="$emit('addElement')">Добавить</el-button>
 </template>
 
 <script lang="ts">
@@ -27,9 +27,9 @@ import removeFromClass from '@/mixins/removeFromClass';
 import sort from '@/mixins/sort';
 
 export default defineComponent({
-  name: 'AdminGallery',
+  name: 'SortableImagesList',
   components: { UploaderSingleScan, draggable },
-  emits: ['addImage'],
+  emits: ['addElement'],
   props: {
     fileList: {
       type: Array as PropType<IFiler[]>,

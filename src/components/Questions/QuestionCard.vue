@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="questoin-date">
-      {{ $dateFormatRu(date) }}
+      {{ $dateTimeFormatter.format(date) }}
     </div>
   </el-card>
 </template>

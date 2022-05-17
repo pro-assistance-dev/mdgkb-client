@@ -12,12 +12,16 @@ export default interface IVacancy {
   contactInfoId?: string;
   specialization: string;
   minSalary: number;
+  responsesCount: number;
+  newResponsesCount: number;
   maxSalary: number;
   salaryComment: string;
-  archived: boolean;
+  active: boolean;
   experience: string;
   vacancyDuties: IVacancyDuty[];
+  vacancyDutiesForDelete: string[];
   vacancyRequirements: IVacancyRequirement[];
+  vacancyRequirementsForDelete: string[];
   schedule: string;
   date: Date;
 
@@ -30,4 +34,6 @@ export default interface IVacancy {
   divisionId?: string;
 
   getSalary: () => string;
+  addRequirement: () => void;
+  addDuty: () => void;
 }

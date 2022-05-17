@@ -1,134 +1,154 @@
 <template>
-  <div v-if="mounted" class="medical-profile-page-container">
-    <div class="side-container hidden-md-and-down">
-      <div class="left-field">
-        <!-- <h4 class="card-item-title">Преподаватели</h4>
-          <el-divider /> -->
-        <div v-if="postgraduateCourse.getMainTeacher()">
-          <b>Руководитель:</b> <br />
-          <router-link
-            v-if="postgraduateCourse.getMainTeacher()"
-            class="recent-news-item"
-            :to="`/doctors/${postgraduateCourse.getMainTeacher().doctor.human.slug}`"
-            style="padding-left: 0"
-          >
-            {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
-          </router-link>
-        </div>
-        <div v-if="postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main).length">
-          <b>Преподаватели:</b> <br />
-          <router-link
-            v-for="postgraduateCoursesTeacher in postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main)"
-            :key="postgraduateCoursesTeacher.id"
-            class="recent-news-item"
-            :to="`/doctors/${postgraduateCoursesTeacher.teacher.doctor.human.slug}`"
-            style="padding-left: 0"
-          >
-            {{ postgraduateCoursesTeacher.teacher.doctor.human.getFullName() }}
-          </router-link>
-        </div>
-        <div class="recent-news-footer">
-          <button @click="$router.push('/teachers')">Все преподаватели</button>
-        </div>
-        <div class="recent-news-footer">
-          <button @click="$router.push('/dpo')">Все программы</button>
-        </div>
-      </div>
+  <div class="size">
+    <div v-if="mounted" class="medical-profile-page-container">
+      <div class="side-container">
+        <div class="side-item card-item">
+          <!-- <h4 class="card-item-title">Преподаватели</h4>
+            <el-divider /> -->
+          <div v-if="postgraduateCourse.getMainTeacher()">
+            <b>Руководитель:</b> <br />
+            <router-link
+              v-if="postgraduateCourse.getMainTeacher()"
+              class="recent-news-item"
+              :to="`/doctors/${postgraduateCourse.getMainTeacher().doctor.human.slug}`"
+              style="padding-left: 0"
+            >
+              {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
+            </router-link>
+          </div>
+          <div v-if="postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main).length">
+            <b>Преподаватели:</b> <br />
+            <router-link
+              v-for="postgraduateCoursesTeacher in postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main)"
+              :key="postgraduateCoursesTeacher.id"
+              class="recent-news-item"
+              :to="`/doctors/${postgraduateCoursesTeacher.teacher.doctor.human.slug}`"
+              style="padding-left: 0"
+            >
+              {{ postgraduateCoursesTeacher.teacher.doctor.human.getFullName() }}
+            </router-link>
+          </div>
+          <div class="button-block">
+            <div class="recent-news-footer">
+              <button @click="$router.push('/teachers')">Все преподаватели</button>
+            </div>
+            <div class="recent-news-footer">
+              <button @click="$router.push('/dpo')">Все программы</button>
+            </div>
+          </div>
 
-      <div v-if="postgraduateCourse.postgraduateCoursesSpecializations.length" class="left-field">
-        <div class="left-field-title">
-          <b>Специальность:</b> <br />
-          <div v-for="item in postgraduateCourse.postgraduateCoursesSpecializations" :key="item.id" class="font">
-            {{ item.specialization.name }}
+          <div class="left-field">
+            <div class="left-field-title">
+              <b>Стоимость:</b> <br />
+              <div class="font">{{ postgraduateCourse.cost }} рублей.</div>
+            </div>
+          </div>
+
+          <div v-if="postgraduateCourse.postgraduateCoursesSpecializations.length" class="left-field">
+            <div class="left-field-title">
+              <b>Специальность:</b> <br />
+              <div v-for="item in postgraduateCourse.postgraduateCoursesSpecializations" :key="item.id" class="font">
+                {{ item.specialization.name }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="right-field">
-      <div class="card-item" style="margin-bottom: 20px">
-        <div class="card-header">
-          <h3 class="title article-title">Программа аспирантуры по специальности</h3>
-          <h2 class="title article-title">"{{ postgraduateCourse.getMainSpecialization().name }}"</h2>
+      <div class="right-field">
+        <div class="card-item" style="margin-bottom: 20px">
+          <div class="card-header">
+            <h3 class="title article-title">Программа аспирантуры по специальности</h3>
+            <h2 class="title article-title">"{{ postgraduateCourse.getMainSpecialization().name }}"</h2>
+          </div>
+          <!-- <el-divider /> -->
+          <div class="info-tags-block">
+            <el-tag v-if="postgraduateCourse.educationForm" class="tag">Форма обучения: {{ postgraduateCourse.educationForm }}</el-tag>
+            <el-divider v-if="postgraduateCourse.educationForm" direction="vertical" class="hidden-mobile" />
+            <el-tag v-if="postgraduateCourse.years > 0" class="tag">Нормативный срок обучения: {{ postgraduateCourse.years }} года </el-tag>
+            <el-divider v-if="postgraduateCourse.years > 0" direction="vertical" class="hidden-mobile" />
+            <el-tag class="tag">Язык обучения: русский</el-tag>
+          </div>
+          <!-- <el-divider /> -->
+          <div class="info-tags-block">
+            <a
+              v-if="postgraduateCourse.programFile.fileSystemPath"
+              :href="postgraduateCourse.programFile.getFileUrl()"
+              :download="postgraduateCourse.programFile.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Образовательная программа</a
+            >
+            <a
+              v-if="postgraduateCourse.annotation.fileSystemPath"
+              :href="postgraduateCourse.annotation.getFileUrl()"
+              :download="postgraduateCourse.annotation.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Аннотации рабочих программ дисциплин</a
+            >
+            <a
+              v-if="postgraduateCourse.calendar.fileSystemPath"
+              :href="postgraduateCourse.calendar.getFileUrl()"
+              :download="postgraduateCourse.calendar.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Календарный учебный график</a
+            >
+            <a
+              v-if="postgraduateCourse.questionsFile.fileSystemPath"
+              :href="postgraduateCourse.questionsFile.getFileUrl()"
+              :download="postgraduateCourse.questionsFile.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Вопросы для подготовки к кандидатскому экзамену</a
+            >
+          </div>
+          <!-- <el-divider /> -->
+          <div v-if="postgraduateCourse.postgraduateCoursePlans.length > 0" class="info-block">
+            <div>Учебные планы</div>
+            <div>:</div>
+            <a
+              v-for="plan in postgraduateCourse.postgraduateCoursePlans"
+              :key="plan.id"
+              :href="plan.plan.getFileUrl()"
+              :download="plan.plan.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              {{ plan.year.getFullYear() }}</a
+            >
+          </div>
+          <!-- <el-divider /> -->
+          <div v-if="postgraduateCourse.documentType.documents.length > 0">
+            <h4>Документы</h4>
+            <ul>
+              <li v-for="document in postgraduateCourse.documentType.documents" :key="document.id">
+                <a
+                  :href="document.documentsScans[0].scan.getFileUrl()"
+                  :download="document.documentsScans[0]?.scan.originalName"
+                  target="_blank"
+                  style="margin-right: 10px"
+                >
+                  {{ document.name }}</a
+                >
+              </li>
+            </ul>
+          </div>
+          <!-- <el-divider /> -->
+          <div class="bottom-footer">
+            <SharesBlock :title="postgraduateCourse.name" :description="postgraduateCourse.description" :url="getUrl()" />
+            <button class="response-btn" @click="openRespondForm">Подать заявление</button>
+          </div>
         </div>
-        <!-- <el-divider /> -->
-        <div class="info-tags-block">
-          <el-tag v-if="postgraduateCourse.educationForm" class="tag">Форма обучения: {{ postgraduateCourse.educationForm }}</el-tag>
-          <el-divider v-if="postgraduateCourse.educationForm" direction="vertical" class="hidden-mobile" />
-          <el-tag v-if="postgraduateCourse.years > 0" class="tag">Нормативный срок обучения: {{ postgraduateCourse.years }} года </el-tag>
-          <el-divider v-if="postgraduateCourse.years > 0" direction="vertical" class="hidden-mobile" />
-          <el-tag class="tag">Язык обучения: русский</el-tag>
+        <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
+          <h2 class="title article-title">Форма для подачи заявления</h2>
+          <!-- <el-divider /> -->
+          <PostgraduateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
         </div>
-        <!-- <el-divider /> -->
-        <div class="info-tags-block">
-          <a
-            v-if="postgraduateCourse.programFile.fileSystemPath"
-            :href="postgraduateCourse.programFile.getFileUrl()"
-            :download="postgraduateCourse.programFile.originalName"
-            target="_blank"
-            style="margin-right: 10px"
-          >
-            Образовательная программа</a
-          >
-          <a
-            v-if="postgraduateCourse.calendar.fileSystemPath"
-            :href="postgraduateCourse.calendar.getFileUrl()"
-            :download="postgraduateCourse.calendar.originalName"
-            target="_blank"
-            style="margin-right: 10px"
-          >
-            Календарный учебный график</a
-          >
-          <a
-            v-if="postgraduateCourse.questionsFile.fileSystemPath"
-            :href="postgraduateCourse.questionsFile.getFileUrl()"
-            :download="postgraduateCourse.questionsFile.originalName"
-            target="_blank"
-            style="margin-right: 10px"
-          >
-            Вопросы для подготовки к кандидатскому экзамену</a
-          >
-        </div>
-        <!-- <el-divider /> -->
-        <div v-if="postgraduateCourse.postgraduateCoursePlans.length > 0" class="info-block">
-          <div>Учебные планы</div>
-          <div>:</div>
-          <a
-            v-for="plan in postgraduateCourse.postgraduateCoursePlans"
-            :key="plan.id"
-            :href="plan.plan.getFileUrl()"
-            :download="plan.plan.originalName"
-            target="_blank"
-            style="margin-right: 10px"
-          >
-            {{ plan.year.getFullYear() }}</a
-          >
-        </div>
-        <!-- <el-divider /> -->
-        <div v-if="postgraduateCourse.documentType.documents.length > 0">
-          <h4>Документы</h4>
-          <ul>
-            <li v-for="document in postgraduateCourse.documentType.documents" :key="document.id">
-              <a
-                :href="document.documentsScans[0].scan.getFileUrl()"
-                :download="document.documentsScans[0]?.scan.originalName"
-                target="_blank"
-                style="margin-right: 10px"
-              >
-                {{ document.name }}</a
-              >
-            </li>
-          </ul>
-        </div>
-        <!-- <el-divider /> -->
-        <div class="bottom-footer">
-          <SharesBlock :title="postgraduateCourse.name" :description="postgraduateCourse.description" :url="getUrl()" />
-          <button class="response-btn" @click="openRespondForm">Подать заявление</button>
-        </div>
-      </div>
-      <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
-        <h2 class="title article-title">Форма для подачи заявления</h2>
-        <!-- <el-divider /> -->
-        <PostgraduateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
       </div>
     </div>
   </div>
@@ -249,7 +269,6 @@ $card-margin-size: 30px;
 .side-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
   width: $side-container-max-width;
   margin-right: $card-margin-size;
 
@@ -418,9 +437,9 @@ h4 {
   // border: 1px solid #dcdfe6;
 }
 
-.left-field {
-  width: 303px;
-}
+// .left-field {
+//   width: 300px;
+// }
 
 .left-field-title {
   margin-left: 12px;
@@ -433,6 +452,64 @@ h4 {
 // :deep(.card-item) {
 //   background-color: red;
 // }
+
+.button-block {
+  display: block;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) {
+  .medical-profile-page-container {
+    display: block;
+  }
+  .side-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0px;
+
+    .side-item {
+      margin-bottom: $card-margin-size;
+    }
+  }
+
+  .recent-news-footer {
+    width: 48%;
+  }
+
+  .button-block {
+    display: flex;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .medical-profile-page-container {
+    display: block;
+  }
+  .side-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0px;
+
+    .side-item {
+      margin-bottom: $card-margin-size;
+    }
+  }
+
+  .recent-news-footer {
+    margin: 0px;
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  .button-block {
+    display: block;
+  }
+}
 
 @media screen and (max-width: 607px) {
   .info-tags-block {

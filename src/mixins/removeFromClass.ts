@@ -1,6 +1,4 @@
-interface IWithId {
-  id?: string;
-}
+import IWithId from '@/interfaces/IWithId';
 
 export default function removeFromClass(index: number, arrayFromDelete: IWithId[], arrayForDelete: string[]): void {
   const idForDelete = arrayFromDelete[index].id;

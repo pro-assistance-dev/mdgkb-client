@@ -10,7 +10,7 @@
         </div>
         <div class="reviews-info">
           <h3 class="name">{{ item.comment.user.human.name }}</h3>
-          <h4 class="reviews-date-time">Отзыв от {{ $dateFormatRu(item.comment.publishedOn, true, true) }}</h4>
+          <h4 class="reviews-date-time">Отзыв от {{ $dateTimeFormatter.format(item.comment.publishedOn, { month: 'long' }) }}</h4>
           <h4 class="reviews-text">
             {{ item.comment.text }}
           </h4>

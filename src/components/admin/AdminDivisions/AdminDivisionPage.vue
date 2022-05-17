@@ -237,8 +237,6 @@ export default defineComponent({
       }`;
     };
 
-    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
-
     const addDoctor = () => {
       const newDoctor = doctors.value?.find((i: IDoctor) => i.id === newDoctorId.value);
       newDoctor.divisionId = route.params['id'];
@@ -259,7 +257,6 @@ export default defineComponent({
       form,
       rules,
       doctors,
-      fillDateFormat,
       divisionDoctors,
       newDoctorId,
       addDoctor,

@@ -44,7 +44,7 @@
               <div class="card-title">
                 <div class="item">
                   <div class="item-el-date">
-                    <h4>{{ fillDateFormat(formValue.createdAt) }}</h4>
+                    <h4>{{ $dateTimeFormatter.format(formValue.createdAt) }}</h4>
                   </div>
                   <div class="item-title">
                     <div class="item-el"><h4>Статус:&nbsp;</h4></div>
@@ -189,7 +189,7 @@
                   <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
                 </td>
 
-                <td>{{ fillDateFormat(formValue.createdAt) }}</td>
+                <td>{{ $dateTimeFormatter.format(formValue.createdAt) }}</td>
 
                 <td>
                   <div class="box">
@@ -318,7 +318,6 @@ export default defineComponent({
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
-    const fillDateFormat = (date: Date) => (date ? Intl.DateTimeFormat('ru-RU').format(new Date(date)) : '');
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
 
     const loadUser = async () => {
@@ -342,7 +341,6 @@ export default defineComponent({
     return {
       mounted,
       user,
-      fillDateFormat,
       formStatuses,
       updateFormStatus,
     };

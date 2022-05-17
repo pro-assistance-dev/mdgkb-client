@@ -10,7 +10,7 @@
           <div class="recent-news-item" @click="getNewsAndRecent(scope.row.slug)">
             <div class="item-title">{{ scope.row.title }}</div>
             <div class="item-footer">
-              <div class="item-date">{{ $dateFormatRu(scope.row.publishedOn, true) }}</div>
+              <div class="item-date">{{ $dateTimeFormatter.format(scope.row.publishedOn, { month: 'long' }) }}</div>
               <div class="icon">
                 <EyeOutlined />
                 <span>{{ scope.row.viewsCount }}</span>
