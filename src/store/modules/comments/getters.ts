@@ -13,6 +13,9 @@ const getters: GetterTree<State, RootState> = {
   comment(state): INewsComment {
     return state.comment;
   },
+  count(state): number {
+    return state.count;
+  },
 };
 
 export default getters;

@@ -1,19 +1,19 @@
 <template>
   <div class="filter-form">
     <el-form :gutter="12" label-position="top">
-      <el-form-item>
-        <el-select
-          v-model="selectedDateFilter"
-          value-key="id"
-          filterable
-          clearable
-          placeholder="Выберите дату"
-          round
-          @change="addFilterModel"
-        >
-          <el-option v-for="date in dates" :key="date.label" :label="date.label" :value="date.id"></el-option>
-        </el-select>
-      </el-form-item>
+      <!-- <el-form-item> -->
+      <el-select
+        v-model="selectedDateFilter"
+        value-key="id"
+        filterable
+        clearable
+        placeholder="Выберите дату"
+        round
+        @change="addFilterModel"
+      >
+        <el-option v-for="date in dates" :key="date.label" :label="date.label" :value="date.id"></el-option>
+      </el-select>
+      <!-- </el-form-item> -->
     </el-form>
   </div>
 </template>

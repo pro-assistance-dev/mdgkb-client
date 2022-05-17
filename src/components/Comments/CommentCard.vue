@@ -4,11 +4,11 @@
       <svg class="icon-avatar">
         <use xlink:href="#avatar"></use>
       </svg>
-      <Rating :with-numbers="false" :comments="[{ comment: comment }]" />
+      <Rating v-if="isReview" :with-numbers="false" :comments="[{ comment: comment }]" />
     </div>
     <div class="reviews-info">
-      <h3 v-if="comment?.user?.human?.name" class="name">{{ comment.user.human.name }}</h3>
-      <h3 v-if="question?.user?.human?.name && isQuestion" class="name">{{ question.user.human.name }}</h3>
+      <h3 v-if="isQuestion" class="name">{{ question.user.human.name }}</h3>
+      <h3 v-else class="name">{{ comment?.user?.human?.name || 'Без имени' }}</h3>
 
       <h4 v-if="!isQuestion" class="reviews-date-time">
         {{ !isReview ? 'Комментарий' : 'Отзыв' }} от {{ $dateFormatRu(comment.publishedOn, true, true) }}
@@ -77,7 +77,6 @@ export default defineComponent({
 }
 .reviews-block {
   display: flex;
-  margin-bottom: 20px;
 }
 
 .icon-avatar {
@@ -88,6 +87,10 @@ export default defineComponent({
 }
 
 .reviews-info {
+  .name {
+    margin: 0;
+    font-size: 14px;
+  }
   display: block;
   margin-top: 10px;
   margin-left: 15px;
@@ -121,7 +124,7 @@ export default defineComponent({
   font-weight: normal;
   font-size: 14px;
   color: #5d6477;
-  margin-top: 25px;
+  margin-top: 20px;
   text-align: justify;
   margin-right: 10px;
 }
@@ -157,5 +160,22 @@ export default defineComponent({
   color: #5d6477;
   margin: 0 0 0 20px;
   text-align: justify;
+}
+@media screen and (max-width: 768px) {
+  .icon-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  .reviews-info {
+    margin-top: 0;
+  }
+  .reviews-text {
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 380px) {
+  .icon-avatar {
+    display: none;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center; width: 100%">
+  <div :key="count" style="text-align: center; width: 100%">
     <el-pagination
       style="margin-top: 20px; margin-bottom: 20px"
       :current-page="curPage"
@@ -39,8 +39,8 @@ export default defineComponent({
       Provider.store.commit('pagination/setCurPage', pageNum);
       Provider.store.commit('filter/setOffset', pageNum - 1);
       await Provider.store.dispatch(`${storeModule}/${action}`, Provider.filterQuery.value);
-      const div = document.getElementsByClassName('el-table__body-wrapper');
-      div[0].scrollTop = 0;
+      // const div = document.getElementsByClassName('el-table__body-wrapper');
+      // div[0].scrollTop = 0;
       loading.close();
     };
 
