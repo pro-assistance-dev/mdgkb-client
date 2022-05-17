@@ -12,11 +12,12 @@ export default [
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },
-    meta: { carousel: true },
+    meta: { carousel: true, title: 'Новости' },
   },
   {
     path: '/news/:slug',
     name: 'NewsPage',
+    meta: { title: 'Новости - ' },
     component: NewsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);

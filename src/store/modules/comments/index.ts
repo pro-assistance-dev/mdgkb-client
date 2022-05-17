@@ -12,6 +12,7 @@ export const state: State = {
   comments: [],
   positiveMode: true,
   comment: new NewsComment(),
+  count: 0,
 };
 
 const namespaced = true;

@@ -5,13 +5,31 @@ import IComment from '@/interfaces/comments/IComment';
 
 import State from './state';
 
+interface ICommentsWithCount {
+  comments: IComment[];
+  count: number;
+}
+
 const mutations: MutationTree<State> = {
-  setAll(state, comments: IComment[]) {
-    state.comments = comments.map((i: IComment) => new Comment(i));
+  setAll(state, items: IComment[]) {
+    state.comments = items.map((i: IComment) => new Comment(i));
   },
-  appendToAll(state, items: IComment[]) {
-    const comments = items.map((i: IComment) => new Comment(i));
+  setAllWithCount(state, items: ICommentsWithCount) {
+    if (!items.comments) {
+      state.comments = [];
+      return;
+    }
+    state.comments = items.comments.map((i: IComment) => new Comment(i));
+    state.count = items.count;
+  },
+  appendToAll(state, items: ICommentsWithCount) {
+    if (!items.comments) {
+      state.comments = [];
+      return;
+    }
+    const comments = items.comments.map((i: IComment) => new Comment(i));
     state.comments.push(...comments);
+    state.count = items.count;
   },
   markPositive(state, comment: IComment) {
     state.comments = state.comments.map((i: IComment) => {
@@ -37,6 +55,9 @@ const mutations: MutationTree<State> = {
   setComment(state, comment: IComment) {
     state.comment.comment = new Comment();
     state.comments.unshift(new Comment(comment));
+  },
+  clearComments(state) {
+    state.comments = [];
   },
 };
 

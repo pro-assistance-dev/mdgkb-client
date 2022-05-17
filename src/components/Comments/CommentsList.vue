@@ -5,32 +5,36 @@
       <!--      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />-->
       <FilterCheckbox
         label="Свои отзывы"
-        :table="schema.comment.tableName"
-        :col="schema.comment.userId"
+        :table="Provider.schema.value.comment.tableName"
+        :col="Provider.schema.value.comment.userId"
         :data-type="DataTypes.String"
         :operator="Operators.Eq"
         :value="TokenService.getUserId()"
-        @load="loadCommentsWithoutMode"
+        @load="loadComments"
       />
       <FilterCheckbox
         label="С высоким рейтингом"
-        :table="schema.comment.tableName"
-        :col="schema.comment.rating"
+        :table="Provider.schema.value.comment.tableName"
+        :col="Provider.schema.value.comment.rating"
         :data-type="DataTypes.Number"
         :operator="Operators.Gt"
-        :value="3"
-        @load="loadCommentsWithoutMode"
+        :filter-value="'3'"
+        @load="loadComments"
       />
       <FilterCheckbox
         label="С низким рейтингом"
-        :table="schema.comment.tableName"
-        :col="schema.comment.rating"
+        :table="Provider.schema.value.comment.tableName"
+        :col="Provider.schema.value.comment.rating"
         :data-type="DataTypes.Number"
         :operator="Operators.Lt"
-        :value="3"
-        @load="loadCommentsWithoutMode"
+        :filter-value="'3'"
+        @load="loadComments"
       />
-      <FilterSelectDate :table="schema.comment.tableName" :col="schema.comment.publishedOn" @load="loadCommentsWithoutMode" />
+      <FilterSelectDate
+        :table="Provider.schema.value.comment.tableName"
+        :col="Provider.schema.value.comment.publishedOn"
+        @load="loadComments"
+      />
       <router-link to="/service-quality-assessment">Независимая оценка качества оказания услуг</router-link>
     </div>
     <div class="comments-list-container-right">
@@ -57,10 +61,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
@@ -68,9 +70,10 @@ import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import IComment from '@/interfaces/comments/IComment';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Operators } from '@/interfaces/filters/Operators';
-import ISchema from '@/interfaces/schema/ISchema';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -84,66 +87,56 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    const comments: Ref<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
+    const comments: Ref<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
     const mount = ref(false);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const showDialog: Ref<boolean> = ref(false);
-    const isAuth = computed(() => store.getters['auth/isAuth']);
+    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
 
     const openLoginModal = () => {
       if (!isAuth.value) {
-        store.commit('auth/openModal', true);
+        Provider.store.commit('auth/openModal', true);
       }
     };
 
-    onBeforeMount(async () => {
-      await store.dispatch('meta/getSchema');
-      await loadComments(true);
+    const load = async () => {
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 6;
+      Provider.filterQuery.value.pagination.cursorMode = true;
+      Provider.setSortModels(CommentsSortsLib.byPublishedOn());
+      // Provider.setFilterModels(CommentsFiltersLib.onlyPublished());
+      await loadComments();
       mount.value = true;
-    });
-
-    const loadComments = async (positiveMode: boolean) => {
-      setPositiveMode(positiveMode);
-      await store.dispatch('comments/getAll', filterQuery.value);
     };
 
-    const loadCommentsWithoutMode = async () => {
-      await store.dispatch('comments/getAll', filterQuery.value);
+    Hooks.onBeforeMount(load);
+
+    const loadComments = async () => {
+      Provider.store.commit('comments/clearComments');
+      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
     };
 
     const loadMore = async () => {
-      const lastCursor = comments.value[comments.value.length - 1].publishedOn;
-      filterQuery.value.pagination.cursor.value = lastCursor;
-      filterQuery.value.pagination.cursor.initial = false;
-      filterQuery.value.pagination.cursorMode = true;
-      await store.dispatch('comments/getAll', filterQuery.value);
-    };
+      Provider.filterQuery.value.pagination.cursor.value = comments.value[comments.value.length - 1].publishedOn;
+      Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
+      Provider.filterQuery.value.pagination.cursor.column = Provider.schema.value.comment.publishedOn;
+      Provider.filterQuery.value.pagination.cursor.initial = false;
+      Provider.filterQuery.value.pagination.cursorMode = true;
 
-    const setPositiveMode = (positiveMode: boolean) => {
-      const filterModel = FilterModel.CreateFilterModel(schema.value.comment.tableName, schema.value.comment.positive, DataTypes.String);
-      filterModel.operator = Operators.Eq;
-      filterModel.value1 = String(positiveMode);
-      filterQuery.value.filterModels = [];
-      filterQuery.value.filterModels.push(filterModel);
-      filterQuery.value.pagination.cursorMode = false;
+      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
     };
 
     return {
-      loadCommentsWithoutMode,
       TokenService,
       Operators,
       DataTypes,
-      schema,
       loadComments,
-      setPositiveMode,
       loadMore,
       comments,
       mount,
       showDialog,
       openLoginModal,
       isAuth,
+      Provider,
     };
   },
 });

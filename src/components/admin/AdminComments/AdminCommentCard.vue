@@ -8,11 +8,11 @@
         </div>
         <div class="right">
           <span class="name">{{ comment.user.email }}</span>
-          <span class="time">{{ $dateTimeFormatter.format(comment.publishedOn, { month: true }) }}</span>
+          <span class="time">{{ $dateTimeFormatter.format(comment.publishedOn, { month: 'long' }) }}</span>
         </div>
       </div>
     </template>
-    <div>{{ comment.text }}</div>
+    <div v-html="comment.text"></div>
     <div class="comment-footer">
       <div class="footer-left">
         <el-tag v-if="!comment.modChecked" type="warning" style="margin-right: 10px">Неотмодерирован</el-tag>
@@ -20,8 +20,12 @@
         <el-tag v-else type="danger">Не отображается на главной</el-tag>
       </div>
       <div class="footer-right">
-        <el-button type="success" size="mini" icon="el-icon-success" @click="markPositive">Отображать</el-button>
-        <el-button type="danger" size="mini" icon="el-icon-error" @click="markNegative">Не Отображать</el-button>
+        <el-button v-if="!comment.modChecked || !comment.positive" type="success" size="mini" icon="el-icon-success" @click="markPositive"
+          >Отображать</el-button
+        >
+        <el-button v-if="!comment.modChecked || comment.positive" type="danger" size="mini" icon="el-icon-error" @click="markNegative"
+          >Не Отображать</el-button
+        >
       </div>
     </div>
   </el-card>
@@ -90,7 +94,7 @@ export default defineComponent({
 }
 .el-card {
   margin-bottom: 20px;
-  max-width: 1400px;
+  // max-width: 1400px;
 }
 :deep(.el-card__header) {
   padding: 10px;

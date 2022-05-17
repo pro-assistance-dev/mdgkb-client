@@ -20,7 +20,7 @@
           <div class="article-preview">{{ news.previewText }}</div>
         </div>
         <div v-if="news.event && news.event.form.id" class="card-header action-container">
-          <EventRegistration Provider.store-name="news" :parent-id="news.id" />
+          <EventRegistration store-name="news" :parent-id="news.id" />
         </div>
         <div v-if="news.isArticle" class="card-header action-container">
           <a :href="news.articleLink">
@@ -36,7 +36,7 @@
         <el-divider />
         <NewsPageFooter :news="news" />
         <el-divider />
-        <!--        <Comments Provider.store-module="news" :parent-id="news.id" :is-reviews="false" />-->
+        <Comments store-module="news" :parent-id="news.id" :is-reviews="false" />
       </div>
     </div>
   </div>
@@ -48,6 +48,7 @@ import { useRoute } from 'vue-router';
 
 import CommentRules from '@/classes/news/CommentRules';
 import NewsComment from '@/classes/news/NewsComment';
+import Comments from '@/components/Comments/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
@@ -62,7 +63,7 @@ import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsDoctorsCard, NewsPageFooter, NewsCalendar, RecentNewsCard, ImageGallery, EventRegistration },
+  components: { NewsDoctorsCard, NewsPageFooter, NewsCalendar, RecentNewsCard, ImageGallery, EventRegistration, Comments },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -89,7 +90,6 @@ export default defineComponent({
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 3;
       Provider.setSortModels(NewsSortsLib.byViewsCount(), NewsSortsLib.byPublishedOn());
-
       Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.excludeSlug(slug.value as string));
       Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.excludeSlug(slug.value as string));
       const filtersIds = news.value.getTagsIds();

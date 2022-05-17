@@ -1,12 +1,12 @@
 <template>
   <div id="reviews" :class="{ reviews: isReviews }">
     <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</div>
+    <div id="leave-a-review" class="leave-a-review">
+      <!-- <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4> -->
+      <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" />
+    </div>
     <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
       <CommentCard :comment="item.comment" :is-review="isReviews" />
-    </div>
-    <div id="leave-a-review" class="leave-a-review">
-      <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4>
-      <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" />
     </div>
   </div>
 </template>
@@ -80,7 +80,6 @@ html {
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;
-  // margin-bottom: 170px;
 }
 
 .title-in {
@@ -96,10 +95,6 @@ html {
 
 .reviews-point {
   display: block;
-  margin-left: 10px;
-  margin-top: 15px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid #d2dae7;
   background-clip: padding-box;
 }
 
@@ -111,8 +106,7 @@ html {
   color: #343e5c;
   align-items: center;
   font-weight: bold;
-  // padding: 40px 190px 35px 175px;
-  padding-top: 20px;
   align-items: right;
+  padding-bottom: 20px;
 }
 </style>

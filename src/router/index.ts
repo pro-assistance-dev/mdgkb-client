@@ -96,12 +96,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/about',
     name: 'AboutPage',
     component: AboutPage,
+    meta: { title: 'О нас' },
     // beforeEnter: isAuthorized,
   },
   {
     path: '/stop-coma',
     name: 'StopComaPage',
     component: StopComaPage,
+    meta: { title: 'Стоп-кома' },
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
@@ -110,6 +112,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/dispanserization',
     name: 'DispanserizationPage',
     component: DispanserizationPage,
+    meta: { title: 'Диспансеризация' },
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
@@ -118,6 +121,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/side-organizations',
     name: 'SideOrganizationsPage',
     component: SideOrganizationsPage,
+    meta: { title: 'Сведения об организации' },
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
@@ -125,21 +129,25 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/partners',
     name: 'PartnersPage',
+    meta: { title: 'Наши партнеры' },
     component: PartnersPage,
   },
   {
     path: '/medical-organization-structure',
     name: 'MedicalOrganizationStructure',
+    meta: { title: 'Структура и органы управления' },
     component: MedicalOrganizationStructure,
   },
   {
     path: '/medical-organization',
     name: 'MedicalOrganization',
+    meta: { title: 'Данные о медицинской организации' },
     component: MedicalOrganization,
   },
   {
     path: '/questions',
     name: 'QuestionsAnswersPage',
+    meta: { title: 'Вопросы и ответы' },
     component: QuestionsAnswersPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
@@ -148,6 +156,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/preparations',
     name: 'PreparationsPage',
+    meta: { title: 'Подготовки к исследованиям' },
     component: PreparationsPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
@@ -156,6 +165,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/donor-rules',
     name: 'DonorRulesPage',
+    meta: { title: 'Правила для доноров' },
     component: DonorRulesPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
@@ -164,6 +174,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/medical-profiles/:id',
     name: 'MedicalProfilesPage',
+    meta: { title: 'Профиль помощи' },
     component: MedicalProfilesPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
@@ -173,6 +184,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/medical-profiles',
     name: 'MedicalProfilesList',
+    meta: { title: 'Профили помощи' },
     component: MedicalProfilesList,
     beforeEnter(to, from, next) {
       isAuthorized(next);
@@ -181,31 +193,37 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/public-documents',
     name: 'PublicDocumentsList',
+    meta: { title: 'Документы' },
     component: PublicDocumentsList,
   },
   {
     path: '/heads',
     name: 'HeadsList',
+    meta: { title: 'Руководство' },
     component: MedicalWorkersList,
   },
   {
     path: '/site-map',
     name: 'SiteMap',
+    meta: { title: 'Карта сайта' },
     component: SiteMap,
   },
   {
     path: '/contacts',
     name: 'Contacts',
+    meta: { title: 'Контакты' },
     component: Contacts,
   },
   {
     path: '/service-quality-assessment',
     name: 'ServiceQualityAssessmentPage',
+    meta: { title: 'Независимая оценка качества оказания услуг' },
     component: ServiceQualityAssessmentPage,
   },
   {
     path: '/search',
     name: 'SearchPage',
+    meta: { title: 'Поиск' },
     component: SearchPage,
     beforeEnter(to, from, next) {
       isAuthorized(next);
@@ -215,6 +233,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/restore/password/:userId/:uniqueId',
     name: 'RefreshPasswordPage',
+    meta: { title: 'Сброс пароля' },
     component: RefreshPasswordPage,
   },
   {

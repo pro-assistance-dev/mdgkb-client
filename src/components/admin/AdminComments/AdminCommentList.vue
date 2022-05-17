@@ -1,58 +1,93 @@
 <template>
-  <div class="comments-container">
-    <AdminCommentCard v-for="(comment, i) in comments" :key="i" :comment="comment" />
+  <div v-if="mounted" class="flex-column">
+    <div class="card-item filters">
+      <SortList class="filters-block" :models="createSortModels()" @load="loadComments" />
+      <FilterSelectDate
+        class="filters-block"
+        :table="Provider.schema.value.comment.tableName"
+        :col="Provider.schema.value.comment.publishedOn"
+        @load="loadComments"
+      />
+      <FilterCheckbox
+        class="filters-block"
+        label="Отмодерированные"
+        :table="Provider.schema.value.comment.tableName"
+        :col="Provider.schema.value.comment.modChecked"
+        :data-type="DataTypes.Boolean"
+        :operator="Operators.Eq"
+        @load="loadComments"
+      />
+    </div>
+    <div class="comments-container">
+      <div style="overflow: auto; padding: 10px">
+        <AdminCommentCard v-for="(comment, i) in comments" :key="i" :comment="comment" />
+      </div>
+      <div v-if="!comments.length">Комментариев нет</div>
+    </div>
+    <div class="flex-row-end">
+      <Pagination />
+    </div>
   </div>
-  <div v-if="!comments.length">Новых комментариев нет</div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import CommentParams from '@/classes/comments/CommentParams';
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
+import Pagination from '@/components/admin/Pagination.vue';
+import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
+import SortList from '@/components/SortList/SortList.vue';
 import IComment from '@/interfaces/comments/IComment';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import { Operators } from '@/interfaces/filters/Operators';
+import { Orders } from '@/interfaces/filters/Orders';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
+
 export default defineComponent({
   name: 'AdminCommentList',
-  components: { AdminCommentCard },
+  components: { AdminCommentCard, Pagination, SortList, FilterSelectDate, FilterCheckbox },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
+    // const route = useRoute();
+    const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
+    const mounted: Ref<boolean> = ref(false);
+    const searchString: Ref<string> = ref('');
 
-    const loadComments = async () => {
-      const params = new CommentParams();
-      store.commit('admin/showLoading');
-      switch (route.name) {
-        case 'AdminAllCommentList':
-          await store.dispatch('comments/getAll');
-          store.commit('admin/setHeaderParams', { title: 'Все комментарии' });
-          break;
-        case 'AdminModCheckedCommentList':
-          params.modChecked = true;
-          await store.dispatch('comments/getAll', params);
-          store.commit('admin/setHeaderParams', { title: 'Отмодерированные комментарии' });
-          break;
-        case 'AdminNotModCheckedCommentList':
-          params.modChecked = false;
-          await store.dispatch('comments/getAll', params);
-          store.commit('admin/setHeaderParams', { title: 'Неотмодерированные комментарии' });
-          break;
-        default:
-          break;
-      }
-      store.commit('admin/closeLoading');
+    const load = async (filterQuery: IFilterQuery) => {
+      Provider.setSortModels(CommentsSortsLib.byPublishedOn());
+      await Provider.store.dispatch('comments/getAll', filterQuery);
+      mounted.value = true;
     };
 
-    onBeforeMount(async () => {
-      await loadComments();
+    const createSortModels = () => {
+      return [CommentsSortsLib.byPublishedOn(Orders.Desc), CommentsSortsLib.byPublishedOn(Orders.Asc)];
+    };
+
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'comments', action: 'getAll' },
+      sortModels: [],
+      adminHeader: {
+        title: 'Комментарии',
+      },
     });
 
-    watch(() => route.name, loadComments);
+    const loadComments = async () => {
+      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
+    };
 
     return {
       comments,
+      mounted,
+      Provider,
+      searchString,
+      loadComments,
+      load,
+      Operators,
+      DataTypes,
+      createSortModels,
     };
   },
 });
@@ -63,5 +98,31 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  height: 100%;
+  overflow: hidden;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+// filters
+.filters {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  &-block {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    span {
+      margin: 0 10px;
+    }
+  }
+}
+:deep(.el-form-item),
+:deep(.el-form-item__content) {
+  margin: 0;
 }
 </style>
