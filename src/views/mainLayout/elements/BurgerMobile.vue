@@ -13,7 +13,7 @@
             <div class="submenu">
               <ul v-if="!menu.withoutChildren()">
                 <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
-                  <router-link :to="subMenu.link">{{ subMenu.name }}</router-link>
+                  <a :href="subMenu.link">{{ subMenu.name }}</a>
                 </li>
               </ul>
             </div>
