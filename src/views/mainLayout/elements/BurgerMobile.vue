@@ -1,28 +1,37 @@
 <template>
-  <div class="burger-drop">
-    <button class="burger-menu">
-      <svg class="icon-menu">
-        <use xlink:href="#Main_menu_burger"></use>
-      </svg>
-    </button>
-    <div class="drop-burger-menu">
-      <ul class="drop-burger-menu-item">
-        <li v-for="menu in menus" :key="menu.id">
-          <router-link :to="menu.getLink()">{{ menu.name }}</router-link>
-          <ul v-if="!menu.withoutChildren()" class="drop-burger-submenu-item">
-            <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
-              <router-link class="link-colomn" :to="subMenu.link">{{ subMenu.name }}</router-link>
+  <div class="drop-burger-menu">
+    <input id="menu__toggle" type="checkbox" />
+    <label class="menu__btn" for="menu__toggle">
+      <span></span>
+    </label>
+    <div class="menu__box">
+      <div class="menu-zone">
+        <div class="menu">
+          <ul>
+            <li v-for="menu in menus" :id="menu.id" :key="menu.id" class="item">
+              <a v-if="!menu.withoutChildren()" :href="`#${menu.id}`" class="btn"
+                >{{ menu.name }}
+                <svg class="icon-arrow">
+                  <use xlink:href="#arrow-down"></use>
+                </svg>
+              </a>
+              <a v-else :href="menu.getLink()" class="btn">{{ menu.name }}</a>
+              <div class="submenu">
+                <ul v-if="!menu.withoutChildren()">
+                  <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
+                    <a :href="subMenu.link">{{ subMenu.name }}</a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
   <svg width="0" height="0" class="hidden">
-    <symbol id="Main_menu_burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M3 12H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M3 18H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <symbol id="arrow-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+      <path d="M5 6L10 11L15 6L17 7L10 14L3 7L5 6Z"></path>
     </symbol>
   </svg>
 </template>
@@ -42,6 +51,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
 
+    const show = false;
     const menus = computed(() => store.getters['menus/items']);
     const route = useRoute();
 
@@ -74,154 +84,206 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 * {
-  padding: 0px;
-  margin: 0px;
+  text-decoration: none;
+  color: white;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-*,
-::after,
-::before {
-  box-sizing: initial;
-}
-
-html,
 body {
-  height: 100%;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-.hidden {
-  display: none;
-}
-
-.burger-drop {
-  align-content: center;
   display: flex;
-}
-
-.burger-menu {
-  position: relative;
-  display: inline-block;
-  align-content: center;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
 .drop-burger-menu {
-  display: none;
+  position: relative;
+}
+
+#menu__toggle {
+  opacity: 0;
+}
+
+.menu__btn {
+  display: flex;
+  align-items: center;
   position: absolute;
-  top: 60px;
-}
-
-.burger-menu:focus ~ .drop-burger-menu,
-.burger-menu:active ~ .drop-burger-menu,
-.drop-burger-menu:active {
-  display: block;
-}
-
-.burger-menu:focus-within {
-  stroke: #379fff;
-}
-
-button {
-  padding: 0;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
+  top: 0px;
+  left: 20px;
+  width: 26px;
+  height: 26px;
   cursor: pointer;
-  display: flex;
+  z-index: 101;
 }
 
-.icon-menu {
-  width: 28px;
-  height: 28px;
-  stroke: #343e5c;
-  transition: 0.25s;
-  padding-right: 7px;
-  padding-left: 7px;
-  display: flex;
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #343e5c;
 }
 
-.icon-menu:hover {
-  stroke: #0671ba;
+.menu__btn:hover > span,
+.menu__btn:hover > span::before,
+.menu__btn:hover > span::after {
+  background-color: #22abe2;
 }
 
-ul {
+.menu__btn > span::before {
+  content: '';
+  top: -8px;
+}
+.menu__btn > span::after {
+  content: '';
+  top: 8px;
+}
+
+.menu__box {
+  display: block;
+  position: fixed;
+  visibility: hidden;
+  top: -17px;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  list-style: none;
+  text-align: left;
+  z-index: 100;
+  background: #000000;
+  opacity: 0.96;
+}
+
+.menu-zone {
+  max-width: 450px;
+  height: 100%;
+  z-index: 100;
+  background: #eceff1;
+  padding: 150px 10px 0 0;
+}
+
+.menu__item {
+  display: block;
+  padding: 12px 24px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.menu__item:hover {
+  background-color: #cfd8dc;
+}
+#menu__toggle:checked ~ .menu__btn > span {
+  transform: rotate(45deg);
+}
+#menu__toggle:checked ~ .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0);
+}
+#menu__toggle:checked ~ .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+#menu__toggle:checked ~ .menu__box {
+  visibility: visible;
+  left: 0;
+}
+
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  transition-duration: 0.25s;
+}
+
+.menu__box {
+  transition-duration: 0.15s;
+}
+.menu__item {
+  transition-duration: 0.15s;
+}
+
+ul.submenu li {
+  text-decoration: none;
+  display: block;
+  transition: color 0.25s ease 0s;
+  text-transform: uppercase;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+}
+
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
   margin: 0;
   padding: 0;
-}
-ul.drop-burger-menu-item li {
-  background: #f0f2f7;
-  border-bottom: 1px solid #dfe4ee;
-  list-style: none;
-  // width: 166px;
-  width: 320px;
+  box-sizing: border-box;
 }
 
-ul.drop-burger-menu-item li a {
-  text-decoration: none;
+.menu {
+  width: 100%;
+  height: auto;
+  background: #0671ba;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.menu .btn {
   display: block;
-  padding: 15px 15px 15px 15px;
-  color: #343e5c;
-  transition: color 0.3s ease 0s;
-  text-transform: uppercase;
-  align-items: center;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 12px;
-  background: #2754eb;
-  color: #ffffff;
-}
-
-ul.drop-burger-menu-item li a:hover {
-  background: #ffffff;
-  color: #2754eb;
-}
-
-ul.drop-burger-menu-item li ul {
-  display: none;
-}
-
-ul.drop-burger-menu-item li:hover {
+  padding: 0.5rem 0 0.5rem 1rem;
+  border-bottom: solid 1px #e9e9e9;
   position: relative;
-  background: #ffffff;
 }
 
-ul.drop-burger-menu-item li:hover > ul {
-  display: block;
-}
-
-ul.drop-burger-menu-item li:hover ul {
-  position: absolute;
-  top: 0;
-  left: 154px;
-}
-
-ul.drop-burger-submenu-item li a {
-  text-decoration: none;
-  display: block;
-  padding: 15px 15px 15px 15px;
-  color: #343e5c;
-  transition: color 0.3s ease 0s;
-  text-transform: uppercase;
-  align-items: center;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 12px;
-  background: #ffffff;
-  color: #2754eb;
-}
-
-ul.drop-burger-submenu-item li a:hover {
-  background: #2754eb;
+a.btn:hover {
   color: #ffffff;
+  background: #01528a;
 }
 
-ul.drop-burger-submenu-item li {
-  background: #f0f2f7;
-  border-bottom: 1px solid #dfe4ee;
-  list-style: none;
-  width: 166px;
-  // width: 320px;
+a.btn:active {
+  color: #ffffff;
+  background: #22abe2;
+}
+
+.menu .submenu {
+  background: #22abe2;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out;
+}
+
+.menu .submenu a {
+  display: block;
+  padding: 0.5rem 0 0.5rem 2rem;
+  position: relative;
+}
+
+.menu .submenu a:hover {
+  padding-left: calc(1rem + 5px);
+  color: #343e5c;
+  background: #eceff1;
+}
+
+.menu .submenu a:hover::before {
+  opacity: 1;
+}
+
+.item:target .submenu {
+  max-height: 40rem;
+}
+
+.icon-arrow {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  right: 15px;
+  fill: #ffffff;
 }
 </style>
