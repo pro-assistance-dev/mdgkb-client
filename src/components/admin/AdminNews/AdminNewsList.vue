@@ -87,7 +87,6 @@ export default defineComponent({
     const load = async (): Promise<void> => {
       sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
       Provider.store.commit('news/clearNews');
-      Provider.filterQuery.value.limit = 25;
       Provider.setSortModels(NewsSortsLib.byPublishedOn());
       await loadNews();
       Provider.store.commit('admin/setHeaderParams', {

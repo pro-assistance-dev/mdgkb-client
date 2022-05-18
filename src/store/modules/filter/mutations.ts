@@ -25,7 +25,6 @@ const mutations: MutationTree<State> = {
     state.action = action;
   },
   setOffset(state, offset: number) {
-    state.filterQuery.offset = offset;
     state.filterQuery.pagination.offset = offset * state.filterQuery.pagination.limit;
   },
   setWithDeleted(state, withDeleted: boolean) {
