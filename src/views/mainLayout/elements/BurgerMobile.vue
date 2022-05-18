@@ -123,7 +123,13 @@ body {
   position: absolute;
   width: 100%;
   height: 2px;
-  background-color: #616161;
+  background-color: #343e5c;
+}
+
+.menu__btn:hover > span,
+.menu__btn:hover > span::before,
+.menu__btn:hover > span::after {
+  background-color: #22abe2;
 }
 
 .menu__btn > span::before {
