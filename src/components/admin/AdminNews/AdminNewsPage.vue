@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div v-if="mounted" class="wrapper">
     <el-form ref="form" :key="news" :model="news" label-position="top" :rules="rules">
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
@@ -76,9 +76,8 @@
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import NewsRules from '@/classes/news/NewsRules';
 import AdminGallery from '@/components/admin/AdminGallery.vue';
@@ -91,6 +90,8 @@ import INews from '@/interfaces/news/INews';
 import removeFromClass from '@/mixins/removeFromClass';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminNewsPage',
@@ -104,10 +105,8 @@ export default defineComponent({
     AdminNewsDoctors,
   },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
     let mounted = ref(false);
+    const route = useRoute();
     let isCropGalleryOpen = ref(false);
     const form = ref();
     const rules = ref(NewsRules);
@@ -132,29 +131,41 @@ export default defineComponent({
       },
     };
 
-    const galleryList = computed(() => store.getters[`news/galleryList`]);
-    const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
+    const galleryList = computed(() => Provider.store.getters[`news/galleryList`]);
+    const news: Ref<INews> = computed(() => Provider.store.getters['news/newsItem']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('doctors/getAll');
+    const submit = async (next?: NavigationGuardNext) => {
+      saveButtonClick.value = true;
+      if (!validate(form)) {
+        saveButtonClick.value = false;
+        return;
+      }
+      if (!route.params['slug']) {
+        await Provider.store.dispatch('news/create', news.value);
+        await Provider.router.push('/admin/news');
+        return;
+      }
+      await Provider.store.dispatch('news/update', news.value);
+      next ? next() : Provider.router.push('/admin/news');
+    };
+
+    Hooks.onBeforeMount(async () => {
       await loadNewsItem();
-      store.commit('admin/closeLoading');
     });
 
     const loadNewsItem = async () => {
       if (route.params['slug']) {
-        await store.dispatch('news/get', route.params['slug']);
-        store.commit('admin/setHeaderParams', {
+        await Provider.store.dispatch('news/get', route.params['slug']);
+        Provider.store.commit('admin/setHeaderParams', {
           title: news.value.title,
           showBackButton: true,
           buttons: [{ action: submit }],
         });
       } else {
-        store.commit('news/resetState');
-        store.commit('admin/setHeaderParams', { title: 'Добавить новость', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('news/resetState');
+        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить новость', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
@@ -164,21 +175,6 @@ export default defineComponent({
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
     });
-
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      if (!route.params['slug']) {
-        await store.dispatch('news/create', news.value);
-        await router.push('/admin/news');
-        return;
-      }
-      await store.dispatch('news/update', news.value);
-      next ? next() : router.push('/admin/news');
-    };
 
     return {
       removeFromClass,
