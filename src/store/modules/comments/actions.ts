@@ -10,13 +10,13 @@ import State from './state';
 const httpClient = new HttpClient('comments');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }, query: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IComment[]>({ query: query ? query.toUrl() : '' });
-    if (query.pagination.cursorMode) {
+  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    const items = await httpClient.get<IComment[]>({ query: filterQuery ? filterQuery?.toUrl() : '' });
+    if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);
       return;
     }
-    commit('setAll', items);
+    commit('setAllWithCount', items);
   },
   getAllMain: async ({ commit }): Promise<void> => {
     const items = await httpClient.get<IComment[]>({ query: 'main' });

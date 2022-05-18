@@ -50,7 +50,7 @@ export default defineComponent({
         Orders.Desc
       );
       Provider.setSortModels(modelForMainNews, modelForSubMainNews, modelForPublishedOnMainNews);
-      Provider.filterQuery.value.limit = 8;
+      // Provider.filterQuery.value.limit = 8;
     };
 
     const load = async () => {

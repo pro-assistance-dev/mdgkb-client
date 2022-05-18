@@ -19,8 +19,6 @@
         <a :href="scope.row.findDocument(documentsType.id).getScan().getFileUrl()" target="_blank">
           <el-button size="mini" icon="el-icon-download">Скачать</el-button>
         </a>
-        <!--        {{ scope.row.findDocument(documentType.id).scanFileSystemPath() }}-->
-        <!--        <el-button @click="downloadScan(documentsType.id)">Скачать документ</el-button>-->
       </template>
     </el-table-column>
     <el-table-column width="50" fixed="right" align="center">
@@ -37,10 +35,10 @@
   <el-dialog v-model="showVacancy" :title="'Отклик на вакансию'" width="80%" center>
     <el-descriptions :column="1" border direction="horizontal">
       <el-descriptions-item label="Email">
-        {{ showedVacancyResponse.human.contactInfo.emails[0].address }}
+        {{ showedVacancyResponse.user.human.contactInfo.emails[0].address }}
       </el-descriptions-item>
       <el-descriptions-item label="Телефон">
-        {{ showedVacancyResponse.human.contactInfo.telephoneNumbers[0].number }}
+        {{ showedVacancyResponse.user.human.contactInfo.telephoneNumbers[0].number }}
       </el-descriptions-item>
       <el-descriptions-item label="Сопроводительное письмо">
         {{ showedVacancyResponse.coverLetter }}
@@ -53,11 +51,11 @@
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminVacanciesPageResponses',
@@ -69,27 +67,24 @@ export default defineComponent({
     },
   },
   setup() {
-    const store = useStore();
     let mounted = ref(false);
     const form = ref();
     const showVacancy = ref(false);
     let showedVacancyResponse: Ref<IVacancyResponse | undefined> = ref(undefined);
-    const documentsTypes: Ref<IDocumentType[]> = computed(() => store.getters['documentTypes/items']);
+    const documentsTypes: Ref<IDocumentType[]> = computed(() => Provider.store.getters['documentTypes/items']);
 
     const showVacancyResponse = async (vacancyResponse: IVacancyResponse) => {
       vacancyResponse.viewed = true;
       showedVacancyResponse.value = vacancyResponse;
       showVacancy.value = true;
-      await store.dispatch('vacancyResponses/update', vacancyResponse);
-    };
-    const pdfVacancyResponse = async (id: string) => {
-      await store.dispatch('vacancyResponses/pdf', id);
+      await Provider.store.dispatch('vacancyResponses/update', vacancyResponse);
     };
 
-    // const downloadScan = async (documentId: IVacancyResponse) => {};
+    const pdfVacancyResponse = async (id: string) => {
+      await Provider.store.dispatch('vacancyResponses/pdf', id);
+    };
 
     return {
-      // downloadScan,
       documentsTypes,
       showedVacancyResponse,
       pdfVacancyResponse,

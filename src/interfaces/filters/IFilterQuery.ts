@@ -6,8 +6,6 @@ export default interface IFilterQuery {
   id?: string;
   col: string;
   value: string;
-  limit: number;
-  offset: number;
   filterModels: IFilterModel[];
   pagination: IPagination;
   sortModels: ISortModel[];

@@ -6,7 +6,7 @@
         ref="commentInput"
         v-model="comment.comment.text"
         type="textarea"
-        :placeholder="!isReviews ? 'Напишите комментарий:' : 'Напишите отзыв:'"
+        :placeholder="!isReviews ? 'Напишите комментарий' : 'Напишите отзыв'"
         show-word-limit
         :autosize="{ minRows: 3, maxRows: 6 }"
         @focus="isAuth ? null : openLoginModal()"

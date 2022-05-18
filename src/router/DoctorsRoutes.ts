@@ -8,6 +8,7 @@ export default [
   {
     path: '/doctors/:slug',
     name: 'DoctorPage',
+    meta: { title: 'Врачи - ' },
     component: DoctorPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
@@ -16,6 +17,7 @@ export default [
   {
     path: '/doctors',
     name: 'DoctorsList',
+    meta: { title: 'Врачи' },
     component: MedicalWorkersList,
   },
   // {

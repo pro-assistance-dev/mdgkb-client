@@ -12,9 +12,11 @@ export default interface IVacancy {
   contactInfoId?: string;
   specialization: string;
   minSalary: number;
+  responsesCount: number;
+  newResponsesCount: number;
   maxSalary: number;
   salaryComment: string;
-  archived: boolean;
+  active: boolean;
   experience: string;
   vacancyDuties: IVacancyDuty[];
   vacancyDutiesForDelete: string[];

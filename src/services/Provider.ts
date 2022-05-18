@@ -1,6 +1,5 @@
-import { computed, ComputedRef, Ref } from 'vue';
+import { computed, ComputedRef, Ref, ref } from 'vue';
 
-type CallbackFunction = () => void;
 import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -12,14 +11,19 @@ import store from '../store';
 const Provider = (() => {
   const r = router;
   const s = store;
+  const mounted: Ref<boolean> = ref(false);
   const schema: Ref<ISchema> = computed(() => s.getters['meta/schema']);
   const filterQuery: ComputedRef<IFilterQuery> = computed(() => s.getters['filter/filterQuery']);
-
+  const sortList: Ref<ISortModel[]> = ref([]);
   function setFilterModel(model: IFilterModel): void {
     s.commit('filter/setFilterModel', model);
   }
   function setFilterModels(...models: IFilterModel[]): void {
     models.forEach((model: IFilterModel) => setFilterModel(model));
+  }
+
+  function setSortList(...models: ISortModel[]): void {
+    sortList.value = models;
   }
 
   function setSortModel(model: ISortModel): void {
@@ -35,7 +39,6 @@ const Provider = (() => {
   }
 
   function setLimit(limit: number): void {
-    console.log(s);
     filterQuery.value.pagination.limit = limit;
   }
 
@@ -46,6 +49,9 @@ const Provider = (() => {
   }
 
   return {
+    setSortList: setSortList,
+    sortList: sortList,
+    mounted: mounted,
     resetFilterQuery: resetFilterQuery,
     setSortModelsForOneTable: setSortModelsForOneTable,
     setFilterModels: setFilterModels,

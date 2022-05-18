@@ -206,17 +206,18 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-question',
       },
       {
-        title: 'Комментарий',
+        title: 'Комментарии',
         to: '/admin/comments/all',
+        tableName: 'comments',
       },
-      {
-        title: 'Отмодерированные комментарии',
-        to: '/admin/comments/mod-checked',
-      },
-      {
-        title: 'Неотмодерированные комментарии',
-        to: '/admin/comments/not-mod-checked',
-      },
+      // {
+      //   title: 'Отмодерированные комментарии',
+      //   to: '/admin/comments/mod-checked',
+      // },
+      // {
+      //   title: 'Неотмодерированные комментарии',
+      //   to: '/admin/comments/not-mod-checked',
+      // },
     ],
   },
   {
