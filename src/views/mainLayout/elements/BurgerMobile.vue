@@ -1,25 +1,35 @@
 <template>
   <div class="drop-burger-menu">
     <input id="menu__toggle" type="checkbox" />
-    <label class="menu__btn" for="menu__toggle">
+    <label
+      :style="{ visibility: isDrawerOpen ? 'hidden' : 'visible', 'transition-delay': !isDrawerOpen ? '0.25s' : '' }"
+      class="menu__btn"
+      for="menu__toggle"
+      @click="toggleDrawer(true)"
+    >
       <span></span>
     </label>
-    <div class="menu__box">
-      <div class="menu-zone">
+    <div
+      id="menu__box"
+      :style="{ visibility: !isDrawerOpen ? 'hidden' : 'visible' }"
+      class="menu__box"
+      @click="(e) => drawerLeaveHandler(e)"
+    >
+      <div id="menu-zone" class="menu-zone" :style="{ left: !isDrawerOpen ? '-100%' : '0' }">
         <div class="menu">
           <ul>
             <li v-for="menu in menus" :id="menu.id" :key="menu.id" class="item">
-              <a v-if="!menu.withoutChildren()" :href="`#${menu.id}`" class="btn"
+              <a v-if="!menu.withoutChildren()" :href="`#${menu.id}`" class="btn" @click="(e) => test(e)"
                 >{{ menu.name }}
                 <svg class="icon-arrow">
                   <use xlink:href="#arrow-down"></use>
                 </svg>
               </a>
-              <a v-else :href="menu.getLink()" class="btn">{{ menu.name }}</a>
+              <router-link v-else :to="menu.getLink()" class="btn" @click="menuClickHandler">{{ menu.name }}</router-link>
               <div class="submenu">
                 <ul v-if="!menu.withoutChildren()">
                   <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
-                    <a :href="subMenu.link">{{ subMenu.name }}</a>
+                    <router-link :to="subMenu.link" @click="menuClickHandler">{{ subMenu.name }}</router-link>
                   </li>
                 </ul>
               </div>
@@ -51,20 +61,28 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
 
-    const show = false;
+    const isDrawerOpen: Ref<boolean> = ref(false);
     const menus = computed(() => store.getters['menus/items']);
     const route = useRoute();
 
-    const menuClickHandler = (link: string) => {
-      emit('changeDrawerStatus', false);
-      router.push(link);
+    const toggleDrawer = (open?: boolean) => {
+      isDrawerOpen.value = open ? open : !isDrawerOpen.value;
+    };
+    const drawerLeaveHandler = (e: any) => {
+      if (e.target.id !== 'menu__box') return;
+      toggleDrawer(false);
+    };
+    const menuClickHandler = () => {
+      toggleDrawer(false);
     };
 
     onBeforeMount(async () => {
       await store.dispatch('menus/getAll');
       activePath.value = route.path;
     });
-
+    const test = (e: any) => {
+      console.log(e.target.nextSibling.currentStyle);
+    };
     watch(
       () => route.path,
       () => {
@@ -77,6 +95,10 @@ export default defineComponent({
       expand,
       activePath,
       menuClickHandler,
+      isDrawerOpen,
+      toggleDrawer,
+      drawerLeaveHandler,
+      test,
     };
   },
 });
@@ -148,25 +170,27 @@ body {
 .menu__box {
   display: block;
   position: fixed;
-  visibility: hidden;
-  top: -17px;
-  left: -100%;
-  width: 100%;
-  height: 100%;
+  // visibility: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   margin: 0;
   list-style: none;
   text-align: left;
   z-index: 100;
-  background: #000000;
-  opacity: 0.96;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .menu-zone {
+  position: fixed;
+  // left: -100%;
   max-width: 450px;
+  width: 75%;
   height: 100%;
   z-index: 100;
   background: #eceff1;
-  padding: 150px 10px 0 0;
+  padding: 150px 0 0 0;
 }
 
 .menu__item {
@@ -180,33 +204,42 @@ body {
 .menu__item:hover {
   background-color: #cfd8dc;
 }
-#menu__toggle:checked ~ .menu__btn > span {
-  transform: rotate(45deg);
-}
-#menu__toggle:checked ~ .menu__btn > span::before {
-  top: 0;
-  transform: rotate(0);
-}
-#menu__toggle:checked ~ .menu__btn > span::after {
-  top: 0;
-  transform: rotate(90deg);
-}
+// #menu__toggle:checked ~ .menu__btn {
+//   transition-duration: 1s;
+// }
+// #menu__toggle:checked ~ .menu__btn > span {
+//   transform: rotate(45deg);
+// }
+// #menu__toggle:checked ~ .menu__btn > span::before {
+//   top: 0;
+//   transform: rotate(0);
+// }
+// #menu__toggle:checked ~ .menu__btn > span::after {
+//   top: 0;
+//   transform: rotate(90deg);
+// }
 #menu__toggle:checked ~ .menu__box {
   visibility: visible;
+  .menu-zone {
+    visibility: visible;
+    left: 0;
+  }
+}
+.is-active {
   left: 0;
 }
 
-.menu__btn > span,
-.menu__btn > span::before,
-.menu__btn > span::after {
+// .menu__btn > span,
+// .menu__btn > span::before,
+// .menu__btn > span::after {
+//   transition-duration: 0.25s;
+// }
+.menu__box,
+.menu-zone {
   transition-duration: 0.25s;
 }
-
-.menu__box {
-  transition-duration: 0.15s;
-}
 .menu__item {
-  transition-duration: 0.15s;
+  transition-duration: 0.25s;
 }
 
 ul.submenu li {
@@ -257,6 +290,7 @@ a.btn:active {
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.3s ease-out;
+  transition-duration: 0.25s;
 }
 
 .menu .submenu a {
@@ -266,7 +300,7 @@ a.btn:active {
 }
 
 .menu .submenu a:hover {
-  padding-left: calc(1rem + 5px);
+  // padding-left: calc(1rem + 5px);
   color: #343e5c;
   background: #eceff1;
 }
