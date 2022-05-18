@@ -26,7 +26,9 @@
             </el-card>
             <el-card>
               <template #header> Основное изображение </template>
-              <UploaderSingleScan :file-info="news.mainImage" :height="200" :width="400" @remove-file="news.removeMainImage()" />
+              <el-form-item prop="mainImage.fileSystemPath" :rules="rules.mainImage">
+                <UploaderSingleScan :file-info="news.mainImage" :height="200" :width="400" @remove-file="news.removeMainImage()" />
+              </el-form-item>
               <el-form-item prop="mainImageDescription" label="Описание:">
                 <el-input v-model="news.mainImageDescription" placeholder="Описание"></el-input>
               </el-form-item>
@@ -55,7 +57,9 @@
             <AdminNewsPageTags />
             <el-card>
               <template #header> Загрузить превью новости </template>
-              <UploaderSingleScan :file-info="news.previewImage" :height="300" :width="300" @remove-file="news.removePreviewImage()" />
+              <el-form-item prop="previewImage.fileSystemPath" :rules="rules.previewImage">
+                <UploaderSingleScan :file-info="news.previewImage" :height="300" :width="300" @remove-file="news.removePreviewImage()" />
+              </el-form-item>
             </el-card>
             <AdminNewsDoctors />
           </el-container>
@@ -76,6 +80,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import NewsRules from '@/classes/news/NewsRules';
 import AdminGallery from '@/components/admin/AdminGallery.vue';
 import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
@@ -105,7 +110,7 @@ export default defineComponent({
     let mounted = ref(false);
     let isCropGalleryOpen = ref(false);
     const form = ref();
-    // const rules = ref(NewsRules);
+    const rules = ref(NewsRules);
     const editorOption = {
       modules: {
         toolbar: [
@@ -166,16 +171,6 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      // if (!news.value.previewImage.fileSystemPath) {
-      //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
-      //   saveButtonClick.value = false;
-      //   return;
-      // }
-      // if (!news.value.mainImage.originalName) {
-      //   ElMessage({ message: 'Пожалуйста, добавьте основную картинку', type: 'error' });
-      //   saveButtonClick.value = false;
-      //   return;
-      // }
       if (!route.params['slug']) {
         await store.dispatch('news/create', news.value);
         await router.push('/admin/news');
@@ -194,6 +189,7 @@ export default defineComponent({
       submit,
       news,
       form,
+      rules,
     };
   },
 });
