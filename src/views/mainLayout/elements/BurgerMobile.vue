@@ -5,29 +5,33 @@
       <span></span>
     </label>
     <div class="menu__box">
-      <div class="menu">
-        <ul>
-          <li v-for="menu in menus" :id="menu.id" :key="menu.id" class="item">
-            <a v-if="!menu.withoutChildren()" :href="`#${menu.id}`" class="btn">{{ menu.name }}</a>
-            <a v-else :href="menu.getLink()" class="btn">{{ menu.name }}</a>
-            <div class="submenu">
-              <ul v-if="!menu.withoutChildren()">
-                <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
-                  <a :href="subMenu.link">{{ subMenu.name }}</a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
+      <div class="menu-zone">
+        <div class="menu">
+          <ul>
+            <li v-for="menu in menus" :id="menu.id" :key="menu.id" class="item">
+              <a v-if="!menu.withoutChildren()" :href="`#${menu.id}`" class="btn"
+                >{{ menu.name }}
+                <svg class="icon-arrow">
+                  <use xlink:href="#arrow-down"></use>
+                </svg>
+              </a>
+              <a v-else :href="menu.getLink()" class="btn">{{ menu.name }}</a>
+              <div class="submenu">
+                <ul v-if="!menu.withoutChildren()">
+                  <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
+                    <a :href="subMenu.link">{{ subMenu.name }}</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-
   <svg width="0" height="0" class="hidden">
-    <symbol id="Main_menu_burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M3 12H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-      <path d="M3 18H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <symbol id="arrow-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+      <path d="M5 6L10 11L15 6L17 7L10 14L3 7L5 6Z"></path>
     </symbol>
   </svg>
 </template>
@@ -113,7 +117,7 @@ body {
   width: 26px;
   height: 26px;
   cursor: pointer;
-  z-index: 999;
+  z-index: 101;
 }
 
 .menu__btn > span,
@@ -147,19 +151,27 @@ body {
   visibility: hidden;
   top: -17px;
   left: -100%;
-  width: calc(100% - 20px);
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   margin: 0;
-  padding: 150px 10px;
   list-style: none;
   text-align: left;
   z-index: 100;
+  background: #000000;
+  opacity: 0.96;
+}
+
+.menu-zone {
+  max-width: 450px;
+  height: 100%;
+  z-index: 100;
+  background: #eceff1;
+  padding: 150px 10px 0 0;
 }
 
 .menu__item {
   display: block;
   padding: 12px 24px;
-  color: #333;
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
   font-weight: 600;
@@ -189,6 +201,7 @@ body {
 .menu__btn > span::after {
   transition-duration: 0.25s;
 }
+
 .menu__box {
   transition-duration: 0.15s;
 }
@@ -214,7 +227,7 @@ ul.submenu li {
 }
 
 .menu {
-  max-width: 450px;
+  width: 100%;
   height: auto;
   background: #0671ba;
   border-radius: 2px;
@@ -243,26 +256,13 @@ a.btn:active {
   background: #22abe2;
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.25s ease-out;
+  transition: max-height 0.3s ease-out;
 }
 
 .menu .submenu a {
   display: block;
   padding: 0.5rem 0 0.5rem 2rem;
   position: relative;
-}
-
-.menu .submenu a::before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 5px;
-  background: #ff4e3c;
-  opacity: 0;
-  transition: all 0.5s;
 }
 
 .menu .submenu a:hover {
@@ -276,6 +276,14 @@ a.btn:active {
 }
 
 .item:target .submenu {
-  max-height: 20rem;
+  max-height: 40rem;
+}
+
+.icon-arrow {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  right: 15px;
+  fill: #ffffff;
 }
 </style>
