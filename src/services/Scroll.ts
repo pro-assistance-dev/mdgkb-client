@@ -1,13 +1,13 @@
 // height 58 - margin
 const HeaderHeight = -58 - 10;
 
-export default function scroll(id?: string, yOffset?: number): void {
-  if (!id) {
+export default function scroll(query?: string, yOffset?: number): void {
+  if (!query) {
     document.body.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
   // document.body.scrollTo({ top: 0 });
-  const el = document.getElementById(id);
+  const el = document.querySelector(query);
   const offset = yOffset ?? HeaderHeight;
   let y = 0;
   if (el) {

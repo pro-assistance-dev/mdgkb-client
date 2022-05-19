@@ -25,6 +25,7 @@ export default interface IDpoCourse {
   dpoCoursesDatesForDelete: string[];
   formPattern: IForm;
   formPatternId?: string;
+  isEditMode: boolean;
 
   specialization?: ISpecialization;
   specializationId?: string;

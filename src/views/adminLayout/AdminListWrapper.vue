@@ -28,24 +28,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  ::-webkit-scrollbar {
-    display: block;
-    width: 8px;
-    height: 8px;
-    background-color: rgba(245, 245, 245, 0.47);
-  }
-
-  ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background-color: #f5f5f5;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    height: 20px;
-    border-radius: 10px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: rgba(85, 85, 85, 0.25);
-  }
 }
 :deep(.el-table__header-wrapper) {
   position: sticky;
@@ -68,7 +50,6 @@ export default defineComponent({
   &-main {
     flex-shrink: 1;
     margin: 0 5px;
-    // padding: 5px 0 0 5px;
     padding: 0 5px;
     overflow: hidden;
     height: 100%;
@@ -82,6 +63,24 @@ export default defineComponent({
       margin: 0;
     }
   }
+  ::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: rgba(245, 245, 245, 0.47);
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: #f5f5f5;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    height: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: rgba(85, 85, 85, 0.25);
+  }
 }
 
 :deep(.filters-block) {
@@ -90,13 +89,13 @@ export default defineComponent({
 :deep(.sticky-right),
 :deep(.sticky-left) {
   position: sticky !important;
-  background: white !important;
-  z-index: 10;
+  background: white;
 }
 :deep(.sticky-right) {
   right: 0;
 }
 :deep(.sticky-left) {
   left: 0;
+  z-index: 10;
 }
 </style>

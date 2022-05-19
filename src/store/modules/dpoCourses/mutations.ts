@@ -2,6 +2,7 @@ import { MutationTree } from 'vuex';
 
 import DpoCourse from '@/classes/DpoCourse';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import IDpoCourseWithCount from '@/interfaces/IDpoCourseWithCount ';
 
 import { State } from './state';
 
@@ -9,9 +10,22 @@ const mutations: MutationTree<State> = {
   setAll(state, items: IDpoCourse[]) {
     state.items = items.map((i: IDpoCourse) => new DpoCourse(i));
   },
-  appendToAll(state, items: IDpoCourse[]) {
-    const itemsForAdding = items.map((i: IDpoCourse) => new DpoCourse(i));
-    state.items.push(...itemsForAdding);
+  setAllWithCount(state, items: IDpoCourseWithCount) {
+    if (!items.dpoCourses) {
+      state.items = [];
+      return;
+    }
+    state.items = items.dpoCourses.map((i: IDpoCourse) => new DpoCourse(i));
+    state.count = items.count;
+  },
+  appendToAll(state, items: IDpoCourseWithCount) {
+    if (!items.dpoCourses) {
+      state.items = [];
+      return;
+    }
+    const dpoCourses = items.dpoCourses.map((i: IDpoCourse) => new DpoCourse(i));
+    state.items.push(...dpoCourses);
+    state.count = items.count;
   },
   set(state, item: IDpoCourse) {
     state.item = new DpoCourse(item);
@@ -25,6 +39,9 @@ const mutations: MutationTree<State> = {
   },
   resetItem(state) {
     state.item = new DpoCourse();
+  },
+  clearItems(state) {
+    state.items = [];
   },
 };
 

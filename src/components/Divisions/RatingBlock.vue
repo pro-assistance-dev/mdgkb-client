@@ -8,7 +8,7 @@
     :colors="['#FF4D3B', '#FF4D3B', '#FF4D3B']"
   >
   </el-rate>
-  <a class="doctor-reviews" @click="$scroll('reviews')">{{
+  <a class="doctor-reviews" @click="$scroll('#reviews')">{{
     buildNameNumbers(division.divisionComments, ['отзыв', 'отзыва', 'отзывов'])
   }}</a>
 </template>

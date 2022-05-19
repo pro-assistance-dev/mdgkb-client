@@ -12,10 +12,10 @@
       />
     </template>
     <el-table :data="news">
-      <el-table-column prop="title" label="Заголовок" sortable width="400px" class-name="sticky-left"> </el-table-column>
-      <el-table-column prop="created_by" label="Автор" sortable> </el-table-column>
-      <el-table-column prop="viewsCount" label="Просмотров" sortable> </el-table-column>
-      <el-table-column prop="status" label="Статус" sortable> </el-table-column>
+      <el-table-column prop="title" label="Заголовок" width="400px" class-name="sticky-left"> </el-table-column>
+      <el-table-column prop="created_by" label="Автор"> </el-table-column>
+      <el-table-column prop="viewsCount" label="Просмотров"> </el-table-column>
+      <el-table-column prop="status" label="Статус"> </el-table-column>
       <el-table-column label="Тэги">
         <template #default="scope">
           <span v-for="(item, i) in scope.row.tags" :key="item.id">
@@ -23,12 +23,12 @@
           </span>
         </template>
       </el-table-column>
-      <el-table-column label="Дата создания" align="center" width="200" sortable>
+      <el-table-column label="Дата создания" align="center" width="200">
         <template #default="scope">
           {{ $dateTimeFormatter.format(scope.row.createdAt) }}
         </template>
       </el-table-column>
-      <el-table-column label="Дата публикации" align="center" width="200" sortable>
+      <el-table-column label="Дата публикации" align="center" width="200">
         <template #default="scope">
           {{ $dateTimeFormatter.format(scope.row.publishedOn) }}
         </template>
