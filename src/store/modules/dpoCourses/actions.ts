@@ -40,7 +40,7 @@ const actions: ActionTree<State, RootState> = {
     });
     commit('set', res);
   },
-  saveMany: async ({ state }): Promise<void> => {
+  updateMany: async ({ state }): Promise<void> => {
     await httpClient.put<IDpoCourse[], IDpoCourse[]>({ query: 'many', payload: state.items });
   },
   remove: async ({ commit }, id: string): Promise<void> => {

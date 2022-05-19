@@ -173,6 +173,6 @@ export default class ResidencyCourse implements IResidencyCourse {
   }
 
   getPeriod(): string {
-    return `${this.startYear.year.getFullYear()}-${this.endYear.year.getFullYear()}`;
+    return `${this.startYear.year.getFullYear()} - ${this.endYear.year.getFullYear()}`;
   }
 }

@@ -356,6 +356,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
     },
   },
   {

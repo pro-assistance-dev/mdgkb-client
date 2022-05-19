@@ -61,8 +61,7 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -83,10 +82,8 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
   setup() {
     const mounted = ref(false);
-    const store = useStore();
-    const router = useRouter();
     const route = useRoute();
-    const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => store.getters['dpoCourses/items']);
+    const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => Provider.store.getters['dpoCourses/items']);
     const title = ref('');
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
@@ -115,7 +112,7 @@ export default defineComponent({
       Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
       setProgramsType();
       await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
-      store.commit('admin/setHeaderParams', {
+      Provider.store.commit('admin/setHeaderParams', {
         title: title,
         buttons: [
           { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
@@ -136,8 +133,8 @@ export default defineComponent({
       return createSortModels(DpoCoursesSortsLib);
     };
 
-    const create = () => router.push(`${route.path}/new`);
-    const open = (id: string) => router.push(`${route.path}/${id}`);
+    const create = () => Provider.router.push(`${route.path}/new`);
+    const open = (id: string) => Provider.router.push(`${route.path}/${id}`);
     const edit = () => {
       if (isEditMode.value) {
         return;
@@ -150,12 +147,12 @@ export default defineComponent({
         return;
       }
       saveButtonClick.value = true;
-      await Provider.store.dispatch('dpoCourses/saveMany');
+      await Provider.store.dispatch('dpoCourses/updateMany');
       isEditMode.value = false;
       isNotEditMode.value = true;
       if (next) next();
     };
-    const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
+    const remove = async (id: string) => await Provider.store.dispatch('dpoCourses/remove', id);
     const cancel = () => {
       isEditMode.value = false;
       isNotEditMode.value = true;

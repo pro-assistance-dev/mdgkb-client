@@ -99,6 +99,9 @@ export default defineComponent({
 }
 :deep(.sticky-left) {
   left: 0;
-  z-index: 10;
+  z-index: 99;
+}
+:deep(.el-input-number) {
+  z-index: 0;
 }
 </style>

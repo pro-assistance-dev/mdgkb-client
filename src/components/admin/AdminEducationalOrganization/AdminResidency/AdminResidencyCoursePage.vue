@@ -5,24 +5,18 @@
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <div class="files-block">
-                <el-card>
-                  <template #header>Основная профессиональная программа Высшего образования </template>
-                  <FileUploader :file-info="residencyCourse.program" />
-                </el-card>
-                <el-card>
-                  <template #header>Аннотации рабочих программ дисциплин </template>
-                  <FileUploader :file-info="residencyCourse.annotation" />
-                </el-card>
-                <el-card>
-                  <template #header>График учебного процесса</template>
-                  <FileUploader :file-info="residencyCourse.schedule" />
-                </el-card>
-                <el-card>
-                  <template #header>Учебный план</template>
-                  <FileUploader :file-info="residencyCourse.plan" />
-                </el-card>
-              </div>
+              <el-form-item label="Основная профессиональная программа Высшего образования">
+                <FileUploader :file-info="residencyCourse.program" />
+              </el-form-item>
+              <el-form-item label="Аннотации рабочих программ дисциплин">
+                <FileUploader :file-info="residencyCourse.annotation" />
+              </el-form-item>
+              <el-form-item label="График учебного процесса">
+                <FileUploader :file-info="residencyCourse.schedule" />
+              </el-form-item>
+              <el-form-item label="Учебный план">
+                <FileUploader :file-info="residencyCourse.plan" />
+              </el-form-item>
             </el-card>
             <el-card>
               <template #header>Основная профессиональная программа Высшего образования </template>
