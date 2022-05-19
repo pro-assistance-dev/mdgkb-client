@@ -22,6 +22,7 @@ export default class DpoCourse implements IDpoCourse {
   description = '';
   hours = 0;
   isNmo = false;
+  isEditMode = false;
   linkNmo = '';
   listeners = 0;
   cost = 0;
@@ -50,6 +51,9 @@ export default class DpoCourse implements IDpoCourse {
     this.hours = i.hours;
     this.cost = i.cost;
     this.isNmo = i.isNmo;
+    if (i.isEditMode !== undefined) {
+      this.isEditMode = i.isEditMode;
+    }
     this.linkNmo = i.linkNmo;
     this.listeners = i.listeners;
     this.order = i.order;

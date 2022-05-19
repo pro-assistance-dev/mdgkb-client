@@ -127,7 +127,7 @@ export default defineComponent({
 
     const openRespondForm = async () => {
       await showFormFunc();
-      scroll('responce-form');
+      scroll('#responce-form');
     };
 
     const closeRespondForm = () => {

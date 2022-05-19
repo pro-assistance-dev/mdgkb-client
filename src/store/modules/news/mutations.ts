@@ -107,7 +107,7 @@ const mutations: MutationTree<State> = {
     if (state.newsItem) state.newsItem.newsLikes.push(newsLike);
   },
   setComment(state, item: INewsComment) {
-    if (state.newsItem) state.newsItem.newsComments.push(item);
+    if (state.newsItem) state.newsItem.newsComments.unshift(item);
     state.comment = new NewsComment();
   },
   removeComment(state, commentId: string) {

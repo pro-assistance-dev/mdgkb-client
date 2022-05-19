@@ -93,7 +93,7 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       store.commit(`filter/resetQueryFilter`);
       store.commit(
-        'filters/replaceSortModel',
+        'filter/replaceSortModel',
         SortModel.CreateSortModel(
           schema.value.dpoApplication.tableName,
           schema.value.dpoApplication.createdAt,

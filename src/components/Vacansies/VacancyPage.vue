@@ -83,7 +83,7 @@ export default defineComponent({
 
     const openRespondForm = () => {
       showFormFunc();
-      scroll('vacancy-form');
+      scroll('#vacancy-form');
     };
 
     onBeforeMount(async () => {

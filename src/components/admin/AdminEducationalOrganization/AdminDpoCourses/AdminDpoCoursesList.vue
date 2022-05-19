@@ -1,96 +1,171 @@
 <template>
-  <el-table v-if="mounted" :data="dpoCourses">
-    <el-table-column label="Название" sortable>
-      <template #default="scope">
-        {{ scope.row.name }}
-      </template>
-    </el-table-column>
-    <el-table-column label="Руководитель" sortable>
-      <template #default="scope">
-        <div v-if="scope.row.getMainTeacher()">
-          {{ scope.row.getMainTeacher().doctor.human.getFullName() }}
-        </div>
-        <div v-else>Руководителя нет</div>
-      </template>
-    </el-table-column>
-    <el-table-column width="50" fixed="right" align="center">
-      <template #default="scope">
-        <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.slug)" />
-      </template>
-    </el-table-column>
-  </el-table>
+  <component :is="'AdminListWrapper'" v-if="mounted" :key="$route.fullPath">
+    <template #header>
+      <SortList class="filters-block" :models="createDpoSortModels()" @load="loadDpoCourses" />
+    </template>
+    <el-table :data="dpoCourses">
+      <el-table-column label="Название" width="400" class-name="sticky-left">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input v-model="scope.row.name" placeholder="Заголовок"></el-input>
+          </div>
+          <div v-else>
+            {{ scope.row.name }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Руководитель" width="300">
+        <template #default="scope">
+          <div v-if="scope.row.getMainTeacher()">
+            {{ scope.row.getMainTeacher().doctor.human.getFullName() }}
+          </div>
+          <div v-else>Руководителя нет</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Длительность" align="center" width="200">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input-number v-model="scope.row.hours" />
+          </div>
+          <div v-else>
+            {{ scope.row.hours }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Стоимость" align="center" min-width="200">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input-number v-model="scope.row.cost" />
+          </div>
+          <div v-else>
+            {{ scope.row.cost }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column width="50" fixed="right" align="center" class-name="sticky-right">
+        <template #default="scope">
+          <TableButtonGroup
+            :show-edit-button="true"
+            :show-remove-button="true"
+            @remove="remove(scope.row.id)"
+            @edit="open(scope.row.slug)"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+    <template #footer>
+      <Pagination :show-confirm="isEditMode" @beforePageChange="save" />
+    </template>
+  </component>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import SortModel from '@/classes/filters/SortModel';
+import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import SortList from '@/components/SortList/SortList.vue';
+import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IDpoCourse from '@/interfaces/IDpoCourse';
-import ISchema from '@/interfaces/schema/ISchema';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import createSortModels from '@/services/CreateSortModels';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import DpoCoursesFiltersLib from '@/services/Provider/libs/filters/DpoCoursesFiltersLib';
+import DpoCoursesSortsLib from '@/services/Provider/libs/sorts/DpoCoursesSortsLib';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDpoCoursesList',
-  components: { TableButtonGroup },
+  components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
   setup() {
     const mounted = ref(false);
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
     const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => store.getters['dpoCourses/items']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterModel = ref();
     const title = ref('');
-
-    watch(route, async () => {
-      setProgramsType();
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
-    });
+    const isEditMode: Ref<boolean> = ref(false);
+    const isNotEditMode: Ref<boolean> = ref(true);
 
     const setProgramsType = () => {
+      Provider.store.commit('filter/resetFilterModels');
       if (route.path === '/admin/nmo/courses') {
-        filterModel.value.boolean = true;
+        Provider.setFilterModels(DpoCoursesFiltersLib.byCourseType(true));
         title.value = 'НМО';
       } else {
-        filterModel.value.boolean = false;
+        Provider.setFilterModels(DpoCoursesFiltersLib.byCourseType(false));
         title.value = 'ДПО - дополнительные программы';
       }
-      store.commit('filter/setFilterModel', filterModel.value);
     };
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      store.commit(
-        'filters/replaceSortModel',
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true)
-      );
-      filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
-      filterQuery.value.pagination.cursorMode = false;
+    const loadDpoCourses = async () => {
+      Provider.store.commit('dpoCourses/clearItems');
+      await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
+    };
+
+    const load = async () => {
+      Provider.store.commit('dpoCourses/clearItems');
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 3;
+      Provider.filterQuery.value.pagination.cursorMode = false;
+      Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
       setProgramsType();
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
+      await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
       store.commit('admin/setHeaderParams', {
         title: title,
-        buttons: [{ text: 'Добавить программу', type: 'primary', action: create }],
+        buttons: [
+          { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
+          { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
+          { text: 'Добавить программу', type: 'primary', action: create },
+        ],
       });
-      store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
+      window.addEventListener('beforeunload', beforeWindowUnload);
       mounted.value = true;
+    };
+
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'dpoCourses', action: 'getAll' },
+      sortModels: [],
     });
 
+    const createDpoSortModels = (): ISortModel[] => {
+      return createSortModels(DpoCoursesSortsLib);
+    };
+
     const create = () => router.push(`${route.path}/new`);
-    const edit = (id: string) => router.push(`${route.path}/${id}`);
+    const open = (id: string) => router.push(`${route.path}/${id}`);
+    const edit = () => {
+      if (isEditMode.value) {
+        return;
+      }
+      isEditMode.value = true;
+      isNotEditMode.value = false;
+    };
+    const save = async (next?: NavigationGuardNext) => {
+      if (!isEditMode.value) {
+        return;
+      }
+      saveButtonClick.value = true;
+      await Provider.store.dispatch('dpoCourses/saveMany');
+      isEditMode.value = false;
+      isNotEditMode.value = true;
+      if (next) next();
+    };
     const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
 
-    return { mounted, dpoCourses, remove, edit, create };
+    const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
+    watch(isEditMode, () => {
+      confirmLeave.value = isEditMode.value;
+    });
+    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(save, next);
+    });
+
+    return { isEditMode, mounted, dpoCourses, remove, open, save, edit, create, createDpoSortModels, loadDpoCourses };
   },
 });
 </script>

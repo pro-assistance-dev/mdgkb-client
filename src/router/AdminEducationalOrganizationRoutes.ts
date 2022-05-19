@@ -4,7 +4,7 @@ import AdminDpo from '@/components/admin/AdminEducationalOrganization/AdminDpoCo
 import AdminDpoApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationPage.vue';
 import AdminDpoApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationsList.vue';
 import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursePage.vue';
-import AdminDpoCoursesList from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursesList.vue';
+import AdminDpoCoursesListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursesListContainer.vue';
 import AdminEducationalOrganizationPage from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationPage.vue';
 import AdminCandidate from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidate.vue';
 import AdminCandidateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationPage.vue';
@@ -21,6 +21,7 @@ import AdminResidencyCoursePage from '@/components/admin/AdminEducationalOrganiz
 import AdminResidencyCoursesList from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursesList.vue';
 import AdminSpecializationPage from '@/components/admin/AdminEducationalOrganization/AdminSpecializations/AdminSpecializationPage.vue';
 import AdminSpecializationsList from '@/components/admin/AdminEducationalOrganization/AdminSpecializations/AdminSpecializationsList.vue';
+import { AdminLayout } from '@/interfaces/admin/AdminLayout';
 import { authGuard, isAuthorized } from '@/router/index';
 
 // import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminPostgraduateCoursePage.vue';
@@ -77,13 +78,14 @@ export default [
   {
     path: '/admin/dpo/courses',
     name: 'AdminDpoCoursesList',
-    component: AdminDpoCoursesList,
+    component: AdminDpoCoursesListContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
     },
     meta: {
       layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
     },
   },
   {
@@ -113,13 +115,14 @@ export default [
   {
     path: '/admin/nmo/courses',
     name: 'AdminNmoCoursesList',
-    component: AdminDpoCoursesList,
+    component: AdminDpoCoursesListContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
     },
     meta: {
       layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
     },
   },
   {

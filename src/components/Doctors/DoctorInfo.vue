@@ -64,7 +64,7 @@
       <a v-if="doctor.onlineDoctorId" :href="doctor.getOnlineDoctorLink()" target="_blank">
         <button class="consult">Онлайн консультация</button>
       </a>
-      <a @click="$scroll('leave-a-review')">
+      <a @click="$scroll('#leave-a-review')">
         <button class="review">Оставить отзыв</button>
       </a>
     </div>

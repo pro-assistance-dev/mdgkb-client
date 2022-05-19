@@ -152,7 +152,7 @@ export default defineComponent({
       store.commit('filter/setStoreModule', 'auth');
       store.commit('filter/setAction', 'getAllPathPermissionsAdmin');
       store.commit(
-        'filters/replaceSortModel',
+        'filter/replaceSortModel',
         SortModel.CreateSortModel(
           schema.value.pathPermission.tableName,
           schema.value.pathPermission.resource,

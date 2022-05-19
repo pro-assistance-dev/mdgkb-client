@@ -2,13 +2,9 @@ import { MutationTree } from 'vuex';
 
 import Comment from '@/classes/comments/Comment';
 import IComment from '@/interfaces/comments/IComment';
+import ICommentsWithCount from '@/interfaces/ICommentsWithCount';
 
 import State from './state';
-
-interface ICommentsWithCount {
-  comments: IComment[];
-  count: number;
-}
 
 const mutations: MutationTree<State> = {
   setAll(state, items: IComment[]) {
@@ -58,6 +54,9 @@ const mutations: MutationTree<State> = {
   },
   clearComments(state) {
     state.comments = [];
+  },
+  unshiftToAll(state, item: IComment) {
+    state.comments.unshift(new Comment(item));
   },
 };
 

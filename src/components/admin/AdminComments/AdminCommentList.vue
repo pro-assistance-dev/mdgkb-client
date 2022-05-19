@@ -1,6 +1,6 @@
 <template>
-  <div v-if="mounted" class="flex-column">
-    <div class="card-item filters">
+  <component :is="'AdminListWrapper'" v-if="mounted">
+    <template #header>
       <SortList class="filters-block" :models="createSortModels()" @load="loadComments" />
       <FilterSelectDate
         class="filters-block"
@@ -17,21 +17,21 @@
         :operator="Operators.Eq"
         @load="loadComments"
       />
-    </div>
+    </template>
     <div class="comments-container">
-      <div style="overflow: auto; padding: 10px">
+      <div id="list" style="overflow: auto; padding-right: 5px">
         <AdminCommentCard v-for="(comment, i) in comments" :key="i" :comment="comment" />
       </div>
       <div v-if="!comments.length">Комментариев нет</div>
     </div>
-    <div class="flex-row-end">
+    <template #footer>
       <Pagination />
-    </div>
-  </div>
+    </template>
+  </component>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
 import Pagination from '@/components/admin/Pagination.vue';
@@ -46,10 +46,11 @@ import { Orders } from '@/interfaces/filters/Orders';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminCommentList',
-  components: { AdminCommentCard, Pagination, SortList, FilterSelectDate, FilterCheckbox },
+  components: { AdminCommentCard, Pagination, SortList, FilterSelectDate, FilterCheckbox, AdminListWrapper },
   setup() {
     // const route = useRoute();
     const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
@@ -59,6 +60,7 @@ export default defineComponent({
     const load = async (filterQuery: IFilterQuery) => {
       Provider.setSortModels(CommentsSortsLib.byPublishedOn());
       await Provider.store.dispatch('comments/getAll', filterQuery);
+      await Provider.store.dispatch('comments/subscribeCreate');
       mounted.value = true;
     };
 
@@ -77,6 +79,10 @@ export default defineComponent({
     const loadComments = async () => {
       await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
     };
+
+    onBeforeUnmount(async () => {
+      await Provider.store.dispatch('comments/unsubscribeCreate');
+    });
 
     return {
       comments,
@@ -100,29 +106,5 @@ export default defineComponent({
   justify-content: flex-start;
   height: 100%;
   overflow: hidden;
-}
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-}
-// filters
-.filters {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  &-block {
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
-    span {
-      margin: 0 10px;
-    }
-  }
-}
-:deep(.el-form-item),
-:deep(.el-form-item__content) {
-  margin: 0;
 }
 </style>

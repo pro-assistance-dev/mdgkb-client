@@ -6,7 +6,7 @@
         <div class="menu-left"><BurgerMobile /></div>
         <div class="left-block2"></div>
         <div class="left-block">
-          <el-row class="mb-4" @click="$scroll('header-top')">
+          <el-row class="mb-4" @click="$scroll('#header-top')">
             <el-button v-if="scrollOffset >= 66 || mobileWindow" class="menu-item" @click="$router.push('/')">
               <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.webp" />
             </el-button>

@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import IDpoCourseWithCount from '@/interfaces/IDpoCourseWithCount ';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -10,16 +11,13 @@ import { State } from './state';
 const httpClient = new HttpClient('dpo-courses');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IDpoCourse[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
-    if (filterQuery) {
-      filterQuery.setAllLoaded(items ? items.length : 0);
-    }
+  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    const items = await httpClient.get<IDpoCourseWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);
       return;
     }
-    commit('setAll', items);
+    commit('setAllWithCount', items);
   },
   get: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
     const res = await httpClient.get<IDpoCourse[]>({ query: `get${filterQuery.toUrl()}` });
@@ -32,14 +30,18 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: state.item.formPattern.getFileInfos(),
     });
   },
-  update: async ({ state, commit }): Promise<void> => {
+  update: async ({ state, commit }, item?: IDpoCourse): Promise<void> => {
+    const i = item || state.item;
     const res = await httpClient.put<IDpoCourse, IDpoCourse>({
-      query: `${state.item.id}`,
-      payload: state.item,
+      query: `${i.id}`,
+      payload: i,
       isFormData: true,
-      fileInfos: state.item.formPattern.getFileInfos(),
+      fileInfos: i.formPattern.getFileInfos(),
     });
     commit('set', res);
+  },
+  saveMany: async ({ state }): Promise<void> => {
+    await httpClient.put<IDpoCourse[], IDpoCourse[]>({ query: 'many', payload: state.items });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

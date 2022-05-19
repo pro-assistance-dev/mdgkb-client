@@ -123,22 +123,35 @@ const menuList: IAdminMenu[] = [
         to: '/admin/dpo/courses',
       },
       {
+        title: 'Программы НМО',
+        to: '/admin/nmo/courses',
+      },
+      {
+        title: 'Программы аспирантуры',
+        to: '/admin/postgraduate-courses',
+      },
+      {
+        title: 'Программы ординатуры',
+        to: '/admin/residency/courses',
+        tableName: 'residency_applications',
+      },
+      {
+        title: 'Ординатура',
+        to: '/admin/residency',
+      },
+      {
+        title: 'Шаблоны форм для заявок',
+        to: '/admin/form-patterns',
+      },
+      {
         title: 'Заявки ДПО',
         to: '/admin/dpo/applications',
         tableName: 'dpo_applications',
       },
       {
-        title: 'Программы НМО',
-        to: '/admin/nmo/courses',
-      },
-      {
         title: 'Заявки НМО',
         to: '/admin/nmo/applications',
         tableName: 'nmo_applications',
-      },
-      {
-        title: 'Программы аспирантуры',
-        to: '/admin/postgraduate-courses',
       },
       {
         title: 'Заявки на обучение в аспирантуре',
@@ -148,19 +161,6 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Заявки на сдачу кандидатского экзамена',
         to: '/admin/candidate-applications',
-      },
-      {
-        title: 'Шаблоны форм для заявок',
-        to: '/admin/form-patterns',
-      },
-      {
-        title: 'Ординатура',
-        to: '/admin/residency',
-      },
-      {
-        title: 'Программы ординатуры',
-        to: '/admin/residency/courses',
-        tableName: 'residency_applications',
       },
       {
         title: 'Заявки ординатуры',
@@ -207,17 +207,9 @@ const menuList: IAdminMenu[] = [
       },
       {
         title: 'Комментарии',
-        to: '/admin/comments/all',
+        to: '/admin/comments',
         tableName: 'comments',
       },
-      // {
-      //   title: 'Отмодерированные комментарии',
-      //   to: '/admin/comments/mod-checked',
-      // },
-      // {
-      //   title: 'Неотмодерированные комментарии',
-      //   to: '/admin/comments/not-mod-checked',
-      // },
     ],
   },
   {
