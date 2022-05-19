@@ -54,7 +54,7 @@
       </el-table-column>
     </el-table>
     <template #footer>
-      <Pagination :show-confirm="isEditMode" @beforePageChange="save" />
+      <Pagination :show-confirm="isEditMode" @save="save" @cancel="cancel" />
     </template>
   </component>
 </template>
@@ -109,11 +109,11 @@ export default defineComponent({
 
     const load = async () => {
       Provider.store.commit('dpoCourses/clearItems');
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 3;
-      Provider.filterQuery.value.pagination.cursorMode = false;
+      // Provider.resetFilterQuery();
+      // Provider.filterQuery.value.pagination.limit = 3;
+      // Provider.filterQuery.value.pagination.cursorMode = false;
       Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
-      setProgramsType();
+      // setProgramsType();
       await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
       store.commit('admin/setHeaderParams', {
         title: title,
@@ -156,6 +156,10 @@ export default defineComponent({
       if (next) next();
     };
     const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
+    const cancel = () => {
+      isEditMode.value = false;
+      isNotEditMode.value = true;
+    };
 
     const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
     watch(isEditMode, () => {
@@ -165,7 +169,7 @@ export default defineComponent({
       showConfirmModal(save, next);
     });
 
-    return { isEditMode, mounted, dpoCourses, remove, open, save, edit, create, createDpoSortModels, loadDpoCourses };
+    return { cancel, isEditMode, mounted, dpoCourses, remove, open, save, edit, create, createDpoSortModels, loadDpoCourses };
   },
 });
 </script>
