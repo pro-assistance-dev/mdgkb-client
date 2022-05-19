@@ -207,17 +207,9 @@ const menuList: IAdminMenu[] = [
       },
       {
         title: 'Комментарии',
-        to: '/admin/comments/all',
+        to: '/admin/comments',
         tableName: 'comments',
       },
-      // {
-      //   title: 'Отмодерированные комментарии',
-      //   to: '/admin/comments/mod-checked',
-      // },
-      // {
-      //   title: 'Неотмодерированные комментарии',
-      //   to: '/admin/comments/not-mod-checked',
-      // },
     ],
   },
   {
