@@ -32,6 +32,7 @@ import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
 import { Orders } from '@/interfaces/filters/Orders';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 
 export default defineComponent({
   name: 'MainNewsBlock',
@@ -50,6 +51,7 @@ export default defineComponent({
         Orders.Desc
       );
       Provider.setSortModels(modelForMainNews, modelForSubMainNews, modelForPublishedOnMainNews);
+      Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
       // Provider.filterQuery.value.limit = 8;
     };
 

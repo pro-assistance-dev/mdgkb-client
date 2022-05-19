@@ -104,7 +104,7 @@ export default defineComponent({
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 6;
       Provider.filterQuery.value.pagination.cursorMode = true;
-      Provider.setFilterModels(NewsFiltersLib.isDraft());
+      Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
       await load();
     };
 
@@ -119,7 +119,7 @@ export default defineComponent({
       await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.id } });
     };
 
-    return { news, edit, remove, mounted, selectSearch, schema, sortList, loadNews, loadIsDtaft };
+    return { news, edit, remove, mounted, selectSearch, schema, sortList, loadNews };
   },
 });
 </script>
