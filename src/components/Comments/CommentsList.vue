@@ -120,6 +120,7 @@ export default defineComponent({
       Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
       Provider.filterQuery.value.pagination.cursor.column = Provider.schema.value.comment.publishedOn;
       Provider.filterQuery.value.pagination.cursor.initial = false;
+      Provider.filterQuery.value.pagination.cursor.tableName = Provider.schema.value.comment.tableName;
       Provider.filterQuery.value.pagination.cursorMode = true;
 
       await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
