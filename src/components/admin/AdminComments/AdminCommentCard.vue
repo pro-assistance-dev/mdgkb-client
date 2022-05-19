@@ -33,9 +33,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { useStore } from 'vuex';
 
 import IComment from '@/interfaces/comments/IComment';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminCommentCard',
@@ -46,14 +46,13 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
     const markPositive = () => {
-      store.commit('comments/markPositive', props.comment);
-      store.dispatch('comments/modChecked', props.comment);
+      Provider.store.commit('comments/markPositive', props.comment);
+      Provider.store.dispatch('comments/modChecked', props.comment);
     };
     const markNegative = () => {
-      store.commit('comments/markNegative', props.comment);
-      store.dispatch('comments/modChecked', props.comment);
+      Provider.store.commit('comments/markNegative', props.comment);
+      Provider.store.dispatch('comments/modChecked', props.comment);
     };
     return {
       markPositive,

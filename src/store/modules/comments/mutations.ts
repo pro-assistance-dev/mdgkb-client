@@ -55,6 +55,9 @@ const mutations: MutationTree<State> = {
   clearComments(state) {
     state.comments = [];
   },
+  unshiftToAll(state, item: IComment) {
+    state.comments.unshift(new Comment(item));
+  },
 };
 
 export default mutations;
