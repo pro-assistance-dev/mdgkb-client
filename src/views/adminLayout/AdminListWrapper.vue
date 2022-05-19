@@ -27,6 +27,7 @@ export default defineComponent({
   border: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   ::-webkit-scrollbar {
     display: block;
     width: 8px;
@@ -55,6 +56,7 @@ export default defineComponent({
 :deep(.el-table__body-wrapper) {
   height: 100% !important;
   overflow: auto;
+  overflow-y: overlay;
 }
 
 .admin-list-wrapper {
@@ -84,8 +86,17 @@ export default defineComponent({
 
 :deep(.filters-block) {
   margin-right: 10px;
-  // span {
-  //   margin: 0 10px;
-  // }
+}
+:deep(.sticky-right),
+:deep(.sticky-left) {
+  position: sticky !important;
+  background: white !important;
+  z-index: 10;
+}
+:deep(.sticky-right) {
+  right: 0;
+}
+:deep(.sticky-left) {
+  left: 0;
 }
 </style>

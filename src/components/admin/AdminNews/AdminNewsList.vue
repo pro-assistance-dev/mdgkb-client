@@ -12,7 +12,7 @@
       />
     </template>
     <el-table :data="news">
-      <el-table-column prop="title" label="Заголовок" sortable width="400px"> </el-table-column>
+      <el-table-column prop="title" label="Заголовок" sortable width="400px" class-name="sticky-left"> </el-table-column>
       <el-table-column prop="created_by" label="Автор" sortable> </el-table-column>
       <el-table-column prop="viewsCount" label="Просмотров" sortable> </el-table-column>
       <el-table-column prop="status" label="Статус" sortable> </el-table-column>
@@ -33,7 +33,7 @@
           {{ $dateTimeFormatter.format(scope.row.publishedOn) }}
         </template>
       </el-table-column>
-      <el-table-column width="50" align="center">
+      <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
           <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
         </template>
