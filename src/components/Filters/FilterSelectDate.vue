@@ -52,11 +52,14 @@ export default defineComponent({
     const getDateDiff = (dateDiff: number) => {
       let d = new Date();
       d.setDate(d.getDate() + dateDiff);
+      // TODO: нужно глобальное решение по отправке дат
+      const hoursMoscowDiff = 60 * 60 * 3000;
+      d.setTime(d.getTime() + hoursMoscowDiff);
       return new Date(d.toDateString());
     };
 
     const dates = [
-      { id: 1, label: 'Сегодня', dates: {}, date: new Date() },
+      { id: 1, label: 'Сегодня', dates: {}, date: getDateDiff(0) },
       { id: 2, label: 'Вчера', dates: {}, date: getDateDiff(-1) },
       { id: 3, label: 'На прошлой неделе', dates: { date1: getDateDiff(-7), date2: getDateDiff(-1) } },
       { id: 4, label: 'За прошлый месяц', dates: { date1: getDateDiff(-30), date2: getDateDiff(-1) } },
