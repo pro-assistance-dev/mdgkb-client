@@ -5,24 +5,18 @@
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <div class="files-block">
-                <el-card>
-                  <template #header>Вопросы для подготовки к кандидатскому экзамену </template>
-                  <FileUploader :file-info="postgraduateCourse.questionsFile" />
-                </el-card>
-                <el-card>
-                  <template #header>Аннотации рабочих программ дисциплин </template>
-                  <FileUploader :file-info="postgraduateCourse.annotation" />
-                </el-card>
-                <el-card>
-                  <template #header>Образовательная программа</template>
-                  <FileUploader :file-info="postgraduateCourse.programFile" />
-                </el-card>
-                <el-card>
-                  <template #header>Календарный учебный график </template>
-                  <FileUploader :file-info="postgraduateCourse.calendar" />
-                </el-card>
-              </div>
+              <el-form-item label="Вопросы для подготовки к кандидатскому экзамену">
+                <FileUploader :file-info="postgraduateCourse.questionsFile" />
+              </el-form-item>
+              <el-form-item label="Аннотации рабочих программ дисциплин">
+                <FileUploader :file-info="postgraduateCourse.annotation" />
+              </el-form-item>
+              <el-form-item label="Образовательная программа">
+                <FileUploader :file-info="postgraduateCourse.programFile" />
+              </el-form-item>
+              <el-form-item label="Календарный учебный график">
+                <FileUploader :file-info="postgraduateCourse.calendar" />
+              </el-form-item>
               <el-button @click="postgraduateCourse.addPostgraduateCoursePlan()">Добавить учебный план</el-button>
               <el-table :data="postgraduateCourse.postgraduateCoursePlans">
                 <el-table-column label="Год" sortable>
@@ -53,7 +47,7 @@
             </el-card>
 
             <el-card class="content-card">
-              <template #header>Описание</template>
+              <template #header>Квалификация</template>
               <el-form-item prop="description">
                 <QuillEditor
                   v-model:content="postgraduateCourse.description"
@@ -73,7 +67,7 @@
                       <el-date-picker v-model="scope.row.start"></el-date-picker>
                     </template>
                   </el-table-column>
-                  <el-table-column label="Начало" sortable>
+                  <el-table-column label="Конец" sortable>
                     <template #default="scope">
                       <el-date-picker v-model="scope.row.end"></el-date-picker>
                     </template>

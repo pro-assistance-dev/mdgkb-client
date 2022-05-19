@@ -3,7 +3,7 @@ import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
-const DpoCoursesSortsLib = (() => {
+const ResidencyCoursesSortsLib = (() => {
   function byName(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyCourse.tableName,
@@ -63,4 +63,4 @@ const DpoCoursesSortsLib = (() => {
   };
 })();
 
-export default DpoCoursesSortsLib;
+export default ResidencyCoursesSortsLib;

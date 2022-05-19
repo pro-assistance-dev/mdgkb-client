@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" :key="$route.fullPath">
+  <component :is="'AdminListWrapper'" v-if="mounted">
     <template #header>
       <SortList class="filters-block" :models="createResidencySortModels()" @load="loadCourses" />
     </template>
