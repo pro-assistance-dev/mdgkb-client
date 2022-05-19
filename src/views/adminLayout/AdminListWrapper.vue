@@ -29,6 +29,9 @@ export default defineComponent({
   flex-direction: column;
   box-sizing: border-box;
 }
+:deep(.el-table__row) {
+  position: relative;
+}
 :deep(.el-table__header-wrapper) {
   position: sticky;
   top: 0;

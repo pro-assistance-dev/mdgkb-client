@@ -7,7 +7,7 @@
       <el-table-column label="Название" width="400" class-name="sticky-left">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input v-model="scope.row.name" placeholder="Заголовок"></el-input>
+            <el-input v-model="scope.row.name" type="textarea" :autosize="{ minRows: 1 }" size="small" placeholder="Заголовок"></el-input>
           </div>
           <div v-else>
             {{ scope.row.name }}
@@ -25,7 +25,7 @@
       <el-table-column label="Длительность" align="center" width="200">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input-number v-model="scope.row.hours" />
+            <el-input-number v-model="scope.row.hours" size="small" />
           </div>
           <div v-else>
             {{ scope.row.hours }}
@@ -35,14 +35,14 @@
       <el-table-column label="Стоимость" align="center" min-width="200">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input-number v-model="scope.row.cost" />
+            <el-input-number v-model="scope.row.cost" size="small" />
           </div>
           <div v-else>
             {{ scope.row.cost }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="50" fixed="right" align="center" class-name="sticky-right">
+      <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
           <TableButtonGroup
             :show-edit-button="true"
@@ -113,7 +113,7 @@ export default defineComponent({
       // Provider.filterQuery.value.pagination.limit = 3;
       // Provider.filterQuery.value.pagination.cursorMode = false;
       Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
-      // setProgramsType();
+      setProgramsType();
       await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
       store.commit('admin/setHeaderParams', {
         title: title,
