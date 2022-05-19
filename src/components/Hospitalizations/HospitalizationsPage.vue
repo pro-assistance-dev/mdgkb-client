@@ -49,14 +49,14 @@ export default defineComponent({
     };
 
     const sendApplication = (hospitalization: IHospitalizationType): void => {
-      scroll('hospitalization-info');
+      scroll('#hospitalization-info');
       showQuestions.value = true;
       showHowSendApplication.value = false;
       showStages.value = false;
     };
 
     const allQuestionsAnswered = (hospitalization: IHospitalizationType): void => {
-      scroll('hospitalization-info');
+      scroll('#hospitalization-info');
       showQuestions.value = false;
       showHowSendApplication.value = true;
       showStages.value = true;

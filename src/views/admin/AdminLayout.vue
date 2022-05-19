@@ -5,7 +5,10 @@
       <AdminSideMenu class="side-menu hidden-sm-and-down" />
       <div class="admin-container">
         <AdminHeaderBottom />
-        <el-main>
+        <div v-if="$route.meta.adminLayout === AdminLayout.TableList" style="height: inherit">
+          <slot />
+        </div>
+        <el-main v-else>
           <template #default>
             <slot />
           </template>
@@ -20,9 +23,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
+import { AdminLayout } from '@/interfaces/admin/AdminLayout';
 import AdminHeaderBottom from '@/views/adminLayout/AdminHeaderBottom.vue';
 import AdminHeaderTop from '@/views/adminLayout/AdminHeaderTop.vue';
 import AdminMenuDrawer from '@/views/adminLayout/AdminMenuDrawer.vue';
@@ -38,10 +42,10 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const isDrawerOpen = computed(() => store.getters['admin/isDrawerOpen']);
+    const isDrawerOpen: ComputedRef<boolean> = computed(() => store.getters['admin/isDrawerOpen']);
     const closeDrawer = () => store.commit('admin/closeDrawer');
 
-    return { isDrawerOpen, closeDrawer };
+    return { isDrawerOpen, closeDrawer, AdminLayout };
   },
 });
 </script>

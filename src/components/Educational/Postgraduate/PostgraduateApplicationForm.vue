@@ -68,7 +68,7 @@ export default defineComponent({
           dangerouslyUseHTMLString: true,
           message: document.querySelector('#error-block-message')?.innerHTML || '',
         });
-        scroll('error-block-message');
+        scroll('#error-block-message');
         return;
       }
       postgraduateApplication.value.formValue.validate();

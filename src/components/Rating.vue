@@ -8,7 +8,7 @@
     :colors="['#FF4D3B', '#FF4D3B', '#FF4D3B']"
   >
   </el-rate>
-  <a v-if="withNumbers" @click="$scroll('reviews')">{{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}</a>
+  <a v-if="withNumbers" @click="$scroll('#reviews')">{{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}</a>
 </template>
 
 <script lang="ts">
