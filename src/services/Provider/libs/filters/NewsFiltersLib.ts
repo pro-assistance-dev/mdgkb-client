@@ -39,10 +39,22 @@ const NewsFiltersLib = (() => {
     return filterModel;
   }
 
+  function isDraft(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.news.tableName,
+      Provider.schema.value.news.isDraft,
+      DataTypes.Boolean
+    );
+    // filterModel.value1 = 'true';
+    filterModel.boolean = true;
+    return filterModel;
+  }
+
   return {
     filterByTags: filterByTags,
     excludeSlug: excludeSlug,
     onlyPublished: onlyPublished,
+    isDraft,
   };
 })();
 

@@ -13,4 +13,5 @@ export default interface INewsSchema extends IBaseSchema {
   articleLink: string;
   isArticle: string;
   viewsCount: string;
+  isDraft: string;
 }
