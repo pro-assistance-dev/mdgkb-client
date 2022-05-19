@@ -59,6 +59,7 @@ export default defineComponent({
       Provider.filterQuery.value.pagination.cursorMode = true;
       Provider.setSortModels(NewsSortsLib.byPublishedOn());
       Provider.setFilterModels(NewsFiltersLib.onlyPublished());
+      Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
       await load();
     };
 

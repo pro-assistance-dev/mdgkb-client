@@ -59,6 +59,7 @@ import INews from '@/interfaces/news/INews';
 import ISchema from '@/interfaces/schema/ISchema';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -99,10 +100,20 @@ export default defineComponent({
       mounted.value = true;
     };
 
+    const loadIsDtaft = async () => {
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 6;
+      Provider.filterQuery.value.pagination.cursorMode = true;
+      Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
+      await load();
+    };
+
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'news', action: 'getAll' },
       sortModels: [],
     });
+
+    Hooks.onBeforeMount(loadIsDtaft);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.id } });

@@ -48,6 +48,9 @@
             <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
             <el-card>
               <template #header>Время и статус публикации</template>
+              <el-form-item label="Черновик" prop="isDraft">
+                <el-switch v-model="news.isDraft" active-text="Да" inactive-text="Нет" />
+              </el-form-item>
               <el-space direction="vertical" alignment="start" :size="10">
                 <el-form-item prop="publishedOn">
                   <el-date-picker v-model="news.publishedOn" format="DD.MM.YYYY HH:mm" type="datetime" placeholder="Дата публикации" />
