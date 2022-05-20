@@ -9,7 +9,7 @@ import RootState from '@/store/types';
 import State from './state';
 
 const httpClient = new HttpClient('comments');
-
+let source: EventSource | undefined = undefined;
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
     const items = await httpClient.get<ICommentsWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
@@ -29,6 +29,16 @@ const actions: ActionTree<State, RootState> = {
   createComment: async ({ state, commit }): Promise<void> => {
     const res = await httpClient.post<IComment, IComment>({ payload: state.comment.comment });
     commit('setComment', res);
+  },
+  subscribeCreate: async ({ commit }, isNmo: boolean): Promise<void> => {
+    const c = new HttpClient('subscribe');
+    source = await c.subscribe<IComment>({ query: 'comment-create' });
+    source.onmessage = function (e) {
+      commit('unshiftToAll', JSON.parse(e.data));
+    };
+  },
+  unsubscribeCreate: async ({ commit }): Promise<void> => {
+    source?.close();
   },
 };
 

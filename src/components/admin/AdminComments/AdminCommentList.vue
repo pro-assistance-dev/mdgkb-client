@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
 import Pagination from '@/components/admin/Pagination.vue';
@@ -60,6 +60,7 @@ export default defineComponent({
     const load = async (filterQuery: IFilterQuery) => {
       Provider.setSortModels(CommentsSortsLib.byPublishedOn());
       await Provider.store.dispatch('comments/getAll', filterQuery);
+      await Provider.store.dispatch('comments/subscribeCreate');
       mounted.value = true;
     };
 
@@ -78,6 +79,10 @@ export default defineComponent({
     const loadComments = async () => {
       await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
     };
+
+    onBeforeUnmount(async () => {
+      await Provider.store.dispatch('comments/unsubscribeCreate');
+    });
 
     return {
       comments,
