@@ -37,7 +37,15 @@
           </div>
         </div>
         <div class="info-container-right">
-          <el-carousel trigger="click" height="100%" width="auto" :interval="5000" indicator-position="inside">
+          <el-carousel
+            ref="carouselRef"
+            v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+            trigger="click"
+            height="100%"
+            width="auto"
+            :interval="5000"
+            indicator-position="inside"
+          >
             <el-carousel-item>
               <img src="@/assets/img/main-page/templates/main-info.webp" />
             </el-carousel-item>
@@ -52,9 +60,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'MainPage',
+  setup() {
+    const carouselRef = ref();
+    return {
+      carouselRef,
+    };
+  },
 });
 </script>
 

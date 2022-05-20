@@ -1,8 +1,14 @@
 <template>
-  <component :is="'MainContainer'" header-title="Соцсети" background-color="white">
-    <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
+  <component :is="'MainContainer'" v-if="mounted && carousel.length" header-title="Соцсети" background-color="white">
+    <el-carousel
+      ref="carouselRef"
+      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+      :interval="5000"
+      indicator-position="outside"
+      height="350px"
+    >
       <el-carousel-item v-for="(socialMedias, i) in carousel" :key="i">
-        <div class="size"><SocialMediaCard v-for="item in socialMedias" :key="item.description" :item="item" /></div>
+        <div v-for="item in socialMedias" :key="item.description" class="size"><SocialMediaCard :item="item" /></div>
       </el-carousel-item>
     </el-carousel>
   </component>
@@ -23,6 +29,7 @@ export default defineComponent({
   setup() {
     const carousel: Ref<ISocialMedia[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
+    const carouselRef = ref();
 
     const makeCarousel = (array: ISocialMedia[], size: number): ISocialMedia[][] => {
       // size - number of banners in el-carousel-item
@@ -45,6 +52,7 @@ export default defineComponent({
     return {
       carousel,
       mounted,
+      carouselRef,
     };
   },
 });

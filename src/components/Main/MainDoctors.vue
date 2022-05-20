@@ -1,6 +1,13 @@
 <template>
   <component :is="'MainContainer'" header-title="Наши специалисты" header-button-title="Все врачи" header-button-link="/doctors">
-    <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
+    <el-carousel
+      v-if="mounted"
+      ref="carouselRef"
+      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+      :interval="5000"
+      indicator-position="outside"
+      height="350px"
+    >
       <el-carousel-item v-for="(doctors, i) in carousel" :key="i">
         <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
       </el-carousel-item>
@@ -26,6 +33,7 @@ export default defineComponent({
     const doctors: ComputedRef<IDoctor[]> = computed(() => store.getters['doctors/items']);
     const mounted: Ref<boolean> = ref(false);
     const carousel: Ref<IDoctor[][]> = ref([]);
+    const carouselRef = ref();
 
     const makeCarousel = (array: IDoctor[], size: number): IDoctor[][] => {
       // size - number of banners in el-carousel-item
@@ -47,38 +55,8 @@ export default defineComponent({
     return {
       mounted,
       carousel,
+      carouselRef,
     };
   },
 });
 </script>
-<style lang="scss" scoped>
-@media screen and (max-width: 980px) {
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-    font-size: 18px;
-  }
-
-  :deep(.main-page-container-header button) {
-    font-size: 12px;
-    margin: 0px;
-  }
-
-  :deep(.el-icon) {
-    width: 0.5em;
-    height: 0.5em;
-  }
-  :deep(.el-icon svg) {
-    width: 0.5em;
-    height: 0.5em;
-    padding-bottom: 6px;
-  }
-}
-</style>

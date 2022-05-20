@@ -119,7 +119,7 @@ export default defineComponent({
           showUpload.value = !showUpload.value;
           emit('removeFile');
         })
-        .catch((action: string) => {
+        .catch(() => {
           return;
         });
     };
@@ -166,16 +166,16 @@ export default defineComponent({
   }
 }
 
-.avatar-uploader-cover {
-  // line-height: var(--height);
-  // text-align: center;
-}
+// .avatar-uploader-cover {
+// line-height: var(--height);
+// text-align: center;
+// }
 
-.custom-plus {
-  //display: inline-block;
-  //vertical-align: middle;
-  //line-height: normal;
-}
+// .custom-plus {
+//display: inline-block;
+//vertical-align: middle;
+//line-height: normal;
+// }
 
 :deep(.el-upload) {
   max-width: var(--width);

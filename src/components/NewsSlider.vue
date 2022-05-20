@@ -1,7 +1,14 @@
 <template>
   <div v-if="carousel.length" class="education">
     <div class="title-in">Новости</div>
-    <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
+    <el-carousel
+      v-if="mounted"
+      ref="carouselRef"
+      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+      :interval="5000"
+      indicator-position="outside"
+      height="350px"
+    >
       <el-carousel-item v-for="(newsGroup, i) in carousel" :key="i">
         <NewsCard v-for="item in newsGroup" :key="item.id" :news="item.news" :article="true" />
       </el-carousel-item>
@@ -27,6 +34,7 @@ export default defineComponent({
   async setup(props) {
     const carousel: Ref<IWithNews[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
+    const carouselRef = ref();
 
     const makeCarousel = (array: IWithNews[], size: number): IWithNews[][] => {
       // size - number of banners in el-carousel-item
@@ -45,6 +53,7 @@ export default defineComponent({
     return {
       carousel,
       mounted,
+      carouselRef,
     };
   },
 });

@@ -306,13 +306,6 @@ export default defineComponent({
   }
 }
 
-@media screen and (max-width: 980px) {
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-  }
-}
-
 @media screen and (max-width: 768px) {
   .main-medical-profiles {
     display: none;
@@ -384,7 +377,6 @@ export default defineComponent({
   }
 
   .main-medical-profiles-mobile4 {
-    margin: 0 15px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
@@ -474,27 +466,7 @@ export default defineComponent({
       }
     }
   }
-  :deep(.main-page-container-header-title) {
-    margin-left: auto;
-    margin-right: auto;
-    letter-spacing: 0;
-    font-size: 18px;
-  }
 
-  :deep(.main-page-container-header button) {
-    font-size: 12px;
-    margin: 0px;
-  }
-
-  :deep(.el-icon) {
-    width: 0.5em;
-    height: 0.5em;
-  }
-  :deep(.el-icon svg) {
-    width: 0.5em;
-    height: 0.5em;
-    padding-bottom: 6px;
-  }
   :deep(.main-medical-profiles-card card-hover) {
     height: 200px;
   }

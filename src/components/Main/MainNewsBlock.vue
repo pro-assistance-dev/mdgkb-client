@@ -139,21 +139,11 @@ export default defineComponent({
     padding-top: 30px;
     padding-left: 0;
   }
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-  }
 }
 
 @media screen and (max-width: 480px) {
   .main-news-block {
     padding: 0 5px;
-  }
-
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-    font-size: 18px;
   }
 
   :deep(.main-page-container-header button) {

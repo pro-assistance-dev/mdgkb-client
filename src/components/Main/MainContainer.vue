@@ -8,7 +8,9 @@
           <el-icon><right /></el-icon>
         </button>
       </div>
-      <slot></slot>
+      <div class="main-page-container-main">
+        <slot></slot>
+      </div>
       <div v-if="footerButtonTitle" class="main-page-container-footer">
         <button @click="$router.push(footerButtonLink)">{{ footerButtonTitle }}</button>
       </div>
@@ -112,5 +114,40 @@ export default defineComponent({
 :deep(.el-carousel__container) {
   max-height: auto;
   // height: unset;
+}
+
+@media screen and (max-width: 1400px) {
+  .main-page-container {
+    &-main,
+    &-header,
+    &-footer {
+      padding: 0 10px;
+    }
+    &-header-title {
+      letter-spacing: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-page-container-header {
+    button {
+      font-size: 12px;
+      margin: 0px;
+    }
+    &-title {
+      font-size: 18px;
+    }
+  }
+
+  :deep(.el-icon) {
+    width: 0.5em;
+    height: 0.5em;
+  }
+  :deep(.el-icon svg) {
+    width: 0.5em;
+    height: 0.5em;
+    padding-bottom: 6px;
+  }
 }
 </style>

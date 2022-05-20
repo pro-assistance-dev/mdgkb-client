@@ -6,7 +6,14 @@
     background-color="white"
     header-button-link="/news"
   >
-    <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="200px">
+    <el-carousel
+      v-if="mounted"
+      ref="carouselRef"
+      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+      :interval="5000"
+      indicator-position="outside"
+      height="200px"
+    >
       <el-carousel-item v-for="(events, i) in carousel" :key="i">
         <MainEventCard v-for="item in events" :key="item.id" :item="item" />
       </el-carousel-item>
@@ -30,6 +37,7 @@ export default defineComponent({
   setup() {
     const carousel: Ref<IEventTemplate[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
+    const carouselRef = ref();
 
     const store = useStore();
     const items: ComputedRef<IEvent[]> = computed<IEvent[]>(() => store.getters['events/items']);
@@ -117,33 +125,9 @@ export default defineComponent({
 
     return {
       carousel,
+      carouselRef,
       mounted,
     };
   },
 });
 </script>
-
-<style lang="scss" scoped>
-@media screen and (max-width: 480px) {
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-    font-size: 18px;
-  }
-
-  :deep(.main-page-container-header button) {
-    font-size: 12px;
-    margin: 0px;
-  }
-
-  :deep(.el-icon) {
-    width: 0.5em;
-    height: 0.5em;
-  }
-  :deep(.el-icon svg) {
-    width: 0.5em;
-    height: 0.5em;
-    padding-bottom: 6px;
-  }
-}
-</style>

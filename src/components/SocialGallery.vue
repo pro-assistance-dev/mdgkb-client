@@ -1,7 +1,13 @@
 <template>
   <div v-if="socialsGroups.length > 0" class="image-gallery-container">
     <div class="gallery-container">
-      <el-carousel arrow="always" :interval="4000" indicator-position="outside">
+      <el-carousel
+        ref="carouselRef"
+        v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+        arrow="always"
+        :interval="4000"
+        indicator-position="outside"
+      >
         <el-carousel-item v-for="socialGroup in socialsGroups" :key="socialGroup">
           <div style="display: flex">
             <div v-for="social in socialGroup" :key="social">
@@ -31,6 +37,8 @@ export default defineComponent({
     const socials: ComputedRef<ISocial[]> = computed(() => store.getters['meta/socials']);
     let socialsGroups: Ref<ISocial[][]> = ref([]);
     const mounted = ref(false);
+    const carouselRef = ref();
+
     onBeforeMount(async (): Promise<void> => {
       await store.dispatch('meta/getSocial');
       // socialsGroups = splitByGroups(socials.value);
@@ -63,7 +71,11 @@ export default defineComponent({
     //   // }
     // };
 
-    return { socialsGroups, mounted };
+    return {
+      socialsGroups,
+      mounted,
+      carouselRef,
+    };
   },
 });
 </script>
