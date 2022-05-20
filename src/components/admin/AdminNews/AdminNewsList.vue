@@ -2,6 +2,7 @@
   <component :is="'AdminListWrapper'" v-if="mounted">
     <template #header>
       <RemoteSearch class="filters-block" :key-value="schema.news.key" @select="selectSearch" />
+      <FiltersList :models="createFilterModels()" @load="loadNews" />
       <SortList class="filters-block" :models="sortList" :store-mode="true" @load="loadNews" />
       <FilterSelectDate
         class="filters-block"
@@ -51,12 +52,13 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
+import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import ISearchObject from '@/interfaces/ISearchObject';
 import INews from '@/interfaces/news/INews';
-import ISchema from '@/interfaces/schema/ISchema';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
@@ -65,15 +67,13 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminNewsList',
-  components: { FilterSelectDate, TableButtonGroup, Pagination, RemoteSearch, SortList, AdminListWrapper },
+  components: { FiltersList, FilterSelectDate, TableButtonGroup, Pagination, RemoteSearch, SortList, AdminListWrapper },
   setup() {
     const news = computed(() => Provider.store.getters['news/news']);
-    const mounted = ref(false);
     const addNews = () => {
       Provider.router.push('/admin/news/new');
     };
     const sortList: Ref<ISortModel[]> = ref([]);
-    const schema: Ref<ISchema> = ref(Provider.schema.value);
     const edit = async (id: string): Promise<void> => {
       const item = news.value.find((i: INews) => i.id === id);
       if (item) await Provider.router.push(`/admin/news/${item.slug}`);
@@ -96,16 +96,6 @@ export default defineComponent({
         title: 'Новости',
         buttons: [{ text: 'Добавить новость', type: 'primary', action: addNews }],
       });
-      schema.value = Provider.schema.value;
-      mounted.value = true;
-    };
-
-    const loadIsDtaft = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 6;
-      Provider.filterQuery.value.pagination.cursorMode = true;
-      Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
-      await load();
     };
 
     Hooks.onBeforeMount(load, {
@@ -113,13 +103,25 @@ export default defineComponent({
       sortModels: [],
     });
 
-    Hooks.onBeforeMount(loadIsDtaft);
-
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.id } });
     };
 
-    return { news, edit, remove, mounted, selectSearch, schema, sortList, loadNews };
+    const createFilterModels = (): IFilterModel[] => {
+      return [NewsFiltersLib.withoutDrafts(), NewsFiltersLib.withDrafts()];
+    };
+
+    return {
+      news,
+      edit,
+      remove,
+      selectSearch,
+      sortList,
+      loadNews,
+      createFilterModels,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
+    };
   },
 });
 </script>

@@ -7,6 +7,7 @@ import { Operators } from '@/interfaces/filters/Operators';
 export default class FilterModel implements IFilterModel {
   id?: string;
   table = '';
+  label = '';
   col = '';
   operator: Operators = Operators.Eq;
   date1?: Date;
