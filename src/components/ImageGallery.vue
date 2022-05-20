@@ -1,7 +1,7 @@
 <template>
   <div class="image-gallery-container">
     <div v-if="images.length > 0" class="gallery-container">
-      <el-carousel arrow="always" :interval="4000">
+      <el-carousel ref="carouselRef" v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)" arrow="always" :interval="4000">
         <el-carousel-item v-for="image in images" :key="image.id">
           <img :src="image.fileInfo.getImageUrl()" :alt="image.fileInfo.originalName" @click="imgClickHandler(image.fileInfo)" />
         </el-carousel-item>
@@ -32,6 +32,7 @@ export default defineComponent({
   setup() {
     const dialogVisible: Ref<boolean> = ref(false);
     const dialogFileInfo: Ref<IFileInfo> = ref(new FileInfo());
+    const carouselRef = ref();
 
     const imgClickHandler = (fileInfo: IFileInfo) => {
       dialogFileInfo.value = fileInfo;
@@ -42,6 +43,7 @@ export default defineComponent({
       dialogVisible,
       dialogFileInfo,
       imgClickHandler,
+      carouselRef,
     };
   },
 });

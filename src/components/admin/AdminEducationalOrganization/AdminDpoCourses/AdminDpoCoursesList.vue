@@ -7,7 +7,7 @@
       <el-table-column label="Название" width="400" class-name="sticky-left">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input v-model="scope.row.name" placeholder="Заголовок"></el-input>
+            <el-input v-model="scope.row.name" type="textarea" :autosize="{ minRows: 1 }" size="small" placeholder="Заголовок"></el-input>
           </div>
           <div v-else>
             {{ scope.row.name }}
@@ -25,7 +25,7 @@
       <el-table-column label="Длительность" align="center" width="200">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input-number v-model="scope.row.hours" />
+            <el-input-number v-model="scope.row.hours" size="small" />
           </div>
           <div v-else>
             {{ scope.row.hours }}
@@ -35,14 +35,14 @@
       <el-table-column label="Стоимость" align="center" min-width="200">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input-number v-model="scope.row.cost" />
+            <el-input-number v-model="scope.row.cost" size="small" />
           </div>
           <div v-else>
             {{ scope.row.cost }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="50" fixed="right" align="center" class-name="sticky-right">
+      <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
           <TableButtonGroup
             :show-edit-button="true"
@@ -54,15 +54,14 @@
       </el-table-column>
     </el-table>
     <template #footer>
-      <Pagination :show-confirm="isEditMode" @beforePageChange="save" />
+      <Pagination :show-confirm="isEditMode" @save="save" @cancel="cancel" />
     </template>
   </component>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -83,10 +82,8 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
   setup() {
     const mounted = ref(false);
-    const store = useStore();
-    const router = useRouter();
     const route = useRoute();
-    const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => store.getters['dpoCourses/items']);
+    const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => Provider.store.getters['dpoCourses/items']);
     const title = ref('');
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
@@ -109,13 +106,13 @@ export default defineComponent({
 
     const load = async () => {
       Provider.store.commit('dpoCourses/clearItems');
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 3;
-      Provider.filterQuery.value.pagination.cursorMode = false;
+      // Provider.resetFilterQuery();
+      // Provider.filterQuery.value.pagination.limit = 3;
+      // Provider.filterQuery.value.pagination.cursorMode = false;
       Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
       setProgramsType();
       await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
-      store.commit('admin/setHeaderParams', {
+      Provider.store.commit('admin/setHeaderParams', {
         title: title,
         buttons: [
           { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
@@ -136,8 +133,8 @@ export default defineComponent({
       return createSortModels(DpoCoursesSortsLib);
     };
 
-    const create = () => router.push(`${route.path}/new`);
-    const open = (id: string) => router.push(`${route.path}/${id}`);
+    const create = () => Provider.router.push(`${route.path}/new`);
+    const open = (id: string) => Provider.router.push(`${route.path}/${id}`);
     const edit = () => {
       if (isEditMode.value) {
         return;
@@ -150,12 +147,16 @@ export default defineComponent({
         return;
       }
       saveButtonClick.value = true;
-      await Provider.store.dispatch('dpoCourses/saveMany');
+      await Provider.store.dispatch('dpoCourses/updateMany');
       isEditMode.value = false;
       isNotEditMode.value = true;
       if (next) next();
     };
-    const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
+    const remove = async (id: string) => await Provider.store.dispatch('dpoCourses/remove', id);
+    const cancel = () => {
+      isEditMode.value = false;
+      isNotEditMode.value = true;
+    };
 
     const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
     watch(isEditMode, () => {
@@ -165,7 +166,7 @@ export default defineComponent({
       showConfirmModal(save, next);
     });
 
-    return { isEditMode, mounted, dpoCourses, remove, open, save, edit, create, createDpoSortModels, loadDpoCourses };
+    return { cancel, isEditMode, mounted, dpoCourses, remove, open, save, edit, create, createDpoSortModels, loadDpoCourses };
   },
 });
 </script>

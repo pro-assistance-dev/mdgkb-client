@@ -12,6 +12,7 @@ export const getDefaultState = (): State => {
   return {
     items: [],
     item: new PostgraduateCourse(),
+    count: 0,
   };
 };
 

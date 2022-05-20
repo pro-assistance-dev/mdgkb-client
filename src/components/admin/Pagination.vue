@@ -26,7 +26,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['beforePageChange'],
+  emits: ['cancel', 'save'],
   setup(prop, { emit }) {
     const storeModule: string = Provider.store.getters['filter/storeModule'];
     const action: string = Provider.store.getters['filter/action'];
@@ -47,7 +47,8 @@ export default defineComponent({
         })
           .then(async () => {
             // Вызывается при сохранении
-            await setPage(pageNum);
+            emit('save');
+            setPage(pageNum);
           })
           .catch((action: string) => {
             if (action === 'cancel') {
@@ -55,6 +56,8 @@ export default defineComponent({
                 type: 'warning',
                 message: 'Изменения не были сохранены',
               });
+              emit('cancel');
+              setPage(pageNum);
             }
             return;
           });
@@ -64,7 +67,6 @@ export default defineComponent({
     };
 
     const setPage = async (pageNum: number): Promise<void> => {
-      emit('beforePageChange');
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',

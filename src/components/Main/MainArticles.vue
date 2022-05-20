@@ -1,6 +1,18 @@
 <template>
-  <component :is="'MainContainer'" header-title="Статьи" header-button-title="Все статьи" header-button-link="/news">
-    <el-carousel v-if="mounted" :interval="5000" indicator-position="outside" height="350px">
+  <component
+    :is="'MainContainer'"
+    v-if="mounted && carousel.length"
+    header-title="Статьи"
+    header-button-title="Все статьи"
+    header-button-link="/news"
+  >
+    <el-carousel
+      ref="carouselRef"
+      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+      :interval="5000"
+      indicator-position="outside"
+      height="350px"
+    >
       <el-carousel-item v-for="(news, i) in carousel" :key="i">
         <NewsCard v-for="item in news" :key="item.id" :news="item" :article="true" />
       </el-carousel-item>
@@ -25,6 +37,7 @@ export default defineComponent({
     const news = computed(() => store.getters['news/news']);
     const carousel: Ref<INews[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
+    const carouselRef = ref();
 
     const makeCarousel = (array: INews[], size: number): INews[][] => {
       // size - number of banners in el-carousel-item
@@ -46,31 +59,8 @@ export default defineComponent({
     return {
       carousel,
       mounted,
+      carouselRef,
     };
   },
 });
 </script>
-<style lang="scss" scoped>
-@media screen and (max-width: 480px) {
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-    font-size: 18px;
-  }
-
-  :deep(.main-page-container-header button) {
-    font-size: 12px;
-    margin: 0px;
-  }
-
-  :deep(.el-icon) {
-    width: 0.5em;
-    height: 0.5em;
-  }
-  :deep(.el-icon svg) {
-    width: 0.5em;
-    height: 0.5em;
-    padding-bottom: 6px;
-  }
-}
-</style>

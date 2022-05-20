@@ -12,6 +12,9 @@ const getters: GetterTree<State, RootState> = {
   item(state): IResidencyCourse {
     return state.item;
   },
+  count(state): number {
+    return state.count;
+  },
 };
 
 export default getters;

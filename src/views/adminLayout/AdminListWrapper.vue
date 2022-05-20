@@ -29,6 +29,9 @@ export default defineComponent({
   flex-direction: column;
   box-sizing: border-box;
 }
+:deep(.el-table__row) {
+  position: relative;
+}
 :deep(.el-table__header-wrapper) {
   position: sticky;
   top: 0;
@@ -96,6 +99,9 @@ export default defineComponent({
 }
 :deep(.sticky-left) {
   left: 0;
-  z-index: 10;
+  z-index: 99;
+}
+:deep(.el-input-number) {
+  z-index: 0;
 }
 </style>

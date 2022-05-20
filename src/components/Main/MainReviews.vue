@@ -63,80 +63,14 @@ export default defineComponent({
   justify-content: space-between;
 }
 
-// .mobile2 {
-//   display: none;
-// }
-
-// .mobile3 {
-//   display: none;
-// }
-
-// @media screen and (max-width: 1300px) {
-//   .mobile1 {
-//     display: none;
-//   }
-
-//   .mobile2 {
-//     display: block;
-//   }
-
-//   .mobile3 {
-//     display: none;
-//   }
-// }
-
-// @media screen and (max-width: 980px) {
-//   .mobile1 {
-//     display: none;
-//   }
-
-//   .mobile2 {
-//     display: none;
-//   }
-
-//   .mobile3 {
-//     display: block;
-//   }
-// }
-
 @media screen and (max-width: 650px) {
   .main-page-reviews {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 15px;
+    // display: block;
+    // margin-left: auto;
+    // margin-right: auto;
+    // width: 100%;
+    flex-direction: column;
+    align-items: center;
   }
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-    font-size: 18px;
-  }
-
-  :deep(.main-page-container-header button) {
-    font-size: 12px;
-    margin: 0px;
-  }
-
-  :deep(.el-icon) {
-    width: 0.5em;
-    height: 0.5em;
-  }
-  :deep(.el-icon svg) {
-    width: 0.5em;
-    height: 0.5em;
-    padding-bottom: 6px;
-  }
-
-  // .mobile1 {
-  //   display: none;
-  // }
-
-  // .mobile2 {
-  //   display: none;
-  // }
-
-  // .mobile3 {
-  //   display: block;
-  // }
 }
 </style>

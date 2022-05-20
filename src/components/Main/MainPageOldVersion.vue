@@ -69,7 +69,13 @@
         </el-col>
       </el-row>
 
-      <el-carousel height="250px" :interval="5000" indicator-position="outside">
+      <el-carousel
+        ref="carouselRef"
+        v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+        height="250px"
+        :interval="5000"
+        indicator-position="outside"
+      >
         <el-carousel-item v-for="(comment, i) in comments" :key="i">
           <CommentCard :comment="comment" />
         </el-carousel-item>
@@ -96,6 +102,7 @@ export default defineComponent({
     const store = useStore();
     const loading: Ref<boolean> = ref<boolean>(false);
     const mounted: Ref<boolean> = ref<boolean>(false);
+    const carouselRef = ref();
 
     const divisions: Ref<IDivision[]> = ref([]);
     const selectedDivision = computed(() => store.getters['divisions/division']);
@@ -158,7 +165,7 @@ export default defineComponent({
       selectedDivision,
       list,
       loadDivisions,
-
+      carouselRef,
       loading,
       comments,
       mounted,

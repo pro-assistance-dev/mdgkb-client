@@ -1,7 +1,7 @@
 <template>
   <div class="footer-top">
     <div class="container">
-      <el-carousel v-if="mounted" :interval="5000">
+      <el-carousel v-if="mounted" ref="carouselRef" v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)" :interval="5000">
         <el-carousel-item v-for="(banners, i) in carousel" :key="i">
           <div v-for="item in banners" :key="item.id" class="image">
             <a :href="item.link ? `http://${item.link}` : null">
@@ -29,6 +29,7 @@ export default defineComponent({
     const banners = computed(() => store.getters['banners/banners']);
     const carousel: Ref<IBanner[][]> = ref([]);
     const mounted = ref(false);
+    const carouselRef = ref();
 
     const makeCarousel = (array: IBanner[], size: number): IBanner[][] => {
       // size - number of banners in el-carousel-item
@@ -47,7 +48,11 @@ export default defineComponent({
 
     onMounted(loadBanners);
 
-    return { carousel, mounted };
+    return {
+      carousel,
+      mounted,
+      carouselRef,
+    };
   },
 });
 </script>

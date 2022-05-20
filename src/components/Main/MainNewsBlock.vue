@@ -15,7 +15,7 @@
         <div class="size"><NewsCard :news="news[2]" :main="true" /></div>
       </div>
       <div class="main-news-block-right">
-        <RecentNewsCard :main="true" :news-number="5" />
+        <RecentNewsCard :main="true" :news-number="5" style="height: 100%" />
       </div>
     </div>
   </component>
@@ -93,6 +93,10 @@ export default defineComponent({
   width: 270px;
 }
 
+.main-news-block-middle > .size:first-child {
+  margin-bottom: 10px;
+}
+
 .main-news-block-right {
   width: 270px;
   padding-left: 15px;
@@ -103,6 +107,55 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 980px) {
+  :deep(.card) {
+    width: 100%;
+  }
+
+  :deep(.card-content) {
+    width: 100%;
+    word-wrap: break-word;
+  }
+
+  :deep(.image) {
+    position: relative;
+    overflow: hidden;
+    padding-top: 75% !important;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  :deep(.article-card) {
+    width: 220px;
+    height: 320px;
+    margin: 0 10px 100px 0;
+    .image {
+      padding-top: 180px;
+    }
+    :deep(.title) {
+      font-size: 12px !important;
+    }
+    .card-meta {
+      font-size: 11px;
+      :deep(.anticon) {
+        font-size: 12px;
+        height: 12px;
+      }
+    }
+    .tags-top {
+      margin: 10px 0 0 10px;
+    }
+    .news-tag-link {
+      font-size: 8px;
+    }
+  }
+
   .size {
     width: 48%;
     height: auto;
@@ -141,21 +194,11 @@ export default defineComponent({
     padding-top: 30px;
     padding-left: 0;
   }
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-  }
 }
 
 @media screen and (max-width: 480px) {
   .main-news-block {
     padding: 0 5px;
-  }
-
-  :deep(.main-page-container-header-title) {
-    margin-left: 15px;
-    letter-spacing: 0;
-    font-size: 18px;
   }
 
   :deep(.main-page-container-header button) {

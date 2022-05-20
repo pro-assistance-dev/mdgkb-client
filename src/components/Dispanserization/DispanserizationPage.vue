@@ -13,7 +13,12 @@
     <el-card>
       <el-space direction="vertical" alignment="center" :size="20">
         <div style="font-size: 24px">Возможно вам будет интересно:</div>
-        <el-carousel indicator-position="outside" :interval="4000">
+        <el-carousel
+          ref="carouselRef"
+          v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+          indicator-position="outside"
+          :interval="4000"
+        >
           <el-carousel-item v-for="item in items" :key="item.id">
             <div class="carousel-container">
               <el-space direction="vertical" alignment="start" :size="0">
@@ -39,6 +44,7 @@ import { defineComponent, ref } from '@vue/runtime-core';
 export default defineComponent({
   name: 'DispanserizationPage',
   setup() {
+    const carouselRef = ref();
     const items = ref([
       {
         id: '01',
@@ -72,6 +78,7 @@ export default defineComponent({
 
     return {
       items,
+      carouselRef,
     };
   },
 });
