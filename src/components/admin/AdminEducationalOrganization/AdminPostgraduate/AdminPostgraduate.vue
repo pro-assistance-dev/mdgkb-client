@@ -7,6 +7,7 @@
           <el-button type="success" @click="addDocType">Добавить тип</el-button>
         </div>
       </template>
+
       <el-card v-for="(postgraduateDocType, docTypeIndex) in postgraduateDocumentTypes" :key="docTypeIndex">
         <template #header>
           <div class="card-header">
@@ -17,12 +18,7 @@
           </div>
           <div>
             <el-form-item prop="description">
-              <QuillEditor
-                v-model:content="postgraduateDocType.documentType.description"
-                style="min-height: 200px; max-height: 700px"
-                content-type="html"
-                theme="snow"
-              ></QuillEditor>
+              <Editor v-model="postgraduateDocType.documentType.description" />
             </el-form-item>
           </div>
         </template>
@@ -54,7 +50,6 @@
 </template>
 
 <script lang="ts">
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
@@ -63,6 +58,7 @@ import { useStore } from 'vuex';
 import PostgraduateDocumentType from '@/classes/PostgraduateDocumentType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
+import Editor from '@/components/Editor/Editor.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
 import removeFromClass from '@/mixins/removeFromClass';
@@ -72,8 +68,9 @@ import validate from '@/mixins/validate';
 export default defineComponent({
   name: 'AdminPostgraduate',
   components: {
+    Editor,
     DocumentUploader,
-    QuillEditor,
+    // QuillEditor,
     TableButtonGroup,
   },
   setup() {
