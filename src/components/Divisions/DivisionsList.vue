@@ -57,10 +57,10 @@ export default defineComponent({
 .card-flex-container {
   display: flex;
   flex-wrap: wrap;
-  padding: 10px;
+  padding: 20px 10px 10px 10px;
 }
 .card-container {
-  height: 350px;
+  height: auto;
   margin: 0 auto;
 }
 

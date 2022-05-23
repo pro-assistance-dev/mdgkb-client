@@ -1,60 +1,87 @@
 <template>
   <div class="card-item flex-column">
     <div class="flex-row">
-      <div class="flex-column left-side">
+      <div class="favourite-icon">
         <AvatarWithFavourite
           error-img-name="building-default.webp"
           :domain-id="division.id"
           domain-name="division"
           :img-link="{ name: `DivisionPage`, params: { id: division.id, slug: division.slug } }"
         />
-        <Rating :comments="division.divisionComments" />
       </div>
       <div class="flex-column right-side">
-        <div class="doctor-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
+        <div class="division-line">Терапевтическое направление</div>
+        <div class="card-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
           {{ division.name }}
         </div>
+        <div class="line">
+          <div class="line-item"><Rating :comments="division.divisionComments" /></div>
+          <button class="map-button">На карте</button>
+        </div>
         <div class="spec-list">
-          <div
+          <!-- <div
             v-for="profile in division.medicalProfilesDivisions"
             :key="profile.id"
             class="tag-link"
             @click="$router.push(`/medical-profiles/${profile.medicalProfile.id}`)"
           >
             {{ profile.medicalProfile.name }}
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="contact-h3">
-      <div class="item">
-        <svg v-if="division.getAddress()" class="icon-map-marker">
-          <use xlink:href="#map-marker"></use>
-        </svg>
+    <div class="info-block">
+      <div class="contact-h3">
+        <div class="item">
+          <svg class="icon-time">
+            <use xlink:href="#time"></use>
+          </svg>
+        </div>
+        <div class="item">Время&nbsp;работы&nbsp;сегодня:с&nbsp;7.00 до&nbsp;21:00</div>
       </div>
-      <div class="item">
-        <a @click="$router.push(`/map/${division.id}`)">
-          {{ division.address }}
-        </a>
+      <div class="contact-h3">
+        <div class="item">
+          <svg v-if="division.getAddress()" class="icon-map-marker">
+            <use xlink:href="#map-marker"></use>
+          </svg>
+        </div>
+        <div class="item">
+          <a @click="$router.push(`/map/${division.id}`)">
+            {{ division.address }}
+          </a>
+        </div>
+      </div>
+      <div class="contact-h3">
+        <div class="item">
+          <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone">
+            <use xlink:href="#phone"></use>
+          </svg>
+        </div>
+        <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div>
+      </div>
+      <div class="contact-h3">
+        <div class="item">
+          <svg v-if="division.contactInfo.emails[0].address" class="icon-email">
+            <use xlink:href="#email"></use>
+          </svg>
+        </div>
+        <div class="item">{{ division.contactInfo.emails[0].address }}</div>
+      </div>
+      <div class="contact-h3">
+        <div class="icon-block">
+          <svg class="icon-ruble">
+            <use xlink:href="#ruble"></use>
+          </svg>
+          <svg class="icon-credit-card">
+            <use xlink:href="#credit-card"></use>
+          </svg>
+          <svg class="icon-attention">
+            <use xlink:href="#attention"></use>
+          </svg>
+        </div>
       </div>
     </div>
-    <div class="contact-h3">
-      <div class="item">
-        <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone">
-          <use xlink:href="#phone"></use>
-        </svg>
-      </div>
-      <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div>
-    </div>
-    <div class="contact-h3">
-      <div class="item">
-        <svg v-if="division.contactInfo.emails[0].address" class="icon-email">
-          <use xlink:href="#email"></use>
-        </svg>
-      </div>
-      <div class="item">{{ division.contactInfo.emails[0].address }}</div>
-    </div>
-    <div class="doctor-card-footer">
+    <div class="division-card-footer">
       <button @click="$router.push('/appointments/oms')">Запись на прием</button>
     </div>
   </div>
@@ -90,6 +117,33 @@
         d="M8.00055 7.18665C8.91612 7.18665 9.65833 6.44444 9.65833 5.52887C9.65833 4.61331 8.91612 3.87109 8.00055 3.87109C7.08499 3.87109 6.34277 4.61331 6.34277 5.52887C6.34277 6.44444 7.08499 7.18665 8.00055 7.18665Z"
       ></path>
     </symbol>
+    <symbol id="ruble" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+        d="M13.5 3H7V12H5V14H7V16H5V18H7V21H9V18H13V16H9V14H13.5C16.54 14 19 11.54 19 8.5C19 5.46 16.54 3 13.5 3ZM13.5 12H9V5H13.5C15.43 5 17 6.57 17 8.5C17 10.43 15.43 12 13.5 12Z"
+      ></path>
+    </symbol>
+    <symbol id="credit-card" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+        d="M2 9H22M2 9V5.6C2 5.44087 2.06321 5.28826 2.17574 5.17574C2.28826 5.06321 2.44087 5 2.6 5H21.4C21.5591 5 21.7117 5.06321 21.8243 5.17574C21.9368 5.28826 22 5.44087 22 5.6V9H2ZM2 9V18.4C2 18.5591 2.06321 18.7117 2.17574 18.8243C2.28826 18.9368 2.44087 19 2.6 19H21.4C21.5591 19 21.7117 18.9368 21.8243 18.8243C21.9368 18.7117 22 18.5591 22 18.4V9H2Z"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+    </symbol>
+
+    <symbol id="attention" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+        d="M12 22C13.3135 22.0017 14.6143 21.7438 15.8278 21.2412C17.0413 20.7385 18.1435 20.001 19.071 19.071C20.001 18.1435 20.7385 17.0413 21.2412 15.8278C21.7438 14.6143 22.0017 13.3135 22 12C22.0017 10.6865 21.7438 9.3857 21.2411 8.17222C20.7385 6.95875 20.001 5.85656 19.071 4.92901C18.1435 3.99902 17.0413 3.26151 15.8278 2.75885C14.6143 2.25619 13.3135 1.99831 12 2.00001C10.6865 1.99833 9.3857 2.25623 8.17222 2.75889C6.95875 3.26154 5.85656 3.99904 4.92901 4.92901C3.99904 5.85656 3.26154 6.95875 2.75889 8.17222C2.25623 9.3857 1.99833 10.6865 2.00001 12C1.99831 13.3135 2.25619 14.6143 2.75885 15.8278C3.26151 17.0413 3.99902 18.1435 4.92901 19.071C5.85656 20.001 6.95875 20.7385 8.17222 21.2411C9.3857 21.7438 10.6865 22.0017 12 22V22Z"
+        stroke-width="2"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M12 17C12.2652 17 12.5196 16.8946 12.7071 16.7071C12.8946 16.5196 13 16.2652 13 16C13 15.7348 12.8946 15.4804 12.7071 15.2929C12.5196 15.1054 12.2652 15 12 15C11.7348 15 11.4804 15.1054 11.2929 15.2929C11.1054 15.4804 11 15.7348 11 16C11 16.2652 11.1054 16.5196 11.2929 16.7071C11.4804 16.8946 11.7348 17 12 17V17Z"
+      ></path>
+      <path d="M12 7.5V13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </symbol>
   </svg>
 </template>
 
@@ -110,7 +164,17 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/doctor-info-card.scss';
+// @import '@/assets/styles/elements/doctor-info-card.scss';
+
+.info-block {
+  height: 165px;
+}
+
+.card-item {
+  max-width: 370px;
+  min-height: 87%;
+  position: relative;
+}
 
 .tag-link {
   margin: 2px;
@@ -138,15 +202,60 @@ export default defineComponent({
 }
 
 .icon-time {
+  margin-left: 1px;
   width: 20px;
   height: 20px;
   fill: #2754eb;
 }
 
 .icon-map-marker {
+  margin-left: -1px;
   width: 23px;
   height: 23px;
   fill: #2754eb;
+}
+
+.icon-block {
+  display: flex;
+  justify-content: left;
+  margin-left: 15px;
+  height: 40px;
+  align-items: center;
+}
+
+.icon-ruble {
+  width: 24px;
+  height: 24px;
+  fill: #31ae5e;
+  margin-left: 10px;
+  &:hover {
+    cursor: pointer;
+    fill: lighten(#31af5e, 10%);
+  }
+}
+
+.icon-credit-card {
+  width: 30px;
+  height: 30px;
+  fill: #ffffff;
+  stroke: #31ae5e;
+  margin-left: 10px;
+  &:hover {
+    cursor: pointer;
+    stroke: lighten(#31af5e, 10%);
+  }
+}
+
+.icon-attention {
+  width: 24px;
+  height: 24px;
+  fill: #ffffff;
+  stroke: #31ae5e;
+  margin-left: 10px;
+  &:hover {
+    cursor: pointer;
+    stroke: lighten(#31af5e, 10%);
+  }
 }
 
 .contact-h3 {
@@ -158,14 +267,85 @@ export default defineComponent({
   color: #4a4a4a;
   align-content: center;
   text-align: center;
-  margin: 2px;
+  margin-top: 5px;
 }
 
 .item {
   display: flex;
+  flex-direction: row;
   padding-right: 10px;
   width: auto;
   align-items: center;
   text-align: left;
+}
+
+.card-name {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.2ex;
+  min-height: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.division-line {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.2ex;
+  font-size: 11px;
+  margin-bottom: 2px;
+  color: #a3a5b9;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.line-item {
+  display: block;
+}
+
+.map-button {
+  height: 26px;
+  background: #2754eb;
+  border-radius: 40px;
+  border: none;
+  font-family: roboto;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-left: 5px;
+  padding: 0 15px;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+    background-color: #133dcc;
+  }
+}
+
+.division-card-footer {
+  button {
+    margin-top: 10px;
+    border-radius: 20px;
+    background-color: #31af5e;
+    padding: 10px 20px;
+    height: auto;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+  }
+  text-align: center;
+  padding: 4px 0 0px 0;
+  margin-top: 10px;
+}
+
+.favourite-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }
 </style>

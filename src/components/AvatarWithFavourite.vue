@@ -1,11 +1,11 @@
 <template>
-  <div class="img-container" @click="$router.push(imgLink)">
-    <img v-if="image.fileSystemPath" :src="image.getImageUrl()" alt="alt" @error="image.errorImg($event, errorImgName)" />
-    <img v-else :src="require(`@/assets/img/${errorImgName}`)" />
-    <div class="favor">
-      <FavouriteIcon :domain-id="domainId" :domain-name="domainName" />
-    </div>
+  <!-- <div class="img-container" @click="$router.push(imgLink)"> -->
+  <!-- <img v-if="image.fileSystemPath" :src="image.getImageUrl()" alt="alt" @error="image.errorImg($event, errorImgName)" />
+    <img v-else :src="require(`@/assets/img/${errorImgName}`)" /> -->
+  <div class="favor">
+    <FavouriteIcon :domain-id="domainId" :domain-name="domainName" />
   </div>
+  <!-- </div> -->
 </template>
 
 <script lang="ts">

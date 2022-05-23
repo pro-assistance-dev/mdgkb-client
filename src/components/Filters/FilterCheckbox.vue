@@ -145,7 +145,7 @@ export default defineComponent({
 }
 
 :deep(.el-form-item__content) {
-  margin-top: 6px;
+  margin-top: 20px;
   height: 30px;
 }
 
