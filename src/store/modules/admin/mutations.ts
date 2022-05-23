@@ -70,6 +70,15 @@ const mutations: MutationTree<State> = {
         }
       });
     });
+    state.menus.forEach((el: IAdminMenu) => {
+      if (el.to !== '/') {
+        state.adminMenus.push({ value: el.title, link: el.to });
+      } else if (el.children?.length) {
+        el.children.forEach((el: IAdminMenu) => {
+          state.adminMenus.push({ value: el.title, link: el.to });
+        });
+      }
+    });
   },
 };
 

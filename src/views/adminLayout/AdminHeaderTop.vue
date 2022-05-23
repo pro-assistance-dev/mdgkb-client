@@ -8,6 +8,7 @@
       <h3>Панель управления МДГКБ</h3>
     </div>
     <div class="right-panel">
+      <AdminSearchMenu />
       <el-dropdown>
         <el-button>
           <div class="user-info">
@@ -36,11 +37,12 @@ import { computed, ComputedRef, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import AdminSearchMenu from '@/components/admin/AdminSearchMenu.vue';
 import IUser from '@/interfaces/IUser';
 
 export default defineComponent({
   name: 'AdminHeaderTop',
-  components: { LogoutOutlined },
+  components: { LogoutOutlined, AdminSearchMenu },
 
   setup() {
     const store = useStore();
@@ -48,13 +50,17 @@ export default defineComponent({
     const collapseSideMenu = () => store.commit('admin/collapseSideMenu');
     const openDrawer = () => store.commit('admin/openDrawer');
     const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
-
     const logout = async () => {
       await store.dispatch('auth/logout');
       await router.push('/');
     };
 
-    return { collapseSideMenu, openDrawer, logout, user };
+    return {
+      collapseSideMenu,
+      openDrawer,
+      logout,
+      user,
+    };
   },
 });
 </script>
