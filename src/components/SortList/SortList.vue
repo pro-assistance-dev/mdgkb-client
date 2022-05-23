@@ -142,6 +142,10 @@ export default defineComponent({
   width: 100%;
 }
 
+:deep(.el-form) {
+  width: 100%;
+}
+
 :deep(.el-form-item) {
   margin-bottom: 0px;
 }

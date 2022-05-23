@@ -1,36 +1,59 @@
 <template>
-  <div v-if="mount" class="left-side-container">
-    <RemoteSearch :key-value="schema.division.key" @select="selectSearch" />
-    <FilterCheckbox
-      label="С возможностью госпитализации"
-      :table="schema.division.tableName"
-      :col="schema.division.hospitalizationContactInfoId"
-      :data-type="DataTypes.String"
-      :operator="Operators.NotNull"
-      @load="loadDivisions()"
-    />
-    <FilterCheckbox
-      label="С отзывами"
-      :table="schema.division.tableName"
-      :col="schema.division.commentsCount"
-      :data-type="DataTypes.Number"
-      :operator="Operators.Gt"
-      @load="loadDivisions()"
-    />
+  <div v-if="mount" class="horizontal">
+    <div class="line">
+      <div class="block-item">
+        <ModeChoice path="divisions" :modes="modes" @selectMode="selectMode" />
+      </div>
+      <div class="block-item"><RemoteSearch :key-value="schema.division.key" @select="selectSearch" /></div>
+      <div class="block-item"><SortList :models="createSortModels()" @load="loadDivisions" /></div>
+      <div class="block-item">
+        <!-- <ModeButtons
+          :second-mode-active="!divisionsMode"
+          :store-mode="false"
+          first-mode="Список"
+          second-mode="Карта"
+          @changeMode="changeMode"
+        /> -->
+      </div>
+    </div>
+    <div class="line">
+      <div class="block-item">
+        <FilterCheckbox
+          label="С возможностью госпитализации"
+          :table="schema.division.tableName"
+          :col="schema.division.hospitalizationContactInfoId"
+          :data-type="DataTypes.String"
+          :operator="Operators.NotNull"
+          @load="loadDivisions()"
+        />
+      </div>
+      <div class="block-item">
+        <FilterCheckbox
+          label="С отзывами"
+          :table="schema.division.tableName"
+          :col="schema.division.commentsCount"
+          :data-type="DataTypes.Number"
+          :operator="Operators.Gt"
+          @load="loadDivisions()"
+        />
+      </div>
+      <div class="block-item"></div>
+      <div class="block-item"></div>
 
-    <FilterReset @load="loadDivisions" />
-    <SortList :models="createSortModels()" @load="loadDivisions" />
+      <!-- <div class="block-item"><FilterReset @load="loadDivisions" /></div> -->
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
-import FilterReset from '@/components/Filters/FilterResetButton.vue';
+import ModeChoice from '@/components/ModeChoice.vue';
+// import FilterReset from '@/components/Filters/FilterResetButton.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -41,21 +64,37 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
+import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
 import TokenService from '@/services/Token';
+// import ModeButtons from '@/components/ModeButtons.vue';
 
 export default defineComponent({
   name: 'DivisionsListFilters',
   components: {
-    FilterReset,
+    // FilterReset,
     FilterCheckbox,
     RemoteSearch,
     SortList,
+    ModeChoice,
+    // ModeButtons,
   },
-
-  setup() {
+  props: {
+    mode: {
+      type: String as PropType<string>,
+      required: true,
+      default: '',
+    },
+    modes: {
+      type: Array as PropType<IOption[]>,
+      required: false,
+      default: () => [],
+    },
+  },
+  emits: ['selectMode'],
+  setup(props, { emit }) {
     const store = useStore();
-    const route = useRoute();
+    // const route = useRoute();
     const router = useRouter();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
@@ -87,10 +126,10 @@ export default defineComponent({
       await store.dispatch('divisions/getAll', filterQuery.value);
     };
 
-    const loadFilters = async () => {
-      await store.dispatch('meta/getOptions', schema.value.medicalProfile);
-      await store.dispatch('meta/getOptions', schema.value.division);
-    };
+    // const loadFilters = async () => {
+    //   await store.dispatch('meta/getOptions', schema.value.medicalProfile);
+    //   await store.dispatch('meta/getOptions', schema.value.division);
+    // };
 
     const createSortModels = (): ISortModel[] => {
       return [
@@ -103,8 +142,21 @@ export default defineComponent({
       await router.push(`/divisions/${event.id}`);
     };
 
+    const selectMode = async (value: string) => {
+      emit('selectMode', value);
+    };
+
+    // onMounted(() => {
+    //   emit('load');
+    // });
+
+    // const load = () => {
+    //   emit('load');
+    // };
+
     return {
       selectSearch,
+      selectMode,
       createSortModels,
       TokenService,
       Operators,
@@ -172,5 +224,80 @@ h2 {
   height: 50px;
   align-items: center;
   font-weight: bold;
+}
+
+.horizontal {
+  width: 100%;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.line:last-child {
+  padding-top: 0px;
+}
+
+.block-item {
+  display: flex;
+  width: 272px;
+  margin: 22px 10px 0px 0px;
+}
+
+.block-item-1 {
+  display: flex;
+  width: 272px;
+  margin: 0 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+:deep(.el-checkbox__label) {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: #343e5c;
+}
+
+:deep(.el-autocomplete) {
+  height: 38px;
+}
+
+.el-select {
+  height: 38px;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+:deep(.el-form-item__content) {
+  margin-top: 0px;
+}
+
+@media screen and (max-width: 1216px) {
+  .block-item {
+    min-width: 272px;
+    width: 31%;
+  }
+}
+
+@media screen and (max-width: 897px) {
+  .block-item {
+    min-width: 272px;
+    width: 46%;
+  }
+}
+
+@media screen and (max-width: 605px) {
+  .block-item {
+    min-width: 272px;
+    width: 100%;
+  }
 }
 </style>

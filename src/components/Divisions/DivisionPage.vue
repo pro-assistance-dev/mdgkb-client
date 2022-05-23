@@ -14,7 +14,7 @@
         <div class="content article-body" v-html="division.info"></div>
 
         <div class="footer">
-          <el-button @click="$router.push('/map')">Вернуться назад</el-button>
+          <el-button @click="$router.push('/divisions')">Вернуться назад</el-button>
         </div>
       </el-card>
       <el-card v-if="division.doctors.length" class="card-content">
