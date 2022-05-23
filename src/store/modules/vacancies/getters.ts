@@ -19,6 +19,9 @@ const getters: GetterTree<State, RootState> = {
   item(state): IVacancyResponse {
     return state.vacancyResponse;
   },
+  count(state): number {
+    return state.count;
+  },
 };
 
 export default getters;

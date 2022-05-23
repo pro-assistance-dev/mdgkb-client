@@ -40,7 +40,7 @@ export default defineComponent({
       default: '',
     },
     filterValue: {
-      type: String as PropType<number | string | boolean | Date>,
+      type: [Number, String, Boolean, Date],
       default: '',
     },
     joinTable: {

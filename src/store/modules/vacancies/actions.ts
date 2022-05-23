@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IVacanciesWithCount from '@/interfaces/IVacanciesWithCount ';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
@@ -12,12 +13,12 @@ const httpClient = new HttpClient('vacancies');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IVacancy[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    const items = await httpClient.get<IVacanciesWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);
       return;
     }
-    commit('setAll', items);
+    commit('setAllWithCount', items);
   },
   getAllWithResponses: async ({ commit }): Promise<void> => {
     commit(
