@@ -1,6 +1,7 @@
 import Vuex, { StoreOptions } from 'vuex';
 
 import { admin } from '@/store/modules/admin';
+import { admissionCommitteeDocumentTypes } from '@/store/modules/admissionCommitteeDocumentTypes';
 import { applicationsCars } from '@/store/modules/applicationsCars';
 import { appointments } from '@/store/modules/appointments';
 import auth from '@/store/modules/auth';
@@ -157,6 +158,7 @@ const s: StoreOptions<RootState> = {
     formValues,
     residencyApplications,
     educationalOrganizationAcademics,
+    admissionCommitteeDocumentTypes,
   },
 };
 

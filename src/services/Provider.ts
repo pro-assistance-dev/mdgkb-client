@@ -12,6 +12,7 @@ const Provider = (() => {
   const r = router;
   const s = store;
   const mounted: Ref<boolean> = ref(false);
+  const form = ref();
   const schema: Ref<ISchema> = computed(() => s.getters['meta/schema']);
   const filterQuery: ComputedRef<IFilterQuery> = computed(() => s.getters['filter/filterQuery']);
   const sortList: Ref<ISortModel[]> = ref([]);
@@ -73,6 +74,7 @@ const Provider = (() => {
     router: r,
     store: s,
     replaceFilterModel,
+    form,
   };
 })();
 

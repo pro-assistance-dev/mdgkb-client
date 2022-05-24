@@ -42,7 +42,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .menu-item {
   width: 1.75rem;
   height: 1.75rem;

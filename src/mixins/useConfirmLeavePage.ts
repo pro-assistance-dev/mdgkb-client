@@ -2,7 +2,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { Ref, ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
-declare type SubmitCallback = (next: NavigationGuardNext) => void;
+declare type SubmitCallback = () => void;
 interface IReturn {
   confirmLeave: Ref<boolean>;
   saveButtonClick: Ref<boolean>;
@@ -34,7 +34,7 @@ export default function (): IReturn {
       })
         .then(() => {
           // Вызывается при сохранении
-          submit(next);
+          submit();
         })
         .catch((action: string) => {
           if (action === 'cancel') {

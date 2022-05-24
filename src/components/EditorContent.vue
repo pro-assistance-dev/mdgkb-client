@@ -16,14 +16,6 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-.table-container {
-  width: 100%;
-  border: 1px solid #dcdfe6;
-  border-bottom: none;
-  border-radius: 5px 5px 0 0;
-  background: #ffffff;
-}
-
 .editor-table {
   height: auto;
   border-collapse: collapse;
@@ -42,25 +34,25 @@ export default defineComponent({
     font-weight: normal;
     color: #a3a5b9;
   }
-}
 
-td {
-  border-bottom: 1px solid #dcdfe6;
-  padding: 9px 7px 9px 7px;
-  height: auto;
-}
+  td {
+    border-bottom: 1px solid #dcdfe6;
+    padding: 9px 7px 9px 7px;
+    height: auto;
+  }
 
-th:first-child {
-  border-radius: 5px 0 0 0;
-}
+  th:first-child {
+    border-radius: 5px 0 0 0;
+  }
 
-th:last-child {
-  border-radius: 0 5px 0 0;
-}
+  th:last-child {
+    border-radius: 0 5px 0 0;
+  }
 
-tr {
-  &:hover {
-    background-color: #ecf5ff;
+  tr {
+    &:hover {
+      background-color: #ecf5ff;
+    }
   }
 }
 </style>
