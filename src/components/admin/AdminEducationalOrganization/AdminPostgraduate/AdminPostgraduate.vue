@@ -65,7 +65,6 @@ import removeFromClass from '@/mixins/removeFromClass';
 import sort from '@/mixins/sort';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
-import Hooks from '@/services/Hooks/Hooks';
 export default defineComponent({
   name: 'AdminPostgraduate',
   components: {
@@ -93,13 +92,6 @@ export default defineComponent({
       mounted.value = true;
       store.commit('admin/closeLoading');
     });
-
-    Hooks.onBeforeRouteLeave(
-      Hooks.submit('postgraduateDocumentTypes/update', {
-        postgraduateDocumentTypes: postgraduateDocumentTypes.value,
-        postgraduateDocumentTypesForDelete: postgraduateDocumentTypesForDelete.value,
-      })
-    );
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);

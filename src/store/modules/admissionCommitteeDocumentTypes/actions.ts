@@ -44,10 +44,11 @@ const actions: ActionTree<State, RootState> = {
     admissionCommitteeDocumentTypes.forEach((docType: IAdmissionCommitteeDocumentType) => {
       fileInfos.push(...docType.getFileInfos());
     });
+    console.log(admissionCommitteeDocumentTypes);
     const res = await httpClient.put<unknown, unknown>({
       payload: {
         admissionCommitteeDocumentTypes: admissionCommitteeDocumentTypes,
-        admissionCommitteeDocumentTypesTypesForDelete: admissionCommitteeDocumentTypesForDelete,
+        admissionCommitteeDocumentTypesForDelete: admissionCommitteeDocumentTypesForDelete,
       },
       isFormData: true,
       fileInfos: fileInfos,

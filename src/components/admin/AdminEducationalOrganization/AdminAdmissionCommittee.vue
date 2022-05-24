@@ -1,5 +1,9 @@
 <template>
-  <AdminDocumentTypesForm store-module="admissionCommitteeDocumentTypes" />
+  <AdminDocumentTypesForm
+    v-if="mounted"
+    store-module="admissionCommitteeDocumentTypes"
+    :doc-types-for-delete="admissionCommitteeDocumentTypesForDelete"
+  />
 </template>
 
 <script lang="ts">
@@ -24,10 +28,12 @@ export default defineComponent({
 
     const { formUpdated } = useConfirmLeavePage();
 
-    const submit = Hooks.submit('admissionCommitteeDocumentTypes/update', {
-      admissionCommitteeDocumentTypes: admissionCommitteeDocumentTypes.value,
-      admissionCommitteeDocumentTypesForDelete: admissionCommitteeDocumentTypesForDelete.value,
-    });
+    const submit = async () => {
+      await Provider.store.dispatch('admissionCommitteeDocumentTypes/update', {
+        admissionCommitteeDocumentTypes: admissionCommitteeDocumentTypes.value,
+        admissionCommitteeDocumentTypesForDelete: admissionCommitteeDocumentTypesForDelete.value,
+      });
+    };
 
     const load = async () => {
       await Provider.store.dispatch('admissionCommitteeDocumentTypes/getAll');
@@ -35,11 +41,12 @@ export default defineComponent({
       watch(admissionCommitteeDocumentTypes, formUpdated, { deep: true });
     };
 
-    Hooks.onBeforeRouteLeave(submit);
+    Hooks.onBeforeRouteLeave(Hooks.submit(submit));
     Hooks.onBeforeMount(load);
 
     return {
       admissionCommitteeDocumentTypes,
+      admissionCommitteeDocumentTypesForDelete,
       mounted: Provider.mounted,
     };
   },

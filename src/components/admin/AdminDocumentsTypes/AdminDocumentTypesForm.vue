@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, PropType, Ref } from 'vue';
 
 import WithDocumentType from '@/classes/WithDocumentType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -74,17 +74,21 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    docTypesForDelete: {
+      type: Array as PropType<string[]>,
+      required: true,
+    },
   },
   setup(props) {
     const withDocumentTypes: Ref<IWithDocumentType[]> = computed(() => Provider.store.getters[`${props.storeModule}/items`]);
-    const withDocumentTypesForDelete: Ref<string[]> = ref([]);
+    // const withDocumentTypesForDelete: Ref<string[]> = ref([]);
 
     const addDocType = (): void => {
       withDocumentTypes.value.push(new WithDocumentType());
     };
 
     const removeDocType = (index: number): void => {
-      removeFromClass(index, withDocumentTypes.value, withDocumentTypesForDelete.value);
+      removeFromClass(index, withDocumentTypes.value, props.docTypesForDelete);
     };
 
     // const load = async () => {
