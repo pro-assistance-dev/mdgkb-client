@@ -49,10 +49,10 @@ export default defineComponent({
         return;
       }
       if (route.params['id']) {
-        await store.dispatch('vacancyResponses/update');
+        await store.dispatch('vacancyResponses/update', vacancyResponse.value);
       } else {
         vacancyResponse.value.formValue.clearIds();
-        await store.dispatch('vacancyResponses/create');
+        await store.dispatch('vacancyResponses/create', vacancyResponse.value);
       }
       next ? next() : await router.go(-1);
     };
@@ -81,9 +81,22 @@ export default defineComponent({
       await store.dispatch('vacancyResponses/emailExists', vacancyResponse.value.vacancyId);
     };
 
+    const updateNew = async () => {
+      console.log('vacancyResponse.value', vacancyResponse.value);
+      if (!route.params['id']) {
+        return;
+      }
+      if (!vacancyResponse.value.formValue.isNew) {
+        return;
+      }
+      vacancyResponse.value.formValue.isNew = false;
+      await store.dispatch('vacancyResponses/update', vacancyResponse.value);
+    };
+
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
       await loadItem();
+      await updateNew();
       await findEmail();
       store.commit('admin/closeLoading');
     });

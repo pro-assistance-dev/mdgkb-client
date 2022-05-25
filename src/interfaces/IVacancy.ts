@@ -30,9 +30,9 @@ export default interface IVacancy {
   formPatternId?: string;
 
   vacancyResponses: IVacancyResponse[];
+  vacancyResponsesForDelete: string[];
   withNewResponses: () => boolean;
-  seeAllResponses: () => void;
-  countResponses: (onlyNew: boolean) => number;
+  countResponses: (onlyNew?: boolean) => number;
 
   division?: IDivision;
   divisionId?: string;

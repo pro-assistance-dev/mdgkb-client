@@ -37,19 +37,25 @@
     <el-table v-if="vacancies" :data="vacancies">
       <el-table-column prop="title" label="Название" class-name="sticky-left" min-width="200">
         <template #default="scope">
-          {{ scope.row.title }}
+          <el-badge
+            v-if="scope.row.newResponsesCount"
+            :value="scope.row.newResponsesCount"
+            type="danger"
+            size="mini"
+            style="margin-top: 10px"
+          >
+            <div style="padding: 5px 10px 0 0">
+              {{ scope.row.title }}
+            </div>
+          </el-badge>
+          <div v-else>
+            {{ scope.row.title }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="title" label="Отзывов" align="center" min-width="100">
         <template #default="scope">
-          <!-- <el-tag>Отзывов: {{ scope.row.responsesCount }}</el-tag> -->
           {{ scope.row.responsesCount }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="title" label="Новых отзывов" align="center" min-width="100">
-        <template #default="scope">
-          <!-- <el-tag>Новых отзывов: {{ scope.row.newResponsesCount }}</el-tag> -->
-          {{ scope.row.newResponsesCount }}
         </template>
       </el-table-column>
       <el-table-column prop="minSalary" label="Минимальная зарплата" align="center" min-width="150"> </el-table-column>

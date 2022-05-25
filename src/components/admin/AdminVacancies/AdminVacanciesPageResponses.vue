@@ -58,7 +58,12 @@
     </el-table-column> -->
     <el-table-column width="50" fixed="right" align="center">
       <template #default="scope">
-        <TableButtonGroup :show-edit-button="true" @edit="$router.push(`/admin/vacancy-responses/${scope.row.id}`)" />
+        <TableButtonGroup
+          :show-edit-button="true"
+          :show-remove-button="true"
+          @edit="$router.push(`/admin/vacancy-responses/${scope.row.id}`)"
+          @remove="remove(scope.$index)"
+        />
       </template>
     </el-table-column>
   </el-table>
@@ -67,13 +72,12 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
-import Provider from '@/services/Provider';
+import removeFromClass from '@/mixins/removeFromClass';
 
 export default defineComponent({
   name: 'AdminVacanciesPageResponses',
@@ -88,15 +92,18 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
+  setup(prop) {
     let mounted = ref(false);
     const form = ref();
-    const documentsTypes: Ref<IDocumentType[]> = computed(() => Provider.store.getters['documentTypes/items']);
+
+    const remove = (index: number) => {
+      removeFromClass(index, prop.vacancyResponses, prop.vacancy.vacancyResponsesForDelete);
+    };
 
     return {
-      documentsTypes,
       mounted,
       form,
+      remove,
     };
   },
 });

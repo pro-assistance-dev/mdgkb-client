@@ -20,12 +20,13 @@ const actions: ActionTree<State, RootState> = {
       isFormData: true,
     });
   },
-  update: async ({ commit }, vacancyResponse: IVacancyResponse): Promise<void> => {
+  update: async (_, item: IVacancyResponse): Promise<void> => {
     await httpClient.put<IVacancyResponse, IVacancyResponse>({
-      query: `${vacancyResponse.id}`,
-      payload: vacancyResponse,
+      query: `${item.id}`,
+      fileInfos: item.getFileInfos(),
+      payload: item,
+      isFormData: true,
     });
-    commit('set');
   },
   pdf: async (_, id: string): Promise<void> => {
     await httpClient.get<IVacancyResponse>({

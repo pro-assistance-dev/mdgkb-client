@@ -28,6 +28,7 @@ export default class Vacancy implements IVacancy {
   newResponsesCount = 0;
 
   vacancyResponses: IVacancyResponse[] = [];
+  vacancyResponsesForDelete = [];
   experience = '';
   vacancyDuties: IVacancyDuty[] = [];
   vacancyDutiesForDelete = [];
@@ -48,7 +49,6 @@ export default class Vacancy implements IVacancy {
     this.slug = i.slug;
     this.title = i.title;
     this.responsesCount = i.responsesCount;
-    this.newResponsesCount = i.newResponsesCount;
     if (i.contactInfo) {
       this.contactInfo = new ContactInfo(i.contactInfo);
     }
@@ -79,21 +79,18 @@ export default class Vacancy implements IVacancy {
       this.formPattern = new Form(i.formPattern);
     }
     this.divisionId = i.divisionId;
-  }
-
-  seeAllResponses(): void {
-    this.vacancyResponses.forEach((vacancyResponse: IVacancyResponse) => (vacancyResponse.viewed = true));
+    this.newResponsesCount = this.countResponses(true);
   }
 
   withNewResponses(): boolean {
-    return this.vacancyResponses.some((vacancyResponse: IVacancyResponse) => !vacancyResponse.viewed);
+    return this.vacancyResponses.some((vacancyResponse: IVacancyResponse) => vacancyResponse.formValue.isNew);
   }
 
-  countResponses(onlyNew: boolean): number {
+  countResponses(onlyNew?: boolean): number {
     if (!onlyNew) {
       return this.vacancyResponses.length;
     }
-    return this.vacancyResponses.filter((response: IVacancyResponse) => !response.viewed).length;
+    return this.vacancyResponses.filter((response: IVacancyResponse) => response.formValue.isNew).length;
   }
 
   getSalary(): string {
