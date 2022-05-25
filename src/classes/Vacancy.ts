@@ -79,7 +79,8 @@ export default class Vacancy implements IVacancy {
       this.formPattern = new Form(i.formPattern);
     }
     this.divisionId = i.divisionId;
-    this.newResponsesCount = this.countResponses(true);
+    this.newResponsesCount = i.newResponsesCount;
+    // this.newResponsesCount = this.countResponses(true);
   }
 
   withNewResponses(): boolean {

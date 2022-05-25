@@ -42,11 +42,6 @@ const mutations: MutationTree<State> = {
   resetVacancyResponse(state) {
     state.vacancyResponse = new VacancyResponse();
   },
-  openVacancyResponse(state, vacancyId: string): void {
-    state.vacancyResponse.vacancyId = vacancyId;
-    state.vacancyResponse.responseDate = new Date();
-    state.vacancyResponse.opened = true;
-  },
 };
 
 export default mutations;

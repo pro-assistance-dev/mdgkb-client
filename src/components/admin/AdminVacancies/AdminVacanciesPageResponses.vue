@@ -1,12 +1,5 @@
 <template>
   <el-table :data="vacancyResponses">
-    <el-table-column width="100" label="Новый">
-      <template #default="scope">
-        <span>
-          <i v-if="!scope.row.viewed" class="el-icon-warning icon" />
-        </span>
-      </template>
-    </el-table-column>
     <el-table-column prop="coverLetter" label="Email" min-width="200" class-name="sticky-left">
       <template #default="scope">
         {{ scope.row.formValue.user.email }}

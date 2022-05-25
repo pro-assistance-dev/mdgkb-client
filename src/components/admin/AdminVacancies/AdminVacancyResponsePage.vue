@@ -73,8 +73,6 @@ export default defineComponent({
         buttons: [{ text: editButtonTitle, type: 'primary', action: changeEditMode }, { action: submit }],
       });
       mounted.value = true;
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(vacancyResponse, formUpdated, { deep: true });
     };
 
     const findEmail = async () => {
@@ -99,6 +97,8 @@ export default defineComponent({
       await updateNew();
       await findEmail();
       store.commit('admin/closeLoading');
+      window.addEventListener('beforeunload', beforeWindowUnload);
+      watch(vacancyResponse, formUpdated, { deep: true });
     });
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
