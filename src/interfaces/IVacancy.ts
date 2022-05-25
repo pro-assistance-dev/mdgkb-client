@@ -4,6 +4,8 @@ import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
+import IForm from './IForm';
+
 export default interface IVacancy {
   id?: string;
   title: string;
@@ -24,6 +26,8 @@ export default interface IVacancy {
   vacancyRequirementsForDelete: string[];
   schedule: string;
   date: Date;
+  formPattern: IForm;
+  formPatternId?: string;
 
   vacancyResponses: IVacancyResponse[];
   withNewResponses: () => boolean;

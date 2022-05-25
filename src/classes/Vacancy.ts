@@ -5,10 +5,13 @@ import VacancyRequirement from '@/classes/VacancyRequirement';
 import VacancyResponse from '@/classes/VacancyResponse';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import IForm from '@/interfaces/IForm';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+
+import Form from './Form';
 
 export default class Vacancy implements IVacancy {
   id?;
@@ -34,6 +37,8 @@ export default class Vacancy implements IVacancy {
   division?: IDivision;
   divisionId?: string;
   date: Date = new Date();
+  formPattern: IForm = new Form();
+  formPatternId?: string;
 
   constructor(i?: IVacancy) {
     if (!i) {
@@ -56,6 +61,7 @@ export default class Vacancy implements IVacancy {
     this.experience = i.experience;
     this.schedule = i.schedule;
     this.date = i.date;
+    this.formPatternId = i.formPatternId;
 
     if (i.vacancyResponses) {
       this.vacancyResponses = i.vacancyResponses.map((response: IVacancyResponse) => new VacancyResponse(response));
@@ -68,6 +74,9 @@ export default class Vacancy implements IVacancy {
     }
     if (i.vacancyRequirements) {
       this.vacancyRequirements = i.vacancyRequirements.map((item: IVacancyRequirement) => new VacancyRequirement(item));
+    }
+    if (i.formPattern) {
+      this.formPattern = new Form(i.formPattern);
     }
     this.divisionId = i.divisionId;
   }

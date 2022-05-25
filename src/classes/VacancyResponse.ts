@@ -11,6 +11,8 @@ import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import IVacancyResponseToDocument from '@/interfaces/vacancyResponse/IVacancyResponseToDocument';
 import TokenService from '@/services/Token';
 
+import Form from './Form';
+
 export default class VacancyResponse implements IVacancyResponse {
   id?: string;
   vacancyId?: string;
@@ -22,6 +24,8 @@ export default class VacancyResponse implements IVacancyResponse {
   user?: IUser;
   userId?: string;
   vacancyResponsesToDocuments: IVacancyResponseToDocument[] = [];
+  formValue = new Form();
+  formValueId?: string;
 
   constructor(i?: IVacancyResponse) {
     if (!i) {
@@ -37,6 +41,7 @@ export default class VacancyResponse implements IVacancyResponse {
     this.coverLetter = i.coverLetter;
     this.responseDate = i.responseDate;
     this.viewed = i.viewed;
+    this.formValueId = i.formValueId;
 
     this.userId = i.userId;
     if (i.user) {
@@ -46,6 +51,9 @@ export default class VacancyResponse implements IVacancyResponse {
       this.vacancyResponsesToDocuments = i.vacancyResponsesToDocuments.map(
         (item: IVacancyResponseToDocument) => new VacancyResponseToDocument(item)
       );
+    }
+    if (i.formValue) {
+      this.formValue = new Form(i.formValue);
     }
   }
 
@@ -67,11 +75,12 @@ export default class VacancyResponse implements IVacancyResponse {
   }
 
   getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
-    this.vacancyResponsesToDocuments.forEach((vacancyResponseToDocument: IVacancyResponseToDocument) => {
-      fileInfos.push(...vacancyResponseToDocument.document.getFileInfos());
-    });
-    return fileInfos;
+    // const fileInfos: IFileInfo[] = [];
+    // this.vacancyResponsesToDocuments.forEach((vacancyResponseToDocument: IVacancyResponseToDocument) => {
+    //   fileInfos.push(...vacancyResponseToDocument.document.getFileInfos());
+    // });
+    // return fileInfos;
+    return this.formValue.getFieldValuesFileInfos();
   }
 
   findDocument(documentTypeId: string): IDocument | undefined {

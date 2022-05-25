@@ -3,16 +3,10 @@
     <div class="card-item">
       <div class="card-header">
         <div class="tags-top">
-          <el-tag :key="vacancy.id" effect="plain" class="vacancy-tag-link" :size="article || main ? 'mini' : 'small'">
+          <el-tag :key="vacancy.id" effect="plain" class="vacancy-tag-link" size="small">
             <span>Врач</span>
           </el-tag>
-          <el-tag
-            v-if="vacancy.schedule"
-            :key="vacancy.id"
-            effect="plain"
-            class="vacancy-tag-link"
-            :size="article || main ? 'mini' : 'small'"
-          >
+          <el-tag v-if="vacancy.schedule" :key="vacancy.id" effect="plain" class="vacancy-tag-link" size="small">
             <span>{{ vacancy.schedule }}</span>
           </el-tag>
         </div>

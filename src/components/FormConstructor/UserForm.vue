@@ -4,7 +4,7 @@
     <a @click="openLoginModal"> авторизируйтесь</a> и перейдите в личный кабинет.
   </div>
   <div v-else-if="showErrorMessage & emailExists & isAuth" id="error-block-message" class="error-block-message">
-    Вы уже подавали заявку на данную программу. Для просмотра данных по заявке, пожалуйста, перейдите в
+    Вы уже подавали заявку. Для просмотра данных, пожалуйста, перейдите в
     <a @click="$router.push('/profile')"> личный кабинет</a>.
   </div>
   <el-form-item v-if="!user.email || fromAdmin" label="Электронная почта" prop="formValue.user.email" :rules="rules.email">
@@ -19,6 +19,20 @@
   <el-form-item v-if="!user.human.patronymic || fromAdmin" label="Отчество" prop="formValue.user.human.patronymic">
     <el-input v-model="formValue.user.human.patronymic" placeholder="Отчество"></el-input>
   </el-form-item>
+  <div v-if="fullForm">
+    <el-form-item label="Дата рождения" prop="formValue.user.human.dateBirth">
+      <el-date-picker v-model="formValue.user.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
+    </el-form-item>
+    <el-form-item label="Пол" prop="formValue.user.human.isMale">
+      <el-select v-model="formValue.user.human.isMale" placeholder="Выберите пол">
+        <el-option label="Мужской" :value="true"></el-option>
+        <el-option label="Женский" :value="false"></el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="Телефон" prop="formValue.user.phone">
+      <el-input v-model="formValue.user.phone"></el-input>
+    </el-form-item>
+  </div>
 </template>
 
 <script lang="ts">
@@ -49,6 +63,10 @@ export default defineComponent({
       default: true,
     },
     fromAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    fullForm: {
       type: Boolean,
       default: false,
     },

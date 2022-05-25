@@ -7,44 +7,61 @@
         </span>
       </template>
     </el-table-column>
-    <el-table-column prop="responseDate" label="Дата" sortable> </el-table-column>
-    <el-table-column prop="coverLetter" label="ФИО" sortable>
+    <el-table-column prop="coverLetter" label="Email" min-width="200" class-name="sticky-left">
       <template #default="scope">
-        {{ scope.row.user.human.getFullName() }}
+        {{ scope.row.formValue.user.email }}
       </template>
     </el-table-column>
-
-    <el-table-column v-for="documentsType in documentsTypes" :key="documentsType.id" :label="documentsType.name">
+    <el-table-column prop="coverLetter" label="ФИО" min-width="300">
       <template #default="scope">
-        <a :href="scope.row.findDocument(documentsType.id).getScan().getFileUrl()" target="_blank">
-          <el-button size="mini" icon="el-icon-download">Скачать</el-button>
+        {{ scope.row.formValue.user.human.getFullName() }}
+      </template>
+    </el-table-column>
+    <el-table-column label="Дата" align="center" min-width="200">
+      <template #default="scope">
+        {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}
+      </template>
+    </el-table-column>
+    <!-- Отображение докуметов и полей формы -->
+    <!-- <el-table-column v-for="item in vacancy.formPattern.fields" :key="item.id" :label="item.name" min-width="300">
+      <template #default="scope">
+        <div
+          v-if="
+            scope.row.formValue.findFieldValue(item.id).field.valueType.isString() ||
+            scope.row.formValue.findFieldValue(item.id).field.valueType.isText()
+          "
+        >
+          {{ scope.row.formValue.findFieldValue(item.id).valueString }}
+        </div>
+        <div v-if="scope.row.formValue.findFieldValue(item.id).field.valueType.isNumber()">
+          {{ scope.row.formValue.findFieldValue(item.id).valueNumber }}
+        </div>
+        <div
+          v-if="
+            scope.row.formValue.findFieldValue(item.id).field.valueType.isDate() && scope.row.formValue.findFieldValue(item.id).valueDate
+          "
+        >
+          {{ $dateTimeFormatter.format(scope.row.formValue.findFieldValue(item.id).valueDate) }}
+        </div>
+        <a
+          v-if="
+            scope.row.formValue.findFieldValue(item.id).field.valueType.isFile() &&
+            scope.row.formValue.findFieldValue(item.id).file.fileSystemPath
+          "
+          :href="scope.row.formValue.findFieldValue(item.id).file.getFileUrl()"
+          target="_blank"
+        >
+          {{ scope.row.formValue.findFieldValue(item.id).file.originalName }}
         </a>
+        <span v-else>Не продоставлены</span> 
       </template>
-    </el-table-column>
+    </el-table-column> -->
     <el-table-column width="50" fixed="right" align="center">
       <template #default="scope">
-        <TableButtonGroup
-          :show-download-button="true"
-          :show-info-button="true"
-          @info="showVacancyResponse(scope.row)"
-          @download="pdfVacancyResponse(scope.row.id)"
-        />
+        <TableButtonGroup :show-edit-button="true" @edit="$router.push(`/admin/vacancy-responses/${scope.row.id}`)" />
       </template>
     </el-table-column>
   </el-table>
-  <el-dialog v-model="showVacancy" :title="'Отклик на вакансию'" width="80%" center>
-    <el-descriptions :column="1" border direction="horizontal">
-      <el-descriptions-item label="Email">
-        {{ showedVacancyResponse.user.human.contactInfo.emails[0].address }}
-      </el-descriptions-item>
-      <el-descriptions-item label="Телефон">
-        {{ showedVacancyResponse.user.human.contactInfo.telephoneNumbers[0].number }}
-      </el-descriptions-item>
-      <el-descriptions-item label="Сопроводительное письмо">
-        {{ showedVacancyResponse.coverLetter }}
-      </el-descriptions-item>
-    </el-descriptions>
-  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -54,6 +71,7 @@ import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
+import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import Provider from '@/services/Provider';
 
@@ -65,31 +83,18 @@ export default defineComponent({
       type: Object as PropType<IVacancyResponse[]>,
       required: true,
     },
+    vacancy: {
+      type: Object as PropType<IVacancy>,
+      required: true,
+    },
   },
   setup() {
     let mounted = ref(false);
     const form = ref();
-    const showVacancy = ref(false);
-    let showedVacancyResponse: Ref<IVacancyResponse | undefined> = ref(undefined);
     const documentsTypes: Ref<IDocumentType[]> = computed(() => Provider.store.getters['documentTypes/items']);
-
-    const showVacancyResponse = async (vacancyResponse: IVacancyResponse) => {
-      vacancyResponse.viewed = true;
-      showedVacancyResponse.value = vacancyResponse;
-      showVacancy.value = true;
-      await Provider.store.dispatch('vacancyResponses/update', vacancyResponse);
-    };
-
-    const pdfVacancyResponse = async (id: string) => {
-      await Provider.store.dispatch('vacancyResponses/pdf', id);
-    };
 
     return {
       documentsTypes,
-      showedVacancyResponse,
-      pdfVacancyResponse,
-      showVacancy,
-      showVacancyResponse,
       mounted,
       form,
     };
@@ -111,5 +116,32 @@ export default defineComponent({
 
 :deep(.el-dialog) {
   overflow: hidden;
+}
+
+:deep(.sticky-right) {
+  right: 0;
+}
+:deep(.sticky-right),
+:deep(.sticky-left) {
+  position: sticky !important;
+  background: white;
+}
+:deep(.sticky-left) {
+  left: 0;
+  z-index: 99;
+}
+:deep(.el-table__row) {
+  position: relative;
+}
+:deep(.el-table__header-wrapper) {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+:deep(.el-table__body-wrapper) {
+  height: 100% !important;
+  overflow: auto;
+  overflow-y: overlay;
 }
 </style>

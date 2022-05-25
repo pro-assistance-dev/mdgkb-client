@@ -39,6 +39,8 @@ const actions: ActionTree<State, RootState> = {
   create: async ({ commit }, vacancy: IVacancy): Promise<void> => {
     await httpClient.post<IVacancy, IVacancy>({
       payload: vacancy,
+      isFormData: true,
+      fileInfos: vacancy.formPattern?.getFileInfos(),
     });
     commit('set');
   },
@@ -54,6 +56,8 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.put<IVacancy, IVacancy>({
       query: `${vacancy.id}`,
       payload: vacancy,
+      isFormData: true,
+      fileInfos: vacancy.formPattern?.getFileInfos(),
     });
     commit('set');
   },
