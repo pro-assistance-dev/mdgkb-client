@@ -17,16 +17,15 @@
         </div>
       </div>
     </div>
+
     <div v-if="selectedDocumentType" class="content-container">
       <div class="card-item">
-        <ul>
-          <h2>{{ selectedDocumentType.name }}</h2>
-          <EditorContent :content="selectedDocumentType.description" />
-          <!--          <div v-if="selectedDocumentType.description != '<p>undefined</p>'" v-html="publicDocumentType.description"></div>-->
-        </ul>
+        <h2>{{ selectedDocumentType.name }}</h2>
+        <EditorContent :content="selectedDocumentType.description" />
       </div>
       <DocumentsList :documents="selectedDocumentType.documents" />
     </div>
+    <ResidencyCoursesList v-if="mode === 'freePrograms' || mode === 'paidPrograms'" />
   </div>
 </template>
 
@@ -36,23 +35,25 @@ import { useRoute } from 'vue-router';
 
 import EditorContent from '@/components/EditorContent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
+import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
+import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 
 export default defineComponent({
   name: 'AdmissionCommittee',
   components: {
-    // InfoPage,
-    // StructurePage,
     EditorContent,
     DocumentsList,
+    ResidencyCoursesList,
   },
   setup() {
     const modes: Ref<IOption[]> = ref([]);
-    const mode: Ref<string> = ref('info');
+    const mode: Ref<string> = ref('');
     const route = useRoute();
     const docTypes: Ref<IAdmissionCommitteeDocumentType[]> = computed(
       () => Provider.store.getters['admissionCommitteeDocumentTypes/items']
@@ -65,29 +66,42 @@ export default defineComponent({
           modes.value.push({ value: docType.id, label: docType.documentType.name });
         }
       });
+      modes.value.push(
+        { value: 'freePrograms', label: 'Целевая ординатура' },
+        { value: 'paidPrograms', label: 'Ординатура по договорам о платных образовательных услугах' },
+        { value: 'competition', label: 'Конкурс' }
+      );
+      selectedDocumentType.value = docTypes.value[0].documentType;
+      mode.value = docTypes.value[0].id ? docTypes.value[0].id : '';
     };
 
-    const changeTab = (value: string) => {
-      mode.value = value;
+    const changeTab = async (value: string) => {
       const docType = docTypes.value.find((doc: IAdmissionCommitteeDocumentType) => doc.id === value);
       if (docType) {
         selectedDocumentType.value = docType.documentType;
-      } else if (docTypes.value[0]) {
-        selectedDocumentType.value = docTypes.value[0].documentType;
-        mode.value = docTypes.value[0].id ? docTypes.value[0].id : '';
       } else {
         selectedDocumentType.value = undefined;
+        await loadPrograms();
       }
-      Provider.router.replace(`/admission-committee?mode=${mode.value}`);
+      mode.value = value;
+      await Provider.router.replace(`/admission-committee?mode=${mode.value}`);
     };
 
-    const load = async () => {
+    const initLoad = async () => {
       await Provider.store.dispatch('admissionCommitteeDocumentTypes/getAll');
       await setModes();
       setTabFromRoute();
     };
 
-    Hooks.onBeforeMount(load);
+    Hooks.onBeforeMount(initLoad);
+
+    const loadPrograms = async () => {
+      Provider.resetFilterQuery();
+      Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
+      Provider.setSortModels(ResidencyCoursesSortsLib.byName());
+      Provider.filterQuery.value.pagination.cursorMode = false;
+      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+    };
 
     const setTabFromRoute = () => {
       let routeMode = route.query.mode;

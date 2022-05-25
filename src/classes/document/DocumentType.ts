@@ -14,6 +14,7 @@ export default class DocumentType implements IDocumentType {
   name = '';
   singleScan = false;
   scan?: IFileInfo;
+  order = 0;
   scanId?: string;
   description = '';
   scans: IFileInfo[] = [];
@@ -32,6 +33,7 @@ export default class DocumentType implements IDocumentType {
     this.id = i?.id;
     this.name = i?.name ?? '';
     this.singleScan = i.singleScan;
+    this.order = i.order;
     this.description = i.description;
     if (i.scan) {
       this.scan = new FileInfo(i.scan);

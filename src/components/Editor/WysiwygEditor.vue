@@ -36,7 +36,7 @@ import { defineComponent, watch } from 'vue';
 import MenuBar from './MenuBar.vue';
 
 export default defineComponent({
-  name: 'AdminAppointmentsConstructor',
+  name: 'WysiwygEditor',
   components: {
     EditorContent,
     MenuBar,

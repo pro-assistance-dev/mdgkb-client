@@ -9,6 +9,9 @@ const getters: GetterTree<State, RootState> = {
   items(state): IAdmissionCommitteeDocumentType[] {
     return state.items;
   },
+  itemsForDelete(state): string[] {
+    return state.itemsForDelete;
+  },
   item(state): IAdmissionCommitteeDocumentType {
     return state.item;
   },

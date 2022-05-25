@@ -17,6 +17,7 @@ export default interface ITimetableDay {
 
   getPeriodWithName: () => string;
   getPeriod: () => string;
+  getTimetable: () => string;
   isNow: () => boolean;
   getTime: (dateString: string) => string;
   showBreakSwitcher: () => boolean;

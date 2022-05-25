@@ -25,11 +25,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import SortModel from '@/classes/filters/SortModel';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyContacts from '@/components/Educational/Residency/ResidencyContacts.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
@@ -42,27 +39,23 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import IOption from '@/interfaces/schema/IOption';
-import ISchema from '@/interfaces/schema/ISchema';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
+import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 
 export default defineComponent({
   name: 'ResidencyPage',
   components: { DocumentsList, SortList, ResidencyFilters, ResidencyContacts, ResidencyCoursesList },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    const mounted: Ref<boolean> = ref(false);
     const schemaGet: Ref<boolean> = ref(false);
-    const residencyDocumentTypes: Ref<IResidencyDocumentType[]> = computed(() => store.getters['residencyDocumentTypes/items']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterModel = ref();
-    const sortModels: Ref<ISortModel[]> = ref([]);
+    const residencyDocumentTypes: Ref<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
 
-    const documentTypes: ComputedRef<IResidencyDocumentType[]> = computed(() => store.getters['residencyDocumentTypes/items']);
+    const documentTypes: ComputedRef<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
-
+    const sortModels: Ref<ISortModel[]> = ref([]);
     const mode: Ref<string> = ref('programs');
     const modes: Ref<IOption[]> = ref([]);
 
@@ -81,48 +74,18 @@ export default defineComponent({
 
     const createSortModels = (): ISortModel[] => {
       const sortModels: ISortModel[] = [
-        SortModel.CreateSortModel(
-          schema.value.residencyCourse.tableName,
-          schema.value.residencyCourse.name,
-          Orders.Asc,
-          'По алфавиту',
-          true
-        ),
-        SortModel.CreateSortModel(
-          schema.value.residencyCourse.tableName,
-          schema.value.residencyCourse.startYear,
-          Orders.Asc,
-          'По году обучения',
-          true
-        ),
-        SortModel.CreateSortModel(
-          schema.value.residencyCourse.tableName,
-          schema.value.residencyCourse.freePlaces,
-          Orders.Asc,
-          'По количеству бесплатных мест',
-          true
-        ),
-        SortModel.CreateSortModel(
-          schema.value.residencyCourse.tableName,
-          schema.value.residencyCourse.paidPlaces,
-          Orders.Asc,
-          'По количеству платных мест',
-          true
-        ),
-        SortModel.CreateSortModel(
-          schema.value.residencyCourse.tableName,
-          schema.value.residencyCourse.cost,
-          Orders.Asc,
-          'По стоимости',
-          true
-        ),
+        ResidencyCoursesSortsLib.byName(Orders.Asc),
+        ResidencyCoursesSortsLib.byStartYear(Orders.Asc),
+        ResidencyCoursesSortsLib.byFreePlaces(Orders.Asc),
+        ResidencyCoursesSortsLib.byPaidPlaces(Orders.Asc),
+        ResidencyCoursesSortsLib.byCost(Orders.Asc),
       ];
-      store.commit(`filter/addSortModels`, sortModels);
+      Provider.store.commit(`filter/addSortModels`, sortModels);
       return sortModels;
     };
 
     const setModes = async () => {
-      await store.dispatch('residencyDocumentTypes/getAll');
+      await Provider.store.dispatch('residencyDocumentTypes/getAll');
       modes.value.push({ value: 'programs', label: 'Программы' });
       documentTypes.value.forEach((docType: IResidencyDocumentType) => {
         if (docType.documentType.id) {
@@ -132,27 +95,38 @@ export default defineComponent({
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 
-    onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      await setModes();
+    const initLoad = async () => {
       sortModels.value = createSortModels();
+      await setModes();
       schemaGet.value = true;
-      store.commit('filter/setStoreModule', 'residencyCourses');
+      Provider.setFilterModel(ResidencyCoursesFiltersLib.notThisYear());
+      Provider.store.commit('filter/setStoreModule', 'residencyCourses');
       await load();
-    });
-
-    const load = async () => {
-      store.commit(`filter/checkSortModels`);
-      filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('residencyCourses/getAll', filterQuery.value);
-      mounted.value = true;
     };
 
-    return { modes, selectedDocumentType, mode, selectMode, mounted, load, schemaGet, sortModels, residencyDocumentTypes };
+    Hooks.onBeforeMount(initLoad);
+
+    const load = async () => {
+      Provider.store.commit(`filter/checkSortModels`);
+      filterQuery.value.pagination.cursorMode = false;
+      await Provider.store.dispatch('residencyCourses/getAll', filterQuery.value);
+    };
+
+    return {
+      modes,
+      selectedDocumentType,
+      mode,
+      selectMode,
+      mounted: Provider.mounted,
+      load,
+      schemaGet,
+      sortModels,
+      residencyDocumentTypes,
+    };
   },
 });
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
 .el-descriptions__label {

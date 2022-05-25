@@ -2,5 +2,6 @@ import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDoc
 
 export interface State {
   items: IAdmissionCommitteeDocumentType[];
+  itemsForDelete: string[];
   item: IAdmissionCommitteeDocumentType;
 }

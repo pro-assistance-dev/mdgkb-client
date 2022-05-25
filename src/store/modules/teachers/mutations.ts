@@ -22,7 +22,6 @@ const mutations: MutationTree<State> = {
   },
   resetItem(state) {
     state.item = new Teacher();
-    console.log('state.item', state.item);
   },
 };
 

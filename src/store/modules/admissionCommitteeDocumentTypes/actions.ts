@@ -33,27 +33,20 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: state.item.getFileInfos(),
     });
   },
-  update: async (
-    { state, commit },
-    {
-      admissionCommitteeDocumentTypes: admissionCommitteeDocumentTypes,
-      admissionCommitteeDocumentTypesForDelete: admissionCommitteeDocumentTypesForDelete,
-    }
-  ): Promise<void> => {
+  update: async ({ state, commit }): Promise<void> => {
     const fileInfos: IFileInfo[] = [];
-    admissionCommitteeDocumentTypes.forEach((docType: IAdmissionCommitteeDocumentType) => {
+    state.items.forEach((docType: IAdmissionCommitteeDocumentType) => {
       fileInfos.push(...docType.getFileInfos());
     });
-    console.log(admissionCommitteeDocumentTypes);
-    const res = await httpClient.put<unknown, unknown>({
+    const res = await httpClient.put<unknown, any>({
       payload: {
-        admissionCommitteeDocumentTypes: admissionCommitteeDocumentTypes,
-        admissionCommitteeDocumentTypesForDelete: admissionCommitteeDocumentTypesForDelete,
+        admissionCommitteeDocumentTypes: state.items,
+        admissionCommitteeDocumentTypesForDelete: state.itemsForDelete,
       },
       isFormData: true,
       fileInfos: fileInfos,
     });
-    commit('set', res);
+    commit('setAll', res.admissionCommitteeDocumentTypes);
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

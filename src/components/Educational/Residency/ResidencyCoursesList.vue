@@ -71,7 +71,7 @@
           <th><h4>ВАКАНТНЫЕ МЕСТА НА ПЛАТНОЙ ОСНОВЕ</h4></th>
           <th><h4>СТОИМОСТЬ</h4></th>
         </thead>
-        <tbody v-if="mounted">
+        <tbody>
           <tr v-for="residencyCourse in residencyCourses" :key="residencyCourse.id">
             <td>
               {{ residencyCourse.getMainSpecialization().code }}
@@ -107,26 +107,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref } from 'vue';
 
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import ISchema from '@/interfaces/schema/ISchema';
 import buildNameNumbers from '@/mixins/buildNameNumbers';
+import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'ResidencyCoursesList',
-  setup() {
-    const store = useStore();
-    const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => store.getters['residencyCourses/items']);
-    const mounted = ref(false);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
-    onBeforeMount(async () => {
-      mounted.value = true;
-    });
+  setup() {
+    const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
 
     return {
-      mounted,
       residencyCourses,
       buildNameNumbers,
     };

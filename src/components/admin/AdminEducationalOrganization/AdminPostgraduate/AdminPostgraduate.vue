@@ -58,7 +58,7 @@ import { useStore } from 'vuex';
 import PostgraduateDocumentType from '@/classes/PostgraduateDocumentType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
-import Editor from '@/components/Editor/Editor.vue';
+import Editor from '@/components/Editor/WysiwygEditor.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
 import removeFromClass from '@/mixins/removeFromClass';

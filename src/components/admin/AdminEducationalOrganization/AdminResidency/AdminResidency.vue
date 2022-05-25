@@ -107,7 +107,6 @@ export default defineComponent({
         return;
       }
       try {
-        console.log(residencyDocumentTypesForDelete.value);
         await store.dispatch('residencyDocumentTypes/update', {
           residencyDocumentTypes: residencyDocumentTypes.value,
           residencyDocumentTypesForDelete: residencyDocumentTypesForDelete.value,

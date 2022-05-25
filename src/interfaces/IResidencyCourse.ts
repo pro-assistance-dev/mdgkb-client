@@ -13,6 +13,7 @@ export default interface IResidencyCourse {
   slug: string;
   description: string;
   freePlaces: number;
+  freeGovernmentPlaces: number;
   cost: number;
 
   program: IFileInfo;
