@@ -2,12 +2,15 @@
   <div class="card-item flex-column">
     <div class="flex-row">
       <div class="favourite-icon">
-        <AvatarWithFavourite
+        <!-- <AvatarWithFavourite
           error-img-name="building-default.webp"
           :domain-id="division.id"
           domain-name="division"
           :img-link="{ name: `DivisionPage`, params: { id: division.id, slug: division.slug } }"
-        />
+        /> -->
+        <div class="favor">
+          <FavouriteIcon :domain-id="division.id" :domain-name="division" />
+        </div>
       </div>
       <div class="flex-column right-side">
         <div class="division-line">Терапевтическое направление</div>
@@ -150,13 +153,18 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
+import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
+// import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
 
 export default defineComponent({
   name: 'DivisionCard',
-  components: { Rating, AvatarWithFavourite },
+  components: {
+    Rating,
+    FavouriteIcon,
+    // AvatarWithFavourite,
+  },
   props: {
     division: { type: Object as PropType<IDivision>, required: true },
   },
@@ -347,5 +355,25 @@ export default defineComponent({
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.favor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 50%;
+  border: 1px solid rgb(black, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+  width: 30px;
+  height: 30px;
+  &:hover {
+    transform: scale(1.1);
+  }
+  .anticon {
+    font-size: 20px;
+    color: #bdc2d1;
+  }
 }
 </style>
