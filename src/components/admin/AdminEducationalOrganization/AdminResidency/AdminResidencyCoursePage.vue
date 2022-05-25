@@ -105,6 +105,12 @@
               </el-form-item>
             </el-card>
             <el-card>
+              <template #header>Количество бюджетных мест из федерального бюджета</template>
+              <el-form-item prop="listeners">
+                <el-input-number v-model="residencyCourse.freeGovernmentPlaces" />
+              </el-form-item>
+            </el-card>
+            <el-card>
               <template #header>Количество платных мест</template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="residencyCourse.paidPlaces" />

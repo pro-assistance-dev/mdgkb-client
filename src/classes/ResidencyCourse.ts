@@ -24,6 +24,7 @@ export default class ResidencyCourse implements IResidencyCourse {
   listeners = 0;
   cost = 0;
   freePlaces = 0;
+  freeGovernmentPlaces = 0;
   paidPlaces = 0;
   residencyCoursesSpecializations: IResidencyCourseSpecialization[] = [];
   residencyCoursesSpecializationsForDelete: string[] = [];
@@ -60,6 +61,7 @@ export default class ResidencyCourse implements IResidencyCourse {
     this.description = i.description;
 
     this.freePlaces = i.freePlaces;
+    this.freeGovernmentPlaces = i.freeGovernmentPlaces;
     this.cost = i.cost;
     this.paidPlaces = i.paidPlaces;
     if (i.residencyCoursesTeachers) {

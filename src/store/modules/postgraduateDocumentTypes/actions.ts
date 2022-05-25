@@ -38,7 +38,6 @@ const actions: ActionTree<State, RootState> = {
     { state, commit },
     { postgraduateDocumentTypes: postgraduateDocumentTypes, postgraduateDocumentTypesForDelete: postgraduateDocumentTypesForDelete }
   ): Promise<void> => {
-    console.log(postgraduateDocumentTypesForDelete);
     const fileInfos: IFileInfo[] = [];
     postgraduateDocumentTypes.forEach((docType: IPostgraduateDocumentType) => {
       fileInfos.push(...docType.getFileInfos());

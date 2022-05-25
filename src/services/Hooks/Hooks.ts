@@ -60,7 +60,7 @@ const Hooks = (() => {
     });
   };
 
-  const submit = (action: string, payload: unknown) => {
+  const submit = (submitFunction: CallableFunction) => {
     return async () => {
       saveButtonClick.value = true;
       if (!validate(Provider.form)) {
@@ -68,7 +68,7 @@ const Hooks = (() => {
         return;
       }
       try {
-        await Provider.store.dispatch(action, payload);
+        await submitFunction();
         ElMessage({ message: 'Сохранено', type: 'success' });
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });

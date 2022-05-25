@@ -48,7 +48,6 @@ export default defineComponent({
         results.push(socials.value.splice(0, 3));
       }
       socialsGroups.value = results;
-      console.log(socialsGroups);
       mounted.value = true;
     });
 

@@ -70,4 +70,18 @@ export default class Timetable implements ITimetable {
     });
     return aroundTheClock;
   }
+
+  getTodayWorkday(): ITimetableDay {
+    return this.timetableDays.find((timetableDay: ITimetableDay) => timetableDay.weekday.isToday()) ?? new TimetableDay();
+  }
+
+  getTodayTimetable(): string {
+    if (!this.id) {
+      return 'Уточнить время работы: +7 (495) 959-88-00';
+    }
+    if (this.isAroundTheClock()) {
+      return 'Круглосуточно';
+    }
+    return `Время работы сегодня: ${this.getTodayWorkday().getTimetable()}`;
+  }
 }

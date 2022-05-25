@@ -7,13 +7,14 @@ export default class AdmissionCommitteeDocumentType implements IAdmissionCommitt
   id?: string;
   documentType: IDocumentType = new DocumentType();
   documentTypeId?: string;
-
+  order = 0;
   constructor(i?: IAdmissionCommitteeDocumentType) {
     if (!i) {
       return;
     }
     this.id = i.id;
     this.documentTypeId = i.documentTypeId;
+    this.order = i.order;
     if (i.documentType) {
       this.documentType = new DocumentType(i.documentType);
     }

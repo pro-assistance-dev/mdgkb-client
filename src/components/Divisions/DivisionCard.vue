@@ -40,7 +40,7 @@
             <use xlink:href="#time"></use>
           </svg>
         </div>
-        <div class="item">Время&nbsp;работы&nbsp;сегодня:с&nbsp;7.00 до&nbsp;21:00</div>
+        <div class="item">{{ division.timetable.getTodayTimetable() }}</div>
       </div>
       <div class="contact-h3">
         <div class="item">

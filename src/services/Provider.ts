@@ -62,7 +62,7 @@ const Provider = (() => {
     setSortList: setSortList,
     sortList: sortList,
     mounted: mounted,
-    resetFilterQuery: resetFilterQuery,
+    resetFilterQuery,
     setSortModelsForOneTable: setSortModelsForOneTable,
     setFilterModels,
     setFilterModel,

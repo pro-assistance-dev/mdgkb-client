@@ -1,9 +1,9 @@
 <template>
-  <AdminDocumentTypesForm store-module="admissionCommitteeDocumentTypes" />
+  <AdminDocumentTypesForm v-if="mounted" store-module="admissionCommitteeDocumentTypes" :doc-types-for-delete="docsForDelete" />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, Ref, watch } from 'vue';
 
 import AdminDocumentTypesForm from '@/components/admin/AdminDocumentsTypes/AdminDocumentTypesForm.vue';
 import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDocumentType';
@@ -17,29 +17,27 @@ export default defineComponent({
     AdminDocumentTypesForm,
   },
   setup() {
-    const admissionCommitteeDocumentTypes: Ref<IAdmissionCommitteeDocumentType[]> = computed(
-      () => Provider.store.getters['admissionCommitteeDocumentTypes/items']
-    );
-    const admissionCommitteeDocumentTypesForDelete: Ref<string[]> = ref([]);
+    const docs: Ref<IAdmissionCommitteeDocumentType[]> = computed(() => Provider.store.getters['admissionCommitteeDocumentTypes/items']);
+    const docsForDelete: Ref<string[]> = computed(() => Provider.store.getters['admissionCommitteeDocumentTypes/itemsForDelete']);
 
     const { formUpdated } = useConfirmLeavePage();
 
-    const submit = Hooks.submit('admissionCommitteeDocumentTypes/update', {
-      admissionCommitteeDocumentTypes: admissionCommitteeDocumentTypes.value,
-      admissionCommitteeDocumentTypesForDelete: admissionCommitteeDocumentTypesForDelete.value,
-    });
+    const submit = async () => {
+      await Provider.store.dispatch('admissionCommitteeDocumentTypes/update');
+    };
 
     const load = async () => {
       await Provider.store.dispatch('admissionCommitteeDocumentTypes/getAll');
       Provider.store.commit('admin/setHeaderParams', { title: 'Сохранить', showBackButton: true, buttons: [{ action: submit }] });
-      watch(admissionCommitteeDocumentTypes, formUpdated, { deep: true });
+      watch(docs, formUpdated, { deep: true });
     };
 
-    Hooks.onBeforeRouteLeave(submit);
+    Hooks.onBeforeRouteLeave(Hooks.submit(submit));
     Hooks.onBeforeMount(load);
 
     return {
-      admissionCommitteeDocumentTypes,
+      docs,
+      docsForDelete,
       mounted: Provider.mounted,
     };
   },
