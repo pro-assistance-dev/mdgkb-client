@@ -21,7 +21,7 @@ export default [
     },
   },
   {
-    path: '/admin/form-statuses/:groupId',
+    path: '/admin/form-statuses/:groupId?',
     name: 'AdminFormStatusesList',
     component: AdminFormStatusesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -33,7 +33,7 @@ export default [
     },
   },
   {
-    path: '/admin/form-statuses/:groupId/new',
+    path: '/admin/form-status/:groupId?/new',
     name: 'AdminFormStatusPageCreate',
     component: AdminFormStatusPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -45,7 +45,7 @@ export default [
     },
   },
   {
-    path: '/admin/form-statuses/:groupId/:id',
+    path: '/admin/form-status/:groupId?/:id',
     name: 'AdminFormStatusPageUpdate',
     component: AdminFormStatusPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

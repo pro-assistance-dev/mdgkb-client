@@ -2,6 +2,11 @@
   <div class="flex-column">
     <el-form v-if="mounted" ref="form" :model="formStatus" label-position="top">
       <el-card>
+        <el-form-item label="Группа статусов">
+          <el-select v-model="formStatus.formStatusGroup" value-key="id" placeholder="Группа статусов">
+            <el-option v-for="item in formStatusGroups" :key="item.id" :label="item.name" :value="item"> </el-option>
+          </el-select>
+        </el-form-item>
         <!-- <el-form-item label="Кодовое название" prop="name">
           <el-input v-model="formStatus.name" placeholder="Кодовое название"></el-input>
         </el-form-item> -->
@@ -39,6 +44,7 @@ import { useStore } from 'vuex';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
+import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 
 export default defineComponent({
@@ -51,6 +57,7 @@ export default defineComponent({
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const formStatus: ComputedRef<IFormStatus> = computed<IFormStatus>(() => store.getters['formStatuses/item']);
+    const formStatusGroups: ComputedRef<IFormStatusGroup[]> = computed(() => store.getters['formStatusGroups/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
 
@@ -78,6 +85,7 @@ export default defineComponent({
         store.commit('formStatuses/setGroupId', route.params['groupId']);
         store.commit('admin/setHeaderParams', { title: 'Добавить статус', showBackButton: true, buttons: [{ action: submit }] });
       }
+      await store.dispatch('formStatusGroups/getAll');
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(formStatus, formUpdated, { deep: true });
@@ -95,6 +103,7 @@ export default defineComponent({
       formStatus,
       form,
       mounted,
+      formStatusGroups,
     };
   },
 });

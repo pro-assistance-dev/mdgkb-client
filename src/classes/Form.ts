@@ -6,6 +6,7 @@ import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
+import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
@@ -13,6 +14,7 @@ import CandidateApplication from './CandidateApplication';
 import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
 import FormStatus from './FormStatus';
+import FormStatusGroup from './FormStatusGroup';
 import PostgraduateApplication from './PostgraduateApplication';
 import ResidencyApplication from './ResidencyApplication';
 import User from './User';
@@ -36,6 +38,10 @@ export default class Form implements IForm {
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
   residencyApplication?: IResidencyApplication;
+  defaultFormStatus?: IFormStatus;
+  defaultFormStatusId?: string;
+  formStatusGroup?: IFormStatusGroup;
+  formStatusGroupId?: string;
   // changed = false;
 
   constructor(form?: IForm) {
@@ -78,6 +84,14 @@ export default class Form implements IForm {
     if (form.residencyApplication) {
       this.residencyApplication = new ResidencyApplication(form.residencyApplication);
     }
+    if (form.formStatusGroup) {
+      this.formStatusGroup = new FormStatusGroup(form.formStatusGroup);
+    }
+    this.formStatusGroupId = form.formStatusGroupId;
+    if (form.defaultFormStatus) {
+      this.defaultFormStatus = new FormStatus(form.defaultFormStatus);
+    }
+    this.defaultFormStatusId = form.defaultFormStatusId;
   }
 
   addField(field?: IField): void {

@@ -1,9 +1,25 @@
 <template>
   <div class="flex-column">
-    <el-form>
+    <el-form label-position="top">
       <el-card header="Название">
-        <el-form-item>
+        <el-form-item label="Название">
           <el-input v-model="formPattern.title" placeholder="Название"></el-input>
+        </el-form-item>
+        <el-form-item label="Группа статусов">
+          <el-select v-model="formPattern.formStatusGroup" value-key="id" placeholder="Группа статусов">
+            <el-option v-for="item in formStatusGroups" :key="item.id" :label="item.name" :value="item"> </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Статус, назначаемый при создании формы">
+          <el-select
+            v-model="formPattern.defaultFormStatus"
+            value-key="id"
+            placeholder="Группа статусов"
+            :disabled="!formPattern.formStatusGroup"
+          >
+            <el-option v-for="item in formPattern.formStatusGroup?.formStatuses" :key="item.id" :label="item.label" :value="item">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-card>
       <FormConstructor :form="formPattern" />
@@ -19,6 +35,7 @@ import { useStore } from 'vuex';
 
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import IForm from '@/interfaces/IForm';
+import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 
 export default defineComponent({
@@ -31,6 +48,7 @@ export default defineComponent({
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const formPattern: ComputedRef<IForm> = computed<IForm>(() => store.getters['formPatterns/item']);
+    const formStatusGroups: ComputedRef<IFormStatusGroup[]> = computed(() => store.getters['formStatusGroups/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const submit = async (next?: NavigationGuardNext) => {
@@ -57,6 +75,7 @@ export default defineComponent({
         store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;
+      await store.dispatch('formStatusGroups/getAll');
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(formPattern, formUpdated, { deep: true });
       store.commit('admin/closeLoading');
@@ -71,6 +90,7 @@ export default defineComponent({
 
     return {
       formPattern,
+      formStatusGroups,
     };
   },
 });

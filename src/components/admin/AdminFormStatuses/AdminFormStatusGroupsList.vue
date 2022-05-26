@@ -10,11 +10,11 @@
         <template #default="scope">
           <TableButtonGroup
             :show-edit-button="true"
-            :show-more-button="true"
+            :show-open-button="true"
             :show-remove-button="true"
             @remove="remove(scope.row.id)"
             @edit="openDialog(scope.row.id)"
-            @showMore="edit(scope.row.id)"
+            @open="edit(scope.row.id)"
           />
         </template>
       </el-table-column>
