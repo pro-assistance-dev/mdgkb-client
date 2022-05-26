@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -57,6 +57,7 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
+    const route = useRoute();
     const store = useStore();
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
     const formStatusToFormStatuses: ComputedRef<IFormStatusToFormStatus[]> = computed<IFormStatusToFormStatus[]>(
@@ -66,13 +67,13 @@ export default defineComponent({
     const isNotEditMode: Ref<boolean> = ref(true);
 
     const create = (): void => {
-      router.push('/admin/form-statuses/new');
+      router.push({ name: 'AdminFormStatusPageCreate', params: { groupId: route.params['groupId'] } });
     };
     const remove = async (id: string): Promise<void> => {
       await store.dispatch('formStatuses/remove', id);
     };
     const edit = (id: string): void => {
-      router.push(`/admin/form-statuses/${id}`);
+      router.push({ name: 'AdminFormStatusPageCreate', params: { groupId: route.params['groupId'], id } });
     };
     const updateAll = async (): Promise<void> => {
       await store.dispatch('formStatuses/updateAll');
@@ -86,10 +87,11 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('formStatuses/getAll');
+      await store.dispatch('formStatuses/getAllByGroupId', route.params['groupId']);
       store.commit('formStatuses/seedFormStatusToFormStatuses');
       store.commit('admin/setHeaderParams', {
         title: 'Статусы форм',
+        showBackButton: true,
         buttons: [
           { text: 'Редактировать', type: 'success', action: openEditMode, condition: isNotEditMode },
           { text: 'Сохранить', type: 'success', action: updateAll, condition: isEditMode },

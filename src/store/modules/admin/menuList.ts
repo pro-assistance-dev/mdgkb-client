@@ -273,6 +273,11 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-user',
       },
       {
+        title: 'Группы статусов заявок',
+        to: '/admin/form-status-groups',
+        icon: 'el-icon-user',
+      },
+      {
         title: 'Статусы заявок',
         to: '/admin/form-statuses',
         icon: 'el-icon-user',

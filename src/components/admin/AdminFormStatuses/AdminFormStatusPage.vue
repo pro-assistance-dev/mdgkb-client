@@ -66,7 +66,7 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : router.push('/admin/form-statuses');
+      next ? next() : router.go(-1);
     };
 
     onBeforeMount(async () => {
@@ -75,6 +75,7 @@ export default defineComponent({
         await store.dispatch('formStatuses/get', route.params['id']);
         store.commit('admin/setHeaderParams', { title: 'Обновить статус', showBackButton: true, buttons: [{ action: submit }] });
       } else {
+        store.commit('formStatuses/setGroupId', route.params['groupId']);
         store.commit('admin/setHeaderParams', { title: 'Добавить статус', showBackButton: true, buttons: [{ action: submit }] });
       }
       mounted.value = true;

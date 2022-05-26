@@ -3,6 +3,7 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 
 import FileInfo from './File/FileInfo';
+import FormStatusGroup from './FormStatusGroup';
 import FormStatusToFormStatus from './FormStatusToFormStatus';
 
 export default class FormStatus implements IFormStatus {
@@ -16,9 +17,10 @@ export default class FormStatus implements IFormStatus {
   isEditable = false;
   formStatusToFormStatuses: IFormStatusToFormStatus[] = [];
   formStatusToFormStatusesForDelete: string[] = [];
-
   icon = new FileInfo();
   iconId?: string;
+  formStatusGroup = new FormStatusGroup();
+  formStatusGroupId?: string;
 
   constructor(formStatus?: IFormStatus) {
     if (!formStatus) {
@@ -41,6 +43,10 @@ export default class FormStatus implements IFormStatus {
       this.icon = new FileInfo(formStatus.icon);
     }
     this.iconId = formStatus.iconId;
+    if (formStatus.formStatusGroup) {
+      this.formStatusGroup = new FormStatusGroup(formStatus.formStatusGroup);
+    }
+    this.formStatusGroupId = formStatus.formStatusGroupId;
   }
 
   isNew(): boolean {

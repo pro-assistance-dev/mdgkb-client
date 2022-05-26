@@ -25,8 +25,8 @@ const mutations: MutationTree<State> = {
       state.vacancies = [];
       return;
     }
-    const dpoCourses = items.vacancies.map((i: IVacancy) => new Vacancy(i));
-    state.vacancies.push(...dpoCourses);
+    const vacancies = items.vacancies.map((i: IVacancy) => new Vacancy(i));
+    state.vacancies.push(...vacancies);
     state.count = items.count;
   },
   set(state, vacancy?: IVacancy) {
