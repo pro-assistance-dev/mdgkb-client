@@ -1,10 +1,12 @@
 <template>
-  <div v-if="paidServices.length" class="services">
+  <!-- <div v-if="paidServices.length" class="services"> -->
+  <div class="services">
     <div class="title-in">Оказываемые услуги</div>
     <div class="point">
       <ul class="services-list">
-        <li v-for="paidService in paidServices" :key="paidService.id" class="services-list-item">
-          <h4 class="point-text">{{ paidService.paidService.name }}</h4>
+        <!-- <li v-for="paidService in paidServices" :key="paidService.id" class="services-list-item"> -->
+        <li class="services-list-item">
+          <h4 class="point-text">Все виды терапевтического и эндодонического лечения</h4>
         </li>
       </ul>
     </div>
@@ -18,7 +20,7 @@ import { useStore } from 'vuex';
 import IWithPaidService from '@/interfaces/IWithPaidService';
 
 export default defineComponent({
-  name: 'DoctorServices',
+  name: 'DivisionServices',
   props: {
     storeModule: {
       type: String,

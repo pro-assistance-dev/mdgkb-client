@@ -24,7 +24,7 @@ import FavouriteService from '@/services/Favourite';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
-  name: 'DoctorPage',
+  name: 'FavouriteIcon',
   props: {
     domainName: {
       type: String,

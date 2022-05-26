@@ -1,12 +1,13 @@
 <template>
-  <div v-if="educations.length" class="education">
-    <div class="title-in">Образование</div>
+  <!-- <div v-if="educations.length" class="education"> -->
+  <div class="education">
+    <div class="title-in">Распорядок дня</div>
     <div class="point">
       <ul class="point-list">
-        <li v-for="education in educations" :key="education.id" class="point-list-item">
+        <!-- <li v-for="education in educations" :key="education.id" class="point-list-item"> -->
+        <li class="point-list-item">
           <div class="point-info">
-            <h3 class="point-year">{{ education.getEndYear() }}</h3>
-            <h4 class="point-text">{{ education.institution }}. {{ education.type }}. {{ education.specialization }}</h4>
+            <h4 class="point-text">07:00-07:15 Подъем, термометрия</h4>
           </div>
         </li>
       </ul>

@@ -9,7 +9,7 @@
           :img-link="{ name: `DivisionPage`, params: { id: division.id, slug: division.slug } }"
         /> -->
         <div class="favor">
-          <FavouriteIcon :domain-id="division.id" :domain-name="division" />
+          <FavouriteIcon :domain-id="division.id" :domain-name="'division'" />
         </div>
       </div>
       <div class="flex-column right-side">

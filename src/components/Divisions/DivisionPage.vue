@@ -1,32 +1,33 @@
 <template>
-  <div v-if="mount" class="doctor-page-container">
-    <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>
+  <!-- <div v-if="mount" class="division-page-container"> -->
+  <div class="division-page-container">
+    <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
-    <DivisionServices :store-module="'doctors'" />
+    <DivisionServices />
     <DivisionOrderOfDay />
     <DivisionSpecialists />
-    <NewsSlider :news="division.newsDivisions" />
-    <DivisionCertificates />
-    <DivisionDateAndTime />
+    <!-- <NewsSlider :news="division.newsDivisions" /> -->
+    <!-- <DivisionCertificates /> -->
+    <!-- <DivisionDateAndTime /> -->
+    <ImageGallery :images="division.divisionImages" />
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments/Comments.vue';
-import DivisionCertificates from '@/components/Divisions/DivisionCertificates.vue';
-import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
 import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 import DivisionOrderOfDay from '@/components/Divisions/DivisionOrderOfDay.vue';
 import DivisionServices from '@/components/Divisions/DivisionServices.vue';
 import DivisionSpecialists from '@/components/Divisions/DivisionSpecialists.vue';
-import NewsSlider from '@/components/NewsSlider.vue';
+import ImageGallery from '@/components/ImageGallery.vue';
 // import IDoctor from '@/interfaces/IDoctor';
 import IDivision from '@/interfaces/buildings/IDivision';
+import countRating from '@/mixins/countRating';
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -35,9 +36,10 @@ export default defineComponent({
     DivisionServices,
     DivisionOrderOfDay,
     DivisionSpecialists,
-    NewsSlider,
-    DivisionCertificates,
-    DivisionDateAndTime,
+    // NewsSlider,
+    // DivisionCertificates,
+    // DivisionDateAndTime,
+    ImageGallery,
     Comments,
   },
 
@@ -45,6 +47,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
+    const mount = ref(false);
 
     onBeforeMount(async () => {
       await store.dispatch('divisions/get', route.params['slug']);
@@ -52,10 +55,61 @@ export default defineComponent({
     });
 
     return {
+      countRating,
       division,
+      mount,
     };
   },
+
+  // setup() {
+  //   const store = useStore();
+  //   const mount = ref(false);
+  //   const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => store.getters['divisions/divisions']);
+  //   const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+
+  //   const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+
+  //   const loadMore = async () => {
+  //     const lastCursor = divisions.value[divisions.value.length - 1].name;
+  //     filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
+  //     await store.dispatch('divisions/getAll', filterQuery.value);
+  //   };
+  //   const route = useRoute();
+  //   const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
+
+  //   onBeforeMount(async () => {
+  //     await store.dispatch('divisions/get', route.params['slug']);
+  //     store.commit('divisions/setOnlyShowed', true);
+  //   });
+
+  //   return {
+  //     division,
+  //     mount,
+  //   };
+  // },
 });
+
+// setup() {
+//   const store = useStore();
+//   const mount = ref(false);
+//   const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => store.getters['divisions/divisions']);
+//   const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+
+//   const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+
+//   const loadMore = async () => {
+//     const lastCursor = divisions.value[divisions.value.length - 1].name;
+//     filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
+//     await store.dispatch('divisions/getAll', filterQuery.value);
+//   };
+
+//   return {
+//     divisions,
+//     loadMore,
+//     mount,
+//   };
+// },
+// });
 </script>
 
 <style scoped lang="scss">
