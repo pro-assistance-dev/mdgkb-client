@@ -119,14 +119,14 @@ export default defineComponent({
 
     const changeFormStatusHandler = (status: IFormStatus) => {
       if (!formValue.value) return;
-      if (status.isSpecifyRequired() && !formValue.value.haveModComments()) {
+      if (status.isClarifyRequired() && !formValue.value.haveModComments()) {
         ElMessage({
           message: 'Необходимо добавить замечания',
           type: 'error',
         });
         return;
       }
-      if ((status.isConsidering() || status.isEnlisted()) && !formValue.value.isFieldValuesModChecked()) {
+      if ((status.isConsidering() || status.isAccepted()) && !formValue.value.isFieldValuesModChecked()) {
         ElMessage({
           message: 'Не все данные формы проверены',
           type: 'error',

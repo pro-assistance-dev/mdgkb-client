@@ -10,6 +10,11 @@
         <!-- <el-form-item label="Кодовое название" prop="name">
           <el-input v-model="formStatus.name" placeholder="Кодовое название"></el-input>
         </el-form-item> -->
+        <el-form-item label="Название (при отутствии совпадений - оставить пустым" name="">
+          <el-select v-model="formStatus.name" placeholder="Группа статусов" clearable>
+            <el-option v-for="item in Object.values(FormStatusNames)" :key="item" :label="item" :value="item"> </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="Название" prop="label">
           <el-input v-model="formStatus.label" placeholder="Название"></el-input>
         </el-form-item>
@@ -43,6 +48,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import { FormStatusNames } from '@/interfaces/FormStatusNames';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
@@ -104,6 +110,7 @@ export default defineComponent({
       form,
       mounted,
       formStatusGroups,
+      FormStatusNames,
     };
   },
 });

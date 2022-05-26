@@ -208,16 +208,16 @@ export default class Form implements IForm {
       el.modComment = '';
     });
   }
-  setNewStatus(statuses: IFormStatus[]): void {
-    statuses.forEach((el: IFormStatus) => {
-      if (el.isNew()) {
-        this.formStatus = new FormStatus(el);
-      }
-    });
-  }
+  // setNewStatus(statuses: IFormStatus[]): void {
+  //   statuses.forEach((el: IFormStatus) => {
+  //     if (el.isNew()) {
+  //       this.formStatus = new FormStatus(el);
+  //     }
+  //   });
+  // }
   setCpecifyStatus(statuses: IFormStatus[]): void {
     statuses.forEach((el: IFormStatus) => {
-      if (el.isSpecify()) {
+      if (el.isClarified()) {
         this.formStatus = new FormStatus(el);
       }
     });
@@ -225,7 +225,7 @@ export default class Form implements IForm {
   setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
     const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);
-    this.emailNotify = true;
+    // this.emailNotify = true;
   }
   getFieldsWithModComemnts(): IField[] {
     return this.fields.filter((el: IField) => {

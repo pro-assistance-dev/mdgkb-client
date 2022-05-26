@@ -18,10 +18,9 @@ export default interface IFormStatus {
   formStatusGroup: IFormStatusGroup;
   formStatusGroupId?: string;
 
-  isNew: () => boolean;
-  isSpecify: () => boolean;
-  isSpecifyRequired: () => boolean;
-  isEnlisted: () => boolean;
+  isClarified: () => boolean;
+  isClarifyRequired: () => boolean;
+  isAccepted: () => boolean;
   isConsidering: () => boolean;
   getFileInfos: () => IFileInfo[];
 }

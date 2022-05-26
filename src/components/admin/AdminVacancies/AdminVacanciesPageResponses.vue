@@ -1,5 +1,17 @@
 <template>
   <el-table :data="vacancyResponses">
+    <el-table-column label="Статус">
+      <template #default="scope">
+        <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Не просмотрено</el-tag>
+        <el-tag
+          v-if="scope.row.formValue.formStatus.label"
+          size="small"
+          :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`"
+        >
+          {{ scope.row.formValue.formStatus.label }}
+        </el-tag>
+      </template>
+    </el-table-column>
     <el-table-column prop="coverLetter" label="Email" min-width="200" class-name="sticky-left">
       <template #default="scope">
         {{ scope.row.formValue.user.email }}

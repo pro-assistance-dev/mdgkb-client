@@ -47,7 +47,7 @@ export default interface IForm {
   isFieldValuesModChecked: () => boolean;
   haveModComments: () => boolean;
   changeFieldValuesModChecked: (modChecked: boolean) => void;
-  setNewStatus: (statuses: IFormStatus[]) => void;
+  // setNewStatus: (statuses: IFormStatus[]) => void;
   setCpecifyStatus: (statuses: IFormStatus[]) => void;
   setStatus: (status: IFormStatus, statuses: IFormStatus[]) => void;
 }

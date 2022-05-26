@@ -1,4 +1,5 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import { FormStatusNames } from '@/interfaces/FormStatusNames';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 
@@ -49,24 +50,20 @@ export default class FormStatus implements IFormStatus {
     this.formStatusGroupId = formStatus.formStatusGroupId;
   }
 
-  isNew(): boolean {
-    return this.label.toLocaleLowerCase() === 'новое';
+  isClarified(): boolean {
+    return this.name === FormStatusNames.Clarified;
   }
 
-  isSpecify(): boolean {
-    return this.label.toLocaleLowerCase() === 'уточнено';
-  }
-
-  isEnlisted(): boolean {
-    return this.label.toLocaleLowerCase() === 'зачислено';
+  isAccepted(): boolean {
+    return this.name === FormStatusNames.Accepted;
   }
 
   isConsidering(): boolean {
-    return this.label.toLocaleLowerCase() === 'принято к рассмотрению';
+    return this.name === FormStatusNames.Considering;
   }
 
-  isSpecifyRequired(): boolean {
-    return this.label.toLocaleLowerCase() === 'требует уточнения';
+  isClarifyRequired(): boolean {
+    return this.name === FormStatusNames.ClarifyRequired;
   }
 
   getFileInfos(): IFileInfo[] {
