@@ -20,6 +20,7 @@ export default class Weekday implements IWeekday {
 
   isToday(): boolean {
     const nowDay = new Date().getDay();
+
     return this.number === nowDay;
   }
 }

@@ -42,7 +42,7 @@
             </el-table-column>
             <el-table-column width="50" fixed="right" align="center">
               <template #default="scope">
-                <TableButtonGroup :show-remove-button="true" @remove="documentType.removeField(scope.$index)" />
+                <TableButtonGroup :show-remove-button="true" @remove="removeFromClass(scope.$index)" />
               </template>
             </el-table-column>
           </el-table>
@@ -64,6 +64,7 @@ import CardHeader from '@/components/admin/CardHeader.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IValueType from '@/interfaces/IValueType';
+import removeFromClass from '@/mixins/removeFromClass';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
@@ -128,6 +129,7 @@ export default defineComponent({
     };
 
     return {
+      removeFromClass,
       valueTypes,
       documentType,
       submit,

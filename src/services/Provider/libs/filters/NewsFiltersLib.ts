@@ -46,14 +46,27 @@ const NewsFiltersLib = (() => {
       DataTypes.Boolean
     );
     filterModel.boolean = false;
+    filterModel.label = 'Без черновиков';
+    return filterModel;
+  }
+
+  function withDrafts(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.news.tableName,
+      Provider.schema.value.news.isDraft,
+      DataTypes.Boolean
+    );
+    filterModel.boolean = true;
+    filterModel.label = 'Только черновики';
     return filterModel;
   }
 
   return {
-    filterByTags: filterByTags,
-    excludeSlug: excludeSlug,
-    onlyPublished: onlyPublished,
+    filterByTags,
+    excludeSlug,
+    onlyPublished,
     withoutDrafts,
+    withDrafts,
   };
 })();
 

@@ -119,6 +119,10 @@ const menuList: IAdminMenu[] = [
         to: '/admin/dpo',
       },
       {
+        title: 'Приёмная комиссия',
+        to: '/admin/admission-committee',
+      },
+      {
         title: 'Программы ДПО',
         to: '/admin/dpo/courses',
       },

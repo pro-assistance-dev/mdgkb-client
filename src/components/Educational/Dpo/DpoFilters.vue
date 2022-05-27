@@ -212,7 +212,6 @@ h2 {
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
-  padding-top: 22px;
 }
 
 .line:last-child {
@@ -222,7 +221,7 @@ h2 {
 .block-item {
   display: flex;
   width: 272px;
-  margin: 0 10px;
+  margin: 22px 10px 0px 0px;
 }
 
 .block-item-1 {
@@ -247,6 +246,10 @@ h2 {
 
 .el-select {
   height: 38px;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 0px;
 }
 
 @media screen and (max-width: 1216px) {

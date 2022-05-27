@@ -10,4 +10,6 @@ export default interface ITimetable {
   isWorkTime: () => boolean;
   isAroundTheClock: () => boolean;
   getOnlyWorkDays: () => string[];
+  getTodayTimetable: () => string;
+  getTodayWorkday: () => ITimetableDay;
 }

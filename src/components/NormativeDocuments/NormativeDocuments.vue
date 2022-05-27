@@ -86,7 +86,6 @@ export default defineComponent({
     const mounted = ref(false);
 
     const getFileUrl = (path: string): string => {
-      console.log(path);
       return `${process.env.VUE_APP_STATIC_URL}/${path}`;
     };
 

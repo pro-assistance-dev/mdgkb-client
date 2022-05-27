@@ -1,8 +1,12 @@
+import { ElMessage } from 'element-plus';
 import { onBeforeMount } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import validate from '@/mixins/validate';
 import Provider from '@/services/Provider';
 
 export interface IHooksOptions {
@@ -17,6 +21,7 @@ export interface IPaginationOptions {
 }
 
 type func = (filterQuery: IFilterQuery) => void;
+type asyncFunc = () => Promise<void>;
 
 const Hooks = (() => {
   // const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
@@ -47,8 +52,36 @@ const Hooks = (() => {
     });
   };
 
+  const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+
+  const onBeforeRouteLeaveWithSubmit = (submitFunction: CallableFunction) => {
+    return onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+      showConfirmModal(submitFunction(), next);
+    });
+  };
+
+  const submit = (submitFunction: CallableFunction) => {
+    return async () => {
+      saveButtonClick.value = true;
+      if (!validate(Provider.form)) {
+        saveButtonClick.value = false;
+        return;
+      }
+      try {
+        await submitFunction();
+        ElMessage({ message: 'Сохранено', type: 'success' });
+      } catch (error) {
+        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        console.log(error);
+        return;
+      }
+    };
+  };
+
   return {
     onBeforeMount: onBeforeMountWithLoading,
+    onBeforeRouteLeave: onBeforeRouteLeaveWithSubmit,
+    submit,
   };
 })();
 

@@ -89,12 +89,10 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    console.log(props.storeModule, props.storeGetter);
     const human: Ref<IHuman> = computed(() => store.getters[`${props.storeModule}/item`].human);
     const contactInfo: WritableComputedRef<IContactInfo> = computed(
       () => store.getters[`${props.storeModule}/${props.storeGetter}`].contactInfo
     );
-    console.log(contactInfo);
     return {
       contactInfo,
       removeFromClass,

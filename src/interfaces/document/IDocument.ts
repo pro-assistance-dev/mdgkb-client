@@ -11,6 +11,7 @@ export default interface IDocument {
   documentTypeId?: string;
   documentType?: IDocumentType;
 
+  order: number;
   documentsScans: IDocumentScan[];
   documentsScansForDelete: string[];
 

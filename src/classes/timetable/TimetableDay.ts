@@ -92,15 +92,22 @@ export default class TimetableDay implements ITimetableDay {
     return period;
   }
 
-  getPeriod(): string {
-    return `${this.getTime(this.startTime)}-${this.getTime(this.endTime)}`;
+  getPeriod(separator?: string): string {
+    if (separator === '-') {
+      return `${this.getTime(this.startTime)}-${this.getTime(this.endTime)}`;
+    }
+    return `с ${this.getTime(this.startTime)} до ${this.getTime(this.endTime)}`;
+  }
+
+  getTimetable(): string {
+    if (this.isWeekend) {
+      return 'Выходной';
+    }
+    return this.getPeriod();
   }
 
   showBreakSwitcher(): boolean {
-    if (!this.isWeekend && this.startTime && this.endTime) {
-      return true;
-    }
-    return false;
+    return !!(!this.isWeekend && this.startTime && this.endTime);
   }
 
   addBreak(): void {

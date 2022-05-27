@@ -6,6 +6,7 @@ export default interface IFilterModel {
   table: string;
   col: string;
   operator: Operators;
+  label: string;
   type: DataTypes;
   date1?: Date;
   date2?: Date;

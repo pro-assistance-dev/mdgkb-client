@@ -154,7 +154,7 @@ export default defineComponent({
   width: 100%;
 }
 
-.el-form {
+:deep(.el-form) {
   width: 100%;
 }
 

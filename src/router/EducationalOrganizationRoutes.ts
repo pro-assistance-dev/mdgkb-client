@@ -1,9 +1,9 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
+import AdmissionCommittee from '@/components/Educational/AdmissionCommittee.vue';
 import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoPage.vue';
 import EducationPage from '@/components/Educational/Education/EducationPage.vue';
-import EducationCampaign from '@/components/Educational/EducationCampaign.vue';
 import PostgraduateCoursePage from '@/components/Educational/Postgraduate/PostgraduateCoursePage.vue';
 import PostgraduatePage from '@/components/Educational/Postgraduate/PostgraduatePage.vue';
 import EducationalOrganizationAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
@@ -23,10 +23,10 @@ export default [
     },
   },
   {
-    path: '/education-campaign',
-    name: 'EducationCampaign',
+    path: '/admission-committee',
+    name: 'AdmissionCommittee',
     meta: { title: 'Приёмная кампания' },
-    component: EducationCampaign,
+    component: AdmissionCommittee,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

@@ -107,7 +107,6 @@ export default defineComponent({
         return;
       }
       try {
-        console.log(dpoDocumentTypesForDelete.value);
         await store.dispatch('dpoDocumentTypes/update', {
           dpoDocumentTypes: dpoDocumentTypes.value,
           dpoDocumentTypesForDelete: dpoDocumentTypesForDelete.value,

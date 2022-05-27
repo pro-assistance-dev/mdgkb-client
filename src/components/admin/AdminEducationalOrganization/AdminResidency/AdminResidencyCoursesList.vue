@@ -2,6 +2,7 @@
   <component :is="'AdminListWrapper'" v-if="mounted">
     <template #header>
       <SortList class="filters-block" :models="createResidencySortModels()" @load="loadCourses" />
+      <FiltersList :models="createFilterModels()" @load="loadCourses" />
     </template>
     <el-table :data="residencyCourses">
       <el-table-column label="Код специализации" min-width="200" class-name="sticky-left">
@@ -84,7 +85,9 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FiltersList from '@/components/Filters/FiltersList.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
@@ -92,12 +95,13 @@ import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminResidencyCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
+  components: { TableButtonGroup, AdminListWrapper, Pagination, SortList, FiltersList },
   setup() {
     const mounted = ref(false);
     const route = useRoute();
@@ -168,6 +172,14 @@ export default defineComponent({
       showConfirmModal(save, next);
     });
 
+    const createFilterModels = (): IFilterModel[] => {
+      return [
+        ResidencyCoursesFiltersLib.onlyThisYear(),
+        ResidencyCoursesFiltersLib.notThisYear(),
+        ResidencyCoursesFiltersLib.beforeThisYear(),
+      ];
+    };
+
     return {
       isEditMode,
       mounted,
@@ -180,6 +192,7 @@ export default defineComponent({
       cancel,
       edit,
       save,
+      createFilterModels,
     };
   },
 });

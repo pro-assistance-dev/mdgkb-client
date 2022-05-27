@@ -8,8 +8,10 @@
       <div class="full-width-2"></div>
       <PostgraduateFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
     </div>
-
-    <div v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'" v-html="selectedDocumentType.description" />
+    <EditorContent
+      v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'"
+      :content="selectedDocumentType.description"
+    />
     <div v-if="mode === 'programs' || mode === ''" class="sort">
       <div class="sort-item-2">
         <div class="item-3"><h3>Сортировать</h3></div>
@@ -33,6 +35,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
+import EditorContent from '@/components/EditorContent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';
 import PostgraduateContacts from '@/components/Educational/Postgraduate/PostgraduateContacts.vue';
@@ -52,6 +55,7 @@ import ISchema from '@/interfaces/schema/ISchema';
 export default defineComponent({
   name: 'PostgraduatePage',
   components: {
+    EditorContent,
     DocumentsList,
     SortList,
     PostgraduateFilters,

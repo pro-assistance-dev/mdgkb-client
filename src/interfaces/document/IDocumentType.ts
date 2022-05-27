@@ -11,7 +11,7 @@ export default interface IDocumentType {
   description: string;
   scan?: IFileInfo;
   scanId?: string;
-
+  order: number;
   scans: IFileInfo[];
   scansForDelete: string[];
 

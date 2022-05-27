@@ -91,7 +91,6 @@ export default defineComponent({
         filterModel.value.operator = props.operator;
         if (props.filterValue && typeof props.filterValue === 'string') {
           filterModel.value.value1 = props.filterValue;
-          console.log(props.filterValue);
         }
         if (props.filterValue && props.dataType === DataTypes.Date) {
           filterModel.value.date1 = props.filterValue as Date;
@@ -145,7 +144,7 @@ export default defineComponent({
 }
 
 :deep(.el-form-item__content) {
-  margin-top: 6px;
+  margin-top: 20px;
   height: 30px;
 }
 

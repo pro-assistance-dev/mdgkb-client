@@ -12,6 +12,7 @@ const Provider = (() => {
   const r = router;
   const s = store;
   const mounted: Ref<boolean> = ref(false);
+  const form = ref();
   const schema: Ref<ISchema> = computed(() => s.getters['meta/schema']);
   const filterQuery: ComputedRef<IFilterQuery> = computed(() => s.getters['filter/filterQuery']);
   const sortList: Ref<ISortModel[]> = ref([]);
@@ -48,19 +49,32 @@ const Provider = (() => {
     });
   }
 
+  function spliceFilterModel(id: string | undefined): void {
+    s.commit('filter/spliceFilterModel', id);
+  }
+
+  function replaceFilterModel(newFilterModel: IFilterModel, previousFilterModelId: string | undefined) {
+    spliceFilterModel(previousFilterModelId);
+    setFilterModel(newFilterModel);
+  }
+
   return {
     setSortList: setSortList,
     sortList: sortList,
     mounted: mounted,
-    resetFilterQuery: resetFilterQuery,
+    resetFilterQuery,
     setSortModelsForOneTable: setSortModelsForOneTable,
-    setFilterModels: setFilterModels,
-    setSortModels: setSortModels,
+    setFilterModels,
+    setFilterModel,
+    setSortModels,
+    spliceFilterModel,
     filterQuery: filterQuery,
     setLimit: setLimit,
     schema: schema,
     router: r,
     store: s,
+    replaceFilterModel,
+    form,
   };
 })();
 

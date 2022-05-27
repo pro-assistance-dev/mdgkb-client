@@ -11,7 +11,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 export default class Document implements IDocument {
   id?: string;
   name = '';
-
+  order = 0;
   documentTypeId?: string;
   documentType: IDocumentType = new DocumentType();
 
@@ -26,6 +26,7 @@ export default class Document implements IDocument {
     }
     this.id = i?.id;
     this.name = i.name;
+    this.order = i.order;
     this.documentTypeId = i.documentTypeId;
     if (i.documentType) {
       this.documentType = new DocumentType(i.documentType);
