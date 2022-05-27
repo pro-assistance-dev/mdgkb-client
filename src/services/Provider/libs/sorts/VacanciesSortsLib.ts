@@ -9,7 +9,7 @@ const VacanciesSortsLib = (() => {
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.title,
       order ? order : Orders.Asc,
-      'По названию',
+      `По названию ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
     );
   }
@@ -19,7 +19,7 @@ const VacanciesSortsLib = (() => {
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.minSalary,
       order ? order : Orders.Asc,
-      'По минимальной зарплате',
+      `По минимальной зарплате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false
     );
   }
@@ -29,7 +29,7 @@ const VacanciesSortsLib = (() => {
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.maxSalary,
       order ? order : Orders.Asc,
-      'По максимальной зарплате',
+      `По максимальной зарплате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false
     );
   }
@@ -39,7 +39,7 @@ const VacanciesSortsLib = (() => {
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.date,
       order ? order : Orders.Asc,
-      'По дате публикации',
+      `По дате публикации ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false
     );
   }
@@ -49,7 +49,7 @@ const VacanciesSortsLib = (() => {
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.responsesCount,
       order ? order : Orders.Desc,
-      'По количеству отзывов',
+      `По количеству отзывов ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false
     );
   }

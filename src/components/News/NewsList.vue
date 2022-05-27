@@ -17,11 +17,7 @@
             </div>
           </el-col>
         </el-row>
-        <div v-if="!allNewsLoaded" class="load-more">
-          <div class="loadmore-button">
-            <LoadMoreButton @loadMore="loadMore" />
-          </div>
-        </div>
+        <LoadMoreButton v-if="!allNewsLoaded" @loadMore="loadMore" />
       </el-col>
     </el-row>
   </div>
@@ -100,11 +96,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .calendar {
   margin-bottom: 40px;
-}
-
-.load-more {
-  margin: 50px 0 50px 0;
-  text-align: center;
 }
 
 .el-carousel__item h3 {

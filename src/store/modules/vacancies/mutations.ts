@@ -42,6 +42,9 @@ const mutations: MutationTree<State> = {
   resetVacancyResponse(state) {
     state.vacancyResponse = new VacancyResponse();
   },
+  clearVacancies(state) {
+    state.vacancies = [];
+  },
 };
 
 export default mutations;

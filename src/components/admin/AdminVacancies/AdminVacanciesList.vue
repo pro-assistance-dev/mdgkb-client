@@ -99,6 +99,7 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
@@ -111,13 +112,7 @@ export default defineComponent({
     const vacancies: Ref<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
 
     const load = async () => {
-      Provider.setSortList(
-        VacanciesSortsLib.byTitle(),
-        VacanciesSortsLib.byDate(),
-        VacanciesSortsLib.byMinSalary(),
-        VacanciesSortsLib.byMaxSalary(),
-        VacanciesSortsLib.byResponsesCount()
-      );
+      Provider.setSortList(...createSortModels(VacanciesSortsLib));
       Provider.setSortModels(VacanciesSortsLib.byTitle());
       await Provider.store.dispatch('vacancies/getAll', Provider.filterQuery.value);
       Provider.store.commit('admin/setHeaderParams', {

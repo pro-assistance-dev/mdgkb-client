@@ -1,49 +1,22 @@
 import FilterModel from '@/classes/filters/FilterModel';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import { Operators } from '@/interfaces/filters/Operators';
 import Provider from '@/services/Provider';
 
-const NewsFiltersLib = (() => {
-  function onlyPublished(): IFilterModel {
-    const onlyPublished = FilterModel.CreateFilterModel(
+const VacanciesFiltersLib = (() => {
+  function onlyActive(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
       Provider.schema.value.vacancy.tableName,
-      Provider.schema.value.news.publishedOn,
-      DataTypes.Date
+      Provider.schema.value.vacancy.active,
+      DataTypes.Boolean
     );
-    onlyPublished.date1 = new Date();
-    onlyPublished.operator = Operators.Lt;
-    return onlyPublished;
-  }
-
-  function excludeSlug(slug: string): IFilterModel {
-    const sf = FilterModel.CreateFilterModel(Provider.schema.value.news.tableName, Provider.schema.value.news.slug, DataTypes.String);
-    sf.value1 = slug;
-    sf.operator = Operators.Ne;
-    return sf;
-  }
-
-  function filterByTags(tagsIdSet: string[]): IFilterModel {
-    const filterModel: IFilterModel = FilterModel.CreateFilterModelWithJoin(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.id,
-      Provider.schema.value.newsToTag.tableName,
-      Provider.schema.value.newsToTag.id,
-      Provider.schema.value.newsToTag.newsId,
-      DataTypes.Join,
-      Provider.schema.value.newsToTag.id,
-      Provider.schema.value.newsToTag.tagId
-    );
-    filterModel.operator = Operators.In;
-    filterModel.set = tagsIdSet;
+    filterModel.boolean = true;
     return filterModel;
   }
 
   return {
-    filterByTags: filterByTags,
-    excludeSlug: excludeSlug,
-    onlyPublished: onlyPublished,
+    onlyActive,
   };
 })();
 
-export default NewsFiltersLib;
+export default VacanciesFiltersLib;

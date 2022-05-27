@@ -44,6 +44,9 @@ export default class FilterQuery implements IFilterQuery {
     }
     this.allLoaded = true;
   }
+  resetAllLoaded(): void {
+    this.allLoaded = false;
+  }
 
   setParams(col: string, value: string): void {
     this.col = col;
