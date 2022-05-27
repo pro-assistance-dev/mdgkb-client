@@ -1,0 +1,242 @@
+@import "./favorite.scss";
+
+.card-item {
+  display: flex;
+  padding: 25px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  &-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 35px;
+    .division-img {
+      position: relative;
+      z-index: 1;
+      img {
+        border-radius: 5px;
+        height: 280px;
+        width: 280px;
+      }
+      .favor {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 2;
+      }
+    }
+    .doctor-name {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  
+    .status {
+      color: #a1a7bd;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+  }
+  &-middle {
+    width: 100%;
+    font-size: 14px;
+    letter-spacing: 1px;
+    .division-line {
+      color: #a1a7bd;
+      margin-bottom: 5px;
+      font-size: 11px;
+      &:hover{
+        cursor: pointer;
+        color:darken(#a1a7bd, 20%);
+      }
+    }
+    .division-name {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .tag-link {
+      text-align: center;
+      border-radius: 15px;
+      background-color: #2754eb;
+      border-color: #2754eb;
+      color: white;
+      padding: 2px 10px;
+      margin-right: 10px;
+      display: inline-block;
+      width: auto;
+      word-wrap: break-word;
+      font-size: 11px;
+      &:hover {
+        background-color: darken(#2754eb, 10%);
+        color: white;
+        cursor: pointer;
+      }
+    }
+    a {
+      color: #2754eb;
+      text-decoration: none;
+    }
+    .tag-link,
+    .regalias-list,
+    .address {
+      margin-bottom: 15px;
+      a {
+        color: #2754eb;
+        text-decoration: none;
+        &:hover {
+          cursor: pointer;
+          color: darken(#2754eb, 30%)
+        }
+      }
+    }
+    &-bottom {
+      max-width: 300px;
+    }
+    // .mos-doctor-img {
+    //   cursor: pointer;
+    //   display: flex;
+    //   align-items: center;
+    //   font-size: 11px;
+    //   line-height: 1.1;
+    //   &-container {
+    //     display: flex;
+    //     align-items: center;
+    //   }
+    //   img {
+    //     width: 40px;
+    //     margin-right: 5px;
+    //   }
+    //   a {
+    //     color: black
+    //   }
+    // }
+  }
+  &-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    button {
+      margin: 10px 0;
+      width: 230px;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 10px;
+      background-color: #31af5e;
+      padding: 15px 0px;
+      height: auto;
+      letter-spacing: 2px;
+      color: white;
+      border: 1px solid rgb(black, 0.05);
+      &:hover {
+        cursor: pointer;
+        background-color: darken(#31af5e, 10%);
+      }
+    }
+    .consult {
+      color: #31af5e;
+      background-color: white;
+      border-color: #31af5e;
+      &:hover {
+        background-color: darken(white, 10%);
+      }
+    }
+    .review {
+      background-color: #ff4e3c;
+      &:hover {
+        background-color: darken(#ff4e3c, 10%);
+      }
+    }
+  }
+  .icon-phone {
+    width: 20px;
+    height: 20px;
+    fill: #2754eb;
+  }
+  
+  .icon-email {
+    width: 20px;
+    height: 20px;
+    fill: #2754eb;
+  }
+  
+  .icon-time {
+    margin-left: 1px;
+    width: 20px;
+    height: 20px;
+    fill: #2754eb;
+  }
+  
+  .icon-map-marker {
+    margin-left: -1px;
+    width: 23px;
+    height: 23px;
+    fill: #2754eb;
+  }
+  
+  .icon-block {
+    display: flex;
+    justify-content: left;
+    margin-left: 15px;
+    height: 40px;
+    align-items: center;
+  }
+  
+  .icon-ruble {
+    width: 24px;
+    height: 24px;
+    fill: #31ae5e;
+    margin-left: 10px;
+    &:hover {
+      cursor: pointer;
+      fill: lighten(#31af5e, 10%);
+    }
+  }
+  
+  .icon-credit-card {
+    width: 30px;
+    height: 30px;
+    fill: #ffffff;
+    stroke: #31ae5e;
+    margin-left: 10px;
+    &:hover {
+      cursor: pointer;
+      stroke: lighten(#31af5e, 10%);
+    }
+  }
+  
+  .icon-attention {
+    width: 24px;
+    height: 24px;
+    fill: #ffffff;
+    stroke: #31ae5e;
+    margin-left: 10px;
+    &:hover {
+      cursor: pointer;
+      stroke: lighten(#31af5e, 10%);
+    }
+  }
+  
+  .contact-h3 {
+    display: flex;
+    justify-content: left;
+    font-family: Roboto, Verdana, sans-serif;
+    font-size: 12px;
+    font-weight: lighter;
+    color: #4a4a4a;
+    align-content: center;
+    text-align: center;
+    margin-top: 5px;
+  }
+  
+  .item {
+    display: flex;
+    flex-direction: row;
+    padding-right: 10px;
+    width: auto;
+    align-items: center;
+    text-align: left;
+  }
+
+}

@@ -1,91 +1,109 @@
 <template>
-  <div class="card-item flex-column">
-    <div class="flex-row">
-      <div class="favourite-icon">
-        <!-- <AvatarWithFavourite
-          error-img-name="building-default.webp"
-          :domain-id="division.id"
-          domain-name="division"
-          :img-link="{ name: `DivisionPage`, params: { id: division.id, slug: division.slug } }"
-        /> -->
+  <div class="card-item">
+    <div class="card-item-left">
+      <div class="division-img">
+        <img src="@/assets/img/doctor-default.webp" />
+        <!-- <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="doctor.fileInfo.errorImg" />
+        <img v-else src="@/assets/img/doctor-default.webp" /> -->
+        <div class="doctor-name">Бочкова Наталья Генадьевна</div>
+        <div class="status">Заведующая отделением</div>
         <div class="favor">
           <FavouriteIcon :domain-id="division.id" :domain-name="'division'" />
         </div>
       </div>
-      <div class="flex-column right-side">
-        <div class="division-line">Терапевтическое направление</div>
-        <div class="card-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
-          {{ division.name }}
-        </div>
-        <div class="line">
-          <div class="line-item"><Rating :comments="division.divisionComments" /></div>
-          <button class="map-button">На карте</button>
-        </div>
-        <div class="spec-list">
-          <!-- <div
-            v-for="profile in division.medicalProfilesDivisions"
-            :key="profile.id"
-            class="tag-link"
-            @click="$router.push(`/medical-profiles/${profile.medicalProfile.id}`)"
-          >
-            {{ profile.medicalProfile.name }}
-          </div> -->
-        </div>
-      </div>
+      <!-- <Rating :comments="doctor.doctorComments" /> -->
     </div>
-    <div class="info-block">
-      <div class="contact-h3">
-        <div class="item">
-          <svg class="icon-time">
-            <use xlink:href="#time"></use>
-          </svg>
-        </div>
-        <div class="item">{{ division.timetable.getTodayTimetable() }}</div>
+
+    <div class="card-item-middle">
+      <div class="division-line">
+        <!-- <div v-if="doctor.division?.name" class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)"> -->
+        <!-- {{ doctor.division.name }} -->
+        Терапевтическое направление
       </div>
-      <div class="contact-h3">
-        <div class="item">
-          <svg v-if="division.getAddress()" class="icon-map-marker">
-            <use xlink:href="#map-marker"></use>
-          </svg>
+      <div class="division-name">
+        <!-- {{ doctor.human.getFullName() }} -->
+        Название отделения
+      </div>
+      <div class="card-item-middle-bottom">
+        <div class="info-block">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-time">
+                <use xlink:href="#time"></use>
+              </svg>
+            </div>
+            <!-- <div class="item">{{ division.timetable.getTodayTimetable() }}</div> -->
+          </div>
+          <div class="contact-h3">
+            <div class="item">
+              <!-- <svg v-if="division.getAddress()" class="icon-map-marker"> -->
+              <svg class="icon-map-marker">
+                <use xlink:href="#map-marker"></use>
+              </svg>
+            </div>
+            <div class="item">
+              <a @click="$router.push(`/map/${division.id}`)">
+                {{ division.address }}
+              </a>
+            </div>
+          </div>
+          <div class="contact-h3">
+            <div class="item">
+              <!-- <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone"> -->
+              <svg class="icon-phone">
+                <use xlink:href="#phone"></use>
+              </svg>
+            </div>
+            <!-- <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div> -->
+          </div>
+          <div class="contact-h3">
+            <div class="item">
+              <!-- <svg v-if="division.contactInfo.emails[0].address" class="icon-email"> -->
+              <svg class="icon-email">
+                <use xlink:href="#email"></use>
+              </svg>
+            </div>
+            <div class="item">
+              Контакты
+              <!-- {{ division.contactInfo.emails[0].address }} -->
+            </div>
+          </div>
+          <div class="contact-h3">
+            <div class="icon-block">
+              <svg class="icon-ruble">
+                <use xlink:href="#ruble"></use>
+              </svg>
+              <svg class="icon-credit-card">
+                <use xlink:href="#credit-card"></use>
+              </svg>
+              <svg class="icon-attention">
+                <use xlink:href="#attention"></use>
+              </svg>
+            </div>
+          </div>
         </div>
-        <div class="item">
-          <a @click="$router.push(`/map/${division.id}`)">
-            {{ division.address }}
+        <!-- <div v-if="doctor.mosDoctorLink" class="mos-doctor-img">
+          <div class="mos-doctor-img-container">
+            <img src="@/assets/img/mos-doctor.webp" />
+          </div>
+          <a :href="doctor.getMosDoctorLink()">
+            <div>
+              <div>Московский</div>
+              <div>врач</div>
+            </div>
           </a>
-        </div>
-      </div>
-      <div class="contact-h3">
-        <div class="item">
-          <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone">
-            <use xlink:href="#phone"></use>
-          </svg>
-        </div>
-        <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div>
-      </div>
-      <div class="contact-h3">
-        <div class="item">
-          <svg v-if="division.contactInfo.emails[0].address" class="icon-email">
-            <use xlink:href="#email"></use>
-          </svg>
-        </div>
-        <div class="item">{{ division.contactInfo.emails[0].address }}</div>
-      </div>
-      <div class="contact-h3">
-        <div class="icon-block">
-          <svg class="icon-ruble">
-            <use xlink:href="#ruble"></use>
-          </svg>
-          <svg class="icon-credit-card">
-            <use xlink:href="#credit-card"></use>
-          </svg>
-          <svg class="icon-attention">
-            <use xlink:href="#attention"></use>
-          </svg>
-        </div>
+        </div> -->
       </div>
     </div>
-    <div class="division-card-footer">
+
+    <div class="card-item-right">
       <button @click="$router.push('/appointments/oms')">Запись на прием</button>
+      <!-- <a v-if="doctor.onlineDoctorId" :href="doctor.getOnlineDoctorLink()" target="_blank"> -->
+      <button class="consult">Онлайн консультация</button>
+      <!-- </a> -->
+      <a @click="$scroll('#leave-a-review')">
+        <button class="review">Оставить отзыв</button>
+      </a>
     </div>
   </div>
   <svg width="0" height="0" class="hidden">
@@ -154,16 +172,13 @@
 import { defineComponent, PropType } from 'vue';
 
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import Rating from '@/components/Rating.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
-// import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
 
 export default defineComponent({
-  name: 'DivisionCard',
+  name: 'DivisionInfo',
   components: {
-    Rating,
     FavouriteIcon,
-    // AvatarWithFavourite,
+    // Rating
   },
   props: {
     division: { type: Object as PropType<IDivision>, required: true },
@@ -172,208 +187,30 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-// @import '@/assets/styles/elements/doctor-info-card.scss';
+@import '@/assets/styles/elements/division-info.scss';
 
-.info-block {
-  height: 165px;
+// test block
+.test {
+  width: 290px;
+  height: 290px;
+  background: #c4c4c4;
 }
 
-.card-item {
-  max-width: 370px;
-  min-height: 87%;
-  position: relative;
-}
+// .division-line {
+//   font-family: 'Open Sans', sans-serif;
+//   letter-spacing: 0.2ex;
+//   font-size: 11px;
+//   margin-bottom: 2px;
+//   color: #a3a5b9;
+// }
 
-.tag-link {
-  margin: 2px;
-  font-size: 10px;
-  transition: all 0.2s;
-  border-color: blue;
-  border-radius: 20px;
-  &:hover {
-    background-color: blue;
-    color: white;
-    cursor: pointer;
-  }
-}
-
-.icon-phone {
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
-}
-
-.icon-email {
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
-}
-
-.icon-time {
-  margin-left: 1px;
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
-}
-
-.icon-map-marker {
-  margin-left: -1px;
-  width: 23px;
-  height: 23px;
-  fill: #2754eb;
-}
-
-.icon-block {
-  display: flex;
-  justify-content: left;
-  margin-left: 15px;
-  height: 40px;
-  align-items: center;
-}
-
-.icon-ruble {
-  width: 24px;
-  height: 24px;
-  fill: #31ae5e;
-  margin-left: 10px;
-  &:hover {
-    cursor: pointer;
-    fill: lighten(#31af5e, 10%);
-  }
-}
-
-.icon-credit-card {
-  width: 30px;
-  height: 30px;
-  fill: #ffffff;
-  stroke: #31ae5e;
-  margin-left: 10px;
-  &:hover {
-    cursor: pointer;
-    stroke: lighten(#31af5e, 10%);
-  }
-}
-
-.icon-attention {
-  width: 24px;
-  height: 24px;
-  fill: #ffffff;
-  stroke: #31ae5e;
-  margin-left: 10px;
-  &:hover {
-    cursor: pointer;
-    stroke: lighten(#31af5e, 10%);
-  }
-}
-
-.contact-h3 {
-  display: flex;
-  justify-content: left;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 12px;
-  font-weight: lighter;
-  color: #4a4a4a;
-  align-content: center;
-  text-align: center;
-  margin-top: 5px;
-}
-
-.item {
-  display: flex;
-  flex-direction: row;
-  padding-right: 10px;
-  width: auto;
-  align-items: center;
-  text-align: left;
-}
-
-.card-name {
-  font-family: 'Open Sans', sans-serif;
-  letter-spacing: 0.2ex;
-  min-height: 50px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.division-line {
-  font-family: 'Open Sans', sans-serif;
-  letter-spacing: 0.2ex;
-  font-size: 11px;
-  margin-bottom: 2px;
-  color: #a3a5b9;
-}
-
-.line {
-  display: flex;
-  justify-content: space-between;
-}
-
-.line-item {
-  display: block;
-}
-
-.map-button {
-  height: 26px;
-  background: #2754eb;
-  border-radius: 40px;
-  border: none;
-  font-family: roboto;
-  font-size: 1rem;
-  color: #ffffff;
-  margin-left: 5px;
-  padding: 0 15px;
-  text-align: center;
-  &:hover {
-    cursor: pointer;
-    background-color: #133dcc;
-  }
-}
-
-.division-card-footer {
-  button {
-    margin-top: 10px;
-    border-radius: 20px;
-    background-color: #31af5e;
-    padding: 10px 20px;
-    height: auto;
-    letter-spacing: 2px;
-    color: white;
-    border: 1px solid rgb(black, 0.05);
-    &:hover {
-      cursor: pointer;
-      background-color: lighten(#31af5e, 10%);
-    }
-  }
-  text-align: center;
-  padding: 4px 0 0px 0;
-  margin-top: 10px;
-}
-
-.favourite-icon {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
-.favor {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  background-color: white;
-  border-radius: 50%;
-  border: 1px solid rgb(black, 0.1);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
-  width: 30px;
-  height: 30px;
-  &:hover {
-    transform: scale(1.1);
-  }
-  .anticon {
-    font-size: 20px;
-    color: #bdc2d1;
-  }
-}
+// .division-name {
+//   font-family: 'Open Sans', sans-serif;
+//   letter-spacing: 0.2ex;
+//   min-height: 50px;
+//   font-size: 16px;
+//   font-weight: bold;
+//   margin-bottom: 10px;
+//   color: #151A2D;
+// }
 </style>
