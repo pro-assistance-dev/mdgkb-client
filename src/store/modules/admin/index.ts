@@ -13,10 +13,11 @@ export const getDefaultState = (): State => {
   return {
     headerParams: new AdminHeaderParams(),
     showHeader: false,
-    isCollapseSideMenu: true,
+    isCollapseSideMenu: false,
     isDrawerOpen: false,
     loading: undefined,
     menus: menuList,
+    adminMenus: [],
   };
 };
 

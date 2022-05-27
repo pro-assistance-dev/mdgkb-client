@@ -6,6 +6,7 @@ import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
+import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
@@ -13,6 +14,7 @@ import CandidateApplication from './CandidateApplication';
 import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
 import FormStatus from './FormStatus';
+import FormStatusGroup from './FormStatusGroup';
 import PostgraduateApplication from './PostgraduateApplication';
 import ResidencyApplication from './ResidencyApplication';
 import User from './User';
@@ -36,6 +38,10 @@ export default class Form implements IForm {
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
   residencyApplication?: IResidencyApplication;
+  defaultFormStatus?: IFormStatus;
+  defaultFormStatusId?: string;
+  formStatusGroup?: IFormStatusGroup;
+  formStatusGroupId?: string;
   // changed = false;
 
   constructor(form?: IForm) {
@@ -78,6 +84,14 @@ export default class Form implements IForm {
     if (form.residencyApplication) {
       this.residencyApplication = new ResidencyApplication(form.residencyApplication);
     }
+    if (form.formStatusGroup) {
+      this.formStatusGroup = new FormStatusGroup(form.formStatusGroup);
+    }
+    this.formStatusGroupId = form.formStatusGroupId;
+    if (form.defaultFormStatus) {
+      this.defaultFormStatus = new FormStatus(form.defaultFormStatus);
+    }
+    this.defaultFormStatusId = form.defaultFormStatusId;
   }
 
   addField(field?: IField): void {
@@ -194,16 +208,16 @@ export default class Form implements IForm {
       el.modComment = '';
     });
   }
-  setNewStatus(statuses: IFormStatus[]): void {
-    statuses.forEach((el: IFormStatus) => {
-      if (el.isNew()) {
-        this.formStatus = new FormStatus(el);
-      }
-    });
-  }
+  // setNewStatus(statuses: IFormStatus[]): void {
+  //   statuses.forEach((el: IFormStatus) => {
+  //     if (el.isNew()) {
+  //       this.formStatus = new FormStatus(el);
+  //     }
+  //   });
+  // }
   setCpecifyStatus(statuses: IFormStatus[]): void {
     statuses.forEach((el: IFormStatus) => {
-      if (el.isSpecify()) {
+      if (el.isClarified()) {
         this.formStatus = new FormStatus(el);
       }
     });
@@ -211,7 +225,7 @@ export default class Form implements IForm {
   setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
     const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);
-    this.emailNotify = true;
+    // this.emailNotify = true;
   }
   getFieldsWithModComemnts(): IField[] {
     return this.fields.filter((el: IField) => {

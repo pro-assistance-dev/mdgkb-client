@@ -1,136 +1,103 @@
 <template>
   <div v-if="mounted" class="contact-form">
-    <el-form ref="vacancyResponseForm" :model="vacancyResponse" label-width="120px" label-position="top" :rules="rules">
-      <template v-if="!isAuth">
-        <div class="form-block">
-          <div class="flex-row">
-            <el-form-item label="Фамилия" prop="user.human.surname">
-              <el-input v-model="vacancyResponse.user.human.surname"></el-input>
-            </el-form-item>
-            <el-form-item label="Имя" prop="user.human.name">
-              <el-input v-model="vacancyResponse.user.human.name"></el-input>
-            </el-form-item>
-            <el-form-item label="Отчество" prop="user.human.patronymic">
-              <el-input v-model="vacancyResponse.user.human.patronymic"></el-input>
-            </el-form-item>
-          </div>
-
-          <div class="flex-row justify-space-around">
-            <div class="flex-group">
-              <el-form-item label="Дата рождения" prop="user.human.dateBirth">
-                <el-date-picker
-                  v-model="vacancyResponse.user.human.dateBirth"
-                  type="date"
-                  format="DD.MM.YYYY"
-                  placeholder="Выберите дату"
-                ></el-date-picker>
-              </el-form-item>
-              <el-form-item label="Пол" prop="user.human.isMale">
-                <el-select v-model="vacancyResponse.user.human.isMale" placeholder="Выберите пол">
-                  <el-option label="Мужчина" :value="true"></el-option>
-                  <el-option label="Женщина" :value="false"></el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-            <div class="flex-row">
-              <el-form-item prop="user.email" label="Email" label-width="120px">
-                <el-input v-model="vacancyResponse.user.email"></el-input>
-              </el-form-item>
-              <el-form-item label="Телефон" label-width="120px" prop="user.phone">
-                <el-input v-model="vacancyResponse.user.phone"></el-input>
-              </el-form-item>
-            </div>
-          </div>
-        </div>
-      </template>
-      <el-form-item label="Сопроводительное письмо" label-width="120px">
-        <el-input v-model="vacancyResponse.coverLetter" type="textarea" :rows="10"></el-input>
-      </el-form-item>
-      <div class="flex-row">
-        <el-form-item
-          v-for="(documentType, i) in documentsTypes"
-          :key="documentType.id"
-          :rules="rules.scan.fileSystemPath"
-          :prop="'vacancyResponsesToDocuments.' + i + '.document.documentsScans[0].scan.id'"
-          label-width="100px"
-          :label="documentType.name"
-        >
-          <UploaderSingleScan :file-info="vacancyResponse.vacancyResponsesToDocuments[i].document.documentsScans[0].scan" />
-        </el-form-item>
-      </div>
+    <el-form ref="form" :model="vacancyResponse" label-position="top" :rules="rules">
+      <UserForm :form="vacancyResponse.formValue" :email-exists="emailExists" full-form @findEmail="findEmail" />
+      <FieldValuesForm :form="vacancyResponse.formValue" />
+      <el-divider />
       <div class="response-child">
-        <button class="response" @click.prevent="sendResponse()">Отправить форму</button>
+        <button class="response btn" @click.prevent="submit()">Отправить форму</button>
       </div>
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { ElNotification } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { ElMessage } from 'element-plus';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import User from '@/classes/User';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import UserForm from '@/components/FormConstructor/UserForm.vue';
+import IUser from '@/interfaces/IUser';
+import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import validate from '@/mixins/validate';
 import VacancyResponseRules from '@/rules/VacancyResponseRules';
+import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'VacancyResponseForm',
-  components: { UploaderSingleScan },
-  props: {
-    vacancyId: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
+  components: { UserForm, FieldValuesForm },
+  emits: ['close'],
+
+  setup(_, { emit }) {
     const filter = ref('');
     const store = useStore();
     const router = useRouter();
     const mounted = ref(false);
-    const vacancyResponse: Ref<IVacancyResponse> = computed(() => store.getters['vacancies/vacancyResponse']);
-    const documentsTypes: Ref<IDocumentType[]> = computed(() => store.getters['documentTypes/items']);
     const rules = ref(VacancyResponseRules);
-    const vacancyResponseForm = ref();
+    const form = ref();
+    const vacancyResponse: ComputedRef<IVacancyResponse> = computed(() => store.getters['vacancyResponses/item']);
+    const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/vacancy']);
+    const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
+    const emailExists: ComputedRef<boolean> = computed(() => store.getters['vacancyResponses/emailExists']);
+    const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
 
-    const isAuth = computed(() => store.getters['auth/isAuth']);
-    const user = computed(() => store.getters['auth/user']);
-
-    onBeforeMount(async () => {
-      await store.dispatch('documentTypes/getDocumentsTypesForTables');
-      await store.dispatch('documentTypes/getAll');
-      vacancyResponse.value.initDocuments(documentsTypes.value);
-      vacancyResponse.value.vacancyId = props.vacancyId;
-      mounted.value = true;
+    watch(isAuth, async () => {
+      store.commit('vacancyResponses/setUser', user.value);
+      await findEmail();
     });
 
-    const sendResponse = async () => {
-      if (!validate(vacancyResponseForm, true)) {
-        return;
-      }
-      await store.dispatch('vacancyResponses/create', vacancyResponse.value);
-      store.commit('vacancies/resetVacancyResponse');
-      vacancyResponse.value.initDocuments(documentsTypes.value);
-      ElNotification({ title: 'Отклик на вакансию', message: 'Форма успешно отправлена', type: 'success' });
-      await router.push('/vacancies');
+    const findEmail = async () => {
+      await store.dispatch('vacancyResponses/emailExists', vacancy.value.id);
     };
 
-    watch(user, () => (vacancyResponse.value.user = user.value ? new User(user.value) : new User()), { deep: true });
+    const submit = async () => {
+      if (emailExists.value) {
+        ElMessage({
+          type: 'error',
+          dangerouslyUseHTMLString: true,
+          message: document.querySelector('#error-block-message')?.innerHTML || '',
+        });
+        scroll('#error-block-message');
+        return;
+      }
+      vacancyResponse.value.formValue.validate();
+      if (!validate(form, true) || !vacancyResponse.value.formValue.validated) {
+        return;
+      }
+      vacancyResponse.value.formValue.clearIds();
+      await store.dispatch('vacancyResponses/create', vacancyResponse.value);
+      ElMessage({
+        type: 'success',
+        message: 'Форма успешно отправлена',
+      });
+      //  ElNotification({ title: 'Отклик на вакансию', message: 'Форма успешно отправлена', type: 'success' });
+      emit('close');
+    };
+
+    onBeforeMount(async () => {
+      store.commit('vacancyResponses/resetItem');
+      store.commit('vacancyResponses/setFormValue', vacancy.value.formPattern);
+      vacancyResponse.value.formValue.initFieldsValues();
+      store.commit('vacancyResponses/setVacancy', vacancy.value);
+      store.commit('vacancyResponses/setUser', user.value);
+      await findEmail();
+      mounted.value = true;
+    });
 
     return {
       user,
       isAuth,
-      vacancyResponseForm,
+      form,
       rules,
       mounted,
-      documentsTypes,
-      sendResponse,
+      submit,
       vacancyResponse,
       filter,
+      findEmail,
+      emailExists,
     };
   },
 });
@@ -181,10 +148,6 @@ export default defineComponent({
 
 :deep(.el-select) {
   width: 100%;
-}
-
-:deep(.el-form-item) {
-  margin-left: 20px;
 }
 
 .response {

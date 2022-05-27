@@ -14,6 +14,7 @@ export const getDefaultState = (): State => {
     vacancies: [],
     vacancy: new Vacancy(),
     vacancyResponse: new VacancyResponse(),
+    count: 0,
   };
 };
 

@@ -5,4 +5,5 @@ export interface State {
   vacancies: IVacancy[];
   vacancy: IVacancy;
   vacancyResponse: IVacancyResponse;
+  count: number;
 }

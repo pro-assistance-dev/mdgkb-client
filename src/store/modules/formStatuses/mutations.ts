@@ -32,6 +32,9 @@ const mutations: MutationTree<State> = {
   resetItem(state) {
     state.item = new FormStatus();
   },
+  setGroupId(state, id: string) {
+    state.item.formStatusGroupId = id;
+  },
 };
 
 export default mutations;

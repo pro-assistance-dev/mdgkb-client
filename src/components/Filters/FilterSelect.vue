@@ -1,20 +1,11 @@
 <template>
-  <div class="filter-form">
-    <el-form :gutter="12" label-position="top">
-      <el-form-item>
-        <el-select
-          v-model="filterModel.value1"
-          :filterable="filterable"
-          clearable
-          :placeholder="placeholder"
-          round
-          @change="addFilterModel"
-        >
-          <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
-        </el-select>
-      </el-form-item>
-    </el-form>
-  </div>
+  <el-form :gutter="12" label-position="top" :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
+    <el-form-item>
+      <el-select v-model="filterModel.value1" :filterable="filterable" clearable :placeholder="placeholder" round @change="addFilterModel">
+        <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
+      </el-select>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script lang="ts">
@@ -78,6 +69,10 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       default: true,
     },
+    maxWidth: {
+      type: [Number, String],
+      default: 250,
+    },
   },
   emits: ['load'],
   setup(props, { emit }) {
@@ -136,7 +131,7 @@ export default defineComponent({
   border-radius: 20px;
   padding-left: 25px;
   height: 34px;
-  width: 100%;
+  // width: 100%;
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
@@ -161,7 +156,16 @@ export default defineComponent({
   top: -2px;
 }
 
-.filter-form {
+:deep(.el-form-item) {
+  padding: 10px;
+  margin: 0;
+}
+
+.el-form {
   width: 100%;
 }
+
+// .filter-form {
+// width: 100%;
+// }
 </style>

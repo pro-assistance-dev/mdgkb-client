@@ -9,6 +9,10 @@ import { State } from './state';
 const httpClient = new HttpClient('vacancy-responses');
 
 const actions: ActionTree<State, RootState> = {
+  get: async ({ commit }, id: string): Promise<void> => {
+    const res = await httpClient.get<IVacancyResponse>({ query: `${id}` });
+    commit('set', res);
+  },
   create: async (_, item: IVacancyResponse): Promise<void> => {
     await httpClient.post<IVacancyResponse, IVacancyResponse>({
       payload: item,
@@ -16,18 +20,26 @@ const actions: ActionTree<State, RootState> = {
       isFormData: true,
     });
   },
-  update: async ({ commit }, vacancyResponse: IVacancyResponse): Promise<void> => {
+  update: async (_, item: IVacancyResponse): Promise<void> => {
     await httpClient.put<IVacancyResponse, IVacancyResponse>({
-      query: `${vacancyResponse.id}`,
-      payload: vacancyResponse,
+      query: `${item.id}`,
+      fileInfos: item.getFileInfos(),
+      payload: item,
+      isFormData: true,
     });
-    commit('set');
   },
   pdf: async (_, id: string): Promise<void> => {
     await httpClient.get<IVacancyResponse>({
       query: `pdf/${id}`,
       isBlob: true,
     });
+  },
+  emailExists: async ({ state, commit }, vacancyId): Promise<void> => {
+    if (state.item.formValue.user.email.length < 3) {
+      return;
+    }
+    const res = await httpClient.get<boolean>({ query: `email-exists/${state.item.formValue.user.email}/${vacancyId}` });
+    commit('setEmailExists', res);
   },
 };
 

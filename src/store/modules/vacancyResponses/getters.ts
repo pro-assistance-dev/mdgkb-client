@@ -6,8 +6,11 @@ import RootState from '@/store/types';
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  vacancyResponse(state): IVacancyResponse {
-    return state.vacancyResponse;
+  item(state): IVacancyResponse {
+    return state.item;
+  },
+  emailExists(state): boolean {
+    return state.emailExists;
   },
 };
 

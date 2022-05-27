@@ -1,8 +1,6 @@
 <template>
   <div v-if="!allLoaded" class="load-more">
-    <el-row class="mb-4">
-      <el-button round @click="$emit('loadMore')">Загрузить еще</el-button>
-    </el-row>
+    <el-button round @click="$emit('loadMore')">Показать еще</el-button>
   </div>
 </template>
 
@@ -27,17 +25,19 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .load-more {
-  margin: 50px 0 50px 0;
+  margin: 20px 0;
   text-align: center;
 }
-
 :deep(.el-button) {
-  background-color: #2754eb;
-  color: #ffffff;
+  letter-spacing: 1.1px;
+  background-color: inherit;
+  color: #133dcc;
+  border-color: #133dcc;
 }
 
 :deep(.el-button:hover) {
   background-color: #133dcc;
-  color: #ffffff;
+  color: white;
+  border-color: white;
 }
 </style>

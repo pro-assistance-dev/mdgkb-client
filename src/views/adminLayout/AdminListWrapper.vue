@@ -52,18 +52,21 @@ export default defineComponent({
   height: 100%;
   &-main {
     flex-shrink: 1;
-    margin: 0 5px;
+    margin: 10px 5px;
     padding: 0 5px;
     overflow: hidden;
     height: 100%;
   }
   .filters {
-    margin: 10px;
+    margin: 10px 10px 0 10px;
     display: flex;
     align-items: center;
     :deep(.el-form-item),
     :deep(.el-form-item__content) {
       margin: 0;
+    }
+    &:empty {
+      display: none;
     }
   }
   ::-webkit-scrollbar {

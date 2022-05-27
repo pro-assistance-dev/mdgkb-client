@@ -5,6 +5,7 @@ import ICandidateApplication from './ICandidateApplication';
 import IDpoApplication from './IDpoApplication';
 import IFieldValue from './IFieldValue';
 import IFormStatus from './IFormStatus';
+import IFormStatusGroup from './IFormStatusGroup';
 import IPostgraduateApplication from './IPostgraduateApplication';
 import IResidencyApplication from './IResidencyApplication';
 import IUser from './IUser';
@@ -27,6 +28,10 @@ export default interface IForm {
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
   residencyApplication?: IResidencyApplication;
+  defaultFormStatus?: IFormStatus;
+  defaultFormStatusId?: string;
+  formStatusGroup?: IFormStatusGroup;
+  formStatusGroupId?: string;
 
   addField: (field?: IField) => void;
   removeField: (index: number) => void;
@@ -42,7 +47,7 @@ export default interface IForm {
   isFieldValuesModChecked: () => boolean;
   haveModComments: () => boolean;
   changeFieldValuesModChecked: (modChecked: boolean) => void;
-  setNewStatus: (statuses: IFormStatus[]) => void;
+  // setNewStatus: (statuses: IFormStatus[]) => void;
   setCpecifyStatus: (statuses: IFormStatus[]) => void;
   setStatus: (status: IFormStatus, statuses: IFormStatus[]) => void;
 }

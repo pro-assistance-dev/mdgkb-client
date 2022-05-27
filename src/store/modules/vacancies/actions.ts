@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IVacanciesWithCount from '@/interfaces/IVacanciesWithCount ';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
@@ -12,12 +13,16 @@ const httpClient = new HttpClient('vacancies');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IVacancy[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    const item = await httpClient.get<IVacanciesWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
+    console.log(item);
+    if (filterQuery) {
+      filterQuery.setAllLoaded(item ? item.vacancies.length : 0);
+    }
     if (filterQuery && filterQuery.pagination.cursorMode) {
-      commit('appendToAll', items);
+      commit('appendToAll', item);
       return;
     }
-    commit('setAll', items);
+    commit('setAllWithCount', item);
   },
   getAllWithResponses: async ({ commit }): Promise<void> => {
     commit(
@@ -38,6 +43,8 @@ const actions: ActionTree<State, RootState> = {
   create: async ({ commit }, vacancy: IVacancy): Promise<void> => {
     await httpClient.post<IVacancy, IVacancy>({
       payload: vacancy,
+      isFormData: true,
+      fileInfos: vacancy.formPattern?.getFileInfos(),
     });
     commit('set');
   },
@@ -53,6 +60,8 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.put<IVacancy, IVacancy>({
       query: `${vacancy.id}`,
       payload: vacancy,
+      isFormData: true,
+      fileInfos: vacancy.formPattern?.getFileInfos(),
     });
     commit('set');
   },

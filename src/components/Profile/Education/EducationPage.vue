@@ -326,7 +326,7 @@ export default defineComponent({
     };
 
     const updateFormStatus = async (formValue: IForm, status: IFormStatus) => {
-      if (status.isSpecify()) {
+      if (status.isClarified()) {
         router.push(`/profile/education/applications/${formValue.id}`);
         return;
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div v-if="mounted" class="page-container">
     <div class="card-item">
       <div class="vacancy-block">
         <div class="vacancy-title">{{ vacancy.title }}</div>
@@ -39,20 +39,12 @@
         </div>
       </div>
       <div class="vacancy-footer">
-        <button @click="openRespondForm">Откликнуться</button>
+        <button class="btn" @click="openRespondForm">Откликнуться</button>
       </div>
     </div>
-    <div v-if="showForm" id="vacancy-form">
-      <div class="header-block">
-        <div class="vacancy-title vacancy-block">Форма для отклика</div>
-        <div class="register-button">
-          <h5 class="reg-h5"><i>*для доступа ко всем возможностям</i></h5>
-          <div v-if="!isAuth" class="register-child">
-            <button class="register" @click="register">зарегистрируйтесь</button>
-          </div>
-        </div>
-      </div>
-      <VacancyResponseForm :vacancy-id="vacancy.id" />
+    <div v-if="showForm" id="vacancy-form" class="card-item">
+      <div class="vacancy-title">Форма для подачи заявления</div>
+      <VacancyResponseForm @close="closeRespondForm" />
     </div>
   </div>
 </template>
@@ -76,18 +68,25 @@ export default defineComponent({
     const route = useRoute();
     const showForm: Ref<boolean> = ref(false);
     const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/vacancy']);
+    const mounted: Ref<boolean> = ref(false);
 
-    const showFormFunc = () => {
+    const showFormFunc = async () => {
       showForm.value = true;
     };
 
-    const openRespondForm = () => {
-      showFormFunc();
+    const openRespondForm = async () => {
+      await showFormFunc();
       scroll('#vacancy-form');
+    };
+
+    const closeRespondForm = () => {
+      showForm.value = false;
+      scroll();
     };
 
     onBeforeMount(async () => {
       await store.dispatch('vacancies/getBySlug', route.params['slug']);
+      mounted.value = true;
       if (route.query.respondForm) {
         openRespondForm();
       }
@@ -100,6 +99,8 @@ export default defineComponent({
       openRespondForm,
       showForm,
       register,
+      closeRespondForm,
+      mounted,
     };
   },
 });
@@ -135,7 +136,7 @@ export default defineComponent({
 :deep(.card-item) {
   font-weight: 16px;
   margin-bottom: 20px;
-  button {
+  .btn {
     border-radius: 20px;
     background-color: #31af5e;
     padding: 10px 20px;

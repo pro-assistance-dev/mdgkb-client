@@ -1,6 +1,6 @@
 <template>
   <div class="mobile-container">
-    <el-table :data="showModComments ? formValue.getFieldsWithModComemnts() : formValue.fields">
+    <el-table :data="formValue.fields">
       <el-table-column label="">
         <template #default="scope">
           {{ scope.row.name }}<br /><br />
@@ -9,28 +9,28 @@
           <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
             {{ scope.row.file.originalName }}
           </a>
-          <h4 v-if="scope.row.id.modComment">Замечания:</h4>
-          {{ form.findFieldValue(scope.row.id).modComment }}
+          <h4 v-if="showModComments">Замечания:</h4>
+          {{ form.findFieldValue(scope.row.id)?.modComment }}
         </template>
       </el-table-column>
     </el-table>
   </div>
 
   <div class="table-container">
-    <el-table :data="showModComments ? formValue.getFieldsWithModComemnts() : formValue.fields">
-      <el-table-column label="Наименование">
+    <el-table :data="formValue.fields">
+      <el-table-column label="Наименование" min-width="300">
         <template #default="scope">
           {{ scope.row.name }}
         </template>
       </el-table-column>
 
-      <el-table-column label="Данные">
+      <el-table-column label="Данные" min-width="300">
         <template #default="scope">
           <FieldValuesFormItem :form="formValue" :field="scope.row" />
         </template>
       </el-table-column>
 
-      <el-table-column label="Образец" sortable>
+      <el-table-column label="Образец" min-width="200">
         <template #default="scope">
           <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
             {{ scope.row.file.originalName }}
@@ -39,7 +39,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Замечания" width="200px">
+      <el-table-column v-if="showModComments" label="Замечания" width="200px">
         <template #default="scope">
           {{ form.findFieldValue(scope.row.id).modComment }}
         </template>
@@ -78,8 +78,8 @@ export default defineComponent({
     onBeforeMount(async () => {
       formValue.value = props.form;
       await store.dispatch('formStatuses/getAll');
-      if (!formValue.value.formStatus.label) {
-        formValue.value.setNewStatus(formStatuses.value);
+      if (!formValue.value.formStatus.label && formValue.value.defaultFormStatus) {
+        formValue.value.setStatus(formValue.value.defaultFormStatus, formStatuses.value);
       }
       if (props.showModComments) {
         formValue.value.fields = formValue.value.fields.filter((el: IField) => {

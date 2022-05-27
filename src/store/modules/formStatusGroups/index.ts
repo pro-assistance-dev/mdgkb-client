@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import VacancyResponse from '@/classes/VacancyResponse';
+import FormStatusGroup from '@/classes/FormStatusGroup';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,15 +11,17 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new VacancyResponse(),
-    emailExists: false,
+    item: new FormStatusGroup(),
+    count: 0,
+    showDialog: false,
+    dialogTitle: '',
   };
 };
 
 const state = getDefaultState();
 const namespaced = true;
 
-export const vacancyResponses: Module<State, RootState> = {
+export const formStatusGroups: Module<State, RootState> = {
   namespaced,
   state,
   getters,

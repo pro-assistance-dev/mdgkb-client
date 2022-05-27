@@ -1,6 +1,6 @@
 <template>
-  <el-form v-if="mounted">
-    <el-form-item>
+  <el-form v-if="mounted" :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
+    <el-form-item :label="showLabel && labelName">
       <el-select v-model="sortModel" value-key="label" :clearable="!defaultSortOn" :placeholder="sortModel.label" @change="setSort">
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item" />
       </el-select>
@@ -26,6 +26,18 @@ export default defineComponent({
     storeMode: {
       type: Boolean as PropType<boolean>,
       default: true,
+    },
+    showLabel: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+    labelName: {
+      type: String,
+      default: 'Сортировать',
+    },
+    maxWidth: {
+      type: [Number, String],
+      default: 300,
     },
   },
   emits: ['load'],
@@ -121,7 +133,7 @@ export default defineComponent({
   border-radius: 20px;
   padding-left: 25px;
   height: 34px;
-  width: 100%;
+  // width: 100%;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 15px;
@@ -147,6 +159,7 @@ export default defineComponent({
 }
 
 :deep(.el-form-item) {
-  margin-bottom: 0px;
+  padding: 10px;
+  margin: 0;
 }
 </style>

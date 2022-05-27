@@ -14,5 +14,6 @@ export default interface IFilterQuery {
 
   toUrl: () => string;
   setAllLoaded: (loadedItemsLength: number) => void;
+  resetAllLoaded: () => void;
   setParams: (col: string, value: string) => void;
 }

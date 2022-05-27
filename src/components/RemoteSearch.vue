@@ -1,5 +1,5 @@
 <template>
-  <el-form @submit.prevent="onEnter">
+  <el-form :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }" @submit.prevent="onEnter">
     <el-form-item style="margin: 0">
       <el-autocomplete
         ref="searchForm"
@@ -11,7 +11,11 @@
         :trigger-on-focus="showSuggestions"
         @select="handleSelect"
         @input="handleInput"
-      />
+      >
+        <template #suffix>
+          <i class="el-icon-search"> </i>
+        </template>
+      </el-autocomplete>
     </el-form-item>
   </el-form>
 </template>
@@ -62,6 +66,10 @@ export default defineComponent({
     mustBeTranslated: {
       type: Boolean as PropType<boolean>,
       default: true,
+    },
+    maxWidth: {
+      type: [Number, String],
+      default: 300,
     },
   },
   emits: ['select', 'load', 'input'],
@@ -158,7 +166,7 @@ $margin: 20px 0;
   border-radius: 20px;
   padding-left: 25px;
   height: 34px;
-  width: 100%;
+  // width: 100%;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 15px;
@@ -168,7 +176,16 @@ $margin: 20px 0;
   top: -2px;
 }
 
+:deep(.el-form-item) {
+  padding: 10px;
+  margin: 0;
+}
+
 .el-form {
   width: 100%;
+}
+
+.el-icon-search {
+  margin-right: 5px;
 }
 </style>

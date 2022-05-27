@@ -1,8 +1,10 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import { FormStatusNames } from '@/interfaces/FormStatusNames';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 
 import FileInfo from './File/FileInfo';
+import FormStatusGroup from './FormStatusGroup';
 import FormStatusToFormStatus from './FormStatusToFormStatus';
 
 export default class FormStatus implements IFormStatus {
@@ -16,9 +18,10 @@ export default class FormStatus implements IFormStatus {
   isEditable = false;
   formStatusToFormStatuses: IFormStatusToFormStatus[] = [];
   formStatusToFormStatusesForDelete: string[] = [];
-
   icon = new FileInfo();
   iconId?: string;
+  formStatusGroup = new FormStatusGroup();
+  formStatusGroupId?: string;
 
   constructor(formStatus?: IFormStatus) {
     if (!formStatus) {
@@ -41,26 +44,26 @@ export default class FormStatus implements IFormStatus {
       this.icon = new FileInfo(formStatus.icon);
     }
     this.iconId = formStatus.iconId;
+    if (formStatus.formStatusGroup) {
+      this.formStatusGroup = new FormStatusGroup(formStatus.formStatusGroup);
+    }
+    this.formStatusGroupId = formStatus.formStatusGroupId;
   }
 
-  isNew(): boolean {
-    return this.label.toLocaleLowerCase() === 'новое';
+  isClarified(): boolean {
+    return this.name === FormStatusNames.Clarified;
   }
 
-  isSpecify(): boolean {
-    return this.label.toLocaleLowerCase() === 'уточнено';
-  }
-
-  isEnlisted(): boolean {
-    return this.label.toLocaleLowerCase() === 'зачислено';
+  isAccepted(): boolean {
+    return this.name === FormStatusNames.Accepted;
   }
 
   isConsidering(): boolean {
-    return this.label.toLocaleLowerCase() === 'принято к рассмотрению';
+    return this.name === FormStatusNames.Considering;
   }
 
-  isSpecifyRequired(): boolean {
-    return this.label.toLocaleLowerCase() === 'требует уточнения';
+  isClarifyRequired(): boolean {
+    return this.name === FormStatusNames.ClarifyRequired;
   }
 
   getFileInfos(): IFileInfo[] {

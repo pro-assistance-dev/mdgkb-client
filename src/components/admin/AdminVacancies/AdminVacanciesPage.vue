@@ -44,13 +44,18 @@
           <el-form-item label-width="100px" label="Дата добавления вакансии">
             <el-date-picker v-model="vacancy.date" type="date" format="DD.MM.YYYY" placeholder="Выберите дату" />
           </el-form-item>
+          <el-form-item label="Шаблон формы">
+            <el-select v-model="vacancy.formPattern" value-key="id" placeholder="Шаблон формы">
+              <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
+            </el-select>
+          </el-form-item>
         </el-card>
 
         <el-card>
           <template #header>
             <CardHeader :label="'Отклики'" :add-button="false" />
           </template>
-          <AdminVacanciesPageResponses :vacancy-responses="vacancy.vacancyResponses" />
+          <AdminVacanciesPageResponses :vacancy-responses="vacancy.vacancyResponses" :vacancy="vacancy" />
         </el-card>
       </el-container>
     </el-form>
@@ -60,13 +65,14 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import AdminVacanciesPageResponses from '@/components/admin/AdminVacancies/AdminVacanciesPageResponses.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
+import IForm from '@/interfaces/IForm';
 import IVacancy from '@/interfaces/IVacancy';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
@@ -82,6 +88,7 @@ export default defineComponent({
     const vacancy: Ref<IVacancy> = computed<IVacancy>(() => Provider.store.getters['vacancies/vacancy']);
     const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => Provider.store.getters['divisions/divisions']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+    const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);
 
     const load = async () => {
       await Provider.store.dispatch('divisions/getAll');
@@ -90,10 +97,11 @@ export default defineComponent({
         Provider.store.commit('admin/setHeaderParams', { title: vacancy.value.title, showBackButton: true, buttons: [{ action: submit }] });
       } else {
         Provider.store.commit('vacancies/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить меню', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить вакансию', showBackButton: true, buttons: [{ action: submit }] });
       }
       await Provider.store.dispatch('documentTypes/getDocumentsTypesForTables');
       await Provider.store.dispatch('documentTypes/getAll');
+      await Provider.store.dispatch('formPatterns/getAll');
 
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(vacancy, formUpdated, { deep: true });
@@ -128,6 +136,7 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       sortList: Provider.sortList,
+      formPatterns,
     };
   },
 });

@@ -2,6 +2,7 @@ import { GetterTree } from 'vuex';
 
 import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
+import ISearchQuery from '@/interfaces/ISearchQuery';
 import UserService from '@/services/User';
 import RootState from '@/store/types';
 
@@ -26,6 +27,9 @@ const getters: GetterTree<State, RootState> = {
       return [];
     }
     return state.menus;
+  },
+  adminMenus(state): ISearchQuery[] {
+    return state.adminMenus;
   },
 };
 
