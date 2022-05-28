@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <ResidencyCoursesList v-if="mode === 'programs'" />
+    <ResidencyCoursesList v-if="mode === 'programs'" :free-programs="false" />
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
     <ResidencyContacts v-if="mode === 'contacts'" />
   </div>

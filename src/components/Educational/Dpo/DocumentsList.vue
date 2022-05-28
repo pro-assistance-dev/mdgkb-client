@@ -1,5 +1,5 @@
 <template>
-  <div class="table-container">
+  <div v-if="documents.length" class="table-container">
     <table class="table-list">
       <colgroup>
         <col width="5%" />

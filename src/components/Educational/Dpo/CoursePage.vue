@@ -365,6 +365,9 @@ h4 {
 
 .right-block {
   width: 100%;
+  .card-item {
+    margin-bottom: 20px;
+  }
 }
 
 .article-body {

@@ -58,22 +58,22 @@
       <table class="table-list">
         <colgroup>
           <col width="7%" />
-          <col width="48%" />
-          <col width="10%" />
+          <col width="38%" />
+          <col width="20%" />
           <col width="20%" />
           <col width="15%" />
         </colgroup>
         <thead>
-          <th><h4>КОД</h4></th>
+          <th style="text-align: center"><h4>КОД</h4></th>
           <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
-          <th><h4>ГОДЫ</h4></th>
-          <!--          <th><h4>БЕСПЛАТНЫЕ МЕСТА</h4></th>-->
-          <th><h4>ВАКАНТНЫЕ МЕСТА НА ПЛАТНОЙ ОСНОВЕ</h4></th>
-          <th><h4>СТОИМОСТЬ</h4></th>
+          <th style="text-align: center"><h4>ГОДЫ</h4></th>
+          <th v-if="freePrograms" style="text-align: center"><h4>БЕСПЛАТНЫЕ МЕСТА</h4></th>
+          <th v-if="paidPrograms" style="text-align: center"><h4>ВАКАНТНЫЕ МЕСТА НА ПЛАТНОЙ ОСНОВЕ</h4></th>
+          <th style="text-align: center"><h4>СТОИМОСТЬ</h4></th>
         </thead>
         <tbody>
           <tr v-for="residencyCourse in residencyCourses" :key="residencyCourse.id">
-            <td>
+            <td style="text-align: center">
               {{ residencyCourse.getMainSpecialization().code }}
             </td>
             <td>
@@ -87,16 +87,16 @@
                 Подать заявку
               </button>
             </td>
-            <td>
+            <td style="text-align: center">
               {{ residencyCourse.getPeriod() }}
             </td>
-            <!--            <td>-->
-            <!--              {{ residencyCourse.freePlaces }}-->
-            <!--            </td>-->
-            <td>
+            <td v-if="freePrograms" style="text-align: center">
+              {{ residencyCourse.freePlaces }}
+            </td>
+            <td v-if="paidPrograms" style="text-align: center">
               {{ residencyCourse.paidPlaces }}
             </td>
-            <td>
+            <td style="text-align: center">
               {{ residencyCourse.cost }}
             </td>
           </tr>
@@ -114,6 +114,17 @@ import buildNameNumbers from '@/mixins/buildNameNumbers';
 import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'ResidencyCoursesList',
+
+  props: {
+    paidPrograms: {
+      type: Boolean,
+      default: true,
+    },
+    freePrograms: {
+      type: Boolean,
+      default: true,
+    },
+  },
 
   setup() {
     const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);

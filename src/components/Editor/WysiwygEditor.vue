@@ -47,6 +47,7 @@ export default defineComponent({
       default: '',
     },
   },
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const editor = new Editor({
       extensions: [
