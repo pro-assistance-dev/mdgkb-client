@@ -23,22 +23,23 @@ const actions: ActionTree<State, RootState> = {
     commit('setAll', items);
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IAdmissionCommitteeDocumentType[]>({ query: `${id}` });
+    const res = await httpClient.get<IAdmissionCommitteeDocumentType>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ state }): Promise<void> => {
-    await httpClient.post<IAdmissionCommitteeDocumentType[], IAdmissionCommitteeDocumentType[]>({
-      payload: state.items,
+  create: async (_, item: IAdmissionCommitteeDocumentType): Promise<void> => {
+    await httpClient.post<IAdmissionCommitteeDocumentType, IAdmissionCommitteeDocumentType>({
+      payload: item,
       isFormData: true,
-      fileInfos: state.item.getFileInfos(),
+      fileInfos: item.getFileInfos(),
     });
   },
-  update: async ({ state, commit }): Promise<void> => {
+  updateAll: async ({ state, commit }): Promise<void> => {
     const fileInfos: IFileInfo[] = [];
     state.items.forEach((docType: IAdmissionCommitteeDocumentType) => {
       fileInfos.push(...docType.getFileInfos());
     });
     const res = await httpClient.put<unknown, any>({
+      query: 'many',
       payload: {
         admissionCommitteeDocumentTypes: state.items,
         admissionCommitteeDocumentTypesForDelete: state.itemsForDelete,
@@ -47,6 +48,22 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: fileInfos,
     });
     commit('setAll', res.admissionCommitteeDocumentTypes);
+  },
+  updateOrder: async ({ state }): Promise<void> => {
+    await httpClient.put<IAdmissionCommitteeDocumentType[], IAdmissionCommitteeDocumentType[]>({
+      query: 'order',
+      payload: state.items,
+      isFormData: true,
+    });
+  },
+  update: async ({ commit }, item: IAdmissionCommitteeDocumentType): Promise<void> => {
+    await httpClient.put<IAdmissionCommitteeDocumentType, IAdmissionCommitteeDocumentType>({
+      query: `${item.id}`,
+      payload: item,
+      isFormData: true,
+      fileInfos: item.getFileInfos(),
+    });
+    commit('set');
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

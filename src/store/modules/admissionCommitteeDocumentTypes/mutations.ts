@@ -23,6 +23,11 @@ const mutations: MutationTree<State> = {
   resetItem(state) {
     state.item = new AdmissionCommitteeDocumentType();
   },
+  setDefaultOder(state) {
+    if (state.items.length) {
+      state.item.order = state.items.length - 1;
+    }
+  },
 };
 
 export default mutations;

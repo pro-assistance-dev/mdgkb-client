@@ -37,6 +37,7 @@ export default defineComponent({
   top: 0;
   left: 0;
   z-index: 2;
+  border-bottom: 1px solid #ebeef5;
 }
 :deep(.el-table__body-wrapper) {
   height: 100% !important;
