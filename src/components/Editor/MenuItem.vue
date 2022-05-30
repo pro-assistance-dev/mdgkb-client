@@ -1,8 +1,9 @@
 <template>
-  <button type="button" class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action">
-    <!--    <i :class="`ri-${icon}-line`"></i>-->
-    <component :is="require(`vue-remix-icons/icons/ri-${icon}.js`).default" v-if="icon" />
-  </button>
+  <el-tooltip class="box-item" effect="dark" :content="title" placement="top-start">
+    <button type="button" class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action">
+      <component :is="require(`vue-remix-icons/icons/ri-${icon}.js`).default" v-if="icon" />
+    </button>
+  </el-tooltip>
 </template>
 
 <script lang="ts">
@@ -52,6 +53,7 @@ export default defineComponent({
   border-radius: 0.4rem;
   padding: 0.25rem;
   margin-right: 0.25rem;
+  cursor: pointer;
 
   svg {
     width: 100%;

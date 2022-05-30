@@ -1,0 +1,31 @@
+.editor-table {
+  width: 100%;
+  border: none;
+  margin-bottom: 20px;
+  border-collapse: separate;
+  line-height: 1.1;
+  p {
+    margin: 5px 0;
+  }
+  tbody tr:first-child td {
+    // font-weight: bold;
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    background: #ededed;
+    font-size: 14px;
+  }
+  tbody td {
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) {
+    background: #f8f8f8;
+  }
+  tbody tr:hover {
+    background-color: #ecf5ff;
+  }
+}

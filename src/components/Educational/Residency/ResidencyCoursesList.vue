@@ -175,38 +175,38 @@ export default defineComponent({
   background: #ffffff;
 }
 
-table {
+.table-list {
   height: auto;
   border-collapse: collapse;
   width: 100%;
-}
 
-td,
-th {
-  border-bottom: 1px solid #dcdfe6;
-  padding: 9px 7px 9px 7px;
-  height: auto;
-  position: sticky;
-}
+  td,
+  th {
+    border-bottom: 1px solid #dcdfe6;
+    padding: 9px 7px 9px 7px;
+    height: auto;
+    position: sticky;
+  }
 
-th {
-  text-align: left;
-  padding: 2px 0 0 3px;
-  background-color: #eff2f6;
-  height: 20px;
-}
+  th {
+    text-align: left;
+    padding: 2px 0 0 3px;
+    background-color: #eff2f6;
+    height: 20px;
+  }
 
-th:first-child {
-  border-radius: 5px 0 0 0;
-}
+  th:first-child {
+    border-radius: 5px 0 0 0;
+  }
 
-th:last-child {
-  border-radius: 0 5px 0 0;
-}
+  th:last-child {
+    border-radius: 0 5px 0 0;
+  }
 
-tr {
-  &:hover {
-    background-color: #ecf5ff;
+  tr {
+    &:hover {
+      background-color: #ecf5ff;
+    }
   }
 }
 

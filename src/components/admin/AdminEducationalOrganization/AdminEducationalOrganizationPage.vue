@@ -126,7 +126,7 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
@@ -152,7 +152,6 @@ export default defineComponent({
     const store = useStore();
     const form = ref();
     const storeModule = 'educationalOrganization';
-    const router = useRouter();
 
     const educationalOrganisation: Ref<IEducationalOrganization> = computed(
       () => store.getters['educationalOrganization/educationalOrganization']

@@ -2,7 +2,7 @@
   <div>
     <template v-for="(item, index) in items">
       <div v-if="item.type === 'divider'" :key="`divider${index}`" class="divider" />
-      <MenuItem v-else :key="index" v-bind="item" :action="item.action" :icon="item.icon" />
+      <MenuItem v-else :key="index" v-bind="item" :action="item.action" :icon="item.icon" :title="item.title" />
     </template>
   </div>
 </template>
@@ -15,6 +15,7 @@ import IEditorMenuItem from '@/interfaces/IEditorMenuItem';
 import MenuItem from './MenuItem.vue';
 
 export default defineComponent({
+  name: 'MenuBar',
   components: {
     MenuItem,
   },
@@ -28,31 +29,37 @@ export default defineComponent({
     const items: IEditorMenuItem[] = [
       {
         icon: 'bold',
-        title: 'Bold',
+        title: 'Полужирный',
         action: () => props.editor.chain().focus().toggleBold().run(),
         isActive: () => props.editor.isActive('bold'),
       },
       {
         icon: 'italic',
-        title: 'Italic',
+        title: 'Курсив',
         action: () => props.editor.chain().focus().toggleItalic().run(),
         isActive: () => props.editor.isActive('italic'),
       },
       {
+        icon: 'underline',
+        title: 'Подчеркнутый',
+        action: () => props.editor.chain().focus().toggleUnderline().run(),
+        isActive: () => props.editor.isActive('underline'),
+      },
+      {
         icon: 'strikethrough',
-        title: 'Strike',
+        title: 'Зачеркнутый',
         action: () => props.editor.chain().focus().toggleStrike().run(),
         isActive: () => props.editor.isActive('strike'),
       },
       {
         icon: 'code-view',
-        title: 'Code',
+        title: 'Код',
         action: () => props.editor.chain().focus().toggleCode().run(),
         isActive: () => props.editor.isActive('code'),
       },
       {
         icon: 'mark-pen-line',
-        title: 'Highlight',
+        title: 'Выделить',
         action: () => props.editor.chain().focus().toggleHighlight().run(),
         isActive: () => props.editor.isActive('highlight'),
       },
@@ -61,43 +68,43 @@ export default defineComponent({
       },
       {
         icon: 'h-1',
-        title: 'Heading 1',
+        title: 'Заголовок 1',
         action: () => props.editor.chain().focus().toggleHeading({ level: 1 }).run(),
         isActive: () => props.editor.isActive('heading', { level: 1 }),
       },
       {
         icon: 'h-2',
-        title: 'Heading 2',
+        title: 'Заголовок 2',
         action: () => props.editor.chain().focus().toggleHeading({ level: 2 }).run(),
         isActive: () => props.editor.isActive('heading', { level: 2 }),
       },
       {
         icon: 'paragraph',
-        title: 'Paragraph',
+        title: 'Абзац',
         action: () => props.editor.chain().focus().setParagraph().run(),
         isActive: () => props.editor.isActive('paragraph'),
       },
       {
         icon: 'list-unordered',
-        title: 'Bullet List',
+        title: 'Маркированный список',
         action: () => props.editor.chain().focus().toggleBulletList().run(),
         isActive: () => props.editor.isActive('bulletList'),
       },
       {
         icon: 'list-ordered',
-        title: 'Ordered List',
+        title: 'Нумерованный список',
         action: () => props.editor.chain().focus().toggleOrderedList().run(),
         isActive: () => props.editor.isActive('orderedList'),
       },
       {
         icon: 'list-check-2',
-        title: 'Task List',
+        title: 'Маркированный список',
         action: () => props.editor.chain().focus().toggleTaskList().run(),
         isActive: () => props.editor.isActive('taskList'),
       },
       {
         icon: 'code-box-line',
-        title: 'Code Block',
+        title: 'Блок кода',
         action: () => props.editor.chain().focus().toggleCodeBlock().run(),
         isActive: () => props.editor.isActive('codeBlock'),
       },
@@ -106,13 +113,13 @@ export default defineComponent({
       },
       {
         icon: 'double-quotes-l',
-        title: 'Blockquote',
+        title: 'Цитата',
         action: () => props.editor.chain().focus().toggleBlockquote().run(),
         isActive: () => props.editor.isActive('blockquote'),
       },
       {
         icon: 'separator',
-        title: 'Horizontal Rule',
+        title: 'Горизонтальная линия',
         action: () => props.editor.chain().focus().setHorizontalRule().run(),
       },
       {
@@ -120,12 +127,12 @@ export default defineComponent({
       },
       {
         icon: 'text-wrap',
-        title: 'Hard Break',
+        title: 'Перенос на следующую строку',
         action: () => props.editor.chain().focus().setHardBreak().run(),
       },
       {
         icon: 'format-clear',
-        title: 'Clear Format',
+        title: 'Сброс стилей',
         action: () => props.editor.chain().focus().clearNodes().unsetAllMarks().run(),
       },
       {
@@ -133,12 +140,12 @@ export default defineComponent({
       },
       {
         icon: 'arrow-go-back-line',
-        title: 'Undo',
+        title: 'Назад',
         action: () => props.editor.chain().focus().undo().run(),
       },
       {
         icon: 'arrow-go-forward-line',
-        title: 'Redo',
+        title: 'Вперед',
         action: () => props.editor.chain().focus().redo().run(),
       },
       {
@@ -146,35 +153,73 @@ export default defineComponent({
       },
       {
         icon: 'layout-grid-line',
-        title: 'InsertTable',
+        title: 'Добавить таблицу',
         action: () => props.editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
       },
       {
         icon: 'split-cells-horizontal',
-        title: 'InsertTable',
+        title: 'Добавить колонку справа',
         action: () => props.editor.chain().focus().addColumnAfter().run(),
       },
       {
         icon: 'merge-cells-horizontal',
-        title: 'InsertTable',
+        title: 'Удалить колонку',
         action: () => props.editor.chain().focus().deleteColumn().run(),
       },
       {
         icon: 'split-cells-vertical',
-        title: 'InsertTable',
+        title: 'Добавить строку снизу',
         action: () => props.editor.chain().focus().addRowAfter().run(),
       },
       {
         icon: 'merge-cells-vertical',
-        title: 'InsertTable',
+        title: 'Удалить строку',
         action: () => props.editor.chain().focus().deleteRow().run(),
       },
       {
         icon: 'delete-bin-line',
-        title: 'DeleteTable',
+        title: 'Удалить таблицу',
         action: () => props.editor.chain().focus().deleteTable().run(),
       },
+      {
+        type: 'divider',
+      },
+      {
+        icon: 'image-add-line',
+        title: 'Добавить картинку',
+        action: () => addImage(),
+      },
+      {
+        icon: 'links-line',
+        title: 'Добавить ссылку',
+        action: () => setLink(),
+      },
     ];
+
+    const addImage = () => {
+      const url = window.prompt('URL');
+
+      if (url) {
+        props.editor.chain().focus().setImage({ src: url }).run();
+      }
+    };
+
+    const setLink = () => {
+      const previousUrl = props.editor.getAttributes('link').href;
+      const url = window.prompt('URL', previousUrl);
+      // cancelled
+      if (url === null) {
+        return;
+      }
+      // empty
+      if (url === '') {
+        props.editor.chain().focus().extendMarkRange('link').unsetLink().run();
+        return;
+      }
+      // update link
+      props.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+    };
+
     return { items };
   },
 });
