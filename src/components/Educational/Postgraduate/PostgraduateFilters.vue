@@ -59,7 +59,6 @@ export default defineComponent({
     RemoteSearch,
     // FilterSelect,
   },
-  emits: ['load', 'selectMode'],
   props: {
     mode: {
       type: String as PropType<string>,
@@ -72,6 +71,8 @@ export default defineComponent({
       default: () => [],
     },
   },
+  emits: ['load', 'selectMode'],
+
   setup(props, { emit }) {
     const store = useStore();
     const router = useRouter();

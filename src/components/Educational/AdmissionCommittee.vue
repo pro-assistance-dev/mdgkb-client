@@ -18,14 +18,20 @@
       </div>
     </div>
 
-    <div v-if="selectedDocumentType" class="content-container">
-      <div class="card-item">
-        <h2>{{ selectedDocumentType.name }}</h2>
-        <EditorContent :content="selectedDocumentType.description" />
+    <div style="width: 100%">
+      <div v-if="selectedDocumentType" class="content-container">
+        <div class="card-item">
+          <h2>{{ selectedDocumentType.name }}</h2>
+          <EditorContent :content="selectedDocumentType.description" />
+        </div>
+        <DocumentsList :documents="selectedDocumentType.documents" />
       </div>
-      <DocumentsList :documents="selectedDocumentType.documents" />
+      <ResidencyCoursesList
+        v-if="mode === 'freePrograms' || mode === 'paidPrograms'"
+        :paid-programs="mode === 'paidPrograms'"
+        :free-programs="mode === 'freePrograms'"
+      />
     </div>
-    <ResidencyCoursesList v-if="mode === 'freePrograms' || mode === 'paidPrograms'" />
   </div>
 </template>
 

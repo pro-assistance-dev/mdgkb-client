@@ -6,10 +6,16 @@
 </template>
 
 <script>
+import Highlight from '@tiptap/extension-highlight';
+import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
+import TaskItem from '@tiptap/extension-task-item';
+import TaskList from '@tiptap/extension-task-list';
+import Underline from '@tiptap/extension-underline';
 
 const CustomTableCell = TableCell.extend({
   addAttributes() {
@@ -47,6 +53,7 @@ export default defineComponent({
       default: '',
     },
   },
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
     const editor = new Editor({
       extensions: [
@@ -60,6 +67,20 @@ export default defineComponent({
         TableRow,
         TableHeader,
         CustomTableCell,
+        Link.configure({
+          HTMLAttributes: { target: '_blank' },
+          linkOnPaste: false,
+          openOnClick: true,
+        }),
+        Image,
+        TaskList,
+        TaskItem.configure({
+          nested: true,
+        }),
+        Underline,
+        Highlight.configure({
+          multicolor: true,
+        }),
       ],
       content: props.modelValue,
       onUpdate: () => {
@@ -163,6 +184,7 @@ export default defineComponent({
     width: 100%;
     margin: 0;
     overflow: hidden;
+    line-height: 1.5;
 
     td,
     th {
@@ -219,5 +241,27 @@ export default defineComponent({
 .resize-cursor {
   cursor: ew-resize;
   cursor: col-resize;
+}
+ul[data-type='taskList'] {
+  list-style: none;
+  padding: 0;
+
+  p {
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+
+    > label {
+      flex: 0 0 auto;
+      margin-right: 0.5rem;
+      user-select: none;
+    }
+
+    > div {
+      flex: 1 1 auto;
+    }
+  }
 }
 </style>

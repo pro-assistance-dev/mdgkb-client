@@ -6,48 +6,56 @@
           <el-form-item label="Название">
             <el-input v-model="vacancy.title" placeholder="Название"> </el-input>
           </el-form-item>
-          <el-form-item label="Активна">
-            <el-switch v-model="vacancy.active" />
-          </el-form-item>
-          <el-form-item label="Минимальная заработная плата">
-            <el-input-number v-model="vacancy.minSalary" placeholder="Минимальная заработная плата" />
-          </el-form-item>
-          <el-form-item label="Максимальная заработная плата">
-            <el-input-number v-model="vacancy.maxSalary" placeholder="Максимальная заработная плата" />
+          <div style="display: flex">
+            <div style="flex: 1">
+              <el-form-item label="Активна">
+                <el-switch v-model="vacancy.active" />
+              </el-form-item>
+              <el-form-item label="Минимальная заработная плата">
+                <el-input-number v-model="vacancy.minSalary" placeholder="Минимальная заработная плата" />
+              </el-form-item>
+              <el-form-item label="Максимальная заработная плата">
+                <el-input-number v-model="vacancy.maxSalary" placeholder="Максимальная заработная плата" />
+              </el-form-item>
+            </div>
+            <div style="flex: 1">
+              <el-form-item label="Отделение">
+                <el-select v-model="vacancy.divisionId" clearable>
+                  <el-option v-for="division in divisions" :key="division.id" :label="division.name" :value="division.id" />
+                </el-select>
+              </el-form-item>
+              <el-form-item label-width="100px" label="Дата добавления вакансии">
+                <el-date-picker v-model="vacancy.date" type="date" format="DD.MM.YYYY" placeholder="Выберите дату" />
+              </el-form-item>
+              <el-form-item label="Шаблон формы">
+                <el-select v-model="vacancy.formPattern" value-key="id" placeholder="Шаблон формы">
+                  <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </div>
+          <el-form-item label="Стаж">
+            <el-input v-model="vacancy.experience" placeholder="Стаж"> </el-input>
           </el-form-item>
           <el-form-item label="График работы">
             <el-input v-model="vacancy.schedule" placeholder="График работы"> </el-input>
           </el-form-item>
 
-          <el-form-item label="Должностные обязанности">
+          <el-form-item>
             <SortableInputsList
               :sortable-list="vacancy.vacancyDuties"
               :sortable-list-for-delete="vacancy.vacancyDutiesForDelete"
+              title="Должностные обязанности"
               @add-element="vacancy.addDuty()"
             />
           </el-form-item>
-          <el-form-item label="Требования к кандидату">
+          <el-form-item>
             <SortableInputsList
               :sortable-list="vacancy.vacancyRequirements"
               :sortable-list-for-delete="vacancy.vacancyRequirementsForDelete"
+              title="Требования к кандидату"
               @add-element="vacancy.addRequirement()"
             />
-          </el-form-item>
-          <el-form-item label="Стаж">
-            <el-input v-model="vacancy.experience" placeholder="Стаж"> </el-input>
-          </el-form-item>
-          <el-form-item label="Отделение">
-            <el-select v-model="vacancy.divisionId" clearable>
-              <el-option v-for="division in divisions" :key="division.id" :label="division.name" :value="division.id" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label-width="100px" label="Дата добавления вакансии">
-            <el-date-picker v-model="vacancy.date" type="date" format="DD.MM.YYYY" placeholder="Выберите дату" />
-          </el-form-item>
-          <el-form-item label="Шаблон формы">
-            <el-select v-model="vacancy.formPattern" value-key="id" placeholder="Шаблон формы">
-              <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
-            </el-select>
           </el-form-item>
         </el-card>
 

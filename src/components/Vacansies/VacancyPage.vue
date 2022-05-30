@@ -9,7 +9,10 @@
       </div>
       <div class="vacancy-block">
         <div v-if="vacancy.experience">
-          <b>Требуемый опыт работы:</b> <i class="experience">{{ vacancy.experience }}</i>
+          <b>Требуемый опыт работы:</b>
+          <div>
+            <i class="experience">{{ vacancy.experience }}</i>
+          </div>
         </div>
         <div v-if="vacancy.schedule" class="schedule-block">
           <div class="schedule-item"><b>График работы:</b></div>
@@ -44,6 +47,7 @@
     </div>
     <div v-if="showForm" id="vacancy-form" class="card-item">
       <div class="vacancy-title">Форма для подачи заявления</div>
+      <el-divider />
       <VacancyResponseForm @close="closeRespondForm" />
     </div>
   </div>
@@ -170,10 +174,14 @@ export default defineComponent({
   padding-bottom: 30px;
 }
 
-.vice-doctor-title {
+:deep(.vice-doctor-title) {
   display: block;
   width: auto;
   height: auto;
+  margin: 16px 0;
+  .item {
+    font-size: 16px;
+  }
 }
 
 :deep(.el-tag--plain) {
@@ -242,5 +250,8 @@ ul li:before {
   font-size: 10px;
   font-family: Roboto, Verdana, sans-serif;
   font-weight: normal;
+}
+ul {
+  padding-left: 10px;
 }
 </style>

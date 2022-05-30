@@ -1,14 +1,17 @@
 <template>
+  <div style="display: flex; width: 100%; justify-content: space-between; margin-bottom: 20px">
+    <div>{{ title }}</div>
+    <el-button type="success" @click="$emit('addElement')">Добавить</el-button>
+  </div>
   <draggable class="groups" :list="sortableList" item-key="id" handle=".drug-icon" @end="sort(sortableList)">
     <template #item="{ element, index }">
-      <div>
+      <div class="list-row">
         <i class="el-icon-s-grid drug-icon" />
         <el-input v-model="element.name" />
-        <el-button @click="removeFromClass(index, sortableList, sortableListForDelete)">Удалить</el-button>
+        <el-button icon="el-icon-delete" @click="removeFromClass(index, sortableList, sortableListForDelete)"></el-button>
       </div>
     </template>
   </draggable>
-  <el-button @click="$emit('addElement')">Добавить</el-button>
 </template>
 
 <script lang="ts">
@@ -21,7 +24,6 @@ import sort from '@/mixins/sort';
 export default defineComponent({
   name: 'SortableInputsList',
   components: { draggable },
-  emits: ['addElement'],
   props: {
     sortableList: {
       type: Array as PropType<IOrdered[]>,
@@ -31,7 +33,13 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
     },
+    title: {
+      type: String,
+      required: true,
+    },
   },
+  emits: ['addElement'],
+
   setup() {
     return {
       sort,
@@ -41,4 +49,16 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.list-row {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  .el-input {
+    margin: 0 10px;
+  }
+  .drug-icon {
+    cursor: pointer;
+  }
+}
+</style>
