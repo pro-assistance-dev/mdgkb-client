@@ -1,7 +1,13 @@
 <template>
   <PageWrapper v-if="mounted" :title="title">
     <template #filters>
-      <ResidencyFilters :condition="mode === 'programs' || mode === ''" :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
+      <ResidencyFilters
+        :condition="mode === 'programs' || mode === ''"
+        :modes="modes"
+        :mode="mode"
+        @selectMode="selectMode"
+        @load="loadCourses"
+      />
     </template>
     <ResidencyCoursesList v-if="mode === 'programs'" :free-programs="false" />
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
@@ -10,7 +16,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyContacts from '@/components/Educational/Residency/ResidencyContacts.vue';
@@ -18,15 +25,12 @@ import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCo
 import ResidencyFilters from '@/components/Educational/Residency/ResidencyFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import ISortModel from '@/interfaces/filters/ISortModel';
-import { Orders } from '@/interfaces/filters/Orders';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import IOption from '@/interfaces/schema/IOption';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 
 export default defineComponent({
@@ -40,13 +44,10 @@ export default defineComponent({
   },
 
   setup() {
-    const schemaGet: Ref<boolean> = ref(false);
-    const residencyDocumentTypes: Ref<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
+    const route = useRoute();
     const documentTypes: ComputedRef<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
-    const sortModels: Ref<ISortModel[]> = ref([]);
-    const mode: Ref<string> = ref('programs');
+    const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const modes: Ref<IOption[]> = ref([]);
     const title: ComputedRef<string> = computed(() => {
       let title = '';
@@ -63,29 +64,20 @@ export default defineComponent({
       return title;
     });
 
-    const selectMode = async (value: string) => {
-      if (value === mode.value) {
-        return;
+    watch(
+      () => route.query,
+      () => {
+        if (!route.query.mode) Provider.router.push({ query: { mode: 'programs' } });
       }
-      mode.value = value;
+    );
+
+    const selectMode = async (value: string) => {
       const documentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
       if (documentType) {
         selectedDocumentType.value = documentType.documentType;
       } else {
         selectedDocumentType.value = undefined;
       }
-    };
-
-    const createSortModels = (): ISortModel[] => {
-      const sortModels: ISortModel[] = [
-        ResidencyCoursesSortsLib.byName(Orders.Asc),
-        ResidencyCoursesSortsLib.byStartYear(Orders.Asc),
-        ResidencyCoursesSortsLib.byFreePlaces(Orders.Asc),
-        ResidencyCoursesSortsLib.byPaidPlaces(Orders.Asc),
-        ResidencyCoursesSortsLib.byCost(Orders.Asc),
-      ];
-      Provider.store.commit(`filter/addSortModels`, sortModels);
-      return sortModels;
     };
 
     const setModes = async () => {
@@ -99,22 +91,22 @@ export default defineComponent({
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 
-    const initLoad = async () => {
-      sortModels.value = createSortModels();
-      await setModes();
-      schemaGet.value = true;
-      Provider.setFilterModel(ResidencyCoursesFiltersLib.notThisYear());
-      Provider.store.commit('filter/setStoreModule', 'residencyCourses');
-      await load();
+    const loadCourses = async () => {
+      Provider.store.commit('residencyCourses/clearItems');
+      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
     };
-
-    Hooks.onBeforeMount(initLoad);
 
     const load = async () => {
-      Provider.store.commit(`filter/checkSortModels`);
-      filterQuery.value.pagination.cursorMode = false;
-      await Provider.store.dispatch('residencyCourses/getAll', filterQuery.value);
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 100;
+      Provider.setSortModels(ResidencyCoursesSortsLib.byName());
+      Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
+      await setModes();
+      await loadCourses();
+      await selectMode(mode.value);
     };
+
+    Hooks.onBeforeMount(load);
 
     return {
       modes,
@@ -123,10 +115,8 @@ export default defineComponent({
       selectMode,
       mounted: Provider.mounted,
       load,
-      schemaGet,
-      sortModels,
-      residencyDocumentTypes,
       title,
+      loadCourses,
     };
   },
 });

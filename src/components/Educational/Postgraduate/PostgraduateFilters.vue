@@ -1,5 +1,5 @@
 <template>
-  <FiltersWrapper v-if="mount">
+  <FiltersWrapper v-if="mounted" :header-right-max-width="350">
     <template v-if="condition" #header-left-top>
       <RemoteSearch
         :max-width="360"
@@ -8,7 +8,7 @@
         :col="schema.postgraduateCourse.name"
         placeholder="Начните вводить название специальности"
         @select="selectSearch"
-        @load="load"
+        @load="$emit('load')"
       />
       <!--        <FilterSelect-->
       <!--          placeholder="Выбрать специализацию"-->
@@ -22,22 +22,20 @@
       <!--          :join-table-pk="schema.dpoCourse.id"-->
       <!--          :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
       <!--          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
-      <!--          @load="load"-->
+      <!--          @load="$emit('load')"-->
       <!--        />-->
     </template>
     <template #header-right>
-      <ModeChoice :max-width="350" path="postgraduate" :modes="modes" @selectMode="selectMode" />
+      <ModeChoice :max-width="350" path="postgraduate" :modes="modes" @selectMode="(value) => $emit('selectMode', value)" />
     </template>
     <template v-if="condition" #footer>
-      <SortList :models="sortList" :store-mode="true" @load="load" />
+      <SortList :models="sortList" :store-mode="true" @load="$emit('load')" />
     </template>
   </FiltersWrapper>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { defineComponent, onBeforeMount, PropType } from 'vue';
 
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
@@ -45,11 +43,8 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import IDoctor from '@/interfaces/IDoctor';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IOption from '@/interfaces/schema/IOption';
-import ISchema from '@/interfaces/schema/ISchema';
 import Provider from '@/services/Provider';
 import TokenService from '@/services/Token';
 
@@ -80,54 +75,29 @@ export default defineComponent({
   },
   emits: ['load', 'selectMode'],
 
-  setup(props, { emit }) {
-    const store = useStore();
-    const router = useRouter();
-    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
-    const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
-    const mount = ref(false);
-
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-
+  setup() {
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/postgraduate-courses/${event.id}`);
+      await Provider.router.push(`/postgraduate-courses/${event.id}`);
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('meta/getOptions', schema.value.specialization);
-      mount.value = true;
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.specialization);
     });
-
-    onMounted(() => {
-      emit('load');
-    });
-
-    const load = () => {
-      emit('load');
-    };
 
     const resetFilter = () => {
-      store.commit(`filter/resetQueryFilter`);
-      store.commit('filter/setDefaultSortModel');
-    };
-
-    const selectMode = async (value: string) => {
-      emit('selectMode', value);
+      Provider.store.commit(`filter/resetQueryFilter`);
+      Provider.store.commit('filter/setDefaultSortModel');
     };
 
     return {
-      selectMode,
       resetFilter,
-      load,
       selectSearch,
       TokenService,
       Operators,
       DataTypes,
-      medicalProfiles,
-      schema,
-      doctors,
+      schema: Provider.schema,
       sortList: Provider.sortList,
-      mount,
+      mounted: Provider.mounted,
     };
   },
 });

@@ -6,7 +6,7 @@
         :modes="modes"
         :mode="mode"
         @selectMode="selectMode"
-        @load="load"
+        @load="loadCourses"
       />
     </template>
 
@@ -25,11 +25,9 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-import SortModel from '@/classes/filters/SortModel';
 import EditorContent from '@/components/EditorContent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';
@@ -39,13 +37,13 @@ import PostgraduateFilters from '@/components/Educational/Postgraduate/Postgradu
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import ISortModel from '@/interfaces/filters/ISortModel';
-import { Orders } from '@/interfaces/filters/Orders';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
 import IOption from '@/interfaces/schema/IOption';
-import ISchema from '@/interfaces/schema/ISchema';
+import createSortModels from '@/services/CreateSortModels';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import PostgraduateCoursesSortsLib from '@/services/Provider/libs/sorts/PostgraduateCoursesSortsLib';
 
 export default defineComponent({
   name: 'PostgraduatePage',
@@ -61,23 +59,13 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
     const route = useRoute();
-    const router = useRouter();
-    const mounted: Ref<boolean> = ref(false);
-    const schemaGet: Ref<boolean> = ref(false);
-    const postgraduateDocumentTypes: Ref<IPostgraduateDocumentType[]> = computed(() => store.getters['postgraduateDocumentTypes/items']);
-    const cmMode: Ref<boolean> = ref(route.path === '/candidates-minimum');
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterModel = ref();
-    const sortModels: Ref<ISortModel[]> = ref([]);
-
-    const documentTypes: ComputedRef<IPostgraduateDocumentType[]> = computed(() => store.getters['postgraduateDocumentTypes/items']);
+    const documentTypes: ComputedRef<IPostgraduateDocumentType[]> = computed(
+      () => Provider.store.getters['postgraduateDocumentTypes/items']
+    );
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
-
-    const mode: Ref<string> = ref('programs');
     const modes: Ref<IOption[]> = ref([]);
+    const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
     const title: ComputedRef<string> = computed(() => {
       let title = '';
@@ -103,11 +91,14 @@ export default defineComponent({
       return title;
     });
 
-    const selectMode = async (value: string) => {
-      if (value === mode.value) {
-        return;
+    watch(
+      () => route.query,
+      () => {
+        if (!route.query.mode) Provider.router.push({ query: { mode: 'programs' } });
       }
-      mode.value = value;
+    );
+
+    const selectMode = async (value: string) => {
       const documentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
       if (documentType) {
         selectedDocumentType.value = documentType.documentType;
@@ -116,43 +107,8 @@ export default defineComponent({
       }
     };
 
-    const createSortModels = (): ISortModel[] => {
-      const sortModels: ISortModel[] = [
-        SortModel.CreateSortModel(
-          schema.value.postgraduateCourse.tableName,
-          schema.value.postgraduateCourse.name,
-          Orders.Asc,
-          'По алфавиту',
-          true
-        ),
-        SortModel.CreateSortModel(
-          schema.value.postgraduateCourse.tableName,
-          schema.value.postgraduateCourse.years,
-          Orders.Asc,
-          'По длительности обучения',
-          false
-        ),
-        SortModel.CreateSortModel(
-          schema.value.postgraduateCourse.tableName,
-          schema.value.postgraduateCourse.code,
-          Orders.Asc,
-          'По коду специальности',
-          false
-        ),
-        SortModel.CreateSortModel(
-          schema.value.postgraduateCourse.tableName,
-          schema.value.postgraduateCourse.cost,
-          Orders.Asc,
-          'По стоимости',
-          false
-        ),
-      ];
-      store.commit(`filter/addSortModels`, sortModels);
-      return sortModels;
-    };
-
     const setModes = async () => {
-      await store.dispatch('postgraduateDocumentTypes/getAll');
+      await Provider.store.dispatch('postgraduateDocumentTypes/getAll');
       modes.value.push({ value: 'programs', label: 'Программы' });
       documentTypes.value.forEach((docType: IPostgraduateDocumentType) => {
         if (docType.documentType.id) {
@@ -164,33 +120,30 @@ export default defineComponent({
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 
-    onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      await setModes();
-      sortModels.value = createSortModels();
-      schemaGet.value = true;
-      store.commit('filter/setStoreModule', 'postgraduateCourses');
-      await load();
-    });
+    const loadCourses = async () => {
+      Provider.store.commit('postgraduateCourses/clearItems');
+      await Provider.store.dispatch('postgraduateCourses/getAll', Provider.filterQuery.value);
+    };
 
     const load = async () => {
-      store.commit(`filter/checkSortModels`);
-      filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('postgraduateCourses/getAll', filterQuery.value);
-      mounted.value = true;
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 100;
+      Provider.setSortModels(PostgraduateCoursesSortsLib.byName());
+      Provider.setSortList(...createSortModels(PostgraduateCoursesSortsLib));
+      await setModes();
+      await loadCourses();
+      await selectMode(mode.value);
     };
+
+    Hooks.onBeforeMount(load);
 
     return {
       modes,
       selectedDocumentType,
       mode,
       selectMode,
-      mounted,
-      load,
-      schemaGet,
-      sortModels,
-      postgraduateDocumentTypes,
+      mounted: Provider.mounted,
+      loadCourses,
       title,
     };
   },
