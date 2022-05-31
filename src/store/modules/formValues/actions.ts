@@ -45,6 +45,13 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
   },
+  documentsToPdf: async (_, id: string): Promise<void> => {
+    await httpClient.get<undefined>({
+      query: `documents-to-pdf/${id}`,
+      isBlob: true,
+      downloadFileName: 'Документы.pdf',
+    });
+  },
 };
 
 export default actions;
