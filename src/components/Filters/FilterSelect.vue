@@ -1,5 +1,5 @@
 <template>
-  <el-form :gutter="12" label-position="top" :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
+  <el-form :gutter="12" label-position="top" :style="{ width: '100%', maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
     <el-form-item>
       <el-select v-model="filterModel.value1" :filterable="filterable" clearable :placeholder="placeholder" round @change="addFilterModel">
         <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
@@ -157,7 +157,7 @@ export default defineComponent({
 }
 
 :deep(.el-form-item) {
-  padding: 10px;
+  padding: 0 10px;
   margin: 0;
 }
 

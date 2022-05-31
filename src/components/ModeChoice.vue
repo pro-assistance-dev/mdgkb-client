@@ -1,5 +1,5 @@
 <template>
-  <el-form>
+  <el-form :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
     <el-form-item>
       <el-select v-model="selectedMode" class="m-2" placeholder="Выберите раздел" @change="selectMode">
         <el-option v-for="item in modes" :key="item.value" :label="item.label" :value="item.value" />
@@ -26,6 +26,10 @@ export default defineComponent({
       type: String as PropType<string>,
       required: false,
       default: '',
+    },
+    maxWidth: {
+      type: [Number, String],
+      default: 200,
     },
   },
   emits: ['selectMode'],

@@ -1,22 +1,20 @@
 <template>
-  <div v-if="mounted" class="vacansies-container">
-    <div class="vacansies-container-left">
+  <PageWrapper v-if="mounted" title="Вакансии">
+    <template #filters>
       <VacanciesFilters @load="loadVacancies" />
+    </template>
+    <div class="vacansies-container">
+      <VacancyCard v-for="item in vacancies" :key="item.id" :vacancy="item" />
     </div>
-    <div>
-      <h2>Вакансии</h2>
-      <div class="vacansies-container-right">
-        <VacancyCard v-for="item in vacancies" :key="item.id" :vacancy="item" />
-      </div>
-      <LoadMoreButton @loadMore="loadMore" />
-    </div>
-  </div>
+    <LoadMoreButton @loadMore="loadMore" />
+  </PageWrapper>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import VacanciesFilters from '@/components/Vacansies/VacanciesFilters.vue';
 import VacancyCard from '@/components/Vacansies/VacancyCard.vue';
 import { Operators } from '@/interfaces/filters/Operators';
@@ -27,7 +25,7 @@ import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib'
 
 export default defineComponent({
   name: 'VacanciesList',
-  components: { VacanciesFilters, VacancyCard, LoadMoreButton },
+  components: { VacanciesFilters, VacancyCard, LoadMoreButton, PageWrapper },
 
   setup() {
     const vacancies = computed(() => Provider.store.getters['vacancies/vacancies']);
@@ -73,31 +71,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 .vacansies-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  &-left {
-    // position: sticky;
-    // top: 79px;
-    // z-index: 1;
-    width: 100vw;
-    // padding: 20px 0;
-    // background-color: white;
-    // border-top: 2px solid #f6f6f6;
-    // border-bottom: 2px solid #f6f6f6;
-  }
-  &-right {
-    // display: grid;
-    // grid-template-columns: 1fr 1fr 1fr;
-    // grid-gap: 5px;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    width: 100%;
-  }
-  h2 {
-    margin-top: 0;
-    text-align: center;
-  }
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+h2 {
+  margin-top: 0;
+  text-align: center;
 }
 </style>

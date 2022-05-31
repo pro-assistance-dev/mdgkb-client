@@ -1,8 +1,4 @@
 <template>
-  <div class="faq-header card-item">
-    <h2>Часто задаваемые вопросы</h2>
-    <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти вопрос" size="large" />
-  </div>
   <!-- <el-collapse>
     <el-collapse-item v-for="(item, i) in filteredFaqList" :key="item.id" :name="i">
       <template #title>
@@ -104,7 +100,6 @@ export default defineComponent({
   }
 }
 h2 {
-  margin-top: 0;
   font-size: 24px;
   text-align: center;
 }

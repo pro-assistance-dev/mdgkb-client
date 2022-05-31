@@ -34,7 +34,7 @@ export default defineComponent({
 
     const changeDocumentTitle = () => {
       const defaultTitle = 'Морозовская детская городская клиническая больница';
-      document.title = route.meta.title ? `${defaultTitle} - ${route.meta.title}` : defaultTitle;
+      document.title = route.meta.title ? `${route.meta.title} | МДГКБ` : defaultTitle;
     };
 
     // TODO безопасно ли это?

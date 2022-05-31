@@ -2,30 +2,21 @@
   <!--  <div class="way">-->
   <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
   <!--  </div>-->
-  <div v-if="mounted">
-    <div v-if="mode === 'programs'" class="filter-block">
-      <div class="full-width"></div>
-      <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
-    <div v-else class="filter-block-2">
-      <div class="full-width-2"></div>
-      <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
+  <PageWrapper v-if="mounted" :title="title">
+    <template #filters>
+      <DpoFilters :condition="mode === 'programs' || mode === ''" :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
+    </template>
 
-    <div v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'" v-html="selectedDocumentType.description" />
-    <div v-if="mode === 'programs' || mode === ''" class="sort">
-      <div class="sort-item-2">
-        <div class="item-3"><h3>Сортировать</h3></div>
-        <div class="item-4">
-          <SortList :models="sortModels" :store-mode="true" @load="load" />
-        </div>
-      </div>
+    <div class="editor-content card-item">
+      <EditorContent
+        v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'"
+        :content="selectedDocumentType.description"
+      />
     </div>
-
     <DpoCoursesList v-if="mode === 'programs'" />
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
     <DpoCoursesContacts v-if="mode === 'contacts'" />
-  </div>
+  </PageWrapper>
 </template>
 
 <script lang="ts">
@@ -34,11 +25,12 @@ import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import SortModel from '@/classes/filters/SortModel';
+import EditorContent from '@/components/EditorContent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
 import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
-import SortList from '@/components/SortList/SortList.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -52,7 +44,14 @@ import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'DpoPage',
-  components: { DocumentsList, DpoCoursesContacts, DpoFilters, DpoCoursesList, SortList },
+  components: {
+    DocumentsList,
+    DpoCoursesContacts,
+    DpoFilters,
+    EditorContent,
+    DpoCoursesList,
+    PageWrapper,
+  },
 
   setup() {
     const store = useStore();
@@ -66,8 +65,21 @@ export default defineComponent({
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const filterModel = ref();
     const sortModels: Ref<ISortModel[]> = ref([]);
-
     const modes: Ref<IOption[]> = ref([]);
+    const title: ComputedRef<string> = computed(() => {
+      let title = '';
+      switch (true) {
+        case mode.value === 'programs':
+          title = 'Программы дополнительного профессионального образования';
+          break;
+        case mode.value === 'contacts':
+          title = 'Контакты дополнительного профессионального образования';
+          break;
+        default:
+          break;
+      }
+      return title;
+    });
 
     const selectMode = async (value: string) => {
       if (value === mode.value) {
@@ -128,12 +140,15 @@ export default defineComponent({
       });
     };
 
-    return { selectedDocumentType, mode, mounted, load, schemaGet, sortModels, modes, selectMode };
+    return { title, selectedDocumentType, mode, mounted, load, schemaGet, sortModels, modes, selectMode };
   },
 });
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
+.editor-content:empty {
+  display: none;
+}
 .el-descriptions__label {
   font-size: 15px;
 }

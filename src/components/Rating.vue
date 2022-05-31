@@ -56,4 +56,10 @@ a {
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 768px) {
+  :deep(.el-rate__icon) {
+    font-size: 14px;
+  }
+}
 </style>

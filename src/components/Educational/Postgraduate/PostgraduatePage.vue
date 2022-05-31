@@ -1,32 +1,27 @@
 <template>
-  <div v-if="mounted">
-    <div v-if="mode === 'programs'" class="filter-block">
-      <div class="full-width"></div>
-      <PostgraduateFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
-    <div v-else class="filter-block-2">
-      <div class="full-width-2"></div>
-      <PostgraduateFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
-    <EditorContent
-      v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'"
-      :content="selectedDocumentType.description"
-    />
-    <div v-if="mode === 'programs' || mode === ''" class="sort">
-      <div class="sort-item-2">
-        <div class="item-3"><h3>Сортировать</h3></div>
-        <div class="item-4">
-          <SortList :models="sortModels" :store-mode="true" @load="load" />
-        </div>
-      </div>
-    </div>
+  <PageWrapper v-if="mounted" :title="title">
+    <template #filters>
+      <PostgraduateFilters
+        :condition="mode === 'programs' || mode === ''"
+        :modes="modes"
+        :mode="mode"
+        @selectMode="selectMode"
+        @load="load"
+      />
+    </template>
 
+    <div class="editor-content card-item">
+      <EditorContent
+        v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'"
+        :content="selectedDocumentType.description"
+      />
+    </div>
     <PostgraduateCoursesList v-if="mode === 'programs'" />
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
     <CandidatesMinimum v-if="mode === 'candidate'" />
     <PostgraduateContacts v-if="mode === 'contacts'" />
     <PostgraducateAcademics v-if="mode === 'academics'" />
-  </div>
+  </PageWrapper>
 </template>
 
 <script lang="ts">
@@ -42,7 +37,7 @@ import PostgraduateContacts from '@/components/Educational/Postgraduate/Postgrad
 import PostgraduateCoursesList from '@/components/Educational/Postgraduate/PostgraduateCoursesList.vue';
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
-import SortList from '@/components/SortList/SortList.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
@@ -57,10 +52,10 @@ export default defineComponent({
   components: {
     EditorContent,
     DocumentsList,
-    SortList,
     PostgraduateFilters,
     PostgraduateContacts,
     PostgraduateCoursesList,
+    PageWrapper,
     CandidatesMinimum,
     PostgraducateAcademics,
   },
@@ -83,6 +78,30 @@ export default defineComponent({
 
     const mode: Ref<string> = ref('programs');
     const modes: Ref<IOption[]> = ref([]);
+    const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+    const title: ComputedRef<string> = computed(() => {
+      let title = '';
+      switch (true) {
+        case mode.value === 'programs':
+          title = 'Программы аспирантуры';
+          break;
+        case mode.value === 'contacts':
+          title = 'Контакты аспирантуры';
+          break;
+        case mode.value === 'academics':
+          title = 'Ученый совет аспирантуры';
+          break;
+        case mode.value === 'candidate':
+          title = 'Кандидатский минимум';
+          break;
+        case uuidRegex.test(mode.value):
+          title = 'Приемная компания 2022/2023';
+          break;
+        default:
+          break;
+      }
+      return title;
+    });
 
     const selectMode = async (value: string) => {
       if (value === mode.value) {
@@ -162,12 +181,26 @@ export default defineComponent({
       mounted.value = true;
     };
 
-    return { modes, selectedDocumentType, mode, selectMode, mounted, load, schemaGet, sortModels, postgraduateDocumentTypes };
+    return {
+      modes,
+      selectedDocumentType,
+      mode,
+      selectMode,
+      mounted,
+      load,
+      schemaGet,
+      sortModels,
+      postgraduateDocumentTypes,
+      title,
+    };
   },
 });
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
+.editor-content:empty {
+  display: none;
+}
 .el-descriptions__label {
   font-size: 15px;
 }

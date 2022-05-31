@@ -71,8 +71,6 @@ export default defineComponent({
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
-  margin: 10px 0 20px;
-
   height: 40px;
 
   &-button {

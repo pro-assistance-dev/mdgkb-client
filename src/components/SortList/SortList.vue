@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="mounted" :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
+  <el-form v-if="mounted" :style="{ width: '100%', maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
     <el-form-item :label="showLabel && labelName">
       <el-select v-model="sortModel" value-key="label" :clearable="!defaultSortOn" :placeholder="sortModel.label" @change="setSort">
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item" />
@@ -37,7 +37,7 @@ export default defineComponent({
     },
     maxWidth: {
       type: [Number, String],
-      default: 300,
+      default: 250,
     },
   },
   emits: ['load'],
@@ -151,10 +151,6 @@ export default defineComponent({
 }
 
 .el-select {
-  width: 100%;
-}
-
-:deep(.el-form) {
   width: 100%;
 }
 

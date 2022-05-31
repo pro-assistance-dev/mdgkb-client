@@ -1,41 +1,18 @@
 <template>
-  <div v-if="mount">
-    <el-row :gutter="40">
-      <el-col :xl="6" :lg="6" :md="24" class="filters">
-        <ModeButtons
-          :second-mode-active="!doctorsMode"
-          :store-mode="false"
-          :first-mode="'Врачи'"
-          :second-mode="'Руководство'"
-          @changeMode="changeMode"
-        />
-        <DoctorsListFilters v-if="doctorsMode" />
-      </el-col>
-      <el-col :xl="18" :lg="18" :md="24">
-        <el-row v-if="doctorsMode">
-          <el-col
-            v-for="doctor in doctors"
-            :key="doctor.id"
-            :xl="8"
-            :lg="8"
-            :md="12"
-            :sm="12"
-            :style="{ padding: '10px', display: 'flex' }"
-          >
-            <div style="margin: 0 auto; height: 350px">
-              <DoctorInfoCard :doctor="doctor" />
-            </div>
-          </el-col>
-        </el-row>
-        <div v-else>
-          <MedicalOrganizationStructureVertical />
-        </div>
-        <div class="loadmore-button">
-          <LoadMoreButton @loadMore="loadMore" />
-        </div>
-      </el-col>
-    </el-row>
-  </div>
+  <PageWrapper v-if="mount" :title="title">
+    <template #filters>
+      <DoctorsListFilters />
+    </template>
+    <div v-if="doctorsMode" style="display: flex; flex-wrap: wrap; jestify-content: center">
+      <div v-for="doctor in doctors" :key="doctor.id" style="margin: 0 auto; height: 350px; padding: 10px">
+        <DoctorInfoCard :doctor="doctor" />
+      </div>
+    </div>
+    <div v-else>
+      <MedicalOrganizationStructureVertical />
+    </div>
+    <LoadMoreButton @loadMore="loadMore" />
+  </PageWrapper>
 </template>
 
 <script lang="ts">
@@ -47,7 +24,7 @@ import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import DoctorsListFilters from '@/components/Doctors/DoctorsListFilters.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import MedicalOrganizationStructureVertical from '@/components/MedicalOrganization/MedicalOrganizationStructureVertical.vue';
-import ModeButtons from '@/components/ModeButtons.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Operators } from '@/interfaces/filters/Operators';
@@ -56,39 +33,44 @@ import ISchema from '@/interfaces/schema/ISchema';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
-  name: 'DoctorPage',
+  name: 'MedicalWorkersList',
   components: {
     MedicalOrganizationStructureVertical,
     DoctorsListFilters,
     DoctorInfoCard,
     LoadMoreButton,
-    ModeButtons,
+    PageWrapper,
   },
 
   setup() {
     const store = useStore();
-    const route = useRoute();
     const router = useRouter();
+    const route = useRoute();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const mount = ref(false);
-    const doctorsMode: Ref<boolean> = ref(route.path === '/doctors');
+    const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
 
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const title: ComputedRef<string> = computed(() => {
+      let title = '';
+      switch (route.path) {
+        case '/heads':
+          title = 'Руководство';
+          break;
+        case '/doctors':
+          title = 'Медицинские работники';
+          break;
+        default:
+          break;
+      }
+      return title;
+    });
 
     onBeforeMount(async () => {
       await store.dispatch('meta/getSchema');
       mount.value = true;
     });
-
-    const changeMode = async (doctorsModeActive: boolean) => {
-      doctorsMode.value = doctorsModeActive;
-      if (doctorsModeActive) {
-        await router.replace('/doctors');
-      } else {
-        await router.replace('/heads');
-      }
-    };
 
     const loadMore = async () => {
       const lastCursor = doctors.value[doctors.value.length - 1].human.getFullName();
@@ -101,8 +83,6 @@ export default defineComponent({
     };
 
     return {
-      doctorsMode,
-      changeMode,
       TokenService,
       Operators,
       DataTypes,
@@ -110,6 +90,8 @@ export default defineComponent({
       schema,
       doctors,
       mount,
+      doctorsMode,
+      title,
     };
   },
 });

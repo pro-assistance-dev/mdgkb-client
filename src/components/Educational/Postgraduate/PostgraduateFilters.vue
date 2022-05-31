@@ -1,39 +1,37 @@
 <template>
-  <div v-if="mount" class="horizontal">
-    <div class="line">
-      <div class="block-item">
-        <ModeChoice path="postgraduate" :modes="modes" @selectMode="selectMode" />
-      </div>
-      <template v-if="mode === '' || mode === 'programs'">
-        <div class="block-item">
-          <RemoteSearch
-            :key-value="schema.postgraduateCourse.key"
-            :table="schema.postgraduateCourse.tableName"
-            :col="schema.postgraduateCourse.name"
-            @select="selectSearch"
-            @load="load"
-          />
-        </div>
-        <div class="block-item">
-          <!--        <FilterSelect-->
-          <!--          placeholder="Выбрать специализацию"-->
-          <!--          :options="schema.specialization.options"-->
-          <!--          :table="schema.dpoCourse.tableName"-->
-          <!--          :col="schema.specialization.id"-->
-          <!--          :data-type="DataTypes.Join"-->
-          <!--          :operator="Operators.Eq"-->
-          <!--          :join-table="schema.dpoCourseSpecialization.tableName"-->
-          <!--          :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"-->
-          <!--          :join-table-pk="schema.dpoCourse.id"-->
-          <!--          :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
-          <!--          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
-          <!--          @load="load"-->
-          <!--        />-->
-        </div>
-        <div class="block-item"></div>
-      </template>
-    </div>
-  </div>
+  <FiltersWrapper v-if="mount">
+    <template v-if="condition" #header-left-top>
+      <RemoteSearch
+        :max-width="360"
+        :key-value="schema.postgraduateCourse.key"
+        :table="schema.postgraduateCourse.tableName"
+        :col="schema.postgraduateCourse.name"
+        placeholder="Начните вводить название специальности"
+        @select="selectSearch"
+        @load="load"
+      />
+      <!--        <FilterSelect-->
+      <!--          placeholder="Выбрать специализацию"-->
+      <!--          :options="schema.specialization.options"-->
+      <!--          :table="schema.dpoCourse.tableName"-->
+      <!--          :col="schema.specialization.id"-->
+      <!--          :data-type="DataTypes.Join"-->
+      <!--          :operator="Operators.Eq"-->
+      <!--          :join-table="schema.dpoCourseSpecialization.tableName"-->
+      <!--          :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"-->
+      <!--          :join-table-pk="schema.dpoCourse.id"-->
+      <!--          :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
+      <!--          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
+      <!--          @load="load"-->
+      <!--        />-->
+    </template>
+    <template #header-right>
+      <ModeChoice :max-width="350" path="postgraduate" :modes="modes" @selectMode="selectMode" />
+    </template>
+    <template v-if="condition" #footer>
+      <SortList :models="sortList" :store-mode="true" @load="load" />
+    </template>
+  </FiltersWrapper>
 </template>
 
 <script lang="ts">
@@ -41,8 +39,10 @@ import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
+import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IDoctor from '@/interfaces/IDoctor';
@@ -50,6 +50,7 @@ import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
+import Provider from '@/services/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -57,6 +58,8 @@ export default defineComponent({
   components: {
     ModeChoice,
     RemoteSearch,
+    FiltersWrapper,
+    SortList,
     // FilterSelect,
   },
   props: {
@@ -69,6 +72,10 @@ export default defineComponent({
       type: Array as PropType<IOption[]>,
       required: false,
       default: () => [],
+    },
+    condition: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['load', 'selectMode'],
@@ -119,6 +126,7 @@ export default defineComponent({
       medicalProfiles,
       schema,
       doctors,
+      sortList: Provider.sortList,
       mount,
     };
   },

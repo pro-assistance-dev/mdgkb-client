@@ -1,27 +1,12 @@
 <template>
-  <div v-if="mounted">
-    <div v-if="mode === 'programs'" class="filter-block">
-      <div class="full-width"></div>
-      <ResidencyFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
-    <div v-else class="filter-block-2">
-      <div class="full-width-2"></div>
-      <ResidencyFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
-    <div v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'" v-html="selectedDocumentType.description" />
-    <div v-if="mode === 'programs' || mode === ''" class="sort">
-      <div class="sort-item-2">
-        <div class="item-3"><h3>Сортировать</h3></div>
-        <div class="item-4">
-          <SortList :models="sortModels" :store-mode="true" @load="load" />
-        </div>
-      </div>
-    </div>
-
+  <PageWrapper v-if="mounted" :title="title">
+    <template #filters>
+      <ResidencyFilters :condition="mode === 'programs' || mode === ''" :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
+    </template>
     <ResidencyCoursesList v-if="mode === 'programs'" :free-programs="false" />
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
     <ResidencyContacts v-if="mode === 'contacts'" />
-  </div>
+  </PageWrapper>
 </template>
 
 <script lang="ts">
@@ -31,7 +16,7 @@ import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyContacts from '@/components/Educational/Residency/ResidencyContacts.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import ResidencyFilters from '@/components/Educational/Residency/ResidencyFilters.vue';
-import SortList from '@/components/SortList/SortList.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
@@ -46,18 +31,37 @@ import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCo
 
 export default defineComponent({
   name: 'ResidencyPage',
-  components: { DocumentsList, SortList, ResidencyFilters, ResidencyContacts, ResidencyCoursesList },
+  components: {
+    PageWrapper,
+    DocumentsList,
+    ResidencyFilters,
+    ResidencyContacts,
+    ResidencyCoursesList,
+  },
 
   setup() {
     const schemaGet: Ref<boolean> = ref(false);
     const residencyDocumentTypes: Ref<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
-
     const documentTypes: ComputedRef<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
     const sortModels: Ref<ISortModel[]> = ref([]);
     const mode: Ref<string> = ref('programs');
     const modes: Ref<IOption[]> = ref([]);
+    const title: ComputedRef<string> = computed(() => {
+      let title = '';
+      switch (mode.value) {
+        case 'programs':
+          title = 'Программы ординатуры';
+          break;
+        case 'contacts':
+          title = 'Контакты ординатуры';
+          break;
+        default:
+          break;
+      }
+      return title;
+    });
 
     const selectMode = async (value: string) => {
       if (value === mode.value) {
@@ -122,6 +126,7 @@ export default defineComponent({
       schemaGet,
       sortModels,
       residencyDocumentTypes,
+      title,
     };
   },
 });
