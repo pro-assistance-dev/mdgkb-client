@@ -1,51 +1,47 @@
 <template>
-  <div v-if="mount" class="horizontal">
-    <div class="line">
-      <div class="block-item">
-        <ModeChoice path="residency" :modes="modes" @selectMode="selectMode" />
-      </div>
-      <template v-if="mode === '' || mode === 'programs'">
-        <div class="block-item">
-          <RemoteSearch
-            :key-value="schema.residencyCourse.key"
-            :table="schema.residencyCourse.tableName"
-            :col="schema.residencyCourse.name"
-            @select="selectSearch"
-            @load="load"
-          />
-        </div>
-        <div class="block-item">
-          <FilterSelect
-            placeholder="Выбрать год"
-            :options="schema.educationYear.options"
-            :table="schema.residencyCourse.tableName"
-            :col="schema.residencyCourse.startYearId"
-            :data-type="DataTypes.String"
-            :operator="Operators.Eq"
-            @load="load"
-          />
-        </div>
-        <div class="block-item"></div>
-      </template>
-    </div>
-  </div>
+  <FiltersWrapper v-if="mounted">
+    <template v-if="condition" #header-left-top>
+      <RemoteSearch
+        :max-width="360"
+        :key-value="schema.residencyCourse.key"
+        :table="schema.residencyCourse.tableName"
+        :col="schema.residencyCourse.name"
+        placeholder="Начните вводить название специальности"
+        @select="selectSearch"
+        @load="$emit('load')"
+      />
+      <FilterSelect
+        placeholder="Выбрать год"
+        :options="schema.educationYear.options"
+        :table="schema.residencyCourse.tableName"
+        :col="schema.residencyCourse.startYearId"
+        :data-type="DataTypes.String"
+        :operator="Operators.Eq"
+        @load="$emit('load')"
+      />
+    </template>
+    <template #header-right>
+      <ModeChoice path="residency" :modes="modes" @selectMode="(value) => $emit('selectMode', value)" />
+    </template>
+    <template v-if="condition" #footer>
+      <SortList :models="sortList" :max-width="400" show-label :store-mode="true" @load="$emit('load')" />
+    </template>
+  </FiltersWrapper>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { defineComponent, onBeforeMount, PropType } from 'vue';
 
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
+import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
+import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import IDoctor from '@/interfaces/IDoctor';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IOption from '@/interfaces/schema/IOption';
-import ISchema from '@/interfaces/schema/ISchema';
+import Provider from '@/services/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -54,8 +50,9 @@ export default defineComponent({
     ModeChoice,
     RemoteSearch,
     FilterSelect,
+    FiltersWrapper,
+    SortList,
   },
-  emits: ['load', 'selectMode'],
   props: {
     mode: {
       type: String as PropType<string>,
@@ -67,56 +64,38 @@ export default defineComponent({
       required: false,
       default: () => [],
     },
+    condition: {
+      type: Boolean,
+      default: true,
+    },
   },
-  setup(props, { emit }) {
-    const store = useStore();
-    const router = useRouter();
-    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
-    const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
-    const mount = ref(false);
+  emits: ['load', 'selectMode'],
 
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-
+  setup() {
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/residency-courses/${event.id}`);
+      await Provider.router.push(`/residency-courses/${event.id}`);
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('meta/getOptions', schema.value.specialization);
-      await store.dispatch('meta/getOptions', schema.value.educationYear);
-      schema.value.educationYear.options.forEach((o) => (o.label = new Date(o.label).getFullYear().toString()));
-      mount.value = true;
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.specialization);
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.educationYear);
+      Provider.schema.value.educationYear.options.forEach((o) => (o.label = new Date(o.label).getFullYear().toString()));
     });
-
-    onMounted(() => {
-      emit('load');
-    });
-
-    const load = () => {
-      emit('load');
-    };
 
     const resetFilter = () => {
-      store.commit(`filter/resetQueryFilter`);
-      store.commit('filter/setDefaultSortModel');
-    };
-
-    const selectMode = async (value: string) => {
-      emit('selectMode', value);
+      Provider.store.commit(`filter/resetQueryFilter`);
+      Provider.store.commit('filter/setDefaultSortModel');
     };
 
     return {
-      selectMode,
       resetFilter,
-      load,
       selectSearch,
       TokenService,
       Operators,
       DataTypes,
-      medicalProfiles,
-      schema,
-      doctors,
-      mount,
+      schema: Provider.schema,
+      sortList: Provider.sortList,
+      mounted: Provider.mounted,
     };
   },
 });

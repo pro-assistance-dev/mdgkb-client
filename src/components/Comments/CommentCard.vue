@@ -7,13 +7,15 @@
       <Rating v-if="isReview" :with-numbers="false" :comments="[{ comment: comment }]" />
     </div>
     <div class="reviews-info">
-      <h3 v-if="isQuestion" class="name">{{ question.user.human.name }}</h3>
+      <h3 v-if="isQuestion" class="name">{{ question.user.human.name || 'Без имени' }}</h3>
       <h3 v-else class="name">{{ comment?.user?.human?.name || 'Без имени' }}</h3>
 
-      <h4 v-if="!isQuestion" class="reviews-date-time">
-        {{ !isReview ? 'Комментарий' : 'Отзыв' }} от {{ $dateTimeFormatter.format(comment.publishedOn) }}
-      </h4>
-      <h4 v-else class="reviews-date-time">Вопрос от {{ $dateTimeFormatter.format(comment.publishedOn) }}</h4>
+      <div v-if="comment.publishedOn">
+        <h4 v-if="!isQuestion" class="reviews-date-time">
+          {{ !isReview ? 'Комментарий' : 'Отзыв' }} от {{ $dateTimeFormatter.format(comment.publishedOn) }}
+        </h4>
+        <h4 v-else class="reviews-date-time">Вопрос от {{ $dateTimeFormatter.format(comment.publishedOn) }}</h4>
+      </div>
 
       <h4 v-if="!isQuestion" class="reviews-text">{{ comment.text }}</h4>
       <h4 v-else class="reviews-text" white-space: pre-line>{{ question.question }}</h4>
@@ -163,8 +165,8 @@ export default defineComponent({
 }
 @media screen and (max-width: 768px) {
   .icon-avatar {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
   .reviews-info {
     margin-top: 0;
@@ -173,8 +175,13 @@ export default defineComponent({
     margin-top: 10px;
   }
 }
+@media screen and (max-width: 480px) {
+  .review-for-review {
+    margin-left: 20px;
+  }
+}
 @media screen and (max-width: 380px) {
-  .icon-avatar {
+  .user-avatar {
     display: none;
   }
 }

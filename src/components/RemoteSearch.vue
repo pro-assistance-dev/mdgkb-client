@@ -6,7 +6,7 @@
         v-model="queryString"
         style="width: 100%; margin-right: 10px"
         popper-class="wide-dropdown"
-        :placeholder="placeHolder"
+        :placeholder="placeholder"
         :fetch-suggestions="find"
         :trigger-on-focus="showSuggestions"
         @select="handleSelect"
@@ -55,7 +55,7 @@ export default defineComponent({
       type: String as PropType<string>,
       default: '',
     },
-    placeHolder: {
+    placeholder: {
       type: String as PropType<string>,
       default: 'Начните вводить запрос',
     },
@@ -177,11 +177,11 @@ $margin: 20px 0;
 }
 
 :deep(.el-form-item) {
-  padding: 10px;
   margin: 0;
 }
 
 .el-form {
+  padding: 0 10px;
   width: 100%;
 }
 

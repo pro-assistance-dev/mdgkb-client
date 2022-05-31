@@ -2,78 +2,92 @@
   <!--  <div class="way">-->
   <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
   <!--  </div>-->
-  <div v-if="mounted">
-    <div v-if="mode === 'programs'" class="filter-block">
-      <div class="full-width"></div>
-      <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
-    <div v-else class="filter-block-2">
-      <div class="full-width-2"></div>
-      <DpoFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
+  <PageWrapper v-if="mounted" :title="title">
+    <template #filters>
+      <DpoFilters
+        :condition="mode === 'programs' || mode === ''"
+        :modes="modes"
+        :mode="mode"
+        @selectMode="selectMode"
+        @load="loadCourses"
+      />
+    </template>
 
-    <div v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'" v-html="selectedDocumentType.description" />
-    <div v-if="mode === 'programs' || mode === ''" class="sort">
-      <div class="sort-item-2">
-        <div class="item-3"><h3>Сортировать</h3></div>
-        <div class="item-4">
-          <SortList :models="sortModels" :store-mode="true" @load="load" />
-        </div>
-      </div>
+    <div class="editor-content card-item">
+      <EditorContent
+        v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'"
+        :content="selectedDocumentType.description"
+      />
     </div>
-
     <DpoCoursesList v-if="mode === 'programs'" />
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
     <DpoCoursesContacts v-if="mode === 'contacts'" />
-  </div>
+  </PageWrapper>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import SortModel from '@/classes/filters/SortModel';
+import EditorContent from '@/components/EditorContent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
 import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
-import SortList from '@/components/SortList/SortList.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
-import { Orders } from '@/interfaces/filters/Orders';
-import IDpoCourse from '@/interfaces/IDpoCourse';
-import IDpoCourseSpecialization from '@/interfaces/IDpoCourseSpecialization';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IOption from '@/interfaces/schema/IOption';
-import ISchema from '@/interfaces/schema/ISchema';
+import createSortModels from '@/services/CreateSortModels';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import DpoCoursesSortsLib from '@/services/Provider/libs/sorts/DpoCoursesSortsLib';
 
 export default defineComponent({
   name: 'DpoPage',
-  components: { DocumentsList, DpoCoursesContacts, DpoFilters, DpoCoursesList, SortList },
+  components: {
+    DocumentsList,
+    DpoCoursesContacts,
+    DpoFilters,
+    EditorContent,
+    DpoCoursesList,
+    PageWrapper,
+  },
 
   setup() {
-    const store = useStore();
-    const mounted: Ref<boolean> = ref(false);
-    const schemaGet: Ref<boolean> = ref(false);
-    const mode: Ref<string> = ref('programs');
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
-    const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => store.getters['dpoDocumentTypes/items']);
+    const route = useRoute();
+    const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => Provider.store.getters['dpoDocumentTypes/items']);
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterModel = ref();
     const sortModels: Ref<ISortModel[]> = ref([]);
-
     const modes: Ref<IOption[]> = ref([]);
+    const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
+    const title: ComputedRef<string> = computed(() => {
+      let title = '';
+      switch (true) {
+        case mode.value === 'programs':
+          title = 'Программы дополнительного профессионального образования';
+          break;
+        case mode.value === 'contacts':
+          title = 'Контакты дополнительного профессионального образования';
+          break;
+        default:
+          break;
+      }
+      return title;
+    });
+
+    watch(
+      () => route.query,
+      () => {
+        if (!route.query.mode) Provider.router.push({ query: { mode: 'programs' } });
+      }
+    );
 
     const selectMode = async (value: string) => {
       if (value === mode.value) {
         return;
       }
-      mode.value = value;
       const dpoDocumentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
       if (dpoDocumentType) {
         selectedDocumentType.value = dpoDocumentType.documentType;
@@ -82,19 +96,8 @@ export default defineComponent({
       }
     };
 
-    const createSortModels = (): ISortModel[] => {
-      const sortModels: ISortModel[] = [
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true),
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.cost, Orders.Asc, 'По cтоимости', false),
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.hours, Orders.Asc, 'По длительности', false),
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.minStart, Orders.Asc, 'По дате начала', false),
-      ];
-      store.commit(`filter/addSortModels`, sortModels);
-      return sortModels;
-    };
-
     const setModes = async () => {
-      await store.dispatch('dpoDocumentTypes/getAll');
+      await Provider.store.dispatch('dpoDocumentTypes/getAll');
       modes.value.push({ value: 'programs', label: 'Программы' });
       documentTypes.value.forEach((docType: IDpoDocumentType) => {
         if (docType.documentType.id) {
@@ -104,36 +107,41 @@ export default defineComponent({
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 
-    onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      await setModes();
-      sortModels.value = createSortModels();
-      schemaGet.value = true;
-      store.commit('filter/setStoreModule', 'dpoCourses');
-      filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
-      await load();
-      mounted.value = true;
-    });
-
-    const load = async () => {
-      store.commit(`filter/checkSortModels`);
-      filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
-      await store.dispatch('meta/getOptions', schema.value.specialization);
-      schema.value.specialization.options = schema.value.specialization.options.filter((o: IOption) => {
-        return dpoCourses.value.some((dpoCourse: IDpoCourse) => {
-          return dpoCourse.dpoCoursesSpecializations.some((s: IDpoCourseSpecialization) => s.specializationId === o.value);
-        });
-      });
+    const loadCourses = async () => {
+      Provider.store.commit('dpoCourses/clearItems');
+      await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
     };
 
-    return { selectedDocumentType, mode, mounted, load, schemaGet, sortModels, modes, selectMode };
+    const load = async () => {
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 100;
+      Provider.setSortModels(DpoCoursesSortsLib.byName());
+      Provider.setSortList(...createSortModels(DpoCoursesSortsLib));
+      await setModes();
+      await loadCourses();
+    };
+
+    Hooks.onBeforeMount(load);
+
+    return {
+      title,
+      selectedDocumentType,
+      mode,
+      mounted: Provider.mounted,
+      load,
+      sortModels,
+      modes,
+      selectMode,
+      loadCourses,
+    };
   },
 });
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
+.editor-content:empty {
+  display: none;
+}
 .el-descriptions__label {
   font-size: 15px;
 }

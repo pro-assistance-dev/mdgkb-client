@@ -37,6 +37,7 @@ export default defineComponent({
   name: 'CandidatesMinimum',
   components: { CandidateApplicationForm, DocumentsList, SharesBlock },
   setup() {
+    const route = useRoute();
     const store = useStore();
     const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
     const mounted = ref(false);
@@ -58,7 +59,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await store.dispatch('candidateDocumentTypes/getAll');
-      const route = useRoute();
       await store.dispatch('candidateExams/get');
       mounted.value = true;
       if (route.query.respondForm) {

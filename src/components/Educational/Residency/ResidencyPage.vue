@@ -1,87 +1,83 @@
 <template>
-  <div v-if="mounted">
-    <div v-if="mode === 'programs'" class="filter-block">
-      <div class="full-width"></div>
-      <ResidencyFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
-    <div v-else class="filter-block-2">
-      <div class="full-width-2"></div>
-      <ResidencyFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="load" />
-    </div>
-    <div v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'" v-html="selectedDocumentType.description" />
-    <div v-if="mode === 'programs' || mode === ''" class="sort">
-      <div class="sort-item-2">
-        <div class="item-3"><h3>Сортировать</h3></div>
-        <div class="item-4">
-          <SortList :models="sortModels" :store-mode="true" @load="load" />
-        </div>
-      </div>
-    </div>
-
+  <PageWrapper v-if="mounted" :title="title">
+    <template #filters>
+      <ResidencyFilters
+        :condition="mode === 'programs' || mode === ''"
+        :modes="modes"
+        :mode="mode"
+        @selectMode="selectMode"
+        @load="loadCourses"
+      />
+    </template>
     <ResidencyCoursesList v-if="mode === 'programs'" :free-programs="false" />
     <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
     <ResidencyContacts v-if="mode === 'contacts'" />
-  </div>
+  </PageWrapper>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyContacts from '@/components/Educational/Residency/ResidencyContacts.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import ResidencyFilters from '@/components/Educational/Residency/ResidencyFilters.vue';
-import SortList from '@/components/SortList/SortList.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import ISortModel from '@/interfaces/filters/ISortModel';
-import { Orders } from '@/interfaces/filters/Orders';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import IOption from '@/interfaces/schema/IOption';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 
 export default defineComponent({
   name: 'ResidencyPage',
-  components: { DocumentsList, SortList, ResidencyFilters, ResidencyContacts, ResidencyCoursesList },
+  components: {
+    PageWrapper,
+    DocumentsList,
+    ResidencyFilters,
+    ResidencyContacts,
+    ResidencyCoursesList,
+  },
 
   setup() {
-    const schemaGet: Ref<boolean> = ref(false);
-    const residencyDocumentTypes: Ref<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
-
+    const route = useRoute();
     const documentTypes: ComputedRef<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
-    const sortModels: Ref<ISortModel[]> = ref([]);
-    const mode: Ref<string> = ref('programs');
+    const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const modes: Ref<IOption[]> = ref([]);
+    const title: ComputedRef<string> = computed(() => {
+      let title = '';
+      switch (mode.value) {
+        case 'programs':
+          title = 'Программы ординатуры';
+          break;
+        case 'contacts':
+          title = 'Контакты ординатуры';
+          break;
+        default:
+          break;
+      }
+      return title;
+    });
+
+    watch(
+      () => route.query,
+      () => {
+        if (!route.query.mode) Provider.router.push({ query: { mode: 'programs' } });
+      }
+    );
 
     const selectMode = async (value: string) => {
-      if (value === mode.value) {
-        return;
-      }
-      mode.value = value;
       const documentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
       if (documentType) {
         selectedDocumentType.value = documentType.documentType;
       } else {
         selectedDocumentType.value = undefined;
       }
-    };
-
-    const createSortModels = (): ISortModel[] => {
-      const sortModels: ISortModel[] = [
-        ResidencyCoursesSortsLib.byName(Orders.Asc),
-        ResidencyCoursesSortsLib.byStartYear(Orders.Asc),
-        ResidencyCoursesSortsLib.byFreePlaces(Orders.Asc),
-        ResidencyCoursesSortsLib.byPaidPlaces(Orders.Asc),
-        ResidencyCoursesSortsLib.byCost(Orders.Asc),
-      ];
-      Provider.store.commit(`filter/addSortModels`, sortModels);
-      return sortModels;
     };
 
     const setModes = async () => {
@@ -95,22 +91,22 @@ export default defineComponent({
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 
-    const initLoad = async () => {
-      sortModels.value = createSortModels();
-      await setModes();
-      schemaGet.value = true;
-      Provider.setFilterModel(ResidencyCoursesFiltersLib.notThisYear());
-      Provider.store.commit('filter/setStoreModule', 'residencyCourses');
-      await load();
+    const loadCourses = async () => {
+      Provider.store.commit('residencyCourses/clearItems');
+      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
     };
-
-    Hooks.onBeforeMount(initLoad);
 
     const load = async () => {
-      Provider.store.commit(`filter/checkSortModels`);
-      filterQuery.value.pagination.cursorMode = false;
-      await Provider.store.dispatch('residencyCourses/getAll', filterQuery.value);
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 100;
+      Provider.setSortModels(ResidencyCoursesSortsLib.byName());
+      Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
+      await setModes();
+      await loadCourses();
+      await selectMode(mode.value);
     };
+
+    Hooks.onBeforeMount(load);
 
     return {
       modes,
@@ -119,9 +115,8 @@ export default defineComponent({
       selectMode,
       mounted: Provider.mounted,
       load,
-      schemaGet,
-      sortModels,
-      residencyDocumentTypes,
+      title,
+      loadCourses,
     };
   },
 });

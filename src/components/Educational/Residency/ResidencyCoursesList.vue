@@ -253,6 +253,7 @@ td:hover .response-btn {
 }
 
 .size {
+  width: 100%;
   max-width: 100%;
   padding: 0 10px;
 }

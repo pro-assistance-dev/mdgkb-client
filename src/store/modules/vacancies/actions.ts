@@ -14,7 +14,6 @@ const httpClient = new HttpClient('vacancies');
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
     const item = await httpClient.get<IVacanciesWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
-    console.log(item);
     if (filterQuery) {
       filterQuery.setAllLoaded(item ? item.vacancies.length : 0);
     }

@@ -1,54 +1,59 @@
 <template>
-  <div v-if="mount" class="comments-list-container">
-    <div class="comments-list-container-left">
-      <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить отзыв</button>
-      <!--      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />-->
-      <FilterCheckbox
-        label="Свои отзывы"
-        :table="Provider.schema.value.comment.tableName"
-        :col="Provider.schema.value.comment.userId"
-        :data-type="DataTypes.String"
-        :operator="Operators.Eq"
-        :value="TokenService.getUserId()"
-        @load="loadComments"
-      />
-      <FilterCheckbox
-        label="С высоким рейтингом"
-        :table="Provider.schema.value.comment.tableName"
-        :col="Provider.schema.value.comment.rating"
-        :data-type="DataTypes.Number"
-        :operator="Operators.Gt"
-        :filter-value="'3'"
-        @load="loadComments"
-      />
-      <FilterCheckbox
-        label="С низким рейтингом"
-        :table="Provider.schema.value.comment.tableName"
-        :col="Provider.schema.value.comment.rating"
-        :data-type="DataTypes.Number"
-        :operator="Operators.Lt"
-        :filter-value="'3'"
-        @load="loadComments"
-      />
-      <FilterSelectDate
-        :table="Provider.schema.value.comment.tableName"
-        :col="Provider.schema.value.comment.publishedOn"
-        @load="loadComments"
-      />
-      <router-link to="/service-quality-assessment">Независимая оценка качества оказания услуг</router-link>
+  <PageWrapper v-if="mount" title="Комментарии и отзывы">
+    <template #filters>
+      <FiltersWrapper>
+        <template #header-right>
+          <div :style="{ display: 'flex', flexDirection: 'column' }">
+            <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить отзыв</button>
+            <router-link to="/service-quality-assessment" style="text-align: center"
+              >Независимая оценка качества оказания услуг</router-link
+            >
+          </div>
+          <!--      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />-->
+        </template>
+        <template #header-left-bottom>
+          <FilterCheckbox
+            label="Свои отзывы"
+            :table="Provider.schema.value.comment.tableName"
+            :col="Provider.schema.value.comment.userId"
+            :data-type="DataTypes.String"
+            :operator="Operators.Eq"
+            :value="TokenService.getUserId()"
+            @load="loadComments"
+          />
+          <FilterCheckbox
+            label="С высоким рейтингом"
+            :table="Provider.schema.value.comment.tableName"
+            :col="Provider.schema.value.comment.rating"
+            :data-type="DataTypes.Number"
+            :operator="Operators.Gt"
+            :filter-value="'3'"
+            @load="loadComments"
+          />
+          <FilterCheckbox
+            label="С низким рейтингом"
+            :table="Provider.schema.value.comment.tableName"
+            :col="Provider.schema.value.comment.rating"
+            :data-type="DataTypes.Number"
+            :operator="Operators.Lt"
+            :filter-value="'3'"
+            @load="loadComments"
+          />
+        </template>
+        <template #header-left-top>
+          <FilterSelectDate
+            :table="Provider.schema.value.comment.tableName"
+            :col="Provider.schema.value.comment.publishedOn"
+            @load="loadComments"
+          />
+        </template>
+      </FiltersWrapper>
+    </template>
+    <div v-for="comment in comments" :key="comment.id" class="card-item">
+      <CommentCard :comment="comment" />
     </div>
-    <div class="comments-list-container-right">
-      <div class="comments-list-container-right-header card-item">
-        <h2>Комментарии и отзывы</h2>
-      </div>
-      <div v-for="comment in comments" :key="comment.id" class="card-item">
-        <CommentCard :comment="comment" />
-      </div>
-      <div class="loadmore-button">
-        <LoadMoreButton @loadMore="loadMore" />
-      </div>
-    </div>
-  </div>
+    <LoadMoreButton @loadMore="loadMore" />
+  </PageWrapper>
   <el-dialog v-model="showDialog">
     <template #title>
       <h3>Оставить отзыв</h3>
@@ -67,7 +72,9 @@ import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
+import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import IComment from '@/interfaces/comments/IComment';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
@@ -84,6 +91,8 @@ export default defineComponent({
     CommentCard,
     FilterCheckbox,
     CommentForm,
+    PageWrapper,
+    FiltersWrapper,
   },
 
   setup() {
@@ -144,32 +153,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-$side-cotainer-max-width: 300px;
-
-.comments-list-container {
-  display: flex;
-  &-left {
-    height: 100%;
-    max-width: $side-cotainer-max-width;
-    margin-right: 30px;
-    font-size: 14px;
-    position: sticky;
-    top: 79px;
-    height: 100%;
-  }
-  &-right {
-    &-header {
-      h2 {
-        margin-top: 0;
-        font-size: 24px;
-        text-align: center;
-      }
-    }
-  }
-}
 .leave-review-button {
-  width: 100%;
-  margin-bottom: 20px;
+  // width: 100%;
 }
 button {
   margin: 10px 0;
@@ -187,8 +172,9 @@ button {
 }
 
 .card-item {
+  width: 100%;
+  margin: 0 20px 20px 20px;
   padding-right: 30px;
-  margin-bottom: 20px;
 }
 
 :deep(.el-dialog__title) {
@@ -198,15 +184,6 @@ h3 {
   margin: 0;
   text-align: center;
 }
-
-.loadmore-button {
-  display: flex;
-  justify-content: center;
-}
-// .loadmore-button {
-//   display: flex;
-//   justify-content: center;
-// }
 
 @media only screen and (max-width: 1024px) {
   .comments-list-container {
