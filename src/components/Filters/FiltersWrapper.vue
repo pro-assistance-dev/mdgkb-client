@@ -10,7 +10,13 @@
             <slot name="header-left-bottom" />
           </div>
         </div>
-        <div class="filters-container-header-right">
+        <div
+          class="filters-container-header-right"
+          :style="{
+            maxWidth: `${headerRightMaxWidth}${typeof headerRightMaxWidth === 'number' ? 'px' : ''}`,
+            width: `${headerRightMaxWidth ? '100%' : 'auto'}`,
+          }"
+        >
           <slot name="header-right" />
         </div>
       </div>
@@ -27,6 +33,12 @@
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'FiltersWrapper',
+  props: {
+    headerRightMaxWidth: {
+      type: [Number, String],
+      default: '',
+    },
+  },
 });
 </script>
 
@@ -66,7 +78,6 @@ export default defineComponent({
       flex-direction: column;
       align-items: flex-end;
       margin-left: 10px;
-      width: auto;
     }
   }
   &-footer {

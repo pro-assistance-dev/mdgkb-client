@@ -1,7 +1,7 @@
 <template>
   <PageWrapper v-if="mounted" :title="title">
     <template #filters>
-      <FiltersWrapper>
+      <FiltersWrapper :header-right-max-width="300">
         <template #header-right>
           <ModeButtons
             :store-mode="false"
