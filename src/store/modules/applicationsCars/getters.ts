@@ -12,9 +12,6 @@ const getters: GetterTree<State, RootState> = {
   item(state): IApplicationCar {
     return state.item;
   },
-  isCarModalOpen(state) {
-    return state.isCarModalOpen;
-  },
 };
 
 export default getters;

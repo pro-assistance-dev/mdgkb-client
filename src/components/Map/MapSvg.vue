@@ -10,12 +10,13 @@
           <div class="enter-popover-container-header">
             <div>{{ chosenGate.name }}</div>
           </div>
-          <button class="order-button" @click="openApplicationCarModal">Заказать пропуск</button>
+          <button class="order-button" @click="$router.push({ name: 'ApplicationCarPage', params: { gateId: chosenGate.id } })">
+            Заказать пропуск
+          </button>
         </div>
       </div>
     </div>
   </div>
-  <ApplicationCarModal v-if="chosenGate" :gate="chosenGate" />
 </template>
 
 <script lang="ts">
@@ -25,7 +26,6 @@ import { useStore } from 'vuex';
 
 import Map from '@/assets/img/map.svg';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import ApplicationCarModal from '@/components/Map/ApplicationCarModal.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IFloor from '@/interfaces/buildings/IFloor';
@@ -41,7 +41,6 @@ export default defineComponent({
     MapRouter,
     Map,
     BaseModalButtonClose,
-    ApplicationCarModal,
   },
   props: {
     buildings: {
@@ -100,10 +99,6 @@ export default defineComponent({
     const closeEnterPopover = () => {
       if (!enterPopoverRef.value) return;
       enterPopoverRef.value.style.display = 'none';
-    };
-
-    const openApplicationCarModal = () => {
-      store.commit('applicationsCars/toggleCarModal', true);
     };
 
     const hoverBuilding = (item: HTMLElement) => {
@@ -248,7 +243,6 @@ export default defineComponent({
       enterPopoverRef,
       closeEnterPopover,
       chosenGate,
-      openApplicationCarModal,
     };
   },
 });

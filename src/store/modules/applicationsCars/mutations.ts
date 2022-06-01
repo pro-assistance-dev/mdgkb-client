@@ -1,7 +1,13 @@
 import { MutationTree } from 'vuex';
 
 import ApplicationCar from '@/classes/ApplicationCar';
+import Form from '@/classes/Form';
+import Gate from '@/classes/Gate';
+import User from '@/classes/User';
 import IApplicationCar from '@/interfaces/IApplicationCar';
+import IForm from '@/interfaces/IForm';
+import IGate from '@/interfaces/IGate';
+import IUser from '@/interfaces/IUser';
 
 import { State } from './state';
 
@@ -19,8 +25,15 @@ const mutations: MutationTree<State> = {
   resetItem(state) {
     state.item = new ApplicationCar();
   },
-  toggleCarModal(state, value: boolean) {
-    state.isCarModalOpen = value;
+  setUser(state, user: IUser) {
+    state.item.formValue.user = new User(user);
+  },
+  setGate(state, gate: IGate) {
+    state.item.gate = new Gate(gate);
+    state.item.gateId = state.item.gate.id;
+  },
+  setFormValue(state, form: IForm) {
+    state.item.formValue = new Form(form);
   },
 };
 

@@ -9,7 +9,6 @@
         :placeholder="placeholder"
         :fetch-suggestions="find"
         :trigger-on-focus="showSuggestions"
-        :clearable="!showSuggestions"
         @select="handleSelect"
         @input="handleInput"
       >

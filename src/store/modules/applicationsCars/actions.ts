@@ -16,21 +16,24 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IApplicationCar[]>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ state, commit }): Promise<void> => {
-    await httpClient.post<IApplicationCar, IApplicationCar>({ payload: state.item, isFormData: true });
-    commit('resetItem');
+  create: async ({ state }): Promise<void> => {
+    await httpClient.post<IApplicationCar, IApplicationCar>({
+      payload: state.item,
+      isFormData: true,
+      fileInfos: state.item.getFileInfos(),
+    });
   },
-  update: async ({ commit }, item: IApplicationCar): Promise<void> => {
-    const res = await httpClient.put<IApplicationCar, IApplicationCar>({ query: `${item.id}`, payload: item });
-    commit('set', res);
+  update: async ({ state }): Promise<void> => {
+    await httpClient.put<IApplicationCar, IApplicationCar>({
+      query: `${state.item.id}`,
+      payload: state.item,
+      isFormData: true,
+      fileInfos: state.item.getFileInfos(),
+    });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
-  },
-  getBySlug: async ({ commit }, slug: string): Promise<void> => {
-    const res = await httpClient.get<IApplicationCar>({ query: `slug/${slug}` });
-    commit('set', res);
   },
 };
 
