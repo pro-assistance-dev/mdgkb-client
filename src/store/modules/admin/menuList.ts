@@ -43,6 +43,10 @@ const menuList: IAdminMenu[] = [
         to: '/admin/buildings',
       },
       {
+        title: 'Входы',
+        to: '/admin/gates',
+      },
+      {
         title: 'Отделения',
         to: '/admin/divisions',
       },

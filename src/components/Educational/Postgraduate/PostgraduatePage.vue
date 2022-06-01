@@ -94,7 +94,7 @@ export default defineComponent({
     watch(
       () => route.query,
       () => {
-        if (!route.query.mode) Provider.router.push({ query: { mode: 'programs' } });
+        if (!route.query.mode) Provider.router.push({ query: { mode: mode.value } });
       }
     );
 

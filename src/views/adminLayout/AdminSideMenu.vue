@@ -1,35 +1,30 @@
 <template>
   <div v-if="mounted" :key="menus" class="admin-side-menu">
-    <el-menu
-      v-for="item in menus"
-      :key="item.title"
-      :default-active="activePath"
-      :collapse="isCollapseSideMenu"
-      background-color="whitesmoke"
-      @select="closeDrawer"
-    >
-      <el-sub-menu v-if="item.children.length" :index="item.title">
-        <template #title>
-          <div class="sub-menu-container">
-            <el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="danger"> </el-badge>
-            <i :class="item.icon"></i>
-            <span class="row-menu-title">{{ item.title }}</span>
-          </div>
-        </template>
+    <el-menu :default-active="activePath" :collapse="isCollapseSideMenu" background-color="whitesmoke" unique-opened @select="closeDrawer">
+      <template v-for="item in menus" :key="item.title">
+        <el-sub-menu v-if="item.children.length" :index="item.title">
+          <template #title>
+            <div class="sub-menu-container">
+              <el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="danger"> </el-badge>
+              <i :class="item.icon"></i>
+              <span class="row-menu-title">{{ item.title }}</span>
+            </div>
+          </template>
 
-        <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
-          <div class="menu-item-container">
-            {{ children.title }}
-            <el-badge v-if="children.count > 0" :value="children.count" type="danger"></el-badge>
-          </div>
-        </el-menu-item>
-      </el-sub-menu>
-      <div v-else>
-        <el-menu-item v-if="item.to !== '/'" :index="item.to" @click="$router.push(item.to)">
-          <i :class="item.icon"></i>
-          <template #title>{{ item.title }}</template>
-        </el-menu-item>
-      </div>
+          <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
+            <div class="menu-item-container">
+              {{ children.title }}
+              <el-badge v-if="children.count > 0" :value="children.count" type="danger"></el-badge>
+            </div>
+          </el-menu-item>
+        </el-sub-menu>
+        <div v-else>
+          <el-menu-item v-if="item.to !== '/'" :index="item.to" @click="$router.push(item.to)">
+            <i :class="item.icon"></i>
+            <template #title>{{ item.title }}</template>
+          </el-menu-item>
+        </div>
+      </template>
     </el-menu>
   </div>
 </template>
