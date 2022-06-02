@@ -29,7 +29,7 @@ export default defineComponent({
 
     const createFilter = (queryString: string) => {
       return (menuItem: ISearchQuery) => {
-        return menuItem.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
+        return menuItem.value.toLowerCase().includes(queryString.toLowerCase());
       };
     };
     const querySearch = (queryString: string, cb: (q: ISearchQuery[]) => ISearchQuery[]) => {

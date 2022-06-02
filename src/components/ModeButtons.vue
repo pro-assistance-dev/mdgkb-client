@@ -1,27 +1,31 @@
 <template>
   <div class="filter">
-    <button :class="{ active: firstModeActive }" class="filter-button left-round" @click="changeMode(true)">
+    <button :class="{ active: firstModeActive, 'not-active': !firstModeActive }" class="filter-button left-round" @click="changeMode(true)">
       <div class="filter-button-container">
-        <span class="filter-button-container-left"><BookOutlined /></span>
-        <span class="filter-button-container-right">{{ firstMode }}</span>
+        <!-- <span class="filter-button-container-left"><BookOutlined /></span> -->
+        {{ firstMode }}
       </div>
     </button>
-    <button :class="{ active: !firstModeActive }" class="filter-button right-round" @click="changeMode(false)">
+    <button
+      :class="{ active: !firstModeActive, 'not-active': firstModeActive }"
+      class="filter-button right-round"
+      @click="changeMode(false)"
+    >
       <div class="filter-button-container">
-        <span class="filter-button-container-left"><FlagOutlined /></span>
-        <span class="filter-button-container-right">{{ secondMode }}</span>
+        <!-- <span class="filter-button-container-left"><FlagOutlined /></span> -->
+        {{ secondMode }}
       </div>
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import { BookOutlined, FlagOutlined } from '@ant-design/icons-vue';
+// import { BookOutlined, FlagOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 export default defineComponent({
   name: 'ModeButtons',
-  components: { FlagOutlined, BookOutlined },
+  // components: { FlagOutlined, BookOutlined },
   props: {
     secondModeActive: {
       type: Boolean as PropType<boolean>,
@@ -61,7 +65,11 @@ export default defineComponent({
       }
       emit('changeMode', firstModeCondition);
     };
-    return { firstModeActive, changeMode };
+
+    return {
+      firstModeActive,
+      changeMode,
+    };
   },
 });
 </script>
@@ -71,22 +79,17 @@ export default defineComponent({
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
-  margin: 10px 0 20px;
-
   height: 40px;
+  width: 100%;
 
   &-button {
-    color: #363636;
+    letter-spacing: 1.2px;
+    color: #2754eb;
     font-size: 1em;
     font-weight: 400;
     line-height: 1.5;
-    border: 1px #dbdbdb;
-
-    &:hover {
-      cursor: pointer;
-      border: 4px #4f4d4d;
-      background-color: white;
-    }
+    background-color: #ffffff;
+    border: 1px solid #2754eb;
 
     &-container {
       display: flex;
@@ -99,19 +102,25 @@ export default defineComponent({
   }
 }
 
+.not-active:hover {
+  cursor: pointer;
+  background-color: #31af5e;
+  color: #ffffff;
+  border-color: #31af5e;
+}
+
 .active {
-  background: #2754eb;
-  color: white;
-  &:hover {
-    background-color: darken(#2754eb, 10%);
-    border-color: #b5b5b5;
-  }
+  background-color: #2754eb;
+  color: #ffffff;
+  cursor: unset;
 }
 
 .right-round {
-  border-radius: 0 10px 10px 0;
+  padding-right: 20px;
+  border-radius: 0 20px 20px 0;
 }
 .left-round {
-  border-radius: 10px 0 0 10px;
+  padding-left: 20px;
+  border-radius: 20px 0 0 20px;
 }
 </style>

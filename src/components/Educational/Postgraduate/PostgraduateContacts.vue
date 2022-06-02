@@ -108,6 +108,7 @@ export default defineComponent({
 .flex {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 @import '@/assets/styles/elements/ordinatura.scss';
 .el-descriptions__label {

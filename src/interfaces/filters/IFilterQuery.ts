@@ -16,4 +16,5 @@ export default interface IFilterQuery {
   setAllLoaded: (loadedItemsLength: number) => void;
   resetAllLoaded: () => void;
   setParams: (col: string, value: string) => void;
+  setCursorPagination: (schema: unknown, object: Record<string, unknown>) => void;
 }

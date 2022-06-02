@@ -83,11 +83,11 @@
         </colgroup>
         <thead>
           <th><h4>НАЗВАНИЕ ПРОГРАММЫ</h4></th>
-          <th><h4>ТИП</h4></th>
-          <th><h4>ЧАСОВ</h4></th>
-          <th><h4>СТОИМОСТЬ</h4></th>
+          <th><h4 style="text-align: center">ТИП</h4></th>
+          <th><h4 style="text-align: center">ЧАСОВ</h4></th>
+          <th><h4 style="text-align: center">СТОИМОСТЬ</h4></th>
           <th><h4>РУКОВОДИТЕЛЬ</h4></th>
-          <th><h4>ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>
+          <th><h4 style="text-align: center">ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>
         </thead>
         <tbody v-if="mounted">
           <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
@@ -97,7 +97,7 @@
               </router-link>
               <button class="response-btn" @click="$router.push(`/courses/${dpoCourse.slug}?respondForm=open`)">Подать заявку</button>
             </td>
-            <td>
+            <td style="text-align: center">
               <el-tag :type="dpoCourse.isNmo ? 'primary' : 'warning'">{{ dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-tag>
             </td>
             <td style="text-align: center">{{ dpoCourse.hours }}</td>
@@ -107,7 +107,7 @@
                 {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
               </router-link>
             </td>
-            <td>
+            <td style="text-align: center">
               {{ dpoCourse.getClosestPeriod() }}
             </td>
           </tr>

@@ -240,6 +240,9 @@ $card-margin-size: 30px;
   width: 100%;
   margin: $card-margin-size 0;
 }
+.right-field {
+  width: 100%;
+}
 
 .side-container {
   display: flex;

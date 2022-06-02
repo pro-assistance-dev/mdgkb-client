@@ -5,7 +5,8 @@ import IPagination from '@/interfaces/IPagination';
 
 export default class Pagination implements IPagination {
   cursor: ICursor = new Cursor();
-  cursorMode = true;
+  cursorMode = false;
+  append = false;
   offset = 0;
   limit = 25;
 
@@ -17,5 +18,9 @@ export default class Pagination implements IPagination {
     this.cursor.tableName = table;
     this.cursorMode = true;
     return;
+  }
+
+  setOffset(itemsLen: number): void {
+    this.offset = itemsLen;
   }
 }

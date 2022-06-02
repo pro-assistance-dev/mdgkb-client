@@ -141,11 +141,11 @@ export default defineComponent({
 .el-form-item {
   align-items: center;
   height: auto;
+  margin: 0;
 }
 
-:deep(.el-form-item__content) {
-  margin-top: 20px;
-  height: 30px;
+.el-form {
+  padding: 10px;
 }
 
 :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {

@@ -1,14 +1,8 @@
 <template>
-  <div class="header-center card-item">
-    <h2>Вопросы и ответы</h2>
-    <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти вопрос" size="large" />
-  </div>
   <div v-for="item in questionsList" :key="item.id" class="card-item">
     <CommentCard :is-question="true" :question="item" />
   </div>
-  <div class="loadmore-button">
-    <LoadMoreButton @loadMore="loadMore" />
-  </div>
+  <LoadMoreButton @loadMore="loadMore" />
 </template>
 
 <script lang="ts">
@@ -99,10 +93,5 @@ h2 {
   margin-top: 0;
   font-size: 24px;
   text-align: center;
-}
-
-.loadmore-button {
-  display: flex;
-  justify-content: center;
 }
 </style>

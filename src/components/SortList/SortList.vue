@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="mounted" :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
+  <el-form v-if="mounted" :style="{ width: '100%', maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
     <el-form-item :label="showLabel && labelName">
       <el-select v-model="sortModel" value-key="label" :clearable="!defaultSortOn" :placeholder="sortModel.label" @change="setSort">
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item" />
@@ -11,6 +11,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
 
+import Pagination from '@/classes/filters/Pagination';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import Provider from '@/services/Provider';
@@ -37,7 +38,7 @@ export default defineComponent({
     },
     maxWidth: {
       type: [Number, String],
-      default: 300,
+      default: 250,
     },
   },
   emits: ['load'],
@@ -92,13 +93,8 @@ export default defineComponent({
     });
 
     const setSort = () => {
-      // selectedModel.value = sortModel.label;
-      // if (sortModel.value) {
-      //   Provider.store.commit('filter/replaceSortModel', sortModel);
-      //   defaultSortOn.value = sortModel.value.default;
-      // } else {
-      //   setDefaultSort();
-      // }
+      Provider.filterQuery.value.pagination = new Pagination();
+      Provider.filterQuery.value.allLoaded = false;
       emit('load');
     };
 
@@ -151,10 +147,6 @@ export default defineComponent({
 }
 
 .el-select {
-  width: 100%;
-}
-
-:deep(.el-form) {
   width: 100%;
 }
 

@@ -1,28 +1,39 @@
 <template>
-  <div class="ques-answ-container">
-    <div class="ques-answ-container-left">
-      <ModeButtons
-        :store-mode="false"
-        :store-module="'comments'"
-        :first-mode="'Faq'"
-        :second-mode="'Вопрос-ответ'"
-        @changeMode="setFaqMode"
-      />
-      <button @click="openQuestion">Задать вопрос</button>
-    </div>
-    <div class="ques-answ-container-right">
+  <PageWrapper v-if="mounted" :title="title">
+    <template #filters>
+      <FiltersWrapper :header-right-max-width="300">
+        <template #header-right>
+          <ModeButtons
+            :store-mode="false"
+            :store-module="'comments'"
+            :first-mode="'FAQ'"
+            :second-mode="'Вопрос-ответ'"
+            @changeMode="setFaqMode"
+          />
+        </template>
+        <template #header-left-top>
+          <div>
+            <button @click="openQuestion">Задать вопрос</button>
+          </div>
+        </template>
+      </FiltersWrapper>
+    </template>
+    <div style="width: 100%">
       <FAQ v-if="faqMode" />
       <Questions v-else />
     </div>
-  </div>
-  <QuestionForm />
+    <QuestionForm />
+  </PageWrapper>
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
+import PageWrapper from '@/components/PageWrapper.vue';
 import FAQ from '@/components/Questions/FAQ.vue';
 import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import Questions from '@/components/Questions/Questions.vue';
@@ -30,27 +41,37 @@ import Questions from '@/components/Questions/Questions.vue';
 export default defineComponent({
   name: 'QuestionsAnswersPage',
 
-  components: { FAQ, Questions, ModeButtons, QuestionForm },
+  components: {
+    FAQ,
+    Questions,
+    ModeButtons,
+    QuestionForm,
+    PageWrapper,
+    FiltersWrapper,
+  },
 
   setup() {
     const store = useStore();
-    const pageTitle: Ref<string> = ref('Часто задаваемые вопросы');
+    const route = useRoute();
     const faqMode: Ref<boolean> = ref(true);
-    const test = (activeName: string) => {
-      pageTitle.value = activeName;
-    };
+    const mounted: Ref<boolean> = ref(false);
+    const title: ComputedRef<string> = computed(() => (faqMode.value ? 'Часто задаваемые вопросы' : 'Вопросы и ответы'));
 
     const setFaqMode = (faqModeCondition: boolean) => {
       faqMode.value = faqModeCondition;
     };
     const openQuestion = () => store.commit('questions/openQuestion');
 
+    onBeforeMount(() => {
+      mounted.value = true;
+    });
+
     return {
       setFaqMode,
       faqMode,
-      test,
-      pageTitle,
       openQuestion,
+      mounted,
+      title,
     };
   },
 });
@@ -76,7 +97,6 @@ $side-cotainer-max-width: 300px;
   }
 }
 button {
-  margin: 10px 0;
   font-size: 16px;
   border-radius: 10px;
   background-color: #2754ec;

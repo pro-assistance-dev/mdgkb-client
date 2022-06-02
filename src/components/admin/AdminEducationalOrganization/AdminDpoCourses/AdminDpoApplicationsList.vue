@@ -1,73 +1,78 @@
 <template>
-  <el-tag v-if="dpoApplications.some((app) => app.formValue.isNew)">Есть новые заявки</el-tag>
-  <el-table v-if="mounted" :data="dpoApplications">
-    <el-table-column label="Статус">
-      <template #default="scope">
-        <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Не просмотрено</el-tag>
-        <el-tag
-          v-if="scope.row.formValue.formStatus.label"
-          size="small"
-          :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`"
-        >
-          {{ scope.row.formValue.formStatus.label }}
-        </el-tag>
-      </template>
-    </el-table-column>
-    <el-table-column label="Дата подачи заявления" sortable>
-      <template #default="scope">
-        {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}
-      </template>
-    </el-table-column>
-    <el-table-column label="Email заявителя" sortable>
-      <template #default="scope">
-        {{ scope.row.formValue.user.email }}
-      </template>
-    </el-table-column>
-    <el-table-column label="ФИО заявителя" sortable>
-      <template #default="scope">
-        {{ scope.row.formValue.user.human.getFullName() }}
-      </template>
-    </el-table-column>
-    <el-table-column label="Наименование курса" sortable>
-      <template #default="scope">
-        {{ scope.row.dpoCourse.name }}
-      </template>
-    </el-table-column>
-    <el-table-column width="50" fixed="right" align="center">
-      <template #default="scope">
-        <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
-      </template>
-    </el-table-column>
-  </el-table>
+  <component :is="'AdminListWrapper'" v-if="mounted">
+    <el-tag v-if="dpoApplications.some((app) => app.formValue.isNew)">Есть новые заявки</el-tag>
+    <template #header>
+      <FiltersList :models="createFilterModels()" @load="loadApplications" />
+    </template>
+    <el-table :data="dpoApplications">
+      <el-table-column label="Статус">
+        <template #default="scope">
+          <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Не просмотрено</el-tag>
+          <el-tag
+            v-if="scope.row.formValue.formStatus.label"
+            size="small"
+            :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`"
+          >
+            {{ scope.row.formValue.formStatus.label }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="Дата подачи заявления" sortable>
+        <template #default="scope">
+          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Email заявителя" sortable>
+        <template #default="scope">
+          {{ scope.row.formValue.user.email }}
+        </template>
+      </el-table-column>
+      <el-table-column label="ФИО заявителя" sortable>
+        <template #default="scope">
+          {{ scope.row.formValue.user.human.getFullName() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Наименование курса" sortable>
+        <template #default="scope">
+          {{ scope.row.dpoCourse.name }}
+        </template>
+      </el-table-column>
+      <el-table-column width="50" fixed="right" align="center">
+        <template #default="scope">
+          <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
+        </template>
+      </el-table-column>
+    </el-table>
+  </component>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import SortModel from '@/classes/filters/SortModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import { Orders } from '@/interfaces/filters/Orders';
+import FiltersList from '@/components/Filters/FiltersList.vue';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDpoApplication from '@/interfaces/IDpoApplication';
-import ISchema from '@/interfaces/schema/ISchema';
+import IFormStatus from '@/interfaces/IFormStatus';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import DpoApplicationsFiltersLib from '@/services/Provider/libs/filters/DpoApplicationsFiltersLib';
+import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
+import DpoApplicationsSortsLib from '@/services/Provider/libs/sorts/DpoApplicationsSortsLib';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDpoApplicationsList',
-  components: { TableButtonGroup },
+  components: { TableButtonGroup, FiltersList, AdminListWrapper },
 
   setup() {
-    const mounted: Ref<boolean> = ref(false);
-    const store = useStore();
-    const router = useRouter();
     const route = useRoute();
 
-    const dpoApplications: ComputedRef<IDpoApplication[]> = computed(() => store.getters['dpoApplications/items']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const dpoApplications: ComputedRef<IDpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
+    const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+
     const filterModel = ref();
     const title = ref('');
 
@@ -75,10 +80,11 @@ export default defineComponent({
       setType();
       await unsubscribe();
       await subscribe();
-      await store.dispatch('dpoApplications/getAll', filterQuery.value);
+      await Provider.store.dispatch('dpoApplications/getAll', Provider.filterQuery.value);
     });
 
     const setType = () => {
+      filterModel.value = DpoApplicationsFiltersLib.byCourseType(false);
       if (route.path === '/admin/nmo/applications') {
         filterModel.value.boolean = true;
         title.value = 'Заявки НМО';
@@ -86,68 +92,78 @@ export default defineComponent({
         filterModel.value.boolean = false;
         title.value = 'Заявки ДПО';
       }
-      store.commit('filter/setFilterModel', filterModel.value);
+      Provider.store.commit('filter/setFilterModel', filterModel.value);
     };
 
     const setFilter = async () => {
-      await store.dispatch('meta/getSchema');
-      store.commit(`filter/resetQueryFilter`);
-      store.commit(
-        'filter/replaceSortModel',
-        SortModel.CreateSortModel(
-          schema.value.dpoApplication.tableName,
-          schema.value.dpoApplication.createdAt,
-          Orders.Desc,
-          'По дате',
-          true
-        )
-      );
-
-      filterModel.value = FilterModel.CreateFilterModel(
-        schema.value.dpoApplication.tableName,
-        schema.value.dpoApplication.isNmo,
-        DataTypes.Boolean
-      );
-
-      filterQuery.value.pagination.cursorMode = false;
+      await Provider.store.dispatch('meta/getSchema');
+      Provider.store.commit(`filter/resetQueryFilter`);
+      Provider.store.commit('filter/replaceSortModel', DpoApplicationsSortsLib.byCreatedAt());
+      Provider.filterQuery.value.pagination.cursorMode = false;
       setType();
     };
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
+    const loadApplications = async () => {
+      await Provider.store.dispatch('dpoApplications/getAll', Provider.filterQuery.value);
+    };
+
+    const loadFilters = async () => {
+      const filterQuery = new FilterQuery();
+      const formStatusesGroupId = dpoApplications.value[0].formValue.formStatus.formStatusGroupId;
+      if (formStatusesGroupId) {
+        filterQuery.filterModels.push(FormStatusesFiltersLib.byGroupId(formStatusesGroupId));
+      }
+      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+    };
+
+    const load = async () => {
       await setFilter();
-      await store.dispatch('dpoApplications/getAll', filterQuery.value);
-      store.commit('admin/setHeaderParams', {
+      await loadApplications();
+      await loadFilters();
+      Provider.store.commit('admin/setHeaderParams', {
         title: title,
         buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
       });
-      store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
+      Provider.store.commit('pagination/setCurPage', 1);
       await subscribe();
       window.addEventListener('beforeunload', unsubscribe);
-      mounted.value = true;
-    });
+    };
+
+    Hooks.onBeforeMount(load);
 
     const subscribe = async () => {
       const isNmo = route.path === '/admin/nmo/applications';
-      await store.dispatch('dpoApplications/subscribeCreate', isNmo);
+      await Provider.store.dispatch('dpoApplications/subscribeCreate', isNmo);
     };
 
     const unsubscribe = async () => {
-      await store.dispatch('dpoApplications/unsubscribeCreate');
+      await Provider.store.dispatch('dpoApplications/unsubscribeCreate');
     };
     onBeforeUnmount(async () => {
-      await store.dispatch('dpoApplications/unsubscribeCreate');
+      await Provider.store.dispatch('dpoApplications/unsubscribeCreate');
     });
 
-    const create = () => router.push(`${route.path}/new`);
-    // const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
-    const edit = (id: string) => router.push(`${route.path}/${id}`);
+    const create = () => Provider.router.push(`${route.path}/new`);
+    // const remove = async (id: string) => await Provider.store.dispatch('dpoCourses/remove', id);
+    const edit = (id: string) => Provider.router.push(`${route.path}/${id}`);
+
+    const createFilterModels = (): IFilterModel[] => {
+      const filters: IFilterModel[] = [];
+      formStatuses.value.forEach((fs: IFormStatus) => {
+        if (fs.id) {
+          filters.push(DpoApplicationsFiltersLib.byStatus(fs.id, fs.label));
+        }
+      });
+      return filters;
+    };
 
     return {
-      mounted,
+      createFilterModels,
+      mounted: Provider.mounted,
       dpoApplications,
+      loadApplications,
       edit,
+      formStatuses,
     };
   },
 });

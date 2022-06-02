@@ -69,6 +69,7 @@
             >
               Проверить все
             </el-button>
+            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>
           </div>
         </div>
       </template>
@@ -79,14 +80,15 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
 
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminFormValue',
@@ -112,10 +114,8 @@ export default defineComponent({
   emits: ['findEmail'],
 
   setup(props, { emit }) {
-    const store = useStore();
     const formValue: Ref<IForm | undefined> = ref();
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
-    const mounted = ref(false);
+    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
 
     const changeFormStatusHandler = (status: IFormStatus) => {
       if (!formValue.value) return;
@@ -136,21 +136,28 @@ export default defineComponent({
       formValue.value.setStatus(status, formStatuses.value);
     };
 
-    onBeforeMount(async () => {
-      await store.dispatch('formStatuses/getAll');
+    const load = async () => {
+      await Provider.store.dispatch('formStatuses/getAll');
       formValue.value = props.form;
-      mounted.value = true;
-    });
+    };
+    Hooks.onBeforeMount(load);
 
     const findEmail = () => {
       if (props.validateEmail) emit('findEmail');
     };
 
+    const downloadFiles = async () => {
+      if (formValue.value) {
+        await Provider.store.dispatch('formValues/documentsToPdf', formValue.value.id);
+      }
+    };
+
     return {
+      downloadFiles,
       formValue,
       findEmail,
       formStatuses,
-      mounted,
+      mounted: Provider.mounted,
       changeFormStatusHandler,
     };
   },

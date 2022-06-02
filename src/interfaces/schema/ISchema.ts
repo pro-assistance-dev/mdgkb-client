@@ -9,6 +9,7 @@ import IDpoCourseSpecializationSchema from '@/interfaces/schema/IDpoCourseSpecia
 import IEducationalOrganizationAcademicSchema from '@/interfaces/schema/IEducationalOrganizationAcademicSchema';
 import IEducationPublicDocumentTypeSchema from '@/interfaces/schema/IEducationPublicDocumentTypeSchema';
 import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
+import IFormStatusSchema from '@/interfaces/schema/IFormStatusSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 import INewsSchema from '@/interfaces/schema/INewsSchema';
@@ -48,4 +49,5 @@ export default interface ISchema {
   pathPermission: IPathPermissionsSchema;
   news: INewsSchema;
   newsToTag: INewsToTag;
+  formStatus: IFormStatusSchema;
 }

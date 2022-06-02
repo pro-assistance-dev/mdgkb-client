@@ -33,6 +33,13 @@
         :filter-value="true"
         @load="load"
       />
+      <FilterSelectDate
+        class="filters-block"
+        :table="schema.vacancy.tableName"
+        :col="schema.vacancy.date"
+        placeholder="Дата публикации"
+        @load="load"
+      />
     </template>
     <el-table v-if="vacancies" :data="vacancies">
       <el-table-column prop="title" label="Название" class-name="sticky-left" min-width="200">
@@ -93,6 +100,7 @@ import { computed, defineComponent, Ref } from 'vue';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -107,7 +115,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminVacanciesList',
-  components: { FilterCheckbox, TableButtonGroup, RemoteSearch, SortList, Pagination, AdminListWrapper },
+  components: { FilterCheckbox, FilterSelectDate, TableButtonGroup, RemoteSearch, SortList, Pagination, AdminListWrapper },
   setup() {
     const vacancies: Ref<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
 
