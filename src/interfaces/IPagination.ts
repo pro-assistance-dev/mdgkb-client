@@ -5,5 +5,6 @@ export default interface IPagination {
   cursor: ICursor;
   limit: number;
   offset: number;
+  append: boolean;
   setLoadMore: (lastCursor: string, column: string, table: string) => void;
 }

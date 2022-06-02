@@ -11,13 +11,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
 
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import VacanciesFilters from '@/components/Vacansies/VacanciesFilters.vue';
 import VacancyCard from '@/components/Vacansies/VacancyCard.vue';
-import { Operators } from '@/interfaces/filters/Operators';
+import IVacancy from '@/interfaces/IVacancy';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -28,20 +28,16 @@ export default defineComponent({
   components: { VacanciesFilters, VacancyCard, LoadMoreButton, PageWrapper },
 
   setup() {
-    const vacancies = computed(() => Provider.store.getters['vacancies/vacancies']);
+    const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
 
     const loadVacancies = async () => {
-      Provider.store.commit('vacancies/clearVacancies');
+      Provider.filterQuery.value.pagination.limit = 8;
       await Provider.store.dispatch('vacancies/getAll', Provider.filterQuery.value);
     };
 
     const load = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 8;
-      Provider.filterQuery.value.pagination.cursorMode = true;
-      Provider.setSortModels(VacanciesSortsLib.byDate());
+      Provider.setSortModels(VacanciesSortsLib.byTitle());
       Provider.setSortList(...createSortModels(VacanciesSortsLib));
-      // Provider.setFilterModels(VacanciesFiltersLib.onlyActive());
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       await loadVacancies();
     };
@@ -49,16 +45,13 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const loadMore = async () => {
-      Provider.filterQuery.value.pagination.cursor.value = vacancies.value[vacancies.value.length - 1].date;
-      Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
-      Provider.filterQuery.value.pagination.cursor.column = Provider.schema.value.vacancy.date;
-      Provider.filterQuery.value.pagination.cursor.initial = false;
-      Provider.filterQuery.value.pagination.cursorMode = true;
-
+      Provider.filterQuery.value.pagination.append = true;
+      Provider.filterQuery.value.pagination.offset = vacancies.value.length;
       await Provider.store.dispatch('vacancies/getAll', Provider.filterQuery.value);
     };
 
     return {
+      load,
       vacancies,
       mounted: Provider.mounted,
       loadMore,

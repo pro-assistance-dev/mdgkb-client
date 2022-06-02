@@ -11,6 +11,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
 
+import Pagination from '@/classes/filters/Pagination';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import Provider from '@/services/Provider';
@@ -92,13 +93,8 @@ export default defineComponent({
     });
 
     const setSort = () => {
-      // selectedModel.value = sortModel.label;
-      // if (sortModel.value) {
-      //   Provider.store.commit('filter/replaceSortModel', sortModel);
-      //   defaultSortOn.value = sortModel.value.default;
-      // } else {
-      //   setDefaultSort();
-      // }
+      Provider.filterQuery.value.pagination = new Pagination();
+      Provider.filterQuery.value.allLoaded = false;
       emit('load');
     };
 

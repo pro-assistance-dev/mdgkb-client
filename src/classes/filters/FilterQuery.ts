@@ -2,6 +2,7 @@ import Pagination from '@/classes/filters/Pagination';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
+import { Operators } from '@/interfaces/filters/Operators';
 import IPagination from '@/interfaces/IPagination';
 
 export default class FilterQuery implements IFilterQuery {
@@ -38,6 +39,7 @@ export default class FilterQuery implements IFilterQuery {
     }
     return url;
   }
+
   setAllLoaded(loadedItemsLength: number): void {
     if (loadedItemsLength >= this.pagination.limit) {
       return;
@@ -51,5 +53,26 @@ export default class FilterQuery implements IFilterQuery {
   setParams(col: string, value: string): void {
     this.col = col;
     this.value = value;
+  }
+
+  setCursorPagination(schema: unknown, object: Record<string, unknown>): void {
+    const s = schema as Record<string, unknown>;
+    const sortModel = this.sortModels.find((s: ISortModel) => s.id);
+    if (!sortModel) {
+      return;
+    }
+    for (const p in s) {
+      if (s[p] === sortModel.col) {
+        if (p === 'sortColumn') {
+          continue;
+        }
+        this.pagination.cursor.column = sortModel.col;
+        this.pagination.cursor.value = String(object[p]);
+        this.pagination.cursor.operation = sortModel.isAsc() ? Operators.Gt : Operators.Lt;
+        this.pagination.cursorMode = true;
+        this.pagination.cursor.initial = false;
+        break;
+      }
+    }
   }
 }
