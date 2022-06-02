@@ -5,6 +5,7 @@ import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
+import ITreatDirection from '@/interfaces/ITreatDirection';
 import IVacancy from '@/interfaces/IVacancy';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
@@ -47,6 +48,9 @@ export default interface IDivision {
   hospitalizationDoctor?: IDoctor;
 
   medicalProfilesDivisions: IMedicalProfileDivision[];
+
+  treatDirection: ITreatDirection;
+  treatDirectionId?: string;
 
   getAddress: () => string;
 }
