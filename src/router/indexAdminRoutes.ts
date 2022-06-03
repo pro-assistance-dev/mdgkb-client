@@ -4,7 +4,7 @@ import AdminCertificates from '@/components/admin/AdminCertificates/AdminCertifi
 import AdminCommonVisitingRulesList from '@/components/admin/AdminCommonVisitingRules/AdminCommonVisitingRulesList.vue';
 import AdminDonorRules from '@/components/admin/AdminDonorRules/AdminDonorRules.vue';
 import AdminGatesList from '@/components/admin/AdminGates/AdminGatesList.vue';
-import AdminApplicationForEntryRoutes from '@/router/AdminApplicationForEntryRoutes';
+import AdminApplicationsCarsRoutes from '@/router/AdminApplicationsCarsRoutes';
 import AdminAppointmentsRoutes from '@/router/AdminAppointmentsRoutes';
 import AdminBannersRoutes from '@/router/AdminBannersRoutes';
 import AdminCommentsRoutes from '@/router/AdminCommentsRoutes';
@@ -83,18 +83,6 @@ export default [
       layout: 'AdminLayout',
     },
   },
-  // {
-  //   path: '/admin/application-for-entry',
-  //   name: 'AdminApplicationForEntry',
-  //   component: AdminApplicationForEntry,
-  //   beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-  //     isAuthorized(next);
-  //     authGuard();
-  //   },
-  //   meta: {
-  //     layout: 'AdminLayout',
-  //   },
-  // },
   ...AdminDoctorsRoutes,
   ...AdminDictionaryRoutes,
   ...AdminNewsRoutes,
@@ -117,10 +105,10 @@ export default [
   ...AdminPublicDocumentTypesRoutes,
   ...AdminMedicalProfiles,
   ...AdminAppointmentsRoutes,
-  ...AdminApplicationForEntryRoutes,
   ...AdminFormPatternRoutes,
   ...AdminFormStatusesRoutes,
   ...AdminPermissionsRoutes,
   ...AdminRolesRoutes,
   ...AdminUsersRoutes,
+  ...AdminApplicationsCarsRoutes,
 ];

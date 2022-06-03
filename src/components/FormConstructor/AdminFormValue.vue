@@ -80,14 +80,13 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
-import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -116,7 +115,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const formValue: Ref<IForm | undefined> = ref();
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
-
+    const mounted: Ref<boolean> = ref(false);
     const changeFormStatusHandler = (status: IFormStatus) => {
       if (!formValue.value) return;
       if (status.isClarifyRequired() && !formValue.value.haveModComments()) {
@@ -139,8 +138,9 @@ export default defineComponent({
     const load = async () => {
       await Provider.store.dispatch('formStatuses/getAll');
       formValue.value = props.form;
+      mounted.value = true;
     };
-    Hooks.onBeforeMount(load);
+    onBeforeMount(load);
 
     const findEmail = () => {
       if (props.validateEmail) emit('findEmail');
@@ -157,7 +157,7 @@ export default defineComponent({
       formValue,
       findEmail,
       formStatuses,
-      mounted: Provider.mounted,
+      mounted,
       changeFormStatusHandler,
     };
   },

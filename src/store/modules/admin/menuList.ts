@@ -267,7 +267,7 @@ const menuList: IAdminMenu[] = [
       },
       {
         title: 'Заявки на въезд',
-        to: '/admin/application-for-entry',
+        to: '/admin/applications-cars',
         icon: 'el-icon-guide',
       },
       {
