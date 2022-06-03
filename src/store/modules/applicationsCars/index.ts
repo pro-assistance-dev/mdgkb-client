@@ -12,7 +12,7 @@ export const getDefaultState = (): State => {
   return {
     items: [],
     item: new ApplicationCar(),
-    isCarModalOpen: false,
+    count: 0,
   };
 };
 

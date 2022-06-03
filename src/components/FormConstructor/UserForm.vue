@@ -7,41 +7,72 @@
     Вы уже подавали заявку. Для просмотра данных, пожалуйста, перейдите в
     <a @click="$router.push('/profile')"> личный кабинет</a>.
   </div>
-  <el-form-item v-if="!user.email || fromAdmin" label="Электронная почта" prop="formValue.user.email" :rules="rules.email">
+  <el-form-item
+    v-if="(!user.email || fromAdmin) && activeFields.userEmail"
+    label="Электронная почта"
+    prop="formValue.user.email"
+    :rules="rules.email"
+  >
     <el-input v-model="formValue.user.email" placeholder="Электронная почта" @input="findEmail"></el-input>
   </el-form-item>
-  <el-form-item v-if="!user.human.surname || fromAdmin" label="Фамилия" prop="formValue.user.human.surname">
+  <el-form-item v-if="(!user.human.surname || fromAdmin) && activeFields.userSurname" label="Фамилия" prop="formValue.user.human.surname">
     <el-input v-model="formValue.user.human.surname" placeholder="Фамилия"></el-input>
   </el-form-item>
-  <el-form-item v-if="!user.human.name || fromAdmin" label="Имя" prop="formValue.user.human.name">
+  <el-form-item v-if="(!user.human.name || fromAdmin) && activeFields.userName" label="Имя" prop="formValue.user.human.name">
     <el-input v-model="formValue.user.human.name" placeholder="Имя"></el-input>
   </el-form-item>
-  <el-form-item v-if="!user.human.patronymic || fromAdmin" label="Отчество" prop="formValue.user.human.patronymic">
+  <el-form-item
+    v-if="(!user.human.patronymic || fromAdmin) && activeFields.userPatronymic"
+    label="Отчество"
+    prop="formValue.user.human.patronymic"
+  >
     <el-input v-model="formValue.user.human.patronymic" placeholder="Отчество"></el-input>
   </el-form-item>
-  <div v-if="fullForm">
-    <el-form-item label="Дата рождения" prop="formValue.user.human.dateBirth">
-      <el-date-picker v-model="formValue.user.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
-    </el-form-item>
-    <el-form-item label="Пол" prop="formValue.user.human.isMale">
-      <el-select v-model="formValue.user.human.isMale" placeholder="Выберите пол">
-        <el-option label="Мужской" :value="true"></el-option>
-        <el-option label="Женский" :value="false"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="Телефон" prop="formValue.user.phone">
-      <el-input v-model="formValue.user.phone"></el-input>
-    </el-form-item>
-  </div>
+  <el-form-item
+    v-if="(!user.human.dateBirth || fromAdmin) && activeFields.userDateBirth"
+    label="Дата рождения"
+    prop="formValue.user.human.dateBirth"
+  >
+    <el-date-picker v-model="formValue.user.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
+  </el-form-item>
+  <el-form-item v-if="(!user.human.isMale || fromAdmin) && activeFields.userIsMale" label="Пол" prop="formValue.user.human.isMale">
+    <el-select v-model="formValue.user.human.isMale" placeholder="Выберите пол">
+      <el-option label="Мужской" :value="true"></el-option>
+      <el-option label="Женский" :value="false"></el-option>
+    </el-select>
+  </el-form-item>
+  <el-form-item v-if="(!user.human.phone || fromAdmin) && activeFields.userPhone" label="Ваш телефон" prop="formValue.user.phone">
+    <el-input v-model="formValue.user.phone" placeholder="Ваш телефон"></el-input>
+  </el-form-item>
+  <el-form-item v-if="activeFields.childSurname" label="Фамилия пациента" prop="formValue.user.human.surname">
+    <el-input v-model="formValue.child.human.surname" placeholder="Фамилия пациента"></el-input>
+  </el-form-item>
+  <el-form-item v-if="activeFields.childName" label="Имя пациента" prop="formValue.user.human.name">
+    <el-input v-model="formValue.child.human.name" placeholder="Имя пациента"></el-input>
+  </el-form-item>
+  <el-form-item v-if="activeFields.childPatronymic" label="Отчество пациента" prop="formValue.user.human.patronymic">
+    <el-input v-model="formValue.child.human.patronymic" placeholder="Отчество пациента"></el-input>
+  </el-form-item>
+  <el-form-item v-if="activeFields.childDateBirth" label="Дата рождения пациента" prop="formValue.user.human.dateBirth">
+    <el-date-picker v-model="formValue.child.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
+  </el-form-item>
+  <el-form-item v-if="activeFields.childIsMale" label="Пол пациента" prop="formValue.user.human.isMale">
+    <el-select v-model="formValue.child.human.isMale" placeholder="Выберите пол">
+      <el-option label="Мужской" :value="true"></el-option>
+      <el-option label="Женский" :value="false"></el-option>
+    </el-select>
+  </el-form-item>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import UserFormFields from '@/classes/UserFormFields';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IForm from '@/interfaces/IForm';
 import IUser from '@/interfaces/IUser';
+import IUserFormFields from '@/interfaces/IUserFormFields';
 
 export default defineComponent({
   name: 'UserForm',
@@ -66,9 +97,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    fullForm: {
-      type: Boolean,
-      default: false,
+    activeFields: {
+      type: Object as PropType<IUserFormFields>,
+      default: UserFormFields.CreateWithFullName(),
     },
   },
   emits: ['findEmail'],

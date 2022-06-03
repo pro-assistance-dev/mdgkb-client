@@ -1,11 +1,35 @@
 import { MutationTree } from 'vuex';
 
 import ApplicationCar from '@/classes/ApplicationCar';
+import Form from '@/classes/Form';
+import Gate from '@/classes/Gate';
+import User from '@/classes/User';
 import IApplicationCar from '@/interfaces/IApplicationCar';
+import IApplicationCarWithCount from '@/interfaces/IApplicationCarWithCount';
+import IForm from '@/interfaces/IForm';
+import IGate from '@/interfaces/IGate';
+import IUser from '@/interfaces/IUser';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
+  setAllWithCount(state, item: IApplicationCarWithCount) {
+    if (!item.applicationsCars) {
+      state.items = [];
+      return;
+    }
+    state.items = item.applicationsCars.map((i: IApplicationCar) => new ApplicationCar(i));
+    state.count = item.count;
+  },
+  appendToAll(state, items: IApplicationCarWithCount) {
+    if (!items.applicationsCars) {
+      state.items = [];
+      return;
+    }
+    const applicationsCars = items.applicationsCars.map((i: IApplicationCar) => new ApplicationCar(i));
+    state.items.push(...applicationsCars);
+    state.count = items.count;
+  },
   setAll(state, items: IApplicationCar[]) {
     state.items = items.map((i: IApplicationCar) => new ApplicationCar(i));
   },
@@ -19,8 +43,18 @@ const mutations: MutationTree<State> = {
   resetItem(state) {
     state.item = new ApplicationCar();
   },
-  toggleCarModal(state, value: boolean) {
-    state.isCarModalOpen = value;
+  resetItems(state) {
+    state.items = [];
+  },
+  setUser(state, user: IUser) {
+    state.item.formValue.user = new User(user);
+  },
+  setGate(state, gate: IGate) {
+    state.item.gate = new Gate(gate);
+    state.item.gateId = state.item.gate.id;
+  },
+  setFormValue(state, form: IForm) {
+    state.item.formValue = new Form(form);
   },
 };
 

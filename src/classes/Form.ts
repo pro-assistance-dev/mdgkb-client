@@ -11,6 +11,7 @@ import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
 import CandidateApplication from './CandidateApplication';
+import Child from './Child';
 import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
 import FormStatus from './FormStatus';
@@ -42,6 +43,8 @@ export default class Form implements IForm {
   defaultFormStatusId?: string;
   formStatusGroup?: IFormStatusGroup;
   formStatusGroupId?: string;
+  child = new Child();
+  childId?: string;
   // changed = false;
 
   constructor(form?: IForm) {
@@ -92,6 +95,10 @@ export default class Form implements IForm {
       this.defaultFormStatus = new FormStatus(form.defaultFormStatus);
     }
     this.defaultFormStatusId = form.defaultFormStatusId;
+    if (form.child) {
+      this.child = new Child(form.child);
+    }
+    this.childId = form.childId;
   }
 
   addField(field?: IField): void {

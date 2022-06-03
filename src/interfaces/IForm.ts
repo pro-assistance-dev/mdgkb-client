@@ -2,6 +2,7 @@ import IField from '@/interfaces/IField';
 
 import IFileInfo from './files/IFileInfo';
 import ICandidateApplication from './ICandidateApplication';
+import IChild from './IChild';
 import IDpoApplication from './IDpoApplication';
 import IFieldValue from './IFieldValue';
 import IFormStatus from './IFormStatus';
@@ -32,6 +33,8 @@ export default interface IForm {
   defaultFormStatusId?: string;
   formStatusGroup?: IFormStatusGroup;
   formStatusGroupId?: string;
+  child?: IChild;
+  childId?: string;
 
   addField: (field?: IField) => void;
   removeField: (index: number) => void;

@@ -43,6 +43,10 @@ const menuList: IAdminMenu[] = [
         to: '/admin/buildings',
       },
       {
+        title: 'Входы',
+        to: '/admin/gates',
+      },
+      {
         title: 'Отделения',
         to: '/admin/divisions',
       },
@@ -263,7 +267,7 @@ const menuList: IAdminMenu[] = [
       },
       {
         title: 'Заявки на въезд',
-        to: '/admin/application-for-entry',
+        to: '/admin/applications-cars',
         icon: 'el-icon-guide',
       },
       {

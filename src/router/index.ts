@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
 import AboutPage from '@/components/About/AboutPage.vue';
+import ApplicationCarPage from '@/components/ApplicationCarPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
@@ -240,6 +241,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/access-profile/:userId/:uniqueId',
     name: 'ProfilePasswordPage',
     component: RefreshPasswordPage,
+  },
+  {
+    path: '/application-car/:gateId',
+    name: 'ApplicationCarPage',
+    component: ApplicationCarPage,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,

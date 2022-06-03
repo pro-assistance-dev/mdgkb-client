@@ -26,6 +26,9 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.put<IGate, IGate>({ query: `${item.id}`, payload: item, isFormData: true });
     commit('set', res);
   },
+  updateMany: async ({ state }): Promise<void> => {
+    await httpClient.put<IGate[], IGate[]>({ query: `/many`, payload: state.items, isFormData: true });
+  },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
