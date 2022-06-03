@@ -1,12 +1,7 @@
 <template>
   <el-card>
     <el-space>
-      <!-- {{ Provider.schema.value.doctor.key}} -->
-      <RemoteSearch :key-value="Provider.schema.value.doctor.key" @select="selectSearch" />
-      <!-- <el-select v-model="newId" filterable placeholder="Выберите врача">
-        <el-option v-for="item in doctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
-      </el-select>
-      <el-button type="success" style="margin: 20px" @click="add">Добавить врача</el-button> -->
+      <RemoteSearch :key-value="schema.doctor.key" @select="selectSearch" />
     </el-space>
     <el-table :data="news.newsDoctors">
       <el-table-column label="ФИО" sortable>
@@ -24,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -37,13 +32,11 @@ export default defineComponent({
   name: 'AdminNewsDoctors',
   components: { TableButtonGroup, RemoteSearch },
   setup() {
-    const mounted = ref(false);
-    const form = ref();
     const news: ComputedRef<INews> = computed(() => Provider.store.getters['news/newsItem']);
     const doctor: ComputedRef<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.store.dispatch('doctors/get', event.id);
+      await Provider.store.dispatch('doctors/get', event.value);
       news.value.addDoctor(doctor.value);
     };
 
@@ -54,9 +47,7 @@ export default defineComponent({
     return {
       news,
       remove,
-      mounted,
-      form,
-      Provider,
+      schema: Provider.schema,
       selectSearch,
     };
   },

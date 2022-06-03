@@ -94,7 +94,7 @@ export default defineComponent({
     const edit = (slug: string) => router.push(`/admin/doctors/${slug}`);
     const remove = async (id: string) => await store.dispatch('doctors/remove', id);
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push({ name: `AdminEditDoctorPage`, params: { id: event.id } });
+      await router.push({ name: `AdminEditDoctorPage`, params: { id: event.value } });
     };
 
     return { doctors, remove, edit, create, mounted, schema, selectSearch };

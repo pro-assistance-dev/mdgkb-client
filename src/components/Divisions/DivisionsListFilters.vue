@@ -139,7 +139,7 @@ export default defineComponent({
     };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/divisions/${event.id}`);
+      await router.push(`/divisions/${event.value}`);
     };
 
     const selectMode = async (value: string) => {

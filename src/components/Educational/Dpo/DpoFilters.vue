@@ -107,7 +107,7 @@ export default defineComponent({
     ];
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/courses/${event.id}`);
+      await Provider.router.push(`/courses/${event.value}`);
     };
 
     const resetFilter = () => {

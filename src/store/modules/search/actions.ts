@@ -14,7 +14,7 @@ const actions: ActionTree<State, RootState> = {
     const item = await httpClient.get<ISearchModel>({ query: `?searchModel=${searchModel.toUrl()}` });
     if (item) {
       item.searchGroup.options.forEach((opt: ISearchElement) => {
-        searchModel.searchObjects.push({ id: opt.value, value: opt.label, description: opt.description });
+        searchModel.searchObjects.push({ id: opt.id, value: opt.value, label: opt.label, description: opt.description });
       });
     }
   },

@@ -20,9 +20,8 @@
             </div>
             <div style="flex: 1">
               <el-form-item label="Отделение">
-                <el-select v-model="vacancy.divisionId" clearable>
-                  <el-option v-for="division in divisions" :key="division.id" :label="division.name" :value="division.id" />
-                </el-select>
+                <RemoteSearch :key-value="schema.division.key" @select="selectDivisionSearch" />
+                <div v-if="vacancy.division">{{ vacancy.division.name }}</div>
               </el-form-item>
               <el-form-item label-width="100px" label="Дата добавления вакансии">
                 <el-date-picker v-model="vacancy.date" type="date" format="DD.MM.YYYY" placeholder="Выберите дату" />
@@ -76,11 +75,14 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
+import Division from '@/classes/buildings/Division';
 import AdminVacanciesPageResponses from '@/components/admin/AdminVacancies/AdminVacanciesPageResponses.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IForm from '@/interfaces/IForm';
+import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
@@ -89,12 +91,12 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
-  components: { SortableInputsList, CardHeader, AdminVacanciesPageResponses },
+  components: { SortableInputsList, CardHeader, AdminVacanciesPageResponses, RemoteSearch },
   setup() {
     const route = useRoute();
     const form = ref();
     const vacancy: Ref<IVacancy> = computed<IVacancy>(() => Provider.store.getters['vacancies/vacancy']);
-    const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => Provider.store.getters['divisions/divisions']);
+    const division: Ref<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);
 
@@ -136,8 +138,14 @@ export default defineComponent({
       next ? next() : await Provider.router.push('/admin/vacancies');
     };
 
+    const selectDivisionSearch = async (item: ISearchObject) => {
+      await Provider.store.dispatch('divisions/get', item.id);
+      vacancy.value.division = new Division(division.value);
+      vacancy.value.divisionId = item.id;
+    };
+
     return {
-      divisions,
+      selectDivisionSearch,
       submit,
       vacancy,
       form,

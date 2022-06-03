@@ -83,6 +83,7 @@ const actions: ActionTree<State, RootState> = {
           search.searchObjects.push({
             value: `${i.human.surname} ${i.human.name} ${i.human.patronymic}`,
             id: i.human.slug,
+            label: `${i.human.surname} ${i.human.name} ${i.human.patronymic}`,
             description: '',
           });
         }

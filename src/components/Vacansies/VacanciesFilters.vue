@@ -46,7 +46,7 @@ export default defineComponent({
 
   setup() {
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/vacancies/${event.id}`);
+      await Provider.router.push(`/vacancies/${event.value}`);
     };
 
     return {

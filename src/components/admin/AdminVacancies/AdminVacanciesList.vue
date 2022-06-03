@@ -152,7 +152,7 @@ export default defineComponent({
     };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.id } });
+      await Provider.router.push({ name: `AdminVacanciesEdit`, params: { id: event.id, slug: event.id } });
     };
 
     return {
