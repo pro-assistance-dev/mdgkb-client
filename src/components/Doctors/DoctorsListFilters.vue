@@ -150,7 +150,7 @@ export default defineComponent({
     };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/doctors/${event.id}`);
+      await router.push(`/doctors/${event.value}`);
     };
 
     return {

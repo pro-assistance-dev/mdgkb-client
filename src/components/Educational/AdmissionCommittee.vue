@@ -14,6 +14,9 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="button-block">
+            <button @click="showFormFunc">Подать заявление</button>
+          </div>
         </div>
       </div>
     </div>
@@ -27,9 +30,11 @@
         <DocumentsList :documents="selectedDocumentType.documents" />
       </div>
       <ResidencyCoursesList
-        v-if="mode === 'freePrograms' || mode === 'paidPrograms'"
+        v-if="mode === 'freePrograms' || mode === 'paidPrograms' || showForm"
         :paid-programs="mode === 'paidPrograms'"
-        :free-programs="mode === 'freePrograms'"
+        :free-programs="false"
+        :cost="mode === 'paidPrograms'"
+        :years="false"
       />
     </div>
   </div>
@@ -65,7 +70,7 @@ export default defineComponent({
       () => Provider.store.getters['admissionCommitteeDocumentTypes/items']
     );
     const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
-
+    const showForm: Ref<boolean> = ref(false);
     const setModes = async () => {
       docTypes.value.forEach((docType: IAdmissionCommitteeDocumentType) => {
         if (docType.id) {
@@ -90,6 +95,7 @@ export default defineComponent({
         await loadPrograms();
       }
       mode.value = value;
+      showForm.value = false;
       await Provider.router.replace(`/admission-committee?mode=${mode.value}`);
     };
 
@@ -121,7 +127,13 @@ export default defineComponent({
       return name === mode.value ? 'is-active' : '';
     };
 
-    return { docTypes, mounted: Provider.mounted, mode, modes, isActive, changeTab, selectedDocumentType };
+    const showFormFunc = () => {
+      selectedDocumentType.value = undefined;
+      showForm.value = true;
+      mode.value = '';
+    };
+
+    return { docTypes, mounted: Provider.mounted, mode, modes, isActive, changeTab, selectedDocumentType, showFormFunc, showForm };
   },
 });
 </script>
@@ -172,5 +184,25 @@ h4 {
 }
 .is-active {
   color: #42a4f5;
+}
+
+.button-block {
+  button {
+    margin-top: 10px;
+    border-radius: 20px;
+    background-color: #31af5e;
+    padding: 10px 20px;
+    height: auto;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+  }
+  text-align: center;
+  padding: 4px 0 0px 0;
+  margin-top: 10px;
 }
 </style>

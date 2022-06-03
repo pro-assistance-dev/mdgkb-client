@@ -15,13 +15,7 @@
             <el-card class="content-card">
               <template #header>Контент</template>
               <el-form-item prop="content">
-                <QuillEditor
-                  v-model:content="news.content"
-                  style="min-height: 200px; max-height: 700px"
-                  content-type="html"
-                  theme="snow"
-                  :options="editorOption"
-                ></QuillEditor>
+                <WysiwygEditor v-model="news.content" />
               </el-form-item>
             </el-card>
             <el-card>
@@ -78,7 +72,6 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { QuillEditor } from '@vueup/vue-quill';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
@@ -88,6 +81,7 @@ import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue'
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import INews from '@/interfaces/news/INews';
 import removeFromClass from '@/mixins/removeFromClass';
@@ -103,36 +97,15 @@ export default defineComponent({
     UploaderSingleScan,
     AdminNewsPageEvent,
     ImageCropper,
-    QuillEditor,
+    WysiwygEditor,
     AdminNewsPageTags,
     AdminNewsDoctors,
   },
   setup() {
-    let mounted = ref(false);
     const route = useRoute();
     let isCropGalleryOpen = ref(false);
     const form = ref();
     const rules = ref(NewsRules);
-    const editorOption = {
-      modules: {
-        toolbar: [
-          ['полужирный', 'курсив', 'подчеркивание', 'зачеркивание'], // полужирный, курсив, подчеркивание, зачеркивание
-          ['blockquote'], // цитата, кодовый блок
-          [{ header: 1 }, { header: 2 }], // Заголовок в виде пар ключ-значение; 1, 2 означает размер шрифта
-          [{ script: 'sub' }, { script: 'super' }], // нижний индекс и нижний индекс
-          [{ indent: '- 1' }, { indent: '+ 1' }], // отступ
-          [{ direction: 'rtl' }], // направление текста
-          [{ size: ['small', false, 'large', 'huge'] }], // размер шрифта
-          [{ header: [1, 2, 3, 4, 5, 6, false] }], // Несколько уровней заголовка
-          // [{ color: [] }, { background: [] }], // цвет шрифта, цвет фона шрифта
-          // [{ font: [] }], // шрифт
-          [{ align: [] }], // Выравнивание
-          ['clean'], // Очистить стиль шрифта
-          ['image', 'video'], // Загрузить изображения, загрузить видео
-          ['link'],
-        ],
-      },
-    };
 
     const galleryList = computed(() => Provider.store.getters[`news/galleryList`]);
     const news: Ref<INews> = computed(() => Provider.store.getters['news/newsItem']);
@@ -154,10 +127,6 @@ export default defineComponent({
       next ? next() : Provider.router.push('/admin/news');
     };
 
-    Hooks.onBeforeMount(async () => {
-      await loadNewsItem();
-    });
-
     const loadNewsItem = async () => {
       if (route.params['slug']) {
         await Provider.store.dispatch('news/get', route.params['slug']);
@@ -170,10 +139,11 @@ export default defineComponent({
         Provider.store.commit('news/resetState');
         Provider.store.commit('admin/setHeaderParams', { title: 'Добавить новость', showBackButton: true, buttons: [{ action: submit }] });
       }
-      mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(news, formUpdated, { deep: true });
     };
+
+    Hooks.onBeforeMount(loadNewsItem);
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
@@ -181,8 +151,7 @@ export default defineComponent({
 
     return {
       removeFromClass,
-      mounted,
-      editorOption,
+      mounted: Provider.mounted,
       isCropGalleryOpen,
       galleryList,
       submit,

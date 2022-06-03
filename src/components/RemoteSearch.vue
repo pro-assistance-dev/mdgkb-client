@@ -4,6 +4,7 @@
       <el-autocomplete
         ref="searchForm"
         v-model="queryString"
+        :value-key="'label'"
         style="width: 100%; margin-right: 10px"
         popper-class="wide-dropdown"
         :placeholder="placeholder"
@@ -22,7 +23,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -31,6 +31,7 @@ import { Operators } from '@/interfaces/filters/Operators';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearchModel from '@/interfaces/ISearchModel';
 import ISearch from '@/interfaces/ISearchObject';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'RemoteSearch',
@@ -74,10 +75,9 @@ export default defineComponent({
   },
   emits: ['select', 'load', 'input'],
   setup(props, { emit }) {
-    const store = useStore();
     const queryString: Ref<string> = ref(props.modelValue);
     const searchForm = ref();
-    const searchModel: Ref<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
+    const searchModel: Ref<ISearchModel> = computed<ISearchModel>(() => Provider.store.getters['search/searchModel']);
 
     const find = async (query: string, resolve: (arg: any) => void): Promise<void> => {
       searchForm.value.activated = true;
@@ -88,7 +88,8 @@ export default defineComponent({
       if (groupForSearch) {
         searchModel.value.searchGroup = groupForSearch;
       }
-      await store.dispatch(`search/search`, searchModel.value);
+      await Provider.store.dispatch(`search/search`, searchModel.value);
+
       emit('input', searchModel.value.searchObjects);
       if (props.showSuggestions) {
         resolve(searchModel.value.searchObjects);
@@ -99,14 +100,13 @@ export default defineComponent({
 
     const handleSearchInput = async (value: string): Promise<void> => {
       if (value.length === 0) {
-        await store.dispatch(`search/search`, store.getters['filter/filterQuery']);
+        await Provider.store.dispatch(`search/search`, Provider.filterQuery.value);
+        Provider.store.commit('pagination/setCurPage', 0);
       }
-      store.commit('pagination/setCurPage', 0);
     };
-
     const handleSelect = async (item: ISearch): Promise<void> => {
       if (props.storeModule != '') {
-        await store.dispatch(`${props.storeModule}/getAllById`, item.id);
+        await Provider.store.dispatch(`${props.storeModule}/getAllById`, item.id);
         return;
       }
       emit('select', item);
@@ -123,7 +123,7 @@ export default defineComponent({
 
     const onEnter = async (): Promise<void> => {
       filterModel.value.value1 = queryString.value;
-      store.commit('filter/setFilterModel', filterModel.value);
+      Provider.store.commit('filter/setFilterModel', filterModel.value);
       emit('load');
       searchForm.value.close();
     };

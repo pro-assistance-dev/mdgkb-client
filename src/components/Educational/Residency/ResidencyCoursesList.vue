@@ -66,10 +66,10 @@
         <thead>
           <th style="text-align: center"><h4>КОД</h4></th>
           <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
-          <th style="text-align: center"><h4>ГОДЫ</h4></th>
+          <th v-if="years" style="text-align: center"><h4>ГОДЫ</h4></th>
           <th v-if="freePrograms" style="text-align: center"><h4>БЕСПЛАТНЫЕ МЕСТА</h4></th>
           <th v-if="paidPrograms" style="text-align: center"><h4>ВАКАНТНЫЕ МЕСТА НА ПЛАТНОЙ ОСНОВЕ</h4></th>
-          <th style="text-align: center"><h4>СТОИМОСТЬ</h4></th>
+          <th v-if="cost" style="text-align: center"><h4>СТОИМОСТЬ</h4></th>
         </thead>
         <tbody>
           <tr v-for="residencyCourse in residencyCourses" :key="residencyCourse.id">
@@ -87,7 +87,7 @@
                 Подать заявку
               </button>
             </td>
-            <td style="text-align: center">
+            <td v-if="years" style="text-align: center">
               {{ residencyCourse.getPeriod() }}
             </td>
             <td v-if="freePrograms" style="text-align: center">
@@ -96,7 +96,7 @@
             <td v-if="paidPrograms" style="text-align: center">
               {{ residencyCourse.paidPlaces }}
             </td>
-            <td style="text-align: center">
+            <td v-if="cost" style="text-align: center">
               {{ residencyCourse.cost }}
             </td>
           </tr>
@@ -121,6 +121,14 @@ export default defineComponent({
       default: true,
     },
     freePrograms: {
+      type: Boolean,
+      default: true,
+    },
+    cost: {
+      type: Boolean,
+      default: true,
+    },
+    years: {
       type: Boolean,
       default: true,
     },

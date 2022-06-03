@@ -73,7 +73,7 @@ export default defineComponent({
 
   setup() {
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/residency-courses/${event.id}`);
+      await Provider.router.push(`/residency-courses/${event.value}`);
     };
 
     onBeforeMount(async () => {

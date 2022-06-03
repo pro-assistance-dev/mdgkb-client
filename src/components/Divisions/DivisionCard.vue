@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="flex-column right-side">
-        <div class="division-line">Терапевтическое направление</div>
+        <div class="division-line">{{ division.treatDirection.name }}</div>
         <div class="card-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
           {{ division.name }}
         </div>

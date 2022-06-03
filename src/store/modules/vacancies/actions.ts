@@ -17,7 +17,7 @@ const actions: ActionTree<State, RootState> = {
     if (filterQuery) {
       filterQuery.setAllLoaded(item ? item.vacancies.length : 0);
     }
-    if (filterQuery && filterQuery.pagination.cursorMode) {
+    if (filterQuery && filterQuery.pagination.append) {
       commit('appendToAll', item);
       return;
     }

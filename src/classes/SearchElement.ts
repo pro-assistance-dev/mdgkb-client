@@ -5,6 +5,7 @@ import ISearchElementMeta from '@/interfaces/ISearchElementMeta';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 
 export default class SearchElement implements ISearchElement {
+  id = '';
   value = '';
   label = '';
   description = '';
@@ -15,6 +16,7 @@ export default class SearchElement implements ISearchElement {
     if (!i) {
       return;
     }
+    this.id = i.id;
     this.value = i.value;
     this.label = i.label;
     this.description = i.description;

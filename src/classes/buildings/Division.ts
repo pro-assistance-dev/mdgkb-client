@@ -16,11 +16,13 @@ import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
+import ITreatDirection from '@/interfaces/ITreatDirection';
 import IVacancy from '@/interfaces/IVacancy';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
+import TreatDirection from '../TreatDirection';
 import DivisionImage from './DivisionImage';
 
 export default class Division implements IDivision {
@@ -56,6 +58,8 @@ export default class Division implements IDivision {
   medicalProfilesDivisions: IMedicalProfileDivision[] = [];
   contactInfo: IContactInfo = new ContactInfo();
   contactInfoId?: string;
+  treatDirection: ITreatDirection = new TreatDirection();
+  treatDirectionId?: string;
 
   constructor(i?: IDivision) {
     if (!i) {
@@ -112,6 +116,10 @@ export default class Division implements IDivision {
     }
     if (i.medicalProfilesDivisions) {
       this.medicalProfilesDivisions = i.medicalProfilesDivisions.map((item: IMedicalProfileDivision) => new MedicalProfileDivision(item));
+    }
+    this.treatDirectionId = i.treatDirectionId;
+    if (i.treatDirection) {
+      this.treatDirection = new TreatDirection(i.treatDirection);
     }
   }
 
