@@ -36,20 +36,18 @@
           :from-admin="true"
           :email-exists="emailExists"
           :validate-email="validateEmail"
+          :active-fields="activeFields"
           @findEmail="findEmail"
         />
       </div>
-      <el-descriptions v-else :column="1" border>
-        <el-descriptions-item label="Email">{{ formValue.user.email }}</el-descriptions-item>
-        <el-descriptions-item label="ФИО">{{ formValue.user.human.getFullName() }}</el-descriptions-item>
-      </el-descriptions>
+      <AdminUserInfo v-else :form="formValue" :active-fields="activeFields" />
     </el-card>
 
     <el-card v-if="isEditMode">
       <template #header>
         <span>Форма для подачи заявления</span>
       </template>
-      <FieldValuesForm :form="formValue" />
+      <FieldValuesForm :active-fields="activeFields" :form="formValue" />
     </el-card>
 
     <el-card v-else>
@@ -82,16 +80,19 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import UserFormFields from '@/classes/UserFormFields';
+import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
+import IUserFormFields from '@/interfaces/IUserFormFields';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminFormValue',
-  components: { FieldValuesFormResult, FieldValuesForm, UserForm },
+  components: { FieldValuesFormResult, FieldValuesForm, UserForm, AdminUserInfo },
   props: {
     form: {
       type: Object as PropType<IForm>,
@@ -108,6 +109,10 @@ export default defineComponent({
     isEditMode: {
       type: Boolean,
       required: true,
+    },
+    activeFields: {
+      type: Object as PropType<IUserFormFields>,
+      default: UserFormFields.CreateWithFullName(),
     },
   },
   emits: ['findEmail'],

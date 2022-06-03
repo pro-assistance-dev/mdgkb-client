@@ -1,7 +1,12 @@
 <template>
   <div v-if="mounted" class="contact-form">
     <el-form ref="form" :model="vacancyResponse" label-position="top" :rules="rules">
-      <UserForm :form="vacancyResponse.formValue" :email-exists="emailExists" full-form @findEmail="findEmail" />
+      <UserForm
+        :form="vacancyResponse.formValue"
+        :email-exists="emailExists"
+        :active-fields="UserFormFields.CreateWithAllUserFields()"
+        @findEmail="findEmail"
+      />
       <FieldValuesForm :form="vacancyResponse.formValue" />
       <el-divider />
       <div class="response-child">
@@ -17,6 +22,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } fro
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IUser from '@/interfaces/IUser';
@@ -98,6 +104,7 @@ export default defineComponent({
       filter,
       findEmail,
       emailExists,
+      UserFormFields,
     };
   },
 });

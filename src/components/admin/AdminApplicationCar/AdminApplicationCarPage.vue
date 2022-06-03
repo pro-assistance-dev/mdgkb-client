@@ -1,7 +1,12 @@
 <template>
   <div v-if="mounted">
     <el-form ref="form" :model="applicationCar" label-position="top">
-      <AdminFormValue :form="applicationCar.formValue" :is-edit-mode="isEditMode" />
+      <AdminFormValue
+        :validate-email="false"
+        :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true })"
+        :form="applicationCar.formValue"
+        :is-edit-mode="isEditMode"
+      />
     </el-form>
   </div>
 </template>
@@ -10,6 +15,7 @@
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
+import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IApplicationCar from '@/interfaces/IApplicationCar';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
@@ -85,7 +91,7 @@ export default defineComponent({
 
     const load = async () => {
       await loadItem();
-      // await updateNew();
+      await updateNew();
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(applicationCar, formUpdated, { deep: true });
     };
@@ -102,6 +108,7 @@ export default defineComponent({
       mounted: Provider.mounted,
       isEditMode,
       applicationCar,
+      UserFormFields,
     };
   },
 });

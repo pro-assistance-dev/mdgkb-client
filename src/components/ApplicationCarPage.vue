@@ -3,8 +3,12 @@
     <h2>Заявка на оформление пропуска</h2>
     <div class="card-item">
       <el-form ref="form" :model="applicationCar" label-position="top" :rules="rules">
-        <UserForm :form="applicationCar.formValue" />
-        <el-form-item label="Выберите отделение">
+        <UserForm
+          :validate-email="false"
+          :form="applicationCar.formValue"
+          :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true })"
+        />
+        <el-form-item label="Выберите отделение" prop="division">
           <el-select v-model="applicationCar.division" filterable value-key="id" size="small" placeholder="Выберите отделение">
             <el-option v-for="item in divisions" :key="item.id" :label="item.name" :value="item"> </el-option>
           </el-select>
@@ -23,6 +27,7 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
+import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
@@ -48,6 +53,9 @@ export default defineComponent({
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
     const form = ref();
+    const rules = ref({
+      division: [{ required: true, message: 'Необходимо выбрать отделение', trigger: 'change' }],
+    });
 
     watch(isAuth, async () => {
       Provider.store.commit('applicationsCars/setUser', user.value);
@@ -85,6 +93,8 @@ export default defineComponent({
       form,
       submit,
       divisions,
+      UserFormFields,
+      rules,
     };
   },
 });
