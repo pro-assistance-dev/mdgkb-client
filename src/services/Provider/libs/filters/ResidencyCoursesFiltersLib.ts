@@ -8,7 +8,7 @@ function getFirstDateOfThisYear(): Date {
   return new Date(`${new Date().getFullYear()}-01-01`);
 }
 
-const CommentsFiltersLib = (() => {
+const ResidencyFiltersLib = (() => {
   function onlyThisYear(): IFilterModel {
     const filterModel = FilterModel.CreateFilterModel(
       Provider.schema.value.residencyCourse.tableName,
@@ -52,4 +52,4 @@ const CommentsFiltersLib = (() => {
   };
 })();
 
-export default CommentsFiltersLib;
+export default ResidencyFiltersLib;

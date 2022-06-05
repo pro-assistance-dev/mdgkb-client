@@ -9,7 +9,8 @@ import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
   items(state): IHead[] {
-    return state.items;
+    console.log(state.items);
+    return state.items.filter((head: IHead) => !head.isMain);
   },
   mainDoctor(state): IHead {
     const main = state.items.find((head: IHead) => head.isMain);
@@ -17,9 +18,6 @@ const getters: GetterTree<State, RootState> = {
       return main;
     }
     return new Head();
-  },
-  heads(state): IHead[] {
-    return state.items.filter((head: IHead) => !head.isMain);
   },
   item(state): IHead {
     return state.item;

@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper v-if="mount" title="Комментарии и отзывы">
+  <PageWrapper v-if="mounted" title="Комментарии и отзывы">
     <template #filters>
       <FiltersWrapper>
         <template #header-right>
@@ -14,17 +14,17 @@
         <template #header-left-bottom>
           <FilterCheckbox
             label="Свои отзывы"
-            :table="Provider.schema.value.comment.tableName"
-            :col="Provider.schema.value.comment.userId"
+            :table="schema.comment.tableName"
+            :col="schema.comment.userId"
             :data-type="DataTypes.String"
             :operator="Operators.Eq"
-            :value="TokenService.getUserId()"
+            :filter-value="TokenService.getUserId()"
             @load="loadComments"
           />
           <FilterCheckbox
             label="С высоким рейтингом"
-            :table="Provider.schema.value.comment.tableName"
-            :col="Provider.schema.value.comment.rating"
+            :table="schema.comment.tableName"
+            :col="schema.comment.rating"
             :data-type="DataTypes.Number"
             :operator="Operators.Gt"
             :filter-value="'3'"
@@ -32,8 +32,8 @@
           />
           <FilterCheckbox
             label="С низким рейтингом"
-            :table="Provider.schema.value.comment.tableName"
-            :col="Provider.schema.value.comment.rating"
+            :table="schema.comment.tableName"
+            :col="schema.comment.rating"
             :data-type="DataTypes.Number"
             :operator="Operators.Lt"
             :filter-value="'3'"
@@ -41,11 +41,7 @@
           />
         </template>
         <template #header-left-top>
-          <FilterSelectDate
-            :table="Provider.schema.value.comment.tableName"
-            :col="Provider.schema.value.comment.publishedOn"
-            @load="loadComments"
-          />
+          <FilterSelectDate :table="schema.comment.tableName" :col="schema.comment.publishedOn" @load="loadComments" />
         </template>
       </FiltersWrapper>
     </template>
@@ -80,6 +76,7 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import CommentsFiltersLib from '@/services/Provider/libs/filters/CommentsFiltersLib';
 import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
 import TokenService from '@/services/Token';
 
@@ -97,7 +94,6 @@ export default defineComponent({
 
   setup() {
     const comments: Ref<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
-    const mount = ref(false);
     const showDialog: Ref<boolean> = ref(false);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
 
@@ -112,27 +108,22 @@ export default defineComponent({
       Provider.filterQuery.value.pagination.limit = 6;
       Provider.filterQuery.value.pagination.cursorMode = true;
       Provider.setSortModels(CommentsSortsLib.byPublishedOn());
-      // Provider.setFilterModels(CommentsFiltersLib.onlyPublished());
+      Provider.setFilterModels(CommentsFiltersLib.onlyPublished());
       await loadComments();
-      mount.value = true;
+    };
+
+    const loadComments = async () => {
+      Provider.filterQuery.value.allLoaded = false;
+      Provider.store.commit('comments/clearComments');
+      await Provider.getAll('comments');
     };
 
     Hooks.onBeforeMount(load);
 
-    const loadComments = async () => {
-      Provider.store.commit('comments/clearComments');
-      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
-    };
-
     const loadMore = async () => {
-      Provider.filterQuery.value.pagination.cursor.value = comments.value[comments.value.length - 1].publishedOn;
-      Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
-      Provider.filterQuery.value.pagination.cursor.column = Provider.schema.value.comment.publishedOn;
-      Provider.filterQuery.value.pagination.cursor.initial = false;
-      Provider.filterQuery.value.pagination.cursor.tableName = Provider.schema.value.comment.tableName;
-      Provider.filterQuery.value.pagination.cursorMode = true;
-
-      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
+      Provider.filterQuery.value.pagination.append = true;
+      Provider.filterQuery.value.pagination.offset = comments.value.length;
+      await Provider.getAll('comments');
     };
 
     return {
@@ -142,11 +133,11 @@ export default defineComponent({
       loadComments,
       loadMore,
       comments,
-      mount,
       showDialog,
       openLoginModal,
       isAuth,
-      Provider,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
     };
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper v-if="mounted" :title="title">
+  <PageWrapper :title="title">
     <template #filters>
       <FiltersWrapper :header-right-max-width="300">
         <template #header-right>
@@ -27,9 +27,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
@@ -37,6 +35,7 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import FAQ from '@/components/Questions/FAQ.vue';
 import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import Questions from '@/components/Questions/Questions.vue';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'QuestionsAnswersPage',
@@ -51,26 +50,18 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
     const faqMode: Ref<boolean> = ref(true);
-    const mounted: Ref<boolean> = ref(false);
     const title: ComputedRef<string> = computed(() => (faqMode.value ? 'Часто задаваемые вопросы' : 'Вопросы и ответы'));
 
     const setFaqMode = (faqModeCondition: boolean) => {
       faqMode.value = faqModeCondition;
     };
-    const openQuestion = () => store.commit('questions/openQuestion');
-
-    onBeforeMount(() => {
-      mounted.value = true;
-    });
+    const openQuestion = () => Provider.store.commit('questions/openQuestion');
 
     return {
       setFaqMode,
       faqMode,
       openQuestion,
-      mounted,
       title,
     };
   },

@@ -25,10 +25,16 @@ const mutations: MutationTree<State> = {
     state.count = doctorsWithCount.count;
   },
   appendToAll(state, items: IDoctor[]) {
+    if (!items) {
+      return;
+    }
     const doctors = items.map((i: IDoctor) => new Doctor(i));
     state.items.push(...doctors);
   },
   setAll(state, items: IDoctor[]) {
+    if (!items) {
+      return;
+    }
     state.items = items.map((a: IDoctor) => new Doctor(a));
   },
   set(state, doctor: IDoctor) {

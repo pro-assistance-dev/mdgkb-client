@@ -76,7 +76,7 @@
       <div v-for="head in heads" :key="head.id" class="vice-doctor-info">
         <div class="vice-doctor-avatar">
           <div class="doctor-avatar">
-            <img :src="head.photo.getImageUrl()" alt="alt" />
+            <img :src="head.photo.getImageUrl()" alt="alt" @error="head.photo.errorImg($event, 'doctor-default.webp')" />
           </div>
         </div>
         <div class="vice-doctor-title">
@@ -133,34 +133,24 @@
 </template>
 
 <script lang="ts">
-import { computed, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, Ref } from 'vue';
 
 import ContactBlock from '@/components/ContactBlock.vue';
 import IHead from '@/interfaces/IHead';
 import countRating from '@/mixins/countRating';
+import Provider from '@/services/Provider';
 
 export default {
   name: 'MedicalOrganizationStructureVertical',
   components: { ContactBlock },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const heads: Ref<IHead[]> = computed<IHead[]>(() => store.getters['heads/heads']);
-    const mainDoctor: Ref<IHead> = computed<IHead>(() => store.getters['heads/mainDoctor']);
-    const mount = ref(false);
-
-    onBeforeMount(async () => {
-      await store.dispatch('heads/getAll');
-      mount.value = true;
-    });
+    const heads: Ref<IHead[]> = computed<IHead[]>(() => Provider.store.getters['heads/items']);
+    const mainDoctor: Ref<IHead> = computed<IHead>(() => Provider.store.getters['heads/mainDoctor']);
 
     return {
       countRating,
       heads,
       mainDoctor,
-      mount,
     };
   },
 };

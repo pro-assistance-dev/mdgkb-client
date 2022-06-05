@@ -6,23 +6,23 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
 
 export default defineComponent({
   name: 'Questions',
   components: { LoadMoreButton, CommentCard },
   async setup() {
     const filter = ref('');
-    const store = useStore();
     const filePath = ref('');
-    const questions: Ref<IQuestion[]> = computed(() => store.getters['questions/items']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const questions: Ref<IQuestion[]> = computed(() => Provider.store.getters['questions/items']);
 
     const questionsList = computed((): IQuestion[] => {
       if (filter.value) {
@@ -38,18 +38,21 @@ export default defineComponent({
 
     const activeName = ref(1);
 
-    onBeforeMount(async () => {
-      store.commit('filter/setStoreModule', 'questions');
-      await store.dispatch('questions/getAll', filterQuery.value);
-    });
+    const load = async () => {
+      Provider.filterQuery.value.pagination.append = false;
+      Provider.store.commit('filter/setStoreModule', 'questions');
+      Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
+      await Provider.getAll('questions');
+    };
 
-    const openQuestion = () => store.commit('questions/openQuestion');
+    Hooks.onBeforeMount(load);
+
+    const openQuestion = () => Provider.store.commit('questions/openQuestion');
 
     const loadMore = async () => {
-      const lastDate = questions.value[questions.value.length - 1].date;
-      filterQuery.value.pagination.cursor.value = lastDate;
-      filterQuery.value.pagination.cursor.initial = false;
-      await store.dispatch('questions/getAll', filterQuery.value);
+      Provider.filterQuery.value.pagination.offset = questions.value.length;
+      Provider.filterQuery.value.pagination.append = true;
+      await Provider.getAll('questions');
     };
 
     return {

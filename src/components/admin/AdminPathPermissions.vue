@@ -13,7 +13,7 @@
       </div>
       <div class="filters-block">
         <span>Сортировать:</span>
-        <SortList :models="createSortModels()" @load="load" />
+        <SortList :models="createSortModels()" @load="loadPaths" />
       </div>
     </div>
     <div style="height: 100%; overflow: hidden" class="card-item">
@@ -80,11 +80,9 @@
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-import { RouteRecordNormalized, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
+import { RouteRecordNormalized } from 'vue-router';
 
-import SortModel from '@/classes/filters/SortModel';
 import PathPermission from '@/classes/PathPermission';
 import Role from '@/classes/Role';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -98,6 +96,9 @@ import IRole from '@/interfaces/IRole';
 import ISearchObject from '@/interfaces/ISearchObject';
 import { RoleName } from '@/interfaces/RoleName';
 import ISchema from '@/interfaces/schema/ISchema';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import PathPermissionsSortsLib from '@/services/Provider/libs/sorts/PathPermissionsSortsLib';
 
 export default defineComponent({
   name: 'AdminGallery',
@@ -113,15 +114,14 @@ export default defineComponent({
   },
 
   setup(props) {
-    const store = useStore();
-    const router = useRouter();
-    const paths = router.getRoutes();
-    const mounted: Ref<boolean> = ref(false);
+    const paths = Provider.router.getRoutes();
     const filterString: Ref<string> = ref('');
     const searchString: Ref<string> = ref('');
     const sortString: Ref<string> = ref('');
 
-    const clientPermissions: Ref<IPathPermission[]> = computed(() => store.getters['auth/pathPermissions']);
+    const checkPermissionForRole = computed((roleId: string, obj: IPathPermission) => obj.checkPermissionForRole(roleId));
+
+    const clientPermissions: Ref<IPathPermission[]> = computed(() => Provider.store.getters['auth/pathPermissions']);
     const filteredPathPermissions: Ref<IPathPermission[]> = computed(() => {
       if (!searchFilterPathPermissions.value.length) {
         return clientPermissions.value;
@@ -132,40 +132,31 @@ export default defineComponent({
       });
     });
     const searchFilterPathPermissions: Ref<string[]> = ref([]);
-    const roles: ComputedRef<IRole[]> = computed(() => store.getters['roles/items']);
+    const roles: ComputedRef<IRole[]> = computed(() => Provider.store.getters['roles/items']);
     const selectRolesList: ComputedRef<IRole[]> = computed(() => roles.value.filter((role: IRole) => !filteredRoles.value.includes(role)));
     const filteredRoles: Ref<IRole[]> = ref([]);
     const chosenRole: Ref<IRole> = ref(new Role());
     const permissions: Ref<IPathPermission[]> = ref([]);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
+    const schema: Ref<ISchema> = computed(() => Provider.store.getters['meta/schema']);
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      store.commit('admin/setHeaderParams', {
+    const loadPaths = async () => {
+      await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+    };
+
+    const load = async () => {
+      Provider.store.commit('admin/setHeaderParams', {
         title: 'Клиентские доступы',
         buttons: [{ text: 'Сохранить', action: savePaths }],
       });
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      // await store.dispatch('meta/getOptions', schema.value.pathPermission);
-      store.commit('filter/setStoreModule', 'auth');
-      store.commit('filter/setAction', 'getAllPathPermissionsAdmin');
-      store.commit(
-        'filter/replaceSortModel',
-        SortModel.CreateSortModel(
-          schema.value.pathPermission.tableName,
-          schema.value.pathPermission.resource,
-          Orders.Asc,
-          'По алфавиту',
-          true
-        )
-      );
+      Provider.store.commit('filter/setStoreModule', 'auth');
+      Provider.store.commit('filter/setAction', 'getAllPathPermissionsAdmin');
+      Provider.setSortModels(PathPermissionsSortsLib.byResource(Orders.Asc));
       filterQuery.value.pagination.cursorMode = false;
       filterQuery.value.pagination.limit = 0;
-      await store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
-      // await store.dispatch('auth/getAllPathPermissions');
-      await store.dispatch('roles/getAll');
+      await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+      // await Provider.store.dispatch('auth/getAllPathPermissions');
+      await Provider.store.dispatch('roles/getAll');
       filteredRoles.value = roles.value.filter((role: IRole) => role.name === RoleName.User);
       permissions.value = paths.map((path: RouteRecordNormalized) => {
         let permission = clientPermissions.value.find((p: IPathPermission) => p.resource === path.path);
@@ -176,16 +167,15 @@ export default defineComponent({
         permission.resource = path.path;
         return permission;
       });
-      await store.dispatch('auth/savePathPermissions', permissions.value);
-      await store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
-      store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
-      mounted.value = true;
-    });
+      await Provider.store.dispatch('auth/savePathPermissions', permissions.value);
+      await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+    };
+
+    Hooks.onBeforeMount(load);
 
     const savePaths = async () => {
       try {
-        await store.dispatch('auth/savePathPermissions', clientPermissions.value);
+        await Provider.store.dispatch('auth/savePathPermissions', clientPermissions.value);
       } catch {
         return;
       }
@@ -200,14 +190,20 @@ export default defineComponent({
         p.pathPermissionsRoles.some((r: IPathPermissionRole) => r.roleId === roleId)
       );
       if (hasRole) {
-        return permissions.value.forEach((p: IPathPermission) => p.removeRole(roleId));
+        permissions.value.forEach((p: IPathPermission) => p.removeRole(roleId));
+        filteredPathPermissions.value.forEach((p: IPathPermission) => p.removeRole(roleId));
+        return;
       }
-      return permissions.value.forEach((p: IPathPermission) => p.addRole(roleId));
+      permissions.value.forEach((p: IPathPermission) => p.addRole(roleId));
+      filteredPathPermissions.value.forEach((p: IPathPermission) => p.addRole(roleId));
     };
+
     const setAllGuests = () => {
       const hasGuestAllow = permissions.value.some((p: IPathPermission) => p.guestAllow);
       permissions.value.forEach((p: IPathPermission) => (p.guestAllow = !hasGuestAllow));
+      filteredPathPermissions.value.forEach((p: IPathPermission) => (p.guestAllow = !hasGuestAllow));
     };
+
     const addRole = () => {
       filteredRoles.value.push(chosenRole.value);
       chosenRole.value = new Role();
@@ -220,32 +216,15 @@ export default defineComponent({
       searchFilterPathPermissions.value = search.map((el) => el.id);
     };
     const createSortModels = (): ISortModel[] => {
-      return [
-        SortModel.CreateSortModel(
-          schema.value.pathPermission.tableName,
-          schema.value.pathPermission.resource,
-          Orders.Asc,
-          'По алфавиту (А-Я)',
-          true
-        ),
-        SortModel.CreateSortModel(
-          schema.value.pathPermission.tableName,
-          schema.value.pathPermission.resource,
-          Orders.Desc,
-          'По алфавиту (Я-А)',
-          true
-        ),
-      ];
-    };
-    const load = async () => {
-      await store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+      return [PathPermissionsSortsLib.byResource(Orders.Asc), PathPermissionsSortsLib.byResource(Orders.Desc)];
     };
 
     return {
+      checkPermissionForRole,
       setAllGuests,
       setAll,
       roles,
-      mounted,
+      mounted: Provider.mounted,
       permissions,
       savePaths,
       paths,
@@ -259,7 +238,7 @@ export default defineComponent({
       searchString,
       filteredPathPermissions,
       createSortModels,
-      load,
+      loadPaths,
       sortString,
     };
   },

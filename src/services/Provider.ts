@@ -1,4 +1,5 @@
 import { computed, ComputedRef, Ref, ref } from 'vue';
+import { RouteLocationNormalizedLoaded } from 'vue-router';
 
 import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -16,6 +17,11 @@ const Provider = (() => {
   const schema: Ref<ISchema> = computed(() => s.getters['meta/schema']);
   const filterQuery: ComputedRef<IFilterQuery> = computed(() => s.getters['filter/filterQuery']);
   const sortList: Ref<ISortModel[]> = ref([]);
+
+  async function getAll(module: string): Promise<void> {
+    await s.dispatch(`${module}/getAll`, filterQuery.value);
+  }
+
   function setFilterModel(model: IFilterModel): void {
     s.commit('filter/setFilterModel', model);
   }
@@ -58,6 +64,10 @@ const Provider = (() => {
     setFilterModel(newFilterModel);
   }
 
+  function route(): RouteLocationNormalizedLoaded {
+    return router.currentRoute.value;
+  }
+
   return {
     setSortList,
     sortList,
@@ -75,6 +85,8 @@ const Provider = (() => {
     store: s,
     replaceFilterModel,
     form,
+    getAll,
+    route,
   };
 })();
 

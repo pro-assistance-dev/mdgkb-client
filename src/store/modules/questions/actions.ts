@@ -11,10 +11,11 @@ import { State } from './state';
 const httpClient = new HttpClient('questions');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, query: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IQuestion[]>({ query: query.toUrl() });
-    if (query.pagination.cursorMode) {
+  getAll: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+    const items = await httpClient.get<IQuestion[]>({ query: filterQuery.toUrl() });
+    if (filterQuery && filterQuery.pagination.append) {
       commit('appendToAll', items);
+      filterQuery.setAllLoaded(items ? items.length : 0);
       return;
     }
     commit('setAll', items);

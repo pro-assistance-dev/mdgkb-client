@@ -37,19 +37,16 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
-import ISchema from '@/interfaces/schema/ISchema';
 import validate from '@/mixins/validate';
+import Provider from '@/services/Provider';
+import SpecializationsFiltersLib from '@/services/Provider/libs/filters/SpecializationsFiltersLib';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
@@ -58,22 +55,21 @@ export default defineComponent({
   emits: ['close'],
 
   setup(_, { emit }) {
-    const store = useStore();
     const mounted = ref(false);
     const candidateApplication: ComputedRef<ICandidateApplication> = computed<ICandidateApplication>(
-      () => store.getters['candidateApplications/item']
+      () => Provider.store.getters['candidateApplications/item']
     );
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
-    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
-    const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
+    const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => Provider.store.getters['candidateExams/item']);
+    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const form = ref();
-    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
-    const emailExists: ComputedRef<boolean> = computed(() => store.getters['candidateApplications/emailExists']);
+    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(
+      () => Provider.store.getters['specializations/items']
+    );
+    const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['candidateApplications/emailExists']);
 
     watch(isAuth, async () => {
-      store.commit('candidateApplications/setUser', user.value);
+      Provider.store.commit('candidateApplications/setUser', user.value);
     });
 
     const submit = async () => {
@@ -91,7 +87,7 @@ export default defineComponent({
         return;
       }
       candidateApplication.value.formValue.clearIds();
-      await store.dispatch('candidateApplications/create');
+      await Provider.store.dispatch('candidateApplications/create');
       ElMessage({
         type: 'success',
         message: 'Заявка отправлена',
@@ -100,21 +96,14 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      const filterModel = FilterModel.CreateFilterModelWithJoin(
-        schema.value.specialization.tableName,
-        schema.value.specialization.id,
-        schema.value.postgraduateCourseSpecialization.tableName,
-        schema.value.postgraduateCourseSpecialization.id,
-        schema.value.postgraduateCourseSpecialization.specializationId,
-        DataTypes.Join
-      );
-      store.commit('filter/setFilterModel', filterModel);
-      await store.dispatch('specializations/getAll', filterQuery.value);
-      store.commit('candidateApplications/resetItem');
-      store.commit('candidateApplications/setFormValue', candidateExam.value.formPattern);
+      Provider.resetFilterQuery();
+      Provider.setFilterModels(SpecializationsFiltersLib.onlyPostgraduate());
+      await Provider.getAll('specializations');
+      Provider.store.commit('candidateApplications/resetItem');
+      Provider.store.commit('candidateApplications/setFormValue', candidateExam.value.formPattern);
       candidateApplication.value.formValue.initFieldsValues();
-      store.commit('candidateApplications/setExam', candidateExam.value);
-      store.commit('candidateApplications/setUser', user.value);
+      Provider.store.commit('candidateApplications/setExam', candidateExam.value);
+      Provider.store.commit('candidateApplications/setUser', user.value);
       mounted.value = true;
     });
 

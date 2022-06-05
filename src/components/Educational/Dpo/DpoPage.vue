@@ -37,6 +37,7 @@ import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import ISortModel from '@/interfaces/filters/ISortModel';
+import { Orders } from '@/interfaces/filters/Orders';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
@@ -115,7 +116,7 @@ export default defineComponent({
     const load = async () => {
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 100;
-      Provider.setSortModels(DpoCoursesSortsLib.byName());
+      Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
       Provider.setSortList(...createSortModels(DpoCoursesSortsLib));
       await setModes();
       await loadCourses();

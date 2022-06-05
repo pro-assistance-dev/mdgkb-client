@@ -1,7 +1,7 @@
 <template>
-  <PageWrapper v-if="mount" :title="title">
+  <PageWrapper v-if="mounted" :title="title">
     <template #filters>
-      <DoctorsListFilters />
+      <DoctorsListFilters @change-mode="changeMode" @load="loadDoctors" />
     </template>
     <div v-if="doctorsMode" style="display: flex; flex-wrap: wrap; jestify-content: center">
       <div v-for="doctor in doctors" :key="doctor.id" style="margin: 0 auto; height: 350px; padding: 10px">
@@ -16,9 +16,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import DoctorsListFilters from '@/components/Doctors/DoctorsListFilters.vue';
@@ -26,10 +25,13 @@ import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import MedicalOrganizationStructureVertical from '@/components/MedicalOrganization/MedicalOrganizationStructureVertical.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Operators } from '@/interfaces/filters/Operators';
+import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
-import ISchema from '@/interfaces/schema/ISchema';
+import IHead from '@/interfaces/IHead';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -43,55 +45,68 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    const router = useRouter();
     const route = useRoute();
-    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
-    const mount = ref(false);
+    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => Provider.store.getters['doctors/items']);
+    const heads: Ref<IHead[]> = computed<IHead[]>(() => Provider.store.getters['heads/items']);
     const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
 
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const title: ComputedRef<string> = computed(() => {
-      let title = '';
-      switch (route.path) {
-        case '/heads':
-          title = 'Руководство';
-          break;
-        case '/doctors':
-          title = 'Медицинские работники';
-          break;
-        default:
-          break;
-      }
-      return title;
+      return route.path === 'heads' ? 'Руководство' : 'Медицинские работники';
     });
 
-    onBeforeMount(async () => {
-      await store.dispatch('meta/getSchema');
-      mount.value = true;
-    });
+    const loadDoctors = async () => {
+      Provider.filterQuery.value.pagination.append = false;
+      await Provider.getAll('doctors');
+    };
+
+    const loadHeads = async () => {
+      await Provider.getAll('heads');
+    };
+
+    const load = async () => {
+      Provider.filterQuery.value.pagination.limit = 8;
+      if (doctorsMode.value) {
+        Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
+        await loadDoctors();
+        return;
+      }
+      await loadHeads();
+    };
+
+    Hooks.onBeforeMount(load);
 
     const loadMore = async () => {
-      const lastCursor = doctors.value[doctors.value.length - 1].human.getFullName();
-      filterQuery.value.pagination.cursor.value = lastCursor;
-      filterQuery.value.pagination.cursor.initial = false;
-      filterQuery.value.pagination.cursor.operation = Operators.Gt;
-      filterQuery.value.pagination.cursor.column = schema.value.doctor.fullName;
-      filterQuery.value.pagination.cursorMode = true;
-      await store.dispatch('doctors/getAll', filterQuery.value);
+      Provider.filterQuery.value.pagination.append = true;
+      Provider.filterQuery.value.pagination.offset = doctorsMode.value ? doctors.value.length : heads.value.length;
+      await Provider.getAll(doctorsMode.value ? 'doctors' : 'heads');
+    };
+
+    const changeMode = async (doctorsModeActive: boolean) => {
+      Provider.resetFilterQuery();
+      Provider.filterQuery.value.pagination.limit = 8;
+      Provider.store.commit('admin/showLoading');
+      if (doctorsModeActive) {
+        await Provider.router.replace('/doctors');
+        await loadDoctors();
+      } else {
+        await Provider.router.replace('/heads');
+        await loadHeads();
+      }
+      Provider.store.commit('admin/closeLoading');
     };
 
     return {
+      changeMode,
       TokenService,
       Operators,
       DataTypes,
       loadMore,
-      schema,
       doctors,
-      mount,
+      mounted: Provider.mounted,
       doctorsMode,
       title,
+      loadHeads,
+      loadDoctors,
     };
   },
 });

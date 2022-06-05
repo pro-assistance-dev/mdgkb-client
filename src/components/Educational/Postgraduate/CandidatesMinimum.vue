@@ -30,7 +30,6 @@ import CandidateApplicationForm from '@/components/Educational/Postgraduate/Cand
 import SharesBlock from '@/components/SharesBlock.vue';
 import ICandidateDocumentType from '@/interfaces/ICandidateDocumentType';
 import ICandidateExam from '@/interfaces/ICandidateExam';
-import ISchema from '@/interfaces/schema/ISchema';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
@@ -41,7 +40,6 @@ export default defineComponent({
     const store = useStore();
     const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
     const mounted = ref(false);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const documentTypes: ComputedRef<ICandidateDocumentType[]> = computed(() => store.getters['candidateDocumentTypes/items']);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
@@ -62,7 +60,7 @@ export default defineComponent({
       await store.dispatch('candidateExams/get');
       mounted.value = true;
       if (route.query.respondForm) {
-        openRespondForm();
+        await openRespondForm();
       }
     });
 

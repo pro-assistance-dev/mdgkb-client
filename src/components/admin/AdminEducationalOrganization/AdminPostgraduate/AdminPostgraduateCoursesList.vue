@@ -73,7 +73,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -93,14 +93,12 @@ export default defineComponent({
   name: 'AdminPostgraduateCoursesList',
   components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
   setup() {
-    const mounted = ref(false);
-    const route = useRoute();
     const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed(() => Provider.store.getters['postgraduateCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
 
-    const create = () => Provider.router.push(`${route.path}/new`);
-    const open = (id: string) => Provider.router.push(`${route.path}/${id}`);
+    const create = () => Provider.router.push(`${Provider.route().path}/new`);
+    const open = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
     const remove = async (id: string) => await Provider.store.dispatch('postgraduateCourses/remove', id);
     const edit = () => {
       if (isEditMode.value) {
@@ -142,7 +140,6 @@ export default defineComponent({
       });
       await Provider.store.dispatch('postgraduateCourses/getAll', Provider.filterQuery.value);
       window.addEventListener('beforeunload', beforeWindowUnload);
-      mounted.value = true;
     };
 
     Hooks.onBeforeMount(load, {
@@ -165,7 +162,6 @@ export default defineComponent({
     return {
       postgraduateCourses,
       isEditMode,
-      mounted,
       remove,
       open,
       create,
@@ -175,6 +171,7 @@ export default defineComponent({
       edit,
       save,
       buildNameNumbers,
+      mounted: Provider.mounted,
     };
   },
 });

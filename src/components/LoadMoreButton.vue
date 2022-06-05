@@ -6,15 +6,14 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'LoadMoreButton',
   emits: ['loadMore'],
-  setup(props) {
-    const store = useStore();
-
-    const allLoaded = computed(() => store.getters[`filter/allLoaded`]);
+  setup() {
+    const allLoaded = computed(() => Provider.store.getters[`filter/allLoaded`]);
 
     return {
       allLoaded,

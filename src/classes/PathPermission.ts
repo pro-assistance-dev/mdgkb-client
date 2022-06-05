@@ -33,7 +33,7 @@ export default class PathPermission implements IPathPermission {
     if (index < 0) {
       return;
     }
-    return removeFromClass(index, this.pathPermissionsRoles, this.pathPermissionsRolesForDelete);
+    removeFromClass(index, this.pathPermissionsRoles, this.pathPermissionsRolesForDelete);
   }
 
   addRole(roleId: string): void {
@@ -48,6 +48,7 @@ export default class PathPermission implements IPathPermission {
   }
 
   checkPermissionForRole(roleId: string): boolean {
+    console.log('check');
     return !!this.pathPermissionsRoles.find((pr: IPathPermissionRole) => roleId === pr.roleId);
   }
 }

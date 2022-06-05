@@ -1,12 +1,12 @@
 <template>
-  <FiltersWrapper v-if="mount">
+  <FiltersWrapper>
     <template #header-right>
       <ModeButtons
         :second-mode-active="!doctorsMode"
         :store-mode="false"
         :first-mode="'Врачи'"
         :second-mode="'Руководство'"
-        @changeMode="changeMode"
+        @changeMode="$emit('changeMode', !doctorsMode)"
       />
     </template>
     <template v-if="doctorsMode" #header-left-top>
@@ -17,7 +17,9 @@
         :options="schema.medicalProfile.options"
         :table="schema.doctor.tableName"
         :col="schema.doctor.medicalProfileId"
-        @load="load"
+        :data-type="DataTypes.String"
+        :operator="Operators.Eq"
+        @load="$emit('load')"
       />
       <FilterSelect
         :max-width="200"
@@ -25,7 +27,9 @@
         :options="schema.division.options"
         :table="schema.doctor.tableName"
         :col="schema.doctor.divisionId"
-        @load="load"
+        :data-type="DataTypes.String"
+        :operator="Operators.Eq"
+        @load="$emit('load')"
       />
     </template>
     <template v-if="doctorsMode" #header-left-bottom>
@@ -35,7 +39,7 @@
         :col="schema.doctor.mosDoctorLink"
         :data-type="DataTypes.Boolean"
         :operator="Operators.NotNull"
-        @load="load"
+        @load="$emit('load')"
       />
       <FilterCheckbox
         label="С отзывами"
@@ -43,7 +47,7 @@
         :col="schema.doctor.commentsCount"
         :data-type="DataTypes.Number"
         :operator="Operators.Gt"
-        @load="load"
+        @load="$emit('load')"
       />
       <FilterCheckbox
         label="Избранное"
@@ -56,22 +60,20 @@
         :join-table-pk="schema.doctor.id"
         :join-table-id="TokenService.getUserId()"
         :join-table-id-col="schema.doctorUser.userId"
-        @load="load"
+        @load="$emit('load')"
       />
     </template>
 
     <template v-if="doctorsMode" #footer>
-      <SortList :models="createSortModels()" @load="load" />
+      <SortList :models="createSortModels()" @load="$emit('load')" />
     </template>
   </FiltersWrapper>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref } from 'vue';
+import { useRoute } from 'vue-router';
 
-import SortModel from '@/classes/filters/SortModel';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
@@ -79,14 +81,14 @@ import ModeButtons from '@/components/ModeButtons.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
-import ISchema from '@/interfaces/schema/ISchema';
+import Provider from '@/services/Provider';
+import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -99,58 +101,30 @@ export default defineComponent({
     ModeButtons,
     FiltersWrapper,
   },
+  emits: ['changeMode', 'load'],
 
-  setup() {
-    const store = useStore();
-    const router = useRouter();
+  setup(_, { emit }) {
     const route = useRoute();
-    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
-    const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
-    const mount = ref(false);
+    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => Provider.store.getters['doctors/items']);
+    const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => Provider.store.getters['medicalProfiles/items']);
     const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
 
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-
     onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      store.commit('filter/setStoreModule', 'doctors');
-      await load();
+      Provider.store.commit('filter/setStoreModule', 'doctors');
       await loadFilters();
-      mount.value = true;
     });
 
-    const changeMode = async (doctorsModeActive: boolean) => {
-      store.commit('admin/showLoading');
-      if (doctorsModeActive) {
-        await router.replace('/doctors');
-      } else {
-        await router.replace('/heads');
-      }
-      store.commit('admin/closeLoading');
-    };
-
-    const load = async () => {
-      filterQuery.value.pagination.cursorMode = false;
-      filterQuery.value.pagination.limit = 8;
-      await store.dispatch('doctors/getAll', filterQuery.value);
-    };
-
     const loadFilters = async () => {
-      await store.dispatch('meta/getOptions', schema.value.medicalProfile);
-      await store.dispatch('meta/getOptions', schema.value.division);
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.medicalProfile);
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
     };
 
     const createSortModels = (): ISortModel[] => {
-      return [
-        SortModel.CreateSortModel(schema.value.doctor.tableName, schema.value.doctor.fullName, Orders.Asc, 'По алфавиту', true),
-        SortModel.CreateSortModel(schema.value.doctor.tableName, schema.value.doctor.commentsCount, Orders.Desc, 'По отзывам', false),
-      ];
+      return [DoctorsSortsLib.byFullName(Orders.Asc), DoctorsSortsLib.byFullName(Orders.Desc)];
     };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/doctors/${event.value}`);
+      await Provider.router.push(`/doctors/${event.value}`);
     };
 
     return {
@@ -159,13 +133,10 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      load,
       medicalProfiles,
-      schema,
+      schema: Provider.schema,
       doctors,
       doctorsMode,
-      mount,
-      changeMode,
     };
   },
 });

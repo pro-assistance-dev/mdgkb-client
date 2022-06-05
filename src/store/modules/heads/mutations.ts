@@ -13,6 +13,14 @@ const mutations: MutationTree<State> = {
   setAll(state, items: IHead[]) {
     state.items = items?.map((a: IHead) => new Head(a));
   },
+  appendToAll(state, items: IHead[]) {
+    if (!items) {
+      state.items = [];
+      return;
+    }
+    const heads = items.map((i: IHead) => new Head(i));
+    state.items.push(...heads);
+  },
   set(state, item: IHead) {
     state.item = new Head(item);
   },

@@ -11,7 +11,7 @@
         @load="$emit('load')"
       />
       <FilterSelect
-        placeholder="Выбрать год"
+        placeholder="Выбрать год начала"
         :options="schema.educationYear.options"
         :table="schema.residencyCourse.tableName"
         :col="schema.residencyCourse.startYearId"

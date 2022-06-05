@@ -31,6 +31,7 @@ import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 
 export default defineComponent({
@@ -50,18 +51,7 @@ export default defineComponent({
     const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const modes: Ref<IOption[]> = ref([]);
     const title: ComputedRef<string> = computed(() => {
-      let title = '';
-      switch (mode.value) {
-        case 'programs':
-          title = 'Программы ординатуры';
-          break;
-        case 'contacts':
-          title = 'Контакты ординатуры';
-          break;
-        default:
-          break;
-      }
-      return title;
+      return mode.value ? 'programs' : 'contacts';
     });
 
     watch(
@@ -99,6 +89,7 @@ export default defineComponent({
     const load = async () => {
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 100;
+      Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
       Provider.setSortModels(ResidencyCoursesSortsLib.byName());
       Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
       await setModes();
