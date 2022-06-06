@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -52,21 +52,17 @@ export default defineComponent({
   emits: ['load'],
   setup(props, { emit }) {
     const addFilterModel = (values: string[]) => {
+      props.filterModel.replaceSet(...values);
       if (!values.length) {
         reloadModel();
       } else {
-        values.forEach((v: string) => props.filterModel.addToSet(v));
         Provider.setFilterModel(props.filterModel);
       }
       emit('load');
     };
 
-    onBeforeMount(() => {
-      console.log('adf');
-    });
     const reloadModel = () => {
       Provider.spliceFilterModel(props.filterModel.id);
-      // createModel();
     };
 
     return {
