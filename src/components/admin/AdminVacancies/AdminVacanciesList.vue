@@ -2,7 +2,7 @@
   <component :is="'AdminListWrapper'" v-if="mounted">
     <template #header>
       <RemoteSearch class="filters-block" :key-value="schema.vacancy.key" @select="selectSearch" />
-      <SortList class="filters-block" :models="sortList" :store-mode="true" @load="load" />
+      <SortList class="filters-block" :models="sortList" :store-mode="true" @load="loadVacancies" />
       <FilterCheckbox
         class="filters-block"
         :table="schema.vacancy.tableName"
@@ -11,7 +11,7 @@
         :data-type="DataTypes.Number"
         :operator="Operators.Gt"
         :filter-value="0"
-        @load="load"
+        @load="loadVacancies"
       />
       <FilterCheckbox
         class="filters-block"
@@ -21,7 +21,13 @@
         :data-type="DataTypes.Number"
         :operator="Operators.Gt"
         :filter-value="0"
-        @load="load"
+        @load="loadVacancies"
+      />
+      <FilterMultipleSelect
+        class="filters-block"
+        :filter-model="filterByDivision"
+        :options="schema.division.options"
+        @load="loadVacancies"
       />
       <FilterCheckbox
         class="filters-block"
@@ -31,14 +37,14 @@
         :data-type="DataTypes.Boolean"
         :operator="Operators.Eq"
         :filter-value="true"
-        @load="load"
+        @load="loadVacancies"
       />
       <FilterSelectDate
         class="filters-block"
         :table="schema.vacancy.tableName"
         :col="schema.vacancy.date"
         placeholder="Дата публикации"
-        @load="load"
+        @load="loadVacancies"
       />
     </template>
     <el-table v-if="vacancies" :data="vacancies">
@@ -95,38 +101,57 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
+import FilterModel from '@/classes/filters/FilterModel';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
 import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminVacanciesList',
-  components: { FilterCheckbox, FilterSelectDate, TableButtonGroup, RemoteSearch, SortList, Pagination, AdminListWrapper },
+  components: {
+    FilterMultipleSelect,
+    FilterCheckbox,
+    FilterSelectDate,
+    TableButtonGroup,
+    RemoteSearch,
+    SortList,
+    Pagination,
+    AdminListWrapper,
+  },
   setup() {
     const vacancies: Ref<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
 
+    const loadVacancies = async () => {
+      await Provider.getAll('vacancies');
+    };
+    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
     const load = async () => {
       Provider.setSortList(...createSortModels(VacanciesSortsLib));
       Provider.setSortModels(VacanciesSortsLib.byTitle());
-      await Provider.store.dispatch('vacancies/getAll', Provider.filterQuery.value);
+      await loadVacancies();
+      filterByDivision.value = VacanciesFiltersLib.byDivisions([]);
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Вакансии',
         buttons: [
-          { text: 'Показать новые отклики', type: 'warning', conndition: newResponsesExists() },
+          { text: 'Показать новые отклики', type: 'warning', condition: newResponsesExists() },
           { text: 'Создать вакансию', type: 'primary', action: create },
         ],
       });
@@ -168,6 +193,8 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       sortList: Provider.sortList,
+      filterByDivision,
+      loadVacancies,
     };
   },
 });
