@@ -1,4 +1,6 @@
+import FieldValueFile from '@/classes/FieldValueFile';
 import IFieldValue from '@/interfaces/IFieldValue';
+import IFieldValueFile from '@/interfaces/IFieldValueFile';
 
 import Field from './Field';
 import FileInfo from './File/FileInfo';
@@ -17,7 +19,8 @@ export default class FieldValue implements IFieldValue {
   field = new Field();
   showError = false; // Display validation error
   errorText = 'Это поле обязательно к заполнению';
-
+  fieldValuesFiles: IFieldValueFile[] = [];
+  fieldValuesFilesForDelete: string[] = [];
   constructor(i?: IFieldValue) {
     if (!i) {
       return;
@@ -44,6 +47,9 @@ export default class FieldValue implements IFieldValue {
     }
     if (i.field) {
       this.field = new Field(i.field);
+    }
+    if (i.fieldValuesFiles) {
+      this.fieldValuesFiles = i.fieldValuesFiles.map((item: IFieldValueFile) => new FieldValueFile(item));
     }
   }
 
@@ -85,5 +91,9 @@ export default class FieldValue implements IFieldValue {
   clearIds(): void {
     this.id = undefined;
     if (this.field) this.field.id = undefined;
+  }
+
+  addFieldValueFile(): void {
+    this.fieldValuesFiles.push(new FieldValueFile());
   }
 }

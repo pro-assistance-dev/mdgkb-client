@@ -19,6 +19,14 @@
     <FileUploader :file-info="fieldValue.file" />
     <div v-if="fieldValue.showError && !fieldValue.file.fileSystemPath" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
+  <el-form-item v-if="field.valueType.isFiles()" style="margin: 0">
+    <div v-for="(fieldValueFile, i) in fieldValue.fieldValuesFiles" :key="fieldValueFile">
+      <FileUploader :file-info="fieldValueFile.fileInfo" />
+      <el-button @click="removeFromClass(i, fieldValue.fieldValuesFiles, fieldValue.fieldValuesFilesForDelete)">Удалить файл</el-button>
+    </div>
+    <el-button @click="fieldValue.addFieldValueFile()">Добавить файл</el-button>
+    <div v-if="fieldValue.showError && !fieldValue.file.fileSystemPath" class="form-item-error">{{ fieldValue.errorText }}</div>
+  </el-form-item>
 </template>
 
 <script lang="ts">
@@ -28,7 +36,7 @@ import FileUploader from '@/components/FileUploader.vue';
 import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
 import IForm from '@/interfaces/IForm';
-
+import removeFromClass from '@/mixins/removeFromClass';
 export default defineComponent({
   name: 'FieldValuesFormItem',
   components: { FileUploader },
@@ -52,6 +60,7 @@ export default defineComponent({
 
     return {
       fieldValue,
+      removeFromClass,
     };
   },
 });

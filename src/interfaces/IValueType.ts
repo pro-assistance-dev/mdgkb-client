@@ -13,4 +13,5 @@ export default interface IValueType {
   isText: () => boolean;
   isBoolean: () => boolean;
   isFile: () => boolean;
+  isFiles: () => boolean;
 }

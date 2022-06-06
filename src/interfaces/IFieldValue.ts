@@ -1,3 +1,5 @@
+import IFieldValueFile from '@/interfaces/IFieldValueFile';
+
 import IFileInfo from './files/IFileInfo';
 import IField from './IField';
 
@@ -15,7 +17,10 @@ export default interface IFieldValue {
   field?: IField;
   showError?: boolean;
   errorText?: string;
-
+  fieldValuesFiles: IFieldValueFile[];
+  fieldValuesFilesForDelete: string[];
   validate: () => void;
   clearIds: () => void;
+
+  addFieldValueFile: () => void;
 }
