@@ -15,7 +15,7 @@
         :data-type="DataTypes.Number"
         :operator="Operators.Gt"
         :filter-value="0"
-        @load="load"
+        @load="loadVacancies"
       />
       <FilterCheckbox
         :table="schema.vacancy.tableName"
@@ -24,7 +24,13 @@
         :data-type="DataTypes.Number"
         :operator="Operators.Gt"
         :filter-value="0"
-        @load="load"
+        @load="loadVacancies"
+      />
+      <FilterMultipleSelect
+        class="filters-block"
+        :filter-model="filterByDivision"
+        :options="schema.division.options"
+        @load="loadVacancies"
       />
       <FilterCheckbox
         :table="schema.vacancy.tableName"
@@ -33,7 +39,7 @@
         :data-type="DataTypes.Boolean"
         :operator="Operators.Eq"
         :filter-value="true"
-        @load="load"
+        @load="loadVacancies"
       />
     </template>
     <el-table v-if="vacancies" :data="vacancies">
@@ -137,13 +143,16 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import FilterModel from '@/classes/filters/FilterModel';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -151,12 +160,22 @@ import IVacancy from '@/interfaces/IVacancy';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
 import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminVacanciesList',
-  components: { FilterCheckbox, FilterSelectDate, TableButtonGroup, RemoteSearch, SortList, Pagination, AdminListWrapper },
+  components: {
+    FilterMultipleSelect,
+    FilterCheckbox,
+    FilterSelectDate,
+    TableButtonGroup,
+    RemoteSearch,
+    SortList,
+    Pagination,
+    AdminListWrapper,
+  },
   setup() {
     const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/items']);
     const isEditMode: Ref<boolean> = ref(false);
@@ -176,10 +195,16 @@ export default defineComponent({
       Provider.store.commit('admin/closeLoading');
     };
 
+    const loadVacancies = async () => {
+      await Provider.getAll('vacancies');
+    };
+    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
     const load = async () => {
       Provider.setSortList(...createSortModels(VacanciesSortsLib));
       Provider.setSortModels(VacanciesSortsLib.byTitle());
-      await Provider.store.dispatch('vacancies/getAll', Provider.filterQuery.value);
+      await loadVacancies();
+      filterByDivision.value = VacanciesFiltersLib.byDivisions([]);
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Вакансии',
         buttons: [

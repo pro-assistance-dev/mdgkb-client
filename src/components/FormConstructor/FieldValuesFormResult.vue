@@ -19,6 +19,14 @@
         <a v-if="scope.row.field.valueType.isFile() && scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
           {{ scope.row.file.originalName }}
         </a>
+        <div v-if="scope.row.field.valueType.isFiles()">
+          <div v-for="fieldValueFile in scope.row.fieldValuesFiles" :key="fieldValueFile">
+            <a v-if="fieldValueFile.fileInfo.fileSystemPath" :href="fieldValueFile.fileInfo.getFileUrl()" target="_blank">
+              {{ fieldValueFile.fileInfo.originalName }}
+            </a>
+          </div>
+        </div>
+
         <span v-else>Не продоставлены</span>
       </template>
     </el-table-column>

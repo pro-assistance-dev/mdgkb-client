@@ -48,7 +48,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -68,15 +67,13 @@ export default defineComponent({
   components: { TableButtonGroup, FiltersList, AdminListWrapper },
 
   setup() {
-    const route = useRoute();
-
     const dpoApplications: ComputedRef<IDpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
 
     const filterModel = ref();
     const title = ref('');
 
-    watch(route, async () => {
+    watch(Provider.route(), async () => {
       setType();
       await unsubscribe();
       await subscribe();
@@ -85,7 +82,7 @@ export default defineComponent({
 
     const setType = () => {
       filterModel.value = DpoApplicationsFiltersLib.byCourseType(false);
-      if (route.path === '/admin/nmo/applications') {
+      if (Provider.route().path === '/admin/nmo/applications') {
         filterModel.value.boolean = true;
         title.value = 'Заявки НМО';
       } else {
@@ -109,9 +106,11 @@ export default defineComponent({
 
     const loadFilters = async () => {
       const filterQuery = new FilterQuery();
-      const formStatusesGroupId = dpoApplications.value[0].formValue.formStatus.formStatusGroupId;
-      if (formStatusesGroupId) {
-        filterQuery.filterModels.push(FormStatusesFiltersLib.byGroupId(formStatusesGroupId));
+      if (dpoApplications.value.length > 0) {
+        const formStatusesGroupId = dpoApplications.value[0].formValue.formStatus.formStatusGroupId;
+        if (formStatusesGroupId) {
+          filterQuery.filterModels.push(FormStatusesFiltersLib.byGroupId(formStatusesGroupId));
+        }
       }
       await Provider.store.dispatch('formStatuses/getAll', filterQuery);
     };
@@ -132,7 +131,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const subscribe = async () => {
-      const isNmo = route.path === '/admin/nmo/applications';
+      const isNmo = Provider.route().path === '/admin/nmo/applications';
       await Provider.store.dispatch('dpoApplications/subscribeCreate', isNmo);
     };
 
@@ -143,9 +142,9 @@ export default defineComponent({
       await Provider.store.dispatch('dpoApplications/unsubscribeCreate');
     });
 
-    const create = () => Provider.router.push(`${route.path}/new`);
+    const create = () => Provider.router.push(`${Provider.route().path}/new`);
     // const remove = async (id: string) => await Provider.store.dispatch('dpoCourses/remove', id);
-    const edit = (id: string) => Provider.router.push(`${route.path}/${id}`);
+    const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
     const createFilterModels = (): IFilterModel[] => {
       const filters: IFilterModel[] = [];

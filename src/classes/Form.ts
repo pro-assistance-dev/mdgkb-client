@@ -4,6 +4,7 @@ import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
+import IFieldValueFile from '@/interfaces/IFieldValueFile';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
@@ -121,6 +122,9 @@ export default class Form implements IForm {
     this.fieldValues.forEach((i: IFieldValue) => {
       if (i.file) {
         fileInfos.push(i.file);
+      }
+      if (i.fieldValuesFiles.length > 0) {
+        i.fieldValuesFiles.forEach((fvf: IFieldValueFile) => fileInfos.push(fvf.fileInfo));
       }
     });
     return fileInfos;
