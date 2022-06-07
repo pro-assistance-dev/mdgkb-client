@@ -28,7 +28,7 @@ export default defineComponent({
   components: { VacanciesFilters, VacancyCard, LoadMoreButton, PageWrapper },
 
   setup() {
-    const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
+    const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/items']);
 
     const loadVacancies = async () => {
       Provider.filterQuery.value.pagination.limit = 8;

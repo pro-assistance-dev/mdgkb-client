@@ -10,8 +10,8 @@ import { State } from './state';
 
 export const getDefaultState = (): State => {
   return {
-    vacancies: [],
-    vacancy: new Vacancy(),
+    items: [],
+    item: new Vacancy(),
     count: 0,
   };
 };

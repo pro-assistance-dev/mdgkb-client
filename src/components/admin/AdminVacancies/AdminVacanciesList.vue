@@ -55,21 +55,61 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="Отзывов" align="center" min-width="100">
-        <template #default="scope">
-          {{ scope.row.responsesCount }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="minSalary" label="Минимальная зарплата" align="center" min-width="150"> </el-table-column>
-      <el-table-column prop="maxSalary" label="Максимальная зарплата" align="center" min-width="150"> </el-table-column>
       <el-table-column prop="archived" label="Активна" align="center" min-width="80">
         <template #default="scope">
           <el-switch v-model="scope.row.active" @change="setActive(scope.row)" />
         </template>
       </el-table-column>
+      <el-table-column prop="title" label="Отзывов" align="center" min-width="100">
+        <template #default="scope">
+          {{ scope.row.responsesCount }}
+        </template>
+      </el-table-column>
       <el-table-column prop="date" label="Дата добавления" align="center" min-width="200">
         <template #default="scope">
           {{ $dateTimeFormatter.format(scope.row.date) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="minSalary" label="Минимальная зарплата" align="center" min-width="150">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input-number
+              v-model="scope.row.minSalary"
+              controls-position="right"
+              size="mini"
+              placeholder="Минимальная заработная плата"
+            />
+          </div>
+          <div v-else>
+            {{ scope.row.minSalary }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="maxSalary" label="Минимальная зарплата" align="center" min-width="150">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input-number
+              v-model="scope.row.maxSalary"
+              controls-position="right"
+              size="mini"
+              placeholder="Минимальная заработная плата"
+            />
+          </div>
+          <div v-else>
+            {{ scope.row.maxSalary }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Шаблон формы для откликов" align="center" min-width="200">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-select v-model="scope.row.formPattern" value-key="id" size="small" placeholder="Выберите шаблон">
+              <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
+            </el-select>
+          </div>
+          <div v-else>
+            {{ scope.row.formPattern.title || 'Не назначен' }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
@@ -90,7 +130,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -100,6 +140,7 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
+import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
 import createSortModels from '@/services/CreateSortModels';
@@ -112,7 +153,23 @@ export default defineComponent({
   name: 'AdminVacanciesList',
   components: { FilterCheckbox, FilterSelectDate, TableButtonGroup, RemoteSearch, SortList, Pagination, AdminListWrapper },
   setup() {
-    const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
+    const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/items']);
+    const isEditMode: Ref<boolean> = ref(false);
+    const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
+    const formPatterns: ComputedRef<IForm[]> = computed(() => Provider.store.getters['formPatterns/items']);
+
+    const editMany = async () => {
+      Provider.store.commit('admin/showLoading');
+      await Provider.store.dispatch('formPatterns/getAll');
+      isEditMode.value = true;
+      Provider.store.commit('admin/closeLoading');
+    };
+    const saveMany = async () => {
+      Provider.store.commit('admin/showLoading');
+      await Provider.store.dispatch('vacancies/updateMany');
+      isEditMode.value = false;
+      Provider.store.commit('admin/closeLoading');
+    };
 
     const load = async () => {
       Provider.setSortList(...createSortModels(VacanciesSortsLib));
@@ -121,7 +178,8 @@ export default defineComponent({
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Вакансии',
         buttons: [
-          { text: 'Показать новые отклики', type: 'warning', conndition: newResponsesExists() },
+          { text: 'Сохранить', condition: isEditMode, action: saveMany },
+          { text: 'Редактировать', type: 'primary', condition: isNotEditMode, action: editMany },
           { text: 'Создать вакансию', type: 'primary', action: create },
         ],
       });
@@ -163,6 +221,8 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       sortList: Provider.sortList,
+      isEditMode,
+      formPatterns,
     };
   },
 });

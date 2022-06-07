@@ -96,7 +96,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const form = ref();
-    const vacancy: Ref<IVacancy> = computed<IVacancy>(() => Provider.store.getters['vacancies/vacancy']);
+    const vacancy: Ref<IVacancy> = computed<IVacancy>(() => Provider.store.getters['vacancies/item']);
     const division: Ref<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);

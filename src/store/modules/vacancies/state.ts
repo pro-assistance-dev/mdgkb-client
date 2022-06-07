@@ -1,7 +1,7 @@
 import IVacancy from '@/interfaces/IVacancy';
 
 export interface State {
-  vacancies: IVacancy[];
-  vacancy: IVacancy;
+  items: IVacancy[];
+  item: IVacancy;
   count: number;
 }

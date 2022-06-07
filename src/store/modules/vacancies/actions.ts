@@ -59,6 +59,9 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
   },
+  updateMany: async ({ state }): Promise<void> => {
+    await httpClient.put<IVacancy[], IVacancy[]>({ query: `/many`, payload: state.items, isFormData: true });
+  },
 };
 
 export default actions;

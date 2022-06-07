@@ -71,7 +71,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const showForm: Ref<boolean> = ref(false);
-    const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/vacancy']);
+    const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/item']);
     const mounted: Ref<boolean> = ref(false);
 
     const showFormFunc = async () => {
