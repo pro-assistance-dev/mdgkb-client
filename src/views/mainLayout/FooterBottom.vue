@@ -9,9 +9,9 @@
         </el-col>
         <el-col :xl="2">
           <div class="flex-center">
-            <a id="specialButton" href="#">
-              <i class="el-icon-view"></i>
-            </a>
+            <!--            <a id="specialButton" href="#">-->
+            <!--              <i class="el-icon-view"></i>-->
+            <!--            </a>-->
           </div>
           <div class="flex-center">
             <a class="site-map" href="/site-map">Карта сайта</a>
