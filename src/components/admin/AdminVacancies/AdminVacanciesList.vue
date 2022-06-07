@@ -3,6 +3,12 @@
     <template #header>
       <RemoteSearch :key-value="schema.vacancy.key" @select="selectSearch" />
       <FilterSelectDate :table="schema.vacancy.tableName" :col="schema.vacancy.date" placeholder="Дата публикации" @load="load" />
+      <FilterMultipleSelect
+        class="filters-block"
+        :filter-model="filterByDivision"
+        :options="schema.division.options"
+        @load="loadVacancies"
+      />
     </template>
     <template #header-right>
       <SortList :models="sortList" :store-mode="true" @load="load" />
@@ -24,12 +30,6 @@
         :data-type="DataTypes.Number"
         :operator="Operators.Gt"
         :filter-value="0"
-        @load="loadVacancies"
-      />
-      <FilterMultipleSelect
-        class="filters-block"
-        :filter-model="filterByDivision"
-        :options="schema.division.options"
         @load="loadVacancies"
       />
       <FilterCheckbox
