@@ -31,6 +31,11 @@ const menuList: IAdminMenu[] = [
         to: '/admin/vacancies',
         icon: 'el-icon-suitcase-1',
       },
+      {
+        title: 'Отклики на вакансии',
+        to: '/admin/vacancy-responses',
+        icon: 'el-icon-suitcase-1',
+      },
     ],
   },
   {

@@ -80,7 +80,6 @@ export default defineComponent({
     };
 
     const updateNew = async () => {
-      console.log('vacancyResponse.value', vacancyResponse.value);
       if (!route.params['id']) {
         return;
       }

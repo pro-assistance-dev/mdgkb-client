@@ -95,7 +95,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -117,7 +117,7 @@ export default defineComponent({
   name: 'AdminVacanciesList',
   components: { FilterCheckbox, FilterSelectDate, TableButtonGroup, RemoteSearch, SortList, Pagination, AdminListWrapper },
   setup() {
-    const vacancies: Ref<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
+    const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
 
     const load = async () => {
       Provider.setSortList(...createSortModels(VacanciesSortsLib));

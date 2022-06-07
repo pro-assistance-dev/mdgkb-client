@@ -62,7 +62,7 @@
           <template #header>
             <CardHeader :label="'Отклики'" :add-button="false" />
           </template>
-          <AdminVacanciesPageResponses :vacancy-responses="vacancy.vacancyResponses" :vacancy="vacancy" />
+          <AdminVacancyResponcesTable :vacancy-responses="vacancy.vacancyResponses" @remove="removeResponse" />
         </el-card>
       </el-container>
     </el-form>
@@ -76,7 +76,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import Division from '@/classes/buildings/Division';
-import AdminVacanciesPageResponses from '@/components/admin/AdminVacancies/AdminVacanciesPageResponses.vue';
+import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponcesTable.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -84,6 +84,7 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
+import removeFromClass from '@/mixins/removeFromClass';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 import Hooks from '@/services/Hooks/Hooks';
@@ -91,7 +92,7 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
-  components: { SortableInputsList, CardHeader, AdminVacanciesPageResponses, RemoteSearch },
+  components: { SortableInputsList, CardHeader, AdminVacancyResponcesTable, RemoteSearch },
   setup() {
     const route = useRoute();
     const form = ref();
@@ -144,9 +145,14 @@ export default defineComponent({
       vacancy.value.divisionId = item.id;
     };
 
+    const removeResponse = (index: number) => {
+      removeFromClass(index, vacancy.value.vacancyResponses, vacancy.value.vacancyResponsesForDelete);
+    };
+
     return {
       selectDivisionSearch,
       submit,
+      removeResponse,
       vacancy,
       form,
       mounted: Provider.mounted,

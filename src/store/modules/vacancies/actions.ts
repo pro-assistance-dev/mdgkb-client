@@ -3,7 +3,6 @@ import { ActionTree } from 'vuex';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IVacanciesWithCount from '@/interfaces/IVacanciesWithCount ';
 import IVacancy from '@/interfaces/IVacancy';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -46,14 +45,6 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: vacancy.formPattern?.getFileInfos(),
     });
     commit('set');
-  },
-  createResponse: async (_, item: IVacancyResponse): Promise<void> => {
-    await httpClient.post<IVacancyResponse, IVacancyResponse>({
-      query: 'response',
-      payload: item,
-      fileInfos: item.getFileInfos(),
-      isFormData: true,
-    });
   },
   update: async ({ commit }, vacancy: IVacancy): Promise<void> => {
     await httpClient.put<IVacancy, IVacancy>({

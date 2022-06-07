@@ -1,7 +1,6 @@
 import { MutationTree } from 'vuex';
 
 import Vacancy from '@/classes/Vacancy';
-import VacancyResponse from '@/classes/VacancyResponse';
 import IVacanciesWithCount from '@/interfaces/IVacanciesWithCount ';
 import IVacancy from '@/interfaces/IVacancy';
 
@@ -38,9 +37,6 @@ const mutations: MutationTree<State> = {
   },
   resetState(state) {
     Object.assign(state, getDefaultState());
-  },
-  resetVacancyResponse(state) {
-    state.vacancyResponse = new VacancyResponse();
   },
   clearVacancies(state) {
     state.vacancies = [];

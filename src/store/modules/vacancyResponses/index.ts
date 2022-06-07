@@ -13,6 +13,7 @@ export const getDefaultState = (): State => {
     items: [],
     item: new VacancyResponse(),
     emailExists: false,
+    count: 0,
   };
 };
 
