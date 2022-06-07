@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted">
+  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
       <SortList class="filters-block" :models="createSortModels()" @load="loadComments" />
       <FilterSelectDate

@@ -20,7 +20,7 @@
       {{ $dateTimeFormatter.format(formValue?.child?.human.dateBirth) }}
     </el-descriptions-item>
     <el-descriptions-item v-if="activeFields.childIsMale" label="Пол пациента">
-      {{ formValue?.child?.human.isMale }}
+      {{ formValue?.child?.human.isMale ? 'Мужской' : 'Женский' }}
     </el-descriptions-item>
   </el-descriptions>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted">
+  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
       <RemoteSearch class="filters-block" :key-value="schema.news.key" @select="selectSearch" />
       <FiltersList :models="createFilterModels()" @load="loadNews" />

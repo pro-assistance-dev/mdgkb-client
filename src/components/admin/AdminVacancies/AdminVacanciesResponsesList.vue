@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted">
+  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
       <SortList :max-width="350" :models="sortList" :store-mode="true" @load="loadResponses" />
     </template>
