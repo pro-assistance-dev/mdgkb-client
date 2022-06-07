@@ -1,5 +1,7 @@
 import { ActionTree } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IVacancyResponsesWithCount from '@/interfaces/IVacancyResponsesWithCount ';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -9,6 +11,17 @@ import { State } from './state';
 const httpClient = new HttpClient('vacancy-responses');
 
 const actions: ActionTree<State, RootState> = {
+  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    const item = await httpClient.get<IVacancyResponsesWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
+    if (filterQuery) {
+      filterQuery.setAllLoaded(item ? item.vacancyResponses.length : 0);
+    }
+    if (filterQuery && filterQuery.pagination.append) {
+      commit('appendToAll', item);
+      return;
+    }
+    commit('setAllWithCount', item);
+  },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<IVacancyResponse>({ query: `${id}` });
     commit('set', res);
@@ -40,6 +53,11 @@ const actions: ActionTree<State, RootState> = {
     }
     const res = await httpClient.get<boolean>({ query: `email-exists/${state.item.formValue.user.email}/${vacancyId}` });
     commit('setEmailExists', res);
+  },
+  remove: async ({ state, commit }, index: number): Promise<void> => {
+    const id = state.items[index].id;
+    await httpClient.delete({ query: `${id}` });
+    commit('remove', id);
   },
 };
 

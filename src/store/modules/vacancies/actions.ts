@@ -3,7 +3,6 @@ import { ActionTree } from 'vuex';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IVacanciesWithCount from '@/interfaces/IVacanciesWithCount ';
 import IVacancy from '@/interfaces/IVacancy';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -47,14 +46,6 @@ const actions: ActionTree<State, RootState> = {
     });
     commit('set');
   },
-  createResponse: async (_, item: IVacancyResponse): Promise<void> => {
-    await httpClient.post<IVacancyResponse, IVacancyResponse>({
-      query: 'response',
-      payload: item,
-      fileInfos: item.getFileInfos(),
-      isFormData: true,
-    });
-  },
   update: async ({ commit }, vacancy: IVacancy): Promise<void> => {
     await httpClient.put<IVacancy, IVacancy>({
       query: `${vacancy.id}`,
@@ -67,6 +58,9 @@ const actions: ActionTree<State, RootState> = {
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
+  },
+  updateMany: async ({ state }): Promise<void> => {
+    await httpClient.put<IVacancy[], IVacancy[]>({ query: `/many`, payload: state.items, isFormData: true });
   },
 };
 

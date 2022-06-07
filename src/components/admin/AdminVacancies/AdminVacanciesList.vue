@@ -1,10 +1,20 @@
 <template>
   <component :is="'AdminListWrapper'" v-if="mounted">
     <template #header>
-      <RemoteSearch class="filters-block" :key-value="schema.vacancy.key" @select="selectSearch" />
-      <SortList class="filters-block" :models="sortList" :store-mode="true" @load="loadVacancies" />
-      <FilterCheckbox
+      <RemoteSearch :key-value="schema.vacancy.key" @select="selectSearch" />
+      <FilterSelectDate :table="schema.vacancy.tableName" :col="schema.vacancy.date" placeholder="Дата публикации" @load="load" />
+      <FilterMultipleSelect
         class="filters-block"
+        :filter-model="filterByDivision"
+        :options="schema.division.options"
+        @load="loadVacancies"
+      />
+    </template>
+    <template #header-right>
+      <SortList :models="sortList" :store-mode="true" @load="load" />
+    </template>
+    <template #header-bottom>
+      <FilterCheckbox
         :table="schema.vacancy.tableName"
         :col="schema.vacancy.responsesCount"
         label="С отзывами"
@@ -14,7 +24,6 @@
         @load="loadVacancies"
       />
       <FilterCheckbox
-        class="filters-block"
         :table="schema.vacancy.tableName"
         :col="schema.vacancy.newResponsesCount"
         label="С новыми отзывами"
@@ -23,27 +32,13 @@
         :filter-value="0"
         @load="loadVacancies"
       />
-      <FilterMultipleSelect
-        class="filters-block"
-        :filter-model="filterByDivision"
-        :options="schema.division.options"
-        @load="loadVacancies"
-      />
       <FilterCheckbox
-        class="filters-block"
         :table="schema.vacancy.tableName"
         :col="schema.vacancy.active"
         label="Активные"
         :data-type="DataTypes.Boolean"
         :operator="Operators.Eq"
         :filter-value="true"
-        @load="loadVacancies"
-      />
-      <FilterSelectDate
-        class="filters-block"
-        :table="schema.vacancy.tableName"
-        :col="schema.vacancy.date"
-        placeholder="Дата публикации"
         @load="loadVacancies"
       />
     </template>
@@ -66,21 +61,66 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column label="Отделение" min-width="200">
+        <template #default="scope">
+          {{ scope.row.division?.name }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Активна" align="center" min-width="80">
+        <template #default="scope">
+          <el-switch v-model="scope.row.active" @change="setActive(scope.row)" />
+        </template>
+      </el-table-column>
       <el-table-column prop="title" label="Отзывов" align="center" min-width="100">
         <template #default="scope">
           {{ scope.row.responsesCount }}
         </template>
       </el-table-column>
-      <el-table-column prop="minSalary" label="Минимальная зарплата" align="center" min-width="150"> </el-table-column>
-      <el-table-column prop="maxSalary" label="Максимальная зарплата" align="center" min-width="150"> </el-table-column>
-      <el-table-column prop="archived" label="Активна" align="center" min-width="80">
-        <template #default="scope">
-          <el-switch v-model="scope.row.active" @change="setActive(scope.row)" />
-        </template>
-      </el-table-column>
       <el-table-column prop="date" label="Дата добавления" align="center" min-width="200">
         <template #default="scope">
           {{ $dateTimeFormatter.format(scope.row.date) }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="minSalary" label="Минимальная зарплата" align="center" min-width="150">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input-number
+              v-model="scope.row.minSalary"
+              controls-position="right"
+              size="mini"
+              placeholder="Минимальная заработная плата"
+            />
+          </div>
+          <div v-else>
+            {{ scope.row.minSalary }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="maxSalary" label="Минимальная зарплата" align="center" min-width="150">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input-number
+              v-model="scope.row.maxSalary"
+              controls-position="right"
+              size="mini"
+              placeholder="Минимальная заработная плата"
+            />
+          </div>
+          <div v-else>
+            {{ scope.row.maxSalary }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Шаблон формы для откликов" align="center" min-width="200">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-select v-model="scope.row.formPattern" value-key="id" size="small" placeholder="Выберите шаблон">
+              <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
+            </el-select>
+          </div>
+          <div v-else>
+            {{ scope.row.formPattern.title || 'Не назначен' }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
@@ -101,7 +141,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import Pagination from '@/components/admin/Pagination.vue';
@@ -114,6 +154,7 @@ import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
+import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
 import createSortModels from '@/services/CreateSortModels';
@@ -136,7 +177,23 @@ export default defineComponent({
     AdminListWrapper,
   },
   setup() {
-    const vacancies: Ref<IVacancy[]> = computed(() => Provider.store.getters['vacancies/vacancies']);
+    const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/items']);
+    const isEditMode: Ref<boolean> = ref(false);
+    const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
+    const formPatterns: ComputedRef<IForm[]> = computed(() => Provider.store.getters['formPatterns/items']);
+
+    const editMany = async () => {
+      Provider.store.commit('admin/showLoading');
+      await Provider.store.dispatch('formPatterns/getAll');
+      isEditMode.value = true;
+      Provider.store.commit('admin/closeLoading');
+    };
+    const saveMany = async () => {
+      Provider.store.commit('admin/showLoading');
+      await Provider.store.dispatch('vacancies/updateMany');
+      isEditMode.value = false;
+      Provider.store.commit('admin/closeLoading');
+    };
 
     const loadVacancies = async () => {
       await Provider.getAll('vacancies');
@@ -151,7 +208,8 @@ export default defineComponent({
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Вакансии',
         buttons: [
-          { text: 'Показать новые отклики', type: 'warning', condition: newResponsesExists() },
+          { text: 'Сохранить', condition: isEditMode, action: saveMany },
+          { text: 'Редактировать', type: 'primary', condition: isNotEditMode, action: editMany },
           { text: 'Создать вакансию', type: 'primary', action: create },
         ],
       });
@@ -193,8 +251,8 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       sortList: Provider.sortList,
-      filterByDivision,
-      loadVacancies,
+      isEditMode,
+      formPatterns,
     };
   },
 });

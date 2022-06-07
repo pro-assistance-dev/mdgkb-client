@@ -45,7 +45,7 @@ export default defineComponent({
     const rules = ref(VacancyResponseRules);
     const form = ref();
     const vacancyResponse: ComputedRef<IVacancyResponse> = computed(() => store.getters['vacancyResponses/item']);
-    const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/vacancy']);
+    const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/item']);
     const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['vacancyResponses/emailExists']);
     const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);

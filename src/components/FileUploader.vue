@@ -6,6 +6,7 @@
     class="upload-container"
     :show-file-list="false"
     list-type="picture"
+    accept=".pdf, .jpeg, .jpg"
   >
     <el-button size="mini" type="success">{{ fileInfo && fileInfo.originalName ? 'Обновить' : 'Загрузить' }}</el-button>
     <template #tip>
