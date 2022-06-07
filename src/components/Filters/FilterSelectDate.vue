@@ -9,6 +9,7 @@
         clearable
         placeholder="Выберите дату"
         round
+        size="small"
         @change="addFilterModel"
       >
         <el-option v-for="date in dates" :key="date.label" :label="date.label" :value="date.id"></el-option>

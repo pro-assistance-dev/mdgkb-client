@@ -1,10 +1,14 @@
 <template>
   <component :is="'AdminListWrapper'" v-if="mounted">
     <template #header>
-      <RemoteSearch class="filters-block" :key-value="schema.vacancy.key" @select="selectSearch" />
-      <SortList class="filters-block" :models="sortList" :store-mode="true" @load="load" />
+      <RemoteSearch :key-value="schema.vacancy.key" @select="selectSearch" />
+      <FilterSelectDate :table="schema.vacancy.tableName" :col="schema.vacancy.date" placeholder="Дата публикации" @load="load" />
+    </template>
+    <template #header-right>
+      <SortList :models="sortList" :store-mode="true" @load="load" />
+    </template>
+    <template #header-bottom>
       <FilterCheckbox
-        class="filters-block"
         :table="schema.vacancy.tableName"
         :col="schema.vacancy.responsesCount"
         label="С отзывами"
@@ -14,7 +18,6 @@
         @load="load"
       />
       <FilterCheckbox
-        class="filters-block"
         :table="schema.vacancy.tableName"
         :col="schema.vacancy.newResponsesCount"
         label="С новыми отзывами"
@@ -24,20 +27,12 @@
         @load="load"
       />
       <FilterCheckbox
-        class="filters-block"
         :table="schema.vacancy.tableName"
         :col="schema.vacancy.active"
         label="Активные"
         :data-type="DataTypes.Boolean"
         :operator="Operators.Eq"
         :filter-value="true"
-        @load="load"
-      />
-      <FilterSelectDate
-        class="filters-block"
-        :table="schema.vacancy.tableName"
-        :col="schema.vacancy.date"
-        placeholder="Дата публикации"
         @load="load"
       />
     </template>
