@@ -1,6 +1,6 @@
 <template>
   <div class="admin-list-wrapper">
-    <div class="card-item filters">
+    <div v-if="showHeader" class="card-item filters">
       <div class="filters-header-top">
         <div class="filters-row">
           <slot name="header" />
@@ -24,6 +24,12 @@
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'AdminListWrapper',
+  props: {
+    showHeader: {
+      type: Boolean,
+      default: false,
+    },
+  },
 });
 </script>
 
@@ -68,6 +74,9 @@ export default defineComponent({
   }
   .filters {
     margin: 10px 10px 0 10px;
+    &:empty {
+      display: none;
+    }
     &-header-top {
       display: flex;
       justify-content: space-between;
@@ -82,9 +91,6 @@ export default defineComponent({
       &:empty {
         display: none;
       }
-    }
-    &:empty {
-      display: none;
     }
   }
   ::-webkit-scrollbar {
