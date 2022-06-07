@@ -10,7 +10,7 @@ const VacancyResponsesSortsLib = (() => {
       Provider.schema.value.vacancyResponse.date,
       order ? order : Orders.Asc,
       `По дате публикации ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      false
+      order === Orders.Desc ? true : false
     );
   }
 
@@ -20,7 +20,7 @@ const VacancyResponsesSortsLib = (() => {
       Provider.schema.value.vacancyResponse.title,
       order ? order : Orders.Asc,
       `По названию ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      true
+      false
     );
   }
 

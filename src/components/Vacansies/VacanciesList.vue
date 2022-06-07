@@ -21,6 +21,7 @@ import IVacancy from '@/interfaces/IVacancy';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
 import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
 
 export default defineComponent({
@@ -38,6 +39,7 @@ export default defineComponent({
     const load = async () => {
       Provider.setSortModels(VacanciesSortsLib.byTitle());
       Provider.setSortList(...createSortModels(VacanciesSortsLib));
+      Provider.setFilterModel(VacanciesFiltersLib.onlyActive());
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       await loadVacancies();
     };

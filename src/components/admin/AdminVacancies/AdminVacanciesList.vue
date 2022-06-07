@@ -55,7 +55,12 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="archived" label="Активна" align="center" min-width="80">
+      <el-table-column label="Отделение" min-width="200">
+        <template #default="scope">
+          {{ scope.row.division?.name }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Активна" align="center" min-width="80">
         <template #default="scope">
           <el-switch v-model="scope.row.active" @change="setActive(scope.row)" />
         </template>
