@@ -86,6 +86,22 @@ export default class FieldValue implements IFieldValue {
       }
       return;
     }
+    if (this.field.valueType.isText()) {
+      if (!this.valueString) {
+        this.showError = true;
+      } else {
+        this.showError = false;
+      }
+      return;
+    }
+    if (this.field.valueType.isFiles()) {
+      if (!this.fieldValuesFiles.length) {
+        this.showError = true;
+      } else {
+        this.showError = false;
+      }
+      return;
+    }
   }
 
   clearIds(): void {

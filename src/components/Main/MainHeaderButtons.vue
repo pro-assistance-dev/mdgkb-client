@@ -21,6 +21,13 @@
       </button>
       <CallBack v-if="isCallBackModalOpen" @close="isCallBackModalOpen = false" />
     </div>
+    <div class="button-container">
+      <!-- TODO: переписать с ID (вход для пациентов) -->
+      <button class="blue-button" @click="$router.push('/application-car/8ccf8e9b-b487-493e-b451-60b193181f07')">
+        <el-icon><calendar /></el-icon>
+        Заявка на въезд
+      </button>
+    </div>
   </div>
 </template>
 
@@ -97,31 +104,15 @@ button {
   }
 }
 
-@media screen and (max-width: 980px) {
-  button {
-    display: flex;
-    margin: 10px 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 180px;
-    margin: 0 10px;
-  }
-}
-
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 1100px) {
   .buttons-container {
     justify-content: center;
     padding: 10px;
-    display: block;
     height: auto;
+    flex-wrap: wrap;
   }
-
   button {
-    display: flex;
-    margin: 10px 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 230px;
+    margin: 10px;
   }
 }
 </style>
