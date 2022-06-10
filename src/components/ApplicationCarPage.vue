@@ -14,6 +14,7 @@
           </el-select>
         </el-form-item>
         <FieldValuesForm :form="applicationCar.formValue" />
+        <PersonalDataAgreement :form-value="applicationCar.formValue" :form-pattern="gate.formPattern" />
         <div class="footer">
           <el-button round type="success" @click.prevent="submit()">Отправить форму</el-button>
         </div>
@@ -29,6 +30,7 @@ import { useRoute } from 'vue-router';
 
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IApplicationCar from '@/interfaces/IApplicationCar';
@@ -43,6 +45,7 @@ export default defineComponent({
   components: {
     UserForm,
     FieldValuesForm,
+    PersonalDataAgreement,
   },
 
   setup() {
@@ -95,6 +98,7 @@ export default defineComponent({
       divisions,
       UserFormFields,
       rules,
+      gate,
     };
   },
 });

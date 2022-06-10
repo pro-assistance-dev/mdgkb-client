@@ -73,7 +73,7 @@ export default defineComponent({
         return;
       }
       dpoApplication.value.formValue.clearIds();
-      await store.dispatch('dpoApplications/create');
+      // await store.dispatch('dpoApplications/create');
       ElMessage({
         type: 'success',
         message: 'Заявка отправлена',

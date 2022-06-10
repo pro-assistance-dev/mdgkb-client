@@ -15,6 +15,7 @@ import CandidateApplication from './CandidateApplication';
 import Child from './Child';
 import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
+import FileInfo from './File/FileInfo';
 import FormStatus from './FormStatus';
 import FormStatusGroup from './FormStatusGroup';
 import PostgraduateApplication from './PostgraduateApplication';
@@ -46,6 +47,11 @@ export default class Form implements IForm {
   formStatusGroupId?: string;
   child = new Child();
   childId?: string;
+  personalDataAgreement = new FileInfo();
+  personalDataAgreementId?: string;
+  withPersonalDataAgreement = false;
+  agreedWithPersonalDataAgreement = false;
+  showPersonalDataAgreementError = false;
   // changed = false;
 
   constructor(form?: IForm) {
@@ -100,6 +106,16 @@ export default class Form implements IForm {
       this.child = new Child(form.child);
     }
     this.childId = form.childId;
+    if (form.personalDataAgreement) {
+      this.personalDataAgreement = new FileInfo(form.personalDataAgreement);
+    }
+    if (form.withPersonalDataAgreement !== undefined) {
+      this.withPersonalDataAgreement = form.withPersonalDataAgreement;
+    }
+    this.personalDataAgreementId = form.personalDataAgreementId;
+    if (form.agreedWithPersonalDataAgreement !== undefined) {
+      this.agreedWithPersonalDataAgreement = form.agreedWithPersonalDataAgreement;
+    }
   }
 
   addField(field?: IField): void {
@@ -115,6 +131,7 @@ export default class Form implements IForm {
         fileInfos.push(i.file);
       }
     });
+    fileInfos.push(this.personalDataAgreement);
     return fileInfos;
   }
   getFieldValuesFileInfos(): IFileInfo[] {
@@ -174,6 +191,10 @@ export default class Form implements IForm {
         }
       }
     });
+    if (this.withPersonalDataAgreement && !this.agreedWithPersonalDataAgreement) {
+      this.showPersonalDataAgreementError = true;
+      this.validated = false;
+    }
   }
 
   clearIds(): void {

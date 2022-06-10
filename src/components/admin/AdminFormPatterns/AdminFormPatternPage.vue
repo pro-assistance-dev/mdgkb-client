@@ -1,12 +1,12 @@
 <template>
   <div class="flex-column">
     <el-form label-position="top">
-      <el-card header="Название">
+      <el-card>
         <el-form-item label="Название">
           <el-input v-model="formPattern.title" placeholder="Название"></el-input>
         </el-form-item>
         <el-form-item label="Группа статусов">
-          <el-select v-model="formPattern.formStatusGroup" value-key="id" placeholder="Группа статусов">
+          <el-select v-model="formPattern.formStatusGroup" value-key="id" placeholder="Группа статусов" @change="changeStatusGroup">
             <el-option v-for="item in formStatusGroups" :key="item.id" :label="item.name" :value="item"> </el-option>
           </el-select>
         </el-form-item>
@@ -21,6 +21,12 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="Запрашивать согласие на обработку персональных данных">
+          <el-switch v-model="formPattern.withPersonalDataAgreement"></el-switch>
+        </el-form-item>
+        <el-form-item v-if="formPattern.withPersonalDataAgreement" label="Cогласие на обработку персональных данных">
+          <FileUploader :file-info="formPattern.personalDataAgreement" />
+        </el-form-item>
       </el-card>
       <FormConstructor :form="formPattern" />
     </el-form>
@@ -33,6 +39,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FileUploader from '@/components/FileUploader.vue';
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
@@ -40,7 +47,7 @@ import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminFormPatternPage',
-  components: { FormConstructor },
+  components: { FormConstructor, FileUploader },
 
   setup() {
     const store = useStore();
@@ -64,6 +71,10 @@ export default defineComponent({
         return;
       }
       next ? next() : router.push('/admin/form-patterns');
+    };
+
+    const changeStatusGroup = () => {
+      store.commit('formPatterns/resetDefaultFormStatus');
     };
 
     onBeforeMount(async () => {
@@ -91,6 +102,7 @@ export default defineComponent({
     return {
       formPattern,
       formStatusGroups,
+      changeStatusGroup,
     };
   },
 });
@@ -103,5 +115,8 @@ export default defineComponent({
 }
 .el-card {
   margin-bottom: 20px;
+}
+:deep(.upload-container) {
+  display: flex;
 }
 </style>

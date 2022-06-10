@@ -33,8 +33,13 @@ export default interface IForm {
   defaultFormStatusId?: string;
   formStatusGroup?: IFormStatusGroup;
   formStatusGroupId?: string;
-  child?: IChild;
+  child: IChild;
   childId?: string;
+  personalDataAgreement?: IFileInfo;
+  personalDataAgreementId?: string;
+  withPersonalDataAgreement: boolean;
+  agreedWithPersonalDataAgreement: boolean;
+  showPersonalDataAgreementError: boolean;
 
   addField: (field?: IField) => void;
   removeField: (index: number) => void;

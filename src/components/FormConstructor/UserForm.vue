@@ -1,9 +1,9 @@
 <template>
-  <div v-if="showErrorMessage & emailExists & !isAuth" id="error-block-message" class="error-block-message">
+  <div v-if="showErrorMessage && emailExists && !isAuth" id="error-block-message" class="error-block-message">
     Заявка с указанным адресом электронной почты уже зарегистрирована. Для просмотра данных по заявке, пожалуйста,
     <a @click="openLoginModal"> авторизируйтесь</a> и перейдите в личный кабинет.
   </div>
-  <div v-else-if="showErrorMessage & emailExists & isAuth" id="error-block-message" class="error-block-message">
+  <div v-else-if="showErrorMessage && emailExists && isAuth" id="error-block-message" class="error-block-message">
     Вы уже подавали заявку. Для просмотра данных, пожалуйста, перейдите в
     <a @click="$router.push('/profile')"> личный кабинет</a>.
   </div>
@@ -41,7 +41,7 @@
       <el-option label="Женский" :value="false"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item v-if="(!user.human.phone || fromAdmin) && activeFields.userPhone" label="Ваш телефон" prop="formValue.user.phone">
+  <el-form-item v-if="(!user.phone || fromAdmin) && activeFields.userPhone" label="Ваш телефон" prop="formValue.user.phone">
     <el-input v-model="formValue.user.phone" placeholder="Ваш телефон"></el-input>
   </el-form-item>
   <el-form-item v-if="activeFields.childSurname" label="Фамилия пациента" prop="formValue.user.human.surname">
@@ -68,6 +68,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Form from '@/classes/Form';
 import UserFormFields from '@/classes/UserFormFields';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IForm from '@/interfaces/IForm';
@@ -108,7 +109,7 @@ export default defineComponent({
     const store = useStore();
     const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
     const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
-    const formValue: Ref<IForm | undefined> = ref();
+    const formValue: Ref<IForm> = ref(new Form());
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value.trim().length) {
