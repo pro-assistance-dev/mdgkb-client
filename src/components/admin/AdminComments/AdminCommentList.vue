@@ -73,6 +73,7 @@ export default defineComponent({
       sortModels: [],
       adminHeader: {
         title: 'Комментарии',
+        buttons: [],
       },
     });
 
