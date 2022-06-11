@@ -9,4 +9,5 @@ export interface State {
   curGalleryCropIndex: number;
   comment: IDivisionComment;
   onlyShowed: boolean;
+  count: number;
 }

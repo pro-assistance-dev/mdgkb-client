@@ -11,7 +11,7 @@ import RootState from '@/store/types';
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  divisions(state, rootState): IDivision[] | undefined {
+  divisions(state): IDivision[] | undefined {
     const { divisions } = state;
     return divisions;
   },
@@ -43,6 +43,9 @@ const getters: GetterTree<State, RootState> = {
   // getDrugById(state): (id: string) => IDrug | undefined {
   //   return (id: string): IDrug | undefined => state.drugs.find((item: IDrug) => item.id === id);
   // },
+  count(state): number {
+    return state.count;
+  },
 };
 
 export default getters;
