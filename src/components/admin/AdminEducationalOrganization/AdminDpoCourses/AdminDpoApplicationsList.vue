@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted">
+  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <el-tag v-if="dpoApplications.some((app) => app.formValue.isNew)">Есть новые заявки</el-tag>
     <template #header>
       <FiltersList :models="createFilterModels()" @load="loadApplications" />

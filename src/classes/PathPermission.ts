@@ -48,7 +48,6 @@ export default class PathPermission implements IPathPermission {
   }
 
   checkPermissionForRole(roleId: string): boolean {
-    console.log('check');
     return !!this.pathPermissionsRoles.find((pr: IPathPermissionRole) => roleId === pr.roleId);
   }
 }

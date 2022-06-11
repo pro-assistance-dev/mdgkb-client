@@ -33,6 +33,7 @@ export default interface IUser {
   donorRulesUsers: IDonorRuleUser[];
   doctorsUsers: IDoctorUser[];
   role: IRole;
+  rejectEmail: boolean;
   roleId?: string;
   hasNewAnswers: () => boolean;
   countNewAnswers: () => number;

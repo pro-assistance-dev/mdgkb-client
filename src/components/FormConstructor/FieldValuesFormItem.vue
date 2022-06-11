@@ -20,11 +20,22 @@
     <div v-if="fieldValue.showError && !fieldValue.file.fileSystemPath" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
   <el-form-item v-if="field.valueType.isFiles()" style="margin: 0">
-    <div v-for="(fieldValueFile, i) in fieldValue.fieldValuesFiles" :key="fieldValueFile">
+    <el-button
+      style="margin-bottom: 5px"
+      size="mini"
+      type="success"
+      icon="el-icon-document-add"
+      @click="fieldValue.addFieldValueFile()"
+    ></el-button>
+    <div v-for="(fieldValueFile, i) in fieldValue.fieldValuesFiles" :key="fieldValueFile" style="display: flex; margin-bottom: 5px">
       <FileUploader :file-info="fieldValueFile.fileInfo" />
-      <el-button @click="removeFromClass(i, fieldValue.fieldValuesFiles, fieldValue.fieldValuesFilesForDelete)">Удалить файл</el-button>
+      <el-button
+        size="mini"
+        icon="el-icon-document-delete"
+        style="padding: 5px; margin: 0; min-height: unset; border: none"
+        @click="removeFromClass(i, fieldValue.fieldValuesFiles, fieldValue.fieldValuesFilesForDelete)"
+      ></el-button>
     </div>
-    <el-button @click="fieldValue.addFieldValueFile()">Добавить файл</el-button>
     <div v-if="fieldValue.showError && !fieldValue.file.fileSystemPath" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
 </template>

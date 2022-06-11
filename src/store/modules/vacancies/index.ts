@@ -1,7 +1,6 @@
 import { Module } from 'vuex';
 
 import Vacancy from '@/classes/Vacancy';
-import VacancyResponse from '@/classes/VacancyResponse';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,9 +10,8 @@ import { State } from './state';
 
 export const getDefaultState = (): State => {
   return {
-    vacancies: [],
-    vacancy: new Vacancy(),
-    vacancyResponse: new VacancyResponse(),
+    items: [],
+    item: new Vacancy(),
     count: 0,
   };
 };

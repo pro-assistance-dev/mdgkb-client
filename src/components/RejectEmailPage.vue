@@ -1,9 +1,9 @@
 <template>
-  <div class="title"><h2>Установить пароль для личного кабинета?</h2></div>
+  <div class="title"><h2>Вы хотите отказаться от получения email?</h2></div>
   <div class="news-page-container">
     <div class="news-content-container">
       <el-form>
-        <button class="yes-button" @click.prevent="passwordChange">Да</button>
+        <button class="yes-button" @click.prevent="submit">Да</button>
         <button class="no-button" @click="$router.push('/')">На главную</button>
       </el-form>
     </div>
@@ -11,48 +11,26 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 
-import User from '@/classes/User';
 import IUser from '@/interfaces/IUser';
-import IPage from '@/interfaces/page/IPage';
 import Provider from '@/services/Provider';
 export default defineComponent({
-  name: 'RefreshPasswordPage',
+  name: 'RejectEmailPage',
   async setup() {
-    const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
-    const user: Ref<IUser> = computed(() => new User());
-    const newPassword: Ref<string> = ref('');
-
-    const passwordChange = () => {
-      Provider.store.commit('auth/openModal', 'passwordChange');
-    };
+    const user: Ref<IUser> = computed(() => Provider.store.getters['users/item']);
 
     onBeforeMount(async () => {
-      try {
-        await Provider.store.dispatch('auth/checkUuid', {
-          userId: Provider.route().params['userId'],
-          uniqueId: Provider.route().params['uniqueId'],
-        });
-      } catch (e) {
-        await Provider.router.push('/main');
-        ElMessage({ message: 'Ссылка устарела', type: 'warning' });
-      }
-      passwordChange();
+      await Provider.store.dispatch('users/get', Provider.route().params['userId']);
     });
 
-    const sendPassword = async () => {
-      const userId = Provider.route().params['userId'];
-      if (userId && typeof userId === 'string') {
-        user.value.id = userId;
-      }
-      user.value.password = newPassword.value;
-      await Provider.store.dispatch('auth/refreshPassword', user.value);
+    const submit = async () => {
+      user.value.rejectEmail = true;
+      await Provider.store.dispatch('users/update', user.value);
       await Provider.router.push('/main');
     };
 
-    return { sendPassword, page, newPassword, passwordChange };
+    return { submit };
   },
 });
 </script>

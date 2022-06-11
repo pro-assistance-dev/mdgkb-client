@@ -12,6 +12,8 @@
         :options="schema.division.options"
         :table="schema.vacancy.tableName"
         :col="schema.vacancy.divisionId"
+        :operator="Operators.Eq"
+        :data-type="DataTypes.String"
         @load="$emit('load')"
       />
       <FilterSelectDate
@@ -36,6 +38,8 @@ import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
 import Provider from '@/services/Provider';
 
@@ -51,10 +55,11 @@ export default defineComponent({
 
     return {
       selectSearch,
-      Provider,
       sortList: Provider.sortList,
       schema: Provider.schema,
       mounted: Provider.mounted,
+      Operators,
+      DataTypes,
     };
   },
 });

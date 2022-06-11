@@ -10,16 +10,20 @@
         <div v-if="scope.row.field.valueType.isString() || scope.row.field.valueType.isText()">
           {{ scope.row.valueString }}
         </div>
-        <div v-if="scope.row.field.valueType.isNumber()">
+        <div v-else-if="scope.row.field.valueType.isNumber()">
           {{ scope.row.valueNumber }}
         </div>
-        <div v-if="scope.row.field.valueType.isDate() && scope.row.valueDate">
+        <div v-else-if="scope.row.field.valueType.isDate() && scope.row.valueDate">
           {{ $dateTimeFormatter.format(scope.row.valueDate) }}
         </div>
-        <a v-if="scope.row.field.valueType.isFile() && scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
+        <a
+          v-else-if="scope.row.field.valueType.isFile() && scope.row.file.fileSystemPath"
+          :href="scope.row.file.getFileUrl()"
+          target="_blank"
+        >
           {{ scope.row.file.originalName }}
         </a>
-        <div v-if="scope.row.field.valueType.isFiles()">
+        <div v-else-if="scope.row.field.valueType.isFiles()">
           <div v-for="fieldValueFile in scope.row.fieldValuesFiles" :key="fieldValueFile">
             <a v-if="fieldValueFile.fileInfo.fileSystemPath" :href="fieldValueFile.fileInfo.getFileUrl()" target="_blank">
               {{ fieldValueFile.fileInfo.originalName }}

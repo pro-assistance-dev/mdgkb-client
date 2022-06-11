@@ -20,8 +20,9 @@ export default interface IFilterModel {
   isUnaryFilter: () => boolean;
   isBetweenFilter: () => boolean;
   isSetFilter: () => boolean;
-  addToSet: (setElement: string) => void;
-
+  addToSet: (...setElement: string[]) => void;
+  pushToSet: (...setElement: string[]) => void;
+  replaceSet: (...setElements: string[]) => void;
   joinTable: string;
   joinTableFk: string;
   joinTablePk: string;

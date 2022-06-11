@@ -135,7 +135,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .filter-form {
   align-items: center;
-  height: 38px;
 }
 
 .el-form-item {
@@ -144,8 +143,13 @@ export default defineComponent({
   margin: 0;
 }
 
+:deep(.el-form-item__content) {
+  display: flex;
+  align-items: center;
+}
+
 .el-form {
-  padding: 10px;
+  padding: 0 10px;
 }
 
 :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {

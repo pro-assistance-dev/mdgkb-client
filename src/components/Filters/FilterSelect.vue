@@ -165,7 +165,7 @@ export default defineComponent({
   width: 100%;
 }
 
-// .filter-form {
-// width: 100%;
+// :deep(.el-select__popper) {
+//   width: inherit;
 // }
 </style>

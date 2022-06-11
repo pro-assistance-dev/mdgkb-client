@@ -18,6 +18,8 @@
           }"
         >
           <slot name="header-right" />
+          <!--          TODO: сброс фильтров работает только при согласовании FilterQuery и компонентов фильтров. До этого - не трогать-->
+          <!--          <el-button v-if="showClearButton" @click="clearFilterModel">Сбросить все фильтры</el-button>-->
         </div>
       </div>
     </div>
@@ -30,7 +32,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
+
+import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'FiltersWrapper',
   props: {
@@ -38,6 +42,18 @@ export default defineComponent({
       type: [Number, String],
       default: '',
     },
+  },
+  emit: ['load'],
+  setup() {
+    const showClearButton: ComputedRef<boolean> = computed(
+      () => Provider.filterQuery.value.filterModels.length > 0 && Provider.filterQuery.value.sortModels.length > 0
+    );
+
+    const clearFilterModel = () => {
+      Provider.resetFilterQuery();
+    };
+
+    return { clearFilterModel, showClearButton };
   },
 });
 </script>
@@ -68,6 +84,7 @@ export default defineComponent({
         align-items: center;
       }
       &-bottom {
+        margin-top: 10px;
         width: 100%;
         display: flex;
         align-items: center;

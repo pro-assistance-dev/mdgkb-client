@@ -2,7 +2,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import VacanciesList from '@/components/Vacansies/VacanciesList.vue';
 import VacancyPage from '@/components/Vacansies/VacancyPage.vue';
-import { devGuard, isAuthorized } from '@/router/index';
+import { isAuthorized } from '@/router/index';
 
 export default [
   {
@@ -11,7 +11,6 @@ export default [
     component: VacanciesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      devGuard();
     },
   },
   {
@@ -20,7 +19,6 @@ export default [
     component: VacancyPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      devGuard();
     },
   },
 ];

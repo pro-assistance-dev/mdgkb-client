@@ -81,12 +81,25 @@ export default class FilterModel implements IFilterModel {
     return filterModel;
   }
 
-  addToSet(setElement: string): void {
-    if (this.set.indexOf(setElement) === -1) {
-      this.set.push(setElement);
-      return;
-    }
+  addToSet(...setElements: string[]): void {
+    setElements.forEach((setElement) => {
+      if (this.set.indexOf(setElement) === -1) {
+        this.set.push(setElement);
+        return;
+      }
+      this.set = this.set.filter((s: string) => s !== setElement);
+    });
+  }
 
-    this.set = this.set.filter((s: string) => s !== setElement);
+  pushToSet(...setElements: string[]): void {
+    setElements.forEach((setElement) => {
+      if (this.set.indexOf(setElement) === -1) {
+        this.set.push(setElement);
+      }
+    });
+  }
+
+  replaceSet(...setElements: string[]): void {
+    this.set = setElements;
   }
 }

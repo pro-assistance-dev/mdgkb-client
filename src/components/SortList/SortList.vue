@@ -1,7 +1,14 @@
 <template>
   <el-form v-if="mounted" :style="{ width: '100%', maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
-    <el-form-item :label="showLabel && labelName">
-      <el-select v-model="sortModel" value-key="label" :clearable="!defaultSortOn" :placeholder="sortModel.label" @change="setSort">
+    <el-form-item :label="labelName">
+      <el-select
+        v-model="sortModel"
+        :popper-append-to-body="false"
+        value-key="label"
+        :clearable="!defaultSortOn"
+        :placeholder="sortModel.label"
+        @change="setSort"
+      >
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item" />
       </el-select>
     </el-form-item>

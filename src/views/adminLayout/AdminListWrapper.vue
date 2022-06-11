@@ -1,7 +1,15 @@
 <template>
   <div class="admin-list-wrapper">
-    <div class="card-item filters">
-      <slot name="header" />
+    <div v-if="showHeader" class="card-item filters">
+      <div class="filters-header-top">
+        <div class="filters-row">
+          <slot name="header" />
+        </div>
+        <slot name="header-right" />
+      </div>
+      <div class="filters-row">
+        <slot name="header-bottom" />
+      </div>
     </div>
     <div class="admin-list-wrapper-main">
       <slot />
@@ -16,6 +24,12 @@
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'AdminListWrapper',
+  props: {
+    showHeader: {
+      type: Boolean,
+      default: false,
+    },
+  },
 });
 </script>
 
@@ -60,14 +74,23 @@ export default defineComponent({
   }
   .filters {
     margin: 10px 10px 0 10px;
-    display: flex;
-    align-items: center;
-    :deep(.el-form-item),
-    :deep(.el-form-item__content) {
-      margin: 0;
-    }
     &:empty {
       display: none;
+    }
+    &-header-top {
+      display: flex;
+      justify-content: space-between;
+    }
+    &-row {
+      display: flex;
+      align-items: center;
+      :deep(.el-form-item),
+      :deep(.el-form-item__content) {
+        margin: 0;
+      }
+      &:empty {
+        display: none;
+      }
     }
   }
   ::-webkit-scrollbar {
