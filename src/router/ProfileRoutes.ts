@@ -2,6 +2,7 @@ import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vu
 
 import EditApplicationPage from '@/components/Profile/Education/EditApplicationPage.vue';
 import EducationPage from '@/components/Profile/Education/EducationPage.vue';
+import ProfileSettingsPage from '@/components/Profile/Education/ProfileSettingsPage.vue';
 import ProfileChildrenPage from '@/components/Profile/ProfileChildrenPage.vue';
 import ProfileDonor from '@/components/Profile/ProfileDonor.vue';
 import ProfileEditPage from '@/components/Profile/ProfileEditPage.vue';
@@ -69,6 +70,16 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'education' },
+  },
+  {
+    path: '/profile/settings',
+    name: 'ProfileSettingsPage',
+    component: ProfileSettingsPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard();
+      isAuthorized(next);
+    },
+    meta: { protected: true, profile: 'settings' },
   },
   {
     path: '/profile/education/applications/:id',
