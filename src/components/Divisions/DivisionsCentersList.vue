@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts">
-import DivisionsSortsLib from '@services/Provider/libs/sorts/DivisionsSortsLib';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -26,6 +25,7 @@ import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
