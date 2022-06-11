@@ -6,41 +6,28 @@
   </div>
   <h1 v-else class="text-center">Нет данных</h1>
   <div v-if="divisions.length" class="loadmore-button">
-    <LoadMoreButton @loadMore="loadMore" />
+    <LoadMoreButton @loadMore="$emit('load')" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref } from 'vue';
 
 import DivisionCard from '@/components/Divisions/DivisionCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import ISchema from '@/interfaces/schema/ISchema';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DivisionsList',
   components: { DivisionCard, LoadMoreButton },
+
+  emits: ['load'],
   setup() {
-    const store = useStore();
-    const mount = ref(false);
-    const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => store.getters['divisions/divisions']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-
-    const loadMore = async () => {
-      const lastCursor = divisions.value[divisions.value.length - 1].name;
-      filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
-      await store.dispatch('divisions/getAll', filterQuery.value);
-    };
+    const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => Provider.store.getters['divisions/divisions']);
 
     return {
       divisions,
-      loadMore,
-      mount,
     };
   },
 });

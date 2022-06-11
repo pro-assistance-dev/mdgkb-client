@@ -23,6 +23,7 @@ import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';
 import IRoleSchema from '@/interfaces/schema/IRoleSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
 import ITeacherSchema from '@/interfaces/schema/ITeacherSchema';
+import ITreatDirectionSchema from '@/interfaces/schema/ITreatDirectionSchema';
 import IVacancyResponseSchema from '@/interfaces/schema/IVacancyResponseSchema';
 import IVacancySchema from '@/interfaces/schema/IVacancySchema';
 
@@ -53,5 +54,6 @@ export default interface ISchema {
   newsToTag: INewsToTag;
   formStatus: IFormStatusSchema;
   question: IQuestionSchema;
+  treatDirection: ITreatDirectionSchema;
   vacancyResponse: IVacancyResponseSchema;
 }
