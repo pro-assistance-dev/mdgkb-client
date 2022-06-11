@@ -32,6 +32,7 @@ export default class User implements IUser {
   humanId?: string;
   role = new Role();
   roleId?: string;
+  rejectEmail = false;
   questions: IQuestion[] = [];
   children: IChild[] = [];
   childrenForDelete: string[] = [];
@@ -51,6 +52,7 @@ export default class User implements IUser {
     this.email = i.email;
     this.password = i.password;
     this.phone = i.phone;
+    this.rejectEmail = i.rejectEmail;
     if (i.human) {
       this.human = new Human(i.human);
     }

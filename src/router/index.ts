@@ -19,6 +19,7 @@ import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
 import RefreshPasswordPage from '@/components/RefreshPasswordPage.vue';
+import RejectEmailPage from '@/components/RejectEmailPage.vue';
 import SearchPage from '@/components/Search/SearchPage.vue';
 import ServiceQualityAssessmentPage from '@/components/ServiceQualityAssessment/ServiceQualityAssessmentPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
@@ -236,6 +237,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'RefreshPasswordPage',
     meta: { title: 'Сброс пароля' },
     component: RefreshPasswordPage,
+  },
+  {
+    path: '/reject-email/:userId/:uniqueId',
+    name: 'RejectEmailPage',
+    meta: { title: 'Сброс пароля' },
+    component: RejectEmailPage,
   },
   {
     path: '/access-profile/:userId/:uniqueId',

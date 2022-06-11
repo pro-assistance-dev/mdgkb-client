@@ -1,6 +1,6 @@
 <template>
   <el-form v-if="mounted" :style="{ width: '100%', maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
-    <el-form-item :label="showLabel && labelName">
+    <el-form-item :label="labelName">
       <el-select
         v-model="sortModel"
         :popper-append-to-body="false"

@@ -10,7 +10,6 @@ import 'dayjs/locale/ru';
 import './assets/styles/element-variables.scss';
 
 import sanitizeHTML from 'sanitize-html';
-import { useStore } from 'vuex';
 
 import scroll from '@/services/Scroll';
 import carouselSwipe from '@/services/CarouselSwipe';
@@ -21,7 +20,6 @@ import YmapPlugin from 'vue-yandex-maps';
 import Vue3TouchEvents from 'vue3-touch-events';
 
 app.config.globalProperties.$dateTimeFormatter = new DateTimeFormatter('ru-RU');
-app.config.globalProperties.$store = useStore();
 app.config.globalProperties.$sanitize = sanitizeHTML;
 app.config.globalProperties.$scroll = scroll;
 app.config.globalProperties.$carouselSwipe = carouselSwipe;
