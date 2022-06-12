@@ -1,70 +1,82 @@
 <template>
-  <div class="flex-column">
-    <el-card>
-      <el-table v-if="questions" :data="questions">
-        <el-table-column label="Тема вопроса" sortable>
-          <template #default="scope">
-            {{ scope.row.theme }}
-          </template>
-        </el-table-column>
-        <el-table-column label="Дата" sortable>
-          <template #default="scope">
-            {{ $dateTimeFormatter.format(scope.row.date) }}
-          </template>
-        </el-table-column>
-        <el-table-column label="Статус">
-          <template #default="scope">
-            <AdminQuestionStatus :question="scope.row" />
-          </template>
-        </el-table-column>
-        <el-table-column width="50" fixed="right" align="center">
-          <template #default="scope">
-            <TableButtonGroup
-              :show-check-button="true"
-              :show-more-button="true"
-              @showMore="$router.push(`/admin/questions/${scope.row.id}`)"
-              @check="changeNewStatus(scope.row)"
-            />
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-  </div>
+  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+    <el-table v-if="questions" :data="questions">
+      <el-table-column label="Тема вопроса" sortable>
+        <template #default="scope">
+          {{ scope.row.getThemeOrFirstPhrase() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Дата" sortable>
+        <template #default="scope">
+          {{ $dateTimeFormatter.format(scope.row.date) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Статус">
+        <template #default="scope">
+          <AdminQuestionStatus :question="scope.row" />
+        </template>
+      </el-table-column>
+      <el-table-column width="50" fixed="right" align="center">
+        <template #default="scope">
+          <TableButtonGroup
+            :show-check-button="true"
+            :show-more-button="true"
+            @showMore="$router.push(`/admin/questions/${scope.row.id}`)"
+            @check="changeNewStatus(scope.row)"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+    <template #footer>
+      <Pagination />
+    </template>
+  </component>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref } from 'vue';
 
 import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
+import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminQuestionsList',
-  components: { TableButtonGroup, AdminQuestionStatus },
+  components: { TableButtonGroup, AdminQuestionStatus, AdminListWrapper, Pagination },
   setup() {
-    const store = useStore();
+    const questions: Ref<IQuestion[]> = computed(() => Provider.store.getters['questions/items']);
 
-    const questions: Ref<IQuestion[]> = computed(() => store.getters['questions/items']);
+    const loadDivisions = async () => {
+      await Provider.getAll('questions');
+    };
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('questions/getAll', false);
-      store.commit('admin/setHeaderParams', { title: 'Вопросы' });
-      store.commit('admin/closeLoading');
+    const load = async () => {
+      Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
+      await loadDivisions();
+      Provider.store.commit('admin/setHeaderParams', { title: 'Вопросы' });
+    };
+
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'questions', action: 'getAll' },
+      sortModels: [],
     });
 
     const publish = async (question: IQuestion) => {
       question.publish();
-      await store.dispatch('questions/publish', question.id);
+      await Provider.store.dispatch('questions/publish', question.id);
     };
 
     const changeNewStatus = async (question: IQuestion) => {
       question.changeNewStatus();
-      await store.dispatch('questions/changeNewStatus', question);
+      await Provider.store.dispatch('questions/changeNewStatus', question);
     };
-    return { questions, publish, changeNewStatus };
+    return { questions, publish, changeNewStatus, mounted: Provider.mounted };
   },
 });
 </script>

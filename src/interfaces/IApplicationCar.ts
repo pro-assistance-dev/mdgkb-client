@@ -5,7 +5,7 @@ import IGate from '@/interfaces/IGate';
 
 export default interface IApplicationCar {
   id?: string;
-  division?: IDivision;
+  division: IDivision;
   divisionId?: string;
   gate?: IGate;
   gateId?: string;
