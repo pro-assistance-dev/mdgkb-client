@@ -19,6 +19,11 @@
           <el-input v-model="scope.row.name" placeholder="Имя поля" />
         </template>
       </el-table-column>
+      <el-table-column label="Комментарий" sortable>
+        <template #default="scope">
+          <el-input v-model="scope.row.comment" placeholder="Комментарий" />
+        </template>
+      </el-table-column>
       <el-table-column v-if="!filesOnly" label="Тип данных" sortable width="300px">
         <template #default="scope">
           <el-select v-model="scope.row.valueType" value-key="id" label="Тип данных" @change="changeHandler(scope.row)">

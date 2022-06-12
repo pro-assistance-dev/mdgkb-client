@@ -17,10 +17,20 @@
   </div>
 
   <div class="table-container">
+    <div>
+      <EditorContent :content="form.description" />
+    </div>
+
     <el-table :data="formValue.fields">
       <el-table-column label="Наименование" min-width="300">
         <template #default="scope">
           {{ scope.row.name }}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="Комментарий" min-width="300">
+        <template #default="scope">
+          {{ scope.row.comment }}
         </template>
       </el-table-column>
 
@@ -52,6 +62,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import EditorContent from '@/components/EditorContent.vue';
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
@@ -59,7 +70,7 @@ import IFormStatus from '@/interfaces/IFormStatus';
 
 export default defineComponent({
   name: 'FieldValuesForm',
-  components: { FieldValuesFormItem },
+  components: { FieldValuesFormItem, EditorContent },
   props: {
     form: {
       type: Object as PropType<IForm>,

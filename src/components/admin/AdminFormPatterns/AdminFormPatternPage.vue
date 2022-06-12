@@ -1,9 +1,12 @@
 <template>
-  <div class="flex-column">
+  <div v-if="mounted" class="flex-column">
     <el-form label-position="top">
       <el-card header="Название">
         <el-form-item label="Название">
           <el-input v-model="formPattern.title" placeholder="Название"></el-input>
+        </el-form-item>
+        <el-form-item prop="description">
+          <WysiwygEditor v-model="formPattern.description" />
         </el-form-item>
         <el-form-item label="Группа статусов">
           <el-select v-model="formPattern.formStatusGroup" value-key="id" placeholder="Группа статусов">
@@ -29,60 +32,57 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminFormPatternPage',
-  components: { FormConstructor },
+  components: { FormConstructor, WysiwygEditor },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    const mounted: Ref<boolean> = ref(false);
-    const formPattern: ComputedRef<IForm> = computed<IForm>(() => store.getters['formPatterns/item']);
-    const formStatusGroups: ComputedRef<IFormStatusGroup[]> = computed(() => store.getters['formStatusGroups/items']);
+    const formPattern: ComputedRef<IForm> = computed<IForm>(() => Provider.store.getters['formPatterns/item']);
+    const formStatusGroups: ComputedRef<IFormStatusGroup[]> = computed(() => Provider.store.getters['formStatusGroups/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       try {
-        if (route.params['id']) {
-          await store.dispatch('formPatterns/update', formPattern.value);
+        if (Provider.route().params['id']) {
+          await Provider.store.dispatch('formPatterns/update', formPattern.value);
         } else {
-          await store.dispatch('formPatterns/create', formPattern.value);
+          await Provider.store.dispatch('formPatterns/create', formPattern.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : router.push('/admin/form-patterns');
+      next ? next() : Provider.router.push('/admin/form-patterns');
     };
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      if (route.params['id']) {
-        await store.dispatch('formPatterns/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
+    const load = async () => {
+      if (Provider.route().params['id']) {
+        await Provider.store.dispatch('formPatterns/get', Provider.route().params['id']);
+        Provider.store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
       } else {
-        store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });
       }
-      mounted.value = true;
-      await store.dispatch('formStatusGroups/getAll');
+      await Provider.getAll('formStatusGroups');
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(formPattern, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
-    });
+    };
+
+    Hooks.onBeforeMount(load);
 
     onBeforeUnmount(() => {
-      store.commit('formPatterns/resetItem');
+      Provider.store.commit('formPatterns/resetItem');
     });
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
@@ -91,6 +91,7 @@ export default defineComponent({
     return {
       formPattern,
       formStatusGroups,
+      mounted: Provider.mounted,
     };
   },
 });

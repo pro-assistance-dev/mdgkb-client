@@ -16,6 +16,7 @@ export default interface IForm {
   title?: string;
   code: string;
   emailNotify: boolean;
+  description: string;
   fields: IField[];
   fieldsForDelete: string[];
   fieldValues: IFieldValue[];
