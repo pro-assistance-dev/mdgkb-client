@@ -14,7 +14,7 @@
       </div>
       <div class="flex-column right-side">
         <div class="division-line">{{ division.treatDirection.name }}</div>
-        <div class="card-name" @click="$router.push({ name: `DivisionPage`, params: { id: division.id, slug: division.slug } })">
+        <div class="card-name" @click="$router.push(`/divisions/${division.slug}`)">
           {{ division.name }}
         </div>
         <div class="line">

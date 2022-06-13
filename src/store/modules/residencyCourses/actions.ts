@@ -20,7 +20,7 @@ const actions: ActionTree<State, RootState> = {
     commit('setAllWithCount', items);
   },
   get: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
-    const res = await httpClient.get<IResidencyCourse[]>({ query: `get${filterQuery.toUrl()}` });
+    const res = await httpClient.get<IResidencyCourse>({ query: `get${filterQuery.toUrl()}` });
     commit('set', res);
   },
   create: async ({ state }): Promise<void> => {

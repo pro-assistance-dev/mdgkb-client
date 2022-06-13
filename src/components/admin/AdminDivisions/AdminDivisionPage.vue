@@ -110,9 +110,8 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
 import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisionGallery.vue';
@@ -128,6 +127,8 @@ import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/IDoctor';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
@@ -142,52 +143,40 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
     const form = ref();
     const rules = ref(DivisioinRules);
-    const mounted = ref(false);
 
-    const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
-    const doctors = computed(() => store.getters['doctors/items']);
-    const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
-    const divisionDoctors = computed(() => store.getters['doctors/divisionDoctors']);
+    const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
+    const doctors = computed(() => Provider.store.getters['doctors/items']);
+    const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
+    const divisionDoctors = computed(() => Provider.store.getters['doctors/divisionDoctors']);
     const newDoctorId = ref();
-    const buildingOption = computed(() => store.getters['buildings/building']);
-    const buildingsOptions = computed(() => store.getters['buildings/buildings']);
+    const buildingOption = computed(() => Provider.store.getters['buildings/building']);
+    const buildingsOptions = computed(() => Provider.store.getters['buildings/buildings']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    onBeforeMount(async () => {
-      store.commit('divisions/setOnlyShowed', false);
-      store.commit('admin/showLoading');
-      await loadBuildingOptions();
-      await loadDivision();
-      store.commit('admin/closeLoading');
-    });
-
-    const loadBuildingOptions = async (): Promise<void> => {
-      await store.dispatch('buildings/getAll');
-    };
-    const loadDivision = async (): Promise<void> => {
-      await store.dispatch('doctors/getAll');
-      store.commit('divisions/resetState');
-      if (route.params['id']) {
-        await store.dispatch('divisions/get', route.params['id']);
-        await store.dispatch('doctors/setDivisionDoctorsByDivisionId', route.params['id']);
+    const load = async (): Promise<void> => {
+      await Provider.store.dispatch('buildings/getAll');
+      await Provider.store.dispatch('doctors/getAll');
+      Provider.store.commit('divisions/resetState');
+      if (Provider.route().params['id']) {
+        Provider.filterQuery.value.setParams(Provider.schema.value.division.id, Provider.route().params['id'] as string);
+        await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
+        await Provider.store.dispatch('doctors/setDivisionDoctorsByDivisionId', Provider.route().params['id']);
         if (division.value.floorId) {
-          store.commit('buildings/setBuildingByFloorId', division.value.floorId);
+          Provider.store.commit('buildings/setBuildingByFloorId', division.value.floorId);
           division.value.buildingId = buildingOption.value.id;
         }
-        store.commit('admin/setHeaderParams', { title: division.value.name, showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('admin/setHeaderParams', { title: division.value.name, showBackButton: true, buttons: [{ action: submit }] });
       } else {
-        store.commit('admin/setHeaderParams', { title: 'Создать отделение', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('admin/setHeaderParams', { title: 'Создать отделение', showBackButton: true, buttons: [{ action: submit }] });
       }
-      mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(division, formUpdated, { deep: true });
     };
+
+    Hooks.onBeforeMount(load);
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
@@ -201,21 +190,21 @@ export default defineComponent({
       }
       division.value.doctors = divisionDoctors.value;
       try {
-        if (route.params['id']) {
-          await store.dispatch('divisions/update', division.value);
+        if (Provider.route().params['id']) {
+          await Provider.store.dispatch('divisions/update', division.value);
         } else {
-          await store.dispatch('divisions/create', division.value);
+          await Provider.store.dispatch('divisions/create', division.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : router.push('/admin/divisions');
+      next ? next() : Provider.router.push('/admin/divisions');
     };
 
     const changeBuildingHandler = (id: string) => {
       const building = buildingsOptions.value.find((item: IBuilding) => item.id == id);
-      store.commit('buildings/set', building);
+      Provider.store.commit('buildings/set', building);
       if (buildingOption.value.floors.length === 1) {
         division.value.floorId = buildingOption.value.floors[0].id;
       } else {
@@ -239,12 +228,12 @@ export default defineComponent({
 
     const addDoctor = () => {
       const newDoctor = doctors.value?.find((i: IDoctor) => i.id === newDoctorId.value);
-      newDoctor.divisionId = route.params['id'];
-      store.dispatch('doctors/addDoctorToDivisionDoctors', newDoctor);
+      newDoctor.divisionId = Provider.route().params['id'];
+      Provider.store.dispatch('doctors/addDoctorToDivisionDoctors', newDoctor);
       newDoctorId.value = '';
     };
     const removeDoctor = (id: string) => {
-      store.dispatch('doctors/removeDoctorFromDivisionDoctors', id);
+      Provider.store.dispatch('doctors/removeDoctorFromDivisionDoctors', id);
     };
 
     return {
@@ -262,7 +251,7 @@ export default defineComponent({
       addDoctor,
       removeDoctor,
       filteredDoctors,
-      mounted,
+      mounted: Provider.mounted,
     };
   },
 });
