@@ -3,17 +3,28 @@ import { MutationTree } from 'vuex';
 import Question from '@/classes/Question';
 import User from '@/classes/User';
 import IQuestion from '@/interfaces/IQuestion';
+import IQuestionsWithCount from '@/interfaces/IQuestionsWithCount';
 import IUser from '@/interfaces/IUser';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IQuestion[]) {
-    state.items = items.map((i: IQuestion) => new Question(i));
+  setAll(state, item: IQuestionsWithCount) {
+    if (!item.questions) {
+      state.items = [];
+      return;
+    }
+    state.items = item.questions.map((i: IQuestion) => new Question(i));
+    state.count = item.count;
   },
-  appendToAll(state, items: IQuestion[]) {
-    const questions = items.map((i: IQuestion) => new Question(i));
+  appendToAll(state, item: IQuestionsWithCount) {
+    if (!item.questions) {
+      state.items = [];
+      return;
+    }
+    const questions = item.questions.map((i: IQuestion) => new Question(i));
     state.items.push(...questions);
+    state.count = item.count;
   },
   set(state, question?: IQuestion) {
     state.item = new Question(question);

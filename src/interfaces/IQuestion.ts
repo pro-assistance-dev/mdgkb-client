@@ -23,4 +23,5 @@ export default interface IQuestion {
   getUpdateButtonText: () => string;
   getUpdateButtonType: () => string;
   getUpdateCondition: () => boolean;
+  getThemeOrFirstPhrase: () => string;
 }

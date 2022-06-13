@@ -26,6 +26,7 @@ export default class Form implements IForm {
   title?: string;
   name = '';
   emailNotify = false;
+  description = '';
   code = '';
   fields: IField[] = [];
   fieldsForDelete: string[] = [];
@@ -54,6 +55,7 @@ export default class Form implements IForm {
     }
     this.id = form.id;
     this.title = form.title;
+    this.description = form.description;
     if (form.createdAt) {
       this.createdAt = form.createdAt;
     }

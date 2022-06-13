@@ -12,6 +12,9 @@ const getters: GetterTree<State, RootState> = {
   item(state): IQuestion {
     return state.item;
   },
+  count(state): number {
+    return state.count;
+  },
   question(state): IQuestion {
     return state.question;
   },
