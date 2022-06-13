@@ -16,7 +16,7 @@ import carouselSwipe from '@/services/CarouselSwipe';
 
 const app = createApp(App);
 import VueSocialSharing from 'vue-social-sharing';
-import YmapPlugin from 'vue-yandex-maps';
+// import YmapPlugin from 'vue-yandex-maps';
 import Vue3TouchEvents from 'vue3-touch-events';
 
 app.config.globalProperties.$dateTimeFormatter = new DateTimeFormatter('ru-RU');
@@ -40,17 +40,9 @@ library.add(faVk);
 
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 
-// const settings = {
-//   apiKey: '',
-//   lang: 'ru_RU',
-//   coordorder: 'latlong',
-//   enterprise: false,
-//   version: '2.1',
-// };
-
 app.use(store);
 app.use(router);
-app.use(YmapPlugin);
+// app.use(YmapPlugin);
 app.use(setupElementPlusComponents, { locale: ru });
 app.use(setupElementPlusPlugins);
 

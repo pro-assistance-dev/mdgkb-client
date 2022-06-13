@@ -39,7 +39,6 @@ import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
-import scroll from '@/services/Scroll';
 import TokenService from '@/services/Token';
 import UserService from '@/services/User';
 import MainLayout from '@/views/main/MainLayout.vue';
@@ -290,9 +289,9 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(() => {
-  scroll();
-});
+// router.beforeEach(() => {
+//   scroll();
+// });
 
 // router.beforeEach(isAuthorized);
 router.beforeEach(adminGuard);
