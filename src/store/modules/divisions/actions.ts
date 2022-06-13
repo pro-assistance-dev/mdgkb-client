@@ -25,9 +25,8 @@ const actions: ActionTree<State, RootState> = {
     }
     commit('setAll', item);
   },
-  get: async ({ commit, state }, id: string) => {
-    const query = id + (state.onlyShowed ? '?showed=true' : '');
-    commit('set', await httpClient.get<IDivision>({ query: query }));
+  get: async ({ commit }, filterQuery: IFilterQuery) => {
+    commit('set', await httpClient.get<IDivision>({ query: `get${filterQuery.toUrl()}` }));
   },
   create: async ({ commit }, division: IDivision): Promise<void> => {
     const fileInfos: IFileInfo[] = [];

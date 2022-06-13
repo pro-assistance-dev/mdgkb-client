@@ -11,7 +11,7 @@
         Вход на территорию больницы для всех остальных- с 1-ого Добрынинского переулка.<br />
         Внимание! Вход всех посетителей в 1А корпус и оформление плановой госпитализации проводится через пункт термометрии.<br /><br />
         <div class="map-container">
-          <yandex-map style="height: 400px" :coords="[55.725317, 37.619214]" zoom="16.24" :settings="settings" />
+          <YandexMapComponent />
         </div>
         <b>Call-центр:</b> +7 (495) 959-88-00, +7 (495) 959-88-03 круглосуточно<br />
         Запись на медицинские услуги также проводится в разделе «Запись на приём»<br />
@@ -30,25 +30,22 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { yandexMap } from 'vue-yandex-maps';
+
+import YandexMapComponent from '@/components/YandexMapComponent.vue';
 
 export default defineComponent({
   name: 'VacanciesFilters',
-  components: { yandexMap },
+  components: { YandexMapComponent },
 
   setup() {
     const mounted = ref(false);
-    const settings = {
-      center: [55.74954, 37.621587],
-      zoom: 10,
-    };
+
     onMounted(async () => {
       mounted.value = true;
     });
 
     return {
       mounted,
-      settings,
     };
   },
 });
