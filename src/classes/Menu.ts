@@ -15,6 +15,7 @@ export default class Menu implements IMenu {
   top = true;
   side = true;
   hide = false;
+  active = false;
   order = 0;
   selected = false;
   editMode = false;
@@ -116,5 +117,8 @@ export default class Menu implements IMenu {
       subMenu.color = colors[i];
       i === colors.length - 1 ? (i = 0) : i++;
     });
+  }
+  containPath(path: string): boolean {
+    return this.getLink() === path || !!this.subMenus.find((subMenu: ISubMenu) => subMenu.getLink() === path);
   }
 }
