@@ -102,4 +102,8 @@ export default class FilterModel implements IFilterModel {
   replaceSet(...setElements: string[]): void {
     this.set = setElements;
   }
+
+  setBoolean(value: boolean): void {
+    this.boolean = value;
+  }
 }

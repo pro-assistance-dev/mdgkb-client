@@ -23,6 +23,7 @@ export default interface IFilterModel {
   addToSet: (...setElement: string[]) => void;
   pushToSet: (...setElement: string[]) => void;
   replaceSet: (...setElements: string[]) => void;
+  setBoolean: (value: boolean) => void;
   joinTable: string;
   joinTableFk: string;
   joinTablePk: string;
