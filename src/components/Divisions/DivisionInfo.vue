@@ -17,12 +17,12 @@
     <div class="card-item-middle">
       <div class="division-line">
         <!-- <div v-if="doctor.division?.name" class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)"> -->
-        <!-- {{ doctor.division.name }} -->
-        Терапевтическое направление
+
+        {{ division.treatDirection.name }}
       </div>
       <div class="division-name">
         <!-- {{ doctor.human.getFullName() }} -->
-        Название отделения
+        {{ division.name }}
       </div>
       <div class="card-item-middle-bottom">
         <div class="info-block">

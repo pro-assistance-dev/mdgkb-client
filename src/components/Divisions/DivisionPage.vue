@@ -4,7 +4,7 @@
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
     <DivisionServices />
-    <DivisionOrderOfDay />
+    <DivisionSchedule :division="division" />
     <DivisionSpecialists />
     <!-- <NewsSlider :news="division.newsDivisions" /> -->
     <!-- <DivisionCertificates /> -->
@@ -21,7 +21,7 @@ import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments/Comments.vue';
 import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
-import DivisionOrderOfDay from '@/components/Divisions/DivisionOrderOfDay.vue';
+import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DivisionServices from '@/components/Divisions/DivisionServices.vue';
 import DivisionSpecialists from '@/components/Divisions/DivisionSpecialists.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
@@ -34,7 +34,7 @@ export default defineComponent({
   components: {
     DivisionInfo,
     DivisionServices,
-    DivisionOrderOfDay,
+    DivisionSchedule,
     DivisionSpecialists,
     // NewsSlider,
     // DivisionCertificates,
