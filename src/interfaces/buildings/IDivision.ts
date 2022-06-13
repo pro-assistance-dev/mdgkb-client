@@ -52,5 +52,8 @@ export default interface IDivision {
   treatDirection: ITreatDirection;
   treatDirectionId?: string;
 
+  chiefId?: string;
+  chief?: IDoctor;
+
   getAddress: () => string;
 }
