@@ -7,6 +7,10 @@
             <el-form-item label="Наименование отделения" prop="name">
               <el-input v-model="division.name" placeholder="Наименование отделения"></el-input>
             </el-form-item>
+            <el-form-item label="Заведующий отделением">
+              <RemoteSearch :key-value="schema.doctor.key" @select="selectDoctorSearch" />
+              <div v-if="division.chief">{{ division.chief.human.getFullName() }}</div>
+            </el-form-item>
             <el-form-item label="Общая информация">
               <QuillEditor v-model:content="division.info" style="height: 350px" content-type="html" theme="snow"></QuillEditor>
             </el-form-item>
@@ -114,17 +118,20 @@ import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import DivisioinRules from '@/classes/buildings/DivisioinRules';
+import Doctor from '@/classes/Doctor';
 import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisionGallery.vue';
 import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/IDoctor';
+import ISearchObject from '@/interfaces/ISearchObject';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 import Hooks from '@/services/Hooks/Hooks';
@@ -140,6 +147,7 @@ export default defineComponent({
     ScheduleConstructor,
     AdminDivisionGallery,
     AdminDivisionVisitingRules,
+    RemoteSearch,
   },
 
   setup() {
@@ -147,7 +155,8 @@ export default defineComponent({
     const rules = ref(DivisioinRules);
 
     const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
-    const doctors = computed(() => Provider.store.getters['doctors/items']);
+    const doctors: ComputedRef<IDoctor[]> = computed(() => Provider.store.getters['doctors/items']);
+    const doctor: ComputedRef<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
     const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
     const divisionDoctors = computed(() => Provider.store.getters['doctors/divisionDoctors']);
     const newDoctorId = ref();
@@ -158,7 +167,7 @@ export default defineComponent({
 
     const load = async (): Promise<void> => {
       await Provider.store.dispatch('buildings/getAll');
-      await Provider.store.dispatch('doctors/getAll');
+      // await Provider.store.dispatch('doctors/getAll');
       Provider.store.commit('divisions/resetState');
       if (Provider.route().params['id']) {
         Provider.filterQuery.value.setParams(Provider.schema.value.division.id, Provider.route().params['id'] as string);
@@ -218,6 +227,12 @@ export default defineComponent({
       changeDivisionAddress();
     };
 
+    const selectDoctorSearch = async (item: ISearchObject) => {
+      await Provider.store.dispatch('doctors/get', item.value);
+      division.value.chief = new Doctor(doctor.value);
+      division.value.chiefId = item.id;
+    };
+
     const changeDivisionAddress = () => {
       const floor = buildingOption.value.floors.find((item: IFloor) => item.id == division.value.floorId);
       const entrance = buildingOption.value.entrances.find((item: IEntrance) => item.id == division.value.entranceId);
@@ -228,7 +243,9 @@ export default defineComponent({
 
     const addDoctor = () => {
       const newDoctor = doctors.value?.find((i: IDoctor) => i.id === newDoctorId.value);
-      newDoctor.divisionId = Provider.route().params['id'];
+      if (newDoctor) {
+        newDoctor.divisionId = Provider.route().params['id'] as string;
+      }
       Provider.store.dispatch('doctors/addDoctorToDivisionDoctors', newDoctor);
       newDoctorId.value = '';
     };
@@ -252,6 +269,8 @@ export default defineComponent({
       removeDoctor,
       filteredDoctors,
       mounted: Provider.mounted,
+      schema: Provider.schema,
+      selectDoctorSearch,
     };
   },
 });

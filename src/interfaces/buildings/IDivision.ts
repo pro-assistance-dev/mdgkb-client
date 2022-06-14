@@ -53,7 +53,7 @@ export default interface IDivision {
   treatDirectionId?: string;
 
   chiefId?: string;
-  chief?: IDoctor;
+  chief: IDoctor;
 
   getAddress: () => string;
 }

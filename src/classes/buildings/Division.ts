@@ -61,7 +61,7 @@ export default class Division implements IDivision {
   treatDirection: ITreatDirection = new TreatDirection();
   treatDirectionId?: string;
   chiefId?: string;
-  chief?: IDoctor;
+  chief: IDoctor = new Doctor();
 
   constructor(i?: IDivision) {
     if (!i) {
