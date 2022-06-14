@@ -1,10 +1,10 @@
 <template>
   <ul v-if="mounted" class="menu-center-list">
     <li v-for="menu in menus" :key="menu.id">
-      <router-link class="link-menu" :to="menu.getLink()" :class="{ active: isActive(menu.link !== '' ? menu.link : menu.subMenus) }">
+      <span class="link-menu" :class="{ active: menu.active }" @click="menuClick(menu)">
         {{ menu.name }}
-      </router-link>
-      <ul v-if="!menu.withoutChildren()" class="dropmenu">
+      </span>
+      <ul v-if="!menu.withoutChildren() && menu.selected" class="dropmenu">
         <div class="subMenu-place">
           <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
             <router-link class="link-colomn" :to="subMenu.link">
@@ -29,13 +29,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch, WritableComputedRef } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedRef } from 'vue';
 
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import IMenu from '@/interfaces/IMenu';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'NavMenu',
@@ -49,34 +48,41 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['changeDrawerStatus'],
-  setup(prop, { emit }) {
-    let expand = ref(false);
-    const activePath: Ref<string> = ref('');
-    const store = useStore();
-    const router = useRouter();
+  setup() {
     const mounted = ref(false);
-    const menus: WritableComputedRef<IMenu[]> = computed(() => store.getters['menus/menus']);
+    const menus: WritableComputedRef<IMenu[]> = computed(() => Provider.store.getters['menus/menus']);
+    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
 
-    const isAuth = computed(() => store.getters['auth/isAuth']);
-
-    const route = useRoute();
-
-    const menuClickHandler = (link: string) => {
-      emit('changeDrawerStatus', false);
-      router.push(link);
+    const clickOutsideMenu = (e: MouseEvent) => {
+      const t = document.querySelectorAll('.link-menu');
+      const withinBoundaries = [...t].find((element) => e.composedPath().includes(element));
+      if (withinBoundaries) {
+        return;
+      }
+      setActiveMenu();
+      menus.value.forEach((m: IMenu) => {
+        m.selected = false;
+      });
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('menus/getAll');
+      await Provider.store.dispatch('menus/getAll');
       setColors();
-      activePath.value = route.path;
+      window.addEventListener('click', clickOutsideMenu);
+      setActiveMenu();
       mounted.value = true;
     });
 
+    const setActiveMenu = () => {
+      menus.value.forEach((m: IMenu) => (m.active = false));
+      const activeMenu = menus.value.find((m: IMenu) => m.containPath(Provider.route().path));
+      if (activeMenu) {
+        activeMenu.active = true;
+      }
+    };
+
     const setColors = (): void => {
       const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
-
       for (let menuIndex = 0; menuIndex < menus.value.length; menuIndex++) {
         for (let subMenuIndex = 0; subMenuIndex < menus.value[menuIndex].subMenus.length; subMenuIndex++) {
           menus.value[menuIndex].subMenus[subMenuIndex].background = colors[subMenuIndex % 4];
@@ -84,12 +90,9 @@ export default defineComponent({
       }
     };
 
-    watch(
-      () => route.path,
-      () => (activePath.value = route.path)
-    );
+    watch(() => Provider.route().path, setActiveMenu);
     watch(isAuth, () => {
-      store.commit(`menus/setMenus`);
+      Provider.store.commit(`menus/setMenus`);
       setColors();
     });
 
@@ -97,20 +100,18 @@ export default defineComponent({
       return color;
     };
 
-    const isActive = (path: string | IMenu[]): boolean => {
-      // console.log("path:" + path);
-      // console.log("route.path: " + route.path);
-      if (!Array.isArray(path)) {
-        return route.path.startsWith(path);
-      }
-
-      for (const menu of path) {
-        if (route.path.startsWith(menu.link)) {
-          return true;
+    const menuClick = (menu: IMenu) => {
+      menu.selected = true;
+      menus.value.forEach((m: IMenu) => {
+        if (m.id === menu.id) {
+          return;
         }
+        m.selected = false;
+      });
+      setActiveMenu();
+      if (menu.isLink()) {
+        Provider.router.push(menu.getLink());
       }
-
-      return false;
     };
 
     return {
@@ -118,10 +119,7 @@ export default defineComponent({
       isAuth,
       mounted,
       menus,
-      expand,
-      activePath,
-      menuClickHandler,
-      isActive,
+      menuClick,
     };
   },
 });
@@ -267,7 +265,7 @@ h3 {
 }
 
 li .dropmenu {
-  display: none;
+  //display: none;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -279,7 +277,7 @@ li .dropmenu {
 .link-menu:focus ~ .dropmenu,
 .link-menu:active ~ .dropmenu,
 .dropmenu:active {
-  display: block;
+  //display: block;
 }
 
 .link-menu:focus-within {

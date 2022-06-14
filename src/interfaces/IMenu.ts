@@ -12,6 +12,7 @@ export default interface IMenu extends IFiler, IOrdered {
   side: boolean;
   hide: boolean;
   selected: boolean;
+  active: boolean;
   editMode: boolean;
   page: IPage;
   pageId?: string;
@@ -31,4 +32,5 @@ export default interface IMenu extends IFiler, IOrdered {
   removeSubMenu: (index: number) => void;
   // crud: ICrud;
   getFileInfos: () => IFileInfo[];
+  containPath: (path: string) => boolean;
 }
