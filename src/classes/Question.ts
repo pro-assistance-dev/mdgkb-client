@@ -58,6 +58,10 @@ export default class Question implements IQuestion {
     this.published = false;
   }
 
+  getThemeOrFirstPhrase(): string {
+    return this.theme ? this.theme : this.question?.substring(0, 60);
+  }
+
   changeNewStatus(status?: boolean): void {
     if (status !== undefined) {
       this.isNew = status;

@@ -4,7 +4,7 @@
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
     <DivisionServices />
-    <DivisionOrderOfDay />
+    <DivisionSchedule :division="division" />
     <DivisionSpecialists />
     <!-- <NewsSlider :news="division.newsDivisions" /> -->
     <!-- <DivisionCertificates /> -->
@@ -15,26 +15,26 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent } from 'vue';
 
 import Comments from '@/components/Comments/Comments.vue';
 import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
-import DivisionOrderOfDay from '@/components/Divisions/DivisionOrderOfDay.vue';
+import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DivisionServices from '@/components/Divisions/DivisionServices.vue';
 import DivisionSpecialists from '@/components/Divisions/DivisionSpecialists.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 // import IDoctor from '@/interfaces/IDoctor';
 import IDivision from '@/interfaces/buildings/IDivision';
 import countRating from '@/mixins/countRating';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DivisionPage',
   components: {
     DivisionInfo,
     DivisionServices,
-    DivisionOrderOfDay,
+    DivisionSchedule,
     DivisionSpecialists,
     // NewsSlider,
     // DivisionCertificates,
@@ -44,72 +44,22 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
-    const mount = ref(false);
+    const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
 
-    onBeforeMount(async () => {
-      await store.dispatch('divisions/get', route.params['slug']);
-      store.commit('divisions/setOnlyShowed', true);
-    });
+    const load = async () => {
+      Provider.filterQuery.value.setParams(Provider.schema.value.division.slug, Provider.route().params['id'] as string);
+      await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
+    };
+
+    Hooks.onBeforeMount(load);
 
     return {
       countRating,
       division,
-      mount,
+      mounted: Provider.mounted,
     };
   },
-
-  // setup() {
-  //   const store = useStore();
-  //   const mount = ref(false);
-  //   const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => store.getters['divisions/divisions']);
-  //   const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-
-  //   const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-
-  //   const loadMore = async () => {
-  //     const lastCursor = divisions.value[divisions.value.length - 1].name;
-  //     filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
-  //     await store.dispatch('divisions/getAll', filterQuery.value);
-  //   };
-  //   const route = useRoute();
-  //   const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
-
-  //   onBeforeMount(async () => {
-  //     await store.dispatch('divisions/get', route.params['slug']);
-  //     store.commit('divisions/setOnlyShowed', true);
-  //   });
-
-  //   return {
-  //     division,
-  //     mount,
-  //   };
-  // },
 });
-
-// setup() {
-//   const store = useStore();
-//   const mount = ref(false);
-//   const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => store.getters['divisions/divisions']);
-//   const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-
-//   const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-
-//   const loadMore = async () => {
-//     const lastCursor = divisions.value[divisions.value.length - 1].name;
-//     filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
-//     await store.dispatch('divisions/getAll', filterQuery.value);
-//   };
-
-//   return {
-//     divisions,
-//     loadMore,
-//     mount,
-//   };
-// },
-// });
 </script>
 
 <style scoped lang="scss">

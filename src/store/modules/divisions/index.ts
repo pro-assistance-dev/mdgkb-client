@@ -17,6 +17,7 @@ export const getDefaultState = (): State => {
     curGalleryCropIndex: 0,
     comment: new DivisionComment(),
     onlyShowed: false,
+    count: 0,
   };
 };
 

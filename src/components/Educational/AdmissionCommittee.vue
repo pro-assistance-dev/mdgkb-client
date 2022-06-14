@@ -48,6 +48,7 @@ import EditorContent from '@/components/EditorContent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
+import { Orders } from '@/interfaces/filters/Orders';
 import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import Hooks from '@/services/Hooks/Hooks';
@@ -110,7 +111,7 @@ export default defineComponent({
     const loadPrograms = async () => {
       Provider.resetFilterQuery();
       Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
-      Provider.setSortModels(ResidencyCoursesSortsLib.byName());
+      Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
       Provider.filterQuery.value.pagination.cursorMode = false;
       await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
     };

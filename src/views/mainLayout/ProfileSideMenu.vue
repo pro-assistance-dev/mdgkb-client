@@ -29,6 +29,17 @@
           </svg>
         </router-link>
       </li>
+      <li>
+        <router-link class="item-list" :to="`/profile/settings`" :class="activeRoute === 'settings' ? 'active' : ''">
+          <svg class="icon-education">
+            <use xlink:href="#education"></use>
+          </svg>
+          Настройки
+          <svg class="icon-arrow">
+            <use xlink:href="#arrow"></use>
+          </svg>
+        </router-link>
+      </li>
     </ul>
   </div>
 
@@ -56,33 +67,32 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import IUser from '@/interfaces/IUser';
+import Provider from '@/services/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 export default defineComponent({
   name: 'ProfileSideMenu',
   components: { UserInfoMini },
   setup() {
-    const store = useStore();
-    const route = useRoute();
     const activeRoute: Ref<string> = ref('');
 
-    watch(route, () => {
+    watch(Provider.route(), () => {
       setActiveMenu();
     });
 
     const setActiveMenu = () => {
-      if (!route.meta.profile) return;
-      activeRoute.value = route.meta.profile as string;
+      if (!Provider.route().meta.profile) {
+        return;
+      }
+      activeRoute.value = Provider.route().meta.profile as string;
     };
 
     onBeforeMount(() => {
       setActiveMenu();
     });
 
-    const user: Ref<IUser> = computed(() => store.getters['users/item']);
+    const user: Ref<IUser> = computed(() => Provider.store.getters['users/item']);
     const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
     const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
 

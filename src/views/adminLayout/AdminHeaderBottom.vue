@@ -1,10 +1,10 @@
 <template>
-  <div class="admin-header-bottom">
+  <div :key="headerParams" class="admin-header-bottom">
     <div class="flex-between">
       <el-page-header v-if="headerParams.showBackButton" title=" " :content="headerParams.title" @back="goBack" />
       <h4 v-else style="margin-left: 20px">{{ headerParams.title }}</h4>
       <div class="button-group">
-        <div v-for="(item, i) in headerParams.buttons" :key="i">
+        <div v-for="item in headerParams.buttons" :key="item">
           <el-button v-if="item.action && item.condition" round size="small" :type="item.type" @click.prevent="item.action()">
             {{ item.text }}
           </el-button>

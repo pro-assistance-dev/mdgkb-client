@@ -9,7 +9,7 @@ const QuestionsSortsLib = (() => {
       Provider.schema.value.question.tableName,
       Provider.schema.value.question.date,
       order ? order : Orders.Asc,
-      `По названию ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
+      `По дате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
     );
   }

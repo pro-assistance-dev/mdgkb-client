@@ -11,6 +11,7 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFile from '@/interfaces/files/IFile';
+import IDivisionsWithCount from '@/interfaces/IDivisionsWithCount';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 import ITimetable from '@/interfaces/timetables/ITimetable';
@@ -23,12 +24,14 @@ const mutations: MutationTree<State> = {
   resetState(state) {
     Object.assign(state, getDefaultState());
   },
-  appendToAll(state, items: IDivision[]) {
-    const divisions = items.map((i: IDivision) => new Division(i));
+  appendToAll(state, item: IDivisionsWithCount) {
+    const divisions = item.divisions.map((i: IDivision) => new Division(i));
     state.divisions.push(...divisions);
+    state.count = item.count;
   },
-  setAll(state, divisions: IDivision[]) {
-    state.divisions = divisions?.map((a: IDivision) => new Division(a));
+  setAll(state, item: IDivisionsWithCount) {
+    state.divisions = item.divisions.map((i: IDivision) => new Division(i));
+    state.count = item.count;
   },
   set(state, division: IDivision) {
     state.division = new Division(division);

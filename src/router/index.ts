@@ -19,6 +19,7 @@ import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
 import RefreshPasswordPage from '@/components/RefreshPasswordPage.vue';
+import RejectEmailPage from '@/components/RejectEmailPage.vue';
 import SearchPage from '@/components/Search/SearchPage.vue';
 import ServiceQualityAssessmentPage from '@/components/ServiceQualityAssessment/ServiceQualityAssessmentPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
@@ -38,7 +39,6 @@ import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
-import scroll from '@/services/Scroll';
 import TokenService from '@/services/Token';
 import UserService from '@/services/User';
 import MainLayout from '@/views/main/MainLayout.vue';
@@ -238,6 +238,12 @@ const routes: Array<RouteRecordRaw> = [
     component: RefreshPasswordPage,
   },
   {
+    path: '/reject-email/:userId/:uniqueId',
+    name: 'RejectEmailPage',
+    meta: { title: 'Сброс пароля' },
+    component: RejectEmailPage,
+  },
+  {
     path: '/access-profile/:userId/:uniqueId',
     name: 'ProfilePasswordPage',
     component: RefreshPasswordPage,
@@ -283,9 +289,9 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(() => {
-  scroll();
-});
+// router.beforeEach(() => {
+//   scroll();
+// });
 
 // router.beforeEach(isAuthorized);
 router.beforeEach(adminGuard);

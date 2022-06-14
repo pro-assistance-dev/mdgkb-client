@@ -12,15 +12,10 @@
           <div class="card-item">
             <div class="item-el">
               <div class="item-content">
-                {{ residencyCourse.getMainSpecialization().code }}&nbsp;<router-link
-                  :to="`/residency-courses/${residencyCourse.getMainSpecialization().slug}`"
-                >
+                {{ residencyCourse.getMainSpecialization().code }}&nbsp;<router-link :to="`/residency-courses/${residencyCourse.id}`">
                   {{ residencyCourse.getMainSpecialization().name }}
                 </router-link>
-                <button
-                  class="response-btn"
-                  @click="$router.push(`/residency-courses/${residencyCourse.getMainSpecialization().slug}?respondForm=open`)"
-                >
+                <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">
                   Подать заявку
                 </button>
               </div>
@@ -77,13 +72,10 @@
               {{ residencyCourse.getMainSpecialization().code }}
             </td>
             <td>
-              <router-link :to="`/residency-courses/${residencyCourse.getMainSpecialization().slug}`">
+              <router-link :to="`/residency-courses/${residencyCourse.id}`">
                 {{ residencyCourse.getMainSpecialization().name }}
               </router-link>
-              <button
-                class="response-btn"
-                @click="$router.push(`/residency-courses/${residencyCourse.getMainSpecialization().slug}?respondForm=open`)"
-              >
+              <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">
                 Подать заявку
               </button>
             </td>

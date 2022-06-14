@@ -9,6 +9,7 @@ export default class Field implements IField {
   name = '';
   order = 0;
   formId?: string;
+  comment = '';
   valueTypeId = '';
   valueType: IValueType = new ValueType();
   file = new FileInfo();
@@ -21,6 +22,7 @@ export default class Field implements IField {
     }
     this.id = i.id;
     this.name = i.name;
+    this.comment = i.comment;
     this.valueType = i.valueType;
     this.order = i.order;
     this.formId = i.formId;

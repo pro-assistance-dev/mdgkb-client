@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IQuestion from '@/interfaces/IQuestion';
+import IQuestionsWithCount from '@/interfaces/IQuestionsWithCount';
 import INews from '@/interfaces/news/INews';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -12,10 +13,10 @@ const httpClient = new HttpClient('questions');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IQuestion[]>({ query: filterQuery.toUrl() });
+    const items = await httpClient.get<IQuestionsWithCount>({ query: filterQuery.toUrl() });
     if (filterQuery && filterQuery.pagination.append) {
       commit('appendToAll', items);
-      filterQuery.setAllLoaded(items ? items.length : 0);
+      filterQuery.setAllLoaded(items ? items.questions.length : 0);
       return;
     }
     commit('setAll', items);

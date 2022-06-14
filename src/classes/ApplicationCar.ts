@@ -9,7 +9,7 @@ import Form from './Form';
 
 export default class ApplicationCar implements IApplicationCar {
   id?: string;
-  division?: IDivision;
+  division: IDivision = new Division();
   divisionId?: string;
   gate?: IGate;
   gateId?: string;

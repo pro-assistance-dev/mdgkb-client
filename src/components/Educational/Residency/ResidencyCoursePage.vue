@@ -133,27 +133,20 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import ResidencyApplicationForm from '@/components/Educational/Residency/ResidencyApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/mixins/brandColors';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'ResidencyCoursePage',
   components: { SharesBlock, ResidencyApplicationForm },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => store.getters['residencyCourses/item']);
-    const mounted: Ref<boolean> = ref(false);
+    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
       showForm.value = true;
@@ -168,20 +161,19 @@ export default defineComponent({
       scroll();
     };
 
-    onBeforeMount(async () => {
-      await store.dispatch('meta/getSchema');
-      store.commit(`filter/resetQueryFilter`);
-      filterQuery.value.setParams(schema.value.residencyCourse.slug, route.params['id'] as string);
-      await store.dispatch('residencyCourses/get', filterQuery.value);
-      mounted.value = true;
-      if (route.query.respondForm) {
-        openRespondForm();
+    const load = async () => {
+      Provider.filterQuery.value.setParams(Provider.schema.value.residencyCourse.id, Provider.route().params['id'] as string);
+      await Provider.store.dispatch('residencyCourses/get', Provider.filterQuery.value);
+      if (Provider.route().query.respondForm) {
+        await openRespondForm();
       }
-    });
+    };
+
+    Hooks.onBeforeMount(load);
 
     const getUrl = (): string => {
       const host = process.env.VUE_APP_API_HOST;
-      return `${host}/residency-courses/${route.params['id']}`;
+      return `${host}/residency-courses/${Provider.route().params['id']}`;
     };
     // TODO убрать
     const svgDummy =
@@ -192,7 +184,7 @@ export default defineComponent({
       residencyCourse,
       getUrl,
       svgDummy,
-      mounted,
+      mounted: Provider.mounted,
       showForm,
       openRespondForm,
       closeRespondForm,

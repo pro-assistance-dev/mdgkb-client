@@ -39,9 +39,6 @@ const Hooks = (() => {
       if (options?.adminHeader) {
         Provider.store.commit('admin/setHeaderParams', options.adminHeader);
       }
-      if (options && options.sortModels.length > 0) {
-        Provider.store.commit('filter/replaceSortModel', options.sortModels[0]);
-      }
       if (Provider.filterQuery.value) {
         Provider.filterQuery.value.pagination.cursorMode = false;
       }

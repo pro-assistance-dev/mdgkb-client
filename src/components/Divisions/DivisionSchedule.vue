@@ -5,9 +5,9 @@
     <div class="point">
       <ul class="point-list">
         <!-- <li v-for="education in educations" :key="education.id" class="point-list-item"> -->
-        <li class="point-list-item">
+        <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item">
           <div class="point-info">
-            <h4 class="point-text">07:00-07:15 Подъем, термометрия</h4>
+            <h4 class="point-text">{{ item.getPeriodWithName() }}</h4>
           </div>
         </li>
       </ul>
@@ -16,29 +16,18 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
-import IEducation from '@/interfaces/education/IEducation';
+import IDivision from '@/interfaces/buildings/IDivision';
 
 export default defineComponent({
-  name: 'Education',
+  name: 'DivisionOrderOfDay',
   props: {
-    storeModule: {
-      type: String,
-      required: true,
-    },
-  },
-  async setup(prop) {
-    const store = useStore();
-    const educations: ComputedRef<IEducation[]> = computed(() => store.getters[`${prop.storeModule}/educations`]);
-
-    return {
-      educations,
-    };
+    division: { type: Object as PropType<IDivision>, required: true },
   },
 });
 </script>
+
 <style scoped lang="scss">
 * {
   padding: 0px;

@@ -25,6 +25,7 @@ import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCo
 import ResidencyFilters from '@/components/Educational/Residency/ResidencyFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
+import { Orders } from '@/interfaces/filters/Orders';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import IOption from '@/interfaces/schema/IOption';
@@ -90,7 +91,7 @@ export default defineComponent({
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 100;
       Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
-      Provider.setSortModels(ResidencyCoursesSortsLib.byName());
+      Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
       Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
       await setModes();
       await loadCourses();

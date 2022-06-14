@@ -9,9 +9,8 @@
           :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true })"
         />
         <el-form-item label="Выберите отделение" prop="division">
-          <el-select v-model="applicationCar.division" filterable value-key="id" size="small" placeholder="Выберите отделение">
-            <el-option v-for="item in divisions" :key="item.id" :label="item.name" :value="item"> </el-option>
-          </el-select>
+          <RemoteSearch :key-value="schema.division.key" @select="selectDivision" />
+          <div>Выбранное отделение: {{ applicationCar.division.name }}</div>
         </el-form-item>
         <FieldValuesForm :form="applicationCar.formValue" />
         <PersonalDataAgreement :form-value="applicationCar.formValue" :form-pattern="gate.formPattern" />
@@ -28,13 +27,16 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
+import Division from '@/classes/buildings/Division';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IApplicationCar from '@/interfaces/IApplicationCar';
 import IGate from '@/interfaces/IGate';
+import ISearchObject from '@/interfaces/ISearchObject';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
 import Hooks from '@/services/Hooks/Hooks';
@@ -43,6 +45,7 @@ import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'ApplicationCarPage',
   components: {
+    RemoteSearch,
     UserForm,
     FieldValuesForm,
     PersonalDataAgreement,
@@ -51,8 +54,8 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const applicationCar: ComputedRef<IApplicationCar> = computed(() => Provider.store.getters['applicationsCars/item']);
-    const divisions: ComputedRef<IDivision[]> = computed(() => Provider.store.getters['divisions/divisions']);
     const gate: ComputedRef<IGate> = computed(() => Provider.store.getters['gates/item']);
+    const division: ComputedRef<IDivision> = computed(() => Provider.store.getters['divisions/division']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
     const form = ref();
@@ -90,12 +93,19 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load);
 
+    const selectDivision = async (event: ISearchObject) => {
+      applicationCar.value.divisionId = event.id;
+      await Provider.store.dispatch('divisions/get', event.id);
+      applicationCar.value.division = new Division(division.value);
+    };
+
     return {
+      selectDivision,
       applicationCar,
       mounted: Provider.mounted,
+      schema: Provider.schema,
       form,
       submit,
-      divisions,
       UserFormFields,
       rules,
       gate,

@@ -93,27 +93,24 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
 import UserRules from '@/rules/UserRules';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'ProfileEditPage',
   components: { HumanForm },
   setup() {
-    const store = useStore();
-    const router = useRouter();
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: Ref<IUser> = computed(() => store.getters['users/item']);
+    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+    const user: Ref<IUser> = computed(() => Provider.store.getters['users/item']);
     const rules = ref(UserRules);
     const form = ref();
 
     const loadUser = async () => {
-      await store.dispatch('users/get', userId.value);
+      await Provider.store.dispatch('users/get', userId.value);
     };
     onMounted(loadUser);
 
@@ -121,8 +118,8 @@ export default defineComponent({
       if (!validate(form)) {
         return;
       }
-      await store.dispatch('users/update', user.value);
-      await router.push('/profile');
+      await Provider.store.dispatch('users/update', user.value);
+      await Provider.router.push('/profile');
     }
 
     return {

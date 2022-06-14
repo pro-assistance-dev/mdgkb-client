@@ -1,24 +1,26 @@
 <template>
   <div style="min-height: 100vh">
-    <AdminHeaderTop />
-    <div class="admin-main-container">
-      <AdminSideMenu class="side-menu hidden-sm-and-down" />
-      <div class="admin-container">
-        <AdminHeaderBottom />
-        <div v-if="$route.meta.adminLayout === AdminLayout.TableList" style="height: inherit">
-          <slot />
-        </div>
-        <el-main v-else>
-          <template #default>
+    <KeepAlive :include="[]" :max="0">
+      <AdminHeaderTop />
+      <div class="admin-main-container">
+        <AdminSideMenu class="side-menu hidden-sm-and-down" />
+        <div class="admin-container">
+          <AdminHeaderBottom />
+          <div v-if="$route.meta.adminLayout === AdminLayout.TableList" style="height: inherit">
             <slot />
-          </template>
-          <template #fallback>
-            <div>Loading...</div>
-          </template>
-        </el-main>
+          </div>
+          <el-main v-else>
+            <template #default>
+              <slot />
+            </template>
+            <template #fallback>
+              <div>Loading...</div>
+            </template>
+          </el-main>
+        </div>
       </div>
-    </div>
-    <AdminMenuDrawer />
+      <AdminMenuDrawer />
+    </KeepAlive>
   </div>
 </template>
 

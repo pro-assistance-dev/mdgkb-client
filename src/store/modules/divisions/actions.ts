@@ -5,6 +5,7 @@ import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IDivisionsWithCount from '@/interfaces/IDivisionsWithCount';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -13,20 +14,19 @@ import { State } from './state';
 const httpClient = new HttpClient('divisions');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IDivision[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    const item = await httpClient.get<IDivisionsWithCount>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(items ? items.length : 0);
+      filterQuery.setAllLoaded(item ? item.divisions.length : 0);
     }
-    if (filterQuery && filterQuery.pagination.cursorMode) {
-      commit('appendToAll', items);
+    if (filterQuery && filterQuery.pagination.append) {
+      commit('appendToAll', item);
       return;
     }
-    commit('setAll', items);
+    commit('setAll', item);
   },
-  get: async ({ commit, state }, id: string) => {
-    const query = id + (state.onlyShowed ? '?showed=true' : '');
-    commit('set', await httpClient.get<IDivision>({ query: query }));
+  get: async ({ commit }, filterQuery: IFilterQuery) => {
+    commit('set', await httpClient.get<IDivision>({ query: `get${filterQuery.toUrl()}` }));
   },
   create: async ({ commit }, division: IDivision): Promise<void> => {
     const fileInfos: IFileInfo[] = [];

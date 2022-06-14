@@ -10,18 +10,16 @@ import 'dayjs/locale/ru';
 import './assets/styles/element-variables.scss';
 
 import sanitizeHTML from 'sanitize-html';
-import { useStore } from 'vuex';
 
 import scroll from '@/services/Scroll';
 import carouselSwipe from '@/services/CarouselSwipe';
 
 const app = createApp(App);
 import VueSocialSharing from 'vue-social-sharing';
-import YmapPlugin from 'vue-yandex-maps';
+// import YmapPlugin from 'vue-yandex-maps';
 import Vue3TouchEvents from 'vue3-touch-events';
 
 app.config.globalProperties.$dateTimeFormatter = new DateTimeFormatter('ru-RU');
-app.config.globalProperties.$store = useStore();
 app.config.globalProperties.$sanitize = sanitizeHTML;
 app.config.globalProperties.$scroll = scroll;
 app.config.globalProperties.$carouselSwipe = carouselSwipe;
@@ -42,17 +40,9 @@ library.add(faVk);
 
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 
-// const settings = {
-//   apiKey: '',
-//   lang: 'ru_RU',
-//   coordorder: 'latlong',
-//   enterprise: false,
-//   version: '2.1',
-// };
-
 app.use(store);
 app.use(router);
-app.use(YmapPlugin);
+// app.use(YmapPlugin);
 app.use(setupElementPlusComponents, { locale: ru });
 app.use(setupElementPlusPlugins);
 

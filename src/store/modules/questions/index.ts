@@ -14,6 +14,7 @@ export const getDefaultState = (): State => {
     item: new Question(),
     question: new Question(),
     allLoaded: false,
+    count: 0,
   };
 };
 

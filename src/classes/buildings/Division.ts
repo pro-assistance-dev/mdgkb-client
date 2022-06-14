@@ -60,6 +60,8 @@ export default class Division implements IDivision {
   contactInfoId?: string;
   treatDirection: ITreatDirection = new TreatDirection();
   treatDirectionId?: string;
+  chiefId?: string;
+  chief: IDoctor = new Doctor();
 
   constructor(i?: IDivision) {
     if (!i) {
@@ -120,6 +122,11 @@ export default class Division implements IDivision {
     this.treatDirectionId = i.treatDirectionId;
     if (i.treatDirection) {
       this.treatDirection = new TreatDirection(i.treatDirection);
+    }
+
+    this.chiefId = i.chiefId;
+    if (i.chief) {
+      this.chief = new Doctor(i.chief);
     }
   }
 
