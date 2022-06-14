@@ -27,6 +27,10 @@ export default class ValueType implements IValueType {
     return this.name === 'date';
   }
 
+  isDateTime(): boolean {
+    return this.name === 'dateTime';
+  }
+
   isRadio(): boolean {
     return this.name === 'radio';
   }

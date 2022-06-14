@@ -10,11 +10,17 @@
     </template>
   </el-dropdown>
   <el-dropdown v-else>
-    <el-button v-if="showButtonName" icon="el-icon-user" round>Профиль</el-button>
+    <el-button v-if="showButtonName" icon="el-icon-user" round>
+      Профиль
+      <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge>
+    </el-button>
     <el-button v-else class="menu-item" icon="el-icon-user"></el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">Профиль</el-dropdown-item>
+        <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">
+          Профиль
+          <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge>
+        </el-dropdown-item>
         <div v-if="isLaptopWindowWidth">
           <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile/edit')">Редактировать профиль</el-dropdown-item>
           <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile/children')">Мои дети</el-dropdown-item>
@@ -32,10 +38,11 @@
 
 <script lang="ts">
 import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import IUser from '@/interfaces/IUser';
 import { authGuard } from '@/router';
 import UserService from '@/services/User';
 export default defineComponent({
@@ -49,6 +56,12 @@ export default defineComponent({
     const route = useRoute();
     const login = () => store.commit('auth/openModal', 'login');
     const register = () => store.commit('auth/openModal', 'register');
+    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
+
+    const loadUser = async () => {
+      await store.dispatch('users/get', userId.value);
+    };
 
     const logout = async () => {
       await store.dispatch('auth/logout');
@@ -61,6 +74,10 @@ export default defineComponent({
 
     const isAuth = computed(() => store.getters['auth/isAuth']);
     const isLaptopWindowWidth: Ref<boolean> = ref(window.matchMedia('(max-width: 1024px)').matches);
+
+    onBeforeMount(async () => {
+      await loadUser();
+    });
 
     onMounted(() => {
       window.addEventListener('resize', () => {
@@ -75,6 +92,7 @@ export default defineComponent({
       login,
       register,
       isLaptopWindowWidth,
+      user,
     };
   },
 });
@@ -113,5 +131,9 @@ export default defineComponent({
   i {
     font-size: 24px;
   }
+}
+.el-badge {
+  position: absolute;
+  top: 5px;
 }
 </style>

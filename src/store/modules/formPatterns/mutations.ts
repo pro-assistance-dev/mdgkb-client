@@ -1,6 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import Form from '@/classes/Form';
+import FormStatus from '@/classes/FormStatus';
 import IForm from '@/interfaces/IForm';
 
 import { getDefaultState } from '.';
@@ -22,6 +23,9 @@ const mutations: MutationTree<State> = {
   },
   resetItem(state) {
     state.item = new Form();
+  },
+  resetDefaultFormStatus(state) {
+    state.item.defaultFormStatus = new FormStatus();
   },
 };
 

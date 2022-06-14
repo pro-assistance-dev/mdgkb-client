@@ -2,7 +2,7 @@
   <div class="size">
     <div class="title">
       <div class="hidden">
-        <h2><b>Мое образование</b></h2>
+        <h2><b>Мои заявки</b></h2>
       </div>
       <!-- <button class="give-button" @click="$router.push('/profile/edit')">Подать заявку</button> -->
       <div class="give-drop">
@@ -11,15 +11,21 @@
           <ul class="drop-give-button-item">
             <li>
               <!-- <button class="give-button" @click="$router.push('/dpo')">ДПО</button> -->
-              <router-link :to="`/dpo`">Выбрать&nbsp;из&nbsp;программ&nbsp;ДПО, НМО</router-link>
+              <router-link :to="`/dpo`">Выбрать из программ ДПО, НМО</router-link>
             </li>
             <li>
               <!-- <button class="give-button" @click="$router.push('/dpo')">Аспирантура</button> -->
-              <router-link :to="`/postgraduate?mode=programs`">Выбрать&nbsp;из&nbsp;программ&nbsp;аспирантуры</router-link>
+              <router-link :to="`/postgraduate?mode=programs`">Выбрать из программ аспирантуры</router-link>
             </li>
             <li>
-              <router-link :to="`/postgraduate?mode=candidate`">Заявка&nbsp;на&nbsp;кандидатский&nbsp;минимум</router-link>
+              <router-link :to="`/postgraduate?mode=candidate`">Заявка на кандидатский минимум</router-link>
               <!-- <button class="give-button" @click="$router.push('/dpo')">Аспирантура</button> -->
+            </li>
+            <li>
+              <router-link :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`">Заявка на въезд</router-link>
+            </li>
+            <li>
+              <router-link :to="`/vacancies`">Откликнуться на вакансию</router-link>
             </li>
           </ul>
         </div>
@@ -33,7 +39,9 @@
         <div class="box">
           <h2>
             Мои заявки
-            <div v-if="user.formValues.length" class="sup-cymbol-counter">{{ user.formValues.length }}</div>
+            <div v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">
+              {{ user.getNotViewedApplicationsCount() }}
+            </div>
           </h2>
         </div>
       </div>
@@ -81,6 +89,12 @@
                   >
                     {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
                   </router-link>
+                  <router-link v-if="formValue.vacancyResponse" :to="`/vacancies/${formValue.vacancyResponse.vacancy.slug}`">
+                    {{ formValue.vacancyResponse.vacancy.title }}
+                  </router-link>
+                  <router-link v-if="formValue.applicationCar" :to="`/divisions/${formValue.applicationCar.division?.slug}`">
+                    {{ formValue.applicationCar.division?.name }}
+                  </router-link>
                 </div>
               </div>
 
@@ -94,6 +108,10 @@
                     Кандидатский минимум
                   </router-link>
                   <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
+                  <router-link v-if="formValue.applicationCar" :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`"
+                    >Заявка на въезд</router-link
+                  >
+                  <router-link v-if="formValue.vacancyResponse" :to="`/vacancies`"> Отклик на вакансию </router-link>
                 </div>
               </div>
 
@@ -149,14 +167,29 @@
               <col width="5%" />
             </colgroup>
             <thead>
-              <th><h4>НАЗВАНИЕ&nbsp;ПРОГРАММЫ</h4></th>
               <th><h4>ТИП</h4></th>
+              <th><h4>НАЗВАНИЕ</h4></th>
               <th><h4>ДАТА&nbsp;ПОДАЧИ</h4></th>
               <th><h4>СТАТУС</h4></th>
               <th><h4>ДОСТУПНЫЕ ДЕЙСТВИЯ</h4></th>
             </thead>
             <tbody>
               <tr v-for="formValue in user.formValues" :key="formValue.id">
+                <td>
+                  <router-link v-if="formValue.dpoApplication" :to="`/dpo?mode=programs`">
+                    {{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}
+                  </router-link>
+                  <router-link v-if="formValue.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
+                  <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`">
+                    Кандидатский минимум
+                  </router-link>
+                  <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
+                  <router-link v-if="formValue.applicationCar" :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`"
+                    >Заявка на въезд</router-link
+                  >
+                  <router-link v-if="formValue.vacancyResponse" :to="`/vacancies`"> Отклик на вакансию </router-link>
+                </td>
+
                 <td>
                   <router-link v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.dpoCourse.slug}`">
                     {{ formValue.dpoApplication.dpoCourse.name }}
@@ -176,17 +209,18 @@
                   >
                     {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
                   </router-link>
-                </td>
-
-                <td>
-                  <router-link v-if="formValue.dpoApplication" :to="`/dpo?mode=programs`">
-                    {{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}
+                  <router-link
+                    v-if="formValue.residencyApplication"
+                    :to="`/residency-courses/${formValue.residencyApplication.residencyCourse.getMainSpecialization().slug}`"
+                  >
+                    {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
                   </router-link>
-                  <router-link v-if="formValue.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
-                  <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`">
-                    Кандидатский минимум
+                  <router-link v-if="formValue.vacancyResponse" :to="`/vacancies/${formValue.vacancyResponse.vacancy.slug}`">
+                    {{ formValue.vacancyResponse.vacancy.title }}
                   </router-link>
-                  <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
+                  <router-link v-if="formValue.applicationCar" :to="`/divisions/${formValue.applicationCar.division?.slug}`">
+                    {{ formValue.applicationCar.division?.name }}
+                  </router-link>
                 </td>
 
                 <td>{{ $dateTimeFormatter.format(formValue.createdAt) }}</td>
@@ -302,7 +336,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -336,6 +370,11 @@ export default defineComponent({
     onBeforeMount(async () => {
       await loadUser();
       await store.dispatch('formStatuses/getAll');
+    });
+
+    onBeforeUnmount(async () => {
+      user.value.setApplicationsViewed();
+      await store.dispatch('formValues/updateMany', user.value.formValues);
     });
 
     return {
@@ -493,6 +532,7 @@ h4 {
   width: 16px;
   height: 16px;
   border-radius: 50%;
+  font-weight: bold;
   background: #2754eb;
   color: #ffffff;
   align-items: center;

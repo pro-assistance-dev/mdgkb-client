@@ -1,11 +1,11 @@
 <template>
-  <div v-if="mounted" :key="menus" class="admin-side-menu">
+  <div v-if="mounted" class="admin-side-menu">
     <el-menu :default-active="activePath" :collapse="isCollapseSideMenu" background-color="whitesmoke" unique-opened @select="closeDrawer">
       <template v-for="item in menus" :key="item.title">
-        <el-sub-menu v-if="item.children.length" :index="item.title">
+        <el-sub-menu v-if="item?.children?.length" :index="item.title">
           <template #title>
             <div class="sub-menu-container">
-              <el-badge v-if="item.children.some((i) => i.count > 0)" is-dot type="danger"> </el-badge>
+              <el-badge v-if="item.children.some((i) => i.count && i.count > 0)" is-dot type="danger"> </el-badge>
               <i :class="item.icon"></i>
               <span class="row-menu-title">{{ item.title }}</span>
             </div>
@@ -14,7 +14,7 @@
           <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
             <div class="menu-item-container">
               {{ children.title }}
-              <el-badge v-if="children.count > 0" :value="children.count" type="danger"></el-badge>
+              <el-badge v-if="children.count && children.count > 0" :value="children.count" type="danger"></el-badge>
             </div>
           </el-menu-item>
         </el-sub-menu>
