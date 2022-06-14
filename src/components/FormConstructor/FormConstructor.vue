@@ -37,6 +37,11 @@
           <el-checkbox v-model="scope.row.required"></el-checkbox>
         </template>
       </el-table-column>
+      <el-table-column width="50" align="center" class-name="sticky-right">
+        <template #default="scope">
+          <TableButtonGroup :show-remove-button="true" @remove="form.removeField(scope.$index)" />
+        </template>
+      </el-table-column>
     </el-table>
     <!-- <el-row v-for="field in form.fields" :key="field">
       <div style="margin: 10px">
@@ -56,6 +61,7 @@ import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
 import ValueType from '@/classes/ValueType';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import IField from '@/interfaces/IField';
@@ -64,7 +70,7 @@ import IValueType from '@/interfaces/IValueType';
 
 export default defineComponent({
   name: 'FormConstructor',
-  components: { FileUploader, TableMover },
+  components: { FileUploader, TableMover, TableButtonGroup },
   props: {
     form: {
       type: Object as PropType<IForm>,

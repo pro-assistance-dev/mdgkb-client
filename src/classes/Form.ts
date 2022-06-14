@@ -140,6 +140,8 @@ export default class Form implements IForm {
     this.fields.push(field ?? new Field());
   }
   removeField(index: number): void {
+    const idForDelete = this.fields[index].id;
+    if (idForDelete) this.fieldsForDelete.push(idForDelete);
     this.fields.splice(index, 1);
   }
   getFileInfos(): IFileInfo[] {

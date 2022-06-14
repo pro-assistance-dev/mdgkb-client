@@ -16,6 +16,9 @@
         <div v-else-if="scope.row.field.valueType.isDate() && scope.row.valueDate">
           {{ $dateTimeFormatter.format(scope.row.valueDate) }}
         </div>
+        <div v-else-if="scope.row.field.valueType.isDateTime() && scope.row.valueDate">
+          {{ $dateTimeFormatter.format(scope.row.valueDate, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}
+        </div>
         <a
           v-else-if="scope.row.field.valueType.isFile() && scope.row.file.fileSystemPath"
           :href="scope.row.file.getFileUrl()"
