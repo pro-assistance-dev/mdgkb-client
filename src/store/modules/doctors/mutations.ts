@@ -39,7 +39,6 @@ const mutations: MutationTree<State> = {
   },
   set(state, doctor: IDoctor) {
     state.item = new Doctor(doctor);
-    if (state.item.fileInfo.fileSystemPath) state.fileList[0] = state.item.fileInfo.getFileListObject();
   },
   resetState(state) {
     Object.assign(state, getDefaultState());

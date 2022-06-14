@@ -5,8 +5,8 @@
         <img src="@/assets/img/doctor-default.webp" />
         <!-- <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="doctor.fileInfo.errorImg" />
         <img v-else src="@/assets/img/doctor-default.webp" /> -->
-        <div class="doctor-name">Бочкова Наталья Генадьевна</div>
-        <div class="status">Заведующая отделением</div>
+        <div class="doctor-name">{{ division.chief.human.getFullName() }}</div>
+        <div v-if="division.chief.id" class="status">Заведующий отделением</div>
         <div class="favor">
           <FavouriteIcon :domain-id="division.id" :domain-name="'division'" />
         </div>
