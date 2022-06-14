@@ -1,5 +1,6 @@
 import Field from '@/classes/Field';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IApplicationCar from '@/interfaces/IApplicationCar';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IField from '@/interfaces/IField';
@@ -10,7 +11,9 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
+import ApplicationCar from './ApplicationCar';
 import CandidateApplication from './CandidateApplication';
 import Child from './Child';
 import DpoApplication from './DpoApplication';
@@ -21,6 +24,7 @@ import FormStatusGroup from './FormStatusGroup';
 import PostgraduateApplication from './PostgraduateApplication';
 import ResidencyApplication from './ResidencyApplication';
 import User from './User';
+import VacancyResponse from './VacancyResponse';
 
 export default class Form implements IForm {
   id?: string;
@@ -34,13 +38,11 @@ export default class Form implements IForm {
   fieldValuesForDelete: string[] = [];
   validated = true;
   isNew = true;
+  viewedByUser = false;
   createdAt: Date = new Date();
   user = new User();
   formStatus = new FormStatus();
   dpoApplication?: IDpoApplication;
-  postgraduateApplication?: IPostgraduateApplication;
-  candidateApplication?: ICandidateApplication;
-  residencyApplication?: IResidencyApplication;
   defaultFormStatus?: IFormStatus;
   defaultFormStatusId?: string;
   formStatusGroup?: IFormStatusGroup;
@@ -54,6 +56,12 @@ export default class Form implements IForm {
   showPersonalDataAgreementError = false;
   // changed = false;
 
+  postgraduateApplication?: IPostgraduateApplication;
+  candidateApplication?: ICandidateApplication;
+  residencyApplication?: IResidencyApplication;
+  applicationCar?: IApplicationCar;
+  vacancyResponse?: IVacancyResponse;
+
   constructor(form?: IForm) {
     if (!form) {
       return;
@@ -65,6 +73,9 @@ export default class Form implements IForm {
     }
     if (form.isNew !== undefined) {
       this.isNew = form.isNew;
+    }
+    if (form.viewedByUser !== undefined) {
+      this.viewedByUser = form.viewedByUser;
     }
     if (form.validated) {
       this.validated = form.validated;
@@ -84,15 +95,6 @@ export default class Form implements IForm {
     }
     if (form.dpoApplication) {
       this.dpoApplication = new DpoApplication(form.dpoApplication);
-    }
-    if (form.postgraduateApplication) {
-      this.postgraduateApplication = new PostgraduateApplication(form.postgraduateApplication);
-    }
-    if (form.candidateApplication) {
-      this.candidateApplication = new CandidateApplication(form.candidateApplication);
-    }
-    if (form.residencyApplication) {
-      this.residencyApplication = new ResidencyApplication(form.residencyApplication);
     }
     if (form.formStatusGroup) {
       this.formStatusGroup = new FormStatusGroup(form.formStatusGroup);
@@ -115,6 +117,22 @@ export default class Form implements IForm {
     this.personalDataAgreementId = form.personalDataAgreementId;
     if (form.agreedWithPersonalDataAgreement !== undefined) {
       this.agreedWithPersonalDataAgreement = form.agreedWithPersonalDataAgreement;
+    }
+
+    if (form.postgraduateApplication) {
+      this.postgraduateApplication = new PostgraduateApplication(form.postgraduateApplication);
+    }
+    if (form.candidateApplication) {
+      this.candidateApplication = new CandidateApplication(form.candidateApplication);
+    }
+    if (form.residencyApplication) {
+      this.residencyApplication = new ResidencyApplication(form.residencyApplication);
+    }
+    if (form.applicationCar) {
+      this.applicationCar = new ApplicationCar(form.applicationCar);
+    }
+    if (form.vacancyResponse) {
+      this.vacancyResponse = new VacancyResponse(form.vacancyResponse);
     }
   }
 
@@ -264,6 +282,14 @@ export default class Form implements IForm {
       if (!el.id) return;
       return this.findFieldValue(el.id)?.modComment && !this.findFieldValue(el.id)?.modChecked;
     });
+  }
+  updateViewedByUser(initialStatus: IFormStatus): void {
+    console.log('initialStatus', initialStatus);
+    console.log('this.viewedByUser BEFORE', this.viewedByUser);
+    if (initialStatus && initialStatus.id !== this.formStatus.id) {
+      this.viewedByUser = false;
+    }
+    console.log('this.viewedByUser AFTER', this.viewedByUser);
   }
   // static ApplyFormPattern(pattern: IForm): IForm {
   //   const form = new Form(pattern);

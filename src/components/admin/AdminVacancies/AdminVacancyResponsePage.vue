@@ -12,6 +12,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
+import IFormStatus from '@/interfaces/IFormStatus';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
@@ -49,6 +50,7 @@ export default defineComponent({
         return;
       }
       if (route.params['id']) {
+        vacancyResponse.value.formValue.updateViewedByUser(initialStatus);
         await store.dispatch('vacancyResponses/update', vacancyResponse.value);
       } else {
         vacancyResponse.value.formValue.clearIds();
@@ -57,10 +59,12 @@ export default defineComponent({
       next ? next() : await router.go(-1);
     };
 
+    let initialStatus: IFormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
         await store.dispatch('vacancyResponses/get', route.params['id']);
+        initialStatus = vacancyResponse.value.formValue.formStatus;
         pageTitle = `Вакансии. Заявление от ${vacancyResponse.value.formValue.user.email}`;
       } else {
         pageTitle = 'Добавить отклик';

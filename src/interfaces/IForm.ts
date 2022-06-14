@@ -1,6 +1,7 @@
 import IField from '@/interfaces/IField';
 
 import IFileInfo from './files/IFileInfo';
+import IApplicationCar from './IApplicationCar';
 import ICandidateApplication from './ICandidateApplication';
 import IChild from './IChild';
 import IDpoApplication from './IDpoApplication';
@@ -10,6 +11,7 @@ import IFormStatusGroup from './IFormStatusGroup';
 import IPostgraduateApplication from './IPostgraduateApplication';
 import IResidencyApplication from './IResidencyApplication';
 import IUser from './IUser';
+import IVacancyResponse from './vacancyResponse/IVacancyResponse';
 
 export default interface IForm {
   id?: string;
@@ -24,11 +26,9 @@ export default interface IForm {
   validated?: boolean;
   createdAt?: Date;
   isNew: boolean;
+  viewedByUser: boolean;
   user: IUser;
   dpoApplication?: IDpoApplication;
-  postgraduateApplication?: IPostgraduateApplication;
-  candidateApplication?: ICandidateApplication;
-  residencyApplication?: IResidencyApplication;
   defaultFormStatus?: IFormStatus;
   defaultFormStatusId?: string;
   formStatusGroup?: IFormStatusGroup;
@@ -40,6 +40,12 @@ export default interface IForm {
   withPersonalDataAgreement: boolean;
   agreedWithPersonalDataAgreement: boolean;
   showPersonalDataAgreementError: boolean;
+
+  postgraduateApplication?: IPostgraduateApplication;
+  candidateApplication?: ICandidateApplication;
+  residencyApplication?: IResidencyApplication;
+  applicationCar?: IApplicationCar;
+  vacancyResponse?: IVacancyResponse;
 
   addField: (field?: IField) => void;
   removeField: (index: number) => void;
@@ -58,4 +64,5 @@ export default interface IForm {
   // setNewStatus: (statuses: IFormStatus[]) => void;
   setCpecifyStatus: (statuses: IFormStatus[]) => void;
   setStatus: (status: IFormStatus, statuses: IFormStatus[]) => void;
+  updateViewedByUser: (initialStatus: IFormStatus) => void;
 }

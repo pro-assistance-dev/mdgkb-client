@@ -167,4 +167,18 @@ export default class User implements IUser {
       (option) => option.label === 'Пользователь' || option.value === '8dac3c71-43e1-476b-82fa-454313684685'
     )?.value;
   }
+
+  getNotViewedApplicationsCount(): number {
+    let result = 0;
+    this.formValues.forEach((el) => {
+      if (el.viewedByUser === false) result += 1;
+    });
+    return result;
+  }
+
+  setApplicationsViewed(): void {
+    this.formValues.forEach((el) => {
+      el.viewedByUser = true;
+    });
+  }
 }

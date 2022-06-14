@@ -18,6 +18,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IApplicationCar from '@/interfaces/IApplicationCar';
+import IFormStatus from '@/interfaces/IFormStatus';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 import Hooks from '@/services/Hooks/Hooks';
@@ -53,6 +54,7 @@ export default defineComponent({
         return;
       }
       if (route.params['id']) {
+        applicationCar.value.formValue.updateViewedByUser(initialStatus);
         await Provider.store.dispatch('applicationsCars/update');
       } else {
         applicationCar.value.formValue.clearIds();
@@ -61,10 +63,12 @@ export default defineComponent({
       next ? next() : await Provider.router.go(-1);
     };
 
+    let initialStatus: IFormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
         await Provider.store.dispatch('applicationsCars/get', route.params['id']);
+        initialStatus = applicationCar.value.formValue.formStatus;
         pageTitle = `Заявка на въезд. Заявление от ${applicationCar.value.formValue.user.email}`;
       } else {
         pageTitle = 'Добавить заявку на въезд';
