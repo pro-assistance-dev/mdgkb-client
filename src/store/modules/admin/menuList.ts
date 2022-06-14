@@ -35,6 +35,7 @@ const menuList: IAdminMenu[] = [
         title: 'Отклики на вакансии',
         to: '/admin/vacancy-responses',
         icon: 'el-icon-suitcase-1',
+        tableName: 'vacancy_responses',
       },
     ],
   },
@@ -274,6 +275,7 @@ const menuList: IAdminMenu[] = [
         title: 'Заявки на въезд',
         to: '/admin/applications-cars',
         icon: 'el-icon-guide',
+        tableName: 'applications_cars',
       },
       {
         title: 'Платные услуги',
