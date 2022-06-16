@@ -1,7 +1,12 @@
 <template>
   <div v-if="mounted">
     <el-form ref="form" v-model="residencyApplication" :model="residencyApplication" label-position="top">
-      <UserForm :form="residencyApplication.formValue" :email-exists="emailExists" @findEmail="findEmail" />
+      <UserForm
+        :form="residencyApplication.formValue"
+        :email-exists="emailExists"
+        :active-fields="UserFormFields.CreateWithFullName({ userSnils: true })"
+        @findEmail="findEmail"
+      />
       <FieldValuesForm :form="residencyApplication.formValue" />
     </el-form>
     <el-divider />
@@ -16,6 +21,7 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
@@ -93,6 +99,7 @@ export default defineComponent({
       form,
       findEmail,
       emailExists,
+      UserFormFields,
     };
   },
 });

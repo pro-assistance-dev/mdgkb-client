@@ -4,6 +4,9 @@
     <el-descriptions-item v-if="activeFields.userName || activeFields.userSurname || activeFields.userPatronymic" label="ФИО">
       {{ formValue.user.human.getFullName() }}
     </el-descriptions-item>
+    <el-descriptions-item v-if="activeFields.userSnils" label="СНИЛС">
+      {{ formValue.user.human.snils }}
+    </el-descriptions-item>
     <el-descriptions-item v-if="activeFields.userDateBirth" label="Дата рождения">
       {{ $dateTimeFormatter.format(formValue.user.human.dateBirth) }}
     </el-descriptions-item>
@@ -28,6 +31,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import Form from '@/classes/Form';
 import UserFormFields from '@/classes/UserFormFields';
 import IForm from '@/interfaces/IForm';
 import IUserFormFields from '@/interfaces/IUserFormFields';
@@ -47,7 +51,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const formValue: Ref<IForm | undefined> = ref();
+    const formValue: Ref<IForm> = ref(new Form());
 
     onBeforeMount(() => {
       formValue.value = props.form;

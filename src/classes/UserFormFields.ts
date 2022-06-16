@@ -5,6 +5,7 @@ export default class UserFormFields implements IUserFormFields {
   userSurname = false;
   userName = false;
   userPatronymic = false;
+  userSnils = false;
   userDateBirth = false;
   userIsMale = false;
   userPhone = false;
@@ -27,6 +28,9 @@ export default class UserFormFields implements IUserFormFields {
     }
     if (i.userPatronymic !== undefined) {
       this.userPatronymic = i.userPatronymic;
+    }
+    if (i.userSnils !== undefined) {
+      this.userSnils = i.userSnils;
     }
     if (i.userDateBirth !== undefined) {
       this.userDateBirth = i.userDateBirth;

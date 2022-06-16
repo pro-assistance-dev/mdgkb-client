@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
@@ -52,15 +52,8 @@ export default defineComponent({
     const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const modes: Ref<IOption[]> = ref([]);
     const title: ComputedRef<string> = computed(() => {
-      return mode.value ? 'programs' : 'contacts';
+      return mode.value === 'programs' ? 'Программы ординатуры' : 'Контакты ординатуры';
     });
-
-    watch(
-      () => route.query,
-      () => {
-        if (!route.query.mode) Provider.router.push({ query: { mode: 'programs' } });
-      }
-    );
 
     const selectMode = async (value: string) => {
       const documentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);

@@ -15,48 +15,88 @@
   >
     <el-input v-model="formValue.user.email" placeholder="Электронная почта" @input="findEmail"></el-input>
   </el-form-item>
-  <el-form-item v-if="(!user.human.surname || fromAdmin) && activeFields.userSurname" label="Фамилия" prop="formValue.user.human.surname">
+  <el-form-item
+    v-if="(!user.human.surname || fromAdmin) && activeFields.userSurname"
+    label="Фамилия"
+    prop="formValue.user.human.surname"
+    :rules="rules.userSurname"
+  >
     <el-input v-model="formValue.user.human.surname" placeholder="Фамилия"></el-input>
   </el-form-item>
-  <el-form-item v-if="(!user.human.name || fromAdmin) && activeFields.userName" label="Имя" prop="formValue.user.human.name">
+  <el-form-item
+    v-if="(!user.human.name || fromAdmin) && activeFields.userName"
+    :rules="rules.userName"
+    label="Имя"
+    prop="formValue.user.human.name"
+  >
     <el-input v-model="formValue.user.human.name" placeholder="Имя"></el-input>
   </el-form-item>
   <el-form-item
     v-if="(!user.human.patronymic || fromAdmin) && activeFields.userPatronymic"
+    :rules="rules.userPatronymic"
     label="Отчество"
     prop="formValue.user.human.patronymic"
   >
     <el-input v-model="formValue.user.human.patronymic" placeholder="Отчество"></el-input>
   </el-form-item>
   <el-form-item
+    v-if="(!user.human.snils || fromAdmin) && activeFields.userSnils"
+    :rules="rules.userSnils"
+    label="СНИЛС"
+    prop="formValue.user.human.snils"
+  >
+    <el-input v-model="formValue.user.human.snils" placeholder="СНИЛС"></el-input>
+  </el-form-item>
+  <el-form-item
     v-if="(!user.human.dateBirth || fromAdmin) && activeFields.userDateBirth"
+    :rules="rules.userDateBirth"
     label="Дата рождения"
     prop="formValue.user.human.dateBirth"
   >
     <el-date-picker v-model="formValue.user.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
   </el-form-item>
-  <el-form-item v-if="(!user.human.isMale || fromAdmin) && activeFields.userIsMale" label="Пол" prop="formValue.user.human.isMale">
+  <el-form-item
+    v-if="(!user.human.isMale || fromAdmin) && activeFields.userIsMale"
+    :rules="rules.userIsMale"
+    label="Пол"
+    prop="formValue.user.human.isMale"
+  >
     <el-select v-model="formValue.user.human.isMale" placeholder="Выберите пол">
       <el-option label="Мужской" :value="true"></el-option>
       <el-option label="Женский" :value="false"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item v-if="(!user.phone || fromAdmin) && activeFields.userPhone" label="Ваш телефон" prop="formValue.user.phone">
+  <el-form-item
+    v-if="(!user.phone || fromAdmin) && activeFields.userPhone"
+    :rules="rules.userPhone"
+    label="Ваш телефон"
+    prop="formValue.user.phone"
+  >
     <el-input v-model="formValue.user.phone" placeholder="Ваш телефон"></el-input>
   </el-form-item>
-  <el-form-item v-if="activeFields.childSurname" label="Фамилия пациента" prop="formValue.user.human.surname">
+  <el-form-item v-if="activeFields.childSurname" :rules="rules.childSurname" label="Фамилия пациента" prop="formValue.child.human.surname">
     <el-input v-model="formValue.child.human.surname" placeholder="Фамилия пациента"></el-input>
   </el-form-item>
-  <el-form-item v-if="activeFields.childName" label="Имя пациента" prop="formValue.user.human.name">
+  <el-form-item v-if="activeFields.childName" :rules="rules.childName" label="Имя пациента" prop="formValue.child.human.name">
     <el-input v-model="formValue.child.human.name" placeholder="Имя пациента"></el-input>
   </el-form-item>
-  <el-form-item v-if="activeFields.childPatronymic" label="Отчество пациента" prop="formValue.user.human.patronymic">
+  <el-form-item
+    v-if="activeFields.childPatronymic"
+    :rules="rules.childPatronymic"
+    label="Отчество пациента"
+    prop="formValue.child.human.patronymic"
+  >
     <el-input v-model="formValue.child.human.patronymic" placeholder="Отчество пациента"></el-input>
   </el-form-item>
-  <el-form-item v-if="activeFields.childDateBirth" label="Дата рождения пациента" prop="formValue.user.human.dateBirth">
+  <el-form-item
+    v-if="activeFields.childDateBirth"
+    :rules="rules.childDateBirth"
+    label="Дата рождения пациента"
+    prop="formValue.child.human.dateBirth"
+  >
     <el-date-picker v-model="formValue.child.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
   </el-form-item>
-  <el-form-item v-if="activeFields.childIsMale" label="Пол пациента" prop="formValue.user.human.isMale">
+  <el-form-item v-if="activeFields.childIsMale" :rules="rules.childIsMale" label="Пол пациента" prop="formValue.child.human.isMale">
     <el-select v-model="formValue.child.human.isMale" placeholder="Выберите пол">
       <el-option label="Мужской" :value="true"></el-option>
       <el-option label="Женский" :value="false"></el-option>
@@ -128,6 +168,18 @@ export default defineComponent({
         { required: true, validator: emailRule, trigger: 'blur' },
         { type: 'email', message: 'Пожалуйста, введите корректный email', trigger: 'blur' },
       ],
+      userSurname: [{ required: true, message: 'Пожалуйста, укажите вашу фамилию', trigger: 'blur' }],
+      userName: [{ required: true, message: 'Пожалуйста, укажите ваше имя', trigger: 'blur' }],
+      userPatronymic: [{ required: true, message: 'Пожалуйста, укажите ваше отчество', trigger: 'blur' }],
+      userIsMale: [{ required: true, message: 'Пожалуйста, выберите ваш пол', trigger: 'change' }],
+      userDateBirth: [{ required: true, message: 'Пожалуйста, укажите вашу дату рождения', trigger: 'change' }],
+      userSnils: [{ required: true, message: 'Пожалуйста, укажите СНИЛС', trigger: 'blur' }],
+      userPhone: [{ required: true, message: 'Пожалуйста, укажите телефон', trigger: 'blur' }],
+      childSurname: [{ required: true, message: 'Пожалуйста, укажите фамилию пациента', trigger: 'blur' }],
+      childName: [{ required: true, message: 'Пожалуйста, укажите имя пациента', trigger: 'blur' }],
+      childPatronymic: [{ required: true, message: 'Пожалуйста, укажите отчество пациента', trigger: 'blur' }],
+      childIsMale: [{ required: true, message: 'Пожалуйста, выберите пол пациента', trigger: 'change' }],
+      childDateBirth: [{ required: true, message: 'Пожалуйста, укажите дату рождения пациента', trigger: 'change' }],
     };
     const openLoginModal = () => {
       store.commit('auth/openModal', 'login');

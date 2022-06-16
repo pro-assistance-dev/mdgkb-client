@@ -164,6 +164,7 @@ export default defineComponent({
     const load = async () => {
       Provider.filterQuery.value.setParams(Provider.schema.value.residencyCourse.id, Provider.route().params['id'] as string);
       await Provider.store.dispatch('residencyCourses/get', Provider.filterQuery.value);
+      Provider.mounted.value = true;
       if (Provider.route().query.respondForm) {
         await openRespondForm();
       }

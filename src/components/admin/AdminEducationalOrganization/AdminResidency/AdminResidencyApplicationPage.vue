@@ -4,7 +4,13 @@
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <div v-if="application.residencyCourse.id">
-            <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
+            <AdminFormValue
+              :form="application.formValue"
+              :active-fields="UserFormFields.CreateWithFullName({ userSnils: true })"
+              :is-edit-mode="isEditMode"
+              :email-exists="emailExists"
+              @findEmail="findEmail"
+            />
           </div>
           <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
         </el-col>
@@ -46,6 +52,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
@@ -177,6 +184,7 @@ export default defineComponent({
       courseChangeHandler,
       findEmail,
       emailExists,
+      UserFormFields,
     };
   },
 });

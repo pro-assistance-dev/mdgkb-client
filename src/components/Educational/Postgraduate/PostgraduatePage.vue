@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import EditorContent from '@/components/EditorContent.vue';
@@ -90,13 +90,6 @@ export default defineComponent({
       }
       return title;
     });
-
-    watch(
-      () => route.query,
-      () => {
-        if (!route.query.mode) Provider.router.push({ query: { mode: mode.value } });
-      }
-    );
 
     const selectMode = async (value: string) => {
       const documentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);

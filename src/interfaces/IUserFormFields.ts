@@ -3,6 +3,7 @@ export default interface IUserFormFields {
   userSurname?: boolean;
   userName?: boolean;
   userPatronymic?: boolean;
+  userSnils?: boolean;
   userDateBirth?: boolean;
   userIsMale?: boolean;
   userPhone?: boolean;
