@@ -462,7 +462,8 @@ ul.hidden-item-list li {
   display: none;
   position: absolute;
   left: 130px;
-  bottom: -170px;
+  top: 50%;
+  transform: translateY(-50%);
   z-index: 1;
   border-radius: 5px;
   border: 1px solid rgb(black, 0.1);
@@ -480,7 +481,7 @@ ul.hidden-item-list li {
 .hidden-line-2 {
   display: flex;
   font-size: 14px;
-  padding: 5px 0px;
+  padding: 2px 0 0 0;
   justify-content: left;
 }
 
