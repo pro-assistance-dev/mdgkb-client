@@ -49,6 +49,7 @@ import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
+import IFormStatus from '@/interfaces/IFormStatus';
 import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
@@ -109,10 +110,12 @@ export default defineComponent({
       await store.dispatch('candidateApplications/update', application.value);
     };
 
+    let initialStatus: IFormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
         await store.dispatch('candidateApplications/get', route.params['id']);
+        initialStatus = application.value.formValue.formStatus;
         pageTitle = `Заявление от ${application.value.formValue.user.email}`;
       } else {
         pageTitle = 'Подача заявления на сдачу кандидатского';
@@ -137,6 +140,7 @@ export default defineComponent({
         return;
       }
       if (route.params['id']) {
+        application.value.formValue.updateViewedByUser(initialStatus);
         await store.dispatch('candidateApplications/update');
       } else {
         application.value.formValue.clearIds();

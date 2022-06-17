@@ -18,7 +18,12 @@
           <svg class="icon-education">
             <use xlink:href="#education"></use>
           </svg>
-          Образование
+          <div class="item-list-name">
+            Заявки
+            <span v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">
+              {{ user.getNotViewedApplicationsCount() }}
+            </span>
+          </div>
           <svg class="icon-arrow">
             <use xlink:href="#arrow"></use>
           </svg>
@@ -161,6 +166,9 @@ export default defineComponent({
   height: 50px;
   width: 100%;
   color: #343e5c;
+  &-name {
+    position: relative;
+  }
 }
 
 .left {
@@ -195,6 +203,29 @@ export default defineComponent({
   color: #ffffff;
   fill: #ffffff;
   background: #2754eb;
+
+  .sup-cymbol-counter {
+    background: #ffffff;
+    color: #2754eb;
+  }
+}
+
+.sup-cymbol-counter {
+  display: flex;
+  position: absolute;
+  right: -25px;
+  top: -10px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-weight: bold;
+  background: #2754eb;
+  color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 @media screen and (max-width: 980px) {

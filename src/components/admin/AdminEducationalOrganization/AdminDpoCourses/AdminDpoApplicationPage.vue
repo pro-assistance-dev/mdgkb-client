@@ -48,6 +48,7 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IForm from '@/interfaces/IForm';
+import IFormStatus from '@/interfaces/IFormStatus';
 import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
@@ -125,10 +126,12 @@ export default defineComponent({
       await store.dispatch('dpoApplications/update', dpoApplication.value);
     };
 
+    let initialStatus: IFormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
         await store.dispatch('dpoApplications/get', route.params['id']);
+        initialStatus = dpoApplication.value.formValue.formStatus;
         pageTitle = `Заявление от ${dpoApplication.value.formValue.user.email}`;
       } else {
         store.commit('dpoApplications/resetItem');
@@ -160,6 +163,7 @@ export default defineComponent({
         return;
       }
       if (route.params['id']) {
+        dpoApplication.value.formValue.updateViewedByUser(initialStatus);
         await store.dispatch('dpoApplications/update');
       } else {
         dpoApplication.value.formValue.clearIds();

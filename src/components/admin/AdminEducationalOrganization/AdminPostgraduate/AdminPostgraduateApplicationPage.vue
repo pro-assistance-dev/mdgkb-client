@@ -49,6 +49,7 @@ import { useStore } from 'vuex';
 
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IFormStatus from '@/interfaces/IFormStatus';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISchema from '@/interfaces/schema/ISchema';
@@ -117,10 +118,12 @@ export default defineComponent({
       await store.dispatch('postgraduateApplications/update', application.value);
     };
 
+    let initialStatus: IFormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
         await store.dispatch('postgraduateApplications/get', route.params['id']);
+        initialStatus = application.value.formValue.formStatus;
         pageTitle = `Заявление от ${application.value.formValue.user.email}`;
       } else {
         pageTitle = 'Подача заявления на обучение в аспирантуре';
@@ -145,6 +148,7 @@ export default defineComponent({
         return;
       }
       if (route.params['id']) {
+        application.value.formValue.updateViewedByUser(initialStatus);
         await store.dispatch('postgraduateApplications/update');
       } else {
         application.value.formValue.clearIds();

@@ -47,6 +47,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
+import IFormStatus from '@/interfaces/IFormStatus';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
@@ -111,10 +112,12 @@ export default defineComponent({
       await store.dispatch('residencyApplications/update', application.value);
     };
 
+    let initialStatus: IFormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
         await store.dispatch('residencyApplications/get', route.params['id']);
+        initialStatus = application.value.formValue.formStatus;
         pageTitle = `Заявление от ${application.value.formValue.user.email}`;
       } else {
         pageTitle = 'Подача заявления на обучение в аспирантуре';
@@ -139,6 +142,7 @@ export default defineComponent({
         return;
       }
       if (route.params['id']) {
+        application.value.formValue.updateViewedByUser(initialStatus);
         await store.dispatch('residencyApplications/update');
       } else {
         application.value.formValue.clearIds();

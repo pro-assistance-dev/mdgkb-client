@@ -8,6 +8,7 @@ export default interface IValueType {
   isString: () => boolean;
   isNumber: () => boolean;
   isDate: () => boolean;
+  isDateTime: () => boolean;
   isRadio: () => boolean;
   isSet: () => boolean;
   isText: () => boolean;

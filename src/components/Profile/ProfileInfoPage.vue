@@ -88,7 +88,12 @@
               <svg class="icon-education">
                 <use xlink:href="#education"></use>
               </svg>
-              Образование
+              <div class="tab-name">
+                Заявки
+                <span v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">
+                  {{ user.getNotViewedApplicationsCount() }}
+                </span>
+              </div>
             </label>
             <div class="tab-content">
               <EducationPage />
@@ -682,6 +687,10 @@ ul.parent-info-list li:last-child {
   color: #ffffff;
   fill: #ffffff;
   background: #2754eb;
+  .sup-cymbol-counter {
+    background: #ffffff;
+    color: #2754eb;
+  }
 }
 
 .tab {
@@ -689,6 +698,10 @@ ul.parent-info-list li:last-child {
   width: 100%;
   color: #ffffff;
   overflow: hidden;
+
+  &-name {
+    position: relative;
+  }
 }
 
 .tab input {
@@ -746,6 +759,24 @@ ul.parent-info-list li:last-child {
 // .tab input[type=radio]:checked + label::after {
 //   transform: rotateX(180deg);
 // }
+
+.sup-cymbol-counter {
+  display: flex;
+  position: absolute;
+  right: -25px;
+  top: -10px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-weight: bold;
+  background: #ffffff;
+  color: #2754eb;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
+}
 
 @media screen and (max-width: 980px) {
   .size {

@@ -13,6 +13,7 @@
           <div>Выбранное отделение: {{ applicationCar.division.name }}</div>
         </el-form-item>
         <FieldValuesForm :form="applicationCar.formValue" />
+        <PersonalDataAgreement :form-value="applicationCar.formValue" :form-pattern="gate.formPattern" />
         <div class="footer">
           <el-button round type="success" @click.prevent="submit()">Отправить форму</el-button>
         </div>
@@ -29,6 +30,7 @@ import { useRoute } from 'vue-router';
 import Division from '@/classes/buildings/Division';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
@@ -46,6 +48,7 @@ export default defineComponent({
     RemoteSearch,
     UserForm,
     FieldValuesForm,
+    PersonalDataAgreement,
   },
 
   setup() {
@@ -105,6 +108,7 @@ export default defineComponent({
       submit,
       UserFormFields,
       rules,
+      gate,
     };
   },
 });

@@ -46,4 +46,7 @@ export default interface IUser {
   removeDonorRule: (ruleId: string) => void;
   getFileInfos: () => IFileInfo[];
   setDefaultRole: (options: IOption[]) => void;
+
+  getNotViewedApplicationsCount: () => number;
+  setApplicationsViewed: () => void;
 }
