@@ -40,7 +40,41 @@
             <use xlink:href="#time"></use>
           </svg>
         </div>
-        <div class="item">{{ division.timetable.getTodayTimetable() }}</div>
+        <div class="time-block">
+          <div class="hidden-block">
+            <div class="hidden-line">
+              <div class="hidden-item"><font color="#2754eb">сегодня</font>: {{ division.timetable.getTodayWorkday().getTimetable() }}</div>
+              <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
+                Перерыв:
+                <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
+                  <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="hidden-line-2">
+              <ul class="hidden-item-list-2">
+                <li v-for="item in division.timetable.getOnlyWorkdayObjects()" :key="item.id">
+                  {{ item.getPeriodWithName() }}
+                  <div v-if="item.breaksExists" class="hidden-item-2">
+                    Перерыв:
+                    <ul v-if="item.breaksExists" class="hidden-item-list">
+                      <li v-for="period in item.breakPeriods" :key="period.id">{{ period.getPeriod() }}</li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="item">
+            Время работы&nbsp;<font color="#2754eb">сегодня</font>: {{ division.timetable.getTodayWorkday().getTimetable() }}
+          </div>
+          <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item">
+            Перерыв:
+            <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="item-list">
+              <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">&nbsp;{{ item.getPeriod() }}&nbsp;</li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div class="contact-h3">
         <div class="item">
@@ -375,5 +409,92 @@ export default defineComponent({
     font-size: 20px;
     color: #bdc2d1;
   }
+}
+
+.item-list {
+  list-style: none;
+}
+
+ul.item-list {
+  padding: 0;
+  margin: 0;
+}
+
+ul.item-list li {
+  display: inline;
+}
+
+ul.hidden-item-list {
+  padding: 0 0 0 20px;
+  margin: 0px;
+}
+
+ul.hidden-item-list-2 {
+  padding: 0px 0 0px 0px;
+  margin: 0px;
+}
+
+ul.hidden-item-list-2 li {
+  display: block;
+  padding: 0px;
+  margin: 0px;
+  padding: 5px 0 5px 0px;
+}
+
+ul.hidden-item-list li {
+  display: block;
+  padding: 0px;
+  margin: 0px;
+}
+
+.time-block {
+  cursor: pointer;
+  display: block;
+  justify-content: left;
+  position: relative;
+}
+
+.time-block:hover .hidden-block {
+  display: block;
+}
+
+.hidden-block {
+  display: none;
+  position: absolute;
+  left: 130px;
+  bottom: -170px;
+  z-index: 1;
+  border-radius: 5px;
+  border: 1px solid rgb(black, 0.1);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+  padding: 5px;
+  background: #ffffff;
+  width: 200px;
+}
+
+.hidden-line {
+  font-size: 12px;
+  padding: 5px 0px;
+}
+
+.hidden-line-2 {
+  display: flex;
+  font-size: 14px;
+  padding: 5px 0px;
+  justify-content: left;
+}
+
+.hidden-item {
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  width: auto;
+}
+
+.hidden-item-2 {
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+  width: auto;
 }
 </style>
