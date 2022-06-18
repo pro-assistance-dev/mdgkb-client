@@ -4,7 +4,7 @@ import AdminAdmissionCommitteeList from '@/components/admin/AdminEducationalOrga
 import AdminAdmissionCommitteePage from '@/components/admin/AdminEducationalOrganization/AdminAdmissionCommitteePage.vue';
 import AdminDpo from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpo.vue';
 import AdminDpoApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationPage.vue';
-import AdminDpoApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationsList.vue';
+import AdminDpoApplicationsListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationsListContainer.vue';
 import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursePage.vue';
 import AdminDpoCoursesListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursesListContainer.vue';
 import AdminEducationalOrganizationPage from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationPage.vue';
@@ -192,25 +192,27 @@ export default [
   {
     path: '/admin/dpo/applications',
     name: 'AdminDpoApplicationsList',
-    component: AdminDpoApplicationsList,
+    component: AdminDpoApplicationsListContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
     },
     meta: {
       layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
     },
   },
   {
     path: '/admin/nmo/applications',
     name: 'AdminNmoApplicationsList',
-    component: AdminDpoApplicationsList,
+    component: AdminDpoApplicationsListContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
     },
     meta: {
       layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
     },
   },
   {
@@ -312,6 +314,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
     },
   },
   {
@@ -348,6 +351,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
     },
   },
   {
@@ -433,6 +437,7 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
     },
   },
   {

@@ -1,7 +1,7 @@
 <template>
   <el-form>
     <el-form-item>
-      <el-select v-model="selectedFilterModel" value-key="label" :placeholder="selectedFilterModel.label" @change="setFilter">
+      <el-select v-model="selectedFilterModel" value-key="label" :placeholder="selectedFilterModel?.label" @change="setFilter">
         <el-option :label="defaultLabel" :value="emptyFilterModel" />
         <el-option v-for="item in models" :key="item" :label="item.label" :value="item" />
       </el-select>

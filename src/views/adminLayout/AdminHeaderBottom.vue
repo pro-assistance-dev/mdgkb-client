@@ -2,7 +2,10 @@
   <div :key="headerParams" class="admin-header-bottom">
     <div class="flex-between">
       <el-page-header v-if="headerParams.showBackButton" title=" " :content="headerParams.title" @back="goBack" />
-      <h4 v-else style="margin-left: 20px">{{ headerParams.title }}</h4>
+      <h4 v-else style="margin-left: 20px">
+        {{ headerParams.title }}
+        <el-badge v-if="headerParams.applicationsCount" :value="headerParams.applicationsCount" type="danger"></el-badge>
+      </h4>
       <div class="button-group">
         <div v-for="item in headerParams.buttons" :key="item">
           <el-button v-if="item.action && item.condition" round size="small" :type="item.type" @click.prevent="item.action()">
@@ -32,11 +35,6 @@ export default defineComponent({
       headerParams,
       goBack,
     };
-  },
-  methods: {
-    clickBtn() {
-      console.log('vBtn Press');
-    },
   },
 });
 </script>

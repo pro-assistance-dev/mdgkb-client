@@ -102,6 +102,8 @@ export default defineComponent({
     const setSort = () => {
       Provider.filterQuery.value.pagination = new Pagination();
       Provider.filterQuery.value.allLoaded = false;
+      Provider.store.commit('pagination/setCurPage', 1);
+      Provider.store.commit('filter/setOffset', 0);
       emit('load');
     };
 

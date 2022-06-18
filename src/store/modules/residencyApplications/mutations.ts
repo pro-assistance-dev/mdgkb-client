@@ -6,6 +6,7 @@ import ResidencyCourse from '@/classes/ResidencyCourse';
 import User from '@/classes/User';
 import IForm from '@/interfaces/IForm';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IResidencyApplicationsWithCount from '@/interfaces/IResidencyApplicationsWithCount';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IUser from '@/interfaces/IUser';
 
@@ -15,9 +16,22 @@ const mutations: MutationTree<State> = {
   setAll(state, items: IResidencyApplication[]) {
     state.items = items.map((i: IResidencyApplication) => new ResidencyApplication(i));
   },
-  appendToAll(state, items: IResidencyApplication[]) {
-    const itemsForAdding = items.map((i: IResidencyApplication) => new ResidencyApplication(i));
-    state.items.push(...itemsForAdding);
+  setAllWithCount(state, item: IResidencyApplicationsWithCount) {
+    if (!item.residencyApplications) {
+      state.items = [];
+      return;
+    }
+    state.items = item.residencyApplications.map((i: IResidencyApplication) => new ResidencyApplication(i));
+    state.count = item.count;
+  },
+  appendToAll(state, item: IResidencyApplicationsWithCount) {
+    if (!item.residencyApplications) {
+      state.items = [];
+      return;
+    }
+    const residencyApplications = item.residencyApplications.map((i: IResidencyApplication) => new ResidencyApplication(i));
+    state.items.push(...residencyApplications);
+    state.count = item.count;
   },
   set(state, item: IResidencyApplication) {
     state.item = new ResidencyApplication(item);

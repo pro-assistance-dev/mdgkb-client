@@ -13,7 +13,7 @@ const actions: ActionTree<State, RootState> = {
   getCount: async ({ commit }, table: string): Promise<void> => {
     commit('setCount', await httpClient.get<number>({ query: `count/${table}` }));
   },
-  getOptions: async ({ commit }, schema: ISchemaWithOptions): Promise<void> => {
+  getOptions: async (_, schema: ISchemaWithOptions): Promise<void> => {
     const tableName = `tableName=${schema.tableName}`;
     const value = `value=${schema.value}`;
     const label = `label=${schema.label}`;

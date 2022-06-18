@@ -19,6 +19,7 @@ import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSc
 import IPostgraduateCourseSpecializationSchema from '@/interfaces/schema/IPostgraduateCourseSpecializationSchema';
 import IPublicDocumentTypeSchema from '@/interfaces/schema/IPublicDocumentTypeSchema';
 import IQuestionSchema from '@/interfaces/schema/IQuestionSchema';
+import IResidencyApplicationSchema from '@/interfaces/schema/IResidencyApplicationSchema';
 import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';
 import IRoleSchema from '@/interfaces/schema/IRoleSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
@@ -41,6 +42,7 @@ export default interface ISchema {
   vacancy: IVacancySchema;
   dpoCourseSpecialization: IDpoCourseSpecializationSchema;
   dpoApplication: IDpoApplicationSchema;
+  residencyApplication: IResidencyApplicationSchema;
   postgraduateCourse: IPostgraduateCourseSchema;
   residencyCourse: IResidencyCourseSchema;
   educationPublicDocumentType: IEducationPublicDocumentTypeSchema;

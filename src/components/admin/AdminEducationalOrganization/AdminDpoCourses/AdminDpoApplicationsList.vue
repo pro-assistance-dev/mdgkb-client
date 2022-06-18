@@ -1,6 +1,6 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
-    <el-tag v-if="dpoApplications.some((app) => app.formValue.isNew)">Есть новые заявки</el-tag>
+  <AdminListWrapper v-if="mounted" show-header>
+    <!-- <el-tag v-if="dpoApplications.some((app) => app.formValue.isNew)">Есть новые заявки</el-tag> -->
     <template #header>
       <FiltersList :models="createFilterModels()" @load="loadApplications" />
     </template>
@@ -43,7 +43,7 @@
         </template>
       </el-table-column>
     </el-table>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">

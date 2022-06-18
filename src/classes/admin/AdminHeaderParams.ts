@@ -7,12 +7,16 @@ export default class AdminHeaderParams implements IAdminHeaderParams {
   title = '';
   showBackButton = false;
   buttons: IAdminButtonParams[] = [];
+  applicationsCount = 0;
 
   constructor(adminHeaderParams?: IAdminHeaderParams) {
     if (!adminHeaderParams) {
       return;
     }
     this.title = adminHeaderParams.title;
+    if (adminHeaderParams.applicationsCount) {
+      this.applicationsCount = adminHeaderParams.applicationsCount;
+    }
     if (adminHeaderParams.showBackButton !== undefined) {
       this.showBackButton = adminHeaderParams.showBackButton;
     }

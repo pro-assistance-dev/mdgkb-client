@@ -4,6 +4,7 @@ import Human from '@/classes/Human';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IResidencyApplicationsWithCount from '@/interfaces/IResidencyApplicationsWithCount';
 import HttpClient from '@/services/HttpClient';
 import TokenService from '@/services/Token';
 import RootState from '@/store/types';
@@ -15,15 +16,15 @@ let source: EventSource | undefined = undefined;
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IResidencyApplication[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    const item = await httpClient.get<IResidencyApplicationsWithCount>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(items ? items.length : 0);
+      filterQuery.setAllLoaded(item ? item.residencyApplications.length : 0);
     }
     if (filterQuery && filterQuery.pagination.cursorMode) {
-      commit('appendToAll', items);
+      commit('appendToAll', item);
       return;
     }
-    commit('setAll', items);
+    commit('setAllWithCount', item);
   },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<IResidencyApplication[]>({ query: `${id}` });
