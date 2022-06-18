@@ -5,6 +5,7 @@ import DpoCourse from '@/classes/DpoCourse';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
 import IDpoApplication from '@/interfaces/IDpoApplication';
+import IDpoApplicationsWithCount from '@/interfaces/IDpoApplicationsWithCount';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IForm from '@/interfaces/IForm';
 import IUser from '@/interfaces/IUser';
@@ -15,9 +16,22 @@ const mutations: MutationTree<State> = {
   setAll(state, items: IDpoApplication[]) {
     state.items = items.map((i: IDpoApplication) => new DpoApplication(i));
   },
-  appendToAll(state, items: IDpoApplication[]) {
-    const itemsForAdding = items.map((i: IDpoApplication) => new DpoApplication(i));
-    state.items.push(...itemsForAdding);
+  setAllWithCount(state, item: IDpoApplicationsWithCount) {
+    if (!item.dpoApplications) {
+      state.items = [];
+      return;
+    }
+    state.items = item.dpoApplications.map((i: IDpoApplication) => new DpoApplication(i));
+    state.count = item.count;
+  },
+  appendToAll(state, item: IDpoApplicationsWithCount) {
+    if (!item.dpoApplications) {
+      state.items = [];
+      return;
+    }
+    const dpoApplications = item.dpoApplications.map((i: IDpoApplication) => new DpoApplication(i));
+    state.items.push(...dpoApplications);
+    state.count = item.count;
   },
   unshiftToAll(state, item: IDpoApplication) {
     state.items.unshift(new DpoApplication(item));

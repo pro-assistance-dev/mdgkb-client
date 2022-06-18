@@ -39,13 +39,11 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import createSortModels from '@/services/CreateSortModels';
@@ -62,11 +60,13 @@ export default defineComponent({
     const residencyApplications: ComputedRef<IResidencyApplication[]> = computed(
       () => Provider.store.getters['residencyApplications/items']
     );
-    const filterByStatusGroup: Ref<IFilterModel> = ref(new FilterModel());
+    const applicationsCount: ComputedRef<number> = computed(() =>
+      Provider.store.getters['meta/applicationsCount']('residency_applications')
+    );
+
     const loadApplications = async () => {
       await Provider.store.dispatch('residencyApplications/getAll', Provider.filterQuery.value);
     };
-    const applicationsCount: Ref<number> = computed(() => Provider.store.getters['meta/applicationsCount']('residency_applications'));
 
     const load = async () => {
       Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
@@ -100,7 +100,6 @@ export default defineComponent({
       edit,
       sortList: Provider.sortList,
       loadApplications,
-      filterByStatusGroup,
     };
   },
 });

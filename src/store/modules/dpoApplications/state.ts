@@ -4,4 +4,5 @@ export interface State {
   items: IDpoApplication[];
   item: IDpoApplication;
   emailExists: boolean;
+  count: number;
 }

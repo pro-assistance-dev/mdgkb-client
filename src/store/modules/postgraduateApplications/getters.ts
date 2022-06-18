@@ -15,6 +15,9 @@ const getters: GetterTree<State, RootState> = {
   emailExists(state): boolean {
     return state.emailExists;
   },
+  count(state): number {
+    return state.count;
+  },
 };
 
 export default getters;

@@ -18,8 +18,7 @@ const ResidencyApplicationsSortsLib = (() => {
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.fullName,
       order ? order : Orders.Asc,
-      `По ФИО заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      order === Orders.Desc ? true : false
+      `По ФИО заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
@@ -28,8 +27,16 @@ const ResidencyApplicationsSortsLib = (() => {
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.email,
       order ? order : Orders.Asc,
-      `По email заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      order === Orders.Desc ? true : false
+      `По email заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
+    );
+  }
+
+  function byCourseName(order?: Orders): ISortModel {
+    return SortModel.CreateSortModel(
+      Provider.schema.value.residencyApplication.tableName,
+      Provider.schema.value.residencyApplication.courseName,
+      order ? order : Orders.Asc,
+      `По названию курса ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
@@ -37,6 +44,7 @@ const ResidencyApplicationsSortsLib = (() => {
     byCreatedAt,
     byUserFullName,
     byUserEmail,
+    byCourseName,
   };
 })();
 

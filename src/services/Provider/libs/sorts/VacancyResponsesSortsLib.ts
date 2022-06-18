@@ -19,14 +19,34 @@ const VacancyResponsesSortsLib = (() => {
       Provider.schema.value.vacancyResponse.tableName,
       Provider.schema.value.vacancyResponse.title,
       order ? order : Orders.Asc,
-      `По названию ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
+      `По названию вакансии ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false
+    );
+  }
+
+  function byUserFullName(order?: Orders): ISortModel {
+    return SortModel.CreateSortModel(
+      Provider.schema.value.vacancyResponse.tableName,
+      Provider.schema.value.vacancyResponse.fullName,
+      order ? order : Orders.Asc,
+      `По ФИО заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
+    );
+  }
+
+  function byUserEmail(order?: Orders): ISortModel {
+    return SortModel.CreateSortModel(
+      Provider.schema.value.vacancyResponse.tableName,
+      Provider.schema.value.vacancyResponse.email,
+      order ? order : Orders.Asc,
+      `По email заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
   return {
     byDate,
     byTitle,
+    byUserFullName,
+    byUserEmail,
   };
 })();
 

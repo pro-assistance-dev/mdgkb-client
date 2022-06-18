@@ -6,6 +6,7 @@ import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import User from '@/classes/User';
 import IForm from '@/interfaces/IForm';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
+import IPostgraduateApplicationsWithCount from '@/interfaces/IPostgraduateApplicationsWithCount';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IUser from '@/interfaces/IUser';
 
@@ -15,9 +16,22 @@ const mutations: MutationTree<State> = {
   setAll(state, items: IPostgraduateApplication[]) {
     state.items = items.map((i: IPostgraduateApplication) => new PostgraduateApplication(i));
   },
-  appendToAll(state, items: IPostgraduateApplication[]) {
-    const itemsForAdding = items.map((i: IPostgraduateApplication) => new PostgraduateApplication(i));
-    state.items.push(...itemsForAdding);
+  setAllWithCount(state, item: IPostgraduateApplicationsWithCount) {
+    if (!item.postgraduateApplications) {
+      state.items = [];
+      return;
+    }
+    state.items = item.postgraduateApplications.map((i: IPostgraduateApplication) => new PostgraduateApplication(i));
+    state.count = item.count;
+  },
+  appendToAll(state, item: IPostgraduateApplicationsWithCount) {
+    if (!item.postgraduateApplications) {
+      state.items = [];
+      return;
+    }
+    const postgraduateApplications = item.postgraduateApplications.map((i: IPostgraduateApplication) => new PostgraduateApplication(i));
+    state.items.push(...postgraduateApplications);
+    state.count = item.count;
   },
   set(state, item: IPostgraduateApplication) {
     state.item = new PostgraduateApplication(item);

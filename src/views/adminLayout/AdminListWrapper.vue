@@ -18,11 +18,11 @@
     <div class="admin-list-wrapper-main">
       <slot />
     </div>
+    <div>
+      <slot name="footer" />
+    </div>
     <div v-if="pagination">
       <Pagination />
-    </div>
-    <div v-else>
-      <slot name="footer" />
     </div>
   </div>
 </template>

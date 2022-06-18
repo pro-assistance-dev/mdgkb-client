@@ -1,13 +1,13 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
-    <template #header>
-      <SortList :max-width="350" :models="sortList" :store-mode="true" @load="loadResponses" />
+  <AdminListWrapper v-if="mounted">
+    <template #sort>
+      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadResponses" />
     </template>
     <AdminVacancyResponcesTable :vacancy-responses="vacancyResponses" vacancy-column @remove="remove" />
     <template #footer>
       <Pagination />
     </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
@@ -30,6 +30,7 @@ export default defineComponent({
 
   setup() {
     const vacancyResponses: ComputedRef<IVacancyResponse[]> = computed(() => Provider.store.getters['vacancyResponses/items']);
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('vacancy_responses'));
 
     const loadResponses = async () => {
       Provider.store.commit('vacancyResponses/resetItems');
@@ -41,8 +42,9 @@ export default defineComponent({
       Provider.setSortModels(VacancyResponsesSortsLib.byDate(Orders.Desc));
       await Provider.store.dispatch('vacancyResponses/getAll', Provider.filterQuery.value);
       Provider.store.commit('admin/setHeaderParams', {
-        title: 'Отклики на вакансию',
+        title: 'Отклики на вакансии',
         // buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+        applicationsCount,
       });
     };
 

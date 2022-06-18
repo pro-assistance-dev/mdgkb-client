@@ -1,9 +1,8 @@
 <template>
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
-      <RemoteSearch class="filters-block" :key-value="schema.news.key" @select="selectSearch" />
-      <FiltersList :models="createFilterModels()" @load="loadNews" />
-      <SortList class="filters-block" :models="sortList" :store-mode="true" @load="loadNews" />
+      <RemoteSearch :key-value="schema.news.key" @select="selectSearch" />
+      <FiltersList class="filters-block" :models="createFilterModels()" @load="loadNews" />
       <FilterSelectDate
         class="filters-block"
         :table="schema.news.tableName"
@@ -11,6 +10,9 @@
         placeholder="Дата публикации"
         @load="loadNews"
       />
+    </template>
+    <template #sort>
+      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadNews" />
     </template>
     <el-table :data="news">
       <el-table-column prop="title" label="Заголовок" width="400px" class-name="sticky-left"> </el-table-column>
