@@ -32,7 +32,46 @@
                 <use xlink:href="#time"></use>
               </svg>
             </div>
-            <!-- <div class="item">{{ division.timetable.getTodayTimetable() }}</div> -->
+            <div class="">
+              <div class="time-block">
+                <div class="hidden-block">
+                  <div class="hidden-line">
+                    <div class="hidden-item">
+                      <font color="#2754eb">сегодня</font>: {{ division.timetable.getTodayWorkday().getTimetable() }}
+                    </div>
+                    <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
+                      Перерыв:
+                      <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
+                        <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="hidden-line-2">
+                    <ul class="hidden-item-list-2">
+                      <li v-for="item in division.timetable.getOnlyWorkdayObjects()" :key="item.id">
+                        {{ item.getPeriodWithName() }}
+                        <div v-if="item.breaksExists" class="hidden-item-2">
+                          Перерыв:
+                          <ul v-if="item.breaksExists" class="hidden-item-list">
+                            <li v-for="period in item.breakPeriods" :key="period.id">{{ period.getPeriod() }}</li>
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="item-t">Время&nbsp;работы&nbsp;<font color="#2754eb">сегодня</font>:</div>
+                <div class="item-t">{{ division.timetable.getTodayWorkday().getTimetable() }}</div>
+                <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item-t">
+                  Перерыв:
+                  <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="item-list">
+                    <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">
+                      &nbsp;{{ item.getPeriod() }}&nbsp;
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="contact-h3">
             <div class="item">
@@ -195,22 +234,4 @@ export default defineComponent({
   height: 290px;
   background: #c4c4c4;
 }
-
-// .division-line {
-//   font-family: 'Open Sans', sans-serif;
-//   letter-spacing: 0.2ex;
-//   font-size: 11px;
-//   margin-bottom: 2px;
-//   color: #a3a5b9;
-// }
-
-// .division-name {
-//   font-family: 'Open Sans', sans-serif;
-//   letter-spacing: 0.2ex;
-//   min-height: 50px;
-//   font-size: 16px;
-//   font-weight: bold;
-//   margin-bottom: 10px;
-//   color: #151A2D;
-// }
 </style>

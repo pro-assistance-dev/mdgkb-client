@@ -79,9 +79,10 @@ export default class Timetable implements ITimetable {
     if (!this.id) {
       return 'Уточнить время работы: +7 (495) 959-88-00';
     }
-    if (this.isAroundTheClock()) {
-      return 'Круглосуточно';
-    }
-    return `Время работы сегодня: ${this.getTodayWorkday().getTimetable()}`;
+    return this.getTodayWorkday().getTimetable();
+  }
+
+  getOnlyWorkdayObjects(): ITimetableDay[] {
+    return this.timetableDays.filter((day: ITimetableDay) => !day.isWeekend);
   }
 }
