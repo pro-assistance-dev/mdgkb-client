@@ -4,4 +4,5 @@ export default interface IAdminHeaderParams {
   title: string;
   showBackButton?: boolean;
   buttons?: IAdminButtonParams[];
+  applicationsCount?: number;
 }

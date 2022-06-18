@@ -3,6 +3,7 @@ import { ActionTree } from 'vuex';
 import Human from '@/classes/Human';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
+import IPostgraduateApplicationsWithCount from '@/interfaces/IPostgraduateApplicationsWithCount';
 import HttpClient from '@/services/HttpClient';
 import TokenService from '@/services/Token';
 import RootState from '@/store/types';
@@ -13,15 +14,15 @@ const httpClient = new HttpClient('postgraduate-applications');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    const items = await httpClient.get<IPostgraduateApplication[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    const item = await httpClient.get<IPostgraduateApplicationsWithCount>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(items ? items.length : 0);
+      filterQuery.setAllLoaded(item ? item.postgraduateApplications.length : 0);
     }
     if (filterQuery && filterQuery.pagination.cursorMode) {
-      commit('appendToAll', items);
+      commit('appendToAll', item);
       return;
     }
-    commit('setAll', items);
+    commit('setAllWithCount', item);
   },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<IPostgraduateApplication[]>({ query: `${id}` });

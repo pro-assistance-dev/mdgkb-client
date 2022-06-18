@@ -147,7 +147,6 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Программы ординатуры',
         to: '/admin/residency/courses',
-        tableName: 'residency_applications',
       },
       {
         title: 'Ординатура',
@@ -179,6 +178,7 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Заявки ординатуры',
         to: '/admin/residency-applications',
+        tableName: 'residency_applications',
       },
     ],
   },

@@ -6,6 +6,7 @@ export default interface IHuman {
   name: string;
   surname: string;
   patronymic: string;
+  snils: string;
   isMale: boolean;
   dateBirth?: Date;
   slug: string;

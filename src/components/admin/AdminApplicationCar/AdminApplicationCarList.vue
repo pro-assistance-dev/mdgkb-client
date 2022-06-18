@@ -1,34 +1,35 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted">
-    <el-table :data="applicationsCars">
-      <el-table-column label="Статус" class-name="sticky-left">
+  <AdminListWrapper v-if="mounted" pagination>
+    <template #sort>
+      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
+    </template>
+    <el-table :key="applicationsCars" :data="applicationsCars">
+      <el-table-column label="Статус" width="200" class-name="sticky-left">
         <template #default="scope">
-          <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Не просмотрено</el-tag>
-          <el-tag
-            v-if="scope.row.formValue.formStatus.label"
-            size="small"
-            :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`"
-          >
-            {{ scope.row.formValue.formStatus.label }}
-          </el-tag>
+          <TableFormStatus :form="scope.row.formValue" />
         </template>
       </el-table-column>
-      <el-table-column label="Дата подачи заявления" sortable>
+      <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}
+          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
         </template>
       </el-table-column>
-      <el-table-column label="Email заявителя" sortable>
+      <el-table-column label="Email заявителя" min-width="150">
         <template #default="scope">
           {{ scope.row.formValue.user.email }}
         </template>
       </el-table-column>
-      <el-table-column label="Вход" sortable>
+      <el-table-column label="ФИО пациента" min-width="200">
+        <template #default="scope">
+          {{ scope.row.formValue.child.human.getFullName() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Вход" min-width="200">
         <template #default="scope">
           {{ scope.row.gate.name }}
         </template>
       </el-table-column>
-      <el-table-column label="Отделение" sortable>
+      <el-table-column label="Отделение" min-width="200">
         <template #default="scope">
           {{ scope.row.division.name }}
         </template>
@@ -38,54 +39,62 @@
           <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
         </template>
       </el-table-column>
-      <template #footer>
-        <Pagination :show-confirm="isEditMode" @save="save" @cancel="cancel" />
-      </template>
     </el-table>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
+import SortList from '@/components/SortList/SortList.vue';
+import { Orders } from '@/interfaces/filters/Orders';
 import IApplicationCar from '@/interfaces/IApplicationCar';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import ApplicationsCarsSortsLib from '@/services/Provider/libs/sorts/ApplicationsCarsSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminApplicationCarList',
-  components: { TableButtonGroup, AdminListWrapper, Pagination },
+  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
 
   setup() {
     const route = useRoute();
     const applicationsCars: ComputedRef<IApplicationCar[]> = computed(() => Provider.store.getters['applicationsCars/items']);
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('applications_cars'));
     const create = () => Provider.router.push(`${route.path}/new`);
     const edit = (id: string) => Provider.router.push(`${route.path}/${id}`);
 
-    // Для сортировки (SortList @load)
-    // const loadApplications = async () => {
-    //   Provider.store.commit('applicationsCars/resetItems');
-    //   await Provider.store.dispatch('applicationsCars/getAll', Provider.filterQuery.value);
-    // };
+    const loadApplications = async () => {
+      await Provider.store.dispatch('applicationsCars/getAll', Provider.filterQuery.value);
+    };
 
     const load = async () => {
-      await Provider.store.dispatch('applicationsCars/getAll', Provider.filterQuery.value);
+      Provider.setSortList(...createSortModels(ApplicationsCarsSortsLib));
+      Provider.setSortModels(ApplicationsCarsSortsLib.byCreatedAt(Orders.Desc));
+      await loadApplications();
       Provider.store.commit('admin/setHeaderParams', {
-        title: 'Заявления на пропуск',
+        title: 'Заявления на въезд',
         buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+        applicationsCount,
       });
     };
 
-    Hooks.onBeforeMount(load);
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'applicationsCars', action: 'getAll' },
+      sortModels: [],
+    });
 
     return {
       applicationsCars,
       mounted: Provider.mounted,
+      sortList: Provider.sortList,
       edit,
+      loadApplications,
     };
   },
 });

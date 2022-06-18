@@ -9,8 +9,12 @@
           :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true })"
         />
         <el-form-item label="Выберите отделение" prop="division">
-          <RemoteSearch :key-value="schema.division.key" @select="selectDivision" />
-          <div>Выбранное отделение: {{ applicationCar.division.name }}</div>
+          <el-select v-model="applicationCar.division" value-key="id" placeholder="Выберите отделение">
+            <el-option v-for="item in divisions" :key="item.id" :label="item.name" :value="item"> </el-option>
+          </el-select>
+          <!-- TODO ошибка -->
+          <!-- <RemoteSearch :key-value="schema.division.key" @select="selectDivision" />
+          <div>Выбранное отделение: {{ applicationCar.division.name }}</div> -->
         </el-form-item>
         <FieldValuesForm :form="applicationCar.formValue" />
         <PersonalDataAgreement :form-value="applicationCar.formValue" :form-pattern="gate.formPattern" />
@@ -32,7 +36,6 @@ import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IApplicationCar from '@/interfaces/IApplicationCar';
 import IGate from '@/interfaces/IGate';
@@ -45,7 +48,6 @@ import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'ApplicationCarPage',
   components: {
-    RemoteSearch,
     UserForm,
     FieldValuesForm,
     PersonalDataAgreement,
@@ -55,6 +57,7 @@ export default defineComponent({
     const route = useRoute();
     const applicationCar: ComputedRef<IApplicationCar> = computed(() => Provider.store.getters['applicationsCars/item']);
     const gate: ComputedRef<IGate> = computed(() => Provider.store.getters['gates/item']);
+    const divisions: ComputedRef<IDivision[]> = computed(() => Provider.store.getters['divisions/divisions']);
     const division: ComputedRef<IDivision> = computed(() => Provider.store.getters['divisions/division']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
@@ -109,6 +112,7 @@ export default defineComponent({
       UserFormFields,
       rules,
       gate,
+      divisions,
     };
   },
 });

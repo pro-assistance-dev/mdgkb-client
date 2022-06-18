@@ -1,17 +1,12 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <AdminListWrapper v-if="mounted" show-header pagination>
     <template #header>
       <RemoteSearch :key-value="schema.vacancy.key" @select="selectSearch" />
       <FilterSelectDate :table="schema.vacancy.tableName" :col="schema.vacancy.date" placeholder="Дата публикации" @load="load" />
-      <FilterMultipleSelect
-        class="filters-block"
-        :filter-model="filterByDivision"
-        :options="schema.division.options"
-        @load="loadVacancies"
-      />
+      <FilterMultipleSelect :filter-model="filterByDivision" :options="schema.division.options" @load="loadVacancies" />
     </template>
-    <template #header-right>
-      <SortList :models="sortList" :store-mode="true" @load="load" />
+    <template #sort>
+      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="load" />
     </template>
     <template #header-bottom>
       <FilterCheckbox
@@ -134,17 +129,13 @@
         </template>
       </el-table-column>
     </el-table>
-    <template #footer>
-      <Pagination />
-    </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
@@ -173,7 +164,6 @@ export default defineComponent({
     TableButtonGroup,
     RemoteSearch,
     SortList,
-    Pagination,
     AdminListWrapper,
   },
   setup() {
@@ -210,7 +200,7 @@ export default defineComponent({
         buttons: [
           { text: 'Сохранить', condition: isEditMode, action: saveMany },
           { text: 'Редактировать', type: 'primary', condition: isNotEditMode, action: editMany },
-          { text: 'Создать вакансию', type: 'primary', action: create },
+          { text: 'Создать вакансию', type: 'success', action: create },
         ],
       });
     };
@@ -253,6 +243,8 @@ export default defineComponent({
       sortList: Provider.sortList,
       isEditMode,
       formPatterns,
+      loadVacancies,
+      filterByDivision,
     };
   },
 });

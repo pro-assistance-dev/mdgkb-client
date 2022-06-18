@@ -206,11 +206,13 @@ h3 {
   width: 200px;
   height: 100px;
   background-clip: padding-box;
-  background: #ffffff;
+  border-radius: 10px;
+  background-color: rgba(240, 242, 247);
   overflow: hidden;
   box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.2);
   justify-content: space-between;
   margin: 5px;
+  border: 1px solid transparent;
 }
 
 .index-about-colomn-text {
@@ -274,19 +276,30 @@ li .dropmenu {
   cursor: pointer;
 }
 
-.link-menu:focus ~ .dropmenu,
-.link-menu:active ~ .dropmenu,
-.dropmenu:active {
-  //display: block;
-}
+// .link-menu:focus ~ .dropmenu,
+// .link-menu:active ~ .dropmenu,
+// .dropmenu:active {
+//display: block;
+// }
 
 .link-menu:focus-within {
   background: #ffffff;
 }
 
-.index-about-column:hover {
-  transform: scale(1.03);
-  transition: 0.1s;
+.index-about-column {
+  &:hover,
+  &:active,
+  &:focus {
+    // transition: 0.2s ease-out;
+    // border: 1px solid #cccccc;
+    // box-shadow: 0px 0px 999px 999px rgba(255, 255, 255, 0.5);
+
+    background-color: white;
+    // border: 1px solid #00838d;
+    z-index: 500;
+    // transform: scale(1.02);
+    // transition: 0.1s;
+  }
 }
 
 .subMenu-place {
@@ -295,7 +308,9 @@ li .dropmenu {
   flex-wrap: nowrap;
   flex-flow: row wrap;
   padding: 1px 0px 1px 4px;
-  background: #f5f6f8;
+  // background: #f5f6f8;
+  border-radius: 10px;
+  backdrop-filter: blur(2px);
   width: 636px;
 }
 

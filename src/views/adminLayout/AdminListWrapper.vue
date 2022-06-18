@@ -1,14 +1,18 @@
 <template>
   <div class="admin-list-wrapper">
-    <div v-if="showHeader" class="card-item filters">
-      <div class="filters-header-top">
-        <div class="filters-row">
-          <slot name="header" />
+    <div class="filters">
+      <div v-if="showHeader" class="card-item">
+        <div class="filters-header-top">
+          <div class="filters-row">
+            <slot name="header" />
+          </div>
         </div>
-        <slot name="header-right" />
+        <div class="filters-row">
+          <slot name="header-bottom" />
+        </div>
       </div>
-      <div class="filters-row">
-        <slot name="header-bottom" />
+      <div class="filters-sort">
+        <slot name="sort" />
       </div>
     </div>
     <div class="admin-list-wrapper-main">
@@ -17,15 +21,26 @@
     <div>
       <slot name="footer" />
     </div>
+    <div v-if="pagination">
+      <Pagination />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+
+import Pagination from '@/components/admin/Pagination.vue';
+
 export default defineComponent({
   name: 'AdminListWrapper',
+  components: { Pagination },
   props: {
     showHeader: {
+      type: Boolean,
+      default: false,
+    },
+    pagination: {
       type: Boolean,
       default: false,
     },
@@ -65,21 +80,23 @@ export default defineComponent({
   flex-direction: column;
   overflow: hidden;
   height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
   &-main {
     flex-shrink: 1;
-    margin: 10px 5px;
-    padding: 0 5px;
     overflow: hidden;
     height: 100%;
   }
   .filters {
-    margin: 10px 10px 0 10px;
-    &:empty {
-      display: none;
-    }
+    margin-bottom: 10px;
     &-header-top {
       display: flex;
       justify-content: space-between;
+    }
+    &-sort {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
     }
     &-row {
       display: flex;
@@ -87,9 +104,6 @@ export default defineComponent({
       :deep(.el-form-item),
       :deep(.el-form-item__content) {
         margin: 0;
-      }
-      &:empty {
-        display: none;
       }
     }
   }

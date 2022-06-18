@@ -1,3 +1,4 @@
+import IApplicationCarSchema from '@/interfaces/schema//IApplicationCarSchema';
 import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
 import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
@@ -15,10 +16,12 @@ import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 import INewsSchema from '@/interfaces/schema/INewsSchema';
 import INewsToTag from '@/interfaces/schema/INewsToTag';
 import IPathPermissionsSchema from '@/interfaces/schema/IPathPermissionsSchema';
+import IPostgraduateApplicationSchema from '@/interfaces/schema/IPostgraduateApplicationSchema';
 import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSchema';
 import IPostgraduateCourseSpecializationSchema from '@/interfaces/schema/IPostgraduateCourseSpecializationSchema';
 import IPublicDocumentTypeSchema from '@/interfaces/schema/IPublicDocumentTypeSchema';
 import IQuestionSchema from '@/interfaces/schema/IQuestionSchema';
+import IResidencyApplicationSchema from '@/interfaces/schema/IResidencyApplicationSchema';
 import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';
 import IRoleSchema from '@/interfaces/schema/IRoleSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
@@ -40,7 +43,10 @@ export default interface ISchema {
   specialization: ISpecializationSchema;
   vacancy: IVacancySchema;
   dpoCourseSpecialization: IDpoCourseSpecializationSchema;
+  applicationCar: IApplicationCarSchema;
   dpoApplication: IDpoApplicationSchema;
+  residencyApplication: IResidencyApplicationSchema;
+  postgraduateApplication: IPostgraduateApplicationSchema;
   postgraduateCourse: IPostgraduateCourseSchema;
   residencyCourse: IResidencyCourseSchema;
   educationPublicDocumentType: IEducationPublicDocumentTypeSchema;

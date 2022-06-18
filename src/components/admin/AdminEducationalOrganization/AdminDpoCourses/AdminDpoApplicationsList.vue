@@ -1,49 +1,44 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
-    <el-tag v-if="dpoApplications.some((app) => app.formValue.isNew)">Есть новые заявки</el-tag>
-    <template #header>
+  <AdminListWrapper v-if="mounted" pagination>
+    <!-- <template #header>
       <FiltersList :models="createFilterModels()" @load="loadApplications" />
+    </template> -->
+    <template #sort>
+      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
     </template>
     <el-table :data="dpoApplications">
-      <el-table-column label="Статус">
+      <el-table-column label="Статус" width="200" class-name="sticky-left">
         <template #default="scope">
-          <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Не просмотрено</el-tag>
-          <el-tag
-            v-if="scope.row.formValue.formStatus.label"
-            size="small"
-            :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`"
-          >
-            {{ scope.row.formValue.formStatus.label }}
-          </el-tag>
+          <TableFormStatus :form="scope.row.formValue" />
         </template>
       </el-table-column>
-      <el-table-column label="Дата подачи заявления" sortable>
+      <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}
+          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
         </template>
       </el-table-column>
-      <el-table-column label="Email заявителя" sortable>
+      <el-table-column label="Email заявителя" min-width="150">
         <template #default="scope">
           {{ scope.row.formValue.user.email }}
         </template>
       </el-table-column>
-      <el-table-column label="ФИО заявителя" sortable>
+      <el-table-column label="ФИО заявителя" min-width="200">
         <template #default="scope">
           {{ scope.row.formValue.user.human.getFullName() }}
         </template>
       </el-table-column>
-      <el-table-column label="Наименование курса" sortable>
+      <el-table-column label="Наименование курса" min-width="200">
         <template #default="scope">
           {{ scope.row.dpoCourse.name }}
         </template>
       </el-table-column>
-      <el-table-column width="50" fixed="right" align="center">
+      <el-table-column width="50" fixed="right" align="center" class-name="sticky-right">
         <template #default="scope">
           <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
@@ -51,10 +46,14 @@ import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } f
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FiltersList from '@/components/Filters/FiltersList.vue';
+import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
+import SortList from '@/components/SortList/SortList.vue';
+// import FiltersList from '@/components/Filters/FiltersList.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
+import { Orders } from '@/interfaces/filters/Orders';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IFormStatus from '@/interfaces/IFormStatus';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import DpoApplicationsFiltersLib from '@/services/Provider/libs/filters/DpoApplicationsFiltersLib';
@@ -64,14 +63,16 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDpoApplicationsList',
-  components: { TableButtonGroup, FiltersList, AdminListWrapper },
+  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
 
   setup() {
     const dpoApplications: ComputedRef<IDpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount'](tableName));
 
     const filterModel = ref();
     const title = ref('');
+    let tableName = '';
 
     watch(Provider.route(), async () => {
       setType();
@@ -85,9 +86,11 @@ export default defineComponent({
       if (Provider.route().path === '/admin/nmo/applications') {
         filterModel.value.boolean = true;
         title.value = 'Заявки НМО';
+        tableName = 'nmo_applications';
       } else {
         filterModel.value.boolean = false;
         title.value = 'Заявки ДПО';
+        tableName = 'dpo_applications';
       }
       Provider.store.commit('filter/setFilterModel', filterModel.value);
     };
@@ -97,7 +100,6 @@ export default defineComponent({
       Provider.store.commit(`filter/resetQueryFilter`);
       Provider.store.commit('filter/replaceSortModel', DpoApplicationsSortsLib.byCreatedAt());
       Provider.filterQuery.value.pagination.cursorMode = false;
-      setType();
     };
 
     const loadApplications = async () => {
@@ -116,19 +118,26 @@ export default defineComponent({
     };
 
     const load = async () => {
-      await setFilter();
+      // await setFilter();
+      // await loadFilters();
+      setType();
+      Provider.setSortList(...createSortModels(DpoApplicationsSortsLib));
+      Provider.setSortModels(DpoApplicationsSortsLib.byCreatedAt(Orders.Desc));
       await loadApplications();
-      await loadFilters();
       Provider.store.commit('admin/setHeaderParams', {
         title: title,
         buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
+        applicationsCount,
       });
       Provider.store.commit('pagination/setCurPage', 1);
       await subscribe();
       window.addEventListener('beforeunload', unsubscribe);
     };
 
-    Hooks.onBeforeMount(load);
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'dpoApplications', action: 'getAll' },
+      sortModels: [],
+    });
 
     const subscribe = async () => {
       const isNmo = Provider.route().path === '/admin/nmo/applications';
@@ -159,6 +168,7 @@ export default defineComponent({
     return {
       createFilterModels,
       mounted: Provider.mounted,
+      sortList: Provider.sortList,
       dpoApplications,
       loadApplications,
       edit,
@@ -167,9 +177,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-:deep(.el-tag) {
-  margin: 2px;
-}
-</style>

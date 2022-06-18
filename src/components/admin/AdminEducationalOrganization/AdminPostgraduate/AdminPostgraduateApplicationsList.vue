@@ -1,97 +1,101 @@
 <template>
-  <el-table v-if="mounted" :data="postgraduateApplications">
-    <el-table-column label="Статус">
-      <template #default="scope">
-        <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Не просмотрено</el-tag>
-        <el-tag
-          v-if="scope.row.formValue.formStatus.label"
-          size="small"
-          :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`"
-        >
-          {{ scope.row.formValue.formStatus.label }}
-        </el-tag>
-      </template>
-    </el-table-column>
-    <el-table-column label="Дата подачи заявления" sortable>
-      <template #default="scope">
-        {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}
-      </template>
-    </el-table-column>
-    <el-table-column label="Email заявителя" sortable>
-      <template #default="scope">
-        {{ scope.row.formValue.user.email }}
-      </template>
-    </el-table-column>
-    <el-table-column label="ФИО заявителя" sortable>
-      <template #default="scope">
-        {{ scope.row.formValue.user.human.getFullName() }}
-      </template>
-    </el-table-column>
-    <el-table-column label="Наименование курса" sortable>
-      <template #default="scope">
-        {{ scope.row.postgraduateCourse.getMainSpecialization().name }}
-      </template>
-    </el-table-column>
-    <el-table-column width="50" fixed="right" align="center">
-      <template #default="scope">
-        <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
-      </template>
-    </el-table-column>
-  </el-table>
+  <AdminListWrapper v-if="mounted" pagination>
+    <template #sort>
+      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
+    </template>
+    <el-table :data="postgraduateApplications">
+      <el-table-column label="Статус" width="200" class-name="sticky-left">
+        <template #default="scope">
+          <TableFormStatus :form="scope.row.formValue" />
+        </template>
+      </el-table-column>
+      <el-table-column label="Дата подачи заявления" align="center" width="150">
+        <template #default="scope">
+          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Email заявителя" min-width="150">
+        <template #default="scope">
+          {{ scope.row.formValue.user.email }}
+        </template>
+      </el-table-column>
+      <el-table-column label="ФИО заявителя" min-width="200">
+        <template #default="scope">
+          {{ scope.row.formValue.user.human.getFullName() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Наименование курса" min-width="200">
+        <template #default="scope">
+          {{ scope.row.postgraduateCourse.getMainSpecialization().name }}
+        </template>
+      </el-table-column>
+      <el-table-column width="50" align="center" class-name="sticky-right">
+        <template #default="scope">
+          <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
+        </template>
+      </el-table-column>
+    </el-table>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
+import SortList from '@/components/SortList/SortList.vue';
+import { Orders } from '@/interfaces/filters/Orders';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
+import createSortModels from '@/services/CreateSortModels';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import PostgraduateApplicationsSortsLib from '@/services/Provider/libs/sorts/PostgraduateApplicationsSortsLib';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminPostgraduateApplicationsList',
-  components: { TableButtonGroup },
+  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
 
   setup() {
-    const mounted: Ref<boolean> = ref(false);
-    const store = useStore();
-    const router = useRouter();
-    const route = useRoute();
-
     const postgraduateApplications: ComputedRef<IPostgraduateApplication[]> = computed(
-      () => store.getters['postgraduateApplications/items']
+      () => Provider.store.getters['postgraduateApplications/items']
     );
-    // const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    // const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    // const filterModel = ref();
+    const applicationsCount: ComputedRef<number> = computed(() =>
+      Provider.store.getters['meta/applicationsCount']('postgraduate_applications')
+    );
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('postgraduateApplications/getAll');
-      store.commit('admin/setHeaderParams', {
+    const loadApplications = async () => {
+      await Provider.store.dispatch('postgraduateApplications/getAll', Provider.filterQuery.value);
+    };
+
+    const load = async () => {
+      Provider.setSortList(...createSortModels(PostgraduateApplicationsSortsLib));
+      Provider.setSortModels(PostgraduateApplicationsSortsLib.byCreatedAt(Orders.Desc));
+      await loadApplications();
+      Provider.store.commit('admin/setHeaderParams', {
         title: 'Заявки на обучение в аспирантуре',
         buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
+        applicationsCount,
       });
-      store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
-      mounted.value = true;
+    };
+
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'postgraduateApplications', action: 'getAll' },
+      sortModels: [],
     });
 
-    const create = () => router.push(`${route.path}/new`);
+    const create = () => Provider.router.push(`${Provider.route().path}/new`);
     // const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
-    const edit = (id: string) => router.push(`${route.path}/${id}`);
+    const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
     return {
-      mounted,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
+      sortList: Provider.sortList,
       postgraduateApplications,
       edit,
+      loadApplications,
     };
   },
 });
 </script>
-
-<style lang="scss" scoped>
-:deep(.el-tag) {
-  margin: 2px;
-}
-</style>
