@@ -1,5 +1,6 @@
 import EducationYear from '@/classes/EducationYear';
 import FileInfo from '@/classes/File/FileInfo';
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourseSpecialization from '@/classes/ResidencyCourseSpecialization';
 import ResidencyCourseTeacher from '@/classes/ResidencyCourseTeacher';
 import Specialization from '@/classes/Specialization';
@@ -7,6 +8,7 @@ import Teacher from '@/classes/Teacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IEducationYear from '@/interfaces/IEducationYear';
 import IForm from '@/interfaces/IForm';
+import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecialization';
 import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
@@ -50,7 +52,7 @@ export default class ResidencyCourse implements IResidencyCourse {
 
   endYear: IEducationYear = new EducationYear();
   endYearId?: string;
-
+  residencyApplications: IResidencyApplication[] = [];
   constructor(i?: IResidencyCourse) {
     if (!i) {
       return;
@@ -98,6 +100,9 @@ export default class ResidencyCourse implements IResidencyCourse {
     this.endYearId = i.endYearId;
     if (i.endYear) {
       this.endYear = new EducationYear(i.endYear);
+    }
+    if (i.residencyApplications) {
+      this.residencyApplications = i.residencyApplications.map((item: IResidencyApplication) => new ResidencyApplication(item));
     }
   }
 
@@ -176,5 +181,20 @@ export default class ResidencyCourse implements IResidencyCourse {
 
   getPeriod(): string {
     return `${this.startYear.year.getFullYear()} - ${this.endYear.year.getFullYear()}`;
+  }
+
+  getPaidCompetitionIndex(): number {
+    const paidPlaces = this.paidPlaces;
+    const applications = this.residencyApplications.length;
+    if (paidPlaces === 0 || applications === 0 || paidPlaces === applications) {
+      return 0;
+    }
+    return Math.round(applications / paidPlaces);
+  }
+
+  getApplicationsByPoint(): IResidencyApplication[] {
+    return this.residencyApplications.sort((a: IResidencyApplication, b: IResidencyApplication) => {
+      return a.pointsSum() - b.pointsSum();
+    });
   }
 }

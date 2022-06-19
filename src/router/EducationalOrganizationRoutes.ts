@@ -1,6 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdmissionCommittee from '@/components/Educational/AdmissionCommittee.vue';
+import AdmissionCommittee from '@/components/Educational/AdmissionCommittee/AdmissionCommittee.vue';
 import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoPage.vue';
 import EducationPage from '@/components/Educational/Education/EducationPage.vue';

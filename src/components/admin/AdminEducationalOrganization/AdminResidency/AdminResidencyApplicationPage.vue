@@ -6,6 +6,7 @@
           <div v-if="application.residencyCourse.id">
             <AdminFormValue
               :form="application.formValue"
+              :validate-email="false"
               :active-fields="UserFormFields.CreateWithFullName({ userSnils: true })"
               :is-edit-mode="isEditMode"
               :email-exists="emailExists"
@@ -40,6 +41,19 @@
                 {{ application.residencyCourse.getMainSpecialization().name }}
               </el-descriptions-item>
             </el-descriptions>
+          </el-card>
+
+          <el-card>
+            <el-form-item v-if="isEditMode" label="Баллы вступительных испытаний" prop="pointsEntrance">
+              <el-input-number v-model="application.pointsEntrance" value-key="id" style="width: 100%" />
+            </el-form-item>
+            <div v-else>Баллы вступительных испытаний: {{ application.pointsEntrance }}</div>
+          </el-card>
+          <el-card>
+            <el-form-item v-if="isEditMode" label="Баллы индивидуальных достижений" prop="pointsEntrance">
+              <el-input-number v-model="application.pointsAchievements" value-key="id" style="width: 100%" />
+            </el-form-item>
+            <div v-else>Баллы вступительных испытаний: {{ application.pointsAchievements }}</div>
           </el-card>
         </el-col>
       </el-row>

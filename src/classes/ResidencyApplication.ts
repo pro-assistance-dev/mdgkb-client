@@ -10,23 +10,33 @@ export default class ResidencyApplication implements IResidencyApplication {
   residencyCourseId?: string;
   formValue = new Form();
   formValueId?: string;
+  pointsEntrance = 0;
+  pointsAchievements = 0;
 
-  constructor(residencyApplication?: IResidencyApplication) {
-    if (!residencyApplication) {
+  constructor(i?: IResidencyApplication) {
+    if (!i) {
       return;
     }
-    this.id = residencyApplication.id;
-    this.residencyCourseId = residencyApplication.residencyCourseId;
-    this.formValueId = residencyApplication.formValueId;
-    if (residencyApplication.residencyCourse) {
-      this.residencyCourse = new ResidencyCourse(residencyApplication.residencyCourse);
+    this.id = i.id;
+    this.residencyCourseId = i.residencyCourseId;
+    this.pointsEntrance = i.pointsEntrance;
+    this.pointsAchievements = i.pointsAchievements;
+    this.formValueId = i.formValueId;
+    if (i.residencyCourse) {
+      this.residencyCourse = new ResidencyCourse(i.residencyCourse);
     }
-    if (residencyApplication.formValue) {
-      this.formValue = new Form(residencyApplication.formValue);
+    if (i.formValue) {
+      this.formValue = new Form(i.formValue);
     }
   }
 
   getFileInfos(): IFileInfo[] {
     return this.formValue.getFieldValuesFileInfos();
+  }
+
+  pointsSum(): number {
+    const pointsAchievements = this.pointsAchievements ?? 0;
+    const pointsEntrance = this.pointsEntrance ?? 0;
+    return pointsAchievements + pointsEntrance;
   }
 }

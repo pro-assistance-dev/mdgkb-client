@@ -62,6 +62,9 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IResidencyApplication>({ query: `slug/${slug}` });
     commit('set', res);
   },
+  updateMany: async ({ state }): Promise<void> => {
+    await httpClient.put<IResidencyApplication[], IResidencyApplication[]>({ query: 'many', payload: state.items });
+  },
   subscribeCreate: async ({ commit }): Promise<void> => {
     const c = new HttpClient('subscribe');
     source = await c.subscribe<IDpoApplication>({ query: 'residency-application-create' });

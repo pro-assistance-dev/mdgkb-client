@@ -36,6 +36,7 @@
         :cost="mode === 'paidPrograms'"
         :years="false"
       />
+      <CompetitionComponent v-if="mode === 'competition'" />
     </div>
   </div>
 </template>
@@ -45,6 +46,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import EditorContent from '@/components/EditorContent.vue';
+import CompetitionComponent from '@/components/Educational/AdmissionCommittee/CompetitionComponent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
@@ -62,6 +64,7 @@ export default defineComponent({
     EditorContent,
     DocumentsList,
     ResidencyCoursesList,
+    CompetitionComponent,
   },
   setup() {
     const modes: Ref<IOption[]> = ref([]);
