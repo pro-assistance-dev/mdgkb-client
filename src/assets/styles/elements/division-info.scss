@@ -274,29 +274,25 @@ ul.hidden-item-list li{
 }
 
 .time-block {
-  cursor: pointer;
   display: block;
   justify-content: left;
-  position: relative;
-}
-
-.time-block:hover  .hidden-block{
-  display: block;
 }
 
 .hidden-block {
+  cursor: auto;
   display: none;
   position: absolute;
-  left: 130px;
+  left: 50px;
   top: -40px;
   z-index: 1;
   border-radius: 5px;
   border: 1px solid rgb(black, 0.1);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
-  padding: 5px;
+  padding: 5px 0 5px 5px;
   background: #ffffff;
   width: 220px;
 }
+
 
 .hidden-line {
   font-size: 12px;
@@ -323,4 +319,24 @@ ul.hidden-item-list li{
   display: flex;
   flex-direction: row;
   width: auto;
+}
+
+.today {
+  color: #2754eb;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.today:hover {
+  color: #0A216F;
+}
+
+.block-today {
+  display: flex;
+  position: relative;
+}
+
+.block-today:hover .hidden-block {
+  display: block;
 }

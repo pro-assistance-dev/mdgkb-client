@@ -14,8 +14,7 @@
       height="350px"
     >
       <el-carousel-item v-for="(doctors, i) in carousel" :key="i">
-        <!-- <DoctorInfoCard v-for="item in division.doctors" :key="item.id" :doctor="item" /> -->
-        <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
+        <DoctorInfoCard v-for="item in division.doctors" :key="item.id" :doctor="item" />
       </el-carousel-item>
     </el-carousel>
   </component>
@@ -23,11 +22,13 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
+import IDivision from '@/interfaces/buildings/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
@@ -36,10 +37,12 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
+    const route = useRoute();
     const doctors: ComputedRef<IDoctor[]> = computed(() => store.getters['doctors/items']);
     const mounted: Ref<boolean> = ref(false);
     const carousel: Ref<IDoctor[][]> = ref([]);
     const carouselRef = ref();
+    const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
 
     const makeCarousel = (array: IDoctor[], size: number): IDoctor[][] => {
       // size - number of banners in el-carousel-item
@@ -62,6 +65,7 @@ export default defineComponent({
       mounted,
       carousel,
       carouselRef,
+      division,
     };
   },
 });
