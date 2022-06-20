@@ -34,7 +34,7 @@ export default defineComponent({
   name: 'DivisionSpecialists',
   components: { DoctorInfoCard, MainContainer },
 
-  async setup() {
+  setup() {
     const store = useStore();
     const mounted: Ref<boolean> = ref(false);
     const carousel: Ref<IDoctor[][]> = ref([]);
@@ -47,8 +47,8 @@ export default defineComponent({
     });
 
     return {
-      mounted,
       carousel,
+      mounted,
       carouselRef,
     };
   },
