@@ -27,6 +27,7 @@ import { useStore } from 'vuex';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import INews from '@/interfaces/news/INews';
+import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'MainArticles',
@@ -39,20 +40,11 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();
 
-    const makeCarousel = (array: INews[], size: number): INews[][] => {
-      // size - number of banners in el-carousel-item
-      const subarray = [];
-      for (let i = 0; i < Math.ceil(array.length / size); i++) {
-        subarray[i] = array.slice(i * size, i * size + size);
-      }
-      return subarray;
-    };
-
     onBeforeMount(async () => {
       store.commit('news/clearNews');
       // await store.dispatch('news/getAllMain');
       await store.commit('news/setFilteredNews');
-      carousel.value = makeCarousel(news.value, 4);
+      carousel.value = makeCarousel<INews>(news.value, 4);
       mounted.value = true;
     });
 

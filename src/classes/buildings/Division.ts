@@ -37,6 +37,7 @@ export default class Division implements IDivision {
   entrance?: IEntrance = new Entrance();
   slug?: string = '';
   doctors: IDoctor[] = [];
+  doctorsForDelete: string[] = [];
   vacancies: IVacancy[] = [];
   timetable: ITimetable = new Timetable();
   timetableId?: string;

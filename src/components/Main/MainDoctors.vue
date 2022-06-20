@@ -23,6 +23,7 @@ import FilterQuery from '@/classes/filters/FilterQuery';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import IDoctor from '@/interfaces/IDoctor';
+import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'MainDoctors',
@@ -35,20 +36,11 @@ export default defineComponent({
     const carousel: Ref<IDoctor[][]> = ref([]);
     const carouselRef = ref();
 
-    const makeCarousel = (array: IDoctor[], size: number): IDoctor[][] => {
-      // size - number of banners in el-carousel-item
-      const subarray = [];
-      for (let i = 0; i < Math.ceil(array.length / size); i++) {
-        subarray[i] = array.slice(i * size, i * size + size);
-      }
-      return subarray;
-    };
-
     onBeforeMount(async () => {
       const fq = new FilterQuery();
       fq.pagination.limit = 8;
       await store.dispatch('doctors/getAllMain', fq);
-      carousel.value = makeCarousel(doctors.value, 3);
+      carousel.value = makeCarousel<IDoctor>(doctors.value, 3);
       mounted.value = true;
     });
 

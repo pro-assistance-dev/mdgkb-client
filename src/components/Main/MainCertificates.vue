@@ -20,6 +20,7 @@ import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import MainContainer from '@/components/Main/MainContainer.vue';
 import ICertificate from '@/interfaces/ICertificate';
+import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'MainCertificates',
@@ -29,15 +30,6 @@ export default defineComponent({
     const carousel: Ref<ICertificate[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();
-
-    const makeCarousel = (array: ICertificate[], size: number): ICertificate[][] => {
-      // size - number of banners in el-carousel-item
-      const subarray = [];
-      for (let i = 0; i < Math.ceil(array.length / size); i++) {
-        subarray[i] = array.slice(i * size, i * size + size);
-      }
-      return subarray;
-    };
 
     const items = [
       {
@@ -64,7 +56,7 @@ export default defineComponent({
     ];
 
     onBeforeMount(async () => {
-      carousel.value = makeCarousel(items, 4);
+      carousel.value = makeCarousel<ICertificate>(items, 4);
       mounted.value = true;
     });
 
