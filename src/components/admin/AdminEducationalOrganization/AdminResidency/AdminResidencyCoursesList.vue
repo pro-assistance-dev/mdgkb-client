@@ -68,7 +68,7 @@
             :show-edit-button="true"
             :show-remove-button="true"
             @remove="remove(scope.row.id)"
-            @edit="open(scope.row.getMainSpecialization().slug)"
+            @edit="open(scope.row.getMainSpecialization().id)"
           />
         </template>
       </el-table-column>

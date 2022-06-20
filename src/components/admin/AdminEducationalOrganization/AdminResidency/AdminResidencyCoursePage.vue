@@ -156,14 +156,12 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IEducationYear from '@/interfaces/IEducationYear';
 import IForm from '@/interfaces/IForm';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
@@ -171,10 +169,11 @@ import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
-import ISchema from '@/interfaces/schema/ISchema';
 import removeFromClass from '@/mixins/removeFromClass';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminResidencyCoursePage',
@@ -185,52 +184,50 @@ export default defineComponent({
     TableButtonGroup,
   },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    let mounted = ref(false);
-    const form = ref();
-
-    const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const residencyCourse: ComputedRef<IResidencyCourse> = computed<IResidencyCourse>(() => store.getters['residencyCourses/item']);
-    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
-    const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
-    const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
-    const educationYears: ComputedRef<IEducationYear[]> = computed<IEducationYear[]>(() => store.getters['educationYears/items']);
+    const residencyCourse: ComputedRef<IResidencyCourse> = computed<IResidencyCourse>(
+      () => Provider.store.getters['residencyCourses/item']
+    );
+    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(
+      () => Provider.store.getters['specializations/items']
+    );
+    const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => Provider.store.getters['teachers/item']);
+    const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);
+    const educationYears: ComputedRef<IEducationYear[]> = computed<IEducationYear[]>(() => Provider.store.getters['educationYears/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('meta/getSchema');
-      await store.dispatch('teachers/getAll');
-      await store.dispatch('educationYears/getAll');
-      await store.dispatch('specializations/getAll');
-      await store.dispatch('search/searchGroups');
-      await store.dispatch('formPatterns/getAll');
+    const load = async () => {
+      await Provider.store.dispatch('teachers/getAll');
+      await Provider.store.dispatch('educationYears/getAll');
+      await Provider.store.dispatch('specializations/getAll');
+      await Provider.store.dispatch('search/searchGroups');
+      await Provider.store.dispatch('formPatterns/getAll');
       await loadItem();
-      store.commit('admin/closeLoading');
-    });
+    };
 
     const loadItem = async () => {
-      if (route.params['id']) {
-        store.commit(`filter/resetQueryFilter`);
-        filterQuery.value.setParams(schema.value.residencyCourse.slug, route.params['id'] as string);
-        await store.dispatch('residencyCourses/get', filterQuery.value);
-        store.commit('admin/setHeaderParams', {
+      if (Provider.route().params['id']) {
+        Provider.store.commit(`filter/resetQueryFilter`);
+        Provider.filterQuery.value.setParams(Provider.schema.value.residencyCourse.id, Provider.route().params['id'] as string);
+        await Provider.store.dispatch('residencyCourses/get', Provider.filterQuery.value);
+        Provider.store.commit('admin/setHeaderParams', {
           title: residencyCourse.value.getMainSpecialization().name,
           showBackButton: true,
           buttons: [{ action: submit }],
         });
       } else {
-        store.commit('residencyCourses/resetItem');
-        if (route.meta.isNmo) store.commit('residencyCourses/setIsNmo', true);
-        store.commit('admin/setHeaderParams', { title: 'Добавить программу', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('residencyCourses/resetItem');
+        if (Provider.route().meta.isNmo) Provider.store.commit('residencyCourses/setIsNmo', true);
+        Provider.store.commit('admin/setHeaderParams', {
+          title: 'Добавить программу',
+          showBackButton: true,
+          buttons: [{ action: submit }],
+        });
       }
-      mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(residencyCourse, formUpdated, { deep: true });
     };
+
+    Hooks.onBeforeMount(load);
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
@@ -238,17 +235,17 @@ export default defineComponent({
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
-      if (!validate(form)) {
+      if (!validate(Provider.form)) {
         saveButtonClick.value = false;
         return;
       }
-      if (!route.params['id']) {
-        await store.dispatch('residencyCourses/create', residencyCourse.value);
-        await router.push(`/admin/residency/courses`);
+      if (!Provider.route().params['id']) {
+        await Provider.store.dispatch('residencyCourses/create', residencyCourse.value);
+        await Provider.router.push(`/admin/residency/courses`);
         return;
       }
-      await store.dispatch('residencyCourses/update', residencyCourse.value);
-      next ? next() : await router.push(`/admin/residency/courses`);
+      await Provider.store.dispatch('residencyCourses/update', residencyCourse.value);
+      next ? next() : await Provider.router.push(`/admin/residency/courses`);
     };
 
     const addTeacher = async (searchObject: ISearchObject) => {
@@ -260,9 +257,9 @@ export default defineComponent({
         ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
         return;
       }
-      await store.dispatch('teachers/get', searchObject.id);
+      await Provider.store.dispatch('teachers/get', searchObject.id);
       residencyCourse.value.addTeacher(selectedTeacher.value);
-      store.commit('teachers/resetItem');
+      Provider.store.commit('teachers/resetItem');
     };
 
     const changeFormPatternHandler = () => {
@@ -274,11 +271,11 @@ export default defineComponent({
       specializations,
       removeFromClass,
       addTeacher,
-      schema,
-      mounted,
+      schema: Provider.schema,
+      mounted: Provider.mounted,
       submit,
       residencyCourse,
-      form,
+      form: Provider.form,
       formPatterns,
       changeFormPatternHandler,
     };

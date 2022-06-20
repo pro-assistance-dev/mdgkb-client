@@ -197,4 +197,8 @@ export default class ResidencyCourse implements IResidencyCourse {
       return a.pointsSum() - b.pointsSum();
     });
   }
+
+  isThisYear(): boolean {
+    return this.startYear.year.getFullYear() === new Date().getFullYear();
+  }
 }

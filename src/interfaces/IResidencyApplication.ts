@@ -8,6 +8,8 @@ export default interface IResidencyApplication {
   residencyCourseId?: string;
   pointsEntrance: number;
   pointsAchievements: number;
+  main: boolean;
+  paid: boolean;
   formValue: IForm;
   formValueId?: string;
 

@@ -7,6 +7,12 @@
         :active-fields="UserFormFields.CreateWithFullName({ userSnils: true })"
         @findEmail="findEmail"
       />
+      <el-form-item v-if="residencyCourse.isThisYear()">
+        <el-checkbox v-model="residencyApplication.paid" label="Ординатрура по договору об оказании образовательных платных услуг" />
+      </el-form-item>
+      <el-form-item v-if="residencyCourse.isThisYear()">
+        <el-checkbox v-model="residencyApplication.main" label="Заявление подаётся на дополнительную специальность" />
+      </el-form-item>
       <FieldValuesForm :form="residencyApplication.formValue" />
     </el-form>
     <el-divider />
@@ -34,7 +40,6 @@ export default defineComponent({
   name: 'ResidencyApplicationForm',
   components: { FieldValuesForm, UserForm },
   emits: ['close'],
-
   setup(_, { emit }) {
     const store = useStore();
     const mounted = ref(false);
