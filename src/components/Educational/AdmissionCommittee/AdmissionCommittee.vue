@@ -29,6 +29,28 @@
         </div>
         <DocumentsList :documents="selectedDocumentType.documents" />
       </div>
+      <div v-if="mode === 'freePrograms'">
+        <p>
+          <a
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            href="https://mosgorzdrav.ru/ru-RU/professional/teaching/target-residency.html"
+            >Сайт ДЗМ
+          </a>
+        </p>
+        <p>
+          <a target="_blank" rel="noopener noreferrer nofollow" href="http://rf.niioz.ru/reestr/cel1">
+            Личный Кабинет для приёма документов в ДЗМ
+          </a>
+        </p>
+        <p><strong>Основание для зачисления:</strong></p>
+        <ol>
+          <li>Заявление</li>
+          <li>Договор с Департаметом здравоохранения г. Москвы</li>
+          <li>Аккредитационный бал тестирования от 70</li>
+          <li>Полный пакет документов - <em> Оригинал документа об образовании предоставляется до 01.09.2022</em></li>
+        </ol>
+      </div>
       <ResidencyCoursesList
         v-if="mode === 'freePrograms' || mode === 'paidPrograms' || showForm"
         :paid-programs="mode === 'paidPrograms'"
@@ -36,6 +58,7 @@
         :cost="mode === 'paidPrograms'"
         :years="false"
       />
+
       <CompetitionComponent v-if="mode === 'competition'" />
     </div>
   </div>

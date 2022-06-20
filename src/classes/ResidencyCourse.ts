@@ -185,20 +185,29 @@ export default class ResidencyCourse implements IResidencyCourse {
 
   getPaidCompetitionIndex(): number {
     const paidPlaces = this.paidPlaces;
-    const applications = this.residencyApplications.length;
+    const applications = this.getPaidApplications().length;
     if (paidPlaces === 0 || applications === 0 || paidPlaces === applications) {
       return 0;
     }
-    return Math.round(applications / paidPlaces);
+    const res = (applications / paidPlaces).toFixed(2);
+    return Number(res);
   }
 
   getApplicationsByPoint(): IResidencyApplication[] {
     return this.residencyApplications.sort((a: IResidencyApplication, b: IResidencyApplication) => {
-      return a.pointsSum() - b.pointsSum();
+      return b.pointsSum() - a.pointsSum();
     });
   }
 
   isThisYear(): boolean {
     return this.startYear.year.getFullYear() === new Date().getFullYear();
+  }
+
+  getFreeApplications(): IResidencyApplication[] {
+    return this.residencyApplications.filter((a: IResidencyApplication) => !a.paid);
+  }
+
+  getPaidApplications(): IResidencyApplication[] {
+    return this.residencyApplications.filter((a: IResidencyApplication) => a.paid);
   }
 }

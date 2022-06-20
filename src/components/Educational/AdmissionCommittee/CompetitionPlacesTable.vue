@@ -17,13 +17,13 @@
           {{ course.freePlaces }}
         </td>
         <td style="text-align: center">
-          {{ course.residencyApplications.length }}
+          {{ course.getFreeApplications().length }}
         </td>
         <td style="text-align: center">
           {{ course.paidPlaces }}
         </td>
         <td style="text-align: center">
-          {{ course.residencyApplications.length }}
+          {{ course.getPaidApplications().length }}
         </td>
         <td style="text-align: center">
           {{ course.getPaidCompetitionIndex() }}
@@ -32,9 +32,9 @@
       <tr>
         <td>Всего:</td>
         <td style="text-align: center">{{ allFreePlaces() }}</td>
-        <td style="text-align: center">{{ allApplications() }}</td>
+        <td style="text-align: center">{{ allFreeApplications() }}</td>
         <td style="text-align: center">{{ allPaidPlaces() }}</td>
-        <td style="text-align: center">{{ allApplications() }}</td>
+        <td style="text-align: center">{{ allPaidApplications() }}</td>
         <td style="text-align: center">-</td>
       </tr>
     </tbody>
@@ -57,10 +57,12 @@ export default defineComponent({
   setup(props) {
     const allFreePlaces = () => props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.freePlaces, 0);
     const allPaidPlaces = () => props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.paidPlaces, 0);
-    const allApplications = () =>
-      props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.residencyApplications.length, 0);
+    const allFreeApplications = () =>
+      props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.getFreeApplications().length, 0);
+    const allPaidApplications = () =>
+      props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.getPaidApplications().length, 0);
 
-    return { allFreePlaces, allPaidPlaces, allApplications };
+    return { allFreePlaces, allPaidPlaces, allFreeApplications, allPaidApplications };
   },
 });
 </script>

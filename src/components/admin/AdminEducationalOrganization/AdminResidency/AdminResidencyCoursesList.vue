@@ -64,12 +64,7 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup
-            :show-edit-button="true"
-            :show-remove-button="true"
-            @remove="remove(scope.row.id)"
-            @edit="open(scope.row.getMainSpecialization().id)"
-          />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="open(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>

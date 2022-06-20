@@ -73,6 +73,10 @@ export default defineComponent({
       }
       residencyApplication.value.formValue.validate();
       if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
+        ElMessage({
+          type: 'warning',
+          message: 'Проверьте корректность заполнения заявки',
+        });
         return;
       }
       residencyApplication.value.formValue.clearIds();

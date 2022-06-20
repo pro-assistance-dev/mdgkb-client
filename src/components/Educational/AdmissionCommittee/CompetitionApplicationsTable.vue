@@ -19,11 +19,11 @@
         <td>
           {{ application.residencyCourse.getMainSpecialization().name }}
         </td>
-        <td>-</td>
+        <td>{{ application.paid ? 'Договор' : 'Целевое' }}</td>
         <td style="text-align: center">
           {{ $dateTimeFormatter.format(application.formValue.createdAt) }}
         </td>
-        <td>-</td>
+        <td>{{ application.main ? 'Приоритетное' : 'Дополнительное' }}</td>
         <td style="text-align: center">{{ application.pointsSum() }}</td>
         <td style="text-align: center">{{ application.pointsEntrance }}</td>
         <td style="text-align: center">{{ application.pointsAchievements }}</td>
