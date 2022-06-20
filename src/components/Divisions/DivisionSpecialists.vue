@@ -22,7 +22,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
@@ -35,9 +34,8 @@ export default defineComponent({
   name: 'DivisionSpecialists',
   components: { DoctorInfoCard, MainContainer },
 
-  setup() {
+  async setup() {
     const store = useStore();
-    const route = useRoute();
     const mounted: Ref<boolean> = ref(false);
     const carousel: Ref<IDoctor[][]> = ref([]);
     const carouselRef = ref();
@@ -52,10 +50,7 @@ export default defineComponent({
       mounted,
       carousel,
       carouselRef,
-      division,
     };
   },
 });
 </script>
-
-function makeCarousel(doctors: IDoctor[], arg1: number): IDoctor[][] { throw new Error('Function not implemented.'); }
