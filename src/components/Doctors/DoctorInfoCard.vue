@@ -19,7 +19,7 @@
         </a>
       </div>
       <div class="flex-column right-side">
-        <div class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)">
+        <div class="division-name" @click="$router.push(`/divisions/${doctor.division.slug}`)">
           {{ doctor.division.name }}
         </div>
         <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
