@@ -1,5 +1,6 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IEducationYear from '@/interfaces/IEducationYear';
+import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecialization';
 import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -53,4 +54,8 @@ export default interface IResidencyCourse {
   getMainSpecialization: () => ISpecialization;
   getFileInfos: () => IFileInfo[];
   getPeriod: () => string;
+
+  residencyApplications: IResidencyApplication[];
+  getPaidCompetitionIndex: () => number;
+  getApplicationsByPoint: () => IResidencyApplication[];
 }

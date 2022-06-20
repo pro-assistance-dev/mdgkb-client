@@ -29,6 +29,33 @@
           {{ scope.row.residencyCourse.getMainSpecialization().name }}
         </template>
       </el-table-column>
+      <el-table-column label="Баллы за вступительные испытания" align="center" width="150">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input-number v-model="scope.row.pointsEntrance" size="small" min="0" />
+          </div>
+          <div v-else>
+            {{ scope.row.pointsEntrance }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Баллы за индивидуальные достижения" align="center" width="150">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input-number v-model="scope.row.pointsAchievements" size="small" min="0" />
+          </div>
+          <div v-else>
+            {{ scope.row.pointsAchievements }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Сумма баллов" align="center" width="150">
+        <template #default="scope">
+          <div>
+            {{ scope.row.pointsSum() }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
           <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
@@ -39,13 +66,15 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeUnmount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext } from 'vue-router';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { Orders } from '@/interfaces/filters/Orders';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -64,9 +93,37 @@ export default defineComponent({
       Provider.store.getters['meta/applicationsCount']('residency_applications')
     );
 
+    const isEditMode: Ref<boolean> = ref(false);
+    const isNotEditMode: Ref<boolean> = ref(true);
+
     const loadApplications = async () => {
       await Provider.store.dispatch('residencyApplications/getAll', Provider.filterQuery.value);
     };
+
+    const enableEditMode = () => {
+      if (isEditMode.value) {
+        return;
+      }
+      isEditMode.value = true;
+      isNotEditMode.value = false;
+    };
+
+    const cancel = () => {
+      isEditMode.value = false;
+      isNotEditMode.value = true;
+    };
+
+    const save = async (next?: NavigationGuardNext) => {
+      if (!isEditMode.value) {
+        return;
+      }
+      saveButtonClick.value = true;
+      await Provider.store.dispatch('residencyApplications/updateMany');
+      isEditMode.value = false;
+      isNotEditMode.value = true;
+      if (next) next();
+    };
+    const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
       Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
@@ -74,11 +131,19 @@ export default defineComponent({
       await loadApplications();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Заявки на обучение в ординатуре',
-        buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
+        buttons: [
+          { text: 'Редактировать', type: 'success', action: enableEditMode, condition: isNotEditMode },
+          { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
+          { text: 'Подать заявление', type: 'primary', action: create },
+        ],
         applicationsCount,
       });
       await Provider.store.dispatch('residencyApplications/subscribeCreate');
     };
+
+    watch(isEditMode, () => {
+      confirmLeave.value = isEditMode.value;
+    });
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'residencyApplications', action: 'getAll' },
@@ -100,6 +165,7 @@ export default defineComponent({
       edit,
       sortList: Provider.sortList,
       loadApplications,
+      isEditMode,
     };
   },
 });

@@ -157,7 +157,7 @@ export default defineComponent({
         return;
       }
       // await store.dispatch('users/findEmail', value);
-      if (value && props.emailExists) {
+      if (value && props.emailExists && props.validateEmail) {
         callback(new Error('Ведённый email уже существует'));
       }
       callback();

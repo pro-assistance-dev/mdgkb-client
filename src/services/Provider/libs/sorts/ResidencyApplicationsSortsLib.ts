@@ -40,11 +40,41 @@ const ResidencyApplicationsSortsLib = (() => {
     );
   }
 
+  function byPointsAchievements(order?: Orders): ISortModel {
+    return SortModel.CreateSortModel(
+      Provider.schema.value.residencyApplication.tableName,
+      Provider.schema.value.residencyApplication.pointsAchievements,
+      order ? order : Orders.Asc,
+      `По баллам индивидуальных достижений ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
+    );
+  }
+
+  function byPointsEntrance(order?: Orders): ISortModel {
+    return SortModel.CreateSortModel(
+      Provider.schema.value.residencyApplication.tableName,
+      Provider.schema.value.residencyApplication.pointsEntrance,
+      order ? order : Orders.Asc,
+      `По баллам вступительных испытаний ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
+    );
+  }
+
+  function byPointsSum(order?: Orders): ISortModel {
+    return SortModel.CreateSortModel(
+      Provider.schema.value.residencyApplication.tableName,
+      Provider.schema.value.residencyApplication.pointsSum,
+      order ? order : Orders.Asc,
+      `По сумме баллов ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
+    );
+  }
+
   return {
     byCreatedAt,
     byUserFullName,
     byUserEmail,
     byCourseName,
+    byPointsAchievements,
+    byPointsEntrance,
+    byPointsSum,
   };
 })();
 

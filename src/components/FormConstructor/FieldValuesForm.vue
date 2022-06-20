@@ -25,6 +25,7 @@
       <el-table-column label="Наименование" min-width="300">
         <template #default="scope">
           {{ scope.row.name }}
+          <span v-if="scope.row.required" class="red">*</span>
         </template>
       </el-table-column>
 
@@ -128,5 +129,9 @@ export default defineComponent({
   .mobile-container {
     display: block;
   }
+}
+
+.red {
+  color: red;
 }
 </style>

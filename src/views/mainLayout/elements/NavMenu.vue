@@ -192,6 +192,7 @@ ul.dropmenu li {
 
 .link-menu:hover {
   background: #ffffff;
+  cursor: pointer;
 }
 
 h3 {
@@ -209,10 +210,11 @@ h3 {
   border-radius: 10px;
   background-color: rgba(240, 242, 247);
   overflow: hidden;
-  box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
+    rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
+  // box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.2);
   justify-content: space-between;
   margin: 5px;
-  border: 1px solid transparent;
 }
 
 .index-about-colomn-text {
@@ -273,7 +275,7 @@ li .dropmenu {
   transform: translateX(-50%);
   z-index: 99;
   margin-top: 22px;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
 // .link-menu:focus ~ .dropmenu,
@@ -290,15 +292,11 @@ li .dropmenu {
   &:hover,
   &:active,
   &:focus {
-    // transition: 0.2s ease-out;
-    // border: 1px solid #cccccc;
-    // box-shadow: 0px 0px 999px 999px rgba(255, 255, 255, 0.5);
-
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 5px, rgba(0, 0, 0, 0.25) 0px -1px 3px, rgba(0, 0, 0, 0.25) 0px 4px 6px,
+      rgba(0, 0, 0, 0.25) 0px 2px 3px, rgba(0, 0, 0, 0.25) 0px -3px 5px;
+    // box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.3);
     background-color: white;
-    // border: 1px solid #00838d;
     z-index: 500;
-    // transform: scale(1.02);
-    // transition: 0.1s;
   }
 }
 
@@ -312,10 +310,6 @@ li .dropmenu {
   border-radius: 10px;
   backdrop-filter: blur(2px);
   width: 636px;
-}
-
-li:hover {
-  cursor: pointer;
 }
 
 .active {
