@@ -1,13 +1,19 @@
 <template>
   <div v-if="mounted">
-    <h2>НАБОР 2021 ГОДА. КОНКУРС ПО СПЕЦИАЛЬНОСТЯМ ОРДИНАТУРЫ</h2>
-    <CompetitionPlacesTable :residency-courses="residencyCourses" />
+    <div class="card-item">
+      <h2>НАБОР 2021 ГОДА. КОНКУРС ПО СПЕЦИАЛЬНОСТЯМ ОРДИНАТУРЫ</h2>
+      <CompetitionPlacesTable :residency-courses="residencyCourses" />
+    </div>
 
-    <h2>АБИТУРИЕНТЫ, ПОДАВШИЕ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
-    <CompetitionApplicationsTable :residency-courses="residencyCourses" />
+    <div class="card-item">
+      <h2>АБИТУРИЕНТЫ, ПОДАВШИЕ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
+      <CompetitionApplicationsTable :residency-courses="residencyCourses" />
+    </div>
 
-    <h2>РЕЙТИНГ АБИТУРИЕНТОВ ПОДАВШИХ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
-    <CompetitionRating :residency-courses="residencyCourses" />
+    <div class="card-item">
+      <h2>РЕЙТИНГ АБИТУРИЕНТОВ ПОДАВШИХ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
+      <CompetitionRating :residency-courses="residencyCourses" />
+    </div>
   </div>
 </template>
 
@@ -54,4 +60,32 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.card-item) {
+  margin-bottom: 10px;
+  thead th {
+    // font-weight: bold;
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    background: #ededed;
+    font-size: 14px;
+  }
+  tbody td {
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) {
+    background: #f8f8f8;
+  }
+  tbody tr:hover {
+    background-color: #ecf5ff;
+  }
+}
+h2 {
+  text-align: center;
+}
+</style>

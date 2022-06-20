@@ -6,28 +6,30 @@
       <th>Целевое/ДПОУ (договор)</th>
       <th>Дата заявления</th>
       <th>Заявление по специальности приоритетное/дополнительное</th>
-      <th>Балл общий</th>
-      <th>Балл вступительных испытаний</th>
-      <th>Балл индивидуальных достижений</th>
-      <th>Заявление о согласии на поступление</th>
+      <th style="text-align: center">Балл общий</th>
+      <th style="text-align: center">Балл вступительных испытаний</th>
+      <th style="text-align: center">Балл индивидуальных достижений</th>
+      <th style="text-align: center">Заявление о согласии на поступление</th>
     </thead>
-    <tr v-for="application in residencyApplications()" :key="application.id">
-      <td>
-        {{ application.formValue.user.human.getFullName() }}
-      </td>
-      <td>
-        {{ application.residencyCourse.getMainSpecialization().name }}
-      </td>
-      <td>-</td>
-      <td>
-        {{ $dateTimeFormatter.format(application.formValue.createdAt) }}
-      </td>
-      <td>-</td>
-      <td>{{ application.pointsSum() }}</td>
-      <td>{{ application.pointsEntrance }}</td>
-      <td>{{ application.pointsAchievements }}</td>
-      <td>-</td>
-    </tr>
+    <tbody>
+      <tr v-for="application in residencyApplications()" :key="application.id">
+        <td>
+          {{ application.formValue.user.human.getFullName() }}
+        </td>
+        <td>
+          {{ application.residencyCourse.getMainSpecialization().name }}
+        </td>
+        <td>-</td>
+        <td style="text-align: center">
+          {{ $dateTimeFormatter.format(application.formValue.createdAt) }}
+        </td>
+        <td>-</td>
+        <td style="text-align: center">{{ application.pointsSum() }}</td>
+        <td style="text-align: center">{{ application.pointsEntrance }}</td>
+        <td style="text-align: center">{{ application.pointsAchievements }}</td>
+        <td style="text-align: center">-</td>
+      </tr>
+    </tbody>
   </table>
 </template>
 
