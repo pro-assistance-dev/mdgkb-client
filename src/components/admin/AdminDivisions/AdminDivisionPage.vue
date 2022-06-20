@@ -95,7 +95,7 @@
                   <TableButtonGroup
                     :show-more-button="true"
                     :show-remove-button="true"
-                    @remove="removeDoctor(scope.row.id)"
+                    @remove="removeFromClass(index, division.doctors, division.doctorsForDelete)"
                     @showMore="$router.push(`/admin/doctors/${scope.row.id}`)"
                   />
                 </template>
@@ -132,6 +132,7 @@ import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/IDoctor';
 import ISearchObject from '@/interfaces/ISearchObject';
+import removeFromClass from '@/mixins/removeFromClass';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 import Hooks from '@/services/Hooks/Hooks';
@@ -249,9 +250,6 @@ export default defineComponent({
       Provider.store.dispatch('doctors/addDoctorToDivisionDoctors', newDoctor);
       newDoctorId.value = '';
     };
-    const removeDoctor = (id: string) => {
-      Provider.store.dispatch('doctors/removeDoctorFromDivisionDoctors', id);
-    };
 
     return {
       division,
@@ -266,11 +264,11 @@ export default defineComponent({
       divisionDoctors,
       newDoctorId,
       addDoctor,
-      removeDoctor,
       filteredDoctors,
       mounted: Provider.mounted,
       schema: Provider.schema,
       selectDoctorSearch,
+      removeFromClass,
     };
   },
 });

@@ -21,6 +21,7 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import NewsCard from '@/components/News/NewsCard.vue';
 import IWithNews from '@/interfaces/IWithNews';
+import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'NewsSlider',
@@ -36,17 +37,8 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();
 
-    const makeCarousel = (array: IWithNews[], size: number): IWithNews[][] => {
-      // size - number of banners in el-carousel-item
-      const subarray = [];
-      for (let i = 0; i < Math.ceil(array.length / size); i++) {
-        subarray[i] = array.slice(i * size, i * size + size);
-      }
-      return subarray;
-    };
-
     onBeforeMount(async () => {
-      carousel.value = makeCarousel(props.news, 3);
+      carousel.value = makeCarousel<IWithNews>(props.news, 3);
       mounted.value = true;
     });
 

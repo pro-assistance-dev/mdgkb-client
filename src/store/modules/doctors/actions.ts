@@ -56,10 +56,7 @@ const actions: ActionTree<State, RootState> = {
     commit('addDoctorToDivisionDoctors', newDoctor);
     commit('filterDoctors');
   },
-  removeDoctorFromDivisionDoctors: async ({ commit }, id: string): Promise<void> => {
-    commit('removeDoctorFromDivisionDoctors', id);
-    commit('filterDoctors');
-  },
+
   removeComment: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `comment/${id}` });
     commit('removeComment', id);

@@ -27,6 +27,7 @@ export default interface IDivision {
   showCommonVisitingRules: boolean;
   slug?: string;
   doctors: IDoctor[];
+  doctorsForDelete: string[];
   vacancies: IVacancy[];
   timetable: ITimetable;
   timetableId?: string;

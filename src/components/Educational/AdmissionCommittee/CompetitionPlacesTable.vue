@@ -2,40 +2,42 @@
   <table>
     <thead>
       <th>Направления подготовки (специальность)</th>
-      <th>Количество мест по целевому набору (по приказу ДЗМ)</th>
-      <th>Поданные заявления по целевому набору (для абитуриентов заключивших договор с ДЗМ)</th>
-      <th>Количество мест по договорам об оказании образова- тельных платных услуг (ПОУ)</th>
-      <th>Поданные заявления По договорам о платных образова- тельных услугах (ПОУ)</th>
-      <th>Конкурс ПОУ</th>
+      <th style="text-align: center">Количество мест по целевому набору (по приказу ДЗМ)</th>
+      <th style="text-align: center">Поданные заявления по целевому набору (для абитуриентов заключивших договор с ДЗМ)</th>
+      <th style="text-align: center">Количество мест по договорам об оказании образова- тельных платных услуг (ПОУ)</th>
+      <th style="text-align: center">Поданные заявления По договорам о платных образова- тельных услугах (ПОУ)</th>
+      <th style="text-align: center">Конкурс ПОУ</th>
     </thead>
-    <tr v-for="course in residencyCourses" :key="course.id">
-      <td>
-        {{ course.getMainSpecialization().code + ' ' + course.getMainSpecialization().name }}
-      </td>
-      <td>
-        {{ course.freePlaces }}
-      </td>
-      <td>
-        {{ course.residencyApplications.length }}
-      </td>
-      <td>
-        {{ course.paidPlaces }}
-      </td>
-      <td>
-        {{ course.residencyApplications.length }}
-      </td>
-      <td>
-        {{ course.getPaidCompetitionIndex() }}
-      </td>
-    </tr>
-    <tr>
-      <td>Всего:</td>
-      <td>{{ allFreePlaces() }}</td>
-      <td>{{ allApplications() }}</td>
-      <td>{{ allPaidPlaces() }}</td>
-      <td>{{ allApplications() }}</td>
-      <td>-</td>
-    </tr>
+    <tbody>
+      <tr v-for="course in residencyCourses" :key="course.id">
+        <td>
+          {{ course.getMainSpecialization().code + ' ' + course.getMainSpecialization().name }}
+        </td>
+        <td style="text-align: center">
+          {{ course.freePlaces }}
+        </td>
+        <td style="text-align: center">
+          {{ course.residencyApplications.length }}
+        </td>
+        <td style="text-align: center">
+          {{ course.paidPlaces }}
+        </td>
+        <td style="text-align: center">
+          {{ course.residencyApplications.length }}
+        </td>
+        <td style="text-align: center">
+          {{ course.getPaidCompetitionIndex() }}
+        </td>
+      </tr>
+      <tr>
+        <td>Всего:</td>
+        <td style="text-align: center">{{ allFreePlaces() }}</td>
+        <td style="text-align: center">{{ allApplications() }}</td>
+        <td style="text-align: center">{{ allPaidPlaces() }}</td>
+        <td style="text-align: center">{{ allApplications() }}</td>
+        <td style="text-align: center">-</td>
+      </tr>
+    </tbody>
   </table>
 </template>
 

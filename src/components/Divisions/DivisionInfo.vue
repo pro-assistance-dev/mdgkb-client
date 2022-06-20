@@ -32,35 +32,42 @@
                 <use xlink:href="#time"></use>
               </svg>
             </div>
-            <div class="">
+            <div>
               <div class="time-block">
-                <div class="hidden-block">
-                  <div class="hidden-line">
-                    <div class="hidden-item">
-                      <font color="#2754eb">сегодня</font>: {{ division.timetable.getTodayWorkday().getTimetable() }}
-                    </div>
-                    <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
-                      Перерыв:
-                      <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
-                        <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="hidden-line-2">
-                    <ul class="hidden-item-list-2">
-                      <li v-for="item in division.timetable.getOnlyWorkdayObjects()" :key="item.id">
-                        {{ item.getPeriodWithName() }}
-                        <div v-if="item.breaksExists" class="hidden-item-2">
+                <div class="item-t">
+                  Время&nbsp;работы&nbsp;
+                  <div class="block-today">
+                    <p class="today">сегодня</p>
+                    :&nbsp;
+                    <div class="hidden-block">
+                      <div class="hidden-line">
+                        <div class="hidden-item">
+                          <font color="#0A216F"><b>сегодня</b></font
+                          >: {{ division.timetable.getTodayWorkday().getTimetable() }}
+                        </div>
+                        <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
                           Перерыв:
-                          <ul v-if="item.breaksExists" class="hidden-item-list">
-                            <li v-for="period in item.breakPeriods" :key="period.id">{{ period.getPeriod() }}</li>
+                          <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
+                            <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
                           </ul>
                         </div>
-                      </li>
-                    </ul>
+                      </div>
+                      <div class="hidden-line-2">
+                        <ul class="hidden-item-list-2">
+                          <li v-for="item in division.timetable.getOnlyWorkdayObjects()" :key="item.id">
+                            {{ item.getPeriodWithName() }}
+                            <div v-if="item.breaksExists" class="hidden-item-2">
+                              Перерыв:
+                              <ul v-if="item.breaksExists" class="hidden-item-list">
+                                <li v-for="period in item.breakPeriods" :key="period.id">{{ period.getPeriod() }}</li>
+                              </ul>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="item-t">Время&nbsp;работы&nbsp;<font color="#2754eb">сегодня</font>:</div>
                 <div class="item-t">{{ division.timetable.getTodayWorkday().getTimetable() }}</div>
                 <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item-t">
                   Перерыв:
