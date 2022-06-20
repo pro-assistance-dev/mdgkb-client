@@ -1,5 +1,6 @@
 <template>
   <el-rate
+    v-if="countRating(comments) > 0"
     :model-value="countRating(comments)"
     size="large"
     disabled
