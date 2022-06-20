@@ -29,6 +29,7 @@ import MainContainer from '@/components/Main/MainContainer.vue';
 import MainEventCard from '@/components/Main/MainEventCard.vue';
 import IEventTemplate from '@/interfaces/IEventTemplate';
 import IEvent from '@/interfaces/news/IEvent';
+import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'MainEvents',
@@ -107,19 +108,10 @@ export default defineComponent({
     //   },
     // ];
 
-    const makeCarousel = (array: IEventTemplate[], size: number): IEventTemplate[][] => {
-      // size - number of banners in el-carousel-item
-      const subarray = [];
-      for (let i = 0; i < Math.ceil(array.length / size); i++) {
-        subarray[i] = array.slice(i * size, i * size + size);
-      }
-      return subarray;
-    };
-
     onBeforeMount(async () => {
       await store.dispatch('events/getAllMain');
       mounted.value = true;
-      carousel.value = makeCarousel(items.value, 5);
+      carousel.value = makeCarousel<IEventTemplate>(items.value, 5);
       mounted.value = true;
     });
 

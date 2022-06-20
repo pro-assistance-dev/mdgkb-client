@@ -20,6 +20,7 @@ import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import IBanner from '@/interfaces/banners/IBanner';
+import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'FooterTop',
@@ -31,18 +32,9 @@ export default defineComponent({
     const mounted = ref(false);
     const carouselRef = ref();
 
-    const makeCarousel = (array: IBanner[], size: number): IBanner[][] => {
-      // size - number of banners in el-carousel-item
-      const subarray = [];
-      for (let i = 0; i < Math.ceil(array.length / size); i++) {
-        subarray[i] = array.slice(i * size, i * size + size);
-      }
-      return subarray;
-    };
-
     const loadBanners = async () => {
       await store.dispatch('banners/getAll');
-      carousel.value = makeCarousel(banners.value, 4);
+      carousel.value = makeCarousel<IBanner>(banners.value, 4);
       mounted.value = true;
     };
 

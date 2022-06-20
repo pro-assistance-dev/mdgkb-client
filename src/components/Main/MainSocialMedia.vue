@@ -21,6 +21,7 @@ import { useStore } from 'vuex';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import SocialMediaCard from '@/components/SocialMediaCard.vue';
 import ISocialMedia from '@/interfaces/ISocialMedia';
+import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'MainSocialMedia',
@@ -31,21 +32,12 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();
 
-    const makeCarousel = (array: ISocialMedia[], size: number): ISocialMedia[][] => {
-      // size - number of banners in el-carousel-item
-      const subarray = [];
-      for (let i = 0; i < Math.ceil(array.length / size); i++) {
-        subarray[i] = array.slice(i * size, i * size + size);
-      }
-      return subarray;
-    };
-
     const store = useStore();
     const items: ComputedRef<ISocialMedia[]> = computed<ISocialMedia[]>(() => store.getters['meta/socialMedia']);
 
     onBeforeMount(async () => {
       await store.dispatch('meta/getSocialMedia');
-      carousel.value = makeCarousel(items.value, 5);
+      carousel.value = makeCarousel<ISocialMedia>(items.value, 5);
       mounted.value = true;
     });
 

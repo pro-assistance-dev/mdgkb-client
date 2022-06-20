@@ -2,12 +2,6 @@
   <div class="card-item flex-column">
     <div class="flex-row">
       <div class="favourite-icon">
-        <!-- <AvatarWithFavourite
-          error-img-name="building-default.webp"
-          :domain-id="division.id"
-          domain-name="division"
-          :img-link="{ name: `DivisionPage`, params: { id: division.id, slug: division.slug } }"
-        /> -->
         <div class="favor">
           <FavouriteIcon :domain-id="division.id" :domain-name="'division'" />
         </div>
@@ -21,16 +15,7 @@
           <div class="line-item"><Rating :comments="division.divisionComments" /></div>
           <button class="map-button">На карте</button>
         </div>
-        <div class="spec-list">
-          <!-- <div
-            v-for="profile in division.medicalProfilesDivisions"
-            :key="profile.id"
-            class="tag-link"
-            @click="$router.push(`/medical-profiles/${profile.medicalProfile.id}`)"
-          >
-            {{ profile.medicalProfile.name }}
-          </div> -->
-        </div>
+        <div class="spec-list"></div>
       </div>
     </div>
     <div class="info-block">
@@ -41,32 +26,40 @@
           </svg>
         </div>
         <div class="time-block">
-          <div class="hidden-block">
-            <div class="hidden-line">
-              <div class="hidden-item"><font color="#2754eb">сегодня</font>: {{ division.timetable.getTodayWorkday().getTimetable() }}</div>
-              <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
-                Перерыв:
-                <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
-                  <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
-                </ul>
-              </div>
-            </div>
-            <div class="hidden-line-2">
-              <ul class="hidden-item-list-2">
-                <li v-for="item in division.timetable.getOnlyWorkdayObjects()" :key="item.id">
-                  {{ item.getPeriodWithName() }}
-                  <div v-if="item.breaksExists" class="hidden-item-2">
+          <div class="item">
+            Время работы&nbsp;
+            <div class="block-today">
+              <p class="today">сегодня</p>
+              :&nbsp;
+              <div class="hidden-block">
+                <div class="hidden-line">
+                  <div class="hidden-item">
+                    <font color="#0A216F"><b>сегодня</b></font
+                    >: {{ division.timetable.getTodayWorkday().getTimetable() }}
+                  </div>
+                  <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
                     Перерыв:
-                    <ul v-if="item.breaksExists" class="hidden-item-list">
-                      <li v-for="period in item.breakPeriods" :key="period.id">{{ period.getPeriod() }}</li>
+                    <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
+                      <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
                     </ul>
                   </div>
-                </li>
-              </ul>
+                </div>
+                <div class="hidden-line-2">
+                  <ul class="hidden-item-list-2">
+                    <li v-for="item in division.timetable.getOnlyWorkdayObjects()" :key="item.id">
+                      {{ item.getPeriodWithName() }}
+                      <div v-if="item.breaksExists" class="hidden-item-2">
+                        Перерыв:
+                        <ul v-if="item.breaksExists" class="hidden-item-list">
+                          <li v-for="period in item.breakPeriods" :key="period.id">{{ period.getPeriod() }}</li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="item">
-            Время работы&nbsp;<font color="#2754eb">сегодня</font>: {{ division.timetable.getTodayWorkday().getTimetable() }}
+            {{ division.timetable.getTodayWorkday().getTimetable() }}
           </div>
           <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item">
             Перерыв:
@@ -190,14 +183,12 @@ import { defineComponent, PropType } from 'vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
-// import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
 
 export default defineComponent({
   name: 'DivisionCard',
   components: {
     Rating,
     FavouriteIcon,
-    // AvatarWithFavourite,
   },
   props: {
     division: { type: Object as PropType<IDivision>, required: true },
@@ -206,8 +197,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-// @import '@/assets/styles/elements/doctor-info-card.scss';
-
 .info-block {
   height: 165px;
 }
@@ -426,12 +415,12 @@ ul.item-list li {
 
 ul.hidden-item-list {
   padding: 0 0 0 20px;
-  margin: 0px;
+  margin: 0;
 }
 
 ul.hidden-item-list-2 {
-  padding: 0px 0 0px 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
 }
 
 ul.hidden-item-list-2 li {
@@ -448,20 +437,15 @@ ul.hidden-item-list li {
 }
 
 .time-block {
-  cursor: pointer;
   display: block;
   justify-content: left;
-  position: relative;
-}
-
-.time-block:hover .hidden-block {
-  display: block;
 }
 
 .hidden-block {
+  cursor: auto;
   display: none;
   position: absolute;
-  left: 130px;
+  left: 50px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;
@@ -497,5 +481,25 @@ ul.hidden-item-list li {
   display: flex;
   flex-direction: row;
   width: auto;
+}
+
+.today {
+  color: #2754eb;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.today:hover {
+  color: #0a216f;
+}
+
+.block-today {
+  display: flex;
+  position: relative;
+}
+
+.block-today:hover .hidden-block {
+  display: block;
 }
 </style>

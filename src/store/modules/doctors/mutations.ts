@@ -56,10 +56,7 @@ const mutations: MutationTree<State> = {
   addDoctorToDivisionDoctors(state, newDoctor: IDoctor) {
     state.divisionDoctors.push(newDoctor);
   },
-  removeDoctorFromDivisionDoctors(state, id: string) {
-    const index = state.divisionDoctors.findIndex((i: IDoctor) => i.id === id);
-    state.divisionDoctors.splice(index, 1);
-  },
+
   filterDoctors(state) {
     if (!state.divisionDoctors?.length) {
       state.filteredDoctors = state.items;
