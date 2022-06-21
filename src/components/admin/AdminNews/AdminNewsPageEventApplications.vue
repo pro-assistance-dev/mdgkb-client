@@ -15,8 +15,6 @@
 </template>
 
 <script lang="ts">
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 

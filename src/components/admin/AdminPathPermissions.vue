@@ -77,8 +77,6 @@
 </template>
 
 <script lang="ts">
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
 import { RouteRecordNormalized } from 'vue-router';
