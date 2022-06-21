@@ -12,12 +12,7 @@
             <el-card class="content-card">
               <template #header>Контент</template>
               <el-form-item prop="description">
-                <QuillEditor
-                  v-model:content="dpoCourse.description"
-                  style="min-height: 200px; max-height: 700px"
-                  content-type="html"
-                  theme="snow"
-                ></QuillEditor>
+                <WysiwygEditor v-model:content="dpoCourse.description" />
               </el-form-item>
             </el-card>
             <el-card>
@@ -134,13 +129,13 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoCourse from '@/interfaces/IDpoCourse';
@@ -158,7 +153,7 @@ export default defineComponent({
   name: 'AdminDpoCoursePage',
   components: {
     RemoteSearch,
-    QuillEditor,
+    WysiwygEditor,
     TableButtonGroup,
   },
   setup() {

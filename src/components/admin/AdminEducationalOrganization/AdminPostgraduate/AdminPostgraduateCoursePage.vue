@@ -49,12 +49,7 @@
             <el-card class="content-card">
               <template #header>Квалификация</template>
               <el-form-item prop="description">
-                <QuillEditor
-                  v-model:content="postgraduateCourse.description"
-                  style="min-height: 200px; max-height: 700px"
-                  content-type="html"
-                  theme="snow"
-                ></QuillEditor>
+                <WysiwygEditor v-model:content="postgraduateCourse.description" />
               </el-form-item>
             </el-card>
             <el-card>
@@ -191,12 +186,12 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { QuillEditor } from '@vueup/vue-quill';
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
@@ -215,7 +210,7 @@ export default defineComponent({
   name: 'AdminPostgraduateCoursePage',
   components: {
     RemoteSearch,
-    QuillEditor,
+    WysiwygEditor,
     TableButtonGroup,
     FileUploader,
   },

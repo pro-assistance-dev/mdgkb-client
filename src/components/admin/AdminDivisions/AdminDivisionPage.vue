@@ -12,7 +12,7 @@
               <div v-if="division.chief">{{ division.chief.human.getFullName() }}</div>
             </el-form-item>
             <el-form-item label="Общая информация">
-              <QuillEditor v-model:content="division.info" style="height: 350px" content-type="html" theme="snow"></QuillEditor>
+              <WysiwygEditor v-model:content="division.info" />
             </el-form-item>
             <el-form-item label="Адрес">
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
@@ -112,7 +112,6 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
@@ -125,6 +124,7 @@ import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IBuilding from '@/interfaces/buildings/IBuilding';
 import IDivision from '@/interfaces/buildings/IDivision';
@@ -142,13 +142,13 @@ export default defineComponent({
   name: 'AdminDivisionPage',
   components: {
     ImageCropper,
-    QuillEditor,
     TableButtonGroup,
     TimetableConstructorV2,
     ScheduleConstructor,
     AdminDivisionGallery,
     AdminDivisionVisitingRules,
     RemoteSearch,
+    WysiwygEditor,
   },
 
   setup() {

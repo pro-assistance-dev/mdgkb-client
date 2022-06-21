@@ -13,13 +13,7 @@
             <el-card class="content-card">
               <template #header>Контент</template>
               <el-form-item prop="content">
-                <QuillEditor
-                  v-model:content="page.content"
-                  style="min-height: 200px; max-height: 700px"
-                  content-type="html"
-                  theme="snow"
-                  :options="editorOption"
-                ></QuillEditor>
+                <WysiwygEditor v-model:content="page.content" />
               </el-form-item>
             </el-card>
           </el-container>
@@ -76,7 +70,6 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { QuillEditor } from '@vueup/vue-quill';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -84,13 +77,14 @@ import { useStore } from 'vuex';
 import AdminGallery from '@/components/admin/AdminGallery.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IPage from '@/interfaces/page/IPage';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminPagesPage',
-  components: { AdminGallery, QuillEditor, CardHeader, ImageCropper },
+  components: { AdminGallery, WysiwygEditor, CardHeader, ImageCropper },
   setup() {
     const editorOption = {
       modules: {
