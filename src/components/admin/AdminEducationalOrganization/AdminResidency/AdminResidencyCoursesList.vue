@@ -14,7 +14,7 @@
       </el-table-column>
       <el-table-column label="Специализация" min-width="300">
         <template #default="scope">
-          <router-link :to="`/admin/residency/courses/${scope.row.getMainSpecialization().slug}`">
+          <router-link :to="`/admin/residency/courses/${scope.row.getMainSpecialization().id}`">
             {{ scope.row.getMainSpecialization().name }}
           </router-link>
         </template>
