@@ -273,6 +273,11 @@ const menuList: IAdminMenu[] = [
         to: '/admin/timetable-patterns',
         icon: 'el-icon-time',
       },
+      {
+        title: 'Группы статусов заявок',
+        to: '/admin/form-status-groups',
+        icon: 'el-icon-user',
+      },
     ],
   },
   {
@@ -292,11 +297,6 @@ const menuList: IAdminMenu[] = [
         title: 'Платные услуги',
         to: '/admin/paid-programs-groups',
         icon: 'el-icon-money',
-      },
-      {
-        title: 'Группы статусов заявок',
-        to: '/admin/form-status-groups',
-        icon: 'el-icon-user',
       },
       // {
       //   title: 'Статусы заявок',
