@@ -35,8 +35,6 @@
 </template>
 
 <script lang="ts">
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 

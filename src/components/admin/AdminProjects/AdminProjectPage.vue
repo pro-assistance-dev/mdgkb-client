@@ -6,13 +6,7 @@
           <el-input v-model="project.title" placeholder="Заголовок"></el-input>
         </el-form-item>
         <el-form-item label="Контент" prop="content">
-          <QuillEditor
-            v-model:content="project.content"
-            style="min-height: 200px"
-            content-type="html"
-            theme="snow"
-            :options="editorOption"
-          ></QuillEditor>
+          <WysiwygEditor v-model:content="project.content" />
         </el-form-item>
       </el-card>
       <el-card header="Вкладки">
@@ -23,13 +17,7 @@
               <el-input v-model="item.title" placeholder="Название вкладки"></el-input>
             </el-form-item>
             <el-form-item label="Контент" :prop="'projectItems.' + index + '.content'" :rules="rules.tabContent">
-              <QuillEditor
-                v-model:content="item.content"
-                style="min-height: 200px; max-height: 700px"
-                content-type="html"
-                theme="snow"
-                :options="editorOption"
-              ></QuillEditor>
+              <WysiwygEditor v-model:content="item.content" :options="editorOption" />
             </el-form-item>
           </el-tab-pane>
         </el-tabs>
@@ -39,12 +27,12 @@
 </template>
 
 <script lang="ts">
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IProject from '@/interfaces/projects/IProject';
 import IProjectItem from '@/interfaces/projects/IProjectItem';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
@@ -52,7 +40,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminProjectPage',
-  components: { QuillEditor },
+  components: { WysiwygEditor },
 
   setup() {
     const editorOption = {

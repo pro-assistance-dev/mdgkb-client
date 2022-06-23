@@ -36,12 +36,7 @@
             <el-card class="content-card">
               <template #header>Описание</template>
               <el-form-item prop="description">
-                <QuillEditor
-                  v-model:content="residencyCourse.description"
-                  style="min-height: 200px; max-height: 700px"
-                  content-type="html"
-                  theme="snow"
-                ></QuillEditor>
+                <WysiwygEditor v-model:content="residencyCourse.description" />
               </el-form-item>
             </el-card>
             <el-card>
@@ -152,14 +147,12 @@
 </template>
 
 <script lang="ts">
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IEducationYear from '@/interfaces/IEducationYear';
@@ -180,7 +173,7 @@ export default defineComponent({
   components: {
     FileUploader,
     RemoteSearch,
-    QuillEditor,
+    WysiwygEditor,
     TableButtonGroup,
   },
   setup() {
