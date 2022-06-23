@@ -15,12 +15,7 @@
           ></el-checkbox>
         </el-form-item>
         <el-form-item prop="description">
-          <QuillEditor
-            v-model:content="publicDocumentType.description"
-            style="min-height: 200px; max-height: 700px"
-            content-type="html"
-            theme="snow"
-          ></QuillEditor>
+          <WysiwygEditor v-model:content="publicDocumentType.description" />
         </el-form-item>
       </el-card>
       <el-card>
@@ -44,12 +39,7 @@
             </div>
             <div>
               <el-form-item prop="description">
-                <QuillEditor
-                  v-model:content="docType.description"
-                  style="min-height: 200px; max-height: 700px"
-                  content-type="html"
-                  theme="snow"
-                ></QuillEditor>
+                <WysiwygEditor v-model:content="docType.description" />
               </el-form-item>
             </div>
           </template>
@@ -97,7 +87,6 @@
 </template>
 
 <script lang="ts">
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
@@ -105,6 +94,7 @@ import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
@@ -112,7 +102,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminPublicDocumentTypePage',
-  components: { DocumentUploader, TableButtonGroup, QuillEditor },
+  components: { DocumentUploader, TableButtonGroup, WysiwygEditor },
 
   setup() {
     const store = useStore();

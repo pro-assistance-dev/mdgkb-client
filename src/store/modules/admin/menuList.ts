@@ -2,7 +2,7 @@ import IAdminMenu from '@/interfaces/IAdminMenu';
 
 const menuList: IAdminMenu[] = [
   {
-    title: 'Информационный раздел',
+    title: 'Новости и реклама',
     to: '/',
     icon: 'el-icon-info',
     children: [
@@ -26,8 +26,15 @@ const menuList: IAdminMenu[] = [
         to: '/admin/banners',
         icon: 'el-icon-film',
       },
+    ],
+  },
+  {
+    title: 'Вакансии, вопросы, комментарии, заявки',
+    to: '/',
+    icon: 'el-icon-info',
+    children: [
       {
-        title: 'Вакансии',
+        title: 'Редактор вакансий',
         to: '/admin/vacancies',
         icon: 'el-icon-suitcase-1',
       },
@@ -37,10 +44,26 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-suitcase-1',
         tableName: 'vacancy_responses',
       },
+      {
+        title: 'Вопросы',
+        to: '/admin/questions',
+        icon: 'el-icon-question',
+      },
+      {
+        title: 'Комментарии',
+        to: '/admin/comments',
+        tableName: 'comments',
+      },
+      {
+        title: 'Заявки на въезд',
+        to: '/admin/applications-cars',
+        icon: 'el-icon-guide',
+        tableName: 'applications_cars',
+      },
     ],
   },
   {
-    title: 'Справочный раздел',
+    title: 'Здания, отделения, входы',
     to: '/',
     icon: 'el-icon-question',
     children: [
@@ -56,6 +79,13 @@ const menuList: IAdminMenu[] = [
         title: 'Отделения',
         to: '/admin/divisions',
       },
+    ],
+  },
+  {
+    title: 'Руководители и врачи',
+    to: '/',
+    icon: 'el-icon-question',
+    children: [
       {
         title: 'Руководители',
         to: '/admin/heads',
@@ -73,10 +103,6 @@ const menuList: IAdminMenu[] = [
     to: '/',
     icon: 'el-icon-document',
     children: [
-      // {
-      //   title: 'Документы',
-      //   to: '/admin/documents-types',
-      // },
       {
         title: 'Сертификаты',
         to: '/admin/certificates',
@@ -89,7 +115,7 @@ const menuList: IAdminMenu[] = [
     ],
   },
   {
-    title: 'Общее',
+    title: 'Проекты, партнеры, профили, организации',
     to: '/',
     icon: 'el-icon-collection',
     children: [
@@ -100,6 +126,14 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Наши проекты',
         to: '/admin/projects',
+      },
+      {
+        title: 'Медицинские профили',
+        to: '/admin/medical-profiles',
+      },
+      {
+        title: 'Организации здравоохранения',
+        to: '/admin/side-organizations',
       },
     ],
   },
@@ -113,8 +147,8 @@ const menuList: IAdminMenu[] = [
         to: '/admin/educational-organization',
       },
       {
-        title: 'Специальности',
-        to: '/admin/educational/specializations',
+        title: 'Ординатура',
+        to: '/admin/residency',
       },
       {
         title: 'Аспирантура',
@@ -149,14 +183,6 @@ const menuList: IAdminMenu[] = [
         to: '/admin/residency/courses',
       },
       {
-        title: 'Ординатура',
-        to: '/admin/residency',
-      },
-      {
-        title: 'Шаблоны форм для заявок',
-        to: '/admin/form-patterns',
-      },
-      {
         title: 'Заявки ДПО',
         to: '/admin/dpo/applications',
         tableName: 'dpo_applications',
@@ -183,7 +209,7 @@ const menuList: IAdminMenu[] = [
     ],
   },
   {
-    title: 'Для пациентов',
+    title: 'FAQ, правила, исследования, донорство',
     to: '/',
     icon: 'el-icon-user',
     children: [
@@ -200,38 +226,6 @@ const menuList: IAdminMenu[] = [
         to: '/admin/faqs',
       },
       {
-        title: 'Медицинские профили',
-        to: '/admin/medical-profiles',
-      },
-      {
-        title: 'Организации здравоохранения',
-        to: '/admin/side-organizations',
-      },
-    ],
-  },
-  {
-    title: 'Социальный раздел',
-    to: '/',
-    icon: 'el-icon-user',
-    children: [
-      {
-        title: 'Вопросы',
-        to: '/admin/questions',
-        icon: 'el-icon-question',
-      },
-      {
-        title: 'Комментарии',
-        to: '/admin/comments',
-        tableName: 'comments',
-      },
-    ],
-  },
-  {
-    title: 'Трансфузиология',
-    to: '/',
-    icon: 'el-icon-first-aid-kit',
-    children: [
-      {
         title: 'Правила для доноров',
         to: '/admin/donor-rules',
         icon: 'el-icon-plus',
@@ -239,7 +233,7 @@ const menuList: IAdminMenu[] = [
     ],
   },
   {
-    title: 'Структура сайта',
+    title: 'Администрирование',
     to: '/',
     icon: 'el-icon-data-board',
     children: [
@@ -251,52 +245,6 @@ const menuList: IAdminMenu[] = [
         title: 'Страницы',
         to: '/admin/pages',
       },
-    ],
-  },
-  {
-    title: 'В разработке',
-    to: '/',
-    icon: 'el-icon-warning',
-    children: [
-      {
-        title: 'Шаблоны графика работы',
-        to: '/admin/timetable-patterns',
-        icon: 'el-icon-time',
-      },
-      {
-        title: 'Создать слоты для записи',
-        to: '/admin/appointments/constructor',
-      },
-      {
-        title: 'Список записей',
-        to: '/admin/appointments/list',
-      },
-      {
-        title: 'Заявки на въезд',
-        to: '/admin/applications-cars',
-        icon: 'el-icon-guide',
-        tableName: 'applications_cars',
-      },
-      {
-        title: 'Платные услуги',
-        to: '/admin/paid-programs-groups',
-        icon: 'el-icon-money',
-      },
-      {
-        title: 'Клиентские доступы',
-        to: '/admin/path-permissions',
-        icon: 'el-icon-user',
-      },
-      {
-        title: 'Группы статусов заявок',
-        to: '/admin/form-status-groups',
-        icon: 'el-icon-user',
-      },
-      // {
-      //   title: 'Статусы заявок',
-      //   to: '/admin/form-statuses',
-      //   icon: 'el-icon-user',
-      // },
       {
         title: 'Роли',
         to: '/admin/roles',
@@ -307,6 +255,54 @@ const menuList: IAdminMenu[] = [
         to: '/admin/users',
         icon: 'el-icon-user',
       },
+      {
+        title: 'Клиентские доступы',
+        to: '/admin/path-permissions',
+        icon: 'el-icon-user',
+      },
+      {
+        title: 'Шаблоны графика работы',
+        to: '/admin/timetable-patterns',
+        icon: 'el-icon-time',
+      },
+      {
+        title: 'Шаблоны форм для заявок',
+        to: '/admin/form-patterns',
+      },
+      {
+        title: 'Специальности',
+        to: '/admin/educational/specializations',
+      },
+      {
+        title: 'Группы статусов заявок',
+        to: '/admin/form-status-groups',
+        icon: 'el-icon-user',
+      },
+    ],
+  },
+  {
+    title: 'В разработке',
+    to: '/',
+    icon: 'el-icon-warning',
+    children: [
+      {
+        title: 'Создать слоты для записи',
+        to: '/admin/appointments/constructor',
+      },
+      {
+        title: 'Список записей',
+        to: '/admin/appointments/list',
+      },
+      {
+        title: 'Платные услуги',
+        to: '/admin/paid-programs-groups',
+        icon: 'el-icon-money',
+      },
+      // {
+      //   title: 'Статусы заявок',
+      //   to: '/admin/form-statuses',
+      //   icon: 'el-icon-user',
+      // },
     ],
   },
 ];

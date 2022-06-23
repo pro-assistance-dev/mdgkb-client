@@ -59,8 +59,6 @@
 </template>
 
 <script lang="ts">
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
 import { Grid } from '@element-plus/icons-vue';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';

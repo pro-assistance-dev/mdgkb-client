@@ -41,11 +41,8 @@
       </el-table-column>
       <el-table-column label="Баллы за индивидуальные достижения" align="center" width="150">
         <template #default="scope">
-          <div v-if="isEditMode">
-            <el-input-number v-model="scope.row.pointsAchievements" size="small" min="0" />
-          </div>
-          <div v-else>
-            {{ scope.row.pointsAchievements }}
+          <div>
+            {{ scope.row.pointsAchievementsCount() }}
           </div>
         </template>
       </el-table-column>
@@ -86,7 +83,7 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
 
   setup() {
-    const residencyApplications: ComputedRef<IResidencyApplication[]> = computed(
+    const residencyApplications: ComputedRef<IResidencyApplication[]> = computed<IResidencyApplication[]>(
       () => Provider.store.getters['residencyApplications/items']
     );
     const applicationsCount: ComputedRef<number> = computed(() =>

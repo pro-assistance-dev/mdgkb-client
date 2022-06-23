@@ -6,13 +6,7 @@
           <el-input v-model="faq.question" placeholder="Вопрос"></el-input>
         </el-form-item>
         <el-form-item label="Ответ" prop="answer">
-          <QuillEditor
-            v-model:content="faq.answer"
-            style="min-height: 200px; max-height: 700px"
-            aria-placeholder="Ответ"
-            content-type="html"
-            theme="snow"
-          ></QuillEditor>
+          <WysiwygEditor v-model:content="faq.answer" />
         </el-form-item>
       </el-card>
     </el-form>
@@ -20,21 +14,19 @@
 </template>
 
 <script lang="ts">
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IFaq from '@/interfaces/IFaq';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminFaqPage',
-  components: { QuillEditor },
+  components: { WysiwygEditor },
 
   setup() {
     const store = useStore();

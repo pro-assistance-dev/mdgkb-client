@@ -10,6 +10,8 @@ export default class Human implements IHuman {
   name = '';
   surname = '';
   patronymic = '';
+  citizenship = '';
+  placeBirth = '';
   snils = '';
   photoId?: string;
   photo: IFileInfo = new FileInfo();
@@ -17,6 +19,8 @@ export default class Human implements IHuman {
   dateBirth?: Date;
   contactInfo: IContactInfo = new ContactInfo();
   slug = '';
+  postIndex = '';
+  address = '';
   constructor(i?: IHuman) {
     if (!i) {
       return;
@@ -29,6 +33,8 @@ export default class Human implements IHuman {
     this.isMale = i.isMale;
     this.dateBirth = i.dateBirth;
     this.slug = i.slug;
+    this.citizenship = i.citizenship;
+    this.placeBirth = i.placeBirth;
 
     if (i.photo) {
       this.photo = new FileInfo(i.photo);
@@ -37,6 +43,9 @@ export default class Human implements IHuman {
     if (i.contactInfo) {
       this.contactInfo = new ContactInfo(i.contactInfo);
     }
+
+    this.postIndex = i.postIndex;
+    this.address = i.address;
   }
 
   getFullName(): string {

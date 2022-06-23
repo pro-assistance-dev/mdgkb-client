@@ -19,6 +19,11 @@
           <el-input v-model="scope.row.name" placeholder="Имя поля" />
         </template>
       </el-table-column>
+      <el-table-column label="Код формы" sortable>
+        <template #default="scope">
+          <el-input v-model="scope.row.code" placeholder="Код формы" />
+        </template>
+      </el-table-column>
       <el-table-column label="Комментарий" sortable>
         <template #default="scope">
           <el-input v-model="scope.row.comment" placeholder="Комментарий" />

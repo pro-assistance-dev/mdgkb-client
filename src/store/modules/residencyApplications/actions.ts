@@ -75,6 +75,14 @@ const actions: ActionTree<State, RootState> = {
   unsubscribeCreate: async ({ commit }): Promise<void> => {
     source?.close();
   },
+  filledApplicationDownload: async (_, item: IResidencyApplication): Promise<void> => {
+    await httpClient.post<IResidencyApplication, IResidencyApplication>({
+      payload: item,
+      query: `fill-application-template`,
+      isBlob: true,
+      downloadFileName: 'Заявление_ординатура 2022.docx',
+    });
+  },
 };
 
 export default actions;

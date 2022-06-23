@@ -8,6 +8,7 @@ export default class Field implements IField {
   id?: string;
   name = '';
   order = 0;
+  code = '';
   formId?: string;
   comment = '';
   valueTypeId = '';
@@ -23,6 +24,7 @@ export default class Field implements IField {
     this.id = i.id;
     this.name = i.name;
     this.comment = i.comment;
+    this.code = i.code;
     this.valueType = i.valueType;
     this.order = i.order;
     this.formId = i.formId;

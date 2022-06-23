@@ -52,6 +52,7 @@ import { paidPrograms } from '@/store/modules/paidPrograms';
 import { paidProgramsGroups } from '@/store/modules/paidProgramsGroups';
 import { partners } from '@/store/modules/partners';
 import { partnerTypes } from '@/store/modules/partnerTypes';
+import { pointsAchievements } from '@/store/modules/pointsAchievements';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
 import { postgraduateDocumentTypes } from '@/store/modules/postgraduateDocumentTypes';
@@ -161,6 +162,7 @@ const s: StoreOptions<RootState> = {
     educationalOrganizationAcademics,
     formStatusGroups,
     admissionCommitteeDocumentTypes,
+    pointsAchievements,
   },
 };
 

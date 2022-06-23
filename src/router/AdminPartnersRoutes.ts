@@ -6,18 +6,6 @@ import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
   {
-    path: '/admin/partners',
-    name: 'AdminPartnersList',
-    component: AdminPartnersList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
     path: '/admin/partners/new',
     name: 'AdminPartnerPageCreate',
     component: AdminPartnerPage,
@@ -33,6 +21,18 @@ export default [
     path: '/admin/partners/:id',
     name: 'AdminPartnerPageUpdate',
     component: AdminPartnerPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/partners',
+    name: 'AdminPartnersList',
+    component: AdminPartnersList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

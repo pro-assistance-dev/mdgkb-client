@@ -1,11 +1,6 @@
 <template>
   <div v-if="mounted">
     <div class="card-item">
-      <h2>НАБОР 2021 ГОДА. КОНКУРС ПО СПЕЦИАЛЬНОСТЯМ ОРДИНАТУРЫ</h2>
-      <CompetitionPlacesTable :residency-courses="residencyCourses" />
-    </div>
-
-    <div class="card-item">
       <h2>АБИТУРИЕНТЫ, ПОДАВШИЕ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
       <CompetitionApplicationsTable :residency-courses="residencyCourses" />
     </div>
@@ -13,6 +8,11 @@
     <div class="card-item">
       <h2>РЕЙТИНГ АБИТУРИЕНТОВ ПОДАВШИХ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
       <CompetitionRating :residency-courses="residencyCourses" />
+    </div>
+
+    <div class="card-item">
+      <h2>НАБОР 2022 ГОДА. КОНКУРС ПО СПЕЦИАЛЬНОСТЯМ ОРДИНАТУРЫ</h2>
+      <CompetitionPlacesTable :residency-courses="residencyCourses" />
     </div>
   </div>
 </template>
@@ -40,6 +40,7 @@ export default defineComponent({
   setup() {
     const mounted: Ref<boolean> = ref(false);
     const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
+
     const loadPrograms = async () => {
       Provider.resetFilterQuery();
       Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());

@@ -18,7 +18,7 @@
           </div>
           <div>
             <el-form-item prop="description">
-              <Editor v-model="postgraduateDocType.documentType.description" />
+              <WysiwygEditor v-model="postgraduateDocType.documentType.description" />
             </el-form-item>
           </div>
         </template>
@@ -58,7 +58,7 @@ import { useStore } from 'vuex';
 import PostgraduateDocumentType from '@/classes/PostgraduateDocumentType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
-import Editor from '@/components/Editor/WysiwygEditor.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
 import removeFromClass from '@/mixins/removeFromClass';
@@ -68,9 +68,8 @@ import validate from '@/mixins/validate';
 export default defineComponent({
   name: 'AdminPostgraduate',
   components: {
-    Editor,
     DocumentUploader,
-    // QuillEditor,
+    WysiwygEditor,
     TableButtonGroup,
   },
   setup() {

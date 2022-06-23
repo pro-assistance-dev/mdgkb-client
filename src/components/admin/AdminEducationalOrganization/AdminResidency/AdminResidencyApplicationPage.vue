@@ -12,6 +12,7 @@
               :email-exists="emailExists"
               @findEmail="findEmail"
             />
+            <AdminResidencyApplicationAchievementsPoints :residency-application="application" />
           </div>
           <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
         </el-col>
@@ -50,10 +51,10 @@
             <div v-else>Баллы вступительных испытаний: {{ application.pointsEntrance }}</div>
           </el-card>
           <el-card>
-            <el-form-item v-if="isEditMode" label="Баллы индивидуальных достижений" prop="pointsEntrance">
-              <el-input-number v-model="application.pointsAchievements" value-key="id" style="width: 100%" />
-            </el-form-item>
-            <div v-else>Баллы вступительных испытаний: {{ application.pointsAchievements }}</div>
+            <div>Баллы индивидуальных достижений: {{ application.pointsAchievementsCount() }}</div>
+          </el-card>
+          <el-card>
+            <div>Всего баллов: {{ application.pointsSum() }}</div>
           </el-card>
         </el-col>
       </el-row>
@@ -67,6 +68,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import UserFormFields from '@/classes/UserFormFields';
+import AdminResidencyApplicationAchievementsPoints from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationAchievementsPoints.vue';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
@@ -76,7 +78,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'AdminResidencyApplicationPage',
-  components: { AdminFormValue },
+  components: { AdminFormValue, AdminResidencyApplicationAchievementsPoints },
 
   setup() {
     const store = useStore();

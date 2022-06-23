@@ -15,14 +15,22 @@ const httpClient = new HttpClient('auth');
 
 const actions: ActionTree<State, RootState> = {
   login: async ({ commit }, user: IUser): Promise<void> => {
-    const { user: newUser, tokens } = await httpClient.post<IUser, { user: IUser; tokens: ITokens }>({ query: 'login', payload: user });
+    const res = await httpClient.post<IUser, { user: IUser; tokens: ITokens }>({ query: 'login', payload: user });
+    if (!res) {
+      return;
+    }
+    const { user: newUser, tokens } = res;
     commit('setUser', newUser);
     commit('setTokens', tokens);
     commit('setIsAuth', true);
     commit('setFavourite', newUser);
   },
   register: async ({ commit }, user: IUser): Promise<void> => {
-    const { user: newUser, tokens } = await httpClient.post<IUser, { user: IUser; tokens: ITokens }>({ query: 'register', payload: user });
+    const res = await httpClient.post<IUser, { user: IUser; tokens: ITokens }>({ query: 'register', payload: user });
+    if (!res) {
+      return;
+    }
+    const { user: newUser, tokens } = res;
     commit('setUser', newUser);
     commit('setTokens', tokens);
     commit('setIsAuth', true);

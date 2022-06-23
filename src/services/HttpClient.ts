@@ -18,6 +18,7 @@ export default class HttpClient {
     link.setAttribute('download', name);
     link.setAttribute('target', '_blank');
     document.body.appendChild(link);
+    console.log(link);
     link.click();
   }
 
@@ -58,16 +59,22 @@ export default class HttpClient {
     return HttpClient.download(url, fileName);
   }
 
-  async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
-    const { payload, fileInfos, query, headers, isFormData } = params;
+  async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType | void> {
+    const { payload, fileInfos, query, headers, isFormData, isBlob, downloadFileName } = params;
     const { data } = await axiosInstance({
       url: this.buildUrl(query),
       method: 'post',
       headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
       data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
+      responseType: isBlob ? 'blob' : undefined,
     });
-
-    return data;
+    if (!isBlob) {
+      return data;
+    }
+    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const url = URL.createObjectURL(blob);
+    const fileName = HttpClient.getDownloadFileName(downloadFileName, '');
+    return HttpClient.download(url, fileName);
   }
 
   async put<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {

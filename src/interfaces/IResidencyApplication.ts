@@ -1,3 +1,6 @@
+import IPointsAchievement from '@/interfaces/IPointsAchievement';
+import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
+
 import IFileInfo from './files/IFileInfo';
 import IForm from './IForm';
 import IResidencyCourse from './IResidencyCourse';
@@ -12,7 +15,16 @@ export default interface IResidencyApplication {
   paid: boolean;
   formValue: IForm;
   formValueId?: string;
+  residencyApplicationPointsAchievements: IResidencyApplicationPointsAchievement[];
+  residencyApplicationPointsAchievementsForDelete: string[];
 
   getFileInfos: () => IFileInfo[];
   pointsSum: () => number;
+  addAchievement: (pointsAchievement: IPointsAchievement) => void;
+  achievementExists: (pointsAchievementId: string) => boolean;
+  pointsAchievementsCount: () => number;
+
+  primaryAccreditation: boolean;
+  primaryAccreditationPoints: number;
+  primaryAccreditationPlace: string;
 }

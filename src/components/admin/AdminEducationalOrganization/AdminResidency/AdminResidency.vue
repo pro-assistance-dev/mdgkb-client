@@ -17,12 +17,7 @@
           </div>
           <div>
             <el-form-item prop="description">
-              <QuillEditor
-                v-model:content="residencyDocType.documentType.description"
-                style="min-height: 200px; max-height: 700px"
-                content-type="html"
-                theme="snow"
-              ></QuillEditor>
+              <WysiwygEditor v-model:content="residencyDocType.documentType.description" />
             </el-form-item>
           </div>
         </template>
@@ -54,7 +49,6 @@
 </template>
 
 <script lang="ts">
-import { QuillEditor } from '@vueup/vue-quill';
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
@@ -63,6 +57,7 @@ import { useStore } from 'vuex';
 import ResidencyDocumentType from '@/classes/ResidencyDocumentType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import removeFromClass from '@/mixins/removeFromClass';
@@ -74,7 +69,7 @@ export default defineComponent({
   components: {
     DocumentUploader,
     TableButtonGroup,
-    QuillEditor,
+    WysiwygEditor,
   },
   setup() {
     const mounted = ref(false);
