@@ -104,9 +104,9 @@ export default defineComponent({
 
     const filledApplicationDownload = async () => {
       residencyApplication.value.formValue.validate();
-      if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
-        return;
-      }
+      // if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
+      //   return;
+      // }
       await Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
     };
 

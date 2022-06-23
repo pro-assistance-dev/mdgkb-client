@@ -19,6 +19,8 @@ export default class Human implements IHuman {
   dateBirth?: Date;
   contactInfo: IContactInfo = new ContactInfo();
   slug = '';
+  postIndex = '';
+  address = '';
   constructor(i?: IHuman) {
     if (!i) {
       return;
@@ -41,6 +43,9 @@ export default class Human implements IHuman {
     if (i.contactInfo) {
       this.contactInfo = new ContactInfo(i.contactInfo);
     }
+
+    this.postIndex = i.postIndex;
+    this.address = i.address;
   }
 
   getFullName(): string {

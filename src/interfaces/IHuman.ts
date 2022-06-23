@@ -19,4 +19,7 @@ export default interface IHuman {
 
   contactInfo: IContactInfo;
   sanitizeName: () => void;
+
+  postIndex: string;
+  address: string;
 }

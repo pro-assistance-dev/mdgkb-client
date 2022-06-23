@@ -8,7 +8,7 @@
     <div v-if="fieldValue.showError && !fieldValue.valueNumber" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
   <el-form-item v-else-if="field.valueType.isDate()" style="margin: 0">
-    <el-date-picker v-model="fieldValue.valueDate" :default-value="new Date()" />
+    <el-date-picker v-model="fieldValue.valueDate" :default-value="new Date()" format="DD.MM.YYYY" />
     <div v-if="fieldValue.showError && !fieldValue.valueDate" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
   <el-form-item v-else-if="field.valueType.isDateTime()" style="margin: 0">

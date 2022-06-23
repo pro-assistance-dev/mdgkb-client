@@ -40,6 +40,16 @@
     <el-input v-model="formValue.user.human.patronymic" placeholder="Отчество"></el-input>
   </el-form-item>
   <el-form-item
+    v-if="(!user.human.patronymic || fromAdmin) && activeFields.userPostIndex"
+    label="Почтовый индекс"
+    prop="formValue.user.human.postIndex"
+  >
+    <el-input v-model="formValue.user.human.postIndex" placeholder="Почтовый индекс"></el-input>
+  </el-form-item>
+  <el-form-item v-if="(!user.human.patronymic || fromAdmin) && activeFields.userAddress" label="Адрес" prop="formValue.user.human.address">
+    <el-input v-model="formValue.user.human.address" placeholder="Адрес"></el-input>
+  </el-form-item>
+  <el-form-item
     v-if="(!user.human.snils || fromAdmin) && activeFields.userSnils"
     :rules="rules.userSnils"
     label="СНИЛС"
