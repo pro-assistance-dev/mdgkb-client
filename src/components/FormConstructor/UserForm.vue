@@ -96,6 +96,12 @@
   >
     <el-date-picker v-model="formValue.child.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
   </el-form-item>
+  <el-form-item v-if="activeFields.placeBirth" label="Место рождения" prop="formValue.child.human.placeBirth">
+    <el-input v-model="formValue.user.human.placeBirth" placeholder="Место рождения"></el-input>
+  </el-form-item>
+  <el-form-item v-if="activeFields.citizenship" label="Гражданство" prop="formValue.child.human.citizenship">
+    <el-input v-model="formValue.user.human.citizenship" placeholder="Гражданство"></el-input>
+  </el-form-item>
   <el-form-item v-if="activeFields.childIsMale" :rules="rules.childIsMale" label="Пол пациента" prop="formValue.child.human.isMale">
     <el-select v-model="formValue.child.human.isMale" placeholder="Выберите пол">
       <el-option label="Мужской" :value="true"></el-option>
@@ -180,6 +186,8 @@ export default defineComponent({
       childPatronymic: [{ required: true, message: 'Пожалуйста, укажите отчество пациента', trigger: 'blur' }],
       childIsMale: [{ required: true, message: 'Пожалуйста, выберите пол пациента', trigger: 'change' }],
       childDateBirth: [{ required: true, message: 'Пожалуйста, укажите дату рождения пациента', trigger: 'change' }],
+      citizenship: [{ required: true, message: 'Пожалуйста, укажите своё гражданство', trigger: 'change' }],
+      placeBirth: [{ required: true, message: 'Пожалуйста, укажите своё место рождения', trigger: 'change' }],
     };
     const openLoginModal = () => {
       store.commit('auth/openModal', 'login');

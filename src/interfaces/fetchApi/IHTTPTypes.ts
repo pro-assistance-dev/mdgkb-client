@@ -10,6 +10,8 @@ export interface IBodilessParams {
 export interface IBodyfulParams<PayloadType> {
   payload?: PayloadType;
   query?: string;
+  isBlob?: boolean;
+  downloadFileName?: string;
   headers?: Headers;
   isFormData?: boolean;
   fileInfos?: IFileInfo[];

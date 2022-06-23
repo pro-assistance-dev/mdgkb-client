@@ -12,4 +12,6 @@ export default interface IUserFormFields {
   childPatronymic?: boolean;
   childDateBirth?: boolean;
   childIsMale?: boolean;
+  citizenship: boolean;
+  placeBirth: boolean;
 }

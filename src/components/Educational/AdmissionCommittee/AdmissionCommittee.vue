@@ -53,7 +53,7 @@
       </div>
       <ResidencyCoursesList
         v-if="mode === 'freePrograms' || mode === 'paidPrograms' || showForm"
-        :paid-programs="mode === 'paidPrograms'"
+        :paid-programs="false"
         :free-programs="false"
         :cost="mode === 'paidPrograms'"
         :years="false"
@@ -128,6 +128,7 @@ export default defineComponent({
 
     const initLoad = async () => {
       await Provider.store.dispatch('admissionCommitteeDocumentTypes/getAll');
+      await loadPrograms();
       await setModes();
       setTabFromRoute();
     };

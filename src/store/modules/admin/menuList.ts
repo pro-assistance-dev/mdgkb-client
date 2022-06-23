@@ -147,8 +147,8 @@ const menuList: IAdminMenu[] = [
         to: '/admin/educational-organization',
       },
       {
-        title: 'Специальности',
-        to: '/admin/educational/specializations',
+        title: 'Ординатура',
+        to: '/admin/residency',
       },
       {
         title: 'Аспирантура',
@@ -181,14 +181,6 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Программы ординатуры',
         to: '/admin/residency/courses',
-      },
-      {
-        title: 'Ординатура',
-        to: '/admin/residency',
-      },
-      {
-        title: 'Шаблоны форм для заявок',
-        to: '/admin/form-patterns',
       },
       {
         title: 'Заявки ДПО',
@@ -272,6 +264,14 @@ const menuList: IAdminMenu[] = [
         title: 'Шаблоны графика работы',
         to: '/admin/timetable-patterns',
         icon: 'el-icon-time',
+      },
+      {
+        title: 'Шаблоны форм для заявок',
+        to: '/admin/form-patterns',
+      },
+      {
+        title: 'Специальности',
+        to: '/admin/educational/specializations',
       },
       {
         title: 'Группы статусов заявок',

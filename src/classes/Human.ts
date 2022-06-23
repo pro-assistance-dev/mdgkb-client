@@ -10,6 +10,8 @@ export default class Human implements IHuman {
   name = '';
   surname = '';
   patronymic = '';
+  citizenship = '';
+  placeBirth = '';
   snils = '';
   photoId?: string;
   photo: IFileInfo = new FileInfo();
@@ -29,6 +31,8 @@ export default class Human implements IHuman {
     this.isMale = i.isMale;
     this.dateBirth = i.dateBirth;
     this.slug = i.slug;
+    this.citizenship = i.citizenship;
+    this.placeBirth = i.placeBirth;
 
     if (i.photo) {
       this.photo = new FileInfo(i.photo);

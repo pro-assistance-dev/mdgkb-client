@@ -14,6 +14,8 @@ export default class UserFormFields implements IUserFormFields {
   childPatronymic = false;
   childDateBirth = false;
   childIsMale = false;
+  citizenship = false;
+  placeBirth = false;
 
   constructor(i?: IUserFormFields) {
     if (!i) return;
@@ -76,6 +78,8 @@ export default class UserFormFields implements IUserFormFields {
     newForm.userDateBirth = true;
     newForm.userIsMale = true;
     newForm.userPhone = true;
+    newForm.citizenship = true;
+    newForm.placeBirth = true;
     return newForm;
   }
 

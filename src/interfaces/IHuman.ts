@@ -8,6 +8,8 @@ export default interface IHuman {
   patronymic: string;
   snils: string;
   isMale: boolean;
+  citizenship: string;
+  placeBirth: string;
   dateBirth?: Date;
   slug: string;
   getFullName: () => string;
