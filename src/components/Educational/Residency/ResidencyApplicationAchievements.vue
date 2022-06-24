@@ -1,7 +1,8 @@
 <template>
-  <el-select v-model="selectedAchievement" value-key="id" placeholder="Выберите индивидуальное достижение" @change="addAchievement">
-    <el-option v-for="item in pointsAchievements" :key="item.id" :label="item.name" :value="item" />
-  </el-select>
+  <!--  <el-select v-model="selectedAchievement" value-key="id" placeholder="Выберите индивидуальное достижение" @change="addAchievement">-->
+  <!--    <el-option v-for="item in pointsAchievements" :key="item.id" :label="item.name" :value="item" />-->
+  <!--  </el-select>-->
+  <div>{{ residencyApplication.calculateAchievementsPoints(false) }}</div>
   <table>
     <thead>
       <th>Достижение</th>
@@ -9,27 +10,20 @@
       <th style="text-align: center">Файл (название аналогично достижению)</th>
     </thead>
     <tbody>
-      <tr v-for="(achievement, i) in residencyApplication.residencyApplicationPointsAchievements" :key="achievement.id">
+      <tr v-for="achievement in pointsAchievements" :key="achievement.id">
+        <td>{{ achievement.code }}</td>
         <td>
-          {{ achievement.pointsAchievement.name }}
+          {{ achievement.name }}
         </td>
         <td style="text-align: center">
-          {{ achievement.pointsAchievement.points }}
+          {{ achievement.points > 0 ? achievement.points : '' }}
         </td>
-        <td style="text-align: center">
-          <FileUploader :file-info="achievement.fileInfo" />
-        </td>
-        <td style="text-align: center">
-          <el-button
-            @click="
-              removeFromClass(
-                i,
-                residencyApplication.residencyApplicationPointsAchievements,
-                residencyApplication.residencyApplicationPointsAchievementsForDelete
-              )
-            "
-            >Удалить достижение</el-button
-          >
+        <td v-if="achievement.points > 0" style="text-align: center">
+          <div v-if="residencyApplication.achievementExists(achievement.id)">
+            <FileUploader :file-info="residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo" />
+            <el-button @click="residencyApplication.removeAchievementByAchievementId(achievement.id)">Удалить достижение </el-button>
+          </div>
+          <el-button v-else @click="addAchievement(achievement)">Добавить</el-button>
         </td>
       </tr>
     </tbody>
@@ -38,7 +32,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import FileUploader from '@/components/FileUploader.vue';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
@@ -71,6 +65,9 @@ export default defineComponent({
       selectedAchievement.value = undefined;
     };
 
+    onBeforeMount(async () => {
+      await Provider.store.dispatch('pointsAchievements/getAll');
+    });
     return {
       selectedAchievement,
       addAchievement,

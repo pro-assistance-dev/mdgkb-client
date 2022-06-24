@@ -21,10 +21,12 @@ export default interface IResidencyApplication {
   getFileInfos: () => IFileInfo[];
   pointsSum: () => number;
   addAchievement: (pointsAchievement: IPointsAchievement) => void;
+  removeAchievementByAchievementId: (achievementId: string) => void;
   achievementExists: (pointsAchievementId: string) => boolean;
-  pointsAchievementsCount: () => number;
 
   primaryAccreditation: boolean;
   primaryAccreditationPoints: number;
   primaryAccreditationPlace: string;
+  getAchievementResultByAchievementId: (achievementId: string) => IResidencyApplicationPointsAchievement;
+  calculateAchievementsPoints: (onlyApproved: boolean) => number;
 }

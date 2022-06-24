@@ -51,7 +51,7 @@
             <div v-else>Баллы вступительных испытаний: {{ application.pointsEntrance }}</div>
           </el-card>
           <el-card>
-            <div>Баллы индивидуальных достижений: {{ application.pointsAchievementsCount() }}</div>
+            <div>Баллы индивидуальных достижений: {{ application.calculateAchievements(true) }}</div>
           </el-card>
           <el-card>
             <div>Всего баллов: {{ application.pointsSum() }}</div>
