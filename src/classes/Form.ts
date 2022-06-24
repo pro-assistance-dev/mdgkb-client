@@ -203,9 +203,14 @@ export default class Form implements IForm {
     });
   }
 
-  validate(): void {
+  validate(withoutFiles?: boolean): void {
     this.validated = true;
+
     this.fieldValues.forEach((el: IFieldValue) => {
+      if (withoutFiles && el.field?.valueType.isFile()) {
+        return;
+      }
+
       if (el.field?.required) {
         el.validate();
         if (el.showError) {
@@ -213,6 +218,7 @@ export default class Form implements IForm {
         }
       }
     });
+
     if (this.withPersonalDataAgreement && !this.agreedWithPersonalDataAgreement) {
       this.showPersonalDataAgreementError = true;
       this.validated = false;

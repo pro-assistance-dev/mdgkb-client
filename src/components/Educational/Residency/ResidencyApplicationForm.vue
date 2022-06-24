@@ -97,16 +97,20 @@ export default defineComponent({
       residencyApplication.value.formValue.initFieldsValues();
       Provider.store.commit('residencyApplications/setCourse', residencyCourse.value);
       Provider.store.commit('residencyApplications/setUser', user.value);
-      await Provider.store.dispatch('pointsAchievements/getAll');
+
       await findEmail();
       mounted.value = true;
     });
 
     const filledApplicationDownload = async () => {
-      residencyApplication.value.formValue.validate();
-      // if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
-      //   return;
-      // }
+      residencyApplication.value.formValue.validate(true);
+      if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
+        ElMessage({
+          type: 'warning',
+          message: 'Данные заполнены некорректно - проверьте корректность',
+        });
+        return;
+      }
       await Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
     };
 

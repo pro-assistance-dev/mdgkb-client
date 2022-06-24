@@ -42,7 +42,7 @@
       <el-table-column label="Баллы за индивидуальные достижения" align="center" width="150">
         <template #default="scope">
           <div>
-            {{ scope.row.pointsAchievementsCount() }}
+            {{ scope.row.calculateAchievementsPoints(true) }}
           </div>
         </template>
       </el-table-column>

@@ -4,6 +4,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
+import removeFromClass from '@/mixins/removeFromClass';
 
 import Form from './Form';
 import ResidencyCourse from './ResidencyCourse';
@@ -56,7 +57,7 @@ export default class ResidencyApplication implements IResidencyApplication {
   }
 
   pointsSum(): number {
-    const pointsAchievements = this.pointsAchievementsCount() ?? 0;
+    const pointsAchievements = this.calculateAchievementsPoints(true) ?? 0;
     const pointsEntrance = this.pointsEntrance ?? 0;
     return pointsAchievements + pointsEntrance;
   }
@@ -67,16 +68,71 @@ export default class ResidencyApplication implements IResidencyApplication {
     this.residencyApplicationPointsAchievements.push(achievement);
   }
 
+  calculateAchievementsPoints(onlyApproved: boolean): number {
+    const a = this.filterAchievements(onlyApproved);
+    return a.reduce((sum: number, p: IResidencyApplicationPointsAchievement) => sum + p.pointsAchievement.points, 0);
+  }
+
+  private filterAchievements(onlyApproved: boolean): IResidencyApplicationPointsAchievement[] {
+    const simpleAchievementsCodes: string[] = ['1', '2', '3', '5', '6'];
+    const additionalAchievementsCodes: string[] = [
+      '9.1',
+      '9.2',
+      '9.3',
+      '9.4',
+      '9.5',
+      '9.6',
+      '9.7',
+      '9.8',
+      '9.9',
+      '9.10',
+      '9.11',
+      '9.12',
+      '9.13',
+    ];
+
+    const maxAdditionalPoints = 20;
+    let additionalPointsSum = 0;
+    let achievements: IResidencyApplicationPointsAchievement[] = [];
+    this.residencyApplicationPointsAchievements.forEach((item: IResidencyApplicationPointsAchievement) => {
+      if (onlyApproved && !item.approved) {
+        return;
+      }
+      if (simpleAchievementsCodes.includes(String(item.pointsAchievement.code))) {
+        achievements.push(item);
+      }
+      const canPlusAdditionalAchievement = additionalPointsSum + item.pointsAchievement.points <= maxAdditionalPoints;
+      if (additionalAchievementsCodes.includes(String(item.pointsAchievement.code)) && canPlusAdditionalAchievement) {
+        additionalPointsSum += item.pointsAchievement.points;
+        achievements.push(item);
+      }
+    });
+    const a = achievements.filter(
+      (a: IResidencyApplicationPointsAchievement) => a.pointsAchievement.code === '7' || a.pointsAchievement.code === '8'
+    );
+    if (a.length > 1) {
+      achievements = achievements.filter((a: IResidencyApplicationPointsAchievement) => a.pointsAchievement.code !== '7');
+    }
+    return achievements;
+  }
+
   achievementExists(pointsAchievementId: string): boolean {
     return !!this.residencyApplicationPointsAchievements.find(
       (a: IResidencyApplicationPointsAchievement) => a.pointsAchievementId === pointsAchievementId
     );
   }
 
-  pointsAchievementsCount(): number {
-    return this.residencyApplicationPointsAchievements.reduce(
-      (sum: number, p: ResidencyApplicationPointsAchievement) => sum + (p.approved ? p.pointsAchievement.points : 0),
-      0
+  getAchievementResultByAchievementId(achievementId: string): IResidencyApplicationPointsAchievement {
+    const a = this.residencyApplicationPointsAchievements.find(
+      (i: IResidencyApplicationPointsAchievement) => i.pointsAchievementId === achievementId
     );
+    return a ? a : new ResidencyApplicationPointsAchievement();
+  }
+
+  removeAchievementByAchievementId(achievementId: string): void {
+    const index = this.residencyApplicationPointsAchievements.findIndex(
+      (i: IResidencyApplicationPointsAchievement) => i.pointsAchievementId === achievementId
+    );
+    removeFromClass(index, this.residencyApplicationPointsAchievements, this.residencyApplicationPointsAchievementsForDelete);
   }
 }
