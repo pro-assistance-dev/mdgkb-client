@@ -1,33 +1,39 @@
 <template>
-  <VerticalPageWrapper :title="title">
-    <template #menu>
-      <PartnersMenu :partner-types="partnerTypes" @load="setPartner" />
-    </template>
-    <PartnersList :partners="currentPartners" :partner-type="currentType" />
-  </VerticalPageWrapper>
+  <div class="partner-page-container">
+    <div class="side-container">
+      <div class="side-item">
+        <div class="card-item">
+          <el-menu default-active="0">
+            <el-menu-item v-for="(item, index) in partnerTypes" :key="item.id" :index="String(index)" @click="setPartner(item)">
+              <span>{{ item.name }}</span>
+            </el-menu-item>
+          </el-menu>
+        </div>
+      </div>
+    </div>
+    <div class="content-container">
+      <PartnersList :partners="currentPartners" :partner-type="currentType" />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import PartnerType from '@/classes/partners/PartnerType';
 import PartnersList from '@/components/Partners/PartnersList.vue';
-import PartnersMenu from '@/components/Partners/PartnersMenu.vue';
-import VerticalPageWrapper from '@/components/VerticalPageWrapper.vue';
 import IPartner from '@/interfaces/partners/IPartner';
 import IPartnerType from '@/interfaces/partners/IPartnerType';
-import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'PartnersPage',
-  components: { PartnersList, VerticalPageWrapper, PartnersMenu },
+  components: { PartnersList },
 
   setup() {
     const store = useStore();
-    const partners: ComputedRef<IPartner[]> = computed(() => Provider.store.getters['partners/items']);
-    const partnerTypes: ComputedRef<IPartnerType[]> = computed(() => Provider.store.getters['partnerTypes/items']);
+    const partners: ComputedRef<IPartner[]> = computed(() => store.getters['partners/items']);
+    const partnerTypes: ComputedRef<IPartnerType[]> = computed(() => store.getters['partnerTypes/items']);
     const currentPartners: Ref<IPartner[]> = ref([]);
     const currentType: Ref<IPartnerType> = ref(new PartnerType());
 
@@ -36,13 +42,11 @@ export default defineComponent({
       currentType.value = partnerType;
     };
 
-    const load = async () => {
+    onBeforeMount(async () => {
       await store.dispatch('partnerTypes/getAll');
       await store.dispatch('partners/getAll');
       setPartner(partnerTypes.value[0]);
-    };
-
-    Hooks.onBeforeMount(load);
+    });
 
     return {
       partners,
@@ -50,7 +54,6 @@ export default defineComponent({
       currentPartners,
       setPartner,
       currentType,
-      mounted: Provider.mounted,
     };
   },
 });
