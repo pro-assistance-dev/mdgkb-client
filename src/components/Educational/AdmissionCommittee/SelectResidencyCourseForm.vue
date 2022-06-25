@@ -1,4 +1,5 @@
 <template>
+  <div class="title">Выберите программу</div>
   <div class="container-courses">
     <div v-for="residencyCourse in residencyCourses" :key="residencyCourse.id" class="course" @click="selectCourse(residencyCourse)">
       <span class="code">
@@ -7,7 +8,7 @@
       <span class="name">
         {{ residencyCourse.getMainSpecialization().name }}
       </span>
-      <span v-if="selectedCourse && residencyCourse.id === selectedCourse.id">✓</span>
+      <span v-if="selectedCourse && residencyCourse.id === selectedCourse.id" class="check">✓</span>
     </div>
   </div>
   <div class="container-button">
@@ -48,9 +49,28 @@ export default defineComponent({
 <style lang="scss" scoped>
 .code {
   margin-right: 10px;
+  font-size: 16px;
 }
+
+.name {
+  font-size: 16px;
+  margin: 5px;
+  color: #2754eb;
+}
+
 .response-btn {
   text-align: center;
+  border-radius: 20px;
+  background-color: #31af5e;
+  padding: 10px 20px;
+  height: auto;
+  letter-spacing: 2px;
+  color: white;
+  border: 1px solid rgb(black, 0.05);
+  &:hover {
+    cursor: pointer;
+    background-color: lighten(#31af5e, 10%);
+  }
 }
 .container-courses {
   margin-bottom: 20px;
@@ -58,7 +78,9 @@ export default defineComponent({
 
 .course {
   margin-bottom: 5px;
+
   &:hover {
+    color: #0a216f;
     background: #ecf5ff;
     cursor: pointer;
   }
@@ -66,5 +88,22 @@ export default defineComponent({
 
 .container-button {
   text-align: center;
+}
+
+.check {
+  margin-left: 20px;
+  color: #0a216f;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.title {
+  height: 30px;
+  justify-content: center;
+  display: flex;
+  font-size: 18px;
+  align-items: center;
+  position: absolute;
+  top: 15px;
 }
 </style>
