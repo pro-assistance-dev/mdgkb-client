@@ -76,7 +76,6 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import CommentsFiltersLib from '@/services/Provider/libs/filters/CommentsFiltersLib';
 import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
 import TokenService from '@/services/Token';
 
@@ -106,9 +105,7 @@ export default defineComponent({
     const load = async () => {
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 6;
-      Provider.filterQuery.value.pagination.cursorMode = true;
       Provider.setSortModels(CommentsSortsLib.byPublishedOn());
-      Provider.setFilterModels(CommentsFiltersLib.onlyPublished());
       await loadComments();
     };
 
