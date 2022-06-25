@@ -9,15 +9,16 @@ export default class UserFormFields implements IUserFormFields {
   userDateBirth = false;
   userIsMale = false;
   userPhone = false;
+  userCitizenship = false;
+  userPlaceBirth = false;
+  userPostIndex = false;
+  userAddress = false;
+  //
   childSurname = false;
   childName = false;
   childPatronymic = false;
   childDateBirth = false;
   childIsMale = false;
-  citizenship = false;
-  placeBirth = false;
-  userPostIndex = false;
-  userAddress = false;
 
   constructor(i?: IUserFormFields) {
     if (!i) return;
@@ -80,11 +81,11 @@ export default class UserFormFields implements IUserFormFields {
     newForm.userDateBirth = true;
     newForm.userIsMale = true;
     newForm.userPhone = true;
-    newForm.citizenship = true;
-    newForm.placeBirth = true;
-    newForm.placeBirth = true;
+    newForm.userCitizenship = true;
+    newForm.userPlaceBirth = true;
     newForm.userPostIndex = true;
     newForm.userAddress = true;
+    newForm.userSnils = true;
     return newForm;
   }
 

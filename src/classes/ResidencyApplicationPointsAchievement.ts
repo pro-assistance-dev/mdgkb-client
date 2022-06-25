@@ -15,6 +15,8 @@ export default class ResidencyApplicationPointsAchievement implements IResidency
   fileInfoId?: string;
   fileInfo: IFileInfo = new FileInfo();
   approved = false;
+  //
+  showError = false;
 
   constructor(i?: IResidencyApplicationPointsAchievement) {
     if (!i) {

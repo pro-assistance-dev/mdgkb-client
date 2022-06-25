@@ -42,11 +42,17 @@
   <el-form-item
     v-if="(!user.human.patronymic || fromAdmin) && activeFields.userPostIndex"
     label="Почтовый индекс"
+    :rules="rules.userPostIndex"
     prop="formValue.user.human.postIndex"
   >
     <el-input v-model="formValue.user.human.postIndex" placeholder="Почтовый индекс"></el-input>
   </el-form-item>
-  <el-form-item v-if="(!user.human.patronymic || fromAdmin) && activeFields.userAddress" label="Адрес" prop="formValue.user.human.address">
+  <el-form-item
+    v-if="(!user.human.patronymic || fromAdmin) && activeFields.userAddress"
+    label="Адрес"
+    prop="formValue.user.human.address"
+    :rules="rules.userAddress"
+  >
     <el-input v-model="formValue.user.human.address" placeholder="Адрес"></el-input>
   </el-form-item>
   <el-form-item
@@ -106,10 +112,20 @@
   >
     <el-date-picker v-model="formValue.child.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
   </el-form-item>
-  <el-form-item v-if="activeFields.placeBirth" label="Место рождения" prop="formValue.child.human.placeBirth">
+  <el-form-item
+    v-if="activeFields.userPlaceBirth"
+    label="Место рождения"
+    prop="formValue.user.human.placeBirth"
+    :rules="rules.userPlaceBirth"
+  >
     <el-input v-model="formValue.user.human.placeBirth" placeholder="Место рождения"></el-input>
   </el-form-item>
-  <el-form-item v-if="activeFields.citizenship" label="Гражданство" prop="formValue.child.human.citizenship">
+  <el-form-item
+    v-if="activeFields.userCitizenship"
+    label="Гражданство"
+    prop="formValue.user.human.citizenship"
+    :rules="rules.userCitizenship"
+  >
     <el-input v-model="formValue.user.human.citizenship" placeholder="Гражданство"></el-input>
   </el-form-item>
   <el-form-item v-if="activeFields.childIsMale" :rules="rules.childIsMale" label="Пол пациента" prop="formValue.child.human.isMale">
@@ -191,13 +207,16 @@ export default defineComponent({
       userDateBirth: [{ required: true, message: 'Пожалуйста, укажите вашу дату рождения', trigger: 'change' }],
       userSnils: [{ required: true, message: 'Пожалуйста, укажите СНИЛС', trigger: 'blur' }],
       userPhone: [{ required: true, message: 'Пожалуйста, укажите телефон', trigger: 'blur' }],
+      userCitizenship: [{ required: true, message: 'Пожалуйста, укажите своё гражданство', trigger: 'change' }],
+      userPlaceBirth: [{ required: true, message: 'Пожалуйста, укажите своё место рождения', trigger: 'change' }],
+      userPostIndex: [{ required: true, message: 'Пожалуйста, укажите почтовый индекс', trigger: 'change' }],
+      userAddress: [{ required: true, message: 'Пожалуйста, укажите свой адрес', trigger: 'change' }],
+      //
       childSurname: [{ required: true, message: 'Пожалуйста, укажите фамилию пациента', trigger: 'blur' }],
       childName: [{ required: true, message: 'Пожалуйста, укажите имя пациента', trigger: 'blur' }],
       childPatronymic: [{ required: true, message: 'Пожалуйста, укажите отчество пациента', trigger: 'blur' }],
       childIsMale: [{ required: true, message: 'Пожалуйста, выберите пол пациента', trigger: 'change' }],
       childDateBirth: [{ required: true, message: 'Пожалуйста, укажите дату рождения пациента', trigger: 'change' }],
-      citizenship: [{ required: true, message: 'Пожалуйста, укажите своё гражданство', trigger: 'change' }],
-      placeBirth: [{ required: true, message: 'Пожалуйста, укажите своё место рождения', trigger: 'change' }],
     };
     const openLoginModal = () => {
       store.commit('auth/openModal', 'login');

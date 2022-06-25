@@ -11,7 +11,7 @@
     </div>
 
     <div class="card-item">
-      <h2>НАБОР 2022 ГОДА. КОНКУРС ПО СПЕЦИАЛЬНОСТЯМ ОРДИНАТУРЫ</h2>
+      <h2>Конкурс человек на место</h2>
       <CompetitionPlacesTable :residency-courses="residencyCourses" />
     </div>
   </div>

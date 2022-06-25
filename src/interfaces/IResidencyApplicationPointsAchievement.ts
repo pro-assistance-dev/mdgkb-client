@@ -11,4 +11,5 @@ export default interface IResidencyApplicationPointsAchievement {
   fileInfoId?: string;
   fileInfo: IFileInfo;
   approved: boolean;
+  showError: boolean;
 }

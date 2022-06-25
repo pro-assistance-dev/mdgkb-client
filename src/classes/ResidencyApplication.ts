@@ -17,6 +17,8 @@ export default class ResidencyApplication implements IResidencyApplication {
   main = false;
   paid = false;
   formValueId?: string;
+  entranceExamPlace = '';
+  entranceExamSpecialisation = '';
   pointsEntrance = 0;
   pointsAchievements = 0;
   residencyApplicationPointsAchievements: IResidencyApplicationPointsAchievement[] = [];
@@ -36,6 +38,8 @@ export default class ResidencyApplication implements IResidencyApplication {
     this.formValueId = i.formValueId;
     this.main = i.main;
     this.paid = i.paid;
+    this.entranceExamPlace = i.entranceExamPlace;
+    this.entranceExamSpecialisation = i.entranceExamSpecialisation;
     if (i.residencyCourse) {
       this.residencyCourse = new ResidencyCourse(i.residencyCourse);
     }
@@ -134,5 +138,18 @@ export default class ResidencyApplication implements IResidencyApplication {
       (i: IResidencyApplicationPointsAchievement) => i.pointsAchievementId === achievementId
     );
     removeFromClass(index, this.residencyApplicationPointsAchievements, this.residencyApplicationPointsAchievementsForDelete);
+  }
+
+  validateAchievementsPoints(): boolean {
+    let valid = true;
+    this.residencyApplicationPointsAchievements.forEach((i: IResidencyApplicationPointsAchievement) => {
+      console.log(i.fileInfo);
+      console.log(i.fileInfo.fileSystemPath);
+      if (!i.fileInfo || !i.fileInfo.fileSystemPath) {
+        i.showError = true;
+        valid = false;
+      }
+    });
+    return valid;
   }
 }

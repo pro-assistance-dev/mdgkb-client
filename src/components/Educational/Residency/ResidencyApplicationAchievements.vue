@@ -1,10 +1,8 @@
 <template>
-  <!--  <el-select v-model="selectedAchievement" value-key="id" placeholder="Выберите индивидуальное достижение" @change="addAchievement">-->
-  <!--    <el-option v-for="item in pointsAchievements" :key="item.id" :label="item.name" :value="item" />-->
-  <!--  </el-select>-->
   <div>{{ residencyApplication.calculateAchievementsPoints(false) }}</div>
   <table>
     <thead>
+      <th>№</th>
       <th>Достижение</th>
       <th style="text-align: center">Баллы</th>
       <th style="text-align: center">Файл (название аналогично достижению)</th>
@@ -13,7 +11,8 @@
       <tr v-for="achievement in pointsAchievements" :key="achievement.id">
         <td>{{ achievement.code }}</td>
         <td>
-          {{ achievement.name }}
+          <em v-if="achievement.points === 0">{{ achievement.name }}</em>
+          <span v-else>{{ achievement.name }}</span>
         </td>
         <td style="text-align: center">
           {{ achievement.points > 0 ? achievement.points : '' }}
@@ -22,6 +21,16 @@
           <div v-if="residencyApplication.achievementExists(achievement.id)">
             <FileUploader :file-info="residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo" />
             <el-button @click="residencyApplication.removeAchievementByAchievementId(achievement.id)">Удалить достижение </el-button>
+            <div
+              v-if="
+                residencyApplication.getAchievementResultByAchievementId(achievement.id).showError &&
+                residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo &&
+                !residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo.fileSystemPath
+              "
+              class="form-item-error"
+            >
+              Необходимо добавить файл
+            </div>
           </div>
           <el-button v-else @click="addAchievement(achievement)">Добавить</el-button>
         </td>
@@ -79,19 +88,25 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-:deep(.el-form-item__label) {
-  line-height: 1.2;
+thead th {
+  // font-weight: bold;
+  text-align: left;
+  border: none;
+  padding: 10px 15px;
+  background: #ededed;
+  font-size: 14px;
 }
-//:deep(a) {
-//  color: blue !important;
-//}
-
-a {
-  color: #2754eb;
-  text-decoration: none;
-  &:hover {
-    cursor: pointer;
-    color: darken(#2754eb, 30%);
-  }
+tbody td {
+  text-align: left;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  vertical-align: top;
+}
+tbody tr:nth-child(even) {
+  background: #f8f8f8;
+}
+tbody tr:hover {
+  background-color: #ecf5ff;
 }
 </style>

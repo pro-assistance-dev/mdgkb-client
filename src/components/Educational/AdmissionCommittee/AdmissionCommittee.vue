@@ -15,7 +15,7 @@
             </el-table-column>
           </el-table>
           <div class="button-block">
-            <button @click="showFormFunc">Подать заявление</button>
+            <button @click="showForm = !showForm">Подать заявление</button>
           </div>
         </div>
       </div>
@@ -63,13 +63,16 @@
         </ol>
       </div>
       <ResidencyCoursesList
-        v-if="mode === 'freePrograms' || mode === 'paidPrograms' || showForm"
+        v-if="mode === 'freePrograms' || mode === 'paidPrograms'"
         :paid-programs="false"
         :free-programs="false"
         :cost="mode === 'paidPrograms'"
         :years="false"
       />
 
+      <el-dialog v-model="showForm" width="30%">
+        <SelectResidencyCourseForm />
+      </el-dialog>
       <CompetitionComponent v-if="mode === 'competition'" />
     </div>
   </div>
@@ -81,6 +84,7 @@ import { useRoute } from 'vue-router';
 
 import EditorContent from '@/components/EditorContent.vue';
 import CompetitionComponent from '@/components/Educational/AdmissionCommittee/CompetitionComponent.vue';
+import SelectResidencyCourseForm from '@/components/Educational/AdmissionCommittee/SelectResidencyCourseForm.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
@@ -99,6 +103,7 @@ export default defineComponent({
     DocumentsList,
     ResidencyCoursesList,
     CompetitionComponent,
+    SelectResidencyCourseForm,
   },
   setup() {
     const modes: Ref<IOption[]> = ref([]);
@@ -118,7 +123,7 @@ export default defineComponent({
       modes.value.push(
         { value: 'freePrograms', label: 'Целевая ординатура' },
         { value: 'paidPrograms', label: 'Ординатура по договорам о платных образовательных услугах' },
-        { value: 'competition', label: 'Конкурс' }
+        { value: 'competition', label: 'Поданные заявления, рейтинг, конкурс' }
       );
       selectedDocumentType.value = docTypes.value[0].documentType;
       mode.value = docTypes.value[0].id ? docTypes.value[0].id : '';
@@ -166,13 +171,7 @@ export default defineComponent({
       return name === mode.value ? 'is-active' : '';
     };
 
-    const showFormFunc = () => {
-      selectedDocumentType.value = undefined;
-      showForm.value = true;
-      mode.value = '';
-    };
-
-    return { docTypes, mounted: Provider.mounted, mode, modes, isActive, changeTab, selectedDocumentType, showFormFunc, showForm };
+    return { docTypes, mounted: Provider.mounted, mode, modes, isActive, changeTab, selectedDocumentType, showForm };
   },
 });
 </script>

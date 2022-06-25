@@ -1,48 +1,42 @@
 <template>
   <div v-if="mounted">
-    <el-form ref="form" v-model="residencyApplication" :model="residencyApplication" label-position="top">
-      <el-button @click="filledApplicationDownload">Скачать предзаполненное заявление</el-button>
+    <el-steps :active="activeStep" finish-status="success">
+      <el-step title="Заполните личные данные" />
+      <el-step title="Ответьте на вопросы" />
+      <el-step title="Укажите индивидуальные достижения" />
+      <el-step title="Укажите прочую необходимую информацию" />
+      <el-step title="Загрузите пакет документов" />
+    </el-steps>
+
+    <!--      <el-button @click="activeStep++">Подтвердить</el-button>-->
+    <el-form ref="userForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
       <UserForm
+        v-if="activeStep === 0"
         :form="residencyApplication.formValue"
         :email-exists="emailExists"
-        :active-fields="UserFormFields.CreateWithAllUserFields({ userSnils: true })"
+        :active-fields="UserFormFields.CreateWithAllUserFields()"
         @findEmail="findEmail"
       />
-      <ResidencyApplicationAchievements :residency-application="residencyApplication" />
-
-      <template v-if="residencyCourse.isThisYear">
-        <el-form-item>
-          <el-checkbox v-model="residencyApplication.paid" label="Ординатура по договору об оказании образовательных платных услуг" />
-        </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="residencyApplication.main" label="Заявление подаётся на дополнительную специальность" />
-        </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="residencyApplication.primaryAccreditation" label="Первичную аккредитацию прошёл" />
-        </el-form-item>
-        <template v-if="residencyApplication.primaryAccreditation">
-          <el-form-item>
-            <el-input v-model="residencyApplication.primaryAccreditationPlace" label="Первичная аккредитация пройдена в:" />
-          </el-form-item>
-          <el-form-item v-if="residencyApplication.primaryAccreditation">
-            <el-input-number v-model="residencyApplication.primaryAccreditationPoints" label="Баллы первичной аккредитации" />
-          </el-form-item>
-        </template>
-        <template v-else>
-          <el-form-item>
-            <el-input v-model="residencyApplication.primaryAccreditationPlace" label="Вступительные испытания прохожу в:" />
-          </el-form-item>
-          <el-form-item v-if="residencyApplication.primaryAccreditation">
-            <el-input-number v-model="residencyApplication.primaryAccreditationPoints" label="Баллы первичной аккредитации" />
-          </el-form-item>
-        </template>
-      </template>
-      <FieldValuesForm :form="residencyApplication.formValue" />
     </el-form>
-    <el-divider />
-    <div style="text-align: right">
-      <button class="response-btn" @click="submit">Отправить заявление</button>
-    </div>
+    <el-form ref="questionsForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
+      <AdmissionQuestionsForm v-if="activeStep === 1" :residency-application="residencyApplication" @all-questions-answered="submitStep" />
+    </el-form>
+    <el-form ref="achievementsForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
+      <ResidencyApplicationAchievements v-if="activeStep === 2" :residency-application="residencyApplication" />
+    </el-form>
+    <el-form>
+      <FieldValuesForm
+        v-if="activeStep === 3"
+        :form="residencyApplication.formValue"
+        :leave-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate']"
+      />
+    </el-form>
+    <FieldValuesForm
+      v-if="activeStep === 4"
+      :form="residencyApplication.formValue"
+      :filter-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate']"
+    />
+    <el-button v-if="activeStep !== 1" @click="submitStep">Подтвердить данные</el-button>
   </div>
 </template>
 
@@ -51,6 +45,7 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
 import UserFormFields from '@/classes/UserFormFields';
+import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
@@ -62,11 +57,12 @@ import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
-  name: 'ResidencyApplicationForm',
-  components: { FieldValuesForm, UserForm, ResidencyApplicationAchievements },
+  name: 'AdmissionForm',
+  components: { FieldValuesForm, UserForm, ResidencyApplicationAchievements, AdmissionQuestionsForm },
   emits: ['close'],
   setup(_, { emit }) {
     const mounted = ref(false);
+    const activeStep: Ref<number> = ref(4);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -75,7 +71,9 @@ export default defineComponent({
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const form = ref();
-
+    const userForm = ref();
+    const questionsForm = ref();
+    const achievementsForm = ref();
     watch(isAuth, async () => {
       Provider.store.commit('residencyApplications/setUser', user.value);
       await findEmail();
@@ -95,14 +93,14 @@ export default defineComponent({
         scroll('#error-block-message');
         return;
       }
-      residencyApplication.value.formValue.validate();
-      if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
-        ElMessage({
-          type: 'warning',
-          message: 'Проверьте корректность заполнения заявки',
-        });
-        return;
-      }
+      // residencyApplication.value.formValue.validate();
+      // if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
+      //   ElMessage({
+      //     type: 'warning',
+      //     message: 'Проверьте корректность заполнения заявки',
+      //   });
+      //   return;
+      // }
       residencyApplication.value.formValue.clearIds();
       await Provider.store.dispatch('residencyApplications/create');
       ElMessage({
@@ -135,7 +133,42 @@ export default defineComponent({
       await Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
     };
 
+    const submitStep = async () => {
+      if (activeStep.value === 0 && !validate(userForm)) {
+        return;
+      }
+      if (activeStep.value === 1 && !validate(questionsForm)) {
+        return;
+      }
+      if (activeStep.value === 2 && !residencyApplication.value.validateAchievementsPoints()) {
+        ElMessage({
+          type: 'error',
+          message: 'Необходимо добавить все файлы',
+        });
+        return;
+      }
+      residencyApplication.value.formValue.validate(true);
+      if (activeStep.value === 3 && !residencyApplication.value.formValue.validated) {
+        return;
+      }
+      residencyApplication.value.formValue.validate(false);
+      if (activeStep.value === 4 && !residencyApplication.value.formValue.validated) {
+        return;
+      }
+      activeStep.value++;
+      scroll('#error-block-message');
+      console.log(activeStep.value);
+      if (activeStep.value > 4) {
+        await submit();
+      }
+    };
+
     return {
+      achievementsForm,
+      questionsForm,
+      userForm,
+      submitStep,
+      activeStep,
       filledApplicationDownload,
       residencyApplication,
       residencyCourse,
@@ -153,19 +186,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-:deep(.el-form-item__label) {
-  line-height: 1.2;
-}
-//:deep(a) {
-//  color: blue !important;
-//}
-
-a {
-  color: #2754eb;
-  text-decoration: none;
-  &:hover {
-    cursor: pointer;
-    color: darken(#2754eb, 30%);
-  }
+.form-item-error {
+  color: #f56c6c;
+  font-size: 12px;
+  line-height: 1;
+  padding-top: 4px;
 }
 </style>

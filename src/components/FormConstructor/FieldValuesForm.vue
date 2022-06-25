@@ -1,6 +1,6 @@
 <template>
   <div class="mobile-container">
-    <el-table :data="formValue.fields">
+    <el-table :data="filteredFields()">
       <el-table-column label="">
         <template #default="scope">
           {{ scope.row.name }}<br /><br />
@@ -21,10 +21,11 @@
       <EditorContent :content="form.description" />
     </div>
 
-    <el-table :data="formValue.fields">
+    <el-table :data="filteredFields()">
       <el-table-column label="Наименование" min-width="300">
         <template #default="scope">
           {{ scope.row.name }}
+          {{ scope.row.code }}
           <span v-if="scope.row.required" class="red">*</span>
         </template>
       </el-table-column>
@@ -81,6 +82,14 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    leaveFieldsWithCode: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
+    filterFieldsWithCode: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
   },
   setup(props) {
     const store = useStore();
@@ -101,7 +110,18 @@ export default defineComponent({
       }
     });
 
+    const filteredFields = (): IField[] => {
+      if (props.leaveFieldsWithCode?.length > 0) {
+        return props.form.fields.filter((field: IField) => props.leaveFieldsWithCode?.includes(field.code));
+      }
+      if (props.filterFieldsWithCode?.length > 0) {
+        return props.form.fields.filter((field: IField) => !props.filterFieldsWithCode?.includes(field.code));
+      }
+      return props.form.fields;
+    };
+
     return {
+      filteredFields,
       formValue,
     };
   },

@@ -9,11 +9,12 @@ export default interface IUserFormFields {
   userPhone?: boolean;
   userPostIndex?: boolean;
   userAddress?: boolean;
+  userCitizenship: boolean;
+  userPlaceBirth: boolean;
+  //
   childSurname?: boolean;
   childName?: boolean;
   childPatronymic?: boolean;
   childDateBirth?: boolean;
   childIsMale?: boolean;
-  citizenship: boolean;
-  placeBirth: boolean;
 }

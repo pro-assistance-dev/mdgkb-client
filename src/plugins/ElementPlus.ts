@@ -40,6 +40,7 @@ import {
   ElSelect,
   ElSelectV2,
   ElSpace,
+  ElSteps,
   ElSwitch,
   ElTable,
   ElTabs,
@@ -98,6 +99,7 @@ export const components = [
   ElTimeSelect,
   ElBadge,
   ElRate,
+  ElSteps,
 ];
 
 export const plugins = [ElInfiniteScroll, ElLoading, ElMessage, ElMessageBox, ElNotification];

@@ -7,7 +7,6 @@ import IForm from '@/interfaces/elements/IForm';
 export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fieldsList?: string[]): boolean {
   let validationResult = true;
   form.value.validate((valid: boolean, errorFields: Record<string, unknown>) => {
-    console.log(errorFields);
     if (!valid) {
       if (!ElMessage.error) {
         return;
