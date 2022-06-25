@@ -5,7 +5,10 @@
       <span class="code">
         {{ residencyCourse.getMainSpecialization().code }}
       </span>
-      <span class="name">
+      <span v-if="selectedCourse && residencyCourse.id === selectedCourse.id" class="name-check">
+        {{ residencyCourse.getMainSpecialization().name }}
+      </span>
+      <span v-else: class="name">
         {{ residencyCourse.getMainSpecialization().name }}
       </span>
       <span v-if="selectedCourse && residencyCourse.id === selectedCourse.id" class="check">✓</span>
@@ -71,6 +74,10 @@ export default defineComponent({
     cursor: pointer;
     background-color: lighten(#31af5e, 10%);
   }
+  &:disabled {
+    background-color: #76cc94;
+    cursor: auto;
+  }
 }
 .container-courses {
   margin-bottom: 20px;
@@ -83,6 +90,9 @@ export default defineComponent({
     color: #0a216f;
     background: #ecf5ff;
     cursor: pointer;
+  }
+  &:active {
+    color: #0a216f;
   }
 }
 
@@ -97,6 +107,13 @@ export default defineComponent({
   font-weight: bold;
 }
 
+.name-check {
+  margin-left: 5px;
+  color: #03103a;
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .title {
   height: 30px;
   justify-content: center;
@@ -105,5 +122,7 @@ export default defineComponent({
   align-items: center;
   position: absolute;
   top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>
