@@ -49,6 +49,4 @@ export default interface IUser {
 
   getNotViewedApplicationsCount: () => number;
   setApplicationsViewed: () => void;
-
-  validate: () => void;
 }
