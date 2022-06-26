@@ -1,6 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import AdmissionCommittee from '@/components/Educational/AdmissionCommittee/AdmissionCommittee.vue';
+import AdmissionCoursePage from '@/components/Educational/AdmissionCommittee/AdmissionCoursePage.vue';
 import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoPage.vue';
 import EducationPage from '@/components/Educational/Education/EducationPage.vue';
@@ -72,6 +73,15 @@ export default [
     name: 'ResidencyCoursePage',
     meta: { title: 'Ординатура - курс' },
     component: ResidencyCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+    },
+  },
+  {
+    path: '/admission-courses/:id',
+    name: 'AdmissionCoursePage',
+    meta: { title: 'Ординатура - курс' },
+    component: AdmissionCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
     },

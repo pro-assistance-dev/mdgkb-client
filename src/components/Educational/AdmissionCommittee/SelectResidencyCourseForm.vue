@@ -18,7 +18,7 @@
     <button
       :disabled="!selectedCourse"
       class="response-btn"
-      @click="$router.push(`/residency-courses/${selectedCourse.id}?respondForm=open`)"
+      @click="$router.push(`/admission-courses/${selectedCourse.id}?respondForm=open`)"
     >
       Подать заявку
     </button>

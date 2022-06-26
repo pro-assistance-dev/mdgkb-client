@@ -1,6 +1,52 @@
 <template>
   <div class="size">
     <div v-if="mounted" class="medical-profile-page-container">
+      <div class="side-container">
+        <div class="side-item card-item">
+          <!-- <h4 class="card-item-title">Преподаватели</h4>
+            <el-divider /> -->
+          <div v-if="residencyCourse.getMainTeacher()">
+            <b>Руководитель:</b> <br />
+            <router-link
+              v-if="residencyCourse.getMainTeacher()"
+              class="recent-news-item"
+              :to="`/doctors/${residencyCourse.getMainTeacher().doctor.human.slug}`"
+              style="padding-left: 0"
+            >
+              {{ residencyCourse.getMainTeacher()?.doctor.human.getFullName() }}
+            </router-link>
+          </div>
+          <div v-if="residencyCourse.residencyCoursesTeachers.filter((i) => !i.main).length">
+            <b>Преподаватели:</b> <br />
+            <router-link
+              v-for="residencyCoursesTeacher in residencyCourse.residencyCoursesTeachers.filter((i) => !i.main)"
+              :key="residencyCoursesTeacher.id"
+              class="recent-news-item"
+              :to="`/doctors/${residencyCoursesTeacher.teacher.doctor.human.slug}`"
+              style="padding-left: 0"
+            >
+              {{ residencyCoursesTeacher.teacher.doctor.human.getFullName() }}
+            </router-link>
+          </div>
+          <div class="button-block">
+            <div class="recent-news-footer">
+              <button @click="$router.push('/teachers')">Все преподаватели</button>
+            </div>
+            <div class="recent-news-footer">
+              <button @click="$router.push('/residency')">Все программы</button>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="residencyCourse.residencyCoursesSpecializations.length" class="left-field">
+          <div class="left-field-title">
+            <b>Специальность:</b> <br />
+            <div v-for="item in residencyCourse.residencyCoursesSpecializations" :key="item.id" class="font">
+              {{ item.specialization.name }}
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="right-field">
         <div class="card-item" style="margin-bottom: 20px">
           <div class="card-header">
@@ -8,13 +54,13 @@
             <h2 class="title article-title">"{{ residencyCourse.getMainSpecialization().name }}"</h2>
           </div>
           <!-- <el-divider /> -->
-          <!--          <div class="info-tags-block">-->
-          <!--            <el-tag v-if="residencyCourse.educationForm">Форма обучения: {{ residencyCourse.educationForm }}</el-tag>-->
-          <!--            <el-divider v-if="residencyCourse.educationForm" direction="vertical" />-->
-          <!--            <el-tag v-if="residencyCourse.years > 0">Нормативный срок обучения: {{ residencyCourse.years }} года </el-tag>-->
-          <!--            <el-divider v-if="residencyCourse.years > 0" direction="vertical" />-->
-          <!--            <el-tag>Язык обучения: русский</el-tag>-->
-          <!--          </div>-->
+          <div class="info-tags-block">
+            <el-tag v-if="residencyCourse.educationForm">Форма обучения: {{ residencyCourse.educationForm }}</el-tag>
+            <el-divider v-if="residencyCourse.educationForm" direction="vertical" />
+            <el-tag v-if="residencyCourse.years > 0">Нормативный срок обучения: {{ residencyCourse.years }} года </el-tag>
+            <el-divider v-if="residencyCourse.years > 0" direction="vertical" />
+            <el-tag>Язык обучения: русский</el-tag>
+          </div>
           <!-- <el-divider /> -->
           <div class="info-tags-block">
             <a
@@ -79,7 +125,7 @@
         <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
           <h2 class="title article-title">Форма для подачи заявления</h2>
           <!-- <el-divider /> -->
-          <AdmissionForm style="margin-top: 20px" @close="closeRespondForm" />
+          <ResidencyApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
         </div>
       </div>
     </div>
@@ -89,7 +135,7 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import AdmissionForm from '@/components/Educational/AdmissionCommittee/AdmissionForm.vue';
+import ResidencyApplicationForm from '@/components/Educational/Residency/ResidencyApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import chooseRandomBrandColor from '@/mixins/brandColors';
@@ -98,7 +144,7 @@ import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'ResidencyCoursePage',
-  components: { AdmissionForm, SharesBlock },
+  components: { SharesBlock, ResidencyApplicationForm },
   setup() {
     const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const showForm: Ref<boolean> = ref(false);
