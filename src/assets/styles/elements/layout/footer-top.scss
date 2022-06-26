@@ -18,3 +18,12 @@ $footer_top_desktop: 200px;
     width: auto;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .footer-top {
+    .container {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}
