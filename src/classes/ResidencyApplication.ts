@@ -143,8 +143,6 @@ export default class ResidencyApplication implements IResidencyApplication {
   validateAchievementsPoints(): boolean {
     let valid = true;
     this.residencyApplicationPointsAchievements.forEach((i: IResidencyApplicationPointsAchievement) => {
-      console.log(i.fileInfo);
-      console.log(i.fileInfo.fileSystemPath);
       if (!i.fileInfo || !i.fileInfo.fileSystemPath) {
         i.showError = true;
         valid = false;

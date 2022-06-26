@@ -25,7 +25,6 @@
       <el-table-column label="Наименование" min-width="300">
         <template #default="scope">
           {{ scope.row.name }}
-          {{ scope.row.code }}
           <span v-if="scope.row.required" class="red">*</span>
         </template>
       </el-table-column>

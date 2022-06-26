@@ -7,19 +7,15 @@
       <button class="select" @click.prevent="answer(true)">Да</button>
       <button class="select_dont" @click.prevent="answer(false)">Нет</button>
     </div>
-    <div v-if="questionNum === 0 && residencyApplication.primaryAccreditationPoints">
-      <el-form-item
-        label="Баллы первичной аккредитации"
-        prop="primaasdfasdfryAccreditationPoints"
-        :rules="rules.primaryAccreditationPoints"
-      >
-        <el-input-number v-model="residencyApplication.primaryAccreditationPoints">Баллы первичной аккредитации</el-input-number>
+    <div v-if="questionNum === 0 && residencyApplication.primaryAccreditation">
+      <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints" :rules="rules.primaryAccreditationPoints">
+        <el-input-number v-model="residencyApplication.primaryAccreditationPoints" min="0">Баллы первичной аккредитации</el-input-number>
       </el-form-item>
       <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
         <el-input v-model="residencyApplication.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
       </el-form-item>
     </div>
-    <div v-if="questionNum === 0 && !residencyApplication.primaryAccreditationPoints">
+    <div v-if="questionNum === 0 && !residencyApplication.primaryAccreditation">
       <el-form-item label="Вступительные испытания прохожу в:" prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
         <el-input v-model="residencyApplication.primaryAccreditationPlace" placeholder="Вступительные испытания прохожу в:" />
       </el-form-item>

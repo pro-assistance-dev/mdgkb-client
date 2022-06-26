@@ -21,6 +21,7 @@
             :filter-value="TokenService.getUserId()"
             @load="loadComments"
           />
+
           <FilterCheckbox
             label="С высоким рейтингом"
             :table="schema.comment.tableName"

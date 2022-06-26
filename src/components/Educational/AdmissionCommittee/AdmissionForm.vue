@@ -28,20 +28,22 @@
       <FieldValuesForm
         v-if="activeStep === 3"
         :form="residencyApplication.formValue"
-        :leave-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate']"
+        :leave-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName']"
       />
     </el-form>
     <FieldValuesForm
       v-if="activeStep === 4"
       :form="residencyApplication.formValue"
-      :filter-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate']"
+      :filter-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName']"
     />
-    <el-button v-if="activeStep !== 1" @click="submitStep">Подтвердить данные</el-button>
+    <div class="container-button">
+      <button v-if="activeStep !== 1" class="response-btn" @click="submitStep">Перейти к следующему шагу</button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
 import UserFormFields from '@/classes/UserFormFields';
@@ -62,7 +64,7 @@ export default defineComponent({
   emits: ['close'],
   setup(_, { emit }) {
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(4);
+    const activeStep: Ref<number> = ref(0);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -74,6 +76,7 @@ export default defineComponent({
     const userForm = ref();
     const questionsForm = ref();
     const achievementsForm = ref();
+
     watch(isAuth, async () => {
       Provider.store.commit('residencyApplications/setUser', user.value);
       await findEmail();
@@ -93,14 +96,6 @@ export default defineComponent({
         scroll('#error-block-message');
         return;
       }
-      // residencyApplication.value.formValue.validate();
-      // if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
-      //   ElMessage({
-      //     type: 'warning',
-      //     message: 'Проверьте корректность заполнения заявки',
-      //   });
-      //   return;
-      // }
       residencyApplication.value.formValue.clearIds();
       await Provider.store.dispatch('residencyApplications/create');
       ElMessage({
@@ -121,22 +116,26 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    const filledApplicationDownload = async () => {
-      residencyApplication.value.formValue.validate(true);
-      if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
-        ElMessage({
-          type: 'warning',
-          message: 'Данные заполнены некорректно - проверьте корректность',
-        });
-        return;
-      }
-      await Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
+    const filledApplicationDownload = () => {
+      ElMessageBox.alert(
+        'Заполните данные, скачайте и распечатайте заявление,  проверьте заполненные данные, при наличии ошибок исправьте на сайте и заново распечатайте форму, заполните недостающую информацию (печатными буквами, синей ручкой), поставьте подписи в заявлении, внесите данные документа удостоверяющего личность (в соответствующую графу), поставьте финальную подпись. Отсканируйте заявление и загрузите его',
+        'После закрытия этого окна скачается предзаполненное заявление',
+        {
+          confirmButtonText: 'OK',
+          callback: () => {
+            Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
+            return;
+          },
+        }
+      );
+      return;
     };
 
     const submitStep = async () => {
       if (activeStep.value === 0 && !validate(userForm)) {
         return;
       }
+
       if (activeStep.value === 1 && !validate(questionsForm)) {
         return;
       }
@@ -148,8 +147,8 @@ export default defineComponent({
         return;
       }
       residencyApplication.value.formValue.validate(true);
-      if (activeStep.value === 3 && !residencyApplication.value.formValue.validated) {
-        return;
+      if (activeStep.value === 3 && residencyApplication.value.formValue.validated) {
+        filledApplicationDownload();
       }
       residencyApplication.value.formValue.validate(false);
       if (activeStep.value === 4 && !residencyApplication.value.formValue.validated) {
@@ -157,7 +156,6 @@ export default defineComponent({
       }
       activeStep.value++;
       scroll('#error-block-message');
-      console.log(activeStep.value);
       if (activeStep.value > 4) {
         await submit();
       }
@@ -191,5 +189,27 @@ export default defineComponent({
   font-size: 12px;
   line-height: 1;
   padding-top: 4px;
+}
+
+.container-button {
+  text-align: center;
+}
+.response-btn {
+  text-align: center;
+  border-radius: 20px;
+  background-color: #31af5e;
+  padding: 10px 20px;
+  height: auto;
+  letter-spacing: 2px;
+  color: white;
+  border: 1px solid rgb(black, 0.05);
+  &:hover {
+    cursor: pointer;
+    background-color: lighten(#31af5e, 10%);
+  }
+  &:disabled {
+    background-color: #76cc94;
+    cursor: auto;
+  }
 }
 </style>
