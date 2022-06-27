@@ -13,7 +13,6 @@
           </label>
           <div class="tab-content">
             <div v-if="mounted" class="title">
-              <!-- <h2><b>Мой профиль</b></h2> -->
               <button class="edit-button" @click="$router.push('/profile/edit')">
                 <svg class="icon-edit">
                   <use xlink:href="#profile-edit"></use>
@@ -73,7 +72,33 @@
                       <li class="list-item">
                         <div class="list-item">
                           <div class="item-title"><h5>ПОЛ</h5></div>
-                          <div class="item-data"><h4>Мужской</h4></div>
+                          <div class="item-data">
+                            <h4>{{ user.human.isMale ? 'Мужской' : 'Женский' }}</h4>
+                          </div>
+                        </div>
+                      </li>
+                      <li v-if="user.human.placeBirth" class="list-item">
+                        <div class="list-item">
+                          <div class="item-title"><h5>МЕСТО&nbsp;РОЖДЕНИЯ</h5></div>
+                          <div class="item-data">
+                            <h4>{{ user.human.placeBirth }}</h4>
+                          </div>
+                        </div>
+                      </li>
+                      <li v-if="user.human.citizenship" class="list-item">
+                        <div class="list-item">
+                          <div class="item-title"><h5>ГРАЖДАНСТВО</h5></div>
+                          <div class="item-data">
+                            <h4>{{ user.human.citizenship }}</h4>
+                          </div>
+                        </div>
+                      </li>
+                      <li v-if="user.human.snils" class="list-item">
+                        <div class="list-item">
+                          <div class="item-title"><h5>СНИЛС</h5></div>
+                          <div class="item-data">
+                            <h4>{{ user.human.snils }}</h4>
+                          </div>
                         </div>
                       </li>
                     </ul>
@@ -147,23 +172,6 @@
                 </el-form-item>
               </div>
             </div>
-            <!--        <div class="children">-->
-            <!--          <h5>ИНФОРМАЦИЯ О ДЕТЯХ</h5>-->
-            <!--          <div>-->
-            <!--            <ul class="children-list">-->
-            <!--              <li>-->
-            <!--                <svg class="icon-children">-->
-            <!--                  <use xlink:href="#avatar"></use>-->
-            <!--                </svg>-->
-            <!--              </li>-->
-            <!--              <li>-->
-            <!--                <svg class="icon-children">-->
-            <!--                  <use xlink:href="#avatar"></use>-->
-            <!--                </svg>-->
-            <!--              </li>-->
-            <!--            </ul>-->
-            <!--          </div>-->
-            <!--        </div>-->
           </el-form>
         </div>
         <div class="column-right">
@@ -211,66 +219,12 @@
                     </div>
                   </div>
                 </li>
-                <!--            <li class="list-item">-->
-                <!--              <div class="list-item">-->
-                <!--                <div class="item-title"><h5>ЯЗЫК</h5></div>-->
-                <!--                <div class="item-data"><h4>Русский</h4></div>-->
-                <!--              </div>-->
-                <!--            </li>-->
-                <!--            <li class="list-item">-->
-                <!--              <div class="list-item">-->
-                <!--                <div class="item-title"><h5>СЕМЕЙНЫЙ СТАТУС</h5></div>-->
-                <!--                <div class="item-data"><h4>Женат</h4></div>-->
-                <!--              </div>-->
-                <!--            </li>-->
-                <!--            <li class="list-item">-->
-                <!--              <div class="list-item">-->
-                <!--                <div class="item-title"><h5>АДРЕС</h5></div>-->
-                <!--                <div class="item-data"><h4>103132, Москва, Кремль</h4></div>-->
-                <!--              </div>-->
-                <!--            </li>-->
-                <!--            <li class="list-item">-->
-                <!--              <div class="list-item">-->
-                <!--                <div class="item-title"><h5>ДОКУМЕНТ УДОСТОВЕРЯЮЩИЙ ЛИЧНОСТЬ</h5></div>-->
-                <!--                <div class="item-data"><h4>Паспорт 12 34 123456 Выдан ОВД Центральный</h4></div>-->
-                <!--              </div>-->
-                <!--            </li>-->
-                <!--            <li class="list-item">-->
-                <!--              <div class="list-item">-->
-                <!--                <div class="item-title"><h5>РЕЛИГИОЗНАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>-->
-                <!--                <div class="item-data"><h4>Христианин</h4></div>-->
-                <!--              </div>-->
-                <!--            </li>-->
-                <!--            <li class="list-item">-->
-                <!--              <div class="list-item">-->
-                <!--                <div class="item-title"><h5>ЭТНИЧЕСКАЯ ПРИНАДЛЕЖНОСТЬ</h5></div>-->
-                <!--                <div class="item-data"><h4>Русский</h4></div>-->
-                <!--              </div>-->
-                <!--            </li>-->
               </ul>
             </div>
-            <!-- <h4>{{ user }} </h4> -->
           </el-form>
         </div>
       </div>
     </div>
-    <!-- <el-card v-if="mounted">
-      <template #header><h3 style="text-align: center; margin: 0">Информация</h3></template>
-      <el-form label-width="100px" :model="user" label-position="left">
-        <el-form-item prop="email" label="Email">
-          {{ user.email }}
-        </el-form-item>
-        <el-form-item v-if="user.human.name" label="Имя">
-          {{ user.human.name }}
-        </el-form-item>
-        <el-form-item v-if="user.human.surname" label="Фамилия">
-          {{ user.human.surname }}
-        </el-form-item>
-        <el-form-item v-if="user.human.patronymic" label="Отчество">
-          {{ user.human.patronymic }}
-        </el-form-item>
-      </el-form>
-    </el-card> -->
     <svg width="0" height="0" class="hidden">
       <symbol id="profile-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path
