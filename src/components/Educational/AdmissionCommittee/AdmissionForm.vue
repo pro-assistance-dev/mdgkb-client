@@ -4,7 +4,7 @@
       <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
     </el-steps>
 
-    <el-form ref="userForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
+    <el-form id="admission-course-form" ref="userForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
       <UserForm
         v-if="activeStep === 0"
         :form="residencyApplication.formValue"
@@ -55,7 +55,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(0);
+    const activeStep: Ref<number> = ref(3);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -92,7 +92,7 @@ export default defineComponent({
           dangerouslyUseHTMLString: true,
           message: document.querySelector('#error-block-message')?.innerHTML || '',
         });
-        scroll('#error-block-message');
+        scroll('#responce-form');
         return;
       }
       residencyApplication.value.formValue.clearIds();
@@ -123,6 +123,7 @@ export default defineComponent({
           confirmButtonText: 'OK',
           callback: () => {
             Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
+            scroll('#responce-form');
             return;
           },
         }
@@ -130,11 +131,16 @@ export default defineComponent({
       return;
     };
 
+    const clearAllValidate = (): void => {
+      userForm.value.clearValidate();
+      questionsForm.value.clearValidate();
+      residencyApplication.value.formValue.clearValidate();
+    };
+
     const submitStep = async () => {
       if (activeStep.value === 0 && !validate(userForm)) {
         return;
       }
-      console.log(questionsForm);
       if (activeStep.value === 1 && !validate(questionsForm)) {
         return;
       }
@@ -156,15 +162,18 @@ export default defineComponent({
       if (activeStep.value === 4 && !residencyApplication.value.formValue.validated) {
         return;
       }
+      if (activeStep.value !== 3) {
+        scroll('#responce-form');
+      }
       activeStep.value++;
-      scroll();
       if (activeStep.value > 4) {
         await submit();
       }
+      clearAllValidate();
     };
 
     const toStep = async (stepNum: number) => {
-      await scroll();
+      await scroll('#responce-form');
       if (stepNum >= activeStep.value) {
         return;
       }
