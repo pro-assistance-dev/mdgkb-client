@@ -182,7 +182,33 @@
                 <li class="list-item">
                   <div class="list-item">
                     <div class="item-title"><h5>ПОЛ</h5></div>
-                    <div class="item-data"><h4>Мужской</h4></div>
+                    <div class="item-data">
+                      <h4>{{ user.human.isMale ? 'Мужской' : 'Женский' }}</h4>
+                    </div>
+                  </div>
+                </li>
+                <li v-if="user.human.placeBirth" class="list-item">
+                  <div class="list-item">
+                    <div class="item-title"><h5>МЕСТО&nbsp;РОЖДЕНИЯ</h5></div>
+                    <div class="item-data">
+                      <h4>{{ user.human.placeBirth }}</h4>
+                    </div>
+                  </div>
+                </li>
+                <li v-if="user.human.citizenship" class="list-item">
+                  <div class="list-item">
+                    <div class="item-title"><h5>ГРАЖДАНСТВО</h5></div>
+                    <div class="item-data">
+                      <h4>{{ user.human.citizenship }}</h4>
+                    </div>
+                  </div>
+                </li>
+                <li v-if="user.human.snils" class="list-item">
+                  <div class="list-item">
+                    <div class="item-title"><h5>СНИЛС</h5></div>
+                    <div class="item-data">
+                      <h4>{{ user.human.snils }}</h4>
+                    </div>
                   </div>
                 </li>
                 <!--            <li class="list-item">-->
@@ -223,6 +249,7 @@
                 <!--            </li>-->
               </ul>
             </div>
+            <!-- <h4>{{ user }} </h4> -->
           </el-form>
         </div>
       </div>
