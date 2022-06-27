@@ -1,27 +1,60 @@
 <template>
-  <div class="questions-container">
-    <h4 v-if="questionNum === 1">Вы подаёте заявление на платное обучение?</h4>
-    <h4 v-if="questionNum === 2">Вы подаёте заявление на приоритетную или дополнительную специальность?</h4>
-    <h4 v-if="questionNum === 3">Вы проходили первичную аккредитацию?</h4>
-    <div v-if="questionNum !== 0">
-      <button class="select" @click.prevent="answer(true)">Да</button>
-      <button class="select_dont" @click.prevent="answer(false)">Нет</button>
-    </div>
-    <div v-if="questionNum === 0 && residencyApplication.primaryAccreditation">
-      <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints" :rules="rules.primaryAccreditationPoints">
-        <el-input-number v-model="residencyApplication.primaryAccreditationPoints" min="0">Баллы первичной аккредитации</el-input-number>
-      </el-form-item>
-      <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
-        <el-input v-model="residencyApplication.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
-      </el-form-item>
-    </div>
-    <div v-if="questionNum === 0 && !residencyApplication.primaryAccreditation">
-      <el-form-item label="Вступительные испытания прохожу в:" prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
-        <el-input v-model="residencyApplication.primaryAccreditationPlace" placeholder="Вступительные испытания прохожу в:" />
-      </el-form-item>
-    </div>
-    <button v-if="questionNum === 0" class="select" @click.prevent="allAnswered()">Подтвердить</button>
-  </div>
+  <el-form-item label="Вы подаёте заявление на платное обучение?" prop="paid" :rules="rules.paid">
+    <el-radio-group v-model="residencyApplication.paid">
+      <el-radio :label="true" size="large">Да</el-radio>
+      <el-radio :label="false" size="large">Нет</el-radio>
+    </el-radio-group>
+  </el-form-item>
+  <el-form-item label="Вы подаёте заявление на приоритетную или дополнительную специальность?" prop="main" :rules="rules.main">
+    <el-radio-group v-model="residencyApplication.main">
+      <el-radio :label="true" size="large">Приоритетную</el-radio>
+      <el-radio :label="false" size="large">Дополнительную</el-radio>
+    </el-radio-group>
+  </el-form-item>
+  <el-form-item label="Вы проходили первичную аккредитацию?" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
+    <el-radio-group v-model="residencyApplication.primaryAccreditation">
+      <el-radio :label="true" size="large">Да</el-radio>
+      <el-radio :label="false" size="large">Нет</el-radio>
+    </el-radio-group>
+  </el-form-item>
+  <div v-if="residencyApplication.primaryAccreditation === undefined"></div>
+  <template v-else-if="residencyApplication.primaryAccreditation">
+    <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints" :rules="rules.primaryAccreditationPoints">
+      <el-input-number v-model="residencyApplication.primaryAccreditationPoints" min="0">Баллы первичной аккредитации</el-input-number>
+    </el-form-item>
+    <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
+      <el-input v-model="residencyApplication.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
+    </el-form-item>
+  </template>
+  <template v-else>
+    <el-form-item label="Вступительные испытания прохожу в:" prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
+      <el-input v-model="residencyApplication.primaryAccreditationPlace" placeholder="Вступительные испытания прохожу в:" />
+    </el-form-item>
+  </template>
+
+  <!--  <div class="questions-container">-->
+  <!--    <h4 v-if="questionNum === 1">Вы подаёте заявление на платное обучение?</h4>-->
+  <!--    <h4 v-if="questionNum === 2">Вы подаёте заявление на приоритетную или дополнительную специальность?</h4>-->
+  <!--    <h4 v-if="questionNum === 3">Вы проходили первичную аккредитацию?</h4>-->
+  <!--    <div v-if="questionNum !== 0">-->
+  <!--      <button class="select" @click.prevent="answer(true)">Да</button>-->
+  <!--      <button class="select_dont" @click.prevent="answer(false)">Нет</button>-->
+  <!--    </div>-->
+  <!--    <div v-if="questionNum === 0 && residencyApplication.primaryAccreditation">-->
+  <!--      <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints" :rules="rules.primaryAccreditationPoints">-->
+  <!--        <el-input-number v-model="residencyApplication.primaryAccreditationPoints" min="0">Баллы первичной аккредитации</el-input-number>-->
+  <!--      </el-form-item>-->
+  <!--      <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">-->
+  <!--        <el-input v-model="residencyApplication.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>-->
+  <!--      </el-form-item>-->
+  <!--    </div>-->
+  <!--    <div v-if="questionNum === 0 && !residencyApplication.primaryAccreditation">-->
+  <!--      <el-form-item label="Вступительные испытания прохожу в:" prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">-->
+  <!--        <el-input v-model="residencyApplication.primaryAccreditationPlace" placeholder="Вступительные испытания прохожу в:" />-->
+  <!--      </el-form-item>-->
+  <!--    </div>-->
+  <!--    <button v-if="questionNum === 0" class="select" @click.prevent="allAnswered()">Подтвердить</button>-->
+  <!--  </div>-->
 </template>
 
 <script lang="ts">
@@ -39,6 +72,9 @@ export default defineComponent({
     const questionNum: Ref<number> = ref(1);
 
     const rules = {
+      primaryAccreditation: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'blur' }],
+      main: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'blur' }],
+      paid: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'blur' }],
       primaryAccreditationPoints: [{ required: true, message: 'Пожалуйста, укажите баллы первичной аккредитации', trigger: 'blur' }],
       primaryAccreditationPlace: [{ required: true, message: 'Пожалуйста, укажите место первичной аккредитации', trigger: 'blur' }],
     };

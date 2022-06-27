@@ -11,8 +11,8 @@ export default interface IResidencyApplication {
   residencyCourseId?: string;
   pointsEntrance: number;
   pointsAchievements: number;
-  main: boolean;
-  paid: boolean;
+  main?: boolean;
+  paid?: boolean;
   formValue: IForm;
   formValueId?: string;
   residencyApplicationPointsAchievements: IResidencyApplicationPointsAchievement[];
@@ -24,7 +24,7 @@ export default interface IResidencyApplication {
   removeAchievementByAchievementId: (achievementId: string) => void;
   achievementExists: (pointsAchievementId: string) => boolean;
 
-  primaryAccreditation: boolean;
+  primaryAccreditation?: boolean;
   primaryAccreditationPoints: number;
   primaryAccreditationPlace: string;
   entranceExamPlace: string;

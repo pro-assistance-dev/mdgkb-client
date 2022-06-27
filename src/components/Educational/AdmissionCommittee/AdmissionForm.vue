@@ -22,10 +22,12 @@
     <el-form>
       <FieldValuesForm v-if="activeStep === 3" :form="residencyApplication.formValue" :leave-fields-with-code="textFields" />
     </el-form>
-    <FieldValuesForm v-if="activeStep === 4" :form="residencyApplication.formValue" :filter-fields-with-code="textFields" />
+    <el-form>
+      <FieldValuesForm v-if="activeStep === 4" :form="residencyApplication.formValue" :filter-fields-with-code="textFields" />
+    </el-form>
+
     <div class="navigate-buttons">
-      <button v-if="activeStep !== 0" class="back-btn" @click="toStep(activeStep - 1)">Вернуться к предыдущему шагу</button>
-      <button v-if="activeStep !== 1" class="forward-btn" @click="submitStep">Перейти к следующему шагу</button>
+      <button v-if="activeStep < 4" class="forward-btn" @click="submitStep">Перейти к следующему шагу</button>
     </div>
   </div>
 </template>
@@ -53,7 +55,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(2);
+    const activeStep: Ref<number> = ref(0);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -132,7 +134,7 @@ export default defineComponent({
       if (activeStep.value === 0 && !validate(userForm)) {
         return;
       }
-
+      console.log(questionsForm);
       if (activeStep.value === 1 && !validate(questionsForm)) {
         return;
       }
@@ -144,6 +146,9 @@ export default defineComponent({
         return;
       }
       residencyApplication.value.formValue.validate(true);
+      if (activeStep.value === 3 && !residencyApplication.value.formValue.validated) {
+        return;
+      }
       if (activeStep.value === 3 && residencyApplication.value.formValue.validated) {
         filledApplicationDownload();
       }
@@ -243,14 +248,16 @@ export default defineComponent({
 }
 
 .success-step {
-  :deep(.el-step__icon) {
-    cursor: pointer;
-    &:hover {
-      transform: scale(1.1);
-    }
+  cursor: pointer;
+  :deep(.el-step__title) {
+    color: #31af5e;
   }
-  //&:hover {
-  //  cursor: pointer;
-  //}
+  &:hover :deep(.el-step__icon) {
+    color: lighten(#31af5e, 15%);
+    transform: scale(1.1);
+  }
+  &:hover :deep(.el-step__title) {
+    color: lighten(#31af5e, 15%);
+  }
 }
 </style>
