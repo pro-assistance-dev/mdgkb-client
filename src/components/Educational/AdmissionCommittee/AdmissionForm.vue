@@ -4,7 +4,13 @@
       <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
     </el-steps>
 
-    <el-form ref="userForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
+    <el-form
+      ref="userForm"
+      v-model="residencyApplication"
+      style="max-width: 700px; margin: 0 auto"
+      :model="residencyApplication"
+      label-width="150px"
+    >
       <UserForm
         v-if="activeStep === 0"
         :form="residencyApplication.formValue"
@@ -252,5 +258,12 @@ export default defineComponent({
   //&:hover {
   //  cursor: pointer;
   //}
+}
+:deep(.el-steps) {
+  margin-bottom: 10px;
+}
+:deep(.el-step__title) {
+  line-height: 1;
+  padding: 10px;
 }
 </style>

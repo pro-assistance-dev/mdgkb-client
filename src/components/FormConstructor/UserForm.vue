@@ -253,4 +253,14 @@ export default defineComponent({
   border: 1px solid #f56c6c;
   background-color: lighten(#f56c6c, 25%);
 }
+:deep(.el-form-item__content) {
+  min-width: 200px;
+}
+:deep(.el-form-item__label) {
+  margin-left: 10px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
 </style>
