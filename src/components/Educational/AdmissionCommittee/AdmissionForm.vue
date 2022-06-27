@@ -8,7 +8,6 @@
       <el-step title="Загрузите пакет документов" />
     </el-steps>
 
-    <!--      <el-button @click="activeStep++">Подтвердить</el-button>-->
     <el-form ref="userForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
       <UserForm
         v-if="activeStep === 0"
@@ -25,17 +24,9 @@
       <ResidencyApplicationAchievements v-if="activeStep === 2" :residency-application="residencyApplication" />
     </el-form>
     <el-form>
-      <FieldValuesForm
-        v-if="activeStep === 3"
-        :form="residencyApplication.formValue"
-        :leave-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName']"
-      />
+      <FieldValuesForm v-if="activeStep === 3" :form="residencyApplication.formValue" :leave-fields-with-code="textFields" />
     </el-form>
-    <FieldValuesForm
-      v-if="activeStep === 4"
-      :form="residencyApplication.formValue"
-      :filter-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName']"
-    />
+    <FieldValuesForm v-if="activeStep === 4" :form="residencyApplication.formValue" :filter-fields-with-code="textFields" />
     <div class="container-button">
       <button v-if="activeStep !== 1" class="response-btn" @click="submitStep">Перейти к следующему шагу</button>
     </div>
@@ -68,6 +59,8 @@ export default defineComponent({
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
+    const textFields = ['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName', 'DiplomaSpeciality'];
+
     const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
@@ -178,6 +171,7 @@ export default defineComponent({
       findEmail,
       emailExists,
       UserFormFields,
+      textFields,
     };
   },
 });
