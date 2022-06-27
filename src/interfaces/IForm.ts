@@ -66,4 +66,5 @@ export default interface IForm {
   setCpecifyStatus: (statuses: IFormStatus[]) => void;
   setStatus: (status: IFormStatus, statuses: IFormStatus[]) => void;
   updateViewedByUser: (initialStatus: IFormStatus) => void;
+  clearValidate: () => void;
 }

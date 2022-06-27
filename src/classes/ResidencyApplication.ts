@@ -14,8 +14,8 @@ export default class ResidencyApplication implements IResidencyApplication {
   residencyCourse = new ResidencyCourse();
   residencyCourseId?: string;
   formValue = new Form();
-  main = false;
-  paid = false;
+  main?: boolean;
+  paid?: boolean;
   formValueId?: string;
   entranceExamPlace = '';
   entranceExamSpecialisation = '';
@@ -23,7 +23,7 @@ export default class ResidencyApplication implements IResidencyApplication {
   pointsAchievements = 0;
   residencyApplicationPointsAchievements: IResidencyApplicationPointsAchievement[] = [];
   residencyApplicationPointsAchievementsForDelete: string[] = [];
-  primaryAccreditation = false;
+  primaryAccreditation?: boolean;
   primaryAccreditationPoints = 0;
   primaryAccreditationPlace = '';
 
