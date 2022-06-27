@@ -1,11 +1,7 @@
 <template>
   <div v-if="mounted">
     <el-steps :active="activeStep" finish-status="success">
-      <el-step title="Заполните личные данные" />
-      <el-step title="Ответьте на вопросы" />
-      <el-step title="Укажите индивидуальные достижения" />
-      <el-step title="Укажите прочую необходимую информацию" />
-      <el-step title="Загрузите пакет документов" />
+      <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
     </el-steps>
 
     <el-form ref="userForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
@@ -27,8 +23,9 @@
       <FieldValuesForm v-if="activeStep === 3" :form="residencyApplication.formValue" :leave-fields-with-code="textFields" />
     </el-form>
     <FieldValuesForm v-if="activeStep === 4" :form="residencyApplication.formValue" :filter-fields-with-code="textFields" />
-    <div class="container-button">
-      <button v-if="activeStep !== 1" class="response-btn" @click="submitStep">Перейти к следующему шагу</button>
+    <div class="navigate-buttons">
+      <button v-if="activeStep !== 0" class="back-btn" @click="toStep(activeStep - 1)">Вернуться к предыдущему шагу</button>
+      <button v-if="activeStep !== 1" class="forward-btn" @click="submitStep">Перейти к следующему шагу</button>
     </div>
   </div>
 </template>
@@ -54,17 +51,24 @@ export default defineComponent({
   components: { FieldValuesForm, UserForm, ResidencyApplicationAchievements, AdmissionQuestionsForm },
   emits: ['close'],
   setup(_, { emit }) {
+    const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(0);
+    const activeStep: Ref<number> = ref(2);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
     const textFields = ['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName', 'DiplomaSpeciality'];
+    const steps = [
+      'Заполните личные данные',
+      'Ответьте на вопросы',
+      'Укажите индивидуальные достижения',
+      'Укажите прочую необходимую информацию',
+      'Загрузите пакет документов',
+    ];
 
     const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-    const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const form = ref();
     const userForm = ref();
     const questionsForm = ref();
@@ -148,10 +152,18 @@ export default defineComponent({
         return;
       }
       activeStep.value++;
-      scroll('#error-block-message');
+      scroll();
       if (activeStep.value > 4) {
         await submit();
       }
+    };
+
+    const toStep = async (stepNum: number) => {
+      await scroll();
+      if (stepNum >= activeStep.value) {
+        return;
+      }
+      activeStep.value = stepNum;
     };
 
     return {
@@ -172,6 +184,8 @@ export default defineComponent({
       emailExists,
       UserFormFields,
       textFields,
+      toStep,
+      steps,
     };
   },
 });
@@ -185,25 +199,58 @@ export default defineComponent({
   padding-top: 4px;
 }
 
-.container-button {
+.navigate-buttons {
   text-align: center;
+  margin: 10px;
+  .forward-btn {
+    margin: 10px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #31af5e;
+    padding: 10px 20px;
+    height: auto;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+    &:disabled {
+      background-color: #76cc94;
+      cursor: auto;
+    }
+  }
+  .back-btn {
+    margin: 10px;
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px 20px;
+    height: auto;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+    &:disabled {
+      background-color: #76cc94;
+      cursor: auto;
+    }
+    background-color: #f49524;
+  }
 }
-.response-btn {
-  text-align: center;
-  border-radius: 20px;
-  background-color: #31af5e;
-  padding: 10px 20px;
-  height: auto;
-  letter-spacing: 2px;
-  color: white;
-  border: 1px solid rgb(black, 0.05);
-  &:hover {
+
+.success-step {
+  :deep(.el-step__icon) {
     cursor: pointer;
-    background-color: lighten(#31af5e, 10%);
+    &:hover {
+      transform: scale(1.1);
+    }
   }
-  &:disabled {
-    background-color: #76cc94;
-    cursor: auto;
-  }
+  //&:hover {
+  //  cursor: pointer;
+  //}
 }
 </style>
