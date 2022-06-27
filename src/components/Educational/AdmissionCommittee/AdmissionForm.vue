@@ -1,15 +1,17 @@
 <template>
   <div v-if="mounted">
     <el-steps :active="activeStep" finish-status="success">
-      <el-step title="Заполните личные данные" />
-      <el-step title="Ответьте на вопросы" />
-      <el-step title="Укажите индивидуальные достижения" />
-      <el-step title="Укажите прочую необходимую информацию" />
-      <el-step title="Загрузите пакет документов" />
+      <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
     </el-steps>
 
-    <!--      <el-button @click="activeStep++">Подтвердить</el-button>-->
-    <el-form ref="userForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
+    <el-form
+      id="admission-course-form"
+      ref="userForm"
+      v-model="residencyApplication"
+      style="max-width: 700px; margin: 0 auto"
+      :model="residencyApplication"
+      label-width="150px"
+    >
       <UserForm
         v-if="activeStep === 0"
         :form="residencyApplication.formValue"
@@ -25,19 +27,14 @@
       <ResidencyApplicationAchievements v-if="activeStep === 2" :residency-application="residencyApplication" />
     </el-form>
     <el-form>
-      <FieldValuesForm
-        v-if="activeStep === 3"
-        :form="residencyApplication.formValue"
-        :leave-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName']"
-      />
+      <FieldValuesForm v-if="activeStep === 3" :form="residencyApplication.formValue" :leave-fields-with-code="textFields" />
     </el-form>
-    <FieldValuesForm
-      v-if="activeStep === 4"
-      :form="residencyApplication.formValue"
-      :filter-fields-with-code="['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName']"
-    />
-    <div class="container-button">
-      <button v-if="activeStep !== 1" class="response-btn" @click="submitStep">Перейти к следующему шагу</button>
+    <el-form>
+      <FieldValuesForm v-if="activeStep === 4" :form="residencyApplication.formValue" :filter-fields-with-code="textFields" />
+    </el-form>
+
+    <div class="navigate-buttons">
+      <button v-if="activeStep < 4" class="forward-btn" @click="submitStep">Перейти к следующему шагу</button>
     </div>
   </div>
 </template>
@@ -63,15 +60,24 @@ export default defineComponent({
   components: { FieldValuesForm, UserForm, ResidencyApplicationAchievements, AdmissionQuestionsForm },
   emits: ['close'],
   setup(_, { emit }) {
+    const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(0);
+    const activeStep: Ref<number> = ref(3);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
+    const textFields = ['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName', 'DiplomaSpeciality'];
+    const steps = [
+      'Заполните личные данные',
+      'Ответьте на вопросы',
+      'Укажите индивидуальные достижения',
+      'Укажите прочую необходимую информацию',
+      'Загрузите пакет документов',
+    ];
+
     const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-    const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const form = ref();
     const userForm = ref();
     const questionsForm = ref();
@@ -93,7 +99,7 @@ export default defineComponent({
           dangerouslyUseHTMLString: true,
           message: document.querySelector('#error-block-message')?.innerHTML || '',
         });
-        scroll('#error-block-message');
+        scroll('#responce-form');
         return;
       }
       residencyApplication.value.formValue.clearIds();
@@ -124,6 +130,7 @@ export default defineComponent({
           confirmButtonText: 'OK',
           callback: () => {
             Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
+            scroll('#responce-form');
             return;
           },
         }
@@ -131,11 +138,16 @@ export default defineComponent({
       return;
     };
 
+    const clearAllValidate = (): void => {
+      userForm.value.clearValidate();
+      questionsForm.value.clearValidate();
+      residencyApplication.value.formValue.clearValidate();
+    };
+
     const submitStep = async () => {
       if (activeStep.value === 0 && !validate(userForm)) {
         return;
       }
-
       if (activeStep.value === 1 && !validate(questionsForm)) {
         return;
       }
@@ -147,6 +159,9 @@ export default defineComponent({
         return;
       }
       residencyApplication.value.formValue.validate(true);
+      if (activeStep.value === 3 && !residencyApplication.value.formValue.validated) {
+        return;
+      }
       if (activeStep.value === 3 && residencyApplication.value.formValue.validated) {
         filledApplicationDownload();
       }
@@ -154,11 +169,22 @@ export default defineComponent({
       if (activeStep.value === 4 && !residencyApplication.value.formValue.validated) {
         return;
       }
+      if (activeStep.value !== 3) {
+        scroll('#responce-form');
+      }
       activeStep.value++;
-      scroll('#error-block-message');
       if (activeStep.value > 4) {
         await submit();
       }
+      clearAllValidate();
+    };
+
+    const toStep = async (stepNum: number) => {
+      await scroll('#responce-form');
+      if (stepNum >= activeStep.value) {
+        return;
+      }
+      activeStep.value = stepNum;
     };
 
     return {
@@ -178,6 +204,9 @@ export default defineComponent({
       findEmail,
       emailExists,
       UserFormFields,
+      textFields,
+      toStep,
+      steps,
     };
   },
 });
@@ -191,25 +220,67 @@ export default defineComponent({
   padding-top: 4px;
 }
 
-.container-button {
+.navigate-buttons {
   text-align: center;
+  margin: 10px;
+  .forward-btn {
+    margin: 10px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #31af5e;
+    padding: 10px 20px;
+    height: auto;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+    &:disabled {
+      background-color: #76cc94;
+      cursor: auto;
+    }
+  }
+  .back-btn {
+    margin: 10px;
+    text-align: center;
+    border-radius: 20px;
+    padding: 10px 20px;
+    height: auto;
+    letter-spacing: 2px;
+    color: white;
+    border: 1px solid rgb(black, 0.05);
+    &:hover {
+      cursor: pointer;
+      background-color: lighten(#31af5e, 10%);
+    }
+    &:disabled {
+      background-color: #76cc94;
+      cursor: auto;
+    }
+    background-color: #f49524;
+  }
 }
-.response-btn {
-  text-align: center;
-  border-radius: 20px;
-  background-color: #31af5e;
-  padding: 10px 20px;
-  height: auto;
-  letter-spacing: 2px;
-  color: white;
-  border: 1px solid rgb(black, 0.05);
-  &:hover {
-    cursor: pointer;
-    background-color: lighten(#31af5e, 10%);
+
+.success-step {
+  cursor: pointer;
+  :deep(.el-step__title) {
+    color: #31af5e;
   }
-  &:disabled {
-    background-color: #76cc94;
-    cursor: auto;
+  &:hover :deep(.el-step__icon) {
+    color: lighten(#31af5e, 15%);
+    transform: scale(1.1);
   }
+  &:hover :deep(.el-step__title) {
+    color: lighten(#31af5e, 15%);
+  }
+}
+:deep(.el-steps) {
+  margin-bottom: 10px;
+}
+:deep(.el-step__title) {
+  line-height: 1;
+  padding: 10px;
 }
 </style>

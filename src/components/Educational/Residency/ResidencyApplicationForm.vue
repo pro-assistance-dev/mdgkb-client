@@ -1,42 +1,12 @@
 <template>
   <div v-if="mounted">
     <el-form ref="form" v-model="residencyApplication" :model="residencyApplication" label-position="top">
-      <el-button @click="filledApplicationDownload">Скачать предзаполненное заявление</el-button>
       <UserForm
         :form="residencyApplication.formValue"
         :email-exists="emailExists"
-        :active-fields="UserFormFields.CreateWithAllUserFields({ userSnils: true })"
+        :active-fields="UserFormFields.CreateWithFullName({ userSnils: true })"
         @findEmail="findEmail"
       />
-      <ResidencyApplicationAchievements :residency-application="residencyApplication" />
-
-      <template v-if="residencyCourse.isThisYear">
-        <el-form-item>
-          <el-checkbox v-model="residencyApplication.paid" label="Ординатура по договору об оказании образовательных платных услуг" />
-        </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="residencyApplication.main" label="Заявление подаётся на дополнительную специальность" />
-        </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="residencyApplication.primaryAccreditation" label="Первичную аккредитацию прошёл" />
-        </el-form-item>
-        <template v-if="residencyApplication.primaryAccreditation">
-          <el-form-item>
-            <el-input v-model="residencyApplication.primaryAccreditationPlace" label="Первичная аккредитация пройдена в:" />
-          </el-form-item>
-          <el-form-item v-if="residencyApplication.primaryAccreditation">
-            <el-input-number v-model="residencyApplication.primaryAccreditationPoints" label="Баллы первичной аккредитации" />
-          </el-form-item>
-        </template>
-        <template v-else>
-          <el-form-item>
-            <el-input v-model="residencyApplication.primaryAccreditationPlace" label="Вступительные испытания прохожу в:" />
-          </el-form-item>
-          <el-form-item v-if="residencyApplication.primaryAccreditation">
-            <el-input-number v-model="residencyApplication.primaryAccreditationPoints" label="Баллы первичной аккредитации" />
-          </el-form-item>
-        </template>
-      </template>
       <FieldValuesForm :form="residencyApplication.formValue" />
     </el-form>
     <el-divider />
@@ -49,40 +19,40 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { useStore } from 'vuex';
 
 import UserFormFields from '@/classes/UserFormFields';
-import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
-import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'ResidencyApplicationForm',
-  components: { FieldValuesForm, UserForm, ResidencyApplicationAchievements },
+  components: { FieldValuesForm, UserForm },
   emits: ['close'],
   setup(_, { emit }) {
+    const store = useStore();
     const mounted = ref(false);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
-      () => Provider.store.getters['residencyApplications/item']
+      () => store.getters['residencyApplications/item']
     );
-    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
-    const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-    const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
+    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => store.getters['residencyCourses/item']);
+    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+    const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
+    const emailExists: ComputedRef<boolean> = computed(() => store.getters['residencyApplications/emailExists']);
     const form = ref();
 
     watch(isAuth, async () => {
-      Provider.store.commit('residencyApplications/setUser', user.value);
+      store.commit('residencyApplications/setUser', user.value);
       await findEmail();
     });
 
     const findEmail = async () => {
-      await Provider.store.dispatch('residencyApplications/emailExists', residencyCourse.value.id);
+      await store.dispatch('residencyApplications/emailExists', residencyCourse.value.id);
     };
 
     const submit = async () => {
@@ -104,7 +74,7 @@ export default defineComponent({
         return;
       }
       residencyApplication.value.formValue.clearIds();
-      await Provider.store.dispatch('residencyApplications/create');
+      await store.dispatch('residencyApplications/create');
       ElMessage({
         type: 'success',
         message: 'Заявка отправлена',
@@ -113,30 +83,16 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      Provider.store.commit('residencyApplications/resetItem');
-      Provider.store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
+      store.commit('residencyApplications/resetItem');
+      store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
       residencyApplication.value.formValue.initFieldsValues();
-      Provider.store.commit('residencyApplications/setCourse', residencyCourse.value);
-      Provider.store.commit('residencyApplications/setUser', user.value);
-
+      store.commit('residencyApplications/setCourse', residencyCourse.value);
+      store.commit('residencyApplications/setUser', user.value);
       await findEmail();
       mounted.value = true;
     });
 
-    const filledApplicationDownload = async () => {
-      residencyApplication.value.formValue.validate(true);
-      if (!validate(form, true) || !residencyApplication.value.formValue.validated) {
-        ElMessage({
-          type: 'warning',
-          message: 'Данные заполнены некорректно - проверьте корректность',
-        });
-        return;
-      }
-      await Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
-    };
-
     return {
-      filledApplicationDownload,
       residencyApplication,
       residencyCourse,
       mounted,

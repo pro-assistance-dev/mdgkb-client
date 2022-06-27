@@ -31,6 +31,7 @@ app.use(Vue3TouchEvents);
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Maska from 'maska';
 
 import buildUrl from '@/services/BuildUrl';
 import DateTimeFormatter from '@/services/DateFormat';
@@ -45,7 +46,7 @@ app.use(router);
 // app.use(YmapPlugin);
 app.use(setupElementPlusComponents, { locale: ru });
 app.use(setupElementPlusPlugins);
-
+app.use(Maska);
 // locale.use(lang);
 Provider.router = router;
 Provider.store = store;

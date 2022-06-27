@@ -1,5 +1,8 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination>
+  <AdminListWrapper v-if="mounted" pagination show-header>
+    <template #header>
+      <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+    </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
     </template>
@@ -44,26 +47,36 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
+import FilterModel from '@/classes/filters/FilterModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IApplicationCar from '@/interfaces/IApplicationCar';
+import IFormStatus from '@/interfaces/IFormStatus';
+import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import ApplicationsCarsFiltersLib from '@/services/Provider/libs/filters/ApplicationsCarsFiltersLib';
+import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import ApplicationsCarsSortsLib from '@/services/Provider/libs/sorts/ApplicationsCarsSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminApplicationCarList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
+  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterMultipleSelect },
 
   setup() {
     const route = useRoute();
+    const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
+    const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const applicationsCars: ComputedRef<IApplicationCar[]> = computed(() => Provider.store.getters['applicationsCars/items']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('applications_cars'));
     const create = () => Provider.router.push(`${route.path}/new`);
@@ -77,6 +90,8 @@ export default defineComponent({
       Provider.setSortList(...createSortModels(ApplicationsCarsSortsLib));
       Provider.setSortModels(ApplicationsCarsSortsLib.byCreatedAt(Orders.Desc));
       await loadApplications();
+      await loadFilters();
+      filterByStatus.value = ApplicationsCarsFiltersLib.byStatus();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Заявления на въезд',
         buttons: [{ text: 'Добавить', type: 'primary', action: create }],
@@ -89,12 +104,36 @@ export default defineComponent({
       sortModels: [],
     });
 
+    const filtersToOptions = (): IOption[] => {
+      const options: IOption[] = [];
+      formStatuses.value.forEach((i: IFormStatus) => {
+        if (i.id) {
+          options.push({ value: i.id, label: i.name });
+        }
+      });
+      return options;
+    };
+
+    const loadFilters = async () => {
+      const filterQuery = new FilterQuery();
+      if (applicationsCars.value.length > 0) {
+        const formStatusesGroupId = applicationsCars.value[0].formValue.formStatus.formStatusGroupId;
+        if (formStatusesGroupId) {
+          filterQuery.filterModels.push(FormStatusesFiltersLib.byGroupId(formStatusesGroupId));
+        }
+      }
+      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+    };
+
     return {
+      filterByStatus,
       applicationsCars,
       mounted: Provider.mounted,
       sortList: Provider.sortList,
+      schema: Provider.schema,
       edit,
       loadApplications,
+      filtersToOptions,
     };
   },
 });

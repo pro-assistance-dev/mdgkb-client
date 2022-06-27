@@ -225,6 +225,13 @@ export default class Form implements IForm {
     }
   }
 
+  clearValidate(): void {
+    this.validated = true;
+    this.fieldValues.forEach((el: IFieldValue) => {
+      el.showError = false;
+    });
+  }
+
   clearIds(): void {
     this.id = undefined;
     this.fields.forEach((el: IField) => {

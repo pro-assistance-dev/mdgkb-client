@@ -3,9 +3,10 @@ $footer_bottom_desktop: 90px;
 .footer-bottom {
   min-height: $footer_bottom_desktop;
   background: #fff;
-  padding-top: $footer_bottom_desktop / 2;
-  padding-bottom: $footer_bottom_desktop / 2;
+  padding-top: $footer_bottom_desktop / 4;
+  padding-bottom: $footer_bottom_desktop / 4;
   border-top: solid 1px #f1f1f1;
+  text-align: center;
 
   .social-icon {
     margin-right: 27px;
