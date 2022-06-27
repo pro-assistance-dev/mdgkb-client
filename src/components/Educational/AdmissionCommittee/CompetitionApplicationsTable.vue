@@ -50,7 +50,7 @@ export default defineComponent({
   setup(props) {
     const residencyApplications = (): IResidencyApplication[] => {
       const applications: IResidencyApplication[] = [];
-      props.residencyCourses.forEach((rc: IResidencyCourse) => applications.push(...rc.residencyApplications));
+      props.residencyCourses.forEach((rc: IResidencyCourse) => applications.push(...rc.getAcceptedApplications()));
       return applications;
     };
 

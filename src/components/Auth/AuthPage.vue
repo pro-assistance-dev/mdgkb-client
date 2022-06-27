@@ -143,7 +143,6 @@ export default defineComponent({
         return;
       }
       closeModal();
-      ElMessage({ message: 'Вы успешно вошли в систему', type: 'success' });
     };
 
     const sendPassword = async () => {
@@ -154,6 +153,7 @@ export default defineComponent({
       await store.dispatch('auth/refreshPassword', form.value);
       await router.push('/main');
       ElMessage({ message: 'Используйте новый пароль для входа в систему', type: 'success' });
+      form.value = new User();
       store.commit('auth/setLogin');
     };
 

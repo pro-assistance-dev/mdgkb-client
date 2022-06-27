@@ -194,9 +194,13 @@ export default class ResidencyCourse implements IResidencyCourse {
   }
 
   getApplicationsByPoint(): IResidencyApplication[] {
-    return this.residencyApplications.sort((a: IResidencyApplication, b: IResidencyApplication) => {
+    return this.getAcceptedApplications().sort((a: IResidencyApplication, b: IResidencyApplication) => {
       return b.pointsSum() - a.pointsSum();
     });
+  }
+
+  getAcceptedApplications(): IResidencyApplication[] {
+    return this.residencyApplications.filter((i: IResidencyApplication) => i.formValue.formStatus.isAccepted());
   }
 
   isThisYear(): boolean {
@@ -204,10 +208,10 @@ export default class ResidencyCourse implements IResidencyCourse {
   }
 
   getFreeApplications(): IResidencyApplication[] {
-    return this.residencyApplications.filter((a: IResidencyApplication) => !a.paid);
+    return this.getAcceptedApplications().filter((a: IResidencyApplication) => !a.paid);
   }
 
   getPaidApplications(): IResidencyApplication[] {
-    return this.residencyApplications.filter((a: IResidencyApplication) => a.paid);
+    return this.getAcceptedApplications().filter((a: IResidencyApplication) => a.paid);
   }
 }

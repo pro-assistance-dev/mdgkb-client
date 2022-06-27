@@ -61,4 +61,5 @@ export default interface IResidencyCourse {
   isThisYear: () => boolean;
   getPaidApplications: () => IResidencyApplication[];
   getFreeApplications: () => IResidencyApplication[];
+  getAcceptedApplications: () => IResidencyApplication[];
 }

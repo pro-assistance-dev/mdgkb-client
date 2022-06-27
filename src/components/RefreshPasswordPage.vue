@@ -35,11 +35,11 @@ export default defineComponent({
           userId: Provider.route().params['userId'],
           uniqueId: Provider.route().params['uniqueId'],
         });
+        passwordChange();
       } catch (e) {
         await Provider.router.push('/main');
         ElMessage({ message: 'Ссылка устарела', type: 'warning' });
       }
-      passwordChange();
     });
 
     const sendPassword = async () => {
