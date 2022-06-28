@@ -3,7 +3,6 @@
     <div class="mobile-help">
       <div class="line-item">
         <div class="item-block">
-          <!-- <div class="item-title"><h5>ФАМИЛИЯ&nbsp;*</h5></div> -->
           <div class="item-data">
             <el-form-item label="Фамилия" prop="human.surname">
               <el-input
@@ -16,7 +15,6 @@
           </div>
         </div>
         <div class="item-block">
-          <!-- <div class="item-title"><h5>ИМЯ&nbsp;*</h5></div> -->
           <div class="item-data">
             <el-form-item label="Имя" prop="human.name">
               <el-input v-model="human.name" placeholder="Введите имя" @blur="checkCompleteName"></el-input>
@@ -24,7 +22,6 @@
           </div>
         </div>
         <div class="item-block">
-          <!-- <div class="item-title"><h5>ОТЧЕСТВО</h5></div> -->
           <div class="item-data">
             <el-form-item label="Отчество" prop="human.patronymic">
               <el-input v-model="human.patronymic" placeholder="Введите отчество" @blur="checkCompleteName"></el-input>
@@ -35,7 +32,6 @@
 
       <div class="line-item">
         <div class="item-block">
-          <!-- <div class="item-title"><h5>ПОЛ</h5></div> -->
           <div class="item-data">
             <el-form-item label="Пол" prop="human.isMale">
               <el-select v-model="human.isMale" placeholder="Выберите пол">
@@ -45,23 +41,14 @@
             </el-form-item>
           </div>
         </div>
-        <div class="hidden-less-730">
-          <div class="item-block">
-            <!--        <div class="item-title"><h5>СЕМЕЙНЫЙ&nbsp;СТАТУС</h5></div>-->
-            <!--        <div class="item-data">-->
-            <!--          <el-form-item>-->
-            <!--            <el-select v-model="human.isStatus" placeholder="Выберите статус">-->
-            <!--              <el-option v-if="human.isMale === true" label="Женат" :value="true"></el-option>-->
-            <!--              <el-option v-if="human.isMale === true" label="Холост" :value="false"></el-option>-->
-            <!--              <el-option v-if="human.isMale === false" label="Замужем" :value="true"></el-option>-->
-            <!--              <el-option v-if="human.isMale === false" label="Не замужем" :value="false"></el-option>-->
-            <!--            </el-select>-->
-            <!--          </el-form-item>-->
-            <!--        </div>-->
+        <div class="item-block">
+          <div class="item-data">
+            <el-form-item label="Место&nbsp;рождения" prop="human.placeBirth">
+              <el-input v-model="human.placeBirth" placeholder="Введите страну"></el-input>
+            </el-form-item>
           </div>
         </div>
         <div class="item-block">
-          <!-- <div class="item-title"><h5>ДАТА&nbsp;РОЖДЕНИЯ *</h5></div> -->
           <div class="item-data">
             <el-form-item label="Дата рождения" prop="human.dateBirth">
               <el-date-picker v-model="human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
@@ -70,114 +57,19 @@
         </div>
       </div>
 
-      <!--    <div class="line-item">-->
-      <!--      <div class="item-block-1">-->
-      <!--        <div class="item-title"><h5>ДОКУМЕНТ&nbsp;УДОСТОВЕРЯЮЩИЙ&nbsp;ЛИЧНОСТЬ</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-select v-model="human.identityСard" placeholder="Выберите документ">-->
-      <!--              <el-option label="Паспорт" :value="pasport"></el-option>-->
-      <!--              <el-option label="Водительское удостоверение" :value="drivers_license"></el-option>-->
-      <!--              <el-option label="Полис ОМС" :value="polis"></el-option>-->
-      <!--            </el-select>-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class="item-block-2">-->
-      <!--        <div class="item-title"><h5>СЕРИЯ</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-input placeholder="Серия" minlength="4" />-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class="item-block-2">-->
-      <!--        <div class="item-title"><h5>НОМЕР</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-input placeholder="Номер" minlength="6" />-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class="item-block-3">-->
-      <!--        <div class="item-title"><h5>КЕМ&nbsp;ВЫДАН</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-select v-model="human.placeOfIssue" placeholder="Место выдачи">-->
-      <!--              <el-option label="ОВД Центральный" :value="ovdCenter"></el-option>-->
-      <!--              <el-option label="ОВД Северный" :value="ovdNorth"></el-option>-->
-      <!--              <el-option label="ОВД Южный" :value="ovdSouth"></el-option>-->
-      <!--            </el-select>-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--    </div>-->
-
-      <!--    <div class="line-item">-->
-      <!--      <div class="item-block-4">-->
-      <!--        <div class="item-title"><h5>АДРЕС&nbsp;*</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-input placeholder="Введите адрес" minlength="10" />-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class="item-block-3">-->
-      <!--        <div class="item-title"><h5>КОНТАКТНЫЙ&nbsp;ТЕЛЕФОН&nbsp;*</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-input placeholder="Телефон" minlength="10" />-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class="item-block-3">-->
-      <!--        <div class="item-title"><h5>ПОЧТА&nbsp;*</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-input placeholder="Почта" minlength="9" />-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--    </div>-->
-
-      <!--    <div class="line-item">-->
-      <!--      <div class="item-block">-->
-      <!--        <div class="item-title"><h5>ЯЗЫК&nbsp;*</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-select v-model="human.language" placeholder="Выберите язык">-->
-      <!--              <el-option label="Русский" :value="russian"></el-option>-->
-      <!--              <el-option label="Английский" :value="english"></el-option>-->
-      <!--            </el-select>-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class="item-block">-->
-      <!--        <div class="item-title"><h5>РЕЛИГИОЗНАЯ&nbsp;ПРИНАДЛЕЖНОСТЬ</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-select v-model="human.religion" placeholder="Ваше вероисповедание">-->
-      <!--              <el-option label="Христианство" :value="christianity"></el-option>-->
-      <!--              <el-option label="Ислам" :value="islam"></el-option>-->
-      <!--              <el-option label="Индуизм" :value="hinduism"></el-option>-->
-      <!--              <el-option label="Буддизм" :value="buddhism"></el-option>-->
-      <!--            </el-select>-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--      <div class="item-block">-->
-      <!--        <div class="item-title"><h5>ЭТНИЧЕСКАЯ&nbsp;ПРИНАДЛЕЖНОСТЬ</h5></div>-->
-      <!--        <div class="item-data">-->
-      <!--          <el-form-item>-->
-      <!--            <el-select v-model="human.ethnic" placeholder="Выберите принадлежность">-->
-      <!--              <el-option label="Русский" :value="russian"></el-option>-->
-      <!--              <el-option label="Украинец" :value="ukrainian"></el-option>-->
-      <!--              <el-option label="Белорус" :value="belarusian"></el-option>-->
-      <!--            </el-select>-->
-      <!--          </el-form-item>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!--    </div>-->
+      <div class="line-item">
+        <div class="item-block">
+          <el-form-item label="Гражданство" prop="human.citizenship">
+            <el-input v-model="human.citizenship" placeholder="Введите гражданство"></el-input>
+          </el-form-item>
+        </div>
+        <div class="item-block">
+          <el-form-item label="СНИЛС" prop="human.snils">
+            <el-input v-model="human.snils" placeholder="Введите СНИЛС"></el-input>
+          </el-form-item>
+        </div>
+        <div class="item-block"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -218,7 +110,6 @@ export default defineComponent({
     watch(human, sanitizeName, { deep: true });
 
     return {
-      // firstLetterUpper,
       checkCompleteName,
       human,
       form,
@@ -348,7 +239,6 @@ export default defineComponent({
     padding: 0 !important;
     text-transform: uppercase;
     margin-left: 5px;
-    // display: none;
   }
 
   :deep(.el-input__prefix) {
