@@ -1,5 +1,4 @@
 <template>
-  <div>{{ residencyApplication.calculateAchievementsPoints(false) }}</div>
   <table>
     <thead>
       <th>№</th>
