@@ -9,7 +9,7 @@ const ApplicationsCarsFiltersLib = (() => {
     const filterModel = FilterModel.CreateFilterModel(
       Provider.schema.value.applicationCar.tableName,
       Provider.schema.value.applicationCar.formStatusId,
-      DataTypes.String
+      DataTypes.Set
     );
     filterModel.operator = Operators.In;
     return filterModel;

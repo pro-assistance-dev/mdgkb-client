@@ -108,7 +108,7 @@ export default defineComponent({
       const options: IOption[] = [];
       formStatuses.value.forEach((i: IFormStatus) => {
         if (i.id) {
-          options.push({ value: i.id, label: i.name });
+          options.push({ value: i.id, label: i.label });
         }
       });
       return options;
