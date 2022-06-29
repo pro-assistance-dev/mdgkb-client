@@ -1,18 +1,13 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <SortList class="filters-block" :models="createSortModels()" @load="loadComments" />
-      <FilterSelectDate
-        class="filters-block"
-        :table="Provider.schema.value.comment.tableName"
-        :col="Provider.schema.value.comment.publishedOn"
-        @load="loadComments"
-      />
+      <FilterSelectDate class="filters-block" :table="schema.comment.tableName" :col="schema.comment.publishedOn" @load="loadComments" />
       <FilterCheckbox
         class="filters-block"
         label="Отмодерированные"
-        :table="Provider.schema.value.comment.tableName"
-        :col="Provider.schema.value.comment.modChecked"
+        :table="schema.comment.tableName"
+        :col="schema.comment.modChecked"
         :data-type="DataTypes.Boolean"
         :operator="Operators.Eq"
         @load="loadComments"
@@ -24,20 +19,15 @@
       </div>
       <div v-if="!comments.length">Комментариев нет</div>
     </div>
-    <template #footer>
-      <Pagination />
-    </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
-import Pagination from '@/components/admin/Pagination.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import IComment from '@/interfaces/comments/IComment';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -50,18 +40,21 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminCommentList',
-  components: { AdminCommentCard, Pagination, SortList, FilterSelectDate, FilterCheckbox, AdminListWrapper },
+  components: { AdminCommentCard, FilterSelectDate, FilterCheckbox, AdminListWrapper },
   setup() {
-    // const route = useRoute();
     const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
-    const mounted: Ref<boolean> = ref(false);
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('comments'));
     const searchString: Ref<string> = ref('');
 
     const load = async (filterQuery: IFilterQuery) => {
       Provider.setSortModels(CommentsSortsLib.byPublishedOn());
       await Provider.store.dispatch('comments/getAll', filterQuery);
       await Provider.store.dispatch('comments/subscribeCreate');
-      mounted.value = true;
+      Provider.store.commit('admin/setHeaderParams', {
+        title: 'Заявления на въезд',
+        buttons: [],
+        applicationsCount,
+      });
     };
 
     const createSortModels = () => {
@@ -71,10 +64,6 @@ export default defineComponent({
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'comments', action: 'getAll' },
       sortModels: [],
-      adminHeader: {
-        title: 'Комментарии',
-        buttons: [],
-      },
     });
 
     const loadComments = async () => {
@@ -87,8 +76,8 @@ export default defineComponent({
 
     return {
       comments,
-      mounted,
-      Provider,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
       searchString,
       loadComments,
       load,
