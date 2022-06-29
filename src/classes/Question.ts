@@ -1,6 +1,8 @@
 import User from '@/classes/User';
 import IQuestion from '@/interfaces/IQuestion';
 
+import FileInfo from './File/FileInfo';
+
 export default class Question implements IQuestion {
   id?: string;
   theme = '';
@@ -21,6 +23,8 @@ export default class Question implements IQuestion {
   agreedWithPrivacyPolicy = false;
   // Открытие модалки
   isDialogOpened = false;
+  file = new FileInfo();
+  fileId?: string;
 
   constructor(question?: IQuestion) {
     if (!question) {
@@ -37,6 +41,10 @@ export default class Question implements IQuestion {
     }
     if (question.date) {
       this.date = new Date(question.date);
+    }
+    this.fileId = question.fileId;
+    if (question.file) {
+      this.file = new FileInfo(question.file);
     }
     this.answered = question.answered;
     this.userId = question.userId;

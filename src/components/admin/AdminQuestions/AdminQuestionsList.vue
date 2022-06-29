@@ -20,6 +20,11 @@
           <AdminQuestionStatus :question="scope.row" />
         </template>
       </el-table-column>
+      <el-table-column label="Публикация">
+        <template #default="scope">
+          <el-switch v-model="scope.row.published" active-text="Да" inactive-text="Нет" />
+        </template>
+      </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
           <TableButtonGroup
