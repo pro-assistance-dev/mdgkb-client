@@ -4,10 +4,13 @@
       <div class="comment-header">
         <div class="left">
           <span class="commentTo">{{ comment.commentTo }}</span>
-          <span class="title">{{ comment.title }}</span>
+          <router-link :to="comment.link" target="_blank">
+            <span class="title">{{ comment.title }}</span>
+          </router-link>
         </div>
         <div class="right">
           <span class="name">{{ comment.user.email }}</span>
+          <span class="name">{{ comment.user.human.getFullName() }}</span>
           <span class="time">{{ $dateTimeFormatter.format(comment.publishedOn, { month: 'long' }) }}</span>
         </div>
       </div>

@@ -15,7 +15,7 @@
       <div class="card-item" style="padding: 30px">
         <div class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
-          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="errorImg" />
+          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="news.mainImage.errorImg" />
           <div class="image-comment">{{ news.mainImageDescription }}</div>
           <div class="article-preview">{{ news.previewText }}</div>
         </div>
@@ -36,7 +36,7 @@
         <el-divider />
         <NewsPageFooter :news="news" />
         <el-divider />
-        <Comments store-module="news" :parent-id="news.id" :is-reviews="false" />
+        <Comments v-if="news.id" store-module="news" :parent-id="news.id" :is-reviews="false" />
       </div>
     </div>
   </div>
