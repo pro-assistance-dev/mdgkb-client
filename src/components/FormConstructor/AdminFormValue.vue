@@ -73,6 +73,11 @@
       </template>
       <FieldValuesFormResult :form="formValue" />
     </el-card>
+    <el-card header="Общий комментарий">
+      <el-form-item prop="content">
+        <WysiwygEditor v-model="formValue.modComment" />
+      </el-form-item>
+    </el-card>
   </div>
 </template>
 
@@ -80,7 +85,9 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import Form from '@/classes/Form';
 import UserFormFields from '@/classes/UserFormFields';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
@@ -92,7 +99,13 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminFormValue',
-  components: { FieldValuesFormResult, FieldValuesForm, UserForm, AdminUserInfo },
+  components: {
+    FieldValuesFormResult,
+    FieldValuesForm,
+    UserForm,
+    AdminUserInfo,
+    WysiwygEditor,
+  },
   props: {
     form: {
       type: Object as PropType<IForm>,
@@ -118,7 +131,7 @@ export default defineComponent({
   emits: ['findEmail'],
 
   setup(props, { emit }) {
-    const formValue: Ref<IForm | undefined> = ref();
+    const formValue: Ref<IForm> = ref(new Form());
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
     const mounted: Ref<boolean> = ref(false);
     const changeFormStatusHandler = (status: IFormStatus) => {

@@ -16,6 +16,7 @@ import IVacancyResponse from './vacancyResponse/IVacancyResponse';
 export default interface IForm {
   id?: string;
   title?: string;
+  modComment?: string;
   code: string;
   emailNotify: boolean;
   description: string;
