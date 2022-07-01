@@ -22,10 +22,13 @@
       </el-table-column>
       <el-table-column label="Публикация">
         <template #default="scope">
-          <div v-if="isEditMode">
+          <template v-if="isEditMode">
             <el-switch v-model="scope.row.published" active-text="Да" inactive-text="Нет" />
-          </div>
-          <div v-else></div>
+          </template>
+          <template v-else>
+            <el-tag v-if="scope.row.published" size="small" type="success">Опубликован</el-tag>
+            <el-tag v-else size="small" type="danger">Не опубликован</el-tag>
+          </template>
         </template>
       </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
@@ -88,7 +91,7 @@ export default defineComponent({
         return;
       }
       saveButtonClick.value = true;
-      await Provider.store.dispatch('residencyCourses/updateMany');
+      await Provider.store.dispatch('questions/updateMany');
       isEditMode.value = false;
       isNotEditMode.value = true;
       if (next) next();
