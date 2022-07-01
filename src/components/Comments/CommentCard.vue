@@ -18,7 +18,7 @@
       </div>
 
       <h4 v-if="!isQuestion" class="reviews-text">{{ comment.text }}</h4>
-      <h4 v-else class="reviews-text" white-space: pre-line>{{ question.question }}</h4>
+      <h4 v-else class="reviews-text" style="white-space: pre-line">{{ question.question }}</h4>
     </div>
   </div>
   <div v-if="comment.answer || question.answer" class="review-for-review">

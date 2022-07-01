@@ -29,6 +29,7 @@ import VacancyResponse from './VacancyResponse';
 export default class Form implements IForm {
   id?: string;
   title?: string;
+  modComment?: string;
   name = '';
   emailNotify = false;
   description = '';
@@ -69,6 +70,7 @@ export default class Form implements IForm {
     }
     this.id = form.id;
     this.title = form.title;
+    this.modComment = form.modComment;
     this.description = form.description;
     if (form.createdAt) {
       this.createdAt = form.createdAt;
