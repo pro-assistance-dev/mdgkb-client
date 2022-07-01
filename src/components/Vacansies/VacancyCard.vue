@@ -156,12 +156,12 @@ export default defineComponent({
   justify-content: space-evenly;
 }
 
-.hr-line {
+/* .hr-line {
   border: none;
-  background-color: #e4e5e7; /* Цвет линии для браузера Firefox и Opera */
+  background-color: #e4e5e7; /* Цвет линии для браузера Firefox и Opera /
   height: 1px;
   background: #e4e5e7;
-}
+} */
 
 .icon-vacancies {
   padding-bottom: 20px;

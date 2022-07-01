@@ -3,10 +3,12 @@
     <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</div>
     <div id="leave-a-review" class="leave-a-review">
       <!-- <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4> -->
-      <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" />
+      <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
     </div>
-    <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
-      <CommentCard :comment="item.comment" :is-review="isReviews" />
+    <div id="comments-block">
+      <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
+        <CommentCard :comment="item.comment" :is-review="isReviews" />
+      </div>
     </div>
   </div>
 </template>
@@ -17,7 +19,8 @@ import { useStore } from 'vuex';
 
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
-import IComment from '@/interfaces/comments/IComment';
+import IWithComment from '@/interfaces/IWithComment';
+import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'Comments',
@@ -38,10 +41,11 @@ export default defineComponent({
   },
   async setup(prop) {
     const store = useStore();
-    const comments: ComputedRef<IComment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
+    const comments: ComputedRef<IWithComment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
 
     return {
       comments,
+      scroll,
     };
   },
 });

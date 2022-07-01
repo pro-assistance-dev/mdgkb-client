@@ -48,7 +48,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import FilterQuery from '@/classes/filters/FilterQuery';
@@ -74,13 +73,12 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterMultipleSelect },
 
   setup() {
-    const route = useRoute();
     const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const applicationsCars: ComputedRef<IApplicationCar[]> = computed(() => Provider.store.getters['applicationsCars/items']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('applications_cars'));
-    const create = () => Provider.router.push(`${route.path}/new`);
-    const edit = (id: string) => Provider.router.push(`${route.path}/${id}`);
+    const create = () => Provider.router.push(`${Provider.route().path}/new`);
+    const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
     const loadApplications = async () => {
       await Provider.store.dispatch('applicationsCars/getAll', Provider.filterQuery.value);

@@ -17,10 +17,11 @@ export default class ResidencyApplication implements IResidencyApplication {
   main?: boolean;
   paid?: boolean;
   formValueId?: string;
-  entranceExamPlace = '';
+  // entranceExamPlace = '';
   entranceExamSpecialisation = '';
   pointsEntrance = 0;
   pointsAchievements = 0;
+  mdgkbExam?: boolean;
   residencyApplicationPointsAchievements: IResidencyApplicationPointsAchievement[] = [];
   residencyApplicationPointsAchievementsForDelete: string[] = [];
   primaryAccreditation?: boolean;
@@ -37,8 +38,9 @@ export default class ResidencyApplication implements IResidencyApplication {
     this.pointsAchievements = i.pointsAchievements;
     this.formValueId = i.formValueId;
     this.main = i.main;
+    this.mdgkbExam = i.mdgkbExam;
     this.paid = i.paid;
-    this.entranceExamPlace = i.entranceExamPlace;
+    // this.entranceExamPlace = i.entranceExamPlace;
     this.entranceExamSpecialisation = i.entranceExamSpecialisation;
     if (i.residencyCourse) {
       this.residencyCourse = new ResidencyCourse(i.residencyCourse);

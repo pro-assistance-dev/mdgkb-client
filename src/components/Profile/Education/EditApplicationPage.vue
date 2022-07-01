@@ -1,8 +1,14 @@
 <template>
-  <div v-if="mounted" class="card-item">
-    <el-form ref="form" v-model="formValue" :model="formValue" label-position="top">
-      <FieldValuesForm :form="formValue" :show-mod-comments="true" />
-    </el-form>
+  <div v-if="mounted">
+    <div v-if="formValue.modComment" class="card-item">
+      <h3>Общий комментарий по замечаниям</h3>
+      <div v-html="formValue.modComment"></div>
+    </div>
+    <div class="card-item">
+      <el-form ref="form" v-model="formValue" :model="formValue" label-position="top">
+        <FieldValuesForm :form="formValue" :show-mod-comments="true" />
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -34,6 +40,7 @@ export default defineComponent({
       if (!validate(form, true) || !formValue.value.validated) {
         return;
       }
+      formValue.value.isNew = true;
       formValue.value.setCpecifyStatus(formStatuses.value);
       await store.dispatch('formValues/update', formValue.value);
       router.push('/profile/education');
@@ -68,3 +75,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.card-item {
+  margin-bottom: 10px;
+}
+</style>

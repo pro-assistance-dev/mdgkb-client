@@ -25,9 +25,11 @@ export default interface IResidencyApplication {
   achievementExists: (pointsAchievementId: string) => boolean;
 
   primaryAccreditation?: boolean;
+  mdgkbExam?: boolean;
   primaryAccreditationPoints: number;
   primaryAccreditationPlace: string;
-  entranceExamPlace: string;
+
+  // entranceExamPlace: string;
   entranceExamSpecialisation: string;
 
   getAchievementResultByAchievementId: (achievementId: string) => IResidencyApplicationPointsAchievement;
