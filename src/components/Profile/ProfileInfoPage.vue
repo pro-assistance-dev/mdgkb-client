@@ -437,7 +437,6 @@ h5 {
 }
 
 .user-avatar {
-  position: sticky;
   width: 273px;
   height: 273px;
   border-radius: 5px;
