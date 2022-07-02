@@ -1,13 +1,5 @@
 <template>
-  <div class="title"><h2>Установить пароль для личного кабинета?</h2></div>
-  <div class="news-page-container">
-    <div class="news-content-container">
-      <el-form>
-        <button class="yes-button" @click.prevent="passwordChange">Да</button>
-        <button class="no-button" @click="$router.push('/')">На главную</button>
-      </el-form>
-    </div>
-  </div>
+  <div></div>
 </template>
 
 <script lang="ts">

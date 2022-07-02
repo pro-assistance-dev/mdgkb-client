@@ -2,8 +2,6 @@
   <div>
     <el-tag v-if="question.isNew" size="small" type="warning">Новый</el-tag>
     <el-tag v-if="!question.publishAgreement" size="small" type="info">Публикация запрещена</el-tag>
-    <el-tag v-else-if="question.published" size="small" type="success">Опубликован</el-tag>
-    <el-tag v-else size="small" type="danger">Не опубликован</el-tag>
     <el-tag v-if="question.answered" size="small" type="success">Отвечен</el-tag>
     <el-tag v-else size="small" type="danger">Не отвечен</el-tag>
   </div>

@@ -59,6 +59,10 @@ const actions: ActionTree<State, RootState> = {
       query: `new/${question.id}?isNew=${question.isNew}`,
     });
   },
+
+  updateMany: async ({ state }): Promise<void> => {
+    await httpClient.put<IQuestion[], IQuestion[]>({ query: 'many', payload: state.items });
+  },
 };
 
 export default actions;
