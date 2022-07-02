@@ -11,7 +11,10 @@
         <div class="right">
           <span class="name">{{ comment.user.email }}</span>
           <span class="name">{{ comment.user.human.getFullName() }}</span>
-          <span class="time">{{ $dateTimeFormatter.format(comment.publishedOn, { month: 'long' }) }}</span>
+          <span class="time">{{
+            $dateTimeFormatter.format(comment.publishedOn, { month: 'long', hour: 'numeric', minute: 'numeric' })
+          }}</span>
+          <Rating :with-numbers="false" :comments="[{ comment: comment }]" />
         </div>
       </div>
     </template>
@@ -37,11 +40,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Rating from '@/components/Rating.vue';
 import IComment from '@/interfaces/comments/IComment';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminCommentCard',
+  components: { Rating },
   props: {
     comment: {
       type: Object as PropType<IComment>,

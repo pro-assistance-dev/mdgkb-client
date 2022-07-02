@@ -1,7 +1,9 @@
 import IApplicationCarSchema from '@/interfaces/schema//IApplicationCarSchema';
 import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
+import IDivisionCommentSchema from '@/interfaces/schema/IDivisionCommentSchema';
 import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
+import IDoctorCommentSchema from '@/interfaces/schema/IDoctorCommentSchema';
 import IDoctorSchema from '@/interfaces/schema/IDoctorSchema';
 import IDoctorUserSchema from '@/interfaces/schema/IDoctorUserSchema';
 import IDpoApplicationSchema from '@/interfaces/schema/IDpoApplicationSchema';
@@ -13,6 +15,7 @@ import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
 import IFormStatusSchema from '@/interfaces/schema/IFormStatusSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
+import INewsCommentSchema from '@/interfaces/schema/INewsCommentSchema';
 import INewsSchema from '@/interfaces/schema/INewsSchema';
 import INewsToTag from '@/interfaces/schema/INewsToTag';
 import IPathPermissionsSchema from '@/interfaces/schema/IPathPermissionsSchema';
@@ -62,4 +65,7 @@ export default interface ISchema {
   question: IQuestionSchema;
   treatDirection: ITreatDirectionSchema;
   vacancyResponse: IVacancyResponseSchema;
+  doctorComment: IDoctorCommentSchema;
+  divisionComment: IDivisionCommentSchema;
+  newsComment: INewsCommentSchema;
 }

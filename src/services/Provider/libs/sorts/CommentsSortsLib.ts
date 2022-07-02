@@ -13,8 +13,20 @@ const CommentsSortsLib = (() => {
       true
     );
   }
+
+  function byRating(order?: Orders): ISortModel {
+    return SortModel.CreateSortModel(
+      Provider.schema.value.comment.tableName,
+      Provider.schema.value.comment.rating,
+      order ? order : Orders.Desc,
+      `Cначала ${order === Orders.Asc ? 'отрицательные' : 'положительные'}`,
+      false
+    );
+  }
+
   return {
     byPublishedOn,
+    byRating,
   };
 })();
 
