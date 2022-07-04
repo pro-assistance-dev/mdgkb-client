@@ -21,16 +21,17 @@
         </svg>
       </button>
       <div class="info-block">
-        <div>
+        <div class="margin-bottom font-weight-600">
           +7 (495) 959-88-00<br />
           +7 (495) 959-88-03
         </div>
-        <div class="call-center">
-          <small> Call-центр принимает звонки круглосуточно и без выходных. По России звонок бесплатный. </small>
+        <div class="call-center margin-bottom">
+          <!-- <small> -->
+          Call-центр принимает звонки круглосуточно и без выходных. По России звонок бесплатный.<!--  </small> -->
         </div>
-        <div class="address">119049 г. Москва, 4-й Добрынинский переулок, дом 1/9</div>
-        <div class="address2">
-          <small>Вход на территорию больницы с 1-ого Добрынинского переулка.</small>
+        <div class="address margin-bottom font-weight-600">119049 г. Москва, 4-й Добрынинский переулок, дом 1/9</div>
+        <div class="address2 margin-bottom">
+          <!-- <small> -->Вход на территорию больницы с 1-ого Добрынинского переулка.<!-- </small> -->
         </div>
         <div class="icons">
           <!-- <a href="https://www.facebook.com/Morozdgkbdzm/" class="social-icon" target="_blank">
@@ -321,6 +322,8 @@ ul.menu-right li {
   padding: 10px;
   border: 1px solid #dfe4ee;
   border-radius: 5px;
+  width: 25rem;
+  text-align: left;
 }
 
 .info:focus ~ .info-block,
@@ -365,6 +368,14 @@ button {
 .login-and-search {
   display: flex;
   align-content: center;
+}
+
+.margin-bottom {
+  margin-bottom: 0.5rem;
+}
+
+.font-weight-600 {
+  font-weight: 600;
 }
 
 @media screen and (max-width: 480px) {
