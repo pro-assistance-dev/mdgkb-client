@@ -1,5 +1,7 @@
 import IUser from '@/interfaces/IUser';
 
+import IFileInfo from './files/IFileInfo';
+
 export default interface IQuestion {
   id?: string;
   theme: string;
@@ -17,6 +19,8 @@ export default interface IQuestion {
   answerIsRead: boolean;
   isDialogOpened: boolean;
   agreedWithPrivacyPolicy: boolean;
+  file?: IFileInfo;
+  fileId?: string;
 
   publish: () => void;
   changeNewStatus: (status?: boolean) => void;

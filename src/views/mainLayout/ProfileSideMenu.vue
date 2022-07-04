@@ -67,6 +67,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 import IUser from '@/interfaces/IUser';
 import Provider from '@/services/Provider';
@@ -76,8 +77,8 @@ export default defineComponent({
   components: { UserInfoMini },
   setup() {
     const activeRoute: Ref<string> = ref('');
-
-    watch(Provider.route(), () => {
+    const route = useRoute();
+    watch(route, () => {
       setActiveMenu();
     });
 

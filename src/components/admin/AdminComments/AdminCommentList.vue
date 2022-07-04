@@ -1,7 +1,7 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <SortList class="filters-block" :models="createSortModels()" @load="loadComments" />
+      <SortList class="filters-block" :models="sortList" @load="loadComments" />
       <FilterSelectDate class="filters-block" :table="schema.comment.tableName" :col="schema.comment.publishedOn" @load="loadComments" />
       <FilterCheckbox
         class="filters-block"
@@ -12,6 +12,7 @@
         :operator="Operators.Eq"
         @load="loadComments"
       />
+      <FilterSelectV2 :filter-models="createFilterModels()" @load="loadComments" />
     </template>
     <div class="comments-container">
       <div id="list" style="overflow: auto; padding-right: 5px">
@@ -28,26 +29,32 @@ import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } fro
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
+import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
+import SortList from '@/components/SortList/SortList.vue';
 import IComment from '@/interfaces/comments/IComment';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import CommentsFiltersLib from '@/services/Provider/libs/filters/CommentsFiltersLib';
 import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminCommentList',
-  components: { AdminCommentCard, FilterSelectDate, FilterCheckbox, AdminListWrapper },
+  components: { FilterSelectV2, AdminCommentCard, FilterSelectDate, FilterCheckbox, AdminListWrapper, SortList },
   setup() {
     const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('comments'));
     const searchString: Ref<string> = ref('');
 
     const load = async (filterQuery: IFilterQuery) => {
-      Provider.setSortModels(CommentsSortsLib.byPublishedOn());
+      Provider.setSortList(...createSortModels(CommentsSortsLib, Orders.Desc));
+      Provider.setSortModels(CommentsSortsLib.byPublishedOn(Orders.Desc));
       await Provider.store.dispatch('comments/getAll', filterQuery);
       await Provider.store.dispatch('comments/subscribeCreate');
       Provider.store.commit('admin/setHeaderParams', {
@@ -55,10 +62,6 @@ export default defineComponent({
         buttons: [],
         applicationsCount,
       });
-    };
-
-    const createSortModels = () => {
-      return [CommentsSortsLib.byPublishedOn(Orders.Desc), CommentsSortsLib.byPublishedOn(Orders.Asc)];
     };
 
     Hooks.onBeforeMount(load, {
@@ -74,6 +77,10 @@ export default defineComponent({
       await Provider.store.dispatch('comments/unsubscribeCreate');
     });
 
+    const createFilterModels = (): IFilterModel[] => {
+      return [CommentsFiltersLib.onlyNewsComments(), CommentsFiltersLib.onlyDoctorsComments(), CommentsFiltersLib.onlyDivisionsComments()];
+    };
+
     return {
       comments,
       mounted: Provider.mounted,
@@ -83,7 +90,8 @@ export default defineComponent({
       load,
       Operators,
       DataTypes,
-      createSortModels,
+      sortList: Provider.sortList,
+      createFilterModels,
     };
   },
 });

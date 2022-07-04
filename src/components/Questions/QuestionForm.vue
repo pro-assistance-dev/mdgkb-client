@@ -47,6 +47,9 @@
               :autosize="{ minRows: 5, maxRows: 10 }"
             />
           </el-form-item>
+          <el-form-item style="margin: 0">
+            <FileUploader v-if="question.file" :file-info="question.file" />
+          </el-form-item>
           <div class="flex-column">
             <el-checkbox v-model="question.publishAgreement">
               Я не против публичного размещения моего обращения<br />
@@ -70,18 +73,31 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, PropType, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import FileUploader from '@/components/FileUploader.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
+import IField from '@/interfaces/IField';
+import IForm from '@/interfaces/IForm';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
 import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'QuestionForm',
-  components: {},
-  setup() {
+  components: { FileUploader },
+  props: {
+    field: {
+      type: Object as PropType<IField>,
+      required: true,
+    },
+    form: {
+      type: Object as PropType<IForm>,
+      required: true,
+    },
+  },
+  setup(props) {
     const filter = ref('');
     const store = useStore();
     const form = ref();
@@ -104,6 +120,12 @@ export default defineComponent({
       originalQuestion: [{ required: true, message: 'Необходимо заполнить содержание обращения', trigger: 'blur' }],
       agreedWithPrivacyPolicy: [{ validator: privacyRule, trigger: 'change' }],
     };
+
+    // onBeforeMount(() => {
+    //   if (props.field.id) {
+    //     question.value = props.form.findQuestion(props.field.id) || new Question();
+    //   }
+    // });
 
     onMounted(() => {
       store.commit('questions/setUser', user.value);
@@ -129,7 +151,7 @@ export default defineComponent({
       question,
       filter,
       rules,
-      form,
+      // form,
       user,
     };
   },

@@ -55,7 +55,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['closeDialog'],
+  emits: ['closeDialog', 'scroll'],
 
   setup(prop, { emit }) {
     const store = useStore();
@@ -92,6 +92,7 @@ export default defineComponent({
       if (prop.fromDialog) {
         emit('closeDialog');
       }
+      emit('scroll');
     };
 
     const removeComment = async (commentId: string) => {

@@ -20,6 +20,17 @@
           <AdminQuestionStatus :question="scope.row" />
         </template>
       </el-table-column>
+      <el-table-column label="Публикация">
+        <template #default="scope">
+          <template v-if="isEditMode">
+            <el-switch v-model="scope.row.published" active-text="Да" inactive-text="Нет" />
+          </template>
+          <template v-else>
+            <el-tag v-if="scope.row.published" size="small" type="success">Опубликован</el-tag>
+            <el-tag v-else size="small" type="danger">Не опубликован</el-tag>
+          </template>
+        </template>
+      </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
           <TableButtonGroup
@@ -39,6 +50,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
+import { NavigationGuardNext } from 'vue-router';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
@@ -49,6 +61,7 @@ import SortListV2 from '@/components/SortList/SortListV2.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
+import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -62,6 +75,28 @@ export default defineComponent({
   setup() {
     const questions: Ref<IQuestion[]> = computed(() => Provider.store.getters['questions/items']);
     const onlyNewFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const isEditMode: Ref<boolean> = ref(false);
+    const isNotEditMode: Ref<boolean> = ref(true);
+    const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
+    const edit = () => {
+      if (isEditMode.value) {
+        return;
+      }
+      isEditMode.value = true;
+      isNotEditMode.value = false;
+    };
+
+    const save = async (next?: NavigationGuardNext) => {
+      if (!isEditMode.value) {
+        return;
+      }
+      saveButtonClick.value = true;
+      await Provider.store.dispatch('questions/updateMany');
+      isEditMode.value = false;
+      isNotEditMode.value = true;
+      if (next) next();
+    };
+
     const loadQuestions = async () => {
       await Provider.getAll('questions');
     };
@@ -71,7 +106,13 @@ export default defineComponent({
       Provider.setSortList(...createSortModels(QuestionsSortsLib, Orders.Desc));
       await loadQuestions();
       onlyNewFilter.value = QuestionsFiltersLib.onlyNew();
-      Provider.store.commit('admin/setHeaderParams', { title: 'Вопросы' });
+      Provider.store.commit('admin/setHeaderParams', {
+        title: 'Вопросы',
+        buttons: [
+          { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
+          { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
+        ],
+      });
     };
 
     Hooks.onBeforeMount(load, {
@@ -88,7 +129,7 @@ export default defineComponent({
       question.changeNewStatus();
       await Provider.store.dispatch('questions/changeNewStatus', question);
     };
-    return { questions, loadQuestions, publish, changeNewStatus, mounted: Provider.mounted, onlyNewFilter };
+    return { questions, loadQuestions, publish, changeNewStatus, mounted: Provider.mounted, onlyNewFilter, isEditMode };
   },
 });
 </script>

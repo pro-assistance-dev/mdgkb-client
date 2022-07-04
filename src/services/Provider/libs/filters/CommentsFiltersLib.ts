@@ -27,9 +27,51 @@ const CommentsFiltersLib = (() => {
     return filterModel;
   }
 
+  function onlyDoctorsComments(): IFilterModel {
+    const f = FilterModel.CreateFilterModelWithJoin(
+      Provider.schema.value.comment.tableName,
+      Provider.schema.value.comment.id,
+      Provider.schema.value.doctorComment.tableName,
+      Provider.schema.value.doctorComment.id,
+      Provider.schema.value.doctorComment.commentId,
+      DataTypes.Join
+    );
+    f.label = 'Комментарии к докторам';
+    return f;
+  }
+
+  function onlyDivisionsComments(): IFilterModel {
+    const f = FilterModel.CreateFilterModelWithJoin(
+      Provider.schema.value.comment.tableName,
+      Provider.schema.value.comment.id,
+      Provider.schema.value.divisionComment.tableName,
+      Provider.schema.value.divisionComment.id,
+      Provider.schema.value.divisionComment.commentId,
+      DataTypes.Join
+    );
+    f.label = 'Комментарии к отделениям';
+    return f;
+  }
+
+  function onlyNewsComments(): IFilterModel {
+    const f = FilterModel.CreateFilterModelWithJoin(
+      Provider.schema.value.comment.tableName,
+      Provider.schema.value.comment.id,
+      Provider.schema.value.newsComment.tableName,
+      Provider.schema.value.newsComment.id,
+      Provider.schema.value.newsComment.commentId,
+      DataTypes.Join
+    );
+    f.label = 'Комментарии к новостям';
+    return f;
+  }
+
   return {
     onlyPublished,
     onlyPositive,
+    onlyDoctorsComments,
+    onlyDivisionsComments,
+    onlyNewsComments,
   };
 })();
 

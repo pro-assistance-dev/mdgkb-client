@@ -28,7 +28,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const setFilterModel = (value: boolean) => {
       props.filterModel.setBoolean(value);
-      console.log(props.filterModel.boolean);
       if (value) {
         Provider.setFilterModel(props.filterModel);
       } else {

@@ -146,7 +146,7 @@ const mutations: MutationTree<State> = {
     }
   },
   setComment(state, item: IDivisionComment) {
-    if (state.division) state.division.divisionComments.push(item);
+    if (state.division) state.division.divisionComments.unshift(item);
     state.comment = new DivisionComment();
   },
   removeComment(state, commentId: string) {

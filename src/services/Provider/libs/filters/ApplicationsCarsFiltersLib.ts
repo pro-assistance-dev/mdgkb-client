@@ -15,6 +15,16 @@ const ApplicationsCarsFiltersLib = (() => {
     return filterModel;
   }
 
+  // function byCarNumber(order?: Orders): ISortModel {
+  //   return SortModel.CreateSortModel(
+  //     Provider.schema.value.applicationCar.tableName,
+  //     Provider.schema.value.applicationCar.,
+  //     order ? order : Orders.Asc,
+  //     `По дате публикации ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
+  //     order === Orders.Desc ? true : false
+  //   );
+  // }
+
   return {
     byStatus,
   };
