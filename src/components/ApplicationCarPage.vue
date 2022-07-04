@@ -16,6 +16,25 @@
           <!-- <RemoteSearch :key-value="schema.division.key" @select="selectDivision" />
           <div>Выбранное отделение: {{ applicationCar.division.name }}</div> -->
         </el-form-item>
+        <el-form-item>
+          <template #label>
+            <div @click.prevent>
+              <span>Даты и время, назначенные для плановой госпитализации (осмотра)</span>
+              <el-button style="margin-left: 10px" size="mini" type="success" @click="applicationCar.addVisit()">Добавить</el-button>
+            </div>
+          </template>
+          <div v-for="(item, i) in applicationCar.visits" :key="i" style="margin-bottom: 10px">
+            <el-date-picker v-model="item.date" type="datetime" :default-value="new Date()" />
+            <el-button
+              v-if="applicationCar.visits.length > 1"
+              style="margin-left: 10px"
+              size="mini"
+              icon="el-icon-close"
+              type="danger"
+              @click="applicationCar.removeVisit(i)"
+            />
+          </div>
+        </el-form-item>
         <FieldValuesForm :form="applicationCar.formValue" />
         <PersonalDataAgreement :form-value="applicationCar.formValue" :form-pattern="gate.formPattern" />
         <div class="footer">
@@ -92,6 +111,7 @@ export default defineComponent({
       applicationCar.value.formValue.initFieldsValues();
       Provider.store.commit('applicationsCars/setGate', gate.value);
       Provider.store.commit('applicationsCars/setUser', user.value);
+      Provider.store.commit('applicationsCars/setInitVisit');
     };
 
     Hooks.onBeforeMount(load);
