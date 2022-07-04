@@ -1,12 +1,37 @@
 <template>
   <div v-if="mounted">
     <el-form ref="form" :model="applicationCar" label-position="top">
-      <AdminFormValue
-        :validate-email="false"
-        :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true })"
-        :form="applicationCar.formValue"
-        :is-edit-mode="isEditMode"
-      />
+      <el-row :gutter="40">
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
+          <AdminFormValue
+            :validate-email="false"
+            :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true })"
+            :form="applicationCar.formValue"
+            :is-edit-mode="isEditMode"
+          />
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
+          <el-card>
+            <el-table :data="applicationCar.visits">
+              <el-table-column label="Дата и время посещения" min-width="150">
+                <template #default="scope">
+                  {{ $dateTimeFormatter.format(scope.row.date, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+                </template>
+              </el-table-column>
+              <el-table-column label="Въехал" align="center" width="100">
+                <template #default="scope">
+                  <el-switch v-model="scope.row.entered" />
+                </template>
+              </el-table-column>
+              <el-table-column label="Выехал" align="center" width="100">
+                <template #default="scope">
+                  <el-switch v-model="scope.row.exited" />
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-form>
   </div>
 </template>
