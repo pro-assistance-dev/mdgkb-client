@@ -71,12 +71,7 @@
   >
     <el-date-picker v-model="formValue.user.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
   </el-form-item>
-  <el-form-item
-    v-if="(!user.human.isMale || fromAdmin) && activeFields.userIsMale"
-    :rules="rules.userIsMale"
-    label="Пол"
-    prop="formValue.user.human.isMale"
-  >
+  <el-form-item v-if="activeFields.userIsMale" :rules="rules.userIsMale" label="Пол" prop="formValue.user.human.isMale">
     <el-select v-model="formValue.user.human.isMale" placeholder="Выберите пол">
       <el-option label="Мужской" :value="true"></el-option>
       <el-option label="Женский" :value="false"></el-option>

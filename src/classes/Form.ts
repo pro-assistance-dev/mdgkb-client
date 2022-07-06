@@ -234,6 +234,20 @@ export default class Form implements IForm {
     });
   }
 
+  getErrorFields(): IFieldValue[] {
+    return this.fieldValues.filter((item) => item.showError === true);
+  }
+
+  getErrorMessage(): string {
+    let errorMessage = '<strong>Проверьте правильность введенных данных:</strong><ul>';
+    const errorFields = this.getErrorFields();
+    errorFields.forEach((item) => {
+      errorMessage += `<li>${item.field?.name}</li>`;
+    });
+    errorMessage += '</ul>';
+    return errorMessage;
+  }
+
   clearIds(): void {
     this.id = undefined;
     this.fields.forEach((el: IField) => {

@@ -9,6 +9,11 @@
           <TableFormStatus :form="scope.row.formValue" />
         </template>
       </el-table-column>
+      <el-table-column label="Подано" min-width="150">
+        <template #default="scope">
+          {{ scope.row.admissionCommittee ? `Приемная компания ${scope.row.residencyCourse.startYear.year.getFullYear()}` : `Ординатура` }}
+        </template>
+      </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
           {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}

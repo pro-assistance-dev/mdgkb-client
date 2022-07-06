@@ -16,6 +16,7 @@ export default class ResidencyApplication implements IResidencyApplication {
   formValue = new Form();
   main?: boolean;
   paid?: boolean;
+  admissionCommittee = false;
   formValueId?: string;
   // entranceExamPlace = '';
   entranceExamSpecialisation = '';
@@ -40,6 +41,9 @@ export default class ResidencyApplication implements IResidencyApplication {
     this.main = i.main;
     this.mdgkbExam = i.mdgkbExam;
     this.paid = i.paid;
+    if (i.admissionCommittee != undefined) {
+      this.admissionCommittee = i.admissionCommittee;
+    }
     // this.entranceExamPlace = i.entranceExamPlace;
     this.entranceExamSpecialisation = i.entranceExamSpecialisation;
     if (i.residencyCourse) {
@@ -76,6 +80,7 @@ export default class ResidencyApplication implements IResidencyApplication {
 
   calculateAchievementsPoints(onlyApproved: boolean): number {
     const a = this.filterAchievements(onlyApproved);
+    console.log(a);
     return a.reduce((sum: number, p: IResidencyApplicationPointsAchievement) => sum + p.pointsAchievement.points, 0);
   }
 

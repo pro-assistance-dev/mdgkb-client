@@ -57,6 +57,8 @@ export default interface IForm {
   getFieldValue: (field: IField) => string | number | Date | IFileInfo | boolean | undefined;
   findFieldValue: (fieldId: string) => IFieldValue | undefined;
   validate: (withoutFiles?: boolean) => void;
+  getErrorFields: () => IFieldValue[];
+  getErrorMessage: () => string;
   clearIds: () => void;
   removeAllFieldsAndValues: () => void;
   applyFormPatternFields: (pattern: IForm) => void;

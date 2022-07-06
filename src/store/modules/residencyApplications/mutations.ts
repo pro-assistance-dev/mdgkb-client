@@ -61,6 +61,9 @@ const mutations: MutationTree<State> = {
     state.item.formValue.applyFormPatternFields(pattern);
     state.item.formValue.initFieldsValues();
   },
+  setAdmissionCommittee(state, value: boolean) {
+    state.item.admissionCommittee = value;
+  },
 };
 
 export default mutations;

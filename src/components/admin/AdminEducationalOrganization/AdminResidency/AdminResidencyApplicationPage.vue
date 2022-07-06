@@ -7,12 +7,19 @@
             <AdminFormValue
               :form="application.formValue"
               :validate-email="false"
-              :active-fields="UserFormFields.CreateWithFullName({ userSnils: true })"
+              :active-fields="
+                application.admissionCommittee
+                  ? UserFormFields.CreateWithAllUserFields()
+                  : UserFormFields.CreateWithFullName({ userSnils: true })
+              "
               :is-edit-mode="isEditMode"
               :email-exists="emailExists"
               @findEmail="findEmail"
             />
-            <AdminResidencyApplicationAchievementsPoints :residency-application="application" />
+            <AdminResidencyApplicationAchievementsPoints
+              v-if="application.residencyApplicationPointsAchievements.length && application.admissionCommittee"
+              :residency-application="application"
+            />
           </div>
           <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
         </el-col>
@@ -44,16 +51,12 @@
             </el-descriptions>
           </el-card>
 
-          <el-card>
+          <el-card v-if="application.admissionCommittee" header="Баллы">
             <el-form-item v-if="isEditMode" label="Баллы вступительных испытаний" prop="pointsEntrance">
               <el-input-number v-model="application.pointsEntrance" value-key="id" style="width: 100%" />
             </el-form-item>
             <div v-else>Баллы вступительных испытаний: {{ application.pointsEntrance }}</div>
-          </el-card>
-          <el-card>
             <div>Баллы индивидуальных достижений: {{ application.calculateAchievementsPoints(true) }}</div>
-          </el-card>
-          <el-card>
             <div>Всего баллов: {{ application.pointsSum() }}</div>
           </el-card>
         </el-col>
@@ -207,11 +210,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.el-container {
-  .el-card {
-    margin-bottom: 20px;
-  }
+.el-card {
+  margin-bottom: 20px;
 }
+
 table {
   height: 100%;
   border-collapse: collapse;
