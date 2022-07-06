@@ -116,32 +116,40 @@
               </div>
 
               <div class="card-footer">
-                <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">
-                  <div v-if="item.childFormStatus.userActionName">
-                    <el-popover
-                      v-if="item.childFormStatus.icon.fileSystemPath"
-                      placement="top-start"
-                      width="auto"
-                      trigger="hover"
-                      :content="item.childFormStatus.userActionName"
-                    >
-                      <template #reference>
-                        <button>
-                          <img
-                            :src="item.childFormStatus.icon.getImageUrl()"
-                            alt="alt"
-                            @click="updateFormStatus(formValue, item.childFormStatus)"
-                          />
-                        </button>
-                      </template>
-                    </el-popover>
-                    <button
-                      v-else
-                      :style="`background-color: ${item.childFormStatus.color}; color: white; border: 1px solid ${item.childFormStatus.color}`"
-                      @click="updateFormStatus(formValue, item.childFormStatus)"
-                    >
-                      {{ item.childFormStatus.userActionName }}
-                    </button>
+                <div class="item-el">
+                  <div class="table-box">
+                    <div class="buttons-container">
+                      <div class="status-buttons">
+                        <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">
+                          <div v-if="item.childFormStatus.userActionName">
+                            <el-popover
+                              v-if="item.childFormStatus.icon.fileSystemPath"
+                              placement="top-start"
+                              width="auto"
+                              trigger="hover"
+                              :content="item.childFormStatus.userActionName"
+                            >
+                              <template #reference>
+                                <button>
+                                  <img
+                                    :src="item.childFormStatus.icon.getImageUrl()"
+                                    alt="alt"
+                                    @click="updateFormStatus(formValue, item.childFormStatus)"
+                                  />
+                                </button>
+                              </template>
+                            </el-popover>
+                            <button
+                              v-else
+                              :style="`background-color: ${item.childFormStatus.color}; color: white; border: 1px solid ${item.childFormStatus.color}`"
+                              @click="updateFormStatus(formValue, item.childFormStatus)"
+                            >
+                              {{ item.childFormStatus.userActionName }}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -801,7 +809,6 @@ ul.application-card li {
   height: 50px;
   border-radius: 5px 5px 0 0;
 }
-
 .card-footer {
   padding: 0 5px;
   display: flex;
@@ -809,21 +816,6 @@ ul.application-card li {
   background: #eff2f6;
   height: 50px;
   border-radius: 0 0 5px 5px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  align-items: center;
-  button {
-    img {
-      height: 25px;
-    }
-    padding: 3px 7px;
-    border-radius: 5px;
-    font-size: 12px;
-    &:hover {
-      cursor: pointer;
-      filter: brightness(110%);
-    }
-  }
 }
 
 .item-el-tag {
