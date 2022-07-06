@@ -29,7 +29,7 @@
           {{ course.getPaidCompetitionIndex() }}
         </td>
       </tr>
-      <tr>
+      <tr class="font-weight-600">
         <td>Всего:</td>
         <td style="text-align: center">{{ allFreePlaces() }}</td>
         <td style="text-align: center">{{ allFreeApplications() }}</td>
@@ -67,4 +67,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.font-weight-600 {
+  font-weight: 600;
+}
+</style>

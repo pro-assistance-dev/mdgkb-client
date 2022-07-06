@@ -4,6 +4,7 @@ import ApplicationCar from '@/classes/ApplicationCar';
 import Form from '@/classes/Form';
 import Gate from '@/classes/Gate';
 import User from '@/classes/User';
+import Visit from '@/classes/Visit';
 import IApplicationCar from '@/interfaces/IApplicationCar';
 import IApplicationCarWithCount from '@/interfaces/IApplicationCarWithCount';
 import IForm from '@/interfaces/IForm';
@@ -55,6 +56,9 @@ const mutations: MutationTree<State> = {
   },
   setFormValue(state, form: IForm) {
     state.item.formValue = new Form(form);
+  },
+  setInitVisit(state) {
+    state.item.visits.push(new Visit());
   },
 };
 
