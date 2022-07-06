@@ -1,5 +1,5 @@
 <template>
-  <el-card id="ppvr" class="card-container" :style="`position: absolute; right: 0; top: 0;`">
+  <el-card id="ppvr" class="card-container" :style="`position: fixed; right: 50px; top: 130px;`">
     <template #header>
       <div class="card-header">
         <div class="card-header-title">{{ building.name }}</div>
@@ -14,7 +14,7 @@
             v-for="item in floor.divisions"
             :key="`${building.id}.${item.id}`"
             class="panel-block"
-            @click="$router.push(`/divisions/${item.id}`)"
+            @click="$router.push(`/divisions/${item.slug}`)"
           >
             {{ item.name }}
           </div>
