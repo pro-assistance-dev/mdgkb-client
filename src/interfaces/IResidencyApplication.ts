@@ -13,6 +13,7 @@ export default interface IResidencyApplication {
   pointsAchievements: number;
   main?: boolean;
   paid?: boolean;
+  admissionCommittee?: boolean;
   formValue: IForm;
   formValueId?: string;
   residencyApplicationPointsAchievements: IResidencyApplicationPointsAchievement[];
