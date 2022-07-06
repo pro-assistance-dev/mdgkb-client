@@ -83,7 +83,7 @@ const mutations: MutationTree<State> = {
     state.item.fileInfo = new FileInfo();
   },
   setComment(state, item: IDoctorComment) {
-    if (state.item) state.item.doctorComments.push(item);
+    if (state.item) state.item.doctorComments.unshift(item);
     state.comment = new DoctorComment();
   },
   removeComment(state, commentId: string) {

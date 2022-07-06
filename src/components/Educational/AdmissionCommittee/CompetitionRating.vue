@@ -11,8 +11,8 @@
     <tbody>
       <template v-for="course in residencyCourses" :key="course.id">
         <tr>
-          <td colspan="8" style="text-align: center">
-            {{ course.getMainSpecialization().code }} {{ course.getMainSpecialization().name }}
+          <td colspan="8" class="font-weight-600">
+            <div class="text-align-center">{{ course.getMainSpecialization().code }} {{ course.getMainSpecialization().name }}</div>
           </td>
         </tr>
         <tr v-for="(application, j) in course.getApplicationsByPoint()" :key="application.id">
@@ -44,4 +44,12 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.text-align-center {
+  text-align: center;
+}
+
+.font-weight-600 {
+  font-weight: 600;
+}
+</style>
