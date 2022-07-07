@@ -17,38 +17,15 @@
     <tbody>
       <tr v-for="formValue in user.formValues" :key="formValue.id">
         <td>
-          <router-link v-if="formValue.dpoApplication" :to="`/dpo?mode=programs`">
-            {{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}
+          <router-link :to="formValue.getApplicationTypeLink()">
+            {{ formValue.getApplicationType() }}
           </router-link>
-          <router-link v-if="formValue.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
-          <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>
-          <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
-          <router-link v-if="formValue.applicationCar" :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`"
-            >Заявка на въезд</router-link
-          >
-          <router-link v-if="formValue.vacancyResponse" :to="`/vacancies`"> Отклик на вакансию </router-link>
         </td>
 
         <td>
-          <div v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.dpoCourse.slug}`">
-            {{ formValue.dpoApplication.dpoCourse.name }}
+          <div :to="formValue.getApplicationNameLink()">
+            {{ formValue.getApplicationName() }}
           </div>
-          <div
-            v-if="formValue.postgraduateApplication"
-            :to="`/postgraduate-courses/${formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().slug}`"
-          >
-            {{ formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().name }}
-          </div>
-          <div v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`">Кандидатский минимум</div>
-          <div v-if="formValue.residencyApplication" :to="`/residency-courses/${formValue.residencyApplication.residencyCourse.id}`">
-            {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
-          </div>
-          <router-link v-if="formValue.vacancyResponse" :to="`/vacancies/${formValue.vacancyResponse.vacancy.slug}`">
-            {{ formValue.vacancyResponse.vacancy.title }}
-          </router-link>
-          <router-link v-if="formValue.applicationCar" :to="`/divisions/${formValue.applicationCar.division?.slug}`">
-            {{ formValue.applicationCar.division?.name }}
-          </router-link>
         </td>
 
         <td>{{ $dateTimeFormatter.format(formValue.createdAt) }}</td>

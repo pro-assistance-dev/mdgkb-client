@@ -334,4 +334,44 @@ export default class Form implements IForm {
   //   });
   //   return form;
   // }
+
+  getApplicationType(): string {
+    if (this.dpoApplication) return this.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО';
+    if (this.residencyApplication) return 'Ординатура';
+    if (this.postgraduateApplication) return 'Аспирантура';
+    if (this.candidateApplication) return 'Кандидатский минимум';
+    if (this.applicationCar) return 'Заявка на въезд';
+    if (this.vacancyResponse) return 'Отклик на вакансию';
+    return '';
+  }
+
+  getApplicationTypeLink(): string {
+    if (this.dpoApplication) return `/dpo?mode=programs`;
+    if (this.residencyApplication) return `/residency?mode=programs`;
+    if (this.postgraduateApplication) return `/postgraduate?mode=programs`;
+    if (this.candidateApplication) return `/postgraduate?mode=candidate`;
+    if (this.applicationCar) return `/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`;
+    if (this.vacancyResponse) return `/vacancies`;
+    return '';
+  }
+  getApplicationName(): string {
+    if (this.dpoApplication) return this.dpoApplication.dpoCourse.name;
+    if (this.residencyApplication) return this.residencyApplication.residencyCourse.getMainSpecialization().name;
+    if (this.postgraduateApplication) return this.postgraduateApplication.postgraduateCourse.getMainSpecialization().name;
+    if (this.candidateApplication) return 'Кандидатский минимум';
+    if (this.applicationCar) return this.applicationCar.division?.name;
+    if (this.vacancyResponse) return this.vacancyResponse.vacancy.title;
+    return '';
+  }
+
+  getApplicationNameLink(): string {
+    if (this.dpoApplication) return `/courses/${this.dpoApplication.dpoCourse.slug}`;
+    if (this.residencyApplication) return `/residency-courses/${this.residencyApplication.residencyCourse.id}`;
+    if (this.postgraduateApplication)
+      return `/postgraduate-courses/${this.postgraduateApplication.postgraduateCourse.getMainSpecialization().slug}`;
+    if (this.candidateApplication) return `/postgraduate?mode=candidate`;
+    if (this.applicationCar) return `/divisions/${this.applicationCar.division?.slug}`;
+    if (this.vacancyResponse) return `/vacancies/${this.vacancyResponse.vacancy.slug}`;
+    return '';
+  }
 }
