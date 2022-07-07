@@ -42,13 +42,7 @@
           <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>
           <router-link
             v-if="formValue.residencyApplication"
-            :to="`/residency-courses/${formValue.residencyApplication.residencyCourse.getMainSpecialization().slug}`"
-          >
-            {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
-          </router-link>
-          <router-link
-            v-if="formValue.residencyApplication"
-            :to="`/residency-courses/${formValue.residencyApplication.residencyCourse.getMainSpecialization().slug}`"
+            :to="`/residency-courses/${formValue.residencyApplication.residencyCourse.id}`"
           >
             {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
           </router-link>
