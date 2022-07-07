@@ -20,7 +20,13 @@
         @findEmail="findEmail"
       />
     </el-form>
-    <el-form ref="questionsForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
+    <el-form
+      ref="questionsForm"
+      v-model="residencyApplication"
+      :model="residencyApplication"
+      label-position="top"
+      style="max-width: 700px; margin: 0 auto"
+    >
       <AdmissionQuestionsForm v-if="activeStep === 1" :residency-application="residencyApplication" @all-questions-answered="submitStep" />
     </el-form>
     <el-form ref="achievementsForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
@@ -34,13 +40,16 @@
     </el-form>
 
     <div class="navigate-buttons">
-      <button v-if="activeStep < 4" class="forward-btn" @click="submitStep">Перейти к следующему шагу</button>
+      <button class="forward-btn" @click="submitStep">
+        <span v-if="activeStep < 4">Перейти к следующему шагу</span>
+        <span v-else>Отправить</span>
+      </button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
 import UserFormFields from '@/classes/UserFormFields';
@@ -71,7 +80,7 @@ export default defineComponent({
       'Заполните личные данные',
       'Ответьте на вопросы',
       'Укажите индивидуальные достижения',
-      'Укажите прочую необходимую информацию',
+      'Данные об образовании',
       'Загрузите пакет документов',
     ];
 
@@ -94,8 +103,7 @@ export default defineComponent({
 
     const submit = async () => {
       if (emailExists.value) {
-        ElMessage({
-          type: 'error',
+        ElNotification.error({
           dangerouslyUseHTMLString: true,
           message: document.querySelector('#error-block-message')?.innerHTML || '',
         });
@@ -104,17 +112,16 @@ export default defineComponent({
       }
       residencyApplication.value.formValue.clearIds();
       await Provider.store.dispatch('residencyApplications/create');
-      ElMessage({
-        type: 'success',
-        message: 'Заявка отправлена',
-      });
       emit('close');
+      Provider.router.push('/admission-committee');
+      ElNotification.success('Заявка успешно отправлена');
     };
 
     onBeforeMount(async () => {
       Provider.store.commit('residencyApplications/resetItem');
       Provider.store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
       residencyApplication.value.formValue.initFieldsValues();
+      Provider.store.commit('residencyApplications/setAdmissionCommittee', true);
       Provider.store.commit('residencyApplications/setCourse', residencyCourse.value);
       Provider.store.commit('residencyApplications/setUser', user.value);
 
@@ -160,6 +167,10 @@ export default defineComponent({
       }
       residencyApplication.value.formValue.validate(true);
       if (activeStep.value === 3 && !residencyApplication.value.formValue.validated) {
+        ElNotification.error({
+          dangerouslyUseHTMLString: true,
+          message: residencyApplication.value.formValue.getErrorMessage(),
+        });
         return;
       }
       if (activeStep.value === 3 && residencyApplication.value.formValue.validated) {
@@ -167,6 +178,11 @@ export default defineComponent({
       }
       residencyApplication.value.formValue.validate(false);
       if (activeStep.value === 4 && !residencyApplication.value.formValue.validated) {
+        ElNotification.error({
+          dangerouslyUseHTMLString: true,
+          message: residencyApplication.value.formValue.getErrorMessage(),
+        });
+        scroll('#responce-form');
         return;
       }
       if (activeStep.value !== 3) {

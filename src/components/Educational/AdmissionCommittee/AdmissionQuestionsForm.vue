@@ -71,9 +71,9 @@ export default defineComponent({
     );
 
     const rules = {
-      primaryAccreditation: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'blur' }],
-      main: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'blur' }],
-      paid: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'blur' }],
+      primaryAccreditation: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
+      main: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
+      paid: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
       primaryAccreditationPoints: [{ required: true, message: 'Пожалуйста, укажите баллы первичной аккредитации', trigger: 'blur' }],
       primaryAccreditationPlace: [{ required: true, message: 'Пожалуйста, укажите место первичной аккредитации', trigger: 'blur' }],
       entranceExamSpecialisation: [

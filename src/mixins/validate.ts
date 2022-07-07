@@ -1,4 +1,4 @@
-import { ElMessage } from 'element-plus';
+import { ElNotification } from 'element-plus';
 import { Ref } from 'vue';
 
 import MessageError from '@/classes/messages/MessageError';
@@ -8,13 +8,13 @@ export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fiel
   let validationResult = true;
   form.value.validate((valid: boolean, errorFields: Record<string, unknown>) => {
     if (!valid) {
-      if (!ElMessage.error) {
+      if (!ElNotification.error) {
         return;
       }
       if (hideErrorList) {
-        ElMessage.error('Пожалуйста, проверьте правильность введенных данных');
+        ElNotification.error('Пожалуйста, проверьте правильность введенных данных');
       } else {
-        ElMessage.error(new MessageError(errorFields));
+        ElNotification.error(new MessageError(errorFields));
       }
       validationResult = false;
       return false;

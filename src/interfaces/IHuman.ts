@@ -13,6 +13,7 @@ export default interface IHuman {
   dateBirth?: Date;
   slug: string;
   getFullName: () => string;
+  getGender: (full?: boolean) => string;
 
   photoId?: string;
   photo: IFileInfo;
