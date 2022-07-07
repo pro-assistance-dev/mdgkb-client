@@ -30,22 +30,19 @@
         </td>
 
         <td>
-          <router-link v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.dpoCourse.slug}`">
+          <div v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.dpoCourse.slug}`">
             {{ formValue.dpoApplication.dpoCourse.name }}
-          </router-link>
-          <router-link
+          </div>
+          <div
             v-if="formValue.postgraduateApplication"
             :to="`/postgraduate-courses/${formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().slug}`"
           >
             {{ formValue.postgraduateApplication.postgraduateCourse.getMainSpecialization().name }}
-          </router-link>
-          <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>
-          <router-link
-            v-if="formValue.residencyApplication"
-            :to="`/residency-courses/${formValue.residencyApplication.residencyCourse.id}`"
-          >
+          </div>
+          <div v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`">Кандидатский минимум</div>
+          <div v-if="formValue.residencyApplication" :to="`/residency-courses/${formValue.residencyApplication.residencyCourse.id}`">
             {{ formValue.residencyApplication.residencyCourse.getMainSpecialization().name }}
-          </router-link>
+          </div>
           <router-link v-if="formValue.vacancyResponse" :to="`/vacancies/${formValue.vacancyResponse.vacancy.slug}`">
             {{ formValue.vacancyResponse.vacancy.title }}
           </router-link>
