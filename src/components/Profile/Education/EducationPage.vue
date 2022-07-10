@@ -72,6 +72,7 @@ export default defineComponent({
       formValue.setStatus(status, formStatuses.value);
       await store.dispatch('formValues/update', formValue);
     };
+
     onBeforeMount(async () => {
       await loadUser();
       await store.dispatch('formStatuses/getAll');

@@ -70,4 +70,8 @@ export default interface IForm {
   setStatus: (status: IFormStatus, statuses: IFormStatus[]) => void;
   updateViewedByUser: (initialStatus: IFormStatus) => void;
   clearValidate: () => void;
+  getApplicationType: () => string;
+  getApplicationTypeLink: () => string;
+  getApplicationName: () => string;
+  getApplicationNameLink: () => string;
 }
