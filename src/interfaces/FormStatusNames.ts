@@ -3,4 +3,5 @@ export enum FormStatusNames {
   Accepted = 'Принято',
   Considering = 'Рассматривается',
   ClarifyRequired = 'Требует уточнения',
+  Cancelled = 'Отозвано',
 }

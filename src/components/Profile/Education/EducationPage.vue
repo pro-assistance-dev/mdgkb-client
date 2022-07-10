@@ -38,56 +38,38 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import ApplicationCard from '@/components/Profile/Education/ApplicationCard.vue';
 import ApplicationTable from '@/components/Profile/Education/ApplicationTable.vue';
 import MyApplicationsButton from '@/components/Profile/Education/MyApplicationsButton.vue';
-import IForm from '@/interfaces/IForm';
-import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/interfaces/IUser';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'EducationPage',
   components: { ApplicationCard, MyApplicationsButton, ApplicationTable },
   setup() {
-    const store = useStore();
-    const router = useRouter();
     const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
+    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
 
     const loadUser = async () => {
-      await store.dispatch('users/get', userId.value);
+      await Provider.store.dispatch('users/get', userId.value);
       mounted.value = true;
-    };
-
-    const updateFormStatus = async (formValue: IForm, status: IFormStatus) => {
-      if (status.isClarified()) {
-        router.push(`/profile/education/applications/${formValue.id}`);
-        return;
-      }
-      formValue.setStatus(status, formStatuses.value);
-      await store.dispatch('formValues/update', formValue);
     };
 
     onBeforeMount(async () => {
       await loadUser();
-      await store.dispatch('formStatuses/getAll');
     });
 
     onBeforeUnmount(async () => {
       user.value.setApplicationsViewed();
-      await store.dispatch('formValues/updateMany', user.value.formValues);
+      await Provider.store.dispatch('formValues/updateMany', user.value.formValues);
     });
 
     return {
       mounted,
       user,
-      formStatuses,
-      updateFormStatus,
     };
   },
 });

@@ -80,7 +80,6 @@ export default class ResidencyApplication implements IResidencyApplication {
 
   calculateAchievementsPoints(onlyApproved: boolean): number {
     const a = this.filterAchievements(onlyApproved);
-    console.log(a);
     return a.reduce((sum: number, p: IResidencyApplicationPointsAchievement) => sum + p.pointsAchievement.points, 0);
   }
 
@@ -101,6 +100,7 @@ export default class ResidencyApplication implements IResidencyApplication {
       '9.12',
       '9.13',
     ];
+    const orCodes: string[] = ['7', '8'];
 
     const maxAdditionalPoints = 20;
     let additionalPointsSum = 0;
@@ -117,12 +117,15 @@ export default class ResidencyApplication implements IResidencyApplication {
         additionalPointsSum += item.pointsAchievement.points;
         achievements.push(item);
       }
+      if (orCodes.includes(String(item.pointsAchievement.code))) {
+        achievements.push(item);
+      }
     });
     const a = achievements.filter(
-      (a: IResidencyApplicationPointsAchievement) => a.pointsAchievement.code === '7' || a.pointsAchievement.code === '8'
+      (a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) === '7' || String(a.pointsAchievement.code) === '8'
     );
     if (a.length > 1) {
-      achievements = achievements.filter((a: IResidencyApplicationPointsAchievement) => a.pointsAchievement.code !== '7');
+      achievements = achievements.filter((a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '7');
     }
     return achievements;
   }
@@ -156,5 +159,12 @@ export default class ResidencyApplication implements IResidencyApplication {
       }
     });
     return valid;
+  }
+
+  getPrimaryAccreditationInfo(): string {
+    if (this.primaryAccreditation) {
+      return `Есть. Место: ${this.primaryAccreditationPlace}. Баллы: ${this.primaryAccreditationPoints}`;
+    }
+    return `Нет. Сдаёт в: ${this.mdgkbExam ? 'МДГКБ' : this.primaryAccreditationPlace}`;
   }
 }

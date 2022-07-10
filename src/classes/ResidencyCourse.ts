@@ -214,4 +214,8 @@ export default class ResidencyCourse implements IResidencyCourse {
   getPaidApplications(): IResidencyApplication[] {
     return this.getAcceptedApplications().filter((a: IResidencyApplication) => a.paid);
   }
+
+  getFullName(): string {
+    return `${this.getMainSpecialization().code} ${this.getMainSpecialization().name}`;
+  }
 }

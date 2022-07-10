@@ -36,4 +36,5 @@ export default interface IResidencyApplication {
   getAchievementResultByAchievementId: (achievementId: string) => IResidencyApplicationPointsAchievement;
   calculateAchievementsPoints: (onlyApproved: boolean) => number;
   validateAchievementsPoints: () => boolean;
+  getPrimaryAccreditationInfo: () => string;
 }

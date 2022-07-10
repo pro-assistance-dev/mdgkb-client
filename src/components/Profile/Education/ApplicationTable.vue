@@ -74,20 +74,93 @@
       </tr>
     </tbody>
   </table>
+  <el-dialog v-model="cancelDialogVisible" title="Для отмены заявки загрузите заявление об отзыве документов" width="40%">
+    <CancelDialogForm
+      :form-value="selectedFormValue"
+      @close-dialog="cancelDialogVisibleOff"
+      @cancel-application="updateApplication"
+    ></CancelDialogForm>
+    <span class="dialog-footer"> </span>
+  </el-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import CancelDialogForm from '@/components/Profile/Education/CancelDialogForm.vue';
+import IForm from '@/interfaces/IForm';
+import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/interfaces/IUser';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'ApplicationTable',
+  components: { CancelDialogForm },
   props: {
     user: {
       type: Object as PropType<IUser>,
       required: true,
     },
+  },
+  setup() {
+    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const cancelDialogVisible: Ref<boolean> = ref(false);
+    const selectedFormValue: Ref<IForm | undefined> = ref(undefined);
+    const selectedStatus: Ref<IFormStatus | undefined> = ref(undefined);
+
+    const cancelApplication = async (formValue: IForm, status: IFormStatus) => {
+      ElMessageBox.confirm('Вы уверены, что хотите отозвать заявку?', {
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Отмена',
+        type: 'warning',
+      }).then(() => {
+        selectedFormValue.value = formValue;
+        selectedStatus.value = status;
+        cancelDialogVisible.value = !cancelDialogVisible.value;
+      });
+    };
+
+    const updateFormStatus = async (formValue: IForm, status: IFormStatus) => {
+      if (status.isCancelled()) {
+        await cancelApplication(formValue, status);
+        return;
+      }
+      if (status.isClarified()) {
+        await Provider.router.push(`/profile/education/applications/${formValue.id}`);
+        return;
+      }
+      if (status.isEditable) {
+        formValue.setStatus(status, formStatuses.value);
+      }
+      await Provider.store.dispatch('formValues/update', formValue);
+    };
+
+    const updateApplication = async () => {
+      if (selectedFormValue.value && selectedStatus.value) {
+        console.log(selectedFormValue.value);
+        console.log(selectedStatus.value);
+        selectedFormValue.value.setStatus(selectedStatus.value, formStatuses.value);
+        selectedFormValue.value.clearAllFields();
+        await Provider.store.dispatch('formValues/update', selectedFormValue.value);
+      }
+      cancelDialogVisible.value = false;
+    };
+    const cancelDialogVisibleOff = () => {
+      cancelDialogVisible.value = false;
+    };
+
+    onBeforeMount(async () => {
+      await Provider.store.dispatch('formStatuses/getAll');
+    });
+
+    return {
+      cancelDialogVisible,
+      updateApplication,
+      selectedFormValue,
+      cancelDialogVisibleOff,
+      updateFormStatus,
+    };
   },
 });
 </script>
@@ -162,5 +235,9 @@ tr {
     margin-right: 0px;
     background: #ffffff;
   }
+}
+
+.dialog-footer button:first-child {
+  margin-right: 10px;
 }
 </style>

@@ -47,6 +47,11 @@
           <el-checkbox v-model="scope.row.required"></el-checkbox>
         </template>
       </el-table-column>
+      <el-table-column label="Обязательное для отмены" width="150px" align="center">
+        <template #default="scope">
+          <el-checkbox v-model="scope.row.requiredForCancel"></el-checkbox>
+        </template>
+      </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
           <TableButtonGroup :show-remove-button="true" @remove="form.removeField(scope.$index)" />

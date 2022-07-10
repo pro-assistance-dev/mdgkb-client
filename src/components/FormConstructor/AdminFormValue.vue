@@ -136,7 +136,7 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const changeFormStatusHandler = (status: IFormStatus) => {
       if (!formValue.value) return;
-      if (status.isClarifyRequired() && !formValue.value.haveModComments()) {
+      if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {
         ElMessage({
           message: 'Необходимо добавить замечания',
           type: 'error',

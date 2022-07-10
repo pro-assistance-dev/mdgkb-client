@@ -1,10 +1,21 @@
 <template>
-  <el-card header="Индивидуальные достижения">
+  <el-card>
+    <template #header>
+      <div class="card-header">
+        <h2 class="title article-title">Индивидуальные достижения</h2>
+      </div>
+      <span>Всего баллов: {{ residencyApplication.calculateAchievementsPoints(true) }}</span>
+    </template>
+
     <el-table :data="residencyApplication.residencyApplicationPointsAchievements">
+      <el-table-column label="№" min-width="300">
+        <template #default="scope">
+          {{ scope.row.pointsAchievement.code }}
+        </template>
+      </el-table-column>
       <el-table-column label="Наименование" min-width="300">
         <template #default="scope">
           {{ scope.row.pointsAchievement.name }}
-          <span v-if="scope.row.required" class="red">*</span>
         </template>
       </el-table-column>
 

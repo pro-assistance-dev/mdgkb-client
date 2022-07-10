@@ -209,7 +209,7 @@ export default class Form implements IForm {
     this.validated = true;
 
     this.fieldValues.forEach((el: IFieldValue) => {
-      if (withoutFiles && el.field?.valueType.isFile()) {
+      if (withoutFiles && (el.field?.valueType.isFile() || el.field?.valueType.isFiles())) {
         return;
       }
 
@@ -308,6 +308,7 @@ export default class Form implements IForm {
   setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
     const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);
+    console.log(this.formStatus);
     // this.emailNotify = true;
   }
   getFieldsWithModComemnts(): IField[] {
@@ -373,5 +374,14 @@ export default class Form implements IForm {
     if (this.applicationCar) return `/divisions/${this.applicationCar.division?.slug}`;
     if (this.vacancyResponse) return `/vacancies/${this.vacancyResponse.vacancy.slug}`;
     return '';
+  }
+
+  getRequiredForCancelFields(): IField[] {
+    return this.fields.filter((f: IField) => f.requiredForCancel);
+  }
+
+  clearAllFields(): void {
+    this.fields = [];
+    this.fieldValues.forEach((fv: IFieldValue) => (fv.field = undefined));
   }
 }

@@ -74,4 +74,6 @@ export default interface IForm {
   getApplicationTypeLink: () => string;
   getApplicationName: () => string;
   getApplicationNameLink: () => string;
+  getRequiredForCancelFields: () => IField[];
+  clearAllFields: () => void;
 }

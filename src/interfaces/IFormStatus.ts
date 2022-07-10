@@ -22,5 +22,6 @@ export default interface IFormStatus {
   isClarifyRequired: () => boolean;
   isAccepted: () => boolean;
   isConsidering: () => boolean;
+  isCancelled: () => boolean;
   getFileInfos: () => IFileInfo[];
 }
