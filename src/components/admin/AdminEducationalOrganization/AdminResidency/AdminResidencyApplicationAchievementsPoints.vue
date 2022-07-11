@@ -27,9 +27,12 @@
 
       <el-table-column label="Образец" min-width="200">
         <template #default="scope">
-          <a v-if="scope.row.fileInfo.fileSystemPath" :href="scope.row.fileInfo.getFileUrl()" target="_blank">
-            {{ scope.row.fileInfo.originalName }}
-          </a>
+          <template v-if="!isEditMode">
+            <a v-if="scope.row.fileInfo.fileSystemPath" :href="scope.row.fileInfo.getFileUrl()" target="_blank">
+              {{ scope.row.fileInfo.originalName }}
+            </a>
+          </template>
+          <FileUploader v-else :file-info="scope.row.fileInfo" />
           <!-- <span v-else>Нет файла</span> -->
         </template>
       </el-table-column>
@@ -46,14 +49,19 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import FileUploader from '@/components/FileUploader.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
 export default defineComponent({
   name: 'AdminResidencyApplicationAchievementsPoints',
-  components: {},
+  components: { FileUploader },
   props: {
     residencyApplication: {
       type: Object as PropType<IResidencyApplication>,
+      required: true,
+    },
+    isEditMode: {
+      type: Boolean,
       required: true,
     },
   },

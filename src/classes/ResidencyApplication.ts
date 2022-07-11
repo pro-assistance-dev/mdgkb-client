@@ -13,6 +13,7 @@ export default class ResidencyApplication implements IResidencyApplication {
   id?: string;
   residencyCourse = new ResidencyCourse();
   residencyCourseId?: string;
+  applicationNum = '';
   formValue = new Form();
   main?: boolean;
   paid?: boolean;
@@ -38,6 +39,7 @@ export default class ResidencyApplication implements IResidencyApplication {
     this.pointsEntrance = i.pointsEntrance;
     this.pointsAchievements = i.pointsAchievements;
     this.formValueId = i.formValueId;
+    this.applicationNum = i.applicationNum;
     this.main = i.main;
     this.mdgkbExam = i.mdgkbExam;
     this.paid = i.paid;

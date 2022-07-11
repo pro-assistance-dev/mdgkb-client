@@ -216,6 +216,7 @@ export default class Form implements IForm {
       if (el.field?.required) {
         el.validate();
         if (el.showError) {
+          console.log(el.field);
           this.validated = false;
         }
       }

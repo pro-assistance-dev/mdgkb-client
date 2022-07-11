@@ -29,18 +29,19 @@
       <template #header>
         <span>Информация о заявителе</span>
       </template>
-      <div v-if="isEditMode">
-        <UserForm
-          :form="formValue"
-          :show-error-message="false"
-          :from-admin="true"
-          :email-exists="emailExists"
-          :validate-email="validateEmail"
-          :active-fields="activeFields"
-          @findEmail="findEmail"
-        />
-      </div>
-      <AdminUserInfo v-else :form="formValue" :active-fields="activeFields" />
+      <!--      UserForm крэшится в продакшне!-->
+      <!--      <div v-if="isEditMode">-->
+      <!--        <UserForm-->
+      <!--          :form="formValue"-->
+      <!--          :show-error-message="false"-->
+      <!--          :from-admin="true"-->
+      <!--          :email-exists="emailExists"-->
+      <!--          :validate-email="validateEmail"-->
+      <!--          :active-fields="activeFields"-->
+      <!--          @findEmail="findEmail"-->
+      <!--        />-->
+      <!--      </div>-->
+      <AdminUserInfo :form="formValue" :active-fields="activeFields" />
     </el-card>
 
     <el-card v-if="isEditMode">
@@ -91,7 +92,6 @@ import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
-import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUserFormFields from '@/interfaces/IUserFormFields';
@@ -102,7 +102,7 @@ export default defineComponent({
   components: {
     FieldValuesFormResult,
     FieldValuesForm,
-    UserForm,
+    // UserForm,
     AdminUserInfo,
     WysiwygEditor,
   },

@@ -18,6 +18,7 @@
             />
             <AdminResidencyApplicationAchievementsPoints
               v-if="application.residencyApplicationPointsAchievements.length && application.admissionCommittee"
+              :is-edit-mode="isEditMode"
               :residency-application="application"
             />
           </div>

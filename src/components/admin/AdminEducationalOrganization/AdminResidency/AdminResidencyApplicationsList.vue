@@ -18,6 +18,16 @@
           {{ scope.row.admissionCommittee ? `Приемная кампания ${scope.row.residencyCourse.startYear.year.getFullYear()}` : `Ординатура` }}
         </template>
       </el-table-column>
+      <el-table-column label="Номер заявления" align="center" width="150">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input v-model="scope.row.applicationNum" size="small" min="0" />
+          </div>
+          <div v-else>
+            {{ scope.row.applicationNum }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
           {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}

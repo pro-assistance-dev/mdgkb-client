@@ -25,7 +25,7 @@ export default class DateTimeFormat {
     if (!date) {
       return '';
     }
-    const opt: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric', hour: undefined, minute: undefined };
+    const opt: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit', hour: undefined, minute: undefined };
     if (options) {
       opt.year = options.year ?? opt.year;
       opt.month = options.month ?? opt.month;

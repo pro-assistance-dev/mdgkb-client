@@ -11,6 +11,7 @@ export default interface IResidencyApplication {
   residencyCourseId?: string;
   pointsEntrance: number;
   pointsAchievements: number;
+  applicationNum: string;
   main?: boolean;
   paid?: boolean;
   admissionCommittee?: boolean;
