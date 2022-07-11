@@ -63,7 +63,10 @@ export default class ResidencyApplication implements IResidencyApplication {
   }
 
   getFileInfos(): IFileInfo[] {
-    return this.formValue.getFieldValuesFileInfos();
+    const fileInfos: IFileInfo[] = [];
+    fileInfos.push(...this.formValue.getFieldValuesFileInfos());
+    this.residencyApplicationPointsAchievements.forEach((pa: IResidencyApplicationPointsAchievement) => fileInfos.push(pa.fileInfo));
+    return fileInfos;
   }
 
   pointsSum(): number {
