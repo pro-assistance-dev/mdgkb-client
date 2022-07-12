@@ -18,7 +18,6 @@ export default class HttpClient {
     link.setAttribute('download', name);
     link.setAttribute('target', '_blank');
     document.body.appendChild(link);
-    console.log(link);
     link.click();
   }
 

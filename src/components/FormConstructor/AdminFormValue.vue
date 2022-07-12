@@ -68,7 +68,7 @@
             >
               Проверить все
             </el-button>
-            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>
+            <el-button style="margin-left: 5px" size="small" @click="downloadZip">Печать всех документов</el-button>
           </div>
         </div>
       </template>
@@ -164,14 +164,14 @@ export default defineComponent({
       if (props.validateEmail) emit('findEmail');
     };
 
-    const downloadFiles = async () => {
+    const downloadZip = async () => {
       if (formValue.value) {
-        await Provider.store.dispatch('formValues/documentsToPdf', formValue.value.id);
+        await Provider.store.dispatch('formValues/documentsToZip', formValue.value.id);
       }
     };
 
     return {
-      downloadFiles,
+      downloadZip,
       formValue,
       findEmail,
       formStatuses,

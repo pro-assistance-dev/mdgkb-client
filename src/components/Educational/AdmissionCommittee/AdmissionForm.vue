@@ -41,8 +41,7 @@
 
     <div class="navigate-buttons">
       <button class="forward-btn" @click="submitStep">
-        <span v-if="activeStep < 4">Перейти к следующему шагу</span>
-        <span v-else>Отправить</span>
+        <span>{{ getButtonName() }}</span>
       </button>
     </div>
   </div>
@@ -203,7 +202,12 @@ export default defineComponent({
       activeStep.value = stepNum;
     };
 
+    const getButtonName = (): string => {
+      return activeStep.value < 4 ? 'Перейти к следующему шагу' : 'Отправить';
+    };
+
     return {
+      getButtonName,
       achievementsForm,
       questionsForm,
       userForm,
