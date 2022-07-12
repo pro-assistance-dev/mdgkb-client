@@ -10,7 +10,6 @@
             {{ formValue.formStatus.label }}
           </el-tag>
         </el-descriptions-item>
-        {{ formValue.approvingDate }}
         <el-descriptions-item label="Время принятия заявления">
           <template v-if="formValue.approvingDate && formValue.formStatus.isAccepted()">
             <el-form-item prop="content">
@@ -179,14 +178,14 @@ export default defineComponent({
       if (props.validateEmail) emit('findEmail');
     };
 
-    const downloadFiles = async () => {
+    const downloadZip = async () => {
       if (formValue.value) {
-        await Provider.store.dispatch('formValues/documentsToPdf', formValue.value.id);
+        await Provider.store.dispatch('formValues/documentsToZip', formValue.value.id);
       }
     };
 
     return {
-      downloadFiles,
+      downloadZip,
       formValue,
       findEmail,
       formStatuses,
