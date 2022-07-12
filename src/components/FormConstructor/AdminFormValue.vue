@@ -11,7 +11,7 @@
           </el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="Время принятия заявления">
-          <template v-if="formValue.approvingDate && formValue.formStatus.isAccepted()">
+          <template v-if="formValue.formStatus.isAccepted()">
             <el-form-item prop="content">
               <el-date-picker v-model="formValue.approvingDate" format="DD.MM.YYYY" />
             </el-form-item>
