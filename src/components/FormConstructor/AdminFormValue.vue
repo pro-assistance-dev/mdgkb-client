@@ -10,6 +10,15 @@
             {{ formValue.formStatus.label }}
           </el-tag>
         </el-descriptions-item>
+        {{ formValue.approvingDate }}
+        <el-descriptions-item label="Время принятия заявления">
+          <template v-if="formValue.approvingDate && formValue.formStatus.isAccepted()">
+            <el-form-item prop="content">
+              <el-date-picker v-model="formValue.approvingDate" format="DD.MM.YYYY" />
+            </el-form-item>
+          </template>
+          <div v-else>Заявка пока что не принята</div>
+        </el-descriptions-item>
       </el-descriptions>
       <div class="buttons-block">
         <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">
@@ -68,7 +77,8 @@
             >
               Проверить все
             </el-button>
-            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>
+            <!--            ЕСТЬ СЛУЧАИ КРАША СЕРВЕРА - НЕ ВКЛЮЧАТЬ-->
+            <!--            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>-->
           </div>
         </div>
       </template>
@@ -149,6 +159,11 @@ export default defineComponent({
           type: 'error',
         });
         return;
+      }
+      if (status.isAccepted()) {
+        formValue.value.approvingDate = new Date();
+      } else {
+        formValue.value.approvingDate = undefined;
       }
       formValue.value.setStatus(status, formStatuses.value);
     };

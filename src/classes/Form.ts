@@ -34,6 +34,7 @@ export default class Form implements IForm {
   emailNotify = false;
   description = '';
   code = '';
+  approvingDate?: Date;
   fields: IField[] = [];
   fieldsForDelete: string[] = [];
   fieldValues: IFieldValue[] = [];
@@ -71,6 +72,9 @@ export default class Form implements IForm {
     this.id = form.id;
     this.title = form.title;
     this.modComment = form.modComment;
+    if (form.approvingDate) {
+      this.approvingDate = new Date(form.approvingDate);
+    }
     this.description = form.description;
     if (form.createdAt) {
       this.createdAt = form.createdAt;

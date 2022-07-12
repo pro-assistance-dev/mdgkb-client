@@ -24,6 +24,7 @@ export default interface IForm {
   fieldsForDelete: string[];
   fieldValues: IFieldValue[];
   formStatus: IFormStatus;
+  approvingDate?: Date;
   fieldValuesForDelete: string[];
   validated?: boolean;
   createdAt?: Date;

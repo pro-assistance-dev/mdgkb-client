@@ -61,6 +61,13 @@
             </el-descriptions>
           </el-card>
 
+          <el-card v-if="application.admissionCommittee" header="Номер заявления">
+            <el-form-item v-if="isEditMode" prop="applicationNum">
+              <el-input v-model="application.applicationNum" value-key="id" style="width: 100%" />
+            </el-form-item>
+            <div v-else>{{ application.applicationNum }}</div>
+          </el-card>
+
           <el-card v-if="application.admissionCommittee" header="Баллы">
             <el-form-item v-if="isEditMode" label="Баллы вступительных испытаний" prop="pointsEntrance">
               <el-input-number v-model="application.pointsEntrance" value-key="id" style="width: 100%" />

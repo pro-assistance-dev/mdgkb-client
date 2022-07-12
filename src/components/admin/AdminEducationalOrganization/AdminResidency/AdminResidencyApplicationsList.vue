@@ -28,6 +28,13 @@
           </div>
         </template>
       </el-table-column>
+      <el-table-column label="Дата принятия заявления" align="center" width="150">
+        <template #default="scope">
+          <div>
+            {{ scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) : 'Заявка не принята' }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
           {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
