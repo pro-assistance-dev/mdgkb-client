@@ -51,7 +51,6 @@ export default class HttpClient {
     const startFileNameIndex = headerLine.indexOf('"') + 1;
     const endFileNameIndex = headerLine.lastIndexOf('"');
     const filename = headerLine.substring(startFileNameIndex, endFileNameIndex);
-
     const url = URL.createObjectURL(res.data);
     const fileName = HttpClient.getDownloadFileName(params?.downloadFileName, filename);
 

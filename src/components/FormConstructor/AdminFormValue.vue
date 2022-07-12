@@ -78,6 +78,7 @@
             </el-button>
             <!--            ЕСТЬ СЛУЧАИ КРАША СЕРВЕРА - НЕ ВКЛЮЧАТЬ-->
             <!--            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>-->
+            <el-button style="margin-left: 5px" size="small" @click="downloadZip">Скачать документы в архиве zip</el-button>
           </div>
         </div>
       </template>
