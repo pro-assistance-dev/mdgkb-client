@@ -1,7 +1,6 @@
 import IField from '@/interfaces/IField';
 
 import IFileInfo from './files/IFileInfo';
-import IApplicationCar from './IApplicationCar';
 import ICandidateApplication from './ICandidateApplication';
 import IChild from './IChild';
 import IDpoApplication from './IDpoApplication';
@@ -11,6 +10,7 @@ import IFormStatusGroup from './IFormStatusGroup';
 import IPostgraduateApplication from './IPostgraduateApplication';
 import IResidencyApplication from './IResidencyApplication';
 import IUser from './IUser';
+import IVisitsApplication from './IVisitsApplication';
 import IVacancyResponse from './vacancyResponse/IVacancyResponse';
 
 export default interface IForm {
@@ -46,7 +46,7 @@ export default interface IForm {
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
   residencyApplication?: IResidencyApplication;
-  applicationCar?: IApplicationCar;
+  visitsApplication?: IVisitsApplication;
   vacancyResponse?: IVacancyResponse;
 
   addField: (field?: IField) => void;

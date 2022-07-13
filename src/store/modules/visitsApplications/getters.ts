@@ -1,15 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IApplicationCar from '@/interfaces/IApplicationCar';
+import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IApplicationCar[] {
+  items(state): IVisitsApplication[] {
     return state.items;
   },
-  item(state): IApplicationCar {
+  item(state): IVisitsApplication {
     return state.item;
   },
   count(state): number {

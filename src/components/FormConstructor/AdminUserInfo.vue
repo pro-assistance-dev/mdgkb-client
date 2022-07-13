@@ -28,6 +28,12 @@
     <el-descriptions-item v-if="activeFields.userCitizenship" label="Гражданство">
       {{ formValue.user.human.citizenship }}
     </el-descriptions-item>
+    <el-descriptions-item v-if="activeFields.userCarNumber && formValue.user.human.carNumber" label="Номер автомобиля">
+      {{ formValue.user.human.carNumber }}
+    </el-descriptions-item>
+    <el-descriptions-item v-if="activeFields.userCarModel && formValue.user.human.carModel" label="Марка автомобиля">
+      {{ formValue.user.human.carModel }}
+    </el-descriptions-item>
 
     <!-- Child info -->
     <el-descriptions-item v-if="activeFields.childName || activeFields.childSurname || activeFields.childPatronymic" label="ФИО пациента">

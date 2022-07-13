@@ -2,7 +2,6 @@ import Vuex, { StoreOptions } from 'vuex';
 
 import { admin } from '@/store/modules/admin';
 import { admissionCommitteeDocumentTypes } from '@/store/modules/admissionCommitteeDocumentTypes';
-import { applicationsCars } from '@/store/modules/applicationsCars';
 import { appointments } from '@/store/modules/appointments';
 import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
@@ -76,6 +75,7 @@ import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
 import { valueTypes } from '@/store/modules/valueTypes';
 import { visitingRules } from '@/store/modules/visitingRules';
+import { visitsApplications } from '@/store/modules/visitsApplications';
 
 import RootState from './types';
 
@@ -132,7 +132,7 @@ const s: StoreOptions<RootState> = {
     publicDocumentTypes,
     certificates,
     medicalProfiles,
-    applicationsCars,
+    visitsApplications,
     callbacks,
     centers,
     appointments,

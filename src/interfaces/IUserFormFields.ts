@@ -11,6 +11,8 @@ export default interface IUserFormFields {
   userAddress?: boolean;
   userCitizenship?: boolean;
   userPlaceBirth?: boolean;
+  userCarNumber?: boolean;
+  userCarModel?: boolean;
   //
   childSurname?: boolean;
   childName?: boolean;

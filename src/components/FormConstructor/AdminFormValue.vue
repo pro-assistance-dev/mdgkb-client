@@ -50,30 +50,32 @@
       <FieldValuesForm :active-fields="activeFields" :form="formValue" />
     </el-card>
 
-    <el-card v-else>
-      <template #header>
-        <div class="flex-between">
-          <span>Данные формы</span>
-          <div class="flex">
-            <!-- <span style="margin-right: 5px">Статус:</span> -->
-            <el-tag v-if="formValue.isFieldValuesModChecked()" type="success">Полный комплект документов</el-tag>
-            <el-tag v-else type="danger">Не все документы проверены</el-tag>
-            <el-button
-              :disabled="formValue.isFieldValuesModChecked()"
-              :type="formValue.isFieldValuesModChecked() ? 'success' : 'primary'"
-              size="small"
-              style="margin-left: 5px"
-              @click="formValue.changeFieldValuesModChecked(true)"
-            >
-              Проверить все
-            </el-button>
-            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>
+    <div v-else>
+      <el-card v-if="formValue.fieldValues.length">
+        <template #header>
+          <div class="flex-between">
+            <span>Данные формы</span>
+            <div class="flex">
+              <!-- <span style="margin-right: 5px">Статус:</span> -->
+              <el-tag v-if="formValue.isFieldValuesModChecked()" type="success">Полный комплект документов</el-tag>
+              <el-tag v-else type="danger">Не все документы проверены</el-tag>
+              <el-button
+                :disabled="formValue.isFieldValuesModChecked()"
+                :type="formValue.isFieldValuesModChecked() ? 'success' : 'primary'"
+                size="small"
+                style="margin-left: 5px"
+                @click="formValue.changeFieldValuesModChecked(true)"
+              >
+                Проверить все
+              </el-button>
+              <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>
+            </div>
           </div>
-        </div>
-      </template>
-      <FieldValuesFormResult :form="formValue" />
-    </el-card>
-    <el-card header="Общий комментарий">
+        </template>
+        <FieldValuesFormResult :form="formValue" />
+      </el-card>
+    </div>
+    <el-card v-if="formValue.fieldValues.length" header="Общий комментарий">
       <el-form-item prop="content">
         <WysiwygEditor v-model="formValue.modComment" />
       </el-form-item>

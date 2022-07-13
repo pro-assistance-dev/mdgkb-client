@@ -1,6 +1,5 @@
 import Field from '@/classes/Field';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IApplicationCar from '@/interfaces/IApplicationCar';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IField from '@/interfaces/IField';
@@ -11,9 +10,9 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
-import ApplicationCar from './ApplicationCar';
 import CandidateApplication from './CandidateApplication';
 import Child from './Child';
 import DpoApplication from './DpoApplication';
@@ -25,6 +24,7 @@ import PostgraduateApplication from './PostgraduateApplication';
 import ResidencyApplication from './ResidencyApplication';
 import User from './User';
 import VacancyResponse from './VacancyResponse';
+import VisitsApplication from './VisitsApplication';
 
 export default class Form implements IForm {
   id?: string;
@@ -61,7 +61,7 @@ export default class Form implements IForm {
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
   residencyApplication?: IResidencyApplication;
-  applicationCar?: IApplicationCar;
+  visitsApplication?: IVisitsApplication;
   vacancyResponse?: IVacancyResponse;
 
   constructor(form?: IForm) {
@@ -132,8 +132,8 @@ export default class Form implements IForm {
     if (form.residencyApplication) {
       this.residencyApplication = new ResidencyApplication(form.residencyApplication);
     }
-    if (form.applicationCar) {
-      this.applicationCar = new ApplicationCar(form.applicationCar);
+    if (form.visitsApplication) {
+      this.visitsApplication = new VisitsApplication(form.visitsApplication);
     }
     if (form.vacancyResponse) {
       this.vacancyResponse = new VacancyResponse(form.vacancyResponse);

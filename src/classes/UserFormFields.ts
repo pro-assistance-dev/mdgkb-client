@@ -13,6 +13,8 @@ export default class UserFormFields implements IUserFormFields {
   userPlaceBirth = false;
   userPostIndex = false;
   userAddress = false;
+  userCarNumber = false;
+  userCarModel = false;
   //
   childSurname = false;
   childName = false;
@@ -45,6 +47,12 @@ export default class UserFormFields implements IUserFormFields {
     }
     if (i.userPhone !== undefined) {
       this.userPhone = i.userPhone;
+    }
+    if (i.userCarNumber !== undefined) {
+      this.userCarNumber = i.userCarNumber;
+    }
+    if (i.userCarModel !== undefined) {
+      this.userCarModel = i.userCarModel;
     }
     if (i.childSurname !== undefined) {
       this.childSurname = i.childSurname;

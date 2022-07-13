@@ -1,6 +1,6 @@
 import IVisit from '@/interfaces/IVisit';
 
-import ApplicationCar from './ApplicationCar';
+import VisitsApplication from './VisitsApplication';
 
 export default class Visit implements IVisit {
   id?: string;
@@ -8,8 +8,8 @@ export default class Visit implements IVisit {
   entered = false;
   exited = false;
 
-  applicationCar = new ApplicationCar();
-  applicationCarId?: string;
+  visitsApplication = new VisitsApplication();
+  visitsApplicationId?: string;
 
   constructor(i?: IVisit) {
     if (!i) {
@@ -23,9 +23,9 @@ export default class Visit implements IVisit {
     if (i.exited !== undefined) {
       this.exited = i.exited;
     }
-    this.applicationCarId = i.applicationCarId;
-    if (i.applicationCar) {
-      this.applicationCar = new ApplicationCar(i.applicationCar);
+    this.visitsApplicationId = i.visitsApplicationId;
+    if (i.visitsApplication) {
+      this.visitsApplication = new VisitsApplication(i.visitsApplication);
     }
   }
 }

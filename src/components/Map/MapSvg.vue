@@ -10,7 +10,7 @@
           <div class="enter-popover-container-header">
             <div>{{ chosenGate.name }}</div>
           </div>
-          <button class="order-button" @click="$router.push({ name: 'ApplicationCarPage', params: { gateId: chosenGate.id } })">
+          <button class="order-button" @click="$router.push({ name: 'VisitsApplicationPage', params: { gateId: chosenGate.id } })">
             Заказать пропуск
           </button>
         </div>

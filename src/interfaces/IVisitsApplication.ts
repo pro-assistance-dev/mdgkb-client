@@ -4,7 +4,7 @@ import IForm from '@/interfaces/IForm';
 import IGate from '@/interfaces/IGate';
 import IVisit from '@/interfaces/IVisit';
 
-export default interface IApplicationCar {
+export default interface IVisitsApplication {
   id?: string;
   division: IDivision;
   divisionId?: string;
@@ -12,10 +12,12 @@ export default interface IApplicationCar {
   gateId?: string;
   formValue: IForm;
   formValueId?: string;
+  withCar: boolean;
   visits: IVisit[];
   visitsForDelete: string[];
 
   getFileInfos: () => IFileInfo[];
   addVisit: () => void;
   removeVisit: (index: number) => void;
+  changeWithCar: (value: boolean) => void;
 }

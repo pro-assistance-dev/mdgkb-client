@@ -22,7 +22,7 @@
               <!-- <button class="give-button" @click="$router.push('/dpo')">Аспирантура</button> -->
             </li>
             <li>
-              <router-link :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`">Заявка на въезд</router-link>
+              <router-link :to="`/visits-application/8ccf8e9b-b487-493e-b451-60b193181f07`">Заявка на посещение</router-link>
             </li>
             <li>
               <router-link :to="`/vacancies`">Откликнуться на вакансию</router-link>
@@ -92,8 +92,8 @@
                   <router-link v-if="formValue.vacancyResponse" :to="`/vacancies/${formValue.vacancyResponse.vacancy.slug}`">
                     {{ formValue.vacancyResponse.vacancy.title }}
                   </router-link>
-                  <router-link v-if="formValue.applicationCar" :to="`/divisions/${formValue.applicationCar.division?.slug}`">
-                    {{ formValue.applicationCar.division?.name }}
+                  <router-link v-if="formValue.visitsApplication" :to="`/divisions/${formValue.visitsApplication.division?.slug}`">
+                    {{ formValue.visitsApplication.division?.name }}
                   </router-link>
                 </div>
               </div>
@@ -108,8 +108,8 @@
                     Кандидатский минимум
                   </router-link>
                   <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
-                  <router-link v-if="formValue.applicationCar" :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`"
-                    >Заявка на въезд</router-link
+                  <router-link v-if="formValue.visitsApplication" :to="`/visits-application/8ccf8e9b-b487-493e-b451-60b193181f07`"
+                    >Заявка на посещение</router-link
                   >
                   <router-link v-if="formValue.vacancyResponse" :to="`/vacancies`"> Отклик на вакансию </router-link>
                 </div>
@@ -184,8 +184,8 @@
                     Кандидатский минимум
                   </router-link>
                   <router-link v-if="formValue.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
-                  <router-link v-if="formValue.applicationCar" :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`"
-                    >Заявка на въезд</router-link
+                  <router-link v-if="formValue.visitsApplication" :to="`/visits-application/8ccf8e9b-b487-493e-b451-60b193181f07`"
+                    >Заявка на посещение</router-link
                   >
                   <router-link v-if="formValue.vacancyResponse" :to="`/vacancies`"> Отклик на вакансию </router-link>
                 </td>
@@ -218,8 +218,8 @@
                   <router-link v-if="formValue.vacancyResponse" :to="`/vacancies/${formValue.vacancyResponse.vacancy.slug}`">
                     {{ formValue.vacancyResponse.vacancy.title }}
                   </router-link>
-                  <router-link v-if="formValue.applicationCar" :to="`/divisions/${formValue.applicationCar.division?.slug}`">
-                    {{ formValue.applicationCar.division?.name }}
+                  <router-link v-if="formValue.visitsApplication" :to="`/divisions/${formValue.visitsApplication.division?.slug}`">
+                    {{ formValue.visitsApplication.division?.name }}
                   </router-link>
                 </td>
 
