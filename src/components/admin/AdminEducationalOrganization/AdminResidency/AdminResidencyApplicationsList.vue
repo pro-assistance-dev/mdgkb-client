@@ -1,5 +1,9 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination>
+  <AdminListWrapper v-if="mounted" pagination show-header>
+    <template #header>
+      <FilterCheckboxV2 class="filters-block" :filter-model="onlyAdmissionFilter" @load="loadApplications" />
+      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+    </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
     </template>
@@ -11,7 +15,27 @@
       </el-table-column>
       <el-table-column label="Подано" min-width="150">
         <template #default="scope">
-          {{ scope.row.admissionCommittee ? `Приемная компания ${scope.row.residencyCourse.startYear.year.getFullYear()}` : `Ординатура` }}
+          {{ scope.row.admissionCommittee ? `Приемная кампания ${scope.row.residencyCourse.startYear.year.getFullYear()}` : `Ординатура` }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Номер заявления" align="center" width="150">
+        <template #default="scope">
+          <div v-if="isEditMode">
+            <el-input v-model="scope.row.applicationNum" size="small" min="0" />
+          </div>
+          <div v-else>
+            {{ scope.row.applicationNum }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Дата принятия заявления" align="center" width="150">
+        <template #default="scope">
+          <div v-if="scope.row.formValue.formStatus.isAccepted()">
+            {{
+              scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) : 'Дата принятия не указана'
+            }}
+          </div>
+          <div v-else>Заявка не принята</div>
         </template>
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
@@ -71,26 +95,39 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
+import FilterModel from '@/classes/filters/FilterModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
+import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Orders } from '@/interfaces/filters/Orders';
+import IFormStatus from '@/interfaces/IFormStatus';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IOption from '@/interfaces/schema/IOption';
 import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
+import ResidencyApplicationsFiltersLib from '@/services/Provider/libs/filters/ResidencyApplicationsFiltersLib';
 import ResidencyApplicationsSortsLib from '@/services/Provider/libs/sorts/ResidencyApplicationsSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminResidencyApplicationsList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
+  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterCheckboxV2, FilterMultipleSelect },
 
   setup() {
     const residencyApplications: ComputedRef<IResidencyApplication[]> = computed<IResidencyApplication[]>(
       () => Provider.store.getters['residencyApplications/items']
     );
+
+    const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+    const onlyAdmissionFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
     const applicationsCount: ComputedRef<number> = computed(() =>
       Provider.store.getters['meta/applicationsCount']('residency_applications')
     );
@@ -131,6 +168,9 @@ export default defineComponent({
       Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
       Provider.setSortModels(ResidencyApplicationsSortsLib.byCreatedAt(Orders.Desc));
       await loadApplications();
+      await loadFilters();
+      onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();
+      filterByStatus.value = ResidencyApplicationsFiltersLib.byStatus();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Заявки на обучение в ординатуре',
         buttons: [
@@ -160,7 +200,31 @@ export default defineComponent({
     // const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
     const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
+    const filtersToOptions = (): IOption[] => {
+      const options: IOption[] = [];
+      formStatuses.value.forEach((i: IFormStatus) => {
+        if (i.id) {
+          options.push({ value: i.id, label: i.label });
+        }
+      });
+      return options;
+    };
+
+    const loadFilters = async () => {
+      const filterQuery = new FilterQuery();
+      if (residencyApplications.value.length > 0) {
+        const formStatusesGroupId = residencyApplications.value[0].formValue.formStatus.formStatusGroupId;
+        if (formStatusesGroupId) {
+          filterQuery.filterModels.push(FormStatusesFiltersLib.byGroupId(formStatusesGroupId));
+        }
+      }
+      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+    };
+
     return {
+      filterByStatus,
+      filtersToOptions,
+      onlyAdmissionFilter,
       mounted: Provider.mounted,
       schema: Provider.schema,
       residencyApplications,

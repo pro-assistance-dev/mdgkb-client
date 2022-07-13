@@ -1,10 +1,21 @@
 <template>
-  <el-card header="Индивидуальные достижения">
+  <el-card>
+    <template #header>
+      <div class="card-header">
+        <h2 class="title article-title">Индивидуальные достижения</h2>
+      </div>
+      <span>Всего баллов: {{ residencyApplication.calculateAchievementsPoints(true) }}</span>
+    </template>
+
     <el-table :data="residencyApplication.residencyApplicationPointsAchievements">
+      <el-table-column label="№" min-width="300">
+        <template #default="scope">
+          {{ scope.row.pointsAchievement.code }}
+        </template>
+      </el-table-column>
       <el-table-column label="Наименование" min-width="300">
         <template #default="scope">
           {{ scope.row.pointsAchievement.name }}
-          <span v-if="scope.row.required" class="red">*</span>
         </template>
       </el-table-column>
 
@@ -16,9 +27,12 @@
 
       <el-table-column label="Образец" min-width="200">
         <template #default="scope">
-          <a v-if="scope.row.fileInfo.fileSystemPath" :href="scope.row.fileInfo.getFileUrl()" target="_blank">
-            {{ scope.row.fileInfo.originalName }}
-          </a>
+          <template v-if="!isEditMode">
+            <a v-if="scope.row.fileInfo.fileSystemPath" :href="scope.row.fileInfo.getFileUrl()" target="_blank">
+              {{ scope.row.fileInfo.originalName }}
+            </a>
+          </template>
+          <FileUploader v-else :file-info="scope.row.fileInfo" />
           <!-- <span v-else>Нет файла</span> -->
         </template>
       </el-table-column>
@@ -35,14 +49,19 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import FileUploader from '@/components/FileUploader.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
 export default defineComponent({
   name: 'AdminResidencyApplicationAchievementsPoints',
-  components: {},
+  components: { FileUploader },
   props: {
     residencyApplication: {
       type: Object as PropType<IResidencyApplication>,
+      required: true,
+    },
+    isEditMode: {
+      type: Boolean,
       required: true,
     },
   },

@@ -83,7 +83,7 @@ export default defineComponent({
           title = 'Кандидатский минимум';
           break;
         case uuidRegex.test(mode.value):
-          title = 'Приемная компания 2022/2023';
+          title = 'Приемная кампания 2022/2023';
           break;
         default:
           break;

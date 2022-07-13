@@ -18,6 +18,7 @@
             />
             <AdminResidencyApplicationAchievementsPoints
               v-if="application.residencyApplicationPointsAchievements.length && application.admissionCommittee"
+              :is-edit-mode="isEditMode"
               :residency-application="application"
             />
           </div>
@@ -26,7 +27,7 @@
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-card>
             <template #header>
-              <span>Информация о программе</span>
+              <span>Информация</span>
             </template>
             <el-form-item
               v-if="isEditMode && !application.residencyCourseId"
@@ -45,10 +46,26 @@
               </el-select>
             </el-form-item>
             <el-descriptions v-else :column="1">
-              <el-descriptions-item label="Наименование">
-                {{ application.residencyCourse.getMainSpecialization().name }}
+              <el-descriptions-item label="Наименование программы:">
+                {{ application.residencyCourse.getFullName() }}
+              </el-descriptions-item>
+              <el-descriptions-item label="Платно/бесплатно:">
+                {{ application.paid ? 'Платно' : 'Бесплатно' }}
+              </el-descriptions-item>
+              <el-descriptions-item label="Основная/дополнительная специальности:">
+                {{ application.main ? 'Основная' : 'Дополнительная' }}
+              </el-descriptions-item>
+              <el-descriptions-item label="Первичная аккредитация:">
+                {{ application.getPrimaryAccreditationInfo() }}
               </el-descriptions-item>
             </el-descriptions>
+          </el-card>
+
+          <el-card v-if="application.admissionCommittee" header="Номер заявления">
+            <el-form-item v-if="isEditMode" prop="applicationNum">
+              <el-input v-model="application.applicationNum" value-key="id" style="width: 100%" />
+            </el-form-item>
+            <div v-else>{{ application.applicationNum }}</div>
           </el-card>
 
           <el-card v-if="application.admissionCommittee" header="Баллы">

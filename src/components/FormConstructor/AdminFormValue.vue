@@ -10,6 +10,14 @@
             {{ formValue.formStatus.label }}
           </el-tag>
         </el-descriptions-item>
+        <el-descriptions-item label="Время принятия заявления">
+          <template v-if="formValue.formStatus.isAccepted()">
+            <el-form-item prop="content">
+              <el-date-picker v-model="formValue.approvingDate" format="DD.MM.YYYY" />
+            </el-form-item>
+          </template>
+          <div v-else>Заявка пока что не принята</div>
+        </el-descriptions-item>
       </el-descriptions>
       <div class="buttons-block">
         <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">
@@ -29,18 +37,19 @@
       <template #header>
         <span>Информация о заявителе</span>
       </template>
-      <div v-if="isEditMode">
-        <UserForm
-          :form="formValue"
-          :show-error-message="false"
-          :from-admin="true"
-          :email-exists="emailExists"
-          :validate-email="validateEmail"
-          :active-fields="activeFields"
-          @findEmail="findEmail"
-        />
-      </div>
-      <AdminUserInfo v-else :form="formValue" :active-fields="activeFields" />
+      <!--      UserForm крэшится в продакшне!-->
+      <!--      <div v-if="isEditMode">-->
+      <!--        <UserForm-->
+      <!--          :form="formValue"-->
+      <!--          :show-error-message="false"-->
+      <!--          :from-admin="true"-->
+      <!--          :email-exists="emailExists"-->
+      <!--          :validate-email="validateEmail"-->
+      <!--          :active-fields="activeFields"-->
+      <!--          @findEmail="findEmail"-->
+      <!--        />-->
+      <!--      </div>-->
+      <AdminUserInfo :form="formValue" :active-fields="activeFields" />
     </el-card>
 
     <el-card v-if="isEditMode">
@@ -68,7 +77,9 @@
               >
                 Проверить все
               </el-button>
-              <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>
+              <!--            ЕСТЬ СЛУЧАИ КРАША СЕРВЕРА - НЕ ВКЛЮЧАТЬ-->
+              <!--            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>-->
+              <el-button style="margin-left: 5px" size="small" @click="downloadZip">Скачать документы в архиве zip</el-button>
             </div>
           </div>
         </template>
@@ -93,7 +104,6 @@ import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
-import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUserFormFields from '@/interfaces/IUserFormFields';
@@ -104,7 +114,7 @@ export default defineComponent({
   components: {
     FieldValuesFormResult,
     FieldValuesForm,
-    UserForm,
+    // UserForm,
     AdminUserInfo,
     WysiwygEditor,
   },
@@ -138,7 +148,7 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const changeFormStatusHandler = (status: IFormStatus) => {
       if (!formValue.value) return;
-      if (status.isClarifyRequired() && !formValue.value.haveModComments()) {
+      if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {
         ElMessage({
           message: 'Необходимо добавить замечания',
           type: 'error',
@@ -151,6 +161,11 @@ export default defineComponent({
           type: 'error',
         });
         return;
+      }
+      if (status.isAccepted()) {
+        formValue.value.approvingDate = new Date();
+      } else {
+        formValue.value.approvingDate = undefined;
       }
       formValue.value.setStatus(status, formStatuses.value);
     };
@@ -166,14 +181,14 @@ export default defineComponent({
       if (props.validateEmail) emit('findEmail');
     };
 
-    const downloadFiles = async () => {
+    const downloadZip = async () => {
       if (formValue.value) {
-        await Provider.store.dispatch('formValues/documentsToPdf', formValue.value.id);
+        await Provider.store.dispatch('formValues/documentsToZip', formValue.value.id);
       }
     };
 
     return {
-      downloadFiles,
+      downloadZip,
       formValue,
       findEmail,
       formStatuses,

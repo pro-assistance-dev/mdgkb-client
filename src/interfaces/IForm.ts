@@ -24,6 +24,7 @@ export default interface IForm {
   fieldsForDelete: string[];
   fieldValues: IFieldValue[];
   formStatus: IFormStatus;
+  approvingDate?: Date;
   fieldValuesForDelete: string[];
   validated?: boolean;
   createdAt?: Date;
@@ -70,4 +71,10 @@ export default interface IForm {
   setStatus: (status: IFormStatus, statuses: IFormStatus[]) => void;
   updateViewedByUser: (initialStatus: IFormStatus) => void;
   clearValidate: () => void;
+  getApplicationType: () => string;
+  getApplicationTypeLink: () => string;
+  getApplicationName: () => string;
+  getApplicationNameLink: () => string;
+  getRequiredForCancelFields: () => IField[];
+  clearAllFields: () => void;
 }

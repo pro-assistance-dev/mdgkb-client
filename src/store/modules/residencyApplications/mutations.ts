@@ -42,6 +42,7 @@ const mutations: MutationTree<State> = {
   },
   resetItem(state) {
     state.item = new ResidencyApplication();
+    state.emailExists = false;
   },
   setUser(state, user: IUser) {
     state.item.formValue.user = new User(user);

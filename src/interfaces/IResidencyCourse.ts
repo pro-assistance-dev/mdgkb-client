@@ -62,4 +62,5 @@ export default interface IResidencyCourse {
   getPaidApplications: () => IResidencyApplication[];
   getFreeApplications: () => IResidencyApplication[];
   getAcceptedApplications: () => IResidencyApplication[];
+  getFullName: () => string;
 }

@@ -8,6 +8,7 @@ export default class Field implements IField {
   id?: string;
   name = '';
   order = 0;
+  requiredForCancel = false;
   code = '';
   formId?: string;
   comment = '';
@@ -25,6 +26,7 @@ export default class Field implements IField {
     this.name = i.name;
     this.comment = i.comment;
     this.code = i.code;
+    this.requiredForCancel = i.requiredForCancel;
     this.valueType = i.valueType;
     this.order = i.order;
     this.formId = i.formId;
