@@ -36,11 +36,11 @@
       <FieldValuesForm v-if="activeStep === 3" :form="residencyApplication.formValue" :leave-fields-with-code="textFields" />
     </el-form>
     <el-form>
-      <FieldValuesForm v-if="activeStep === 4" :form="residencyApplication.formValue" :filter-fields-with-code="textFields" />
+      <FieldValuesForm v-if="activeStep === 4" :form="residencyApplication.formValue" :filter-fields-with-code="textFieldsAndDocuments" />
     </el-form>
 
     <div class="navigate-buttons">
-      <button class="forward-btn" @click="submitStep">
+      <button :disabled="buttonOff" class="forward-btn" @click="submitStep">
         <span>{{ getButtonName() }}</span>
       </button>
     </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox, ElNotification } from 'element-plus';
+import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
 import UserFormFields from '@/classes/UserFormFields';
@@ -70,11 +70,20 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(0);
+    const activeStep: Ref<number> = ref(1);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
     const textFields = ['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName', 'DiplomaSpeciality'];
+    const textFieldsAndDocuments = [
+      'DiplomaNumber',
+      'DiplomaSeries',
+      'DiplomaDate',
+      'UniversityEndYear',
+      'UniversityName',
+      'DiplomaSpeciality',
+      'ContractDzm',
+    ];
     const steps = [
       'Заполните личные данные',
       'Ответьте на вопросы',
@@ -82,6 +91,8 @@ export default defineComponent({
       'Данные об образовании',
       'Загрузите пакет документов',
     ];
+
+    const buttonOff: Ref<boolean> = ref(false);
 
     const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
@@ -189,7 +200,16 @@ export default defineComponent({
       }
       activeStep.value++;
       if (activeStep.value > 4) {
+        buttonOff.value = true;
+        const loading = ElLoading.service({
+          lock: true,
+          text: 'Загрузка',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)',
+        });
         await submit();
+        buttonOff.value = false;
+        loading.close();
       }
       clearAllValidate();
     };
@@ -207,6 +227,8 @@ export default defineComponent({
     };
 
     return {
+      textFieldsAndDocuments,
+      buttonOff,
       getButtonName,
       achievementsForm,
       questionsForm,
