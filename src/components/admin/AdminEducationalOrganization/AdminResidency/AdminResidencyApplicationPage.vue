@@ -3,7 +3,12 @@
     <el-form ref="form" :key="application" :model="application" label-position="top">
       <el-card>
         <template #header>
-          <span>Общая информация</span>
+          <div style="display: flex; justify-content: space-between">
+            <span>Общая информация</span>
+            <el-button v-if="!application.userEdit" size="mini" type="success" @click="application.changeUserEdit(true)">
+              Дать возможность редактиварония
+            </el-button>
+          </div>
         </template>
         <div v-if="isEditMode">
           <el-form-item

@@ -1,74 +1,86 @@
 <template>
   <el-form-item label="Вы подаёте заявление на платное обучение?" prop="paid" :rules="rules.paid">
-    <el-radio-group v-model="residencyApplication.paid">
+    <el-radio-group v-model="residencyApplicationValue.paid">
       <el-radio :label="true" size="large">Да</el-radio>
       <el-radio :label="false" size="large">Нет</el-radio>
     </el-radio-group>
   </el-form-item>
   <el-form-item label="Вы подаёте заявление на приоритетную или дополнительную специальность?" prop="main" :rules="rules.main">
-    <el-radio-group v-model="residencyApplication.main">
+    <el-radio-group v-model="residencyApplicationValue.main">
       <el-radio :label="true" size="large">Приоритетную</el-radio>
       <el-radio :label="false" size="large">Дополнительную</el-radio>
     </el-radio-group>
   </el-form-item>
   <el-form-item label="Вы проходили первичную аккредитацию?" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
-    <el-radio-group v-model="residencyApplication.primaryAccreditation">
+    <el-radio-group v-model="residencyApplicationValue.primaryAccreditation">
       <el-radio :label="true" size="large">Да</el-radio>
       <el-radio :label="false" size="large">Нет</el-radio>
     </el-radio-group>
   </el-form-item>
-  <template v-if="residencyApplication.primaryAccreditation === undefined"></template>
-  <template v-else-if="residencyApplication.primaryAccreditation">
+  <template v-if="residencyApplicationValue.primaryAccreditation === undefined"></template>
+  <template v-else-if="residencyApplicationValue.primaryAccreditation">
     <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
-      <el-input v-model="residencyApplication.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
+      <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
     </el-form-item>
     <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints" :rules="rules.primaryAccreditationPoints">
-      <el-input-number v-model="residencyApplication.primaryAccreditationPoints" min="0">Баллы первичной аккредитации</el-input-number>
+      <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0">Баллы первичной аккредитации</el-input-number>
     </el-form-item>
   </template>
   <template v-else>
     <el-form-item label="Вступительные испытания прохожу в:" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
-      <el-radio-group v-model="residencyApplication.mdgkbExam">
+      <el-radio-group v-model="residencyApplicationValue.mdgkbExam">
         <el-radio :label="true" size="large">Морозовской больнице</el-radio>
         <el-radio :label="false" size="large">В другом месте (указать)</el-radio>
       </el-radio-group>
     </el-form-item>
-    <template v-if="residencyApplication.mdgkbExam">
+    <template v-if="residencyApplicationValue.mdgkbExam">
       <el-form-item
         label="Указать программу специалитета, по которой сдаются вступительные экзамены: "
         prop="entranceExamSpecialisation"
         :rules="rules.entranceExamSpecialisation"
       >
-        <el-input v-model="residencyApplication.entranceExamSpecialisation" />
+        <el-input v-model="residencyApplicationValue.entranceExamSpecialisation" />
       </el-form-item>
     </template>
-    <template v-if="!residencyApplication.mdgkbExam && residencyApplication.mdgkbExam !== undefined">
+    <template v-if="!residencyApplicationValue.mdgkbExam && residencyApplicationValue.mdgkbExam !== undefined">
       <el-form-item label="Вступительные испытания прохожу в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
-        <el-input v-model="residencyApplication.primaryAccreditationPlace">Вступительные экзамены прохожу в: </el-input>
+        <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Вступительные экзамены прохожу в: </el-input>
       </el-form-item>
       <el-form-item
         label="Баллы вступительных испытаний (если пройдены)"
         prop="primaryAccreditationPoints"
         :rules="rules.primaryAccreditationPoints"
       >
-        <el-input-number v-model="residencyApplication.primaryAccreditationPoints" min="0" />
+        <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0" />
       </el-form-item>
     </template>
   </template>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import Provider from '@/services/Provider';
+
 export default defineComponent({
   name: 'AdmissionQuestionsForm',
+  props: {
+    residencyApplication: {
+      type: Object as PropType<IResidencyApplication>,
+      required: true,
+    },
+  },
   emits: ['allQuestionsAnswered'],
   setup(props, { emit }) {
-    const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
-      () => Provider.store.getters['residencyApplications/item']
-    );
+    // const residencyApplicationValue: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
+    //   () => Provider.store.getters['residencyApplications/item']
+    // );
+    const residencyApplicationValue: Ref<IResidencyApplication> = ref(new ResidencyApplication());
+
+    onBeforeMount(() => {
+      residencyApplicationValue.value = props.residencyApplication;
+    });
 
     const rules = {
       primaryAccreditation: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
@@ -87,7 +99,7 @@ export default defineComponent({
 
     return {
       rules,
-      residencyApplication,
+      residencyApplicationValue,
     };
   },
 });

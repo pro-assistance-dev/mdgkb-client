@@ -14,6 +14,7 @@ export default interface IResidencyApplication {
   applicationNum: string;
   main?: boolean;
   paid?: boolean;
+  userEdit?: boolean;
   admissionCommittee?: boolean;
   formValue: IForm;
   formValueId?: string;
@@ -38,4 +39,5 @@ export default interface IResidencyApplication {
   calculateAchievementsPoints: (onlyApproved: boolean) => number;
   validateAchievementsPoints: () => boolean;
   getPrimaryAccreditationInfo: () => string;
+  changeUserEdit: (value: boolean) => void;
 }
