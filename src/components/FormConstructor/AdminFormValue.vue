@@ -2,7 +2,7 @@
   <div v-if="mounted">
     <el-card v-if="formValue.formStatus.label">
       <template #header>
-        <span>Информация о заявлении</span>
+        <span>Статус заявления</span>
       </template>
       <el-descriptions :column="1" border>
         <el-descriptions-item label="Статус">
@@ -12,7 +12,7 @@
         </el-descriptions-item>
         <el-descriptions-item label="Время принятия заявления">
           <template v-if="formValue.formStatus.isAccepted()">
-            <el-form-item prop="content">
+            <el-form-item style="margin: 0" prop="content">
               <el-date-picker v-model="formValue.approvingDate" format="DD.MM.YYYY" />
             </el-form-item>
           </template>

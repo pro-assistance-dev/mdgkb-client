@@ -1,83 +1,85 @@
 <template>
   <div v-if="mounted" class="wrapper">
     <el-form ref="form" :key="application" :model="application" label-position="top">
-      <el-row :gutter="40">
-        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
-          <div v-if="application.residencyCourse.id">
-            <AdminFormValue
-              :form="application.formValue"
-              :validate-email="false"
-              :active-fields="
-                application.admissionCommittee
-                  ? UserFormFields.CreateWithAllUserFields()
-                  : UserFormFields.CreateWithFullName({ userSnils: true })
-              "
-              :is-edit-mode="isEditMode"
-              :email-exists="emailExists"
-              @findEmail="findEmail"
-            />
-            <AdminResidencyApplicationAchievementsPoints
-              v-if="application.residencyApplicationPointsAchievements.length && application.admissionCommittee"
-              :is-edit-mode="isEditMode"
-              :residency-application="application"
-            />
-          </div>
-          <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
-        </el-col>
-        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
-          <el-card>
-            <template #header>
-              <span>Информация</span>
-            </template>
-            <el-form-item
-              v-if="isEditMode && !application.residencyCourseId"
-              label="Выберите программу"
-              prop="residencyCourseId"
-              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
+      <el-card>
+        <template #header>
+          <span>Общая информация</span>
+        </template>
+        <div v-if="isEditMode">
+          <el-form-item
+            v-if="!application.residencyCourseId"
+            label="Выберите программу"
+            prop="residencyCourseId"
+            :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
+          >
+            <el-select
+              v-model="application.residencyCourse"
+              value-key="id"
+              placeholder="Выберите программу"
+              style="width: 100%"
+              @change="courseChangeHandler"
             >
-              <el-select
-                v-model="application.residencyCourse"
-                value-key="id"
-                placeholder="Выберите программу"
-                style="width: 100%"
-                @change="courseChangeHandler"
-              >
-                <el-option v-for="item in residencyCourses" :key="item.id" :label="item.getMainSpecialization()" :value="item"> </el-option>
-              </el-select>
-            </el-form-item>
-            <el-descriptions v-else :column="1">
-              <el-descriptions-item label="Наименование программы:">
-                {{ application.residencyCourse.getFullName() }}
-              </el-descriptions-item>
-              <el-descriptions-item label="Платно/бесплатно:">
-                {{ application.paid ? 'Платно' : 'Бесплатно' }}
-              </el-descriptions-item>
-              <el-descriptions-item label="Основная/дополнительная специальности:">
-                {{ application.main ? 'Основная' : 'Дополнительная' }}
-              </el-descriptions-item>
-              <el-descriptions-item label="Первичная аккредитация:">
-                {{ application.getPrimaryAccreditationInfo() }}
-              </el-descriptions-item>
-            </el-descriptions>
-          </el-card>
+              <el-option v-for="item in residencyCourses" :key="item.id" :label="item.getMainSpecialization()" :value="item"> </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Номер заявления" prop="applicationNum">
+            <el-input v-model="application.applicationNum" placeholder="Номер заявления" value-key="id" style="width: 100%" />
+          </el-form-item>
+          <el-form-item v-if="application.admissionCommittee" label="Баллы вступительных испытаний" prop="pointsEntrance">
+            <el-input-number v-model="application.pointsEntrance" value-key="id" />
+          </el-form-item>
+        </div>
+        <el-descriptions v-else :column="1" border>
+          <el-descriptions-item label="Наименование программы:">
+            {{ application.residencyCourse.getFullName() }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Платно/бесплатно:">
+            {{ application.paid ? 'Платно' : 'Бесплатно' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Основная/дополнительная специальности:">
+            {{ application.main ? 'Основная' : 'Дополнительная' }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Первичная аккредитация:">
+            {{ application.getPrimaryAccreditationInfo() }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Номер заявления:">
+            <span v-if="application.applicationNum">{{ application.applicationNum }}</span>
+            <span v-else>Не назначен</span>
+          </el-descriptions-item>
+          <div v-if="application.admissionCommittee">
+            <el-descriptions-item label="Баллы вступительных испытаний:">
+              {{ application.pointsEntrance }}
+            </el-descriptions-item>
+            <el-descriptions-item label="Баллы индивидуальных достижений:">
+              {{ application.calculateAchievementsPoints(true) }}
+            </el-descriptions-item>
+            <el-descriptions-item label="Всего баллов:">
+              {{ application.pointsSum() }}
+            </el-descriptions-item>
+          </div>
+        </el-descriptions>
+      </el-card>
 
-          <el-card v-if="application.admissionCommittee" header="Номер заявления">
-            <el-form-item v-if="isEditMode" prop="applicationNum">
-              <el-input v-model="application.applicationNum" value-key="id" style="width: 100%" />
-            </el-form-item>
-            <div v-else>{{ application.applicationNum }}</div>
-          </el-card>
-
-          <el-card v-if="application.admissionCommittee" header="Баллы">
-            <el-form-item v-if="isEditMode" label="Баллы вступительных испытаний" prop="pointsEntrance">
-              <el-input-number v-model="application.pointsEntrance" value-key="id" style="width: 100%" />
-            </el-form-item>
-            <div v-else>Баллы вступительных испытаний: {{ application.pointsEntrance }}</div>
-            <div>Баллы индивидуальных достижений: {{ application.calculateAchievementsPoints(true) }}</div>
-            <div>Всего баллов: {{ application.pointsSum() }}</div>
-          </el-card>
-        </el-col>
-      </el-row>
+      <div v-if="application.residencyCourse.id">
+        <AdminFormValue
+          :form="application.formValue"
+          :validate-email="false"
+          :active-fields="
+            application.admissionCommittee
+              ? UserFormFields.CreateWithAllUserFields()
+              : UserFormFields.CreateWithFullName({ userSnils: true })
+          "
+          :is-edit-mode="isEditMode"
+          :email-exists="emailExists"
+          @findEmail="findEmail"
+        />
+        <AdminResidencyApplicationAchievementsPoints
+          v-if="application.residencyApplicationPointsAchievements.length && application.admissionCommittee"
+          :is-edit-mode="isEditMode"
+          :residency-application="application"
+        />
+      </div>
+      <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
     </el-form>
   </div>
 </template>
