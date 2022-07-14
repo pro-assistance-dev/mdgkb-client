@@ -10,6 +10,8 @@ export default interface IHuman {
   isMale: boolean;
   citizenship: string;
   placeBirth: string;
+  carNumber: string;
+  carModel: string;
   dateBirth?: Date;
   slug: string;
   getFullName: () => string;

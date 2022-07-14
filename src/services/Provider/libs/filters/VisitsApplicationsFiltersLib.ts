@@ -4,11 +4,11 @@ import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import Provider from '@/services/Provider';
 
-const ApplicationsCarsFiltersLib = (() => {
+const VisitsApplicationsFiltersLib = (() => {
   function byStatus(): IFilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.applicationCar.tableName,
-      Provider.schema.value.applicationCar.formStatusId,
+      Provider.schema.value.visitsApplication.tableName,
+      Provider.schema.value.visitsApplication.formStatusId,
       DataTypes.Set
     );
     filterModel.operator = Operators.In;
@@ -17,8 +17,8 @@ const ApplicationsCarsFiltersLib = (() => {
 
   // function byCarNumber(order?: Orders): ISortModel {
   //   return SortModel.CreateSortModel(
-  //     Provider.schema.value.applicationCar.tableName,
-  //     Provider.schema.value.applicationCar.,
+  //     Provider.schema.value.visitsApplication.tableName,
+  //     Provider.schema.value.visitsApplication.,
   //     order ? order : Orders.Asc,
   //     `По дате публикации ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
   //     order === Orders.Desc ? true : false
@@ -30,4 +30,4 @@ const ApplicationsCarsFiltersLib = (() => {
   };
 })();
 
-export default ApplicationsCarsFiltersLib;
+export default VisitsApplicationsFiltersLib;

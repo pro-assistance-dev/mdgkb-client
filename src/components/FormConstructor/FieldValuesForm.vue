@@ -1,61 +1,63 @@
 <template>
-  <div class="mobile-container">
-    <el-table :data="filteredFields()">
-      <el-table-column label="">
-        <template #default="scope">
-          {{ scope.row.name }}<br /><br />
-          <FieldValuesFormItem :form="formValue" :field="scope.row" />
-          <h4 v-if="scope.row.file.fileSystemPath">Образец:</h4>
-          <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
-            {{ scope.row.file.originalName }}
-          </a>
-          <h4 v-if="showModComments">Замечания:</h4>
-          {{ form.findFieldValue(scope.row.id)?.modComment }}
-        </template>
-      </el-table-column>
-    </el-table>
-  </div>
-
-  <div class="table-container">
-    <div>
-      <EditorContent :content="form.description" />
+  <div v-if="filteredFields().length">
+    <div class="mobile-container">
+      <el-table :data="filteredFields()">
+        <el-table-column label="">
+          <template #default="scope">
+            {{ scope.row.name }}<br /><br />
+            <FieldValuesFormItem :form="formValue" :field="scope.row" />
+            <h4 v-if="scope.row.file.fileSystemPath">Образец:</h4>
+            <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
+              {{ scope.row.file.originalName }}
+            </a>
+            <h4 v-if="showModComments">Замечания:</h4>
+            {{ form.findFieldValue(scope.row.id)?.modComment }}
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
 
-    <el-table :data="filteredFields()">
-      <el-table-column label="Наименование" min-width="300">
-        <template #default="scope">
-          {{ scope.row.name }}
-          <span v-if="scope.row.required" class="red">*</span>
-        </template>
-      </el-table-column>
+    <div class="table-container">
+      <div>
+        <EditorContent :content="form.description" />
+      </div>
 
-      <el-table-column label="Комментарий" min-width="300">
-        <template #default="scope">
-          {{ scope.row.comment }}
-        </template>
-      </el-table-column>
+      <el-table :data="filteredFields()">
+        <el-table-column label="Наименование" min-width="300">
+          <template #default="scope">
+            {{ scope.row.name }}
+            <span v-if="scope.row.required" class="red">*</span>
+          </template>
+        </el-table-column>
 
-      <el-table-column label="Данные" min-width="300">
-        <template #default="scope">
-          <FieldValuesFormItem :form="formValue" :field="scope.row" />
-        </template>
-      </el-table-column>
+        <el-table-column label="Комментарий" min-width="300">
+          <template #default="scope">
+            {{ scope.row.comment }}
+          </template>
+        </el-table-column>
 
-      <el-table-column label="Образец" min-width="200">
-        <template #default="scope">
-          <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
-            {{ scope.row.file.originalName }}
-          </a>
-          <!-- <span v-else>Нет файла</span> -->
-        </template>
-      </el-table-column>
+        <el-table-column label="Данные" min-width="300">
+          <template #default="scope">
+            <FieldValuesFormItem :form="formValue" :field="scope.row" />
+          </template>
+        </el-table-column>
 
-      <el-table-column v-if="showModComments" label="Замечания" width="200px">
-        <template #default="scope">
-          {{ form.findFieldValue(scope.row.id).modComment }}
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table-column label="Образец" min-width="200">
+          <template #default="scope">
+            <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
+              {{ scope.row.file.originalName }}
+            </a>
+            <!-- <span v-else>Нет файла</span> -->
+          </template>
+        </el-table-column>
+
+        <el-table-column v-if="showModComments" label="Замечания" width="200px">
+          <template #default="scope">
+            {{ form.findFieldValue(scope.row.id).modComment }}
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 

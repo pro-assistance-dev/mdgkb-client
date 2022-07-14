@@ -13,7 +13,7 @@
           <router-link :to="`/postgraduate?mode=candidate`">Заявка на кандидатский минимум</router-link>
         </li>
         <li>
-          <router-link :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`">Заявка на въезд</router-link>
+          <router-link :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`">Заявка на посещение</router-link>
         </li>
         <li>
           <router-link :to="`/vacancies`">Откликнуться на вакансию</router-link>

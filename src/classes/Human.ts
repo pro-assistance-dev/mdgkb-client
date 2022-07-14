@@ -12,6 +12,8 @@ export default class Human implements IHuman {
   patronymic = '';
   citizenship = '';
   placeBirth = '';
+  carNumber = '';
+  carModel = '';
   snils = '';
   photoId?: string;
   photo: IFileInfo = new FileInfo();
@@ -35,6 +37,8 @@ export default class Human implements IHuman {
     this.slug = i.slug;
     this.citizenship = i.citizenship;
     this.placeBirth = i.placeBirth;
+    this.carNumber = i.carNumber;
+    this.carModel = i.carModel;
 
     if (i.photo) {
       this.photo = new FileInfo(i.photo);

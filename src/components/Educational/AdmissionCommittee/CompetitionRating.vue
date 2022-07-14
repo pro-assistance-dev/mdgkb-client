@@ -20,7 +20,7 @@
           <td style="text-align: right">{{ application.formValue.user.human.snils }}</td>
           <td style="text-align: right">{{ application.pointsSum() }}</td>
           <td style="text-align: right">{{ application.pointsEntrance }}</td>
-          <td style="text-align: right">{{ application.pointsAchievements }}</td>
+          <td style="text-align: right">{{ application.calculateAchievementsPoints(true) }}</td>
           <td style="text-align: right">{{ application.main ? 'Основное' : 'Дополнительное' }}</td>
         </tr>
       </template>

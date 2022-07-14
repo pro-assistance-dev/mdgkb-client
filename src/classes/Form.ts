@@ -1,6 +1,5 @@
 import Field from '@/classes/Field';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IApplicationCar from '@/interfaces/IApplicationCar';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IField from '@/interfaces/IField';
@@ -11,9 +10,9 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
-import ApplicationCar from './ApplicationCar';
 import CandidateApplication from './CandidateApplication';
 import Child from './Child';
 import DpoApplication from './DpoApplication';
@@ -25,6 +24,7 @@ import PostgraduateApplication from './PostgraduateApplication';
 import ResidencyApplication from './ResidencyApplication';
 import User from './User';
 import VacancyResponse from './VacancyResponse';
+import VisitsApplication from './VisitsApplication';
 
 export default class Form implements IForm {
   id?: string;
@@ -34,6 +34,7 @@ export default class Form implements IForm {
   emailNotify = false;
   description = '';
   code = '';
+  approvingDate?: Date;
   fields: IField[] = [];
   fieldsForDelete: string[] = [];
   fieldValues: IFieldValue[] = [];
@@ -61,7 +62,7 @@ export default class Form implements IForm {
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
   residencyApplication?: IResidencyApplication;
-  applicationCar?: IApplicationCar;
+  visitsApplication?: IVisitsApplication;
   vacancyResponse?: IVacancyResponse;
 
   constructor(form?: IForm) {
@@ -71,6 +72,9 @@ export default class Form implements IForm {
     this.id = form.id;
     this.title = form.title;
     this.modComment = form.modComment;
+    if (form.approvingDate) {
+      this.approvingDate = new Date(form.approvingDate);
+    }
     this.description = form.description;
     if (form.createdAt) {
       this.createdAt = form.createdAt;
@@ -132,8 +136,8 @@ export default class Form implements IForm {
     if (form.residencyApplication) {
       this.residencyApplication = new ResidencyApplication(form.residencyApplication);
     }
-    if (form.applicationCar) {
-      this.applicationCar = new ApplicationCar(form.applicationCar);
+    if (form.visitsApplication) {
+      this.visitsApplication = new VisitsApplication(form.visitsApplication);
     }
     if (form.vacancyResponse) {
       this.vacancyResponse = new VacancyResponse(form.vacancyResponse);
@@ -342,7 +346,7 @@ export default class Form implements IForm {
     if (this.residencyApplication) return 'Ординатура';
     if (this.postgraduateApplication) return 'Аспирантура';
     if (this.candidateApplication) return 'Кандидатский минимум';
-    if (this.applicationCar) return 'Заявка на въезд';
+    if (this.visitsApplication) return 'Заявка на посещение';
     if (this.vacancyResponse) return 'Отклик на вакансию';
     return '';
   }
@@ -352,7 +356,7 @@ export default class Form implements IForm {
     if (this.residencyApplication) return `/residency?mode=programs`;
     if (this.postgraduateApplication) return `/postgraduate?mode=programs`;
     if (this.candidateApplication) return `/postgraduate?mode=candidate`;
-    if (this.applicationCar) return `/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`;
+    if (this.visitsApplication) return `/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`;
     if (this.vacancyResponse) return `/vacancies`;
     return '';
   }
@@ -361,7 +365,7 @@ export default class Form implements IForm {
     if (this.residencyApplication) return this.residencyApplication.residencyCourse.getMainSpecialization().name;
     if (this.postgraduateApplication) return this.postgraduateApplication.postgraduateCourse.getMainSpecialization().name;
     if (this.candidateApplication) return 'Кандидатский минимум';
-    if (this.applicationCar) return this.applicationCar.division?.name;
+    if (this.visitsApplication) return this.visitsApplication.division?.name;
     if (this.vacancyResponse) return this.vacancyResponse.vacancy.title;
     return '';
   }
@@ -372,7 +376,7 @@ export default class Form implements IForm {
     if (this.postgraduateApplication)
       return `/postgraduate-courses/${this.postgraduateApplication.postgraduateCourse.getMainSpecialization().slug}`;
     if (this.candidateApplication) return `/postgraduate?mode=candidate`;
-    if (this.applicationCar) return `/divisions/${this.applicationCar.division?.slug}`;
+    if (this.visitsApplication) return `/divisions/${this.visitsApplication.division?.slug}`;
     if (this.vacancyResponse) return `/vacancies/${this.vacancyResponse.vacancy.slug}`;
     return '';
   }
@@ -384,5 +388,9 @@ export default class Form implements IForm {
   clearAllFields(): void {
     this.fields = [];
     this.fieldValues.forEach((fv: IFieldValue) => (fv.field = undefined));
+  }
+
+  getFieldsByCodes(codes: string[]): IField[] {
+    return this.fields.filter((f: IField) => codes.includes(f.code));
   }
 }

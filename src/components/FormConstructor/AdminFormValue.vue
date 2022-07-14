@@ -2,13 +2,21 @@
   <div v-if="mounted">
     <el-card v-if="formValue.formStatus.label">
       <template #header>
-        <span>Информация о заявлении</span>
+        <span>Статус заявления</span>
       </template>
       <el-descriptions :column="1" border>
         <el-descriptions-item label="Статус">
           <el-tag :style="`background-color: inherit; color: ${formValue.formStatus.color}; border-color: ${formValue.formStatus.color}`">
             {{ formValue.formStatus.label }}
           </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="Время принятия заявления">
+          <template v-if="formValue.formStatus.isAccepted()">
+            <el-form-item style="margin: 0" prop="content">
+              <el-date-picker v-model="formValue.approvingDate" format="DD.MM.YYYY" />
+            </el-form-item>
+          </template>
+          <div v-else>Заявка пока что не принята</div>
         </el-descriptions-item>
       </el-descriptions>
       <div class="buttons-block">
@@ -51,30 +59,34 @@
       <FieldValuesForm :active-fields="activeFields" :form="formValue" />
     </el-card>
 
-    <el-card v-else>
-      <template #header>
-        <div class="flex-between">
-          <span>Данные формы</span>
-          <div class="flex">
-            <!-- <span style="margin-right: 5px">Статус:</span> -->
-            <el-tag v-if="formValue.isFieldValuesModChecked()" type="success">Полный комплект документов</el-tag>
-            <el-tag v-else type="danger">Не все документы проверены</el-tag>
-            <el-button
-              :disabled="formValue.isFieldValuesModChecked()"
-              :type="formValue.isFieldValuesModChecked() ? 'success' : 'primary'"
-              size="small"
-              style="margin-left: 5px"
-              @click="formValue.changeFieldValuesModChecked(true)"
-            >
-              Проверить все
-            </el-button>
-            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>
+    <div v-else>
+      <el-card v-if="formValue.fieldValues.length">
+        <template #header>
+          <div class="flex-between">
+            <span>Данные формы</span>
+            <div class="flex">
+              <!-- <span style="margin-right: 5px">Статус:</span> -->
+              <el-tag v-if="formValue.isFieldValuesModChecked()" type="success">Полный комплект документов</el-tag>
+              <el-tag v-else type="danger">Не все документы проверены</el-tag>
+              <el-button
+                :disabled="formValue.isFieldValuesModChecked()"
+                :type="formValue.isFieldValuesModChecked() ? 'success' : 'primary'"
+                size="small"
+                style="margin-left: 5px"
+                @click="formValue.changeFieldValuesModChecked(true)"
+              >
+                Проверить все
+              </el-button>
+              <!--            ЕСТЬ СЛУЧАИ КРАША СЕРВЕРА - НЕ ВКЛЮЧАТЬ-->
+              <!--            <el-button style="margin-left: 5px" size="small" @click="downloadFiles">Печать всех документов</el-button>-->
+              <el-button style="margin-left: 5px" size="small" @click="downloadZip">Скачать документы в архиве zip</el-button>
+            </div>
           </div>
-        </div>
-      </template>
-      <FieldValuesFormResult :form="formValue" />
-    </el-card>
-    <el-card header="Общий комментарий">
+        </template>
+        <FieldValuesFormResult :form="formValue" />
+      </el-card>
+    </div>
+    <el-card v-if="formValue.fieldValues.length" header="Общий комментарий">
       <el-form-item prop="content">
         <WysiwygEditor v-model="formValue.modComment" />
       </el-form-item>
@@ -150,6 +162,11 @@ export default defineComponent({
         });
         return;
       }
+      if (status.isAccepted()) {
+        formValue.value.approvingDate = new Date();
+      } else {
+        formValue.value.approvingDate = undefined;
+      }
       formValue.value.setStatus(status, formStatuses.value);
     };
 
@@ -164,14 +181,14 @@ export default defineComponent({
       if (props.validateEmail) emit('findEmail');
     };
 
-    const downloadFiles = async () => {
+    const downloadZip = async () => {
       if (formValue.value) {
-        await Provider.store.dispatch('formValues/documentsToPdf', formValue.value.id);
+        await Provider.store.dispatch('formValues/documentsToZip', formValue.value.id);
       }
     };
 
     return {
-      downloadFiles,
+      downloadZip,
       formValue,
       findEmail,
       formStatuses,

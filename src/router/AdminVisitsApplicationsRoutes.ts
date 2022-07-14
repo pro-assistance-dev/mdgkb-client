@@ -1,15 +1,15 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminApplicationCarList from '@/components/admin/AdminApplicationCar/AdminApplicationCarList.vue';
-import AdminApplicationCarPage from '@/components/admin/AdminApplicationCar/AdminApplicationCarPage.vue';
+import AdminVisitsApplicationPage from '@/components/admin/AdminVisitsApplication/AdminVisitsApplicationPage.vue';
+import AdminVisitsApplicationList from '@/components/admin/AdminVisitsApplication/AdminVisitsApplicationsList.vue';
 import { AdminLayout } from '@/interfaces/admin/AdminLayout';
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
   {
-    path: '/admin/applications-cars',
-    name: 'AdminApplicationCarList',
-    component: AdminApplicationCarList,
+    path: '/admin/visits-applications',
+    name: 'AdminVisitsApplicationList',
+    component: AdminVisitsApplicationList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
@@ -20,9 +20,9 @@ export default [
     },
   },
   {
-    path: '/admin/applications-cars/new',
-    name: 'AdminApplicationCarPageNew',
-    component: AdminApplicationCarPage,
+    path: '/admin/visits-applications/new',
+    name: 'AdminVisitsApplicationPageNew',
+    component: AdminVisitsApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
@@ -32,9 +32,9 @@ export default [
     },
   },
   {
-    path: '/admin/applications-cars/:id',
-    name: 'AdminApplicationCarPage',
-    component: AdminApplicationCarPage,
+    path: '/admin/visits-applications/:id',
+    name: 'AdminVisitsApplicationPage',
+    component: AdminVisitsApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

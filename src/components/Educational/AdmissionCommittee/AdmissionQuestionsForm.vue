@@ -1,6 +1,6 @@
 <template>
   <el-form-item label="Вы подаёте заявление на платное обучение?" prop="paid" :rules="rules.paid">
-    <el-radio-group v-model="residencyApplication.paid">
+    <el-radio-group :model-value="residencyApplication.paid" @change="selectPaid">
       <el-radio :label="true" size="large">Да</el-radio>
       <el-radio :label="false" size="large">Нет</el-radio>
     </el-radio-group>
@@ -55,21 +55,54 @@
       </el-form-item>
     </template>
   </template>
+  <el-dialog
+    v-model="showFreeDialog"
+    title="Для выбора бесплатного обучения нужно загрузить Договор с Департаментом здравоохранения города Москвы"
+    width="40%"
+  >
+    <div v-for="field in residencyApplication.formValue.getFieldsByCodes(['ContractDzm'])" :key="field.id">
+      <div style="margin-top: 10px">
+        <span><b> Загрузите договор: </b></span
+        ><span
+          ><FileUploader
+            v-if="residencyApplication.formValue.findFieldValue(field.id).file"
+            :file-info="residencyApplication.formValue.findFieldValue(field.id).file"
+          />
+        </span>
+      </div>
+
+      <div class="text-align-right margin-top-1">
+        <el-button @click="showFreeDialog = false">Отмена</el-button>
+        <el-button
+          v-if="residencyApplication.formValue.findFieldValue(field.id).file.fileSystemPath"
+          type="primary"
+          @click="submitFreeFile"
+        >
+          Подтвердить загрузку
+        </el-button>
+      </div>
+    </div>
+
+    <span class="dialog-footer"> </span>
+  </el-dialog>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import FileUploader from '@/components/FileUploader.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'AdmissionQuestionsForm',
+  components: { FileUploader },
   emits: ['allQuestionsAnswered'],
   setup(props, { emit }) {
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
-
+    const showFreeDialog: Ref<boolean> = ref(false);
     const rules = {
       primaryAccreditation: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
       main: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
@@ -85,7 +118,37 @@ export default defineComponent({
       ],
     };
 
+    const setFreeApplication = async () => {
+      ElMessageBox.confirm('Для выбора бесплатного обучения нужно загрузить Договор с Департаментом здравоохранения города Москвы', {
+        confirmButtonText: 'Загрузить',
+        cancelButtonText: 'Выбрать платное',
+        type: 'warning',
+      })
+        .then(() => {
+          showFreeDialog.value = true;
+        })
+        .catch(() => {
+          residencyApplication.value.paid = true;
+        });
+    };
+
+    const selectPaid = async (paid: boolean) => {
+      if (paid) {
+        residencyApplication.value.paid = true;
+        return;
+      }
+      await setFreeApplication();
+    };
+
+    const submitFreeFile = () => {
+      residencyApplication.value.paid = false;
+      showFreeDialog.value = false;
+    };
+
     return {
+      submitFreeFile,
+      showFreeDialog,
+      selectPaid,
       rules,
       residencyApplication,
     };
@@ -145,5 +208,13 @@ export default defineComponent({
 
 .select-block {
   margin-top: 22px;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.margin-top-1 {
+  margin-top: 1rem;
 }
 </style>

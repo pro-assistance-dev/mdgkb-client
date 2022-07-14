@@ -6,11 +6,11 @@ import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
-const ApplicationsCarsSortsLib = (() => {
+const VisitsApplicationsSortsLib = (() => {
   function byCreatedAt(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.applicationCar.tableName,
-      Provider.schema.value.applicationCar.createdAt,
+      Provider.schema.value.visitsApplication.tableName,
+      Provider.schema.value.visitsApplication.createdAt,
       order ? order : Orders.Asc,
       `По дате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? true : false
@@ -18,8 +18,8 @@ const ApplicationsCarsSortsLib = (() => {
   }
   function byChildFullName(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.applicationCar.tableName,
-      Provider.schema.value.applicationCar.childFullName,
+      Provider.schema.value.visitsApplication.tableName,
+      Provider.schema.value.visitsApplication.childFullName,
       order ? order : Orders.Asc,
       `По ФИО пациента ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
@@ -27,8 +27,8 @@ const ApplicationsCarsSortsLib = (() => {
 
   function byUserEmail(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.applicationCar.tableName,
-      Provider.schema.value.applicationCar.email,
+      Provider.schema.value.visitsApplication.tableName,
+      Provider.schema.value.visitsApplication.email,
       order ? order : Orders.Asc,
       `По email заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
@@ -36,8 +36,8 @@ const ApplicationsCarsSortsLib = (() => {
 
   function byGateName(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.applicationCar.tableName,
-      Provider.schema.value.applicationCar.gateName,
+      Provider.schema.value.visitsApplication.tableName,
+      Provider.schema.value.visitsApplication.gateName,
       order ? order : Orders.Asc,
       `По названию входа ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
@@ -45,8 +45,8 @@ const ApplicationsCarsSortsLib = (() => {
 
   function byDivisionName(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.applicationCar.tableName,
-      Provider.schema.value.applicationCar.divisionName,
+      Provider.schema.value.visitsApplication.tableName,
+      Provider.schema.value.visitsApplication.divisionName,
       order ? order : Orders.Asc,
       `По названию отделения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
@@ -54,8 +54,8 @@ const ApplicationsCarsSortsLib = (() => {
 
   function byStatus(statusId: string, label: string): IFilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.applicationCar.tableName,
-      Provider.schema.value.applicationCar.formStatusId,
+      Provider.schema.value.visitsApplication.tableName,
+      Provider.schema.value.visitsApplication.formStatusId,
       DataTypes.String
     );
     filterModel.value1 = statusId;
@@ -73,4 +73,4 @@ const ApplicationsCarsSortsLib = (() => {
   };
 })();
 
-export default ApplicationsCarsSortsLib;
+export default VisitsApplicationsSortsLib;

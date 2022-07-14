@@ -58,7 +58,7 @@ export default defineComponent({
       await Provider.store.dispatch('comments/getAll', filterQuery);
       await Provider.store.dispatch('comments/subscribeCreate');
       Provider.store.commit('admin/setHeaderParams', {
-        title: 'Заявления на въезд',
+        title: 'Заявления на посещение',
         buttons: [],
         applicationsCount,
       });

@@ -48,7 +48,7 @@
         <el-checkbox v-model="scope.row.modChecked" @change="changeModCheckedHandler(scope.row)"></el-checkbox>
       </template>
     </el-table-column>
-    <el-table-column label="Замечания" width="400px" align="start">
+    <el-table-column label="Замечания" max-width="400px" align="start">
       <template #default="scope">
         <div v-if="scope.row.modChecked">{{ scope.row.modComment }}</div>
         <el-input v-else v-model="scope.row.modComment" type="textarea" placeholder="Замечания" />

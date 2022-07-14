@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
 import AboutPage from '@/components/About/AboutPage.vue';
-import ApplicationCarPage from '@/components/ApplicationCarPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
@@ -25,6 +24,7 @@ import ServiceQualityAssessmentPage from '@/components/ServiceQualityAssessment/
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
 import SiteMap from '@/components/SiteMap/SiteMap.vue';
 import StopComaPage from '@/components/StopComa/StopComaPage.vue';
+import VisitsApplicationPage from '@/components/VisitsApplicationPage.vue';
 import AppointmentsRoutes from '@/router/AppointmentsRoutes';
 import CommentsRoutes from '@/router/CommentsRoutes';
 import DivisionsRoutes from '@/router/DivisionsRoutes';
@@ -250,9 +250,9 @@ const routes: Array<RouteRecordRaw> = [
     component: RefreshPasswordPage,
   },
   {
-    path: '/application-car/:gateId',
-    name: 'ApplicationCarPage',
-    component: ApplicationCarPage,
+    path: '/visits-application/:gateId',
+    name: 'VisitsApplicationPage',
+    component: VisitsApplicationPage,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,

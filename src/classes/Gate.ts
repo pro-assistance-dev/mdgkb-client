@@ -1,13 +1,14 @@
-import ApplicationCar from '@/classes/ApplicationCar';
 import Form from '@/classes/Form';
-import IApplicationCar from '@/interfaces/IApplicationCar';
 import IForm from '@/interfaces/IForm';
 import IGate from '@/interfaces/IGate';
+import IVisitsApplication from '@/interfaces/IVisitsApplication';
+
+import VisitsApplication from './VisitsApplication';
 
 export default class Gate implements IGate {
   id?: string;
   name = '';
-  applicationsCars: IApplicationCar[] = [];
+  visitsApplications: IVisitsApplication[] = [];
 
   formPattern: IForm = new Form();
   formPatternId?: string;
@@ -19,8 +20,8 @@ export default class Gate implements IGate {
     this.id = i.id;
     this.name = i.name;
     this.formPatternId = i.formPatternId;
-    if (i.applicationsCars) {
-      this.applicationsCars = i.applicationsCars.map((i: IApplicationCar) => new ApplicationCar(i));
+    if (i.visitsApplications) {
+      this.visitsApplications = i.visitsApplications.map((i: IVisitsApplication) => new VisitsApplication(i));
     }
     if (i.formPattern) {
       this.formPattern = new Form(i.formPattern);

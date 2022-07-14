@@ -1,8 +1,10 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <FilterCheckboxV2 class="filters-block" :filter-model="onlyAdmissionFilter" @load="loadApplications" />
-      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+      <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+    </template>
+    <template #header-bottom>
+      <FilterCheckboxV2 :filter-model="onlyAdmissionFilter" @load="loadApplications" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
@@ -26,6 +28,16 @@
           <div v-else>
             {{ scope.row.applicationNum }}
           </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Дата принятия заявления" align="center" width="150">
+        <template #default="scope">
+          <div v-if="scope.row.formValue.formStatus.isAccepted()">
+            {{
+              scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) : 'Дата принятия не указана'
+            }}
+          </div>
+          <div v-else>Заявка не принята</div>
         </template>
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">

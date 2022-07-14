@@ -55,10 +55,10 @@ const menuList: IAdminMenu[] = [
         tableName: 'comments',
       },
       {
-        title: 'Заявки на въезд',
-        to: '/admin/applications-cars',
+        title: 'Заявки на посещение',
+        to: '/admin/visits-applications',
         icon: 'el-icon-guide',
-        tableName: 'applications_cars',
+        tableName: 'visits_applications',
       },
     ],
   },

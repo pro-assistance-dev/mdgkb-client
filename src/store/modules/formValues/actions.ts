@@ -57,6 +57,12 @@ const actions: ActionTree<State, RootState> = {
       downloadFileName: 'Документы.pdf',
     });
   },
+  documentsToZip: async (_, id: string): Promise<void> => {
+    await httpClient.get<undefined>({
+      query: `documents-to-zip/${id}`,
+      isBlob: true,
+    });
+  },
 };
 
 export default actions;

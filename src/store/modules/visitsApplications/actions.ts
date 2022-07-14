@@ -1,20 +1,20 @@
 import { ActionTree } from 'vuex';
 
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import IApplicationCar from '@/interfaces/IApplicationCar';
-import IApplicationCarWithCount from '@/interfaces/IApplicationCarWithCount';
+import IVisitsApplication from '@/interfaces/IVisitsApplication';
+import IVisitsApplicationsWithCount from '@/interfaces/IVisitsApplicationsWithCount';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
-const httpClient = new HttpClient('applications-cars');
+const httpClient = new HttpClient('visits-applications');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
-    const item = await httpClient.get<IApplicationCarWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
+    const item = await httpClient.get<IVisitsApplicationsWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(item ? item.applicationsCars.length : 0);
+      filterQuery.setAllLoaded(item ? item.visitsApplications.length : 0);
     }
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', item);
@@ -23,18 +23,18 @@ const actions: ActionTree<State, RootState> = {
     commit('setAllWithCount', item);
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IApplicationCar[]>({ query: `${id}` });
+    const res = await httpClient.get<IVisitsApplication[]>({ query: `${id}` });
     commit('set', res);
   },
   create: async ({ state }): Promise<void> => {
-    await httpClient.post<IApplicationCar, IApplicationCar>({
+    await httpClient.post<IVisitsApplication, IVisitsApplication>({
       payload: state.item,
       isFormData: true,
       fileInfos: state.item.getFileInfos(),
     });
   },
   update: async ({ state }): Promise<void> => {
-    await httpClient.put<IApplicationCar, IApplicationCar>({
+    await httpClient.put<IVisitsApplication, IVisitsApplication>({
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,

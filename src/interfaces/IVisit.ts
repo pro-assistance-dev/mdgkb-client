@@ -1,4 +1,4 @@
-import IApplicationCar from './IApplicationCar';
+import IVisitsApplication from './IVisitsApplication';
 
 export default interface IVisit {
   id?: string;
@@ -6,6 +6,6 @@ export default interface IVisit {
   entered?: boolean;
   exited?: boolean;
 
-  applicationCar: IApplicationCar;
-  applicationCarId?: string;
+  visitsApplication: IVisitsApplication;
+  visitsApplicationId?: string;
 }

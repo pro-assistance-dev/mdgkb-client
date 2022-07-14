@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import ApplicationCar from '@/classes/ApplicationCar';
+import VisitsApplication from '@/classes/VisitsApplication';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,7 +11,7 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new ApplicationCar(),
+    item: new VisitsApplication(),
     count: 0,
   };
 };
@@ -19,7 +19,7 @@ export const getDefaultState = (): State => {
 const state = getDefaultState();
 const namespaced = true;
 
-export const applicationsCars: Module<State, RootState> = {
+export const visitsApplications: Module<State, RootState> = {
   namespaced,
   state,
   getters,

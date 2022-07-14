@@ -1,48 +1,48 @@
 import { MutationTree } from 'vuex';
 
-import ApplicationCar from '@/classes/ApplicationCar';
 import Form from '@/classes/Form';
 import Gate from '@/classes/Gate';
 import User from '@/classes/User';
 import Visit from '@/classes/Visit';
-import IApplicationCar from '@/interfaces/IApplicationCar';
-import IApplicationCarWithCount from '@/interfaces/IApplicationCarWithCount';
+import VisitsApplication from '@/classes/VisitsApplication';
 import IForm from '@/interfaces/IForm';
 import IGate from '@/interfaces/IGate';
 import IUser from '@/interfaces/IUser';
+import IVisitsApplication from '@/interfaces/IVisitsApplication';
+import IVisitsApplicationWithCount from '@/interfaces/IVisitsApplicationsWithCount';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAllWithCount(state, item: IApplicationCarWithCount) {
-    if (!item.applicationsCars) {
+  setAllWithCount(state, item: IVisitsApplicationWithCount) {
+    if (!item.visitsApplications) {
       state.items = [];
       return;
     }
-    state.items = item.applicationsCars.map((i: IApplicationCar) => new ApplicationCar(i));
+    state.items = item.visitsApplications.map((i: IVisitsApplication) => new VisitsApplication(i));
     state.count = item.count;
   },
-  appendToAll(state, items: IApplicationCarWithCount) {
-    if (!items.applicationsCars) {
+  appendToAll(state, items: IVisitsApplicationWithCount) {
+    if (!items.visitsApplications) {
       state.items = [];
       return;
     }
-    const applicationsCars = items.applicationsCars.map((i: IApplicationCar) => new ApplicationCar(i));
-    state.items.push(...applicationsCars);
+    const visitsApplications = items.visitsApplications.map((i: IVisitsApplication) => new VisitsApplication(i));
+    state.items.push(...visitsApplications);
     state.count = items.count;
   },
-  setAll(state, items: IApplicationCar[]) {
-    state.items = items.map((i: IApplicationCar) => new ApplicationCar(i));
+  setAll(state, items: IVisitsApplication[]) {
+    state.items = items.map((i: IVisitsApplication) => new VisitsApplication(i));
   },
-  set(state, item: IApplicationCar) {
-    state.item = new ApplicationCar(item);
+  set(state, item: IVisitsApplication) {
+    state.item = new VisitsApplication(item);
   },
   remove(state, id: string) {
-    const index = state.items.findIndex((i: IApplicationCar) => i.id === id);
+    const index = state.items.findIndex((i: IVisitsApplication) => i.id === id);
     state.items.splice(index, 1);
   },
   resetItem(state) {
-    state.item = new ApplicationCar();
+    state.item = new VisitsApplication();
   },
   resetItems(state) {
     state.items = [];
