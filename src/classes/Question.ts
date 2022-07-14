@@ -1,7 +1,9 @@
 import User from '@/classes/User';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IQuestion from '@/interfaces/IQuestion';
 
 import FileInfo from './File/FileInfo';
+import Form from './Form';
 
 export default class Question implements IQuestion {
   id?: string;
@@ -23,8 +25,11 @@ export default class Question implements IQuestion {
   agreedWithPrivacyPolicy = false;
   // Открытие модалки
   isDialogOpened = false;
+
   file = new FileInfo();
   fileId?: string;
+
+  formValue = new Form();
 
   constructor(question?: IQuestion) {
     if (!question) {
@@ -107,5 +112,8 @@ export default class Question implements IQuestion {
       }
     }
     return true;
+  }
+  getFileInfos(): IFileInfo[] {
+    return [this.file];
   }
 }

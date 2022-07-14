@@ -15,11 +15,11 @@
           </div>
           <div>
             <span><b>Email: </b></span>
-            <span>{{ question.user.email }}</span>
+            <!-- <span>{{ question.user?.email }}</span> -->
           </div>
           <div>
             <span><b>Дата обращения: </b></span>
-            <span>{{ $dateTimeFormatter.format(question.date) }}</span>
+            <span>{{ $dateTimeFormatter.format(question.date, { hour: 'numeric', minute: 'numeric' }) }}</span>
           </div>
           <div>
             <span><b>Тема вопроса: </b></span>
@@ -28,6 +28,12 @@
           <div>
             <span><b>Содержание обращения: </b></span>
             <div style="white-space: pre-line">{{ question.originalQuestion }}</div>
+          </div>
+          <div>
+            <span><b>Файл к вопросу: </b></span>
+            <a :href="question.file.getFileUrl()" target="_blank">
+              {{ question.file.originalName }}
+            </a>
           </div>
           <div v-if="question.answered">
             <span><b>Ответ: </b></span>

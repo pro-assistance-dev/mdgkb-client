@@ -28,6 +28,8 @@ const actions: ActionTree<State, RootState> = {
   create: async ({ commit }, item: IQuestion): Promise<void> => {
     await httpClient.post<IQuestion, IQuestion>({
       payload: item,
+      fileInfos: item.getFileInfos(),
+      isFormData: true,
     });
     commit('set');
   },
@@ -58,10 +60,6 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.put<IQuestion, IQuestion>({
       query: `new/${question.id}?isNew=${question.isNew}`,
     });
-  },
-
-  updateMany: async ({ state }): Promise<void> => {
-    await httpClient.put<IQuestion[], IQuestion[]>({ query: 'many', payload: state.items });
   },
 };
 
