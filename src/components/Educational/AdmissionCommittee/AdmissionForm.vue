@@ -70,7 +70,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(1);
+    const activeStep: Ref<number> = ref(0);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -122,9 +122,10 @@ export default defineComponent({
       }
       residencyApplication.value.formValue.clearIds();
       await Provider.store.dispatch('residencyApplications/create');
-      emit('close');
-      Provider.router.push('/admission-committee');
       ElNotification.success('Заявка успешно отправлена');
+      emit('close');
+      clearAllValidate();
+      await Provider.router.push('/admission-committee');
     };
 
     onBeforeMount(async () => {
@@ -210,6 +211,7 @@ export default defineComponent({
         await submit();
         buttonOff.value = false;
         loading.close();
+        return;
       }
       clearAllValidate();
     };
