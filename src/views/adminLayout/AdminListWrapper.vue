@@ -7,7 +7,7 @@
             <slot name="header" />
           </div>
         </div>
-        <div class="filters-row">
+        <div class="filters-header-bottom filters-row">
           <slot name="header-bottom" />
         </div>
       </div>
@@ -92,6 +92,9 @@ export default defineComponent({
     &-header-top {
       display: flex;
       justify-content: space-between;
+    }
+    &-header-bottom {
+      margin-top: 5px;
     }
     &-sort {
       width: 100%;

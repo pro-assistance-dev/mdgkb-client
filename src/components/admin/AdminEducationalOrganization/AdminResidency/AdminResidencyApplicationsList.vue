@@ -1,8 +1,10 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <FilterCheckboxV2 class="filters-block" :filter-model="onlyAdmissionFilter" @load="loadApplications" />
-      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+      <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+    </template>
+    <template #header-bottom>
+      <FilterCheckboxV2 :filter-model="onlyAdmissionFilter" @load="loadApplications" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />

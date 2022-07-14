@@ -1,10 +1,10 @@
-import IApplicationCar from '@/interfaces/IApplicationCar';
 import IForm from '@/interfaces/IForm';
+import IVisitsApplication from '@/interfaces/IVisitsApplication';
 
 export default interface IGate {
   id?: string;
   name: string;
-  applicationsCars: IApplicationCar[];
+  visitsApplications: IVisitsApplication[];
 
   formPattern: IForm;
   formPatternId?: string;

@@ -23,9 +23,9 @@
     </div>
     <div class="button-container">
       <!-- TODO: переписать с ID (вход для пациентов) -->
-      <button class="blue-button" @click="$router.push('/application-car/8ccf8e9b-b487-493e-b451-60b193181f07')">
+      <button class="blue-button" @click="$router.push('/visits-application/8ccf8e9b-b487-493e-b451-60b193181f07')">
         <el-icon><calendar /></el-icon>
-        Заявка на въезд
+        Заявка на посещение
       </button>
     </div>
   </div>

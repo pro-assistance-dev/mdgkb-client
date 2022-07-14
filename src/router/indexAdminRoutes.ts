@@ -4,7 +4,6 @@ import AdminCertificates from '@/components/admin/AdminCertificates/AdminCertifi
 import AdminCommonVisitingRulesList from '@/components/admin/AdminCommonVisitingRules/AdminCommonVisitingRulesList.vue';
 import AdminDonorRules from '@/components/admin/AdminDonorRules/AdminDonorRules.vue';
 import AdminGatesList from '@/components/admin/AdminGates/AdminGatesList.vue';
-import AdminApplicationsCarsRoutes from '@/router/AdminApplicationsCarsRoutes';
 import AdminAppointmentsRoutes from '@/router/AdminAppointmentsRoutes';
 import AdminBannersRoutes from '@/router/AdminBannersRoutes';
 import AdminCommentsRoutes from '@/router/AdminCommentsRoutes';
@@ -32,6 +31,7 @@ import AdminRolesRoutes from '@/router/AdminRolesRoutes';
 import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminUsersRoutes from '@/router/AdminUsersRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
+import AdminVisitsApplicationsRoutes from '@/router/AdminVisitsApplicationsRoutes';
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
@@ -110,5 +110,5 @@ export default [
   ...AdminPermissionsRoutes,
   ...AdminRolesRoutes,
   ...AdminUsersRoutes,
-  ...AdminApplicationsCarsRoutes,
+  ...AdminVisitsApplicationsRoutes,
 ];

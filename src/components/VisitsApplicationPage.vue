@@ -2,41 +2,79 @@
   <div v-if="mounted" class="form-container">
     <h2>Заявка на оформление пропуска</h2>
     <div class="card-item">
-      <el-form ref="form" :model="applicationCar" label-position="top" :rules="rules">
+      <el-form ref="form" :model="visitsApplication" label-position="top" :rules="rules">
         <UserForm
           :validate-email="false"
-          :form="applicationCar.formValue"
+          :form="visitsApplication.formValue"
           :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true })"
         />
         <el-form-item label="Выберите отделение" prop="division">
-          <el-select v-model="applicationCar.division" value-key="id" placeholder="Выберите отделение">
+          <el-select v-model="visitsApplication.division" value-key="id" placeholder="Выберите отделение">
             <el-option v-for="item in divisions" :key="item.id" :label="item.name" :value="item"> </el-option>
           </el-select>
           <!-- TODO ошибка -->
           <!-- <RemoteSearch :key-value="schema.division.key" @select="selectDivision" />
-          <div>Выбранное отделение: {{ applicationCar.division.name }}</div> -->
+          <div>Выбранное отделение: {{ visitsApplication.division.name }}</div> -->
         </el-form-item>
         <el-form-item>
           <template #label>
             <div @click.prevent>
               <span>Даты и время, назначенные для плановой госпитализации (осмотра)</span>
-              <el-button style="margin-left: 10px" size="mini" type="success" @click="applicationCar.addVisit()">Добавить</el-button>
+              <el-button style="margin-left: 10px" size="mini" type="success" @click="visitsApplication.addVisit()">Добавить</el-button>
             </div>
           </template>
-          <div v-for="(item, i) in applicationCar.visits" :key="i" style="margin-bottom: 10px">
+          <div v-for="(item, i) in visitsApplication.visits" :key="i" style="margin-bottom: 10px">
             <el-date-picker v-model="item.date" type="datetime" :default-value="new Date()" />
             <el-button
-              v-if="applicationCar.visits.length > 1"
+              v-if="visitsApplication.visits.length > 1"
               style="margin-left: 10px"
               size="mini"
               icon="el-icon-close"
               type="danger"
-              @click="applicationCar.removeVisit(i)"
+              @click="visitsApplication.removeVisit(i)"
             />
           </div>
         </el-form-item>
-        <FieldValuesForm :form="applicationCar.formValue" />
-        <PersonalDataAgreement :form-value="applicationCar.formValue" :form-pattern="gate.formPattern" />
+        <el-form-item>
+          <template #label>
+            <div @click.prevent>
+              <span>Для оформления пропуска на въезд</span>
+              <el-button
+                v-if="!visitsApplication.withCar"
+                style="margin-left: 10px"
+                size="mini"
+                type="success"
+                @click="visitsApplication.changeWithCar(true)"
+              >
+                Добавить данные об автомобиле
+              </el-button>
+              <el-button v-else style="margin-left: 10px" size="mini" type="danger" @click="visitsApplication.changeWithCar(false)">
+                Убрать данные об автомобиле
+              </el-button>
+            </div>
+          </template>
+          <!-- <div style="margin: 5px">Для оформления пропуска на въезд:</div> -->
+          <div v-if="visitsApplication.withCar">
+            <el-form-item
+              v-if="!user.human.carNumber"
+              label="Номер автомобиля"
+              :rules="rules.userCarNumber"
+              prop="formValue.user.human.carNumber"
+            >
+              <el-input v-model="visitsApplication.formValue.user.human.carNumber" placeholder="Номер автомобиля"></el-input>
+            </el-form-item>
+            <el-form-item
+              v-if="!user.human.carModel"
+              label="Марка автомобиля"
+              :rules="rules.userCarModel"
+              prop="formValue.user.human.carModel"
+            >
+              <el-input v-model="visitsApplication.formValue.user.human.carModel" placeholder="Марка автомобиля"></el-input>
+            </el-form-item>
+          </div>
+        </el-form-item>
+        <FieldValuesForm :form="visitsApplication.formValue" />
+        <PersonalDataAgreement :form-value="visitsApplication.formValue" :form-pattern="gate.formPattern" />
         <div class="footer">
           <el-button round type="success" @click.prevent="submit()">Отправить форму</el-button>
         </div>
@@ -56,16 +94,16 @@ import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
-import IApplicationCar from '@/interfaces/IApplicationCar';
 import IGate from '@/interfaces/IGate';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IUser from '@/interfaces/IUser';
+import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import validate from '@/mixins/validate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
-  name: 'ApplicationCarPage',
+  name: 'VisitsApplicationPage',
   components: {
     UserForm,
     FieldValuesForm,
@@ -74,7 +112,7 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const applicationCar: ComputedRef<IApplicationCar> = computed(() => Provider.store.getters['applicationsCars/item']);
+    const visitsApplication: ComputedRef<IVisitsApplication> = computed(() => Provider.store.getters['visitsApplications/item']);
     const gate: ComputedRef<IGate> = computed(() => Provider.store.getters['gates/item']);
     const divisions: ComputedRef<IDivision[]> = computed(() => Provider.store.getters['divisions/divisions']);
     const division: ComputedRef<IDivision> = computed(() => Provider.store.getters['divisions/division']);
@@ -83,19 +121,21 @@ export default defineComponent({
     const form = ref();
     const rules = ref({
       division: [{ required: true, message: 'Необходимо выбрать отделение', trigger: 'change' }],
+      userCarNumber: [{ required: true, message: 'Пожалуйста, укажите номер автомобиля', trigger: 'blur' }],
+      userCarModel: [{ required: true, message: 'Пожалуйста, укажите марку автомобиля', trigger: 'blur' }],
     });
 
     watch(isAuth, async () => {
-      Provider.store.commit('applicationsCars/setUser', user.value);
+      Provider.store.commit('visitsApplications/setUser', user.value);
     });
 
     const submit = async () => {
-      applicationCar.value.formValue.validate();
-      if (!validate(form, true) || !applicationCar.value.formValue.validated) {
+      visitsApplication.value.formValue.validate();
+      if (!validate(form, true) || !visitsApplication.value.formValue.validated) {
         return;
       }
-      applicationCar.value.formValue.clearIds();
-      await Provider.store.dispatch('applicationsCars/create');
+      visitsApplication.value.formValue.clearIds();
+      await Provider.store.dispatch('visitsApplications/create');
       ElMessage({
         type: 'success',
         message: 'Форма успешно отправлена',
@@ -106,25 +146,25 @@ export default defineComponent({
     const load = async () => {
       await Provider.store.dispatch('divisions/getAll');
       await Provider.store.dispatch('gates/get', route.params['gateId']);
-      Provider.store.commit('applicationsCars/resetItem');
-      Provider.store.commit('applicationsCars/setFormValue', gate.value.formPattern);
-      applicationCar.value.formValue.initFieldsValues();
-      Provider.store.commit('applicationsCars/setGate', gate.value);
-      Provider.store.commit('applicationsCars/setUser', user.value);
-      Provider.store.commit('applicationsCars/setInitVisit');
+      Provider.store.commit('visitsApplications/resetItem');
+      Provider.store.commit('visitsApplications/setFormValue', gate.value.formPattern);
+      visitsApplication.value.formValue.initFieldsValues();
+      Provider.store.commit('visitsApplications/setGate', gate.value);
+      Provider.store.commit('visitsApplications/setUser', user.value);
+      Provider.store.commit('visitsApplications/setInitVisit');
     };
 
     Hooks.onBeforeMount(load);
 
     const selectDivision = async (event: ISearchObject) => {
-      applicationCar.value.divisionId = event.id;
+      visitsApplication.value.divisionId = event.id;
       await Provider.store.dispatch('divisions/get', event.id);
-      applicationCar.value.division = new Division(division.value);
+      visitsApplication.value.division = new Division(division.value);
     };
 
     return {
       selectDivision,
-      applicationCar,
+      visitsApplication,
       mounted: Provider.mounted,
       schema: Provider.schema,
       form,
@@ -133,6 +173,7 @@ export default defineComponent({
       rules,
       gate,
       divisions,
+      user,
     };
   },
 });

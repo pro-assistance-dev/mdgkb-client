@@ -1,4 +1,3 @@
-import IApplicationCarSchema from '@/interfaces/schema//IApplicationCarSchema';
 import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
 import IDivisionCommentSchema from '@/interfaces/schema/IDivisionCommentSchema';
@@ -32,6 +31,7 @@ import ITeacherSchema from '@/interfaces/schema/ITeacherSchema';
 import ITreatDirectionSchema from '@/interfaces/schema/ITreatDirectionSchema';
 import IVacancyResponseSchema from '@/interfaces/schema/IVacancyResponseSchema';
 import IVacancySchema from '@/interfaces/schema/IVacancySchema';
+import IVisitsApplicationSchema from '@/interfaces/schema/IVisitsApplicationSchema';
 
 export default interface ISchema {
   human: IHumanSchema;
@@ -46,7 +46,7 @@ export default interface ISchema {
   specialization: ISpecializationSchema;
   vacancy: IVacancySchema;
   dpoCourseSpecialization: IDpoCourseSpecializationSchema;
-  applicationCar: IApplicationCarSchema;
+  visitsApplication: IVisitsApplicationSchema;
   dpoApplication: IDpoApplicationSchema;
   residencyApplication: IResidencyApplicationSchema;
   postgraduateApplication: IPostgraduateApplicationSchema;

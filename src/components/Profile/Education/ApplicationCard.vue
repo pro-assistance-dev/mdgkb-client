@@ -40,8 +40,8 @@
       <router-link v-if="form.vacancyResponse" :to="`/vacancies/${form.vacancyResponse.vacancy.slug}`">
         {{ form.vacancyResponse.vacancy.title }}
       </router-link>
-      <router-link v-if="form.applicationCar" :to="`/divisions/${form.applicationCar.division?.slug}`">
-        {{ form.applicationCar.division?.name }}
+      <router-link v-if="form.visitsApplication" :to="`/divisions/${form.visitsApplication.division?.slug}`">
+        {{ form.visitsApplication.division?.name }}
       </router-link>
     </div>
   </div>
@@ -54,7 +54,9 @@
       <router-link v-if="form.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
       <router-link v-if="form.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>
       <router-link v-if="form.residencyApplication" :to="`/residency?mode=programs`"> Ординатура </router-link>
-      <router-link v-if="form.applicationCar" :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`">Заявка на въезд</router-link>
+      <router-link v-if="form.visitsApplication" :to="`/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`">
+        Заявка на посещение
+      </router-link>
       <router-link v-if="form.vacancyResponse" :to="`/vacancies`"> Отклик на вакансию </router-link>
     </div>
   </div>
