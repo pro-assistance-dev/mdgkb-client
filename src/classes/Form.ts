@@ -389,4 +389,8 @@ export default class Form implements IForm {
     this.fields = [];
     this.fieldValues.forEach((fv: IFieldValue) => (fv.field = undefined));
   }
+
+  getFieldsByCodes(codes: string[]): IField[] {
+    return this.fields.filter((f: IField) => codes.includes(f.code));
+  }
 }
