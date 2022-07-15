@@ -17,13 +17,13 @@
       </el-table>
     </div>
 
-    <div class="table-container">
+    <div class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
       <div>
         <EditorContent :content="form.description" />
       </div>
 
-      <el-table :data="filteredFields()">
-        <el-table-column label="Наименование" min-width="300">
+      <el-table :data="filteredFields()" :header-cell-style="headerCellStyle">
+        <el-table-column :label="getNameLabel" min-width="300">
           <template #default="scope">
             {{ scope.row.name }}
             <span v-if="scope.row.required" class="red">*</span>
@@ -32,23 +32,23 @@
 
         <el-table-column v-if="showModComments" label="Замечания" width="200px">
           <template #default="scope">
-            {{ form.findFieldValue(scope.row.id).modComment }}
+            {{ form.findFieldValue(scope.row.id)?.modComment }}
           </template>
         </el-table-column>
 
-        <el-table-column label="Комментарий" min-width="300">
+        <el-table-column v-if="showColumnComment()" label="Комментарий" min-width="300">
           <template #default="scope">
             {{ scope.row.comment }}
           </template>
         </el-table-column>
 
-        <el-table-column label="Данные" min-width="300">
+        <el-table-column :label="getDataLabel" min-width="300">
           <template #default="scope">
             <FieldValuesFormItem :form="formValue" :field="scope.row" />
           </template>
         </el-table-column>
 
-        <el-table-column label="Образец" min-width="200">
+        <el-table-column v-if="showColumnFile()" label="Образец" min-width="200">
           <template #default="scope">
             <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
               {{ scope.row.file.originalName }}
@@ -67,6 +67,7 @@ import { useStore } from 'vuex';
 
 import EditorContent from '@/components/EditorContent.vue';
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
@@ -96,6 +97,8 @@ export default defineComponent({
     const store = useStore();
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
     const formValue: Ref<IForm | undefined> = ref();
+    const getNameLabel = 'Наименование';
+    const getDataLabel = 'Данные';
 
     onBeforeMount(async () => {
       formValue.value = props.form;
@@ -124,7 +127,40 @@ export default defineComponent({
     return {
       filteredFields,
       formValue,
+      getNameLabel,
+      getDataLabel,
     };
+  },
+  methods: {
+    showColumn(dataTable: IField[], fieldData: string, secondFieldData?: string) {
+      const showColumn = !!dataTable.filter((item: IField) => {
+        const firstField = item[fieldData as keyof IField];
+        const firstFieldAsIFileInfo = item[fieldData as keyof IField] as IFileInfo;
+        return !secondFieldData ? firstField : firstFieldAsIFileInfo[secondFieldData as keyof IFileInfo];
+      }).length;
+      return showColumn;
+    },
+
+    showColumnComment() {
+      return this.showColumn(this.filteredFields(), 'comment');
+    },
+
+    showColumnFile() {
+      return this.showColumn(this.filteredFields(), 'file', 'originalName');
+    },
+
+    hideColumnsCommentAndFile() {
+      return !this.showColumnComment() && !this.showColumnFile();
+    },
+
+    headerCellStyle(object: any /* { row, column, rowIndex, columnIndex } */) {
+      if (
+        (object.column.label === this.getNameLabel && this.hideColumnsCommentAndFile()) ||
+        (object.column.label === this.getDataLabel && this.hideColumnsCommentAndFile())
+      ) {
+        return { display: 'none' };
+      }
+    },
   },
 });
 </script>
@@ -132,6 +168,9 @@ export default defineComponent({
 <style scoped lang="scss">
 .mobile-container {
   display: none;
+}
+.el-table {
+  --el-table-border: none;
 }
 
 @media screen and (max-width: 1024px) {
