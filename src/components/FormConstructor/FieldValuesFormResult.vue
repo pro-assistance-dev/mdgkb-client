@@ -34,7 +34,7 @@
           </div>
         </div>
 
-        <span v-else>Не продоставлены</span>
+        <span v-else>Не предоставлены</span>
       </template>
     </el-table-column>
     <el-table-column label="Является обязательным" width="130px" align="center">

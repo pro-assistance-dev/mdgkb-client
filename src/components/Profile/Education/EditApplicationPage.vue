@@ -9,7 +9,7 @@
       <div v-if="formValue.residencyApplication?.userEdit">
         <el-form ref="questionsForm" v-model="formValue.residencyApplication" :model="formValue.residencyApplication" label-position="top">
           <AdmissionQuestionsForm :residency-application="formValue.residencyApplication" />
-          <el-button size="small" type="success" @click="filledApplicationDownload">Скачать документ</el-button>
+          <el-button size="small" type="success" @click="filledApplicationDownload">Скачать заявление</el-button>
         </el-form>
       </div>
       <el-form ref="form" v-model="formValue" :model="formValue" label-position="top">
