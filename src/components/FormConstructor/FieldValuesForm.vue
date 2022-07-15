@@ -30,6 +30,12 @@
           </template>
         </el-table-column>
 
+        <el-table-column v-if="showModComments" label="Замечания" width="200px">
+          <template #default="scope">
+            {{ form.findFieldValue(scope.row.id)?.modComment }}
+          </template>
+        </el-table-column>
+
         <el-table-column v-if="showColumnComment()" label="Комментарий" min-width="300">
           <template #default="scope">
             {{ scope.row.comment }}
@@ -48,12 +54,6 @@
               {{ scope.row.file.originalName }}
             </a>
             <!-- <span v-else>Нет файла</span> -->
-          </template>
-        </el-table-column>
-
-        <el-table-column v-if="showModComments" label="Замечания" width="200px">
-          <template #default="scope">
-            {{ form.findFieldValue(scope.row.id)?.modComment }}
           </template>
         </el-table-column>
       </el-table>
