@@ -28,4 +28,5 @@ export default interface IQuestion {
   getUpdateButtonType: () => string;
   getUpdateCondition: () => boolean;
   getThemeOrFirstPhrase: () => string;
+  getFileInfos: () => IFileInfo[];
 }

@@ -28,10 +28,11 @@
             <el-input v-model="question.user.human.patronymic" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
 
-          <el-form-item label="Ваш email">
-            <el-input v-model="question.user.email" placeholder="Адрес электронной почты" minlength="1"></el-input>
-          </el-form-item>
-
+          <!--         
+        <el-form-item label="Ваш email">
+          <el-input v-model="question.userEmail" placeholder="Адрес электронной почты" minlength="1"></el-input>
+        </el-form-item>
+         -->
           <el-form-item label="Тема вопроса" prop="theme">
             <el-input v-model="question.theme" placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
@@ -45,9 +46,6 @@
               show-word-limit
               :autosize="{ minRows: 5, maxRows: 10 }"
             />
-          </el-form-item>
-          <el-form-item style="margin: 0">
-            <FileUploader :file-info="question.file" />
           </el-form-item>
           <div class="flex-column">
             <el-checkbox v-model="question.publishAgreement">
@@ -75,7 +73,6 @@
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
-import FileUploader from '@/components/FileUploader.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
@@ -83,7 +80,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'QuestionForm',
-  components: { FileUploader },
+  components: {},
   setup() {
     const filter = ref('');
     const store = useStore();
@@ -137,82 +134,6 @@ export default defineComponent({
     };
   },
 });
-// import { computed, defineComponent, onMounted, PropType, Ref, ref, watch } from 'vue';
-// import { useStore } from 'vuex';
-
-// import FileUploader from '@/components/FileUploader.vue';
-// import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-// import IField from '@/interfaces/IField';
-// import IForm from '@/interfaces/IForm';
-// import IQuestion from '@/interfaces/IQuestion';
-// import IUser from '@/interfaces/IUser';
-// import validate from '@/mixins/validate';
-
-// export default defineComponent({
-//   name: 'QuestionForm',
-//   components: { FileUploader },
-//   props: {
-//     field: {
-//       type: Object as PropType<IField>,
-//       required: true,
-//     },
-//     form: {
-//       type: Object as PropType<IForm>,
-//       required: true,
-//     },
-//   },
-//   setup(props) {
-//     const filter = ref('');
-//     const store = useStore();
-//     const form = ref();
-//     const mounted = ref(false);
-//     const question: Ref<IQuestion> = computed(() => store.getters['questions/question']);
-//     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
-//     watch(user, () => {
-//       store.commit('questions/setUser', user.value);
-//     });
-
-//     const privacyRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
-//       if (!value) {
-//         callback(new Error('Необходимо принять условия обработки персональных данных'));
-//       }
-//       callback();
-//       return;
-//     };
-//     const rules = {
-//       theme: [{ required: true, message: 'Необходимо указать тему вопроса', trigger: 'blur' }],
-//       originalQuestion: [{ required: true, message: 'Необходимо заполнить содержание обращения', trigger: 'blur' }],
-//       agreedWithPrivacyPolicy: [{ validator: privacyRule, trigger: 'change' }],
-//     };
-
-//     onMounted(() => {
-//       store.commit('questions/setUser', user.value);
-//     });
-
-//     const sendQuestion = async () => {
-//       if (!validate(form)) {
-//         return;
-//       }
-//       try {
-//         await store.dispatch('questions/create', question.value);
-//         store.commit('auth/setUser', question.value.user);
-//         store.commit('questions/resetQuestion');
-//         question.value.isDialogOpened = false;
-//       } catch (e) {
-//         console.log(e);
-//       }
-//     };
-
-//     return {
-//       mounted,
-//       sendQuestion,
-//       question,
-//       filter,
-//       rules,
-//       user,
-//     };
-//   },
-// });
 </script>
 
 <style lang="scss" scoped>
