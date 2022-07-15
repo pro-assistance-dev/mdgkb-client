@@ -3,6 +3,7 @@ import { ActionTree } from 'vuex';
 import Human from '@/classes/Human';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoApplication from '@/interfaces/IDpoApplication';
+import IForm from '@/interfaces/IForm';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyApplicationsWithCount from '@/interfaces/IResidencyApplicationsWithCount';
 import HttpClient from '@/services/HttpClient';
@@ -53,6 +54,14 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: state.item.getFileInfos(),
     });
     commit('set', res);
+  },
+  updateForm: async (_, form: IForm): Promise<void> => {
+    await httpClient.put<IForm, IForm>({
+      query: `form/${form.id}`,
+      payload: form,
+      isFormData: true,
+      fileInfos: form.getFieldValuesFileInfos(),
+    });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

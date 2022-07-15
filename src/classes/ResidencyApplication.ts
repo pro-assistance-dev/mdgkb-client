@@ -17,6 +17,7 @@ export default class ResidencyApplication implements IResidencyApplication {
   formValue = new Form();
   main?: boolean;
   paid?: boolean;
+  userEdit = false;
   admissionCommittee = false;
   formValueId?: string;
   // entranceExamPlace = '';
@@ -43,6 +44,9 @@ export default class ResidencyApplication implements IResidencyApplication {
     this.main = i.main;
     this.mdgkbExam = i.mdgkbExam;
     this.paid = i.paid;
+    if (i.userEdit != undefined) {
+      this.userEdit = i.userEdit;
+    }
     if (i.admissionCommittee != undefined) {
       this.admissionCommittee = i.admissionCommittee;
     }
@@ -171,5 +175,9 @@ export default class ResidencyApplication implements IResidencyApplication {
       return `Есть. Место: ${this.primaryAccreditationPlace}. Баллы: ${this.primaryAccreditationPoints}`;
     }
     return `Нет. Сдаёт в: ${this.mdgkbExam ? 'МДГКБ' : this.primaryAccreditationPlace}`;
+  }
+
+  changeUserEdit(value: boolean): void {
+    this.userEdit = value;
   }
 }
