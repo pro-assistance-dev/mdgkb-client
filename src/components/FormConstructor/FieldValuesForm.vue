@@ -17,7 +17,7 @@
       </el-table>
     </div>
 
-    <div class="table-container" :style="[hideColumnsCommentAndFile() ? { margin: '0 15%' } : '']">
+    <div class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
       <div>
         <EditorContent :content="form.description" />
       </div>
