@@ -93,7 +93,7 @@ export default class ResidencyApplication implements IResidencyApplication {
   }
 
   private filterAchievements(onlyApproved: boolean): IResidencyApplicationPointsAchievement[] {
-    const simpleAchievementsCodes: string[] = ['1', '2', '3', '5', '6'];
+    const simpleAchievementsCodes: string[] = ['1', '2', '3', '4.1', '4.4', '5', '6'];
     const additionalAchievementsCodes: string[] = [
       '9.1',
       '9.2',
@@ -109,7 +109,7 @@ export default class ResidencyApplication implements IResidencyApplication {
       '9.12',
       '9.13',
     ];
-    const orCodes: string[] = ['7', '8'];
+    const orCodes: string[] = ['7', '8', '4.2', '4.3'];
 
     const maxAdditionalPoints = 20;
     let additionalPointsSum = 0;
@@ -130,11 +130,18 @@ export default class ResidencyApplication implements IResidencyApplication {
         achievements.push(item);
       }
     });
-    const a = achievements.filter(
+    let a = achievements.filter(
       (a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) === '7' || String(a.pointsAchievement.code) === '8'
     );
     if (a.length > 1) {
       achievements = achievements.filter((a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '7');
+    }
+    a = achievements.filter(
+      (a: IResidencyApplicationPointsAchievement) =>
+        String(a.pointsAchievement.code) === '4.2' || String(a.pointsAchievement.code) === '4.2'
+    );
+    if (a.length > 1) {
+      achievements = achievements.filter((a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '4.2');
     }
     return achievements;
   }
