@@ -55,7 +55,7 @@ export default defineComponent({
         const timeA = a.formValue?.approvingDate?.getTime();
         const timeB = b.formValue?.approvingDate?.getTime();
         if (timeA && timeB) {
-          return timeB - timeA;
+          return timeA - timeB;
         }
         return -1;
       });
