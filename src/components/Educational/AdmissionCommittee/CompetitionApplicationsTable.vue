@@ -51,7 +51,14 @@ export default defineComponent({
     const residencyApplications = (): IResidencyApplication[] => {
       const applications: IResidencyApplication[] = [];
       props.residencyCourses.forEach((rc: IResidencyCourse) => applications.push(...rc.getAcceptedApplications()));
-      return applications;
+      return applications.sort((a: IResidencyApplication, b: IResidencyApplication) => {
+        const timeA = a.formValue?.approvingDate?.getTime();
+        const timeB = b.formValue?.approvingDate?.getTime();
+        if (timeA && timeB) {
+          return timeB - timeA;
+        }
+        return -1;
+      });
     };
 
     return { residencyApplications };

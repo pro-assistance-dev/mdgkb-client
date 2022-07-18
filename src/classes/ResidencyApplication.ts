@@ -138,7 +138,7 @@ export default class ResidencyApplication implements IResidencyApplication {
     }
     a = achievements.filter(
       (a: IResidencyApplicationPointsAchievement) =>
-        String(a.pointsAchievement.code) === '4.2' || String(a.pointsAchievement.code) === '4.2'
+        String(a.pointsAchievement.code) === '4.2' || String(a.pointsAchievement.code) === '4.3'
     );
     if (a.length > 1) {
       achievements = achievements.filter((a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '4.2');
