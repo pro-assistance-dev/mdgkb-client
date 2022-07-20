@@ -1,5 +1,20 @@
 # mdgkb-client
 
+## Installation
+Для запуска проекта необходимо установить ряд пакетов.
+Ниже приведен пример порядка установки для Ubuntu 20.04
+
+## 1. Установите Vue и проверьте версию:
+```
+	sudo apt update
+	sudo npm install -g @vue/cli
+	vue —version
+```
+## 2. Установите make:
+```
+	sudo apt update
+	sudo apt install make
+```
 ## Project setup
 ```
 npm install
