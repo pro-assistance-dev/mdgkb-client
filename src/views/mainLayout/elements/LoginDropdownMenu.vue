@@ -27,7 +27,7 @@
           <el-dropdown-item icon="el-icon-question" @click="$router.push('/profile/questions')">Ответы на вопросы</el-dropdown-item>
           <el-dropdown-item icon="el-icon-first-aid-kit">Донорство крови</el-dropdown-item>
         </div>
-        <el-dropdown-item v-if="UserService.isAdmin()" icon="el-icon-setting" @click="$router.push('/admin/news')"
+        <el-dropdown-item v-if="UserService.isAdmin()" icon="el-icon-setting" @click="$router.push(`/admin/${curUser.role.startPage}`)"
           >Кабинет администратора</el-dropdown-item
         >
         <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
@@ -58,6 +58,7 @@ export default defineComponent({
     const register = () => store.commit('auth/openModal', 'register');
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
+    const curUser: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
 
     const loadUser = async () => {
       await store.dispatch('users/get', userId.value);
@@ -93,6 +94,7 @@ export default defineComponent({
       register,
       isLaptopWindowWidth,
       user,
+      curUser,
     };
   },
 });

@@ -8,6 +8,9 @@
         <el-form-item label="Отображаемое название" prop="label">
           <el-input v-model="role.label" placeholder="Отображаемое название"></el-input>
         </el-form-item>
+        <el-form-item label="Стартовая страница админки" prop="label">
+          <el-input v-model="role.startPage" placeholder="Стартовая страница админки"></el-input>
+        </el-form-item>
       </el-card>
     </el-form>
   </div>
