@@ -220,7 +220,6 @@ export default class Form implements IForm {
       if (el.field?.required) {
         el.validate();
         if (el.showError) {
-          console.log(el.field);
           this.validated = false;
         }
       }
@@ -313,7 +312,6 @@ export default class Form implements IForm {
   setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
     const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);
-    console.log(this.formStatus);
     // this.emailNotify = true;
   }
   getFieldsWithModComemnts(): IField[] {
@@ -323,12 +321,9 @@ export default class Form implements IForm {
     });
   }
   updateViewedByUser(initialStatus: IFormStatus): void {
-    console.log('initialStatus', initialStatus);
-    console.log('this.viewedByUser BEFORE', this.viewedByUser);
     if (initialStatus && initialStatus.id !== this.formStatus.id) {
       this.viewedByUser = false;
     }
-    console.log('this.viewedByUser AFTER', this.viewedByUser);
   }
   // static ApplyFormPattern(pattern: IForm): IForm {
   //   const form = new Form(pattern);
