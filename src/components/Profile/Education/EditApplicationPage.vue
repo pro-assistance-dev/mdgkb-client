@@ -15,6 +15,11 @@
       <el-form ref="form" v-model="formValue" :model="formValue" label-position="top">
         <FieldValuesForm :form="formValue" :show-mod-comments="true" />
       </el-form>
+      <div v-if="formValue.residencyApplication?.userEdit">
+        <el-form ref="questionsForm" v-model="formValue.residencyApplication" :model="formValue.residencyApplication" label-position="top">
+          <ResidencyApplicationAchievements :residency-application="formValue.residencyApplication" />
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +31,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
+import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
@@ -33,7 +39,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'EditApplicationPage',
-  components: { FieldValuesForm, AdmissionQuestionsForm },
+  components: { FieldValuesForm, AdmissionQuestionsForm, ResidencyApplicationAchievements },
 
   setup() {
     const store = useStore();

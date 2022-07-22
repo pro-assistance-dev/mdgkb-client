@@ -183,7 +183,10 @@ export default defineComponent({
 
     const downloadZip = async () => {
       if (formValue.value) {
-        await Provider.store.dispatch('formValues/documentsToZip', formValue.value.id);
+        await Provider.store.dispatch('formValues/documentsToZip', {
+          id: formValue.value.id,
+          name: formValue.value.user.human.getFullName(),
+        });
       }
     };
 
