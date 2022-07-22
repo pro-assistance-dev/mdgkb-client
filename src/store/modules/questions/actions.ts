@@ -62,7 +62,7 @@ const actions: ActionTree<State, RootState> = {
     });
   },
   updateMany: async ({ state }): Promise<void> => {
-    await httpClient.put<IQuestion[], IQuestion[]>({ query: `/many`, payload: state.items, isFormData: true });
+    await httpClient.put<IQuestion[], IQuestion[]>({ query: `many`, payload: state.items });
   },
 };
 
