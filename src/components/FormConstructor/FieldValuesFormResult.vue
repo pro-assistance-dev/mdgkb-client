@@ -23,6 +23,7 @@
           v-else-if="scope.row.field.valueType.isFile() && scope.row.file.fileSystemPath"
           :href="scope.row.file.getFileUrl()"
           target="_blank"
+          :download="scope.row.file.originalName"
         >
           {{ scope.row.file.originalName }}
         </a>

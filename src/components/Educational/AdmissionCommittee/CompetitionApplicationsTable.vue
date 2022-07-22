@@ -4,7 +4,7 @@
       <th>ФИО</th>
       <th>Специальность</th>
       <th>Целевое/ДПОУ (договор)</th>
-      <th>Дата заявления</th>
+      <th>Дата принятия заявления</th>
       <th>Заявление по специальности приоритетное/дополнительное</th>
       <th style="text-align: center">Балл общий</th>
       <th style="text-align: center">Балл вступительных испытаний</th>
@@ -21,7 +21,7 @@
         </td>
         <td>{{ application.paid ? 'Договор' : 'Целевое' }}</td>
         <td style="text-align: center">
-          {{ $dateTimeFormatter.format(application.formValue.createdAt) }}
+          {{ $dateTimeFormatter.format(application.formValue.approvingDate) }}
         </td>
         <td>{{ application.main ? 'Приоритетное' : 'Дополнительное' }}</td>
         <td style="text-align: center">{{ application.pointsSum() }}</td>
@@ -51,7 +51,14 @@ export default defineComponent({
     const residencyApplications = (): IResidencyApplication[] => {
       const applications: IResidencyApplication[] = [];
       props.residencyCourses.forEach((rc: IResidencyCourse) => applications.push(...rc.getAcceptedApplications()));
-      return applications;
+      return applications.sort((a: IResidencyApplication, b: IResidencyApplication) => {
+        const timeA = a.formValue?.approvingDate?.getTime();
+        const timeB = b.formValue?.approvingDate?.getTime();
+        if (timeA && timeB) {
+          return timeA - timeB;
+        }
+        return -1;
+      });
     };
 
     return { residencyApplications };

@@ -10,6 +10,7 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
@@ -172,6 +173,12 @@ export default class Form implements IForm {
         i.fieldValuesFiles.forEach((fvf: IFieldValueFile) => fileInfos.push(fvf.fileInfo));
       }
     });
+    if (this.residencyApplication) {
+      this.residencyApplication.residencyApplicationPointsAchievements.forEach((r: IResidencyApplicationPointsAchievement) => {
+        fileInfos.push(r.fileInfo);
+      });
+    }
+
     return fileInfos;
   }
 

@@ -28,7 +28,12 @@
       <el-table-column label="Образец" min-width="200">
         <template #default="scope">
           <template v-if="!isEditMode">
-            <a v-if="scope.row.fileInfo.fileSystemPath" :href="scope.row.fileInfo.getFileUrl()" target="_blank">
+            <a
+              v-if="scope.row.fileInfo.fileSystemPath"
+              :href="scope.row.fileInfo.getFileUrl()"
+              target="_blank"
+              :download="scope.row.fileInfo.originalName"
+            >
               {{ scope.row.fileInfo.originalName }}
             </a>
           </template>
