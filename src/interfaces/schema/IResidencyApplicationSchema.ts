@@ -10,6 +10,8 @@ export default interface IResidencyApplicationSchema extends IBaseSchema {
   startYear: string;
   endYear: string;
   fullName: string;
+  main: string;
+  paid: string;
   courseName: string;
   admissionCommittee: string;
 }

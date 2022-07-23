@@ -13,7 +13,11 @@
         </el-checkbox>
       </div>
 
-      <UserForm :form="candidateApplication.formValue" :validate-email="false" />
+      <UserForm
+        :form="candidateApplication.formValue"
+        :validate-email="false"
+        :active-fields="UserFormFields.CreateWithFullName({ userDateBirth: true })"
+      />
 
       <i>
         <div>Печать документов должна быть высокого качества.</div>
@@ -38,6 +42,7 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
+import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
@@ -117,6 +122,7 @@ export default defineComponent({
       isAuth,
       form,
       emailExists,
+      UserFormFields,
     };
   },
 });
