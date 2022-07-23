@@ -1,6 +1,6 @@
 <template>
-  <div v-for="item in questionsList" :key="item.id" class="card-item">
-    <CommentCard :is-question="true" :question="item" />
+  <div v-for="item in questionsList" :key="item.id">
+    <CommentCard v-if:="item.published" :is-question="true" :question="item" />
   </div>
   <LoadMoreButton @loadMore="loadMore" />
 </template>
