@@ -22,8 +22,10 @@
             <TableButtonGroup
               :show-edit-button="true"
               :show-remove-button="true"
+              :show-more-button="true"
               @remove="remove(scope.row.id)"
               @edit="edit(scope.row.id)"
+              @showMore="loginAs(scope.row.email)"
             />
           </template>
         </el-table-column>
@@ -79,7 +81,13 @@ export default defineComponent({
       },
     });
 
+    const loginAs = async (email: string) => {
+      await Provider.store.dispatch('auth/loginAs', email);
+      await Provider.router.push('/');
+    };
+
     return {
+      loginAs,
       mounted,
       roles,
       users,
