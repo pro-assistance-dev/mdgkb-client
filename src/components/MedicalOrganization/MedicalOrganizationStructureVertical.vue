@@ -97,7 +97,7 @@
       </div>
     </div>
   </div>
-  <svg width="0" height="0" class="hidden">
+  <svg width="0" height="0" class="display-none">
     <symbol id="phone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
       <path
         d="M12 6.5H11C10.9996 6.1023 10.8414 5.721 10.5602 5.43978C10.279 5.15856 9.8977 5.0004 9.5 5V4C10.1628 4.00079 10.7982 4.26444 11.2669 4.73311C11.7356 5.20178 11.9992 5.8372 12 6.5Z"
@@ -162,7 +162,7 @@ export default {
   margin: 0px;
 }
 
-.container-box {
+/* .container-box {
   display: flex;
 }
 
@@ -177,13 +177,13 @@ export default {
 .box {
   justify-content: space-between;
   display: flex;
-}
+} */
 
 .block {
   width: 55%;
 }
 
-.title {
+/* .title {
   display: flex;
   font-family: 'Comfortaa', 'Open-sans', sans-serif;
   width: 100%;
@@ -192,7 +192,7 @@ export default {
   justify-content: center;
   text-align: center;
   color: #4a4a4a;
-}
+} */
 
 .head-title {
   font-family: 'Comfortaa', 'Open-sans', sans-serif;

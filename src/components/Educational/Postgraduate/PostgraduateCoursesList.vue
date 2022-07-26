@@ -388,7 +388,7 @@ ul.application-card li {
     display: block;
     width: 100%;
   }
-  .box {
+  /*   .box {
     margin-right: 0px;
     background: #ffffff;
   }
@@ -396,7 +396,7 @@ ul.application-card li {
   .my-block {
     padding: 10px;
     width: calc(100% - 20px);
-  }
+  } */
 
   .application-card {
     width: 100%;
@@ -447,9 +447,9 @@ ul.application-card li {
     display: block;
   }
 
-  .table-text {
+  /*   .table-text {
     display: none;
-  }
+  } */
 
   :deep(.response-btn) {
     display: none;
@@ -478,19 +478,19 @@ ul.application-card li {
   .size {
     margin-top: 20px;
   }
-  .hidden {
+  /* .hidden {
     display: none;
   }
   .title {
     justify-content: right;
-  }
+  } */
 }
 
 @media screen and (max-width: 480px) {
-  .my-block {
+  /*  .my-block {
     padding: 5px;
     width: calc(100% - 10px);
-  }
+  } */
 
   .card-item {
     display: block;

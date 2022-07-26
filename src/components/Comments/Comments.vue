@@ -72,9 +72,9 @@ html {
   scroll-behavior: smooth;
 }
 
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
 .reviews {
   display: block;

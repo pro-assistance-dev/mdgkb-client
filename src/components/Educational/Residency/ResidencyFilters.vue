@@ -118,7 +118,7 @@ export default defineComponent({
 h2 {
   margin: 0;
 }
-.card-header {
+/* .card-header {
   text-align: center;
 }
 .doctor-img-container {
@@ -151,7 +151,7 @@ h2 {
   height: 50px;
   align-items: center;
   font-weight: bold;
-}
+} */
 
 // $left-side-max-width: 370px;
 // $right-side-max-width: 1000px;
@@ -168,7 +168,7 @@ h2 {
 h2 {
   margin: 0;
 }
-.card-header {
+/* .card-header {
   text-align: center;
 }
 .doctor-img-container {
@@ -217,7 +217,7 @@ h2 {
 
 .hidden {
   display: none;
-}
+} */
 
 :deep(.el-checkbox__label) {
   font-family: Arial, Helvetica, sans-serif;
@@ -229,7 +229,7 @@ h2 {
   height: 38px;
 }
 
-.el-select {
+/* .el-select {
   height: 38px;
 }
 
@@ -261,5 +261,5 @@ h2 {
     min-width: 272px;
     width: 100%;
   }
-}
+} */
 </style>

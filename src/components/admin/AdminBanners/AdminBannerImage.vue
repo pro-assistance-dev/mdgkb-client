@@ -90,11 +90,11 @@ export default defineComponent({
 $content-max-width: 200px;
 $content-max-height: $content-max-width;
 
-.hideUpload {
+/* .hideUpload {
   :deep(.el-upload) {
     display: none;
   }
-}
+} */
 
 .avatar-uploader-cover {
   height: $content-max-height;

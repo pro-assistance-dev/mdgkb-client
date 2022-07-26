@@ -93,7 +93,7 @@ export default defineComponent({
   }
 }
 
-@media screen and (max-width: 607px) {
+/* @media screen and (max-width: 607px) {
   .info-tags-block {
     display: block;
     margin: 5px;
@@ -111,7 +111,7 @@ export default defineComponent({
     width: calc(100% - 10px);
     padding: 0 5px;
   }
-}
+} */
 
 @media screen and (max-width: 400px) {
   :deep(.response-btn) {

@@ -160,11 +160,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.hideUpload {
+/* .hideUpload {
   :deep(.el-upload) {
     display: none;
   }
-}
+} */
 
 // .avatar-uploader-cover {
 // line-height: var(--height);

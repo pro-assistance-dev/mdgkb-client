@@ -155,11 +155,11 @@ export default defineComponent({
   }
 }
 
-.hideUpload {
+/* .hideUpload {
   :deep(.el-upload) {
     display: none;
   }
-}
+} */
 
 .delete-tag-icon {
   margin-left: 20%;
