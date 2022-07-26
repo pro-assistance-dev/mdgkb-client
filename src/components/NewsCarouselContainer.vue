@@ -37,11 +37,11 @@ $news-content-max-height: 300px;
   margin-top: 50px;
 }
 
-.hideUpload {
+/* .hideUpload {
   :deep(.el-upload) {
     display: none;
   }
-}
+} */
 
 .avatar-uploader-cover {
   height: 400px;
@@ -85,12 +85,6 @@ $news-content-max-height: 300px;
 
   .el-checkbox {
     margin: 5px !important;
-  }
-}
-
-.hideUpload {
-  :deep(.el-upload) {
-    display: none;
   }
 }
 

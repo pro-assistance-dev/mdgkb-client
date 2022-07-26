@@ -146,14 +146,14 @@ html {
   scroll-behavior: smooth;
 }
 
-.hidden {
+/* .hidden {
   display: none;
 }
 
 .menu-center {
   min-width: 792px;
   height: 58px;
-}
+} */
 
 ul.menu-center-list {
   display: flex;
@@ -316,9 +316,9 @@ li .dropmenu {
   background: #ffffff;
 }
 
-@media screen and (max-width: 1025px) {
+/* @media screen and (max-width: 1025px) {
   .menu-center {
     display: block;
   }
-}
+} */
 </style>

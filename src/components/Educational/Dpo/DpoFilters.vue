@@ -212,9 +212,9 @@ h2 {
   margin: 0 10px;
 }
 
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
 :deep(.el-checkbox__label) {
   font-family: Arial, Helvetica, sans-serif;

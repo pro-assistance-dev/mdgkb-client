@@ -109,7 +109,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
-.el-descriptions__label {
+/* .el-descriptions__label {
   font-size: 15px;
 }
 
@@ -265,7 +265,7 @@ export default defineComponent({
   width: auto;
   align-items: center;
   text-align: left;
-}
+} */
 
 :deep(.main-box) {
   margin: 0px !important;
@@ -275,10 +275,10 @@ export default defineComponent({
   background: #f6f6f6 !important;
 }
 
-.way {
+/* .way {
   height: 40px;
   background: #f6f6f6;
-}
+} */
 
 h4 {
   font-family: 'Open Sans', sans-serif;
@@ -298,7 +298,7 @@ h3 {
   color: #343e5c;
 }
 
-.filter-block {
+/* .filter-block {
   height: 80px;
   background: #ffffff;
   z-index: 200;
@@ -411,5 +411,5 @@ h3 {
     width: 158px;
     display: flex;
   }
-}
+} */
 </style>

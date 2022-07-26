@@ -60,9 +60,9 @@ export default defineComponent({
   width: 100%;
 }
 
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
 .contacts-title {
   font-family: 'Comfortaa', 'Open-sans', sans-serif;

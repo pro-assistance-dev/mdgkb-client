@@ -336,7 +336,7 @@ h3 {
   color: #343e5c;
 }
 
-.filter-block {
+/* .filter-block {
   height: 80px;
   background: #ffffff;
   z-index: 200;
@@ -435,5 +435,5 @@ h3 {
     width: 158px;
     display: flex;
   }
-}
+} */
 </style>

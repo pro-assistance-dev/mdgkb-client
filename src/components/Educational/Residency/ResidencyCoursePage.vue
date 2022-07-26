@@ -352,11 +352,11 @@ h4 {
   }
 }
 
-.card-meta {
+/* .card-meta {
   display: flex;
 }
 
-.share {
+ .share {
   display: flex;
   align-items: center;
   img {
@@ -381,7 +381,7 @@ h4 {
       }
     }
   }
-}
+} */
 :deep(.response-btn) {
   border-radius: 20px;
   background-color: #31af5e;
@@ -479,12 +479,12 @@ h4 {
     display: block;
     margin: 5px;
   }
-  .hidden-mobile {
+  /* .hidden-mobile {
     display: none;
   }
   .tag {
     margin: 5px;
-  }
+  } */
 }
 
 @media screen and (max-width: 420px) {

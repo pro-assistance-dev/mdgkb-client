@@ -56,11 +56,11 @@ export default defineComponent({
 $news-content-max-width: 400px;
 $news-content-max-height: 165px;
 
-.hideUpload {
+/* .hideUpload {
   :deep(.el-upload) {
     display: none;
   }
-}
+} */
 
 .avatar-uploader-cover {
   // height: 400px;
