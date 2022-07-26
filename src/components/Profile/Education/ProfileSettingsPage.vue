@@ -407,7 +407,7 @@ ul.drop-give-button-item li:last-child {
   padding-right: 20px;
 }
 
-.moble-container {
+/* .moble-container {
   display: none;
 }
 
@@ -430,7 +430,7 @@ ul.drop-give-button-item li:last-child {
   justify-content: right;
   align-items: center;
   min-height: 50px;
-}
+} */
 
 .card-item {
   display: flex;
@@ -495,7 +495,7 @@ ul.application-card li {
   .size {
     padding: 0 10px;
   }
-  .table-container {
+  /*   .table-container {
     display: none;
   }
 
@@ -536,7 +536,7 @@ ul.application-card li {
         filter: brightness(110%);
       }
     }
-  }
+  } */
 
   .card-item {
     justify-content: left;

@@ -319,7 +319,7 @@ h4 {
   }
 }
 
-.card-meta {
+/* .card-meta {
   display: flex;
 }
 
@@ -348,7 +348,7 @@ h4 {
       }
     }
   }
-}
+} */
 :deep(.response-btn) {
   border-radius: 20px;
   background-color: #31af5e;

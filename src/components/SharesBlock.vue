@@ -3,8 +3,8 @@
     <div style="margin-right: 5px">Поделиться:</div>
     <ShareNetwork v-for="share in shares" :key="share.name" :network="share.name" :url="url" :title="title" :description="description">
       <div class="share-item">
-        <img class="black" :src="require(`@/assets/img/social/${share.icon}.webp`)" :alt="share.name" />
-        <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.webp`)" :alt="share.name" />
+        <img class="black display-none" :src="require(`@/assets/img/social/${share.icon}.webp`)" :alt="share.name" />
+        <img class="colored display-none" :src="require(`@/assets/img/social/${share.icon}-colored.webp`)" :alt="share.name" />
       </div>
     </ShareNetwork>
   </div>
@@ -60,22 +60,22 @@ export default defineComponent({
   .share-item {
     display: flex;
     align-items: center;
-    .colored {
+    /* .colored {
       display: none;
-    }
+    } */
     &:hover {
       .colored {
         display: unset;
         transform: scale(1.1);
       }
-      .black {
+      /* .black {
         display: none;
-      }
+      } */
     }
   }
 }
 
-@media screen and (max-width: 400px) {
+/* @media screen and (max-width: 400px) {
   .share {
     display: flex;
     align-items: center;
@@ -104,5 +104,5 @@ export default defineComponent({
       }
     }
   }
-}
+} */
 </style>

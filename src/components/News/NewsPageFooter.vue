@@ -34,8 +34,8 @@
           :description="news.title"
         >
           <div class="share-item">
-            <img class="black" :src="require(`@/assets/img/social/${share.icon}.webp`)" :alt="share.name" />
-            <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.webp`)" :alt="share.name" />
+            <img class="display-none" :src="require(`@/assets/img/social/${share.icon}.webp`)" :alt="share.name" />
+            <img class="colored display-none" :src="require(`@/assets/img/social/${share.icon}-colored.webp`)" :alt="share.name" />
           </div>
         </ShareNetwork>
       </div>
@@ -104,17 +104,17 @@ export default defineComponent({
     font-size: 30px;
   }
   .share-item {
-    .colored {
+    /*  .colored {
       display: none;
-    }
+    } */
     &:hover {
       .colored {
         display: unset;
         transform: scale(1.1);
       }
-      .black {
+      /* .black {
         display: none;
-      }
+      } */
     }
   }
 }

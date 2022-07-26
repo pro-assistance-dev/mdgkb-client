@@ -59,7 +59,7 @@
     </li>
   </ul>
 
-  <svg width="0" height="0" class="hidden">
+  <svg width="0" height="0" class="display-none">
     <symbol id="icon-info" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
       <path
         d="M9 15H11V9H9V15ZM10 5C9.5 5 9 5.5 9 6C9 6.5 9.5 7 10 7C10.5 7 11 6.5 11 6C11 5.5 10.5 5 10 5ZM10 1C5 1 1 5 1 10C1 15 5 19 10 19C15 19 19 15 19 10C19 5 15 1 10 1ZM10 17C6.1 17 3 13.9 3 10C3 6.1 6.1 3 10 3C13.9 3 17 6.1 17 10C17 13.9 13.9 17 10 17Z"
@@ -213,9 +213,9 @@ html {
   scroll-behavior: smooth;
 }
 
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
 .menu-right-block {
   min-width: 150px;
