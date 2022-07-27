@@ -69,12 +69,12 @@ const actions: ActionTree<State, RootState> = {
     const c = new HttpClient('subscribe');
     source = await c.subscribe<IQuestion>({ query: 'question-create' });
     source.onmessage = function (e) {
-      commit('unshiftToAll', [e.data]);
+      commit('unshiftToAll', JSON.parse(e.data));
     };
   },
-  // unsubscribeCreate: async ({ commit }): Promise<void> => {
-  //   source?.close();
-  // },
+  unsubscribeCreate: async ({ commit }): Promise<void> => {
+    source?.close();
+  },
 };
 
 export default actions;
