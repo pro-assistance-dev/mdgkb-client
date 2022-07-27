@@ -473,12 +473,12 @@ ul.application-card li {
   .size {
     margin-top: 20px;
   }
-  .hidden {
+  /* .hidden {
     display: none;
   }
   .title {
     justify-content: right;
-  }
+  } */
 }
 
 @media screen and (max-width: 480px) {

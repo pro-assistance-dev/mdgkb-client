@@ -272,9 +272,9 @@ export default defineComponent({
   }
 
   @media screen and (max-width: 730px) {
-    .hidden-less-730 {
+    /*     .hidden-less-730 {
       display: none;
-    }
+    } */
 
     .mobile-help {
       display: block;

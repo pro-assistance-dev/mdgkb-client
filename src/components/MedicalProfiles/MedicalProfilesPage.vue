@@ -267,7 +267,7 @@ h4 {
     margin-left: 15px;
     height: 25px;
   }
-  .anticon {
+  /*   .anticon {
     margin: 5px;
     font-size: 30px;
   }
@@ -284,6 +284,6 @@ h4 {
         display: none;
       }
     }
-  }
+  } */
 }
 </style>

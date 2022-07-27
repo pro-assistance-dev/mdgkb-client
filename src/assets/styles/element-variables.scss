@@ -165,3 +165,13 @@ a {
     padding: 0;
   }
 }
+
+.hideUpload {
+  .el-upload {
+    display: none;
+  }
+}
+
+.display-none {
+  display: none;
+}

@@ -64,9 +64,9 @@ export default defineComponent({
 <style scoped lang="scss">
 // $left-side-max-width: 370px;
 // $right-side-max-width: 1000px;
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
 .doctor-page-container {
   // display: flex;

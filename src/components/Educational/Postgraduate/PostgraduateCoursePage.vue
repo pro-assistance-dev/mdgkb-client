@@ -324,7 +324,7 @@ h3 {
   flex-direction: column;
   padding: 10px;
   cursor: pointer;
-  .item-title {
+  /*   .item-title {
     font-weight: 600;
   }
   .item-footer {
@@ -342,15 +342,15 @@ h3 {
   .anticon {
     padding-right: 5px;
     font-size: 16px;
-  }
+  } */
 }
 h4 {
   color: black;
   margin: 15px 0 0 10px;
 }
-.item-footer {
+/* .item-footer {
   color: #a1a7bd;
-}
+} */
 
 :deep(.cell-row) {
   cursor: pointer;
@@ -381,7 +381,7 @@ h4 {
   }
 }
 
-.card-meta {
+/* .card-meta {
   display: flex;
 }
 
@@ -410,7 +410,7 @@ h4 {
       }
     }
   }
-}
+} */
 :deep(.response-btn) {
   border-radius: 20px;
   background-color: #31af5e;

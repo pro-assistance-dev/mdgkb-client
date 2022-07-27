@@ -14,17 +14,17 @@
           <TableMover :ordered-items="form.fields" :index="scope.$index" />
         </template>
       </el-table-column>
-      <el-table-column label="Название поля формы" sortable>
+      <el-table-column label="Название поля формы" width="300px" sortable>
         <template #default="scope">
           <el-input v-model="scope.row.name" placeholder="Имя поля" />
         </template>
       </el-table-column>
-      <el-table-column label="Код формы" sortable>
+      <el-table-column label="Код формы" width="150px" sortable>
         <template #default="scope">
           <el-input v-model="scope.row.code" placeholder="Код формы" />
         </template>
       </el-table-column>
-      <el-table-column label="Комментарий" sortable>
+      <el-table-column label="Комментарий" width="300px" sortable>
         <template #default="scope">
           <el-input v-model="scope.row.comment" placeholder="Комментарий" />
         </template>
@@ -36,7 +36,7 @@
           </el-select>
         </template>
       </el-table-column>
-      <el-table-column label="Образец" sortable>
+      <el-table-column label="Образец" width="300px" sortable>
         <template #default="scope">
           <FileUploader v-if="scope.row.valueType.isFile()" :file-info="scope.row.file" />
           <span v-else>Доступен только для файлов</span>
@@ -50,6 +50,22 @@
       <el-table-column label="Обязательное для отмены" width="150px" align="center">
         <template #default="scope">
           <el-checkbox v-model="scope.row.requiredForCancel"></el-checkbox>
+        </template>
+      </el-table-column>
+      <el-table-column label="Маска" width="150px" align="center">
+        <template #default="scope">
+          <el-input v-model="scope.row.mask" placeholder="Маска" />
+        </template>
+      </el-table-column>
+      <el-table-column label="Токены для маски" width="600px" align="center">
+        <template #default="scope">
+          <el-button size="mini" @click="scope.row.addMaskToken()">Добавить</el-button>
+          <div v-for="(item, i) in scope.row.maskTokens" :key="i" class="maska-row">
+            <el-input v-model="item.name" size="mini" placeholder="Имя токена" />
+            <el-input v-model="item.pattern" size="mini" placeholder="Паттерн" />
+            <el-checkbox v-model="item.uppercase"></el-checkbox>
+            <TableButtonGroup :show-remove-button="true" @remove="scope.row.removeMaskToken(i)" />
+          </div>
         </template>
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
@@ -126,7 +142,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .flex-row-between {
   display: flex;
   justify-content: space-between;
@@ -153,5 +169,14 @@ export default defineComponent({
 
 .add-break-checkbox {
   margin-left: 10px;
+}
+
+.maska-row {
+  display: flex;
+  margin: 5px;
+  align-items: center;
+  .el-input {
+    margin: 0 5px;
+  }
 }
 </style>

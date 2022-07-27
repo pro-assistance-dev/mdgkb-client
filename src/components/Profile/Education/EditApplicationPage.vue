@@ -12,14 +12,16 @@
           <el-button size="small" type="success" @click="filledApplicationDownload">Скачать заявление</el-button>
         </el-form>
       </div>
+    </div>
+    <div class="card-item">
       <el-form ref="form" v-model="formValue" :model="formValue" label-position="top">
         <FieldValuesForm :form="formValue" :show-mod-comments="true" />
       </el-form>
-      <div v-if="formValue.residencyApplication?.userEdit">
-        <el-form ref="questionsForm" v-model="formValue.residencyApplication" :model="formValue.residencyApplication" label-position="top">
-          <ResidencyApplicationAchievements :residency-application="formValue.residencyApplication" />
-        </el-form>
-      </div>
+    </div>
+    <div v-if="formValue.residencyApplication?.userEdit" class="card-item">
+      <el-form ref="questionsForm" v-model="formValue.residencyApplication" :model="formValue.residencyApplication" label-position="top">
+        <ResidencyApplicationAchievements :residency-application="formValue.residencyApplication" />
+      </el-form>
     </div>
   </div>
 </template>
@@ -115,5 +117,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .card-item {
   margin-bottom: 10px;
+}
+.card-item:empty {
+  display: none;
 }
 </style>
