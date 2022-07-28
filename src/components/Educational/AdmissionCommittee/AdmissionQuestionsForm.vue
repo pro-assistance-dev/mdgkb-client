@@ -22,7 +22,7 @@
     <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
       <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
     </el-form-item>
-    <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints" :rules="rules.primaryAccreditationPoints">
+    <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints">
       <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0">Баллы первичной аккредитации</el-input-number>
     </el-form-item>
   </template>
@@ -46,11 +46,7 @@
       <el-form-item label="Вступительные испытания прохожу в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
         <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Вступительные экзамены прохожу в: </el-input>
       </el-form-item>
-      <el-form-item
-        label="Баллы вступительных испытаний (если пройдены)"
-        prop="primaryAccreditationPoints"
-        :rules="rules.primaryAccreditationPoints"
-      >
+      <el-form-item label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)" prop="primaryAccreditationPoints">
         <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0" />
       </el-form-item>
     </template>
@@ -117,7 +113,7 @@ export default defineComponent({
       primaryAccreditation: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
       main: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
       paid: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
-      primaryAccreditationPoints: [{ required: true, message: 'Пожалуйста, укажите баллы первичной аккредитации', trigger: 'blur' }],
+      // primaryAccreditationPoints: [{ required: true, message: 'Пожалуйста, укажите баллы первичной аккредитации', trigger: 'blur' }],
       primaryAccreditationPlace: [{ required: true, message: 'Пожалуйста, укажите место первичной аккредитации', trigger: 'blur' }],
       entranceExamSpecialisation: [
         {
