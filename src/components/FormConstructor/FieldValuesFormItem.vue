@@ -1,6 +1,12 @@
 <template>
   <el-form-item v-if="field.valueType.isString()" style="margin: 0">
-    <el-input v-model="fieldValue.valueString" :placeholder="field.name" />
+    <el-input
+      v-if="field.mask"
+      v-model="fieldValue.valueString"
+      v-maska="{ mask: field.mask, tokens: field.getMaskTokens() }"
+      :placeholder="field.name"
+    />
+    <el-input v-else v-model="fieldValue.valueString" :placeholder="field.name" />
     <div v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</div>
   </el-form-item>
   <el-form-item v-else-if="field.valueType.isNumber()" style="margin: 0">

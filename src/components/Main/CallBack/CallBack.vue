@@ -106,9 +106,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
 * {
   padding: 0px;

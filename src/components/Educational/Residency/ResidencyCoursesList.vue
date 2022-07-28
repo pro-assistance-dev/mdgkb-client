@@ -359,9 +359,9 @@ ul.application-card li {
   font-weight: bold;
 }
 
-.mobile-text {
+/* .mobile-text {
   display: none;
-}
+} */
 
 :deep(p) {
   display: block;
@@ -386,7 +386,7 @@ ul.application-card li {
     display: block;
     width: 100%;
   }
-  .box {
+  /* .box {
     margin-right: 0px;
     background: #ffffff;
   }
@@ -394,7 +394,7 @@ ul.application-card li {
   .my-block {
     padding: 10px;
     width: calc(100% - 20px);
-  }
+  } */
 
   .application-card {
     width: 100%;
@@ -441,13 +441,13 @@ ul.application-card li {
   ul.application-card li:hover .response-btn {
     display: block;
   }
-  .mobile-text {
+  /*   .mobile-text {
     display: block;
-  }
+  } 
 
   .table-text {
     display: none;
-  }
+  } */
 
   :deep(.response-btn) {
     display: none;
@@ -476,19 +476,19 @@ ul.application-card li {
   .size {
     margin-top: 20px;
   }
-  .hidden {
+  /* .hidden {
     display: none;
   }
   .title {
     justify-content: right;
-  }
+  } */
 }
 
 @media screen and (max-width: 480px) {
-  .my-block {
+  /* .my-block {
     padding: 5px;
     width: calc(100% - 10px);
-  }
+  } */
 
   .card-item {
     display: block;

@@ -74,7 +74,7 @@ export default defineComponent({
       await store.dispatch('admin/unsubscribeApplicationsCountsGet');
     });
 
-    return { menus, closeDrawer, isCollapseSideMenu, activePath, mounted };
+    return { menus, closeDrawer, isCollapseSideMenu, activePath, mounted, applicationsCounts };
   },
 });
 </script>

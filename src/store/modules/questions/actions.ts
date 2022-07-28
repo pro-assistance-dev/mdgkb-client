@@ -10,6 +10,7 @@ import RootState from '@/store/types';
 import { State } from './state';
 
 const httpClient = new HttpClient('questions');
+let source: EventSource | undefined = undefined;
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
@@ -60,6 +61,19 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.put<IQuestion, IQuestion>({
       query: `new/${question.id}?isNew=${question.isNew}`,
     });
+  },
+  updateMany: async ({ state }): Promise<void> => {
+    await httpClient.put<IQuestion[], IQuestion[]>({ query: `many`, payload: state.items });
+  },
+  subscribeCreate: async ({ commit }): Promise<void> => {
+    const c = new HttpClient('subscribe');
+    source = await c.subscribe<IQuestion>({ query: 'question-create' });
+    source.onmessage = function (e) {
+      commit('unshiftToAll', JSON.parse(e.data));
+    };
+  },
+  unsubscribeCreate: async ({ commit }): Promise<void> => {
+    source?.close();
   },
 };
 

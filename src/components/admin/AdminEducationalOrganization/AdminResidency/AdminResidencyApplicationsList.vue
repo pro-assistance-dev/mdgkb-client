@@ -2,6 +2,8 @@
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+      <FilterSelectV2 :filter-models="createFilterMainModels()" placeholder="Специальность" @load="loadApplications" />
+      <FilterSelectV2 :filter-models="createFilterPaidModels()" placeholder="Основа обучения" @load="loadApplications" />
     </template>
     <template #header-bottom>
       <FilterCheckboxV2 :filter-model="onlyAdmissionFilter" @load="loadApplications" />
@@ -27,6 +29,20 @@
           </div>
           <div v-else>
             {{ scope.row.applicationNum }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Основа обучения" align="center" width="100">
+        <template #default="scope">
+          <div>
+            {{ scope.row.paid ? 'Контракт' : 'Бюджет' }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Специальность" align="center" width="150">
+        <template #default="scope">
+          <div>
+            {{ scope.row.main ? 'Основная' : 'Допольнительня' }}
           </div>
         </template>
       </el-table-column>
@@ -102,6 +118,7 @@ import FilterQuery from '@/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
+import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -120,7 +137,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminResidencyApplicationsList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterCheckboxV2, FilterMultipleSelect },
+  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterCheckboxV2, FilterMultipleSelect, FilterSelectV2 },
 
   setup() {
     const residencyApplications: ComputedRef<IResidencyApplication[]> = computed<IResidencyApplication[]>(
@@ -223,6 +240,14 @@ export default defineComponent({
       await Provider.store.dispatch('formStatuses/getAll', filterQuery);
     };
 
+    const createFilterMainModels = (): IFilterModel[] => {
+      return [ResidencyApplicationsFiltersLib.onlyMain(true), ResidencyApplicationsFiltersLib.onlyMain(false)];
+    };
+
+    const createFilterPaidModels = (): IFilterModel[] => {
+      return [ResidencyApplicationsFiltersLib.onlyPaid(true), ResidencyApplicationsFiltersLib.onlyPaid(false)];
+    };
+
     return {
       filterByStatus,
       filtersToOptions,
@@ -234,6 +259,8 @@ export default defineComponent({
       sortList: Provider.sortList,
       loadApplications,
       isEditMode,
+      createFilterMainModels,
+      createFilterPaidModels,
     };
   },
 });

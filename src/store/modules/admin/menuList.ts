@@ -48,6 +48,7 @@ const menuList: IAdminMenu[] = [
         title: 'Вопросы',
         to: '/admin/questions',
         icon: 'el-icon-question',
+        tableName: 'questions',
       },
       {
         title: 'Комментарии',

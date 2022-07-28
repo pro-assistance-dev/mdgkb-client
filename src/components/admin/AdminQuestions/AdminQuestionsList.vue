@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
 import FilterModel from '@/classes/filters/FilterModel';
@@ -78,6 +78,7 @@ export default defineComponent({
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
     const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount'](' questions'));
     const edit = () => {
       if (isEditMode.value) {
         return;
@@ -105,6 +106,7 @@ export default defineComponent({
       Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
       Provider.setSortList(...createSortModels(QuestionsSortsLib, Orders.Desc));
       await loadQuestions();
+      await Provider.store.dispatch('questions/subscribeCreate');
       onlyNewFilter.value = QuestionsFiltersLib.onlyNew();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Вопросы',
@@ -112,6 +114,7 @@ export default defineComponent({
           { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
           { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
         ],
+        applicationsCount,
       });
     };
 
@@ -125,11 +128,24 @@ export default defineComponent({
       await Provider.store.dispatch('questions/publish', question.id);
     };
 
+    onBeforeUnmount(async () => {
+      await Provider.store.dispatch('questions/unsubscribeCreate');
+    });
+
     const changeNewStatus = async (question: IQuestion) => {
       question.changeNewStatus();
       await Provider.store.dispatch('questions/changeNewStatus', question);
     };
-    return { questions, loadQuestions, publish, changeNewStatus, mounted: Provider.mounted, onlyNewFilter, isEditMode };
+    return {
+      questions,
+      loadQuestions,
+      publish,
+      changeNewStatus,
+      mounted: Provider.mounted,
+      onlyNewFilter,
+      isEditMode,
+      schema: Provider.schema,
+    };
   },
 });
 </script>

@@ -25,6 +25,20 @@ const actions: ActionTree<State, RootState> = {
     commit('setIsAuth', true);
     commit('setFavourite', newUser);
   },
+  loginAs: async ({ commit }, email: string): Promise<void> => {
+    const res = await httpClient.post<{ email: string }, { user: IUser; tokens: ITokens }>({
+      query: 'login-as',
+      payload: { email: email },
+    });
+    if (!res) {
+      return;
+    }
+    const { user: newUser, tokens } = res;
+    commit('setUser', newUser);
+    commit('setTokens', tokens);
+    commit('setIsAuth', true);
+    commit('setFavourite', newUser);
+  },
   register: async ({ commit }, user: IUser): Promise<void> => {
     const res = await httpClient.post<IUser, { user: IUser; tokens: ITokens }>({ query: 'register', payload: user });
     if (!res) {

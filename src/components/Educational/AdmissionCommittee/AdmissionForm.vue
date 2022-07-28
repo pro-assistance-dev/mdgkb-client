@@ -51,6 +51,7 @@
 import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import UserFormFields from '@/classes/UserFormFields';
 import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
@@ -147,7 +148,9 @@ export default defineComponent({
         {
           confirmButtonText: 'OK',
           callback: () => {
-            Provider.store.dispatch('residencyApplications/filledApplicationDownload', residencyApplication.value);
+            const form = new ResidencyApplication(residencyApplication.value);
+
+            Provider.store.dispatch('residencyApplications/filledApplicationDownload', form);
             scroll('#responce-form');
             return;
           },

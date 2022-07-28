@@ -193,7 +193,7 @@ h2 {
   }
 }
 
-.title-out {
+/* .title-out {
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0.1em;
@@ -219,7 +219,7 @@ h2 {
 
 .hidden {
   display: none;
-}
+} */
 
 :deep(.el-checkbox__label) {
   font-family: Arial, Helvetica, sans-serif;
