@@ -22,7 +22,7 @@
         <EditorContent :content="form.description" />
       </div>
 
-      <el-table :data="filteredFields()" :header-cell-style="headerCellStyle">
+      <el-table :data="fields" :header-cell-style="headerCellStyle">
         <el-table-column :label="getNameLabel" min-width="300">
           <template #default="scope">
             {{ scope.row.name }}
@@ -99,7 +99,7 @@ export default defineComponent({
     const formValue: Ref<IForm | undefined> = ref();
     const getNameLabel = 'Наименование';
     const getDataLabel = 'Данные';
-
+    const fields: Ref<IField[]> = ref([]);
     onBeforeMount(async () => {
       formValue.value = props.form;
       await store.dispatch('formStatuses/getAll');
@@ -112,6 +112,7 @@ export default defineComponent({
           return props.form.findFieldValue(el.id)?.modComment;
         });
       }
+      fields.value = filteredFields();
     });
 
     const filteredFields = (): IField[] => {
@@ -125,6 +126,7 @@ export default defineComponent({
     };
 
     return {
+      fields,
       filteredFields,
       formValue,
       getNameLabel,
