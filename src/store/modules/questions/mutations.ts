@@ -42,6 +42,9 @@ const mutations: MutationTree<State> = {
   setUser(state, user: IUser) {
     state.question.user = new User(user);
   },
+  unshiftToAll(state, item: IQuestion) {
+    state.items.unshift(new Question(item));
+  },
 };
 
 export default mutations;
