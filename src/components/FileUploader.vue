@@ -22,10 +22,12 @@
 </template>
 
 <script lang="ts">
+import { ElNotification } from 'element-plus';
 import { defineComponent, PropType } from 'vue';
 
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import getExtension from '@/services/GetExtension';
 
 export default defineComponent({
   name: 'FileUploader',
@@ -38,11 +40,28 @@ export default defineComponent({
 
   setup(props) {
     const changeFileHandler = (file: IFile) => {
+      if (!isAcceptedFormat(file.name)) {
+        ElNotification.error({
+          message: 'Загруженный файл должен быть в формате pdf, jpg или jpeg',
+        });
+        return;
+      }
       props.fileInfo.uploadAndSetFile(file);
     };
     const removeFile = () => {
       props.fileInfo.clearFile();
     };
+
+    function isAcceptedFormat(filename: string): boolean {
+      let ext = getExtension(filename);
+      switch (ext.toLowerCase()) {
+        case 'pdf':
+        case 'jpg':
+        case 'jpeg':
+          return true;
+      }
+      return false;
+    }
 
     return {
       changeFileHandler,
