@@ -70,10 +70,10 @@
             </el-form-item>
           </el-card>
           <el-card header="Фото">
-            <UploaderSingleScan :file-info="doctor.fileInfo" :height="300" :width="300" @remove-file="doctor.removeFileInfo()" />
+            <UploaderSingleScan :file-info="doctor.human.photo" :height="300" :width="300" @remove-file="doctor.removeFileInfo()" />
           </el-card>
           <el-card header="Фото-миниатюра">
-            <UploaderSingleScan :file-info="doctor.photoMini" :height="300" :width="300" @remove-file="doctor.removePhotoMini()" />
+            <UploaderSingleScan :file-info="doctor.human.photoMini" :height="300" :width="300" @remove-file="doctor.removePhotoMini()" />
           </el-card>
           <el-card>
             <template #header>

@@ -171,8 +171,8 @@ export default class Doctor implements IDoctor {
         fileInfos.push(i.scan);
       }
     });
-    fileInfos.push(this.fileInfo);
-    fileInfos.push(this.photoMini);
+    fileInfos.push(...this.human.getFileInfos());
+
     return fileInfos;
   }
 

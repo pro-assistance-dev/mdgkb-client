@@ -17,6 +17,8 @@ export default class Human implements IHuman {
   snils = '';
   photoId?: string;
   photo: IFileInfo = new FileInfo();
+  photoMiniId?: string;
+  photoMini: IFileInfo = new FileInfo();
   isMale = true;
   dateBirth?: Date;
   contactInfo: IContactInfo = new ContactInfo();
@@ -42,6 +44,10 @@ export default class Human implements IHuman {
 
     if (i.photo) {
       this.photo = new FileInfo(i.photo);
+    }
+
+    if (i.photoMini) {
+      this.photoMini = new FileInfo(i.photoMini);
     }
 
     if (i.contactInfo) {
@@ -78,5 +84,12 @@ export default class Human implements IHuman {
   sanitizeName(): void {
     this.capitalizeName();
     this.trimName();
+  }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    fileInfos.push(this.photo);
+    fileInfos.push(this.photoMini);
+    return fileInfos;
   }
 }
