@@ -28,10 +28,6 @@ export default interface IDoctor {
   position: IPosition;
   positionId?: string;
   tags?: string;
-  fileInfoId?: string;
-  fileInfo: IFileInfo;
-  photoMiniId?: string;
-  photoMini: IFileInfo;
   doctorComments: IDoctorComment[];
   academicDegree: string;
   academicRank: string;
@@ -62,7 +58,4 @@ export default interface IDoctor {
   getMosDoctorLink: () => string;
   getOnlineDoctorLink: () => string;
   setAcademic: () => void;
-
-  removeFileInfo: () => void;
-  removePhotoMini: () => void;
 }
