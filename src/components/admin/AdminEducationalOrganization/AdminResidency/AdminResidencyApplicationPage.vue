@@ -90,6 +90,7 @@
 </template>
 
 <script lang="ts">
+import { ElLoading } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -185,6 +186,12 @@ export default defineComponent({
     };
 
     const submit = async (next?: NavigationGuardNext) => {
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Загрузка',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)',
+      });
       application.value.formValue.validate();
       saveButtonClick.value = true;
       if (!validate(form, true) || !application.value.formValue.validated) {
@@ -198,6 +205,7 @@ export default defineComponent({
         application.value.formValue.clearIds();
         await store.dispatch('residencyApplications/create');
       }
+      loading.close();
       next ? next() : await router.push(`/admin/residency-applications`);
     };
 
