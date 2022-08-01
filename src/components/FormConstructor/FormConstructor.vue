@@ -38,8 +38,7 @@
       </el-table-column>
       <el-table-column label="Образец" width="300px" sortable>
         <template #default="scope">
-          <FileUploader v-if="scope.row.valueType.isFile()" :file-info="scope.row.file" />
-          <span v-else>Доступен только для файлов</span>
+          <FileUploader :file-info="scope.row.file" />
         </template>
       </el-table-column>
       <el-table-column label="Обязательное" width="150px" align="center">
