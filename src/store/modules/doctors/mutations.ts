@@ -5,11 +5,8 @@ import DoctorComment from '@/classes/DoctorComment';
 import Education from '@/classes/educations/Education';
 import EducationAccreditation from '@/classes/educations/EducationAccreditation';
 import EducationCertification from '@/classes/educations/EducationCertification';
-import FileInfo from '@/classes/File/FileInfo';
 import Regalia from '@/classes/Regalia';
 import Timetable from '@/classes/timetable/Timetable';
-import IFile from '@/interfaces/files/IFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import IDoctorsWithCount from '@/interfaces/IDoctorsWithCount';
@@ -68,20 +65,7 @@ const mutations: MutationTree<State> = {
       });
     });
   },
-  setFileInfo(state, fileInfo: IFileInfo) {
-    if (state.item) {
-      state.item.fileInfo = fileInfo;
-    }
-  },
-  saveFromCropper(state, file: IFile) {
-    state.item.fileInfo.file = file.blob;
-    state.item.fileInfo.category = 'previewFile';
-    state.fileList = [];
-    if (state.item.fileInfo.fileSystemPath) state.fileList.push({ name: state.item.fileInfo.fileSystemPath, url: file.src });
-  },
-  removeFileInfo(state) {
-    state.item.fileInfo = new FileInfo();
-  },
+
   setComment(state, item: IDoctorComment) {
     if (state.item) state.item.doctorComments.unshift(item);
     state.comment = new DoctorComment();

@@ -1,9 +1,5 @@
 <template>
   <div class="card-item flex-column">
-    {{ doctor.human.photo.getImageUrl() }}
-    {{ doctor.human.getFullName() }}
-    {{ doctor.division.name }}
-    <img :src="doctor.human.photo.getImageUrl()" alt="alt" @error="user.human.photo.errorImg($event)" />
     <div class="flex-row">
       <div class="flex-column left-side">
         <AvatarWithFavourite
