@@ -74,7 +74,7 @@ export default defineComponent({
     const candidateExams: Ref<ICandidateExam[]> = computed<ICandidateExam[]>(() => [store.getters['candidateExams/item']]);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
-    const editButtonTitle: Ref<string> = ref('Режим редактиварония');
+    const editButtonTitle: Ref<string> = ref('Режим редактирования');
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
@@ -95,7 +95,7 @@ export default defineComponent({
       if (isEditMode.value) {
         editButtonTitle.value = 'Режим просмотра';
       } else {
-        editButtonTitle.value = 'Режим редактиварония';
+        editButtonTitle.value = 'Режим редактирования';
       }
     };
 

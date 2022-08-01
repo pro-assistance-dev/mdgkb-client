@@ -42,7 +42,7 @@
       <el-table-column label="Специальность" align="center" width="150">
         <template #default="scope">
           <div>
-            {{ scope.row.main ? 'Основная' : 'Допольнительня' }}
+            {{ scope.row.main ? 'Основная' : 'Дополнительная' }}
           </div>
         </template>
       </el-table-column>

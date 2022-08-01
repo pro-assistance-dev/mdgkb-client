@@ -6,7 +6,7 @@
           <div style="display: flex; justify-content: space-between">
             <span>Общая информация</span>
             <el-button v-if="!application.userEdit" size="mini" type="success" @click="application.changeUserEdit(true)">
-              Дать возможность редактиварония
+              Дать возможность редактирования
             </el-button>
           </div>
         </template>
@@ -120,7 +120,7 @@ export default defineComponent({
     const residencyCourses: ComputedRef<IResidencyCourse[]> = computed(() => store.getters['residencyCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
-    const editButtonTitle: Ref<string> = ref('Режим редактиварония');
+    const editButtonTitle: Ref<string> = ref('Режим редактирования');
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['residencyApplications/emailExists']);
 
     onBeforeMount(async () => {
@@ -143,7 +143,7 @@ export default defineComponent({
       if (isEditMode.value) {
         editButtonTitle.value = 'Режим просмотра';
       } else {
-        editButtonTitle.value = 'Режим редактиварония';
+        editButtonTitle.value = 'Режим редактирования';
       }
     };
 

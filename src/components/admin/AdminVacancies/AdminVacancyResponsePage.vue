@@ -28,7 +28,7 @@ export default defineComponent({
     const mounted = ref(false);
     const form = ref();
     const isEditMode: Ref<boolean> = ref(false);
-    const editButtonTitle: Ref<string> = ref('Режим редактиварония');
+    const editButtonTitle: Ref<string> = ref('Режим редактирования');
 
     const vacancyResponse: ComputedRef<IVacancyResponse> = computed<IVacancyResponse>(() => store.getters['vacancyResponses/item']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['vacancyResponses/emailExists']);
@@ -38,7 +38,7 @@ export default defineComponent({
       if (isEditMode.value) {
         editButtonTitle.value = 'Режим просмотра';
       } else {
-        editButtonTitle.value = 'Режим редактиварония';
+        editButtonTitle.value = 'Режим редактирования';
       }
     };
 
