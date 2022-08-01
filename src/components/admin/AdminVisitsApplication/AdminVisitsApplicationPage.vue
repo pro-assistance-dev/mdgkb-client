@@ -58,7 +58,7 @@ export default defineComponent({
       if (isEditMode.value) {
         return 'Режим просмотра';
       } else {
-        return 'Режим редактиварония';
+        return 'Режим редактирования';
       }
     });
 

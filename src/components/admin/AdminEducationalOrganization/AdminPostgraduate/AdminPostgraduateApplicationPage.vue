@@ -76,7 +76,7 @@ export default defineComponent({
     const postgraduateCourses: ComputedRef<IPostgraduateCourse[]> = computed(() => store.getters['postgraduateCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
-    const editButtonTitle: Ref<string> = ref('Режим редактиварония');
+    const editButtonTitle: Ref<string> = ref('Режим редактирования');
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['postgraduateApplications/emailExists']);
 
     onBeforeMount(async () => {
@@ -99,7 +99,7 @@ export default defineComponent({
       if (isEditMode.value) {
         editButtonTitle.value = 'Режим просмотра';
       } else {
-        editButtonTitle.value = 'Режим редактиварония';
+        editButtonTitle.value = 'Режим редактирования';
       }
     };
 
