@@ -76,7 +76,7 @@
       <div v-for="head in heads" :key="head.id" class="vice-doctor-info">
         <div class="vice-doctor-avatar">
           <div class="doctor-avatar">
-            <img :src="head.photo.getImageUrl()" alt="alt" @error="head.photo.errorImg($event, 'doctor-default.webp')" />
+            <img :src="head.human.photo.getImageUrl()" alt="alt" @error="head.human.photo.errorImg($event, 'doctor-default.webp')" />
           </div>
         </div>
         <div class="vice-doctor-title">

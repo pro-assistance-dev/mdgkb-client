@@ -92,4 +92,13 @@ export default class Human implements IHuman {
     fileInfos.push(this.photoMini);
     return fileInfos;
   }
+
+  removePhoto(): void {
+    this.photo = new FileInfo();
+    this.photoId = undefined;
+  }
+  removePhotoMini(): void {
+    this.photoMini = new FileInfo();
+    this.photoMiniId = undefined;
+  }
 }

@@ -1,8 +1,7 @@
 <template>
   <div class="img-container" @click="$router.push(imgLink)">
-    <img :src="image.getImageUrl()" alt="alt" @error="image.errorImg($event, errorImgName)" />
-    <!-- <img v-if="image.fileSystemPath" :src="image.getImageUrl()" alt="alt" @error="image.errorImg($event, errorImgName)" />
-    <img v-else :src="require(`@/assets/img/${errorImgName}`)" /> -->
+    <img v-if="image.fileSystemPath" :src="image.getImageUrl()" alt="alt" @error="image.errorImg($event, errorImgName)" />
+    <img v-else :src="require(`@/assets/img/${errorImgName}`)" />
     <div class="favor">
       <FavouriteIcon :domain-id="domainId" :domain-name="domainName" />
     </div>

@@ -2,7 +2,6 @@
   <div class="card-item">
     <div class="card-item-left">
       <div class="doctor-img">
-        {{ doctor.human.photo.getImageUrl() }}
         <img
           v-if="doctor.human.photo.fileSystemPath"
           :src="doctor.human.photo.getImageUrl()"
