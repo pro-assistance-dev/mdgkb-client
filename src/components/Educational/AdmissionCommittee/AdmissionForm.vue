@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { ElLoading, ElMessageBox, ElNotification } from 'element-plus';
+import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
@@ -60,6 +60,7 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IUser from '@/interfaces/IUser';
+import validate from '@/mixins/validate';
 import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
 
@@ -70,7 +71,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(4);
+    const activeStep: Ref<number> = ref(0);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -112,20 +113,20 @@ export default defineComponent({
     };
 
     const submit = async () => {
-      // if (emailExists.value) {
-      //   ElNotification.error({
-      //     dangerouslyUseHTMLString: true,
-      //     message: document.querySelector('#error-block-message')?.innerHTML || '',
-      //   });
-      //   scroll('#responce-form');
-      //   return;
-      // }
-      // residencyApplication.value.formValue.clearIds();
+      if (emailExists.value) {
+        ElNotification.error({
+          dangerouslyUseHTMLString: true,
+          message: document.querySelector('#error-block-message')?.innerHTML || '',
+        });
+        scroll('#responce-form');
+        return;
+      }
+      residencyApplication.value.formValue.clearIds();
       await Provider.store.dispatch('residencyApplications/create');
       ElNotification.success('Заявка успешно отправлена');
-      // emit('close');
-      // clearAllValidate();
-      // await Provider.router.push('/admission-committee');
+      emit('close');
+      clearAllValidate();
+      await Provider.router.push('/admission-committee');
     };
 
     onBeforeMount(async () => {
@@ -165,57 +166,57 @@ export default defineComponent({
     };
 
     const submitStep = async () => {
-      // if (activeStep.value === 0 && !validate(userForm)) {
-      //   return;
-      // }
-      // if (activeStep.value === 1 && !validate(questionsForm)) {
-      //   return;
-      // }
-      // if (activeStep.value === 2 && !residencyApplication.value.validateAchievementsPoints()) {
-      //   ElMessage({
-      //     type: 'error',
-      //     message: 'Необходимо добавить все файлы',
-      //   });
-      //   return;
-      // }
-      // residencyApplication.value.formValue.validate(true);
-      // if (activeStep.value === 3 && !residencyApplication.value.formValue.validated) {
-      //   ElNotification.error({
-      //     dangerouslyUseHTMLString: true,
-      //     message: residencyApplication.value.formValue.getErrorMessage(),
-      //   });
-      //   return;
-      // }
-      // if (activeStep.value === 3 && residencyApplication.value.formValue.validated) {
-      //   filledApplicationDownload();
-      // }
-      // residencyApplication.value.formValue.validate(false);
-      // if (activeStep.value === 4 && !residencyApplication.value.formValue.validated) {
-      //   ElNotification.error({
-      //     dangerouslyUseHTMLString: true,
-      //     message: residencyApplication.value.formValue.getErrorMessage(),
-      //   });
-      //   scroll('#responce-form');
-      //   return;
-      // }
-      // if (activeStep.value !== 3) {
-      //   scroll('#responce-form');
-      // }
+      if (activeStep.value === 0 && !validate(userForm)) {
+        return;
+      }
+      if (activeStep.value === 1 && !validate(questionsForm)) {
+        return;
+      }
+      if (activeStep.value === 2 && !residencyApplication.value.validateAchievementsPoints()) {
+        ElMessage({
+          type: 'error',
+          message: 'Необходимо добавить все файлы',
+        });
+        return;
+      }
+      residencyApplication.value.formValue.validate(true);
+      if (activeStep.value === 3 && !residencyApplication.value.formValue.validated) {
+        ElNotification.error({
+          dangerouslyUseHTMLString: true,
+          message: residencyApplication.value.formValue.getErrorMessage(),
+        });
+        return;
+      }
+      if (activeStep.value === 3 && residencyApplication.value.formValue.validated) {
+        filledApplicationDownload();
+      }
+      residencyApplication.value.formValue.validate(false);
+      if (activeStep.value === 4 && !residencyApplication.value.formValue.validated) {
+        ElNotification.error({
+          dangerouslyUseHTMLString: true,
+          message: residencyApplication.value.formValue.getErrorMessage(),
+        });
+        scroll('#responce-form');
+        return;
+      }
+      if (activeStep.value !== 3) {
+        scroll('#responce-form');
+      }
       activeStep.value++;
-      // if (activeStep.value > 4) {
-      buttonOff.value = true;
-      const loading = ElLoading.service({
-        lock: true,
-        text: 'Загрузка',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)',
-      });
-      await submit();
-      buttonOff.value = false;
-      loading.close();
-      // return;
-      // }
-      // clearAllValidate();
+      if (activeStep.value > 4) {
+        buttonOff.value = true;
+        const loading = ElLoading.service({
+          lock: true,
+          text: 'Загрузка',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)',
+        });
+        await submit();
+        buttonOff.value = false;
+        loading.close();
+        return;
+      }
+      clearAllValidate();
     };
 
     const toStep = async (stepNum: number) => {
