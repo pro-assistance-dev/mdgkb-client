@@ -150,8 +150,6 @@ export default defineComponent({
       Provider.store.commit('filter/setStoreModule', 'auth');
       Provider.store.commit('filter/setAction', 'getAllPathPermissionsAdmin');
       Provider.setSortModels(PathPermissionsSortsLib.byResource(Orders.Asc));
-      filterQuery.value.pagination.cursorMode = false;
-      filterQuery.value.pagination.limit = 0;
       await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
       // await Provider.store.dispatch('auth/getAllPathPermissions');
       await Provider.store.dispatch('roles/getAll');
