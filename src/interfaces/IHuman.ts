@@ -20,6 +20,9 @@ export default interface IHuman {
   photoId?: string;
   photo: IFileInfo;
 
+  photoMiniId?: string;
+  photoMini: IFileInfo;
+
   contactInfo: IContactInfo;
   sanitizeName: () => void;
 

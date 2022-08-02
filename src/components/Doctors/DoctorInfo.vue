@@ -2,7 +2,12 @@
   <div class="card-item">
     <div class="card-item-left">
       <div class="doctor-img">
-        <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="doctor.fileInfo.errorImg" />
+        <img
+          v-if="doctor.human.photo.fileSystemPath"
+          :src="doctor.human.photo.getImageUrl()"
+          alt="alt"
+          @error="user.human.photo.errorImg($event)"
+        />
         <img v-else src="@/assets/img/doctor-default.webp" />
         <div class="favor">
           <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />

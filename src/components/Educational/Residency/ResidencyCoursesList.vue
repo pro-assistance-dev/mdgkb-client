@@ -15,9 +15,9 @@
                 {{ residencyCourse.getMainSpecialization().code }}&nbsp;<router-link :to="`/residency-courses/${residencyCourse.id}`">
                   {{ residencyCourse.getMainSpecialization().name }}
                 </router-link>
-                <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">
-                  Подать заявку
-                </button>
+                <!--                <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">-->
+                <!--                  Подать заявку-->
+                <!--                </button>-->
               </div>
             </div>
           </div>
@@ -75,9 +75,9 @@
               <router-link :to="`/residency-courses/${residencyCourse.id}`">
                 {{ residencyCourse.getMainSpecialization().name }}
               </router-link>
-              <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">
-                Подать заявку
-              </button>
+              <!--              <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">-->
+              <!--                Подать заявку-->
+              <!--              </button>-->
             </td>
             <td v-if="years" style="text-align: center">
               {{ residencyCourse.getPeriod() }}

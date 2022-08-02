@@ -1,7 +1,6 @@
 import { GetterTree } from 'vuex';
 
 import IEducation from '@/interfaces/education/IEducation';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFIlesList from '@/interfaces/files/IFIlesList';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
@@ -30,9 +29,7 @@ const getters: GetterTree<State, RootState> = {
     const { divisionDoctors } = state;
     return divisionDoctors;
   },
-  fileInfo(state): IFileInfo {
-    return state.item.fileInfo;
-  },
+
   fileList(state): IFIlesList[] {
     return state.fileList;
   },
