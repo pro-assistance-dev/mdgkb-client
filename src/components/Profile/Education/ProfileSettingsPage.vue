@@ -24,7 +24,7 @@ import IUser from '@/interfaces/IUser';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
-  name: 'EducationPage',
+  name: 'ProfileSettingsPage',
   setup() {
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
