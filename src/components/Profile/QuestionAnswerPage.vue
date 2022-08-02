@@ -4,26 +4,24 @@
       <div class="hidden">
         <h2><b>Вопросы-ответы</b></h2>
       </div>
-      {{ user.questions }}
     </div>
-    <div v-for="question in user.questions" :key="question.id">
-      <CommentCard v-if:="item.published" :is-question="true" :question="question" />
+    <div v-for="question in user.questions" :key="question.id" class="card-item">
+      <CommentCard :is-question="true" :question="question" />
     </div>
-    <LoadMoreButton @loadMore="loadMore" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import CommentCard from '@/components/Comments/CommentCard.vue';
-import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import IUser from '@/interfaces/IUser';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'QuestionAnswerPage',
-  components: { LoadMoreButton, CommentCard },
+  components: { CommentCard },
   setup() {
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
@@ -31,8 +29,10 @@ export default defineComponent({
 
     const loadUser = async () => {
       await Provider.store.dispatch('users/get', userId.value);
+      mounted.value = true;
     };
-    onMounted(loadUser);
+
+    Hooks.onBeforeMount(loadUser);
 
     return {
       mounted,

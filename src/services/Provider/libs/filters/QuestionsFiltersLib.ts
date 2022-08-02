@@ -22,6 +22,7 @@ const QuestionsFiltersLib = (() => {
       Provider.schema.value.question.published,
       DataTypes.Boolean
     );
+    onlyPublished.boolean = true;
     onlyPublished.operator = Operators.Eq;
     onlyPublished.label = 'Только опубликованные';
     return onlyPublished;

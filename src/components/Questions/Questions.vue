@@ -1,6 +1,6 @@
 <template>
-  <div v-for="item in questionsList" :key="item.id">
-    <CommentCard v-if:="item.published" :is-question="true" :question="item" />
+  <div v-for="item in questionsList" :key="item.id" class="card-item">
+    <CommentCard :is-question="true" :question="item" />
   </div>
   <LoadMoreButton @loadMore="loadMore" />
 </template>
@@ -14,6 +14,7 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
 
 export default defineComponent({
@@ -41,7 +42,7 @@ export default defineComponent({
     const load = async () => {
       Provider.filterQuery.value.pagination.append = false;
       Provider.store.commit('filter/setStoreModule', 'questions');
-      // Provider.setFilterModels(QuestionsFiltersLib.onlyPublished());
+      Provider.setFilterModels(QuestionsFiltersLib.onlyPublished());
       Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
       await Provider.getAll('questions');
     };
