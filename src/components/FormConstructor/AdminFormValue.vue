@@ -13,7 +13,7 @@
         <el-descriptions-item label="Время принятия заявления">
           <template v-if="formValue.formStatus.isAccepted()">
             <el-form-item style="margin: 0" prop="content">
-              <el-date-picker v-model="formValue.approvingDate" format="DD.MM.YYYY" />
+              <DatePicker v-model="formValue.approvingDate" />
             </el-form-item>
           </template>
           <div v-else>Заявка пока что не принята</div>
@@ -100,6 +100,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, r
 
 import Form from '@/classes/Form';
 import UserFormFields from '@/classes/UserFormFields';
+import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
@@ -117,6 +118,7 @@ export default defineComponent({
     // UserForm,
     AdminUserInfo,
     WysiwygEditor,
+    DatePicker,
   },
   props: {
     form: {

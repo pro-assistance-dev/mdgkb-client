@@ -18,7 +18,7 @@ export default class Human implements IHuman {
   photoId?: string;
   photo: IFileInfo = new FileInfo();
   isMale = true;
-  dateBirth?: Date;
+  dateBirth = new Date();
   contactInfo: IContactInfo = new ContactInfo();
   slug = '';
   postIndex = '';

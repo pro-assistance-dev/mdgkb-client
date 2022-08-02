@@ -24,7 +24,7 @@
                 <div v-if="vacancy.division">{{ vacancy.division.name }}</div>
               </el-form-item>
               <el-form-item label-width="100px" label="Дата добавления вакансии">
-                <el-date-picker v-model="vacancy.date" type="date" format="DD.MM.YYYY" placeholder="Выберите дату" />
+                <DatePicker v-model="vacancy.date" />
               </el-form-item>
               <el-form-item label="Шаблон формы">
                 <el-select v-model="vacancy.formPattern" value-key="id" placeholder="Шаблон формы">
@@ -77,6 +77,7 @@ import Division from '@/classes/buildings/Division';
 import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponcesTable.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
+import DatePicker from '@/components/DatePicker.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IForm from '@/interfaces/IForm';
@@ -90,7 +91,7 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
-  components: { SortableInputsList, CardHeader, AdminVacancyResponcesTable, RemoteSearch },
+  components: { DatePicker, SortableInputsList, CardHeader, AdminVacancyResponcesTable, RemoteSearch },
   setup() {
     const route = useRoute();
     const form = ref();
