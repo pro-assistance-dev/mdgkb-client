@@ -100,9 +100,9 @@ export default defineComponent({
     margin-right: 20px;
     // max-width: $left-side-max-width;
   }
-  .right-side {
-    // max-width: $right-side-max-width;
-  }
+  // .right-side {
+  // max-width: $right-side-max-width;
+  // }
 }
 h2 {
   margin: 0;

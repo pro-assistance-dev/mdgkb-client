@@ -6,7 +6,7 @@
           <div style="display: flex; justify-content: space-between">
             <span>Общая информация</span>
             <el-button v-if="!application.userEdit" size="mini" type="success" @click="application.changeUserEdit(true)">
-              Дать возможность редактиварония
+              Дать возможность редактирования
             </el-button>
           </div>
         </template>
@@ -90,6 +90,7 @@
 </template>
 
 <script lang="ts">
+import { ElLoading } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -120,7 +121,7 @@ export default defineComponent({
     const residencyCourses: ComputedRef<IResidencyCourse[]> = computed(() => store.getters['residencyCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
-    const editButtonTitle: Ref<string> = ref('Режим редактиварония');
+    const editButtonTitle: Ref<string> = ref('Режим редактирования');
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['residencyApplications/emailExists']);
 
     onBeforeMount(async () => {
@@ -143,7 +144,7 @@ export default defineComponent({
       if (isEditMode.value) {
         editButtonTitle.value = 'Режим просмотра';
       } else {
-        editButtonTitle.value = 'Режим редактиварония';
+        editButtonTitle.value = 'Режим редактирования';
       }
     };
 
@@ -185,6 +186,12 @@ export default defineComponent({
     };
 
     const submit = async (next?: NavigationGuardNext) => {
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Загрузка',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)',
+      });
       application.value.formValue.validate();
       saveButtonClick.value = true;
       if (!validate(form, true) || !application.value.formValue.validated) {
@@ -198,6 +205,7 @@ export default defineComponent({
         application.value.formValue.clearIds();
         await store.dispatch('residencyApplications/create');
       }
+      loading.close();
       next ? next() : await router.push(`/admin/residency-applications`);
     };
 

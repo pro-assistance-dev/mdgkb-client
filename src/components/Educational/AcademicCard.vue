@@ -3,7 +3,7 @@
     <div class="flex-row">
       <div class="flex-column left-side">
         <AvatarWithFavourite
-          :image="doctor.photoMini"
+          :image="doctor.human.photoMini"
           error-img-name="doctor-default.webp"
           :domain-id="doctor.id"
           domain-name="doctor"
