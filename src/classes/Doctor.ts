@@ -3,7 +3,6 @@ import Certificate from '@/classes/Certificate';
 import DoctorPaidService from '@/classes/DoctorPaidService';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
-import FileInfo from '@/classes/File/FileInfo';
 import Human from '@/classes/Human';
 import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/news/NewsDoctor';
@@ -41,10 +40,6 @@ export default class Doctor implements IDoctor {
   position: IPosition = new Position();
   positionId?: string;
   tags?: string;
-  fileInfo = new FileInfo();
-  fileInfoId?: string;
-  photoMini = new FileInfo();
-  photoMiniId?: string;
   newsDoctors: INewsDoctor[] = [];
   doctorComments: IDoctorComment[] = [];
   academicDegree = '';
@@ -81,8 +76,6 @@ export default class Doctor implements IDoctor {
     this.timetableId = i.timetableId;
     this.position = i.position;
     this.tags = i.tags;
-    this.fileInfoId = i.fileInfoId;
-    this.photoMiniId = i.photoMiniId;
     this.mosDoctorLink = i.mosDoctorLink;
     this.medicalProfileId = i.medicalProfileId;
     this.onlineDoctorId = i.onlineDoctorId;
@@ -90,12 +83,6 @@ export default class Doctor implements IDoctor {
       this.medicalProfile = new MedicalProfile(i.medicalProfile);
     }
 
-    if (i.fileInfo) {
-      this.fileInfo = new FileInfo(i.fileInfo);
-    }
-    if (i.photoMini) {
-      this.photoMini = new FileInfo(i.photoMini);
-    }
     if (i.doctorComments) {
       this.doctorComments = i.doctorComments.map((item: IDoctorComment) => new DoctorComment(item));
     }
@@ -171,8 +158,8 @@ export default class Doctor implements IDoctor {
         fileInfos.push(i.scan);
       }
     });
-    fileInfos.push(this.fileInfo);
-    fileInfos.push(this.photoMini);
+    fileInfos.push(...this.human.getFileInfos());
+
     return fileInfos;
   }
 
@@ -192,14 +179,5 @@ export default class Doctor implements IDoctor {
     } else {
       this.educationalOrganizationAcademic = undefined;
     }
-  }
-
-  removeFileInfo(): void {
-    this.fileInfo = new FileInfo();
-    this.fileInfoId = undefined;
-  }
-  removePhotoMini(): void {
-    this.photoMini = new FileInfo();
-    this.photoMiniId = undefined;
   }
 }
