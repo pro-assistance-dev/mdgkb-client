@@ -4,72 +4,39 @@
       <div class="hidden">
         <h2><b>Вопросы-ответы</b></h2>
       </div>
+      {{ user.questions }}
     </div>
-    <div v-for="item in questionsList" :key="item.user_id">
-      <CommentCard v-if:="item.published" :is-question="true" :question="item" />
+    <div v-for="question in user.questions" :key="question.id">
+      <CommentCard v-if:="item.published" :is-question="true" :question="question" />
     </div>
     <LoadMoreButton @loadMore="loadMore" />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
 
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import { Orders } from '@/interfaces/filters/Orders';
-import IQuestion from '@/interfaces/IQuestion';
-import Hooks from '@/services/Hooks/Hooks';
+import IUser from '@/interfaces/IUser';
 import Provider from '@/services/Provider';
-import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
 
 export default defineComponent({
   name: 'QuestionAnswerPage',
   components: { LoadMoreButton, CommentCard },
-  async setup() {
-    const filter = ref('');
-    const filePath = ref('');
-    const questions: Ref<IQuestion[]> = computed(() => Provider.store.getters['questions/items']);
+  setup() {
+    const mounted = ref(false);
+    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
 
-    const questionsList = computed((): IQuestion[] => {
-      if (filter.value) {
-        return questions.value.filter((o: IQuestion) => {
-          return (
-            o.question.toLowerCase().includes(filter.value.toLowerCase()) || o.answer.toLowerCase().includes(filter.value.toLowerCase())
-          );
-        });
-      } else {
-        return questions.value;
-      }
-    });
-
-    const activeName = ref(1);
-
-    const load = async () => {
-      Provider.filterQuery.value.pagination.append = false;
-      Provider.store.commit('filter/setStoreModule', 'questions');
-      Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
-      await Provider.getAll('questions');
+    const loadUser = async () => {
+      await Provider.store.dispatch('users/get', userId.value);
     };
-
-    Hooks.onBeforeMount(load);
-
-    const openQuestion = () => Provider.store.commit('questions/openQuestion');
-
-    const loadMore = async () => {
-      Provider.filterQuery.value.pagination.offset = questions.value.length;
-      Provider.filterQuery.value.pagination.append = true;
-      await Provider.getAll('questions');
-    };
+    onMounted(loadUser);
 
     return {
-      loadMore,
-      openQuestion,
-      filePath,
-      questions,
-      questionsList,
-      activeName,
-      filter,
+      mounted,
+      user,
     };
   },
 });

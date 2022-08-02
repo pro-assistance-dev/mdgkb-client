@@ -41,6 +41,7 @@ export default defineComponent({
     const load = async () => {
       Provider.filterQuery.value.pagination.append = false;
       Provider.store.commit('filter/setStoreModule', 'questions');
+      // Provider.setFilterModels(QuestionsFiltersLib.onlyPublished());
       Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
       await Provider.getAll('questions');
     };
