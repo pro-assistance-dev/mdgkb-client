@@ -29,7 +29,7 @@
           </svg>
         </router-link>
       </li>
-      <li>
+      <li v-if="user.questions">
         <router-link class="item-list" :to="`/profile/question-answer`" :class="activeRoute === 'question-answer' ? 'active' : ''">
           <svg class="icon-education">
             <use xlink:href="#question"></use>
