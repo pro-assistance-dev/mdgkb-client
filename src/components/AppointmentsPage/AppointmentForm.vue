@@ -53,8 +53,8 @@
     <el-form-item v-if="appointment.oms">
       <el-input v-model="appointment.clinicName" placeholder="Номер поликлиники"></el-input>
     </el-form-item>
-    <el-form-item v-if="appointment.oms" v-model="appointment.date">
-      <el-date-picker placeholder="Дата выдачи направления"></el-date-picker>
+    <el-form-item v-if="appointment.oms">
+      <DatePicker v-model="appointment.date" placeholder="Дата выдачи направления" />
     </el-form-item>
   </el-form>
 </template>
@@ -64,12 +64,14 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useStore } from 'vuex';
 
 import Child from '@/classes/Child';
+import DatePicker from '@/components/DatePicker.vue';
 import IAppointment from '@/interfaces/IAppointment';
 import IUser from '@/interfaces/IUser';
 import ISchema from '@/interfaces/schema/ISchema';
+
 export default defineComponent({
   name: 'AppointmentForm',
-  components: {},
+  components: { DatePicker },
   emits: ['createChildMode'],
   setup(props, { emit }) {
     const store = useStore();

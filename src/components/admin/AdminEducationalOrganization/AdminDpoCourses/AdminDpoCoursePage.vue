@@ -22,12 +22,12 @@
                 <el-table :data="dpoCourse.dpoCoursesDates">
                   <el-table-column label="Начало" sortable>
                     <template #default="scope">
-                      <el-date-picker v-model="scope.row.start" format="DD.MM.YYYY" placeholder="Дата"></el-date-picker>
+                      <DatePicker v-model="scope.row.start" />
                     </template>
                   </el-table-column>
                   <el-table-column label="Начало" sortable>
                     <template #default="scope">
-                      <el-date-picker v-model="scope.row.end" type="date" format="DD.MM.YYYY" placeholder="Дата"></el-date-picker>
+                      <DatePicker v-model="scope.row.end" />
                     </template>
                   </el-table-column>
                   <el-table-column width="50" fixed="right" align="center">
@@ -133,6 +133,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
@@ -153,6 +154,7 @@ export default defineComponent({
     RemoteSearch,
     WysiwygEditor,
     TableButtonGroup,
+    DatePicker,
   },
   setup() {
     const store = useStore();

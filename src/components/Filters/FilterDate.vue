@@ -14,12 +14,8 @@
           <!--          </el-select>-->
         </el-form-item>
         <el-form-item v-if="filterModel.isUnaryFilter()">
-          <el-date-picker v-model="filterModel.value1" size="mini" format="DD.MM.YYYY" @change="addFilterModel"></el-date-picker>
+          <DatePicker v-model="filterModel.value1" size="mini" format="DD.MM.YYYY" @change="addFilterModel" />
         </el-form-item>
-        <!--        <el-form-item v-if="filterModel.isBetweenFilter()">-->
-        <!--          <el-date-picker v-model="filterModel.date1" size="mini" format="DD.MM.YYYY" @change="addFilterModel"></el-date-picker>-->
-        <!--          <el-date-picker v-model="filterModel.date2" size="mini" format="DD.MM.YYYY" @change="addFilterModel"></el-date-picker>-->
-        <!--        </el-form-item>-->
       </el-form>
     </div>
   </component>

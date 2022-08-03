@@ -16,7 +16,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="Дата рождения">
-      <el-date-picker v-model="child.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
+      <DatePicker v-model="child.human.dateBirth" />
     </el-form-item>
     <el-button @click="addChild">Добавить</el-button>
   </el-form>
@@ -26,11 +26,13 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
 
+import DatePicker from '@/components/DatePicker.vue';
 import IChild from '@/interfaces/IChild';
 import IUser from '@/interfaces/IUser';
+
 export default defineComponent({
   name: 'ChildForm',
-  components: {},
+  components: { DatePicker },
   emits: ['createChild'],
   setup(props, { emit }) {
     const store = useStore();

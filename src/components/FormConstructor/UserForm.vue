@@ -69,7 +69,7 @@
     label="Дата рождения"
     prop="formValue.user.human.dateBirth"
   >
-    <el-date-picker v-model="formValue.user.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
+    <DatePicker v-model="formValue.user.human.dateBirth" />
   </el-form-item>
   <el-form-item v-if="activeFields.userIsMale" :rules="rules.userIsMale" label="Пол" prop="formValue.user.human.isMale">
     <el-select v-model="formValue.user.human.isMale" placeholder="Выберите пол">
@@ -105,7 +105,7 @@
     label="Дата рождения пациента"
     prop="formValue.child.human.dateBirth"
   >
-    <el-date-picker v-model="formValue.child.human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
+    <DatePicker v-model="formValue.child.human.dateBirth" />
   </el-form-item>
   <el-form-item
     v-if="activeFields.userPlaceBirth"
@@ -137,6 +137,7 @@ import { useStore } from 'vuex';
 
 import Form from '@/classes/Form';
 import UserFormFields from '@/classes/UserFormFields';
+import DatePicker from '@/components/DatePicker.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IForm from '@/interfaces/IForm';
 import IUser from '@/interfaces/IUser';
@@ -144,6 +145,7 @@ import IUserFormFields from '@/interfaces/IUserFormFields';
 
 export default defineComponent({
   name: 'UserForm',
+  components: { DatePicker },
   props: {
     form: {
       type: Object as PropType<IForm>,

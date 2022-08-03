@@ -21,7 +21,7 @@
               <el-table :data="postgraduateCourse.postgraduateCoursePlans">
                 <el-table-column label="Год" sortable>
                   <template #default="scope">
-                    <el-date-picker v-model="scope.row.year" type="year" placeholder="Выберете год" />
+                    <DatePicker v-model="scope.row.year" />
                   </template>
                 </el-table-column>
                 <el-table-column label="Учебный план" sortable width="300px">
@@ -59,12 +59,12 @@
                 <el-table :data="postgraduateCourse.postgraduateCoursesDates">
                   <el-table-column label="Начало" sortable>
                     <template #default="scope">
-                      <el-date-picker v-model="scope.row.start"></el-date-picker>
+                      <DatePicker v-model="scope.row.start" />
                     </template>
                   </el-table-column>
                   <el-table-column label="Конец" sortable>
                     <template #default="scope">
-                      <el-date-picker v-model="scope.row.end"></el-date-picker>
+                      <DatePicker v-model="scope.row.end" />
                     </template>
                   </el-table-column>
                   <el-table-column width="50" fixed="right" align="center">
@@ -189,6 +189,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -211,6 +212,7 @@ export default defineComponent({
     WysiwygEditor,
     TableButtonGroup,
     FileUploader,
+    DatePicker,
   },
   setup() {
     const store = useStore();
