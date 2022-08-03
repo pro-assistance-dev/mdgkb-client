@@ -1,3 +1,4 @@
+import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
@@ -21,6 +22,7 @@ export default interface IUser {
   human: IHuman;
   humanId?: string;
   questions: IQuestion[];
+  comments: IComment[];
   children: IChild[];
   childrenForDelete: string[];
   dpoApplications: IDpoApplication[];
