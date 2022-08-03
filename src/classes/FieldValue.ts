@@ -112,4 +112,8 @@ export default class FieldValue implements IFieldValue {
   addFieldValueFile(): void {
     this.fieldValuesFiles.push(new FieldValueFile());
   }
+
+  setValueDate(value: Date): void {
+    this.valueDate = value;
+  }
 }

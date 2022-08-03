@@ -28,8 +28,8 @@
             />
           </template>
           <div v-if="education.educationCertification">
-            <el-date-picker v-model="education.educationCertification.certificationDate" />
-            <el-date-picker v-model="education.educationCertification.endDate" />
+            <DatePicker v-model="education.educationCertification.certificationDate" />
+            <DatePicker v-model="education.educationCertification.endDate" />
             <el-input v-model="education.educationCertification.place" />
             <el-input v-model="education.educationCertification.specialization" />
             <el-input v-model="education.educationCertification.document" />
@@ -50,8 +50,8 @@
             />
           </template>
           <div v-if="education.educationAccreditation">
-            <el-date-picker v-model="education.educationAccreditation.startDate" />
-            <el-date-picker v-model="education.educationAccreditation.endDate" />
+            <DatePicker v-model="education.educationAccreditation.startDate" />
+            <DatePicker v-model="education.educationAccreditation.endDate" />
             <el-input v-model="education.educationAccreditation.specialization" />
             <el-input v-model="education.educationAccreditation.document" />
           </div>
@@ -66,10 +66,11 @@ import { computed, defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import CardHeader from '@/components/admin/CardHeader.vue';
+import DatePicker from '@/components/DatePicker.vue';
 
 export default defineComponent({
   name: 'EducationForm',
-  components: { CardHeader },
+  components: { CardHeader, DatePicker },
   props: {
     storeModule: {
       type: String as PropType<string>,

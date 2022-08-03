@@ -50,11 +50,12 @@ export default defineComponent({
   components: { ApplicationCard, MyApplicationsButton, ApplicationTable },
   setup() {
     const mounted = ref(false);
-    // const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
 
     const loadUser = async () => {
-      // await Provider.store.dispatch('users/get', userId.value);
+      console.log('LoadEducation');
+      await Provider.store.dispatch('users/get', userId.value);
       mounted.value = true;
     };
 

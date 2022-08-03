@@ -48,7 +48,7 @@ export default class User implements IUser {
   candidateApplications: ICandidateApplication[] = [];
   candidateApplicationsForDelete: string[] = [];
   formValues: IForm[] = [];
-
+  createdAt?: Date;
   constructor(i?: IUser) {
     if (!i) return;
     this.id = i.id;
@@ -56,6 +56,9 @@ export default class User implements IUser {
     this.password = i.password;
     this.phone = i.phone;
     this.rejectEmail = i.rejectEmail;
+    if (i.createdAt) {
+      this.createdAt = new Date(i.createdAt);
+    }
     if (i.human) {
       this.human = new Human(i.human);
     }

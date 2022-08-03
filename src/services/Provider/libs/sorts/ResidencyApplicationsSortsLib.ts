@@ -9,10 +9,20 @@ const ResidencyApplicationsSortsLib = (() => {
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.createdAt,
       order ? order : Orders.Asc,
-      `По дате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
+      `По дате подачи ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? true : false
     );
   }
+  function byApprovingDate(order?: Orders): ISortModel {
+    return SortModel.CreateSortModel(
+      Provider.schema.value.residencyApplication.tableName,
+      Provider.schema.value.residencyApplication.approvingDate,
+      order ? order : Orders.Asc,
+      `По дате принятия ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
+      order === Orders.Desc ? true : false
+    );
+  }
+
   function byUserFullName(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
@@ -68,6 +78,7 @@ const ResidencyApplicationsSortsLib = (() => {
   }
 
   return {
+    byApprovingDate,
     byCreatedAt,
     byUserFullName,
     byUserEmail,

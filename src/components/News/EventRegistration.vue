@@ -11,7 +11,7 @@
             <el-input-number v-model="eventApplication.findFieldValue(field.id).valueNumber" />
           </el-form-item>
           <el-form-item v-if="field.valueType.isDate()" :label="field.name">
-            <el-date-picker v-model="eventApplication.findFieldValue(field.id).valueDate" />
+            <DatePicker v-model="eventApplication.findFieldValue(field.id).valueDate" />
           </el-form-item>
         </div>
         <div style="display: flex; justify-content: flex-end">
@@ -29,6 +29,7 @@ import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/news/CommentRules';
 import User from '@/classes/User';
+import DatePicker from '@/components/DatePicker.vue';
 import IUser from '@/interfaces/IUser';
 import IEvent from '@/interfaces/news/IEvent';
 import IEventApplication from '@/interfaces/news/IEventApplication';
@@ -36,6 +37,7 @@ import validate from '@/mixins/validate';
 
 export default defineComponent({
   name: 'EventRegistration',
+  components: { DatePicker },
   async setup(prop) {
     const store = useStore();
     const event: Ref<IEvent> = computed(() => store.getters['news/newsItem'].event);

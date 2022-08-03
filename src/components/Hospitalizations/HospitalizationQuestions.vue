@@ -13,7 +13,7 @@
   </div>
   <div v-if="secondQuestion">
     <h4>Выберите предполагаемую дату госпитализации</h4>
-    <el-date-picker v-model="hospitalization.selectedHospitalisation.date" class="secondQuestion"></el-date-picker><br />
+    <DatePicker v-model="hospitalization.selectedHospitalisation.date" class="secondQuestion" /><br />
     <div class="select-block">
       <button class="select" @click="selectDate(true)">Выбрать</button>
       <button class="select_dont" @click="selectDate(false)">Я не знаю, какая дата мне нужна</button>
@@ -25,13 +25,15 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import DatePicker from '@/components/DatePicker.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import ISchema from '@/interfaces/schema/ISchema';
+
 export default defineComponent({
   name: 'HospitalizationsQuestions',
-  components: { FilterSelect },
+  components: { FilterSelect, DatePicker },
   emits: ['allQuestionsAnswered'],
   setup(props, { emit }) {
     const hospitalization: ComputedRef<IHospitalizationType> = computed(() => store.getters['hospitalizations/selectedHospitalisation']);

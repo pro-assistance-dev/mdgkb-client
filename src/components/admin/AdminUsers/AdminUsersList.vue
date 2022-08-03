@@ -12,9 +12,9 @@
             <span>{{ scope.row.human.getFullName() }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Имя" sortable>
+        <el-table-column label="Время регистрации" sortable>
           <template #default="scope">
-            <span>{{ scope.row.role.label }}</span>
+            <span>{{ $dateTimeFormatter.format(scope.row.createdAt, { hour: 'numeric', minute: 'numeric' }) }}</span>
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
@@ -44,7 +44,6 @@ import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-
 export default defineComponent({
   name: 'AdminUsersList',
   components: { TableButtonGroup, Pagination },

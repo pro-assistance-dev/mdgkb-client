@@ -40,7 +40,7 @@ export default interface IUser {
   hasNewAnswers: () => boolean;
   countNewAnswers: () => number;
   readAllAnswers: () => void;
-
+  createdAt?: Date;
   addChild: () => void;
   removeChild: (index: number) => void;
 

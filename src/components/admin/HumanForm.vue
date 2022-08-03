@@ -51,7 +51,7 @@
         <div class="item-block">
           <div class="item-data">
             <el-form-item label="Дата рождения" prop="human.dateBirth">
-              <el-date-picker v-model="human.dateBirth" type="date" format="DD.MM.YYYY" placeholder="Выберите дату"></el-date-picker>
+              <DatePicker v-model="human.dateBirth" />
             </el-form-item>
           </div>
         </div>
@@ -79,11 +79,12 @@ import { watch } from '@vue/runtime-core';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import DatePicker from '@/components/DatePicker.vue';
 import IHuman from '@/interfaces/IHuman';
 
 export default defineComponent({
   name: 'HumanForm',
-  components: {},
+  components: { DatePicker },
   props: {
     storeModule: {
       type: String as PropType<string>,

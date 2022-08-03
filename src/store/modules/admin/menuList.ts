@@ -279,6 +279,11 @@ const menuList: IAdminMenu[] = [
         to: '/admin/form-status-groups',
         icon: 'el-icon-user',
       },
+      {
+        title: 'Статусы заявок',
+        to: '/admin/form-statuses',
+        icon: 'el-icon-user',
+      },
     ],
   },
   {
@@ -299,11 +304,6 @@ const menuList: IAdminMenu[] = [
         to: '/admin/paid-programs-groups',
         icon: 'el-icon-money',
       },
-      // {
-      //   title: 'Статусы заявок',
-      //   to: '/admin/form-statuses',
-      //   icon: 'el-icon-user',
-      // },
     ],
   },
 ];
