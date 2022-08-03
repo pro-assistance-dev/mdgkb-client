@@ -29,17 +29,23 @@
           </svg>
         </router-link>
       </li>
-      <li v-if="user.questions">
+      <li v-if="user.questions.length > 0">
         <router-link class="item-list" :to="`/profile/question-answer`" :class="activeRoute === 'question-answer' ? 'active' : ''">
           <svg class="icon-education">
             <use xlink:href="#question"></use>
           </svg>
-          <div class="item-list-name">
-            Вопросы-ответы
-            <span v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">
-              {{ user.getNotViewedApplicationsCount() }}
-            </span>
-          </div>
+          <div class="item-list-name">Вопросы-ответы</div>
+          <svg class="icon-arrow">
+            <use xlink:href="#arrow"></use>
+          </svg>
+        </router-link>
+      </li>
+      <li v-if="user.comments.length > 0">
+        <router-link class="item-list" :to="`/profile/user-comments`" :class="activeRoute === 'user-comments' ? 'active' : ''">
+          <svg class="icon-education">
+            <use xlink:href="#question"></use>
+          </svg>
+          <div class="item-list-name">Мои комментарии</div>
           <svg class="icon-arrow">
             <use xlink:href="#arrow"></use>
           </svg>

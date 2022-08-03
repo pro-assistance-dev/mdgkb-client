@@ -9,6 +9,7 @@ import ProfileEditPage from '@/components/Profile/ProfileEditPage.vue';
 import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
 import ProfileQuestionPage from '@/components/Profile/ProfileQuestionPage.vue';
 import QuestionAnswerPage from '@/components/Profile/QuestionAnswerPage.vue';
+import UserCommentsPage from '@/components/Profile/UserCommentsPage.vue';
 import { authGuard, isAuthorized } from '@/router/index';
 
 const ProfileRoutes: Array<RouteRecordRaw> = [
@@ -81,6 +82,16 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'question-answer' },
+  },
+  {
+    path: '/profile/user-comments',
+    name: 'UserCommentsPage',
+    component: UserCommentsPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard();
+      isAuthorized(next);
+    },
+    meta: { protected: true, profile: 'user-comments' },
   },
   {
     path: '/profile/settings',

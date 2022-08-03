@@ -1,5 +1,6 @@
 import CandidateApplication from '@/classes/CandidateApplication';
 import Child from '@/classes/Child';
+import Comment from '@/classes/comments/Comment';
 import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
@@ -8,6 +9,7 @@ import Human from '@/classes/Human';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import Question from '@/classes/Question';
 import Role from '@/classes/Role';
+import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IChild from '@/interfaces/IChild';
@@ -34,6 +36,7 @@ export default class User implements IUser {
   roleId?: string;
   rejectEmail = false;
   questions: IQuestion[] = [];
+  comments: IComment[] = [];
   children: IChild[] = [];
   childrenForDelete: string[] = [];
   donorRulesUsers: IDonorRuleUser[] = [];
@@ -66,6 +69,9 @@ export default class User implements IUser {
     this.roleId = i.roleId;
     if (i.questions) {
       this.questions = i.questions.map((item: IQuestion) => new Question(item));
+    }
+    if (i.comments) {
+      this.comments = i.comments.map((item: IComment) => new Comment(item));
     }
     if (i.children) {
       this.children = i.children.map((item: IChild) => new Child(item));
