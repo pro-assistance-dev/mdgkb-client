@@ -26,6 +26,7 @@ export default interface IMenu extends IFiler, IOrdered {
 
   iconId?: string;
   icon: IFileInfo;
+  show?: boolean;
 
   getLink: () => string;
   addSubMenu: () => void;

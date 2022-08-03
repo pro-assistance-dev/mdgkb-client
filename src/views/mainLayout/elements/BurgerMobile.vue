@@ -18,17 +18,23 @@
       <div id="menu-zone" class="menu-zone" :style="{ left: !isDrawerOpen ? '-100%' : '0' }">
         <div class="menu">
           <ul>
-            <li v-for="menu in menus" :id="menu.id" :key="menu.id" class="item">
-              <a v-if="!menu.withoutChildren()" :href="`#${menu.id}`" class="btn" @click="(e) => test(e)"
+            <li
+              v-for="menu in menus"
+              :id="menu.id"
+              :key="menu.id"
+              class="item"
+              :style="{ opacity: menu.link === activePath || isHighlightRoute(menu.subMenus, activePath) ? '1' : '0.5' }"
+            >
+              <a v-if="!menu.withoutChildren()" :href="`#${menu.id}`" class="btn" @click="(e) => test(e, menu)"
                 >{{ menu.name }}
                 <svg class="icon-arrow">
                   <use xlink:href="#arrow-down"></use>
                 </svg>
               </a>
               <router-link v-else :to="menu.getLink()" class="btn" @click="menuClickHandler">{{ menu.name }}</router-link>
-              <div class="submenu">
+              <div v-if="menu.show" class="submenu">
                 <ul v-if="!menu.withoutChildren()">
-                  <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
+                  <li v-for="subMenu in menu.subMenus" :key="subMenu.id" :style="{ opacity: subMenu.link === activePath ? '1' : '0.5' }">
                     <router-link :to="subMenu.link" @click="menuClickHandler">{{ subMenu.name }}</router-link>
                   </li>
                 </ul>
@@ -50,6 +56,8 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+
+import IMenu from '@/interfaces/IMenu';
 
 export default defineComponent({
   name: 'BurgerMobile',
@@ -80,8 +88,16 @@ export default defineComponent({
       await store.dispatch('menus/getAll');
       activePath.value = route.path;
     });
-    const test = (e: any) => {
-      console.log(e.target.nextSibling.currentStyle);
+    const test = (e: any, menu: IMenu) => {
+      console.log(e.target?.nextSibling?.currentStyle);
+      menu.show = menu.show ? false : true;
+    };
+    const isHighlightRoute = (subMenus: IMenu[], activePath: string) => {
+      if (subMenus?.length === 0) {
+        return false;
+      } else {
+        return !!subMenus?.find((item) => item?.link === activePath);
+      }
     };
     watch(
       () => route.path,
@@ -99,6 +115,7 @@ export default defineComponent({
       toggleDrawer,
       drawerLeaveHandler,
       test,
+      isHighlightRoute,
     };
   },
 });
@@ -190,7 +207,7 @@ body {
   height: 100%;
   z-index: 100;
   background: #eceff1;
-  padding: 150px 0 0 0;
+  /* padding: 150px 0 0 0; */
 }
 
 .menu__item {
@@ -288,7 +305,8 @@ a.btn:active {
 .menu .submenu {
   background: #22abe2;
   overflow: hidden;
-  max-height: 0;
+  /* max-height: 0; */
+  max-height: 40rem;
   transition: max-height 0.3s ease-out;
   transition-duration: 0.25s;
 }
@@ -309,9 +327,9 @@ a.btn:active {
   opacity: 1;
 }
 
-.item:target .submenu {
+/* .item:target .submenu {
   max-height: 40rem;
-}
+} */
 
 .icon-arrow {
   position: absolute;
