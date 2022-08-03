@@ -16,8 +16,21 @@ const QuestionsFiltersLib = (() => {
     return filterModel;
   }
 
+  function onlyPublished(): IFilterModel {
+    const onlyPublished = FilterModel.CreateFilterModel(
+      Provider.schema.value.question.tableName,
+      Provider.schema.value.question.published,
+      DataTypes.Boolean
+    );
+    onlyPublished.boolean = true;
+    onlyPublished.operator = Operators.Eq;
+    onlyPublished.label = 'Только опубликованные';
+    return onlyPublished;
+  }
+
   return {
     onlyNew,
+    onlyPublished,
   };
 })();
 
