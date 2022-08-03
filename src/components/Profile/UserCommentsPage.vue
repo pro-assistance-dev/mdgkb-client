@@ -6,7 +6,7 @@
       </div>
     </div>
     <div v-for="comment in user.comments" :key="comment.id" class="card-item">
-      <CommentCard :is-question="false" :comment="comment" />
+      <ProfileCommentCard :is-review="false" :comment="comment" />
     </div>
   </div>
 </template>
@@ -14,14 +14,14 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
-import CommentCard from '@/components/Comments/CommentCard.vue';
+import ProfileCommentCard from '@/components/Profile/ProfileCommentCard.vue';
 import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'UserCommentsPage',
-  components: { CommentCard },
+  components: { ProfileCommentCard },
   setup() {
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
