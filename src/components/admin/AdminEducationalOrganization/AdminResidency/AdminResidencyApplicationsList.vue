@@ -185,7 +185,7 @@ export default defineComponent({
 
     const load = async () => {
       Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
-      Provider.setSortModels(ResidencyApplicationsSortsLib.byCreatedAt(Orders.Desc));
+      Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
       await loadApplications();
       await loadFilters();
       onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();

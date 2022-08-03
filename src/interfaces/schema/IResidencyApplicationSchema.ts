@@ -2,6 +2,7 @@ import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
 export default interface IResidencyApplicationSchema extends IBaseSchema {
   createdAt: string;
+  approvingDate: string;
   formStatusId: string;
   email: string;
   pointsAchievements: string;
