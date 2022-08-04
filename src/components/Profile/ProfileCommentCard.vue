@@ -127,7 +127,7 @@ export default defineComponent({
 
 .review-for-review {
   display: flex;
-  margin-left: 105px;
+  margin-left: 50px;
 }
 
 .mdgkb-avatar {
