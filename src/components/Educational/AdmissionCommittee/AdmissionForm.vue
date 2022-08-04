@@ -71,7 +71,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(1);
+    const activeStep: Ref<number> = ref(0);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
