@@ -23,7 +23,7 @@
               :id="menu.id"
               :key="menu.id"
               class="item"
-              :style="{ opacity: menu.link === activePath || isHighlightRoute(menu.subMenus, activePath) ? '1' : '0.5' }"
+              :class="{ background_active: menu.link === activePath || isHighlightRoute(menu.subMenus, activePath) }"
             >
               <a v-if="!menu.withoutChildren()" :href="`#${menu.id}`" class="btn" @click="(e) => test(e, menu)"
                 >{{ menu.name }}
@@ -34,7 +34,7 @@
               <router-link v-else :to="menu.getLink()" class="btn" @click="menuClickHandler">{{ menu.name }}</router-link>
               <div v-if="menu.show" class="submenu">
                 <ul v-if="!menu.withoutChildren()">
-                  <li v-for="subMenu in menu.subMenus" :key="subMenu.id" :style="{ opacity: subMenu.link === activePath ? '1' : '0.5' }">
+                  <li v-for="subMenu in menu.subMenus" :key="subMenu.id" :class="{ background_active: subMenu.link === activePath }">
                     <router-link :to="subMenu.link" @click="menuClickHandler">{{ subMenu.name }}</router-link>
                   </li>
                 </ul>
@@ -90,6 +90,11 @@ export default defineComponent({
     });
     const test = (e: any, menu: IMenu) => {
       console.log(e.target?.nextSibling?.currentStyle);
+      menus.value.forEach((menuEl: IMenu) => {
+        if (menu.id !== menuEl.id) {
+          menuEl.show = false;
+        }
+      });
       menu.show = menu.show ? false : true;
     };
     const isHighlightRoute = (subMenus: IMenu[], activePath: string) => {
@@ -122,6 +127,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/styles/elements/colors.scss';
 * {
   text-decoration: none;
   color: white;
@@ -294,7 +300,7 @@ ul.submenu li {
 
 a.btn:hover {
   color: #ffffff;
-  background: #01528a;
+  background: $active_color_menu;
 }
 
 a.btn:active {
@@ -337,5 +343,9 @@ a.btn:active {
   height: 18px;
   right: 15px;
   fill: #ffffff;
+}
+
+.background_active {
+  background: $active_color_menu;
 }
 </style>
