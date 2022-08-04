@@ -63,12 +63,7 @@
   >
     <el-input v-model="formValue.user.human.snils" placeholder="СНИЛС"></el-input>
   </el-form-item>
-  <el-form-item
-    v-if="(!user.human.dateBirth || fromAdmin) && activeFields.userDateBirth"
-    :rules="rules.userDateBirth"
-    label="Дата рождения"
-    prop="formValue.user.human.dateBirth"
-  >
+  <el-form-item v-if="activeFields.userDateBirth" :rules="rules.userDateBirth" label="Дата рождения" prop="formValue.user.human.dateBirth">
     <DatePicker v-model="formValue.user.human.dateBirth" />
   </el-form-item>
   <el-form-item v-if="activeFields.userIsMale" :rules="rules.userIsMale" label="Пол" prop="formValue.user.human.isMale">
