@@ -6,7 +6,7 @@
     </el-radio-group>
   </el-form-item>
   <el-form-item label="Вы подаёте заявление на приоритетную или дополнительную специальность?" prop="main" :rules="rules.main">
-    <el-radio-group v-model="residencyApplicationValue.main">
+    <el-radio-group v-model="residencyApplicationValue.main" @change="checkTypeExists">
       <el-radio :label="true" size="large">Приоритетную</el-radio>
       <el-radio :label="false" size="large">Дополнительную</el-radio>
     </el-radio-group>
@@ -85,11 +85,12 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FileUploader from '@/components/FileUploader.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdmissionQuestionsForm',
@@ -108,7 +109,7 @@ export default defineComponent({
       residencyApplicationValue.value = props.residencyApplication;
     });
     const showFreeDialog: Ref<boolean> = ref(false);
-
+    const typeExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/typeExists']);
     const rules = {
       primaryAccreditation: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
       main: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
@@ -151,7 +152,21 @@ export default defineComponent({
       showFreeDialog.value = false;
     };
 
+    const checkTypeExists = async (value: boolean) => {
+      await Provider.store.dispatch('residencyApplications/typeExists', value);
+      if (typeExists.value) {
+        ElMessageBox.alert(`Вы уже подавали заявление на ${value ? 'приоритетную' : 'дополнительную'} специальность`, {
+          confirmButtonText: 'OK',
+          callback: () => {
+            residencyApplicationValue.value.main = !value;
+          },
+        });
+        return;
+      }
+    };
+
     return {
+      checkTypeExists,
       submitFreeFile,
       showFreeDialog,
       selectPaid,

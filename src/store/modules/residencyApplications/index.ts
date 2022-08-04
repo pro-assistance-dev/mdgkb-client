@@ -13,6 +13,7 @@ export const getDefaultState = (): State => {
     items: [],
     item: new ResidencyApplication(),
     emailExists: false,
+    typeExists: false,
     count: 0,
   };
 };

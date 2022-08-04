@@ -54,6 +54,9 @@ const mutations: MutationTree<State> = {
   setEmailExists(state, emailExists: boolean) {
     state.emailExists = emailExists;
   },
+  setTypeExists(state, typeExists: boolean) {
+    state.typeExists = typeExists;
+  },
   setFormValue(state, form: IForm) {
     state.item.formValue = new Form(form);
   },

@@ -46,6 +46,13 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<boolean>({ query: `email-exists/${state.item.formValue.user.email}/${courseId}` });
     commit('setEmailExists', res);
   },
+  typeExists: async ({ state, commit }, value: boolean): Promise<void> => {
+    if (state.item.formValue.user.email.length < 3) {
+      return;
+    }
+    const res = await httpClient.get<boolean>({ query: `type-exists/${state.item.formValue.user.email}/${value}` });
+    commit('setTypeExists', res);
+  },
   update: async ({ state, commit }): Promise<void> => {
     const res = await httpClient.put<IResidencyApplication, IResidencyApplication>({
       query: `${state.item.id}`,
