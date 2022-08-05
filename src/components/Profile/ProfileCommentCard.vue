@@ -1,8 +1,5 @@
 <template>
   <div class="reviews-block">
-    {{ question.answer.length != 0 }}
-    {{ question.answerIsRead }}
-    {{ question.hasNewAnswer() }}
     <span v-if="question.hasNewAnswer()" class="sup-cymbol-counter"></span>
     <div class="user-avatar">
       <Rating v-if="isReview" :with-numbers="false" :comments="[{ comment: comment }]" />

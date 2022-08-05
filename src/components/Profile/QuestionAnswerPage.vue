@@ -29,9 +29,7 @@ export default defineComponent({
 
     const loadUser = async () => {
       await Provider.store.dispatch('users/get', userId.value);
-      // user.value.setAnswersViewed();
       await Provider.store.dispatch('questions/readAnswers', userId.value);
-      // await Provider.store.dispatch('questions/updateMany', user.value.formValues);
       mounted.value = true;
     };
 
