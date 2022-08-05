@@ -134,7 +134,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .size {
-  max-width: 900px;
+  // max-width: 900px;
   padding: 0 20px 0 0;
 }
 

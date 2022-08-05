@@ -160,7 +160,7 @@ ul {
 }
 
 .size {
-  max-width: 900px;
+  // max-width: 900px;
   padding-right: 20px;
 }
 

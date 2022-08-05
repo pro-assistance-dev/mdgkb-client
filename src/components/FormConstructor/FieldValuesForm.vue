@@ -1,23 +1,16 @@
 <template>
   <div v-if="filteredFields().length">
-    <div class="mobile-container">
+    <div v-if="mobileWindow || !table" class="mobile-container">
       <el-table :data="filteredFields()">
         <el-table-column label="">
           <template #default="scope">
-            {{ scope.row.name }}<br /><br />
-            <FieldValuesFormItem :form="formValue" :field="scope.row" />
-            <h4 v-if="scope.row.file.fileSystemPath">Образец:</h4>
-            <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
-              {{ scope.row.file.originalName }}
-            </a>
-            <h4 v-if="showModComments">Замечания:</h4>
-            {{ form.findFieldValue(scope.row.id)?.modComment }}
+            <FieldValuesFormItem show-label :form="formValue" :show-mod-comments="showModComments" :field="scope.row" />
           </template>
         </el-table-column>
       </el-table>
     </div>
 
-    <div class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
+    <div v-else class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
       <div>
         <EditorContent :content="form.description" />
       </div>
@@ -62,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import EditorContent from '@/components/EditorContent.vue';
@@ -92,6 +85,10 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
     },
+    table: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const store = useStore();
@@ -100,6 +97,7 @@ export default defineComponent({
     const getNameLabel = 'Наименование';
     const getDataLabel = 'Данные';
     const fields: Ref<IField[]> = ref([]);
+    const mobileWindow = ref(window.matchMedia('(max-width: 1226px)').matches);
     onBeforeMount(async () => {
       formValue.value = props.form;
       await store.dispatch('formStatuses/getAll');
@@ -113,6 +111,12 @@ export default defineComponent({
         });
       }
       fields.value = filteredFields();
+    });
+
+    onMounted(() => {
+      window.addEventListener('resize', () => {
+        mobileWindow.value = window.matchMedia('(max-width: 1226px)').matches;
+      });
     });
 
     const filteredFields = (): IField[] => {
@@ -131,6 +135,7 @@ export default defineComponent({
       formValue,
       getNameLabel,
       getDataLabel,
+      mobileWindow,
     };
   },
   methods: {
@@ -168,9 +173,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.mobile-container {
-  display: none;
-}
+// .mobile-container {
+//   display: none;
+// }
 .el-table {
   --el-table-border: none;
 }
@@ -188,9 +193,9 @@ export default defineComponent({
     display: none;
   }
 
-  .mobile-container {
-    display: block;
-  }
+  // .mobile-container {
+  //   display: block;
+  // }
 }
 
 .red {
