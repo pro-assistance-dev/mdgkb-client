@@ -72,7 +72,7 @@ export default defineComponent({
   display: flex;
   width: 100%;
   &-main {
-    max-width: 880px;
+    max-width: 1034px;
     width: 100%;
   }
 }
