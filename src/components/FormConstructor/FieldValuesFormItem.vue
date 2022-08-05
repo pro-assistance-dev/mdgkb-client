@@ -1,55 +1,72 @@
 <template>
-  <el-form-item v-if="field.valueType.isString()" style="margin: 0">
-    <el-input
-      v-if="field.mask"
-      v-model="fieldValue.valueString"
-      v-maska="{ mask: field.mask, tokens: field.getMaskTokens() }"
-      :placeholder="field.name"
-    />
-    <el-input v-else v-model="fieldValue.valueString" :placeholder="field.name" />
-    <div v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</div>
-  </el-form-item>
-  <el-form-item v-else-if="field.valueType.isNumber()" style="margin: 0">
-    <el-input-number v-model="fieldValue.valueNumber" />
-    <div v-if="fieldValue.showError && !fieldValue.valueNumber" class="form-item-error">{{ fieldValue.errorText }}</div>
-  </el-form-item>
-  <el-form-item v-else-if="field.valueType.isDate()" style="margin: 0">
-    <el-date-picker v-model="fieldValue.valueDate" :default-value="new Date()" format="DD.MM.YYYY" />
-    <div v-if="fieldValue.showError && !fieldValue.valueDate" class="form-item-error">{{ fieldValue.errorText }}</div>
-  </el-form-item>
-  <el-form-item v-else-if="field.valueType.isDateTime()" style="margin: 0">
-    <el-date-picker v-model="fieldValue.valueDate" type="datetime" :default-value="new Date()" />
-    <div v-if="fieldValue.showError && !fieldValue.valueDate" class="form-item-error">{{ fieldValue.errorText }}</div>
-  </el-form-item>
-  <el-form-item v-else-if="field.valueType.isText()" style="margin: 0">
-    <el-input v-model="fieldValue.valueString" type="textarea" :placeholder="field.name" />
-    <div v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</div>
-  </el-form-item>
-  <el-form-item v-else-if="field.valueType.isFile()" style="margin: 0">
-    <FileUploader v-if="fieldValue.file" :file-info="fieldValue.file" />
-    <div v-if="fieldValue.showError && fieldValue.file && !fieldValue.file.fileSystemPath" class="form-item-error">
-      {{ fieldValue.errorText }}
+  <el-form-item>
+    <template v-if="showLabel" #label>
+      <div style="margin-bottom: 5px">{{ field.name }}</div>
+      <div v-if="field.comment" style="margin-bottom: 5px">
+        <i>{{ field.comment }}</i>
+      </div>
+      <div v-if="showModComments" style="margin-bottom: 5px">
+        <i style="color: red">{{ fieldValue?.modComment }}</i>
+      </div>
+      <div v-if="field.file.fileSystemPath">
+        <span>Образец: </span>
+        <a v-if="field.file.fileSystemPath" :href="field.file.getFileUrl()" target="_blank">
+          {{ field.file.originalName }}
+        </a>
+      </div>
+    </template>
+    <div v-if="field.valueType.isString()">
+      <el-input
+        v-if="field.mask"
+        v-model="fieldValue.valueString"
+        v-maska="{ mask: field.mask, tokens: field.getMaskTokens() }"
+        :placeholder="field.name"
+      />
+      <el-input v-else v-model="fieldValue.valueString" :placeholder="field.name" />
+      <div v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</div>
     </div>
-  </el-form-item>
-  <el-form-item v-else-if="field.valueType.isFiles()" style="margin: 0">
-    <el-button
-      style="margin-bottom: 5px"
-      size="mini"
-      type="success"
-      icon="el-icon-document-add"
-      @click="fieldValue.addFieldValueFile()"
-    ></el-button>
-    <div v-for="(fieldValueFile, i) in fieldValue.fieldValuesFiles" :key="fieldValueFile.id" style="display: flex; margin-bottom: 5px">
-      <FileUploader :file-info="fieldValueFile.fileInfo" />
+    <div v-else-if="field.valueType.isNumber()">
+      <el-input-number v-model="fieldValue.valueNumber" />
+      <div v-if="fieldValue.showError && !fieldValue.valueNumber" class="form-item-error">{{ fieldValue.errorText }}</div>
+    </div>
+    <div v-else-if="field.valueType.isDate()">
+      <el-date-picker v-model="fieldValue.valueDate" :default-value="new Date()" format="DD.MM.YYYY" />
+      <div v-if="fieldValue.showError && !fieldValue.valueDate" class="form-item-error">{{ fieldValue.errorText }}</div>
+    </div>
+    <div v-else-if="field.valueType.isDateTime()">
+      <el-date-picker v-model="fieldValue.valueDate" type="datetime" :default-value="new Date()" />
+      <div v-if="fieldValue.showError && !fieldValue.valueDate" class="form-item-error">{{ fieldValue.errorText }}</div>
+    </div>
+    <div v-else-if="field.valueType.isText()">
+      <el-input v-model="fieldValue.valueString" type="textarea" :placeholder="field.name" />
+      <div v-if="fieldValue.showError && !fieldValue.valueString" class="form-item-error">{{ fieldValue.errorText }}</div>
+    </div>
+    <div v-else-if="field.valueType.isFile()">
+      <FileUploader v-if="fieldValue.file" :file-info="fieldValue.file" />
+      <div v-if="fieldValue.showError && fieldValue.file && !fieldValue.file.fileSystemPath" class="form-item-error">
+        {{ fieldValue.errorText }}
+      </div>
+    </div>
+    <div v-else-if="field.valueType.isFiles()">
       <el-button
+        style="margin-bottom: 5px"
         size="mini"
-        icon="el-icon-document-delete"
-        style="padding: 5px; margin: 0; min-height: unset; border: none"
-        @click="removeFromClass(i, fieldValue.fieldValuesFiles, fieldValue.fieldValuesFilesForDelete)"
+        type="success"
+        icon="el-icon-document-add"
+        @click="fieldValue.addFieldValueFile()"
       ></el-button>
-    </div>
-    <div v-if="fieldValue.showError && fieldValue.file && !fieldValue.file.fileSystemPath" class="form-item-error">
-      {{ fieldValue.errorText }}
+      <div v-for="(fieldValueFile, i) in fieldValue.fieldValuesFiles" :key="fieldValueFile.id" style="display: flex; margin-bottom: 5px">
+        <FileUploader :file-info="fieldValueFile.fileInfo" />
+        <el-button
+          size="mini"
+          icon="el-icon-document-delete"
+          style="padding: 5px; margin: 0; min-height: unset; border: none"
+          @click="removeFromClass(i, fieldValue.fieldValuesFiles, fieldValue.fieldValuesFilesForDelete)"
+        ></el-button>
+      </div>
+      <div v-if="fieldValue.showError && fieldValue.file && !fieldValue.file.fileSystemPath" class="form-item-error">
+        {{ fieldValue.errorText }}
+      </div>
     </div>
   </el-form-item>
 </template>
@@ -76,7 +93,16 @@ export default defineComponent({
       type: Object as PropType<IForm>,
       required: true,
     },
+    showLabel: {
+      type: Boolean,
+      default: false,
+    },
+    showModComments: {
+      type: Boolean,
+      default: false,
+    },
   },
+
   setup(props) {
     const fieldValue: Ref<IFieldValue> = ref(new FieldValue());
     onBeforeMount(() => {
@@ -102,5 +128,8 @@ export default defineComponent({
   font-size: 12px;
   line-height: 1;
   padding-top: 4px;
+}
+:deep(.el-form-item__label) {
+  line-height: 1.5;
 }
 </style>

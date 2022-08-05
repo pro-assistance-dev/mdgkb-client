@@ -16,55 +16,73 @@
       </el-table-column>
       <el-table-column label="Название поля формы" width="300px" sortable>
         <template #default="scope">
-          <el-input v-model="scope.row.name" placeholder="Имя поля" />
+          <el-form-item :prop="'fields.' + scope.$index + '.name'" :rules="rules.name" style="margin: 0">
+            <el-input v-model="scope.row.name" placeholder="Имя поля" />
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column label="Код формы" width="150px" sortable>
         <template #default="scope">
-          <el-input v-model="scope.row.code" placeholder="Код формы" />
+          <el-form-item style="margin: 0">
+            <el-input v-model="scope.row.code" placeholder="Код формы" />
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column label="Комментарий" width="300px" sortable>
         <template #default="scope">
-          <el-input v-model="scope.row.comment" placeholder="Комментарий" />
+          <el-form-item style="margin: 0">
+            <el-input v-model="scope.row.comment" placeholder="Комментарий" />
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column v-if="!filesOnly" label="Тип данных" sortable width="300px">
         <template #default="scope">
-          <el-select v-model="scope.row.valueType" value-key="id" label="Тип данных" @change="changeHandler(scope.row)">
-            <el-option v-for="item in valueTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
-          </el-select>
+          <el-form-item :prop="'fields.' + scope.$index + '.valueType.id'" style="margin: 0" :rules="rules.valueType">
+            <el-select v-model="scope.row.valueType" value-key="id" label="Тип данных" @change="changeHandler(scope.row)">
+              <el-option v-for="item in valueTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
+            </el-select>
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column label="Образец" width="300px" sortable>
         <template #default="scope">
-          <FileUploader :file-info="scope.row.file" />
+          <el-form-item style="margin: 0">
+            <FileUploader :file-info="scope.row.file" />
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column label="Обязательное" width="150px" align="center">
         <template #default="scope">
-          <el-checkbox v-model="scope.row.required"></el-checkbox>
+          <el-form-item style="margin: 0">
+            <el-checkbox v-model="scope.row.required"></el-checkbox>
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column label="Обязательное для отмены" width="150px" align="center">
         <template #default="scope">
-          <el-checkbox v-model="scope.row.requiredForCancel"></el-checkbox>
+          <el-form-item style="margin: 0">
+            <el-checkbox v-model="scope.row.requiredForCancel"></el-checkbox>
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column label="Маска" width="150px" align="center">
         <template #default="scope">
-          <el-input v-model="scope.row.mask" placeholder="Маска" />
+          <el-form-item style="margin: 0">
+            <el-input v-model="scope.row.mask" placeholder="Маска" />
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column label="Токены для маски" width="600px" align="center">
         <template #default="scope">
-          <el-button size="mini" @click="scope.row.addMaskToken()">Добавить</el-button>
-          <div v-for="(item, i) in scope.row.maskTokens" :key="i" class="maska-row">
-            <el-input v-model="item.name" size="mini" placeholder="Имя токена" />
-            <el-input v-model="item.pattern" size="mini" placeholder="Паттерн" />
-            <el-checkbox v-model="item.uppercase"></el-checkbox>
-            <TableButtonGroup :show-remove-button="true" @remove="scope.row.removeMaskToken(i)" />
-          </div>
+          <el-form-item style="margin: 0">
+            <el-button size="mini" @click="scope.row.addMaskToken()">Добавить</el-button>
+            <div v-for="(item, i) in scope.row.maskTokens" :key="i" class="maska-row">
+              <el-input v-model="item.name" size="mini" placeholder="Имя токена" />
+              <el-input v-model="item.pattern" size="mini" placeholder="Паттерн" />
+              <el-checkbox v-model="item.uppercase"></el-checkbox>
+              <TableButtonGroup :show-remove-button="true" @remove="scope.row.removeMaskToken(i)" />
+            </div>
+          </el-form-item>
         </template>
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
@@ -86,7 +104,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
@@ -125,6 +143,10 @@ export default defineComponent({
         props.form.addField();
       }
     };
+    const rules = ref({
+      name: [{ required: true, message: 'Необходимо указать название поля формы', trigger: 'blur' }],
+      valueType: [{ required: true, message: 'Необходимо выбрать тип данных поля формы', trigger: 'change' }],
+    });
 
     onBeforeMount(async () => {
       await store.dispatch('valueTypes/getAll');
@@ -136,7 +158,7 @@ export default defineComponent({
       }
     };
 
-    return { valueTypes, changeHandler, addField };
+    return { valueTypes, changeHandler, addField, rules };
   },
 });
 </script>
@@ -177,5 +199,9 @@ export default defineComponent({
   .el-input {
     margin: 0 5px;
   }
+}
+
+:deep(.el-form-item__content) {
+  margin-bottom: 20px;
 }
 </style>
