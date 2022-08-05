@@ -97,11 +97,11 @@ export default class User implements IUser {
   }
 
   hasNewAnswers(): boolean {
-    return this.questions.some((question: IQuestion) => !question.answerIsRead);
+    return this.questions.some((question: IQuestion) => question.hasNewAnswer());
   }
 
   countNewAnswers(): number {
-    return this.questions.filter((question: IQuestion) => !question.answerIsRead).length;
+    return this.questions.filter((question: IQuestion) => question.hasNewAnswer()).length;
   }
 
   readAllAnswers(): void {
@@ -190,6 +190,11 @@ export default class User implements IUser {
   setApplicationsViewed(): void {
     this.formValues.forEach((el) => {
       el.viewedByUser = true;
+    });
+  }
+  setAnswersViewed(): void {
+    this.questions.forEach((el) => {
+      el.answerIsRead = true;
     });
   }
 }

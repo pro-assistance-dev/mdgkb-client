@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref } from 'vue';
 
 import ProfileCommentCard from '@/components/Profile/ProfileCommentCard.vue';
 import IUser from '@/interfaces/IUser';
@@ -29,10 +29,17 @@ export default defineComponent({
 
     const loadUser = async () => {
       await Provider.store.dispatch('users/get', userId.value);
+      // user.value.setAnswersViewed();
+      await Provider.store.dispatch('questions/readAnswers', userId.value);
+      // await Provider.store.dispatch('questions/updateMany', user.value.formValues);
       mounted.value = true;
     };
 
     Hooks.onBeforeMount(loadUser);
+
+    onBeforeUnmount(async () => {
+      user.value.setAnswersViewed();
+    });
 
     return {
       mounted,

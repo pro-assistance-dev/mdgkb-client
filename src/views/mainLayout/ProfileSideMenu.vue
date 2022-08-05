@@ -34,7 +34,12 @@
           <svg class="icon-education">
             <use xlink:href="#question"></use>
           </svg>
-          <div class="item-list-name">Вопросы-ответы</div>
+          <div class="item-list-name">
+            Вопросы-ответы
+            <span v-if="hasNewAnswers" class="sup-cymbol-counter">
+              {{ countNewAnswers }}
+            </span>
+          </div>
           <svg class="icon-arrow">
             <use xlink:href="#arrow"></use>
           </svg>

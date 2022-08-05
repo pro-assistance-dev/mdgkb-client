@@ -41,9 +41,15 @@ const actions: ActionTree<State, RootState> = {
     });
     commit('set');
   },
+  // readAnswers: async ({ commit }, userId: string): Promise<void> => {
+  //   await httpClient.put<IQuestion, IQuestion>({
+  //     query: `read-answers/${userId}`,
+  //   });
+  //   commit('set');
+  // },
   readAnswers: async ({ commit }, userId: string): Promise<void> => {
     await httpClient.put<IQuestion, IQuestion>({
-      query: `read-answers/${userId}`,
+      query: `profile/question-answer/${userId}`,
     });
     commit('set');
   },

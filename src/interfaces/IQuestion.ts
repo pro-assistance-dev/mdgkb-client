@@ -29,4 +29,5 @@ export default interface IQuestion {
   getUpdateCondition: () => boolean;
   getThemeOrFirstPhrase: () => string;
   getFileInfos: () => IFileInfo[];
+  hasNewAnswer: () => boolean;
 }
