@@ -116,4 +116,34 @@ export default class Question implements IQuestion {
   getFileInfos(): IFileInfo[] {
     return [this.file];
   }
+
+  // isAnswer(): boolean {
+  //   if (this.answer.length != 0) {
+  //     if(this.answerIsRead) {}
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  // hasNewAnswer(): boolean {
+  //   if (this.answered) {
+  //     if (this.answerIsRead) {
+  //       return false;
+  //     } else {
+  //       return true;
+  //     }
+  //   }
+  // }
+
+  hasNewAnswer(): boolean {
+    if (this.originalAnswer.length != 0) {
+      if (this.answerIsRead) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
 }

@@ -1,5 +1,6 @@
 <template>
   <div class="reviews-block">
+    <span v-if="question.hasNewAnswer()" class="sup-cymbol-counter"></span>
     <div class="user-avatar">
       <Rating v-if="isReview" :with-numbers="false" :comments="[{ comment: comment }]" />
     </div>
@@ -21,7 +22,7 @@
     </div>
     <div class="review-for-review-info">
       <h4 v-if="!isQuestion" class="review-for-review-text">{{ comment.answer }}</h4>
-      <h4 v-else class="review-for-review-text" v-html="question.answer ? question.answer : 'Вопрос обрабатывается'"></h4>
+      <h4 v-else class="review-for-review-text" v-html="question.originalAnswer ? question.originalAnswer : 'Вопрос обрабатывается'"></h4>
     </div>
   </div>
   <svg width="0" height="0" class="hidden">
@@ -73,6 +74,7 @@ export default defineComponent({
 }
 .reviews-block {
   display: flex;
+  position: relative;
 }
 
 .icon-avatar {
@@ -156,6 +158,24 @@ export default defineComponent({
   color: #5d6477;
   margin: 0 0 0 20px;
   text-align: justify;
+}
+
+.sup-cymbol-counter {
+  display: flex;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-weight: bold;
+  background: #2754eb;
+  color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  font-size: 12px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 @media screen and (max-width: 768px) {
