@@ -15,7 +15,7 @@
     </div>
     <div class="card-item">
       <el-form ref="form" v-model="formValue" :model="formValue" label-position="top">
-        <FieldValuesForm :form="formValue" :show-mod-comments="true" />
+        <FieldValuesForm :form="formValue" :show-mod-comments="true" :show-additional-files="true" />
       </el-form>
     </div>
     <div v-if="formValue.residencyApplication?.userEdit" class="card-item">

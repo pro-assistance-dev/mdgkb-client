@@ -52,6 +52,24 @@
       </el-table>
     </div>
   </div>
+  <el-form-item v-if="showAdditionalFiles" style="margin: 0" label="Добавить дополнительные файлы">
+    <el-button
+      style="margin-bottom: 5px"
+      size="mini"
+      type="success"
+      icon="el-icon-document-add"
+      @click="form.addForValueFile()"
+    ></el-button>
+    <div v-for="(fieldValueFile, i) in form.formValueFiles" :key="fieldValueFile.id" style="display: flex; margin-bottom: 5px">
+      <FileUploader :file-info="fieldValueFile.file" />
+      <el-button
+        size="mini"
+        icon="el-icon-document-delete"
+        style="padding: 5px; margin: 0; min-height: unset; border: none"
+        @click="removeFromClass(i, form.formValueFiles, form.formValueFilesForDelete)"
+      ></el-button>
+    </div>
+  </el-form-item>
 </template>
 
 <script lang="ts">
@@ -59,15 +77,17 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, PropT
 import { useStore } from 'vuex';
 
 import EditorContent from '@/components/EditorContent.vue';
+import FileUploader from '@/components/FileUploader.vue';
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
+import removeFromClass from '@/mixins/removeFromClass';
 
 export default defineComponent({
   name: 'FieldValuesForm',
-  components: { FieldValuesFormItem, EditorContent },
+  components: { FieldValuesFormItem, EditorContent, FileUploader },
   props: {
     form: {
       type: Object as PropType<IForm>,
@@ -87,6 +107,10 @@ export default defineComponent({
     },
     table: {
       type: Boolean,
+      default: false,
+    },
+    showAdditionalFiles: {
+      type: Boolean as PropType<boolean>,
       default: false,
     },
   },
@@ -130,6 +154,7 @@ export default defineComponent({
     };
 
     return {
+      removeFromClass,
       fields,
       filteredFields,
       formValue,

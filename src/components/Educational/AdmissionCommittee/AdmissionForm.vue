@@ -36,7 +36,12 @@
       <FieldValuesForm v-if="activeStep === 3" :form="residencyApplication.formValue" :leave-fields-with-code="textFields" />
     </el-form>
     <el-form style="max-width: 700px; margin: 0 auto" label-position="top">
-      <FieldValuesForm v-if="activeStep === 4" :form="residencyApplication.formValue" :filter-fields-with-code="textFieldsAndDocuments" />
+      <FieldValuesForm
+        v-if="activeStep === 4"
+        :form="residencyApplication.formValue"
+        :filter-fields-with-code="textFieldsAndDocuments"
+        :show-additional-files="true"
+      />
     </el-form>
 
     <div class="navigate-buttons">
@@ -71,7 +76,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(0);
+    const activeStep: Ref<number> = ref(4);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -113,14 +118,14 @@ export default defineComponent({
     };
 
     const submit = async () => {
-      if (emailExists.value) {
-        ElNotification.error({
-          dangerouslyUseHTMLString: true,
-          message: document.querySelector('#error-block-message')?.innerHTML || '',
-        });
-        scroll('#responce-form');
-        return;
-      }
+      // if (emailExists.value) {
+      //   ElNotification.error({
+      //     dangerouslyUseHTMLString: true,
+      //     message: document.querySelector('#error-block-message')?.innerHTML || '',
+      //   });
+      //   scroll('#responce-form');
+      //   return;
+      // }
       residencyApplication.value.formValue.clearIds();
       await Provider.store.dispatch('residencyApplications/create');
       ElNotification.success('Заявка успешно отправлена');

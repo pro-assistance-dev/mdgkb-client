@@ -84,6 +84,11 @@
           </div>
         </template>
         <FieldValuesFormResult :form="formValue" />
+        <div v-for="file in formValue.formValueFiles" :key="file">
+          <a v-if="file.file.fileSystemPath" :href="file.file.getFileUrl()" target="_blank">
+            {{ file.file.originalName }}
+          </a>
+        </div>
       </el-card>
     </div>
     <el-card v-if="formValue.fieldValues.length" header="Общий комментарий">
