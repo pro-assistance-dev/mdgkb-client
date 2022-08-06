@@ -1,5 +1,6 @@
 <template>
   <div v-if="mounted">
+    <h2>Заявка на специальность "{{ formValue.residencyApplication.residencyCourse.getFullName() }}"</h2>
     <div v-if="formValue.modComment" class="card-item">
       <h3>Общий комментарий по замечаниям</h3>
       <div v-html="formValue.modComment"></div>
