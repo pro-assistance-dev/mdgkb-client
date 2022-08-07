@@ -76,7 +76,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(4);
+    const activeStep: Ref<number> = ref(0);
     const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -118,14 +118,14 @@ export default defineComponent({
     };
 
     const submit = async () => {
-      // if (emailExists.value) {
-      //   ElNotification.error({
-      //     dangerouslyUseHTMLString: true,
-      //     message: document.querySelector('#error-block-message')?.innerHTML || '',
-      //   });
-      //   scroll('#responce-form');
-      //   return;
-      // }
+      if (emailExists.value) {
+        ElNotification.error({
+          dangerouslyUseHTMLString: true,
+          message: document.querySelector('#error-block-message')?.innerHTML || '',
+        });
+        scroll('#responce-form');
+        return;
+      }
       residencyApplication.value.formValue.clearIds();
       await Provider.store.dispatch('residencyApplications/create');
       ElNotification.success('Заявка успешно отправлена');
