@@ -23,5 +23,6 @@ export default interface IFormStatus {
   isAccepted: () => boolean;
   isConsidering: () => boolean;
   isCancelled: () => boolean;
+  isNew: () => boolean;
   getFileInfos: () => IFileInfo[];
 }

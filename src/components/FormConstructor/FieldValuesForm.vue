@@ -1,13 +1,14 @@
 <template>
   <div v-if="filteredFields().length">
     <div v-if="mobileWindow || !table" class="mobile-container">
-      <el-table :data="filteredFields()">
-        <el-table-column label="">
-          <template #default="scope">
-            <FieldValuesFormItem show-label :form="formValue" :show-mod-comments="showModComments" :field="scope.row" />
-          </template>
-        </el-table-column>
-      </el-table>
+      <FieldValuesFormItem
+        v-for="item in filteredFields()"
+        :key="item.id"
+        show-label
+        :form="formValue"
+        :show-mod-comments="showModComments"
+        :field="item"
+      />
     </div>
 
     <div v-else class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
@@ -128,7 +129,7 @@ export default defineComponent({
       if (!formValue.value.formStatus.label && formValue.value.defaultFormStatus) {
         formValue.value.setStatus(formValue.value.defaultFormStatus, formStatuses.value);
       }
-      if (props.showModComments) {
+      if (props.showModComments && !props.form.formStatus.isNew() && !props.form.formStatus.isAccepted()) {
         formValue.value.fields = formValue.value.fields.filter((el: IField) => {
           if (!el.id) return;
           return props.form.findFieldValue(el.id)?.modComment;

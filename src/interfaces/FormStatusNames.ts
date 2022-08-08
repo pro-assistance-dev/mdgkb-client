@@ -4,4 +4,5 @@ export enum FormStatusNames {
   Considering = 'Рассматривается',
   ClarifyRequired = 'Требует уточнения',
   Cancelled = 'Отозвано',
+  New = 'Новое',
 }

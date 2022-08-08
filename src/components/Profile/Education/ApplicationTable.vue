@@ -17,6 +17,7 @@
     <tbody>
       <tr v-for="formValue in user.formValues" :key="formValue.id">
         <td>
+          <span v-if="!formValue.viewedByUser" class="red">* </span>
           <router-link :to="formValue.getApplicationTypeLink()">
             {{ formValue.getApplicationType() }}
           </router-link>
@@ -239,5 +240,8 @@ tr {
 
 .dialog-footer button:first-child {
   margin-right: 10px;
+}
+.red {
+  color: red;
 }
 </style>

@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, ref } from 'vue';
 
 import ApplicationCard from '@/components/Profile/Education/ApplicationCard.vue';
 import ApplicationTable from '@/components/Profile/Education/ApplicationTable.vue';
@@ -54,7 +54,6 @@ export default defineComponent({
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
 
     const loadUser = async () => {
-      console.log('LoadEducation');
       await Provider.store.dispatch('users/get', userId.value);
       mounted.value = true;
     };
@@ -63,7 +62,7 @@ export default defineComponent({
       await loadUser();
     });
 
-    onBeforeUnmount(async () => {
+    onUnmounted(async () => {
       user.value.setApplicationsViewed();
       await Provider.store.dispatch('formValues/updateMany', user.value.formValues);
     });

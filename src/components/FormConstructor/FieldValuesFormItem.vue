@@ -1,7 +1,10 @@
 <template>
   <el-form-item>
     <template v-if="showLabel" #label>
-      <div style="margin-bottom: 5px">{{ field.name }}</div>
+      <div style="margin-bottom: 5px">
+        <span v-if="field.required" class="red">*</span>
+        {{ field.name }}
+      </div>
       <div v-if="field.comment" style="margin-bottom: 5px">
         <i>{{ field.comment }}</i>
       </div>
@@ -131,5 +134,8 @@ export default defineComponent({
 }
 :deep(.el-form-item__label) {
   line-height: 1.5;
+}
+.red {
+  color: red;
 }
 </style>

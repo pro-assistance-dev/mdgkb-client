@@ -6,8 +6,12 @@
       <div v-html="formValue.modComment"></div>
     </div>
 
-    <div class="card-item">
-      <div v-if="formValue.residencyApplication?.userEdit">
+    <div
+      v-if="formValue.residencyApplication?.userEdit || formValue.formStatus.isNew() || formValue.formStatus.isAccepted()"
+      class="card-item"
+    >
+      <h3>Вопросы к заявлению</h3>
+      <div>
         <el-form ref="questionsForm" v-model="formValue.residencyApplication" :model="formValue.residencyApplication" label-position="top">
           <AdmissionQuestionsForm :residency-application="formValue.residencyApplication" />
           <el-button size="small" type="success" @click="filledApplicationDownload">Скачать заявление</el-button>
@@ -15,11 +19,16 @@
       </div>
     </div>
     <div class="card-item">
+      <h3>Данные формы</h3>
       <el-form ref="form" v-model="formValue" :model="formValue" label-position="top">
         <FieldValuesForm :form="formValue" :show-mod-comments="true" :show-additional-files="true" />
       </el-form>
     </div>
-    <div v-if="formValue.residencyApplication?.userEdit" class="card-item">
+    <div
+      v-if="formValue.residencyApplication?.userEdit || formValue.formStatus.isNew() || formValue.formStatus.isAccepted()"
+      class="card-item"
+    >
+      <h3>Индивидуальные достижения</h3>
       <el-form ref="questionsForm" v-model="formValue.residencyApplication" :model="formValue.residencyApplication" label-position="top">
         <ResidencyApplicationAchievements :residency-application="formValue.residencyApplication" />
       </el-form>

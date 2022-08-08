@@ -70,6 +70,10 @@ export default class FormStatus implements IFormStatus {
     return this.name === FormStatusNames.Cancelled;
   }
 
+  isNew(): boolean {
+    return this.name === FormStatusNames.New;
+  }
+
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
     fileInfos.push(this.icon);

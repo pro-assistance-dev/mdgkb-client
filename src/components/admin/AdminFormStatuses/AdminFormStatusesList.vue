@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <component :is="'AdminListWrapper'" v-if="mounted">
     <el-table v-if="formStatuses" :data="formStatuses">
       <el-table-column label="Название" sortable>
         <template #default="scope">
