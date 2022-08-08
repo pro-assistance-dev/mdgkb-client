@@ -149,12 +149,7 @@ export default defineComponent({
 
     const loadFilters = async () => {
       const filterQuery = new FilterQuery();
-      if (visitsApplications.value.length > 0) {
-        const formStatusesGroupId = visitsApplications.value[0].formValue.formStatus.formStatusGroupId;
-        if (formStatusesGroupId) {
-          filterQuery.filterModels.push(FormStatusesFiltersLib.byGroupId(formStatusesGroupId));
-        }
-      }
+      filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('visits'));
       await Provider.store.dispatch('formStatuses/getAll', filterQuery);
     };
 

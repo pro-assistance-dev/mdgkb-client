@@ -1,19 +1,27 @@
 <template>
   <div v-if="mounted">
-    <div class="card-item">
-      <h2>АБИТУРИЕНТЫ, ПОДАВШИЕ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
-      <CompetitionApplicationsTable :residency-courses="residencyCourses" />
-    </div>
+    <el-collapse v-model="activeName" accordion @change="collapseChange">
+      <el-collapse-item id="Конкурс" class="card-item" name="Конкурс">
+        <template #title>
+          <h2>Конкурс человек на место</h2>
+        </template>
+        <CompetitionPlacesTable :residency-courses="residencyCourses" />
+      </el-collapse-item>
 
-    <div class="card-item">
-      <h2>РЕЙТИНГ АБИТУРИЕНТОВ ПОДАВШИХ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
-      <CompetitionRating :residency-courses="residencyCourses" />
-    </div>
+      <el-collapse-item id="РЕЙТИНГ" class="card-item" name="РЕЙТИНГ">
+        <template #title>
+          <h2>РЕЙТИНГ АБИТУРИЕНТОВ ПОДАВШИХ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
+        </template>
+        <CompetitionRating :residency-courses="residencyCourses" />
+      </el-collapse-item>
 
-    <div class="card-item">
-      <h2>Конкурс человек на место</h2>
-      <CompetitionPlacesTable :residency-courses="residencyCourses" />
-    </div>
+      <el-collapse-item id="АБИТУРИЕНТЫ" class="card-item" name="АБИТУРИЕНТЫ">
+        <template #title>
+          <h2>АБИТУРИЕНТЫ, ПОДАВШИЕ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
+        </template>
+        <CompetitionApplicationsTable :residency-courses="residencyCourses" />
+      </el-collapse-item>
+    </el-collapse>
   </div>
 </template>
 
@@ -29,6 +37,7 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'CompetitionComponent',
@@ -40,6 +49,7 @@ export default defineComponent({
   setup() {
     const mounted: Ref<boolean> = ref(false);
     const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
+    const activeName = ref('Конкурс');
 
     const loadPrograms = async () => {
       Provider.resetFilterQuery();
@@ -50,13 +60,19 @@ export default defineComponent({
       mounted.value = true;
     };
 
+    const collapseChange = () => {
+      if (activeName.value) {
+        scroll(`#${activeName.value}`);
+      }
+    };
+
     const initLoad = async () => {
       await loadPrograms();
     };
 
     Hooks.onBeforeMount(initLoad);
 
-    return { residencyCourses, mounted };
+    return { residencyCourses, mounted, activeName, collapseChange };
   },
 });
 </script>
@@ -88,5 +104,15 @@ export default defineComponent({
 }
 h2 {
   text-align: center;
+  font-size: 18px;
+}
+:deep(.el-collapse-item__header, .el-collapse-item__wrap) {
+  border: none;
+}
+:deep(.el-collapse-item__header) {
+  line-height: 1.2;
+}
+:deep(.el-collapse-item__wrap) {
+  border-bottom: none;
 }
 </style>

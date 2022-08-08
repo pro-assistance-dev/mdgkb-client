@@ -1,8 +1,11 @@
 <template>
   <el-dialog v-model="showDialog" :title="dialogTitle" :before-close="handleClose">
-    <el-form ref="form" :model="formStatusGroup" :rules="rules">
+    <el-form ref="form" :model="formStatusGroup" :rules="rules" label-width="200px">
       <el-form-item prop="name" label="Наименование группы">
         <el-input v-model="formStatusGroup.name" placeholder="Наименование группы"></el-input>
+      </el-form-item>
+      <el-form-item prop="code" label="Кодовое имя">
+        <el-input v-model="formStatusGroup.code" placeholder="Кодовое имя"></el-input>
       </el-form-item>
       <div style="text-align: right">
         <el-button size="small" type="success" @click="submit">Сохранить</el-button>
@@ -38,6 +41,7 @@ export default defineComponent({
 
     const rules = ref({
       name: [{ required: true, message: 'Необходимо указать наименование группы', trigger: 'blur' }],
+      code: [{ required: true, message: 'Необходимо указать кодовое имя', trigger: 'blur' }],
     });
     const submit = async () => {
       if (!validate(form)) {
