@@ -32,7 +32,7 @@
     <el-form ref="achievementsForm" v-model="residencyApplication" :model="residencyApplication" label-position="top">
       <ResidencyApplicationAchievements v-if="activeStep === 2" :residency-application="residencyApplication" />
     </el-form>
-    <el-form style="max-width: 700px; margin: 0 auto" label-width="150px">
+    <el-form style="max-width: 700px; margin: 0 auto" label-position="top">
       <FieldValuesForm v-if="activeStep === 3" :form="residencyApplication.formValue" :leave-fields-with-code="textFields" />
     </el-form>
     <el-form style="max-width: 700px; margin: 0 auto" label-position="top">
