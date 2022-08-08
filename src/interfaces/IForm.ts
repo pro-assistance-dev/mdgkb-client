@@ -1,4 +1,5 @@
 import IField from '@/interfaces/IField';
+import IFormValueFile from '@/interfaces/IFormValueFile';
 
 import IFileInfo from './files/IFileInfo';
 import ICandidateApplication from './ICandidateApplication';
@@ -43,7 +44,8 @@ export default interface IForm {
   withPersonalDataAgreement: boolean;
   agreedWithPersonalDataAgreement: boolean;
   showPersonalDataAgreementError: boolean;
-
+  formValueFiles: IFormValueFile[];
+  formValueFilesForDelete: string[];
   postgraduateApplication?: IPostgraduateApplication;
   candidateApplication?: ICandidateApplication;
   residencyApplication?: IResidencyApplication;
@@ -78,4 +80,5 @@ export default interface IForm {
   getRequiredForCancelFields: () => IField[];
   getFieldsByCodes: (codes: string[]) => IField[];
   clearAllFields: () => void;
+  addForValueFile: () => void;
 }

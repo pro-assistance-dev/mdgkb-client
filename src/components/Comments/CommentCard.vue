@@ -10,11 +10,11 @@
       <h3 v-if="isQuestion" class="name">{{ question.user.human.name || 'Без имени' }}</h3>
       <h3 v-else class="name">{{ comment?.user?.human?.name || 'Без имени' }}</h3>
 
-      <div v-if="comment.publishedOn">
+      <div v-if="comment.publishedOn || question.date">
         <h4 v-if="!isQuestion" class="reviews-date-time">
           {{ !isReview ? 'Комментарий' : 'Отзыв' }} от {{ $dateTimeFormatter.format(comment.publishedOn) }}
         </h4>
-        <h4 v-else class="reviews-date-time">Вопрос от {{ $dateTimeFormatter.format(comment.publishedOn) }}</h4>
+        <h4 v-else class="reviews-date-time">Вопрос от {{ $dateTimeFormatter.format(question.date) }}</h4>
       </div>
 
       <h4 v-if="!isQuestion" class="reviews-text">{{ comment.text }}</h4>

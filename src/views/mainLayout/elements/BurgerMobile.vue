@@ -32,7 +32,14 @@
                 </svg>
               </a>
               <router-link v-else :to="menu.getLink()" class="btn" @click="menuClickHandler">{{ menu.name }}</router-link>
-              <div v-if="menu.show" class="submenu">
+              <div
+                class="submenu"
+                :style="{
+                  transition: menu.show ? '2s' : '1s',
+                  maxHeight: menu.show ? '40rem' : 0,
+                  opacity: menu.show ? 1 : 0,
+                }"
+              >
                 <ul v-if="!menu.withoutChildren()">
                   <li v-for="subMenu in menu.subMenus" :key="subMenu.id" :class="{ background_active: subMenu.link === activePath }">
                     <router-link :to="subMenu.link" @click="menuClickHandler">{{ subMenu.name }}</router-link>
@@ -209,7 +216,7 @@ body {
   position: fixed;
   // left: -100%;
   max-width: 450px;
-  width: 75%;
+  width: 90%;
   height: 100%;
   z-index: 100;
   background: #eceff1;
@@ -312,7 +319,7 @@ a.btn:active {
   background: #22abe2;
   overflow: hidden;
   /* max-height: 0; */
-  max-height: 40rem;
+  /* max-height: 40rem; */
   transition: max-height 0.3s ease-out;
   transition-duration: 0.25s;
 }

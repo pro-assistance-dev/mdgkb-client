@@ -1,4 +1,5 @@
 import Field from '@/classes/Field';
+import FormValueFile from '@/classes/FormValueFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IDpoApplication from '@/interfaces/IDpoApplication';
@@ -8,6 +9,7 @@ import IFieldValueFile from '@/interfaces/IFieldValueFile';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
+import IFormValueFile from '@/interfaces/IFormValueFile';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
@@ -65,6 +67,8 @@ export default class Form implements IForm {
   residencyApplication?: IResidencyApplication;
   visitsApplication?: IVisitsApplication;
   vacancyResponse?: IVacancyResponse;
+  formValueFiles: IFormValueFile[] = [];
+  formValueFilesForDelete: string[] = [];
 
   constructor(form?: IForm) {
     if (!form) {
@@ -143,6 +147,9 @@ export default class Form implements IForm {
     if (form.vacancyResponse) {
       this.vacancyResponse = new VacancyResponse(form.vacancyResponse);
     }
+    if (form.formValueFiles) {
+      this.formValueFiles = form.formValueFiles.map((item: IFormValueFile) => new FormValueFile(item));
+    }
   }
 
   addField(field?: IField): void {
@@ -178,7 +185,11 @@ export default class Form implements IForm {
         fileInfos.push(r.fileInfo);
       });
     }
-
+    this.formValueFiles.forEach((i: IFormValueFile) => {
+      if (i.file) {
+        fileInfos.push(i.file);
+      }
+    });
     return fileInfos;
   }
 
@@ -394,5 +405,9 @@ export default class Form implements IForm {
 
   getFieldsByCodes(codes: string[]): IField[] {
     return this.fields.filter((f: IField) => codes.includes(f.code));
+  }
+
+  addForValueFile(): void {
+    this.formValueFiles.push(new FormValueFile());
   }
 }

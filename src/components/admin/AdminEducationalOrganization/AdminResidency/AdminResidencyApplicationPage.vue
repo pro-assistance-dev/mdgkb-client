@@ -194,10 +194,12 @@ export default defineComponent({
       });
       application.value.formValue.validate();
       saveButtonClick.value = true;
+      console.log('validate');
       if (!validate(form, true) || !application.value.formValue.validated) {
         saveButtonClick.value = false;
         return;
       }
+      console.log('validate');
       if (route.params['id']) {
         application.value.formValue.updateViewedByUser(initialStatus);
         await store.dispatch('residencyApplications/update');

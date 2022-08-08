@@ -1,23 +1,16 @@
 <template>
   <div v-if="filteredFields().length">
-    <div class="mobile-container">
+    <div v-if="mobileWindow || !table" class="mobile-container">
       <el-table :data="filteredFields()">
         <el-table-column label="">
           <template #default="scope">
-            {{ scope.row.name }}<br /><br />
-            <FieldValuesFormItem :form="formValue" :field="scope.row" />
-            <h4 v-if="scope.row.file.fileSystemPath">Образец:</h4>
-            <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
-              {{ scope.row.file.originalName }}
-            </a>
-            <h4 v-if="showModComments">Замечания:</h4>
-            {{ form.findFieldValue(scope.row.id)?.modComment }}
+            <FieldValuesFormItem show-label :form="formValue" :show-mod-comments="showModComments" :field="scope.row" />
           </template>
         </el-table-column>
       </el-table>
     </div>
 
-    <div class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
+    <div v-else class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
       <div>
         <EditorContent :content="form.description" />
       </div>
@@ -59,22 +52,42 @@
       </el-table>
     </div>
   </div>
+  <el-form-item v-if="showAdditionalFiles" style="margin: 0" label="Добавить дополнительные файлы">
+    <el-button
+      style="margin-bottom: 5px"
+      size="mini"
+      type="success"
+      icon="el-icon-document-add"
+      @click="form.addForValueFile()"
+    ></el-button>
+    <div v-for="(fieldValueFile, i) in form.formValueFiles" :key="fieldValueFile.id" style="display: flex; margin-bottom: 5px">
+      <FileUploader :file-info="fieldValueFile.file" />
+      <el-button
+        size="mini"
+        icon="el-icon-document-delete"
+        style="padding: 5px; margin: 0; min-height: unset; border: none"
+        @click="removeFromClass(i, form.formValueFiles, form.formValueFilesForDelete)"
+      ></el-button>
+    </div>
+  </el-form-item>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import EditorContent from '@/components/EditorContent.vue';
+import FileUploader from '@/components/FileUploader.vue';
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
+import removeFromClass from '@/mixins/removeFromClass';
 
 export default defineComponent({
   name: 'FieldValuesForm',
-  components: { FieldValuesFormItem, EditorContent },
+  components: { FieldValuesFormItem, EditorContent, FileUploader },
   props: {
     form: {
       type: Object as PropType<IForm>,
@@ -92,6 +105,14 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
     },
+    table: {
+      type: Boolean,
+      default: false,
+    },
+    showAdditionalFiles: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
   },
   setup(props) {
     const store = useStore();
@@ -100,6 +121,7 @@ export default defineComponent({
     const getNameLabel = 'Наименование';
     const getDataLabel = 'Данные';
     const fields: Ref<IField[]> = ref([]);
+    const mobileWindow = ref(window.matchMedia('(max-width: 1226px)').matches);
     onBeforeMount(async () => {
       formValue.value = props.form;
       await store.dispatch('formStatuses/getAll');
@@ -115,6 +137,12 @@ export default defineComponent({
       fields.value = filteredFields();
     });
 
+    onMounted(() => {
+      window.addEventListener('resize', () => {
+        mobileWindow.value = window.matchMedia('(max-width: 1226px)').matches;
+      });
+    });
+
     const filteredFields = (): IField[] => {
       if (props.leaveFieldsWithCode?.length > 0) {
         return props.form.fields.filter((field: IField) => props.leaveFieldsWithCode?.includes(field.code));
@@ -126,11 +154,13 @@ export default defineComponent({
     };
 
     return {
+      removeFromClass,
       fields,
       filteredFields,
       formValue,
       getNameLabel,
       getDataLabel,
+      mobileWindow,
     };
   },
   methods: {
@@ -168,9 +198,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.mobile-container {
-  display: none;
-}
+// .mobile-container {
+//   display: none;
+// }
 .el-table {
   --el-table-border: none;
 }
@@ -188,9 +218,9 @@ export default defineComponent({
     display: none;
   }
 
-  .mobile-container {
-    display: block;
-  }
+  // .mobile-container {
+  //   display: block;
+  // }
 }
 
 .red {

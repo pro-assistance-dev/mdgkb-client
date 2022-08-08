@@ -54,6 +54,7 @@ const actions: ActionTree<State, RootState> = {
     commit('setTypeExists', res);
   },
   update: async ({ state, commit }): Promise<void> => {
+    console.log('COMMIT');
     const res = await httpClient.put<IResidencyApplication, IResidencyApplication>({
       query: `${state.item.id}`,
       payload: state.item,
