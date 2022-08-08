@@ -6,6 +6,11 @@
           <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="Кодовое имя">
+        <template #default="scope">
+          <span>{{ scope.row.code }}</span>
+        </template>
+      </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
           <TableButtonGroup

@@ -16,8 +16,20 @@ const FormStatusesFiltersLib = (() => {
     return sf;
   }
 
+  function byCode(groupId: string): IFilterModel {
+    const sf = FilterModel.CreateFilterModel(
+      Provider.schema.value.formStatus.tableName,
+      Provider.schema.value.formStatus.code,
+      DataTypes.String
+    );
+    sf.value1 = groupId;
+    sf.operator = Operators.Eq;
+    return sf;
+  }
+
   return {
     byGroupId,
+    byCode,
   };
 })();
 

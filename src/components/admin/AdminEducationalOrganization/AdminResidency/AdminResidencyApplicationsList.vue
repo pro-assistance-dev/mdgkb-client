@@ -231,12 +231,7 @@ export default defineComponent({
 
     const loadFilters = async () => {
       const filterQuery = new FilterQuery();
-      if (residencyApplications.value.length > 0) {
-        const formStatusesGroupId = residencyApplications.value[0].formValue.formStatus.formStatusGroupId;
-        if (formStatusesGroupId) {
-          filterQuery.filterModels.push(FormStatusesFiltersLib.byGroupId(formStatusesGroupId));
-        }
-      }
+      filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
       await Provider.store.dispatch('formStatuses/getAll', filterQuery);
     };
 

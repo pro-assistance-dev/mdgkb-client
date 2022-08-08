@@ -108,18 +108,13 @@ export default defineComponent({
 
     const loadFilters = async () => {
       const filterQuery = new FilterQuery();
-      if (dpoApplications.value.length > 0) {
-        const formStatusesGroupId = dpoApplications.value[0].formValue.formStatus.formStatusGroupId;
-        if (formStatusesGroupId) {
-          filterQuery.filterModels.push(FormStatusesFiltersLib.byGroupId(formStatusesGroupId));
-        }
-      }
+      filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
       await Provider.store.dispatch('formStatuses/getAll', filterQuery);
     };
 
     const load = async () => {
       // await setFilter();
-      // await loadFilters();
+      await loadFilters();
       setType();
       Provider.setSortList(...createSortModels(DpoApplicationsSortsLib));
       Provider.setSortModels(DpoApplicationsSortsLib.byCreatedAt(Orders.Desc));
