@@ -101,6 +101,14 @@
                           </div>
                         </div>
                       </li>
+                      <li v-if="user.human.address" class="list-item">
+                        <div class="list-item">
+                          <div class="item-title"><h5>АДРЕС</h5></div>
+                          <div class="item-data">
+                            <h4>{{ user.human.address }}</h4>
+                          </div>
+                        </div>
+                      </li>
                     </ul>
                   </div>
                 </el-form>
@@ -163,13 +171,20 @@
                 </el-form-item>
               </div>
               <div class="contact-phone">
-                <svg class="icon-phone">
-                  <use xlink:href="#profile-phone"></use>
-                </svg>
-                <el-form-item prop="phone" label="Phone">
-                  <h4 v-if="user.phone">{{ user.phone }}</h4>
-                  <h4 v-else>Не указан</h4>
-                </el-form-item>
+                <div class="contact-phone-el">
+                  <svg class="icon-phone">
+                    <use xlink:href="#profile-phone"></use>
+                  </svg>
+                  <el-form-item prop="phone" label="Phone">
+                    <h4 v-if="user.phone">{{ user.phone }}</h4>
+                    <h4 v-else>Не указан</h4>
+                  </el-form-item>
+                </div>
+                <div class="contact-phone-el">
+                  <button v-if="user.phone" type="button" class="edit-phone" @click="isEditPhoneModalOpen = true">Изменить</button>
+                  <button v-else type="button" class="add-phone" @click="isEditPhoneModalOpen = true">Добавить номер</button>
+                  <EditPhone v-if="isEditPhoneModalOpen" @close="isEditPhoneModalOpen = false" />
+                </div>
               </div>
             </div>
           </el-form>
@@ -216,6 +231,14 @@
                     <div class="item-title"><h5>СНИЛС</h5></div>
                     <div class="item-data">
                       <h4>{{ user.human.snils }}</h4>
+                    </div>
+                  </div>
+                </li>
+                <li v-if="user.human.address" class="list-item">
+                  <div class="list-item">
+                    <div class="item-title"><h5>АДРЕС</h5></div>
+                    <div class="item-data">
+                      <h4>{{ user.human.address }}</h4>
                     </div>
                   </div>
                 </li>
@@ -273,37 +296,46 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import EditPhone from '@/components/Profile/EditPhone.vue';
 import EducationPage from '@/components/Profile/Education/EducationPage.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IUser from '@/interfaces/IUser';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 export default defineComponent({
   name: 'ProfileInfoPage',
-  components: { UploaderSingleScan, UserInfoMini, EducationPage },
+  components: { UploaderSingleScan, UserInfoMini, EducationPage, EditPhone },
+
   setup() {
     const store = useStore();
     const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
+    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
 
     const loadUser = async () => {
-      await store.dispatch('users/get', userId.value);
+      await Provider.store.dispatch('users/get', userId.value);
       mounted.value = true;
     };
     onMounted(loadUser);
 
     const saveAvatar = async () => {
-      await store.dispatch('users/update', user.value);
+      await Provider.store.dispatch('users/update', user.value);
     };
+
+    Hooks.onBeforeMount(loadUser);
+
+    const isEditPhoneModalOpen: Ref<boolean> = ref(false);
 
     return {
       saveAvatar,
       mounted,
       user,
+      isEditPhoneModalOpen,
     };
   },
 });
@@ -479,12 +511,19 @@ h5 {
 }
 
 .contact-phone {
+  width: 100%;
   font-family: 'Open sans', sans-serif, Arial;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 20px;
   margin-bottom: 15px;
   color: #a3a9be;
+}
+
+.contact-phone-el {
+  display: flex;
+  align-items: center;
 }
 
 .user-name {
@@ -756,6 +795,38 @@ ul.parent-info-list li:last-child {
   padding: 1px;
   font-size: 12px;
   font-family: 'Open Sans', sans-serif;
+}
+
+.add-phone {
+  display: flex;
+  padding: 5px 18px;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 14px;
+  border-radius: 40px;
+  border: 1px solid #a3a9be;
+  color: #a3a9be;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+    background: #ffffff;
+  }
+  margin: 0;
+}
+
+.edit-phone {
+  display: flex;
+  padding: 5px 18px;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 14px;
+  border-radius: 40px;
+  border: 1px solid #a3a9be;
+  color: #a3a9be;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+    background: #ffffff;
+  }
+  margin: 0;
 }
 
 @media screen and (max-width: 980px) {
