@@ -62,7 +62,9 @@ export default defineComponent({
 
     const collapseChange = () => {
       if (activeName.value) {
-        scroll(`#${activeName.value}`);
+        setTimeout(() => {
+          scroll(`#${activeName.value}`);
+        }, 500);
       }
     };
 

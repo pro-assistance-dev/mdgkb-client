@@ -48,12 +48,7 @@
       </el-table-column>
       <el-table-column label="Дата принятия заявления" align="center" width="150">
         <template #default="scope">
-          <div v-if="scope.row.formValue.formStatus.isAccepted()">
-            {{
-              scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) : 'Дата принятия не указана'
-            }}
-          </div>
-          <div v-else>Заявка не принята</div>
+          {{ scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) : 'Не указана' }}
         </template>
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">

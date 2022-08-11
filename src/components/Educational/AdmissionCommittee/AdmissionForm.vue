@@ -118,14 +118,15 @@ export default defineComponent({
     };
 
     const submit = async () => {
-      if (emailExists.value) {
-        ElNotification.error({
-          dangerouslyUseHTMLString: true,
-          message: document.querySelector('#error-block-message')?.innerHTML || '',
-        });
-        scroll('#responce-form');
-        return;
-      }
+      // TODO: временно убрана проверка email, чтобы можно было подавать заявку повторно, при отказе или отзыве
+      // if (emailExists.value) {
+      //   ElNotification.error({
+      //     dangerouslyUseHTMLString: true,
+      //     message: document.querySelector('#error-block-message')?.innerHTML || '',
+      //   });
+      //   scroll('#responce-form');
+      //   return;
+      // }
       residencyApplication.value.formValue.clearIds();
       await Provider.store.dispatch('residencyApplications/create');
       ElNotification.success('Заявка успешно отправлена');

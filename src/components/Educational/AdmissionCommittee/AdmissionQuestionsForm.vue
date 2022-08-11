@@ -153,16 +153,17 @@ export default defineComponent({
     };
 
     const checkTypeExists = async (value: boolean) => {
-      await Provider.store.dispatch('residencyApplications/typeExists', value);
-      if (typeExists.value) {
-        ElMessageBox.alert(`Вы уже подавали заявление на ${value ? 'приоритетную' : 'дополнительную'} специальность`, {
-          confirmButtonText: 'OK',
-          callback: () => {
-            residencyApplicationValue.value.main = !value;
-          },
-        });
-        return;
-      }
+      // TODO: добавить условия
+      // await Provider.store.dispatch('residencyApplications/typeExists', value);
+      // if (typeExists.value) {
+      //   ElMessageBox.alert(`Вы уже подавали заявление на ${value ? 'приоритетную' : 'дополнительную'} специальность`, {
+      //     confirmButtonText: 'OK',
+      //     callback: () => {
+      //       residencyApplicationValue.value.main = !value;
+      //     },
+      //   });
+      //   return;
+      // }
     };
 
     return {

@@ -11,12 +11,12 @@
           </el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="Время принятия заявления">
-          <template v-if="formValue.formStatus.isAccepted()">
-            <el-form-item style="margin: 0" prop="content">
-              <DatePicker v-model="formValue.approvingDate" />
-            </el-form-item>
-          </template>
-          <div v-else>Заявка пока что не принята</div>
+          <!-- <template v-if="formValue.formStatus.isAccepted() || formValue.formStatus.isCancelled()"> -->
+          <el-form-item style="margin: 0" prop="content">
+            <DatePicker v-model="formValue.approvingDate" />
+          </el-form-item>
+          <!-- </template> -->
+          <!-- <div v-else>Заявка пока что не принята</div> -->
         </el-descriptions-item>
       </el-descriptions>
       <div class="buttons-block">
@@ -168,11 +168,6 @@ export default defineComponent({
           type: 'error',
         });
         return;
-      }
-      if (status.isAccepted()) {
-        formValue.value.approvingDate = new Date();
-      } else {
-        formValue.value.approvingDate = undefined;
       }
       formValue.value.setStatus(status, formStatuses.value);
     };

@@ -189,7 +189,8 @@ export default defineComponent({
     };
     const rules = {
       email: [
-        { required: true, validator: emailRule, trigger: 'blur' },
+        { validator: emailRule, trigger: 'blur' },
+        // { required: true, validator: emailRule, trigger: 'blur' },
         { type: 'email', message: 'Пожалуйста, введите корректный email', trigger: 'blur' },
       ],
       userSurname: [{ required: true, message: 'Пожалуйста, укажите вашу фамилию', trigger: 'blur' }],
