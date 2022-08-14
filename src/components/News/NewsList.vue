@@ -7,6 +7,7 @@
           <NewsEventsButtons @load="load" />
           <NewsCalendar />
           <NewsFilters @load="load" @load-news="loadNews" />
+          <HelperElena />
         </div>
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -27,6 +28,7 @@
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
+import HelperElena from '@/components/Main/HelperElena.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
@@ -40,7 +42,7 @@ import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters, LoadMoreButton },
+  components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters, LoadMoreButton, HelperElena },
   emits: ['add', 'remove'],
   setup() {
     const allNewsLoaded = computed(() => Provider.store.getters['news/allNewsLoaded']);
