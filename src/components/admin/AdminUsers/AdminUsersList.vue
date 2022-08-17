@@ -1,38 +1,45 @@
 <template>
-  <div v-if="mounted" class="flex-column">
-    <el-card>
-      <el-table v-if="users" :data="users">
-        <el-table-column label="email" sortable>
-          <template #default="scope">
-            <span>{{ scope.row.email }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Имя" sortable>
-          <template #default="scope">
-            <span>{{ scope.row.human.getFullName() }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Время регистрации" sortable>
-          <template #default="scope">
-            <span>{{ $dateTimeFormatter.format(scope.row.createdAt, { hour: 'numeric', minute: 'numeric' }) }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column width="50" fixed="right" align="center">
-          <template #default="scope">
-            <TableButtonGroup
-              :show-edit-button="true"
-              :show-remove-button="true"
-              :show-more-button="true"
-              @remove="remove(scope.row.id)"
-              @edit="edit(scope.row.id)"
-              @showMore="loginAs(scope.row.email)"
-            />
-          </template>
-        </el-table-column>
-      </el-table>
+  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+    <template #header>
+      <SortList class="filters-block" :store-mode="true" :models="sortList" @load="loadUsers" />
+    </template>
+    <div v-if="mounted" class="flex-column">
+      <el-card>
+        <el-table v-if="users" :data="users">
+          <el-table-column prop="email" label="email" sortable>
+            <template #default="scope">
+              <span>{{ scope.row.email }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="Имя" sortable>
+            <template #default="scope">
+              <span>{{ scope.row.human.getFullName() }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="Время регистрации" sortable>
+            <template #default="scope">
+              <span>{{ $dateTimeFormatter.format(scope.row.createdAt, { hour: 'numeric', minute: 'numeric' }) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column width="50" fixed="right" align="center">
+            <template #default="scope">
+              <TableButtonGroup
+                :show-edit-button="true"
+                :show-remove-button="true"
+                :show-more-button="true"
+                @remove="remove(scope.row.id)"
+                @edit="edit(scope.row.id)"
+                @showMore="loginAs(scope.row.email)"
+              />
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
+    </div>
+    <template #footer>
       <Pagination />
-    </el-card>
-  </div>
+    </template>
+  </component>
 </template>
 
 <script lang="ts">
@@ -40,13 +47,18 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import SortList from '@/components/SortList/SortList.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import ISortModel from '@/interfaces/filters/ISortModel';
 import IUser from '@/interfaces/IUser';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import UsersSortsLib from '@/services/Provider/libs/sorts/UsersSortsLib';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 export default defineComponent({
   name: 'AdminUsersList',
-  components: { TableButtonGroup, Pagination },
+  components: { TableButtonGroup, Pagination, AdminListWrapper, SortList },
 
   setup() {
     const users: ComputedRef<IUser[]> = computed<IUser[]>(() => Provider.store.getters['users/items']);
@@ -54,6 +66,7 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
+    const sortList: Ref<ISortModel[]> = ref([]);
 
     const create = (): void => {
       Provider.router.push('/admin/users/new');
@@ -65,9 +78,16 @@ export default defineComponent({
       Provider.router.push(`/admin/users/${id}`);
     };
 
+    const loadUsers = async (): Promise<void> => {
+      await Provider.store.dispatch('users/getAll', Provider.filterQuery.value);
+    };
+
     const load = async (filterQuery: IFilterQuery) => {
+      // sortList.value = [UsersSortsLib.byUserEmail()];
       await Provider.store.dispatch('users/getAll', filterQuery);
       await Provider.store.dispatch('roles/getAll', filterQuery);
+      Provider.setSortList(...createSortModels(UsersSortsLib));
+      await loadUsers();
       mounted.value = true;
     };
 
@@ -94,6 +114,9 @@ export default defineComponent({
       remove,
       edit,
       isEditMode,
+      sortList: Provider.sortList,
+      schema: Provider.schema,
+      loadUsers,
     };
   },
 });
