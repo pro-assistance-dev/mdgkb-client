@@ -3,39 +3,35 @@
     <template #header>
       <SortList class="filters-block" :store-mode="true" :models="sortList" @load="loadUsers" />
     </template>
-    <div v-if="mounted" class="flex-column">
-      <el-card>
-        <el-table v-if="users" :data="users">
-          <el-table-column prop="email" label="email" sortable>
-            <template #default="scope">
-              <span>{{ scope.row.email }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="Имя" sortable>
-            <template #default="scope">
-              <span>{{ scope.row.human.getFullName() }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="Время регистрации" sortable>
-            <template #default="scope">
-              <span>{{ $dateTimeFormatter.format(scope.row.createdAt, { hour: 'numeric', minute: 'numeric' }) }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column width="50" fixed="right" align="center">
-            <template #default="scope">
-              <TableButtonGroup
-                :show-edit-button="true"
-                :show-remove-button="true"
-                :show-more-button="true"
-                @remove="remove(scope.row.id)"
-                @edit="edit(scope.row.id)"
-                @showMore="loginAs(scope.row.email)"
-              />
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-card>
-    </div>
+    <el-table v-if="users" :data="users">
+      <el-table-column prop="email" label="email" sortable>
+        <template #default="scope">
+          <span>{{ scope.row.email }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Имя" sortable>
+        <template #default="scope">
+          <span>{{ scope.row.human.getFullName() }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Время регистрации" sortable>
+        <template #default="scope">
+          <span>{{ $dateTimeFormatter.format(scope.row.createdAt, { hour: 'numeric', minute: 'numeric' }) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="50" fixed="right" align="center">
+        <template #default="scope">
+          <TableButtonGroup
+            :show-edit-button="true"
+            :show-remove-button="true"
+            :show-more-button="true"
+            @remove="remove(scope.row.id)"
+            @edit="edit(scope.row.id)"
+            @showMore="loginAs(scope.row.email)"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
     <template #footer>
       <Pagination />
     </template>
