@@ -4,15 +4,6 @@ import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const UsersSortsLib = (() => {
-  //   function byUserFullName(order?: Orders): ISortModel {
-  //     return SortModel.CreateSortModel(
-  //       Provider.schema.value.user.tableName,
-  //       Provider.schema.value.user.fullName,
-  //       order ? order : Orders.Asc,
-  //       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
-  //     );
-  //   }
-
   function byUserEmail(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.user.tableName,
@@ -24,7 +15,6 @@ const UsersSortsLib = (() => {
   }
 
   return {
-    // byUserFullName,
     byUserEmail,
   };
 })();
