@@ -79,7 +79,6 @@ export default defineComponent({
     };
 
     const load = async (filterQuery: IFilterQuery) => {
-      // sortList.value = [UsersSortsLib.byUserEmail()];
       await Provider.store.dispatch('users/getAll', filterQuery);
       await Provider.store.dispatch('roles/getAll', filterQuery);
       Provider.setSortList(...createSortModels(UsersSortsLib));
