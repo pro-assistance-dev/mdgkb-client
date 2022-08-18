@@ -1,14 +1,18 @@
 import { computed, ComputedRef, Ref, ref } from 'vue';
 import { RouteLocationNormalizedLoaded } from 'vue-router';
+import { Commit } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
+import IQuestion from '@/interfaces/IQuestion';
 import ISchema from '@/interfaces/schema/ISchema';
 
 import router from '../router';
 import store from '../store';
+import HttpClient from './HttpClient';
+
 const Provider = (() => {
   const r = router;
   const s = store;
@@ -68,7 +72,12 @@ const Provider = (() => {
     return router.currentRoute.value;
   }
 
-  function handlerSSError(source: EventSource, routeToState: string) {
+  async function handlerSSE(query: string, commit: Commit, source: EventSource, routeToState: string) {
+    const c = new HttpClient('subscribe');
+    source = await c.subscribe<IQuestion>({ query: query });
+    source.onmessage = function (e) {
+      commit('unshiftToAll', JSON.parse(e.data));
+    };
     source.onerror = function (e) {
       return s?.dispatch(routeToState);
     };
@@ -93,7 +102,7 @@ const Provider = (() => {
     form,
     getAll,
     route,
-    handlerSSError,
+    handlerSSE,
   };
 })();
 
