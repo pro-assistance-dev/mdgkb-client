@@ -1,5 +1,9 @@
 <template>
   <div v-if="mounted">
+    <div class="info">
+      <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс">Конкурс</a>
+      <span v-else>Информация о конкурсе временно отсутствует</span>
+    </div>
     <el-collapse v-model="activeName" accordion @change="collapseChange">
       <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">
         <template #title>
@@ -66,7 +70,6 @@ export default defineComponent({
       Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
       Provider.filterQuery.value.pagination.cursorMode = false;
       await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
-      mounted.value = true;
     };
 
     const collapseChange = () => {
@@ -77,13 +80,29 @@ export default defineComponent({
       }
     };
 
+    const isFound: Ref<boolean> = ref(true);
+    const path = '/files/contest.pdf';
+
+    // const found = async () => {
+    //   try {
+    //     let fileName = require(path);
+    //     console.log("file found");
+    //     console.log(fileName)
+    //   } catch (e) {
+    //     console.log("sorry, file not found");
+    //     isFound.value = false;
+    //   }
+    // };
+
     const initLoad = async () => {
       await loadPrograms();
+      // await found();
+      mounted.value = true;
     };
 
     Hooks.onBeforeMount(initLoad);
 
-    return { residencyCourses, mounted, activeName, collapseChange, UserService };
+    return { residencyCourses, mounted, activeName, collapseChange, isFound, UserService };
   },
 });
 </script>
