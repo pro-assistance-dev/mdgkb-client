@@ -1,8 +1,8 @@
 <template>
   <div v-if="mounted">
     <div class="info">
-      <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс">Конкурс</a>
-      <span v-else>Информация о конкурсе временно отсутствует</span>
+      <!--      <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс">Конкурс</a>-->
+      <span>Информация о конкурсе временно отсутствует</span>
     </div>
     <el-collapse v-model="activeName" accordion @change="collapseChange">
       <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">
