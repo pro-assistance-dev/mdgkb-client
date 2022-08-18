@@ -58,9 +58,13 @@ export default interface IResidencyCourse {
   residencyApplications: IResidencyApplication[];
   getPaidCompetitionIndex: () => number;
   getApplicationsByPoint: () => IResidencyApplication[];
+  getPaidApplicationsByPoint: () => IResidencyApplication[];
   isThisYear: () => boolean;
+  applicationPassCompetition: (placeOfApplication: number) => boolean;
   getPaidApplications: () => IResidencyApplication[];
   getFreeApplications: () => IResidencyApplication[];
   getAcceptedApplications: () => IResidencyApplication[];
   getFullName: () => string;
+
+  paidAcceptedApplicationsExists: () => boolean;
 }
