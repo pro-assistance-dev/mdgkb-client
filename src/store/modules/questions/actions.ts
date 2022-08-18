@@ -78,9 +78,7 @@ const actions: ActionTree<State, RootState> = {
     source.onmessage = function (e) {
       commit('unshiftToAll', JSON.parse(e.data));
     };
-    source.onerror = function (e) {
-      Provider.store.dispatch('questions/subscribeCreate');
-    };
+    Provider.handlerSSError(source as EventSource, 'questions/subscribeCreate');
   },
   unsubscribeCreate: async ({ commit }): Promise<void> => {
     source?.close();

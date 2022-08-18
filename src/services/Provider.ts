@@ -68,6 +68,12 @@ const Provider = (() => {
     return router.currentRoute.value;
   }
 
+  function handlerSSError(source: EventSource, routeToState: string) {
+    source.onerror = function (e) {
+      return s?.dispatch(routeToState);
+    };
+  }
+
   return {
     setSortList,
     sortList,
@@ -87,6 +93,7 @@ const Provider = (() => {
     form,
     getAll,
     route,
+    handlerSSError,
   };
 })();
 
