@@ -5,6 +5,7 @@ import IQuestion from '@/interfaces/IQuestion';
 import IQuestionsWithCount from '@/interfaces/IQuestionsWithCount';
 import INews from '@/interfaces/news/INews';
 import HttpClient from '@/services/HttpClient';
+import Provider from '@/services/Provider';
 import RootState from '@/store/types';
 
 import { State } from './state';
@@ -77,6 +78,7 @@ const actions: ActionTree<State, RootState> = {
     source.onmessage = function (e) {
       commit('unshiftToAll', JSON.parse(e.data));
     };
+    Provider.handlerSSError(source as EventSource, 'questions/subscribeCreate');
   },
   unsubscribeCreate: async ({ commit }): Promise<void> => {
     source?.close();

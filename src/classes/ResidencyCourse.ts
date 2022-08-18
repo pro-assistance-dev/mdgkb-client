@@ -23,7 +23,6 @@ export default class ResidencyCourse implements IResidencyCourse {
   slug = '';
   name = '';
   description = '';
-  listeners = 0;
   cost = 0;
   freePlaces = 0;
   freeGovernmentPlaces = 0;
@@ -77,6 +76,7 @@ export default class ResidencyCourse implements IResidencyCourse {
     if (i.formPattern) {
       this.formPattern = new Form(i.formPattern);
     }
+    this.formPatternId = i.formPatternId;
     this.programId = i.programId;
     if (i.program) {
       this.program = new FileInfo(i.program);
