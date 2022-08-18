@@ -199,6 +199,10 @@ export default class ResidencyCourse implements IResidencyCourse {
     });
   }
 
+  getPaidApplicationsByPoint(): IResidencyApplication[] {
+    return this.getApplicationsByPoint().filter((a: IResidencyApplication) => a.paid === true);
+  }
+
   getAcceptedApplications(): IResidencyApplication[] {
     return this.residencyApplications.filter((i: IResidencyApplication) => i.formValue.formStatus.isAccepted());
   }
@@ -217,5 +221,13 @@ export default class ResidencyCourse implements IResidencyCourse {
 
   getFullName(): string {
     return `${this.getMainSpecialization().code} ${this.getMainSpecialization().name}`;
+  }
+
+  applicationPassCompetition(placeOfApplication: number): boolean {
+    return placeOfApplication <= this.paidPlaces;
+  }
+
+  paidAcceptedApplicationsExists(): boolean {
+    return this.residencyApplications.some((a) => a.paid && a.formValue.formStatus.isAccepted());
   }
 }

@@ -1,9 +1,15 @@
 <template>
   <div v-if="mounted">
     <el-collapse v-model="activeName" accordion @change="collapseChange">
-      <el-collapse-item id="Конкурс" class="card-item" name="Конкурс">
+      <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">
         <template #title>
-          <h2>Конкурс человек на место</h2>
+          <h2>КОНКУРС</h2>
+        </template>
+        <CompetitionTable :residency-courses="residencyCourses" />
+      </el-collapse-item>
+      <el-collapse-item id="Конкурс на место" class="card-item" name="Конкурс">
+        <template #title>
+          <h2>КОНКУРС ЧЕЛОВЕК НА МЕСТО</h2>
         </template>
         <CompetitionPlacesTable :residency-courses="residencyCourses" />
       </el-collapse-item>
@@ -31,6 +37,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import CompetitionApplicationsTable from '@/components/Educational/AdmissionCommittee/CompetitionApplicationsTable.vue';
 import CompetitionPlacesTable from '@/components/Educational/AdmissionCommittee/CompetitionPlacesTable.vue';
 import CompetitionRating from '@/components/Educational/AdmissionCommittee/CompetitionRating.vue';
+import CompetitionTable from '@/components/Educational/AdmissionCommittee/CompetitionTable.vue';
 import { Orders } from '@/interfaces/filters/Orders';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import Hooks from '@/services/Hooks/Hooks';
@@ -38,6 +45,7 @@ import Provider from '@/services/Provider';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 import scroll from '@/services/Scroll';
+import UserService from '@/services/User';
 
 export default defineComponent({
   name: 'CompetitionComponent',
@@ -45,6 +53,7 @@ export default defineComponent({
     CompetitionPlacesTable,
     CompetitionApplicationsTable,
     CompetitionRating,
+    CompetitionTable,
   },
   setup() {
     const mounted: Ref<boolean> = ref(false);
@@ -74,7 +83,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(initLoad);
 
-    return { residencyCourses, mounted, activeName, collapseChange };
+    return { residencyCourses, mounted, activeName, collapseChange, UserService };
   },
 });
 </script>
