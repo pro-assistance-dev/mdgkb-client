@@ -297,7 +297,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import EditPhone from '@/components/Profile/EditPhone.vue';
 import EducationPage from '@/components/Profile/Education/EducationPage.vue';
@@ -312,7 +311,6 @@ export default defineComponent({
   components: { UploaderSingleScan, UserInfoMini, EducationPage, EditPhone },
 
   setup() {
-    const store = useStore();
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
@@ -343,7 +341,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .size {
-  // max-width: 1224px;
   padding: 0 20px 0 0;
 }
 
@@ -697,11 +694,6 @@ ul.parent-info-list li:last-child {
   display: flex;
 }
 
-// a.router-link-active,
-// li.item-list-active > a {
-//   background: #ffffff;
-// }
-
 .active {
   color: #ffffff;
   fill: #ffffff;
@@ -766,18 +758,6 @@ ul.parent-info-list li:last-child {
   -o-transition: all 0.35s;
   transition: all 0.35s;
 }
-// .tab input[type=checkbox] + label::after {
-//   content: ">";
-// }
-// .tab input[type=radio] + label::after {
-//   content: "\25BC";
-// }
-// .tab input[type=checkbox]:checked + label::after {
-//   transform: rotate(90deg);
-// }
-// .tab input[type=radio]:checked + label::after {
-//   transform: rotateX(180deg);
-// }
 
 .sup-cymbol-counter {
   display: flex;

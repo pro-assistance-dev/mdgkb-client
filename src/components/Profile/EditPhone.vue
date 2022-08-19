@@ -38,7 +38,6 @@
 <script lang="ts">
 import { ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import User from '@/classes/User';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
@@ -54,9 +53,7 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(_, { emit }) {
-    const store = useStore();
     const form = ref();
-    const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
@@ -78,7 +75,7 @@ export default defineComponent({
     const submit = () => {
       router.push('/profile');
       emit('close');
-      store.dispatch('users/update', user.value);
+      Provider.store.dispatch('users/update', user.value);
       emit('close');
       ElNotification({
         title: 'Телефон',
@@ -92,7 +89,6 @@ export default defineComponent({
     };
 
     return {
-      mounted,
       user,
       formStatuses,
       submit,
@@ -104,79 +100,13 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-/* .hidden {
-  display: none;
-} */
-
-* {
-  padding: 0px;
-  margin: 0px;
-}
-
-.modal-field {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 100;
-  position: fixed;
-  top: 0;
-  left: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.modal-box {
-  background: #ffffff;
-  border: 1px solid #dcdfe6;
-  border-radius: 5px;
-  position: fixed;
-  top: 25%;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.button-field {
-  display: flex;
-  justify-content: right;
-}
+@import '@/assets/styles/elements/callback.scss';
 
 .modal-editPhone {
   padding: 20px;
   padding-top: 0;
   width: 310px;
   height: auto;
-}
-
-input {
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #4a4a4a;
-  width: 250px;
-  font-size: 13px;
-  padding: 6px 0 4px 10px;
-  border: 1px solid #cecece;
-  background: #f6f6f6;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-.submit {
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #4a4a4a;
-  font-weight: normal;
-  cursor: pointer;
-  border: 1px solid #dcdfe6;
-  border-radius: 5px;
-  padding: 8px 14px;
-  width: 120px;
-  color: white;
-  background-color: #f3911c;
-}
-.submit:hover {
-  background-color: darken(#f3911c, 10%);
-}
-
-.submit:focus {
-  outline: none;
 }
 
 .submit-grey {
@@ -205,47 +135,5 @@ input {
   text-align: center;
   color: #4a4a4a;
   font-weight: normal;
-}
-
-.field-name {
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #4a4a4a;
-  font-weight: normal;
-}
-
-.phone-name {
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #4a4a4a;
-  font-weight: normal;
-}
-
-.send {
-  display: flex;
-  justify-content: center;
-}
-
-.field-text {
-  display: flex;
-  justify-content: center;
-  font-size: 14px;
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #9d9d9d;
-  font-weight: normal;
-}
-
-.sr-only {
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  border: 0;
-  padding: 0;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  margin: -1px;
-}
-:deep(.el-notification) {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 </style>
