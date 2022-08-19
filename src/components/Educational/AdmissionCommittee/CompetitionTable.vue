@@ -113,11 +113,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/colors.scss';
 .pass {
-  background-color: $green-table;
+  background-color: $site_pale_green;
   text-align: right;
 }
 .not-pass {
-  background-color: $red-table;
+  background-color: $site_pale_pink;
   text-align: right;
 }
 
