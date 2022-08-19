@@ -9,7 +9,7 @@
           <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Имя" sortable>
+      <el-table-column prop="fullName" label="Имя" sortable>
         <template #default="scope">
           <span>{{ scope.row.human.getFullName() }}</span>
         </template>
