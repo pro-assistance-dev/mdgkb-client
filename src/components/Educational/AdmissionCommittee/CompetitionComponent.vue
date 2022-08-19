@@ -1,8 +1,11 @@
 <template>
   <div v-if="mounted">
     <div class="info">
-      <!--      <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс">Конкурс</a>-->
-      <span>Информация о конкурсе временно отсутствует</span>
+      <span class="info-text"
+        >Для получения информации о конкурсе нажмите
+        <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span
+      >
+      <!-- <span class="info-text-alt">Информация о конкурсе временно отсутствует</span> -->
     </div>
     <el-collapse v-model="activeName" accordion @change="collapseChange">
       <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">
@@ -108,6 +111,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/styles/elements/colors.scss';
 :deep(.card-item) {
   margin-bottom: 10px;
   thead th {
@@ -144,5 +148,34 @@ h2 {
 }
 :deep(.el-collapse-item__wrap) {
   border-bottom: none;
+}
+.info {
+  display: flex;
+  // height: 50px;
+  // background: $site_pale_green;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.info-text {
+  text-align: center;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  background: $site_pale_green;
+  font-size: 18px;
+  padding: 11px 0;
+  border-radius: 5px;
+}
+
+.info-text-alt {
+  text-align: center;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  background: $site_pale_yellow;
+  font-size: 18px;
+  padding: 11px 0;
+  border-radius: 5px;
 }
 </style>
