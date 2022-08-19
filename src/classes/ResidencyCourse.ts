@@ -23,7 +23,6 @@ export default class ResidencyCourse implements IResidencyCourse {
   slug = '';
   name = '';
   description = '';
-  listeners = 0;
   cost = 0;
   freePlaces = 0;
   freeGovernmentPlaces = 0;
@@ -77,6 +76,7 @@ export default class ResidencyCourse implements IResidencyCourse {
     if (i.formPattern) {
       this.formPattern = new Form(i.formPattern);
     }
+    this.formPatternId = i.formPatternId;
     this.programId = i.programId;
     if (i.program) {
       this.program = new FileInfo(i.program);
@@ -199,6 +199,10 @@ export default class ResidencyCourse implements IResidencyCourse {
     });
   }
 
+  getPaidApplicationsByPoint(): IResidencyApplication[] {
+    return this.getApplicationsByPoint().filter((a: IResidencyApplication) => a.paid === true);
+  }
+
   getAcceptedApplications(): IResidencyApplication[] {
     return this.residencyApplications.filter((i: IResidencyApplication) => i.formValue.formStatus.isAccepted());
   }
@@ -217,5 +221,13 @@ export default class ResidencyCourse implements IResidencyCourse {
 
   getFullName(): string {
     return `${this.getMainSpecialization().code} ${this.getMainSpecialization().name}`;
+  }
+
+  applicationPassCompetition(placeOfApplication: number): boolean {
+    return placeOfApplication <= this.paidPlaces;
+  }
+
+  paidAcceptedApplicationsExists(): boolean {
+    return this.residencyApplications.some((a) => a.paid && a.formValue.formStatus.isAccepted());
   }
 }

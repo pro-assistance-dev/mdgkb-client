@@ -23,7 +23,7 @@
       <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
     </el-form-item>
     <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints">
-      <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0">Баллы первичной аккредитации</el-input-number>
+      <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints">Баллы первичной аккредитации</el-input-number>
     </el-form-item>
   </template>
   <template v-else>
