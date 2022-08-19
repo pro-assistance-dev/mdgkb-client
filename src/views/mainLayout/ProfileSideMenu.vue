@@ -2,58 +2,20 @@
   <div class="profile-menu">
     <UserInfoMini />
     <ul>
-      <!-- <li v-for="item in menuList" :key="item.name">
-        <router-link class="item-list" :to="item.to" :class="activeRoute === item.route ? 'active' : ''">
-          <component :is="require(`@/assets/profile/icons/${item.icon}.svg`).default" class="icon-profile" />
-          {{ item.name }}
-          <Arrow class="icon-arrow" />
-        </router-link>
-      </li> -->
-      <li>
-        <router-link class="item-list" :to="`/profile`" :class="activeRoute === 'my' ? 'active' : ''">
-          <Home class="icon-profile" />
-          Мой профиль
-          <Arrow class="icon-arrow" />
-        </router-link>
-      </li>
-      <li>
-        <router-link class="item-list" :to="`/profile/education`" :class="activeRoute === 'education' ? 'active' : ''">
-          <Education class="icon-education" />
-          <div class="item-list-name">
-            Заявки
-            <span v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">
-              {{ user.getNotViewedApplicationsCount() }}
-            </span>
-          </div>
-          <Arrow class="icon-arrow" />
-        </router-link>
-      </li>
-      <li v-if="user.questions.length > 0">
-        <router-link class="item-list" :to="`/profile/question-answer`" :class="activeRoute === 'question-answer' ? 'active' : ''">
-          <Question class="icon-education" />
-          <div class="item-list-name">
-            Вопросы-ответы
-            <span v-if="hasNewAnswers" class="sup-cymbol-counter">
-              {{ countNewAnswers }}
-            </span>
-          </div>
-          <Arrow class="icon-arrow" />
-        </router-link>
-      </li>
-      <li v-if="user.comments.length > 0">
-        <router-link class="item-list" :to="`/profile/user-comments`" :class="activeRoute === 'user-comments' ? 'active' : ''">
-          <Question class="icon-education" />
-          <div class="item-list-name">Мои комментарии</div>
-          <Arrow class="icon-arrow" />
-        </router-link>
-      </li>
-      <li>
-        <router-link class="item-list" :to="`/profile/settings`" :class="activeRoute === 'settings' ? 'active' : ''">
-          <Settings class="icon-settings" />
-          Настройки
-          <Arrow class="icon-arrow" />
-        </router-link>
-      </li>
+      <tempalte v-for="item in menuList" :key="item.name">
+        <li v-if="item.liCondition()">
+          <router-link class="item-list" :to="item.to" :class="activeRoute === item.route ? 'active' : ''">
+            <component :is="require(`@/assets/profile/icons/${item.icon}.svg`).default" class="icon-profile" />
+            <div class="item-list-name">
+              {{ item.name }}
+              <span v-if="item.notificationCondition()" class="sup-cymbol-counter">
+                {{ item.notificationCount() }}
+              </span>
+            </div>
+            <Arrow class="icon-arrow" />
+          </router-link>
+        </li>
+      </tempalte>
     </ul>
   </div>
 </template>
@@ -88,21 +50,6 @@ export default defineComponent({
       activeRoute.value = Provider.route().meta.profile as string;
     };
 
-    const menuList = [
-      {
-        name: 'Мой профиль',
-        icon: 'Home',
-        to: '/profile',
-        route: 'my',
-      },
-      {
-        name: 'Заявки',
-        icon: 'Education',
-        to: '/profile/education',
-        route: 'education',
-      },
-    ];
-
     onBeforeMount(() => {
       setActiveMenu();
     });
@@ -110,6 +57,54 @@ export default defineComponent({
     const user: Ref<IUser> = computed(() => Provider.store.getters['users/item']);
     const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
     const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
+
+    const menuList = [
+      {
+        name: 'Мой профиль',
+        icon: 'Home',
+        to: '/profile',
+        route: 'my',
+        liCondition: () => true,
+        notificationCondition: () => false,
+        notificationCount: () => 0,
+      },
+      {
+        name: 'Заявки',
+        icon: 'Education',
+        to: '/profile/education',
+        route: 'education',
+        liCondition: () => true,
+        notificationCondition: () => user.value.formValues.length && user.value.formValues.some((el) => !el.viewedByUser),
+        notificationCount: () => user.value.getNotViewedApplicationsCount(),
+      },
+      {
+        name: 'Вопросы-ответы',
+        icon: 'Question',
+        to: '/profile/question-answer',
+        route: 'question-answer',
+        liCondition: () => user.value.questions.length > 0,
+        notificationCondition: () => user.value.hasNewAnswers(),
+        notificationCount: () => user.value.countNewAnswers(),
+      },
+      {
+        name: 'Мои комментарии',
+        icon: 'Question',
+        to: '/profile/user-comments',
+        route: 'user-comments',
+        liCondition: () => user.value.hasComments(),
+        notificationCondition: () => false,
+        notificationCount: () => 0,
+      },
+      {
+        name: 'Настройки',
+        icon: 'Settings',
+        to: '/profile/settings',
+        route: 'settings',
+        liCondition: () => true,
+        notificationCondition: () => false,
+        notificationCount: () => 0,
+      },
+    ];
 
     return {
       user,
