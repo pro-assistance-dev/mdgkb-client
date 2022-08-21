@@ -70,6 +70,8 @@ const Provider = (() => {
     return router.currentRoute.value;
   }
 
+  let sseReconnectCount = 0;
+  const maxReconnectCount = 5;
   async function handlerSSE<T>(query: string, storeModule?: string): Promise<EventSource> {
     if (!storeModule) {
       storeModule = query;
@@ -80,6 +82,12 @@ const Provider = (() => {
       Provider.store.commit(`${storeModule}/unshiftToAll`, JSON.parse(e.data));
     };
     source.onerror = function (e) {
+      sseReconnectCount++;
+      if (sseReconnectCount > maxReconnectCount) {
+        sseReconnectCount = 0;
+        source.close();
+        return;
+      }
       handlerSSE(query, storeModule);
     };
     return source;
