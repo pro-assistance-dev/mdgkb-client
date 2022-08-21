@@ -1,9 +1,22 @@
 <template>
   <div v-if="mounted">
+    <div class="info">
+      <span class="info-text"
+        >Для получения информации о конкурсе нажмите
+        <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span
+      >
+      <!-- <span class="info-text-alt">Информация о конкурсе временно отсутствует</span> -->
+    </div>
     <el-collapse v-model="activeName" accordion @change="collapseChange">
-      <el-collapse-item id="Конкурс" class="card-item" name="Конкурс">
+      <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">
         <template #title>
-          <h2>Конкурс человек на место</h2>
+          <h2>КОНКУРС</h2>
+        </template>
+        <CompetitionTable :residency-courses="residencyCourses" />
+      </el-collapse-item>
+      <el-collapse-item id="Конкурс на место" class="card-item" name="Конкурс">
+        <template #title>
+          <h2>КОНКУРС ЧЕЛОВЕК НА МЕСТО</h2>
         </template>
         <CompetitionPlacesTable :residency-courses="residencyCourses" />
       </el-collapse-item>
@@ -31,6 +44,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import CompetitionApplicationsTable from '@/components/Educational/AdmissionCommittee/CompetitionApplicationsTable.vue';
 import CompetitionPlacesTable from '@/components/Educational/AdmissionCommittee/CompetitionPlacesTable.vue';
 import CompetitionRating from '@/components/Educational/AdmissionCommittee/CompetitionRating.vue';
+import CompetitionTable from '@/components/Educational/AdmissionCommittee/CompetitionTable.vue';
 import { Orders } from '@/interfaces/filters/Orders';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import Hooks from '@/services/Hooks/Hooks';
@@ -38,6 +52,7 @@ import Provider from '@/services/Provider';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 import scroll from '@/services/Scroll';
+import UserService from '@/services/User';
 
 export default defineComponent({
   name: 'CompetitionComponent',
@@ -45,6 +60,7 @@ export default defineComponent({
     CompetitionPlacesTable,
     CompetitionApplicationsTable,
     CompetitionRating,
+    CompetitionTable,
   },
   setup() {
     const mounted: Ref<boolean> = ref(false);
@@ -57,7 +73,6 @@ export default defineComponent({
       Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
       Provider.filterQuery.value.pagination.cursorMode = false;
       await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
-      mounted.value = true;
     };
 
     const collapseChange = () => {
@@ -68,18 +83,35 @@ export default defineComponent({
       }
     };
 
+    const isFound: Ref<boolean> = ref(true);
+    const path = '/files/contest.pdf';
+
+    // const found = async () => {
+    //   try {
+    //     let fileName = require(path);
+    //     console.log("file found");
+    //     console.log(fileName)
+    //   } catch (e) {
+    //     console.log("sorry, file not found");
+    //     isFound.value = false;
+    //   }
+    // };
+
     const initLoad = async () => {
       await loadPrograms();
+      // await found();
+      mounted.value = true;
     };
 
     Hooks.onBeforeMount(initLoad);
 
-    return { residencyCourses, mounted, activeName, collapseChange };
+    return { residencyCourses, mounted, activeName, collapseChange, isFound, UserService };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/styles/elements/colors.scss';
 :deep(.card-item) {
   margin-bottom: 10px;
   thead th {
@@ -116,5 +148,34 @@ h2 {
 }
 :deep(.el-collapse-item__wrap) {
   border-bottom: none;
+}
+.info {
+  display: flex;
+  // height: 50px;
+  // background: $site_pale_green;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.info-text {
+  text-align: center;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  background: $site_pale_green;
+  font-size: 18px;
+  padding: 11px 0;
+  border-radius: 5px;
+}
+
+.info-text-alt {
+  text-align: center;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  background: $site_pale_yellow;
+  font-size: 18px;
+  padding: 11px 0;
+  border-radius: 5px;
 }
 </style>
