@@ -79,6 +79,7 @@ export default defineComponent({
     const isNotEditMode: Ref<boolean> = ref(true);
     const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount'](' questions'));
+    let sourceSSE: EventSource | undefined = undefined;
     const edit = () => {
       if (isEditMode.value) {
         return;
@@ -106,7 +107,7 @@ export default defineComponent({
       Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
       Provider.setSortList(...createSortModels(QuestionsSortsLib, Orders.Desc));
       await loadQuestions();
-      await Provider.store.dispatch('questions/subscribeCreate');
+      sourceSSE = await Provider.handlerSSE<IQuestion>('question-create', 'questions');
       onlyNewFilter.value = QuestionsFiltersLib.onlyNew();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Вопросы',
@@ -129,7 +130,7 @@ export default defineComponent({
     };
 
     onBeforeUnmount(async () => {
-      await Provider.store.dispatch('questions/unsubscribeCreate');
+      sourceSSE?.close();
     });
 
     const changeNewStatus = async (question: IQuestion) => {
