@@ -52,5 +52,4 @@ export default interface IUser {
   getNotViewedApplicationsCount: () => number;
   setApplicationsViewed: () => void;
   setAnswersViewed: () => void;
-  formatPhoneNumber: () => void;
 }
