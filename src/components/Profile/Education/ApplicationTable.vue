@@ -139,8 +139,6 @@ export default defineComponent({
 
     const updateApplication = async () => {
       if (selectedFormValue.value && selectedStatus.value) {
-        console.log(selectedFormValue.value);
-        console.log(selectedStatus.value);
         selectedFormValue.value.setStatus(selectedStatus.value, formStatuses.value);
         selectedFormValue.value.clearAllFields();
         await Provider.store.dispatch('formValues/update', selectedFormValue.value);
