@@ -21,7 +21,7 @@ export default defineComponent({
   outline: none;
   border: none;
   background: none;
-  padding-top: 5px;
+  padding-top: 2px;
   padding-right: 5px;
 }
 </style>
