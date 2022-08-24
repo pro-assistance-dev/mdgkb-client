@@ -68,7 +68,11 @@
             <el-input v-model="human.snils" placeholder="Введите СНИЛС"></el-input>
           </el-form-item>
         </div>
-        <div class="item-block"></div>
+        <div class="item-block">
+          <el-form-item label="Адрес" prop="human.address">
+            <el-input v-model="human.address" placeholder="Введите адрес"></el-input>
+          </el-form-item>
+        </div>
       </div>
     </div>
   </div>
