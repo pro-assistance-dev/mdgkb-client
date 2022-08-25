@@ -38,32 +38,31 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref } from 'vue';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import validate from '@/mixins/validate';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 
 export default defineComponent({
   name: 'EditApplicationPage',
   components: { FieldValuesForm, AdmissionQuestionsForm, ResidencyApplicationAchievements },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
     const form = ref();
-    const mounted = ref(false);
-    const formValue: ComputedRef<IForm> = computed(() => store.getters['formValues/item']);
+    const formValue: ComputedRef<IForm> = computed(() => Provider.store.getters['formValues/item']);
     const questionsForm = ref();
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
 
     const submit = async () => {
+      await loadFilters();
       formValue.value.validate();
       if (!validate(form, true) || !formValue.value.validated) {
         return;
@@ -73,28 +72,36 @@ export default defineComponent({
       if (formValue.value.residencyApplication?.id) {
         formValue.value.residencyApplication.changeUserEdit(false);
       }
-      await store.dispatch('residencyApplications/updateForm', formValue.value);
-      router.push('/profile/education');
+      await Provider.store.dispatch('residencyApplications/updateForm', formValue.value);
+      Provider.router.push('/profile/education');
     };
 
     const setHeaderParams = () => {
-      store.commit('admin/showHeader', true);
-      store.commit('admin/setHeaderParams', {
+      Provider.store.commit('admin/showHeader', true);
+      Provider.store.commit('admin/setHeaderParams', {
         title: 'Редактировать заявление',
         showBackButton: true,
         buttons: [{ action: submit }],
       });
     };
 
-    onBeforeMount(async () => {
-      await store.dispatch('formStatuses/getAll');
-      await store.dispatch('formValues/get', route.params.id);
+    const load = async () => {
+      await Provider.store.dispatch('formValues/get', Provider.route().params.id);
       setHeaderParams();
-      mounted.value = true;
+    };
+
+    const loadFilters = async () => {
+      const filterQuery = new FilterQuery();
+      filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
+      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+    };
+
+    Hooks.onBeforeMount(load, {
+      sortModels: [],
     });
 
     onBeforeUnmount(() => {
-      store.commit('admin/resetState');
+      Provider.store.commit('admin/resetState');
     });
 
     const filledApplicationDownload = () => {
@@ -104,7 +111,7 @@ export default defineComponent({
         {
           confirmButtonText: 'OK',
           callback: () => {
-            store.dispatch('residencyApplications/filledApplicationDownload', formValue.value.residencyApplication);
+            Provider.store.dispatch('residencyApplications/filledApplicationDownload', formValue.value.residencyApplication);
             return;
           },
         }
@@ -113,9 +120,9 @@ export default defineComponent({
     };
 
     return {
+      mounted: Provider.mounted,
       formValue,
       submit,
-      mounted,
       form,
       questionsForm,
       filledApplicationDownload,

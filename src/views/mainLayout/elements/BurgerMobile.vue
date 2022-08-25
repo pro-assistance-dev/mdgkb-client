@@ -134,7 +134,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/styles/elements/colors.scss';
+@import '../../../assets/styles/elements/base-style.scss';
 * {
   text-decoration: none;
   color: white;

@@ -8,16 +8,20 @@ import getters from './getters';
 import mutations from './mutations';
 import State from './state';
 
-export const state: State = {
-  user: new User(),
-  token: '',
-  isAuth: false,
-  authModalVisible: false,
-  loginStatus: 'login',
-  pathPermissions: [],
-  userPathPermissions: [],
-  count: 0,
+export const getDefaultState = (): State => {
+  return {
+    user: new User(),
+    token: '',
+    isAuth: false,
+    authModalVisible: false,
+    loginStatus: 'login',
+    pathPermissions: [],
+    userPathPermissions: [],
+    count: 0,
+  };
 };
+
+const state = getDefaultState();
 
 const namespaced = true;
 

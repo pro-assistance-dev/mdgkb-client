@@ -15,7 +15,7 @@
       <th><h4>ДОСТУПНЫЕ ДЕЙСТВИЯ</h4></th>
     </thead>
     <tbody>
-      <tr v-for="formValue in user.formValues" :key="formValue.id">
+      <tr v-for="formValue in user.formValues" :key="formValue.id" data-test="formsList">
         <td>
           <span v-if="!formValue.viewedByUser" class="red">* </span>
           <router-link :to="formValue.getApplicationTypeLink()">
@@ -139,8 +139,6 @@ export default defineComponent({
 
     const updateApplication = async () => {
       if (selectedFormValue.value && selectedStatus.value) {
-        console.log(selectedFormValue.value);
-        console.log(selectedStatus.value);
         selectedFormValue.value.setStatus(selectedStatus.value, formStatuses.value);
         selectedFormValue.value.clearAllFields();
         await Provider.store.dispatch('formValues/update', selectedFormValue.value);
