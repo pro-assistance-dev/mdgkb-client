@@ -12,10 +12,12 @@ import IResidencyCourse from '@/interfaces/IResidencyCourse';
 
 describe('Class ResidencyCourse', () => {
   let residencyCourse: IResidencyCourse | undefined;
+  let residencyCourseTeacher: ResidencyCourseTeacher | undefined;
   const emptyString = '';
 
   afterEach(() => {
     residencyCourse = undefined;
+    residencyCourseTeacher = undefined;
   });
 
   test('Конструктор без параметров создаёт объект с пустыми свойствами', () => {
@@ -125,5 +127,47 @@ describe('Class ResidencyCourse', () => {
     // Assert
     expect(residencyCourse.residencyCoursesTeachers.length).toBe(1);
     expect(residencyCourse.residencyCoursesTeachers[0].teacherId).toBe(teacherForAdding.id);
+  });
+
+  test('setMainTeacher() устанавливает преподавателя главным', () => {
+    // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const Teacher = new ResidencyCourseTeacher();
+    const Teacher1 = new ResidencyCourseTeacher();
+    const Teacher2 = new ResidencyCourseTeacher();
+
+    residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
+
+    expect(residencyCourse.residencyCoursesTeachers[0].main).toBe(false);
+    expect(residencyCourse.residencyCoursesTeachers[1].main).toBe(false);
+    expect(residencyCourse.residencyCoursesTeachers[2].main).toBe(false);
+
+    // Act
+    residencyCourse.setMainTeacher(0);
+
+    // Assert
+    expect(residencyCourse.residencyCoursesTeachers[0].main).toBe(true);
+    expect(residencyCourse.residencyCoursesTeachers[1].main).toBe(false);
+    expect(residencyCourse.residencyCoursesTeachers[2].main).toBe(false);
+  });
+
+  test('setMainTeacher() проверка на неожиданные значения', () => {
+    // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const Teacher = new ResidencyCourseTeacher();
+    const Teacher1 = new ResidencyCourseTeacher();
+    const Teacher2 = new ResidencyCourseTeacher();
+
+    residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
+
+    // Act
+    residencyCourse.setMainTeacher(1);
+
+    // Assert
+    expect(residencyCourse.residencyCoursesTeachers[0].main).toBe(false);
+    expect(residencyCourse.residencyCoursesTeachers[1].main).toBe(true);
+    expect(residencyCourse.residencyCoursesTeachers[2].main).toBe(false);
   });
 });
