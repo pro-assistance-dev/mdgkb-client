@@ -1,6 +1,6 @@
 <template>
-  <div v-if="mount" class="doctor-page-container">
-    <!--    <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>-->
+  <div v-if="mounted" id="doctor" class="doctor-page-container">
+    <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>
     <DoctorInfo :doctor="doctor" />
     <DoctorEducation :store-module="'doctors'" />
     <DoctorWorkExperience />
@@ -48,17 +48,17 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const doctor: Ref<IDoctor> = computed<IDoctor>(() => store.getters['doctors/item']);
-    const mount = ref(false);
+    const mounted = ref(false);
 
     onBeforeMount(async () => {
       await store.dispatch('doctors/get', route.params['slug']);
-      mount.value = true;
+      mounted.value = true;
     });
 
     return {
       countRating,
       doctor,
-      mount,
+      mounted,
     };
   },
 });

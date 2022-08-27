@@ -1,12 +1,12 @@
 <template>
   <!-- <div v-if="paidServices.length" class="services"> -->
-  <div class="services">
+  <div v-if="division.divisionPaidServices.length > 0" class="services">
     <div class="title-in">Оказываемые услуги</div>
     <div class="point">
       <ul class="services-list">
         <!-- <li v-for="paidService in paidServices" :key="paidService.id" class="services-list-item"> -->
-        <li class="services-list-item">
-          <h4 class="point-text">Все виды терапевтического и эндодонического лечения</h4>
+        <li v-for="service in division.divisionPaidServices" :key="service.id" class="services-list-item">
+          <h4 class="point-text">{{ service.paidService.name }}</h4>
         </li>
       </ul>
     </div>
@@ -14,26 +14,14 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
-import IWithPaidService from '@/interfaces/IWithPaidService';
+import IDivision from '@/interfaces/buildings/IDivision';
 
 export default defineComponent({
   name: 'DivisionServices',
   props: {
-    storeModule: {
-      type: String,
-      required: true,
-    },
-  },
-  async setup(prop) {
-    const store = useStore();
-    const paidServices: ComputedRef<IWithPaidService[]> = computed(() => store.getters[`${prop.storeModule}/paidServices`]);
-
-    return {
-      paidServices,
-    };
+    division: { type: Object as PropType<IDivision>, required: true },
   },
 });
 </script>

@@ -5,6 +5,8 @@
       :model-value="countRating(comments)"
       size="large"
       disabled
+      show-score
+      :score-template="`${countRating(comments).toFixed(2)}`"
       void-color="#A1A7BD"
       disabled-void-color="#A1A7BD"
       :colors="['#FF4D3B', '#FF4D3B', '#FF4D3B']"

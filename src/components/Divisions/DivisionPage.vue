@@ -1,9 +1,9 @@
 <template>
   <!-- <div v-if="mount" class="division-page-container"> -->
-  <div class="division-page-container">
+  <div v-if="mounted" class="division-page-container">
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
-    <DivisionServices />
+    <DivisionServices :division="division" />
     <DivisionSchedule :division="division" />
     <DivisionSpecialists />
     <!-- <NewsSlider :news="division.newsDivisions" /> -->
@@ -45,7 +45,6 @@ export default defineComponent({
 
   setup() {
     const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
-
     const load = async () => {
       Provider.filterQuery.value.setParams(Provider.schema.value.division.slug, Provider.route().params['id'] as string);
       await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
