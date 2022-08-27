@@ -102,4 +102,12 @@ export default defineComponent({
     color: darken(#a1a7bd, 20%);
   }
 }
+
+:deep(.el-rate__icon) {
+  margin: 0;
+  font-size: 18px;
+}
+:deep(.el-rate__text) {
+  margin-left: 5px;
+}
 </style>
