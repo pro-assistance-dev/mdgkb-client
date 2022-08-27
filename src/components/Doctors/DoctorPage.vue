@@ -5,6 +5,7 @@
     <DoctorEducation :store-module="'doctors'" />
     <DoctorWorkExperience />
     <DoctorServices :store-module="'doctors'" />
+    <DoctorAchievements :store-module="'doctors'" />
     <DoctorCertificates />
     <DoctorDateAndTime />
     <NewsSlider :news="doctor.newsDoctors" />
@@ -18,6 +19,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments/Comments.vue';
+import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
 import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
@@ -35,6 +37,7 @@ export default defineComponent({
     DoctorEducation,
     DoctorWorkExperience,
     DoctorServices,
+    DoctorAchievements,
     DoctorCertificates,
     DoctorDateAndTime,
     Comments,

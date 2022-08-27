@@ -61,6 +61,9 @@
             </div>
           </a>
         </div>
+        <div class="card-item-bottom-bottom">
+          <WorkAndTeaching />
+        </div>
       </div>
     </div>
 
@@ -79,13 +82,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import WorkAndTeaching from '@/components/Doctors/WorkAndTeaching.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
 import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorInfo',
-  components: { FavouriteIcon, Rating },
+  components: { FavouriteIcon, Rating, WorkAndTeaching },
   props: {
     doctor: { type: Object as PropType<IDoctor>, required: true },
   },
@@ -94,4 +98,27 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/doctor-info.scss';
+@import '@/assets/styles/elements/base-style.scss';
+.moscow-doctor {
+  height: 60px;
+}
+
+.card-item-bottom-bottom {
+  position: absolute;
+  bottom: 0px;
+}
+
+.card-item-middle {
+  position: relative;
+}
+.hidden {
+  display: none;
+}
+
+.mos-doctor-img {
+  border-radius: $normal-border-radius;
+  border: $normal-border;
+  padding: 10px 15px;
+  width: 150px;
+}
 </style>
