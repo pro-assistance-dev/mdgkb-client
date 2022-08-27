@@ -17,7 +17,7 @@
     </div>
 
     <div class="card-item-middle">
-      <div v-if="doctor.division?.name" class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)">
+      <div v-if="doctor.division?.name" class="division-name" @click="$router.push(`/divisions/${doctor.division.slug}`)">
         {{ doctor.division.name }}
       </div>
       <div class="doctor-name">
@@ -37,9 +37,9 @@
       <div class="card-item-middle-bottom">
         <div class="regalias-list">
           <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
-            <div v-if="regalia?.name">
+            <span v-if="regalia?.name">
               <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
-            </div>
+            </span>
           </template>
         </div>
         <div class="address">
@@ -62,7 +62,7 @@
           </a>
         </div>
         <div class="card-item-bottom-bottom">
-          <WorkAndTeaching />
+          <WorkAndTeaching :doctor="doctor" />
         </div>
       </div>
     </div>

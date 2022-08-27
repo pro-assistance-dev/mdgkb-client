@@ -9,6 +9,7 @@ import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
 import IRegalia from '@/interfaces/IRegalia';
+import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -19,6 +20,7 @@ export default interface IDoctor {
   human: IHuman;
   humanId?: string;
   division?: IDivision;
+  description: string;
   divisionId?: string;
   mosDoctorLink?: string;
   onlineDoctorId?: string;
@@ -58,4 +60,8 @@ export default interface IDoctor {
   getMosDoctorLink: () => string;
   getOnlineDoctorLink: () => string;
   setAcademic: () => void;
+  teachingActivities: ITeachingActivity[];
+  teachingActivitiesForDelete: string[];
+
+  addTeachingActivity: () => void;
 }

@@ -1,19 +1,21 @@
 <template>
   <div class="info-block">
-    <div class="item1">
+    <div v-if="doctor.description" class="item1">
       <svg class="icon-smile">
         <use xlink:href="#lucide_smile"></use>
       </svg>
-      <div class="title">Работает с детьми от 2-х до 15 лет</div>
+      <div class="title">{{ doctor.description }}</div>
     </div>
     <div class="hidden-comment1"></div>
-    <div class="item2">
+    <div v-if="doctor.teachingActivities.length > 0" class="item2">
       <svg class="icon-cap">
         <use xlink:href="#la_graduation-cap"></use>
       </svg>
       <div class="title">Педагогическая деятельность</div>
     </div>
-    <div class="hidden-comment2">Доцент кафедры женских болезней и репродуктивного здоровья Института усовершенствования врачей</div>
+    <div class="hidden-comment2">
+      <div v-for="teaching in doctor.teachingActivities" :key="teaching.id">{{ teaching.name }}</div>
+    </div>
   </div>
   <svg width="0" height="0" class="hidden">
     <symbol id="lucide_smile" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -39,10 +41,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'WorkAndTeaching',
+  props: {
+    doctor: { type: Object as PropType<IDoctor>, required: true },
+  },
 });
 </script>
 
