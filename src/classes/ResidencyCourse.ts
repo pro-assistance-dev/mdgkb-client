@@ -114,6 +114,10 @@ export default class ResidencyCourse implements IResidencyCourse {
   }
 
   setMainTeacher(index: number): void {
+    if (typeof index !== 'number' || index < 0 || index >= this.residencyCoursesTeachers.length - 1) {
+      return;
+    }
+
     this.residencyCoursesTeachers.forEach((courseTeacher: IResidencyCourseTeacher) => (courseTeacher.main = false));
     this.residencyCoursesTeachers[index].main = true;
   }

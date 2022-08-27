@@ -163,11 +163,11 @@ describe('Class ResidencyCourse', () => {
     residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
 
     // Act
-    residencyCourse.setMainTeacher(1);
+    residencyCourse.setMainTeacher(-1);
 
     // Assert
-    expect(residencyCourse.residencyCoursesTeachers[0].main).toBe(false);
-    expect(residencyCourse.residencyCoursesTeachers[1].main).toBe(true);
-    expect(residencyCourse.residencyCoursesTeachers[2].main).toBe(false);
+    expect(residencyCourse.residencyCoursesTeachers[NaN]).toBeUndefined();
+    expect(residencyCourse.residencyCoursesTeachers[3]).toBeUndefined();
+    expect(residencyCourse.residencyCoursesTeachers[-1]).toBeUndefined();
   });
 });
