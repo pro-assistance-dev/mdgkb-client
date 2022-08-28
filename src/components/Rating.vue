@@ -12,13 +12,17 @@
       :colors="['#FF4D3B', '#FF4D3B', '#FF4D3B']"
     >
     </el-rate>
-    <div class="numbers-comment">
-      <svg v-if="withNumbers" class="icon-comment">
-        <use xlink:href="#prime_comment"></use>
-      </svg>
-      <a v-if="withNumbers" @click="$scroll('#reviews')">{{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}</a>
-    </div>
+
+    <a v-if="withNumbers" @click="$scroll('#reviews')">
+      <div class="numbers-comment">
+        <svg v-if="withNumbers" class="icon-comment">
+          <use xlink:href="#prime_comment"></use>
+        </svg>
+        {{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}
+      </div>
+    </a>
   </div>
+
   <svg width="0" height="0" class="hidden">
     <symbol id="prime_comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path
@@ -57,13 +61,18 @@ export default defineComponent({
 <style lang="scss" scoped>
 :deep(.el-rate__icon) {
   margin: 0;
-  font-size: 20px;
+  font-size: 14px;
 }
-// .el-rate {
-//   margin-bottom: 5px;
-// }
+:deep(.el-rate__text) {
+  margin-left: 5px;
+}
+
+:deep(.el-rate) {
+  white-space: nowrap;
+}
 
 a {
+  // margin-top: 10px;
   color: #2754eb;
   text-decoration: none;
   letter-spacing: 1px;
@@ -81,19 +90,22 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .numbers-comment {
   display: flex;
   justify-content: left;
   align-items: center;
+  min-width: 120px;
 }
 
 .icon-comment {
   width: 25px;
   height: 25px;
   fill: #2653ea;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 768px) {

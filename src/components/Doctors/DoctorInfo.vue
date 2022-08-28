@@ -121,4 +121,20 @@ export default defineComponent({
   padding: 10px 15px;
   width: 150px;
 }
+
+.mos-doctor-img:hover {
+  background: $site_light_gray;
+}
+
+.mos-doctor-img:active {
+  background: #ffffff;
+}
+
+:deep(.el-rate__icon) {
+  margin: 0;
+  font-size: 20px;
+}
+:deep(.el-rate__text) {
+  margin-left: 5px;
+}
 </style>
