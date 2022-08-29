@@ -81,6 +81,8 @@ html {
   letter-spacing: 0.1em;
   font-size: 11px;
   color: #5d6477;
+  font-weight: lighter;
+  line-height: 110%;
 }
 
 .services {

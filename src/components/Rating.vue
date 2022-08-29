@@ -18,7 +18,7 @@
         <svg v-if="withNumbers" class="icon-comment">
           <use xlink:href="#prime_comment"></use>
         </svg>
-        {{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}
+        <span class="NameNumbers">{{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}</span>
       </div>
     </a>
   </div>
@@ -62,9 +62,11 @@ export default defineComponent({
 :deep(.el-rate__icon) {
   margin: 0;
   font-size: 14px;
+  vertical-align: 5px;
 }
 :deep(.el-rate__text) {
   margin-left: 5px;
+  font-weight: bold;
 }
 
 :deep(.el-rate) {
@@ -96,16 +98,21 @@ a {
 
 .numbers-comment {
   display: flex;
-  justify-content: left;
+  justify-content: right;
   align-items: center;
   min-width: 120px;
+  text-align: center;
+}
+
+.NameNumbers {
+  margin-top: 2px;
 }
 
 .icon-comment {
-  width: 25px;
-  height: 25px;
+  width: 29px;
+  height: 29px;
   fill: #2653ea;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 768px) {
