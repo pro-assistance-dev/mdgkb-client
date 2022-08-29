@@ -502,4 +502,12 @@ ul.hidden-item-list li {
 .block-today:hover .hidden-block {
   display: block;
 }
+
+:deep(.el-rate__icon) {
+  margin: 0;
+  font-size: 18px;
+}
+:deep(.el-rate__text) {
+  margin-left: 5px;
+}
 </style>

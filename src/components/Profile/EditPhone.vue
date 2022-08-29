@@ -2,48 +2,32 @@
   <div class="modal-field" tabindex="-1" @click.self="close" @keydown.esc="close">
     <div class="modal-box">
       <div class="button-field">
-        <BaseModalButtonClose @click="close" />
+        <BaseModalButtonClose type="button" @click="close" />
       </div>
-      <el-form ref="callbackForm" class="modal-callback" :model="callback" :rules="rules">
-        <div class="modal-callback-title">
-          <h3>Заказ обратного звонка</h3>
+      <el-form ref="form" class="modal-editPhone" :model="user" :rules="rules">
+        <div class="modal-editPhone-title">
+          <h3>Номер телефона</h3>
         </div>
-        <div class="form-callback">
-          <label for="name" class="label field-name">Имя:</label>
-          <div class="name-block">
-            <el-form-item prop="name">
-              <el-input id="name" v-model="callback.name" type="text" class="field-name" name="name" placeholder="Ваше имя" />
-            </el-form-item>
-          </div>
-        </div>
-        <div class="form-callback">
+
+        <div class="form-editPhone">
           <label for="phone" class="label phone-name">Телефон:</label>
           <div class="phone-block">
             <el-form-item prop="phone">
               <el-input
                 id="phone"
-                v-model="callback.phone"
+                v-model="user.phone"
                 type="tel"
                 class="phone-name"
                 placeholder="+7(___) ___ __ __"
-                @input="($event) => (callback.phone = PhoneService.Format($event))"
+                @input="($event) => (user.phone = PhoneService.Format($event))"
               />
             </el-form-item>
           </div>
         </div>
-        <div class="form-callback">
-          <label for="phone" class="label phone-description">Комментарий:</label>
-          <div class="phone-block">
-            <el-form-item prop="description">
-              <el-input id="phone" v-model="callback.description" type="textarea" class="phone-description" placeholder="Комментарий" />
-            </el-form-item>
-          </div>
-        </div>
-        <div class="field-text">Мы перезвоним Вам в течение дня</div>
-        <div class="form-callback">
+        <div class="form-editPhone">
           <div class="send">
-            <button v-if="callback.phone.length > 17" class="submit" @click.prevent="submit">Заказать</button>
-            <button v-else type="button" class="submit-grey">Заказать</button>
+            <button v-if="user.phone.length > 17" class="submit" @click.prevent="submit">Сохранить</button>
+            <button v-else type="button" class="submit-grey">Сохранить</button>
           </div>
         </div>
       </el-form>
@@ -53,53 +37,62 @@
 
 <script lang="ts">
 import { ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
 
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import ICallbackRequest from '@/interfaces/ICallbackRequest';
-import validate from '@/mixins/validate';
+import IFormStatus from '@/interfaces/IFormStatus';
+import IUser from '@/interfaces/IUser';
+import router from '@/router';
 import PhoneService from '@/services/PhoneService';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
-  name: 'CallBack',
+  name: 'EditPhone',
   components: {
     BaseModalButtonClose,
   },
   emits: ['close'],
-
   setup(_, { emit }) {
-    const store = useStore();
-    const callbackForm = ref();
-    const callback: ComputedRef<ICallbackRequest> = computed(() => store.getters['callbacks/item']);
+    const form = ref();
+    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
+    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+
     const rules = {
-      name: [{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }],
       phone: [{ validator: PhoneService.validatePhone, trigger: 'blur' }],
+    };
+
+    const loadUser = async () => {
+      await Provider.store.dispatch('users/get', userId.value);
     };
 
     const close = () => {
       emit('close');
     };
 
+    onMounted(loadUser);
+
     const submit = () => {
-      if (!validate(callbackForm)) {
-        return;
-      }
-      store.dispatch('callbacks/create');
+      router.push('/profile');
+      emit('close');
+      Provider.store.dispatch('users/update', user.value);
       emit('close');
       ElNotification({
-        title: 'Обратный звонок',
-        message: 'Спасибо за заявку.\nМы вам перезвоним в ближайшее время',
+        title: 'Телефон',
+        message: 'Номер телефона успешно изменен',
         type: 'success',
         duration: 2000,
       });
+      // if (validate(form)) {
+      //   return;
+      // }
     };
 
     return {
-      close,
+      user,
+      formStatuses,
       submit,
-      callback,
-      callbackForm,
+      close,
       rules,
       PhoneService,
     };
@@ -236,6 +229,13 @@ input {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
+.modal-editPhone {
+  padding: 20px;
+  padding-top: 0;
+  width: 310px;
+  height: auto;
+}
+
 .submit-grey {
   font-family: 'Comfortaa', 'Open-sans', sans-serif;
   color: #4a4a4a;
@@ -247,5 +247,20 @@ input {
   width: 120px;
   color: white;
   background-color: #a3a9be;
+}
+
+.form-editPhone {
+  margin: 20px;
+  padding-top: 5px;
+}
+
+.modal-editPhone-title {
+  font-family: 'Comfortaa', 'Open-sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #4a4a4a;
+  font-weight: normal;
 }
 </style>

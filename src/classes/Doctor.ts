@@ -8,6 +8,7 @@ import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/news/NewsDoctor';
 import Position from '@/classes/Position';
 import Regalia from '@/classes/Regalia';
+import TeachingActivity from '@/classes/TeachingActivity';
 import Timetable from '@/classes/timetable/Timetable';
 import IDivision from '@/interfaces/buildings/IDivision';
 import IEducation from '@/interfaces/education/IEducation';
@@ -21,6 +22,7 @@ import IExperience from '@/interfaces/IExperience';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
 import IRegalia from '@/interfaces/IRegalia';
+import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -32,6 +34,7 @@ export default class Doctor implements IDoctor {
   human = new Human();
   humanId?: string;
   division?: IDivision;
+  description = '';
   divisionId?: string;
   show = true;
   timetable: ITimetable = new Timetable();
@@ -59,6 +62,8 @@ export default class Doctor implements IDoctor {
   medicalProfile?: IMedicalProfile;
   mosDoctorLink?: string;
   educationalOrganizationAcademic?: IEducationalOrganizationAcademic;
+  teachingActivities: ITeachingActivity[] = [];
+  teachingActivitiesForDelete: string[] = [];
 
   constructor(i?: IDoctor) {
     if (!i) {
@@ -67,6 +72,7 @@ export default class Doctor implements IDoctor {
     this.id = i.id;
     this.human = new Human(i.human);
     this.humanId = i.humanId;
+    this.description = i.description;
     this.division = new Division(i.division);
     this.show = i.show;
     this.divisionId = i.divisionId;
@@ -79,6 +85,7 @@ export default class Doctor implements IDoctor {
     this.mosDoctorLink = i.mosDoctorLink;
     this.medicalProfileId = i.medicalProfileId;
     this.onlineDoctorId = i.onlineDoctorId;
+
     if (i.medicalProfile) {
       this.medicalProfile = new MedicalProfile(i.medicalProfile);
     }
@@ -100,6 +107,9 @@ export default class Doctor implements IDoctor {
     }
     if (i.certificates) {
       this.certificates = i.certificates.map((item: ICertificate) => new Certificate(item));
+    }
+    if (i.teachingActivities) {
+      this.teachingActivities = i.teachingActivities.map((item: ITeachingActivity) => new TeachingActivity(item));
     }
     if (i.experiences) {
       this.experiences = i.experiences.map((item: IExperience) => new Experience(item));
@@ -179,5 +189,9 @@ export default class Doctor implements IDoctor {
     } else {
       this.educationalOrganizationAcademic = undefined;
     }
+  }
+
+  addTeachingActivity(): void {
+    this.teachingActivities.push(new TeachingActivity());
   }
 }

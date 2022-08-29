@@ -178,6 +178,14 @@ export default defineComponent({
   font-family: 'Open Sans', sans-serif;
 }
 
+:deep(.el-rate__icon) {
+  margin: 0;
+  font-size: 18px;
+}
+:deep(.el-rate__text) {
+  margin-left: 5px;
+}
+
 @media screen and (max-width: 768px) {
   .icon-avatar {
     width: 70px;

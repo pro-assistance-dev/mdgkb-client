@@ -1,10 +1,11 @@
 <template>
-  <div v-if="mount" class="doctor-page-container">
+  <div v-if="mounted" id="doctor" class="doctor-page-container">
     <!--    <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>-->
     <DoctorInfo :doctor="doctor" />
     <DoctorEducation :store-module="'doctors'" />
     <DoctorWorkExperience />
     <DoctorServices :store-module="'doctors'" />
+    <DoctorAchievements :doctor="doctor" />
     <DoctorCertificates />
     <DoctorDateAndTime />
     <NewsSlider :news="doctor.newsDoctors" />
@@ -18,6 +19,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments/Comments.vue';
+import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
 import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
@@ -35,6 +37,7 @@ export default defineComponent({
     DoctorEducation,
     DoctorWorkExperience,
     DoctorServices,
+    DoctorAchievements,
     DoctorCertificates,
     DoctorDateAndTime,
     Comments,
@@ -45,17 +48,17 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const doctor: Ref<IDoctor> = computed<IDoctor>(() => store.getters['doctors/item']);
-    const mount = ref(false);
+    const mounted = ref(false);
 
     onBeforeMount(async () => {
       await store.dispatch('doctors/get', route.params['slug']);
-      mount.value = true;
+      mounted.value = true;
     });
 
     return {
       countRating,
       doctor,
-      mount,
+      mounted,
     };
   },
 });

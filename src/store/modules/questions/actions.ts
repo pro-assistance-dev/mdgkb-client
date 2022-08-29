@@ -5,13 +5,12 @@ import IQuestion from '@/interfaces/IQuestion';
 import IQuestionsWithCount from '@/interfaces/IQuestionsWithCount';
 import INews from '@/interfaces/news/INews';
 import HttpClient from '@/services/HttpClient';
-import Provider from '@/services/Provider';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const httpClient = new HttpClient('questions');
-let source: EventSource | undefined = undefined;
+// eslint-disable-next-line prefer-const
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
@@ -71,17 +70,6 @@ const actions: ActionTree<State, RootState> = {
   },
   updateMany: async ({ state }): Promise<void> => {
     await httpClient.put<IQuestion[], IQuestion[]>({ query: `many`, payload: state.items });
-  },
-  subscribeCreate: async ({ commit }): Promise<void> => {
-    const c = new HttpClient('subscribe');
-    source = await c.subscribe<IQuestion>({ query: 'question-create' });
-    source.onmessage = function (e) {
-      commit('unshiftToAll', JSON.parse(e.data));
-    };
-    Provider.handlerSSError(source as EventSource, 'questions/subscribeCreate');
-  },
-  unsubscribeCreate: async ({ commit }): Promise<void> => {
-    source?.close();
   },
 };
 

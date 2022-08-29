@@ -9,6 +9,8 @@ import ISchema from '@/interfaces/schema/ISchema';
 
 import router from '../router';
 import store from '../store';
+import HttpClient from './HttpClient';
+
 const Provider = (() => {
   const r = router;
   const s = store;
@@ -68,10 +70,34 @@ const Provider = (() => {
     return router.currentRoute.value;
   }
 
-  function handlerSSError(source: EventSource, routeToState: string) {
-    source.onerror = function (e) {
-      return s?.dispatch(routeToState);
+  let sseReconnectCount = 0;
+  const maxReconnectCount = 100;
+
+  async function handlerSSE<T>(query: string, storeModule?: string): Promise<EventSource> {
+    if (!storeModule) {
+      storeModule = query;
+    }
+    const c = new HttpClient('subscribe');
+    let source = await c.subscribe<T>({ query: query });
+    source.onmessage = function (e) {
+      console.log(storeModule, e.data);
+      Provider.store.commit(`${storeModule}/unshiftToAll`, JSON.parse(e.data));
     };
+
+    source.onerror = function (e) {
+      setTimeout(async () => {
+        source.close();
+        sseReconnectCount++;
+        if (sseReconnectCount > maxReconnectCount) {
+          sseReconnectCount = 0;
+
+          return;
+        }
+        source = await handlerSSE(query, storeModule);
+      }, sseReconnectCount * 10000);
+    };
+
+    return source;
   }
 
   return {
@@ -93,7 +119,7 @@ const Provider = (() => {
     form,
     getAll,
     route,
-    handlerSSError,
+    handlerSSE,
   };
 })();
 

@@ -1,12 +1,10 @@
 <template>
-  <!-- <div v-if="paidServices.length" class="services"> -->
-  <div v-if="division.divisionPaidServices.length > 0" class="services">
-    <div class="title-in">Оказываемые услуги</div>
+  <div v-if="doctor.regalias.length" class="services">
+    <div class="title-in">Достижения и награды</div>
     <div class="point">
       <ul class="services-list">
-        <!-- <li v-for="paidService in paidServices" :key="paidService.id" class="services-list-item"> -->
-        <li v-for="service in division.divisionPaidServices" :key="service.id" class="services-list-item">
-          <h4 class="point-text">{{ service.paidService.name }}</h4>
+        <li v-for="regalia in doctor.regalias" :key="regalia.id" class="services-list-item">
+          <h4 class="point-text">{{ regalia.name }}</h4>
         </li>
       </ul>
     </div>
@@ -16,12 +14,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
-  name: 'DivisionServices',
+  name: 'DoctorAchievements',
   props: {
-    division: { type: Object as PropType<IDivision>, required: true },
+    doctor: { type: Object as PropType<IDoctor>, required: true },
   },
 });
 </script>
