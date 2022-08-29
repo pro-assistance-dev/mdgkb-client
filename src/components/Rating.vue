@@ -1,7 +1,7 @@
 <template>
-  <div class="line">
+  <div class="line-block">
     <el-rate
-      v-if="countRating(comments) > 0"
+
       :model-value="countRating(comments)"
       size="large"
       disabled
@@ -81,12 +81,12 @@ a {
   font-weight: bold;
   font-size: 11px;
   &:hover {
-    color: darken(#2754eb, 10%);
+    color: darken(#2754eb, 20%);
     cursor: pointer;
   }
 }
 
-.line {
+.line-block {
   width: 95%;
   height: 40px;
   display: flex;
