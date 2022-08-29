@@ -194,4 +194,8 @@ export default class Doctor implements IDoctor {
   addTeachingActivity(): void {
     this.teachingActivities.push(new TeachingActivity());
   }
+
+  isChief(): boolean {
+    return this.division?.chiefId === this.id;
+  }
 }

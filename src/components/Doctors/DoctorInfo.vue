@@ -23,6 +23,7 @@
       <div class="doctor-name">
         {{ doctor.human.getFullName() }}
       </div>
+      <div v-if="doctor.isChief()" class="green-tag-link">Заведующий отделением</div>
       <div
         v-if="doctor.medicalProfile?.name"
         class="tag-link"

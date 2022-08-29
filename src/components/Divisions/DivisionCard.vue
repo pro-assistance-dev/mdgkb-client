@@ -13,7 +13,7 @@
         </div>
         <div class="line">
           <div class="line-item"><Rating :comments="division.divisionComments" /></div>
-          <button class="map-button">На карте</button>
+          <button class="map-button" @click="$router.push(`/map/${division.id}`)">На карте</button>
         </div>
         <div class="spec-list"></div>
       </div>
