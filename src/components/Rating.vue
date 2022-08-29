@@ -1,7 +1,7 @@
 <template>
   <div class="line-block">
     <el-rate
-
+      v-if="countRating(comments) > 0"
       :model-value="countRating(comments)"
       size="large"
       disabled
