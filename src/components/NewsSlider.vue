@@ -32,7 +32,7 @@ export default defineComponent({
       required: true,
     },
   },
-  async setup(props) {
+  setup(props) {
     const carousel: Ref<IWithNews[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();

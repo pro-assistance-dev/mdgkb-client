@@ -1,8 +1,8 @@
 <template>
-  <div v-if="mounted" id="doctor" class="doctor-page-container">
+  <div v-if="mounted" data-test="doctor-component" class="doctor-page-container">
     <!--    <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>-->
     <DoctorInfo :doctor="doctor" />
-    <DoctorEducation :store-module="'doctors'" />
+    <DoctorEducation :doctor="doctor" />
     <DoctorWorkExperience :doctor="doctor" />
     <PaidServices :items-with-paid-service="doctor.doctorPaidServices" />
     <DoctorAchievements :doctor="doctor" />
