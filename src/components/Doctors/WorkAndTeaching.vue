@@ -115,6 +115,7 @@ export default defineComponent({
   color: #ffffff;
   background: $site_dark_gray;
   display: none;
+  opacity: 0.95;
   z-index: 1;
 }
 
