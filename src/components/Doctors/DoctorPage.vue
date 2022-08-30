@@ -4,7 +4,7 @@
     <DoctorInfo :doctor="doctor" />
     <DoctorEducation :store-module="'doctors'" />
     <DoctorWorkExperience :doctor="doctor" />
-    <DoctorServices :store-module="'doctors'" />
+    <PaidServices :items-with-paid-service="doctor.doctorPaidServices" />
     <DoctorAchievements :doctor="doctor" />
     <DoctorCertificates />
     <DoctorDateAndTime />
@@ -24,9 +24,9 @@ import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
 import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
-import DoctorServices from '@/components/Doctors/DoctorServices.vue';
 import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
+import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import countRating from '@/mixins/countRating';
 
@@ -36,7 +36,7 @@ export default defineComponent({
     DoctorInfo,
     DoctorEducation,
     DoctorWorkExperience,
-    DoctorServices,
+    PaidServices,
     DoctorAchievements,
     DoctorCertificates,
     DoctorDateAndTime,
