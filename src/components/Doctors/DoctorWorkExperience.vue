@@ -1,20 +1,12 @@
 <template>
-  <div class="work-experience">
+  <div v-if="doctor.experiences.length" class="work-experience">
     <div class="title-in">Опыт работы</div>
     <div class="point">
       <ul class="point-list">
-        <li class="point-list-item">
+        <li v-for="experience in doctor.experiences" :key="experience.id" class="point-list-item">
           <div class="point-info">
-            <h3 class="point-year">1984-2013</h3>
-            <h4 class="point-text">Окончила Ростовский институт Дружбы Народов по специальности “Педиатрия”.</h4>
-          </div>
-        </li>
-        <li class="point-list-item">
-          <div class="point-info">
-            <h3 class="point-year">1984</h3>
-            <h4 class="point-text">
-              Окончила интернатуру по специальности “Инфекционист” на базе Липецкой городской инфекционной больницы.
-            </h4>
+            <h3 class="point-year">{{ experience.start }}-{{ experience.end }}</h3>
+            <h4 class="point-text">{{ experience.place }}. {{ experience.position }}</h4>
           </div>
         </li>
       </ul>
@@ -22,7 +14,18 @@
   </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+import IDoctor from '@/interfaces/IDoctor';
+
+export default defineComponent({
+  name: 'DoctorWorkExperience',
+  props: {
+    doctor: { type: Object as PropType<IDoctor>, required: true },
+  },
+});
+</script>
 
 <style scoped lang="scss">
 * {

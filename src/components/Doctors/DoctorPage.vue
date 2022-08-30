@@ -3,7 +3,7 @@
     <!--    <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>-->
     <DoctorInfo :doctor="doctor" />
     <DoctorEducation :store-module="'doctors'" />
-    <DoctorWorkExperience />
+    <DoctorWorkExperience :doctor="doctor" />
     <DoctorServices :store-module="'doctors'" />
     <DoctorAchievements :doctor="doctor" />
     <DoctorCertificates />
