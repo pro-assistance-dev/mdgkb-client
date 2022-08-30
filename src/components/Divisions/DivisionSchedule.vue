@@ -115,7 +115,7 @@ html {
 .point-list-item:before {
   content: '';
   position: absolute;
-  top: 4px;
+  top: 3px;
   left: 0;
   width: 10px;
   height: 10px;

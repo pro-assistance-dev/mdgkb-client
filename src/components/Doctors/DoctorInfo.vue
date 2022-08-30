@@ -51,17 +51,15 @@
             </a>
           </span>
         </div>
-        <div v-if="doctor.mosDoctorLink" class="mos-doctor-img">
+        <router-link v-if="doctor.mosDoctorLink" class="mos-doctor-img" :to="doctor.getMosDoctorLink()">
           <div class="mos-doctor-img-container">
             <img src="@/assets/img/mos-doctor.webp" />
           </div>
-          <a :href="doctor.getMosDoctorLink()">
-            <div>
-              <div>Московский</div>
-              <div>врач</div>
-            </div>
-          </a>
-        </div>
+          <div>
+            <div>Московский</div>
+            <div>врач</div>
+          </div>
+        </router-link>
         <div class="card-item-bottom-bottom">
           <WorkAndTeaching :doctor="doctor" />
         </div>
@@ -121,6 +119,7 @@ export default defineComponent({
   border: $normal-border;
   padding: 10px 15px;
   width: 150px;
+  margin-bottom: 60px;
 }
 
 .mos-doctor-img:hover {
@@ -134,8 +133,5 @@ export default defineComponent({
 :deep(.el-rate__icon) {
   margin: 0;
   font-size: 20px;
-}
-:deep(.el-rate__text) {
-  margin-left: 5px;
 }
 </style>

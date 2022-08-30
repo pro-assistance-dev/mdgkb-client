@@ -1,20 +1,24 @@
 <template>
   <div class="info-block">
-    <div v-if="doctor.description" class="item1">
-      <svg class="icon-smile">
-        <use xlink:href="#lucide_smile"></use>
-      </svg>
-      <div class="title">{{ doctor.description }}</div>
+    <div class="info-block-child">
+      <div v-if="doctor.description" class="item">
+        <svg class="icon-smile">
+          <use xlink:href="#lucide_smile"></use>
+        </svg>
+        <div class="title">{{ doctor.description }}</div>
+      </div>
+      <div v-if="doctor.description" class="hidden-comment">{{ doctor.description }}</div>
     </div>
-    <div class="hidden-comment1"></div>
-    <div v-if="doctor.teachingActivities.length > 0" class="item2">
-      <svg class="icon-cap">
-        <use xlink:href="#la_graduation-cap"></use>
-      </svg>
-      <div class="title">Педагогическая деятельность</div>
-    </div>
-    <div class="hidden-comment2">
-      <div v-for="teaching in doctor.teachingActivities" :key="teaching.id">{{ teaching.name }}</div>
+    <div class="info-block-child">
+      <div v-if="doctor.teachingActivities.length > 0" class="item">
+        <svg class="icon-cap">
+          <use xlink:href="#la_graduation-cap"></use>
+        </svg>
+        <div class="title">Педагогическая деятельность</div>
+      </div>
+      <div v-if="doctor.teachingActivities.length > 0" class="hidden-comment">
+        <div v-for="teaching in doctor.teachingActivities" :key="teaching.id">{{ teaching.name }}</div>
+      </div>
     </div>
   </div>
   <svg width="0" height="0" class="hidden">
@@ -62,26 +66,21 @@ export default defineComponent({
   display: flex;
   align-items: center;
 }
+.info-block-child {
+  position: relative;
+}
 
 .icon-smile {
   width: 32px;
   height: 32px;
   fill: #ffffff;
   stroke: #31ae5e;
-  // &:hover {
-  //   cursor: pointer;
-  //   stroke: lighten(#31af5e, 10%);
-  // }
 }
 
 .icon-cap {
   width: 42px;
   height: 42px;
   fill: #31ae5e;
-  // &:hover {
-  //   cursor: pointer;
-  //   fill: lighten(#31af5e, 10%);
-  // }
 }
 
 .title {
@@ -89,28 +88,25 @@ export default defineComponent({
   font-size: 12px;
   font-weight: $title-font-bold-weight;
   width: 130px;
-  padding: 0 20px 0 10px;
+  padding: 0;
   line-height: 100%;
+  height: 26px;
+  overflow: hidden;
+  margin: 0 20px 0 10px;
+  text-overflow: ellipsis;
 }
-.item1 {
+.item {
   display: flex;
   justify-content: left;
-  position: relative;
   align-items: center;
+  height: 42px;
 }
 
-.item2 {
-  display: flex;
-  justify-content: left;
-  position: relative;
-  align-items: center;
-}
-
-.hidden-comment1 {
+.hidden-comment {
   width: 360px;
   position: absolute;
-  top: -70px;
-  left: 20px;
+  bottom: 50px;
+  left: -105px;
   font-size: 12px;
   font-weight: $title-font-weight;
   padding: 15px 20px;
@@ -118,10 +114,12 @@ export default defineComponent({
   border: $normal-border;
   color: #ffffff;
   background: $site_dark_gray;
-  opacity: 0%;
+  opacity: 90%;
+  display: none;
+  z-index: 1;
 }
 
-.hidden-comment1:after {
+.hidden-comment:after {
   content: '';
   position: absolute;
   left: 50%;
@@ -131,44 +129,12 @@ export default defineComponent({
   border-top: 20px solid $site_dark_gray;
 }
 
-.hidden-comment2 {
-  width: 360px;
-  position: absolute;
-  top: -68px;
-  left: 100px;
-  font-size: 12px;
-  font-weight: $title-font-weight;
-  padding: 10px 20px;
-  border-radius: $normal-border-radius;
-  border: $normal-border;
-  color: #ffffff;
-  background: $site_dark_gray;
-  opacity: 0%;
-}
-
-.hidden-comment2:after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -30px;
-  margin-left: -16px;
-  border: 16px solid transparent;
-  border-top: 20px solid $site_dark_gray;
-}
-
-// .item1:hover {
-//   cursor: pointer;
-// }
-
-// .item1:hover ~ .hidden-comment1 {
-//   opacity: 80%;
-// }
-
-.item2:hover {
+.item:hover {
   cursor: pointer;
+  color: #000000;
 }
 
-.item2:hover ~ .hidden-comment2 {
-  opacity: 80%;
+.item:hover ~ .hidden-comment {
+  display: block;
 }
 </style>

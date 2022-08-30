@@ -10,13 +10,13 @@
           :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } }"
         />
         <Rating :comments="doctor.doctorComments" />
-        <a v-if="doctor.mosDoctorLink" :href="doctor.getMosDoctorLink()">
+        <router-link v-if="doctor.mosDoctorLink" :to="doctor.getMosDoctorLink()">
           <div class="mos-doctor-img">
             <img src="@/assets/img/mos-doctor.webp" />
             <span>Московский</span>
             <span>врач</span>
           </div>
-        </a>
+        </router-link>
       </div>
       <div class="flex-column right-side">
         <div class="division-name" @click="$router.push(`/divisions/${doctor.division.slug}`)">
@@ -101,5 +101,16 @@ export default defineComponent({
 
 .mos-doctor-img:active {
   background: #ffffff;
+}
+
+:deep(.icon-comment) {
+  width: 25px;
+  height: 24px;
+  fill: #2653ea;
+  margin-right: 5px;
+}
+
+:deep(.numbers-comment) {
+  justify-content: left;
 }
 </style>

@@ -124,6 +124,8 @@ html {
   letter-spacing: 0.1em;
   font-size: 11px;
   color: #5d6477;
+  font-weight: lighter;
+  line-height: 110%;
 }
 
 /* Decoration of lists */
@@ -143,7 +145,7 @@ html {
 .point-list-item:before {
   content: '';
   position: absolute;
-  top: 4px;
+  top: 3px;
   left: 0;
   width: 10px;
   height: 10px;
