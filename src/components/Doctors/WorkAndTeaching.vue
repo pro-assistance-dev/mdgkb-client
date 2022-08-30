@@ -114,7 +114,6 @@ export default defineComponent({
   border: $normal-border;
   color: #ffffff;
   background: $site_dark_gray;
-  opacity: 90%;
   display: none;
   z-index: 1;
 }
