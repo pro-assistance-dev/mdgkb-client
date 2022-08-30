@@ -1,13 +1,13 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import PaidServices from '@/components/PaidServices/PaidServices.vue';
+import PaidServicesPage from '@/components/PaidServices/PaidServicesPage.vue';
 import { devGuard, isAuthorized } from '@/router/index';
 
 export default [
   {
     path: '/paid-services',
-    name: 'PaidServices',
-    component: PaidServices,
+    name: 'PaidServicesPage',
+    component: PaidServicesPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       devGuard();
