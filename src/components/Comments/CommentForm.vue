@@ -2,15 +2,17 @@
   <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
     <el-rate v-if="isReviews && withRating" v-model="comment.comment.rating" class="rate" />
     <el-form-item prop="comment.text">
-      <textarea
+      <el-input
         ref="commentInput"
         v-model="comment.comment.text"
         type="textarea"
         :placeholder="!isReviews ? 'Напишите комментарий' : 'Напишите отзыв'"
+        maxlength="500"
+        minlength="10"
         show-word-limit
-        :autosize="{ minRows: 3, maxRows: 6 }"
+        :autosize="{ minRows: 4, maxRows: 6 }"
         @focus="isAuth ? null : openLoginModal()"
-      ></textarea>
+      />
     </el-form-item>
     <div class="button-block">
       <button type="button" :class="{ 'blue-btn': !isReviews }" @click="isAuth ? sendComment(comment) : openLoginModal()">

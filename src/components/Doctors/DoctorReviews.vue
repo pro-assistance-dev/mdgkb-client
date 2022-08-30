@@ -39,6 +39,8 @@
             v-model="comment.comment.text"
             type="textarea"
             :placeholder="!isReviews ? 'Напишите комментарий:' : 'Напишите отзыв:'"
+            minlength="10"
+            maxlength="500"
             show-word-limit
             :autosize="{ minRows: 3, maxRows: 6 }"
             @focus="isAuth ? null : openLoginModal()"
