@@ -24,6 +24,7 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;
@@ -49,7 +50,7 @@ html {
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 22px;
   letter-spacing: 0.1em;
-  color: #343e5c;
+  color: $site_dark_gray;
   height: 60px;
   align-items: center;
   font-weight: bold;
@@ -68,21 +69,21 @@ html {
 
 .point-year {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
   font-size: 14px;
-  color: #a1a7bd;
-  font-weight: bold;
+  color: $site_gray;
+  font-weight: $title-font-bold-weight;
 }
 
 .point-text {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 11px;
-  color: #5d6477;
-  font-weight: lighter;
-  line-height: 110%;
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
+  font-size: $doctor-text-font-size;
+  color: $site_dark_gray;
+  font-weight: $doctor-text-font-weight;
+  line-height: $doctor-text-line-height;
 }
 
 .services {

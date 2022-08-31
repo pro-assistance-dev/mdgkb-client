@@ -18,7 +18,9 @@
         <svg v-if="withNumbers" class="icon-comment">
           <use xlink:href="#prime_comment"></use>
         </svg>
-        <span class="NameNumbers">{{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}</span>
+        <span class="NameNumbers">
+          {{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}
+          </span>
       </div>
     </a>
   </div>
@@ -59,6 +61,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 :deep(.el-rate__icon) {
   margin: 0;
   font-size: 14px;
@@ -74,20 +77,22 @@ export default defineComponent({
 }
 
 a {
-  // margin-top: 10px;
-  color: #2754eb;
+  color: $site_blue;
   text-decoration: none;
-  letter-spacing: 1px;
-  font-weight: bold;
-  font-size: 11px;
+  letter-spacing: $doctor-text-letter-spacing;
+  font-weight: $base-font-bold-weight;
+  font-size: $doctor-text-font-size;
   &:hover {
-    color: darken(#2754eb, 20%);
+    .icon-comment {
+      fill: darken($site_blue, 30%);
+    }
+    color: darken($site_blue, 30%);
     cursor: pointer;
   }
 }
 
 .line-block {
-  width: 95%;
+  width: 98%;
   height: 40px;
   display: flex;
   justify-content: space-between;
@@ -112,7 +117,7 @@ a {
   width: 29px;
   height: 29px;
   fill: #2653ea;
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 @media screen and (max-width: 768px) {
