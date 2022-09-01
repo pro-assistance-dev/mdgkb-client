@@ -5,7 +5,7 @@
       <!-- <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4> -->
       <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
     </div>
-    <div id="comments-block">
+    <div v-if="comments.length" id="comments-block">
       <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
         <CommentCard :comment="item.comment" :is-review="isReviews" />
       </div>
@@ -39,7 +39,7 @@ export default defineComponent({
       default: true,
     },
   },
-  async setup(prop) {
+  setup(prop) {
     const store = useStore();
     const comments: ComputedRef<IWithComment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
 
@@ -52,6 +52,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;
@@ -91,7 +92,7 @@ html {
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 22px;
   letter-spacing: 0.1em;
-  color: #343e5c;
+  color: $site_dark_gray;
   height: 60px;
   align-items: center;
   font-weight: bold;

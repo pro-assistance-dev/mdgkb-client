@@ -39,6 +39,8 @@
             v-model="comment.comment.text"
             type="textarea"
             :placeholder="!isReviews ? 'Напишите комментарий:' : 'Напишите отзыв:'"
+            minlength="10"
+            maxlength="500"
             show-word-limit
             :autosize="{ minRows: 3, maxRows: 6 }"
             @focus="isAuth ? null : openLoginModal()"
@@ -334,6 +336,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;
@@ -374,7 +377,7 @@ html {
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 22px;
   letter-spacing: 0.1em;
-  color: #343e5c;
+  color: $site_dark_gray;
   height: 60px;
   align-items: center;
   font-weight: bold;

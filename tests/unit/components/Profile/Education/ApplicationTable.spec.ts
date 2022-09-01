@@ -15,6 +15,7 @@ describe('ApplicationTable.vue', () => {
     const user = new User();
     user.formValues.push(new Form(), new Form(), new Form(), new Form());
     wrapper = mount(ApplicationTable, {
+      attachTo: document.body,
       props: {
         user: user,
       },

@@ -7,8 +7,8 @@
           <h4 class="point-text">{{ paidService.paidService.name }}</h4>
         </li>
         <li v-if="defaultLimit !== itemsWithPaidService.length">
-          <h4 v-if="limit === defaultLimit" class="point-text show-more-link" @click="setLimit">Показать все сервисы...</h4>
-          <h4 v-else class="point-text show-more-link" @click="setLimit">Скрыть сервисы...</h4>
+          <h4 v-if="limit === defaultLimit" class="show-more-link" @click="setLimit">Показать все сервисы...</h4>
+          <h4 v-else class="show-more-link" @click="setLimit">Скрыть сервисы...</h4>
         </li>
       </ul>
     </div>
@@ -25,7 +25,7 @@ export default defineComponent({
   props: {
     itemsWithPaidService: { type: Array as PropType<IWithPaidService[]>, required: true },
   },
-  async setup(props) {
+  setup(props) {
     const defaultLimit = 5;
     const limit = ref(defaultLimit);
     const showMoreText = ref('Показать все сервисы');
@@ -57,11 +57,17 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '@/assets/styles/elements/base-style.scss';
 .show-more-link {
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
+  font-size: $doctor-text-font-size;
+  color: $site_blue;
+  font-weight: $doctor-text-font-weight;
+  line-height: $doctor-text-line-height;
   &:hover {
     cursor: pointer;
-    color: lighten($site_blue, 10%);
+    color: darken($site_blue, 30%);
   }
-  color: $site_blue;
+
 }
 * {
   padding: 0px;
@@ -88,7 +94,7 @@ html {
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 22px;
   letter-spacing: 0.1em;
-  color: #343e5c;
+  color: $site_dark_gray;
   height: 60px;
   align-items: center;
   font-weight: bold;
@@ -107,25 +113,21 @@ html {
 
 .point-year {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
   font-size: 14px;
-  color: #a1a7bd;
-  font-weight: bold;
+  color: $site_gray;
+  font-weight: $title-font-bold-weight;
 }
 
 .point-text {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 13px;
-  color: #5d6477;
-  font-weight: lighter;
-  line-height: 110%;
-  &:hover {
-    cursor: pointer;
-    color: lighten(#5d6477, 10%);
-  }
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
+  font-size: $doctor-text-font-size;
+  color: $site_dark_gray;
+  font-weight: $doctor-text-font-weight;
+  line-height: $doctor-text-line-height;
 }
 
 .services {
