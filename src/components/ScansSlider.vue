@@ -17,7 +17,8 @@
       </el-carousel>
     </div>
     <el-dialog v-model="dialogVisible" center :show-close="false" top="25vh">
-      <div>
+      <div class="img-description">{{ dialogScan.description }}</div>
+      <div class="img-block">
         <img
           :style="{ height: '50vh', width: '50vh', 'justify-content': 'center', padding: '5%' }"
           :src="dialogScan.scan.getImageUrl()"
@@ -100,7 +101,25 @@ html {
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;
-  // height: 460px;
+}
+
+.img-block {
+  display: flex;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-clip: padding-box;
+  margin-top: 10px;
+}
+
+.img-description {
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  color: $site_dark_gray;
+  padding: 0 0 10px 0;
+  font-family: $base-font;
 }
 
 .title-in {
@@ -123,8 +142,6 @@ html {
   cursor: pointer;
 }
 
-
-
 .image-container {
   width: 220px;
   height: 320px;
@@ -132,7 +149,6 @@ html {
 
 :deep(.el-carousel__container) {
   height: 370px;
-  // height: unset;
 }
 
 :deep(.el-carousel__item) {
@@ -144,5 +160,9 @@ html {
 
 :deep(.el-carousel__button) {
   background-color: $site_gray;
+}
+
+:deep(.el-dialog__header) {
+  display: none;
 }
 </style>
