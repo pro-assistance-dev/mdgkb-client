@@ -132,6 +132,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
+
 textarea {
   background: #ffffff;
   border-radius: 5px;
@@ -152,7 +154,7 @@ textarea {
 }
 
 button {
-  background-color: #ff4e3c;
+  background-color: $site_red;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -163,13 +165,13 @@ button {
 
   &:hover {
     cursor: pointer;
-    background-color: darken(#ff4e3c, 10%);
+    background-color: darken($site_red, 10%);
   }
 }
 .blue-btn {
-  background-color: #2754eb;
+  background-color: $site_blue;
   &:hover {
-    background-color: darken(#2754eb, 10%);
+    background-color: darken($site_blue, 10%);
   }
 }
 

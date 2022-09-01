@@ -6,7 +6,7 @@
     <DoctorWorkExperience :doctor="doctor" />
     <PaidServices :items-with-paid-service="doctor.doctorPaidServices" />
     <DoctorAchievements :doctor="doctor" />
-    <DoctorCertificates />
+    <ScansSlider :gallery-elements="doctor.certificates" />
     <DoctorDateAndTime />
     <NewsSlider :news="doctor.newsDoctors" />
     <Comments store-module="doctors" :parent-id="doctor.id" :is-reviews="true" />
@@ -20,13 +20,13 @@ import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments/Comments.vue';
 import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
-import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
 import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
 import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
+import ScansSlider from '@/components/ScansSlider.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import countRating from '@/mixins/countRating';
 
@@ -38,7 +38,7 @@ export default defineComponent({
     DoctorWorkExperience,
     PaidServices,
     DoctorAchievements,
-    DoctorCertificates,
+    ScansSlider,
     DoctorDateAndTime,
     Comments,
     NewsSlider,

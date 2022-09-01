@@ -42,10 +42,18 @@ $base-font: Roboto, Arial, Helvetica, sans-serif;
 $base-font-weight: regular;
 $base-font-bold-weight: bold;
 
+$doctor-text-font-size: 13px;
+// $doctor-text-font-color: #5d6477;
+$doctor-text-font-weight: lighter;
+$doctor-text-line-height: 110%;
+$doctor-text-letter-spacing: 0.1em;
+
+
 // block
 $normal-border-radius: 5px;
 $normal-border:1px solid rgb(black, 0.05);
 
 $small-border-radius: 3px;
 
-$normal-shadow:rgba(0, 0, 0, 0.35) 0px 5px 5px;
+$normal-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
+rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
