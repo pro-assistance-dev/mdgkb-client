@@ -43,7 +43,7 @@ const actions: ActionTree<State, RootState> = {
   },
   updateMany: async (_, items): Promise<void> => {
     if (items.length) {
-      await httpClient.put<IForm[], IForm[]>({ query: '/many', payload: items, isFormData: true });
+      await httpClient.put<IForm[], IForm[]>({ query: 'many', payload: items, isFormData: true });
     }
   },
   remove: async ({ commit }, id: string): Promise<void> => {

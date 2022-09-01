@@ -1,9 +1,9 @@
 <template>
-  <div v-if="educations.length" class="education">
+  <div v-if="doctor.educations.length" class="education">
     <div class="title-in">Образование</div>
     <div class="point">
       <ul class="point-list">
-        <li v-for="education in educations" :key="education.id" class="point-list-item">
+        <li v-for="education in doctor.educations" :key="education.id" class="point-list-item">
           <div class="point-info">
             <h3 class="point-year">{{ education.getEndYear() }}</h3>
             <h4 class="point-text">{{ education.institution }}. {{ education.type }}. {{ education.specialization }}</h4>
@@ -15,26 +15,14 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
-import IEducation from '@/interfaces/education/IEducation';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
-  name: 'Education',
+  name: 'DoctorEducation',
   props: {
-    storeModule: {
-      type: String,
-      required: true,
-    },
-  },
-  async setup(prop) {
-    const store = useStore();
-    const educations: ComputedRef<IEducation[]> = computed(() => store.getters[`${prop.storeModule}/educations`]);
-
-    return {
-      educations,
-    };
+    doctor: { type: Object as PropType<IDoctor>, required: true },
   },
 });
 </script>

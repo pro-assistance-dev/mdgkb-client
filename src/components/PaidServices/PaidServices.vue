@@ -25,7 +25,7 @@ export default defineComponent({
   props: {
     itemsWithPaidService: { type: Array as PropType<IWithPaidService[]>, required: true },
   },
-  async setup(props) {
+  setup(props) {
     const defaultLimit = 5;
     const limit = ref(defaultLimit);
     const showMoreText = ref('Показать все сервисы');
