@@ -9,14 +9,14 @@
               class="image-card"
               :src="certificate.scan.getImageUrl()"
               :alt="certificate.scan.originalName"
-              :style="{ height: '80%', width: '80%' }"
+              :style="{ height: '100%', width: '100%' }"
               @click="imgClickHandler(certificate)"
             />
           </div>
         </el-carousel-item>
       </el-carousel>
     </div>
-    <el-dialog v-model="dialogVisible" center :show-close="false" top="25vh">
+    <el-dialog v-model="dialogVisible" center :show-close="false" top="15vh">
       <div class="img-description">{{ dialogScan.description }}</div>
       <div class="img-block">
         <img
@@ -145,10 +145,11 @@ html {
 .image-container {
   width: 220px;
   height: 320px;
+  padding-bottom: 10px;
 }
 
 :deep(.el-carousel__container) {
-  height: 370px;
+  height: 380px;
 }
 
 :deep(.el-carousel__item) {
