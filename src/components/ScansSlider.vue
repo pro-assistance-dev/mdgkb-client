@@ -9,7 +9,7 @@
               :src="certificate.scan.getImageUrl()"
               :alt="certificate.scan.originalName"
               :style="{ height: '80%', width: '80%' }"
-              @click="imgClickHandler(certificate.scan)"
+              @click="imgClickHandler(certificate)"
             />
           </div>
         </el-carousel-item>
@@ -19,8 +19,8 @@
       <div>
         <img
           :style="{ height: '50vh', width: '50vh', 'justify-content': 'center', padding: '5%' }"
-          :src="dialogFileInfo.getImageUrl()"
-          :alt="dialogFileInfo.originalName"
+          :src="dialogScan.scan.getImageUrl()"
+          :alt="dialogScan.scan.originalName"
         />
       </div>
     </el-dialog>
@@ -30,8 +30,6 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import FileInfo from '@/classes/File/FileInfo';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import IScanWithDescription from '@/interfaces/IScanWithDescription';
 import makeCarousel from '@/services/MakeCarousel';
 
@@ -48,11 +46,11 @@ export default defineComponent({
     const carousel: Ref<IScanWithDescription[][]> = ref([]);
 
     const dialogVisible: Ref<boolean> = ref(false);
-    const dialogFileInfo: Ref<IFileInfo> = ref(new FileInfo());
+    const dialogScan: Ref<IScanWithDescription | undefined> = ref(undefined);
     const carouselRef = ref();
 
-    const imgClickHandler = (fileInfo: IFileInfo) => {
-      dialogFileInfo.value = fileInfo;
+    const imgClickHandler = (scan: IScanWithDescription) => {
+      dialogScan.value = scan;
       dialogVisible.value = true;
     };
 
@@ -62,7 +60,7 @@ export default defineComponent({
 
     return {
       dialogVisible,
-      dialogFileInfo,
+      dialogScan,
       imgClickHandler,
       carouselRef,
       carousel,
