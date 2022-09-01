@@ -15,7 +15,7 @@
       <th><h4>ДОСТУПНЫЕ ДЕЙСТВИЯ</h4></th>
     </thead>
     <tbody>
-      <tr v-for="formValue in user.formValues" :key="formValue.id" data-test="formsList">
+      <tr v-for="formValue in user.formValues" :key="formValue.id" data-test="forms-list">
         <td>
           <span v-if="!formValue.viewedByUser" class="red">* </span>
           <router-link :to="formValue.getApplicationTypeLink()">

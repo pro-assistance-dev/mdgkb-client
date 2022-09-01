@@ -196,6 +196,6 @@ export default class Doctor implements IDoctor {
   }
 
   isChief(): boolean {
-    return this.division?.chiefId === this.id;
+    return !!this.division && this.division.chiefId === this.id;
   }
 }

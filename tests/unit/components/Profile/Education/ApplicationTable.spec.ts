@@ -35,6 +35,6 @@ describe('ApplicationTable.vue', () => {
     });
     // Act
     // Assert
-    expect(wrapper.findAll('[data-test="formsList"]')).toHaveLength(user.formValues.length);
+    expect(wrapper.findAll('[data-test="forms-list"]')).toHaveLength(user.formValues.length);
   });
 });

@@ -4,11 +4,12 @@
       <div class="doctor-img">
         <img
           v-if="doctor.human.photo.fileSystemPath"
+          data-test="doctor-photo"
           :src="doctor.human.photo.getImageUrl()"
           alt="alt"
           @error="user.human.photo.errorImg($event)"
         />
-        <img v-else src="@/assets/img/doctor-default.webp" />
+        <img v-else data-test="doctor-alt-photo" src="@/assets/img/doctor-default.webp" />
         <div class="favor">
           <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
         </div>
@@ -17,28 +18,39 @@
     </div>
 
     <div class="card-item-middle">
-      <div v-if="doctor.division?.name" class="division-name" @click="$router.push(`/divisions/${doctor.division.slug}`)">
+      <div
+        v-if="doctor.division?.name"
+        data-test="division-name"
+        class="division-name"
+        @click="$router.push(`/divisions/${doctor.division.slug}`)"
+      >
         {{ doctor.division.name }}
       </div>
-      <div class="doctor-name">
+      <div data-test="doctor-name" class="doctor-name">
         {{ doctor.human.getFullName() }}
       </div>
-      <div v-if="doctor.isChief()" class="green-tag-link">Заведующий отделением</div>
+      <div v-if="doctor.isChief()" data-test="is-chief-block" class="green-tag-link">Заведующий отделением</div>
       <div
         v-if="doctor.medicalProfile?.name"
+        data-test="medical-profile-name"
         class="tag-link"
         @click="$router.push(`/doctors?medical-profile=${doctor.medicalProfile.id}`)"
       >
         {{ doctor.medicalProfile.name }}
       </div>
 
-      <div v-if="doctor.position?.name" class="tag-link" @click="$router.push(`/doctors?position=${doctor.position.id}`)">
+      <div
+        v-if="doctor.position?.name"
+        data-test="position-name"
+        class="tag-link"
+        @click="$router.push(`/doctors?position=${doctor.position.id}`)"
+      >
         {{ doctor.position.name }}
       </div>
       <div class="card-item-middle-bottom">
         <div class="regalias-list">
           <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
-            <span v-if="regalia?.name">
+            <span v-if="regalia?.name" data-test="regalia-list">
               <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
             </span>
           </template>
@@ -51,7 +63,7 @@
             </a>
           </span>
         </div>
-        <router-link v-if="doctor.mosDoctorLink" class="mos-doctor-img" :to="doctor.getMosDoctorLink()">
+        <router-link v-if="doctor.mosDoctorLink" data-test="mos-doctor-link" class="mos-doctor-img" :to="doctor.getMosDoctorLink()">
           <div class="mos-doctor-img-container">
             <img src="@/assets/img/mos-doctor.webp" />
           </div>
@@ -68,7 +80,7 @@
 
     <div class="card-item-right">
       <button @click="$router.push('/appointments/oms')">Запись на прием</button>
-      <a v-if="doctor.onlineDoctorId" :href="doctor.getOnlineDoctorLink()" target="_blank">
+      <a v-if="doctor.onlineDoctorId" data-test="online-consult-button" :href="doctor.getOnlineDoctorLink()" target="_blank">
         <button class="consult">Онлайн консультация</button>
       </a>
       <a @click="$scroll('#leave-a-review')">

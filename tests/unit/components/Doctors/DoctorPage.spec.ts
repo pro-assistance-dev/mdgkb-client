@@ -6,6 +6,8 @@ import Doctor from '@/classes/Doctor';
 import DoctorPage from '@/components/Doctors/DoctorPage.vue';
 import carouselSwipe from '@/services/CarouselSwipe';
 
+import ComponentStub from '../../../__mocks__/ComponentStub';
+
 jest.mock('vue-router', () => ({
   useRoute: jest.fn(() => ({ params: { slug: 1 } })),
 }));
@@ -57,9 +59,9 @@ describe('DoctorPage.vue', () => {
         },
         stubs: {
           RouterLink: RouterLinkStub,
-          ElCarouselItem: { template: '<span />' },
-          ElFormItem: { template: '<span />' },
-          Comments: { template: '<span />' },
+          ElCarouselItem: ComponentStub,
+          ElFormItem: ComponentStub,
+          Comments: ComponentStub,
         },
         components: {
           'el-rate': ElRate,
