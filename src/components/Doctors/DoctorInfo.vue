@@ -58,7 +58,7 @@
         <div class="address">
           <span v-if="doctor.division?.address">
             Адрес приема:
-            <a @click="$router.push(`/map/${doctor.division.id}`)">
+            <a data-test="map-link" @click="$router.push(`/map/${doctor.division.id}`)">
               {{ doctor.division.address }}
             </a>
           </span>

@@ -20,12 +20,23 @@ const stubs = {
   RouterLink: RouterLinkStub,
 };
 
-const createWrapper = (doctor: IDoctor): VueWrapper<any> => {
+let mockRouter;
+
+const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<any> => {
+  mockRouter = {
+    push: jest.fn(),
+  };
   return mount(DoctorInfo, {
     props: {
       doctor: doctor,
     },
-    global: { stubs: stubs },
+    global: {
+      stubs: stubs,
+      mocks: {
+        $route: route,
+        $router: mockRouter,
+      },
+    },
   });
 };
 
@@ -91,7 +102,6 @@ describe('DoctorInfo.vue', () => {
     expect(wrapper.find('[data-test="is-chief-block"]').exists()).toBe(true);
     const doctorNotChief = new Doctor();
     await wrapper.setProps({ doctor: doctorNotChief });
-    console.log(doctorNotChief.isChief());
     expect(wrapper.find('[data-test="is-chief-block"]').exists()).toBe(false);
   });
 
@@ -189,5 +199,27 @@ describe('DoctorInfo.vue', () => {
     doctor.onlineDoctorId = 'test';
     wrapper = createWrapper(doctor);
     expect(wrapper.find('[data-test="online-consult-button"]').exists()).toBe(true);
+  });
+
+  test('Division link push to division of doctor with slug', async () => {
+    doctor.division = new Division();
+    doctor.division.slug = 'test';
+    doctor.division.name = 'test';
+    wrapper = createWrapper(doctor);
+
+    await wrapper.find('[data-test="division-name"]').trigger('click');
+    expect(mockRouter.push).toHaveBeenCalledTimes(1);
+    expect(mockRouter.push).toHaveBeenCalledWith(`/divisions/${doctor.division.slug}`);
+  });
+
+  test('Address link push to map with division id', async () => {
+    doctor.division = new Division();
+    doctor.division.id = 'test';
+    doctor.division.address = 'test';
+    wrapper = createWrapper(doctor);
+
+    await wrapper.find('[data-test="map-link"]').trigger('click');
+    expect(mockRouter.push).toHaveBeenCalledTimes(1);
+    expect(mockRouter.push).toHaveBeenCalledWith(`/map/${doctor.division.id}`);
   });
 });
