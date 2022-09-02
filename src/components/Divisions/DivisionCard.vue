@@ -13,7 +13,7 @@
         </div>
         <div class="line">
           <div class="line-item"><Rating :comments="division.divisionComments" /></div>
-          <button class="map-button">На карте</button>
+          <button class="map-button" @click="$router.push(`/map/${division.id}`)">На карте</button>
         </div>
         <div class="spec-list"></div>
       </div>
@@ -198,11 +198,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .info-block {
-  height: 165px;
+  max-height: 165px;
+  margin-bottom: 70px;
 }
 
 .card-item {
-  max-width: 370px;
+  width: 320px;
   min-height: 87%;
   position: relative;
 }
@@ -318,6 +319,7 @@ export default defineComponent({
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 10px;
+  margin-right: 30px;
 }
 
 .division-line {
@@ -338,6 +340,7 @@ export default defineComponent({
 }
 
 .map-button {
+  width: 100px;
   height: 26px;
   background: #2754eb;
   border-radius: 40px;
@@ -355,7 +358,13 @@ export default defineComponent({
 }
 
 .division-card-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
   button {
+    width: 200px;
     margin-top: 10px;
     border-radius: 20px;
     background-color: #31af5e;
@@ -509,5 +518,16 @@ ul.hidden-item-list li {
 }
 :deep(.el-rate__text) {
   margin-left: 5px;
+}
+
+:deep(.icon-comment) {
+  width: 25px;
+  height: 24px;
+  fill: #2653ea;
+  margin-right: 5px;
+}
+
+:deep(.numbers-comment) {
+  justify-content: left;
 }
 </style>

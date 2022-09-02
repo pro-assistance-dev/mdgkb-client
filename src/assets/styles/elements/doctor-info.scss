@@ -1,4 +1,5 @@
 @import "./favorite.scss";
+@import "./base-style.scss";
 
 .card-item {
   display: flex;
@@ -30,24 +31,25 @@
     font-size: 14px;
     letter-spacing: 1px;
     .division-name {
-      color: #a1a7bd;
+      color: $site_gray;
       margin-bottom: 5px;
-      font-size: 11px;
+      font-size: $doctor-text-font-size;
       &:hover{
         cursor: pointer;
-        color:darken(#a1a7bd, 20%);
+        color:$site_dark_gray;
       }
     }
     .doctor-name {
       font-size: 26px;
       font-weight: bold;
       margin-bottom: 10px;
+      color:$site_dark_gray;
     }
     .tag-link {
       text-align: center;
       border-radius: 15px;
-      background-color: #2754eb;
-      border-color: #2754eb;
+      background-color: $site_blue;
+      border-color: $site_blue;
       color: white;
       padding: 2px 10px;
       margin-right: 10px;
@@ -56,13 +58,31 @@
       word-wrap: break-word;
       font-size: 11px;
       &:hover {
-        background-color: darken(#2754eb, 10%);
+        background-color: darken($site_blue, 10%);
+        color: white;
+        cursor: pointer;
+      }
+    }
+    .green-tag-link {
+      text-align: center;
+      border-radius: 15px;
+      background-color: $site_green;
+      border-color: $site_green;
+      color: white;
+      padding: 2px 10px;
+      margin-right: 10px;
+      display: inline-block;
+      width: auto;
+      word-wrap: break-word;
+      font-size: 11px;
+      &:hover {
+        background-color: darken($site_green, 10%);
         color: white;
         cursor: pointer;
       }
     }
     a {
-      color: #2754eb;
+      color: $site_blue;
       text-decoration: none;
     }
     .tag-link,
@@ -70,11 +90,11 @@
     .address {
       margin-bottom: 15px;
       a {
-        color: #2754eb;
+        color: $site_blue;
         text-decoration: none;
         &:hover {
           cursor: pointer;
-          color: darken(#2754eb, 30%)
+          color: darken($site_blue, 30%)
         }
       }
     }
@@ -111,7 +131,7 @@
       font-weight: bold;
       font-size: 14px;
       border-radius: 10px;
-      background-color: #31af5e;
+      background-color: $site_green;
       padding: 15px 0px;
       height: auto;
       letter-spacing: 2px;
@@ -119,21 +139,21 @@
       border: 1px solid rgb(black, 0.05);
       &:hover {
         cursor: pointer;
-        background-color: darken(#31af5e, 10%);
+        background-color: darken($site_green, 10%);
       }
     }
     .consult {
-      color: #31af5e;
+      color: $site_green;
       background-color: white;
-      border-color: #31af5e;
+      border-color: $site_green;
       &:hover {
         background-color: darken(white, 10%);
       }
     }
     .review {
-      background-color: #ff4e3c;
+      background-color: $site_red;
       &:hover {
-        background-color: darken(#ff4e3c, 10%);
+        background-color: darken($site_red, 10%);
       }
     }
   }

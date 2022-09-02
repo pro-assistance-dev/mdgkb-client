@@ -64,4 +64,5 @@ export default interface IDoctor {
   teachingActivitiesForDelete: string[];
 
   addTeachingActivity: () => void;
+  isChief: () => boolean;
 }

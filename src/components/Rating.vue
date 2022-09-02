@@ -1,5 +1,5 @@
 <template>
-  <div class="line">
+  <div class="line-block">
     <el-rate
       v-if="countRating(comments) > 0"
       :model-value="countRating(comments)"
@@ -18,7 +18,9 @@
         <svg v-if="withNumbers" class="icon-comment">
           <use xlink:href="#prime_comment"></use>
         </svg>
-        {{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}
+        <span class="NameNumbers">
+          {{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}
+          </span>
       </div>
     </a>
   </div>
@@ -59,12 +61,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 :deep(.el-rate__icon) {
   margin: 0;
   font-size: 14px;
+  vertical-align: 5px;
 }
 :deep(.el-rate__text) {
   margin-left: 5px;
+  font-weight: bold;
 }
 
 :deep(.el-rate) {
@@ -72,20 +77,22 @@ export default defineComponent({
 }
 
 a {
-  // margin-top: 10px;
-  color: #2754eb;
+  color: $site_blue;
   text-decoration: none;
-  letter-spacing: 1px;
-  font-weight: bold;
-  font-size: 11px;
+  letter-spacing: $doctor-text-letter-spacing;
+  font-weight: $base-font-bold-weight;
+  font-size: $doctor-text-font-size;
   &:hover {
-    color: darken(#2754eb, 10%);
+    .icon-comment {
+      fill: darken($site_blue, 30%);
+    }
+    color: darken($site_blue, 30%);
     cursor: pointer;
   }
 }
 
-.line {
-  width: 95%;
+.line-block {
+  width: 98%;
   height: 40px;
   display: flex;
   justify-content: space-between;
@@ -96,16 +103,21 @@ a {
 
 .numbers-comment {
   display: flex;
-  justify-content: left;
+  justify-content: right;
   align-items: center;
   min-width: 120px;
+  text-align: center;
+}
+
+.NameNumbers {
+  margin-top: 2px;
 }
 
 .icon-comment {
-  width: 25px;
-  height: 25px;
+  width: 29px;
+  height: 29px;
   fill: #2653ea;
-  margin-right: 5px;
+  margin-right: 8px;
 }
 
 @media screen and (max-width: 768px) {

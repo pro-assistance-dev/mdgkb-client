@@ -93,14 +93,14 @@
               </a>
             </div>
           </div>
-          <div class="contact-h3">
+          <div v-if="division.contactInfo.telephoneNumbers.length > 0" class="contact-h3">
             <div class="item">
               <!-- <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone"> -->
               <svg class="icon-phone">
                 <use xlink:href="#phone"></use>
               </svg>
             </div>
-            <!-- <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div> -->
+            <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div>
           </div>
           <div class="contact-h3">
             <div class="item">
@@ -145,7 +145,7 @@
     <div class="card-item-right">
       <button @click="$router.push('/appointments/oms')">Запись на прием</button>
       <!-- <a v-if="doctor.onlineDoctorId" :href="doctor.getOnlineDoctorLink()" target="_blank"> -->
-      <button class="consult">Онлайн консультация</button>
+      <!--      <button class="consult">Онлайн консультация</button>-->
       <!-- </a> -->
       <a @click="$scroll('#leave-a-review')">
         <button class="review">Оставить отзыв</button>

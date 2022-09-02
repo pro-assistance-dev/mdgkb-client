@@ -89,6 +89,9 @@ export default defineComponent({
 }
 
 .reviews-info {
+  max-width: 950px;
+  white-space: normal;
+
   .name {
     margin: 0;
     font-size: 14px;
@@ -120,6 +123,9 @@ export default defineComponent({
 }
 
 .reviews-text {
+  overflow: hidden;
+  hyphens: auto;
+  white-space: normal;
   display: flex;
   font-family: 'Open sans', sans-serif, Arial;
   letter-spacing: 0.05em;
