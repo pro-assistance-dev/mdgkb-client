@@ -1,11 +1,12 @@
 <template>
-  <div v-if="mount" class="doctor-page-container">
+  <div v-if="mounted" data-test="doctor-component" class="doctor-page-container">
     <!--    <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div>-->
     <DoctorInfo :doctor="doctor" />
-    <DoctorEducation :store-module="'doctors'" />
-    <DoctorWorkExperience />
-    <DoctorServices :store-module="'doctors'" />
-    <DoctorCertificates />
+    <DoctorEducation :doctor="doctor" />
+    <DoctorWorkExperience :doctor="doctor" />
+    <PaidServices :items-with-paid-service="doctor.doctorPaidServices" />
+    <DoctorAchievements :doctor="doctor" />
+    <ScansSlider :gallery-elements="doctor.certificates" />
     <DoctorDateAndTime />
     <NewsSlider :news="doctor.newsDoctors" />
     <Comments store-module="doctors" :parent-id="doctor.id" :is-reviews="true" />
@@ -18,13 +19,14 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments/Comments.vue';
-import DoctorCertificates from '@/components/Doctors/DoctorCertificates.vue';
+import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
 import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
 import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
-import DoctorServices from '@/components/Doctors/DoctorServices.vue';
 import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
+import PaidServices from '@/components/PaidServices/PaidServices.vue';
+import ScansSlider from '@/components/ScansSlider.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import countRating from '@/mixins/countRating';
 
@@ -34,8 +36,9 @@ export default defineComponent({
     DoctorInfo,
     DoctorEducation,
     DoctorWorkExperience,
-    DoctorServices,
-    DoctorCertificates,
+    PaidServices,
+    DoctorAchievements,
+    ScansSlider,
     DoctorDateAndTime,
     Comments,
     NewsSlider,
@@ -45,17 +48,17 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const doctor: Ref<IDoctor> = computed<IDoctor>(() => store.getters['doctors/item']);
-    const mount = ref(false);
+    const mounted = ref(false);
 
     onBeforeMount(async () => {
       await store.dispatch('doctors/get', route.params['slug']);
-      mount.value = true;
+      mounted.value = true;
     });
 
     return {
       countRating,
       doctor,
-      mount,
+      mounted,
     };
   },
 });

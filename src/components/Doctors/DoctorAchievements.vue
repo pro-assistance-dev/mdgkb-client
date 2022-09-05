@@ -1,10 +1,10 @@
 <template>
-  <div v-if="paidServices.length" class="services">
-    <div class="title-in">Оказываемые услуги</div>
+  <div v-if="doctor.regalias.length" class="services">
+    <div class="title-in">Достижения и награды</div>
     <div class="point">
       <ul class="services-list">
-        <li v-for="paidService in paidServices" :key="paidService.id" class="services-list-item">
-          <h4 class="point-text">{{ paidService.paidService.name }}</h4>
+        <li v-for="regalia in doctor.regalias" :key="regalia.id" class="services-list-item">
+          <h4 class="point-text">{{ regalia.name }}</h4>
         </li>
       </ul>
     </div>
@@ -12,30 +12,19 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
-import IWithPaidService from '@/interfaces/IWithPaidService';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
-  name: 'DoctorServices',
+  name: 'DoctorAchievements',
   props: {
-    storeModule: {
-      type: String,
-      required: true,
-    },
-  },
-  async setup(prop) {
-    const store = useStore();
-    const paidServices: ComputedRef<IWithPaidService[]> = computed(() => store.getters[`${prop.storeModule}/paidServices`]);
-
-    return {
-      paidServices,
-    };
+    doctor: { type: Object as PropType<IDoctor>, required: true },
   },
 });
 </script>
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;
@@ -61,7 +50,7 @@ html {
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 22px;
   letter-spacing: 0.1em;
-  color: #343e5c;
+  color: $site_dark_gray;
   height: 60px;
   align-items: center;
   font-weight: bold;
@@ -80,19 +69,21 @@ html {
 
 .point-year {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
   font-size: 14px;
-  color: #a1a7bd;
-  font-weight: bold;
+  color: $site_gray;
+  font-weight: $title-font-bold-weight;
 }
 
 .point-text {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 11px;
-  color: #5d6477;
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
+  font-size: $doctor-text-font-size;
+  color: $site_dark_gray;
+  font-weight: $doctor-text-font-weight;
+  line-height: $doctor-text-line-height;
 }
 
 .services {

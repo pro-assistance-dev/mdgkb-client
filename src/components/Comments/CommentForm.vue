@@ -2,15 +2,17 @@
   <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
     <el-rate v-if="isReviews && withRating" v-model="comment.comment.rating" class="rate" />
     <el-form-item prop="comment.text">
-      <textarea
+      <el-input
         ref="commentInput"
         v-model="comment.comment.text"
         type="textarea"
         :placeholder="!isReviews ? 'Напишите комментарий' : 'Напишите отзыв'"
+        maxlength="500"
+        minlength="10"
         show-word-limit
-        :autosize="{ minRows: 3, maxRows: 6 }"
+        :autosize="{ minRows: 4, maxRows: 6 }"
         @focus="isAuth ? null : openLoginModal()"
-      ></textarea>
+      />
     </el-form-item>
     <div class="button-block">
       <button type="button" :class="{ 'blue-btn': !isReviews }" @click="isAuth ? sendComment(comment) : openLoginModal()">
@@ -130,6 +132,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
+
 textarea {
   background: #ffffff;
   border-radius: 5px;
@@ -150,7 +154,7 @@ textarea {
 }
 
 button {
-  background-color: #ff4e3c;
+  background-color: $site_red;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -161,13 +165,13 @@ button {
 
   &:hover {
     cursor: pointer;
-    background-color: darken(#ff4e3c, 10%);
+    background-color: darken($site_red, 10%);
   }
 }
 .blue-btn {
-  background-color: #2754eb;
+  background-color: $site_blue;
   &:hover {
-    background-color: darken(#2754eb, 10%);
+    background-color: darken($site_blue, 10%);
   }
 }
 

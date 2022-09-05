@@ -1,20 +1,12 @@
 <template>
-  <div class="work-experience">
+  <div v-if="doctor.experiences.length" class="work-experience">
     <div class="title-in">Опыт работы</div>
     <div class="point">
       <ul class="point-list">
-        <li class="point-list-item">
+        <li v-for="experience in doctor.experiences" :key="experience.id" class="point-list-item">
           <div class="point-info">
-            <h3 class="point-year">1984-2013</h3>
-            <h4 class="point-text">Окончила Ростовский институт Дружбы Народов по специальности “Педиатрия”.</h4>
-          </div>
-        </li>
-        <li class="point-list-item">
-          <div class="point-info">
-            <h3 class="point-year">1984</h3>
-            <h4 class="point-text">
-              Окончила интернатуру по специальности “Инфекционист” на базе Липецкой городской инфекционной больницы.
-            </h4>
+            <h3 class="point-year">{{ experience.start }}-{{ experience.end }}</h3>
+            <h4 class="point-text">{{ experience.place }}. {{ experience.position }}</h4>
           </div>
         </li>
       </ul>
@@ -22,9 +14,21 @@
   </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+import IDoctor from '@/interfaces/IDoctor';
+
+export default defineComponent({
+  name: 'DoctorWorkExperience',
+  props: {
+    doctor: { type: Object as PropType<IDoctor>, required: true },
+  },
+});
+</script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;
@@ -60,7 +64,7 @@ html {
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 22px;
   letter-spacing: 0.1em;
-  color: #343e5c;
+  color: $site_dark_gray;
   height: 60px;
   align-items: center;
   font-weight: bold;
@@ -79,19 +83,21 @@ html {
 
 .point-year {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
   font-size: 14px;
-  color: #a1a7bd;
-  font-weight: bold;
+  color: $site_gray;
+  font-weight: $title-font-bold-weight;
 }
 
 .point-text {
   display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 11px;
-  color: #5d6477;
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
+  font-size: $doctor-text-font-size;
+  color: $site_dark_gray;
+  font-weight: $doctor-text-font-weight;
+  line-height: $doctor-text-line-height;
 }
 
 /* Decoration of lists */
@@ -111,11 +117,11 @@ html {
 .point-list-item:before {
   content: '';
   position: absolute;
-  top: 4px;
+  top: 3px;
   left: 0;
   width: 10px;
   height: 10px;
-  border: 2px solid #a1a7bd;
+  border: 2px solid $site_gray;
   background-color: #ffffff;
   border-radius: 50%;
   z-index: 2;
@@ -128,7 +134,7 @@ html {
   left: 6px;
   width: 2px;
   height: calc(100% + 3rem);
-  background-color: #a1a7bd;
+  background-color: $site_gray;
 }
 
 .point-list-item:last-of-type:after {

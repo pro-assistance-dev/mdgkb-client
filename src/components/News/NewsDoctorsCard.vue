@@ -10,8 +10,8 @@
             @click="$router.push({ name: `DoctorPage`, params: { id: scope.row.doctor.id, slug: scope.row.doctor.human.slug } })"
           >
             <img
-              v-if="scope.row.doctor.human.photo.fileSystemPath"
-              :src="scope.row.doctor.human.photo.getImageUrl()"
+              v-if="scope.row.doctor.human.photoMini.fileSystemPath"
+              :src="scope.row.doctor.human.photoMini.getImageUrl()"
               alt="Фото врача"
               @error="errorImg"
             />

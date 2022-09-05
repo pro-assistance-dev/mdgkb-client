@@ -1,6 +1,6 @@
 <template>
   <!-- <div v-if="educations.length" class="education"> -->
-  <div class="education">
+  <div v-if="division.schedule.scheduleItems.length > 0" class="education">
     <div class="title-in">Распорядок дня</div>
     <div class="point">
       <ul class="point-list">
@@ -29,6 +29,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;
@@ -64,7 +65,7 @@ html {
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 22px;
   letter-spacing: 0.1em;
-  color: #343e5c;
+  color: $site_dark_gray;
   height: 60px;
   align-items: center;
   font-weight: bold;
@@ -115,7 +116,7 @@ html {
 .point-list-item:before {
   content: '';
   position: absolute;
-  top: 4px;
+  top: 3px;
   left: 0;
   width: 10px;
   height: 10px;

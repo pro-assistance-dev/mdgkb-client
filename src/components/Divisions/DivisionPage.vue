@@ -1,9 +1,9 @@
 <template>
   <!-- <div v-if="mount" class="division-page-container"> -->
-  <div class="division-page-container">
+  <div v-if="mounted" class="division-page-container">
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
-    <DivisionServices />
+    <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
     <DivisionSpecialists />
     <!-- <NewsSlider :news="division.newsDivisions" /> -->
@@ -20,9 +20,9 @@ import { computed, ComputedRef, defineComponent } from 'vue';
 import Comments from '@/components/Comments/Comments.vue';
 import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
-import DivisionServices from '@/components/Divisions/DivisionServices.vue';
 import DivisionSpecialists from '@/components/Divisions/DivisionSpecialists.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
+import PaidServices from '@/components/PaidServices/PaidServices.vue';
 // import IDoctor from '@/interfaces/IDoctor';
 import IDivision from '@/interfaces/buildings/IDivision';
 import countRating from '@/mixins/countRating';
@@ -33,7 +33,7 @@ export default defineComponent({
   name: 'DivisionPage',
   components: {
     DivisionInfo,
-    DivisionServices,
+    PaidServices,
     DivisionSchedule,
     DivisionSpecialists,
     // NewsSlider,
@@ -45,7 +45,6 @@ export default defineComponent({
 
   setup() {
     const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
-
     const load = async () => {
       Provider.filterQuery.value.setParams(Provider.schema.value.division.slug, Provider.route().params['id'] as string);
       await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);

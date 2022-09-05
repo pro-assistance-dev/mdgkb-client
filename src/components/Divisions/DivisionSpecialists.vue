@@ -1,12 +1,12 @@
 <template>
   <component
     :is="'MainContainer'"
+    v-if="mounted && carousel.length > 0"
     header-title="Специалисты отделения"
     header-button-title="Все врачи отделения"
     header-button-link="/doctors"
   >
     <el-carousel
-      v-if="mounted"
       ref="carouselRef"
       v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
       :interval="5000"

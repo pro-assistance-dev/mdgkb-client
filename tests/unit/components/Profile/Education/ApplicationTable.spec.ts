@@ -15,6 +15,7 @@ describe('ApplicationTable.vue', () => {
     const user = new User();
     user.formValues.push(new Form(), new Form(), new Form(), new Form());
     wrapper = mount(ApplicationTable, {
+      attachTo: document.body,
       props: {
         user: user,
       },
@@ -34,6 +35,6 @@ describe('ApplicationTable.vue', () => {
     });
     // Act
     // Assert
-    expect(wrapper.findAll('[data-test="formsList"]')).toHaveLength(user.formValues.length);
+    expect(wrapper.findAll('[data-test="forms-list"]')).toHaveLength(user.formValues.length);
   });
 });

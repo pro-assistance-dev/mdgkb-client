@@ -79,6 +79,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/doctor-info-card.scss';
+@import '@/assets/styles/elements/base-style.scss';
 
 .tag-link {
   margin: 2px;
@@ -101,5 +102,27 @@ export default defineComponent({
     cursor: pointer;
     color: darken(#a1a7bd, 20%);
   }
+}
+
+:deep(.el-rate__icon) {
+  margin: 0;
+  font-size: 18px;
+}
+:deep(.el-rate__text) {
+  margin-left: 5px;
+}
+
+.mos-doctor-img {
+  border-radius: $normal-border-radius;
+  border: $normal-border;
+  padding: 10px 15px;
+}
+
+.mos-doctor-img:hover {
+  background: $site_light_gray;
+}
+
+.mos-doctor-img:active {
+  background: #ffffff;
 }
 </style>
