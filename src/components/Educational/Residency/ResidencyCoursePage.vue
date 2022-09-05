@@ -138,7 +138,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import ResidencyApplicationForm from '@/components/Educational/Residency/ResidencyApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import chooseRandomBrandColor from '@/mixins/brandColors';
+import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';

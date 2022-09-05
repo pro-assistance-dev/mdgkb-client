@@ -97,8 +97,8 @@ import DocumentUploader from '@/components/DocumentUploader.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPublicDocumentTypePage',

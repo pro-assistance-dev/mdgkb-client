@@ -69,7 +69,7 @@ import SortList from '@/components/SortList/SortList.vue';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IDpoCourse from '@/interfaces/IDpoCourse';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';

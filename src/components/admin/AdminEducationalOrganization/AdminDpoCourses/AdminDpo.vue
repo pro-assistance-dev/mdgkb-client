@@ -60,10 +60,10 @@ import DocumentUploader from '@/components/DocumentUploader.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
-import removeFromClass from '@/mixins/removeFromClass';
-import sort from '@/mixins/sort';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import removeFromClass from '@/services/removeFromClass';
+import sort from '@/services/sort';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminDpo',

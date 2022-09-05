@@ -144,9 +144,9 @@ import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
 import ISchema from '@/interfaces/schema/ISchema';
-import removeFromClass from '@/mixins/removeFromClass';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import removeFromClass from '@/services/removeFromClass';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminDpoCoursePage',

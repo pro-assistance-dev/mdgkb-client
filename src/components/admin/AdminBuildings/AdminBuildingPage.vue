@@ -75,8 +75,8 @@ import { useStore } from 'vuex';
 
 import BuildingRules from '@/classes/buildings/BuildingRules';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminBuildingPage',

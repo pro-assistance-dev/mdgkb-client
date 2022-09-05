@@ -32,8 +32,8 @@ import { useStore } from 'vuex';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPagesPage',

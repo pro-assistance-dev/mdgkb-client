@@ -38,8 +38,8 @@
 import { defineComponent, PropType } from 'vue';
 
 import IWithComment from '@/interfaces/IWithComment';
-import buildNameNumbers from '@/mixins/buildNameNumbers';
-import countRating from '@/mixins/countRating';
+import buildNameNumbers from '@/services/buildNameNumbers';
+import countRating from '@/services/countRating';
 
 export default defineComponent({
   name: 'Rating',

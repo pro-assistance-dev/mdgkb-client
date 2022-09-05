@@ -32,7 +32,7 @@ import { useStore } from 'vuex';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import IUser from '@/interfaces/IUser';
 import ISchema from '@/interfaces/schema/ISchema';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminUserPage',

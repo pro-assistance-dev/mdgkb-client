@@ -51,7 +51,7 @@ import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { FormStatusNames } from '@/interfaces/FormStatusNames';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminFormStatusPage',

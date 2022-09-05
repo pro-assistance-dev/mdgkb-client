@@ -247,7 +247,7 @@ import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IComment from '@/interfaces/comments/IComment';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import INewsComment from '@/interfaces/news/INewsComment';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'Comments',

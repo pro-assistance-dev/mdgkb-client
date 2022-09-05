@@ -84,7 +84,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
   name: 'FieldValuesForm',

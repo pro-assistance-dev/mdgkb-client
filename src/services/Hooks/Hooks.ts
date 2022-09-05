@@ -5,8 +5,8 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 import Provider from '@/services/Provider';
 
 export interface IHooksOptions {

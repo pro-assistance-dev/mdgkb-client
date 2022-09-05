@@ -64,7 +64,7 @@ import { useStore } from 'vuex';
 import Menu from '@/classes/Menu';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IMenu from '@/interfaces/IMenu';
-import sort from '@/mixins/sort';
+import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminMenus',
   components: { draggable, Grid, UploaderSingleScan },

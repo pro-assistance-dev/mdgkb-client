@@ -117,7 +117,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IHead from '@/interfaces/IHead';
-import countRating from '@/mixins/countRating';
+import countRating from '@/services/countRating';
 
 export default {
   name: 'MedicalOrganizationStructure',

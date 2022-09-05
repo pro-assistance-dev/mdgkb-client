@@ -19,8 +19,8 @@ import { defineComponent, PropType } from 'vue';
 import draggable from 'vuedraggable';
 
 import IOrdered from '@/interfaces/IOrdered';
-import removeFromClass from '@/mixins/removeFromClass';
-import sort from '@/mixins/sort';
+import removeFromClass from '@/services/removeFromClass';
+import sort from '@/services/sort';
 export default defineComponent({
   name: 'SortableInputsList',
   components: { draggable },
