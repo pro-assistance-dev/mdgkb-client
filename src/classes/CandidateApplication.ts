@@ -6,7 +6,7 @@ import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateApplicationSpecialization from '@/interfaces/ICandidateApplicationSpecialization';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 
 import Form from './Form';
 

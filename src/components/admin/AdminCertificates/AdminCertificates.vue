@@ -21,8 +21,8 @@ import { useStore } from 'vuex';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import ICertificatesWithDeleted from '@/interfaces/ICertificatesWithDeleted';
-import removeFromClass from '@/mixins/removeFromClass';
-import sort from '@/mixins/sort';
+import removeFromClass from '@/services/removeFromClass';
+import sort from '@/services/sort';
 
 export default defineComponent({
   name: 'AdminCertificates',

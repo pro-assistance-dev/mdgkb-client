@@ -10,7 +10,7 @@ import { computed, defineComponent, PropType, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import IOrdered from '@/interfaces/IOrdered';
-import { moveDown, moveUp } from '@/mixins/moves';
+import { moveDown, moveUp } from '@/services/moves';
 export default defineComponent({
   name: 'TableMover',
   props: {

@@ -1,7 +1,7 @@
 import PathPermissionRole from '@/classes/PathPermissionRole';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 
 export default class PathPermission implements IPathPermission {
   id?: string;

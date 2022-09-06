@@ -91,8 +91,8 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminNewsSlidePage',

@@ -15,8 +15,8 @@ import { useStore } from 'vuex';
 import AdminPaidProgramOptions from '@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramOptions.vue';
 import AdminPaidProgramPackages from '@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramPackages.vue';
 import IPaidProgram from '@/interfaces/IPaidProgram';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminQuestionPage',

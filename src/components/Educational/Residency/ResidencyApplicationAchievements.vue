@@ -45,7 +45,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import FileUploader from '@/components/FileUploader.vue';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 import Provider from '@/services/Provider';
 
 export default defineComponent({

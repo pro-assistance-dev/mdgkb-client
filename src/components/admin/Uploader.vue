@@ -32,8 +32,8 @@ import NormativeDocumentRules from '@/classes/normativeDocument/NormativeDocumen
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import INormativeDocument from '@/interfaces/normativeDocument/INormativeDocument';
 import INormativeDocumentType from '@/interfaces/normativeDocument/INormativeDocumentType';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'Uploader',

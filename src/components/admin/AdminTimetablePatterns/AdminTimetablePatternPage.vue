@@ -20,7 +20,7 @@ import { useStore } from 'vuex';
 import Timetable from '@/classes/timetable/Timetable';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import ITimetable from '@/interfaces/timetables/ITimetable';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 export default defineComponent({
   name: 'AdminTimetablePatternPage',
   components: { TimetableConstructorV2 },

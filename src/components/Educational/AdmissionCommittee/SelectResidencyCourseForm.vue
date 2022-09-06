@@ -29,7 +29,7 @@
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import buildNameNumbers from '@/mixins/buildNameNumbers';
+import buildNameNumbers from '@/services/buildNameNumbers';
 import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'SelectResidencyCourseForm',
