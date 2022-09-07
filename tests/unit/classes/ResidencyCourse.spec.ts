@@ -7,6 +7,7 @@ import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import ResidencyCourseSpecialization from '@/classes/ResidencyCourseSpecialization';
 import ResidencyCourseTeacher from '@/classes/ResidencyCourseTeacher';
+import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 
@@ -169,5 +170,81 @@ describe('Class ResidencyCourse', () => {
     expect(residencyCourse.residencyCoursesTeachers[NaN]).toBeUndefined();
     expect(residencyCourse.residencyCoursesTeachers[3]).toBeUndefined();
     expect(residencyCourse.residencyCoursesTeachers[-1]).toBeUndefined();
+  });
+
+  test('getMainTeacher() находит и возвращает главного преподавателя', () => {
+    // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const Teacher = new ResidencyCourseTeacher();
+    const Teacher1 = new ResidencyCourseTeacher();
+    const Teacher2 = new ResidencyCourseTeacher();
+
+    residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
+    residencyCourse.residencyCoursesTeachers[1].main = true;
+
+    // Act
+    residencyCourse.getMainTeacher();
+
+    // Assert
+    expect(residencyCourse.residencyCoursesTeachers[1].teacher).toEqual(Teacher.teacher);
+  });
+
+  test('getMainTeacher() не находит главного преподавателя', () => {
+    // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const Teacher = new ResidencyCourseTeacher();
+    const Teacher1 = new ResidencyCourseTeacher();
+    const Teacher2 = new ResidencyCourseTeacher();
+
+    residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
+
+    // Act
+    residencyCourse.getMainTeacher();
+
+    // Assert
+    expect(residencyCourse.getMainTeacher()).toBeUndefined();
+  });
+
+  test('addSpecialization() добавляет одну специализацию и устанавливает для неё внешний ключ', () => {
+    // Arrange
+
+    // Act
+    residencyCourse = new ResidencyCourse();
+    expect(residencyCourse.residencyCoursesSpecializations.length).toBe(0);
+    const specializationForAdding = new Specialization();
+    specializationForAdding.id = uuidv4();
+    residencyCourse.addSpecialization(specializationForAdding);
+
+    // Assert
+    expect(residencyCourse.residencyCoursesSpecializations.length).toBe(1);
+    expect(residencyCourse.residencyCoursesSpecializations[0].specializationId).toBe(specializationForAdding.id);
+  });
+
+  test('findSpecialization() ищет специализацию по specializationId', () => {
+    // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const Specialization1 = new ResidencyCourseSpecialization();
+    Specialization1.id = uuidv4();
+    Specialization1.specializationId = uuidv4();
+
+    const Specialization2 = new ResidencyCourseSpecialization();
+    Specialization2.id = uuidv4();
+    Specialization2.specializationId = uuidv4();
+
+    const Specialization3 = new ResidencyCourseSpecialization();
+    Specialization3.id = uuidv4();
+    Specialization3.specializationId = uuidv4();
+
+    residencyCourse.residencyCoursesSpecializations.push(Specialization1, Specialization2);
+
+    // Act
+
+    // Assert
+    expect(residencyCourse.findSpecialization(Specialization1.specializationId)).toBe(true);
+    expect(residencyCourse.findSpecialization(Specialization2.specializationId)).toBe(true);
+    expect(residencyCourse.findSpecialization(Specialization3.specializationId)).toBe(false);
   });
 });
