@@ -1,0 +1,61 @@
+<template>
+  <div v-if="true" class="Date-and-time">
+    <div class="title-in">Дата и время приема</div>
+  </div>
+</template>
+
+<script lang="ts">
+import { computed, ComputedRef, defineComponent } from 'vue';
+
+export default defineComponent({
+    name: 'DivisionDateAndTime',
+    setup() {
+        
+    },
+})
+</script>
+
+
+<style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+*,
+::after,
+::before {
+  box-sizing: initial;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.Date-and-time {
+  display: block;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-clip: padding-box;
+  margin-top: 30px;
+  padding: 0px 40px 0px 23px;
+}
+
+.title-in {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: $site_dark_gray;
+  height: 60px;
+  align-items: center;
+  font-weight: bold;
+}
+</style>
