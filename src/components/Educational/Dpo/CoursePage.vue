@@ -103,7 +103,7 @@ import SharesBlock from '@/components/SharesBlock.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import ISchema from '@/interfaces/schema/ISchema';
-import chooseRandomBrandColor from '@/mixins/brandColors';
+import chooseRandomBrandColor from '@/services/brandColors';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({

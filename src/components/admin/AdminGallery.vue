@@ -21,8 +21,8 @@ import draggable from 'vuedraggable';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IFiler from '@/interfaces/IFiler';
-import removeFromClass from '@/mixins/removeFromClass';
-import sort from '@/mixins/sort';
+import removeFromClass from '@/services/removeFromClass';
+import sort from '@/services/sort';
 
 export default defineComponent({
   name: 'AdminGallery',

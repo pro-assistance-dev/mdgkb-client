@@ -14,7 +14,7 @@ import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecial
 import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 
 import Form from './Form';
 

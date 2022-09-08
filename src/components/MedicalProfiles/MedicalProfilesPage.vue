@@ -81,7 +81,7 @@ import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
-import chooseRandomBrandColor from '@/mixins/brandColors';
+import chooseRandomBrandColor from '@/services/brandColors';
 export default defineComponent({
   name: 'MedicalProfileList',
   components: { SharesBlock, BaseIcon, HelpProfileIcon, EyeOutlined },

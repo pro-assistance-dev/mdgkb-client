@@ -40,7 +40,7 @@ import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 export default defineComponent({
   name: 'AdminEducationalOrganizationTeachers',
   components: { TableButtonGroup },

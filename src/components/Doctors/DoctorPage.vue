@@ -28,7 +28,7 @@ import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
 import IDoctor from '@/interfaces/IDoctor';
-import countRating from '@/mixins/countRating';
+import countRating from '@/services/countRating';
 
 export default defineComponent({
   name: 'DoctorPage',

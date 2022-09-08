@@ -62,9 +62,9 @@ import CardHeader from '@/components/admin/CardHeader.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
 import IValueType from '@/interfaces/IValueType';
-import removeFromClass from '@/mixins/removeFromClass';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import removeFromClass from '@/services/removeFromClass';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminDocumentTypePage',

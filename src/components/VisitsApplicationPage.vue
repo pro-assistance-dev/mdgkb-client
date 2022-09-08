@@ -98,7 +98,7 @@ import IGate from '@/interfaces/IGate';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IUser from '@/interfaces/IUser';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 

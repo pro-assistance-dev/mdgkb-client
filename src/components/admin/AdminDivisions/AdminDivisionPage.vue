@@ -130,9 +130,9 @@ import IEntrance from '@/interfaces/buildings/IEntrance';
 import IFloor from '@/interfaces/buildings/IFloor';
 import IDoctor from '@/interfaces/IDoctor';
 import ISearchObject from '@/interfaces/ISearchObject';
-import removeFromClass from '@/mixins/removeFromClass';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import removeFromClass from '@/services/removeFromClass';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 

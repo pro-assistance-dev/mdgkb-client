@@ -76,7 +76,7 @@ import { useStore } from 'vuex';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'QuestionForm',

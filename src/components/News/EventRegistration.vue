@@ -33,7 +33,7 @@ import DatePicker from '@/components/DatePicker.vue';
 import IUser from '@/interfaces/IUser';
 import IEvent from '@/interfaces/news/IEvent';
 import IEventApplication from '@/interfaces/news/IEventApplication';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'EventRegistration',

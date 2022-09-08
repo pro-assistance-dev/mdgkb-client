@@ -110,7 +110,7 @@ import { useStore } from 'vuex';
 
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISchema from '@/interfaces/schema/ISchema';
-import buildNameNumbers from '@/mixins/buildNameNumbers';
+import buildNameNumbers from '@/services/buildNameNumbers';
 export default defineComponent({
   name: 'PostgraduateCoursesList',
   setup() {

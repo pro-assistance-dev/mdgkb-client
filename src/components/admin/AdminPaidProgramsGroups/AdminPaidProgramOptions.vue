@@ -65,7 +65,7 @@ import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
 import IPaidProgram from '@/interfaces/IPaidProgram';
-import sort from '@/mixins/sort';
+import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminPaidProgramOptions',
   components: { draggable, Grid },

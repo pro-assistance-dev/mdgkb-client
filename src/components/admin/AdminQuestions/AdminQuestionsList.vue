@@ -61,7 +61,7 @@ import SortListV2 from '@/components/SortList/SortListV2.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';

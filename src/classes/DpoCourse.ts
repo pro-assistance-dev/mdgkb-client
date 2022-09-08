@@ -10,7 +10,7 @@ import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
 import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 import DateTimeFormatter from '@/services/DateFormat';
 
 import Form from './Form';

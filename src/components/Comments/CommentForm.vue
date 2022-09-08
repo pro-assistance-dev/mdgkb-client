@@ -31,7 +31,7 @@ import CommentRules from '@/classes/news/CommentRules';
 import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import INewsComment from '@/interfaces/news/INewsComment';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'CommentForm',

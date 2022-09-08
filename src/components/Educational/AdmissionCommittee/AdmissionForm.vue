@@ -65,7 +65,7 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IUser from '@/interfaces/IUser';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
 

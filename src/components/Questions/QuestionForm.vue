@@ -79,7 +79,7 @@ import FileUploader from '@/components/FileUploader.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'QuestionForm',
@@ -146,7 +146,7 @@ export default defineComponent({
 // import IForm from '@/interfaces/IForm';
 // import IQuestion from '@/interfaces/IQuestion';
 // import IUser from '@/interfaces/IUser';
-// import validate from '@/mixins/validate';
+// import validate from '@/services/validate';
 
 // export default defineComponent({
 //   name: 'QuestionForm',
