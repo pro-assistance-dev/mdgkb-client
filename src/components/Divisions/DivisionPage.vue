@@ -8,7 +8,7 @@
     <DivisionSpecialists />
     <NewsSlider :news="division.newsDivisions" />
     <DivisionCertificates />
-    <DivisionDateAndTime />
+    <DivisionDateAndTime :division="division"/>
     <!-- <ImageGallery :images="division.divisionImages" /> -->
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
