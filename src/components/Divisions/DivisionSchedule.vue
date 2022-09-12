@@ -1,16 +1,47 @@
 <template>
   <!-- <div v-if="educations.length" class="education"> -->
-  <div v-if="division.schedule.scheduleItems.length > 0" class="education">
+  <!-- <div v-if="division.schedule.scheduleItems.length > 0" class="education"> -->
+  <div class="schedule">
     <div class="title-in">Распорядок дня</div>
-    <div class="point">
-      <ul class="point-list">
-        <!-- <li v-for="education in educations" :key="education.id" class="point-list-item"> -->
-        <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item">
-          <div class="point-info">
-            <h4 class="point-text">{{ item.getPeriodWithName() }}</h4>
-          </div>
-        </li>
-      </ul>
+    <div class="block">
+    <div class="left-block">
+      <div class="point">
+        <ul class="point-list">
+          <!-- <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item"> -->
+          <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item">
+            <div class="point-info">
+              <h4 class="point-text">{{ item }}</h4>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="right-block">
+      <div class="rules-text">
+        <h4 class="point-text">Время проведения медицинских процедур осуществляется согласно назначениям лечащего врача.</h4><br>
+        <h4 class="point-text">За нарушение режима и <a href=#>Правил внутреннего распорядка стационара</a> Пациент (законный представитель) может быть досрочно выписан с соответствующей отметкой в больничном листке или справке.</h4>   
+      </div>
+      <div class="rules-list">
+        <div class="rules-list-title">Нарушением считается:</div>
+        <ul class="schedule-list">
+          <li class="schedule-list-item">
+            <h4 class="point-text">Грубое или неуважительное отношение к персоналу</h4>
+          </li>
+          <li class="schedule-list-item">
+            <h4 class="point-text">Несоблюдение требований и рекомендаций врача</h4>
+          </li>
+          <li class="schedule-list-item">
+            <h4 class="point-text">Прием лекарственных препаратов по собственному усмотрению</h4>
+          </li>
+          <li class="schedule-list-item">
+            <h4 class="point-text">Самовольное оставление учреждения до завершения курса лечения</h4>
+          </li> 
+          <li class="schedule-list-item">
+            <h4 class="point-text">Выход за пределы территории</h4>
+          </li>                     
+        </ul>
+      </div>
+    </div>
     </div>
   </div>
 </template>
@@ -51,13 +82,33 @@ html {
 }
 
 .education {
-  display: block;
   background: #ffffff;
   border-radius: 5px;
   border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
-  padding: 0px 40px 0px 23px;
+  height: auto;
+  // padding: 0px 25px 0px 23px;
+}
+
+.block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-block {
+  display: flex;
+  min-height: 10px;
+  width: 100%;
+  margin: 0 25px;
+}
+
+.right-block {
+  display: block;
+  min-width: 300px;
+  max-width: 420px;
+  height: auto;
+  margin: 0 25px;
 }
 
 .title-in {
@@ -79,7 +130,7 @@ html {
 .point-info {
   display: block;
   height: auto;
-  margin: 10px 0px 0px 5px;
+  margin: 3px 0px 0px 5px;
 }
 
 .point-year {
@@ -92,11 +143,12 @@ html {
 }
 
 .point-text {
-  display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  letter-spacing: 0.1em;
-  font-size: 11px;
-  color: #5d6477;
+  font-family: $title-font;
+  letter-spacing: $doctor-text-letter-spacing;
+  font-size: $doctor-text-font-size;
+  color: $site_dark_gray;
+  font-weight: $doctor-text-font-weight;
+  line-height: 150%;
 }
 
 /* Decoration of lists */
@@ -108,7 +160,7 @@ html {
 }
 
 .point-list-item {
-  margin-bottom: 1rem;
+  margin: 0rem;
   padding-left: 25px;
   position: relative;
 }
@@ -129,14 +181,59 @@ html {
 .point-list-item:after {
   content: '';
   position: absolute;
-  top: -8px;
+  top: -4px;
   left: 6px;
   width: 2px;
-  height: calc(100% + 3rem);
+  height: calc(100% + 1rem);
   background-color: #a1a7bd;
 }
 
 .point-list-item:last-of-type:after {
-  height: calc(100% + 1.3rem);
+  height: calc(100% + 0.8rem);
+}
+
+.rules-list-title {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  color: $site_dark_gray;
+  height: 80px;
+  align-items: center;
+  font-weight: bold;
+}
+
+.schedule {
+  display: block;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-clip: padding-box;
+  margin-top: 30px;
+  padding: 0px 25px 25px 25px;
+}
+
+.schedule-list {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.schedule-list-item {
+  margin-bottom: 0.5rem;
+  padding-left: 25px;
+  position: relative;
+  margin-left: 10px;
+}
+
+.schedule-list-item:before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background-color: $main_red;
+  border-radius: 50%;
 }
 </style>

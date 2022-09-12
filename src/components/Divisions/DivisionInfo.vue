@@ -11,7 +11,6 @@
           <FavouriteIcon :domain-id="division.id" :domain-name="'division'" />
         </div>
       </div>
-      <!-- <Rating :comments="doctor.doctorComments" /> -->
     </div>
 
     <div class="card-item-middle">
@@ -23,6 +22,7 @@
       <div class="division-name">
         <!-- {{ doctor.human.getFullName() }} -->
         {{ division.name }}
+        <Rating :comments="division.divisionComments" />
       </div>
       <div class="card-item-middle-bottom">
         <div class="info-block">
@@ -143,9 +143,12 @@
     </div>
 
     <div class="card-item-right">
-      <button @click="$router.push('/appointments/oms')">Запись на прием</button>
+      <a @click="$scroll('#block-footer')">
+        <button>Запись на прием</button>
+      </a>
+      
       <!-- <a v-if="doctor.onlineDoctorId" :href="doctor.getOnlineDoctorLink()" target="_blank"> -->
-      <!--      <button class="consult">Онлайн консультация</button>-->
+        <!-- <button class="consult">Онлайн консультация</button> -->
       <!-- </a> -->
       <a @click="$scroll('#leave-a-review')">
         <button class="review">Оставить отзыв</button>
@@ -219,12 +222,13 @@ import { defineComponent, PropType } from 'vue';
 
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
+import Rating from '@/components/Rating.vue';
 
 export default defineComponent({
   name: 'DivisionInfo',
   components: {
     FavouriteIcon,
-    // Rating
+    Rating
   },
   props: {
     division: { type: Object as PropType<IDivision>, required: true },
@@ -240,5 +244,9 @@ export default defineComponent({
   width: 290px;
   height: 290px;
   background: #c4c4c4;
+}
+
+.division-name {
+  margin: 0px;
 }
 </style>

@@ -6,10 +6,11 @@
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
     <DivisionSpecialists />
-    <!-- <NewsSlider :news="division.newsDivisions" /> -->
+    <NewsSlider :news="division.newsDoctors" />
     <!-- <DivisionCertificates /> -->
-    <!-- <DivisionDateAndTime /> -->
-    <ImageGallery :images="division.divisionImages" />
+    <ScansSlider :gallery-elements="division.certificates" />
+    <DivisionDateAndTime :division="division"/>
+    <!-- <ImageGallery :images="division.divisionImages" /> -->
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
@@ -28,6 +29,10 @@ import IDivision from '@/interfaces/buildings/IDivision';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import NewsSlider from '@/components/NewsSlider.vue';
+import DivisionCertificates from '@/components/Divisions/DivisionCertificates.vue';
+import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
+import ScansSlider from '@/components/ScansSlider.vue';
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -36,11 +41,12 @@ export default defineComponent({
     PaidServices,
     DivisionSchedule,
     DivisionSpecialists,
-    // NewsSlider,
-    // DivisionCertificates,
-    // DivisionDateAndTime,
+    NewsSlider,
+    DivisionCertificates,
+    DivisionDateAndTime,
     ImageGallery,
     Comments,
+    ScansSlider,
   },
 
   setup() {

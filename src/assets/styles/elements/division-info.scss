@@ -161,7 +161,7 @@
   .icon-block {
     display: flex;
     justify-content: left;
-    margin-left: 15px;
+    margin-left: -3px;
     height: 40px;
     align-items: center;
   }
@@ -170,7 +170,7 @@
     width: 24px;
     height: 24px;
     fill: #31ae5e;
-    margin-left: 10px;
+    margin-left: 0px;
     &:hover {
       cursor: pointer;
       fill: lighten(#31af5e, 10%);
