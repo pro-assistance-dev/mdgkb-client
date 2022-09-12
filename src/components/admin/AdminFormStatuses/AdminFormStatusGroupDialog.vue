@@ -19,7 +19,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, WritableComputedRef } from 'vue';
 
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 import Provider from '@/services/Provider';
 
 export default defineComponent({

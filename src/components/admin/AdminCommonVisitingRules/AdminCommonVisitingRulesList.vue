@@ -46,7 +46,7 @@ import { useStore } from 'vuex';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import IVisitingRule from '@/interfaces/IVisitingRule';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminCommonVisitingRulesList',

@@ -42,7 +42,7 @@ import EducationalManager from '@/classes/EducationalManager';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 export default defineComponent({
   name: 'AdminEducationalOrganizationManagers',
   components: { TableButtonGroup },

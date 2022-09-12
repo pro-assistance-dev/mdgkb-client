@@ -35,8 +35,8 @@ import Division from '@/classes/buildings/Division';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IBanner from '@/interfaces/banners/IBanner';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminBannerPage',

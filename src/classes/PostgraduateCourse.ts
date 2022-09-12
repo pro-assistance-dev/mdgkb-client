@@ -16,7 +16,7 @@ import IPostgraduateCourseSpecialization from '@/interfaces/IPostgraduateCourseS
 import IPostgraduateCourseTeacher from '@/interfaces/IPostgraduateCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 import DateTimeFormatter from '@/services/DateFormat';
 
 import Form from './Form';

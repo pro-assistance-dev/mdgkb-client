@@ -44,8 +44,8 @@ import WithDocumentType from '@/classes/WithDocumentType';
 import AdminDocumentsForm from '@/components/admin/AdminDocumentsTypes/AdminDocumentsForm.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IWithDocumentType from '@/interfaces/IWithDocumentType';
-import removeFromClass from '@/mixins/removeFromClass';
-import sort from '@/mixins/sort';
+import removeFromClass from '@/services/removeFromClass';
+import sort from '@/services/sort';
 import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'AdminDocumentTypesForm',

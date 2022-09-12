@@ -31,7 +31,7 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IUser from '@/interfaces/IUser';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({

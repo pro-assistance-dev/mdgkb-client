@@ -49,8 +49,8 @@ import SideOrganization from '@/classes/sideOrganization/SideOrganization';
 import SideOrganizationRules from '@/classes/sideOrganization/SideOrganizationRules';
 import AdminContactAttribute from '@/components/admin/Contacts/AdminContactAttribute.vue';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminSideOrganizationPage',

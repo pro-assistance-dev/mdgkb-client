@@ -137,7 +137,7 @@ import { computed, Ref } from 'vue';
 
 import ContactBlock from '@/components/ContactBlock.vue';
 import IHead from '@/interfaces/IHead';
-import countRating from '@/mixins/countRating';
+import countRating from '@/services/countRating';
 import Provider from '@/services/Provider';
 
 export default {

@@ -32,7 +32,7 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IUser from '@/interfaces/IUser';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({

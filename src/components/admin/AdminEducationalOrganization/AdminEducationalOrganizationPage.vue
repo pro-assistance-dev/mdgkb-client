@@ -135,9 +135,9 @@ import AdminEducationalOrganizationManagers from '@/components/admin/AdminEducat
 import AdminEducationalOrganizationTeachers from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationTeachers.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
-import sort from '@/mixins/sort';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import sort from '@/services/sort';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 export default defineComponent({
   name: 'AdminEducationalOrganizationPage',
   components: {

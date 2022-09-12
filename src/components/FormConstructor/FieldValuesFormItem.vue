@@ -82,7 +82,7 @@ import FileUploader from '@/components/FileUploader.vue';
 import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
 import IForm from '@/interfaces/IForm';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
   name: 'FieldValuesFormItem',

@@ -164,7 +164,7 @@ import SharesBlock from '@/components/SharesBlock.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISchema from '@/interfaces/schema/ISchema';
-import chooseRandomBrandColor from '@/mixins/brandColors';
+import chooseRandomBrandColor from '@/services/brandColors';
 import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'PostgraduateCoursePage',

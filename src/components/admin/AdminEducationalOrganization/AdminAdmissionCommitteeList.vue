@@ -26,7 +26,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDocumentType';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';

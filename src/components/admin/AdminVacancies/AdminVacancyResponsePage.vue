@@ -14,8 +14,8 @@ import { useStore } from 'vuex';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminVacancyResponsePage',
