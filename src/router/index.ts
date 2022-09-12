@@ -42,7 +42,6 @@ import VacanciesRoutes from '@/router/VacanciesRoutes';
 import scroll from '@/services/Scroll';
 import TokenService from '@/services/Token';
 import UserService from '@/services/User';
-import MainLayout from '@/views/main/MainLayout.vue';
 
 import store from '../store/index';
 
@@ -80,8 +79,6 @@ export const adminGuard = async (to: RouteLocationNormalized, from: RouteLocatio
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'MainLayout',
-    component: MainLayout,
     redirect: '/main',
     beforeEnter(to, from, next) {
       isAuthorized(next);
