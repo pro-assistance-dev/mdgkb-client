@@ -8,96 +8,11 @@
       <div class="point">
         <ul class="point-list">
           <!-- <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item"> -->
-          <li class="point-list-item">
+          <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item">
             <div class="point-info">
-              <h4 class="point-text">Подъем</h4>
+              <h4 class="point-text">{{ item }}</h4>
             </div>
           </li>
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура 1</h4>
-            </div>
-          </li>
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура 2</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура Отличная модная процедура 3</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура 4</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура 5</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура 6</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура Отличная модная процедура 7</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура Отличная модная процедура 8</h4>
-            </div>
-          </li>
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура 9</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура 10</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура Отличная модная процедура 11</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура Отличная модная процедура 12</h4>
-            </div>
-          </li>
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура 13</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура 14</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура Отличная модная процедура 15</h4>
-            </div>
-          </li> 
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура Отличная модная процедура Отличная модная процедура  16</h4>
-            </div>
-          </li>
-          <li class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">Отличная модная процедура Отличная модная процедура Отличная модная процедура 17</h4>
-            </div>
-          </li> 
         </ul>
       </div>
     </div>
