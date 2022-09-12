@@ -3,7 +3,7 @@
     <template #header>
       <RemoteSearch :key-value="schema.doctor.key" placeholder="Начните вводить ФИО врача" @select="selectSearch" />
       <FiltersList :models="createGenderFilterModels()" @load="loadDoctors" />
-      <!-- <FilterSelect
+      <FilterSelect
         placeholder="Отделение"
         :options="schema.division.options"
         :table="schema.doctor.tableName"
@@ -11,7 +11,7 @@
         :operator="Operators.Eq"
         :data-type="DataTypes.String"
         @load="loadDoctors"
-      /> -->
+      />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadDoctors" />
@@ -58,7 +58,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-// import FilterSelect from '@/components/Filters/FilterSelect.vue';
+import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
@@ -76,7 +76,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDoctorsList',
-  components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
+  components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList, FilterSelect },
   setup() {
     const doctors = computed(() => Provider.store.getters['doctors/items']);
     const genderFilter: Ref<IFilterModel> = ref(new FilterModel());
