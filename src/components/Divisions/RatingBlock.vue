@@ -17,8 +17,8 @@
 import { defineComponent, PropType } from 'vue';
 
 import IDivision from '@/interfaces/buildings/IDivision';
-import buildNameNumbers from '@/mixins/buildNameNumbers';
-import countRating from '@/mixins/countRating';
+import buildNameNumbers from '@/services/buildNameNumbers';
+import countRating from '@/services/countRating';
 export default defineComponent({
   name: 'RatingBlock',
   props: {

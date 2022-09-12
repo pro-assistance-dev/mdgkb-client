@@ -23,7 +23,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import IRole from '@/interfaces/IRole';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminRolePage',

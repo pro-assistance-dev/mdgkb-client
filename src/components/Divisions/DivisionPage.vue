@@ -25,7 +25,7 @@ import ImageGallery from '@/components/ImageGallery.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 // import IDoctor from '@/interfaces/IDoctor';
 import IDivision from '@/interfaces/buildings/IDivision';
-import countRating from '@/mixins/countRating';
+import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 

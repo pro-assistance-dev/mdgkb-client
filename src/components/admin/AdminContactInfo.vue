@@ -79,7 +79,7 @@ import { useStore } from 'vuex';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IHuman from '@/interfaces/IHuman';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 export default defineComponent({
   name: 'AdminContactInfo',
   components: { TableButtonGroup },

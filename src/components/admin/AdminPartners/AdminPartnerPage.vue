@@ -33,8 +33,8 @@ import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IPartner from '@/interfaces/partners/IPartner';
 import IPartnerType from '@/interfaces/partners/IPartnerType';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPartnerPage',

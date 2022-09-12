@@ -4,7 +4,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 
 import Form from './Form';
 import ResidencyCourse from './ResidencyCourse';

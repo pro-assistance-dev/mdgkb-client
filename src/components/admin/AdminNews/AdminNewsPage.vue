@@ -82,9 +82,9 @@ import ImageCropper from '@/components/admin/ImageCropper.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import INews from '@/interfaces/news/INews';
-import removeFromClass from '@/mixins/removeFromClass';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import removeFromClass from '@/services/removeFromClass';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 

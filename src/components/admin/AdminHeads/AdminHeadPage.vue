@@ -73,8 +73,8 @@ import ImageCropper from '@/components/admin/ImageCropper.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IHead from '@/interfaces/IHead';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminHeadPage',

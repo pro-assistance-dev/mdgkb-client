@@ -9,7 +9,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import IOrdered from '@/interfaces/IOrdered';
-import { moveDown, moveUp } from '@/mixins/moves';
+import { moveDown, moveUp } from '@/services/moves';
 export default defineComponent({
   name: 'TableMover',
   props: {

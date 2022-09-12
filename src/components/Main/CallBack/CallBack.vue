@@ -58,7 +58,7 @@ import { useStore } from 'vuex';
 
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import ICallbackRequest from '@/interfaces/ICallbackRequest';
-import validate from '@/mixins/validate';
+import validate from '@/services/validate';
 import PhoneService from '@/services/PhoneService';
 
 export default defineComponent({

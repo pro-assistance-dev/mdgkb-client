@@ -38,7 +38,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
 import IDocumentType from '@/interfaces/document/IDocumentType';
-import removeFromClass from '@/mixins/removeFromClass';
+import removeFromClass from '@/services/removeFromClass';
 import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'AdminDocumentsForm',

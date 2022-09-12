@@ -121,7 +121,7 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IOption from '@/interfaces/schema/IOption';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';

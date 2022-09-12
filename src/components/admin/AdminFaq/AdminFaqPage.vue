@@ -21,8 +21,8 @@ import { useStore } from 'vuex';
 
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IFaq from '@/interfaces/IFaq';
-import useConfirmLeavePage from '@/mixins/useConfirmLeavePage';
-import validate from '@/mixins/validate';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminFaqPage',

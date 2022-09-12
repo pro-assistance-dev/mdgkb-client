@@ -35,7 +35,7 @@ import { useStore } from 'vuex';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
 import IMenu from '@/interfaces/IMenu';
-import sort from '@/mixins/sort';
+import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminDonorRules',
   components: { draggable, Grid, UploaderSingleScan },
