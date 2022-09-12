@@ -56,7 +56,7 @@
       <template #header>
         <span>Форма для подачи заявления</span>
       </template>
-      <FieldValuesForm :active-fields="activeFields" :form="formValue" />
+      <FieldValuesForm :active-fields="activeFields" :form="formValue" :show-additional-files="true" />
     </el-card>
 
     <div v-else>

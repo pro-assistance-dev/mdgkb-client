@@ -1,103 +1,132 @@
 <template>
-  <div v-if="mounted" class="flex-column">
-    <RemoteSearch :key-value="schema.doctor.key" @select="selectSearch" />
-    <el-card>
-      <el-table :data="doctors" :border="false">
-        <el-table-column label="ФИО" sortable>
-          <template #default="scope">
-            {{ scope.row.human.getFullName() }}
-          </template>
-        </el-table-column>
-        <el-table-column label="Пол" align="center" sortable>
-          <template #default="scope">
-            {{ scope.row.human.getGender() }}
-          </template>
-        </el-table-column>
-        <el-table-column label="Дата рождения" sortable>
-          <template #default="scope">
-            {{ $dateTimeFormatter.format(scope.row.human.dateBirth) }}
-          </template>
-        </el-table-column>
-        <el-table-column label="Отделение" sortable>
-          <template #default="scope">
-            <el-tag
-              v-if="scope.row.division.name"
-              class="tag-link"
-              size="small"
-              @click="$router.push(`/admin/divisions/${scope.row.division.id}`)"
-            >
-              {{ scope.row.division.name }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column width="50" fixed="right" align="center">
-          <template #default="scope">
-            <TableButtonGroup
-              :show-edit-button="true"
-              :show-remove-button="true"
-              @edit="edit(scope.row.human.slug)"
-              @remove="remove(scope.row.id)"
-            />
-          </template>
-        </el-table-column>
-      </el-table>
-      <Pagination />
-    </el-card>
-  </div>
+  <AdminListWrapper v-if="mounted" pagination show-header>
+    <template #header>
+      <RemoteSearch :key-value="schema.doctor.key" placeholder="Начните вводить ФИО врача" @select="selectSearch" />
+      <FiltersList :models="createGenderFilterModels()" @load="loadDoctors" />
+      <FilterSelect
+        placeholder="Отделение"
+        :options="schema.division.options"
+        :table="schema.doctor.tableName"
+        :col="schema.doctor.divisionId"
+        :operator="Operators.Eq"
+        :data-type="DataTypes.String"
+        @load="loadDoctors"
+      />
+    </template>
+    <template #sort>
+      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadDoctors" />
+    </template>
+    <el-table :data="doctors" :border="false">
+      <el-table-column label="ФИО" sortable>
+        <template #default="scope">
+          {{ scope.row.human.getFullName() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Пол" align="center" sortable>
+        <template #default="scope">
+          {{ scope.row.human.getGender() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Дата рождения" sortable>
+        <template #default="scope">
+          {{ $dateTimeFormatter.format(scope.row.human.dateBirth) }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Отделение" sortable>
+        <template #default="scope">
+          <router-link v-if="scope.row.division.name" :to="`/admin/divisions/${scope.row.division.id}`">{{
+            scope.row.division.name
+          }}</router-link>
+        </template>
+      </el-table-column>
+      <el-table-column width="50" fixed="right" align="center">
+        <template #default="scope">
+          <TableButtonGroup
+            :show-edit-button="true"
+            :show-remove-button="true"
+            @edit="edit(scope.row.human.slug)"
+            @remove="remove(scope.row.id)"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
-import SortModel from '@/classes/filters/SortModel';
-import Pagination from '@/components/admin/Pagination.vue';
+import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FilterSelect from '@/components/Filters/FilterSelect.vue';
+import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import SortList from '@/components/SortList/SortList.vue';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
+import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import ISearchObject from '@/interfaces/ISearchObject';
-import ISchema from '@/interfaces/schema/ISchema';
+import createSortModels from '@/services/CreateSortModels';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import DoctorsFiltersLib from '@/services/Provider/libs/filters/DoctorsFiltersLib';
+import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDoctorsList',
-  components: { TableButtonGroup, Pagination, RemoteSearch },
+  components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList, FilterSelect },
   setup() {
-    const store = useStore();
-    const router = useRouter();
-    const doctors = computed(() => store.getters['doctors/items']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const mounted: Ref<boolean> = ref(false);
+    const doctors = computed(() => Provider.store.getters['doctors/items']);
+    const genderFilter: Ref<IFilterModel> = ref(new FilterModel());
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      store.commit('filter/setStoreModule', 'doctors');
-      store.commit('filter/setAction', 'getAllAdmin');
-      store.commit(
-        'filter/replaceSortModel',
-        SortModel.CreateSortModel(schema.value.doctor.tableName, schema.value.doctor.fullName, Orders.Asc, 'По алфавиту', true)
-      );
-      filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('doctors/getAllAdmin', filterQuery.value);
-
-      store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
-      store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
-      mounted.value = true;
-    });
-
-    const create = () => router.push(`/admin/doctors/new`);
-    const edit = (slug: string) => router.push(`/admin/doctors/${slug}`);
-    const remove = async (id: string) => await store.dispatch('doctors/remove', id);
-    const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push({ name: `AdminEditDoctorPage`, params: { id: event.value } });
+    const loadDoctors = async () => {
+      await Provider.store.dispatch('doctors/getAllAdmin', Provider.filterQuery.value);
     };
 
-    return { doctors, remove, edit, create, mounted, schema, selectSearch };
+    const load = async () => {
+      Provider.setSortList(...createSortModels(DoctorsSortsLib));
+      Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
+      await loadDoctors();
+      Provider.store.commit('admin/setHeaderParams', {
+        title: 'Врачи',
+        buttons: [{ text: 'Добавить врача', type: 'primary', action: create }],
+      });
+    };
+
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'doctors', action: 'getAllAdmin' },
+      sortModels: [],
+    });
+
+    const create = () => Provider.router.push(`/admin/doctors/new`);
+    const edit = (slug: string) => Provider.router.push(`/admin/doctors/${slug}`);
+    const remove = async (id: string) => await Provider.store.dispatch('doctors/remove', id);
+    const selectSearch = async (event: ISearchObject): Promise<void> => {
+      await Provider.router.push({ name: `AdminEditDoctorPage`, params: { id: event.value } });
+    };
+
+    const createGenderFilterModels = (): IFilterModel[] => {
+      return [DoctorsFiltersLib.onlyMale(), DoctorsFiltersLib.onlyFemale()];
+    };
+
+    return {
+      doctors,
+      remove,
+      edit,
+      create,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
+      selectSearch,
+      genderFilter,
+      loadDoctors,
+      sortList: Provider.sortList,
+      createGenderFilterModels,
+      DataTypes,
+      Operators,
+    };
   },
 });
 </script>
