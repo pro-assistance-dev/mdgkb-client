@@ -15,6 +15,7 @@ import { certificates } from '@/store/modules/certificates';
 import { children } from '@/store/modules/children';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
+import { diets } from '@/store/modules/diets';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { documentTypes } from '@/store/modules/documentTypes';
@@ -163,6 +164,7 @@ const s: StoreOptions<RootState> = {
     formStatusGroups,
     admissionCommitteeDocumentTypes,
     pointsAchievements,
+    diets,
   },
 };
 
