@@ -1,4 +1,6 @@
+import Dish from '@/classes/Dish';
 import TimetableDay from '@/classes/timetable/TimetableDay';
+import IDish from '@/interfaces/IDish';
 import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 
 export default class ScheduleItem implements IScheduleItem {
@@ -6,13 +8,16 @@ export default class ScheduleItem implements IScheduleItem {
   name = '';
   startTime = '';
   endTime = '';
-
+  dishes: IDish[] = [];
   constructor(i?: IScheduleItem) {
     if (!i) return;
     this.id = i.id;
     this.name = i.name;
     this.startTime = i.startTime;
     this.endTime = i.endTime;
+    if (i.dishes) {
+      this.dishes = i.dishes.map((item: IDish) => new Dish(item));
+    }
   }
 
   static CreateStandartScheduleDay(): IScheduleItem[] {
