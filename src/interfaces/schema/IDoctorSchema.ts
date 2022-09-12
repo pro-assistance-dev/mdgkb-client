@@ -7,4 +7,7 @@ export default interface IDoctorSchema extends IBaseSchema {
   mosDoctorLink: string;
   onlineDoctorId: string;
   commentsCount: string;
+  isMale: string;
+  dateBirth: string;
+  divisionName: string;
 }
