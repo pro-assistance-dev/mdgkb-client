@@ -1,6 +1,6 @@
 <template>
-  <!-- <div v-if="carousel.length" class="education"> -->
-  <div class="education">
+  <div v-if="carousel.length" class="education">
+  <!-- <div class="education"> -->
     <div class="title-in">Статьи</div>
     <el-carousel
       v-if="mounted"

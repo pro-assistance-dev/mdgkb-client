@@ -1,6 +1,6 @@
 <template>
-  <!-- <div v-if="services().length" class="services"> -->
-  <div class="services">
+  <div v-if="services().length" class="services">
+  <!-- <div class="services"> -->
     <div class="title-in">Оказываемые услуги</div>
     <div class="point">
       <ul class="services-list">
