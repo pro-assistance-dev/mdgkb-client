@@ -197,4 +197,7 @@ export default class User implements IUser {
       el.answerIsRead = true;
     });
   }
+  hasComments(): boolean {
+    return this.comments.length > 0;
+  }
 }
