@@ -137,4 +137,12 @@ export default class Division implements IDivision {
     }
     return '';
   }
+
+  getVisitingRulesList(): IVisitingRule[] {
+    return this.visitingRules.filter((v: IVisitingRule) => v.isListItem);
+  }
+
+  getVisitingRulesText(): IVisitingRule[] {
+    return this.visitingRules.filter((v: IVisitingRule) => !v.isListItem);
+  }
 }

@@ -3,6 +3,15 @@
     <template #header>
       <RemoteSearch class="filters-block" :key-value="schema.division.key" @select="selectSearch" />
       <SortList class="filters-block" :models="sortList" :store-mode="true" @load="loadDivisions" />
+      <FilterSelect
+        placeholder="Здание"
+        :options="schema.building.options"
+        :table="schema.division.tableName"
+        :col="schema.division.buildingId"
+        :operator="Operators.Eq"
+        :data-type="DataTypes.String"
+        @load="loadDivisions"
+      />
     </template>
     <el-table :data="divisions">
       <el-table-column prop="name" label="Наименование" sortable> </el-table-column>
@@ -32,11 +41,14 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IDivision from '@/interfaces/buildings/IDivision';
+import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
+import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -47,7 +59,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDivisionsList',
-  components: { TableButtonGroup, Pagination, RemoteSearch, SortList, AdminListWrapper },
+  components: { TableButtonGroup, Pagination, RemoteSearch, SortList, AdminListWrapper, FilterSelect },
   setup() {
     const divisions = computed(() => Provider.store.getters['divisions/divisions']);
     const addDivision = () => Provider.router.push(`/admin/divisions/new`);
@@ -71,6 +83,7 @@ export default defineComponent({
       sortList.value = [DivisionsSortsLib.byName(), DivisionsSortsLib.byCommentsCount()];
       Provider.store.commit('divisions/clearDivisions');
       Provider.setSortList(...createSortModels(DivisionsSortsLib));
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.building);
       // Provider.setSortModels(NewsSortsLib.byPublishedOn());
       await loadDivisions();
       Provider.store.commit('admin/setHeaderParams', {
@@ -102,6 +115,8 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       sortList: Provider.sortList,
+      DataTypes,
+      Operators,
     };
   },
 });

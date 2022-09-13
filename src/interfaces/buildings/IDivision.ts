@@ -57,4 +57,6 @@ export default interface IDivision {
   chief: IDoctor;
 
   getAddress: () => string;
+  getVisitingRulesText: () => IVisitingRule[];
+  getVisitingRulesList: () => IVisitingRule[];
 }

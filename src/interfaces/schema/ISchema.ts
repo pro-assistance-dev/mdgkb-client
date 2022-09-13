@@ -1,3 +1,4 @@
+import IBuildingSchema from '@/interfaces/schema/IBuildingSchema';
 import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
 import IDivisionCommentSchema from '@/interfaces/schema/IDivisionCommentSchema';
@@ -71,4 +72,5 @@ export default interface ISchema {
   doctorComment: IDoctorCommentSchema;
   divisionComment: IDivisionCommentSchema;
   newsComment: INewsCommentSchema;
+  building: IBuildingSchema;
 }
