@@ -4,44 +4,32 @@
   <div class="schedule">
     <div class="title-in">Распорядок дня</div>
     <div class="block">
-    <div class="left-block">
-      <div class="point">
-        <ul class="point-list">
-          <!-- <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item"> -->
-          <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item">
-            <div class="point-info">
-              <h4 class="point-text">{{ item }}</h4>
-            </div>
-          </li>
-        </ul>
+      <div class="left-block">
+        <div class="point">
+          <ul class="point-list">
+            <!-- <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item"> -->
+            <li v-for="item in division.schedule.scheduleItems" :key="item.id" class="point-list-item">
+              <div class="point-info">
+                <h4 class="point-text">{{ item.getPeriodWithName() }}</h4>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="right-block">
-      <div class="rules-text">
-        <h4 class="point-text">Время проведения медицинских процедур осуществляется согласно назначениям лечащего врача.</h4><br>
-        <h4 class="point-text">За нарушение режима и <a href=#>Правил внутреннего распорядка стационара</a> Пациент (законный представитель) может быть досрочно выписан с соответствующей отметкой в больничном листке или справке.</h4>   
+      <div class="right-block">
+        <div class="rules-text">
+          <h4 v-for="rule in division.getVisitingRulesText()" :key="rule.id" class="point-text">{{ rule.text }}</h4>
+          <br />
+        </div>
+        <div class="rules-list">
+          <!--          <div class="rules-list-title">Нарушением считается:</div>-->
+          <ul class="schedule-list">
+            <li v-for="rule in division.getVisitingRulesList()" :key="rule.id" class="schedule-list-item">
+              <h4 class="point-text">{{ rule.text }}</h4>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="rules-list">
-        <div class="rules-list-title">Нарушением считается:</div>
-        <ul class="schedule-list">
-          <li class="schedule-list-item">
-            <h4 class="point-text">Грубое или неуважительное отношение к персоналу</h4>
-          </li>
-          <li class="schedule-list-item">
-            <h4 class="point-text">Несоблюдение требований и рекомендаций врача</h4>
-          </li>
-          <li class="schedule-list-item">
-            <h4 class="point-text">Прием лекарственных препаратов по собственному усмотрению</h4>
-          </li>
-          <li class="schedule-list-item">
-            <h4 class="point-text">Самовольное оставление учреждения до завершения курса лечения</h4>
-          </li> 
-          <li class="schedule-list-item">
-            <h4 class="point-text">Выход за пределы территории</h4>
-          </li>                     
-        </ul>
-      </div>
-    </div>
     </div>
   </div>
 </template>
