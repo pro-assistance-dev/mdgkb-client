@@ -8,7 +8,7 @@
         <!-- <div class="doctor-name">{{ division.chief.human.getFullName() }}</div>
         <div v-if="division.chief.id" class="status">Заведующая отделением</div> -->
         <div class="doctor-name">Бочкова<br>Наталья Геннадьевна</div> 
-        <div class="status">Заведующая отделением</div>
+        <div class="status">Заведующая блоком реанимации и интенсивной терапии отделения экстренной кардиохирургии и интервенционной кардиологии</div>
         <div class="favor">
           <FavouriteIcon :domain-id="division.id" :domain-name="'division'" />
         </div>
