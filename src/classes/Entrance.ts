@@ -1,7 +1,7 @@
-import Division from '@/classes/buildings/Division';
-import IBuilding from '@/interfaces/buildings/IBuilding';
-import IDivision from '@/interfaces/buildings/IDivision';
-import IEntrance from '@/interfaces/buildings/IEntrance';
+import Division from '@/classes/Division';
+import IBuilding from '@/interfaces/IBuilding';
+import IDivision from '@/interfaces/IDivision';
+import IEntrance from '@/interfaces/IEntrance';
 
 import Building from './Building';
 

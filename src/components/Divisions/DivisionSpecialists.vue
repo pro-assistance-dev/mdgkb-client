@@ -26,7 +26,7 @@ import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
 import makeCarousel from '@/services/MakeCarousel';
 

@@ -17,8 +17,8 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import FileInfo from '@/classes/File/FileInfo';
-import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDivisionImage from '@/interfaces/IDivisionImage';
 import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({

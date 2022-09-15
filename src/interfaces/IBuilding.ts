@@ -1,5 +1,5 @@
-import IEntrance from '@/interfaces/buildings/IEntrance';
-import IFloor from '@/interfaces/buildings/IFloor';
+import IEntrance from '@/interfaces/IEntrance';
+import IFloor from '@/interfaces/IFloor';
 
 export default interface IBuilding {
   id: string;

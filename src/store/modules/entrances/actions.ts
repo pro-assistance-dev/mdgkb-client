@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IEntrance from '@/interfaces/buildings/IEntrance';
+import IEntrance from '@/interfaces/IEntrance';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

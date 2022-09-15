@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import ISocialMedia from '@/interfaces/ISocialMedia';
 import IOption from '@/interfaces/schema/IOption';
 import ISchemaWithOptions from '@/interfaces/schema/ISchemaWithOptions';
 import HttpClient from '@/services/HttpClient';
@@ -25,7 +26,7 @@ const actions: ActionTree<State, RootState> = {
     }
   },
   getSchema: async ({ commit }): Promise<void> => {
-    const data = await httpClient.get<number>({ query: `schema` });
+    const data = await httpClient.get<ISocialMedia>({ query: `schema` });
     commit('setSchema', data);
   },
   getSocialMedia: async ({ commit }): Promise<void> => {

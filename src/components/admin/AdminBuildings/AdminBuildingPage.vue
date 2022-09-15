@@ -73,7 +73,7 @@ import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import BuildingRules from '@/classes/buildings/BuildingRules';
+import BuildingRules from '@/classes/BuildingRules';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';

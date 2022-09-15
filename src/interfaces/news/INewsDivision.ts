@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import INews from '@/interfaces/news/INews';
 
 export default interface INewsDivision {

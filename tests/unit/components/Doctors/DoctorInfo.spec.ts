@@ -1,7 +1,7 @@
 import { DOMWrapper, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
 import MedicalProfile from '@/classes/MedicalProfile';
 import Regalia from '@/classes/Regalia';

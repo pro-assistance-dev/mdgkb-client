@@ -1,16 +1,16 @@
 import { MutationTree } from 'vuex';
 
-import Division from '@/classes/buildings/Division';
-import DivisionComment from '@/classes/buildings/DivisionComment';
-import DivisionImage from '@/classes/buildings/DivisionImage';
+import Division from '@/classes/Division';
+import DivisionComment from '@/classes/DivisionComment';
+import DivisionImage from '@/classes/DivisionImage';
 import FileInfo from '@/classes/File/FileInfo';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import VisitingRule from '@/classes/VisitingRule';
-import IDivision from '@/interfaces/buildings/IDivision';
-import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
-import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFile from '@/interfaces/files/IFile';
+import IDivision from '@/interfaces/IDivision';
+import IDivisionComment from '@/interfaces/IDivisionComment';
+import IDivisionImage from '@/interfaces/IDivisionImage';
 import IDivisionsWithCount from '@/interfaces/IDivisionsWithCount';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import IScheduleItem from '@/interfaces/timetables/IScheduleItem';

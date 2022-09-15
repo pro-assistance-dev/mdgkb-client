@@ -37,7 +37,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'DivisionOrderOfDay',

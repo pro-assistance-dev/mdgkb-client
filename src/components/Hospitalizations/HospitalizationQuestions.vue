@@ -27,7 +27,7 @@ import { useStore } from 'vuex';
 
 import DatePicker from '@/components/DatePicker.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import ISchema from '@/interfaces/schema/ISchema';
 

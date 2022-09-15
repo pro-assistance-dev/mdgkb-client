@@ -120,7 +120,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import FilterModel from '@/classes/filters/FilterModel';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
@@ -132,11 +132,11 @@ import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDoctor from '@/interfaces/IDoctor';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',

@@ -18,7 +18,7 @@ export default class SocialMedia implements ISocialMedia {
     this.link = i.link;
     this.type = i.type;
     this.setIcon();
-    this.setTitle();
+    this.setTitle(i.title);
   }
 
   setIcon(): void {
@@ -33,7 +33,11 @@ export default class SocialMedia implements ISocialMedia {
     //   this.icon = 'ig';
     // }
   }
-  setTitle(): void {
+  setTitle(title: string): void {
+    if (title !== '') {
+      this.title = title;
+      return;
+    }
     if (this.type === SocialTypes.YouTube) {
       this.title = 'Морозовская детская больница';
     }
