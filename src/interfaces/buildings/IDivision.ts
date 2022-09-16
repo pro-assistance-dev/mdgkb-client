@@ -10,6 +10,7 @@ import IVacancy from '@/interfaces/IVacancy';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import INewsDivision from '../news/INewsDivision';
 
 import IEntrance from './IEntrance';
 
@@ -55,6 +56,9 @@ export default interface IDivision {
 
   chiefId?: string;
   chief: IDoctor;
+
+  newsDivisions: INewsDivision[];
+  newsDivisionsForDelete: string[];
 
   getAddress: () => string;
   getVisitingRulesText: () => IVisitingRule[];

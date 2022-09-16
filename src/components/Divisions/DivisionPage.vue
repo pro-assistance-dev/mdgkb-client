@@ -6,12 +6,13 @@
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
     <DivisionSpecialists />
-    <NewsSlider :news="division.newsDoctors" />
+    <NewsSlider :news="division.newsDivisions" />
     <!-- <DivisionCertificates /> -->
     <ScansSlider :gallery-elements="division.certificates" />
     <DivisionDateAndTime :division="division"/>
     <!-- <ImageGallery :images="division.divisionImages" /> -->
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
+    {{ division }}
   </div>
 </template>
 
@@ -33,6 +34,8 @@ import NewsSlider from '@/components/NewsSlider.vue';
 import DivisionCertificates from '@/components/Divisions/DivisionCertificates.vue';
 import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
+// import INewsDivision from '@/interfaces/news/INewsDivision';
+import INews from '@/interfaces/news/INews';
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -54,6 +57,7 @@ export default defineComponent({
     const load = async () => {
       Provider.filterQuery.value.setParams(Provider.schema.value.division.slug, Provider.route().params['id'] as string);
       await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
+
     };
 
     Hooks.onBeforeMount(load);

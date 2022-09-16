@@ -19,8 +19,10 @@ import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
 import ITreatDirection from '@/interfaces/ITreatDirection';
 import IVacancy from '@/interfaces/IVacancy';
 import IVisitingRule from '@/interfaces/IVisitingRule';
+import INewsDivision from '@/interfaces/news/INewsDivision';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import NewsDivision from '../news/NewsDivision';
 
 import TreatDirection from '../TreatDirection';
 import DivisionImage from './DivisionImage';
@@ -63,6 +65,8 @@ export default class Division implements IDivision {
   treatDirectionId?: string;
   chiefId?: string;
   chief: IDoctor = new Doctor();
+  newsDivisions: INewsDivision[] = [];
+  newsDivisionsForDelete: string[] = [];
 
   constructor(i?: IDivision) {
     if (!i) {
@@ -124,10 +128,12 @@ export default class Division implements IDivision {
     if (i.treatDirection) {
       this.treatDirection = new TreatDirection(i.treatDirection);
     }
-
     this.chiefId = i.chiefId;
     if (i.chief) {
       this.chief = new Doctor(i.chief);
+    }
+    if (i.newsDivisions) {
+      this.newsDivisions = i.newsDivisions.map((item: INewsDivision) => new NewsDivision(item));
     }
   }
 
