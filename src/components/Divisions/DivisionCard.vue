@@ -182,7 +182,7 @@ import { defineComponent, PropType } from 'vue';
 
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'DivisionCard',
@@ -358,10 +358,10 @@ export default defineComponent({
 }
 
 .division-card-footer {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 
   button {
     width: 200px;

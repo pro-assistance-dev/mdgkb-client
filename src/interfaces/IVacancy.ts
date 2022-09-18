@@ -1,5 +1,5 @@
-import IDivision from '@/interfaces/buildings/IDivision';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import IDivision from '@/interfaces/IDivision';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';

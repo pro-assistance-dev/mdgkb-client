@@ -73,21 +73,21 @@
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponcesTable.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
-import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',

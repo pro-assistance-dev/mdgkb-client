@@ -1,6 +1,6 @@
 import FileInfo from '@/classes/File/FileInfo';
-import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDivisionImage from '@/interfaces/IDivisionImage';
 
 export default class DivisionImage implements IDivisionImage {
   id?: string;

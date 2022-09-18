@@ -1,8 +1,8 @@
 import { GetterTree } from 'vuex';
 
-import IDivision from '@/interfaces/buildings/IDivision';
-import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import IDivision from '@/interfaces/IDivision';
+import IDivisionComment from '@/interfaces/IDivisionComment';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';

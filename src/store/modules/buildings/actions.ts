@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IBuilding from '@/interfaces/buildings/IBuilding';
+import IBuilding from '@/interfaces/IBuilding';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

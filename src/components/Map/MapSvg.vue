@@ -26,9 +26,9 @@ import { useStore } from 'vuex';
 
 import Map from '@/assets/img/map.svg';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import IBuilding from '@/interfaces/buildings/IBuilding';
-import IDivision from '@/interfaces/buildings/IDivision';
-import IFloor from '@/interfaces/buildings/IFloor';
+import IBuilding from '@/interfaces/IBuilding';
+import IDivision from '@/interfaces/IDivision';
+import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
 
 import MapPopover from './MapPopover.vue';

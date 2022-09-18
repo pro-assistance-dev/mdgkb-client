@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex';
 
-import IDivision from '@/interfaces/buildings/IDivision';
-import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
-import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IDivision from '@/interfaces/IDivision';
+import IDivisionComment from '@/interfaces/IDivisionComment';
+import IDivisionImage from '@/interfaces/IDivisionImage';
 import IDivisionsWithCount from '@/interfaces/IDivisionsWithCount';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';

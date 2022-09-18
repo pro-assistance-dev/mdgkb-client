@@ -27,8 +27,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IBuilding from '@/interfaces/buildings/IBuilding';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
+import IBuilding from '@/interfaces/IBuilding';
 
 export default defineComponent({
   name: 'MapPopover',
