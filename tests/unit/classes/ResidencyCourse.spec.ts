@@ -246,9 +246,6 @@ describe('Class ResidencyCourse', () => {
     expect(residencyCourse.findSpecialization(Specialization3.specializationId)).toBe(false);
   });
 
-
-
-
   test('setMainSpecialization() устанавливает основную специализацию', () => {
     // Arrange
     residencyCourse = new ResidencyCourse();
@@ -362,45 +359,6 @@ describe('Class ResidencyCourse', () => {
     expect(residencyCourse.getFileInfos()[3]).toEqual(residencyCourse.plan);
   });
 
-    // test('getFileInfos() проверка на возврат не пустого массива', () => {
-  //   // Arrange
-  //   residencyCourse = new ResidencyCourse();
-
-  //   // Act
-  //   console.log(residencyCourse.getFileInfos()[0])
-  //   // Assert
-  //   expect(residencyCourse.getFileInfos()).toBeDefined;
-  //   expect(residencyCourse.getFileInfos()[0].id).toBeUndefined;
-  //   expect(residencyCourse.getFileInfos()[1].id).toBeUndefined;
-  //   expect(residencyCourse.getFileInfos()[2].id).toBeUndefined;
-  //   expect(residencyCourse.getFileInfos()[3].id).toBeUndefined;
-  // });
-
-
-  // test('getFileInfos() проверка на неожиданные значения', () => {
-  //   // Arrange
-  //   residencyCourse = new ResidencyCourse();
-
-  //   residencyCourse.program = new FileInfo();
-  //   residencyCourse.program.id = uuidv4();
-  
-  //   residencyCourse.annotation = new FileInfo();
-  //   residencyCourse.annotation.id = uuidv4();
-
-  //   residencyCourse.plan = new FileInfo();
-  //   residencyCourse.plan.id = uuidv4();
-  
-  //   residencyCourse.schedule = new FileInfo();
-  //   residencyCourse.schedule.id = uuidv4();
-
-  //   // Act
-  //   // Assert
-  //   expect(residencyCourse.getFileInfos()[NaN]).toBeUndefined;
-  //   expect(residencyCourse.getFileInfos()[-1]).toBeUndefined;
-  //   expect(residencyCourse.getFileInfos()[4]).toBeUndefined;
-  // });
-
-
   test('getPeriod() возвращает период времени, зная начало и конец временного интервала', () => {
     // Arrange
     residencyCourse = new ResidencyCourse();
@@ -433,7 +391,6 @@ describe('Class ResidencyCourse', () => {
 
     // Act
     residencyCourse.residencyApplications.push(ResidencyApplication1, ResidencyApplication2, ResidencyApplication3 );
-    // console.log(residencyCourse.getPaidCompetitionIndex());
 
     // Assert
     expect(residencyCourse.getPaidCompetitionIndex()).toEqual(0.09)
@@ -631,6 +588,7 @@ describe('Class ResidencyCourse', () => {
     residencyCourse.paidPlaces = 10;
 
     // Act
+    
     // Assert
     expect(residencyCourse.applicationPassCompetition(12)).toBe(false);
     expect(residencyCourse.applicationPassCompetition(9)).toBe(true);
