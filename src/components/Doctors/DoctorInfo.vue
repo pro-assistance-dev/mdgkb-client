@@ -49,10 +49,16 @@
       </div>
       <div class="card-item-middle-bottom">
         <div class="regalias-list">
+          <span  data-test="regalia-list">
+            <span v-if="doctor.academicDegree" >{{ doctor.academicDegree }}</span><span v-if="regalia?.name || doctor.academicRank"> • </span>
+          </span>
+          <span  data-test="regalia-list">
+            <span v-if="doctor.academicRank" >{{ doctor.academicRank }}</span><span v-if="doctor.regalias"> • </span>
+          </span>
           <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
             <span v-if="regalia?.name" data-test="regalia-list">
               <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
-            </span>
+            </span>            
           </template>
         </div>
         <div class="address">
