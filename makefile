@@ -30,3 +30,13 @@ git_deploy:
 	git checkout master
 	git merge --no-commit develop
 	git push
+
+#######
+#TESTS#
+#######
+
+test_covarage:
+	./node_modules/.bin/jest --coverage $n
+
+test_covarage_for_file:
+	./node_modules/.bin/jest -$t --coverage --collectCoverageFrom=$n
