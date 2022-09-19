@@ -1,11 +1,11 @@
 <template>
-  <div v-if="doctor.regalias.length || doctor.academicDegree || doctor.academicRank" class="services">
+  <div  v-if="doctor.regalias.length || doctor.academicDegree.length > 1 || doctor.academicRank.length > 1" data-test="achievements-component" class="services">
     <div class="title-in">Достижения и награды</div>
     <div class="point">
       <ul class="services-list">
-        <li v-if="doctor.academicDegree.length > 1" class="services-list-item"><h4 class="point-text">{{ doctor.academicDegree }}</h4></li>
-        <li v-if="doctor.academicRank.length > 1" class="services-list-item"><h4 class="point-text">{{ doctor.academicRank }}</h4></li>
-        <li v-for="regalia in doctor.regalias" :key="regalia.id" class="services-list-item">
+        <li v-if="doctor.academicDegree.length > 1" data-test="academic-degree" class="services-list-item"><h4 class="point-text">{{ doctor.academicDegree }}</h4></li>
+        <li v-if="doctor.academicRank.length > 1" data-test="academic-rank" class="services-list-item"><h4 class="point-text">{{ doctor.academicRank }}</h4></li>
+        <li v-for="regalia in doctor.regalias" :key="regalia.id" data-test="regalia-list" class="services-list-item">
           <h4 class="point-text">{{ regalia.name }}</h4>
         </li>
       </ul>
