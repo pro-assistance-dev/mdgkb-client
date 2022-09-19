@@ -49,11 +49,11 @@
       </div>
       <div class="card-item-middle-bottom">
         <div class="regalias-list">
-          <span  data-test="regalia-list">
-            <span v-if="doctor.academicDegree" >{{ doctor.academicDegree }}</span><span v-if="regalia?.name || doctor.academicRank"> • </span>
+          <span v-if="doctor.academicDegree.length > 1" data-test="regalia-list">
+            <span>{{ doctor.academicDegree }}</span><span v-if="doctor.regalias || doctor.academicRank.length > 1"> • </span>
           </span>
-          <span  data-test="regalia-list">
-            <span v-if="doctor.academicRank" >{{ doctor.academicRank }}</span><span v-if="doctor.regalias"> • </span>
+          <span v-if="doctor.academicRank.length > 1" data-test="regalia-list">
+            <span  >{{ doctor.academicRank }}</span><span v-if="doctor.regalias"> • </span>
           </span>
           <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
             <span v-if="regalia?.name" data-test="regalia-list">

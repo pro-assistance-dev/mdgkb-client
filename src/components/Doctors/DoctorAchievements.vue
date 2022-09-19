@@ -3,8 +3,8 @@
     <div class="title-in">Достижения и награды</div>
     <div class="point">
       <ul class="services-list">
-        <li v-if="doctor.academicDegree" class="services-list-item"><h4 class="point-text">{{ doctor.academicDegree }}</h4></li>
-        <li v-if="doctor.academicRank" class="services-list-item"><h4 class="point-text">{{ doctor.academicRank }}</h4></li>
+        <li v-if="doctor.academicDegree.length > 1" class="services-list-item"><h4 class="point-text">{{ doctor.academicDegree }}</h4></li>
+        <li v-if="doctor.academicRank.length > 1" class="services-list-item"><h4 class="point-text">{{ doctor.academicRank }}</h4></li>
         <li v-for="regalia in doctor.regalias" :key="regalia.id" class="services-list-item">
           <h4 class="point-text">{{ regalia.name }}</h4>
         </li>
