@@ -125,23 +125,17 @@
                 </svg>
               </div>
               <div class="item-p">
-                <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div>
-                <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div>
+                <div v-for="phone in division.contactInfo.telephoneNumbers" :key="phone.id" class="item">{{ phone.number }}</div>
               </div>
             </div>
             <div class="contact-h3">
               <div class="item">
-                <!-- <svg v-if="division.contactInfo.emails[0].address" class="icon-email"> -->
                 <svg class="icon-email">
                   <use xlink:href="#email"></use>
                 </svg>
               </div>
               <div class="item-p">
-                <div class="item">
-                  123@morozdgkb.ru
-                  <!-- {{ division.contactInfo.emails[0].address }} -->
-                </div>
-                <div class="item">456@morozdgkb.ru</div>
+                <div v-for="email in division.contactInfo.emails" :key="email.id" class="item">{{ email.address }}</div>
               </div>
             </div>
             <div class="contact-h3">
