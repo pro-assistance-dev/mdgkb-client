@@ -2,11 +2,14 @@
   <div class="card-item">
     <div v-if="division.chief.id" class="card-item-left">
       <div class="division-img">
-        <img src="@/assets/img/doctor-default.webp" />
-        <!-- <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="doctor.fileInfo.errorImg" />
-        <img v-else src="@/assets/img/doctor-default.webp" /> -->
-        <!-- <div class="doctor-name">{{ division.chief.human.getFullName() }}</div>
-        <div v-if="division.chief.id" class="status">Заведующая отделением</div> -->
+        <!--        <img src="@/assets/img/doctor-default.webp" />-->
+        <img
+          v-if="division.chief.human.photo.fileSystemPath"
+          :src="division.chief.human.photo.getImageUrl()"
+          alt="alt"
+          @error="division.chief.human.photo.errorImg"
+        />
+        <img v-else src="@/assets/img/doctor-default.webp" />
         <div class="doctor-name">
           {{ division.chief.human.getFullName() }}
         </div>
