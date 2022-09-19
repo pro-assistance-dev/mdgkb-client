@@ -11,6 +11,7 @@ import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import PaidProgramLevel from '@/classes/PaidProgramLevel';
+import { FormStatusNames } from '@/interfaces/FormStatusNames';
 
 describe('Class ResidencyCourse', () => {
   let residencyCourse: IResidencyCourse | undefined;
@@ -415,111 +416,244 @@ describe('Class ResidencyCourse', () => {
     expect(residencyCourse.getPeriod()).toEqual(`2011 - 2012`);
   });
 
-  test('getPaidCompetitionIndex() возвращает индекс', () => {
+  test('getPaidCompetitionIndex() возвращает индекс-отношение "количество платных заявок/количество платных мест" с точностью до 2-х знаков' , () => {
     // Arrange
     residencyCourse = new ResidencyCourse();
-    residencyCourse.paidPlaces = 10;
+
+    residencyCourse.paidPlaces = 11;
+
     const ResidencyApplication1 = new ResidencyApplication;
-    ResidencyApplication1.paid = true;
     const ResidencyApplication2 = new ResidencyApplication;
-    ResidencyApplication2.paid = true;
     const ResidencyApplication3 = new ResidencyApplication;
-    ResidencyApplication3.paid = true;
+
+    ResidencyApplication1.formValue.formStatus.name = FormStatusNames.Accepted;
+    ResidencyApplication2.formValue.formStatus.name = FormStatusNames.Accepted;
+
+    ResidencyApplication1.paid = true;
 
     // Act
     residencyCourse.residencyApplications.push(ResidencyApplication1, ResidencyApplication2, ResidencyApplication3 );
-    console.log(residencyCourse.getPaidCompetitionIndex());
-    console.log(residencyCourse.getPaidApplications().length);
-    console.log(residencyCourse.residencyApplications);
-    console.log(residencyCourse.getPaidApplications());
-    console.log(residencyCourse.getAcceptedApplications());
-    console.log(residencyCourse.getFreeApplications());
-    // Assert
+    // console.log(residencyCourse.getPaidCompetitionIndex());
 
+    // Assert
+    expect(residencyCourse.getPaidCompetitionIndex()).toEqual(0.09)
   });
 
 
-  test('getApplicationsByPoint()', () => {
+  test('getApplicationsByPoint(), возвращает отсортированный массив принятых заявок на бесплатное обучение по убыванию значения суммы "pointsEntrance + pointsAchievements"', () => {
     // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const ResidencyApplication1 = new ResidencyApplication;
+    const ResidencyApplication2 = new ResidencyApplication;
+    const ResidencyApplication3 = new ResidencyApplication;
+
+    ResidencyApplication1.formValue.formStatus.name = FormStatusNames.Accepted;
+    ResidencyApplication2.formValue.formStatus.name = FormStatusNames.Accepted;
+    ResidencyApplication3.formValue.formStatus.name = FormStatusNames.Accepted;
+
+    ResidencyApplication1.id = uuidv4();
+    ResidencyApplication2.id = uuidv4();
+    ResidencyApplication3.id = uuidv4();
+
+
+    ResidencyApplication1.pointsEntrance = 5;
+    ResidencyApplication1.pointsAchievements = 5;
+
+    ResidencyApplication2.pointsEntrance = 0;
+    ResidencyApplication2.pointsAchievements = 0;
+
+    ResidencyApplication3.pointsEntrance = 3;
+    ResidencyApplication3.pointsAchievements = 3;
+
+
+    residencyCourse.residencyApplications.push(ResidencyApplication1, ResidencyApplication2, ResidencyApplication3 );
 
     // Act
 
     // Assert
+    expect(residencyCourse.getApplicationsByPoint()[0]).toEqual(ResidencyApplication1);
+    expect(residencyCourse.getApplicationsByPoint()[1]).toEqual(ResidencyApplication3);
+    expect(residencyCourse.getApplicationsByPoint()[2]).toEqual(ResidencyApplication2);
 
   });
 
-  test('getPaidApplicationsByPoint()', () => {
+  test('getPaidApplicationsByPoint() возвращает отсортированный массив принятых заявок на платное обучение по убыванию значения суммы "pointsEntrance + pointsAchievements"', () => {
     // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const ResidencyApplication1 = new ResidencyApplication;
+    const ResidencyApplication2 = new ResidencyApplication;
+    const ResidencyApplication3 = new ResidencyApplication;
+    const ResidencyApplication4 = new ResidencyApplication;
+
+    ResidencyApplication1.formValue.formStatus.name = FormStatusNames.Accepted;
+    ResidencyApplication2.formValue.formStatus.name = FormStatusNames.Accepted;
+    ResidencyApplication3.formValue.formStatus.name = FormStatusNames.Accepted;
+
+    ResidencyApplication1.id = uuidv4();
+    ResidencyApplication2.id = uuidv4();
+    ResidencyApplication3.id = uuidv4();
+
+
+    ResidencyApplication1.pointsEntrance = 5;
+    ResidencyApplication1.pointsAchievements = 5;
+
+    ResidencyApplication2.pointsEntrance = 0;
+    ResidencyApplication2.pointsAchievements = 0;
+
+    ResidencyApplication3.pointsEntrance = 3;
+    ResidencyApplication3.pointsAchievements = 3;
+
+    ResidencyApplication2.paid = true;
+    ResidencyApplication3.paid = true;
+
+
+    residencyCourse.residencyApplications.push(ResidencyApplication1, ResidencyApplication2, ResidencyApplication3 );
+
+    // Act
+    // Assert
+    expect(residencyCourse.getPaidApplicationsByPoint()[0]).toEqual(ResidencyApplication3);
+    expect(residencyCourse.getPaidApplicationsByPoint()[1]).toEqual(ResidencyApplication2);
+
+  });
+
+  test('getAcceptedApplications(), возвращает массив тех заявок, у которых стоит "Принято" в поле "name" класса FormStatus', () => {
+    // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const ResidencyApplication1 = new ResidencyApplication;
+    ResidencyApplication1.formValue.formStatus.name = FormStatusNames.Accepted;
+    const ResidencyApplication2 = new ResidencyApplication;
+    ResidencyApplication2.formValue.formStatus.name = FormStatusNames.Accepted;
+    const ResidencyApplication3 = new ResidencyApplication;
+
+    residencyCourse.residencyApplications.push(ResidencyApplication1, ResidencyApplication2, ResidencyApplication3 );
 
     // Act
 
     // Assert
-
+    expect(residencyCourse.getAcceptedApplications()[0]).toEqual(ResidencyApplication1);
+    expect(residencyCourse.getAcceptedApplications()[1]).toEqual(ResidencyApplication2);
   });
 
-  test('getAcceptedApplications()', () => {
+  test('isThisYear(), проверяет, этого ли года заявка', () => {
     // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    residencyCourse.startYear = new EducationYear();
+    residencyCourse.startYear.year = new Date(2020, 0, 1, 0, 0, 0, 0);
 
     // Act
 
     // Assert
-
+    expect(residencyCourse.isThisYear()).toBe(false);
   });
 
-  test('isThisYear()', () => {
+  test('getFreeApplications() возвращает массив принятых заявок на бесплатное обучение', () => {
     // Arrange
+
+    residencyCourse = new ResidencyCourse();
+
+    const ResidencyApplication1 = new ResidencyApplication;
+    const ResidencyApplication2 = new ResidencyApplication;
+    const ResidencyApplication3 = new ResidencyApplication;
+
+    ResidencyApplication1.formValue.formStatus.name = FormStatusNames.Accepted;
+    ResidencyApplication2.formValue.formStatus.name = FormStatusNames.Accepted;
+
+    ResidencyApplication1.paid = true;
+
+    residencyCourse.residencyApplications.push(ResidencyApplication1, ResidencyApplication2, ResidencyApplication3);
 
     // Act
 
     // Assert
-
+    expect(residencyCourse.getFreeApplications()[0]).toEqual(ResidencyApplication2);
   });
 
-  test('getFreeApplications()', () => {
+  test('getPaidApplications(), возвращает массив принятых заявок на платное обучение', () => {
     // Arrange
+
+    residencyCourse = new ResidencyCourse();
+
+    const ResidencyApplication1 = new ResidencyApplication;
+    const ResidencyApplication2 = new ResidencyApplication;
+    const ResidencyApplication3 = new ResidencyApplication;
+
+    ResidencyApplication1.formValue.formStatus.name = FormStatusNames.Accepted;
+    ResidencyApplication2.formValue.formStatus.name = FormStatusNames.Accepted;
+
+    ResidencyApplication1.paid = true;
+
+    residencyCourse.residencyApplications.push(ResidencyApplication1, ResidencyApplication2, ResidencyApplication3 );
 
     // Act
 
     // Assert
-
+    expect(residencyCourse.getPaidApplications()[0]).toEqual(ResidencyApplication1);
   });
 
-  test('getPaidApplications()', () => {
+  test('getFullName(), возвращает Код и Имя главной специализации', () => {
     // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const Specialization1 = new ResidencyCourseSpecialization();
+    const Specialization2 = new ResidencyCourseSpecialization();
+    const Specialization3 = new ResidencyCourseSpecialization();
+
+    Specialization1.specialization.id = uuidv4();
+    Specialization2.specialization.id = uuidv4();
+    Specialization3.specialization.id = uuidv4();
+
+    Specialization1.specialization.code = '1';
+    Specialization2.specialization.code = '2';
+    Specialization3.specialization.code = '3';
+
+    Specialization1.specialization.name = 'Specialization1';
+    Specialization2.specialization.name = 'Specialization2';
+    Specialization3.specialization.name = 'Specialization3';
+
+    residencyCourse.residencyCoursesSpecializations.push(Specialization1, Specialization2, Specialization3 );
+    residencyCourse.residencyCoursesSpecializations[1].main = true;
+
 
     // Act
 
     // Assert
-
+    expect(residencyCourse.getFullName()).toEqual('2 Specialization2')
   });
 
-  test('getFullName()', () => {
+  test('applicationPassCompetition(), определяет, проходит ли заявка конкурс по количеству мест', () => {
     // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    residencyCourse.paidPlaces = 10;
+
+    // Act
+    // Assert
+    expect(residencyCourse.applicationPassCompetition(12)).toBe(false);
+    expect(residencyCourse.applicationPassCompetition(9)).toBe(true);
+  });
+
+  test('paidAcceptedApplicationsExists() проверяет массив заявок на наличие принятых заявок на платное обучение', () => {
+    // Arrange
+    residencyCourse = new ResidencyCourse();
+
+    const ResidencyApplication1 = new ResidencyApplication;
+    const ResidencyApplication2 = new ResidencyApplication;
+    const ResidencyApplication3 = new ResidencyApplication;
+
+    ResidencyApplication1.formValue.formStatus.name = FormStatusNames.Accepted;
+    ResidencyApplication2.formValue.formStatus.name = FormStatusNames.Accepted;
+
+    ResidencyApplication1.paid = true;
+
+    residencyCourse.residencyApplications.push(ResidencyApplication1, ResidencyApplication2, ResidencyApplication3 );
 
     // Act
 
     // Assert
-
+    expect(residencyCourse.paidAcceptedApplicationsExists()).toBe(true);
   });
-
-  test('applicationPassCompetition()', () => {
-    // Arrange
-
-    // Act
-
-    // Assert
-
-  });
-
-  test('paidAcceptedApplicationsExists()', () => {
-    // Arrange
-
-    // Act
-
-    // Assert
-
-  });
-
-  
-
 });
