@@ -35,8 +35,13 @@ git_deploy:
 #TESTS#
 #######
 
-test_covarage:
-	./node_modules/.bin/jest --coverage $n
+jest_local := ./node_modules/.bin/jest
 
+test_file:
+	$(jest_local) -t 'sanitize name get capitalize and not spaced name'
+
+test_covarage:
+	$(jest_local) --coverage $n
+#
 test_covarage_for_file:
-	./node_modules/.bin/jest -$t --coverage --collectCoverageFrom=$n
+	$(jest_local) $t --coverage --collectCoverageFrom=$n
