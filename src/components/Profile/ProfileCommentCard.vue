@@ -6,14 +6,14 @@
     </div>
     <div class="reviews-info">
       <div v-if="comment.publishedOn || question.date">
-        <h4 v-if="!isQuestion" class="reviews-date-time">
+        <h4 v-if="!isQuestion" class="reviews-date-time" data-test="comment-or-review-date">
           {{ !isReview ? 'Комментарий' : 'Отзыв' }} от {{ $dateTimeFormatter.format(comment.publishedOn) }}
         </h4>
-        <h4 v-else class="reviews-date-time">Вопрос от {{ $dateTimeFormatter.format(question.date) }}</h4>
+        <h4 v-else class="reviews-date-time" data-test="question-date">Вопрос от {{ $dateTimeFormatter.format(question.date) }}</h4>
       </div>
 
-      <h4 v-if="!isQuestion" class="reviews-text">{{ comment.text }}</h4>
-      <h4 v-else class="reviews-text" style="white-space: pre-line">{{ question.question }}</h4>
+      <h4 v-if="!isQuestion" class="reviews-text" data-test="comment-text">{{ comment.text }}</h4>
+      <h4 v-else class="reviews-text" style="white-space: pre-line" data-test="question-text">{{ question.question }}</h4>
     </div>
   </div>
   <div v-if="comment.answer || question.answer" class="review-for-review">
@@ -21,8 +21,13 @@
       <Component :is="require(`@/assets/img/mdgkb-avatar.svg`).default" id="mdgkb-avatar-svg"></Component>
     </div>
     <div class="review-for-review-info">
-      <h4 v-if="!isQuestion" class="review-for-review-text">{{ comment.answer }}</h4>
-      <h4 v-else class="review-for-review-text" v-html="question.originalAnswer ? question.originalAnswer : 'Вопрос обрабатывается'"></h4>
+      <h4 v-if="!isQuestion" class="review-for-review-text" data-test="comment-answer">{{ comment.answer }}</h4>
+      <h4
+        v-else
+        class="review-for-review-text"
+        data-test="question-answer"
+        v-html="question.originalAnswer ? question.originalAnswer : 'Вопрос обрабатывается'"
+      ></h4>
     </div>
   </div>
   <svg width="0" height="0" class="hidden">

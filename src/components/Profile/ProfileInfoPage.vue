@@ -1,5 +1,5 @@
 <template>
-  <div class="size">
+  <div v-if="mounted" class="size" data-test="profile-info-component">
     <div class="hidden">
       <UserInfoMini />
       <div class="profile-menu">
@@ -12,7 +12,7 @@
             Мой профиль
           </label>
           <div class="tab-content">
-            <div v-if="mounted" class="title">
+            <div class="title">
               <button class="edit-button" @click="$router.push('/profile/edit')">
                 <svg class="icon-edit">
                   <use xlink:href="#profile-edit"></use>
@@ -20,7 +20,7 @@
                 Редактировать
               </button>
             </div>
-            <div v-if="mounted" class="right-block">
+            <div class="right-block">
               <div class="column-left">
                 <div class="user-avatar">
                   <div class="avatar-block">
@@ -29,29 +29,27 @@
                 </div>
                 <el-form :model="user">
                   <div class="user-name">
-                    <el-form-item label="Имя">
-                      <h2>
-                        <b>{{ user.human.getFullName() }}</b>
-                      </h2>
-                    </el-form-item>
+                    <h2>
+                      <b data-test="full-name">{{ user.human.getFullName() }}</b>
+                    </h2>
                   </div>
                   <div class="user-info">
                     <div class="contact-mail">
                       <svg class="icon-email">
                         <use xlink:href="#profile-email"></use>
                       </svg>
-                      <el-form-item prop="email" label="Email">
-                        <h4>{{ user.email }}</h4>
-                      </el-form-item>
+                      <div>
+                        <h4 data-test="user-email">{{ user.email }}</h4>
+                      </div>
                     </div>
                     <div class="contact-phone">
                       <svg class="icon-phone">
                         <use xlink:href="#profile-phone"></use>
                       </svg>
-                      <el-form-item prop="phone" label="Phone">
+                      <div data-test="user-phone">
                         <h4 v-if="user.phone">{{ user.phone }}</h4>
                         <h4 v-else>Не указан</h4>
-                      </el-form-item>
+                      </div>
                     </div>
                   </div>
                 </el-form>
@@ -65,7 +63,7 @@
                         <div class="list-item">
                           <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
                           <div class="item-data">
-                            <h4>{{ $dateTimeFormatter.format(user.human.dateBirth) }}</h4>
+                            <h4 data-test="user-birth-date">{{ $dateTimeFormatter.format(user.human.dateBirth) }}</h4>
                           </div>
                         </div>
                       </li>
@@ -73,7 +71,7 @@
                         <div class="list-item">
                           <div class="item-title"><h5>ПОЛ</h5></div>
                           <div class="item-data">
-                            <h4>{{ user.human.isMale ? 'Мужской' : 'Женский' }}</h4>
+                            <h4 data-test="user-gender">{{ user.human.isMale ? 'Мужской' : 'Женский' }}</h4>
                           </div>
                         </div>
                       </li>
@@ -81,7 +79,7 @@
                         <div class="list-item">
                           <div class="item-title"><h5>МЕСТО&nbsp;РОЖДЕНИЯ</h5></div>
                           <div class="item-data">
-                            <h4>{{ user.human.placeBirth }}</h4>
+                            <h4 data-test="place-birth">{{ user.human.placeBirth }}</h4>
                           </div>
                         </div>
                       </li>
@@ -89,7 +87,7 @@
                         <div class="list-item">
                           <div class="item-title"><h5>ГРАЖДАНСТВО</h5></div>
                           <div class="item-data">
-                            <h4>{{ user.human.citizenship }}</h4>
+                            <h4 data-test="citizenship">{{ user.human.citizenship }}</h4>
                           </div>
                         </div>
                       </li>
@@ -97,7 +95,7 @@
                         <div class="list-item">
                           <div class="item-title"><h5>СНИЛС</h5></div>
                           <div class="item-data">
-                            <h4>{{ user.human.snils }}</h4>
+                            <h4 data-test="snils">{{ user.human.snils }}</h4>
                           </div>
                         </div>
                       </li>
@@ -105,7 +103,7 @@
                         <div class="list-item">
                           <div class="item-title"><h5>АДРЕС</h5></div>
                           <div class="item-data">
-                            <h4>{{ user.human.address }}</h4>
+                            <h4 data-test="address">{{ user.human.address }}</h4>
                           </div>
                         </div>
                       </li>
@@ -137,7 +135,7 @@
     </div>
 
     <div class="hidden_540">
-      <div v-if="mounted" class="title">
+      <div class="title">
         <h2><b>Мой профиль</b></h2>
         <button class="edit-button" @click="$router.push('/profile/edit')">
           <svg class="icon-edit">
@@ -146,7 +144,7 @@
           Редактировать
         </button>
       </div>
-      <div v-if="mounted" class="right-block">
+      <div class="right-block">
         <div class="column-left">
           <div class="user-avatar">
             <div class="avatar-block">
@@ -155,30 +153,30 @@
           </div>
           <el-form :model="user">
             <div class="user-name">
-              <el-form-item label="Имя">
+              <div label="Имя">
                 <h2>
-                  <b>{{ user.human.getFullName() }}</b>
+                  <b data-test="full-name-mobile">{{ user.human.getFullName() }}</b>
                 </h2>
-              </el-form-item>
+              </div>
             </div>
             <div class="user-info">
               <div class="contact-mail">
                 <svg class="icon-email">
                   <use xlink:href="#profile-email"></use>
                 </svg>
-                <el-form-item prop="email" label="Email">
+                <div prop="email" label="Email">
                   <h4>{{ user.email }}</h4>
-                </el-form-item>
+                </div>
               </div>
               <div class="contact-phone">
                 <div class="contact-phone-el">
                   <svg class="icon-phone">
                     <use xlink:href="#profile-phone"></use>
                   </svg>
-                  <el-form-item prop="phone" label="Phone">
+                  <div prop="phone" label="Phone">
                     <h4 v-if="user.phone">{{ user.phone }}</h4>
                     <h4 v-else>Не указан</h4>
-                  </el-form-item>
+                  </div>
                 </div>
                 <div class="contact-phone-el">
                   <button v-if="user.phone" type="button" class="edit-phone" @click="isEditPhoneModalOpen = true">Изменить</button>
@@ -296,14 +294,13 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { useStore } from 'vuex';
 
 import EditPhone from '@/components/Profile/EditPhone.vue';
 import EducationPage from '@/components/Profile/Education/EducationPage.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IUser from '@/interfaces/IUser';
-import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 export default defineComponent({
@@ -312,20 +309,18 @@ export default defineComponent({
 
   setup() {
     const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
-
-    const loadUser = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
-      mounted.value = true;
-    };
-    onMounted(loadUser);
+    const store = useStore();
+    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
 
     const saveAvatar = async () => {
-      await Provider.store.dispatch('users/update', user.value);
+      await store.dispatch('users/update', user.value);
     };
 
-    Hooks.onBeforeMount(loadUser);
+    onBeforeMount(async () => {
+      await store.dispatch('users/get', userId.value);
+      mounted.value = true;
+    });
 
     const isEditPhoneModalOpen: Ref<boolean> = ref(false);
 

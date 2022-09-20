@@ -1,39 +1,37 @@
 <template>
-  <div class="size">
+  <div v-if="mounted" class="size" data-test="qa-component">
     <div class="title">
       <div class="hidden">
         <h2><b>Вопросы-ответы</b></h2>
       </div>
     </div>
-    <div v-for="question in user.questions" :key="question.id" class="card-item">
+    <div v-for="question in user.questions" :key="question.id" class="card-item" data-test="qa-list-item">
       <ProfileCommentCard :is-question="true" :question="question" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { useStore } from 'vuex';
 
 import ProfileCommentCard from '@/components/Profile/ProfileCommentCard.vue';
 import IUser from '@/interfaces/IUser';
-import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'QuestionAnswerPage',
   components: { ProfileCommentCard },
   setup() {
+    const store = useStore();
     const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
+    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
 
-    const loadUser = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
-      await Provider.store.dispatch('questions/readAnswers', userId.value);
+    onBeforeMount(async () => {
+      await store.dispatch('users/get', userId.value);
+      await store.dispatch('questions/readAnswers', userId.value);
       mounted.value = true;
-    };
-
-    Hooks.onBeforeMount(loadUser);
+    });
 
     onBeforeUnmount(async () => {
       user.value.setAnswersViewed();
