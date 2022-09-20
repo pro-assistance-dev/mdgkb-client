@@ -1,6 +1,6 @@
 <template>
   <!-- <div v-if="mount" class="division-page-container"> -->
-  <div v-if="mounted" class="division-page-container">
+  <div v-if="mounted" data-test="division-component" class="division-page-container">
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
