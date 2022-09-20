@@ -25,9 +25,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IDivision from '@/interfaces/buildings/IDivision';
-import IEntrance from '@/interfaces/buildings/IEntrance';
-import IStreetEntranceRef from '@/interfaces/buildings/IStreetEntranceRef';
+import IDivision from '@/interfaces/IDivision';
+import IEntrance from '@/interfaces/IEntrance';
+import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
 
 export default defineComponent({
   name: 'MapRouter',

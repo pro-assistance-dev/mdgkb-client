@@ -103,6 +103,17 @@
             </el-table>
           </el-card>
         </el-container>
+        <el-container>
+          <el-card>
+            <el-button size="mini" type="success" style="margin: 20px" @click="division.addDivisionVideo()">Добавить видео</el-button>
+            <div v-for="(video, i) in division.divisionVideos" :key="video">
+              <el-input v-model="video.youTubeVideoId" /><el-button
+                @click="removeFromClass(i, division.divisionVideos, division.divisionVideosForDelete)"
+                >Удалить</el-button
+              >
+            </div>
+          </el-card>
+        </el-container>
       </el-col>
     </el-row>
   </el-form>
@@ -114,7 +125,7 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
-import DivisioinRules from '@/classes/buildings/DivisioinRules';
+import DivisioinRules from '@/classes/DivisioinRules';
 import Doctor from '@/classes/Doctor';
 import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisionGallery.vue';
 import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
@@ -124,17 +135,17 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IBuilding from '@/interfaces/buildings/IBuilding';
-import IDivision from '@/interfaces/buildings/IDivision';
-import IEntrance from '@/interfaces/buildings/IEntrance';
-import IFloor from '@/interfaces/buildings/IFloor';
+import IBuilding from '@/interfaces/IBuilding';
+import IDivision from '@/interfaces/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
+import IEntrance from '@/interfaces/IEntrance';
+import IFloor from '@/interfaces/IFloor';
 import ISearchObject from '@/interfaces/ISearchObject';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
-import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminDivisionPage',

@@ -1,6 +1,6 @@
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import News from '@/classes/news/News';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import INews from '@/interfaces/news/INews';
 import INewsDivision from '@/interfaces/news/INewsDivision';
 

@@ -15,7 +15,7 @@ import { computed, defineComponent, Ref } from 'vue';
 
 import DivisionCard from '@/components/Divisions/DivisionCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import Provider from '@/services/Provider';
 
 export default defineComponent({

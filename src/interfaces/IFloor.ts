@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 
 export default interface IFloor {
   id?: string;

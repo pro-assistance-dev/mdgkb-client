@@ -6,10 +6,14 @@
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
     <DivisionSpecialists />
-    <!-- <NewsSlider :news="division.newsDivisions" /> -->
+    <NewsSlider :news="division.newsDivisions" />
     <!-- <DivisionCertificates /> -->
-    <!-- <DivisionDateAndTime /> -->
-    <ImageGallery :images="division.divisionImages" />
+    <ScansSlider :gallery-elements="division.certificates" />
+    <DivisionDateAndTime :division="division" />
+    <component :is="'MainContainer'" v-if="mounted" header-title="Видео">
+      <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
+    </component>
+    <!-- <ImageGallery :images="division.divisionImages" /> -->
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
@@ -18,13 +22,16 @@
 import { computed, ComputedRef, defineComponent } from 'vue';
 
 import Comments from '@/components/Comments/Comments.vue';
+import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
 import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DivisionSpecialists from '@/components/Divisions/DivisionSpecialists.vue';
-import ImageGallery from '@/components/ImageGallery.vue';
+import MainContainer from '@/components/Main/MainContainer.vue';
+import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
-// import IDoctor from '@/interfaces/IDoctor';
-import IDivision from '@/interfaces/buildings/IDivision';
+import ScansSlider from '@/components/ScansSlider.vue';
+import SocialMediaCarousel from '@/components/SocialMediaCarousel.vue';
+import IDivision from '@/interfaces/IDivision';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -32,15 +39,18 @@ import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'DivisionPage',
   components: {
+    SocialMediaCarousel,
     DivisionInfo,
     PaidServices,
     DivisionSchedule,
     DivisionSpecialists,
-    // NewsSlider,
+    NewsSlider,
+    MainContainer,
     // DivisionCertificates,
-    // DivisionDateAndTime,
-    ImageGallery,
+    DivisionDateAndTime,
+    // ImageGallery,
     Comments,
+    ScansSlider,
   },
 
   setup() {

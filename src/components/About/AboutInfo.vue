@@ -91,7 +91,7 @@ import { useStore } from 'vuex';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import Timetable from '@/components/Timetable.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 
 export default defineComponent({

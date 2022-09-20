@@ -65,7 +65,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import AdminContactInfo from '@/components/admin/AdminContactInfo.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';

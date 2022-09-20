@@ -88,19 +88,19 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IGate from '@/interfaces/IGate';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IUser from '@/interfaces/IUser';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
-import validate from '@/services/validate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'VisitsApplicationPage',

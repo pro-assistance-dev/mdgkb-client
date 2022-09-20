@@ -35,7 +35,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import AboutInfo from '@/components/About/AboutInfo.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'AboutPage',

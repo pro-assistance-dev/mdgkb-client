@@ -30,3 +30,18 @@ git_deploy:
 	git checkout master
 	git merge --no-commit develop
 	git push
+
+#######
+#TESTS#
+#######
+
+jest_local := ./node_modules/.bin/jest
+
+test_file:
+	$(jest_local) -t 'sanitize name get capitalize and not spaced name'
+
+test_covarage:
+	$(jest_local) --coverage $n
+#
+test_covarage_for_file:
+	$(jest_local) $t --coverage --collectCoverageFrom=$n

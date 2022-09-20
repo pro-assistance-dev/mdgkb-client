@@ -1,5 +1,5 @@
-import IDivision from '@/interfaces/buildings/IDivision';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDivision from '@/interfaces/IDivision';
 import IForm from '@/interfaces/IForm';
 import IGate from '@/interfaces/IGate';
 import IVisit from '@/interfaces/IVisit';

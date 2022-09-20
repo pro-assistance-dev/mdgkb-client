@@ -24,7 +24,7 @@
         </div>
         <div v-if="news.isArticle" class="card-header action-container">
           <a :href="news.articleLink">
-            <el-button class="action-container-button" type="primary"> Перейти к статье </el-button>
+            <el-button class="send-comment" type="primary"> Перейти к статье </el-button>
           </a>
         </div>
         <el-divider />
@@ -225,4 +225,5 @@ h3 {
   margin-left: 0;
   padding-left: 50px;
 }
+
 </style>

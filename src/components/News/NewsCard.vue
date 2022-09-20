@@ -1,5 +1,7 @@
 <template>
-  <div
+  
+  <div 
+    v-if="news.content"
     :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
     :body-style="{ padding: '0px', height: '75%' }"
     @click="$router.push(`/news/${news.slug}`)"
@@ -29,6 +31,38 @@
       </div>
     </div>
   </div>
+
+   <div 
+      v-else
+      :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
+      :body-style="{ padding: '0px', height: '75%' }"
+    >
+    <a class="link-block" target="_blank" :href="news.articleLink"></a>
+    <div class="flex-between-columm front">
+      <div class="image">
+        <img :src="news.getImageUrl()" alt="alt" />
+      </div>
+      <div class="card-content">
+        <div class="title">{{ news.title }}</div>
+        <div v-if="!article && !main" class="text" v-html="news.content"></div>
+      </div>
+      <div class="tags">
+        <NewsMeta :news="news" :article="article" />
+      </div>
+      <div class="tags-top">
+        <el-tag
+          v-for="newsToTag in news.newsToTags.slice(0, 3)"
+          :key="newsToTag.id"
+          effect="plain"
+          class="news-tag-link"
+          :size="article || main ? 'mini' : 'small'"
+          @click.stop="filterNews(newsToTag.tag)"
+        >
+          <span>{{ newsToTag.tag.label }}</span>
+        </el-tag>
+      </div>
+    </div> 
+   </div>
 </template>
 
 <script lang="ts">
@@ -85,6 +119,7 @@ $card-content-outpadding: 0px;
 $card-width: 300px;
 
 .card {
+  position: relative;
   background: #ffffff;
   background-clip: padding-box;
   border-radius: 5px;
@@ -243,6 +278,7 @@ $card-width: 300px;
 }
 
 .article-card {
+  position: relative;
   width: 220px;
   height: 320px;
   .image {
@@ -266,6 +302,7 @@ $card-width: 300px;
   }
 }
 .main-card {
+  position: relative;
   width: 100%;
   height: 100%;
   .image {
@@ -296,6 +333,15 @@ $card-width: 300px;
   .tags {
     padding: 5px 10px;
   }
+}
+
+.link-block {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  top:0;
+  left:0;
 }
 
 // @media screen and (max-width: 980px) {

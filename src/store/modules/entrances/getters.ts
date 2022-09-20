@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import IEntrance from '@/interfaces/buildings/IEntrance';
+import IEntrance from '@/interfaces/IEntrance';
 import RootState from '@/store/types';
 
 import { State } from './state';

@@ -45,11 +45,11 @@ export default class Human implements IHuman {
     if (i.photo) {
       this.photo = new FileInfo(i.photo);
     }
-
+    this.photoId = i.photoId;
     if (i.photoMini) {
       this.photoMini = new FileInfo(i.photoMini);
     }
-
+    this.photoMiniId = i.photoMiniId;
     if (i.contactInfo) {
       this.contactInfo = new ContactInfo(i.contactInfo);
     }
@@ -82,8 +82,8 @@ export default class Human implements IHuman {
   }
 
   sanitizeName(): void {
-    this.capitalizeName();
     this.trimName();
+    this.capitalizeName();
   }
 
   getFileInfos(): IFileInfo[] {

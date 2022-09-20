@@ -1,8 +1,8 @@
-import Entrance from '@/classes/buildings/Entrance';
-import Floor from '@/classes/buildings/Floor';
-import IBuilding from '@/interfaces/buildings/IBuilding';
-import IEntrance from '@/interfaces/buildings/IEntrance';
-import IFloor from '@/interfaces/buildings/IFloor';
+import Entrance from '@/classes/Entrance';
+import Floor from '@/classes/Floor';
+import IBuilding from '@/interfaces/IBuilding';
+import IEntrance from '@/interfaces/IEntrance';
+import IFloor from '@/interfaces/IFloor';
 
 export default class Building implements IBuilding {
   id = '';

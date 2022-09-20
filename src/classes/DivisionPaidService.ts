@@ -1,6 +1,6 @@
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import PaidService from '@/classes/PaidService';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IPaidService from '@/interfaces/IPaidService';
 

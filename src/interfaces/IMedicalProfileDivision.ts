@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 
 export default interface IMedicalProfileDivision {

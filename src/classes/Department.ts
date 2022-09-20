@@ -1,6 +1,6 @@
-import Division from '@/classes/buildings/Division';
-import IDivision from '@/interfaces/buildings/IDivision';
+import Division from '@/classes/Division';
 import IDepartment from '@/interfaces/IDepartment';
+import IDivision from '@/interfaces/IDivision';
 
 export default class Department implements IDepartment {
   id?: string;

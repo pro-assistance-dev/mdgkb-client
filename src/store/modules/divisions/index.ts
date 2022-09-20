@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 
-import Division from '@/classes/buildings/Division';
-import DivisionComment from '@/classes/buildings/DivisionComment';
+import Division from '@/classes/Division';
+import DivisionComment from '@/classes/DivisionComment';
 import RootState from '@/store/types';
 
 import actions from './actions';

@@ -1,6 +1,6 @@
-import Division from '@/classes/buildings/Division';
-import IDivision from '@/interfaces/buildings/IDivision';
-import IFloor from '@/interfaces/buildings/IFloor';
+import Division from '@/classes/Division';
+import IDivision from '@/interfaces/IDivision';
+import IFloor from '@/interfaces/IFloor';
 
 export default class Floor implements IFloor {
   id?: string;

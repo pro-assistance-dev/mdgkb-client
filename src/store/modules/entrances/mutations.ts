@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import Entrance from '@/classes/buildings/Entrance';
-import IEntrance from '@/interfaces/buildings/IEntrance';
+import Entrance from '@/classes/Entrance';
+import IEntrance from '@/interfaces/IEntrance';
 
 import { State } from './state';
 

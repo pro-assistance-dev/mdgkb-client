@@ -114,6 +114,10 @@ export default class ResidencyCourse implements IResidencyCourse {
   }
 
   setMainTeacher(index: number): void {
+    if (typeof index !== 'number' || index < 0 || index >= this.residencyCoursesTeachers.length - 1) {
+      return;
+    }
+
     this.residencyCoursesTeachers.forEach((courseTeacher: IResidencyCourseTeacher) => (courseTeacher.main = false));
     this.residencyCoursesTeachers[index].main = true;
   }
@@ -145,6 +149,9 @@ export default class ResidencyCourse implements IResidencyCourse {
   }
 
   setMainSpecialization(index: number): void {
+    if (typeof index !== 'number' || index < 0 || index >= this.residencyCoursesSpecializations.length - 1) {
+      return;
+    }
     this.residencyCoursesSpecializations.forEach((i: IResidencyCourseSpecialization) => (i.main = false));
     this.residencyCoursesSpecializations[index].main = true;
   }
@@ -171,7 +178,6 @@ export default class ResidencyCourse implements IResidencyCourse {
     if (this.schedule) {
       fileInfos.push(this.schedule);
     }
-
     if (this.plan) {
       fileInfos.push(this.plan);
     }

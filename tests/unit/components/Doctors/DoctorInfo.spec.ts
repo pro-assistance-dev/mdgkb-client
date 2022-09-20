@@ -2,7 +2,7 @@ import { DOMWrapper, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 import { ComponentPublicInstance } from 'vue';
 
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
 import MedicalProfile from '@/classes/MedicalProfile';
 import Regalia from '@/classes/Regalia';
@@ -223,4 +223,21 @@ describe('DoctorInfo.vue', () => {
     expect(mockRouter.push).toHaveBeenCalledTimes(1);
     expect(mockRouter.push).toHaveBeenCalledWith(`/map/${doctor.division.id}`);
   });
+
+  test('doctor.academicDegree shows', async () => {
+    doctor.academicDegree = 'a';
+
+    wrapper = createWrapper(doctor);
+
+    expect(wrapper.find('[data-test="regalia-list"]').exists()).toBe(false);
+  });
+
+  test('doctor.academicRank shows', async () => {
+    doctor.academicRank = 'academicRank';
+
+    wrapper = createWrapper(doctor);
+
+    expect(wrapper.find('[data-test="regalia-list"]').exists()).toBe(true);
+  });
+
 });

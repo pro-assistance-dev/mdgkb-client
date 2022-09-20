@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import IBuilding from '@/interfaces/buildings/IBuilding';
+import IBuilding from '@/interfaces/IBuilding';
 import RootState from '@/store/types';
 
 import { State } from './state';

@@ -90,6 +90,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/calendar-style.scss';
 :deep(.newsLabel) {
   cursor: pointer !important;
   max-width: 200px;

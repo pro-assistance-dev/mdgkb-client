@@ -6,4 +6,5 @@ export default interface IDivisionSchema extends IBaseSchema {
   name: string;
   slug: string;
   treatDirectionId: string;
+  buildingId: string;
 }

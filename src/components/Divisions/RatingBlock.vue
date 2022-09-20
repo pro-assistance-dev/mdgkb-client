@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import countRating from '@/services/countRating';
 export default defineComponent({

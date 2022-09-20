@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Building from '@/classes/buildings/Building';
+import Building from '@/classes/Building';
 import RootState from '@/store/types';
 
 import actions from './actions';

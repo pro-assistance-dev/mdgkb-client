@@ -1,29 +1,35 @@
-import DivisionComment from '@/classes/buildings/DivisionComment';
-import Entrance from '@/classes/buildings/Entrance';
 import ContactInfo from '@/classes/contacts/ContactInfo';
+import DivisionComment from '@/classes/DivisionComment';
 import DivisionPaidService from '@/classes/DivisionPaidService';
+import DivisionVideo from '@/classes/DivisionVideo';
 import Doctor from '@/classes/Doctor';
+import Entrance from '@/classes/Entrance';
 import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
+import NewsDivision from '@/classes/news/NewsDivision';
+import SocialMedia from '@/classes/SocialMedia';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import Vacancy from '@/classes/Vacancy';
 import VisitingRule from '@/classes/VisitingRule';
-import IDivision from '@/interfaces/buildings/IDivision';
-import IDivisionComment from '@/interfaces/buildings/IDivisionComment';
-import IDivisionImage from '@/interfaces/buildings/IDivisionImage';
-import IEntrance from '@/interfaces/buildings/IEntrance';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import IDivision from '@/interfaces/IDivision';
+import IDivisionComment from '@/interfaces/IDivisionComment';
+import IDivisionImage from '@/interfaces/IDivisionImage';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
+import IDivisionVideo from '@/interfaces/IDivisionVideo';
 import IDoctor from '@/interfaces/IDoctor';
+import IEntrance from '@/interfaces/IEntrance';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
+import ISocialMedia from '@/interfaces/ISocialMedia';
 import ITreatDirection from '@/interfaces/ITreatDirection';
 import IVacancy from '@/interfaces/IVacancy';
 import IVisitingRule from '@/interfaces/IVisitingRule';
+import INewsDivision from '@/interfaces/news/INewsDivision';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
-import TreatDirection from '../TreatDirection';
 import DivisionImage from './DivisionImage';
+import TreatDirection from './TreatDirection';
 
 export default class Division implements IDivision {
   id?: string;
@@ -57,12 +63,17 @@ export default class Division implements IDivision {
   hospitalizationDoctorId?: string;
   hospitalizationDoctor?: IDoctor;
   medicalProfilesDivisions: IMedicalProfileDivision[] = [];
+  divisionVideos: IDivisionVideo[] = [];
+  divisionVideosForDelete: string[] = [];
   contactInfo: IContactInfo = new ContactInfo();
   contactInfoId?: string;
   treatDirection: ITreatDirection = new TreatDirection();
   treatDirectionId?: string;
   chiefId?: string;
   chief: IDoctor = new Doctor();
+  socialMedias: ISocialMedia[] = [];
+  newsDivisions: INewsDivision[] = [];
+  newsDivisionsForDelete: string[] = [];
 
   constructor(i?: IDivision) {
     if (!i) {
@@ -124,10 +135,18 @@ export default class Division implements IDivision {
     if (i.treatDirection) {
       this.treatDirection = new TreatDirection(i.treatDirection);
     }
-
     this.chiefId = i.chiefId;
     if (i.chief) {
       this.chief = new Doctor(i.chief);
+    }
+    if (i.newsDivisions) {
+      this.newsDivisions = i.newsDivisions.map((item: INewsDivision) => new NewsDivision(item));
+    }
+    if (i.divisionVideos) {
+      this.divisionVideos = i.divisionVideos.map((item: IDivisionVideo) => new DivisionVideo(item));
+    }
+    if (i.socialMedias) {
+      this.socialMedias = i.socialMedias.map((item: ISocialMedia) => new SocialMedia(item));
     }
   }
 
@@ -136,5 +155,16 @@ export default class Division implements IDivision {
       return this.entrance.building.address;
     }
     return '';
+  }
+
+  getVisitingRulesList(): IVisitingRule[] {
+    return this.visitingRules.filter((v: IVisitingRule) => v.isListItem);
+  }
+
+  getVisitingRulesText(): IVisitingRule[] {
+    return this.visitingRules.filter((v: IVisitingRule) => !v.isListItem);
+  }
+  addDivisionVideo(): void {
+    this.divisionVideos.push(new DivisionVideo());
   }
 }

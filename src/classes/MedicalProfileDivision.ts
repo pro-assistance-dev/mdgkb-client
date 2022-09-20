@@ -1,6 +1,6 @@
-import Division from '@/classes/buildings/Division';
+import Division from '@/classes/Division';
 import MedicalProfile from '@/classes/MedicalProfile';
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
 

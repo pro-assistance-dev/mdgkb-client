@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/buildings/IDivision';
+import IDivision from '@/interfaces/IDivision';
 import IHospitalizationStage from '@/interfaces/IHospitalizationStage';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 

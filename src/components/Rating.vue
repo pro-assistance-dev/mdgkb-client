@@ -120,6 +120,10 @@ a {
   margin-right: 8px;
 }
 
+.hidden {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   :deep(.el-rate__icon) {
     font-size: 14px;

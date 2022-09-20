@@ -92,8 +92,8 @@ import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import CommentCard from '@/components/Main/CommentCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
-import IDivision from '@/interfaces/buildings/IDivision';
 import IComment from '@/interfaces/comments/IComment';
+import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'MainPageOldVersion',

@@ -43,6 +43,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/calendar-style.scss';
+
 .calendar-container {
   width: 100%;
 }
