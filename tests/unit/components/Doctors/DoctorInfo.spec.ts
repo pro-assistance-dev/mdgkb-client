@@ -1,5 +1,6 @@
 import { DOMWrapper, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
 import { v4 as uuidv4 } from 'uuid';
+import { ComponentPublicInstance } from 'vue';
 
 import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
@@ -22,13 +23,13 @@ const stubs = {
 
 let mockRouter;
 
-const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<any> => {
+const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<ComponentPublicInstance> => {
   mockRouter = {
     push: jest.fn(),
   };
   return mount(DoctorInfo, {
     props: {
-      doctor: doctor,
+      doctor,
     },
     global: {
       stubs: stubs,
@@ -41,7 +42,7 @@ const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<any> => {
 };
 
 describe('DoctorInfo.vue', () => {
-  let wrapper: VueWrapper<any>;
+  let wrapper: VueWrapper<ComponentPublicInstance>;
   let doctor: IDoctor;
 
   beforeEach(() => {
