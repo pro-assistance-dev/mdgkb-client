@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import Comments from '@/components/Comments/Comments.vue';
 import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
@@ -35,6 +35,7 @@ import IDivision from '@/interfaces/IDivision';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -54,10 +55,13 @@ export default defineComponent({
   },
 
   setup() {
-    const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
+    const store = useStore();
+    const mounted = ref(false);
+    const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
     const load = async () => {
-      Provider.filterQuery.value.setParams(Provider.schema.value.division.slug, Provider.route().params['id'] as string);
-      await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
+      // Provider.filterQuery.value.setParams(Provider.schema.value.division.slug, Provider.route().params['id'] as string);
+      // await store.dispatch('divisions/get', Provider.filterQuery.value);
+      mounted.value = true;
     };
 
     Hooks.onBeforeMount(load);
@@ -65,7 +69,8 @@ export default defineComponent({
     return {
       countRating,
       division,
-      mounted: Provider.mounted,
+      // mounted: Provider.mounted,
+      mounted,
     };
   },
 });
