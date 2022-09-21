@@ -222,4 +222,21 @@ describe('DoctorInfo.vue', () => {
     expect(mockRouter.push).toHaveBeenCalledTimes(1);
     expect(mockRouter.push).toHaveBeenCalledWith(`/map/${doctor.division.id}`);
   });
+
+  test('doctor.academicDegree shows', async () => {
+    doctor.academicDegree = 'a';
+
+    wrapper = createWrapper(doctor);
+
+    expect(wrapper.find('[data-test="regalia-list"]').exists()).toBe(false);
+  });
+
+  test('doctor.academicRank shows', async () => {
+    doctor.academicRank = 'academicRank';
+
+    wrapper = createWrapper(doctor);
+
+    expect(wrapper.find('[data-test="regalia-list"]').exists()).toBe(true);
+  });
+
 });

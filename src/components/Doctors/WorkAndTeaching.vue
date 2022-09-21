@@ -89,7 +89,7 @@ export default defineComponent({
   font-weight: $title-font-bold-weight;
   width: 130px;
   padding: 0;
-  line-height: 100%;
+  line-height: 110%;
   height: 26px;
   overflow: hidden;
   margin: 0 20px 0 10px;
