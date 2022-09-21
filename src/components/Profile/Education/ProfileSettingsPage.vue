@@ -1,5 +1,5 @@
 <template>
-  <div class="size">
+  <div v-if="mounted" class="size" data-test="profile-settings-component">
     <div class="title">
       <div class="hidden">
         <h2><b>Настройки</b></h2>
@@ -10,14 +10,15 @@
         <el-checkbox v-model="user.rejectEmail">Запретить рассылку email</el-checkbox>
       </div>
       <div>
-        <el-button class="save-button" @click="saveUser">Сохранить</el-button>
+        <el-button class="save-button" data-test="save-button" @click="saveUser">Сохранить</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
+import { useStore } from 'vuex';
 
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/interfaces/IUser';
@@ -27,19 +28,20 @@ export default defineComponent({
   name: 'ProfileSettingsPage',
   setup() {
     const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const store = useStore();
+    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
+    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
 
-    const loadUser = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
-    };
-    onMounted(loadUser);
+    onBeforeMount(async () => {
+      await store.dispatch('users/get', userId.value);
+      mounted.value = true;
+    });
 
-    async function saveUser() {
-      await Provider.store.dispatch('users/update', user.value);
+    const saveUser = async () => {
+      await store.dispatch('users/update', user.value);
       await Provider.router.push('/profile');
-    }
+    };
 
     return {
       mounted,
