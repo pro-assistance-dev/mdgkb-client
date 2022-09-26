@@ -6,6 +6,9 @@ run:
 #GIT#
 #####
 
+set_git_hooks_dir:
+	git config core.hooksPath .husky
+
 git_push: git_commit
 	git push -u origin HEAD
 
