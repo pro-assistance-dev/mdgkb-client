@@ -1,13 +1,11 @@
-import { flushPromises, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
+import { flushPromises, RouterLinkStub, shallowMount, VueWrapper } from '@vue/test-utils';
 import { ElCarousel, ElRate } from 'element-plus';
 import { createStore } from 'vuex';
-import { ComponentPublicInstance } from 'vue';
 
 import Division from '@/classes/Division';
 import DivisionPage from '@/components/Divisions/DivisionPage.vue';
 import carouselSwipe from '@/services/CarouselSwipe';
-
-import DateTimeFormatter from '@/services/DateFormat';
+import Hooks from '@/services/Hooks/Hooks';
 
 import ComponentStub from '../../../__mocks__/ComponentStub';
 
@@ -27,7 +25,7 @@ describe('DivisionPage.vue', () => {
       },
     },
   });
-  
+
   beforeEach(() => {
     const div = new Division();
     div.id = 'id';
@@ -52,7 +50,7 @@ describe('DivisionPage.vue', () => {
   });
 
   test('DivisionPage rendering after mount is true.', async () => {
-    wrapper = mount(DivisionPage, {
+    wrapper = shallowMount(DivisionPage, {
       global: {
         provide: {
           store,
@@ -64,25 +62,28 @@ describe('DivisionPage.vue', () => {
         stubs: {
           RouterLink: RouterLinkStub,
           PaidServices: ComponentStub,
-          NewsSlider:  ComponentStub,
+          NewsSlider: ComponentStub,
           ScansSlider: ComponentStub,
-          Comments:  ComponentStub,
-          SocialMediaCarousel:  ComponentStub,
+          Comments: ComponentStub,
+          SocialMediaCarousel: ComponentStub,
         },
         components: {
           'el-rate': ElRate,
           'el-carousel': ElCarousel,
         },
       },
+      methods: {
+        onBeforeMount: Hooks.onBeforeMount,
+      },
     });
 
     // Act
     expect(wrapper.find('[data-test="division-component"]').exists()).toBe(false);
-    // Assert
+    wrapper.vm.mounted = true;
+    // await wrapper.setProps({ mounted: true });
     await flushPromises();
     expect(wrapper.find('[data-test="division-component"]').exists()).toBe(true);
   });
-
 
   // const createWrapper = (): VueWrapper<ComponentPublicInstance> => {
   //   return mount(DivisionPage, {

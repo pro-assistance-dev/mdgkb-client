@@ -1,12 +1,9 @@
 import { mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
 
 import Doctor from '@/classes/Doctor';
+import Regalia from '@/classes/Regalia';
 import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
 import IDoctor from '@/interfaces/IDoctor';
-import Regalia from '@/classes/Regalia';
-
-
-import ComponentStub from '../../../__mocks__/ComponentStub';
 
 jest.mock('vue-router', () => ({
   useRoute: jest.fn(() => ({ params: { slug: 1 } })),
@@ -53,7 +50,6 @@ describe('DoctorAchievements.vue', () => {
       doctor.regalias.push(r);
     }
 
-
     wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="achievements-component"]').exists()).toBe(true);
@@ -67,7 +63,6 @@ describe('DoctorAchievements.vue', () => {
 
     expect(wrapper.find('[data-test="achievements-component"]').exists()).toBe(false);
   });
-
 
   test('Regalias list is shown correct', async () => {
     for (let i = 0; i < 5; i++) {

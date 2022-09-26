@@ -7,10 +7,11 @@
           v-if="division.chief.human.photo.fileSystemPath"
           :src="division.chief.human.photo.getImageUrl()"
           alt="alt"
+          data-test="chief-photo"
           @error="division.chief.human.photo.errorImg"
         />
-        <img v-else src="@/assets/img/doctor-default.webp" />
-        <div class="doctor-name">
+        <img v-else data-test="chief-alt-photo" src="@/assets/img/doctor-default.webp" />
+        <div data-test="chief-name" class="doctor-name">
           {{ division.chief.human.getFullName() }}
         </div>
         <div class="status">Заведующая отделением</div>
@@ -22,12 +23,10 @@
 
     <div class="card-item-field">
       <div class="card-item-middle">
-        <div class="division-line">
-          <!-- <div v-if="doctor.division?.name" class="division-name" @click="$router.push(`/divisions/${doctor.division.id}`)"> -->
-
+        <div class="division-line" data-test="treat-direction-name">
           {{ division.treatDirection.name }}
         </div>
-        <div class="division-name">
+        <div class="division-name" data-test="division-name">
           <!-- {{ doctor.human.getFullName() }} -->
           {{ division.name }}
           <div class="size320"><Rating :comments="division.divisionComments" /></div>
@@ -114,7 +113,7 @@
                   м. Серпуховская
                 </div>
                 <div class="item-m">
-                  <a @click="$router.push(`/map/${division.id}`)">
+                  <a data-test="map-link" @click="$router.push(`/map/${division.id}`)">
                     {{ division.address }}
                   </a>
                 </div>
@@ -127,7 +126,7 @@
                   <use xlink:href="#phone"></use>
                 </svg>
               </div>
-              <div class="item-p">
+              <div class="item-p" data-test="phones-list">
                 <div v-for="phone in division.contactInfo.telephoneNumbers" :key="phone.id" class="item">{{ phone.number }}</div>
               </div>
             </div>
@@ -137,7 +136,7 @@
                   <use xlink:href="#email"></use>
                 </svg>
               </div>
-              <div class="item-p">
+              <div class="item-p" data-test="emails-list">
                 <div v-for="email in division.contactInfo.emails" :key="email.id" class="item">{{ email.address }}</div>
               </div>
             </div>

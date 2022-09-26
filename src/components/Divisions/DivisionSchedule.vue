@@ -1,7 +1,7 @@
 <template>
   <!-- <div v-if="educations.length" class="education"> -->
   <!-- <div v-if="division.schedule.scheduleItems.length > 0" class="education"> -->
-  <div v-if="division.schedule.scheduleItems.length || division.visitingRules.length" class="schedule">
+  <div v-if="division.schedule.scheduleItems.length || division.visitingRules.length" data-test="schedule-items-block" class="schedule">
     <div class="title-in">Распорядок дня</div>
     <div class="block">
       <div class="left-block">
@@ -40,7 +40,7 @@ import { defineComponent, PropType } from 'vue';
 import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
-  name: 'DivisionOrderOfDay',
+  name: 'DivisionSchedule',
   props: {
     division: { type: Object as PropType<IDivision>, required: true },
   },

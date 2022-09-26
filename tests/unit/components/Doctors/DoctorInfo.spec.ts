@@ -42,7 +42,6 @@ const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<ComponentPub
 };
 
 describe('DoctorInfo.vue', () => {
-  let wrapper: VueWrapper<ComponentPublicInstance>;
   let doctor: IDoctor;
 
   beforeEach(() => {
@@ -50,7 +49,7 @@ describe('DoctorInfo.vue', () => {
   });
 
   test('Show photo if exists, else show alt image', async () => {
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
     expect(wrapper.find('[data-test="doctor-photo"]').exists()).toBe(false);
     expect(wrapper.find('[data-test="doctor-alt-photo"]').exists()).toBe(true);
 
@@ -64,7 +63,7 @@ describe('DoctorInfo.vue', () => {
 
   test('Division name is hidden if not exists', async () => {
     doctor.division = undefined;
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
     expect(wrapper.find('[data-test="division-name"]').exists()).toBe(false);
 
     const doctorWithDivision = new Doctor();
@@ -77,7 +76,7 @@ describe('DoctorInfo.vue', () => {
   test('Division name show if exists', async () => {
     doctor.division = new Division();
     doctor.division.name = 'test';
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="division-name"]').exists()).toBe(true);
     expect(wrapper.find('[data-test="division-name"]').text()).toBe(doctor.division.name);
@@ -87,7 +86,7 @@ describe('DoctorInfo.vue', () => {
     doctor.human.name = 'Name';
     doctor.human.surname = 'Surname';
     doctor.human.patronymic = 'Patronymic';
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="doctor-name"]').exists()).toBe(true);
     expect(wrapper.find('[data-test="doctor-name"]').text()).toBe(doctor.human.getFullName());
@@ -98,7 +97,7 @@ describe('DoctorInfo.vue', () => {
     doctor.id = id;
     doctor.division = new Division();
     doctor.division.chiefId = id;
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="is-chief-block"]').exists()).toBe(true);
     const doctorNotChief = new Doctor();
@@ -120,7 +119,7 @@ describe('DoctorInfo.vue', () => {
   test('MedicalProfile name show if exists', async () => {
     doctor.medicalProfile = new MedicalProfile();
     doctor.medicalProfile.name = 'test';
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
     expect(wrapper.find('[data-test="medical-profile-name"]').exists()).toBe(true);
     expect(wrapper.find('[data-test="medical-profile-name"]').text()).toBe(doctor.medicalProfile.name);
   });
@@ -133,7 +132,7 @@ describe('DoctorInfo.vue', () => {
 
   test('Position name show if exists', async () => {
     doctor.position.name = 'test';
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="position-name"]').exists()).toBe(true);
     expect(wrapper.find('[data-test="position-name"]').text()).toBe(doctor.position.name);
@@ -145,7 +144,7 @@ describe('DoctorInfo.vue', () => {
       r.name = String(i);
       doctor.regalias.push(r);
     }
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     expect(wrapper.findAll('[data-test="regalia-list"]')).toHaveLength(doctor.regalias.length);
   });
@@ -157,7 +156,7 @@ describe('DoctorInfo.vue', () => {
       }
       doctor.regalias.push(r);
     }
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     expect(wrapper.findAll('[data-test="regalia-list"]')).toHaveLength(doctor.regalias.length - 1);
   });
@@ -168,7 +167,7 @@ describe('DoctorInfo.vue', () => {
       r.name = String(i);
       doctor.regalias.push(r);
     }
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     wrapper.findAll('[data-test="regalia-list"]').forEach((w: DOMWrapper<Element>, i) => {
       w.text();
@@ -187,7 +186,7 @@ describe('DoctorInfo.vue', () => {
 
   test('MosDoctor link show if exists', async () => {
     doctor.mosDoctorLink = 'test';
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
     expect(wrapper.find('[data-test="mos-doctor-link"]').exists()).toBe(true);
   });
 
@@ -198,7 +197,7 @@ describe('DoctorInfo.vue', () => {
 
   test('OnlineConsult button show  if exists', async () => {
     doctor.onlineDoctorId = 'test';
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
     expect(wrapper.find('[data-test="online-consult-button"]').exists()).toBe(true);
   });
 
@@ -206,7 +205,7 @@ describe('DoctorInfo.vue', () => {
     doctor.division = new Division();
     doctor.division.slug = 'test';
     doctor.division.name = 'test';
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     await wrapper.find('[data-test="division-name"]').trigger('click');
     expect(mockRouter.push).toHaveBeenCalledTimes(1);
@@ -217,7 +216,7 @@ describe('DoctorInfo.vue', () => {
     doctor.division = new Division();
     doctor.division.id = 'test';
     doctor.division.address = 'test';
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     await wrapper.find('[data-test="map-link"]').trigger('click');
     expect(mockRouter.push).toHaveBeenCalledTimes(1);
@@ -227,7 +226,7 @@ describe('DoctorInfo.vue', () => {
   test('doctor.academicDegree shows', async () => {
     doctor.academicDegree = 'a';
 
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="regalia-list"]').exists()).toBe(false);
   });
@@ -235,9 +234,8 @@ describe('DoctorInfo.vue', () => {
   test('doctor.academicRank shows', async () => {
     doctor.academicRank = 'academicRank';
 
-    wrapper = createWrapper(doctor);
+    const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="regalia-list"]').exists()).toBe(true);
   });
-
 });
