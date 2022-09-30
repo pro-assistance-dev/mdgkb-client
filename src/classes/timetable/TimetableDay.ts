@@ -1,6 +1,8 @@
 import TimePeriod from '@/classes/TimePeriod';
+import ScheduleItem from '@/classes/timetable/ScheduleItems';
 import Weekday from '@/classes/timetable/Weekday';
 import ITimePeriod from '@/interfaces/ITimePeriod';
+import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 import IWeekday from '@/interfaces/timetables/IWeekday';
 
@@ -17,6 +19,7 @@ export default class TimetableDay implements ITimetableDay {
   aroundTheClock = false;
   breakPeriods: ITimePeriod[] = [];
   breakPeriodsForDelete: string[] = [];
+  scheduleItems: IScheduleItem[] = [];
 
   constructor(timetableDay?: TimetableDay) {
     if (!timetableDay) {
@@ -34,6 +37,9 @@ export default class TimetableDay implements ITimetableDay {
     }
     if (timetableDay.breakPeriods) {
       this.breakPeriods = timetableDay.breakPeriods.map((item: ITimePeriod) => new TimePeriod(item));
+    }
+    if (timetableDay.scheduleItems) {
+      this.scheduleItems = timetableDay.scheduleItems.map((item: IScheduleItem) => new ScheduleItem(item));
     }
   }
 
