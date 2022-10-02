@@ -1,22 +1,21 @@
 <template>
   <FiltersWrapper>
     <template #header-right>
-      <!-- <FilterSelect
-        :max-width="200"
-        placeholder="Возраст"
-        :options="schema.diet.options"
-        :table="schema.diet.tableName"
-        :col="schema.diet.agePeriodId"
-        :data-type="DataTypes.String"
-        :operator="Operators.Eq"
-        @load="$emit('load')"
-      /> -->
-      Возраст
+      <div class="age-select">
+        <div class="title">Возраст</div>
+        <div class="age-select">
+          <el-select v-model="selectedDiet" class="m-2" placeholder="Возраст" @change="selectAge">
+            <el-option v-for="item in getAgeOptions()" :key="item.id" :label="item.name" :value="item" />
+          </el-select>
+        </div>
+      </div>
     </template>
     <template #header-left-top>
-      <el-form-item style="margin: 0">
-        <el-checkbox v-model="onlyDiabete"></el-checkbox>
-      </el-form-item>
+      <div class="item">
+        <el-form-item style="margin: 0">
+          <el-checkbox v-model="onlyDiabete" label="при диабете"></el-checkbox>
+        </el-form-item>
+      </div>
       <!-- <FilterCheckbox
         label='Обладатели статуса "Московский врач"'
         :table="schema.doctor.tableName"
@@ -25,18 +24,26 @@
         :operator="Operators.NotNull"
         @load="$emit('load')"
       /> -->
-      при диабете, для матерей
+      <div class="item">
+        <el-form-item style="margin: 0">
+          <el-checkbox v-model="onlyDiabete" label="для матерей"></el-checkbox>
+        </el-form-item>
+      </div>
     </template>
     <template #header-left-bottom>
       <!-- <el-form :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
           <el-form-item> -->
-      <el-select v-model="selectedDiet" class="m-2" placeholder="Диета" @change="selectDiet">
-        <el-option v-for="item in getDietsOptions()" :key="item.id" :label="item.name" :value="item" />
-      </el-select>
+      <div class="menu-select">
+        <div class="title">Меню</div>
+        <div class="select">
+          <el-select v-model="selectedDiet" class="m-2" placeholder="Диета" @change="selectDiet">
+            <el-option v-for="item in getDietsOptions()" :key="item.id" :label="item.name" :value="item" />
+          </el-select>
+        </div>
+      </div>
       <!-- </el-form-item>
         </el-form> -->
       <!-- <RemoteSearch :key-value="schema.diet.key" :max-width="300" placeholder="поиск" @select="selectSearch" /> -->
-      вторая строка, тут будет меню выбора
       <!-- <FilterCheckbox
         label='Обладатели статуса "Московский врач"'
         :table="schema.doctor.tableName"
@@ -91,6 +98,10 @@ export default defineComponent({
       });
     };
 
+    const getAgeOptions = (): IDiet[] => {
+      return [];
+    };
+
     const diets: Ref<IDiet[]> = computed(() => Provider.store.getters['diets/items']);
 
     onMounted(async () => {
@@ -99,6 +110,7 @@ export default defineComponent({
 
     return {
       getDietsOptions,
+      getAgeOptions,
       onlyDiabete,
       selectedDiet,
       selectDiet,
@@ -112,4 +124,53 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.item {
+  margin-right: 20px;
+}
+
+.age-select {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  font-size: 14px;
+  color: #606266;
+}
+
+.menu-select {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 800px;
+}
+
+.age-select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+}
+
+:deep(.el-input__inner) {
+  border-radius: 20px;
+  border: 1px solid #e3e8f0;
+  width: 100%;
+}
+
+:deep(.el-select) {
+  width: 100%;
+}
+</style>
