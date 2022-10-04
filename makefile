@@ -45,3 +45,17 @@ test_covarage:
 #
 test_covarage_for_file:
 	$(jest_local) $t --coverage --collectCoverageFrom=$n
+
+########
+#DOCKER#
+########
+
+docker_build:
+	docker build -t mdgkb-client .
+
+docker_up:
+	docker compose up --force-recreate -d
+
+docker_down:
+	docker compose down
+

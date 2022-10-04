@@ -73,7 +73,7 @@
    x2="323.53497"
    y2="513.91984"
    gradientUnits="userSpaceOnUse" />
-<style
+<component is="style"
    type="text/css"
    id="style13613">
 
@@ -416,7 +416,7 @@
 .st84 {
   fill: url(#SVGID_79_);
 }
-</style>
+</component>
     <clipPath
    id="SVGID_2_">
       <use
