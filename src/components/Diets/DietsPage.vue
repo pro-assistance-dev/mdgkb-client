@@ -22,6 +22,7 @@ export default defineComponent({
 
   setup() {
     const load = async () => {
+      Provider.store.dispatch('meta/getOptions', Provider.schema.value.agePeriod);
       await loadDiets();
     };
 

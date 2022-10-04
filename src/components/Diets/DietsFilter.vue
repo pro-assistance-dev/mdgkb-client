@@ -4,8 +4,8 @@
       <div class="age-select">
         <div class="title">Возраст</div>
         <div class="age-select">
-          <el-select v-model="selectedDiet" class="m-2" placeholder="Возраст" @change="selectAge">
-            <el-option v-for="item in getAgeOptions()" :key="item.id" :label="item.name" :value="item" />
+          <el-select v-model="selectedAgePeriodId" class="m-2" placeholder="Возраст" @change="selectAge">
+            <el-option v-for="item in schema.agePeriod.options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </div>
       </div>
@@ -16,23 +16,13 @@
           <el-checkbox v-model="onlyDiabete" label="при диабете"></el-checkbox>
         </el-form-item>
       </div>
-      <!-- <FilterCheckbox
-        label='Обладатели статуса "Московский врач"'
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.mosDoctorLink"
-        :data-type="DataTypes.Boolean"
-        :operator="Operators.NotNull"
-        @load="$emit('load')"
-      /> -->
-      <div class="item">
+      <!-- <div v-show="!onlyDiabete" class="item">
         <el-form-item style="margin: 0">
-          <el-checkbox v-model="onlyDiabete" label="для матерей"></el-checkbox>
+          <el-checkbox v-model="onlyMather" label="для матерей"></el-checkbox>
         </el-form-item>
-      </div>
+      </div> -->
     </template>
     <template #header-left-bottom>
-      <!-- <el-form :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
-          <el-form-item> -->
       <div class="menu-select">
         <div class="title">Меню</div>
         <div class="select">
@@ -41,30 +31,6 @@
           </el-select>
         </div>
       </div>
-      <!-- </el-form-item>
-        </el-form> -->
-      <!-- <RemoteSearch :key-value="schema.diet.key" :max-width="300" placeholder="поиск" @select="selectSearch" /> -->
-      <!-- <FilterCheckbox
-        label='Обладатели статуса "Московский врач"'
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.mosDoctorLink"
-        :data-type="DataTypes.Boolean"
-        :operator="Operators.NotNull"
-        @load="$emit('load')"
-      /> -->
-      <!-- <FilterCheckbox
-        label="С отзывами"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.commentsCount"
-        :data-type="DataTypes.Number"
-        :operator="Operators.Gt"
-        @load="$emit('load')"
-      /> -->
-    </template>
-
-    <template v-if="doctorsMode" #footer>
-      строка под фильтрами *
-      <!-- <SortList :models="createSortModels()" @load="$emit('load')" /> -->
     </template>
   </FiltersWrapper>
 </template>
@@ -87,22 +53,30 @@ export default defineComponent({
     const selectDiet = (diet: IDiet) => {
       Provider.store.commit('diets/set', diet);
     };
+    const diets: Ref<IDiet[]> = computed(() => Provider.store.getters['diets/items']);
     const selectedDiet: Ref<IDiet> = computed(() => Provider.store.getters['diets/item']);
     const onlyDiabete: Ref<boolean> = ref(false);
+    Provider.store.dispatch('meta/getOptions', Provider.schema.value.agePeriod);
+
+    const selectedAgePeriodId: Ref<string> = computed(() => Provider.store.getters['agePeriods/selectedItemId']);
+
     const getDietsOptions = (): IDiet[] => {
+      let ageMatch = true;
+      let isDiabet = true;
       return diets.value.filter((d: IDiet) => {
-        if (onlyDiabete.value) {
-          return d.diabetes;
+        if (selectedAgePeriodId.value !== '') {
+          ageMatch = d.agePeriodId === selectedAgePeriodId.value;
         }
-        return true;
+        if (onlyDiabete.value) {
+          isDiabet = d.diabetes;
+        }
+        return ageMatch && isDiabet;
       });
     };
 
-    const getAgeOptions = (): IDiet[] => {
-      return [];
+    const selectAge = (id: string) => {
+      Provider.store.commit('agePeriods/setSelectedAgePeriodId', id);
     };
-
-    const diets: Ref<IDiet[]> = computed(() => Provider.store.getters['diets/items']);
 
     onMounted(async () => {
       mounted.value = true;
@@ -110,15 +84,14 @@ export default defineComponent({
 
     return {
       getDietsOptions,
-      getAgeOptions,
       onlyDiabete,
       selectedDiet,
+      selectedAgePeriodId,
       selectDiet,
       diets,
       mounted,
-      // Operators,
-      // DataTypes,
       schema: Provider.schema,
+      selectAge,
     };
   },
 });
