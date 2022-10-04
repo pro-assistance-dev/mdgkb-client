@@ -41,8 +41,6 @@ import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import IDiet from '@/interfaces/IDiet';
 import Provider from '@/services/Provider';
-// import { DataTypes } from '@/interfaces/filters/DataTypes';
-// import { Operators } from '@/interfaces/filters/Operators';
 
 export default defineComponent({
   name: 'DietsFilter',
