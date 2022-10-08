@@ -49,8 +49,8 @@
                       <div class="hidden-block">
                         <div class="hidden-line">
                           <div class="hidden-item">
-                            <font color="#0A216F"><b>сегодня</b></font
-                            >: {{ division.timetable.getTodayWorkday().getTimetable() }}
+                          <div class="hidden-item">
+                            <span class="today-2">сегодня</span>: {{ division.timetable.getTodayWorkday().getTimetable() }}
                           </div>
                           <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
                             Перерыв:
