@@ -1,63 +1,30 @@
 import Building from '@/classes/Building';
-import ContactInfo from '@/classes/contacts/ContactInfo';
 import Division from '@/classes/Division';
-import Doctor from '@/classes/Doctor';
 import Entrance from '@/classes/Entrance';
-import Schedule from '@/classes/timetable/Schedule';
-import Timetable from '@/classes/timetable/Timetable';
-import TreatDirection from '@/classes/TreatDirection';
 import VisitingRule from '@/classes/VisitingRule';
+import IDivision from '@/interfaces/IDivision';
+import IDivisionVideo from '@/interfaces/IDivisionVideo';
 
 import EmptyVariables from '../../__mocks__/EmptyVariables';
-const sourceItem = {
-  id: '06950b91-62bf-4183-8a4f-2756dacaf32c',
-  name: 'Имя',
-  info: '',
-  address: '',
-  show: '',
-  floorId: '',
-  showCommonVisitingRules: '',
-  entranceId: '',
-  entrance: undefined,
-  slug: '',
-  doctors: [],
-  doctorsForDelete: [],
-  vacancies: [],
-  timetable: new Timetable(),
-  timetableId: '',
-  schedule: new Schedule(),
-  scheduleId: '',
-  divisionImages: [],
-  divisionImagesForDelete: [],
-  divisionImagesNames: [],
-  divisionComments: [],
-  timetableDaysForDelete: [],
-  visitingRules: [],
-  visitingRulesForDelete: [],
-  buildingId: '',
-  divisionPaidServices: [],
-  hospitalizationContactInfo: undefined,
-  hospitalizationContactInfoId: undefined,
-  hospitalizationDoctorId: '',
-  hospitalizationDoctor: undefined,
-  medicalProfilesDivisions: [],
-  divisionVideos: [],
-  divisionVideosForDelete: [],
-  contactInfo: new ContactInfo(),
-  contactInfoId: undefined,
-  treatDirection: new TreatDirection(),
-  treatDirectionId: '',
-  chiefId: '',
-  chief: new Doctor(),
-  socialMedias: [],
-  newsDivisions: [],
-  newsDivisionsForDelete: [],
-};
+import ClassTester from '../../__services__/ClassTester/ClassTester';
+
 describe('Class Division', () => {
   let division: Division;
 
   beforeEach(() => {
     division = new Division();
+  });
+  test('constructor', () => {
+    const classInspectResult = ClassTester.Inspect<Division, IDivision>(Division);
+    expect(classInspectResult).toEqual(true);
+  });
+
+  test('added functions', () => {
+    const classInspectResult = ClassTester.InspectAddedFunctions<IDivision, IDivisionVideo>({
+      entity: division,
+      constructions: [{ func: division.addDivisionVideo, arr: division.divisionVideos }],
+    });
+    expect(classInspectResult).toEqual(true);
   });
 
   test('getAddress get not empty string if address exists', () => {

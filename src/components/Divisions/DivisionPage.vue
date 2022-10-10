@@ -1,6 +1,6 @@
 <template>
   <!-- <div v-if="mount" class="division-page-container"> -->
-  <div v-if="mounted" data-test="division-component" class="division-page-container">
+  <div v-if="mounted" class="division-page-container" data-test="division-component">
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
@@ -20,7 +20,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
 
 import Comments from '@/components/Comments/Comments.vue';
 import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
@@ -55,20 +54,17 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    const division: ComputedRef<IDivision> = computed<IDivision>(() => store.getters['divisions/division']);
+    const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
     const load = async () => {
       Provider.filterQuery.value.setParams(Provider.schema.value.division.slug, Provider.route().params['id'] as string);
-      await store.dispatch('divisions/get', Provider.filterQuery.value);
-      // mounted.value = true;
+      await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
     };
 
     Hooks.onBeforeMount(load);
+
     return {
-      load,
       countRating,
       division,
-      // mounted: Provider.mounted,
       mounted: Provider.mounted,
     };
   },

@@ -5,13 +5,8 @@ import { createStore } from 'vuex';
 import Division from '@/classes/Division';
 import DivisionPage from '@/components/Divisions/DivisionPage.vue';
 import carouselSwipe from '@/services/CarouselSwipe';
-import Hooks from '@/services/Hooks/Hooks';
 
 import ComponentStub from '../../../__mocks__/ComponentStub';
-
-// jest.mock('vue-router', () => ({
-//   useRoute: jest.fn(() => ({ params: { id: 1 } })),
-// }));
 
 describe('DivisionPage.vue', () => {
   let wrapper: VueWrapper<any>;
@@ -66,58 +61,19 @@ describe('DivisionPage.vue', () => {
           ScansSlider: ComponentStub,
           Comments: ComponentStub,
           SocialMediaCarousel: ComponentStub,
+          DivisionSpecialists: ComponentStub,
         },
         components: {
           'el-rate': ElRate,
           'el-carousel': ElCarousel,
         },
       },
-      methods: {
-        onBeforeMount: Hooks.onBeforeMount,
-      },
     });
 
     // Act
     expect(wrapper.find('[data-test="division-component"]').exists()).toBe(false);
     wrapper.vm.mounted = true;
-    // await wrapper.setProps({ mounted: true });
     await flushPromises();
     expect(wrapper.find('[data-test="division-component"]').exists()).toBe(true);
   });
-
-  // const createWrapper = (): VueWrapper<ComponentPublicInstance> => {
-  //   return mount(DivisionPage, {
-  //     global: {
-  //       provide: {
-  //         store,
-  //       },
-  //       directives: {
-  //         $carouselSwipe: carouselSwipe,
-  //         touch: jest.fn(),
-  //       },
-  //       stubs: {
-  //         RouterLink: RouterLinkStub,
-  //         PaidServices: ComponentStub,
-  //         NewsSlider:  ComponentStub,
-  //         ScansSlider: ComponentStub,
-  //         Comments:  ComponentStub,
-  //         SocialMediaCarousel:  ComponentStub,
-  //       },
-  //       components: {
-  //         'el-rate': ElRate,
-  //         'el-carousel': ElCarousel,
-  //       },
-  //       mocks: {
-  //         $dateTimeFormatter: new DateTimeFormatter('ru-RU'),
-  //       },
-  //     },
-  //   });
-  // };
-
-  // test('Rendering component after mounted is true', async () => {
-  //   wrapper = createWrapper();
-  //   expect(wrapper.find('[data-test="division-component"]').exists()).toBe(false);
-  //   await flushPromises();
-  //   expect(wrapper.find('[data-test="division-component"]').exists()).toBe(true);
-  // });
 });

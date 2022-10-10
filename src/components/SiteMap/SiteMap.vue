@@ -19,6 +19,7 @@
               <li class="site-map-list-item"><a class="site-map-item-link" href="/donor-rules">Правила для доноров</a></li>
               <li class="site-map-list-item"><a class="site-map-item-link" href="/paid-services">Платные медицинские услуги</a></li>
               <li class="site-map-list-item"><a class="site-map-item-link" href="/paid-programs">Платные программы</a></li>
+              <!-- <li class="site-map-list-item"><a class="site-map-item-link" href="/paid-programs">Питание</a></li> -->
             </ul>
             <li class="site-map-list-item">Образование</li>
             <ul>

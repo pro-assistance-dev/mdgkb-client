@@ -1,6 +1,6 @@
 <template>
   <div class="card-item">
-    <div v-if="division.chief.id" class="card-item-left">
+    <div v-if="division.chief.id" data-test="chief-id" class="card-item-left">
       <div class="division-img">
         <!--        <img src="@/assets/img/doctor-default.webp" />-->
         <img
@@ -23,11 +23,10 @@
 
     <div class="card-item-field">
       <div class="card-item-middle">
-        <div class="division-line" data-test="treat-direction-name">
+        <div class="division-line" data-test="treatDirection-name">
           {{ division.treatDirection.name }}
         </div>
         <div class="division-name" data-test="division-name">
-          <!-- {{ doctor.human.getFullName() }} -->
           {{ division.name }}
           <div class="size320"><Rating :comments="division.divisionComments" /></div>
         </div>
@@ -47,11 +46,10 @@
                       <p class="today">сегодня:&nbsp;</p>
                       <div class="hidden-block">
                         <div class="hidden-line">
-                          <div class="hidden-item">
-                            <font color="#0A216F"><b>сегодня</b></font
-                            >: {{ division.timetable.getTodayWorkday().getTimetable() }}
+                          <div class="hidden-item" data-test="timetable">
+                            <span class="today-bold">сегодня</span>: {{ division.timetable.getTodayWorkday().getTimetable() }}
                           </div>
-                          <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
+                          <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2" data-test="breaks-exists">
                             Перерыв:
                             <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
                               <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">
@@ -61,10 +59,10 @@
                           </div>
                         </div>
                         <div class="hidden-line-2">
-                          <ul class="hidden-item-list-2">
+                          <ul class="hidden-item-list-2" data-test="workday-period">
                             <li v-for="item in division.timetable.getOnlyWorkdayObjects()" :key="item.id">
                               {{ item.getPeriodWithName() }}
-                              <div v-if="item.breaksExists" class="hidden-item-2">
+                              <div v-if="item.breaksExists" class="hidden-item-2" data-test="breaks-exists-2">
                                 Перерыв:
                                 <ul v-if="item.breaksExists" class="hidden-item-list">
                                   <li v-for="period in item.breakPeriods" :key="period.id">{{ period.getPeriod() }}</li>
@@ -77,11 +75,11 @@
                     </div>
                   </div>
                   <div class="item-t">{{ division.timetable.getTodayWorkday().getTimetable() }}</div>
-                  <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item-t">
-                    Перерыв:
+                  <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item-t" data-test="breaks-exists-3">
+                    , перерыв:
                     <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="item-list">
                       <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">
-                        &nbsp;{{ item.getPeriod() }}&nbsp;
+                        {{ item.getPeriod() }}
                       </li>
                     </ul>
                   </div>
@@ -113,7 +111,7 @@
                   м. Серпуховская
                 </div>
                 <div class="item-m">
-                  <a data-test="map-link" @click="$router.push(`/map/${division.id}`)">
+                  <a @click="$router.push(`/map/${division.id}`)">
                     {{ division.address }}
                   </a>
                 </div>
@@ -126,7 +124,7 @@
                   <use xlink:href="#phone"></use>
                 </svg>
               </div>
-              <div class="item-p" data-test="phones-list">
+              <div class="item-p">
                 <div v-for="phone in division.contactInfo.telephoneNumbers" :key="phone.id" class="item">{{ phone.number }}</div>
               </div>
             </div>
@@ -136,7 +134,7 @@
                   <use xlink:href="#email"></use>
                 </svg>
               </div>
-              <div class="item-p" data-test="emails-list">
+              <div class="item-p">
                 <div v-for="email in division.contactInfo.emails" :key="email.id" class="item">{{ email.address }}</div>
               </div>
             </div>

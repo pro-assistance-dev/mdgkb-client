@@ -198,7 +198,6 @@ describe('Class Human', () => {
 
     expect(human.getFullName()).toEqual(' surname   name   patronymic ');
     human.sanitizeName();
-    console.log(human.getFullName());
     expect(human.getFullName()).toEqual('Surname Name Patronymic');
   });
 

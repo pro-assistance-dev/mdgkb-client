@@ -1,5 +1,5 @@
 import { flushPromises, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
-import { ElCarousel, ElRate } from 'element-plus';
+import { ElCarousel, ElDialog, ElRate } from 'element-plus';
 import { createStore } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
@@ -66,6 +66,7 @@ describe('DoctorPage.vue', () => {
         components: {
           'el-rate': ElRate,
           'el-carousel': ElCarousel,
+          'el-dialog': ElDialog,
         },
       },
     });

@@ -38,7 +38,6 @@ export default interface IDivision {
   schedule: ISchedule;
   divisionImages: IDivisionImage[];
   divisionImagesForDelete: string[];
-  divisionImagesNames: string[];
   divisionComments: IDivisionComment[];
   timetableDaysForDelete: string[];
   visitingRules: IVisitingRule[];

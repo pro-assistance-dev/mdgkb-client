@@ -4,6 +4,7 @@ import AboutPage from '@/components/About/AboutPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
+import DietsPage from '@/components/Diets/DietsPage.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
@@ -250,6 +251,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/visits-application/:gateId',
     name: 'VisitsApplicationPage',
     component: VisitsApplicationPage,
+  },
+  {
+    path: '/diets',
+    name: 'Diets',
+    meta: { title: 'Питание' },
+    component: DietsPage,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
