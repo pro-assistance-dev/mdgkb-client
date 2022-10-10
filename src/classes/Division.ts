@@ -20,11 +20,11 @@ import IDivisionVideo from '@/interfaces/IDivisionVideo';
 import IDoctor from '@/interfaces/IDoctor';
 import IEntrance from '@/interfaces/IEntrance';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
+import INewsDivision from '@/interfaces/INewsDivision';
 import ISocialMedia from '@/interfaces/ISocialMedia';
 import ITreatDirection from '@/interfaces/ITreatDirection';
 import IVacancy from '@/interfaces/IVacancy';
 import IVisitingRule from '@/interfaces/IVisitingRule';
-import INewsDivision from '@/interfaces/news/INewsDivision';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 

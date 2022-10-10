@@ -9,7 +9,10 @@
             </template>
             <HumanForm :with-styles="false" store-module="doctors" @input-name-complete="completeInput" />
           </el-card>
-          <TimetableConstructorV2 :store-module="'doctors'" />
+          <el-checkbox v-model="doctor.hasAppointment" label="Включить расписание приёма" />
+          <div v-if="doctor.hasAppointment">
+            <TimetableConstructorV2 :store-module="'doctors'" />
+          </div>
           <el-card>
             <EducationForm :store-module="'doctors'" />
           </el-card>

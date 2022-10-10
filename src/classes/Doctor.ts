@@ -64,6 +64,7 @@ export default class Doctor implements IDoctor {
   educationalOrganizationAcademic?: IEducationalOrganizationAcademic;
   teachingActivities: ITeachingActivity[] = [];
   teachingActivitiesForDelete: string[] = [];
+  hasAppointment = true;
 
   constructor(i?: IDoctor) {
     if (!i) {
@@ -123,6 +124,7 @@ export default class Doctor implements IDoctor {
     if (i.newsDoctors) {
       this.newsDoctors = i.newsDoctors.map((item: INewsDoctor) => new NewsDoctor(item));
     }
+    this.hasAppointment = i.hasAppointment;
   }
 
   addExperience(): void {

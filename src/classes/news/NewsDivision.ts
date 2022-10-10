@@ -1,8 +1,8 @@
 import Division from '@/classes/Division';
 import News from '@/classes/news/News';
 import IDivision from '@/interfaces/IDivision';
+import INewsDivision from '@/interfaces/INewsDivision';
 import INews from '@/interfaces/news/INews';
-import INewsDivision from '@/interfaces/news/INewsDivision';
 
 export default class NewsDivision implements INewsDivision {
   id?: string;

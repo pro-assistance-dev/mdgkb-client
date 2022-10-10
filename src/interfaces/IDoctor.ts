@@ -65,4 +65,5 @@ export default interface IDoctor {
 
   addTeachingActivity: () => void;
   isChief: () => boolean;
+  hasAppointment: boolean;
 }

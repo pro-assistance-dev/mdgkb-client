@@ -6,6 +6,7 @@ import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDivisionVideo from '@/interfaces/IDivisionVideo';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
+import INewsDivision from '@/interfaces/INewsDivision';
 import ISocialMedia from '@/interfaces/ISocialMedia';
 import ITreatDirection from '@/interfaces/ITreatDirection';
 import IVacancy from '@/interfaces/IVacancy';
@@ -13,7 +14,6 @@ import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
-import INewsDivision from '../news/INewsDivision';
 import IEntrance from './IEntrance';
 
 export default interface IDivision {
