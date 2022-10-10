@@ -1,0 +1,7 @@
+.githooks
+.git
+.idea
+.vscode
+dist
+tests
+node_modules
