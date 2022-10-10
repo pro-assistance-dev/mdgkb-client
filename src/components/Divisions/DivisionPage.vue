@@ -5,7 +5,7 @@
     <DivisionInfo :division="division" />
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
-    <DivisionSpecialists />
+    <DivisionSpecialists :doctors="division.doctors" />
     <NewsSlider :news="division.newsDivisions" />
     <!-- <DivisionCertificates /> -->
     <ScansSlider :gallery-elements="division.certificates" />

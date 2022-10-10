@@ -1,7 +1,7 @@
 <template>
   <div class="division-page-container">
     <div class="left-side">
-      <Timetable :timetable="division.timetable" />
+      <TimetableComponent :timetable="division.timetable" />
     </div>
     <div class="right-side">
       <el-card class="card-content">
@@ -53,12 +53,12 @@ import { useStore } from 'vuex';
 import Comments from '@/components/Comments/CommentsOld.vue';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
-import Timetable from '@/components/Timetable.vue';
+import TimetableComponent from '@/components/TimetableComponent.vue';
 import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'DivisionPage',
-  components: { DoctorInfoCard, ImageGallery, Comments, Timetable },
+  components: { DoctorInfoCard, ImageGallery, Comments, TimetableComponent },
   setup() {
     const store = useStore();
     const route = useRoute();

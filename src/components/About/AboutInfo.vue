@@ -73,7 +73,7 @@
         </ul>
       </div>
     </el-card>
-    <Timetable :timetable="division.timetable" :around-the-clock="aroundTheClock" />
+    <TimetableComponent :timetable="division.timetable" :around-the-clock="aroundTheClock" />
     <el-card>
       <template #header>Контакты</template>
       <div v-if="division.phone">Телефон: {{ division.phone }}</div>
@@ -90,13 +90,13 @@ import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
-import Timetable from '@/components/Timetable.vue';
+import TimetableComponent from '@/components/TimetableComponent.vue';
 import IDivision from '@/interfaces/IDivision';
 import IVisitingRule from '@/interfaces/IVisitingRule';
 
 export default defineComponent({
   name: 'AboutInfo',
-  components: { DoctorInfoCard, ImageGallery, Timetable },
+  components: { DoctorInfoCard, ImageGallery, TimetableComponent },
   props: {
     division: {
       type: Object as PropType<IDivision>,

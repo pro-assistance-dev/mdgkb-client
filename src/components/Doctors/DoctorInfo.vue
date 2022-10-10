@@ -50,16 +50,21 @@
       <div class="card-item-middle-bottom">
         <div class="regalias-list">
           <span v-if="doctor.academicDegree.length > 1" data-test="regalia-list">
-            <span>{{ doctor.academicDegree }}</span><span v-if="doctor.regalias || doctor.academicRank.length > 1"> • </span>
+            <span>{{ doctor.academicDegree }}</span
+            ><span v-if="doctor.regalias || doctor.academicRank.length > 1"> • </span>
           </span>
           <span v-if="doctor.academicRank.length > 1" data-test="regalia-list">
-            <span  >{{ doctor.academicRank }}</span><span v-if="doctor.regalias"> • </span>
+            <span>{{ doctor.academicRank }}</span
+            ><span v-if="doctor.regalias"> • </span>
           </span>
           <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
             <span v-if="regalia?.name" data-test="regalia-list">
               <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
-            </span>            
+            </span>
           </template>
+        </div>
+        <div class="contact-h3">
+          <TimetableComponent :timetable="doctor.timetable" />
         </div>
         <div class="address">
           <span v-if="doctor.division?.address">
@@ -102,11 +107,12 @@ import { defineComponent, PropType } from 'vue';
 import WorkAndTeaching from '@/components/Doctors/WorkAndTeaching.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
+import TimetableComponent from '@/components/TimetableComponent.vue';
 import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorInfo',
-  components: { FavouriteIcon, Rating, WorkAndTeaching },
+  components: { FavouriteIcon, Rating, WorkAndTeaching, TimetableComponent },
   props: {
     doctor: { type: Object as PropType<IDoctor>, required: true },
   },
@@ -151,5 +157,18 @@ export default defineComponent({
 :deep(.el-rate__icon) {
   margin: 0;
   font-size: 20px;
+}
+
+.contact-h3 {
+  display: flex;
+  justify-content: left;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: lighter;
+  color: #4a4a4a;
+  align-content: center;
+  text-align: center;
+  margin-top: 15px;
+  width: auto;
 }
 </style>

@@ -33,58 +33,7 @@
         <div class="card-item-middle-bottom">
           <div class="info-block">
             <div class="contact-h3">
-              <div class="item">
-                <svg class="icon-time">
-                  <use xlink:href="#time"></use>
-                </svg>
-              </div>
-              <div>
-                <div class="time-block">
-                  <div class="item-t">
-                    Время&nbsp;работы&nbsp;
-                    <div class="block-today">
-                      <p class="today">сегодня:&nbsp;</p>
-                      <div class="hidden-block">
-                        <div class="hidden-line">
-                          <div class="hidden-item" data-test="timetable">
-                            <span class="today-bold">сегодня</span>: {{ division.timetable.getTodayWorkday().getTimetable() }}
-                          </div>
-                          <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2" data-test="breaks-exists">
-                            Перерыв:
-                            <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
-                              <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">
-                                {{ item.getPeriod() }}
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="hidden-line-2">
-                          <ul class="hidden-item-list-2" data-test="workday-period">
-                            <li v-for="item in division.timetable.getOnlyWorkdayObjects()" :key="item.id">
-                              {{ item.getPeriodWithName() }}
-                              <div v-if="item.breaksExists" class="hidden-item-2" data-test="breaks-exists-2">
-                                Перерыв:
-                                <ul v-if="item.breaksExists" class="hidden-item-list">
-                                  <li v-for="period in item.breakPeriods" :key="period.id">{{ period.getPeriod() }}</li>
-                                </ul>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="item-t">{{ division.timetable.getTodayWorkday().getTimetable() }}</div>
-                  <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item-t" data-test="breaks-exists-3">
-                    , перерыв:
-                    <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="item-list">
-                      <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">
-                        {{ item.getPeriod() }}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+              <TimetableComponent :timetable="division.timetable" />
             </div>
             <div class="contact-h3">
               <div class="item-m-g">
@@ -204,31 +153,6 @@
       ></path>
     </symbol>
 
-    <!-- <symbol id="time" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-      <path
-        d="M8 1C4.1402 1 1 4.1402 1 8C1 11.8598 4.1402 15 8 15C11.8598 15 15 11.8598 15 8C15 4.1402 11.8598 1 8 1ZM10.3051 11.2949L7.3 8.2898V3.8H8.7V7.7102L11.2949 10.3051L10.3051 11.2949Z"
-      ></path>
-    </symbol> -->
-
-    <!-- <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="time">
-      <path d="M9.99 0C4.47 0 0 4.48 0 10C0 15.52 4.47 20 9.99 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 9.99 0ZM10 18C5.58 18 2 14.42 2 10C2 5.58 5.58 2 10 2C14.42 2 18 5.58 18 10C18 14.42 14.42 18 10 18ZM9.78 5H9.72C9.32 5 9 5.32 9 5.72V10.44C9 10.79 9.18 11.12 9.49 11.3L13.64 13.79C13.98 13.99 14.42 13.89 14.62 13.55C14.6702 13.469 14.7036 13.3788 14.7182 13.2846C14.7328 13.1905 14.7283 13.0943 14.705 13.002C14.6817 12.9096 14.64 12.8229 14.5824 12.7469C14.5249 12.671 14.4526 12.6074 14.37 12.56L10.5 10.26V5.72C10.5 5.32 10.18 5 9.78 5Z"></path>
-    </symbol> -->
-
-    <symbol id="time" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-      <path
-        d="M9.99 0C4.47 0 0 4.48 0 10C0 15.52 4.47 20 9.99 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 9.99 0ZM10 18.5C5.58 18.5 1.5 14.42 1.5 10C1.5 5.58 5.57 1.5 9.99 1.5C14.41 1.5 18.5 5.58 18.5 10C18.5 14.42 14.42 18.5 10 18.5ZM9.78 5H9.72C9.32 5 9 5.32 9 5.72V10.44C9 10.79 9.18 11.12 9.49 11.3L13.64 13.79C13.98 13.99 14.42 13.89 14.62 13.55C14.6702 13.469 14.7036 13.3788 14.7182 13.2846C14.7328 13.1905 14.7283 13.0943 14.705 13.002C14.6817 12.9096 14.64 12.8229 14.5824 12.7469C14.5249 12.671 14.4526 12.6074 14.37 12.56L10.5 10.26V5.72C10.5 5.32 10.18 5 9.78 5Z"
-      ></path>
-    </symbol>
-
-    <!-- <symbol id="map-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-      <path
-        d="M7.99923 0.888916C6.61487 0.890072 5.28722 1.439 4.30625 2.4158C3.32529 3.39261 2.77072 4.71791 2.76367 6.10225C2.76367 8.1778 3.92812 9.91558 4.78145 11.1822L4.93701 11.4134C5.78602 12.6439 6.69682 13.8306 7.66589 14.9689L8.00367 15.3645L8.34145 14.9689C9.31041 13.8305 10.2212 12.6438 11.0703 11.4134L11.2259 11.1778C12.0748 9.91114 13.2392 8.1778 13.2392 6.10225C13.2322 4.71714 12.677 3.39117 11.6951 2.41424C10.7131 1.43731 9.38435 0.888898 7.99923 0.888916ZM7.99923 8.44447C7.42259 8.44447 6.85889 8.27348 6.37943 7.95311C5.89997 7.63275 5.52628 7.1774 5.30561 6.64465C5.08493 6.1119 5.0272 5.52568 5.13969 4.96012C5.25219 4.39456 5.52987 3.87505 5.93762 3.46731C6.34537 3.05956 6.86487 2.78188 7.43043 2.66938C7.99599 2.55688 8.58221 2.61462 9.11496 2.83529C9.64771 3.05597 10.1031 3.42966 10.4234 3.90912C10.7438 4.38858 10.9148 4.95227 10.9148 5.52892C10.9148 6.30217 10.6076 7.04375 10.0608 7.59053C9.51406 8.1373 8.77248 8.44447 7.99923 8.44447Z"
-      ></path>
-      <path
-        d="M8.00055 7.18665C8.91612 7.18665 9.65833 6.44444 9.65833 5.52887C9.65833 4.61331 8.91612 3.87109 8.00055 3.87109C7.08499 3.87109 6.34277 4.61331 6.34277 5.52887C6.34277 6.44444 7.08499 7.18665 8.00055 7.18665Z"
-      ></path>
-    </symbol> -->
-
     <symbol id="map-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 20">
       <path
         d="M8 12C10.206 12 12 10.206 12 8C12 5.794 10.206 4 8 4C5.794 4 4 5.794 4 8C4 10.206 5.794 12 8 12ZM8 5.5C9.5 5.5 10.5 6.5 10.5 8C10.5 9.5 9.5 10.5 8 10.5C6.5 10.5 5.5 9.5 5.5 8C5.5 6.5 6.5 5.5 8 5.5Z"
@@ -277,11 +201,13 @@ import { defineComponent, PropType } from 'vue';
 
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
+import TimetableComponent from '@/components/TimetableComponent.vue';
 import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'DivisionInfo',
   components: {
+    TimetableComponent,
     FavouriteIcon,
     Rating,
   },

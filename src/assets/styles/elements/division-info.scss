@@ -168,14 +168,7 @@
     // fill: #2754eb;
     fill: $site_dark_gray;
   }
-  
-  .icon-time {
-    margin-left: 1px;
-    width: 20px;
-    height: 20px;
-    // fill: #2754eb;
-    fill: $site_dark_gray;
-  }
+
   
   .icon-map-marker {
     margin-left: -1px;
@@ -291,16 +284,7 @@
   text-align: left;
 }
 
-.item-t {
-  display: flex;
-  flex-direction: row;
-  // padding-right: 10px;
-  width: auto;
-  align-items: center;
-  text-align: left;
-  // padding: 0;
-  // margin: 0;
-}
+
 
 .item-p {
   display: block;
@@ -312,110 +296,4 @@
 
 .item-list {
   list-style: none;
-}
-
-ul.item-list {
-  padding: 0;
-  margin: 0;
-}
-
-ul.item-list li{
-  display: inline;
-  padding: 0 5px;
-}
-
-ul.hidden-item-list{
-  padding: 0 0 0 20px;
-  margin: 0px;
-}
-
-ul.hidden-item-list-2 {
-  padding: 0px 0 0px 0px;
-  margin: 0px;
-}
-
-ul.hidden-item-list-2 li{
-  display: block;
-  padding: 0px;
-  margin: 0px;
-  padding: 5px 0 5px 0px;
-}
-
-ul.hidden-item-list li{
-  display: block;
-  padding: 0px;
-  margin: 0px;
-}
-
-.time-block {
-  display: flex;
-  justify-content: left;
-}
-
-.hidden-block {
-  cursor: auto;
-  display: none;
-  position: absolute;
-  left: 50px;
-  top: -40px;
-  z-index: 1;
-  border-radius: 5px;
-  border: 1px solid rgb(black, 0.1);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
-  padding: 5px 0 5px 5px;
-  background: #ffffff;
-  width: 220px;
-}
-
-
-.hidden-line {
-  font-size: 12px;
-  padding: 5px 0px;
-}
-
-.hidden-line-2 {
-  display: flex;
-  font-size: 14px;
-  padding: 2px 0 0 0;
-  justify-content: left;
-}
-
-.hidden-item {
-  font-size: 14px;
-  display: flex;
-  flex-direction: row;
-  width: auto;
-  text-align: left;
-}
-
-.hidden-item-2 {
-  font-size: 12px;
-  display: flex;
-  flex-direction: row;
-  width: auto;
-}
-
-.today {
-  color: #2754eb;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
-}
-
-.today:hover {
-  color: #0A216F;
-}
-
-.block-today {
-  display: flex;
-  position: relative;
-}
-
-.block-today:hover .hidden-block {
-  display: block;
-}
-
-.today-bold {
-  color:#0A216F;
-  font-weight: bold;
 }
