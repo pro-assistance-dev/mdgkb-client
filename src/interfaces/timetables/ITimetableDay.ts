@@ -1,4 +1,5 @@
 import ITimePeriod from '@/interfaces/ITimePeriod';
+import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
 import IWeekday from '@/interfaces/timetables/IWeekday';
 
 export default interface ITimetableDay {
@@ -14,6 +15,7 @@ export default interface ITimetableDay {
   aroundTheClock: boolean;
   breakPeriods: ITimePeriod[];
   breakPeriodsForDelete: string[];
+  scheduleItems: IScheduleItem[];
 
   getPeriodWithName: () => string;
   getPeriod: () => string;

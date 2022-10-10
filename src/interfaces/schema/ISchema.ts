@@ -1,6 +1,8 @@
+import IAgePeriodSchema from '@/interfaces/schema/IAgePeriodSchema';
 import IBuildingSchema from '@/interfaces/schema/IBuildingSchema';
 import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
+import IDietSchema from '@/interfaces/schema/IDietSchema';
 import IDivisionCommentSchema from '@/interfaces/schema/IDivisionCommentSchema';
 import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
 import IDoctorCommentSchema from '@/interfaces/schema/IDoctorCommentSchema';
@@ -73,4 +75,6 @@ export default interface ISchema {
   divisionComment: IDivisionCommentSchema;
   newsComment: INewsCommentSchema;
   building: IBuildingSchema;
+  diet: IDietSchema;
+  agePeriod: IAgePeriodSchema;
 }

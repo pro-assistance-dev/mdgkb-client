@@ -1,28 +1,28 @@
 import { ActionTree } from 'vuex';
 
-import IDiet from '@/interfaces/IDiet';
+import IAgePeriod from '@/interfaces/IAgePeriod';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
-const httpClient = new HttpClient('diets');
+const httpClient = new HttpClient('age-periods');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IDiet[]>());
+    commit('setAll', await httpClient.get<IAgePeriod[]>());
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IDiet>({ query: `${id}` });
+    const res = await httpClient.get<IAgePeriod>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ state }, item: IDiet): Promise<void> => {
-    await httpClient.post<IDiet, IDiet>({
+  create: async ({ state }, item: IAgePeriod): Promise<void> => {
+    await httpClient.post<IAgePeriod, IAgePeriod>({
       payload: item,
     });
   },
-  update: async (_, item: IDiet): Promise<void> => {
-    await httpClient.put<IDiet, IDiet>({ query: `${item.id}`, payload: item });
+  update: async (_, item: IAgePeriod): Promise<void> => {
+    await httpClient.put<IAgePeriod, IAgePeriod>({ query: `${item.id}`, payload: item });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

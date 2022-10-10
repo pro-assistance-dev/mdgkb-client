@@ -2,6 +2,7 @@ import Vuex, { StoreOptions } from 'vuex';
 
 import { admin } from '@/store/modules/admin';
 import { admissionCommitteeDocumentTypes } from '@/store/modules/admissionCommitteeDocumentTypes';
+import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
 import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
@@ -165,6 +166,7 @@ const s: StoreOptions<RootState> = {
     admissionCommitteeDocumentTypes,
     pointsAchievements,
     diets,
+    agePeriods,
   },
 };
 
