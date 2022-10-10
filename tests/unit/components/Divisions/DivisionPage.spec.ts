@@ -9,10 +9,6 @@ import Hooks from '@/services/Hooks/Hooks';
 
 import ComponentStub from '../../../__mocks__/ComponentStub';
 
-// jest.mock('vue-router', () => ({
-//   useRoute: jest.fn(() => ({ params: { id: 1 } })),
-// }));
-
 describe('DivisionPage.vue', () => {
   let wrapper: VueWrapper<any>;
   let store = createStore({
@@ -73,15 +69,11 @@ describe('DivisionPage.vue', () => {
           'el-carousel': ElCarousel,
         },
       },
-      // methods: {
-      //   onBeforeMount: Hooks.onBeforeMount,
-      // },
     });
 
     // Act
     expect(wrapper.find('[data-test="division-component"]').exists()).toBe(false);
     wrapper.vm.mounted = true;
-    // await wrapper.setProps({ mounted: true });
     await flushPromises();
     expect(wrapper.find('[data-test="division-component"]').exists()).toBe(true);
   });
