@@ -29,9 +29,21 @@ const DoctorsFiltersLib = (() => {
     return filterModel;
   }
 
+  function byDivisions(divisionsIds: string[]): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.doctor.tableName,
+      Provider.schema.value.doctor.divisionId,
+      DataTypes.Set
+    );
+    filterModel.operator = Operators.In;
+    filterModel.set = divisionsIds;
+    return filterModel;
+  }
+
   return {
     onlyMale,
     onlyFemale,
+    byDivisions,
   };
 })();
 

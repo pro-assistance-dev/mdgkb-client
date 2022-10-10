@@ -3,15 +3,16 @@
     <template #header>
       <RemoteSearch :key-value="schema.doctor.key" placeholder="Начните вводить ФИО врача" @select="selectSearch" />
       <FiltersList :models="createGenderFilterModels()" @load="loadDoctors" />
-      <FilterSelect
-        placeholder="Отделение"
-        :options="schema.division.options"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.divisionId"
-        :operator="Operators.Eq"
-        :data-type="DataTypes.String"
-        @load="loadDoctors"
-      />
+      <FilterMultipleSelect :filter-model="filterByDivision" :options="schema.division.options" @load="loadDoctors" />
+      <!--      <FilterSelect-->
+      <!--        placeholder="Отделение"-->
+      <!--        :options="schema.division.options"-->
+      <!--        :table="schema.doctor.tableName"-->
+      <!--        :col="schema.doctor.divisionId"-->
+      <!--        :operator="Operators.Eq"-->
+      <!--        :data-type="DataTypes.String"-->
+      <!--        @load="loadDoctors"-->
+      <!--      />-->
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadDoctors" />
@@ -58,7 +59,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
+import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
@@ -76,7 +77,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDoctorsList',
-  components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList, FilterSelect },
+  components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList, FilterMultipleSelect },
   setup() {
     const doctors = computed(() => Provider.store.getters['doctors/items']);
     const genderFilter: Ref<IFilterModel> = ref(new FilterModel());
@@ -84,11 +85,12 @@ export default defineComponent({
     const loadDoctors = async () => {
       await Provider.store.dispatch('doctors/getAllAdmin', Provider.filterQuery.value);
     };
-
+    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
     const load = async () => {
       Provider.setSortList(...createSortModels(DoctorsSortsLib));
       Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
+      filterByDivision.value = DoctorsFiltersLib.byDivisions([]);
       await loadDoctors();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Врачи',
@@ -113,6 +115,7 @@ export default defineComponent({
     };
 
     return {
+      filterByDivision,
       doctors,
       remove,
       edit,

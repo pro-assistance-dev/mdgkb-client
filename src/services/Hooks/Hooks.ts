@@ -27,25 +27,25 @@ const Hooks = (() => {
   // const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
-      // Provider.mounted.value = false;
-      // Provider.store.commit('admin/showLoading');
-      // Provider.store.commit(`filter/resetQueryFilter`);
-      // await Provider.store.dispatch('meta/getSchema');
-      // if (options?.pagination) {
-      //   Provider.store.commit('filter/setStoreModule', options.pagination.storeModule);
-      //   Provider.store.commit('filter/setAction', options.pagination.action);
-      //   Provider.store.commit('pagination/setCurPage', 1);
-      // }
-      // if (options?.adminHeader) {
-      //   Provider.store.commit('admin/setHeaderParams', options.adminHeader);
-      // }
-      // if (Provider.filterQuery.value) {
-      //   Provider.filterQuery.value.pagination.cursorMode = false;
-      // }
-      // await f(Provider.filterQuery.value);
-      //
-      // Provider.store.commit('admin/closeLoading');
-      // Provider.mounted.value = true;
+      Provider.mounted.value = false;
+      Provider.store.commit('admin/showLoading');
+      Provider.store.commit(`filter/resetQueryFilter`);
+      await Provider.store.dispatch('meta/getSchema');
+      if (options?.pagination) {
+        Provider.store.commit('filter/setStoreModule', options.pagination.storeModule);
+        Provider.store.commit('filter/setAction', options.pagination.action);
+        Provider.store.commit('pagination/setCurPage', 1);
+      }
+      if (options?.adminHeader) {
+        Provider.store.commit('admin/setHeaderParams', options.adminHeader);
+      }
+      if (Provider.filterQuery.value) {
+        Provider.filterQuery.value.pagination.cursorMode = false;
+      }
+      await f(Provider.filterQuery.value);
+
+      Provider.store.commit('admin/closeLoading');
+      Provider.mounted.value = true;
     });
   };
 
