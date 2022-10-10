@@ -111,7 +111,6 @@ const mutations: MutationTree<State> = {
   pushToDivisionImages(state, file: IFile) {
     if (!state.division) return;
     const image = FileInfo.CreatePreviewFile(file, 'gallery');
-    if (image.fileSystemPath) state.division.divisionImagesNames.push(image.fileSystemPath);
     state.division.divisionImages.push(new DivisionImage({ fileInfo: image }));
   },
   setCurGalleryCropIndex(state, index: number) {
@@ -122,9 +121,6 @@ const mutations: MutationTree<State> = {
     if (!prevFileInfo) return;
     const fileInfo = FileInfo.CreatePreviewFile(file, 'gallery');
     fileInfo.fileSystemPath = prevFileInfo.fileSystemPath;
-
-    const i = state.division.divisionImagesNames.findIndex((i: string) => i === fileInfo.fileSystemPath);
-    if (i < 0 && fileInfo.fileSystemPath) state.division.divisionImagesNames.push(fileInfo.fileSystemPath);
 
     state.division.divisionImages[state.curGalleryCropIndex].fileInfo = fileInfo;
     if (fileInfo.fileSystemPath) {

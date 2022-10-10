@@ -51,7 +51,6 @@ export default class Division implements IDivision {
   scheduleId?: string;
   divisionImages: IDivisionImage[] = [];
   divisionImagesForDelete: string[] = [];
-  divisionImagesNames: string[] = [];
   divisionComments: IDivisionComment[] = [];
   timetableDaysForDelete: string[] = [];
   visitingRules: IVisitingRule[] = [];
