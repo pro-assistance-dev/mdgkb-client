@@ -73,9 +73,9 @@ describe('DivisionPage.vue', () => {
           'el-carousel': ElCarousel,
         },
       },
-      methods: {
-        onBeforeMount: Hooks.onBeforeMount,
-      },
+      // methods: {
+      //   onBeforeMount: Hooks.onBeforeMount,
+      // },
     });
 
     // Act
