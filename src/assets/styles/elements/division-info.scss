@@ -321,6 +321,7 @@ ul.item-list {
 
 ul.item-list li{
   display: inline;
+  padding: 0 5px;
 }
 
 ul.hidden-item-list{
@@ -412,4 +413,9 @@ ul.hidden-item-list li{
 
 .block-today:hover .hidden-block {
   display: block;
+}
+
+.today-bold {
+  color:#0A216F;
+  font-weight: bold;
 }
