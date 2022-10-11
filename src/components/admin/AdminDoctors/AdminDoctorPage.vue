@@ -65,6 +65,15 @@
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
           <el-card>
+            <RemoteSearch :key-value="schema.division.key" @select="addDoctorDivision" />
+            <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision">
+              <span> {{ doctorDivision.division.name }}</span>
+              <el-button @click="removeFromClass(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)">
+                Удалить отделение
+              </el-button>
+            </div>
+          </el-card>
+          <el-card>
             <el-form-item label="Отображать на сайте">
               <el-switch v-model="doctor.show"></el-switch>
             </el-form-item>
@@ -121,7 +130,7 @@
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Division from '@/classes/Division';
 import FilterModel from '@/classes/filters/FilterModel';
@@ -129,21 +138,25 @@ import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
+import IDivision from '@/interfaces/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminDoctorPage',
   components: {
+    RemoteSearch,
     TimetableConstructorV2,
     HumanForm,
     EducationForm,
@@ -151,14 +164,13 @@ export default defineComponent({
     UploaderSingleScan,
   },
   setup() {
-    const route = useRoute();
     const form = ref();
     const rules = ref(DoctorRules);
-    const mounted = ref(false);
 
     const divisionOptions = ref([new Division()]);
     const doctor: Ref<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
     const doctors: Ref<IDoctor[]> = computed(() => Provider.store.getters['doctors/items']);
+    const division: Ref<IDivision> = computed(() => Provider.store.getters['divisions/division']);
     let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -174,7 +186,7 @@ export default defineComponent({
       // }
 
       try {
-        if (route.params['id']) {
+        if (Provider.route().params['id']) {
           await Provider.store.dispatch('doctors/update', doctor.value);
         } else {
           await Provider.store.dispatch('doctors/create', doctor.value);
@@ -189,7 +201,6 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
-      console.log('onbeforemount');
       await Provider.store.dispatch('search/searchGroups');
       await loadDivisionOptions();
       await loadDoctor();
@@ -209,8 +220,8 @@ export default defineComponent({
     };
 
     const loadDoctor = async (): Promise<void> => {
-      if (route.params['id']) {
-        await Provider.store.dispatch('doctors/get', route.params['id']);
+      if (Provider.route().params['id']) {
+        await Provider.store.dispatch('doctors/get', Provider.route().params['id']);
         Provider.store.commit('admin/setHeaderParams', {
           title: doctor.value.human.getFullName(),
           showBackButton: true,
@@ -220,7 +231,6 @@ export default defineComponent({
         Provider.store.commit('doctors/resetState');
         Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
       }
-      mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       // watch(doctor, formUpdated, { deep: true });
 
@@ -288,6 +298,12 @@ export default defineComponent({
         });
     };
 
+    const addDoctorDivision = async (searchObject: ISearchObject) => {
+      Provider.filterQuery.value.setParams(Provider.schema.value.division.id, searchObject.id);
+      await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
+      doctor.value.addDoctorDivision(division.value);
+    };
+
     return {
       doctors,
       completeInput,
@@ -299,8 +315,11 @@ export default defineComponent({
       doctor,
       divisionOptions,
       form,
-      mounted,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
+      addDoctorDivision,
       academicChangeHandler,
+      removeFromClass,
     };
   },
 });

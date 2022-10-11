@@ -4,15 +4,6 @@
       <RemoteSearch :key-value="schema.doctor.key" placeholder="Начните вводить ФИО врача" @select="selectSearch" />
       <FiltersList :models="createGenderFilterModels()" @load="loadDoctors" />
       <FilterMultipleSelect :filter-model="filterByDivision" :options="schema.division.options" @load="loadDoctors" />
-      <!--      <FilterSelect-->
-      <!--        placeholder="Отделение"-->
-      <!--        :options="schema.division.options"-->
-      <!--        :table="schema.doctor.tableName"-->
-      <!--        :col="schema.doctor.divisionId"-->
-      <!--        :operator="Operators.Eq"-->
-      <!--        :data-type="DataTypes.String"-->
-      <!--        @load="loadDoctors"-->
-      <!--      />-->
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadDoctors" />
@@ -35,9 +26,11 @@
       </el-table-column>
       <el-table-column label="Отделение" sortable>
         <template #default="scope">
-          <router-link v-if="scope.row.division.name" :to="`/admin/divisions/${scope.row.division.id}`">{{
-            scope.row.division.name
-          }}</router-link>
+          <div v-for="doctorDivision in scope.row.doctorsDivisions" :key="doctorDivision.id">
+            <router-link v-if="doctorDivision.division.name" :to="`/admin/divisions/${doctorDivision.division.id}`">{{
+              doctorDivision.division.name
+            }}</router-link>
+          </div>
         </template>
       </el-table-column>
       <el-table-column width="50" align="center">

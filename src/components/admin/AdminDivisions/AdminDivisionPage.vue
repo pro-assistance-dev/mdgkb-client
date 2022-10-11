@@ -127,6 +127,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import DivisioinRules from '@/classes/DivisioinRules';
 import Doctor from '@/classes/Doctor';
+import DoctorDivision from '@/classes/DoctorDivision';
 import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisionGallery.vue';
 import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
@@ -254,7 +255,9 @@ export default defineComponent({
     const addDoctor = () => {
       const newDoctor = doctors.value?.find((i: IDoctor) => i.id === newDoctorId.value);
       if (newDoctor) {
-        newDoctor.divisionId = Provider.route().params['id'] as string;
+        const doctorDivision = new DoctorDivision();
+        doctorDivision.divisionId = Provider.route().params['id'] as string;
+        newDoctor.doctorsDivisions.push(doctorDivision);
       }
       Provider.store.dispatch('doctors/addDoctorToDivisionDoctors', newDoctor);
       newDoctorId.value = '';

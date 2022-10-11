@@ -1,8 +1,6 @@
 import { DOMWrapper, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
-import { v4 as uuidv4 } from 'uuid';
 import { ComponentPublicInstance } from 'vue';
 
-import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
 import MedicalProfile from '@/classes/MedicalProfile';
 import Regalia from '@/classes/Regalia';
@@ -61,26 +59,26 @@ describe('DoctorInfo.vue', () => {
     expect(wrapper.find('[data-test="doctor-alt-photo"]').exists()).toBe(false);
   });
 
-  test('Division name is hidden if not exists', async () => {
-    doctor.division = undefined;
-    const wrapper = createWrapper(doctor);
-    expect(wrapper.find('[data-test="division-name"]').exists()).toBe(false);
-
-    const doctorWithDivision = new Doctor();
-    doctorWithDivision.division = new Division();
-    await wrapper.setProps({ doctor: doctorWithDivision });
-
-    expect(wrapper.find('[data-test="division-name"]').exists()).toBe(false);
-  });
-
-  test('Division name show if exists', async () => {
-    doctor.division = new Division();
-    doctor.division.name = 'test';
-    const wrapper = createWrapper(doctor);
-
-    expect(wrapper.find('[data-test="division-name"]').exists()).toBe(true);
-    expect(wrapper.find('[data-test="division-name"]').text()).toBe(doctor.division.name);
-  });
+  // test('Division name is hidden if not exists', async () => {
+  //   doctor.division = undefined;
+  //   const wrapper = createWrapper(doctor);
+  //   expect(wrapper.find('[data-test="division-name"]').exists()).toBe(false);
+  //
+  //   const doctorWithDivision = new Doctor();
+  //   doctorWithDivision.division = new Division();
+  //   await wrapper.setProps({ doctor: doctorWithDivision });
+  //
+  //   expect(wrapper.find('[data-test="division-name"]').exists()).toBe(false);
+  // });
+  //
+  // test('Division name show if exists', async () => {
+  //   doctor.division = new Division();
+  //   doctor.division.name = 'test';
+  //   const wrapper = createWrapper(doctor);
+  //
+  //   expect(wrapper.find('[data-test="division-name"]').exists()).toBe(true);
+  //   expect(wrapper.find('[data-test="division-name"]').text()).toBe(doctor.division.name);
+  // });
 
   test('Doctor name shows', async () => {
     doctor.human.name = 'Name';
@@ -92,18 +90,18 @@ describe('DoctorInfo.vue', () => {
     expect(wrapper.find('[data-test="doctor-name"]').text()).toBe(doctor.human.getFullName());
   });
 
-  test('BlockIsChief exists only if Doctor is Chief', async () => {
-    const id = uuidv4();
-    doctor.id = id;
-    doctor.division = new Division();
-    doctor.division.chiefId = id;
-    const wrapper = createWrapper(doctor);
-
-    expect(wrapper.find('[data-test="is-chief-block"]').exists()).toBe(true);
-    const doctorNotChief = new Doctor();
-    await wrapper.setProps({ doctor: doctorNotChief });
-    expect(wrapper.find('[data-test="is-chief-block"]').exists()).toBe(false);
-  });
+  // test('BlockIsChief exists only if Doctor is Chief', async () => {
+  //   const id = uuidv4();
+  //   doctor.id = id;
+  //   doctor.division = new Division();
+  //   doctor.division.chiefId = id;
+  //   const wrapper = createWrapper(doctor);
+  //
+  //   expect(wrapper.find('[data-test="is-chief-block"]').exists()).toBe(true);
+  //   const doctorNotChief = new Doctor();
+  //   await wrapper.setProps({ doctor: doctorNotChief });
+  //   expect(wrapper.find('[data-test="is-chief-block"]').exists()).toBe(false);
+  // });
 
   test('MedicalProfile name is hidden if not exists', async () => {
     doctor.medicalProfile = undefined;
@@ -201,27 +199,27 @@ describe('DoctorInfo.vue', () => {
     expect(wrapper.find('[data-test="online-consult-button"]').exists()).toBe(true);
   });
 
-  test('Division link push to division of doctor with slug', async () => {
-    doctor.division = new Division();
-    doctor.division.slug = 'test';
-    doctor.division.name = 'test';
-    const wrapper = createWrapper(doctor);
-
-    await wrapper.find('[data-test="division-name"]').trigger('click');
-    expect(mockRouter.push).toHaveBeenCalledTimes(1);
-    expect(mockRouter.push).toHaveBeenCalledWith(`/divisions/${doctor.division.slug}`);
-  });
-
-  test('Address link push to map with division id', async () => {
-    doctor.division = new Division();
-    doctor.division.id = 'test';
-    doctor.division.address = 'test';
-    const wrapper = createWrapper(doctor);
-
-    await wrapper.find('[data-test="map-link"]').trigger('click');
-    expect(mockRouter.push).toHaveBeenCalledTimes(1);
-    expect(mockRouter.push).toHaveBeenCalledWith(`/map/${doctor.division.id}`);
-  });
+  // test('Division link push to division of doctor with slug', async () => {
+  //   doctor.division = new Division();
+  //   doctor.division.slug = 'test';
+  //   doctor.division.name = 'test';
+  //   const wrapper = createWrapper(doctor);
+  //
+  //   await wrapper.find('[data-test="division-name"]').trigger('click');
+  //   expect(mockRouter.push).toHaveBeenCalledTimes(1);
+  //   expect(mockRouter.push).toHaveBeenCalledWith(`/divisions/${doctor.division.slug}`);
+  // });
+  //
+  // test('Address link push to map with division id', async () => {
+  //   doctor.division = new Division();
+  //   doctor.division.id = 'test';
+  //   doctor.division.address = 'test';
+  //   const wrapper = createWrapper(doctor);
+  //
+  //   await wrapper.find('[data-test="map-link"]').trigger('click');
+  //   expect(mockRouter.push).toHaveBeenCalledTimes(1);
+  //   expect(mockRouter.push).toHaveBeenCalledWith(`/map/${doctor.division.id}`);
+  // });
 
   test('doctor.academicDegree shows', async () => {
     doctor.academicDegree = 'a';

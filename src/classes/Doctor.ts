@@ -1,5 +1,6 @@
 import Certificate from '@/classes/Certificate';
 import Division from '@/classes/Division';
+import DoctorDivision from '@/classes/DoctorDivision';
 import DoctorPaidService from '@/classes/DoctorPaidService';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
@@ -16,6 +17,7 @@ import ICertificate from '@/interfaces/ICertificate';
 import IDivision from '@/interfaces/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
+import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
 import IExperience from '@/interfaces/IExperience';
@@ -33,9 +35,7 @@ export default class Doctor implements IDoctor {
   id?: string;
   human = new Human();
   humanId?: string;
-  division?: IDivision;
   description = '';
-  divisionId?: string;
   show = true;
   timetable: ITimetable = new Timetable();
   timetableId?: string;
@@ -57,6 +57,7 @@ export default class Doctor implements IDoctor {
   certificates: ICertificate[] = [];
   certificatesForDelete: string[] = [];
   experiences: IExperience[] = [];
+  doctorsDivisions: IDoctorDivision[] = [];
   experiencesForDelete: string[] = [];
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;
@@ -65,6 +66,7 @@ export default class Doctor implements IDoctor {
   teachingActivities: ITeachingActivity[] = [];
   teachingActivitiesForDelete: string[] = [];
   hasAppointment = true;
+  doctorsDivisionsForDelete: string[] = [];
 
   constructor(i?: IDoctor) {
     if (!i) {
@@ -74,9 +76,7 @@ export default class Doctor implements IDoctor {
     this.human = new Human(i.human);
     this.humanId = i.humanId;
     this.description = i.description;
-    this.division = new Division(i.division);
     this.show = i.show;
-    this.divisionId = i.divisionId;
     if (i.timetable) {
       this.timetable = new Timetable(i.timetable);
     }
@@ -117,6 +117,9 @@ export default class Doctor implements IDoctor {
     }
     if (i.doctorPaidServices) {
       this.doctorPaidServices = i.doctorPaidServices.map((item: IDoctorPaidService) => new DoctorPaidService(item));
+    }
+    if (i.doctorsDivisions) {
+      this.doctorsDivisions = i.doctorsDivisions.map((item: IDoctorDivision) => new DoctorDivision(item));
     }
     if (i.educationalOrganizationAcademic) {
       this.educationalOrganizationAcademic = new EducationalOrganizationAcademic(i.educationalOrganizationAcademic);
@@ -198,6 +201,12 @@ export default class Doctor implements IDoctor {
   }
 
   isChief(): boolean {
-    return !!this.division && this.division.chiefId === this.id;
+    return false;
+  }
+  addDoctorDivision(division: IDivision): void {
+    const doctorDivision = new DoctorDivision();
+    doctorDivision.division = new Division(division);
+    doctorDivision.divisionId = division.id;
+    this.doctorsDivisions.push(doctorDivision);
   }
 }
