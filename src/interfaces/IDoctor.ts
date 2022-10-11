@@ -3,6 +3,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICertificate from '@/interfaces/ICertificate';
 import IDivision from '@/interfaces/IDivision';
 import IDoctorComment from '@/interfaces/IDoctorComment';
+import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
@@ -19,9 +20,7 @@ export default interface IDoctor {
   id?: string;
   human: IHuman;
   humanId?: string;
-  division?: IDivision;
   description: string;
-  divisionId?: string;
   mosDoctorLink?: string;
   onlineDoctorId?: string;
   show: boolean;
@@ -31,6 +30,8 @@ export default interface IDoctor {
   positionId?: string;
   tags?: string;
   doctorComments: IDoctorComment[];
+  doctorsDivisions: IDoctorDivision[];
+  doctorsDivisionsForDelete: string[];
   academicDegree: string;
   academicRank: string;
   regalias: IRegalia[];
@@ -66,4 +67,5 @@ export default interface IDoctor {
   addTeachingActivity: () => void;
   isChief: () => boolean;
   hasAppointment: boolean;
+  addDoctorDivision: (division: IDivision) => void;
 }

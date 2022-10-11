@@ -18,14 +18,16 @@
     </div>
 
     <div class="card-item-middle">
-      <div
-        v-if="doctor.division?.name"
-        data-test="division-name"
-        class="division-name"
-        @click="$router.push(`/divisions/${doctor.division.slug}`)"
-      >
-        {{ doctor.division.name }}
-      </div>
+      <template v-for="doctorDivision in doctor.doctorsDivisions" :key="doctorDivision.id">
+        <div
+          v-if="doctorDivision.division.name"
+          data-test="division-name"
+          class="division-name"
+          @click="$router.push(`/divisions/${doctorDivision.division.slug}`)"
+        >
+          {{ doctorDivision.division.name }}
+        </div>
+      </template>
       <div data-test="doctor-name" class="doctor-name">
         {{ doctor.human.getFullName() }}
       </div>

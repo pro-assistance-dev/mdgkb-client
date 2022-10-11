@@ -35,9 +35,11 @@
       </el-table-column>
       <el-table-column label="Отделение" sortable>
         <template #default="scope">
-          <router-link v-if="scope.row.division.name" :to="`/admin/divisions/${scope.row.division.id}`">{{
-            scope.row.division.name
-          }}</router-link>
+          <div v-for="doctorDivision in scope.row.doctorsDivisions" :key="doctorDivision.id">
+            <router-link v-if="doctorDivision.division.name" :to="`/admin/divisions/${doctorDivision.division.id}`">{{
+              doctorDivision.division.name
+            }}</router-link>
+          </div>
         </template>
       </el-table-column>
       <el-table-column width="50" fixed="right" align="center">

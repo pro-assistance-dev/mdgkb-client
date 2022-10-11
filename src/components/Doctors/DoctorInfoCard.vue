@@ -19,8 +19,13 @@
         </router-link>
       </div>
       <div class="flex-column right-side">
-        <div class="division-name" @click="$router.push(`/divisions/${doctor.division.slug}`)">
-          {{ doctor.division.name }}
+        <div
+          v-for="doctorDivision in doctor.doctorsDivisions"
+          :key="doctorDivision.id"
+          class="division-name"
+          @click="$router.push(`/divisions/${doctorDivision.division.slug}`)"
+        >
+          {{ doctorDivision.division.name }}
         </div>
         <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
           {{ doctor.human.getFullName() }}
@@ -36,10 +41,10 @@
           </template>
         </div>
         <div class="address">
-          <span v-if="doctor.division.address">
+          <span v-for="doctorDivision in doctor.doctorsDivisions" :key="doctorDivision.id">
             Адрес приема:
-            <a @click="$router.push(`/map/${doctor.division.id}`)">
-              {{ doctor.division.address }}
+            <a @click="$router.push(`/map/${doctorDivision.division.id}`)">
+              {{ doctorDivision.division.address }}
             </a>
           </span>
         </div>
