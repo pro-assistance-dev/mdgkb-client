@@ -40,7 +40,7 @@
           }}</router-link>
         </template>
       </el-table-column>
-      <el-table-column width="50" fixed="right" align="center">
+      <el-table-column width="50" align="center">
         <template #default="scope">
           <TableButtonGroup
             :show-edit-button="true"
