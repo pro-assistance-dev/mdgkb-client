@@ -12,9 +12,9 @@
     </template>
     <template #header-left-top>
       <div class="item">
-        <el-form-item style="margin: 0">
-          <el-checkbox v-model="onlyDiabete" label="при диабете"></el-checkbox>
-        </el-form-item>
+        <!--        <el-form-item style="margin: 0">-->
+        <el-checkbox v-model="onlyDiabete" label="при диабете"></el-checkbox>
+        <!--        </el-form-item>-->
       </div>
       <!-- <div v-show="!onlyDiabete" class="item">
         <el-form-item style="margin: 0">

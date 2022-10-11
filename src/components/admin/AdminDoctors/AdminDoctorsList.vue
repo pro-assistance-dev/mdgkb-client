@@ -4,15 +4,6 @@
       <RemoteSearch :key-value="schema.doctor.key" placeholder="Начните вводить ФИО врача" @select="selectSearch" />
       <FiltersList :models="createGenderFilterModels()" @load="loadDoctors" />
       <FilterMultipleSelect :filter-model="filterByDivision" :options="schema.division.options" @load="loadDoctors" />
-      <!--      <FilterSelect-->
-      <!--        placeholder="Отделение"-->
-      <!--        :options="schema.division.options"-->
-      <!--        :table="schema.doctor.tableName"-->
-      <!--        :col="schema.doctor.divisionId"-->
-      <!--        :operator="Operators.Eq"-->
-      <!--        :data-type="DataTypes.String"-->
-      <!--        @load="loadDoctors"-->
-      <!--      />-->
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadDoctors" />
