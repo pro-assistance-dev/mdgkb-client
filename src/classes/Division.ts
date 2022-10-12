@@ -40,6 +40,7 @@ export default class Division implements IDivision {
   floorId?: string;
   showCommonVisitingRules = true;
   entranceId?: string;
+
   entrance?: IEntrance = new Entrance();
   slug?: string = '';
   doctors: IDoctor[] = [];
@@ -73,7 +74,7 @@ export default class Division implements IDivision {
   socialMedias: ISocialMedia[] = [];
   newsDivisions: INewsDivision[] = [];
   newsDivisionsForDelete: string[] = [];
-
+  isCenter = false;
   constructor(i?: IDivision) {
     if (!i) {
       return;
@@ -147,6 +148,7 @@ export default class Division implements IDivision {
     if (i.socialMedias) {
       this.socialMedias = i.socialMedias.map((item: ISocialMedia) => new SocialMedia(item));
     }
+    this.isCenter = i.isCenter;
   }
 
   getAddress(): string {

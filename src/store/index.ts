@@ -11,7 +11,6 @@ import { callbacks } from '@/store/modules/callbacks';
 import { candidateApplications } from '@/store/modules/candidateApplications';
 import { candidateDocumentTypes } from '@/store/modules/candidateDocumentTypes';
 import { candidateExams } from '@/store/modules/candidateExams';
-import { centers } from '@/store/modules/centers';
 import { certificates } from '@/store/modules/certificates';
 import { children } from '@/store/modules/children';
 import comments from '@/store/modules/comments';
@@ -136,7 +135,6 @@ const s: StoreOptions<RootState> = {
     medicalProfiles,
     visitsApplications,
     callbacks,
-    centers,
     appointments,
     dpoCourses,
     teachers,

@@ -41,10 +41,7 @@ export default class FilterQuery implements IFilterQuery {
   }
 
   setAllLoaded(loadedItemsLength: number): void {
-    if (loadedItemsLength >= this.pagination.limit) {
-      return;
-    }
-    this.allLoaded = true;
+    this.allLoaded = !(loadedItemsLength >= this.pagination.limit);
   }
   resetAllLoaded(): void {
     this.allLoaded = false;

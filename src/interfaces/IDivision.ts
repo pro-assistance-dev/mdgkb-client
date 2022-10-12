@@ -52,6 +52,7 @@ export default interface IDivision {
   divisionVideos: IDivisionVideo[];
   medicalProfilesDivisions: IMedicalProfileDivision[];
   socialMedias: ISocialMedia[];
+  isCenter: boolean;
 
   treatDirection: ITreatDirection;
   treatDirectionId?: string;

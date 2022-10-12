@@ -1,7 +1,8 @@
 <template>
   <div v-if="divisions.length" class="card-flex-container">
     <div v-for="division in divisions" :key="division.id" class="card-container">
-      <DivisionCard :division="division" />
+      <DivisionCard v-if="!division.isCenter" :division="division" />
+      <CenterCard v-else :center="division" />
     </div>
   </div>
   <h1 v-else class="text-center">Нет данных</h1>
@@ -11,25 +12,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
+import CenterCard from '@/components/Divisions/CenterCard.vue';
 import DivisionCard from '@/components/Divisions/DivisionCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import IDivision from '@/interfaces/IDivision';
-import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DivisionsList',
-  components: { DivisionCard, LoadMoreButton },
-
-  emits: ['load'],
-  setup() {
-    const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => Provider.store.getters['divisions/divisions']);
-
-    return {
-      divisions,
-    };
+  components: { DivisionCard, LoadMoreButton, CenterCard },
+  props: {
+    divisions: {
+      type: Array as PropType<IDivision[]>,
+      default: () => [],
+    },
   },
+  emits: ['load'],
 });
 </script>
 
@@ -54,5 +53,15 @@ export default defineComponent({
 .loadmore-button {
   display: flex;
   justify-content: center;
+}
+
+.card-flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+.card-container {
+  height: 350px;
+  margin: 0 auto;
 }
 </style>

@@ -4,62 +4,58 @@
       <DivisionsListFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="loadDivisions" />
     </template>
     <h2>Терапевтическое направление</h2>
-    <DivisionsList v-if="mode === 'departments'" @load="loadMore" />
-    <CentersList v-else />
+    <DivisionsList :divisions="divisions" @load="loadMore" />
   </PageWrapper>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
-import CentersList from '@/components/Divisions/CentersList.vue';
+import FilterModel from '@/classes/filters/FilterModel';
 import DivisionsList from '@/components/Divisions/DivisionsList.vue';
 import DivisionsListFilters from '@/components/Divisions/DivisionsListFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-// import ModeButtons from '@/components/ModeButtons.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDivision from '@/interfaces/IDivision';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
-import TokenService from '@/services/Token';
 
 export default defineComponent({
   name: 'DivisionsCentersList',
   components: {
-    CentersList,
     DivisionsList,
     DivisionsListFilters,
     PageWrapper,
   },
-
   emits: ['selectMode'],
   setup() {
-    const route = useRoute();
-    const divisionsMode: Ref<boolean> = ref(route.path === '/divisions');
     const modes: Ref<IOption[]> = ref([]);
-    const mode: Ref<string> = ref('departments');
+    const mode: Ref<string> = ref('divisions');
     const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => Provider.store.getters['divisions/divisions']);
-
-    const selectMode = async (value: string) => {
-      if (value === mode.value) {
-        return;
-      }
-      mode.value = value;
-    };
+    const onlyDivisionsFilterModel: Ref<IFilterModel> = ref(new FilterModel());
+    const onlyCentersFilterModel: Ref<IFilterModel> = ref(new FilterModel());
+    const count: Ref<number> = ref(1);
 
     const load = async () => {
       Provider.setSortModels(DivisionsSortsLib.byName());
-      Provider.filterQuery.value.pagination.limit = 6;
       Provider.setSortList(...createSortModels(DivisionsSortsLib));
+      onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
+      onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
+
+      if (Provider.route().query.mode === 'divisions') {
+        Provider.setFilterModel(onlyDivisionsFilterModel.value);
+      } else {
+        Provider.setFilterModel(onlyCentersFilterModel.value);
+      }
+
       Provider.store.commit('filter/setStoreModule', 'divisions');
       await loadDivisions();
       await loadFilters();
-      await setModes();
+      modes.value.push({ value: 'divisions', label: 'Отделения' }, { value: 'centers', label: 'Центры' });
     };
 
     Hooks.onBeforeMount(load);
@@ -76,27 +72,16 @@ export default defineComponent({
       await Provider.store.dispatch('divisions/getAll', Provider.filterQuery.value);
     };
 
-    const changeMode = async (divisionsModeActive: boolean) => {
-      divisionsMode.value = divisionsModeActive;
-      if (divisionsModeActive) {
-        await Provider.router.replace('/divisions');
-      } else {
-        await Provider.router.replace('/centers');
+    const selectMode = async (selectedMode: string) => {
+      mode.value = selectedMode;
+      if (mode.value === 'divisions' && count.value !== 1) {
+        Provider.replaceFilterModel(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value.id);
+      } else if (mode.value === 'centers' && count.value !== 1) {
+        Provider.replaceFilterModel(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value.id);
       }
+      count.value--;
+      await loadDivisions();
     };
-
-    const setModes = async () => {
-      // await store.dispatch('dpoDocumentTypes/getAll');
-      modes.value.push({ value: 'departments', label: 'Отделения' });
-      modes.value.push({ value: 'centers', label: 'Центры' });
-    };
-
-    // const createSortModels = (): ISortModel[] => {
-    //   return [
-    //     DivisionsSortsLib.byName(),
-    //     DivisionsSortsLib.byCommentsCount(),
-    //   ];
-    // };
 
     const loadFilters = async () => {
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.treatDirection);
@@ -104,12 +89,8 @@ export default defineComponent({
     };
 
     return {
+      divisions,
       createSortModels,
-      divisionsMode,
-      changeMode,
-      TokenService,
-      Operators,
-      DataTypes,
       modes,
       mode,
       selectMode,

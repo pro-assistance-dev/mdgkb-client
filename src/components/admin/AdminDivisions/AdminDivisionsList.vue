@@ -53,7 +53,6 @@ import ISearchObject from '@/interfaces/ISearchObject';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -102,7 +101,7 @@ export default defineComponent({
     };
 
     const createFilterModels = (): IFilterModel[] => {
-      return [DivisionsFiltersLib.withoutDrafts(), DivisionsFiltersLib.withDrafts()];
+      return [];
     };
 
     return {

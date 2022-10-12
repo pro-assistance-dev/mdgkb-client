@@ -6,7 +6,7 @@
         :popper-append-to-body="false"
         value-key="label"
         :clearable="!defaultSortOn"
-        :placeholder="sortModel.label"
+        :placeholder="sortModel?.label"
         @change="setSort"
       >
         <el-option v-for="item in storeMode ? models : sortModels" :key="item.label" :label="item.label" :value="item" />

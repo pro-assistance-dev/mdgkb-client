@@ -39,25 +39,27 @@ const NewsFiltersLib = (() => {
     return filterModel;
   }
 
-  function withoutDrafts(): IFilterModel {
+  function onlyDivisions(): IFilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.isDraft,
+      Provider.schema.value.division.tableName,
+      Provider.schema.value.division.isCenter,
       DataTypes.Boolean
     );
     filterModel.boolean = false;
-    filterModel.label = 'Без черновиков';
+    filterModel.operator = Operators.Eq;
+    filterModel.label = 'Отделения';
     return filterModel;
   }
 
-  function withDrafts(): IFilterModel {
+  function onlyCenters(): IFilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.isDraft,
+      Provider.schema.value.division.tableName,
+      Provider.schema.value.division.isCenter,
       DataTypes.Boolean
     );
     filterModel.boolean = true;
-    filterModel.label = 'Только черновики';
+    filterModel.operator = Operators.Eq;
+    filterModel.label = 'Центры';
     return filterModel;
   }
 
@@ -65,8 +67,8 @@ const NewsFiltersLib = (() => {
     filterByTags,
     excludeSlug,
     onlyPublished,
-    withoutDrafts,
-    withDrafts,
+    onlyDivisions,
+    onlyCenters,
   };
 })();
 
