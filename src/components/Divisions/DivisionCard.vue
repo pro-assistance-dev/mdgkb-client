@@ -164,7 +164,7 @@ export default defineComponent({
 }
 
 .card-item {
-  width: 320px;
+  width: 100%;
   min-height: 87%;
   position: relative;
 }

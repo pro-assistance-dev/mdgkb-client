@@ -40,7 +40,6 @@
       >
         {{ doctor.medicalProfile.name }}
       </div>
-
       <div
         v-if="doctor.position?.name"
         data-test="position-name"
