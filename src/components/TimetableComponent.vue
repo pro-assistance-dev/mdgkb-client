@@ -51,22 +51,20 @@
       </div>
     </div>
   </div>
-  <svg width="0" height="0" class="hidden">
-    <symbol id="time" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-      <path
-        d="M9.99 0C4.47 0 0 4.48 0 10C0 15.52 4.47 20 9.99 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 9.99 0ZM10 18.5C5.58 18.5 1.5 14.42 1.5 10C1.5 5.58 5.57 1.5 9.99 1.5C14.41 1.5 18.5 5.58 18.5 10C18.5 14.42 14.42 18.5 10 18.5ZM9.78 5H9.72C9.32 5 9 5.32 9 5.72V10.44C9 10.79 9.18 11.12 9.49 11.3L13.64 13.79C13.98 13.99 14.42 13.89 14.62 13.55C14.6702 13.469 14.7036 13.3788 14.7182 13.2846C14.7328 13.1905 14.7283 13.0943 14.705 13.002C14.6817 12.9096 14.64 12.8229 14.5824 12.7469C14.5249 12.671 14.4526 12.6074 14.37 12.56L10.5 10.26V5.72C10.5 5.32 10.18 5 9.78 5Z"
-      ></path>
-    </symbol>
-  </svg>
+  <Time />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import Time from '@/assets/doctors/svg/Time.svg';
 
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 export default defineComponent({
   name: 'TimetableComponent',
+  components: {
+    Time,
+  },
   props: {
     timetable: {
       type: Object as PropType<ITimetable>,
