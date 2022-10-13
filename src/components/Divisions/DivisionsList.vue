@@ -56,6 +56,7 @@ export default defineComponent({
 
 .card-container {
   height: 350px;
+  min-height: 400px;
   margin-left: 10px;
   margin-bottom: 20px;
 }
