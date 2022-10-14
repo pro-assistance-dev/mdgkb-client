@@ -76,8 +76,8 @@ describe('Timetable.vue', () => {
     expect(wrapper.find('[data-test="breaks-exists"]').exists()).toBe(true);
     expect(wrapper.find('[data-test="breaks-exists"]').text()).toBe(
       'Перерыв: ' +
-        divisionWithbreakPeriod.getTodayWorkday().breakPeriods[0].getPeriod?.() +
-        divisionWithbreakPeriod.getTodayWorkday().breakPeriods[1].getPeriod?.()
+        divisionWithbreakPeriod.getTodayWorkday().breakPeriods[0].getPeriod() +
+        divisionWithbreakPeriod.getTodayWorkday().breakPeriods[1].getPeriod()
     );
   });
 
@@ -120,8 +120,8 @@ describe('Timetable.vue', () => {
     expect(wrapper.find('[data-test="breaks-exists-2"]').exists()).toBe(true);
     expect(wrapper.find('[data-test="breaks-exists-2"]').text()).toBe(
       'Перерыв: ' +
-        timetableWorkDayWithbreakPeriod.getTodayWorkday().breakPeriods[0].getPeriod?.() +
-        timetableWorkDayWithbreakPeriod.getTodayWorkday().breakPeriods[1].getPeriod?.()
+        timetableWorkDayWithbreakPeriod.getTodayWorkday().breakPeriods[0].getPeriod() +
+        timetableWorkDayWithbreakPeriod.getTodayWorkday().breakPeriods[1].getPeriod()
     );
   });
   //
@@ -147,8 +147,8 @@ describe('Timetable.vue', () => {
     expect(wrapper.find('[data-test="breaks-exists-3"]').exists()).toBe(true);
     expect(wrapper.find('[data-test="breaks-exists-3"]').text()).toBe(
       ', перерыв: ' +
-        timetableWorkDayWithbreakPeriod.getTodayWorkday().breakPeriods[0].getPeriod?.() +
-        timetableWorkDayWithbreakPeriod.getTodayWorkday().breakPeriods[1].getPeriod?.()
+        timetableWorkDayWithbreakPeriod.getTodayWorkday().breakPeriods[0].getPeriod() +
+        timetableWorkDayWithbreakPeriod.getTodayWorkday().breakPeriods[1].getPeriod()
     );
   });
 });

@@ -41,13 +41,12 @@ export default defineComponent({
 }
 
 .card-flex-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  padding: 20px 10px 10px 10px;
-}
-.card-container {
-  height: auto;
-  margin: 0 auto;
+  padding: 20px 0px 10px 0px;
+  justify-content: space-between
+  // margin-right: 20px;
 }
 
 .loadmore-button {
@@ -55,13 +54,10 @@ export default defineComponent({
   justify-content: center;
 }
 
-.card-flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px;
-}
 .card-container {
   height: 350px;
-  margin: 0 auto;
+  min-height: 400px;
+  margin-left: 10px;
+  margin-bottom: 20px;
 }
 </style>

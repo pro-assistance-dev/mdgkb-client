@@ -19,13 +19,18 @@
         </router-link>
       </div>
       <div class="flex-column right-side">
-        <div
+        <!-- <div
           v-for="doctorDivision in doctor.doctorsDivisions"
           :key="doctorDivision.id"
           class="division-name"
           @click="$router.push(`/divisions/${doctorDivision.division.slug}`)"
-        >
-          {{ doctorDivision.division.name }}
+        > -->
+        <div
+          v-if="doctor.doctorsDivisions"
+          class="division-name"
+          @click="$router.push(`/divisions/${doctor.doctorsDivisions[0].division.slug}`)"
+        >   
+          {{ doctor.doctorsDivisions[0].division.name }}
         </div>
         <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
           {{ doctor.human.getFullName() }}
