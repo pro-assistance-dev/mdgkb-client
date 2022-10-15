@@ -7,13 +7,12 @@
           v-for="manager in educationalOrganisation.educationalOrganizationManagers"
           :key="manager.id"
           center
-          :timestamp="manager.role"
           placement="top"
         >
           <el-card>
             <div class="flex-row">
               <div class="doctor-img-container">
-                <el-avatar :size="100" :src="manager.doctor.fileInfo.getImageUrl()"></el-avatar>
+                <el-avatar :size="100" :src="manager.doctor.human.photo.getImageUrl()"></el-avatar>
               </div>
               <div>
                 <h4>{{ manager.doctor.human.getFullName() }}</h4>
@@ -24,13 +23,6 @@
         </el-timeline-item>
       </el-timeline>
     </el-card>
-    <div class="card-item">
-      <ul>
-        <a target="_blank" href="/teachers.pdf" download="Преподаватели"
-          >Сведения о персональном составе педагогических работников по реализуемым образовательным программам</a
-        >
-      </ul>
-    </div>
   </el-container>
 </template>
 

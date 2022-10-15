@@ -2,7 +2,7 @@ import { MutationTree } from 'vuex';
 
 import DocumentType from '@/classes/document/DocumentType';
 import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import { getDefaultState } from '@/store/modules/documentTypes/index';
 
 import State from './state';

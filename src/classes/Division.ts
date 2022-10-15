@@ -167,11 +167,4 @@ export default class Division implements IDivision {
     item.order = this.visitingRulesGroups.length;
     this.visitingRulesGroups.push(item);
   }
-  // removeVisitingRule(state, index: number) {
-  //   const id = state.division.visitingRules[index].id;
-  //   if (id) {
-  //     state.division.visitingRulesForDelete.push(id);
-  //   }
-  //   state.division.visitingRules.splice(index, 1);
-  // },
 }

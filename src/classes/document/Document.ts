@@ -4,14 +4,15 @@ import DocumentType from '@/classes/document/DocumentType';
 import IDocument from '@/interfaces/document/IDocument';
 import IDocumentFieldValue from '@/interfaces/document/IDocumentFieldValue';
 import IDocumentScan from '@/interfaces/document/IDocumentScan';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
 
 export default class Document implements IDocument {
   id?: string;
   name = '';
   order = 0;
+  downloadToFile = false;
   documentTypeId?: string;
   documentType: IDocumentType = new DocumentType();
 
@@ -27,6 +28,7 @@ export default class Document implements IDocument {
     this.id = i?.id;
     this.name = i.name;
     this.order = i.order;
+    this.downloadToFile = i.downloadToFile;
     this.documentTypeId = i.documentTypeId;
     if (i.documentType) {
       this.documentType = new DocumentType(i.documentType);

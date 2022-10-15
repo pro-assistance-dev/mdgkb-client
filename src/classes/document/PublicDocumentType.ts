@@ -1,13 +1,15 @@
 import EducationPublicDocumentType from '@/classes/EducationPublicDocumentType';
-import IDocumentType from '@/interfaces/document/IDocumentType';
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
+import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
 
 import DocumentType from './DocumentType';
 
 export default class PublicDocumentType implements IPublicDocumentType {
   id?: string;
   name = '';
+  order = 0;
   description = '';
   routeAnchor = '';
 
@@ -20,6 +22,7 @@ export default class PublicDocumentType implements IPublicDocumentType {
     }
     this.id = i.id;
     this.name = i.name;
+    this.order = i.order;
     this.routeAnchor = i.routeAnchor;
     this.description = i.description;
     if (i.documentTypes) {
@@ -41,5 +44,13 @@ export default class PublicDocumentType implements IPublicDocumentType {
 
   private removeEducationPublicDocumentType(): void {
     this.educationPublicDocumentType = undefined;
+  }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    this.documentTypes.forEach((i: IDocumentType) => {
+      fileInfos.push(...i.getFileInfos());
+    });
+    return fileInfos;
   }
 }

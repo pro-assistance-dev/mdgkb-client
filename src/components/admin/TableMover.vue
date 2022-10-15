@@ -44,6 +44,7 @@ export default defineComponent({
 
     const move = (up: boolean) => {
       up ? moveUp(items.value, props.index) : moveDown(items.value, props.index);
+      items.value.forEach((i: IOrdered, index: number) => (i.order = index));
     };
 
     return {

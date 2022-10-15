@@ -17,6 +17,11 @@
         <DocumentUploader :document="scope.row" />
       </template>
     </el-table-column>
+    <el-table-column label="Скачивать файлом">
+      <template #default="scope">
+        <el-checkbox v-model="scope.row.downloadToFile" />
+      </template>
+    </el-table-column>
     <el-table-column width="70" align="center">
       <template #header>
         <el-button type="success" icon="el-icon-plus" size="mini" @click="documentType.addDocument()"></el-button>
@@ -29,23 +34,30 @@
       </template>
     </el-table-column>
   </el-table>
+  <AdminGallery
+    :file-list="documentType.documentTypeImages"
+    :file-list-for-delete="documentType.documentTypeImagesForDelete"
+    @add-image="documentType.addDocumentTypeImage()"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import AdminGallery from '@/components/admin/AdminGallery.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
-import removeFromClass from '@/services/removeFromClass';
+import IDocumentType from '@/interfaces/IDocumentType';
 import Provider from '@/services/Provider';
+import removeFromClass from '@/services/removeFromClass';
 export default defineComponent({
   name: 'AdminDocumentsForm',
   components: {
     DocumentUploader,
     TableMover,
     TableButtonGroup,
+    AdminGallery,
   },
   props: {
     documentType: {

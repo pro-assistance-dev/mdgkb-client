@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -32,13 +32,20 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.put<IPublicDocumentType, IPublicDocumentType>({
       query: `${item.id}`,
       payload: item,
-      fileInfos: state.fileInfos,
+      fileInfos: [...state.fileInfos, ...item.getFileInfos()],
       isFormData: true,
     });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
+  },
+  updateOrder: async ({ state }): Promise<void> => {
+    await httpClient.put<IPublicDocumentType[], IPublicDocumentType[]>({
+      query: 'order',
+      payload: state.items,
+      isFormData: true,
+    });
   },
 };
 

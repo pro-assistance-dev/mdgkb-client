@@ -1,5 +1,5 @@
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
 
 export default interface IResidencyDocumentType {
   id?: string;

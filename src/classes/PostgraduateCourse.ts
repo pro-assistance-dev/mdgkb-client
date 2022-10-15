@@ -6,8 +6,8 @@ import PostgraduateCourseSpecialization from '@/classes/PostgraduateCourseSpecia
 import PostgraduateCourseTeacher from '@/classes/PostgraduateCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IForm from '@/interfaces/IForm';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
@@ -16,8 +16,8 @@ import IPostgraduateCourseSpecialization from '@/interfaces/IPostgraduateCourseS
 import IPostgraduateCourseTeacher from '@/interfaces/IPostgraduateCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
-import removeFromClass from '@/services/removeFromClass';
 import DateTimeFormatter from '@/services/DateFormat';
+import removeFromClass from '@/services/removeFromClass';
 
 import Form from './Form';
 

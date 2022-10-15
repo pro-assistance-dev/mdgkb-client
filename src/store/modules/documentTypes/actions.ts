@@ -1,8 +1,8 @@
 import { ActionTree } from 'vuex';
 
 import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

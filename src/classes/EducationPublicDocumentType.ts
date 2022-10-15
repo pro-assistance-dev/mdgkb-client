@@ -1,8 +1,8 @@
 import PublicDocumentType from '@/classes/document/PublicDocumentType';
-import IDocumentType from '@/interfaces/document/IDocumentType';
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
+import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
 
 export default class EducationPublicDocumentType implements IEducationPublicDocumentType {
   id?: string;

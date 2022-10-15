@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import RootState from '@/store/types';
 
 import State from './state';

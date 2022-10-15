@@ -35,9 +35,9 @@ import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
 import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';

@@ -60,7 +60,7 @@ import { useStore } from 'vuex';
 
 import CardHeader from '@/components/admin/CardHeader.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IValueType from '@/interfaces/IValueType';
 import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';

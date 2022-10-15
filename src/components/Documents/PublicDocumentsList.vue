@@ -55,7 +55,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
+import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
 
 export default defineComponent({
   name: 'PublicDocumentsList',

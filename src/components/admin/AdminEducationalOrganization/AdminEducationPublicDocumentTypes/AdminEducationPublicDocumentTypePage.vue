@@ -80,7 +80,7 @@ import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';

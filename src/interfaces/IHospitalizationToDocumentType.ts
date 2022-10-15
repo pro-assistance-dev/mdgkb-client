@@ -1,4 +1,4 @@
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 
 export default interface IHospitalizationToDocumentType {

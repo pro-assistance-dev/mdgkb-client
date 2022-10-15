@@ -10,8 +10,10 @@
       <h2>{{ docType.name }}</h2>
       <div v-if="docType.description != '<p>undefined</p>'" v-html="docType.description"></div>
       <li v-for="file in docType.documents" :key="file.id">
-        <a target="_blank" :href="file.getScan().getFileUrl()">{{ file.name }}</a>
+        <a v-if="file.downloadToFile" :download="file.downloadToFile" :href="file.getScan().getFileUrl()">{{ file.name }}</a>
+        <a v-else target="_blank" :href="file.getScan().getFileUrl()">{{ file.name }}</a>
       </li>
+      <ImageGallery :images="docType.documentTypeImages" />
     </ul>
   </div>
 </template>
@@ -19,10 +21,12 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
+import ImageGallery from '@/components/ImageGallery.vue';
+import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
 
 export default defineComponent({
   name: 'PublicDocumentPage',
+  components: { ImageGallery },
   props: {
     publicDocumentType: {
       type: Object as PropType<IPublicDocumentType>,

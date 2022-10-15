@@ -1,7 +1,7 @@
 import IDocumentFieldValue from '@/interfaces/document/IDocumentFieldValue';
 import IDocumentScan from '@/interfaces/document/IDocumentScan';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
 
 import IFile from '../files/IFile';
 
@@ -10,7 +10,7 @@ export default interface IDocument {
   name: string;
   documentTypeId?: string;
   documentType?: IDocumentType;
-
+  downloadToFile: boolean;
   order: number;
   documentsScans: IDocumentScan[];
   documentsScansForDelete: string[];

@@ -1,6 +1,6 @@
 import DocumentType from '@/classes/document/DocumentType';
 import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IHospitalizationToDocumentType from '@/interfaces/IHospitalizationToDocumentType';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 

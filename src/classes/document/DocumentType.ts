@@ -2,12 +2,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Document from '@/classes/document/Document';
 import DocumentTypeField from '@/classes/document/DocumentTypeField';
+import DocumentTypeImage from '@/classes/DocumentTypeImage';
 import FileInfo from '@/classes/File/FileInfo';
 import IDocument from '@/interfaces/document/IDocument';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import IDocumentTypeField from '@/interfaces/document/IDocumentTypeField';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
+import IDocumentTypeImage from '@/interfaces/IDocumentTypeImage';
 
 export default class DocumentType implements IDocumentType {
   id?: string;
@@ -25,6 +27,9 @@ export default class DocumentType implements IDocumentType {
 
   documentFields: IDocumentTypeField[] = [];
   documentFieldsForDelete: string[] = [];
+
+  documentTypeImages: IDocumentTypeImage[] = [];
+  documentTypeImagesForDelete: string[] = [];
 
   constructor(i?: IDocumentType) {
     if (!i) {
@@ -44,6 +49,9 @@ export default class DocumentType implements IDocumentType {
     }
     if (i.documents) {
       this.documents = i.documents.map((item: IDocument) => new Document(item));
+    }
+    if (i.documentTypeImages) {
+      this.documentTypeImages = i.documentTypeImages.map((item: IDocumentTypeImage) => new DocumentTypeImage(item));
     }
 
     if (i.scans) {
@@ -90,6 +98,12 @@ export default class DocumentType implements IDocumentType {
     this.documents.forEach((i: IDocument) => {
       fileInfos.push(...i.getFileInfos());
     });
+    this.documentTypeImages.forEach((i: IDocumentTypeImage) => {
+      fileInfos.push(i.fileInfo);
+    });
     return fileInfos;
+  }
+  addDocumentTypeImage(): void {
+    this.documentTypeImages.push(new DocumentTypeImage());
   }
 }

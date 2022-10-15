@@ -38,9 +38,9 @@
               </template>
             </draggable>
           </el-card>
-          <AdminEducationalOrganizationManagers />
-          <AdminEducationalOrganizationTeachers />
-          <AdminEducationalOrganizationAcademics />
+          <!--          <AdminEducationalOrganizationManagers />-->
+          <!--          <AdminEducationalOrganizationTeachers />-->
+          <!--          <AdminEducationalOrganizationAcademics />-->
         </el-container>
       </el-col>
 
@@ -130,9 +130,6 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
-import AdminEducationalOrganizationAcademics from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationAcademics.vue';
-import AdminEducationalOrganizationManagers from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationManagers.vue';
-import AdminEducationalOrganizationTeachers from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationTeachers.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 import sort from '@/services/sort';
@@ -141,10 +138,7 @@ import validate from '@/services/validate';
 export default defineComponent({
   name: 'AdminEducationalOrganizationPage',
   components: {
-    AdminEducationalOrganizationAcademics,
     CardHeader,
-    AdminEducationalOrganizationManagers,
-    AdminEducationalOrganizationTeachers,
     draggable,
   },
   setup() {
@@ -162,7 +156,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('doctors/getAll');
+      // await store.dispatch('doctors/getAll');
       await store.dispatch('educationalOrganization/get');
       store.commit('admin/setHeaderParams', { title: 'Образовательная организация', showBackButton: true, buttons: [{ action: submit }] });
       window.addEventListener('beforeunload', beforeWindowUnload);

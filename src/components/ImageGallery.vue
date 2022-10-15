@@ -19,13 +19,14 @@ import { defineComponent, PropType, Ref, ref } from 'vue';
 import FileInfo from '@/classes/File/FileInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDivisionImage from '@/interfaces/IDivisionImage';
+import IDocumentTypeImage from '@/interfaces/IDocumentTypeImage';
 import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({
   name: 'ImageGallery',
   props: {
     images: {
-      type: Array as PropType<Array<INewsImage | IDivisionImage>>,
+      type: Array as PropType<Array<INewsImage | IDivisionImage | IDocumentTypeImage>>,
       required: true,
     },
   },

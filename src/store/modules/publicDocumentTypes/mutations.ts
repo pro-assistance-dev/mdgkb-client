@@ -2,8 +2,8 @@ import { MutationTree } from 'vuex';
 
 import DocumentType from '@/classes/document/DocumentType';
 import PublicDocumentType from '@/classes/document/PublicDocumentType';
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
 
 import { getDefaultState } from '.';
 import { State } from './state';

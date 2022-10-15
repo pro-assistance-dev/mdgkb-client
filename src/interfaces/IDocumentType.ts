@@ -1,8 +1,9 @@
 import IDocumentTypeField from '@/interfaces/document/IDocumentTypeField';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentTypeImage from '@/interfaces/IDocumentTypeImage';
 
-import IDocument from './IDocument';
+import IDocument from './document/IDocument';
 
 export default interface IDocumentType {
   id?: string;
@@ -26,6 +27,9 @@ export default interface IDocumentType {
 
   documentFields: IDocumentTypeField[];
   documentFieldsForDelete: string[];
+  documentTypeImages: IDocumentTypeImage[];
+  documentTypeImagesForDelete: string[];
+  addDocumentTypeImage: () => void;
   getFileInfos: () => IFileInfo[];
   // findDocument: (documents: IDocument[]) => IDocument;
 }

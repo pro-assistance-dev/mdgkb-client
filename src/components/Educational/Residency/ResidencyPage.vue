@@ -24,8 +24,8 @@ import ResidencyContacts from '@/components/Educational/Residency/ResidencyConta
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import ResidencyFilters from '@/components/Educational/Residency/ResidencyFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import { Orders } from '@/interfaces/filters/Orders';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import IOption from '@/interfaces/schema/IOption';

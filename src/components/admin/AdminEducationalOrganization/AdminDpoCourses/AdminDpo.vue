@@ -58,7 +58,7 @@ import DpoDocumentType from '@/classes/DpoDocumentType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import removeFromClass from '@/services/removeFromClass';
 import sort from '@/services/sort';

@@ -36,7 +36,7 @@ import PostgraduateCoursesList from '@/components/Educational/Postgraduate/Postg
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
 import IOption from '@/interfaces/schema/IOption';

@@ -1,3 +1,4 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
 
 import IDocumentType from './IDocumentType';
@@ -5,6 +6,7 @@ import IDocumentType from './IDocumentType';
 export default interface IPublicDocumentType {
   id?: string;
   name: string;
+  order: number;
   routeAnchor: string;
   description: string;
 
@@ -13,4 +15,6 @@ export default interface IPublicDocumentType {
 
   educationPublicDocumentType?: IEducationPublicDocumentType;
   setEducationPublicDocumentType: (add: boolean) => void;
+
+  getFileInfos: () => IFileInfo[];
 }

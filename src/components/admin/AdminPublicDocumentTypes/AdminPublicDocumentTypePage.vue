@@ -5,14 +5,8 @@
         <el-form-item label="Название раздела" prop="name">
           <el-input v-model="publicDocumentType.name" placeholder="Название раздела"></el-input>
         </el-form-item>
-        <el-form-item label="Якорь" prop="routeAnchor">
+        <el-form-item label="Якорь (не изменять)" prop="routeAnchor">
           <el-input v-model="publicDocumentType.routeAnchor" placeholder="Якорь"></el-input>
-        </el-form-item>
-        <el-form-item label="Поместить в раздел Образование" prop="routeAnchor">
-          <el-checkbox
-            :model-value="!!publicDocumentType.educationPublicDocumentType"
-            @change="publicDocumentType.setEducationPublicDocumentType($event)"
-          ></el-checkbox>
         </el-form-item>
         <el-form-item prop="description">
           <WysiwygEditor v-model:content="publicDocumentType.description" />
@@ -43,43 +37,7 @@
               </el-form-item>
             </div>
           </template>
-          <el-table :data="docType.documents">
-            <el-table-column prop="name" label="Название документа">
-              <template #default="scope">
-                <el-form-item
-                  size="mini"
-                  :prop="'documentTypes.' + docTypeIndex + '.documents.' + scope.$index + '.name'"
-                  :rules="rules.docName"
-                  style="margin: 0"
-                >
-                  <el-input v-model="scope.row.name" placeholder="Название документа"></el-input>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="Документ">
-              <template #default="scope">
-                <DocumentUploader :document="scope.row" />
-              </template>
-            </el-table-column>
-            <el-table-column width="70" align="center">
-              <template #header>
-                <el-button type="success" icon="el-icon-plus" size="mini" @click="addDocument(docType)"></el-button>
-              </template>
-              <template #default="scope">
-                <TableButtonGroup :show-remove-button="true" @remove="removeDocument(docType, scope.$index)" />
-              </template>
-            </el-table-column>
-          </el-table>
-          <!-- <el-card v-for="(doc, docIndex) in docType.documents" :key="docIndex">
-            <el-form-item
-              label="Название документа"
-              :prop="'documentTypes.' + docTypeIndex + '.documents.' + docIndex + '.name'"
-              :rules="rules.docName"
-            >
-              <el-input v-model="doc.name" placeholder="Название документа"></el-input>
-            </el-form-item>
-            <DocumentUploader :document="doc" />
-          </el-card> -->
+          <AdminDocumentsForm :document-type="docType" />
         </el-card>
       </el-card>
     </el-form>
@@ -92,17 +50,16 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import DocumentUploader from '@/components/DocumentUploader.vue';
+import AdminDocumentsForm from '@/components/admin/AdminDocumentsTypes/AdminDocumentsForm.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
+import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPublicDocumentTypePage',
-  components: { DocumentUploader, TableButtonGroup, WysiwygEditor },
+  components: { AdminDocumentsForm, WysiwygEditor },
 
   setup() {
     const store = useStore();

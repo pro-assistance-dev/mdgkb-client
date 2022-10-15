@@ -108,11 +108,6 @@ const menuList: IAdminMenu[] = [
         title: 'Сертификаты',
         to: '/admin/certificates',
       },
-      {
-        title: 'Раздел документы',
-        to: '/admin/public-document-types',
-        icon: 'el-icon-document',
-      },
     ],
   },
   {
@@ -146,6 +141,10 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Сведения об образовательной организации',
         to: '/admin/educational-organization',
+      },
+      {
+        title: 'Сведения об образовательной организации - разделы',
+        to: '/admin/public-document-types',
       },
       {
         title: 'Ординатура',

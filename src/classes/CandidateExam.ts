@@ -1,6 +1,6 @@
 import DocumentType from '@/classes/document/DocumentType';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import ICandidateExam from '@/interfaces/ICandidateExam';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IForm from '@/interfaces/IForm';
 
 import Form from './Form';

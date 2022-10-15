@@ -1,5 +1,5 @@
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
 import IPostgraduateCoursePlan from '@/interfaces/IPostgraduateCoursePlan';
 import IPostgraduateCourseSpecialization from '@/interfaces/IPostgraduateCourseSpecialization';

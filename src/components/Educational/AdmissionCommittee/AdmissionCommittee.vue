@@ -87,9 +87,9 @@ import CompetitionComponent from '@/components/Educational/AdmissionCommittee/Co
 import SelectResidencyCourseForm from '@/components/Educational/AdmissionCommittee/SelectResidencyCourseForm.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
-import IDocumentType from '@/interfaces/document/IDocumentType';
 import { Orders } from '@/interfaces/filters/Orders';
 import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDocumentType';
+import IDocumentType from '@/interfaces/IDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';

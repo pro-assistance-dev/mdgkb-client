@@ -34,10 +34,10 @@ import FilterModel from '@/classes/filters/FilterModel';
 import InfoPage from '@/components/Educational/Education/InfoPage.vue';
 import PublicDocumentPage from '@/components/Educational/Education/PublicDocumentPage.vue';
 import StructurePage from '@/components/Educational/Education/StructurePage.vue';
-import IPublicDocumentType from '@/interfaces/document/IPublicDocumentType';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
 
