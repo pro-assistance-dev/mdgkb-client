@@ -123,9 +123,10 @@ export default class TimetableDay implements ITimetableDay {
     const startHours = Number(this.startTime.split(':')[0]);
     const endHours = Number(this.endTime.split(':')[0]);
     const timeIntrvalMid = Math.floor((endHours - startHours) / 2);
-    const startTime = `${startHours + timeIntrvalMid}:00`;
-    const endTime = `${startHours + timeIntrvalMid + 1}:00`;
-    this.breakPeriods.push(new TimePeriod({ startTime, endTime }));
+    const period = new TimePeriod();
+    period.startTime = `${startHours + timeIntrvalMid}:00`;
+    period.endTime = `${startHours + timeIntrvalMid + 1}:00`;
+    this.breakPeriods.push(period);
   }
 
   removeBreak(index: number): void {

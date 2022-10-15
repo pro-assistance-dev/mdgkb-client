@@ -1,28 +1,26 @@
+import VisitingRuleGroup from '@/classes/VisitingRuleGroup';
 import IVisitingRule from '@/interfaces/IVisitingRule';
+import IVisitingRuleGroup from '@/interfaces/IVisitingRuleGroup';
 
 export default class VisitingRule implements IVisitingRule {
   id?: string;
   text = '';
   order = 0;
   isListItem = true;
-  divisionId?: string;
+  visitingRuleGroupId?: string;
+  visitingRuleGroup: IVisitingRuleGroup = new VisitingRuleGroup();
 
-  constructor(visitingRule?: IVisitingRule) {
-    if (!visitingRule) {
+  constructor(i?: IVisitingRule) {
+    if (!i) {
       return;
     }
-    this.id = visitingRule.id;
-    this.text = visitingRule.text;
-    this.order = visitingRule.order;
-    this.isListItem = visitingRule.isListItem;
-    this.divisionId = visitingRule.divisionId;
-  }
-
-  static CreateVisitingRule(order?: number): IVisitingRule {
-    const newVisitingRule = new VisitingRule();
-    if (order) {
-      newVisitingRule.order = order;
+    this.id = i.id;
+    this.text = i.text;
+    this.order = i.order;
+    this.isListItem = i.isListItem;
+    this.visitingRuleGroupId = i.visitingRuleGroupId;
+    if (i.visitingRuleGroup) {
+      this.visitingRuleGroup = new VisitingRuleGroup(i.visitingRuleGroup);
     }
-    return newVisitingRule;
   }
 }

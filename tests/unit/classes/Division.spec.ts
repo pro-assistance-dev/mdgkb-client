@@ -1,7 +1,6 @@
 import Building from '@/classes/Building';
 import Division from '@/classes/Division';
 import Entrance from '@/classes/Entrance';
-import VisitingRule from '@/classes/VisitingRule';
 import IDivision from '@/interfaces/IDivision';
 import IDivisionVideo from '@/interfaces/IDivisionVideo';
 
@@ -38,20 +37,6 @@ describe('Class Division', () => {
     const address = 'address';
     division.entrance.building.address = address;
     expect(division.getAddress()).toBe(address);
-  });
-
-  test('getVisitingRulesList get only list rules', () => {
-    division.visitingRules = [new VisitingRule(), new VisitingRule(), new VisitingRule()];
-    division.visitingRules[2].isListItem = false;
-    expect(division.visitingRules).toHaveLength(3);
-    expect(division.getVisitingRulesList()).toHaveLength(2);
-  });
-
-  test('getVisitingRulesText get only text rules', () => {
-    division.visitingRules = [new VisitingRule(), new VisitingRule(), new VisitingRule()];
-    division.visitingRules[2].isListItem = false;
-    expect(division.visitingRules).toHaveLength(3);
-    expect(division.getVisitingRulesText()).toHaveLength(1);
   });
 
   test('addDivisionVideo added one DivisionVideo', () => {

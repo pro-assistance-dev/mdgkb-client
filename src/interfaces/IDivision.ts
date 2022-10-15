@@ -10,7 +10,7 @@ import INewsDivision from '@/interfaces/INewsDivision';
 import ISocialMedia from '@/interfaces/ISocialMedia';
 import ITreatDirection from '@/interfaces/ITreatDirection';
 import IVacancy from '@/interfaces/IVacancy';
-import IVisitingRule from '@/interfaces/IVisitingRule';
+import IVisitingRuleGroup from '@/interfaces/IVisitingRuleGroup';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -40,8 +40,8 @@ export default interface IDivision {
   divisionImagesForDelete: string[];
   divisionComments: IDivisionComment[];
   timetableDaysForDelete: string[];
-  visitingRules: IVisitingRule[];
-  visitingRulesForDelete: string[];
+  visitingRulesGroups: IVisitingRuleGroup[];
+  visitingRulesGroupsForDelete: string[];
   divisionPaidServices: IDivisionPaidService[];
   hospitalizationContactInfoId?: string;
   hospitalizationContactInfo?: IContactInfo;
@@ -64,8 +64,7 @@ export default interface IDivision {
   newsDivisionsForDelete: string[];
 
   getAddress: () => string;
-  getVisitingRulesText: () => IVisitingRule[];
-  getVisitingRulesList: () => IVisitingRule[];
   addDivisionVideo: () => void;
   divisionVideosForDelete: string[];
+  addVisitingRuleGroup: () => void;
 }

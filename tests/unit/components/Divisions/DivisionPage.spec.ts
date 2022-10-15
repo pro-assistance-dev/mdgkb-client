@@ -18,6 +18,12 @@ describe('DivisionPage.vue', () => {
         },
         namespaced: true,
       },
+      questions: {
+        actions: {
+          readAnswers: jest.fn(),
+        },
+        namespaced: true,
+      },
     },
   });
 

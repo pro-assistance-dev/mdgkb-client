@@ -3,7 +3,6 @@ import { GetterTree } from 'vuex';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import IDivision from '@/interfaces/IDivision';
 import IDivisionComment from '@/interfaces/IDivisionComment';
-import IVisitingRule from '@/interfaces/IVisitingRule';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import RootState from '@/store/types';
@@ -37,9 +36,9 @@ const getters: GetterTree<State, RootState> = {
   divisionById(state): (id: string) => IDivision | undefined {
     return (id: string): IDivision | undefined => state.divisions.find((item: IDivision) => item.id === id);
   },
-  visitingRules(state): IVisitingRule[] {
-    return state.division.visitingRules;
-  },
+  // visitingRules(state): IVisitingRule[] {
+  //   return state.division.visitingRules;
+  // },
   // getDrugById(state): (id: string) => IDrug | undefined {
   //   return (id: string): IDrug | undefined => state.drugs.find((item: IDrug) => item.id === id);
   // },

@@ -19,9 +19,6 @@ const mutations: MutationTree<State> = {
     }
     state.items.splice(index, 1);
   },
-  create(state) {
-    state.items.push(VisitingRule.CreateVisitingRule(state.items.length));
-  },
 };
 
 export default mutations;

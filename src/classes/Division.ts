@@ -10,7 +10,7 @@ import SocialMedia from '@/classes/SocialMedia';
 import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import Vacancy from '@/classes/Vacancy';
-import VisitingRule from '@/classes/VisitingRule';
+import VisitingRuleGroup from '@/classes/VisitingRuleGroup';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDivision from '@/interfaces/IDivision';
 import IDivisionComment from '@/interfaces/IDivisionComment';
@@ -24,7 +24,7 @@ import INewsDivision from '@/interfaces/INewsDivision';
 import ISocialMedia from '@/interfaces/ISocialMedia';
 import ITreatDirection from '@/interfaces/ITreatDirection';
 import IVacancy from '@/interfaces/IVacancy';
-import IVisitingRule from '@/interfaces/IVisitingRule';
+import IVisitingRuleGroup from '@/interfaces/IVisitingRuleGroup';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -54,8 +54,8 @@ export default class Division implements IDivision {
   divisionImagesForDelete: string[] = [];
   divisionComments: IDivisionComment[] = [];
   timetableDaysForDelete: string[] = [];
-  visitingRules: IVisitingRule[] = [];
-  visitingRulesForDelete: string[] = [];
+  visitingRulesGroups: IVisitingRuleGroup[] = [];
+  visitingRulesGroupsForDelete: string[] = [];
   buildingId?: string;
   divisionPaidServices: IDivisionPaidService[] = [];
   hospitalizationContactInfo?: IContactInfo;
@@ -114,8 +114,8 @@ export default class Division implements IDivision {
     if (i.vacancies) {
       this.vacancies = i.vacancies.map((item: IVacancy) => new Vacancy(item));
     }
-    if (i.visitingRules) {
-      this.visitingRules = i.visitingRules.map((item: IVisitingRule) => new VisitingRule(item));
+    if (i.visitingRulesGroups) {
+      this.visitingRulesGroups = i.visitingRulesGroups.map((item: IVisitingRuleGroup) => new VisitingRuleGroup(item));
     }
     if (i.divisionPaidServices) {
       this.divisionPaidServices = i.divisionPaidServices.map((item: IDivisionPaidService) => new DivisionPaidService(item));
@@ -158,14 +158,20 @@ export default class Division implements IDivision {
     return '';
   }
 
-  getVisitingRulesList(): IVisitingRule[] {
-    return this.visitingRules.filter((v: IVisitingRule) => v.isListItem);
-  }
-
-  getVisitingRulesText(): IVisitingRule[] {
-    return this.visitingRules.filter((v: IVisitingRule) => !v.isListItem);
-  }
   addDivisionVideo(): void {
     this.divisionVideos.push(new DivisionVideo());
   }
+
+  addVisitingRuleGroup(): void {
+    const item = new VisitingRuleGroup();
+    item.order = this.visitingRulesGroups.length;
+    this.visitingRulesGroups.push(item);
+  }
+  // removeVisitingRule(state, index: number) {
+  //   const id = state.division.visitingRules[index].id;
+  //   if (id) {
+  //     state.division.visitingRulesForDelete.push(id);
+  //   }
+  //   state.division.visitingRules.splice(index, 1);
+  // },
 }

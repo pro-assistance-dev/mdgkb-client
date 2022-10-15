@@ -1,7 +1,11 @@
 <template>
   <!-- <div v-if="educations.length" class="education"> -->
   <!-- <div v-if="division.schedule.scheduleItems.length > 0" class="education"> -->
-  <div v-if="division.schedule.scheduleItems.length || division.visitingRules.length" data-test="schedule-items-block" class="schedule">
+  <div
+    v-if="division.schedule.scheduleItems.length || division.visitingRulesGroups.length"
+    data-test="schedule-items-block"
+    class="schedule"
+  >
     <div class="title-in">Распорядок дня</div>
     <div class="block">
       <div class="left-block">
@@ -17,17 +21,24 @@
         </div>
       </div>
       <div class="right-block">
-        <div class="rules-text">
-          <h4 v-for="rule in division.getVisitingRulesText()" :key="rule.id" class="point-text">{{ rule.text }}</h4>
-          <br />
-        </div>
-        <div class="rules-list">
-          <!--          <div class="rules-list-title">Нарушением считается:</div>-->
-          <ul class="schedule-list">
-            <li v-for="rule in division.getVisitingRulesList()" :key="rule.id" class="schedule-list-item">
-              <h4 class="point-text">{{ rule.text }}</h4>
-            </li>
-          </ul>
+        <div
+          v-for="rulesGroup in division.visitingRulesGroups"
+          :key="rulesGroup.id"
+          class="rules-text"
+          :style="{ color: rulesGroup.color }"
+        >
+          <h4 v-if="rulesGroup.name.length" class="rules-list-title">{{ rulesGroup.name }}</h4>
+          <div class="rules-list">
+            <ul class="schedule-list">
+              <li v-for="rule in rulesGroup.getVisitingRulesList()" :key="rule.id" class="schedule-list-item">
+                <h4 class="point-text">{{ rule.text }}</h4>
+              </li>
+            </ul>
+          </div>
+          <template v-for="rule in rulesGroup.getVisitingRulesText()" :key="rule.id">
+            <h4 class="point-text">{{ rule.text }}</h4>
+            <br />
+          </template>
         </div>
       </div>
     </div>

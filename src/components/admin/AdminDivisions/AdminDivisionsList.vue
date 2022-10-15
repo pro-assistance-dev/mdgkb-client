@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <RemoteSearch class="filters-block" :key-value="schema.division.key" @select="selectSearch" />
       <SortList class="filters-block" :models="sortList" :store-mode="true" @load="loadDivisions" />
@@ -19,27 +19,23 @@
       <el-table-column prop="address" label="Корпус" sortable> </el-table-column>
       <el-table-column prop="phone" label="Номер телефона" sortable> </el-table-column>
       <el-table-column prop="email" label="Email" sortable> </el-table-column>
-      <el-table-column width="50" fixed="right" align="center">
+      <el-table-column width="50" align="center">
         <template #default="scope">
           <el-switch v-model="scope.row.show" @change="update(scope.row)" />
         </template>
       </el-table-column>
-      <el-table-column width="50" fixed="right" align="center">
+      <el-table-column width="50" align="center">
         <template #default="scope">
           <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
-    <template #footer>
-      <Pagination />
-    </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -58,7 +54,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDivisionsList',
-  components: { TableButtonGroup, Pagination, RemoteSearch, SortList, AdminListWrapper, FilterSelect },
+  components: { TableButtonGroup, RemoteSearch, SortList, AdminListWrapper, FilterSelect },
   setup() {
     const divisions = computed(() => Provider.store.getters['divisions/divisions']);
     const addDivision = () => Provider.router.push(`/admin/divisions/new`);
