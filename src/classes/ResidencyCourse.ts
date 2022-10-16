@@ -1,15 +1,18 @@
 import EducationYear from '@/classes/EducationYear';
 import FileInfo from '@/classes/File/FileInfo';
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import ResidencyCoursePracticePlace from '@/classes/ResidencyCoursePracticePlace';
 import ResidencyCourseSpecialization from '@/classes/ResidencyCourseSpecialization';
 import ResidencyCourseTeacher from '@/classes/ResidencyCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDoctor from '@/interfaces/IDoctor';
 import IEducationYear from '@/interfaces/IEducationYear';
 import IForm from '@/interfaces/IForm';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
+import IResidencyCoursePracticePlace from '@/interfaces/IResidencyCoursePracticePlace';
 import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecialization';
 import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -52,6 +55,9 @@ export default class ResidencyCourse implements IResidencyCourse {
   endYear: IEducationYear = new EducationYear();
   endYearId?: string;
   residencyApplications: IResidencyApplication[] = [];
+
+  residencyCoursePracticePlaces: IResidencyCoursePracticePlace[] = [];
+  residencyCoursePracticePlacesForDelete: string[] = [];
   constructor(i?: IResidencyCourse) {
     if (!i) {
       return;
@@ -103,6 +109,11 @@ export default class ResidencyCourse implements IResidencyCourse {
     }
     if (i.residencyApplications) {
       this.residencyApplications = i.residencyApplications.map((item: IResidencyApplication) => new ResidencyApplication(item));
+    }
+    if (i.residencyCoursePracticePlaces) {
+      this.residencyCoursePracticePlaces = i.residencyCoursePracticePlaces.map(
+        (item: IResidencyCoursePracticePlace) => new ResidencyCoursePracticePlace(item)
+      );
     }
   }
 
@@ -235,5 +246,9 @@ export default class ResidencyCourse implements IResidencyCourse {
 
   paidAcceptedApplicationsExists(): boolean {
     return this.residencyApplications.some((a) => a.paid && a.formValue.formStatus.isAccepted());
+  }
+
+  getDoctors(): IDoctor[] {
+    return this.residencyCoursesTeachers.map((item: IResidencyCourseTeacher) => item.teacher.doctor);
   }
 }

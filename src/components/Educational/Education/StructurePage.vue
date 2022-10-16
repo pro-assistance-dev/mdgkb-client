@@ -12,7 +12,7 @@
           <el-card>
             <div class="flex-row">
               <div class="doctor-img-container">
-                <el-avatar :size="100" :src="manager.doctor.human.photo.getImageUrl()"></el-avatar>
+                <el-avatar :size="100" :src="manager.doctor.human.photoMini.getImageUrl()"></el-avatar>
               </div>
               <div>
                 <h4>{{ manager.doctor.human.getFullName() }}</h4>

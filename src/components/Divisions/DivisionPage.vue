@@ -5,7 +5,7 @@
     <DivisionInfo :division="division" />
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
-    <DivisionSpecialists :doctors="division.doctors" />
+    <DoctorsCarousel :doctors="division.doctors" header-title="Специалисты отделения" />
     <NewsSlider :news="division.newsDivisions" />
     <!-- <DivisionCertificates /> -->
     <ScansSlider :gallery-elements="division.certificates" />
@@ -25,7 +25,7 @@ import Comments from '@/components/Comments/Comments.vue';
 import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
 import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
-import DivisionSpecialists from '@/components/Divisions/DivisionSpecialists.vue';
+import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
@@ -43,7 +43,7 @@ export default defineComponent({
     DivisionInfo,
     PaidServices,
     DivisionSchedule,
-    DivisionSpecialists,
+    DoctorsCarousel,
     NewsSlider,
     MainContainer,
     // DivisionCertificates,

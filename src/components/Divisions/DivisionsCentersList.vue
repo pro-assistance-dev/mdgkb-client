@@ -62,7 +62,7 @@ export default defineComponent({
 
     const loadDivisions = async () => {
       Provider.filterQuery.value.pagination.append = false;
-      Provider.filterQuery.value.pagination.limit = 8;
+      Provider.filterQuery.value.pagination.limit = Provider.route().query.mode === 'divisions' ? 6 : 8;
       await Provider.store.dispatch('divisions/getAll', Provider.filterQuery.value);
     };
 

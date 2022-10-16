@@ -2,9 +2,9 @@
   <component
     :is="'MainContainer'"
     v-if="carousel.length > 0"
-    header-title="Специалисты отделения"
-    header-button-title="Все врачи отделения"
-    header-button-link="/doctors"
+    :header-title="headerTitle"
+    :header-button-title="headerButtonTitle ?? ''"
+    :header-button-link="headerButtonLink ?? ''"
   >
     <el-carousel
       ref="carouselRef"
@@ -29,10 +29,13 @@ import IDoctor from '@/interfaces/IDoctor';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
-  name: 'DivisionSpecialists',
+  name: 'DoctorsCarousel',
   components: { DoctorInfoCard, MainContainer },
   props: {
     doctors: { type: Array as PropType<IDoctor[]>, required: true },
+    headerTitle: { type: String as PropType<string>, default: 'Специалисты' },
+    headerButtonTitle: { type: String as PropType<string>, default: 'Все врачи' },
+    headerButtonLink: { type: String as PropType<string>, default: '/doctors' },
   },
   setup(props) {
     const carousel: Ref<IDoctor[][]> = ref([]);

@@ -1,6 +1,8 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IDoctor from '@/interfaces/IDoctor';
 import IEducationYear from '@/interfaces/IEducationYear';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import IResidencyCoursePracticePlace from '@/interfaces/IResidencyCoursePracticePlace';
 import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecialization';
 import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -67,4 +69,8 @@ export default interface IResidencyCourse {
   getFullName: () => string;
 
   paidAcceptedApplicationsExists: () => boolean;
+
+  getDoctors: () => IDoctor[];
+  residencyCoursePracticePlaces: IResidencyCoursePracticePlace[];
+  residencyCoursePracticePlacesForDelete: string[];
 }
