@@ -6,6 +6,7 @@ import IDietSchema from '@/interfaces/schema/IDietSchema';
 import IDivisionCommentSchema from '@/interfaces/schema/IDivisionCommentSchema';
 import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
 import IDoctorCommentSchema from '@/interfaces/schema/IDoctorCommentSchema';
+import IDoctorDivisionSchema from '@/interfaces/schema/IDoctorDivisionSchema';
 import IDoctorSchema from '@/interfaces/schema/IDoctorSchema';
 import IDoctorUserSchema from '@/interfaces/schema/IDoctorUserSchema';
 import IDpoApplicationSchema from '@/interfaces/schema/IDpoApplicationSchema';
@@ -77,4 +78,5 @@ export default interface ISchema {
   building: IBuildingSchema;
   diet: IDietSchema;
   agePeriod: IAgePeriodSchema;
+  doctorDivision: IDoctorDivisionSchema;
 }

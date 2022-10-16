@@ -30,10 +30,15 @@ const DoctorsFiltersLib = (() => {
   }
 
   function byDivisions(divisionsIds: string[]): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
+    const filterModel = FilterModel.CreateFilterModelWithJoin(
       Provider.schema.value.doctor.tableName,
-      Provider.schema.value.doctor.divisionId,
-      DataTypes.Set
+      Provider.schema.value.doctor.id,
+      Provider.schema.value.doctorDivision.tableName,
+      Provider.schema.value.doctorDivision.id,
+      Provider.schema.value.doctorDivision.doctorId,
+      DataTypes.Join,
+      Provider.schema.value.doctorDivision.id,
+      Provider.schema.value.doctorDivision.divisionId
     );
     filterModel.operator = Operators.In;
     filterModel.set = divisionsIds;
