@@ -5,13 +5,16 @@
         <div class="card-header-title">{{ building.name }}</div>
         <el-button plain icon="el-icon-close" @click.prevent="$emit('close')"></el-button>
       </div>
+      <div class="card-header">
+        <el-input v-model="filterString" placeholder="Найти здание" />
+      </div>
     </template>
     <el-scrollbar :always="true" max-height="400px">
       <article class="panel panel-card is-light">
         <div v-for="floor in building.floors" :key="floor.id">
-          <div v-if="floor.divisions.length" class="floor-number">Этаж {{ floor.number }}</div>
+          <div v-if="floor.divisions.filter(divisionsFilter).length" class="floor-number">Этаж {{ floor.number }}</div>
           <div
-            v-for="item in floor.divisions"
+            v-for="item in floor.divisions.filter(divisionsFilter)"
             :key="`${building.id}.${item.id}`"
             class="panel-block"
             @click="$router.push(`/divisions/${item.slug}`)"
@@ -25,11 +28,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import IBuilding from '@/interfaces/IBuilding';
-
+import IDivision from '@/interfaces/IDivision';
+import translit from '@/services/Translit';
 export default defineComponent({
   name: 'MapPopover',
   props: {
@@ -43,6 +47,21 @@ export default defineComponent({
     },
   },
   emits: ['close'],
+  setup() {
+    const filterString: Ref<string> = ref('');
+
+    const divisionsFilter = (division: IDivision): boolean => {
+      if (filterString.value.length === 0) {
+        return true;
+      }
+      return division.name.toLowerCase().includes(translit(filterString.value.toLowerCase()));
+    };
+
+    return {
+      divisionsFilter,
+      filterString,
+    };
+  },
 });
 </script>
 
