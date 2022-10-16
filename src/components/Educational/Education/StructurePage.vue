@@ -2,62 +2,36 @@
   <el-container v-if="mounted" direction="vertical">
     <h2 style="text-align: center">Структура и орган управления организации</h2>
     <el-card>
-      <!-- <el-timeline> -->
-        <el-timeline-item
-          v-for="manager in educationalOrganisation.educationalOrganizationManagers"
-          :key="manager.id"
-          center
-          placement="top"
-        >
-          <el-card>
-            <!-- <div class="vice-doctor"> -->
-            <!-- <div v-for="head in heads" :key="head.id" class="vice-doctor-info">
-              <div class="vice-doctor-avatar">
-                <div class="doctor-avatar">
-                  <img :src="head.human.photo.getImageUrl()" alt="alt" @error="head.human.photo.errorImg($event, 'doctor-default.webp')" />
-                </div>
-              </div>
-              <div class="vice-doctor-title">
-                <h3 class="vice-doctor-title-h3">{{ head.human.getFullName() }}</h3>
-                <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
-                <ContactBlock :contact-info="head.contactInfo" />
-              </div>
+      <el-timeline-item
+        v-for="manager in educationalOrganisation.educationalOrganizationManagers"
+        :key="manager.id"
+        center
+        placement="top"
+      >
+        <el-card>
+          <div class="flex-row">
+            <div class="doctor-img-container">
+              <el-avatar :size="200" :src="manager.doctor.human.photoMini.getImageUrl()"></el-avatar>
+            </div>
+            <div class="doctor-info">
+              <h4 class="doctor-name">{{ manager.doctor.human.getFullName() }}</h4>
+              <p>{{ manager.role }}</p>
+              <ContactsBlock :contact-info="manager.doctor.human.contactInfo" />
               <div class="contact-h3">
                 <div class="item">
-                  <svg v-if="head.timetable.getOnlyWorkDays().length" class="icon-time">
+                  <svg  class="icon-time">
                     <use xlink:href="#time"></use>
                   </svg>
                 </div>
                 <div class="time-block">
-                  <div v-for="workDay in head.timetable.getOnlyWorkDays()" :key="workDay" class="item">{{ workDay }}</div>
+                  <span class="item">Вт: с 11:00 до 13:00</span>
+                  <span class="item">Пн: с 11:00 до 13:00</span>
                 </div>
               </div>
             </div>
-          </div> -->
-            <div class="flex-row">
-              <div class="doctor-img-container">
-                <el-avatar :size="200" :src="manager.doctor.human.photoMini.getImageUrl()"></el-avatar>
-              </div>
-              <div class="doctor-info">
-                <h4 class="doctor-name">{{ manager.doctor.human.getFullName() }}</h4>
-                <p>{{ manager.role }}</p>
-                <ContactsBlock :contact-info="manager.doctor.human.contactInfo" />
-                <div class="contact-h3">
-                  <div class="item">
-                    <svg  class="icon-time">
-                      <use xlink:href="#time"></use>
-                    </svg>
-                  </div>
-                  <div class="time-block">
-                    <span class="item">Вт: с 11:00 до 13:00</span>
-                    <span class="item">Пн: с 11:00 до 13:00</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </el-card>
-        </el-timeline-item>
-      <!-- </el-timeline> -->
+          </div>
+        </el-card>
+      </el-timeline-item>
     </el-card>
   </el-container>
   <Time />
