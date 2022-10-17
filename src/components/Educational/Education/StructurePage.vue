@@ -3,7 +3,7 @@
     <h2 style="text-align: center">Структура и орган управления организации</h2>
     <el-card>
       <el-timeline-item
-        v-for="manager in educationalOrganisation.educationalOrganizationManagers"
+        v-for="(manager, i) in educationalOrganisation.educationalOrganizationManagers"
         :key="manager.id"
         center
         placement="top"
@@ -17,15 +17,15 @@
               <h4 class="doctor-name">{{ manager.doctor.human.getFullName() }}</h4>
               <p>{{ manager.role }}</p>
               <ContactsBlock :contact-info="manager.doctor.human.contactInfo" />
-              <div class="contact-h3">
+              <div v-if="i !== 2" class="contact-h3">
                 <div class="item">
-                  <svg  class="icon-time">
+                  <svg class="icon-time">
                     <use xlink:href="#time"></use>
                   </svg>
                 </div>
                 <div class="time-block">
-                  <span class="item">Вт: с 11:00 до 13:00</span>
-                  <span class="item">Пн: с 11:00 до 13:00</span>
+                  <span v-if="i === 0" class="item">Прием граждан ведёт во вторник и пятницу с 11:00 до 13:00</span>
+                  <span v-if="i === 1" class="item">Прием граждан и медработников в среду с 14:00 до 16:00</span>
                 </div>
               </div>
             </div>
@@ -41,9 +41,9 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
-import ContactsBlock from '@/components/ContactsBlock.vue';
 import Time from '@/assets/svg/StructurePage/Time.svg';
+import ContactsBlock from '@/components/ContactsBlock.vue';
+import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'StructurePage',
@@ -107,7 +107,7 @@ export default defineComponent({
 .doctor-name {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 18px;
-  color: #343D5C;
+  color: #343d5c;
   padding-bottom: 10px;
   font-weight: bold;
   margin: 15px 0 0 0;
@@ -146,5 +146,4 @@ p {
 .time-block {
   display: block;
 }
-
 </style>
