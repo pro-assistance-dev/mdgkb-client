@@ -9,7 +9,7 @@
           <el-input v-model="publicDocumentType.routeAnchor" placeholder="Якорь"></el-input>
         </el-form-item>
         <el-form-item prop="description">
-          <WysiwygEditor v-model:content="publicDocumentType.description" />
+          <WysiwygEditor v-model="publicDocumentType.description" />
         </el-form-item>
       </el-card>
       <el-card>
@@ -33,7 +33,7 @@
             </div>
             <div>
               <el-form-item prop="description">
-                <WysiwygEditor v-model:content="docType.description" />
+                <WysiwygEditor v-model="docType.description" />
               </el-form-item>
             </div>
           </template>
