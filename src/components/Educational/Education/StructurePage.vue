@@ -31,7 +31,11 @@
               <el-avatar :size="200" :src="manager.doctor.human.photoMini.getImageUrl()"></el-avatar>
             </div>
             <div class="doctor-info">
-              <h4 class="doctor-name">{{ manager.role }}</h4>
+              <div>
+                <h4 v-if="i === 2" class="doctor-name">Отдел Постдипломного образования</h4>
+                <h4 class="doctor-name">{{ manager.role }}</h4>
+              </div>
+
               <p>{{ manager.doctor.human.getFullName() }}</p>
               <ContactsBlock :contact-info="manager.doctor.human.contactInfo" />
               <div v-if="i !== 2" class="contact-h3">
@@ -59,8 +63,8 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Time from '@/assets/svg/StructurePage/Time.svg';
 import Arrow from '@/assets/svg/StructurePage/Arrow.svg';
+import Time from '@/assets/svg/StructurePage/Time.svg';
 import ContactsBlock from '@/components/ContactsBlock.vue';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
@@ -168,7 +172,6 @@ p {
   display: block;
 }
 
-
 h3 {
   margin: 0px;
   font-weight: normal;
@@ -188,8 +191,7 @@ h3 {
   color: #343d5c;
 }
 
-
-.icon-arrow{
+.icon-arrow {
   display: flex;
   width: 50px;
   height: 50px;
@@ -201,6 +203,4 @@ h3 {
 .field-50 {
   height: 50px;
 }
-
-
 </style>
