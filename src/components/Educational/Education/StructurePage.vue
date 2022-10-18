@@ -1,6 +1,23 @@
 <template>
   <el-container v-if="mounted" direction="vertical">
     <h2 style="text-align: center">Структура и орган управления организации</h2>
+    <div class="v-item">
+      <h3>ГЛАВНЫЙ ВРАЧ</h3>
+    </div>
+    <svg class="icon-arrow">
+      <use xlink:href="#bxs_down-arrow"></use>
+    </svg>
+    <div class="v-item">
+      <h3>ЗАМЕСТИТЕЛЬ ГЛАВНОГО ВРАЧА ПО ОРГАНИЗАЦИОННО-МЕТОДИЧЕСКОЙ РАБОТЕ</h3>
+    </div>
+    <svg class="icon-arrow">
+      <use xlink:href="#bxs_down-arrow"></use>
+    </svg>
+    <div class="v-item">
+      <h3>ОТДЕЛ ПОСТДИПЛОМНОГО ОБРАЗОВАНИЯ</h3>
+    </div>
+    <div class="field-50"></div>
+
     <el-card>
       <el-timeline-item
         v-for="(manager, i) in educationalOrganisation.educationalOrganizationManagers"
@@ -14,8 +31,8 @@
               <el-avatar :size="200" :src="manager.doctor.human.photoMini.getImageUrl()"></el-avatar>
             </div>
             <div class="doctor-info">
-              <h4 class="doctor-name">{{ manager.doctor.human.getFullName() }}</h4>
-              <p>{{ manager.role }}</p>
+              <h4 class="doctor-name">{{ manager.role }}</h4>
+              <p>{{ manager.doctor.human.getFullName() }}</p>
               <ContactsBlock :contact-info="manager.doctor.human.contactInfo" />
               <div v-if="i !== 2" class="contact-h3">
                 <div class="item">
@@ -35,6 +52,7 @@
     </el-card>
   </el-container>
   <Time />
+  <Arrow />
 </template>
 
 <script lang="ts">
@@ -42,12 +60,13 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Time from '@/assets/svg/StructurePage/Time.svg';
+import Arrow from '@/assets/svg/StructurePage/Arrow.svg';
 import ContactsBlock from '@/components/ContactsBlock.vue';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'StructurePage',
-  components: { ContactsBlock, Time },
+  components: { ContactsBlock, Time, Arrow },
 
   setup() {
     const mounted = ref(false);
@@ -85,6 +104,8 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
+@import '@/assets/styles/elements/base-style.scss';
+
 .el-descriptions__label {
   font-size: 15px;
 }
@@ -146,4 +167,40 @@ p {
 .time-block {
   display: block;
 }
+
+
+h3 {
+  margin: 0px;
+  font-weight: normal;
+  margin: 0 20px;
+}
+
+.v-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 60px;
+  border-radius: $normal-border-radius;
+  border: 1px solid rgb(black, 0.1);
+  margin: 20px 20px 20px 0;
+  background: #ffffff;
+  color: #343d5c;
+}
+
+
+.icon-arrow{
+  display: flex;
+  width: 50px;
+  height: 50px;
+  fill: #ffffff;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.field-50 {
+  height: 50px;
+}
+
+
 </style>
