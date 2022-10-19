@@ -37,6 +37,7 @@
               </div>
 
               <p>{{ manager.doctor.human.getFullName() }}</p>
+              <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок 1/9 корпус 11</div>
               <ContactsBlock :contact-info="manager.doctor.human.contactInfo" />
               <div v-if="i !== 2" class="contact-h3">
                 <div class="item">
@@ -53,6 +54,11 @@
           </div>
         </el-card>
       </el-timeline-item>
+      <span class="info-text">
+        <a target="_blank" href="/files/pol.pdf" download="Положение об отделе постдипломного образования" class="info-text"
+          >Положение об отделе постдипломного образования</a
+        ></span
+      >
     </el-card>
   </el-container>
   <Time />
