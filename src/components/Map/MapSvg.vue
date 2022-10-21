@@ -3,6 +3,7 @@
     <div id="map-svg-container">
       <Map id="map-svg" />
       <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
+      <MapLegends />
       <MapRouter />
       <div v-if="chosenGate" ref="enterPopoverRef" class="enter-popover">
         <div class="card-item enter-popover-container">
@@ -31,8 +32,9 @@ import IDivision from '@/interfaces/IDivision';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
 
-import MapPopover from './MapPopover.vue';
-import MapRouter from './MapRouter.vue';
+import MapPopover from '@/components/Map/MapPopover.vue';
+import MapRouter from '@/components/Map/MapRouter.vue';
+import MapLegends from '@/components/Map/MapLegends.vue';
 
 export default defineComponent({
   name: 'MapSvg',
@@ -41,6 +43,7 @@ export default defineComponent({
     MapRouter,
     Map,
     BaseModalButtonClose,
+    MapLegends,
   },
   props: {
     buildings: {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mount" class="map-router-container card-item" style="position: fixed; right: 50px; top: 630px;">
+  <div v-if="mount" class="map-router-container card-item" style="position: absolute; left: 0; bottom: 0">
     <div style="margin-bottom: 5px; text-transform: uppercase">Маршрут</div>
     <div class="map-router-container-item">
       <el-select v-model="selectAId" filterable placeholder="Точка А" style="width: 350px" @change="selectAChangeHandler">
@@ -310,7 +310,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
 .map-router-container {
   display: flex;
   flex-direction: column;
