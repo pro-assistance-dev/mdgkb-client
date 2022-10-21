@@ -16,7 +16,9 @@
       </svg>
     </div>
     <div class="item-p">
-      <div v-for="email in contactInfo.emails" :key="email.id" class="item">{{ email.address }}</div>
+      <div v-for="email in contactInfo.emails" :key="email.id" class="item">
+        {{ email.address }} <span v-if="email.description.length">: {{ email.description }} </span>
+      </div>
     </div>
   </div>
   <Phone />

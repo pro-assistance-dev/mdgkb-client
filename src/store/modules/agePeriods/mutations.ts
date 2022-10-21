@@ -1,23 +1,23 @@
 import { MutationTree } from 'vuex';
 
-import AgePeriod from '@/classes/AgePeriod';
-import IAgePeriod from '@/interfaces/IAgePeriod';
+import DietAge from '@/classes/DietAge';
+import IDietAge from '@/interfaces/IDietAge';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IAgePeriod[]) {
-    state.items = items.map((i: IAgePeriod) => new AgePeriod(i));
+  setAll(state, items: IDietAge[]) {
+    state.items = items.map((i: IDietAge) => new DietAge(i));
   },
-  set(state, item: IAgePeriod) {
-    state.item = new AgePeriod(item);
+  set(state, item: IDietAge) {
+    state.item = new DietAge(item);
   },
   remove(state, id: string) {
-    const index = state.items.findIndex((i: IAgePeriod) => i.id === id);
+    const index = state.items.findIndex((i: IDietAge) => i.id === id);
     state.items.splice(index, 1);
   },
   resetItem(state) {
-    state.item = new AgePeriod();
+    state.item = new DietAge();
   },
   setSelectedAgePeriodId(state, id: string) {
     state.selectedItemId = id;

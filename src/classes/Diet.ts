@@ -1,8 +1,8 @@
-import AgePeriod from '@/classes/AgePeriod';
-import Timetable from '@/classes/timetable/Timetable';
-import IAgePeriod from '@/interfaces/IAgePeriod';
+import DietAge from '@/classes/DietAge';
+import DietGroup from '@/classes/DietGroup';
 import IDiet from '@/interfaces/IDiet';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import IDietAge from '@/interfaces/IDietAge';
+import IDietGroup from '@/interfaces/IDietGroup';
 
 export default class Diet implements IDiet {
   id?: string;
@@ -13,10 +13,10 @@ export default class Diet implements IDiet {
 
   // motherDiet: IDiet = new Diet();
   // motherDietId?: string;
-  timetable: ITimetable = new Timetable();
-  timetableId?: string;
-  agePeriod: IAgePeriod = new AgePeriod();
-  agePeriodId?: string;
+
+  dietAges: IDietAge[] = [];
+  dietGroupId?: string;
+  dietGroup: IDietGroup = new DietGroup();
 
   constructor(i?: IDiet) {
     if (!i) {
@@ -26,17 +26,12 @@ export default class Diet implements IDiet {
     this.name = i.name;
     this.siteName = i.siteName;
     this.diabetes = i.diabetes;
-    // this.motherDietId = i.motherDietId;
-    // if (i.motherDiet) {
-    //   this.motherDiet = new Diet(i.motherDiet);
-    // }
-    this.timetableId = i.timetableId;
-    if (i.timetable) {
-      this.timetable = new Timetable(i.timetable);
+    this.dietGroupId = i.dietGroupId;
+    if (i.dietGroup) {
+      this.dietGroup = new DietGroup(i.dietGroup);
     }
-    this.agePeriodId = i.agePeriodId;
-    if (i.agePeriod) {
-      this.agePeriod = new AgePeriod(i.agePeriod);
+    if (i.dietAges) {
+      this.dietAges = i.dietAges.map((item: IDietAge) => new DietAge(item));
     }
   }
 }
