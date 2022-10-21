@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import DietAge from '@/classes/DietAge';
+import DietGroup from '@/classes/DietGroup';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,15 +11,14 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new DietAge(),
-    selectedItemId: '',
+    item: new DietGroup(),
   };
 };
 
 const state = getDefaultState();
 const namespaced = true;
 
-export const agePeriods: Module<State, RootState> = {
+export const dietsGroups: Module<State, RootState> = {
   namespaced,
   state,
   getters,

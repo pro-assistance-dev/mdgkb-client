@@ -1,15 +1,13 @@
 <template>
-  <div v-if="selectedDiet.timetable.timetableDays[0]" class="title-in">Питание</div>
-  <div v-else class="title-in-else">*для получения списка блюд выберите Меню в форме выше</div>
-  <div v-if="selectedDiet.timetable.timetableDays[0]" class="week">
+  <div class="week">
     <div v-for="(day, i) in setDay" :key="i" class="form_radio_btn">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
         {{ day }}
       </button>
     </div>
   </div>
-  <div v-if="selectedDiet.timetable.timetableDays[0]" class="diets-container">
-    <div v-for="scheduleItem in selectedDiet.timetable.timetableDays[selectedNumberDay].scheduleItems" :key="scheduleItem.id">
+  <div class="diets-container">
+    <div v-for="scheduleItem in timetable.timetableDays[selectedNumberDay].scheduleItems" :key="scheduleItem.id">
       <div class="schedule-name">{{ scheduleItem.name }}</div>
       <div class="table-container">
         <table class="table-list">
@@ -39,17 +37,22 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
 
-import IDiet from '@/interfaces/IDiet';
+import ITimetable from '@/interfaces/timetables/ITimetable';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DietsMenuList',
-
+  props: {
+    timetable: {
+      type: Object as PropType<ITimetable>,
+      required: true,
+    },
+  },
   setup() {
-    const diets: Ref<IDiet[]> = computed<IDiet[]>(() => Provider.store.getters['diets/items']);
-    const selectedDiet: Ref<IDiet> = computed(() => Provider.store.getters['diets/item']);
+    // const diets: Ref<IDiet[]> = computed<IDiet[]>(() => Provider.store.getters['diets/items']);
+    // const selectedDiet: Ref<IDiet> = computed(() => Provider.store.getters['diets/item']);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
     const setDay = ref(['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']);
 
@@ -66,8 +69,8 @@ export default defineComponent({
     });
 
     return {
-      selectedDiet,
-      diets,
+      // selectedDiet,
+      // diets,
       isAuth,
       setDay,
       selectedNumberDay,

@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import IDiet from '@/interfaces/IDiet';
@@ -44,6 +44,7 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DietsFilter',
+
   components: { FiltersWrapper },
 
   setup() {
@@ -51,45 +52,45 @@ export default defineComponent({
     const selectDiet = (diet: IDiet) => {
       Provider.store.commit('diets/set', diet);
     };
-    const diets: Ref<IDiet[]> = computed(() => Provider.store.getters['diets/items']);
+    // const diets: Ref<IDiet[]> = computed(() => Provider.store.getters['diets/items']);
     const selectedDiet: Ref<IDiet> = computed(() => Provider.store.getters['diets/item']);
     const onlyDiabete: Ref<boolean> = ref(false);
     Provider.store.dispatch('meta/getOptions', Provider.schema.value.agePeriod);
 
     const selectedAgePeriodId: Ref<string> = computed(() => Provider.store.getters['agePeriods/selectedItemId']);
 
-    const getDietsOptions = (): IDiet[] => {
-      let ageMatch = true;
-      let isDiabet = true;
-      return diets.value.filter((d: IDiet) => {
-        if (selectedAgePeriodId.value !== '') {
-          ageMatch = d.agePeriodId === selectedAgePeriodId.value;
-        }
-        if (onlyDiabete.value) {
-          isDiabet = d.diabetes;
-        }
-        return ageMatch && isDiabet;
-      });
-    };
-
-    const selectAge = (id: string) => {
-      Provider.store.commit('agePeriods/setSelectedAgePeriodId', id);
-    };
-
-    onMounted(async () => {
-      mounted.value = true;
-    });
+    // const getDietsOptions = (): IDiet[] => {
+    //   let ageMatch = true;
+    //   let isDiabet = true;
+    //   return diets.value.filter((d: IDiet) => {
+    //     // if (selectedAgePeriodId.value !== '') {
+    //     //   ageMatch = d.agePeriodId === selectedAgePeriodId.value;
+    //     // }
+    //     if (onlyDiabete.value) {
+    //       isDiabet = d.diabetes;
+    //     }
+    //     return ageMatch && isDiabet;
+    //   });
+    // };
+    //
+    // const selectAge = (id: string) => {
+    //   Provider.store.commit('agePeriods/setSelectedAgePeriodId', id);
+    // };
+    //
+    // onMounted(async () => {
+    //   mounted.value = true;
+    // });
 
     return {
-      getDietsOptions,
+      // getDietsOptions,
       onlyDiabete,
       selectedDiet,
       selectedAgePeriodId,
       selectDiet,
-      diets,
+      // diets,
       mounted,
       schema: Provider.schema,
-      selectAge,
+      // selectAge,
     };
   },
 });
