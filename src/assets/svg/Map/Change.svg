@@ -1,0 +1,13 @@
+<svg width="0" height="0" class="hidden">
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 17" id="akar-icons_arrow-repeat">
+    <g clip-path="url(#clip0_2476_456)">
+      <path d="M1.49088 4.01698L3.51701 2.04345L5.49053 4.06958M14.7179 12.1916L12.6917 14.1652L10.7182 12.139" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M3.51718 2.04352L3.42074 9.37622C3.40447 10.6138 3.88048 11.8071 4.74407 12.6937C5.60765 13.5803 6.78807 14.0876 8.02564 14.1038M12.6919 14.1652L12.7883 6.83252C12.8046 5.59495 12.3286 4.4016 11.465 3.515C10.6014 2.6284 9.42101 2.12116 8.18344 2.10489" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </g>
+    <defs>
+      <clipPath id="clip0_2476_456">
+        <rect width="16" height="16" fill="white" transform="translate(0 15.9985) rotate(-89.2465)"></rect>
+      </clipPath>
+    </defs>
+  </symbol>
+</svg>
