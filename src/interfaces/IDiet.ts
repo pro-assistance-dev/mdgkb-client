@@ -1,4 +1,5 @@
-import IAgePeriod from '@/interfaces/IAgePeriod';
+import IDietAge from '@/interfaces/IDietAge';
+import IDietGroup from '@/interfaces/IDietGroup';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 export default interface IDiet {
@@ -7,10 +8,11 @@ export default interface IDiet {
   shortName?: string;
   siteName: string;
   diabetes: boolean;
-  // motherDiet: IDiet;
-  // motherDietId?: string;
-  timetable: ITimetable;
-  timetableId?: string;
-  agePeriod: IAgePeriod;
-  agePeriodId?: string;
+  dietAges: IDietAge[];
+  dietGroupId?: string;
+  dietGroup: IDietGroup;
+  motherDiet?: IDiet;
+  motherDietId?: string;
+
+  getMotherTimetable: () => ITimetable | undefined;
 }

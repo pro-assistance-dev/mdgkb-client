@@ -1,67 +1,41 @@
 <template>
-  <div v-if="mount">
-    <div v-if="mount" class="route-window">
-      <div class="route-window-line">
-        <div class="route-window-title">Маршрут</div>
-        <div class="button-field">
-          <BaseModalButtonClose @click.prevent="close" />
-        </div>
-      </div>
-      <div class="map-router-container-item">
-        <el-select v-model="selectAId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectAChangeHandler">
-          <el-option v-for="item in selectItems.filter((el) => el.id !== selectBId)" :key="item.id" :label="item.name" :value="item.id">
-          </el-option>
-        </el-select>
-        <button class="a-btn" @click="clickButtonA">Откуда</button>
-      </div>
-      <div class="choice">
-        <!--        <svg class="icon-change">-->
-        <!--          <use xlink:href="#akar-icons_arrow-repeat"></use>-->
-        <!--        </svg>-->
-      </div>
-      <div class="map-router-container-item">
-        <el-select v-model="selectBId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
-          <el-option v-for="item in selectItems.filter((el) => el.id !== selectAId)" :key="item.id" :label="item.name" :value="item.id">
-          </el-option>
-        </el-select>
-        <button class="b-btn" @click="clickButtonB">Куда</button>
-      </div>
+  <div v-if="mount" class="map-router-container card-item" style="position: absolute; left: 0; bottom: 0">
+    <div style="margin-bottom: 5px; text-transform: uppercase">Маршрут</div>
+    <div class="map-router-container-item">
+      <el-select v-model="selectAId" filterable placeholder="Точка А" style="width: 350px" @change="selectAChangeHandler">
+        <el-option v-for="item in selectItems.filter((el) => el.id !== selectBId)" :key="item.id" :label="item.name" :value="item.id">
+        </el-option>
+      </el-select>
+      <button class="a-btn" @click="clickButtonA">A</button>
+    </div>
+    <div class="map-router-container-item">
+      <el-select v-model="selectBId" filterable placeholder="Точка Б" style="width: 350px" @change="selectBChangeHandler">
+        <el-option v-for="item in selectItems.filter((el) => el.id !== selectAId)" :key="item.id" :label="item.name" :value="item.id">
+        </el-option>
+      </el-select>
+      <button class="b-btn" @click="clickButtonB">B</button>
     </div>
   </div>
   <!-- <el-button @click="toggleEnterNumbers">Показать нумерацию</el-button> -->
-  <Change />
 </template>
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import cloneDeep from 'lodash/cloneDeep';
-import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Change from '@/assets/svg/Map/Change.svg';
-import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
-import IFloor from '@/interfaces/IFloor';
 import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
 
 export default defineComponent({
   name: 'MapRouter',
-  components: {
-    BaseModalButtonClose,
-    Change,
-  },
-  props: {
-    objectA: {
-      type: Object as PropType<IDivision | undefined>,
-    },
-  },
-  emits: ['close'],
-  setup(props, { emit }) {
+
+  setup() {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
-    const buildings = computed(() => store.getters['buildings/buildings']);
+    const divisions = computed(() => store.getters['divisions/divisions'].filter((division: IDivision) => division.entrance));
     const streetEntrances: Ref<IStreetEntranceRef[]> = ref([
       { id: 'main-enter-1', name: 'Вход на территорию больницы', building: 'main-enter', entrance: '1' },
       { id: 'main-enter-2', name: 'Вход для пациентов, записанных на прием в КДЦ', building: 'main-enter', entrance: '2' },
@@ -82,7 +56,6 @@ export default defineComponent({
     const svgns = 'http://www.w3.org/2000/svg';
 
     const selectAChangeHandler = (id: string) => {
-      console.log(id);
       // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
       selectA.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
@@ -211,7 +184,6 @@ export default defineComponent({
           return;
         }
         const newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        newLine.classList.add('red-line');
         newLine.setAttribute('x1', `${Math.abs(Number(cx1))}`);
         newLine.setAttribute('y1', `${Math.abs(Number(cy1))}`);
         newLine.setAttribute('x2', `${Math.abs(Number(cx2))}`);
@@ -223,7 +195,6 @@ export default defineComponent({
       store.commit('map/setLoading', false);
       ElMessage({ message: 'Маршрут построен', type: 'success' });
     };
-
     const closeShadow = () => {
       const shadow = document.getElementById('shadow');
       if (!shadow) return;
@@ -312,41 +283,16 @@ export default defineComponent({
     };
 
     onMounted(async () => {
+      await store.dispatch('divisions/getAll');
       await store.dispatch('entrances/getAll');
-      // console.log(divisions.value);
-      if (props.objectA && props.objectA.id) {
-        selectAChangeHandler(props.objectA.id);
-        selectAId.value = props.objectA.id;
-        selectADataBuilding = String(props.objectA.entrance?.building?.number);
-        selectADataEntrance = String(props.objectA.entrance?.number);
-      }
-      selectItems.value.push(...streetEntrances.value);
-      buildings.value.forEach((b: IBuilding) => b.floors.forEach((f: IFloor) => selectItems.value.push(...f.divisions)));
-      selectItems.value.push(...entrances.value);
+      selectItems.value = streetEntrances.value.concat(divisions.value, entrances.value);
       const mapPointsRef = document.getElementById('map-points');
       if (!mapPointsRef) return;
       mapPointsRef.childNodes.forEach((item: EventTarget) => setEventsOnMapPoint(item));
       mount.value = true;
     });
 
-    const close = () => {
-      emit('close');
-      selectADataBuilding = '';
-      selectADataEntrance = '';
-      selectBDataBuilding = '';
-      selectBDataEntrance = '';
-      const flagContainer = document.getElementById('flag');
-      if (flagContainer) {
-        flagContainer.querySelector('#b-flag')?.remove();
-      }
-      let elements = document.getElementsByClassName('red-line');
-      while (elements.length > 0) {
-        elements[0].parentNode?.removeChild(elements[0]);
-      }
-    };
-
     return {
-      close,
       selectItems,
       clickButtonA,
       clickButtonB,
@@ -364,20 +310,18 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
 .map-router-container {
   display: flex;
   flex-direction: column;
   &-item {
-    margin-bottom: 0;
+    margin-bottom: 5px;
     display: flex;
     button {
-      width: 85px;
-      border-radius: 20px;
-      border: none;
+      border-radius: 5px;
       cursor: pointer;
       margin-left: 10px;
       color: white;
+      border-color: #dcdfe6;
     }
     .a-btn {
       background-color: #f3911c;
@@ -392,118 +336,5 @@ export default defineComponent({
       }
     }
   }
-}
-:deep(.select-d .el-input__inner) {
-  border-radius: 20px;
-  background: #0aa249;
-}
-:deep(.select-d .el-input__inner) {
-  color: #ffffff;
-}
-
-:deep(.select-d .el-input__inner::placeholder) {
-  color: #ffffff;
-}
-
-:deep(.el-select .el-input .el-select__caret) {
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-:deep(.route-button .el-input__inner) {
-  border-radius: 20px;
-  background: #ffffff;
-}
-:deep(.route-button .el-input__inner) {
-  color: $site_dark_gray;
-}
-
-:deep(.route-button .select-d .el-input__inner::placeholder) {
-  color: $site_dark_gray;
-}
-
-:deep(.route-button .el-select .el-input .el-select__caret) {
-  color: $site_dark_gray;
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-:deep(.el-button) {
-  // letter-spacing: 1.1px;
-  background-color: #ffffff;
-  color: #133dcc;
-  border-color: #133dcc;
-  margin-left: 10px;
-}
-
-:deep(.el-button:hover) {
-  background-color: #133dcc;
-  color: white;
-  border-color: white;
-}
-
-.select-division {
-  margin-top: 10px;
-}
-
-.description-point {
-  width: 100%;
-  height: 70px;
-  margin-top: 10px;
-  border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
-  background: $base-background;
-}
-
-.route-window {
-  width: 100%;
-  border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
-  background: $base-background;
-  margin-top: 10px;
-  padding-bottom: 15px;
-}
-
-.route-window-title {
-  text-transform: uppercase;
-  margin: 10px 16px;
-  color: $site_gray;
-}
-
-.map-router-container-item {
-  margin-left: 20px;
-}
-
-.choice {
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  height: 20px;
-}
-
-.route-window-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.button-field {
-  margin-right: 8px;
-}
-
-.icon-change {
-  width: 15px;
-  height: 15px;
-  fill: #ffffff;
-  stroke: $site_gray;
-  margin-right: 50px;
-}
-
-.icon-change:hover {
-  fill: #ffffff;
-  stroke: $site_dark_gray;
 }
 </style>

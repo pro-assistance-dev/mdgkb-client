@@ -46,7 +46,7 @@ export default defineComponent({
       onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
       onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
 
-      if (Provider.route().query.mode === 'divisions') {
+      if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
         Provider.setFilterModel(onlyDivisionsFilterModel.value);
       } else {
         Provider.setFilterModel(onlyCentersFilterModel.value);
@@ -62,7 +62,10 @@ export default defineComponent({
 
     const loadDivisions = async () => {
       Provider.filterQuery.value.pagination.append = false;
-      Provider.filterQuery.value.pagination.limit = Provider.route().query.mode === 'divisions' ? 6 : 8;
+      Provider.filterQuery.value.pagination.limit = mode.value === 'divisions' ? 6 : 8;
+      if (!mode.value) {
+        Provider.filterQuery.value.pagination.limit = 6;
+      }
       await Provider.store.dispatch('divisions/getAll', Provider.filterQuery.value);
     };
 

@@ -5,6 +5,7 @@ import IDivisionImage from '@/interfaces/IDivisionImage';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDivisionVideo from '@/interfaces/IDivisionVideo';
 import IDoctor from '@/interfaces/IDoctor';
+import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
 import INewsDivision from '@/interfaces/INewsDivision';
 import ISocialMedia from '@/interfaces/ISocialMedia';
@@ -29,8 +30,6 @@ export default interface IDivision {
   buildingId?: string;
   showCommonVisitingRules: boolean;
   slug?: string;
-  doctors: IDoctor[];
-  doctorsForDelete: string[];
   vacancies: IVacancy[];
   timetable: ITimetable;
   timetableId?: string;
@@ -67,4 +66,10 @@ export default interface IDivision {
   addDivisionVideo: () => void;
   divisionVideosForDelete: string[];
   addVisitingRuleGroup: () => void;
+
+  removeChief: () => void;
+
+  doctorsDivisions: IDoctorDivision[];
+  doctorsDivisionsForDelete: string[];
+  addDoctorDivision: (doctor: IDoctor) => void;
 }

@@ -1,6 +1,7 @@
 import Entrance from '@/classes/Entrance';
 import Floor from '@/classes/Floor';
 import IBuilding from '@/interfaces/IBuilding';
+import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
 import IFloor from '@/interfaces/IFloor';
 
@@ -31,7 +32,7 @@ export default class Building implements IBuilding {
       //   return 0;
       // });
     } else {
-      this.floors = [new Floor({ number: 1 })];
+      this.floors = [new Floor({ number: 1, divisions: [] })];
     }
     if (i.entrances) {
       this.entrances = i.entrances.map((item: IEntrance) => new Entrance(item));
@@ -44,5 +45,23 @@ export default class Building implements IBuilding {
     } else {
       this.entrances = [new Entrance({ number: 1, buildingId: i.id })];
     }
+  }
+  getFloorsWithDivisions(): IFloor[] {
+    return this.floors.filter((f: IFloor) => f.divisions && f.divisions.length > 0);
+  }
+
+  findDivision(divisionId: string): IDivision | undefined {
+    let indexOfDivision = -1;
+    const indexOfFloor = this.floors.findIndex((f: IFloor, floorIndex: number) => {
+      const divIndex = f.divisions?.findIndex((d: IDivision) => d.id === divisionId);
+      if (divIndex && divIndex > -1) {
+        indexOfDivision = divIndex;
+        return true;
+      }
+    });
+    if (!indexOfFloor) {
+      return undefined;
+    }
+    return this.floors[indexOfFloor].divisions[indexOfDivision];
   }
 }

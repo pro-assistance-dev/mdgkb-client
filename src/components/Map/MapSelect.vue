@@ -1,35 +1,35 @@
 <template>
   <div v-if="mount">
-    <div v-if="mount" class="route-window">
-      <div class="route-window-line">
-        <div class="route-window-title">Маршрут</div>
-        <div class="button-field">
-          <BaseModalButtonClose @click.prevent="close" />
-        </div>
-      </div>
-      <div class="map-router-container-item">
-        <el-select v-model="selectAId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectAChangeHandler">
-          <el-option v-for="item in selectItems.filter((el) => el.id !== selectBId)" :key="item.id" :label="item.name" :value="item.id">
-          </el-option>
-        </el-select>
-        <button class="a-btn" @click="clickButtonA">Откуда</button>
-      </div>
-      <div class="choice">
-        <!--        <svg class="icon-change">-->
-        <!--          <use xlink:href="#akar-icons_arrow-repeat"></use>-->
-        <!--        </svg>-->
-      </div>
-      <div class="map-router-container-item">
-        <el-select v-model="selectBId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
-          <el-option v-for="item in selectItems.filter((el) => el.id !== selectAId)" :key="item.id" :label="item.name" :value="item.id">
-          </el-option>
-        </el-select>
-        <button class="b-btn" @click="clickButtonB">Куда</button>
-      </div>
+    <div class="select-division">
+      <el-select
+        v-model="selectAId"
+        class="select-d"
+        filterable
+        placeholder="Выберите вход, парковку, здание или отделение"
+        style="width: 380px"
+        @change="selectAChangeHandler"
+      >
+        <!--        <el-option-group>-->
+        <!--          <el-option v-for="streetEntrance in streetEntrances" :key="streetEntrance.id" :label="streetEntrance.name" />-->
+        <!--        </el-option-group>-->
+        <!--        <el-option-group>-->
+        <!--          <el-option v-for="park in parkings" :key="park.value" :label="park.label" />-->
+        <!--        </el-option-group>-->
+        <!--        <el-option-group />-->
+        <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)" :key="building">
+          <div class="el-select-dropdown__item">Строение {{ building.number }}</div>
+          <template v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
+            <div class="el-select-dropdown__item" style="padding-left: 40px">Этаж {{ floor.number }}</div>
+            <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id" :label="division.name">
+              <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px">{{ division.name }}</span>
+            </el-option>
+          </template>
+        </template>
+      </el-select>
+      <button v-show="showRouterButton" class="route-b" @click="$emit('openMapRouter', selectA)">Маршрут</button>
     </div>
   </div>
   <!-- <el-button @click="toggleEnterNumbers">Показать нумерацию</el-button> -->
-  <Change />
 </template>
 
 <script lang="ts">
@@ -38,36 +38,47 @@ import cloneDeep from 'lodash/cloneDeep';
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Change from '@/assets/svg/Map/Change.svg';
-import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
 import IFloor from '@/interfaces/IFloor';
+import IOptionGroup from '@/interfaces/IOptionGroup';
 import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
+import IOption from '@/interfaces/schema/IOption';
+import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
+import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
 
 export default defineComponent({
   name: 'MapRouter',
   components: {
-    BaseModalButtonClose,
-    Change,
+    // Change,
   },
   props: {
-    objectA: {
-      type: Object as PropType<IDivision | undefined>,
+    showRouterButton: {
+      type: Boolean as PropType<boolean>,
+      required: true,
     },
   },
-  emits: ['close'],
-  setup(props, { emit }) {
+  emits: ['openMapRouter', 'selectDivision'],
+  setup(_, { emit }) {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
+
     const buildings = computed(() => store.getters['buildings/buildings']);
     const streetEntrances: Ref<IStreetEntranceRef[]> = ref([
       { id: 'main-enter-1', name: 'Вход на территорию больницы', building: 'main-enter', entrance: '1' },
       { id: 'main-enter-2', name: 'Вход для пациентов, записанных на прием в КДЦ', building: 'main-enter', entrance: '2' },
       { id: 'main-enter-3', name: 'Вход для пациентов за экстренной медицинской помощью', building: 'main-enter', entrance: '3' },
     ]);
+    const parkings: Ref<IOption[]> = ref([
+      { value: '1', label: 'Парковка A' },
+      { value: '2', label: 'Парковка B' },
+      { value: '3', label: 'Парковка C' },
+      { value: '4', label: 'Парковка D' },
+    ]);
     const selectItems: Ref<(IDivision | IEntrance | IStreetEntranceRef)[]> = ref([]);
+    const selectItemsGroups: Ref<IOptionGroup[]> = ref([]);
     let selectADataBuilding = '';
     let selectBDataBuilding = '';
     let selectADataEntrance = '';
@@ -83,9 +94,19 @@ export default defineComponent({
 
     const selectAChangeHandler = (id: string) => {
       console.log(id);
+
       // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
-      selectA.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
+      buildings.value.forEach((b: IBuilding) => {
+        b.floors.forEach((f: IFloor) => {
+          const obj = f.divisions.find((d: IDivision) => d.id === id);
+          if (obj) {
+            selectA.value = obj;
+          }
+        });
+      });
+
+      emit('selectDivision', selectA.value);
       if (selectA.value?.constructor.name === 'Division') {
         selectADataBuilding = String((selectA.value as IDivision)?.entrance?.building?.number);
         selectADataEntrance = String((selectA.value as IDivision)?.entrance?.number);
@@ -211,7 +232,6 @@ export default defineComponent({
           return;
         }
         const newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        newLine.classList.add('red-line');
         newLine.setAttribute('x1', `${Math.abs(Number(cx1))}`);
         newLine.setAttribute('y1', `${Math.abs(Number(cy1))}`);
         newLine.setAttribute('x2', `${Math.abs(Number(cx2))}`);
@@ -223,7 +243,6 @@ export default defineComponent({
       store.commit('map/setLoading', false);
       ElMessage({ message: 'Маршрут построен', type: 'success' });
     };
-
     const closeShadow = () => {
       const shadow = document.getElementById('shadow');
       if (!shadow) return;
@@ -312,41 +331,25 @@ export default defineComponent({
     };
 
     onMounted(async () => {
+      const fq = new FilterQuery();
+      fq.filterModels.push(DivisionsFiltersLib.onlyDivisions());
+      fq.sortModels.push(DivisionsSortsLib.byName());
+      await store.dispatch('divisions/getAll', fq);
       await store.dispatch('entrances/getAll');
-      // console.log(divisions.value);
-      if (props.objectA && props.objectA.id) {
-        selectAChangeHandler(props.objectA.id);
-        selectAId.value = props.objectA.id;
-        selectADataBuilding = String(props.objectA.entrance?.building?.number);
-        selectADataEntrance = String(props.objectA.entrance?.number);
-      }
-      selectItems.value.push(...streetEntrances.value);
-      buildings.value.forEach((b: IBuilding) => b.floors.forEach((f: IFloor) => selectItems.value.push(...f.divisions)));
-      selectItems.value.push(...entrances.value);
+      // selectItems.value = streetEntrances.value.concat(divisions.value, entrances.value);
+      // selectItemsGroups.value.push({ label: '', options: divisions.value });
       const mapPointsRef = document.getElementById('map-points');
       if (!mapPointsRef) return;
       mapPointsRef.childNodes.forEach((item: EventTarget) => setEventsOnMapPoint(item));
       mount.value = true;
     });
 
-    const close = () => {
-      emit('close');
-      selectADataBuilding = '';
-      selectADataEntrance = '';
-      selectBDataBuilding = '';
-      selectBDataEntrance = '';
-      const flagContainer = document.getElementById('flag');
-      if (flagContainer) {
-        flagContainer.querySelector('#b-flag')?.remove();
-      }
-      let elements = document.getElementsByClassName('red-line');
-      while (elements.length > 0) {
-        elements[0].parentNode?.removeChild(elements[0]);
-      }
-    };
-
     return {
-      close,
+      buildings,
+      parkings,
+      streetEntrances,
+      selectA,
+      selectItemsGroups,
       selectItems,
       clickButtonA,
       clickButtonB,
@@ -431,22 +434,28 @@ export default defineComponent({
   margin-right: 5px;
 }
 
-:deep(.el-button) {
-  // letter-spacing: 1.1px;
-  background-color: #ffffff;
-  color: #133dcc;
+.route-b {
+  width: 100px;
+  height: 40px;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  border-radius: 20px;
+  background-color: #133dcc;
+  color: #ffffff;
   border-color: #133dcc;
   margin-left: 10px;
+  cursor: pointer;
 }
 
-:deep(.el-button:hover) {
-  background-color: #133dcc;
+.route-b:hover {
+  background-color: darken(#133dcc, 10%);
   color: white;
   border-color: white;
 }
 
 .select-division {
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .description-point {

@@ -1,7 +1,7 @@
-import IAgePeriod from '@/interfaces/IAgePeriod';
+import IDietAge from '@/interfaces/IDietAge';
 
 export interface State {
-  items: IAgePeriod[];
-  item: IAgePeriod;
+  items: IDietAge[];
+  item: IDietAge;
   selectedItemId: string;
 }

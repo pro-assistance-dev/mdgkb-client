@@ -8,11 +8,12 @@
               <el-input v-model="division.name" placeholder="Наименование отделения"></el-input>
             </el-form-item>
             <el-form-item label="Заведующий отделением">
-              <RemoteSearch :key-value="schema.doctor.key" @select="selectDoctorSearch" />
+              <RemoteSearch placeholder="Выберите заведующего" :key-value="schema.doctor.key" @select="selectDoctorSearch" />
               <div v-if="division.chief">{{ division.chief.human.getFullName() }}</div>
+              <el-button @click="division.removeChief()"> Удалить заведующего</el-button>
             </el-form-item>
             <el-form-item label="Общая информация">
-              <WysiwygEditor v-model:content="division.info" />
+              <WysiwygEditor v-model="division.info" />
             </el-form-item>
             <el-form-item label="Адрес">
               <el-input v-model="division.address" placeholder="Адрес" disabled></el-input>
@@ -68,21 +69,18 @@
 
           <el-card>
             <div class="flex-between">
-              <el-select v-model="newDoctorId" size="mini" filterable placeholder="Выберите доктора">
-                <el-option v-for="item in filteredDoctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
-              </el-select>
-              <el-button size="mini" type="success" style="margin: 20px" @click="addDoctor">Добавить доктора</el-button>
+              <RemoteSearch placeholder="Найдите доктора" :key-value="schema.doctor.key" @select="addDoctor" />
             </div>
 
-            <el-table :data="divisionDoctors">
+            <el-table :data="division.doctorsDivisions">
               <el-table-column label="ФИО" sortable>
                 <template #default="scope">
-                  {{ scope.row.human.getFullName() }}
+                  {{ scope.row.doctor.human.getFullName() }}
                 </template>
               </el-table-column>
               <el-table-column label="Должность" sortable>
                 <template #default="scope">
-                  {{ scope.row.position.name }}
+                  {{ scope.row.doctor.position.name }}
                 </template>
               </el-table-column>
               <el-table-column label="Отображать" sortable>
@@ -95,12 +93,13 @@
                   <TableButtonGroup
                     :show-more-button="true"
                     :show-remove-button="true"
-                    @remove="removeFromClass(index, division.doctors, division.doctorsForDelete)"
+                    @remove="removeFromClass(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)"
                     @showMore="$router.push(`/admin/doctors/${scope.row.id}`)"
                   />
                 </template>
               </el-table-column>
             </el-table>
+            {{ division.divisionDoctors }}
           </el-card>
         </el-container>
         <el-container>
@@ -127,7 +126,6 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import DivisioinRules from '@/classes/DivisioinRules';
 import Doctor from '@/classes/Doctor';
-import DoctorDivision from '@/classes/DoctorDivision';
 import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisionGallery.vue';
 import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
@@ -183,7 +181,6 @@ export default defineComponent({
       if (Provider.route().params['id']) {
         Provider.filterQuery.value.setParams(Provider.schema.value.division.id, Provider.route().params['id'] as string);
         await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
-        await Provider.store.dispatch('doctors/setDivisionDoctorsByDivisionId', Provider.route().params['id']);
         if (division.value.floorId) {
           Provider.store.commit('buildings/setBuildingByFloorId', division.value.floorId);
           division.value.buildingId = buildingOption.value.id;
@@ -208,7 +205,7 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      division.value.doctors = divisionDoctors.value;
+      // division.value.doctors = divisionDoctors.value;
       try {
         if (Provider.route().params['id']) {
           await Provider.store.dispatch('divisions/update', division.value);
@@ -252,15 +249,11 @@ export default defineComponent({
       }`;
     };
 
-    const addDoctor = () => {
-      const newDoctor = doctors.value?.find((i: IDoctor) => i.id === newDoctorId.value);
-      if (newDoctor) {
-        const doctorDivision = new DoctorDivision();
-        doctorDivision.divisionId = Provider.route().params['id'] as string;
-        newDoctor.doctorsDivisions.push(doctorDivision);
-      }
-      Provider.store.dispatch('doctors/addDoctorToDivisionDoctors', newDoctor);
-      newDoctorId.value = '';
+    const addDoctor = async (search: ISearchObject) => {
+      await Provider.store.dispatch('doctors/get', search.value);
+      console.log(division.value.doctorsDivisions);
+      division.value.addDoctorDivision(doctor.value);
+      console.log(division.value.doctorsDivisions);
     };
 
     return {

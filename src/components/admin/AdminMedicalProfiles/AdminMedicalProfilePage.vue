@@ -13,7 +13,7 @@
             <el-card class="content-card">
               <template #header>Описание</template>
               <el-form-item prop="content">
-                <WysiwygEditor v-model:content="medicalProfile.description" />
+                <WysiwygEditor v-model="medicalProfile.description" />
               </el-form-item>
             </el-card>
           </el-container>

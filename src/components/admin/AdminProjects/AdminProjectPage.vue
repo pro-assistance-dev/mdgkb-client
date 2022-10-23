@@ -6,7 +6,7 @@
           <el-input v-model="project.title" placeholder="Заголовок"></el-input>
         </el-form-item>
         <el-form-item label="Контент" prop="content">
-          <WysiwygEditor v-model:content="project.content" />
+          <WysiwygEditor v-model="project.content" />
         </el-form-item>
       </el-card>
       <el-card header="Вкладки">
@@ -17,7 +17,7 @@
               <el-input v-model="item.title" placeholder="Название вкладки"></el-input>
             </el-form-item>
             <el-form-item label="Контент" :prop="'projectItems.' + index + '.content'" :rules="rules.tabContent">
-              <WysiwygEditor v-model:content="item.content" :options="editorOption" />
+              <WysiwygEditor v-model="item.content" :options="editorOption" />
             </el-form-item>
           </el-tab-pane>
         </el-tabs>

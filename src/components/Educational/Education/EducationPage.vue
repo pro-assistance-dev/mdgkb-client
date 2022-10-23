@@ -30,11 +30,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
 import InfoPage from '@/components/Educational/Education/InfoPage.vue';
 import PublicDocumentPage from '@/components/Educational/Education/PublicDocumentPage.vue';
 import StructurePage from '@/components/Educational/Education/StructurePage.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
@@ -104,16 +102,6 @@ export default defineComponent({
     const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
 
     const loadDocs = async () => {
-      filterQuery.value.pagination.cursorMode = false;
-      const filterModel = FilterModel.CreateFilterModelWithJoin(
-        schema.value.publicDocumentType.tableName,
-        schema.value.publicDocumentType.id,
-        schema.value.educationPublicDocumentType.tableName,
-        schema.value.educationPublicDocumentType.id,
-        schema.value.educationPublicDocumentType.publicDocumentTypeId,
-        DataTypes.Join
-      );
-      store.commit('filter/setFilterModel', filterModel);
       await store.dispatch('publicDocumentTypes/getAll', filterQuery.value);
     };
 

@@ -13,7 +13,7 @@
             <el-card class="content-card">
               <template #header>Контент</template>
               <el-form-item prop="content">
-                <WysiwygEditor v-model:content="page.content" />
+                <WysiwygEditor v-model="page.content" />
               </el-form-item>
             </el-card>
           </el-container>

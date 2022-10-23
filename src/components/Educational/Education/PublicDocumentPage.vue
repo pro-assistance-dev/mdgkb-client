@@ -10,8 +10,8 @@
       <h2>{{ docType.name }}</h2>
       <div v-if="docType.description != '<p>undefined</p>'" v-html="docType.description"></div>
       <li v-for="file in docType.documents" :key="file.id">
-        <a v-if="file.downloadToFile" :download="file.downloadToFile" :href="file.getScan().getFileUrl()">{{ file.name }}</a>
-        <a v-else target="_blank" :href="file.getScan().getFileUrl()">{{ file.name }}</a>
+        <a v-if="file.downloadToFile" :download="file.downloadToFile" :href="file.getScan()?.getFileUrl()">{{ file.name }}</a>
+        <a v-else target="_blank" :href="file.getScan()?.getFileUrl()">{{ file.name }}</a>
       </li>
       <ImageGallery :images="docType.documentTypeImages" />
     </ul>
