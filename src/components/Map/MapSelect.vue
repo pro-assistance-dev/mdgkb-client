@@ -1,35 +1,14 @@
 <template>
   <div v-if="mount">
-    <div v-if="mount" class="route-window">
-      <div class="route-window-line">
-        <div class="route-window-title">Маршрут</div>
-        <div class="button-field">
-          <BaseModalButtonClose @click.prevent="$emit('close')" />
-        </div>
-      </div>
-        <div class="map-router-container-item">
-          <el-select class="route-button" v-model="selectAId" filterable placeholder=" " style="width: 365px" @change="selectAChangeHandler">
-            <el-option v-for="item in selectItems.filter((el) => el.id !== selectBId)" :key="item.id" :label="item.name" :value="item.id">
-            </el-option>
-          </el-select>
-          <button class="a-btn" @click="clickButtonA">Откуда</button>
-        </div>
-      <div class="choice">
-        <svg class="icon-change">
-          <use xlink:href="#akar-icons_arrow-repeat"></use>
-        </svg>
-      </div>
-        <div class="map-router-container-item">
-          <el-select class="route-button" v-model="selectBId" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
-            <el-option v-for="item in selectItems.filter((el) => el.id !== selectAId)" :key="item.id" :label="item.name" :value="item.id">
-            </el-option>
-          </el-select>
-          <button class="b-btn" @click="clickButtonB">Куда</button>
-        </div>
+    <div class="select-division">       
+      <el-select class="select-d" v-model="selectAId" filterable placeholder="Выберите вход, парковку, здание или отделение" style="width: 380px" @change="selectAChangeHandler">
+        <el-option v-for="item in selectItems.filter((el) => el.id !== selectBId)" :key="item.id" :label="item.name" :value="item.id">
+        </el-option>
+      </el-select>
+      <button class="route-b" @click="$emit('openMapRouter')">Маршрут</button>
     </div>
   </div>
   <!-- <el-button @click="toggleEnterNumbers">Показать нумерацию</el-button> -->
-  <Change />
 </template>
 
 <script lang="ts">
@@ -41,16 +20,14 @@ import { useStore } from 'vuex';
 import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
 import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
-import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import Change from '@/assets/svg/Map/Change.svg';
 
 export default defineComponent({
   name: 'MapRouter',
   components: {
-    BaseModalButtonClose,
     Change,
   },
-    emits: ['close'],
+    emits: ['openMapRouter'],
   setup() {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
@@ -396,22 +373,28 @@ export default defineComponent({
   margin-right: 5px;
 }
 
-:deep(.el-button) {
-  // letter-spacing: 1.1px;
-  background-color: #ffffff;
-  color: #133dcc;
+.route-b {
+  width: 100px;
+  height: 40px;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  border-radius: 20px;
+  background-color: #133dcc;
+  color: #ffffff;
   border-color: #133dcc;
   margin-left: 10px;
+  cursor: pointer;
 }
 
-:deep(.el-button:hover) {
-  background-color: #133dcc;
+.route-b:hover {
+  background-color: darken(#133dcc, 10%);
   color: white;
   border-color: white;
 }
 
 .select-division {
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .description-point {

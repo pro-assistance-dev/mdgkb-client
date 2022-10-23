@@ -3,11 +3,8 @@
     <div id="map-svg-container">
       <Map id="map-svg" />
       <MapLegends />
-      <div class="fixed" style="position: fixed; right: 50px; top: 135px;">
-        <MapSelect @openMapRouter="openMapRouter"/>
-        <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
-        <MapRouter v-if="isShowMapRouter" @close="closeMapRouter" />
-      </div>
+      <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
+      <MapRouter />
       <div v-if="chosenGate" ref="enterPopoverRef" class="enter-popover">
         <div class="card-item enter-popover-container">
           <BaseModalButtonClose class="enter-popover-container-close" @click="closeEnterPopover" />
@@ -38,7 +35,6 @@ import IGate from '@/interfaces/IGate';
 import MapPopover from '@/components/Map/MapPopover.vue';
 import MapRouter from '@/components/Map/MapRouter.vue';
 import MapLegends from '@/components/Map/MapLegends.vue';
-import MapSelect from '@/components/Map/MapSelect.vue';
 
 export default defineComponent({
   name: 'MapSvg',
@@ -48,7 +44,6 @@ export default defineComponent({
     Map,
     BaseModalButtonClose,
     MapLegends,
-    MapSelect,
   },
   props: {
     buildings: {
@@ -63,18 +58,8 @@ export default defineComponent({
     let building = ref();
     const store = useStore();
     const enterPopoverRef = ref<HTMLDivElement>();
-    const enterRouterRef = ref<HTMLDivElement>();
     const gates: Ref<IGate[]> = computed(() => store.getters['gates/items']);
     const chosenGate: Ref<IGate | undefined> = ref();
-    const isShowMapRouter: Ref<boolean> = ref(false);
-
-    const closeMapRouter = () => {
-      isShowMapRouter.value = false;
-    };
-
-    const openMapRouter = async () => {
-      isShowMapRouter.value = true;
-    };
 
     onBeforeMount(async (): Promise<void> => {
       await store.dispatch('gates/getAll');
@@ -261,9 +246,6 @@ export default defineComponent({
       enterPopoverRef,
       closeEnterPopover,
       chosenGate,
-      closeMapRouter,
-      isShowMapRouter,
-      openMapRouter,
     };
   },
 });

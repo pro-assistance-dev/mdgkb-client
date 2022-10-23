@@ -1,30 +1,6 @@
 <template>
-  <el-card id="ppvr" class="card-container">
-    <div class="description-point">
-      <div class="left">
-        <div class="dp-item">
-          <h4 class="grey">Здание:</h4>
-          <h4 class="black">{{ building.name }}</h4>
-        </div>
-        <div class="dp-item">
-          <h4 class="grey">Этажей:</h4>
-          <h4 class="black">{{ building.floors.length }}</h4>
-        </div>
-        <!-- <div class="dp-item">
-          <h4 class="grey">Вход:</h4>
-          <h4 class="black">Центральный вход</h4>
-        </div> -->
-      </div>
-      <div class="right">
-        <div v-if="building.name == 'Корпус 22' || building.name == 'Строение 1А (главное здание)'" class="building-number">{{ parseInt(building.name.match(/\d+/)) + "A"}}</div>
-        <div v-else class="building-number">{{ parseInt(building.name.match(/\d+/)) }}</div>
-          <div class="button-field">
-            <BaseModalButtonClose @click.prevent="$emit('close')" />
-          </div>
-      </div>
-
-    </div>
-    <!-- <template #header>
+  <el-card id="ppvr" class="card-container" :style="`position: fixed; right: 50px; top: 130px;`">
+    <template #header>
       <div class="card-header">
         <div class="card-header-title">{{ building.name }}</div>
         <el-button plain icon="el-icon-close" @click.prevent="$emit('close')"></el-button>
@@ -47,7 +23,7 @@
           </div>
         </div>
       </article>
-    </el-scrollbar> -->
+    </el-scrollbar>
   </el-card>
 </template>
 
@@ -58,13 +34,8 @@ import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import translit from '@/services/Translit';
-import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-
 export default defineComponent({
   name: 'MapPopover',
-  components: {
-    BaseModalButtonClose,
-  },
   props: {
     building: {
       type: Object as PropType<IBuilding>,
@@ -95,17 +66,16 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
 #ppvr {
-  // position: absolute;
+  position: absolute;
+  max-width: 20vw;
+  min-width: 400px;
 }
 $card-content-padding: 24px;
 $card-content-outpadding: 24px;
 
 .card-container {
-  border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
-  width: 100%;
+  z-index: 999;
 
   .floor-number {
     font-size: 14px;
@@ -318,70 +288,5 @@ $card-content-outpadding: 24px;
 }
 .card.is-horizontal .card-content {
   flex: 3;
-}
-
-
-
-
-.description-point {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.left {
-  display: block;
-  justify-content: left;
-  width: 70%;
-  margin:10px 10px 10px 20px;
-}
-
-.right {
-  display: flex;
-  position: relative;
-  justify-content: space-between;
-  width: 30%;
-  margin: 0;
-}
-
-.dp-item {
-  display: flex;
-  justify-content: left;
-  align-items: center;  
-}
-
-.grey {
-  min-width: 65px;
-  margin:0;
-  padding: 0;
-  font-size: 14px;
-  text-transform: uppercase;
-  color: $site_gray;
-  font-weight: normal;
-}
-
-.black {
-  margin:0 0 0 5px;
-  padding: 0;
-  font-size: 14px;
-  color: $site_dark_gray;
-  font-weight: normal;
-}
-
-.building-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border: 1px solid rgb(black, 0.2);
-  border-radius: 15px;
-  font-weight: bold;
-  color: #F30012;
-}
-
-.button-field {
-  position: absolute;
-  top: -8px;
-  right: 8px;
 }
 </style>
