@@ -4,7 +4,7 @@
       <div class="route-window-line">
         <div class="route-window-title">Маршрут</div>
         <div class="button-field">
-          <BaseModalButtonClose @click.prevent="$emit('close')" />
+          <BaseModalButtonClose @click.prevent="close" />
         </div>
       </div>
       <div class="map-router-container-item">
@@ -15,9 +15,9 @@
         <button class="a-btn" @click="clickButtonA">Откуда</button>
       </div>
       <div class="choice">
-        <svg class="icon-change">
-          <use xlink:href="#akar-icons_arrow-repeat"></use>
-        </svg>
+        <!--        <svg class="icon-change">-->
+        <!--          <use xlink:href="#akar-icons_arrow-repeat"></use>-->
+        <!--        </svg>-->
       </div>
       <div class="map-router-container-item">
         <el-select v-model="selectBId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
@@ -40,8 +40,10 @@ import { useStore } from 'vuex';
 
 import Change from '@/assets/svg/Map/Change.svg';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
+import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
+import IFloor from '@/interfaces/IFloor';
 import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
 
 export default defineComponent({
@@ -56,10 +58,10 @@ export default defineComponent({
     },
   },
   emits: ['close'],
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
-    const divisions = computed(() => store.getters['divisions/divisions'].filter((division: IDivision) => division.entrance));
+    const buildings = computed(() => store.getters['buildings/buildings']);
     const streetEntrances: Ref<IStreetEntranceRef[]> = ref([
       { id: 'main-enter-1', name: 'Вход на территорию больницы', building: 'main-enter', entrance: '1' },
       { id: 'main-enter-2', name: 'Вход для пациентов, записанных на прием в КДЦ', building: 'main-enter', entrance: '2' },
@@ -209,6 +211,7 @@ export default defineComponent({
           return;
         }
         const newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        newLine.classList.add('red-line');
         newLine.setAttribute('x1', `${Math.abs(Number(cx1))}`);
         newLine.setAttribute('y1', `${Math.abs(Number(cy1))}`);
         newLine.setAttribute('x2', `${Math.abs(Number(cx2))}`);
@@ -220,6 +223,7 @@ export default defineComponent({
       store.commit('map/setLoading', false);
       ElMessage({ message: 'Маршрут построен', type: 'success' });
     };
+
     const closeShadow = () => {
       const shadow = document.getElementById('shadow');
       if (!shadow) return;
@@ -308,20 +312,41 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await store.dispatch('divisions/getAll');
       await store.dispatch('entrances/getAll');
+      // console.log(divisions.value);
       if (props.objectA && props.objectA.id) {
         selectAChangeHandler(props.objectA.id);
         selectAId.value = props.objectA.id;
+        selectADataBuilding = String(props.objectA.entrance?.building?.number);
+        selectADataEntrance = String(props.objectA.entrance?.number);
       }
-      selectItems.value = streetEntrances.value.concat(divisions.value, entrances.value);
+      selectItems.value.push(...streetEntrances.value);
+      buildings.value.forEach((b: IBuilding) => b.floors.forEach((f: IFloor) => selectItems.value.push(...f.divisions)));
+      selectItems.value.push(...entrances.value);
       const mapPointsRef = document.getElementById('map-points');
       if (!mapPointsRef) return;
       mapPointsRef.childNodes.forEach((item: EventTarget) => setEventsOnMapPoint(item));
       mount.value = true;
     });
 
+    const close = () => {
+      emit('close');
+      selectADataBuilding = '';
+      selectADataEntrance = '';
+      selectBDataBuilding = '';
+      selectBDataEntrance = '';
+      const flagContainer = document.getElementById('flag');
+      if (flagContainer) {
+        flagContainer.querySelector('#b-flag')?.remove();
+      }
+      let elements = document.getElementsByClassName('red-line');
+      while (elements.length > 0) {
+        elements[0].parentNode?.removeChild(elements[0]);
+      }
+    };
+
     return {
+      close,
       selectItems,
       clickButtonA,
       clickButtonB,

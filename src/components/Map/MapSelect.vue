@@ -9,13 +9,13 @@
         style="width: 380px"
         @change="selectAChangeHandler"
       >
-        <el-option-group>
-          <el-option v-for="streetEntrance in streetEntrances" :key="streetEntrance.id" :label="streetEntrance.name" />
-        </el-option-group>
-        <el-option-group>
-          <el-option v-for="park in parkings" :key="park.value" :label="park.label" />
-        </el-option-group>
-        <el-option-group />
+        <!--        <el-option-group>-->
+        <!--          <el-option v-for="streetEntrance in streetEntrances" :key="streetEntrance.id" :label="streetEntrance.name" />-->
+        <!--        </el-option-group>-->
+        <!--        <el-option-group>-->
+        <!--          <el-option v-for="park in parkings" :key="park.value" :label="park.label" />-->
+        <!--        </el-option-group>-->
+        <!--        <el-option-group />-->
         <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)" :key="building">
           <div class="el-select-dropdown__item">Строение {{ building.number }}</div>
           <template v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
@@ -64,9 +64,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
-    // const divisions = computed(() =>
-    //   store.getters['divisions/divisions'].filter((division: IDivision) => division.entrance && !division.isCenter)
-    // );
+
     const buildings = computed(() => store.getters['buildings/buildings']);
     const streetEntrances: Ref<IStreetEntranceRef[]> = ref([
       { id: 'main-enter-1', name: 'Вход на территорию больницы', building: 'main-enter', entrance: '1' },
