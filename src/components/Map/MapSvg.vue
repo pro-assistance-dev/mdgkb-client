@@ -1,12 +1,12 @@
 <template>
   <div class="page-container">
     <div id="map-svg-container">
-      <Map id="map-svg" />
+      <Map id="map-svg" :object-a="objectA" />
       <MapLegends />
-      <div class="fixed" style="position: fixed; right: 50px; top: 135px;">
-        <MapSelect @openMapRouter="openMapRouter"/>
+      <div class="fixed" style="position: fixed; right: 50px; top: 135px">
+        <MapSelect :show-router-button="!isShowMapRouter" @selectDivision="selectDivision" @openMapRouter="openMapRouter" />
         <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
-        <MapRouter v-if="isShowMapRouter" @close="closeMapRouter" />
+        <MapRouter v-if="isShowMapRouter" :object-a="objectA" @close="closeMapRouter" />
       </div>
       <div v-if="chosenGate" ref="enterPopoverRef" class="enter-popover">
         <div class="card-item enter-popover-container">
@@ -30,15 +30,14 @@ import { useStore } from 'vuex';
 
 import Map from '@/assets/img/map.svg';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
+import MapLegends from '@/components/Map/MapLegends.vue';
+import MapPopover from '@/components/Map/MapPopover.vue';
+import MapRouter from '@/components/Map/MapRouter.vue';
+import MapSelect from '@/components/Map/MapSelect.vue';
 import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
-
-import MapPopover from '@/components/Map/MapPopover.vue';
-import MapRouter from '@/components/Map/MapRouter.vue';
-import MapLegends from '@/components/Map/MapLegends.vue';
-import MapSelect from '@/components/Map/MapSelect.vue';
 
 export default defineComponent({
   name: 'MapSvg',
@@ -61,6 +60,7 @@ export default defineComponent({
     let buildingId = ref('');
     let position = ref();
     let building = ref();
+    const objectA: Ref<IDivision | undefined> = ref(undefined);
     const store = useStore();
     const enterPopoverRef = ref<HTMLDivElement>();
     const enterRouterRef = ref<HTMLDivElement>();
@@ -72,7 +72,8 @@ export default defineComponent({
       isShowMapRouter.value = false;
     };
 
-    const openMapRouter = async () => {
+    const openMapRouter = async (objA: IDivision | undefined) => {
+      objectA.value = objA;
       isShowMapRouter.value = true;
     };
 
@@ -102,6 +103,7 @@ export default defineComponent({
     const setEventsOnBarrier = (item: Element) => {
       item.addEventListener('click', () => selectBarrier(item));
     };
+
     const selectBarrier = (item: Element) => {
       gates.value.forEach((el) => {
         if (el.id === item.id) {
@@ -213,24 +215,24 @@ export default defineComponent({
       });
     };
 
-    const decorAnimate = (): void => {
-      const decor = document.getElementById('decor');
-      if (!decor) {
-        return;
-      }
-      decor.childNodes.forEach((n) =>
-        n.addEventListener('mouseover', () => {
-          treeJump(n as HTMLElement);
-        })
-      );
-    };
+    // const decorAnimate = (): void => {
+    //   const decor = document.getElementById('decor');
+    //   if (!decor) {
+    //     return;
+    //   }
+    //   decor.childNodes.forEach((n) =>
+    //     n.addEventListener('mouseover', () => {
+    //       treeJump(n as HTMLElement);
+    //     })
+    //   );
+    // };
 
-    const treeJump = (item: HTMLElement) => {
-      item.classList.add('jump');
-      setTimeout(function () {
-        item.classList.remove('jump');
-      }, 1000);
-    };
+    // const treeJump = (item: HTMLElement) => {
+    //   item.classList.add('jump');
+    //   setTimeout(function () {
+    //     item.classList.remove('jump');
+    //   }, 1000);
+    // };
 
     const toggleEnterNumbers = () => {
       const numbers = document.getElementById('enter-numbers');
@@ -251,12 +253,26 @@ export default defineComponent({
       routePointsRef.style.visibility = 'hidden';
     };
 
+    const selectDivision = (div: IDivision): void => {
+      if (!div.entrance?.building?.number) {
+        return;
+      }
+      const numberOfBuilding = document.getElementById(`num-${div.entrance?.building?.number}`);
+      const building = document.getElementById(`b-${div.entrance?.building?.number}`);
+      if (numberOfBuilding && building) {
+        selectBuilding(numberOfBuilding, building);
+      }
+      objectA.value = div;
+    };
+
     return {
+      selectDivision,
+      objectA,
       closePopover,
       building,
       buildingId,
       position,
-      treeJump,
+      // treeJump,
       hoverBuilding,
       enterPopoverRef,
       closeEnterPopover,

@@ -16,14 +16,14 @@
         {{ dietAge.name }}
       </el-button>
     </template>
-    <DietsMenuList v-if="selectedDiet && selectedAge" :timetable="selectedAge.timetable" />
+    <DietPage v-if="selectedDiet && selectedAge" :timetable="selectedAge.timetable" :mother-timetable="selectedDiet" />
   </PageWrapper>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import DietsMenuList from '@/components/Diets/DietsMenuList.vue';
+import DietPage from '@/components/Diets/DietPage.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import IDiet from '@/interfaces/IDiet';
 import IDietAge from '@/interfaces/IDietAge';
@@ -33,7 +33,7 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DietsPage',
-  components: { DietsMenuList, PageWrapper },
+  components: { DietPage, PageWrapper },
 
   setup() {
     const selectedGroup: Ref<IDietGroup | undefined> = ref(undefined);

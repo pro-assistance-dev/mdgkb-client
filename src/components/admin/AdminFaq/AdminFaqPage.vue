@@ -6,7 +6,7 @@
           <el-input v-model="faq.question" placeholder="Вопрос"></el-input>
         </el-form-item>
         <el-form-item label="Ответ" prop="answer">
-          <WysiwygEditor v-model:content="faq.answer" />
+          <WysiwygEditor v-model="faq.answer" />
         </el-form-item>
       </el-card>
     </el-form>

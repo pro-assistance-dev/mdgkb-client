@@ -17,7 +17,7 @@ const mutations: MutationTree<State> = {
     state.building = new Building(building);
   },
   addFloor(state) {
-    state.building.floors.push(new Floor({ buildingId: state.building.id, number: 0 }));
+    state.building.floors.push(new Floor({ buildingId: state.building.id, number: 0, divisions: [] }));
   },
   removeFloor(state, id: string) {
     const index = state.building.floors.findIndex((i: IFloor) => i.id === id);

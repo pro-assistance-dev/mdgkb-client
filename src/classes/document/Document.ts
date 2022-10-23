@@ -46,7 +46,7 @@ export default class Document implements IDocument {
   }
 
   getScan(): IFileInfo {
-    return this.documentsScans[0].scan;
+    return this.documentsScans[0]?.scan;
   }
 
   uploadScan(file: IFile): IFileInfo {

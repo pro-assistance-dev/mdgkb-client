@@ -7,25 +7,25 @@
           <BaseModalButtonClose @click.prevent="$emit('close')" />
         </div>
       </div>
-        <div class="map-router-container-item">
-          <el-select class="route-button" v-model="selectAId" filterable placeholder=" " style="width: 365px" @change="selectAChangeHandler">
-            <el-option v-for="item in selectItems.filter((el) => el.id !== selectBId)" :key="item.id" :label="item.name" :value="item.id">
-            </el-option>
-          </el-select>
-          <button class="a-btn" @click="clickButtonA">Откуда</button>
-        </div>
+      <div class="map-router-container-item">
+        <el-select v-model="selectAId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectAChangeHandler">
+          <el-option v-for="item in selectItems.filter((el) => el.id !== selectBId)" :key="item.id" :label="item.name" :value="item.id">
+          </el-option>
+        </el-select>
+        <button class="a-btn" @click="clickButtonA">Откуда</button>
+      </div>
       <div class="choice">
         <svg class="icon-change">
           <use xlink:href="#akar-icons_arrow-repeat"></use>
         </svg>
       </div>
-        <div class="map-router-container-item">
-          <el-select class="route-button" v-model="selectBId" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
-            <el-option v-for="item in selectItems.filter((el) => el.id !== selectAId)" :key="item.id" :label="item.name" :value="item.id">
-            </el-option>
-          </el-select>
-          <button class="b-btn" @click="clickButtonB">Куда</button>
-        </div>
+      <div class="map-router-container-item">
+        <el-select v-model="selectBId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
+          <el-option v-for="item in selectItems.filter((el) => el.id !== selectAId)" :key="item.id" :label="item.name" :value="item.id">
+          </el-option>
+        </el-select>
+        <button class="b-btn" @click="clickButtonB">Куда</button>
+      </div>
     </div>
   </div>
   <!-- <el-button @click="toggleEnterNumbers">Показать нумерацию</el-button> -->
@@ -35,14 +35,14 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import cloneDeep from 'lodash/cloneDeep';
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Change from '@/assets/svg/Map/Change.svg';
+import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
 import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
-import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import Change from '@/assets/svg/Map/Change.svg';
 
 export default defineComponent({
   name: 'MapRouter',
@@ -50,8 +50,13 @@ export default defineComponent({
     BaseModalButtonClose,
     Change,
   },
-    emits: ['close'],
-  setup() {
+  props: {
+    objectA: {
+      type: Object as PropType<IDivision | undefined>,
+    },
+  },
+  emits: ['close'],
+  setup(props) {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
     const divisions = computed(() => store.getters['divisions/divisions'].filter((division: IDivision) => division.entrance));
@@ -75,6 +80,7 @@ export default defineComponent({
     const svgns = 'http://www.w3.org/2000/svg';
 
     const selectAChangeHandler = (id: string) => {
+      console.log(id);
       // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
       selectA.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
@@ -304,6 +310,10 @@ export default defineComponent({
     onMounted(async () => {
       await store.dispatch('divisions/getAll');
       await store.dispatch('entrances/getAll');
+      if (props.objectA && props.objectA.id) {
+        selectAChangeHandler(props.objectA.id);
+        selectAId.value = props.objectA.id;
+      }
       selectItems.value = streetEntrances.value.concat(divisions.value, entrances.value);
       const mapPointsRef = document.getElementById('map-points');
       if (!mapPointsRef) return;
@@ -360,7 +370,7 @@ export default defineComponent({
 }
 :deep(.select-d .el-input__inner) {
   border-radius: 20px;
-  background: #0AA249;
+  background: #0aa249;
 }
 :deep(.select-d .el-input__inner) {
   color: #ffffff;
@@ -381,7 +391,7 @@ export default defineComponent({
   border-radius: 20px;
   background: #ffffff;
 }
-:deep(.route-button .el-input__inner)  {
+:deep(.route-button .el-input__inner) {
   color: $site_dark_gray;
 }
 

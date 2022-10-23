@@ -17,7 +17,7 @@
           </div>
           <div>
             <el-form-item prop="description">
-              <WysiwygEditor v-model:content="dpoDocType.documentType.description" />
+              <WysiwygEditor v-model="dpoDocType.documentType.description" />
             </el-form-item>
           </div>
         </template>

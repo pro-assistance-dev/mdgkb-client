@@ -1,3 +1,4 @@
+import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
 import IFloor from '@/interfaces/IFloor';
 
@@ -10,4 +11,7 @@ export default interface IBuilding {
   description: string;
   floors: IFloor[];
   entrances: IEntrance[];
+
+  getFloorsWithDivisions: () => IFloor[];
+  findDivision: (divisionId: string) => IDivision | undefined;
 }

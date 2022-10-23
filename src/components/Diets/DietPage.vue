@@ -1,5 +1,5 @@
 <template>
-  <div class="week">
+  <div v-if="timetable.timetableDays.length > 0" class="week">
     <div v-for="(day, i) in setDay" :key="i" class="form_radio_btn">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
         {{ day }}
@@ -43,14 +43,18 @@ import ITimetable from '@/interfaces/timetables/ITimetable';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
-  name: 'DietsMenuList',
+  name: 'DietPage',
   props: {
     timetable: {
       type: Object as PropType<ITimetable>,
       required: true,
     },
+    motherTimetable: {
+      type: Object as PropType<ITimetable>,
+      required: true,
+    },
   },
-  setup() {
+  setup(props) {
     // const diets: Ref<IDiet[]> = computed<IDiet[]>(() => Provider.store.getters['diets/items']);
     // const selectedDiet: Ref<IDiet> = computed(() => Provider.store.getters['diets/item']);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
@@ -66,6 +70,9 @@ export default defineComponent({
     onBeforeMount(() => {
       const today = new Date().getDay();
       selectedNumberDay.value = today === 0 ? 6 : today - 1;
+      if (props.timetable.timetableDays.length === 1) {
+        selectedNumberDay.value = 0;
+      }
     });
 
     return {

@@ -36,7 +36,7 @@
             <el-card class="content-card">
               <template #header>Описание</template>
               <el-form-item prop="description">
-                <WysiwygEditor v-model:content="residencyCourse.description" />
+                <WysiwygEditor v-model="residencyCourse.description" />
               </el-form-item>
             </el-card>
             <el-card>
@@ -162,11 +162,11 @@ import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
-import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminResidencyCoursePage',

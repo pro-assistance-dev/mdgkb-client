@@ -100,7 +100,13 @@ const Provider = (() => {
     return source;
   }
 
+  function routerPushBlank(path: string): void {
+    const route = r.resolve({ path: path });
+    window.open(route.href, '_blank');
+  }
+
   return {
+    routerPushBlank,
     setSortList,
     sortList,
     mounted,

@@ -4,7 +4,7 @@ import AboutPage from '@/components/About/AboutPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
-import DietsPage from '@/components/Diets/DietsPage.vue';
+import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
@@ -254,9 +254,9 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/diets',
-    name: 'Diets',
-    meta: { title: 'Питание' },
-    component: DietsPage,
+    name: 'DietsSelect',
+    meta: { title: 'Выбор питания' },
+    component: DietsSelect,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,

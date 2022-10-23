@@ -49,7 +49,7 @@
             <el-card class="content-card">
               <template #header>Квалификация</template>
               <el-form-item prop="description">
-                <WysiwygEditor v-model:content="postgraduateCourse.description" />
+                <WysiwygEditor v-model="postgraduateCourse.description" />
               </el-form-item>
             </el-card>
             <el-card>

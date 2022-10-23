@@ -3,6 +3,7 @@ import DivisionComment from '@/classes/DivisionComment';
 import DivisionPaidService from '@/classes/DivisionPaidService';
 import DivisionVideo from '@/classes/DivisionVideo';
 import Doctor from '@/classes/Doctor';
+import DoctorDivision from '@/classes/DoctorDivision';
 import Entrance from '@/classes/Entrance';
 import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
 import NewsDivision from '@/classes/news/NewsDivision';
@@ -18,6 +19,7 @@ import IDivisionImage from '@/interfaces/IDivisionImage';
 import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
 import IDivisionVideo from '@/interfaces/IDivisionVideo';
 import IDoctor from '@/interfaces/IDoctor';
+import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IEntrance from '@/interfaces/IEntrance';
 import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
 import INewsDivision from '@/interfaces/INewsDivision';
@@ -43,8 +45,8 @@ export default class Division implements IDivision {
 
   entrance?: IEntrance = new Entrance();
   slug?: string = '';
-  doctors: IDoctor[] = [];
-  doctorsForDelete: string[] = [];
+  doctorsDivisions: IDoctorDivision[] = [];
+  doctorsDivisionsForDelete: string[] = [];
   vacancies: IVacancy[] = [];
   timetable: ITimetable = new Timetable();
   timetableId?: string;
@@ -96,9 +98,6 @@ export default class Division implements IDivision {
     if (i.entrance) {
       this.entrance = new Entrance(i.entrance);
     }
-    if (i.doctors) {
-      this.doctors = i.doctors.map((item: IDoctor) => new Doctor(item));
-    }
     if (i.timetable) {
       this.timetable = new Timetable(i.timetable);
     }
@@ -148,6 +147,9 @@ export default class Division implements IDivision {
     if (i.socialMedias) {
       this.socialMedias = i.socialMedias.map((item: ISocialMedia) => new SocialMedia(item));
     }
+    if (i.doctorsDivisions) {
+      this.doctorsDivisions = i.doctorsDivisions.map((item: IDoctorDivision) => new DoctorDivision(item));
+    }
     this.isCenter = i.isCenter;
   }
 
@@ -166,5 +168,18 @@ export default class Division implements IDivision {
     const item = new VisitingRuleGroup();
     item.order = this.visitingRulesGroups.length;
     this.visitingRulesGroups.push(item);
+  }
+
+  removeChief(): void {
+    this.chief = new Doctor();
+    this.chiefId = undefined;
+  }
+
+  addDoctorDivision(doctor: IDoctor): void {
+    const doctorDivision = new DoctorDivision();
+    doctorDivision.doctor = new Doctor(doctor);
+    doctorDivision.doctorId = doctor.id;
+    doctorDivision.divisionId = this.id;
+    this.doctorsDivisions.push(doctorDivision);
   }
 }
