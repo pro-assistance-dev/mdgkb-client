@@ -9,13 +9,13 @@
         style="width: 380px"
         @change="selectAChangeHandler"
       >
-        <el-option-group>
-          <el-option v-for="streetEntrance in streetEntrances" :key="streetEntrance.id" :label="streetEntrance.name" />
-        </el-option-group>
-        <el-option-group>
-          <el-option v-for="park in parkings" :key="park.value" :label="park.label" />
-        </el-option-group>
-        <el-option-group />
+        <!--        <el-option-group>-->
+        <!--          <el-option v-for="streetEntrance in streetEntrances" :key="streetEntrance.id" :label="streetEntrance.name" />-->
+        <!--        </el-option-group>-->
+        <!--        <el-option-group>-->
+        <!--          <el-option v-for="park in parkings" :key="park.value" :label="park.label" />-->
+        <!--        </el-option-group>-->
+        <!--        <el-option-group />-->
         <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)" :key="building">
           <div class="item-box">
             <div class="el-select-dropdown__item" style="cursor: default; text-transform: uppercase; color:#A1A7BD">Строение {{ building.number }}</div>
@@ -43,6 +43,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Division from '@/classes/Division';
+import Entrance from '@/classes/Entrance';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
@@ -69,9 +71,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
-    // const divisions = computed(() =>
-    //   store.getters['divisions/divisions'].filter((division: IDivision) => division.entrance && !division.isCenter)
-    // );
+
     const buildings = computed(() => store.getters['buildings/buildings']);
     const streetEntrances: Ref<IStreetEntranceRef[]> = ref([
       { id: 'main-enter-1', name: 'Вход на территорию больницы', building: 'main-enter', entrance: '1' },
@@ -114,10 +114,10 @@ export default defineComponent({
       });
 
       emit('selectDivision', selectA.value);
-      if (selectA.value?.constructor.name === 'Division') {
+      if (selectA.value instanceof Division) {
         selectADataBuilding = String((selectA.value as IDivision)?.entrance?.building?.number);
         selectADataEntrance = String((selectA.value as IDivision)?.entrance?.number);
-      } else if (selectA.value?.constructor.name === 'Entrance') {
+      } else if (selectA.value instanceof Entrance) {
         selectADataBuilding = String((selectA.value as IEntrance)?.building?.number);
         selectADataEntrance = String((selectA.value as IEntrance)?.number);
       } else {
@@ -135,10 +135,10 @@ export default defineComponent({
       // selectB.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = false;
       selectB.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectB.value?.constructor.name === 'Division') {
+      if (selectB.value instanceof Division) {
         selectBDataBuilding = String((selectB.value as IDivision)?.entrance?.building?.number);
         selectBDataEntrance = String((selectB.value as IDivision)?.entrance?.number);
-      } else if (selectB.value?.constructor.name === 'Entrance') {
+      } else if (selectB.value instanceof Entrance) {
         selectBDataBuilding = String((selectB.value as IEntrance)?.building?.number);
         selectBDataEntrance = String((selectB.value as IEntrance)?.number);
       } else {

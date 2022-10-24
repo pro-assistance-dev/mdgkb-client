@@ -4,7 +4,7 @@
       <div class="route-window-line">
         <div class="route-window-title">Задайте точки для построения маршрута:</div>
         <div class="button-field">
-          <BaseModalButtonClose @click.prevent="$emit('close')" />
+          <BaseModalButtonClose @click.prevent="close" />
         </div>
       </div>
       <div class="map-router-container-item">
@@ -34,9 +34,13 @@ import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Change from '@/assets/svg/Map/Change.svg';
+import Division from '@/classes/Division';
+import Entrance from '@/classes/Entrance';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
+import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
+import IFloor from '@/interfaces/IFloor';
 import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
 
 export default defineComponent({
@@ -51,10 +55,10 @@ export default defineComponent({
     },
   },
   emits: ['close'],
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
-    const divisions = computed(() => store.getters['divisions/divisions'].filter((division: IDivision) => division.entrance));
+    const buildings = computed(() => store.getters['buildings/buildings']);
     const streetEntrances: Ref<IStreetEntranceRef[]> = ref([
       { id: 'main-enter-1', name: 'Вход на территорию больницы', building: 'main-enter', entrance: '1' },
       { id: 'main-enter-2', name: 'Вход для пациентов, записанных на прием в КДЦ', building: 'main-enter', entrance: '2' },
@@ -75,14 +79,12 @@ export default defineComponent({
     const svgns = 'http://www.w3.org/2000/svg';
 
     const selectAChangeHandler = (id: string) => {
-      console.log(id);
-      // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
       selectA.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectA.value?.constructor.name === 'Division') {
+      if (selectA.value instanceof Division) {
         selectADataBuilding = String((selectA.value as IDivision)?.entrance?.building?.number);
         selectADataEntrance = String((selectA.value as IDivision)?.entrance?.number);
-      } else if (selectA.value?.constructor.name === 'Entrance') {
+      } else if (selectA.value instanceof Entrance) {
         selectADataBuilding = String((selectA.value as IEntrance)?.building?.number);
         selectADataEntrance = String((selectA.value as IEntrance)?.number);
       } else {
@@ -100,10 +102,10 @@ export default defineComponent({
       // selectB.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = false;
       selectB.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectB.value?.constructor.name === 'Division') {
+      if (selectB.value instanceof Division) {
         selectBDataBuilding = String((selectB.value as IDivision)?.entrance?.building?.number);
         selectBDataEntrance = String((selectB.value as IDivision)?.entrance?.number);
-      } else if (selectB.value?.constructor.name === 'Entrance') {
+      } else if (selectB.value instanceof Entrance) {
         selectBDataBuilding = String((selectB.value as IEntrance)?.building?.number);
         selectBDataEntrance = String((selectB.value as IEntrance)?.number);
       } else {
@@ -204,6 +206,7 @@ export default defineComponent({
           return;
         }
         const newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        newLine.classList.add('red-line');
         newLine.setAttribute('x1', `${Math.abs(Number(cx1))}`);
         newLine.setAttribute('y1', `${Math.abs(Number(cy1))}`);
         newLine.setAttribute('x2', `${Math.abs(Number(cx2))}`);
@@ -215,6 +218,7 @@ export default defineComponent({
       store.commit('map/setLoading', false);
       ElMessage({ message: 'Маршрут построен', type: 'success' });
     };
+
     const closeShadow = () => {
       const shadow = document.getElementById('shadow');
       if (!shadow) return;
@@ -303,20 +307,41 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      await store.dispatch('divisions/getAll');
       await store.dispatch('entrances/getAll');
+      // console.log(divisions.value);
       if (props.objectA && props.objectA.id) {
         selectAChangeHandler(props.objectA.id);
         selectAId.value = props.objectA.id;
+        selectADataBuilding = String(props.objectA.entrance?.building?.number);
+        selectADataEntrance = String(props.objectA.entrance?.number);
       }
-      selectItems.value = streetEntrances.value.concat(divisions.value, entrances.value);
+      selectItems.value.push(...streetEntrances.value);
+      buildings.value.forEach((b: IBuilding) => b.floors.forEach((f: IFloor) => selectItems.value.push(...f.divisions)));
+      selectItems.value.push(...entrances.value);
       const mapPointsRef = document.getElementById('map-points');
       if (!mapPointsRef) return;
       mapPointsRef.childNodes.forEach((item: EventTarget) => setEventsOnMapPoint(item));
       mount.value = true;
     });
 
+    const close = () => {
+      emit('close');
+      selectADataBuilding = '';
+      selectADataEntrance = '';
+      selectBDataBuilding = '';
+      selectBDataEntrance = '';
+      const flagContainer = document.getElementById('flag');
+      if (flagContainer) {
+        flagContainer.querySelector('#b-flag')?.remove();
+      }
+      let elements = document.getElementsByClassName('red-line');
+      while (elements.length > 0) {
+        elements[0].parentNode?.removeChild(elements[0]);
+      }
+    };
+
     return {
+      close,
       selectItems,
       clickButtonA,
       clickButtonB,
