@@ -39,6 +39,8 @@ import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Change from '@/assets/svg/Map/Change.svg';
+import Division from '@/classes/Division';
+import Entrance from '@/classes/Entrance';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
@@ -82,14 +84,12 @@ export default defineComponent({
     const svgns = 'http://www.w3.org/2000/svg';
 
     const selectAChangeHandler = (id: string) => {
-      console.log(id);
-      // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
       selectA.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectA.value?.constructor.name === 'Division') {
+      if (selectA.value instanceof Division) {
         selectADataBuilding = String((selectA.value as IDivision)?.entrance?.building?.number);
         selectADataEntrance = String((selectA.value as IDivision)?.entrance?.number);
-      } else if (selectA.value?.constructor.name === 'Entrance') {
+      } else if (selectA.value instanceof Entrance) {
         selectADataBuilding = String((selectA.value as IEntrance)?.building?.number);
         selectADataEntrance = String((selectA.value as IEntrance)?.number);
       } else {
@@ -107,10 +107,10 @@ export default defineComponent({
       // selectB.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = false;
       selectB.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectB.value?.constructor.name === 'Division') {
+      if (selectB.value instanceof Division) {
         selectBDataBuilding = String((selectB.value as IDivision)?.entrance?.building?.number);
         selectBDataEntrance = String((selectB.value as IDivision)?.entrance?.number);
-      } else if (selectB.value?.constructor.name === 'Entrance') {
+      } else if (selectB.value instanceof Entrance) {
         selectBDataBuilding = String((selectB.value as IEntrance)?.building?.number);
         selectBDataEntrance = String((selectB.value as IEntrance)?.number);
       } else {

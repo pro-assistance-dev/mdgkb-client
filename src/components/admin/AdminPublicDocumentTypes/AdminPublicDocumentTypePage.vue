@@ -19,26 +19,44 @@
             <el-button type="success" @click="addDocType">Добавить тип</el-button>
           </div>
         </template>
-        <el-card v-for="(docType, docTypeIndex) in publicDocumentType.documentTypes" :key="docTypeIndex">
-          <template #header>
-            <div class="card-header">
-              <el-form-item
-                style="margin: 0 10px 0 0; width: 100%"
-                :prop="'documentTypes.' + docTypeIndex + '.name'"
-                :rules="rules.docTypeName"
-              >
-                <el-input v-model="docType.name" placeholder="Название типа документов"></el-input>
-              </el-form-item>
-              <el-button type="danger" icon="el-icon-close" @click="removeDocType(docTypeIndex)"></el-button>
-            </div>
-            <div>
-              <el-form-item prop="description">
-                <WysiwygEditor v-model="docType.description" />
-              </el-form-item>
-            </div>
-          </template>
-          <AdminDocumentsForm :document-type="docType" />
-        </el-card>
+        <el-collapse>
+          <draggable
+            class="groups"
+            :list="publicDocumentType.documentTypes"
+            item-key="id"
+            handle=".el-icon-s-grid"
+            @end="sort(publicDocumentType.documentTypes)"
+          >
+            <template #item="{ element, index }">
+              <el-collapse-item :title="element.name" :name="element.name">
+                <template #title>
+                  <i class="el-icon-s-grid drug-icon" />
+                  {{ element.name }}
+                </template>
+                <el-card>
+                  <template #header>
+                    <div class="card-header">
+                      <el-form-item
+                        style="margin: 0 10px 0 0; width: 100%"
+                        :prop="'documentTypes.' + index + '.name'"
+                        :rules="rules.docTypeName"
+                      >
+                        <el-input v-model="element.name" placeholder="Название типа документов"></el-input>
+                      </el-form-item>
+                      <el-button type="danger" icon="el-icon-close" @click="removeDocType(index)"></el-button>
+                    </div>
+                    <div>
+                      <el-form-item prop="description">
+                        <WysiwygEditor v-model="element.description" />
+                      </el-form-item>
+                    </div>
+                  </template>
+                  <AdminDocumentsForm :document-type="element" />
+                </el-card>
+              </el-collapse-item>
+            </template>
+          </draggable>
+        </el-collapse>
       </el-card>
     </el-form>
   </div>
@@ -48,18 +66,20 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
 import AdminDocumentsForm from '@/components/admin/AdminDocumentsTypes/AdminDocumentsForm.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IDocumentType from '@/interfaces/IDocumentType';
 import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
+import sort from '@/services/sort';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPublicDocumentTypePage',
-  components: { AdminDocumentsForm, WysiwygEditor },
+  components: { AdminDocumentsForm, WysiwygEditor, draggable },
 
   setup() {
     const store = useStore();
@@ -135,6 +155,7 @@ export default defineComponent({
     });
 
     return {
+      sort,
       mounted,
       form,
       rules,
