@@ -2,7 +2,7 @@
   <div v-if="mount">
     <div v-if="mount" class="route-window">
       <div class="route-window-line">
-        <div class="route-window-title">Маршрут</div>
+        <div class="route-window-title">Задайте точки для построения маршрута:</div>
         <div class="button-field">
           <BaseModalButtonClose @click.prevent="close" />
         </div>
@@ -13,11 +13,6 @@
           </el-option>
         </el-select>
         <button class="a-btn" @click="clickButtonA">Откуда</button>
-      </div>
-      <div class="choice">
-        <!--        <svg class="icon-change">-->
-        <!--          <use xlink:href="#akar-icons_arrow-repeat"></use>-->
-        <!--        </svg>-->
       </div>
       <div class="map-router-container-item">
         <el-select v-model="selectBId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
@@ -460,28 +455,24 @@ export default defineComponent({
 
 .route-window {
   width: 100%;
-  border: 1px solid rgb(black, 0.2);
+  // border: 1px solid rgb(black, 0.2);
+  border: 1px solid lighten(#133dcc, 30%);
   border-radius: $normal-border-radius;
   background: $base-background;
   margin-top: 10px;
-  padding-bottom: 15px;
+  // padding-bottom: 15px;
 }
 
 .route-window-title {
-  text-transform: uppercase;
+  // text-transform: uppercase;
   margin: 10px 16px;
-  color: $site_gray;
+  // color: $site_gray;
+  color: lighten(#133dcc, 20%);
+  font-size: 14px;
 }
 
 .map-router-container-item {
-  margin-left: 20px;
-}
-
-.choice {
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  height: 20px;
+  margin: 0 15px 15px 20px;
 }
 
 .route-window-line {

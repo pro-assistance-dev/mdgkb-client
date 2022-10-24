@@ -17,16 +17,21 @@
         <!--        </el-option-group>-->
         <!--        <el-option-group />-->
         <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)" :key="building">
-          <div class="el-select-dropdown__item">Строение {{ building.number }}</div>
-          <template v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
-            <div class="el-select-dropdown__item" style="padding-left: 40px">Этаж {{ floor.number }}</div>
-            <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id" :label="division.name">
-              <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px">{{ division.name }}</span>
-            </el-option>
-          </template>
+          <div class="item-box">
+            <div class="el-select-dropdown__item" style="cursor: default; text-transform: uppercase; color:#A1A7BD">Строение {{ building.number }}</div>
+            <template v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
+              <div class="el-select-dropdown__item" style="padding-left: 40px; cursor: default; text-transform: uppercase; color:#A1A7BD">Этаж {{ floor.number }}</div>
+              <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id" :label="division.name">
+                <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color:#343D5C">{{ division.name }}</span>
+              </el-option>
+            </template>
+          </div>
         </template>
       </el-select>
-      <button v-show="showRouterButton" class="route-b" @click="$emit('openMapRouter', selectA)">Маршрут</button>
+      <div class="button-box">
+        <button v-if="showRouterButton" class="route-b" @click="$emit('openMapRouter', selectA)">Маршрут</button>
+        <button v-else class="route-b-2" @click="$emit('openMapRouter', selectA)">Маршрут</button>
+      </div>
     </div>
   </div>
   <!-- <el-button @click="toggleEnterNumbers">Показать нумерацию</el-button> -->
@@ -437,7 +442,7 @@ export default defineComponent({
 }
 
 .route-b {
-  width: 100px;
+  width: 110px;
   height: 40px;
   text-decoration: none;
   display: inline-block;
@@ -446,17 +451,34 @@ export default defineComponent({
   background-color: #133dcc;
   color: #ffffff;
   border-color: #133dcc;
-  margin-left: 10px;
   cursor: pointer;
 }
 
 .route-b:hover {
-  background-color: darken(#133dcc, 10%);
+  background-color: lighten(#133dcc, 10%);
   color: white;
   border-color: white;
 }
 
+.route-b:active {
+  background-color: lighten(#133dcc, 10%);
+  color: white;
+  border-color: white;
+}
+
+.route-b-2 {
+  width: 110px;
+  height: 40px;
+  text-decoration: none;
+  display: inline-block;
+  border: 1px solid lighten(#133dcc, 20%);
+  border-radius: 20px;
+  background-color: #ffffff;
+  color: lighten(#133dcc, 20%);
+}
+
 .select-division {
+  display: flex;
   margin: 10px 0;
 }
 
@@ -516,5 +538,17 @@ export default defineComponent({
 .icon-change:hover {
   fill: #ffffff;
   stroke: $site_dark_gray;
+}
+
+.button-box {
+  width: 110px;
+  margin: 0 0 0 10px;
+}
+
+.item-box {
+  width: calc(100% - 40px);
+  border: 1px solid rgb(black, 0.2);
+  border-radius: $normal-border-radius;
+  margin: 10px 20px;
 }
 </style>
