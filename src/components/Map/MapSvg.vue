@@ -265,14 +265,17 @@ export default defineComponent({
       objectA.value = div;
     };
 
-    const selectLegend = (legend: string): void => {
-      const legends = document.getElementsByClassName(legend);
+    const selectLegend = (legendClass: string): void => {
+      const legends = document.getElementsByClassName(legendClass);
       for (const legend of legends) {
         legend.classList.add('jump');
+
         setTimeout(function () {
           legend.classList.remove('jump');
+          legend.classList.remove('jump-transform');
           legend.classList.add('remove-jump');
         }, 1000);
+
         setTimeout(function () {
           legend.classList.remove('remove-jump');
         }, 2000);
@@ -380,10 +383,15 @@ svg #decor > g.jump {
 
 .jump {
   transition: all ease-in-out 1s;
-  //transform: translate(0px, -4px);
+  transform-origin: 0 1%;
   margin-bottom: 4px;
   padding-bottom: 4px;
   filter: brightness(180%);
+}
+
+.jump-transform {
+  transition: all ease-in-out 1s;
+  transform: translate(0px, -4px);
 }
 
 .remove-jump {

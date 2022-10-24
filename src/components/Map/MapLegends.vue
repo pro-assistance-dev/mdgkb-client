@@ -5,7 +5,7 @@
         <use :xlink:href="'#' + legend.href"></use>
       </svg>
       <span class="legend-text">{{ legend.label }}</span>
-      <svg v-for="icon in legend.icons" :key="icon" class="legend-icon" :class="`icon-${icon}`" @click="selectLegend(icon)">
+      <svg v-for="icon in legend.icons" :key="icon" class="legend-icon" :class="`icon-${icon}`" @click.stop="selectLegend(icon)">
         <use :xlink:href="'#' + icon"></use>
       </svg>
     </div>
@@ -40,6 +40,7 @@ export default defineComponent({
     ];
 
     const selectLegend = (legend: string) => {
+      console.log(legend);
       emit('selectLegend', legend);
     };
     return {
