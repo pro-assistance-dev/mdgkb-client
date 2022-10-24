@@ -3,6 +3,12 @@
   <div v-if="mounted" class="division-page-container" data-test="division-component">
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
+    <div class="card">
+      <!--      <component :is="'MainContainer'" v-if="mounted && division.info.length > 0" header-title="Об отделении">-->
+      <div class="title-in">Информация об отделении</div>
+      <div v-html="division.info" />
+      <!--      </component>-->
+    </div>
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
     <DoctorsCarousel :doctors="division.doctors" header-title="Специалисты отделения" />
@@ -10,7 +16,7 @@
     <!-- <DivisionCertificates /> -->
     <ScansSlider :gallery-elements="division.certificates" />
     <DivisionDateAndTime :division="division" />
-    <component :is="'MainContainer'" v-if="mounted" header-title="Видео">
+    <component :is="'MainContainer'" v-if="mounted && division.divisionVideos.length" header-title="Видео">
       <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
     </component>
     <!-- <ImageGallery :images="division.divisionImages" /> -->
@@ -72,6 +78,29 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
+
+.card {
+  display: block;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-clip: padding-box;
+  margin-top: 30px;
+  padding: 0px 40px 0px 23px;
+}
+
+.title-in {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: $site_dark_gray;
+  height: 60px;
+  align-items: center;
+  font-weight: bold;
+}
+
 // $left-side-max-width: 370px;
 // $right-side-max-width: 1000px;
 /* .hidden {

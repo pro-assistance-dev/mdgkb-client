@@ -1,101 +1,54 @@
 <template>
-    <div class="legend">
-
-        <div class="legend-item">
-            <svg class="icon-barrier">
-                <use xlink:href="#barrier"></use>
-            </svg>
-            <span class="legend-text">КПП</span>
-        </div>
-
-        <div class="legend-item">
-            <svg class="icon-pedestrian">
-                <use xlink:href="#pedestrian"></use>
-            </svg>
-            <span class="legend-text">Проходная</span>
-        </div>
-
-        <div class="legend-item">
-            <svg class="icon-pi">
-                <use xlink:href="#pi"></use>
-            </svg>
-            <span class="legend-text">Пункт выдачи ТСР (1 этаж)</span>
-        </div>
-
-        <div class="legend-item">
-            <svg class="icon-parking">
-                <use xlink:href="#parking"></use>
-            </svg>
-            <span class="legend-text">Парковка</span>
-            <svg class="icon-ai">
-                <use xlink:href="#ai"></use>
-            </svg>
-            <svg class="icon-ci">
-                <use xlink:href="#ci"></use>
-            </svg>
-        </div>
-
-        <div class="legend-item">
-            <svg class="icon-ambulance">
-                <use xlink:href="#ambulance"></use>
-            </svg>
-            <span class="legend-text">Служебная парковка</span>
-            <svg class="icon-bi">
-                <use xlink:href="#bi"></use>
-            </svg>
-
-            <svg class="icon-di">
-                <use xlink:href="#di"></use>
-            </svg>
-        </div>
-
-        <div class="legend-item">
-            <svg class="icon-entrance">
-                <use xlink:href="#entrance"></use>
-            </svg>
-            <span class="legend-text">Вход в здание</span>
-        </div>
-
-        <div class="legend-item">
-            <svg class="icon-atm">
-                <use xlink:href="#atm"></use>
-            </svg>
-            <span class="legend-text">Банкомат</span>
-        </div>
-
-        <div class="legend-item">
-            <svg class="icon-swing">
-                <use xlink:href="#swing"></use>
-            </svg>
-            <span class="legend-text">Детская площадка</span>
-        </div>
-
-        <div class="legend-item">
-            <svg class="icon-art">
-                <use xlink:href="#art"></use>
-            </svg>
-            <span class="legend-text">Арт-объект</span>
-        </div>
-        
-        <div class="legend-item">
-            <svg class="icon-chapel">
-                <use xlink:href="#chapel"></use>
-            </svg>
-            <span class="legend-text">Храм Покрова Пресвятой&nbsp;Богородицы</span>
-        </div>
+  <div class="legend">
+    <div v-for="legend in legends" :key="legend.href" class="legend-item" @click="selectLegend(legend.href)">
+      <svg class="legend-icon" :class="`icon-${legend.href}`">
+        <use :xlink:href="'#' + legend.href"></use>
+      </svg>
+      <span class="legend-text">{{ legend.label }}</span>
+      <svg v-for="icon in legend.icons" :key="icon" class="legend-icon" :class="`icon-${icon}`" @click.stop="selectLegend(icon)">
+        <use :xlink:href="'#' + icon"></use>
+      </svg>
     </div>
-    <LegendIcons />  
+  </div>
+  <LegendIcons />
 </template>
 
 <script lang="ts">
+import { defineComponent, Ref, ref } from 'vue';
+
 import LegendIcons from '@/assets/svg/Map/LegendIcons.svg';
 
-export default {
+export default defineComponent({
   name: 'MapLegends',
   components: {
     LegendIcons,
   },
-};
+  emits: ['selectLegend'],
+  setup(_, { emit }) {
+    const selectedLegend: Ref<string> = ref('');
+    const legends = [
+      { href: 'barrier', label: 'КПП' },
+      { href: 'pedestrian', label: 'Проходная' },
+      { href: 'pi', label: 'Пункт выдачи ТСР (1 этаж)' },
+      { href: 'parking', label: 'Парковка', icons: ['ai', 'ci'] },
+      { href: 'ambulance', label: 'Служебная парковка', icons: ['bi', 'di'] },
+      { href: 'entrance', label: 'Вход в здание' },
+      { href: 'atm', label: 'Банкомат' },
+      { href: 'swing', label: 'Детская площадка' },
+      { href: 'art', label: 'Арт-объект' },
+      { href: 'chapel', label: `Храм Покрова Пресвятой&nbsp;Богородицы` },
+    ];
+
+    const selectLegend = (legend: string) => {
+      console.log(legend);
+      emit('selectLegend', legend);
+    };
+    return {
+      selectLegend,
+      legends,
+    };
+  },
+});
 </script>
 
 <style scoped lang="scss">
@@ -105,106 +58,112 @@ export default {
   margin: 0px;
 }
 .hidden {
-    display: none;
+  display: none;
 }
 
 .legend {
-    position: absolute;
-    left: 0;
-    bottom: 20px;
+  position: absolute;
+  left: 0;
+  bottom: 20px;
 }
 
 .legend-item {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    margin: 5px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin: 5px;
+}
+
+.legend-icon {
+  &:hover {
+    cursor: pointer;
+    filter: brightness(140%);
+  }
 }
 
 .legend-text {
-    max-width: 170px;
-    font-size: 12px;
-    color: $site_dark_gray;
-    margin-left: 10px;
+  max-width: 170px;
+  font-size: 12px;
+  color: $site_dark_gray;
+  margin-left: 10px;
 }
 
 .icon-ai {
-    width: 26px;
-    height: 26px;
-    fill: #026CB5;
-    margin: 0 5px;
+  width: 26px;
+  height: 26px;
+  fill: #026cb5;
+  margin: 0 5px;
 }
 .icon-bi {
-    width: 26px;
-    height: 26px;
-    fill: #026CB5;
-    margin: 0 5px;
+  width: 26px;
+  height: 26px;
+  fill: #026cb5;
+  margin: 0 5px;
 }
 .icon-ci {
-    width: 26px;
-    height: 26px;
-    fill: #026CB5;
-    margin: 0 5px;    
+  width: 26px;
+  height: 26px;
+  fill: #026cb5;
+  margin: 0 5px;
 }
 .icon-di {
-    width: 26px;
-    height: 26px;
-    fill: #026CB5;
-    margin: 0 5px;    
+  width: 26px;
+  height: 26px;
+  fill: #026cb5;
+  margin: 0 5px;
 }
 
 .icon-ambulance {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 
 .icon-art {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 
 .icon-atm {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 .icon-barrier {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 .icon-chapel {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 .icon-parking {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 .icon-pedestrian {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 .icon-pi {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 .icon-swing {
-    width: 26px;
-    height: 26px;
-    fill: #601C1C;   
+  width: 26px;
+  height: 26px;
+  fill: #601c1c;
 }
 
 .icon-entrance {
-    width: 26px;
-    height: 26px;
-    fill: #000000;   
+  width: 26px;
+  height: 26px;
+  fill: #000000;
 }
-
 </style>

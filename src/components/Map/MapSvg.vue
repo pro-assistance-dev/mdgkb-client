@@ -2,7 +2,7 @@
   <div class="page-container">
     <div id="map-svg-container">
       <Map id="map-svg" :object-a="objectA" />
-      <MapLegends />
+      <MapLegends @select-legend="selectLegend" />
       <div class="fixed" style="position: fixed; right: 50px; top: 135px">
         <MapSelect :show-router-button="!isShowMapRouter" @selectDivision="selectDivision" @openMapRouter="openMapRouter" />
         <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
@@ -265,7 +265,25 @@ export default defineComponent({
       objectA.value = div;
     };
 
+    const selectLegend = (legendClass: string): void => {
+      const legends = document.getElementsByClassName(legendClass);
+      for (const legend of legends) {
+        legend.classList.add('jump');
+
+        setTimeout(function () {
+          legend.classList.remove('jump');
+          legend.classList.remove('jump-transform');
+          legend.classList.add('remove-jump');
+        }, 1000);
+
+        setTimeout(function () {
+          legend.classList.remove('remove-jump');
+        }, 2000);
+      }
+    };
+
     return {
+      selectLegend,
       selectDivision,
       objectA,
       closePopover,
@@ -361,6 +379,25 @@ svg #decor > g {
 
 svg #decor > g.jump {
   transform: translate(0px, -15px);
+}
+
+.jump {
+  transition: all ease-in-out 1s;
+  transform-origin: 0 1%;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+  filter: brightness(180%);
+}
+
+.jump-transform {
+  transition: all ease-in-out 1s;
+  transform: translate(0px, -4px);
+}
+
+.remove-jump {
+  transition: all ease-in-out 1s;
+  //transform: translate(0px, 0px);
+  filter: brightness(100%);
 }
 
 #content {

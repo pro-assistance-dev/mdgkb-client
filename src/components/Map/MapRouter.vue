@@ -2,7 +2,7 @@
   <div v-if="mount">
     <div v-if="mount" class="route-window">
       <div class="route-window-line">
-        <div class="route-window-title">Маршрут</div>
+        <div class="route-window-title">Задайте точки для построения маршрута:</div>
         <div class="button-field">
           <BaseModalButtonClose @click.prevent="close" />
         </div>
@@ -13,11 +13,6 @@
           </el-option>
         </el-select>
         <button class="a-btn" @click="clickButtonA">Откуда</button>
-      </div>
-      <div class="choice">
-        <!--        <svg class="icon-change">-->
-        <!--          <use xlink:href="#akar-icons_arrow-repeat"></use>-->
-        <!--        </svg>-->
       </div>
       <div class="map-router-container-item">
         <el-select v-model="selectBId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
@@ -39,6 +34,8 @@ import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Change from '@/assets/svg/Map/Change.svg';
+import Division from '@/classes/Division';
+import Entrance from '@/classes/Entrance';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
@@ -82,14 +79,12 @@ export default defineComponent({
     const svgns = 'http://www.w3.org/2000/svg';
 
     const selectAChangeHandler = (id: string) => {
-      console.log(id);
-      // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
       selectA.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectA.value?.constructor.name === 'Division') {
+      if (selectA.value instanceof Division) {
         selectADataBuilding = String((selectA.value as IDivision)?.entrance?.building?.number);
         selectADataEntrance = String((selectA.value as IDivision)?.entrance?.number);
-      } else if (selectA.value?.constructor.name === 'Entrance') {
+      } else if (selectA.value instanceof Entrance) {
         selectADataBuilding = String((selectA.value as IEntrance)?.building?.number);
         selectADataEntrance = String((selectA.value as IEntrance)?.number);
       } else {
@@ -107,10 +102,10 @@ export default defineComponent({
       // selectB.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = false;
       selectB.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectB.value?.constructor.name === 'Division') {
+      if (selectB.value instanceof Division) {
         selectBDataBuilding = String((selectB.value as IDivision)?.entrance?.building?.number);
         selectBDataEntrance = String((selectB.value as IDivision)?.entrance?.number);
-      } else if (selectB.value?.constructor.name === 'Entrance') {
+      } else if (selectB.value instanceof Entrance) {
         selectBDataBuilding = String((selectB.value as IEntrance)?.building?.number);
         selectBDataEntrance = String((selectB.value as IEntrance)?.number);
       } else {
@@ -460,28 +455,24 @@ export default defineComponent({
 
 .route-window {
   width: 100%;
-  border: 1px solid rgb(black, 0.2);
+  // border: 1px solid rgb(black, 0.2);
+  border: 1px solid lighten(#133dcc, 30%);
   border-radius: $normal-border-radius;
   background: $base-background;
   margin-top: 10px;
-  padding-bottom: 15px;
+  // padding-bottom: 15px;
 }
 
 .route-window-title {
-  text-transform: uppercase;
+  // text-transform: uppercase;
   margin: 10px 16px;
-  color: $site_gray;
+  // color: $site_gray;
+  color: lighten(#133dcc, 20%);
+  font-size: 14px;
 }
 
 .map-router-container-item {
-  margin-left: 20px;
-}
-
-.choice {
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  height: 20px;
+  margin: 0 15px 15px 20px;
 }
 
 .route-window-line {
