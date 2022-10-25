@@ -1,4 +1,5 @@
 <template>
+ <div v-if="timetable.timetableDays.length > 0" class="title">Меню питания на неделю</div>
   <div v-if="timetable.timetableDays.length > 0" class="week">
     <div v-for="(day, i) in setDay" :key="i" class="form_radio_btn">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
@@ -7,33 +8,51 @@
     </div>
   </div>
   <div class="diets-container">
-    <div v-for="scheduleItem in timetable.timetableDays[selectedNumberDay].scheduleItems" :key="scheduleItem.id">
-      <div class="schedule-name">{{ scheduleItem.name }}</div>
       <div class="table-container">
         <table class="table-list">
           <colgroup>
-            <col width="80%" />
-            <col width="10%" />
+            <col width="78%" />
+            <col width="6%" />
+            <col width="6%" />
             <col width="10%" />
           </colgroup>
-          <thead></thead>
-          <tbody>
+          <thead>
+            <tr>
+              <td style="text-transform: uppercase; font-size: 11px; color: #A1A7BD; padding-left: 44px">Блюдо</td>
+              <td style="text-transform: uppercase; font-size: 11px; color: #A1A7BD;text-align: center;">Вес</td>
+              <td style="text-transform: uppercase; font-size: 11px; color: #A1A7BD;text-align: center;">Цена</td>  
+              <td style="text-transform: uppercase; font-size: 11px; color: #A1A7BD;text-align: center;">Калорийность</td>     
+            </tr>  
+          </thead>
+          <tbody v-for="scheduleItem in timetable.timetableDays[selectedNumberDay].scheduleItems" :key="scheduleItem.id"> 
+            <td colspan="4" style="background:#f1f2f7;">
+              <div v-if="scheduleItem.name" class="schedule-name">
+                <svg class="icon-time">
+                  <use xlink:href="#time"></use>
+                </svg>
+                <p>{{ scheduleItem.name }}</p>
+                <h4 style="font-size: 12px; color:#A1A7BD; padding-left: 15px">с 7:00 до 8:00</h4>
+              </div>
+            </td>
             <tr v-for="dish in scheduleItem.dishes" :key="dish.id">
-              <td>
+              <td style="font-size: 12px;padding-left: 44px">
                 {{ dish.name }}
               </td>
               <td style="text-align: center">
-                <h4>250мл</h4>
+                <h4 style="font-size: 13px; color: #343D5C;">250 г</h4>
+              </td>
+              <td style="text-align: center; font-weight: bold">
+                <h4 style="font-size: 15px; color: #343D5C; font-weight: bold">200р.</h4>
               </td>
               <td style="text-align: center">
-                <h4>200р.</h4>
+                <h4 style="font-size: 13px; color: #2754EB;">180 ккал</h4>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
+  <Time />
 </template>
 
 <script lang="ts">
@@ -41,9 +60,11 @@ import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
 
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import Provider from '@/services/Provider';
+import Time from '@/assets/doctors/svg/Time.svg';
 
 export default defineComponent({
   name: 'DietPage',
+  components: { Time },
   props: {
     timetable: {
       type: Object as PropType<ITimetable>,
@@ -111,7 +132,7 @@ export default defineComponent({
 }
 
 .week {
-  width: 1040px;
+  width: 100%;
   height: 60px;
   display: flex;
   justify-content: space-between;
@@ -123,12 +144,13 @@ button {
   justify-content: center;
   cursor: pointer;
   width: 130px;
-  height: 20px;
+  height: 34px;
   border: 1px solid #a5a5bf;
-  border-radius: 10px;
+  border-radius: 20px;
   user-select: none;
   background: #ffffff;
-  color: #a5a5bf;
+  color: $site_dark_gray;
+  font-size: 15px;
 }
 
 .checked-day {
@@ -144,15 +166,20 @@ button:hover {
 }
 
 .schedule-name {
+  display: inline-block;
   width: 100%;
   display: flex;
   justify-content: left;
   align-items: center;
-  font-size: 18px;
-  color: #a5a5bf;
+  font-size: 15px;
+  color: $site_dark_gray;
+  font-weight: bold;
+  height: 10px;
+  margin: 0px 0 0 8px;
+}
+
+p::first-letter {
   text-transform: uppercase;
-  height: 40px;
-  margin: 0px 0 0 20px;
 }
 
 .diets-container {
@@ -172,7 +199,13 @@ button:hover {
   border-collapse: collapse;
   width: 100%;
 
-  td,
+  td {
+    border-bottom: 1px solid #dcdfe6;
+    padding: 9px 7px 9px 7px;
+    height: auto;
+    position: sticky;
+  }
+
   th {
     border-bottom: 1px solid #dcdfe6;
     padding: 9px 7px 9px 7px;
@@ -209,5 +242,24 @@ h4 {
   font-size: 11px;
   font-weight: normal;
   color: #a3a5b9;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 100%;
+  height: 60px;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.icon-time {
+  margin-right: 12px;
+  width: 14px;
+  height: 14px;
+  fill: $site_dark_gray;
 }
 </style>
