@@ -9,7 +9,9 @@
             </el-form-item>
             <el-form-item label="Заведующий отделением">
               <RemoteSearch placeholder="Выберите заведующего" :key-value="schema.doctor.key" @select="selectDoctorSearch" />
-              <div v-if="division.chief">{{ division.chief.human.getFullName() }}</div>
+              <div v-if="division.chief" @click="Provider.routerPushBlank(`/admin/doctors/${division.chief.human.slug}`)">
+                {{ division.chief.human.getFullName() }}
+              </div>
               <el-button @click="division.removeChief()"> Удалить заведующего</el-button>
             </el-form-item>
             <el-form-item label="Общая информация">
@@ -94,7 +96,7 @@
                     :show-more-button="true"
                     :show-remove-button="true"
                     @remove="removeFromClass(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)"
-                    @showMore="$router.push(`/admin/doctors/${scope.row.id}`)"
+                    @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.human.slug}`)"
                   />
                 </template>
               </el-table-column>
@@ -274,6 +276,7 @@ export default defineComponent({
       schema: Provider.schema,
       selectDoctorSearch,
       removeFromClass,
+      Provider,
     };
   },
 });
