@@ -3,11 +3,13 @@
     <FiltersWrapper>
       <template #header-left-top>
           <button class="back" v-if="selectedGroup" @click="toBack">Назад</button>
-          <template v-if="!selectedGroup">
-            <button class="choice-item" v-for="dietGroup in dietsGroups" :key="dietGroup.id" @click="selectGroup(dietGroup)">
-              {{ dietGroup.name }}
-            </button>
-          </template>
+          <div class="field-2">
+            <template v-if="!selectedGroup">
+              <button class="choice-item" v-for="dietGroup in dietsGroups" :key="dietGroup.id" @click="selectGroup(dietGroup)">
+                {{ dietGroup.name }}
+              </button>
+            </template>
+          </div>
       </template>
       <template #header-left-bottom>
         <template v-if="selectedGroup && !selectedDiet">
@@ -168,7 +170,7 @@ button:hover {
 .choice-item {
   display: inline-block;
   position:relative;
-  margin: 20px 140px 0 0;
+  margin: 25px 70px 0 70px;
 }
 
 .choice-item:after {
@@ -219,7 +221,7 @@ button:hover {
 
 .field-2 {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   flex-wrap: wrap;
   width: 100%;
 }
