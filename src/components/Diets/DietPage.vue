@@ -1,6 +1,6 @@
 <template>
- <div v-if="timetable.timetableDays.length > 0" class="title">Меню питания на неделю</div>
-  <div v-if="timetable.timetableDays.length > 0" class="week">
+  <div v-if="timetable.timetableDays.length > 1" class="title">Меню питания на неделю</div>
+  <div v-if="timetable.timetableDays.length > 1" class="week">
     <div v-for="(day, i) in setDay" :key="i" class="form_radio_btn">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
         {{ day }}
@@ -8,59 +8,62 @@
     </div>
   </div>
   <div class="diets-container">
-      <div class="table-container">
-        <table class="table-list">
-          <colgroup>
-            <col width="78%" />
-            <col width="6%" />
-            <col width="6%" />
-            <col width="10%" />
-          </colgroup>
-          <thead>
-            <tr>
-              <td style="text-transform: uppercase; font-size: 11px; color: #A1A7BD; padding-left: 44px">Блюдо</td>
-              <td style="text-transform: uppercase; font-size: 11px; color: #A1A7BD;text-align: center;">Вес</td>
-              <td style="text-transform: uppercase; font-size: 11px; color: #A1A7BD;text-align: center;">Цена</td>  
-              <td style="text-transform: uppercase; font-size: 11px; color: #A1A7BD;text-align: center;">Калорийность</td>     
-            </tr>  
-          </thead>
-          <tbody v-for="scheduleItem in timetable.timetableDays[selectedNumberDay].scheduleItems" :key="scheduleItem.id"> 
-            <td colspan="4" style="background:#f1f2f7;">
-              <div v-if="scheduleItem.name" class="schedule-name">
-                <svg class="icon-time">
-                  <use xlink:href="#time"></use>
-                </svg>
-                <p>{{ scheduleItem.name }}</p>
-                <h4 style="font-size: 12px; color:#A1A7BD; padding-left: 15px">с 7:00 до 8:00</h4>
-              </div>
+    <div class="table-container">
+      <table class="table-list">
+        <colgroup>
+          <col width="78%" />
+          <col width="6%" />
+          <col width="6%" />
+          <col width="10%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; padding-left: 44px">Блюдо</td>
+            <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
+            <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
+            <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорийность</td>
+          </tr>
+        </thead>
+        <tbody v-for="scheduleItem in timetable.timetableDays[selectedNumberDay].scheduleItems" :key="scheduleItem.id">
+          <td colspan="4" style="background: #f1f2f7">
+            <div class="schedule-name">
+              <svg v-if="!scheduleItem.name.includes('*')" class="icon-time">
+                <use xlink:href="#time"></use>
+              </svg>
+              <svg v-else class="icon-time"></svg>
+              <p>{{ scheduleItem.name.length ? scheduleItem.name : scheduleItem.getPeriod() }}</p>
+              <h4 v-if="scheduleItem.name.length" style="font-size: 12px; color: #a1a7bd; padding-left: 15px">
+                {{ scheduleItem.getPeriod() }}
+              </h4>
+            </div>
+          </td>
+          <tr v-for="dish in scheduleItem.dishes" :key="dish.id">
+            <td style="font-size: 12px; padding-left: 44px">
+              {{ dish.name }}
             </td>
-            <tr v-for="dish in scheduleItem.dishes" :key="dish.id">
-              <td style="font-size: 12px;padding-left: 44px">
-                {{ dish.name }}
-              </td>
-              <td style="text-align: center">
-                <h4 style="font-size: 13px; color: #343D5C;">250 г</h4>
-              </td>
-              <td style="text-align: center; font-weight: bold">
-                <h4 style="font-size: 15px; color: #343D5C; font-weight: bold">200р.</h4>
-              </td>
-              <td style="text-align: center">
-                <h4 style="font-size: 13px; color: #2754EB;">180 ккал</h4>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            <td style="text-align: center">
+              <h4 style="font-size: 13px; color: #343d5c">{{ dish.weight }}</h4>
+            </td>
+            <td style="text-align: center; font-weight: bold">
+              <h4 style="font-size: 15px; color: #343d5c; font-weight: bold">-</h4>
+            </td>
+            <td style="text-align: center">
+              <h4 style="font-size: 13px; color: #2754eb">-</h4>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
   <Time />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
 
+import Time from '@/assets/doctors/svg/Time.svg';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import Provider from '@/services/Provider';
-import Time from '@/assets/doctors/svg/Time.svg';
 
 export default defineComponent({
   name: 'DietPage',
