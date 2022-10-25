@@ -10,55 +10,26 @@
           <h4 class="grey">Этажей:</h4>
           <h4 class="black">{{ building.floors.length }}</h4>
         </div>
-        <!-- <div class="dp-item">
-          <h4 class="grey">Вход:</h4>
-          <h4 class="black">Центральный вход</h4>
-        </div> -->
       </div>
       <div class="right">
-        <div v-if="building.name == 'Корпус 22' || building.name == 'Строение 1А (главное здание)'" class="building-number">{{ parseInt(building.name.match(/\d+/)) + "A"}}</div>
-        <div v-else class="building-number">{{ parseInt(building.name.match(/\d+/)) }}</div>
-          <div class="button-field">
-            <BaseModalButtonClose @click.prevent="$emit('close')" />
-          </div>
-      </div>
+        <div class="building-number">{{ building.number }}</div>
 
-    </div>
-    <!-- <template #header>
-      <div class="card-header">
-        <div class="card-header-title">{{ building.name }}</div>
-        <el-button plain icon="el-icon-close" @click.prevent="$emit('close')"></el-button>
-      </div>
-      <div class="card-header">
-        <el-input v-model="filterString" placeholder="Найти здание" />
-      </div>
-    </template>
-    <el-scrollbar :always="true" max-height="400px">
-      <article class="panel panel-card is-light">
-        <div v-for="floor in building.floors" :key="floor.id">
-          <div v-if="floor.divisions.filter(divisionsFilter).length" class="floor-number">Этаж {{ floor.number }}</div>
-          <div
-            v-for="item in floor.divisions.filter(divisionsFilter)"
-            :key="`${building.id}.${item.id}`"
-            class="panel-block"
-            @click="$router.push(`/divisions/${item.slug}`)"
-          >
-            {{ item.name }}
-          </div>
+        <div class="button-field">
+          <BaseModalButtonClose @click.prevent="$emit('close')" />
         </div>
-      </article>
-    </el-scrollbar> -->
+      </div>
+    </div>
   </el-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
+import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import translit from '@/services/Translit';
-import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 
 export default defineComponent({
   name: 'MapPopover',
@@ -320,9 +291,6 @@ $card-content-outpadding: 24px;
   flex: 3;
 }
 
-
-
-
 .description-point {
   display: flex;
   justify-content: space-between;
@@ -332,7 +300,7 @@ $card-content-outpadding: 24px;
   display: block;
   justify-content: left;
   width: 70%;
-  margin:10px 10px 10px 20px;
+  margin: 10px 10px 10px 20px;
 }
 
 .right {
@@ -346,12 +314,12 @@ $card-content-outpadding: 24px;
 .dp-item {
   display: flex;
   justify-content: left;
-  align-items: center;  
+  align-items: center;
 }
 
 .grey {
   min-width: 65px;
-  margin:0;
+  margin: 0;
   padding: 0;
   font-size: 14px;
   text-transform: uppercase;
@@ -360,7 +328,7 @@ $card-content-outpadding: 24px;
 }
 
 .black {
-  margin:0 0 0 5px;
+  margin: 0 0 0 5px;
   padding: 0;
   font-size: 14px;
   color: $site_dark_gray;
@@ -376,7 +344,7 @@ $card-content-outpadding: 24px;
   border: 1px solid rgb(black, 0.2);
   border-radius: 15px;
   font-weight: bold;
-  color: #F30012;
+  color: #f30012;
 }
 
 .button-field {

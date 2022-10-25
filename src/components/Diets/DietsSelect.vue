@@ -1,22 +1,38 @@
 <template>
   <PageWrapper v-if="mounted" title="Диеты">
-    <el-button v-if="selectedGroup" @click="toBack">Назад</el-button>
-    <template v-if="!selectedGroup">
-      <el-button v-for="dietGroup in dietsGroups" :key="dietGroup.id" @click="selectGroup(dietGroup)">
-        {{ dietGroup.name }}
-      </el-button>
-    </template>
-    <template v-if="selectedGroup && !selectedDiet">
-      <el-button v-for="diet in selectedGroup.diets" :key="diet.id" @click="selectDiet(diet)">
-        {{ diet.siteName }}
-      </el-button>
-    </template>
-    <template v-if="selectedDiet && !selectedAge">
-      <el-button v-for="dietAge in selectedDiet.dietAges" :key="dietAge.id" @click="selectAge(dietAge)">
-        {{ dietAge.name }}
-      </el-button>
-    </template>
-    <DietPage v-if="selectedDiet && selectedAge" :timetable="selectedAge.timetable" :mother-timetable="selectedDiet" />
+    <FiltersWrapper>
+      <template #header-left-top>
+          <button class="back" v-if="selectedGroup" @click="toBack">Назад</button>
+          <div class="field-2">
+            <template v-if="!selectedGroup">
+              <button class="choice-item" v-for="dietGroup in dietsGroups" :key="dietGroup.id" @click="selectGroup(dietGroup)">
+                {{ dietGroup.name }}
+              </button>
+            </template>
+          </div>
+      </template>
+      <template #header-left-bottom>
+        <template v-if="selectedGroup && !selectedDiet">
+          <div class="field">
+            <button class="field-item" v-for="diet in selectedGroup.diets" :key="diet.id" @click="selectDiet(diet)">
+              {{ diet.siteName }}
+            </button>
+          </div>
+        </template>
+        <template v-if="selectedDiet && !selectedAge">
+          <div class="field-2">
+            <button class="field-item-2" v-for="dietAge in selectedDiet.dietAges" :key="dietAge.id" @click="selectAge(dietAge)">
+              {{ dietAge.name }}
+            </button>
+          </div>
+        </template>
+      </template>
+      <template #footer>
+        <div class="page">
+          <DietPage v-if="selectedDiet && selectedAge" :timetable="selectedAge.timetable" :mother-timetable="selectedDiet" />
+        </div>
+      </template> 
+    </FiltersWrapper>
   </PageWrapper>
 </template>
 
@@ -30,10 +46,11 @@ import IDietAge from '@/interfaces/IDietAge';
 import IDietGroup from '@/interfaces/IDietGroup';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 
 export default defineComponent({
   name: 'DietsPage',
-  components: { DietPage, PageWrapper },
+  components: { DietPage, PageWrapper, FiltersWrapper  },
 
   setup() {
     const selectedGroup: Ref<IDietGroup | undefined> = ref(undefined);
@@ -114,4 +131,116 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
+
+
+.container-160 {
+  height: 160px;
+}
+.header-choice {
+  height: 100px;
+  background: #ffffff;
+}
+
+button {
+  height: 40px;
+  font-size: 20px;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  background-color: #ffffff;
+  cursor: pointer;
+  color: $site_gray;
+}
+
+button:hover {
+  color: $site_dark_gray;
+}
+
+.back {
+  color: $site_gray;
+  font-size: 16px;
+}
+
+.back:hover {
+  color: $site_dark_gray;
+}
+
+.choice-item {
+  display: inline-block;
+  position:relative;
+  margin: 25px 70px 0 70px;
+}
+
+.choice-item:after {
+  display:block;
+  content: '';
+  width:95%;
+  height:6px;
+  margin-top:10px;
+  transition: transform 0.3s ease-in-out;
+  border-radius:20px;
+  padding:0 1px;
+  transition:.3s linear;
+}
+
+.choice-item:hover:after{
+  height:6px;
+  background:transparent;
+  border-radius:6px;
+  border:1px solid #2754EB;
+  background:#2754EB;
+}
+
+.page {
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.field-item {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 400px;
+  font-size: 14px;
+  border-radius: $normal-border-radius;
+}
+
+.field-item:hover {
+  background: #2754EB;
+  color:#ffffff;
+}
+
+.field-2 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.field-item-2 {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 150px;
+  font-size: 14px;
+  border-radius: $normal-border-radius;
+  margin-left: 30px;
+}
+
+.field-item-2:hover {
+  background: #2754EB;
+  color:#ffffff; 
+}
+
+
+</style>

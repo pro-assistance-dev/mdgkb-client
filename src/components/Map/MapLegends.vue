@@ -4,7 +4,7 @@
       <svg class="legend-icon" :class="`icon-${legend.href}`">
         <use :xlink:href="'#' + legend.href"></use>
       </svg>
-      <span class="legend-text">{{ legend.label }}</span>
+      <span class="legend-text" v-html="legend.label"></span>
       <svg v-for="icon in legend.icons" :key="icon" class="legend-icon" :class="`icon-${icon}`" @click.stop="selectLegend(icon)">
         <use :xlink:href="'#' + icon"></use>
       </svg>

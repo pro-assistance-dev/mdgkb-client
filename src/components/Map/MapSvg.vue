@@ -125,7 +125,7 @@ export default defineComponent({
       buildingId.value = '';
       item.classList.add('flicker');
       building.value = props.buildings.find((b) => {
-        return b.number === item.id.substr(2, 2);
+        return b.number === item.id.substr(2);
       });
       buildingId.value = item.id;
       buildingId.value;
