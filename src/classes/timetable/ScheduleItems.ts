@@ -53,7 +53,18 @@ export default class ScheduleItem implements IScheduleItem {
   }
 
   getPeriod(): string {
-    return `${this.getTime(this.startTime)}-${this.getTime(this.endTime)}`;
+    const s = this.getTime(this.startTime);
+    const e = this.getTime(this.endTime);
+    if (!e) {
+      return s;
+    }
+    if (!s) {
+      return e;
+    }
+    if (!s && !e) {
+      return '';
+    }
+    return `${s}-${e}`;
   }
 
   public getTime(dateString: string): string {
