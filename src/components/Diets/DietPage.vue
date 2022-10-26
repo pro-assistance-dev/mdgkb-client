@@ -73,10 +73,6 @@ export default defineComponent({
       type: Object as PropType<ITimetable>,
       required: true,
     },
-    motherTimetable: {
-      type: Object as PropType<ITimetable>,
-      required: true,
-    },
   },
   setup(props) {
     // const diets: Ref<IDiet[]> = computed<IDiet[]>(() => Provider.store.getters['diets/items']);
