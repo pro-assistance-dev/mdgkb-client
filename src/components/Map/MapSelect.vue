@@ -9,24 +9,39 @@
         style="width: 380px"
         @change="selectAChangeHandler"
       >
-        <!--        <el-option-group>-->
-        <!--          <el-option v-for="streetEntrance in streetEntrances" :key="streetEntrance.id" :label="streetEntrance.name" />-->
-        <!--        </el-option-group>-->
-        <!--        <el-option-group>-->
-        <!--          <el-option v-for="park in parkings" :key="park.value" :label="park.label" />-->
-        <!--        </el-option-group>-->
-        <!--        <el-option-group />-->
         <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)" :key="building">
           <div class="item-box">
-            <div class="el-select-dropdown__item" style="cursor: default; text-transform: uppercase; color:#A1A7BD">Строение {{ building.number }}</div>
+            <div class="el-select-dropdown__item" style="cursor: default; text-transform: uppercase; color: #a1a7bd">
+              Строение {{ building.number }}
+            </div>
             <template v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
-              <div class="el-select-dropdown__item" style="padding-left: 40px; cursor: default; text-transform: uppercase; color:#A1A7BD">Этаж {{ floor.number }}</div>
+              <div class="el-select-dropdown__item" style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
+                Этаж {{ floor.number }}
+              </div>
               <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id" :label="division.name">
-                <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color:#343D5C">{{ division.name }}</span>
+                <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{
+                  division.name
+                }}</span>
               </el-option>
             </template>
           </div>
         </template>
+        <!--        <div class="item-box">-->
+        <!--          <el-option-group>-->
+        <!--            <el-option v-for="streetEntrance in streetEntrances" :key="streetEntrance.id" :label="streetEntrance.name">-->
+        <!--              <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{-->
+        <!--                streetEntrance.name-->
+        <!--              }}</span>-->
+        <!--            </el-option>-->
+        <!--          </el-option-group>-->
+        <!--        </div>-->
+        <!--        <div class="item-box">-->
+        <!--          <el-option-group>-->
+        <!--            <el-option v-for="park in parkings" :key="park.value" :label="park.label">-->
+        <!--              <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{ park.label }}</span>-->
+        <!--            </el-option>-->
+        <!--          </el-option-group>-->
+        <!--        </div>-->
       </el-select>
       <div class="button-box">
         <button v-if="showRouterButton" class="route-b" @click="$emit('openMapRouter', selectA)">Маршрут</button>
@@ -100,8 +115,6 @@ export default defineComponent({
     const svgns = 'http://www.w3.org/2000/svg';
 
     const selectAChangeHandler = (id: string) => {
-      console.log(id);
-
       // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
       buildings.value.forEach((b: IBuilding) => {
