@@ -41,6 +41,7 @@ import IDivision from '@/interfaces/IDivision';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -57,6 +58,7 @@ export default defineComponent({
     // ImageGallery,
     Comments,
     ScansSlider,
+    CollapsContainer,
   },
 
   setup() {
