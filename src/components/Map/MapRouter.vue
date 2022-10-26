@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
+import { ElLoading, ElMessage } from 'element-plus';
 import cloneDeep from 'lodash/cloneDeep';
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
@@ -138,7 +138,12 @@ export default defineComponent({
         console.log('заданное строение не найдено');
         return;
       }
-
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Строим маршрут',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)',
+      });
       const findPointById = (id: string): Element | undefined => {
         return routesArrayRef.find((el) => el.getAttribute('id') === id);
       };
@@ -216,6 +221,7 @@ export default defineComponent({
         newRouteRef.appendChild(newLine);
       });
       store.commit('map/setLoading', false);
+      loading.close();
       ElMessage({ message: 'Маршрут построен', type: 'success' });
     };
 
