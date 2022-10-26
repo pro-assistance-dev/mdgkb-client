@@ -1,13 +1,15 @@
 <template>
-  <PageWrapper v-if="mounted" title="Диеты">
+  <PageWrapper v-if="mounted" title="Питание и диеты">
     <FiltersWrapper>
       <template #header-left-top>
           <button class="back" v-if="selectedGroup" @click="toBack">Назад</button>
           <div class="field-2">
             <template v-if="!selectedGroup">
-              <button class="choice-item" v-for="dietGroup in dietsGroups" :key="dietGroup.id" @click="selectGroup(dietGroup)">
-                {{ dietGroup.name }}
-              </button>
+              <div v-for="dietGroup in dietsGroups" :key="dietGroup.id" class="field-item-3">
+                <button class="choice-item"  @click="selectGroup(dietGroup)">
+                  {{ dietGroup.name }}
+                </button>
+              </div>
             </template>
           </div>
       </template>
@@ -170,7 +172,6 @@ button:hover {
 .choice-item {
   display: inline-block;
   position:relative;
-  margin: 25px 70px 0 70px;
 }
 
 .choice-item:after {
@@ -217,6 +218,7 @@ button:hover {
 .field-item:hover {
   background: #2754EB;
   color:#ffffff;
+
 }
 
 .field-2 {
@@ -240,6 +242,14 @@ button:hover {
 .field-item-2:hover {
   background: #2754EB;
   color:#ffffff; 
+}
+
+.field-item-3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  margin: 25px 10px 0 10px;
 }
 
 
