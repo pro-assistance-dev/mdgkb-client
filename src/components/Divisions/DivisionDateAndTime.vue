@@ -1,50 +1,55 @@
 <template>
-  <CollapsContainer  header-title="Дата и время приема">
-    <div v-if="true" class="Date-and-time">
-      <div id="block-footer" class="block">
-        <div class="left-field">
-          <div class="calendar-container">
-            <calendar ref="calendar" :min-date="new Date()" :attributes="attr" class="custom-calendar" locale="ru" @dayclick="chooseDay">
-            </calendar>
-          </div>
-        </div>
-
-        <div class="right-field">
-          <div class="block-title">Время приема:</div>
-          <div class="button-block">
-            <ul class="button-block">
-              <li>
-                <button class="time">19:00</button>
-              </li>
-              <li>
-                <button class="time">19:20</button>
-              </li>
-              <li>
-                <button class="time">19:40</button>
-              </li>
-              <li>
-                <button class="time">19:55</button>
-              </li>
-            </ul>
-          </div>
-          <div class="adress">
-            <div class="block-title">Адрес приема:</div>
-            <div class="block-text">
-              <a @click="$router.push(`/map/${division.id}`)">
-                {{ division.address }}
-              </a>
+  <CollapsContainer v-if="true" tab-id="1" :collapsed="false">
+    <template #inside-title>
+      <div class="title-in">Дата и время приема</div>
+    </template>
+    <template #inside-content>
+      <div v-if="true" class="Date-and-time">
+        <div id="block-footer" class="block">
+          <div class="left-field">
+            <div class="calendar-container">
+              <calendar ref="calendar" :min-date="new Date()" :attributes="attr" class="custom-calendar" locale="ru" @dayclick="chooseDay">
+              </calendar>
             </div>
           </div>
-          <div class="block-footer">
-            <button v-if="isAuth" class="make" @click="$router.push('/appointments/oms')">Запись на прием</button>
-            <button v-if="!isAuth" class="make-grey">Запись на прием</button>
-            <div v-if="!isAuth" class="make-button">
-              Для онлайн записи на прием необходимо войти в <a @click="openLoginModal">Личный кабинет</a>
+
+          <div class="right-field">
+            <div class="block-title">Время приема:</div>
+            <div class="button-block">
+              <ul class="button-block">
+                <li>
+                  <button class="time">19:00</button>
+                </li>
+                <li>
+                  <button class="time">19:20</button>
+                </li>
+                <li>
+                  <button class="time">19:40</button>
+                </li>
+                <li>
+                  <button class="time">19:55</button>
+                </li>
+              </ul>
+            </div>
+            <div class="adress">
+              <div class="block-title">Адрес приема:</div>
+              <div class="block-text">
+                <a @click="$router.push(`/map/${division.id}`)">
+                  {{ division.address }}
+                </a>
+              </div>
+            </div>
+            <div class="block-footer">
+              <button v-if="isAuth" class="make" @click="$router.push('/appointments/oms')">Запись на прием</button>
+              <button v-if="!isAuth" class="make-grey">Запись на прием</button>
+              <div v-if="!isAuth" class="make-button">
+                Для онлайн записи на прием необходимо войти в <a @click="openLoginModal">Личный кабинет</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </CollapsContainer>
 </template>
 
@@ -126,9 +131,6 @@ html {
 
 .Date-and-time {
   display: block;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 25px 40px 25px;
@@ -143,7 +145,6 @@ html {
   height: 60px;
   align-items: center;
   font-weight: bold;
-  padding-bottom: 20px;
 }
 
 .block {

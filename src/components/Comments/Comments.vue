@@ -1,16 +1,22 @@
 <template>
-  <div id="reviews" :class="{ reviews: isReviews }">
-    <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</div>
-    <div id="leave-a-review" class="leave-a-review">
-      <!-- <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4> -->
-      <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
-    </div>
-    <div v-if="comments.length" id="comments-block">
-      <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
-        <CommentCard :comment="item.comment" :is-review="isReviews" />
+  <CollapsContainer  tab-id="100" :isCollaps="false">
+    <template #inside-title>
+      <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</div>
+    </template>  
+    <template #inside-content>
+      <div id="reviews" :class="{ reviews: isReviews }">
+        <div id="leave-a-review" class="leave-a-review">
+          <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4>
+          <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
+        </div>
+        <div v-if="comments.length" id="comments-block">
+          <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
+            <CommentCard :comment="item.comment" :is-review="isReviews" />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </template>  
+  </CollapsContainer>
 </template>
 
 <script lang="ts">
@@ -21,10 +27,11 @@ import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
 import IWithComment from '@/interfaces/IWithComment';
 import scroll from '@/services/Scroll';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'Comments',
-  components: { CommentCard, CommentForm },
+  components: { CommentCard, CommentForm, CollapsContainer },
   props: {
     storeModule: {
       type: String,
@@ -79,9 +86,6 @@ html {
 
 .reviews {
   display: block;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;

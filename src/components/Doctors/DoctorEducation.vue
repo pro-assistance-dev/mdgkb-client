@@ -1,26 +1,34 @@
 <template>
-  <div v-if="doctor.educations.length" class="education">
-    <div class="title-in">Образование</div>
-    <div class="point">
-      <ul class="point-list">
-        <li v-for="education in doctor.educations" :key="education.id" class="point-list-item">
-          <div class="point-info">
-            <h3 class="point-year">{{ education.getEndYear() }}</h3>
-            <h4 class="point-text">{{ education.institution }}. {{ education.type }}. {{ education.specialization }}</h4>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <CollapsContainer v-if="doctor.educations.length" tab-id="1" :collapsed="false">
+    <template #inside-title>
+      <div class="title-in">Образование</div>
+    </template>  
+    <template #inside-content>
+      <div v-if="doctor.educations.length" class="education">
+        <div class="point">
+          <ul class="point-list">
+            <li v-for="education in doctor.educations" :key="education.id" class="point-list-item">
+              <div class="point-info">
+                <h3 class="point-year">{{ education.getEndYear() }}</h3>
+                <h4 class="point-text">{{ education.institution }}. {{ education.type }}. {{ education.specialization }}</h4>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </template>  
+  </CollapsContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 import IDoctor from '@/interfaces/IDoctor';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DoctorEducation',
+  components: { CollapsContainer },
   props: {
     doctor: { type: Object as PropType<IDoctor>, required: true },
   },
@@ -50,9 +58,6 @@ html {
 
 .education {
   display: block;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;

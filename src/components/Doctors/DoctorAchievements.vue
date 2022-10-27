@@ -1,25 +1,33 @@
 <template>
-  <div  v-if="doctor.regalias.length || doctor.academicDegree.length > 1 || doctor.academicRank.length > 1" data-test="achievements-component" class="services">
-    <div class="title-in">Достижения и награды</div>
-    <div class="point">
-      <ul class="services-list">
-        <li v-if="doctor.academicDegree.length > 1" data-test="academic-degree" class="services-list-item"><h4 class="point-text">{{ doctor.academicDegree }}</h4></li>
-        <li v-if="doctor.academicRank.length > 1" data-test="academic-rank" class="services-list-item"><h4 class="point-text">{{ doctor.academicRank }}</h4></li>
-        <li v-for="regalia in doctor.regalias" :key="regalia.id" data-test="regalia-list" class="services-list-item">
-          <h4 class="point-text">{{ regalia.name }}</h4>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <CollapsContainer v-if="doctor.regalias.length || doctor.academicDegree.length > 1 || doctor.academicRank.length > 1" tab-id="10" :collapsed="false">
+    <template #inside-title>
+      <div class="title-in">Достижения и награды</div>
+    </template>
+    <template #inside-content>
+      <div  v-if="doctor.regalias.length || doctor.academicDegree.length > 1 || doctor.academicRank.length > 1" data-test="achievements-component" class="services">
+        <div class="point">
+          <ul class="services-list">
+            <li v-if="doctor.academicDegree.length > 1" data-test="academic-degree" class="services-list-item"><h4 class="point-text">{{ doctor.academicDegree }}</h4></li>
+            <li v-if="doctor.academicRank.length > 1" data-test="academic-rank" class="services-list-item"><h4 class="point-text">{{ doctor.academicRank }}</h4></li>
+            <li v-for="regalia in doctor.regalias" :key="regalia.id" data-test="regalia-list" class="services-list-item">
+              <h4 class="point-text">{{ regalia.name }}</h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </template>
+  </CollapsContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 import IDoctor from '@/interfaces/IDoctor';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DoctorAchievements',
+  components: { CollapsContainer },
   props: {
     doctor: { type: Object as PropType<IDoctor>, required: true },
   },
@@ -90,9 +98,6 @@ html {
 
 .services {
   display: block;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;

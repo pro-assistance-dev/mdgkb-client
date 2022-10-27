@@ -1,0 +1,9 @@
+<svg width="0" height="0" class="hidden">
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="arrow-down">
+    <path d="M5 6L10 11L15 6L17 7L10 14L3 7L5 6Z"></path>
+  </symbol>
+
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="arrow-up">
+    <path d="M15 14L10 9L5 14L3 13L10 6L17 13L15 14Z"></path>
+  </symbol>
+</svg>

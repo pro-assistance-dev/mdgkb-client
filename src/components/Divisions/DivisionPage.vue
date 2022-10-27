@@ -3,17 +3,12 @@
   <div v-if="mounted" class="division-page-container" data-test="division-component">
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
-    <div class="card">
-      <!--      <component :is="'MainContainer'" v-if="mounted && division.info.length > 0" header-title="Об отделении">-->
-      <div class="title-in">Информация об отделении</div>
-      <div v-html="division.info" />
-      <!--      </component>-->
-    </div>
+    <DivisionInfoBlock />
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
     <DoctorsCarousel :doctors="division.doctors" header-title="Специалисты отделения" />
     <NewsSlider :news="division.newsDivisions" />
-    <!-- <DivisionCertificates /> -->
+    <DivisionCertificates />
     <ScansSlider :gallery-elements="division.certificates" />
     <DivisionDateAndTime :division="division" />
     <component :is="'MainContainer'" v-if="mounted && division.divisionVideos.length" header-title="Видео">
@@ -42,6 +37,9 @@ import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
+import DivisionCertificates from '@/components/Divisions/DivisionCertificates.vue';
+
+import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -53,12 +51,13 @@ export default defineComponent({
     DoctorsCarousel,
     NewsSlider,
     MainContainer,
-    // DivisionCertificates,
+    DivisionCertificates,
     DivisionDateAndTime,
     // ImageGallery,
     Comments,
     ScansSlider,
     CollapsContainer,
+    DivisionInfoBlock,
   },
 
   setup() {
