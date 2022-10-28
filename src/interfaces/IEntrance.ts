@@ -12,4 +12,7 @@ export default interface IEntrance {
   buildingId?: string;
   divisions?: IDivision[];
   setName?: () => void;
+
+  getBuildingNumber: () => string;
+  getEntranceNumber: () => string;
 }

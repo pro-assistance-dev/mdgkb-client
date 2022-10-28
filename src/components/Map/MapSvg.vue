@@ -4,9 +4,16 @@
       <Map id="map-svg" :object-a="objectA" />
       <MapLegends @select-legend="selectLegend" />
       <div class="fixed" style="position: fixed; right: 50px; top: 135px">
-        <MapSelect :show-router-button="!isShowMapRouter" @selectDivision="selectDivision" @openMapRouter="openMapRouter" />
+        <MapSelect :show-router-button="!isShowMapRouter" @selectObject="selectObject" @openMapRouter="openMapRouter" />
         <MapPopover v-if="buildingId && position && building" :position="position" :building="building" @close="closePopover"></MapPopover>
-        <MapRouter v-if="isShowMapRouter" :object-a="objectA" @close="closeMapRouter" />
+        <MapRouter
+          v-if="isShowMapRouter"
+          :pre-selected-object="objectA"
+          :start-point-ref="startPointRef"
+          :end-point-ref="endPointRef"
+          @selectObject="selectObject"
+          @close="closeMapRouter"
+        />
       </div>
       <div v-if="chosenGate" ref="enterPopoverRef" class="enter-popover">
         <div class="card-item enter-popover-container">
@@ -25,10 +32,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Map from '@/assets/img/map.svg';
+import Division from '@/classes/Division';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import MapLegends from '@/components/Map/MapLegends.vue';
 import MapPopover from '@/components/Map/MapPopover.vue';
@@ -38,6 +44,8 @@ import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
+import IMapObject from '@/interfaces/IMapObject';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'MapSvg',
@@ -56,15 +64,19 @@ export default defineComponent({
     },
   },
   async setup(props) {
-    const route = useRoute();
     let buildingId = ref('');
     let position = ref();
     let building = ref();
-    const objectA: Ref<IDivision | undefined> = ref(undefined);
-    const store = useStore();
+
+    let selectedBuilding = '';
+    let selectedEntrance = '';
+
+    let startPointRef: Ref<Element | undefined> = ref(undefined);
+    let endPointRef: Ref<Element | undefined> = ref(undefined);
+
+    const objectA: Ref<IMapObject | undefined> = ref(undefined);
     const enterPopoverRef = ref<HTMLDivElement>();
-    const enterRouterRef = ref<HTMLDivElement>();
-    const gates: Ref<IGate[]> = computed(() => store.getters['gates/items']);
+    const gates: Ref<IGate[]> = computed(() => Provider.store.getters['gates/items']);
     const chosenGate: Ref<IGate | undefined> = ref();
     const isShowMapRouter: Ref<boolean> = ref(false);
 
@@ -72,20 +84,19 @@ export default defineComponent({
       isShowMapRouter.value = false;
     };
 
-    const openMapRouter = async (objA: IDivision | undefined) => {
+    const openMapRouter = async (objA: IMapObject | undefined) => {
       objectA.value = objA;
       isShowMapRouter.value = true;
     };
 
     onBeforeMount(async (): Promise<void> => {
-      await store.dispatch('gates/getAll');
+      await Provider.store.dispatch('gates/getAll');
       if (gates.value.length > 0) {
         chosenGate.value = gates.value[0];
       }
     });
 
     onMounted(() => {
-      // decorAnimate();
       hideRoutePoints();
       toggleEnterNumbers();
       getRouteInfo();
@@ -110,7 +121,9 @@ export default defineComponent({
           chosenGate.value = el;
         }
       });
-      if (!enterPopoverRef.value) return;
+      if (!enterPopoverRef.value) {
+        return;
+      }
       enterPopoverRef.value.style.display = 'unset';
       enterPopoverRef.value.style.top = item.getBoundingClientRect().y + document.documentElement.scrollTop - 100 + 'px';
       enterPopoverRef.value.style.left = item.getBoundingClientRect().x - 300 + 'px';
@@ -132,7 +145,7 @@ export default defineComponent({
     };
 
     const getRouteInfo = (): void => {
-      const divisionId = route.params['id'];
+      const divisionId = Provider.route().params['id'];
       props.buildings.forEach((b: IBuilding) => {
         b.floors.forEach((f: IFloor) => {
           const ddd = f.divisions?.find((d: IDivision) => d.id === divisionId);
@@ -215,25 +228,6 @@ export default defineComponent({
       });
     };
 
-    // const decorAnimate = (): void => {
-    //   const decor = document.getElementById('decor');
-    //   if (!decor) {
-    //     return;
-    //   }
-    //   decor.childNodes.forEach((n) =>
-    //     n.addEventListener('mouseover', () => {
-    //       treeJump(n as HTMLElement);
-    //     })
-    //   );
-    // };
-
-    // const treeJump = (item: HTMLElement) => {
-    //   item.classList.add('jump');
-    //   setTimeout(function () {
-    //     item.classList.remove('jump');
-    //   }, 1000);
-    // };
-
     const toggleEnterNumbers = () => {
       const numbers = document.getElementById('enter-numbers');
       if (numbers) {
@@ -253,38 +247,77 @@ export default defineComponent({
       routePointsRef.style.visibility = 'hidden';
     };
 
-    const selectDivision = (div: IDivision): void => {
-      if (!div.entrance?.building?.number) {
+    const selectObject = (obj: IMapObject, isStartObject: boolean): void => {
+      if (!obj) {
         return;
       }
-      const numberOfBuilding = document.getElementById(`num-${div.entrance?.building?.number}`);
-      const building = document.getElementById(`b-${div.entrance?.building?.number}`);
-      if (numberOfBuilding && building) {
-        selectBuilding(numberOfBuilding, building);
+      selectedBuilding = obj.getBuildingNumber();
+      selectedEntrance = obj.getEntranceNumber();
+      if (obj instanceof Division) {
+        const numberOfBuilding = document.getElementById(`num-${selectedBuilding}`);
+        const building = document.getElementById(`b-${selectedBuilding}`);
+        if (numberOfBuilding && building) {
+          selectBuilding(numberOfBuilding, building);
+        }
       }
-      objectA.value = div;
+      objectA.value = obj;
+      setSelectedMapPoint(isStartObject);
+      setPointsRef(isStartObject);
+    };
+
+    // Show chosen pointer on map
+    const setSelectedMapPoint = (isStartObject: boolean) => {
+      const mapPointsContainer = document.getElementById('map-points');
+      if (!mapPointsContainer) {
+        return;
+      }
+      const point = mapPointsContainer.querySelector(`[data-building='${selectedBuilding}'][data-entrance='${selectedEntrance}']`);
+      const flagContainer = document.getElementById('flag');
+      if (!point || !flagContainer) {
+        return;
+      }
+      const flag = (point as HTMLElement).cloneNode(true);
+      (flag as HTMLElement).classList.remove('map-point');
+      flagContainer.querySelector(`${isStartObject ? '#a' : '#b'}-flag`)?.remove();
+      (flag as HTMLElement).style.fill = isStartObject ? '#f3911c' : '#006bb5';
+      (flag as HTMLElement).id = isStartObject ? 'a-flag' : 'b-flag';
+      flagContainer.appendChild(flag);
+    };
+
+    const setPointsRef = (isStartObj: boolean): void => {
+      const routePointsRef = document.getElementById('route-points');
+      if (!routePointsRef) {
+        console.log('id route-points не найден');
+        return;
+      }
+      const routesArrayRef = Array.from(routePointsRef.children);
+      const r = routesArrayRef.find((el) => {
+        return el.getAttribute('data-building') === selectedBuilding && el.getAttribute('data-entrance') === selectedEntrance;
+      });
+      if (isStartObj) {
+        startPointRef.value = r;
+      } else {
+        endPointRef.value = r;
+      }
     };
 
     const selectLegend = (legendClass: string): void => {
       const legends = document.getElementsByClassName(legendClass);
       for (const legend of legends) {
         legend.classList.add('jump');
-
-        setTimeout(function () {
-          legend.classList.remove('jump');
-          legend.classList.remove('jump-transform');
+        setTimeout(() => {
+          legend.classList.remove('jump', 'jump-transform');
           legend.classList.add('remove-jump');
         }, 1000);
-
-        setTimeout(function () {
-          legend.classList.remove('remove-jump');
-        }, 2000);
+        setTimeout(() => legend.classList.remove('remove-jump'), 2000);
       }
     };
 
     return {
+      startPointRef,
+      endPointRef,
       selectLegend,
-      selectDivision,
+      selectObject,
       objectA,
       closePopover,
       building,

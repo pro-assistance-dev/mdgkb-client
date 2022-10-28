@@ -3,4 +3,7 @@ export default interface IStreetEntranceRef {
   name?: string;
   building: string;
   entrance: string;
+
+  getBuildingNumber: () => string;
+  getEntranceNumber: () => string;
 }

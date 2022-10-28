@@ -182,4 +182,12 @@ export default class Division implements IDivision {
     doctorDivision.divisionId = this.id;
     this.doctorsDivisions.push(doctorDivision);
   }
+
+  getBuildingNumber(): string {
+    return String(this.entrance?.building?.number);
+  }
+
+  getEntranceNumber(): string {
+    return String(this.entrance?.number);
+  }
 }
