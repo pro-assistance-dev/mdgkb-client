@@ -72,4 +72,7 @@ export default interface IDivision {
   doctorsDivisions: IDoctorDivision[];
   doctorsDivisionsForDelete: string[];
   addDoctorDivision: (doctor: IDoctor) => void;
+
+  getBuildingNumber: () => string;
+  getEntranceNumber: () => string;
 }

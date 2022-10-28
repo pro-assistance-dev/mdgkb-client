@@ -43,7 +43,11 @@ export default class Building implements IBuilding {
       //   return 0;
       // });
     } else {
-      this.entrances = [new Entrance({ number: 1, buildingId: i.id })];
+      const e = new Entrance();
+      e.number = 1;
+      e.buildingId = i.id;
+
+      this.entrances = [e];
     }
   }
   getFloorsWithDivisions(): IFloor[] {
