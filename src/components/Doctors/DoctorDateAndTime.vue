@@ -1,10 +1,29 @@
 <template>
-  <div v-if="false" class="Date-and-time">
-    <div class="title-in">Дата и время приема</div>
-  </div>
+  <CollapsContainer v-if="false" tab-id="12" :collapsed="false">
+    <template #inside-title>
+      <div class="title-in">Дата и время приема</div>
+    </template>
+    <template #inside-content>
+      <div v-if="false" class="Date-and-time">
+      </div>
+    </template>
+  </CollapsContainer>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+import IDoctor from '@/interfaces/IDoctor';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
+
+export default defineComponent({
+  name: 'DoctorDateAndTime',
+  components: { CollapsContainer },
+  props: {
+    doctor: { type: Object as PropType<IDoctor>, required: true },
+  },
+});
+</script>
 
 <style scoped lang="scss">
 @import '@/assets/styles/elements/base-style.scss';
@@ -30,9 +49,6 @@ html {
 
 .Date-and-time {
   display: block;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;
