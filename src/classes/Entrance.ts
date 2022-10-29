@@ -31,4 +31,12 @@ export default class Entrance implements IEntrance {
     this.name = this.building.address + ', вход ' + this.number;
     this.address = this.name;
   }
+
+  getBuildingNumber(): string {
+    return String(this.building?.number);
+  }
+
+  getEntranceNumber(): string {
+    return String(this.number);
+  }
 }

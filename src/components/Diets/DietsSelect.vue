@@ -39,10 +39,10 @@
       <template #footer>
 
         <div class="page">
-          <h2 v-if="selectedDiet && selectedAge" style="text-align: center">{{ selectedDiet.siteName }}</h2>
+          <h3 v-if="selectedDiet && selectedAge" style="text-align: left; color:#A1A7BD; margin:10px 0px 20px 20px">{{ selectedDiet.siteName }}</h3>
           <DietPage v-if="selectedDiet && selectedAge" :timetable="selectedAge.timetable" />
           <div v-if="motherDiet && selectedAge">
-            <h2 v-if="motherDiet" style="text-align: center">{{ motherDiet.siteName }}</h2>
+            <h3 v-if="motherDiet" style="text-align: left; color:#A1A7BD; margin:10px 0px 20px 20px">{{ motherDiet.siteName }}</h3>
             <DietPage v-if="selectedDiet && selectedAge && motherDiet" :timetable="motherDiet.dietAges[0].timetable" />
             <div></div>
           </div>
