@@ -3,7 +3,7 @@
     <FiltersWrapper>
       <template #header-left-top>
         <div class="route-block">
-          <button v-if="selectedGroup" class="diet-router" @click="toMenu">Мeню&nbsp;выбора/</button>
+          <button v-if="selectedGroup" class="diet-router" @click="toMenu">Питание и диеты/</button>
           <div v-for="item in DietRouter" :key="item.id">
             <button v-if="item.goBack == 'toDiet'" class="diet-router" @click="toDiet">{{ item.name }}/</button>
             <button v-if="item.goBack == 'toAge'" class="diet-router" @click="toAge">{{ item.name }}/</button>
