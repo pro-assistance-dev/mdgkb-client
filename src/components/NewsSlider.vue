@@ -1,20 +1,25 @@
 <template>
-  <div v-if="carousel.length" class="education">
-  <!-- <div class="education"> -->
-    <div class="title-in">Статьи</div>
-    <el-carousel
-      v-if="mounted"
-      ref="carouselRef"
-      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
-      :interval="5000"
-      indicator-position="outside"
-      height="350px"
-    >
-      <el-carousel-item v-for="(newsGroup, i) in carousel" :key="i">
-        <NewsCard v-for="item in newsGroup" :key="item.id" :news="item.news" :article="true" />
-      </el-carousel-item>
-    </el-carousel>
-  </div>
+  <CollapsContainer v-if="carousel.length" tab-id="7" :collapsed="false">
+    <template #inside-title>
+      <div class="title-in">Статьи</div>
+    </template>
+    <template #inside-content>
+      <div v-if="carousel.length" class="education">
+        <el-carousel
+          v-if="mounted"
+          ref="carouselRef"
+          v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+          :interval="5000"
+          indicator-position="outside"
+          height="350px"
+        >
+          <el-carousel-item v-for="(newsGroup, i) in carousel" :key="i">
+            <NewsCard v-for="item in newsGroup" :key="item.id" :news="item.news" :article="true" />
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </template>
+  </CollapsContainer>
 </template>
 
 <script lang="ts">
@@ -23,10 +28,11 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import IWithNews from '@/interfaces/IWithNews';
 import makeCarousel from '@/services/MakeCarousel';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'NewsSlider',
-  components: { NewsCard },
+  components: { NewsCard, CollapsContainer },
   props: {
     news: {
       type: Object as PropType<IWithNews[]>,
@@ -81,9 +87,6 @@ html {
 
 .education {
   display: block;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;

@@ -8,116 +8,87 @@
         </div>
       </div>
       <div class="map-router-container-item">
-        <el-select v-model="selectAId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectAChangeHandler">
+        <el-select
+          v-model="selectAId"
+          class="route-button"
+          filterable
+          placeholder=" "
+          style="width: 365px"
+          @change="selectObject(selectAId, true)"
+        >
           <el-option v-for="item in selectItems.filter((el) => el.id !== selectBId)" :key="item.id" :label="item.name" :value="item.id">
           </el-option>
         </el-select>
-        <button class="a-btn" @click="clickButtonA">Откуда</button>
+        <button class="a-btn" @click="clickPointButton(true)">Откуда</button>
       </div>
       <div class="map-router-container-item">
-        <el-select v-model="selectBId" class="route-button" filterable placeholder=" " style="width: 365px" @change="selectBChangeHandler">
+        <el-select
+          v-model="selectBId"
+          class="route-button"
+          filterable
+          placeholder=" "
+          style="width: 365px"
+          @change="selectObject(selectBId, false)"
+        >
           <el-option v-for="item in selectItems.filter((el) => el.id !== selectAId)" :key="item.id" :label="item.name" :value="item.id">
           </el-option>
         </el-select>
-        <button class="b-btn" @click="clickButtonB">Куда</button>
+        <button class="b-btn" @click="clickPointButton(false)">Куда</button>
       </div>
     </div>
   </div>
-  <!-- <el-button @click="toggleEnterNumbers">Показать нумерацию</el-button> -->
-  <Change />
 </template>
 
 <script lang="ts">
-import { ElLoading, ElMessage } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import cloneDeep from 'lodash/cloneDeep';
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
-import Change from '@/assets/svg/Map/Change.svg';
-import Division from '@/classes/Division';
-import Entrance from '@/classes/Entrance';
+import MapPoint from '@/classes/MapPoint';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import IBuilding from '@/interfaces/IBuilding';
-import IDivision from '@/interfaces/IDivision';
 import IEntrance from '@/interfaces/IEntrance';
 import IFloor from '@/interfaces/IFloor';
-import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
+import IGate from '@/interfaces/IGate';
+import IMapObject from '@/interfaces/IMapObject';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'MapRouter',
   components: {
     BaseModalButtonClose,
-    Change,
   },
   props: {
-    objectA: {
-      type: Object as PropType<IDivision | undefined>,
+    preSelectedObject: {
+      type: Object as PropType<IMapObject>,
+      required: true,
+    },
+    startPointRef: {
+      type: Object as PropType<Element | undefined>,
+      required: true,
+    },
+    endPointRef: {
+      type: Object as PropType<Element | undefined>,
+      required: true,
     },
   },
-  emits: ['close'],
+  emits: ['close', 'selectObject'],
   setup(props, { emit }) {
-    const store = useStore();
-    const entrances = computed(() => store.getters['entrances/items']);
-    const buildings = computed(() => store.getters['buildings/buildings']);
-    const streetEntrances: Ref<IStreetEntranceRef[]> = ref([
-      { id: 'main-enter-1', name: 'Вход на территорию больницы', building: 'main-enter', entrance: '1' },
-      { id: 'main-enter-2', name: 'Вход для пациентов, записанных на прием в КДЦ', building: 'main-enter', entrance: '2' },
-      { id: 'main-enter-3', name: 'Вход для пациентов за экстренной медицинской помощью', building: 'main-enter', entrance: '3' },
-    ]);
-    const selectItems: Ref<(IDivision | IEntrance | IStreetEntranceRef)[]> = ref([]);
-    let selectADataBuilding = '';
-    let selectBDataBuilding = '';
-    let selectADataEntrance = '';
-    let selectBDataEntrance = '';
+    const entrances = computed(() => Provider.store.getters['entrances/items']);
+    const buildings = computed(() => Provider.store.getters['buildings/buildings']);
+    const gates: Ref<IGate[]> = computed(() => Provider.store.getters['gates/items']);
+
+    const selectItems: Ref<IMapObject[]> = ref([]);
     const selectAId: Ref<string> = ref('');
-    const selectA: Ref<IDivision | IEntrance | IStreetEntranceRef | undefined> = ref();
     const selectBId: Ref<string> = ref('');
-    const selectB: Ref<IDivision | IEntrance | IStreetEntranceRef | undefined> = ref();
     const clickedPointA: Ref<boolean> = ref(true);
     const mount = ref(false);
-    const loading = computed(() => store.getters['map/loading']);
-    const svgns = 'http://www.w3.org/2000/svg';
 
-    const selectAChangeHandler = (id: string) => {
+    const selectObject = async (id: string, isStartObject: boolean) => {
       clickedPointA.value = true;
-      selectA.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectA.value instanceof Division) {
-        selectADataBuilding = String((selectA.value as IDivision)?.entrance?.building?.number);
-        selectADataEntrance = String((selectA.value as IDivision)?.entrance?.number);
-      } else if (selectA.value instanceof Entrance) {
-        selectADataBuilding = String((selectA.value as IEntrance)?.building?.number);
-        selectADataEntrance = String((selectA.value as IEntrance)?.number);
-      } else {
-        selectADataBuilding = (selectA.value as IStreetEntranceRef)?.building;
-        selectADataEntrance = (selectA.value as IStreetEntranceRef)?.entrance;
-      }
-      const mapPointsContainer = document.getElementById('map-points');
-      if (!mapPointsContainer) return;
-      const point = mapPointsContainer.querySelector(`[data-building='${selectADataBuilding}'][data-entrance='${selectADataEntrance}']`);
-      if (!point) return;
-      setSelectedMapPoint(point);
-      buildRoute();
-    };
-    const selectBChangeHandler = (id: string) => {
-      // selectB.value = store.getters['divisions/divisionById'](id);
-      clickedPointA.value = false;
-      selectB.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
-      if (selectB.value instanceof Division) {
-        selectBDataBuilding = String((selectB.value as IDivision)?.entrance?.building?.number);
-        selectBDataEntrance = String((selectB.value as IDivision)?.entrance?.number);
-      } else if (selectB.value instanceof Entrance) {
-        selectBDataBuilding = String((selectB.value as IEntrance)?.building?.number);
-        selectBDataEntrance = String((selectB.value as IEntrance)?.number);
-      } else {
-        selectBDataBuilding = (selectB.value as IStreetEntranceRef)?.building;
-        selectBDataEntrance = (selectB.value as IStreetEntranceRef)?.entrance;
-      }
-      const mapPointsContainer = document.getElementById('map-points');
-      if (!mapPointsContainer) return;
-      const point = mapPointsContainer.querySelector(`[data-building='${selectBDataBuilding}'][data-entrance='${selectBDataEntrance}']`);
-      if (!point) return;
-      setSelectedMapPoint(point);
-      buildRoute();
+      const selectedObj = selectItems.value.find((item: IMapObject) => item?.id === id);
+      await emit('selectObject', selectedObj, isStartObject);
+      await buildRoute();
     };
 
     const buildRoute = async (): Promise<void> => {
@@ -126,24 +97,11 @@ export default defineComponent({
         console.log('id route-points не найден');
         return;
       }
-
       const routesArrayRef = Array.from(routePointsRef.children);
-      const startPointRef = routesArrayRef.find((el) => {
-        return el.getAttribute('data-building') === selectADataBuilding && el.getAttribute('data-entrance') === selectADataEntrance;
-      });
-      const endPointRef = routesArrayRef.find((el) => {
-        return el.getAttribute('data-building') === selectBDataBuilding && el.getAttribute('data-entrance') === selectBDataEntrance;
-      });
-      if (!startPointRef || !endPointRef) {
+      if (!props.startPointRef || !props.endPointRef) {
         console.log('заданное строение не найдено');
         return;
       }
-      const loading = ElLoading.service({
-        lock: true,
-        text: 'Строим маршрут',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)',
-      });
       const findPointById = (id: string): Element | undefined => {
         return routesArrayRef.find((el) => el.getAttribute('id') === id);
       };
@@ -164,8 +122,8 @@ export default defineComponent({
         }
         newRoute.push(currentPoint);
         if (
-          currentPoint.getAttribute('data-building') === selectBDataBuilding &&
-          currentPoint.getAttribute('data-entrance') === selectBDataEntrance
+          currentPoint.getAttribute('data-building') === props.endPointRef?.getAttribute('data-building') &&
+          currentPoint.getAttribute('data-entrance') === props.endPointRef?.getAttribute('data-entrance')
         ) {
           if (shortestRoute.length > newRoute.length || shortestRoute.length == 0) {
             shortestRoute = cloneDeep(newRoute);
@@ -187,13 +145,13 @@ export default defineComponent({
           }
         }
       };
-      findShortestRoute(startPointRef, startPointRef.getAttribute('data-neighbors'));
+      findShortestRoute(props.startPointRef, props.startPointRef.getAttribute('data-neighbors'));
 
       const routeRef = document.getElementById('route');
       if (routeRef) {
         routeRef.remove();
       }
-      const newRouteRef = document.createElementNS(svgns, 'g');
+      const newRouteRef = document.createElementNS('http://www.w3.org/2000/svg', 'g');
       newRouteRef.setAttribute('id', 'route');
       newRouteRef.style.visibility = 'visible';
       routePointsRef?.append(newRouteRef);
@@ -220,8 +178,6 @@ export default defineComponent({
         newLine.style.strokeWidth = '5px';
         newRouteRef.appendChild(newLine);
       });
-      store.commit('map/setLoading', false);
-      loading.close();
       ElMessage({ message: 'Маршрут построен', type: 'success' });
     };
 
@@ -231,114 +187,59 @@ export default defineComponent({
       shadow.style.display = 'none';
     };
 
-    const highlightEnters = () => {
+    const clickPointButton = (clickedToStart: boolean) => {
+      clickedPointA.value = clickedToStart;
       const shadow = document.getElementById('shadow');
-      if (!shadow) return;
-      if (shadow.style.display === 'none') {
-        shadow.style.display = 'unset';
-      } else {
-        shadow.style.display = 'none';
-      }
-    };
-
-    const clickButtonA = () => {
-      clickedPointA.value = true;
-      highlightEnters();
-    };
-    const clickButtonB = () => {
-      clickedPointA.value = false;
-      highlightEnters();
-    };
-
-    const setEventsOnMapPoint = (item: EventTarget): void => {
-      item.addEventListener('click', () => selectMapPoint(item));
-    };
-
-    const selectMapPoint = (item: EventTarget): void => {
-      const itemDataBuilding = (item as HTMLElement).getAttribute('data-building');
-      const itemDataEntrance = (item as HTMLElement).getAttribute('data-entrance');
-      if (!itemDataBuilding || !itemDataEntrance) return;
-      if (clickedPointA.value) {
-        selectADataBuilding = itemDataBuilding;
-        selectADataEntrance = itemDataEntrance;
-      } else {
-        selectBDataBuilding = itemDataBuilding;
-        selectBDataEntrance = itemDataEntrance;
-      }
-      updateSelectValue(itemDataBuilding, itemDataEntrance);
-      setSelectedMapPoint(item);
-      if (!selectA.value) {
-        ElMessage({ message: 'Пожалуйста, выберите точку маршрута А', type: 'success' });
-        clickedPointA.value = true;
-        return;
-      } else if (!selectB.value) {
-        ElMessage({ message: 'Пожалуйста, выберите точку маршрута B', type: 'success' });
-        clickedPointA.value = false;
+      if (!shadow) {
         return;
       }
+      shadow.style.display = shadow.style.display === 'none' ? 'unset' : 'none';
+    };
+
+    const selectMapPoint = async (item: EventTarget): Promise<void> => {
+      const point = new MapPoint(item);
+      await emit('selectObject', point, clickedPointA.value);
+      updateSelectValue(point.getBuildingNumber(), point.getEntranceNumber());
       closeShadow();
-      buildRoute();
-    };
-
-    // Show chosen pointer on map
-    const setSelectedMapPoint = (item: EventTarget) => {
-      const flagContainer = document.getElementById('flag');
-      if (!flagContainer) return;
-      const flag = (item as HTMLElement).cloneNode(true);
-      (flag as HTMLElement).classList.remove('map-point');
-      if (clickedPointA.value) {
-        flagContainer.querySelector('#a-flag')?.remove();
-        (flag as HTMLElement).style.fill = '#f3911c';
-        (flag as HTMLElement).id = 'a-flag';
-      } else {
-        flagContainer.querySelector('#b-flag')?.remove();
-        (flag as HTMLElement).style.fill = '#006bb5';
-        (flag as HTMLElement).id = 'b-flag';
-      }
-      flagContainer.appendChild(flag);
+      await buildRoute();
     };
 
     const updateSelectValue = (building: string, entrance: string) => {
       const res =
-        streetEntrances.value.find((el: IStreetEntranceRef) => el.building === building && el.entrance === entrance) ||
+        gates.value.find((el: IGate) => el.getBuildingNumber() === building && el.getEntranceNumber() === entrance) ||
         entrances.value.find((el: IEntrance) => String(el.building?.number) === building && String(el.number) === entrance);
-      if (!res) return;
+      if (!res) {
+        return;
+      }
       if (clickedPointA.value) {
-        selectA.value = res;
         selectAId.value = res.id;
       } else {
-        selectB.value = res;
         selectBId.value = res.id;
       }
     };
 
     onMounted(async () => {
-      await store.dispatch('entrances/getAll');
-      // console.log(divisions.value);
-      if (props.objectA && props.objectA.id) {
-        selectAChangeHandler(props.objectA.id);
-        selectAId.value = props.objectA.id;
-        selectADataBuilding = String(props.objectA.entrance?.building?.number);
-        selectADataEntrance = String(props.objectA.entrance?.number);
+      await Provider.store.dispatch('entrances/getAll');
+      if (props.preSelectedObject && props.preSelectedObject.id) {
+        selectAId.value = props.preSelectedObject.id;
       }
-      selectItems.value.push(...streetEntrances.value);
+      selectItems.value.push(...gates.value);
       buildings.value.forEach((b: IBuilding) => b.floors.forEach((f: IFloor) => selectItems.value.push(...f.divisions)));
       selectItems.value.push(...entrances.value);
       const mapPointsRef = document.getElementById('map-points');
-      if (!mapPointsRef) return;
-      mapPointsRef.childNodes.forEach((item: EventTarget) => setEventsOnMapPoint(item));
+      if (!mapPointsRef) {
+        return;
+      }
+      mapPointsRef.childNodes.forEach((item: EventTarget) => item.addEventListener('click', () => selectMapPoint(item)));
       mount.value = true;
     });
 
     const close = () => {
       emit('close');
-      selectADataBuilding = '';
-      selectADataEntrance = '';
-      selectBDataBuilding = '';
-      selectBDataEntrance = '';
       const flagContainer = document.getElementById('flag');
       if (flagContainer) {
         flagContainer.querySelector('#b-flag')?.remove();
+        flagContainer.querySelector('#a-flag')?.remove();
       }
       let elements = document.getElementsByClassName('red-line');
       while (elements.length > 0) {
@@ -349,15 +250,12 @@ export default defineComponent({
     return {
       close,
       selectItems,
-      clickButtonA,
-      clickButtonB,
+      clickPointButton,
       buildRoute,
       selectAId,
       selectBId,
       mount,
-      selectAChangeHandler,
-      selectBChangeHandler,
-      loading,
+      selectObject,
       closeShadow,
     };
   },

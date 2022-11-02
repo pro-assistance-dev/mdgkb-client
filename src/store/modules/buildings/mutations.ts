@@ -24,7 +24,10 @@ const mutations: MutationTree<State> = {
     state.building.floors.splice(index, 1);
   },
   addEntrance(state) {
-    state.building.entrances.push(new Entrance({ buildingId: state.building.id, number: 0 }));
+    const e = new Entrance();
+    e.number = 1;
+    e.buildingId = state.building.id;
+    state.building.entrances.push(e);
   },
   removeEntrance(state, id: string) {
     const index = state.building.entrances.findIndex((i: IEntrance) => i.id === id);

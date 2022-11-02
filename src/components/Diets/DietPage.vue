@@ -1,5 +1,5 @@
 <template>
-  <div v-if="timetable.timetableDays.length > 1" class="title">Меню питания на неделю</div>
+  <!-- <div v-if="timetable.timetableDays.length > 1" class="title">Меню питания на неделю</div> -->
   <div v-if="timetable.timetableDays.length > 1" class="week">
     <div v-for="(day, i) in setDay" :key="i" class="form_radio_btn">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
@@ -131,8 +131,9 @@ export default defineComponent({
 }
 
 .week {
-  width: 100%;
-  height: 60px;
+  width: 80%;
+  transform: translateX(10%);
+  height: 40px;
   display: flex;
   justify-content: space-between;
 }
@@ -143,7 +144,7 @@ button {
   justify-content: center;
   cursor: pointer;
   width: 130px;
-  height: 34px;
+  height: 26px;
   border: 1px solid #a5a5bf;
   border-radius: 20px;
   user-select: none;

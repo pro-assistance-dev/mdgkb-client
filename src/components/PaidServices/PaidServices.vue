@@ -1,28 +1,35 @@
 <template>
-  <div v-if="services().length" class="services">
-  <!-- <div class="services"> -->
-    <div class="title-in">Оказываемые услуги</div>
-    <div class="point">
-      <ul class="services-list">
-        <li v-for="paidService in services()" :key="paidService.id" class="services-list-item">
-          <h4 class="point-text">{{ paidService.paidService.name }}</h4>
-        </li>
-        <li v-if="defaultLimit !== itemsWithPaidService.length">
-          <h4 v-if="limit === defaultLimit" class="show-more-link" @click="setLimit">Показать все сервисы...</h4>
-          <h4 v-else class="show-more-link" @click="setLimit">Скрыть сервисы...</h4>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <CollapsContainer v-if="services().length" tab-id="400" :collapsed="false">
+    <template #inside-title>
+      <div class="title-in">Оказываемые услуги</div>
+    </template>
+    <template #inside-content>
+      <div v-if="services().length" class="services">
+        <div class="point">
+          <ul class="services-list">
+            <li v-for="paidService in services()" :key="paidService.id" class="services-list-item">
+              <h4 class="point-text">{{ paidService.paidService.name }}</h4>
+            </li>
+            <li v-if="defaultLimit !== itemsWithPaidService.length">
+              <h4 v-if="limit === defaultLimit" class="show-more-link" @click="setLimit">Показать все сервисы...</h4>
+              <h4 v-else class="show-more-link" @click="setLimit">Скрыть сервисы...</h4>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </template>
+  </CollapsContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
 import IWithPaidService from '@/interfaces/IWithPaidService';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'PaidServices',
+  components: { CollapsContainer },
   props: {
     itemsWithPaidService: { type: Array as PropType<IWithPaidService[]>, required: true },
   },
@@ -134,8 +141,6 @@ html {
 .services {
   display: block;
   background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;

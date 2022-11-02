@@ -1,32 +1,38 @@
 <template>
-  <div v-if="carousel.length" class="certificate">
-    <div class="title-in">Сертификаты</div>
-    <div v-if="carousel.length > 0" class="gallery-container">
-      <el-carousel ref="carouselRef" v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)" arrow="always" :interval="4000">
-        <el-carousel-item v-for="certificatesGroups in carousel" :key="certificatesGroups">
-          <div v-for="certificate in certificatesGroups" :key="certificate.id" class="image-container">
-            <img 
-              class="image-card"
-              :src="certificate.scan.getImageUrl()"
-              :alt="certificate.scan.originalName"
-              :style="{ height: '100%', width: '100%' }"
-              @click="imgClickHandler(certificate)"
+  <CollapsContainer v-if="carousel.length" tab-id="8" :collapsed="false">
+    <template #inside-title>
+      <div class="title-in">Сертификаты</div>
+    </template>
+    <template #inside-content>
+      <div v-if="carousel.length" class="certificate">
+        <div v-if="carousel.length > 0" class="gallery-container">
+          <el-carousel ref="carouselRef" v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)" arrow="always" :interval="4000">
+            <el-carousel-item v-for="certificatesGroups in carousel" :key="certificatesGroups">
+              <div v-for="certificate in certificatesGroups" :key="certificate.id" class="image-container">
+                <img 
+                  class="image-card"
+                  :src="certificate.scan.getImageUrl()"
+                  :alt="certificate.scan.originalName"
+                  :style="{ height: '100%', width: '100%' }"
+                  @click="imgClickHandler(certificate)"
+                />
+              </div>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+        <el-dialog v-model="dialogVisible" center :show-close="false" top="15vh">
+          <div class="img-description">{{ dialogScan.description }}</div>
+          <div class="img-block">
+            <img
+              :style="{ height: '50vh', width: '50vh', 'justify-content': 'center', padding: '5%' }"
+              :src="dialogScan.scan.getImageUrl()"
+              :alt="dialogScan.scan.originalName"
             />
           </div>
-        </el-carousel-item>
-      </el-carousel>
-    </div>
-    <el-dialog v-model="dialogVisible" center :show-close="false" top="15vh">
-      <div class="img-description">{{ dialogScan.description }}</div>
-      <div class="img-block">
-        <img
-          :style="{ height: '50vh', width: '50vh', 'justify-content': 'center', padding: '5%' }"
-          :src="dialogScan.scan.getImageUrl()"
-          :alt="dialogScan.scan.originalName"
-        />
+        </el-dialog>
       </div>
-    </el-dialog>
-  </div>
+    </template>
+  </CollapsContainer>
 </template>
 
 <script lang="ts">
@@ -34,10 +40,11 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import IScanWithDescription from '@/interfaces/IScanWithDescription';
 import makeCarousel from '@/services/MakeCarousel';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'ScansSlider',
-  components: {},
+  components: { CollapsContainer },
   props: {
     galleryElements: {
       type: Object as PropType<IScanWithDescription[]>,
@@ -95,9 +102,6 @@ html {
 
 .certificate {
   display: block;
-  background: #ffffff;
-  border-radius: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
   background-clip: padding-box;
   margin-top: 30px;
   padding: 0px 40px 0px 23px;
