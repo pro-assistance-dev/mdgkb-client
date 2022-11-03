@@ -28,7 +28,12 @@
             <el-input v-model="question.user.human.patronymic" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
 
-          <el-form-item label="Ваш email">
+          <el-form-item
+            v-if="!user.email"
+            prop="user.email"
+            :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
+            label="Ваш email"
+          >
             <el-input v-model="question.user.email" placeholder="Адрес электронной почты" minlength="1"></el-input>
           </el-form-item>
 
@@ -50,10 +55,12 @@
             <FileUploader :file-info="question.file" />
           </el-form-item>
           <div class="flex-column">
-            <el-checkbox v-model="question.publishAgreement">
-              Я не против публичного размещения моего обращения<br />
-              на сайте морозовской детской больницы
-            </el-checkbox>
+            <el-form-item prop="publishAgreement">
+              <el-checkbox v-model="question.publishAgreement">
+                Я не против публичного размещения моего обращения<br />
+                на сайте морозовской детской больницы
+              </el-checkbox>
+            </el-form-item>
             <div class="publish-comment">
               <div>Ваш вопрос может помочь другим людям.</div>
               <div>При размещении будет убрана личная информация, с целью сохранения конфеденцальности.</div>
@@ -102,10 +109,19 @@ export default defineComponent({
       callback();
       return;
     };
+
+    const publishRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
+      if (!value) {
+        callback(new Error('Необходимо принять условия публикации вопроса на сайте'));
+      }
+      callback();
+      return;
+    };
     const rules = {
       theme: [{ required: true, message: 'Необходимо указать тему вопроса', trigger: 'blur' }],
       originalQuestion: [{ required: true, message: 'Необходимо заполнить содержание обращения', trigger: 'blur' }],
       agreedWithPrivacyPolicy: [{ validator: privacyRule, trigger: 'change' }],
+      publishAgreement: [{ validator: publishRule, trigger: 'change' }],
     };
 
     onMounted(() => {
