@@ -58,8 +58,8 @@ import { useStore } from 'vuex';
 
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import ICallbackRequest from '@/interfaces/ICallbackRequest';
-import validate from '@/services/validate';
 import PhoneService from '@/services/PhoneService';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'CallBack',
@@ -89,7 +89,7 @@ export default defineComponent({
       emit('close');
       ElNotification({
         title: 'Обратный звонок',
-        message: 'Спасибо за заявку.\nМы вам перезвоним в ближайшее время',
+        message: 'Спасибо за заявку.\nМы Вам перезвоним в ближайшее время',
         type: 'success',
         duration: 2000,
       });
