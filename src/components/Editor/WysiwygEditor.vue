@@ -1,7 +1,8 @@
 <template>
   <div v-if="editor" class="editor">
     <menu-bar class="editor__header" :editor="editor" />
-    <editor-content :editor="editor" />
+    <editor-content :editor="editor" class="scroll" :style="{ height: height }" />
+    <!-- <div class="counter">{{ counter }}/&nbsp;{{ limit }}</div> -->
   </div>
 </template>
 
@@ -52,6 +53,14 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    height: {
+      type: String,
+      default: 'auto',
+    },
+    // limit: {
+    //   type: Number,
+    //   default: 500,
+    // },
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
@@ -119,7 +128,7 @@ export default defineComponent({
   padding: 12px 15px;
   &:focus-visible {
     outline: none;
-    border-bottom: 1px solid #d1d5db;
+    // border-bottom: 1px solid #d1d5db;
   }
   > p {
     margin: 0;
@@ -264,4 +273,16 @@ ul[data-type='taskList'] {
     }
   }
 }
+
+.scroll {
+  overflow-y: auto;
+}
+
+// .counter {
+//   display: flex;
+//   justify-content: right;
+//   margin-right: 10px;
+//   font-size: 12px;
+//   color: #909299;
+// }
 </style>
