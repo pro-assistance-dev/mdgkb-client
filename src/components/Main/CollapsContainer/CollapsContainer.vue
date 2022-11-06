@@ -1,18 +1,18 @@
 <template>
   <div class="tab">
     <input :id="tabId" type="checkbox" name="tabs" />
-      <svg v-if="isCollaps && collapsed" class="icon-arrow">
-        <use xlink:href="#arrow-down"></use>
-      </svg>
-      <svg v-else-if="isCollaps && !collapsed" class="icon-arrow">
-        <use xlink:href="#arrow-up"></use>
-      </svg>
+    <svg v-if="isCollaps && collapsed" class="icon-arrow">
+      <use xlink:href="#arrow-down"></use>
+    </svg>
+    <svg v-else-if="isCollaps && !collapsed" class="icon-arrow">
+      <use xlink:href="#arrow-up"></use>
+    </svg>
     <label :for="tabId">
-      <div :style="{  cursor: isCollaps ? 'pointer' : 'default', }" class="tab-name">
+      <div :style="{ cursor: isCollaps ? 'pointer' : 'default' }" class="tab-name">
         <slot name="inside-title" />
-      </div> 
+      </div>
     </label>
-    <div v-if="collapsed" :style="{  maxHeight: isCollaps ? '' : '100vh', }" class="tab-content-down">
+    <div v-if="collapsed" :style="{ maxHeight: isCollaps ? '' : '100vh' }" class="tab-content-down">
       <slot name="inside-content" />
     </div>
     <div v-else-if="!collapsed" class="tab-content-up">
@@ -20,16 +20,17 @@
     </div>
   </div>
   <Arrows />
-</template> 
+</template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref  } from 'vue';
-import Arrows from '@/assets/svg/CollapsContainer/Arrows.svg'
+import { defineComponent, PropType } from 'vue';
+
+import Arrows from '@/assets/svg/CollapsContainer/Arrows.svg';
 
 export default defineComponent({
   name: 'CollapsContainer',
   components: { Arrows },
-  
+
   props: {
     tabId: { type: String as PropType<string>, required: true },
     isCollaps: { type: Boolean as PropType<boolean>, default: true },
@@ -74,7 +75,8 @@ export default defineComponent({
   -o-transition: max-height 0.5s;
   transition: max-height 0.5s;
   color: #343e5c;
-  padding-right: 5px;
+  //padding-right: 5px;
+  padding: 0 5px;
 }
 
 .tab-content-up {
@@ -89,7 +91,7 @@ export default defineComponent({
 }
 
 .tab input:checked ~ .icon-arrow {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .tab input:checked ~ .tab-content-down {
@@ -130,5 +132,4 @@ export default defineComponent({
   -o-transition: all 0.5s;
   transition: all 0.5s;
 }
-
 </style>

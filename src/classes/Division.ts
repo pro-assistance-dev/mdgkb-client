@@ -106,7 +106,9 @@ export default class Division implements IDivision {
       this.schedule = new Schedule(i.schedule);
     }
     this.scheduleId = i.scheduleId;
-    if (i.divisionImages) this.divisionImages = i.divisionImages.map((item: IDivisionImage) => new DivisionImage(item));
+    if (i.divisionImages) {
+      this.divisionImages = i.divisionImages.map((item: IDivisionImage) => new DivisionImage(item));
+    }
     if (i.divisionComments) {
       this.divisionComments = i.divisionComments.map((item: IDivisionComment) => new DivisionComment(item));
     }
@@ -189,5 +191,13 @@ export default class Division implements IDivision {
 
   getEntranceNumber(): string {
     return String(this.entrance?.number);
+  }
+
+  scheduleAndRulesExists(): boolean {
+    const scheduleItemsExists = !!this.schedule.scheduleItems.length;
+    const visitingRulesExists = !!this.visitingRulesGroups.filter((vg: IVisitingRuleGroup) => {
+      return !!vg.visitingRules.length;
+    });
+    return scheduleItemsExists && visitingRulesExists;
   }
 }
