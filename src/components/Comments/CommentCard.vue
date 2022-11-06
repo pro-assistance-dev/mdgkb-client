@@ -16,9 +16,8 @@
         </h4>
         <h4 v-else class="reviews-date-time">Вопрос от {{ $dateTimeFormatter.format(question.date) }}</h4>
       </div>
-
-      <h4 v-if="!isQuestion" class="reviews-text">{{ comment.text }}</h4>
-      <h4 v-else class="reviews-text" style="white-space: pre-line">{{ question.question }}</h4>
+      <div v-if="!isQuestion" class="reviews-text" v-html="comment.text"></div>
+      <div v-else class="reviews-text" v-html="question.question"></div>
     </div>
   </div>
   <div v-if="comment.answer || question.answer" class="review-for-review">
@@ -123,6 +122,7 @@ export default defineComponent({
 }
 
 .reviews-text {
+  width: 100%;
   overflow: hidden;
   hyphens: auto;
   white-space: normal;
