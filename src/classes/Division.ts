@@ -200,4 +200,18 @@ export default class Division implements IDivision {
     });
     return scheduleItemsExists && visitingRulesExists;
   }
+
+  getDoctors(onlyShowed: boolean): IDoctor[] {
+    const doctors: IDoctor[] = [];
+    this.doctorsDivisions.forEach((dd: IDoctorDivision) => {
+      if (onlyShowed) {
+        if (dd.show) {
+          doctors.push(dd.doctor);
+        }
+      } else {
+        doctors.push(dd.doctor);
+      }
+    });
+    return doctors;
+  }
 }

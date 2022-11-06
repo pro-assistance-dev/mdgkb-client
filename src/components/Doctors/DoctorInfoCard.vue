@@ -26,10 +26,10 @@
           @click="$router.push(`/divisions/${doctorDivision.division.slug}`)"
         > -->
         <div
-          v-if="doctor.doctorsDivisions"
+          v-if="doctor.doctorsDivisions && doctor.doctorsDivisions.length > 0"
           class="division-name"
           @click="$router.push(`/divisions/${doctor.doctorsDivisions[0].division.slug}`)"
-        >   
+        >
           {{ doctor.doctorsDivisions[0].division.name }}
         </div>
         <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">

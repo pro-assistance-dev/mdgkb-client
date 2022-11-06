@@ -63,7 +63,7 @@
                   :disabled="division.buildingId && buildingOption.entrances.length ? false : true"
                   @change="changeDivisionAddress"
                 >
-                  <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
+                  <el-optionou v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
                 </el-select>
               </el-form-item>
             </template>

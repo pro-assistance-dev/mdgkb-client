@@ -77,4 +77,5 @@ export default interface IDivision {
   getEntranceNumber: () => string;
 
   scheduleAndRulesExists: () => boolean;
+  getDoctors: (onlyShowed: boolean) => IDoctor[];
 }

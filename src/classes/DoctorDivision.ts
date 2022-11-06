@@ -10,6 +10,7 @@ export default class DoctorDivision implements IDoctorDivision {
   doctor: IDoctor = new Doctor();
   divisionId?: string;
   division: IDivision = new Division();
+  show = true;
 
   constructor(i?: IDoctorDivision) {
     if (!i) {
@@ -18,6 +19,7 @@ export default class DoctorDivision implements IDoctorDivision {
     this.id = i.id;
     this.doctorId = i.doctorId;
     this.divisionId = i.divisionId;
+    this.show = i.show;
     if (i.doctor) {
       this.doctor = new Doctor(i.doctor);
     }

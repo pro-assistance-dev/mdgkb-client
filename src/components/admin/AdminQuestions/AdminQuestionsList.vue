@@ -31,7 +31,7 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column width="50" fixed="right" align="center">
+      <el-table-column width="50" align="center">
         <template #default="scope">
           <TableButtonGroup
             :show-check-button="true"
@@ -61,12 +61,12 @@ import SortListV2 from '@/components/SortList/SortListV2.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
