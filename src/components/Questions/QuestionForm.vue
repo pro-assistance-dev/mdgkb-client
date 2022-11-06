@@ -72,6 +72,7 @@
 </template>
 
 <script lang="ts">
+import { ElNotification } from 'element-plus';
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
@@ -112,6 +113,19 @@ export default defineComponent({
       store.commit('questions/setUser', user.value);
     });
 
+    // const submit = () => {
+    //   if (!validate(contactForm)) {
+    //     return;
+    //   }
+    //   store.dispatch('questions/create');
+    //   ElNotification({
+    //     title: 'Вопрос-ответ',
+    //     message: 'Спасибо за вопрос.\nМы ответим Вам в ближайшее время',
+    //     type: 'success',
+    //     duration: 2000,
+    //   });
+    // };
+
     const sendQuestion = async () => {
       if (!validate(form)) {
         return;
@@ -121,6 +135,12 @@ export default defineComponent({
         store.commit('auth/setUser', question.value.user);
         store.commit('questions/resetQuestion');
         question.value.isDialogOpened = false;
+        ElNotification({
+          title: 'Вопрос-ответ',
+          message: 'Спасибо за вопрос.\nМы ответим Вам в ближайшее время',
+          type: 'success',
+          duration: 2000,
+        });
       } catch (e) {
         console.log(e);
       }
