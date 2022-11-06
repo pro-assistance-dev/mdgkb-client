@@ -55,20 +55,10 @@
           </template>
           <!-- <div style="margin: 5px">Для оформления пропуска на въезд:</div> -->
           <div v-if="visitsApplication.withCar">
-            <el-form-item
-              v-if="!user.human.carNumber"
-              label="Номер автомобиля"
-              :rules="rules.userCarNumber"
-              prop="formValue.user.human.carNumber"
-            >
+            <el-form-item label="Номер автомобиля" :rules="rules.userCarNumber" prop="formValue.user.human.carNumber">
               <el-input v-model="visitsApplication.formValue.user.human.carNumber" placeholder="Номер автомобиля"></el-input>
             </el-form-item>
-            <el-form-item
-              v-if="!user.human.carModel"
-              label="Марка автомобиля"
-              :rules="rules.userCarModel"
-              prop="formValue.user.human.carModel"
-            >
+            <el-form-item label="Марка автомобиля" :rules="rules.userCarModel" prop="formValue.user.human.carModel">
               <el-input v-model="visitsApplication.formValue.user.human.carModel" placeholder="Марка автомобиля"></el-input>
             </el-form-item>
           </div>
