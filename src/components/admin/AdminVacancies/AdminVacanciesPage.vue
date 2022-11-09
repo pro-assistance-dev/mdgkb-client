@@ -79,7 +79,6 @@ import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IDivision from '@/interfaces/IDivision';
 import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
@@ -96,7 +95,6 @@ export default defineComponent({
     const route = useRoute();
     const form = ref();
     const vacancy: Ref<IVacancy> = computed<IVacancy>(() => Provider.store.getters['vacancies/item']);
-    const division: Ref<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);
 
@@ -139,9 +137,9 @@ export default defineComponent({
     };
 
     const selectDivisionSearch = async (item: ISearchObject) => {
-      await Provider.store.dispatch('divisions/get', item.id);
-      vacancy.value.division = new Division(division.value);
       vacancy.value.divisionId = item.id;
+      vacancy.value.division = new Division();
+      vacancy.value.division.name = item.label;
     };
 
     const removeResponse = (index: number) => {
