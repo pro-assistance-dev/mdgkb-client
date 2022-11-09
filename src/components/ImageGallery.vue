@@ -1,22 +1,35 @@
 <template>
-  <div class="image-gallery-container">
-    <div v-if="images.length > 0" class="gallery-container">
-      <el-carousel ref="carouselRef" v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)" arrow="always" :interval="4000">
-        <el-carousel-item v-for="image in images" :key="image.id">
-          <img :src="image.fileInfo.getImageUrl()" :alt="image.fileInfo.originalName" @click="imgClickHandler(image.fileInfo)" />
-        </el-carousel-item>
-      </el-carousel>
-    </div>
-    <el-dialog v-model="dialogVisible" center :show-close="false" top="25vh">
-      <img :src="dialogFileInfo.getImageUrl()" :alt="dialogFileInfo.originalName" />
-    </el-dialog>
-  </div>
+  <CollapsContainer v-if="images.length > 0" tab-id="4">
+    <template #inside-title>
+      <div class="title-in">Фотографии</div>
+    </template>
+    <template #inside-content>
+      <div class="image-gallery-container">
+        <div v-if="images.length > 0" class="gallery-container">
+          <el-carousel
+            ref="carouselRef"
+            v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+            arrow="always"
+            :interval="4000"
+          >
+            <el-carousel-item v-for="image in images" :key="image.id">
+              <img :src="image.fileInfo.getImageUrl()" :alt="image.fileInfo.originalName" @click="imgClickHandler(image.fileInfo)" />
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+        <el-dialog v-model="dialogVisible" center :show-close="false" top="25vh">
+          <img :src="dialogFileInfo.getImageUrl()" :alt="dialogFileInfo.originalName" />
+        </el-dialog>
+      </div>
+    </template>
+  </CollapsContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import FileInfo from '@/classes/File/FileInfo';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDivisionImage from '@/interfaces/IDivisionImage';
 import IDocumentTypeImage from '@/interfaces/IDocumentTypeImage';
@@ -24,6 +37,7 @@ import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({
   name: 'ImageGallery',
+  components: { CollapsContainer },
   props: {
     images: {
       type: Array as PropType<Array<INewsImage | IDivisionImage | IDocumentTypeImage>>,

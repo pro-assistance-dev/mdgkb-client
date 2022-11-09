@@ -28,7 +28,12 @@
             <el-input v-model="question.user.human.patronymic" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
 
-          <el-form-item label="Ваш email">
+          <el-form-item
+            v-if="!user.email"
+            prop="user.email"
+            :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
+            label="Ваш email"
+          >
             <el-input v-model="question.user.email" placeholder="Адрес электронной почты" minlength="1"></el-input>
           </el-form-item>
 
@@ -36,24 +41,18 @@
             <el-input v-model="question.theme" placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="Содержание обращения" prop="originalQuestion">
-            <el-input
-              v-model="question.originalQuestion"
-              type="textarea"
-              placeholder="Содержание обращения"
-              minlength="5"
-              maxlength="1000"
-              show-word-limit
-              :autosize="{ minRows: 5, maxRows: 10 }"
-            />
+            <WysiwygEditor v-model="question.originalQuestion" height="225px" limit="1000" />
           </el-form-item>
           <el-form-item style="margin: 0">
             <FileUploader :file-info="question.file" />
           </el-form-item>
           <div class="flex-column">
-            <el-checkbox v-model="question.publishAgreement">
-              Я не против публичного размещения моего обращения<br />
-              на сайте морозовской детской больницы
-            </el-checkbox>
+            <el-form-item prop="publishAgreement">
+              <el-checkbox v-model="question.publishAgreement">
+                Я не против публичного размещения моего обращения<br />
+                на сайте морозовской детской больницы
+              </el-checkbox>
+            </el-form-item>
             <div class="publish-comment">
               <div>Ваш вопрос может помочь другим людям.</div>
               <div>При размещении будет убрана личная информация, с целью сохранения конфеденцальности.</div>
@@ -72,9 +71,11 @@
 </template>
 
 <script lang="ts">
+import { ElNotification } from 'element-plus';
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IQuestion from '@/interfaces/IQuestion';
@@ -83,7 +84,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'QuestionForm',
-  components: { FileUploader },
+  components: { FileUploader, WysiwygEditor },
   setup() {
     const filter = ref('');
     const store = useStore();
@@ -102,15 +103,37 @@ export default defineComponent({
       callback();
       return;
     };
+
+    const publishRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
+      if (!value) {
+        callback(new Error('Необходимо принять условия публикации вопроса на сайте'));
+      }
+      callback();
+      return;
+    };
     const rules = {
       theme: [{ required: true, message: 'Необходимо указать тему вопроса', trigger: 'blur' }],
       originalQuestion: [{ required: true, message: 'Необходимо заполнить содержание обращения', trigger: 'blur' }],
       agreedWithPrivacyPolicy: [{ validator: privacyRule, trigger: 'change' }],
+      publishAgreement: [{ validator: publishRule, trigger: 'change' }],
     };
 
     onMounted(() => {
       store.commit('questions/setUser', user.value);
     });
+
+    // const submit = () => {
+    //   if (!validate(contactForm)) {
+    //     return;
+    //   }
+    //   store.dispatch('questions/create');
+    //   ElNotification({
+    //     title: 'Вопрос-ответ',
+    //     message: 'Спасибо за вопрос.\nМы ответим Вам в ближайшее время',
+    //     type: 'success',
+    //     duration: 2000,
+    //   });
+    // };
 
     const sendQuestion = async () => {
       if (!validate(form)) {
@@ -121,6 +144,12 @@ export default defineComponent({
         store.commit('auth/setUser', question.value.user);
         store.commit('questions/resetQuestion');
         question.value.isDialogOpened = false;
+        ElNotification({
+          title: 'Вопрос-ответ',
+          message: 'Спасибо за вопрос.\nМы ответим Вам в ближайшее время',
+          type: 'success',
+          duration: 2000,
+        });
       } catch (e) {
         console.log(e);
       }

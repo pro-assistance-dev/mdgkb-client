@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="division.schedule.scheduleItems.length || division.visitingRulesGroups.length" tab-id="5" :collapsed="false">
+  <CollapsContainer v-if="division.scheduleAndRulesExists()" tab-id="5" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Распорядок дня</div>
     </template>
@@ -52,8 +52,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDivision from '@/interfaces/IDivision';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DivisionSchedule',

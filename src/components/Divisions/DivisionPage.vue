@@ -3,7 +3,7 @@
   <div v-if="mounted" class="division-page-container" data-test="division-component">
     <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
-    <DivisionInfoBlock />
+    <DivisionInfoBlock :info="division.info" />
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
     <DoctorsCarousel :doctors="division.doctors" header-title="Специалисты отделения" />
@@ -11,9 +11,16 @@
     <DivisionCertificates />
     <ScansSlider :gallery-elements="division.certificates" />
     <DivisionDateAndTime :division="division" />
-    <component :is="'MainContainer'" v-if="mounted && division.divisionVideos.length" header-title="Видео">
+    <component :is="'MainContainer'" header-title="Видео отделения">
+      <!--      <template #inside-title>-->
+      <!--        <div class="title-in">Видео</div>-->
+      <!--      </template>-->
+      <!--      <template #inside-content>-->
       <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
+      <!--      </template>-->
+      <!--    </CollapsContainer>-->
     </component>
+
     <!-- <ImageGallery :images="division.divisionImages" /> -->
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
@@ -23,8 +30,10 @@
 import { computed, ComputedRef, defineComponent } from 'vue';
 
 import Comments from '@/components/Comments/Comments.vue';
+import DivisionCertificates from '@/components/Divisions/DivisionCertificates.vue';
 import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
 import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
+import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
@@ -36,10 +45,6 @@ import IDivision from '@/interfaces/IDivision';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
-import DivisionCertificates from '@/components/Divisions/DivisionCertificates.vue';
-
-import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -50,14 +55,13 @@ export default defineComponent({
     DivisionSchedule,
     DoctorsCarousel,
     NewsSlider,
-    MainContainer,
     DivisionCertificates,
     DivisionDateAndTime,
     // ImageGallery,
     Comments,
     ScansSlider,
-    CollapsContainer,
     DivisionInfoBlock,
+    MainContainer,
   },
 
   setup() {

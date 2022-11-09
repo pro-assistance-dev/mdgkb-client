@@ -75,4 +75,6 @@ export default interface IDivision {
 
   getBuildingNumber: () => string;
   getEntranceNumber: () => string;
+
+  scheduleAndRulesExists: () => boolean;
 }
