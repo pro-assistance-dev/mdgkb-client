@@ -120,7 +120,7 @@ export default defineComponent({
       if (route.params['id']) {
         await store.dispatch('heads/get', route.params['id']);
         store.commit('admin/setHeaderParams', {
-          title: head.value.human.getFullName(),
+          title: head.value.employee.human.getFullName(),
           showBackButton: true,
           buttons: [{ action: submit }],
         });
@@ -137,8 +137,8 @@ export default defineComponent({
       showConfirmModal(submit, next);
     });
 
-    const addRegalia = () => head.value.addRegalia();
-    const removeRegalia = (i: number) => head.value.removeRegalia(i);
+    const addRegalia = () => head.value.employee.addRegalia();
+    const removeRegalia = (i: number) => head.value.employee.removeRegalia(i);
     const addDepartment = () => head.value.addDepartment();
     const removeDepartment = (i: number) => head.value.removeDepartment(i);
 

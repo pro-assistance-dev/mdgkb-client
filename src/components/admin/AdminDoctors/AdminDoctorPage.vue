@@ -18,7 +18,7 @@
           </el-card>
           <el-card>
             <el-button @click="doctor.addExperience()">Добавить опыт работы</el-button>
-            <div v-for="(experience, i) in doctor.experiences" :key="experience.id">
+            <div v-for="(experience, i) in doctor.employee.experiences" :key="experience.id">
               <el-form-item label="Место работы">
                 <el-input v-model="experience.place" />
               </el-form-item>
@@ -82,14 +82,19 @@
             </el-form-item>
           </el-card>
           <el-card header="Фото">
-            <UploaderSingleScan :file-info="doctor.human.photo" :height="300" :width="300" @remove-file="doctor.human.removePhoto()" />
+            <UploaderSingleScan
+              :file-info="doctor.employee.human.photo"
+              :height="300"
+              :width="300"
+              @remove-file="doctor.employee.human.removePhoto()"
+            />
           </el-card>
           <el-card header="Фото-миниатюра">
             <UploaderSingleScan
-              :file-info="doctor.human.photoMini"
+              :file-info="doctor.employee.human.photoMini"
               :height="300"
               :width="300"
-              @remove-file="doctor.human.removePhotoMini()"
+              @remove-file="doctor.employee.human.removePhotoMini()"
             />
           </el-card>
           <el-card>
@@ -100,17 +105,17 @@
               <RemoteSearch :key-value="'position'" :model-value="doctor.position.name" @select="selectPosition" />
             </el-form-item> -->
             <el-form-item label="Учёная степень">
-              <el-input v-model="doctor.academicDegree" />
+              <el-input v-model="doctor.employee.academicDegree" />
             </el-form-item>
             <el-form-item label="Звание">
-              <el-input v-model="doctor.academicRank" />
+              <el-input v-model="doctor.employee.academicRank" />
             </el-form-item>
             <el-form-item label="Ссылка на профиль в системе Московский врач">
               <el-input v-model="doctor.mosDoctorLink" />
             </el-form-item>
             <el-button @click="addRegalia"> Добавить регалию</el-button>
             <el-form-item label="Регалии">
-              <el-input v-for="regalia in doctor.regalias" :key="regalia" v-model="regalia.name" />
+              <el-input v-for="regalia in doctor.employee.regalias" :key="regalia" v-model="regalia.name" />
             </el-form-item>
             <el-button @click="doctor.addTeachingActivity()"> Добавить педагогическую деятельнсоть</el-button>
             <el-form-item label="Преподавательская деятельность">
@@ -223,7 +228,7 @@ export default defineComponent({
       if (Provider.route().params['id']) {
         await Provider.store.dispatch('doctors/get', Provider.route().params['id']);
         Provider.store.commit('admin/setHeaderParams', {
-          title: doctor.value.human.getFullName(),
+          title: doctor.value.employee.human.getFullName(),
           showBackButton: true,
           buttons: [{ action: submit }],
         });
@@ -285,7 +290,7 @@ export default defineComponent({
       })
         .then(async () => {
           // Provider.router.push({ name: 'AdminEditDoctorPage', params: { id: existingDoctor.human.slug } });
-          await Provider.router.push(`/admin/doctors/${existingDoctor.human.slug}`);
+          await Provider.router.push(`/admin/doctors/${existingDoctor.employee.human.slug}`);
           await loadDoctor();
         })
         .catch((action: string) => {

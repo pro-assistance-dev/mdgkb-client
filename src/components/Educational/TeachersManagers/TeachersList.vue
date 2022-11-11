@@ -32,7 +32,7 @@ export default defineComponent({
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     const loadMore = async () => {
-      const lastCursor = teachers.value[teachers.value.length - 1].doctor.human.getFullName();
+      const lastCursor = teachers.value[teachers.value.length - 1].doctor.employee.human.getFullName();
       filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.teacher.fullName, schema.value.teacher.tableName);
       await store.dispatch('teachers/getAll', filterQuery.value);
     };

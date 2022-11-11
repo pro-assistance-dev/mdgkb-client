@@ -15,6 +15,7 @@ import IDpoCourseSpecializationSchema from '@/interfaces/schema/IDpoCourseSpecia
 import IEducationalOrganizationAcademicSchema from '@/interfaces/schema/IEducationalOrganizationAcademicSchema';
 import IEducationPublicDocumentTypeSchema from '@/interfaces/schema/IEducationPublicDocumentTypeSchema';
 import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
+import IEmployeeSchema from '@/interfaces/schema/IEmployeeSchema';
 import IFormStatusSchema from '@/interfaces/schema/IFormStatusSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
@@ -79,4 +80,5 @@ export default interface ISchema {
   diet: IDietSchema;
   agePeriod: IAgePeriodSchema;
   doctorDivision: IDoctorDivisionSchema;
+  employee: IEmployeeSchema;
 }

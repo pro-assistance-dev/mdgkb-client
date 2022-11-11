@@ -1,17 +1,16 @@
-import IRegalia from '@/interfaces/IRegalia';
 import ITeachingActivity from '@/interfaces/ITeachingActivity';
 
 export default class TeachingActivity implements ITeachingActivity {
   id?: string;
   name = '';
-  doctorId?: string;
+  employeeId?: string;
 
-  constructor(i?: IRegalia) {
+  constructor(i?: ITeachingActivity) {
     if (!i) {
       return;
     }
     this.id = i.id;
     this.name = i.name;
-    this.doctorId = i.doctorId;
+    this.employeeId = i.employeeId;
   }
 }

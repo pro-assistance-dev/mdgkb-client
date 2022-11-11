@@ -10,10 +10,10 @@
             <router-link
               v-if="dpoCourse.getMainTeacher()"
               class="recent-news-item"
-              :to="`/doctors/${dpoCourse.getMainTeacher().doctor.human.slug}`"
+              :to="`/doctors/${dpoCourse.getMainTeacher().doctor.employee.human.slug}`"
               style="padding-left: 0"
             >
-              {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+              {{ dpoCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
             </router-link>
           </div>
           <div v-if="dpoCourse.dpoCoursesTeachers.filter((i) => !i.main).length">
@@ -22,10 +22,10 @@
               v-for="dpoCoursesTeacher in dpoCourse.dpoCoursesTeachers.filter((i) => !i.main)"
               :key="dpoCoursesTeacher.id"
               class="recent-news-item"
-              :to="`/doctors/${dpoCoursesTeacher.teacher.doctor.human.slug}`"
+              :to="`/doctors/${dpoCoursesTeacher.teacher.doctor.employee.human.slug}`"
               style="padding-left: 0"
             >
-              {{ dpoCoursesTeacher.teacher.doctor.human.getFullName() }}
+              {{ dpoCoursesTeacher.teacher.doctor.employee.human.getFullName() }}
             </router-link>
           </div>
           <div class="button-block">

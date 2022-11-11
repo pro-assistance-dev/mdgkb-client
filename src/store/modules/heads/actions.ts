@@ -25,11 +25,11 @@ const actions: ActionTree<State, RootState> = {
     commit('set', await httpClient.get<IHead>({ query: `${id}` }));
   },
   create: async ({ commit }, item: IHead): Promise<void> => {
-    await httpClient.post<IHead, IHead>({ payload: item, fileInfos: [item.photo], isFormData: true });
+    await httpClient.post<IHead, IHead>({ payload: item, isFormData: true });
     commit('set');
   },
   update: async ({ commit }, item: IHead): Promise<void> => {
-    await httpClient.put<IHead, IHead>({ query: `${item.id}`, payload: item, fileInfos: [item.photo], isFormData: true });
+    await httpClient.put<IHead, IHead>({ query: `${item.id}`, payload: item, isFormData: true });
     commit('set');
   },
   remove: async ({ commit }, id: string): Promise<void> => {

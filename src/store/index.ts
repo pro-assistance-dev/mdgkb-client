@@ -28,6 +28,7 @@ import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { educationalOrganizationAcademics } from '@/store/modules/educationalOrganizationAcademics';
 import { educationYears } from '@/store/modules/educationYears';
+import { employees } from '@/store/modules/employees';
 import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
@@ -167,6 +168,7 @@ const s: StoreOptions<RootState> = {
     diets,
     dietsGroups,
     agePeriods,
+    employees,
   },
 };
 
