@@ -3,11 +3,11 @@
     <div class="flex-row">
       <div class="flex-column left-side">
         <AvatarWithFavourite
-          :image="teacher.doctor.human.photoMini"
+          :image="teacher.doctor.employee.human.photoMini"
           error-img-name="doctor-default.webp"
           :domain-id="teacher.doctor.id"
           domain-name="doctor"
-          :img-link="{ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.human.slug } }"
+          :img-link="{ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.employee.human.slug } }"
         />
         <Rating :comments="teacher.doctor.doctorComments" />
         <a v-if="teacher.doctor.mosDoctorLink" :href="teacher.doctor.getMosDoctorLink()">
@@ -24,9 +24,9 @@
         </div>
         <div
           class="doctor-name"
-          @click="$router.push({ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.human.slug } })"
+          @click="$router.push({ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.employee.human.slug } })"
         >
-          {{ teacher.doctor.human.getFullName() }}
+          {{ teacher.doctor.employee.human.getFullName() }}
         </div>
         <div class="spec-list">
           <div
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="regalias-list">
-          <template v-for="(regalia, index) in teacher.doctor.regalias" :key="regalia.id">
+          <template v-for="(regalia, index) in teacher.doctor.employee.regalias" :key="regalia.id">
             <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
           </template>
         </div>

@@ -6,7 +6,7 @@
     <DoctorWorkExperience :doctor="doctor" />
     <PaidServices :items-with-paid-service="doctor.doctorPaidServices" />
     <DoctorAchievements :doctor="doctor" />
-    <ScansSlider :gallery-elements="doctor.certificates" />
+    <ScansSlider :gallery-elements="doctor.employee.certificates" />
     <DoctorDateAndTime />
     <NewsSlider :news="doctor.newsDoctors" />
     <Comments store-module="doctors" :parent-id="doctor.id" :is-reviews="true" />

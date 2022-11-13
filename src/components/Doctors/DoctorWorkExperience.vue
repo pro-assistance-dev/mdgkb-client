@@ -1,13 +1,13 @@
 <template>
-  <CollapsContainer v-if="doctor.experiences.length" tab-id="2" :collapsed="false">
+  <CollapsContainer v-if="doctor.employee.experiences.length" tab-id="2" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Опыт работы</div>
-    </template>  
+    </template>
     <template #inside-content>
-      <div v-if="doctor.experiences.length" class="work-experience">
+      <div v-if="doctor.employee.experiences.length" class="work-experience">
         <div class="point">
           <ul class="point-list">
-            <li v-for="experience in doctor.experiences" :key="experience.id" class="point-list-item">
+            <li v-for="experience in doctor.employee.experiences" :key="experience.id" class="point-list-item">
               <div class="point-info">
                 <h3 class="point-year">{{ experience.start }}-{{ experience.end }}</h3>
                 <h4 class="point-text">{{ experience.place }}. {{ experience.position }}</h4>
@@ -16,15 +16,15 @@
           </ul>
         </div>
       </div>
-    </template>  
+    </template>
   </CollapsContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDoctor from '@/interfaces/IDoctor';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DoctorWorkExperience',

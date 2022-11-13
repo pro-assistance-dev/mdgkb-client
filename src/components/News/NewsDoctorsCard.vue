@@ -7,19 +7,19 @@
         <template #default="scope">
           <div
             class="card-row"
-            @click="$router.push({ name: `DoctorPage`, params: { id: scope.row.doctor.id, slug: scope.row.doctor.human.slug } })"
+            @click="$router.push({ name: `DoctorPage`, params: { id: scope.row.doctor.id, slug: scope.row.doctor.employee.human.slug } })"
           >
             <img
-              v-if="scope.row.doctor.human.photoMini.fileSystemPath"
-              :src="scope.row.doctor.human.photoMini.getImageUrl()"
+              v-if="scope.row.doctor.employee.human.photoMini.fileSystemPath"
+              :src="scope.row.doctor.employee.human.photoMini.getImageUrl()"
               alt="Фото врача"
               @error="errorImg"
             />
             <img v-else src="@/assets/img/doctor-default.webp" />
             <div>
               <div class="name">
-                <div>{{ scope.row.doctor.human.surname }}</div>
-                <div>{{ scope.row.doctor.human.name }}</div>
+                <div>{{ scope.row.doctor.employee.human.surname }}</div>
+                <div>{{ scope.row.doctor.employee.human.name }}</div>
               </div>
               <div class="regalias">
                 <span>{{ scope.row.position }}</span>
@@ -36,12 +36,12 @@
         <img v-else src="@/assets/img/doctor-default.webp" />
         <div>
           <div class="name">
-            <div>{{ newsDoctor.doctor.human.surname }}</div>
-            <div>{{ newsDoctor.doctor.human.name }}</div>
+            <div>{{ newsDoctor.doctor.employee.human.surname }}</div>
+            <div>{{ newsDoctor.doctor.employee.human.name }}</div>
           </div>
           <div class="regalias">
             <span>{{ newsDoctor.position }}</span> -->
-    <!-- <template v-for="(regalia, index) in newsDoctor.doctor.regalias" :key="regalia.id">
+    <!-- <template v-for="(regalia, index) in newsDoctor.doctor.employee.regalias" :key="regalia.id">
               <span v-if="index === 0">{{ regalia.name }}</span>
               <span v-else>, {{ regalia.name }}</span>
             </template> -->

@@ -1,15 +1,27 @@
 <template>
-  <CollapsContainer v-if="doctor.regalias.length || doctor.academicDegree.length > 1 || doctor.academicRank.length > 1" tab-id="10" :collapsed="false">
+  <CollapsContainer
+    v-if="doctor.employee.regalias.length || doctor.employee.academicDegree.length > 1 || doctor.employee.academicRank.length > 1"
+    tab-id="10"
+    :collapsed="false"
+  >
     <template #inside-title>
       <div class="title-in">Достижения и награды</div>
     </template>
     <template #inside-content>
-      <div  v-if="doctor.regalias.length || doctor.academicDegree.length > 1 || doctor.academicRank.length > 1" data-test="achievements-component" class="services">
+      <div
+        v-if="doctor.employee.regalias.length || doctor.employee.academicDegree.length > 1 || doctor.employee.academicRank.length > 1"
+        data-test="achievements-component"
+        class="services"
+      >
         <div class="point">
           <ul class="services-list">
-            <li v-if="doctor.academicDegree.length > 1" data-test="academic-degree" class="services-list-item"><h4 class="point-text">{{ doctor.academicDegree }}</h4></li>
-            <li v-if="doctor.academicRank.length > 1" data-test="academic-rank" class="services-list-item"><h4 class="point-text">{{ doctor.academicRank }}</h4></li>
-            <li v-for="regalia in doctor.regalias" :key="regalia.id" data-test="regalia-list" class="services-list-item">
+            <li v-if="doctor.employee.academicDegree.length > 1" data-test="academic-degree" class="services-list-item">
+              <h4 class="point-text">{{ doctor.employee.academicDegree }}</h4>
+            </li>
+            <li v-if="doctor.employee.academicRank.length > 1" data-test="academic-rank" class="services-list-item">
+              <h4 class="point-text">{{ doctor.employee.academicRank }}</h4>
+            </li>
+            <li v-for="regalia in doctor.employee.regalias" :key="regalia.id" data-test="regalia-list" class="services-list-item">
               <h4 class="point-text">{{ regalia.name }}</h4>
             </li>
           </ul>
@@ -22,8 +34,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDoctor from '@/interfaces/IDoctor';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DoctorAchievements',

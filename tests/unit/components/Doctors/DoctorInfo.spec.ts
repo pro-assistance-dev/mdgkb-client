@@ -52,7 +52,7 @@ describe('DoctorInfo.vue', () => {
     expect(wrapper.find('[data-test="doctor-alt-photo"]').exists()).toBe(true);
 
     const doctorWithPhoto = new Doctor();
-    doctorWithPhoto.human.photo.fileSystemPath = '123';
+    doctorWithPhoto.employee.human.photo.fileSystemPath = '123';
     await wrapper.setProps({ doctor: doctorWithPhoto });
 
     expect(wrapper.find('[data-test="doctor-photo"]').exists()).toBe(true);
@@ -81,13 +81,13 @@ describe('DoctorInfo.vue', () => {
   // });
 
   test('Doctor name shows', async () => {
-    doctor.human.name = 'Name';
-    doctor.human.surname = 'Surname';
-    doctor.human.patronymic = 'Patronymic';
+    doctor.employee.human.name = 'Name';
+    doctor.employee.human.surname = 'Surname';
+    doctor.employee.human.patronymic = 'Patronymic';
     const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="doctor-name"]').exists()).toBe(true);
-    expect(wrapper.find('[data-test="doctor-name"]').text()).toBe(doctor.human.getFullName());
+    expect(wrapper.find('[data-test="doctor-name"]').text()).toBe(doctor.employee.human.getFullName());
   });
 
   // test('BlockIsChief exists only if Doctor is Chief', async () => {
@@ -140,11 +140,11 @@ describe('DoctorInfo.vue', () => {
     for (let i = 0; i < 5; i++) {
       const r = new Regalia();
       r.name = String(i);
-      doctor.regalias.push(r);
+      doctor.employee.regalias.push(r);
     }
     const wrapper = createWrapper(doctor);
 
-    expect(wrapper.findAll('[data-test="regalia-list"]')).toHaveLength(doctor.regalias.length);
+    expect(wrapper.findAll('[data-test="regalia-list"]')).toHaveLength(doctor.employee.regalias.length);
   });
   test('Regalia list skip regalia without name ', async () => {
     for (let i = 0; i < 5; i++) {
@@ -152,18 +152,18 @@ describe('DoctorInfo.vue', () => {
       if (i !== 3) {
         r.name = String(i);
       }
-      doctor.regalias.push(r);
+      doctor.employee.regalias.push(r);
     }
     const wrapper = createWrapper(doctor);
 
-    expect(wrapper.findAll('[data-test="regalia-list"]')).toHaveLength(doctor.regalias.length - 1);
+    expect(wrapper.findAll('[data-test="regalia-list"]')).toHaveLength(doctor.employee.regalias.length - 1);
   });
 
   test('Regalia list has dot everywhere expect before first element ', async () => {
     for (let i = 0; i < 5; i++) {
       const r = new Regalia();
       r.name = String(i);
-      doctor.regalias.push(r);
+      doctor.employee.regalias.push(r);
     }
     const wrapper = createWrapper(doctor);
 
@@ -221,16 +221,16 @@ describe('DoctorInfo.vue', () => {
   //   expect(mockRouter.push).toHaveBeenCalledWith(`/map/${doctor.division.id}`);
   // });
 
-  test('doctor.academicDegree shows', async () => {
-    doctor.academicDegree = 'a';
+  test('doctor.employee.academicDegree shows', async () => {
+    doctor.employee.academicDegree = '';
 
     const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="regalia-list"]').exists()).toBe(false);
   });
 
-  test('doctor.academicRank shows', async () => {
-    doctor.academicRank = 'academicRank';
+  test('doctor.employee.academicRank shows', async () => {
+    doctor.employee.academicRank = 'academicRank';
 
     const wrapper = createWrapper(doctor);
 

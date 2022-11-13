@@ -5,13 +5,13 @@
         <div class="doctor-name" @click="$router.push(`/dpo/courses/${dpoCourse.id}`)">
           {{ dpoCourse.name }}
         </div>
-        <!-- <div class="tag-link" @click="$router.push(`/doctors/${dpoCourse.teacher.doctor.human.slug}`)">
-            Преподаватель: {{ dpoCourse.teacher.doctor.human.getFullName() }}
+        <!-- <div class="tag-link" @click="$router.push(`/doctors/${dpoCourse.teacher.doctor.employee.human.slug}`)">
+            Преподаватель: {{ dpoCourse.teacher.doctor.employee.human.getFullName() }}
           </div> -->
-        <div v-if="dpoCourse.teacher.doctor.human.name">
+        <div v-if="dpoCourse.teacher.doctor.employee.human.name">
           <div>Преподаватель:</div>
-          <router-link :to="`/doctors/${dpoCourse.teacher.doctor.human.slug}`">
-            {{ dpoCourse.teacher.doctor.human.getFullName() }}
+          <router-link :to="`/doctors/${dpoCourse.teacher.doctor.employee.human.slug}`">
+            {{ dpoCourse.teacher.doctor.employee.human.getFullName() }}
           </router-link>
         </div>
         <div>

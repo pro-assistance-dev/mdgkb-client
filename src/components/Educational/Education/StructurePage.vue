@@ -28,7 +28,7 @@
         <el-card>
           <div class="flex-row">
             <div class="doctor-img-container">
-              <el-avatar :size="200" :src="manager.doctor.human.photoMini.getImageUrl()"></el-avatar>
+              <el-avatar :size="200" :src="manager.doctor.employee.human.photoMini.getImageUrl()"></el-avatar>
             </div>
             <div class="doctor-info">
               <div>
@@ -36,10 +36,10 @@
                 <h4 class="doctor-name">{{ manager.role }}</h4>
               </div>
 
-              <p>{{ manager.doctor.human.getFullName() }}</p>
+              <p>{{ manager.doctor.employee.human.getFullName() }}</p>
               <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок 1/9 корпус 11</div>
               <div v-if="i === 2" style="font-size: 12px"><b>Контактный телефон:</b> ____</div>
-              <ContactsBlock :contact-info="manager.doctor.human.contactInfo" />
+              <ContactsBlock :contact-info="manager.doctor.employee.human.contactInfo" />
               <div v-if="i !== 2" class="contact-h3">
                 <div class="item">
                   <svg class="icon-time">

@@ -46,7 +46,7 @@
                 <el-table :data="residencyCourse.residencyCoursesTeachers">
                   <el-table-column label="ФИО" sortable>
                     <template #default="scope">
-                      {{ scope.row.teacher.doctor.human.getFullName() }}
+                      {{ scope.row.teacher.doctor.employee.human.getFullName() }}
                     </template>
                   </el-table-column>
                   <el-table-column label="Руководитель программы" sortable>

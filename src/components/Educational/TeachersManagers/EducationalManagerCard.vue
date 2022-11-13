@@ -2,8 +2,11 @@
   <div class="card-item flex-column">
     <div class="flex-row">
       <div>
-        <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { slug: educationalManager.doctor.human.slug } })">
-          {{ educationalManager.doctor.human.getFullName() }}
+        <div
+          class="doctor-name"
+          @click="$router.push({ name: `DoctorPage`, params: { slug: educationalManager.doctor.employee.human.slug } })"
+        >
+          {{ educationalManager.doctor.employee.human.getFullName() }}
         </div>
       </div>
     </div>

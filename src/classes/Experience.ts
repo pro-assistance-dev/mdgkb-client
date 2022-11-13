@@ -6,7 +6,7 @@ export default class Experience implements IExperience {
   end = 0;
   place = '';
   position = '';
-  doctorId?: string;
+  employeeId?: string;
 
   constructor(i?: IExperience) {
     if (!i) {
@@ -17,6 +17,6 @@ export default class Experience implements IExperience {
     this.end = i.end;
     this.place = i.place;
     this.position = i.position;
-    this.doctorId = i.doctorId;
+    this.employeeId = i.employeeId;
   }
 }

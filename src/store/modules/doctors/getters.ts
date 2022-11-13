@@ -40,10 +40,10 @@ const getters: GetterTree<State, RootState> = {
     return state.item.doctorComments;
   },
   human(state): IHuman {
-    return state.item.human;
+    return state.item.employee.human;
   },
   educations(state): IEducation[] {
-    return state.item.educations;
+    return state.item.employee.educations;
   },
   paidServices(state): IWithPaidService[] {
     return state.item.doctorPaidServices?.splice(0, 15);
