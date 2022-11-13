@@ -2,120 +2,30 @@
   <el-form v-if="mounted" ref="form" :model="doctor" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
+        <el-card>
+          <RemoteSearch :key-value="schema.division.key" @select="addDoctorDivision" />
+          <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision">
+            <span> {{ doctorDivision.division.name }}</span>
+            <el-button @click="removeFromClass(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)">
+              Удалить отделение
+            </el-button>
+          </div>
+        </el-card>
         <el-container direction="vertical">
-          <el-card>
-            <template #header>
-              <CardHeader :label="'Личная информация'" :add-button="false" />
-            </template>
-            <HumanForm :with-styles="false" store-module="doctors" @input-name-complete="completeInput" />
-          </el-card>
           <el-checkbox v-model="doctor.hasAppointment" label="Включить расписание приёма" />
           <div v-if="doctor.hasAppointment">
             <TimetableConstructorV2 :store-module="'doctors'" />
           </div>
-          <el-card>
-            <EducationForm :store-module="'doctors'" />
-          </el-card>
-          <el-card>
-            <el-button @click="doctor.addExperience()">Добавить опыт работы</el-button>
-            <div v-for="(experience, i) in doctor.employee.experiences" :key="experience.id">
-              <el-form-item label="Место работы">
-                <el-input v-model="experience.place" />
-              </el-form-item>
-              <el-form-item label="Должность">
-                <el-input v-model="experience.position" />
-              </el-form-item>
-              <el-form-item label="Начало">
-                <el-input-number v-model="experience.start" />
-              </el-form-item>
-              <el-form-item label="Конец">
-                <el-input-number v-model="experience.end" />
-              </el-form-item>
-              <el-form-item label="Должность">
-                <el-button @click="doctor.removeExperience(i)">Удалить опыт работы</el-button>
-              </el-form-item>
-            </div>
-          </el-card>
-
-          <el-card>
-            <el-button @click="doctor.addCertificate()">Добавить сертификат</el-button>
-            <div v-for="(certificate, i) in doctor.certificates" :key="certificate.id">
-              <el-form-item label="Название сертификата">
-                <el-input v-model="certificate.description" />
-              </el-form-item>
-              <UploaderSingleScan :file-info="certificate.scan" />
-              <el-button @click="doctor.removeCertificate(i)">Удалить сертификат</el-button>
-            </div>
-          </el-card>
-          <!-- <el-card>
-            <el-button @click="doctor.addDoctorPaidService()">Добавить услуги</el-button>
-            <div v-for="(doctorPaidService, i) in doctor.doctorPaidServices" :key="doctorPaidService.id">
-              <el-form-item label="Услуга">
-                <RemoteSearch
-                  :key-value="'paidService'"
-                  :model-value="doctorPaidService.paidService.name"
-                  @select="doctorPaidService.paidServiceId = $event.id"
-                />
-              </el-form-item>
-              <el-button @click="doctor.removeDoctorPaidService(i)">Удалить услугу</el-button>
-            </div>
-          </el-card> -->
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
           <el-card>
-            <RemoteSearch :key-value="schema.division.key" @select="addDoctorDivision" />
-            <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision">
-              <span> {{ doctorDivision.division.name }}</span>
-              <el-button @click="removeFromClass(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)">
-                Удалить отделение
-              </el-button>
-            </div>
-          </el-card>
-          <el-card>
-            <el-form-item label="Отображать на сайте">
-              <el-switch v-model="doctor.show"></el-switch>
-            </el-form-item>
-            <el-form-item label="Член ученного совета">
-              <el-switch :model-value="!!doctor.educationalOrganizationAcademic" @change="academicChangeHandler"></el-switch>
-            </el-form-item>
-          </el-card>
-          <el-card header="Фото">
-            <UploaderSingleScan
-              :file-info="doctor.employee.human.photo"
-              :height="300"
-              :width="300"
-              @remove-file="doctor.employee.human.removePhoto()"
-            />
-          </el-card>
-          <el-card header="Фото-миниатюра">
-            <UploaderSingleScan
-              :file-info="doctor.employee.human.photoMini"
-              :height="300"
-              :width="300"
-              @remove-file="doctor.employee.human.removePhotoMini()"
-            />
-          </el-card>
-          <el-card>
             <template #header>
-              <CardHeader :label="'Регалии, звания'" :add-button="false" />
+              <CardHeader :label="'Прочая информация'" :add-button="false" />
             </template>
-            <!-- <el-form-item label="Должность" prop="position">
-              <RemoteSearch :key-value="'position'" :model-value="doctor.position.name" @select="selectPosition" />
-            </el-form-item> -->
-            <el-form-item label="Учёная степень">
-              <el-input v-model="doctor.employee.academicDegree" />
-            </el-form-item>
-            <el-form-item label="Звание">
-              <el-input v-model="doctor.employee.academicRank" />
-            </el-form-item>
             <el-form-item label="Ссылка на профиль в системе Московский врач">
               <el-input v-model="doctor.mosDoctorLink" />
-            </el-form-item>
-            <el-button @click="addRegalia"> Добавить регалию</el-button>
-            <el-form-item label="Регалии">
-              <el-input v-for="regalia in doctor.employee.regalias" :key="regalia" v-model="regalia.name" />
             </el-form-item>
             <el-button @click="doctor.addTeachingActivity()"> Добавить педагогическую деятельнсоть</el-button>
             <el-form-item label="Преподавательская деятельность">
@@ -140,11 +50,8 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import Division from '@/classes/Division';
 import FilterModel from '@/classes/filters/FilterModel';
 import CardHeader from '@/components/admin/CardHeader.vue';
-import EducationForm from '@/components/admin/EducationForm.vue';
-import HumanForm from '@/components/admin/HumanForm.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDivision from '@/interfaces/IDivision';
@@ -163,10 +70,7 @@ export default defineComponent({
   components: {
     RemoteSearch,
     TimetableConstructorV2,
-    HumanForm,
-    EducationForm,
     CardHeader,
-    UploaderSingleScan,
   },
   setup() {
     const form = ref();
@@ -224,13 +128,17 @@ export default defineComponent({
       divisionOptions.value = Provider.store.getters['divisions/divisions'];
     };
 
+    const toEmployeeInfo = async (): Promise<void> => {
+      await Provider.router.push(`/admin/employees/${doctor.value.employee.human.slug}`);
+    };
+
     const loadDoctor = async (): Promise<void> => {
       if (Provider.route().params['id']) {
         await Provider.store.dispatch('doctors/get', Provider.route().params['id']);
         Provider.store.commit('admin/setHeaderParams', {
           title: doctor.value.employee.human.getFullName(),
           showBackButton: true,
-          buttons: [{ action: submit }],
+          buttons: [{ action: toEmployeeInfo, text: 'Личная информация', type: 'warning' }, { action: submit }],
         });
       } else {
         Provider.store.commit('doctors/resetState');

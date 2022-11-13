@@ -28,7 +28,7 @@
           <TableButtonGroup
             :show-edit-button="true"
             :show-remove-button="true"
-            @edit="edit(scope.row.employee.human.slug)"
+            @edit="edit(scope.row.human.slug)"
             @remove="remove(scope.row.id)"
           />
         </template>
