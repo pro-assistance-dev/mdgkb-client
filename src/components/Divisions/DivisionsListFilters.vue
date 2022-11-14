@@ -8,6 +8,7 @@
 
       <FilterSelect
         placeholder="Выберите направление"
+        :max-width="300"
         :options="schema.treatDirection.options"
         :table="schema.division.tableName"
         :col="schema.division.treatDirectionId"
@@ -43,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
@@ -54,6 +55,7 @@ import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
+import ITreatDirection from '@/interfaces/ITreatDirection';
 import IOption from '@/interfaces/schema/IOption';
 import Provider from '@/services/Provider';
 
@@ -81,12 +83,23 @@ export default defineComponent({
   },
   emits: ['selectMode', 'load'],
   setup(props, { emit }) {
+    const treatDirections: Ref<ITreatDirection[]> = computed<ITreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push(`/divisions/${event.value}`);
     };
 
     const selectMode = async (value: string) => {
       emit('selectMode', value);
+    };
+
+    onBeforeMount(async () => {
+      Provider.store.commit('filter/setStoreModule', 'divisions');
+      await loadFilters();
+    });
+
+    const loadFilters = async () => {
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.treatDirection);
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
     };
 
     return {
@@ -96,6 +109,7 @@ export default defineComponent({
       DataTypes,
       schema: Provider.schema,
       sortList: Provider.sortList,
+      treatDirections,
     };
   },
 });
