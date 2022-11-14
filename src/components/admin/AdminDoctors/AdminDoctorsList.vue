@@ -11,17 +11,17 @@
     <el-table :data="doctors" :border="false">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
-          {{ scope.row.human.getFullName() }}
+          {{ scope.row.employee.human.getFullName() }}
         </template>
       </el-table-column>
       <el-table-column label="Пол" align="center" sortable>
         <template #default="scope">
-          {{ scope.row.human.getGender() }}
+          {{ scope.row.employee.human.getGender() }}
         </template>
       </el-table-column>
       <el-table-column label="Дата рождения" sortable>
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.human.dateBirth) }}
+          {{ $dateTimeFormatter.format(scope.row.employee.human.dateBirth) }}
         </template>
       </el-table-column>
       <el-table-column label="Отделение" sortable>
@@ -38,7 +38,7 @@
           <TableButtonGroup
             :show-edit-button="true"
             :show-remove-button="true"
-            @edit="edit(scope.row.human.slug)"
+            @edit="edit(scope.row.employee.human.slug)"
             @remove="remove(scope.row.id)"
           />
         </template>

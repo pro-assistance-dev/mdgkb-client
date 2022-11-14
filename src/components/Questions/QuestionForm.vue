@@ -41,7 +41,15 @@
             <el-input v-model="question.theme" placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="Содержание обращения" prop="originalQuestion">
-            <WysiwygEditor v-model="question.originalQuestion" height="225px" limit="1000" />
+            <el-input
+              v-model="question.originalQuestion"
+              type="textarea"
+              placeholder="Содержание обращения"
+              minlength="5"
+              maxlength="1000"
+              show-word-limit
+              :autosize="{ minRows: 5, maxRows: 10 }"
+            />
           </el-form-item>
           <el-form-item style="margin: 0">
             <FileUploader :file-info="question.file" />
@@ -75,7 +83,6 @@ import { ElNotification } from 'element-plus';
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
-import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IQuestion from '@/interfaces/IQuestion';
@@ -84,7 +91,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'QuestionForm',
-  components: { FileUploader, WysiwygEditor },
+  components: { FileUploader },
   setup() {
     const filter = ref('');
     const store = useStore();

@@ -1,15 +1,12 @@
-import IEducation from '@/interfaces/education/IEducation';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICertificate from '@/interfaces/ICertificate';
 import IDivision from '@/interfaces/IDivision';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
-import IExperience from '@/interfaces/IExperience';
+import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
-import IRegalia from '@/interfaces/IRegalia';
 import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
@@ -18,8 +15,8 @@ import IEducationalOrganizationAcademic from './IEducationalOrganizationAcademic
 
 export default interface IDoctor {
   id?: string;
-  human: IHuman;
-  humanId?: string;
+  employee: IEmployee;
+  employeeId?: string;
   description: string;
   mosDoctorLink?: string;
   onlineDoctorId?: string;
@@ -32,30 +29,15 @@ export default interface IDoctor {
   doctorComments: IDoctorComment[];
   doctorsDivisions: IDoctorDivision[];
   doctorsDivisionsForDelete: string[];
-  academicDegree: string;
-  academicRank: string;
-  regalias: IRegalia[];
-  regaliasForDelete: string[];
-  educations: IEducation[];
-  educationsForDelete: string[];
   timetableDaysForDelete: string[];
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;
-  experiences: IExperience[];
-  experiencesForDelete: string[];
   doctorPaidServices: IDoctorPaidService[];
   doctorPaidServicesForDelete: string[];
-  certificates: ICertificate[];
-  certificatesForDelete: string[];
   educationalOrganizationAcademic?: IEducationalOrganizationAcademic;
-  addExperience: () => void;
-  removeExperience: (index: number) => void;
   newsDoctors: INewsDoctor[];
   addDoctorPaidService: () => void;
   removeDoctorPaidService: (index: number) => void;
-
-  addCertificate: () => void;
-  removeCertificate: (index: number) => void;
 
   getFileInfos: () => IFileInfo[];
   getMosDoctorLink: () => string;
@@ -68,4 +50,5 @@ export default interface IDoctor {
   isChief: () => boolean;
   hasAppointment: boolean;
   addDoctorDivision: (division: IDivision) => void;
+  getHuman: () => IHuman;
 }

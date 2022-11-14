@@ -4,6 +4,6 @@ export default interface ICertificate {
   id?: string;
   scanId?: string;
   scan?: IFileInfo;
-  doctorId?: string;
+  employeeId?: string;
   description: string;
 }

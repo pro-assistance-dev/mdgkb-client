@@ -3,9 +3,9 @@
     <div class="card-item-left">
       <div class="doctor-img">
         <img
-          v-if="doctor.human.photo.fileSystemPath"
+          v-if="doctor.employee.human.photo.fileSystemPath"
           data-test="doctor-photo"
-          :src="doctor.human.photo.getImageUrl()"
+          :src="doctor.employee.human.photo.getImageUrl()"
           alt="alt"
           @error="user.human.photo.errorImg($event)"
         />
@@ -29,7 +29,7 @@
         </div>
       </template>
       <div data-test="doctor-name" class="doctor-name">
-        {{ doctor.human.getFullName() }}
+        {{ doctor.employee.human.getFullName() }}
       </div>
       <div v-if="doctor.isChief()" data-test="is-chief-block" class="green-tag-link">Заведующий отделением</div>
       <div
@@ -50,15 +50,15 @@
       </div>
       <div class="card-item-middle-bottom">
         <div class="regalias-list">
-          <span v-if="doctor.academicDegree.length > 1" data-test="regalia-list">
-            <span>{{ doctor.academicDegree }}</span
-            ><span v-if="doctor.regalias || doctor.academicRank.length > 1"> • </span>
+          <span v-if="doctor.employee.academicDegree.length" data-test="regalia-list">
+            <span>{{ doctor.employee.academicDegree }}</span>
+            <span v-if="doctor.employee.regalias || doctor.employee.academicRank.length > 1"> • </span>
           </span>
-          <span v-if="doctor.academicRank.length > 1" data-test="regalia-list">
-            <span>{{ doctor.academicRank }}</span
-            ><span v-if="doctor.regalias"> • </span>
+          <span v-if="doctor.employee.academicRank.length > 1" data-test="regalia-list">
+            <span>{{ doctor.employee.academicRank }}</span
+            ><span v-if="doctor.employee.regalias"> • </span>
           </span>
-          <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
+          <template v-for="(regalia, index) in doctor.employee.regalias" :key="regalia.id">
             <span v-if="regalia?.name" data-test="regalia-list">
               <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
             </span>

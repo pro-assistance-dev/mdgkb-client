@@ -1,13 +1,13 @@
 <template>
-  <CollapsContainer v-if="doctor.educations.length" tab-id="1" :collapsed="false">
+  <CollapsContainer v-if="doctor.employee.educations.length" tab-id="1" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Образование</div>
-    </template>  
+    </template>
     <template #inside-content>
-      <div v-if="doctor.educations.length" class="education">
+      <div v-if="doctor.employee.educations.length" class="education">
         <div class="point">
           <ul class="point-list">
-            <li v-for="education in doctor.educations" :key="education.id" class="point-list-item">
+            <li v-for="education in doctor.employee.educations" :key="education.id" class="point-list-item">
               <div class="point-info">
                 <h3 class="point-year">{{ education.getEndYear() }}</h3>
                 <h4 class="point-text">{{ education.institution }}. {{ education.type }}. {{ education.specialization }}</h4>
@@ -16,15 +16,15 @@
           </ul>
         </div>
       </div>
-    </template>  
+    </template>
   </CollapsContainer>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDoctor from '@/interfaces/IDoctor';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DoctorEducation',

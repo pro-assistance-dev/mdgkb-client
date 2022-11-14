@@ -20,7 +20,7 @@ export default interface IEducation {
   educationAccreditation?: IEducationAccreditaion;
   educationAccreditationId?: string;
 
-  doctorId?: string;
+  employeeId?: string;
 
   getEndYear: () => number;
 }

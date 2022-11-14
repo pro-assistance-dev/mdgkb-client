@@ -2,7 +2,7 @@
   <div class="card-item">
     <ChiefCard
       :chief="division.chief"
-      :chief-role="division.chief.human.isMale ? 'Заведующий' : 'Заведующая' + ' отделением'"
+      :chief-role="division.chief.employee.human.isMale ? 'Заведующий' : 'Заведующая' + ' отделением'"
       show-favourite
       favourite-domain="division"
       :favourite-id="division.id"

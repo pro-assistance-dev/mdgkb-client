@@ -251,6 +251,11 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-user',
       },
       {
+        title: 'Сотрудники',
+        to: '/admin/employees',
+        icon: 'el-icon-user',
+      },
+      {
         title: 'Пользователи',
         to: '/admin/users',
         icon: 'el-icon-user',

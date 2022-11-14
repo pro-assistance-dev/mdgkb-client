@@ -76,9 +76,9 @@ const actions: ActionTree<State, RootState> = {
       items.forEach((i: IDoctor) => {
         if (i.id) {
           search.searchObjects.push({
-            value: `${i.human.surname} ${i.human.name} ${i.human.patronymic}`,
-            id: i.human.slug,
-            label: `${i.human.surname} ${i.human.name} ${i.human.patronymic}`,
+            value: `${i.employee.human.surname} ${i.employee.human.name} ${i.employee.human.patronymic}`,
+            id: i.employee.human.slug,
+            label: `${i.employee.human.surname} ${i.employee.human.name} ${i.employee.human.patronymic}`,
             description: '',
           });
         }

@@ -43,12 +43,7 @@
 
         <el-card v-if="!question.answered" header="Ответ пользователю">
           <el-form-item prop="originalAnswer">
-            <el-input
-              v-model="question.originalAnswer"
-              placeholder="Ответ пользователю"
-              type="textarea"
-              :autosize="{ minRows: 5, maxRows: 10 }"
-            ></el-input>
+            <WysiwygEditor v-model="question.originalAnswer" />
           </el-form-item>
         </el-card>
 
@@ -62,12 +57,7 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="Ответ для публикации" prop="answer">
-            <el-input
-              v-model="question.answer"
-              placeholder="Ответ для публикации"
-              type="textarea"
-              :autosize="{ minRows: 5, maxRows: 10 }"
-            ></el-input>
+            <WysiwygEditor v-model="question.answer" />
           </el-form-item>
         </el-card>
       </div>
@@ -82,13 +72,14 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
+import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IQuestion from '@/interfaces/IQuestion';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminQuestionPage',
-  components: { AdminQuestionStatus },
+  components: { AdminQuestionStatus, WysiwygEditor },
   setup() {
     const store = useStore();
     const route = useRoute();
@@ -98,7 +89,6 @@ export default defineComponent({
     const question: Ref<IQuestion> = computed<IQuestion>(() => store.getters['questions/item']);
     const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const rules = {
-      originalAnswer: [{ required: true, message: 'Необходимо указать ответ пользователю', trigger: 'blur' }],
       question: [{ required: true, message: 'Необходимо указать вопрос для публикации', trigger: 'blur' }],
       answer: [{ required: true, message: 'Необходимо указать ответ для публикации', trigger: 'blur' }],
     };

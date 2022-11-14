@@ -7,4 +7,5 @@ export default interface IDoctorDivision {
   division?: IDivision;
   doctorId?: string;
   doctor: IDoctor;
+  show: boolean;
 }

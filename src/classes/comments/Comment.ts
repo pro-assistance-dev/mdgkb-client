@@ -54,9 +54,9 @@ export default class Comment implements IComment {
     }
     if (comment.doctorComment && comment.doctorComment.doctor) {
       this.doctor = new Doctor(comment.doctorComment.doctor);
-      this.title = this.doctor.human.getFullName();
+      this.title = this.doctor.employee.human.getFullName();
       this.commentTo = 'Доктор';
-      this.link = `/doctors/${this.doctor.human.slug}`;
+      this.link = `/doctors/${this.doctor.employee.human.slug}`;
     }
     if (comment.divisionComment && comment.divisionComment.division) {
       this.division = new Division(comment.divisionComment.division);

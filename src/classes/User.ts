@@ -18,6 +18,7 @@ import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IForm from '@/interfaces/IForm';
+import IHuman from '@/interfaces/IHuman';
 import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
@@ -199,5 +200,9 @@ export default class User implements IUser {
   }
   hasComments(): boolean {
     return this.comments.length > 0;
+  }
+
+  getHuman(): IHuman {
+    return this.human;
   }
 }

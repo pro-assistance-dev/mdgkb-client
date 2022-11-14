@@ -47,8 +47,8 @@
               <h4>Руководитель:</h4>
             </div>
             <div class="item-el">
-              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
-                {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.employee.human.slug}`">
+                {{ dpoCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
               </router-link>
             </div>
           </div>
@@ -103,8 +103,8 @@
             <td style="text-align: center">{{ dpoCourse.hours }}</td>
             <td style="text-align: center">{{ dpoCourse.cost }} р.</td>
             <td>
-              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.human.slug}`">
-                {{ dpoCourse.getMainTeacher()?.doctor.human.getFullName() }}
+              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.employee.human.slug}`">
+                {{ dpoCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
               </router-link>
             </td>
             <td style="text-align: center">

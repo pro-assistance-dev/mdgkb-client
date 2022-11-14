@@ -6,7 +6,7 @@
     <DivisionInfoBlock :info="division.info" />
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
     <DivisionSchedule :division="division" />
-    <DoctorsCarousel :doctors="division.doctors" header-title="Специалисты отделения" />
+    <DoctorsCarousel :doctors="division.getDoctors(true)" header-title="Специалисты отделения" />
     <NewsSlider :news="division.newsDivisions" />
     <DivisionCertificates />
     <ScansSlider :gallery-elements="division.certificates" />

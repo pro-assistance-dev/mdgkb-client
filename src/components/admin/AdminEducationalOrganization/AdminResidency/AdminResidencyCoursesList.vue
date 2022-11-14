@@ -22,7 +22,7 @@
       <el-table-column label="Руководитель" min-width="300">
         <template #default="scope">
           <div v-if="scope.row.getMainTeacher()">
-            {{ scope.row.getMainTeacher().doctor.human.getFullName() }}
+            {{ scope.row.getMainTeacher().doctor.employee.human.getFullName() }}
           </div>
           <div v-else>Руководителя нет</div>
         </template>
@@ -86,12 +86,12 @@ import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

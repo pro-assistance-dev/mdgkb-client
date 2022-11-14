@@ -10,10 +10,10 @@
             <router-link
               v-if="postgraduateCourse.getMainTeacher()"
               class="recent-news-item"
-              :to="`/doctors/${postgraduateCourse.getMainTeacher().doctor.human.slug}`"
+              :to="`/doctors/${postgraduateCourse.getMainTeacher().doctor.employee.human.slug}`"
               style="padding-left: 0"
             >
-              {{ postgraduateCourse.getMainTeacher()?.doctor.human.getFullName() }}
+              {{ postgraduateCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
             </router-link>
           </div>
           <div v-if="postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main).length">
@@ -22,10 +22,10 @@
               v-for="postgraduateCoursesTeacher in postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main)"
               :key="postgraduateCoursesTeacher.id"
               class="recent-news-item"
-              :to="`/doctors/${postgraduateCoursesTeacher.teacher.doctor.human.slug}`"
+              :to="`/doctors/${postgraduateCoursesTeacher.teacher.doctor.employee.human.slug}`"
               style="padding-left: 0"
             >
-              {{ postgraduateCoursesTeacher.teacher.doctor.human.getFullName() }}
+              {{ postgraduateCoursesTeacher.teacher.doctor.employee.human.getFullName() }}
             </router-link>
           </div>
           <div class="button-block">

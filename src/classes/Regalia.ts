@@ -3,8 +3,7 @@ import IRegalia from '@/interfaces/IRegalia';
 export default class Regalia implements IRegalia {
   id?: string;
   name = '';
-  doctorId?: string;
-  headId?: string;
+  employeeId?: string;
 
   constructor(i?: IRegalia) {
     if (!i) {
@@ -12,7 +11,6 @@ export default class Regalia implements IRegalia {
     }
     this.id = i.id;
     this.name = i.name;
-    this.doctorId = i.doctorId;
-    this.headId = i.headId;
+    this.employeeId = i.employeeId;
   }
 }

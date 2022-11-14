@@ -3,11 +3,11 @@
     <div class="flex-row">
       <div class="flex-column left-side">
         <AvatarWithFavourite
-          :image="doctor.human.photoMini"
+          :image="doctor.employee.human.photoMini"
           error-img-name="doctor-default.webp"
           :domain-id="doctor.id"
           domain-name="doctor"
-          :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } }"
+          :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } }"
         />
         <Rating :comments="doctor.doctorComments" />
         <router-link v-if="doctor.mosDoctorLink" :to="doctor.getMosDoctorLink()">
@@ -26,14 +26,14 @@
           @click="$router.push(`/divisions/${doctorDivision.division.slug}`)"
         > -->
         <div
-          v-if="doctor.doctorsDivisions"
+          v-if="doctor.doctorsDivisions && doctor.doctorsDivisions.length > 0"
           class="division-name"
           @click="$router.push(`/divisions/${doctor.doctorsDivisions[0].division.slug}`)"
-        >   
+        >
           {{ doctor.doctorsDivisions[0].division.name }}
         </div>
-        <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
-          {{ doctor.human.getFullName() }}
+        <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } })">
+          {{ doctor.employee.human.getFullName() }}
         </div>
         <div class="spec-list">
           <div v-if="doctor.medicalProfile" class="tag-link" @click="$router.push(`/medical-profiles/${doctor.medicalProfile.id}`)">
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="regalias-list">
-          <template v-for="(regalia, index) in doctor.regalias" :key="regalia.id">
+          <template v-for="(regalia, index) in doctor.employee.regalias" :key="regalia.id">
             <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
           </template>
         </div>
@@ -66,8 +66,8 @@
           <img v-else src="@/assets/img/doctor-default.webp" />
         </div>
         <div class="flex-column">
-          <span class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.human.slug } })">
-            <b>{{ doctor.human.getFullName() }}</b>
+          <span class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } })">
+            <b>{{ doctor.employee.human.getFullName() }}</b>
           </span>
           <span>Врач {{ doctor.position }}</span>
           <span>{{ doctor.tags }}</span>
