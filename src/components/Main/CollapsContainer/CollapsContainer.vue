@@ -132,4 +132,13 @@ export default defineComponent({
   -o-transition: all 0.5s;
   transition: all 0.5s;
 }
+:deep(.el-carousel__item) {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+:deep(.el-carousel__container) {
+  max-height: auto;
+}
 </style>
