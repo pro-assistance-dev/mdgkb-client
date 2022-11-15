@@ -3,7 +3,6 @@
     <template #filters>
       <DivisionsListFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="loadDivisions" />
     </template>
-    <h2>Терапевтическое направление</h2>
     <DivisionsList :divisions="divisions" @load="loadMore" />
   </PageWrapper>
 </template>
