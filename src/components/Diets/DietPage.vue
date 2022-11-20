@@ -1,7 +1,7 @@
 <template>
   <!-- <div v-if="timetable.timetableDays.length > 1" class="title">Меню питания на неделю</div> -->
   <div v-if="timetable.timetableDays.length > 1" class="week">
-    <div v-for="(day, i) in setDay" :key="i" class="form_radio_btn">
+    <div v-for="(day, i) in setDays" :key="i" class="form_radio_btn">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
         {{ day }}
       </button>
@@ -64,6 +64,7 @@ import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
 import Time from '@/assets/doctors/svg/Time.svg';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import Provider from '@/services/Provider';
+import setDays from '@/services/SetDays';
 
 export default defineComponent({
   name: 'DietPage',
@@ -75,13 +76,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // const diets: Ref<IDiet[]> = computed<IDiet[]>(() => Provider.store.getters['diets/items']);
-    // const selectedDiet: Ref<IDiet> = computed(() => Provider.store.getters['diets/item']);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
-    const setDay = ref(['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']);
 
     const selectDay = (e: any) => {
-      console.log(e);
       selectedNumberDay.value = e;
     };
 
@@ -99,7 +96,7 @@ export default defineComponent({
       // selectedDiet,
       // diets,
       isAuth,
-      setDay,
+      setDays,
       selectedNumberDay,
       selectDay,
     };

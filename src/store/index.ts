@@ -15,8 +15,11 @@ import { certificates } from '@/store/modules/certificates';
 import { children } from '@/store/modules/children';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
+import { dailyMenus } from '@/store/modules/dailyMenus';
 import { diets } from '@/store/modules/diets';
 import { dietsGroups } from '@/store/modules/dietsGroups';
+import { dishesGroups } from '@/store/modules/dishesGroups';
+import { dishesSamples } from '@/store/modules/dishesSamples';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { documentTypes } from '@/store/modules/documentTypes';
@@ -169,6 +172,9 @@ const s: StoreOptions<RootState> = {
     dietsGroups,
     agePeriods,
     employees,
+    dishesGroups,
+    dailyMenus,
+    dishesSamples,
   },
 };
 

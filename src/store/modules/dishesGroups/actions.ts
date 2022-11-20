@@ -6,7 +6,7 @@ import RootState from '@/store/types';
 
 import { State } from './state';
 
-const httpClient = new HttpClient('DishesGroups');
+const httpClient = new HttpClient('dishes-groups');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
@@ -16,7 +16,7 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDishesGroup>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ state }, item: IDishesGroup): Promise<void> => {
+  create: async (_, item: IDishesGroup): Promise<void> => {
     await httpClient.post<IDishesGroup, IDishesGroup>({
       payload: item,
     });
