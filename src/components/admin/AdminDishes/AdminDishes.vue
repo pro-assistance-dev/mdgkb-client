@@ -27,6 +27,10 @@
       <button @click="addDishes">Добавить блюда</button>
     </template>
 
+    <el-dialog v-model="dishesConstructorVisible" :width="1200" :destroy-on-close="true" center @closed="closeModal">
+      <DishesSamplesConstructor :menu="selectedMenu" />
+    </el-dialog>
+
     <el-dialog v-model="addDishVisible" :width="1200" :destroy-on-close="true" center @closed="closeModal">
       <AddDish :menu="selectedMenu" />
     </el-dialog>
@@ -39,6 +43,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import DailyMenu from '@/classes/DailyMenu';
 import Month from '@/classes/Month';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
+import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDay from '@/interfaces/IDay';
 import IDishesGroup from '@/interfaces/IDishesGroup';
@@ -48,11 +53,11 @@ import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 export default defineComponent({
   name: 'AdminDishes',
   components: {
+    DishesSamplesConstructor,
     AdminListWrapper,
     AddDish,
   },
@@ -60,17 +65,25 @@ export default defineComponent({
     const form = ref();
     const rules = ref(DoctorRules);
     const addDishVisible: Ref<boolean> = ref(false);
+    const dishesConstructorVisible: Ref<boolean> = ref(false);
     const month: Ref<IMonth> = ref(new Month());
     const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const dishesGroups: Ref<IDishesGroup[]> = ref([]);
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
       await Provider.store.dispatch('search/searchGroups');
       await Provider.store.dispatch('dishesGroups/getAll');
       await Provider.store.dispatch('dailyMenus/getAll');
+      Provider.store.commit('admin/setHeaderParams', {
+        title: 'Меню буфета',
+        buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
+      });
       selectDay(month.value.getSelectedDay());
+    };
+
+    const openDishesConstructor = () => {
+      dishesConstructorVisible.value = true;
     };
 
     Hooks.onBeforeMount(load);
@@ -111,6 +124,7 @@ export default defineComponent({
     };
 
     return {
+      dishesConstructorVisible,
       pdf,
       submit,
       createMenu,

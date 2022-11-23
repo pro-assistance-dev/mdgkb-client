@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import DishesGroup from '@/classes/DishesGroup';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -16,17 +17,27 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDishesGroup>({ query: `${id}` });
     commit('set', res);
   },
-  create: async (_, item: IDishesGroup): Promise<void> => {
-    await httpClient.post<IDishesGroup, IDishesGroup>({
+  create: async ({ state }, item: IDishesGroup): Promise<void> => {
+    const res = await httpClient.post<IDishesGroup, IDishesGroup>({
       payload: item,
+      isFormData: true,
     });
+    if (!res) {
+      return;
+    }
+    item.id = res.id;
+    state.items.unshift(item);
+    state.item = new DishesGroup();
   },
   update: async (_, item: IDishesGroup): Promise<void> => {
-    await httpClient.put<IDishesGroup, IDishesGroup>({ query: `${item.id}`, payload: item });
+    await httpClient.put<IDishesGroup, IDishesGroup>({ query: `${item.id}`, payload: item, isFormData: true });
   },
-  remove: async ({ commit }, id: string): Promise<void> => {
+  remove: async ({ state }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
-    commit('remove', id);
+    const index = state.items.findIndex((i: IDishesGroup) => i.id === id);
+    if (index > -1) {
+      state.items.splice(index, 1);
+    }
   },
 };
 
