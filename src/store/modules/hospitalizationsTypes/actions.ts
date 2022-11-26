@@ -11,7 +11,6 @@ const httpClient = new HttpClient('hospitalizations-types');
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
     const items = await httpClient.get<IHospitalizationType>({ query: '' });
-    console.log(items);
     commit('setAll', items);
   },
 };

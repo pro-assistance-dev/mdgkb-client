@@ -1,8 +1,9 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <RemoteSearch :key-value="schema.doctor.key" placeholder="Начните вводить ФИО врача" @select="selectSearch" />
-      <FiltersList :models="createGenderFilterModels()" @load="loadHospitalizations" />
+      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания" @load="loadHospitalizations" />
+      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения" @load="loadHospitalizations" />
+
       <FilterMultipleSelect :filter-model="filterByDivision" :options="schema.division.options" @load="loadHospitalizations" />
     </template>
     <template #sort>
@@ -56,34 +57,45 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
-import FiltersList from '@/components/Filters/FiltersList.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
+import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
+import { Orders } from '@/interfaces/filters/Orders';
 import ISearchObject from '@/interfaces/ISearchObject';
+import { StayTypes } from '@/interfaces/StayTypes';
+import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import DoctorsFiltersLib from '@/services/Provider/libs/filters/DoctorsFiltersLib';
+import HospitalizationsFiltersLib from '@/services/Provider/libs/filters/HospitalizationsFiltersLib';
+import HospitalizationsSortsLib from '@/services/Provider/libs/sorts/HospitalizationsSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminHospitalizationsList',
-  components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList, FilterMultipleSelect },
+  components: {
+    AdminListWrapper,
+    TableButtonGroup,
+    SortList,
+    FilterMultipleSelect,
+    FilterSelectV2,
+  },
   setup() {
     const hospitalizations = computed(() => Provider.store.getters['hospitalizations/items']);
-    // const genderFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
 
     const loadHospitalizations = async () => {
       await Provider.store.dispatch('hospitalizations/getAll', Provider.filterQuery.value);
     };
-    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
+
     const load = async () => {
-      // Provider.setSortList(...createSortModels(DoctorsSortsLib));
-      // Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
+      Provider.setSortList(...createSortModels(HospitalizationsSortsLib));
+      Provider.setSortModels(HospitalizationsSortsLib.byCreatedAt(Orders.Asc));
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
-      // filterByDivision.value = DoctorsFiltersLib.byDivisions([]);
+      filterByDivision.value = HospitalizationsFiltersLib.byDivisions([]);
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       await loadHospitalizations();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Госпитализации',
@@ -104,11 +116,20 @@ export default defineComponent({
       await Provider.router.push({ name: `AdminEditDoctorPage`, params: { id: event.value } });
     };
 
-    const createGenderFilterModels = (): IFilterModel[] => {
-      return [DoctorsFiltersLib.onlyMale(), DoctorsFiltersLib.onlyFemale()];
+    const createFilterConservativeModels = (): IFilterModel[] => {
+      return [
+        HospitalizationsFiltersLib.onlyConservative(TreatmentTypes.Conservative),
+        HospitalizationsFiltersLib.onlyConservative(TreatmentTypes.Operative),
+      ];
+    };
+
+    const createFilterAllDayModels = (): IFilterModel[] => {
+      return [HospitalizationsFiltersLib.onlyAllDay(StayTypes.AllDay), HospitalizationsFiltersLib.onlyAllDay(StayTypes.ShortDay)];
     };
 
     return {
+      createFilterAllDayModels,
+      createFilterConservativeModels,
       filterByDivision,
       hospitalizations,
       remove,
@@ -120,7 +141,6 @@ export default defineComponent({
       // genderFilter,
       loadHospitalizations,
       sortList: Provider.sortList,
-      createGenderFilterModels,
       DataTypes,
       Operators,
     };

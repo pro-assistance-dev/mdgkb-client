@@ -103,6 +103,14 @@
     <DatePicker v-model="formValue.child.human.dateBirth" />
   </el-form-item>
   <el-form-item
+    v-if="activeFields.childCitizenship"
+    label="Гражданство пациента"
+    prop="formValue.child.human.citizenship"
+    :rules="rules.userCitizenship"
+  >
+    <el-input v-model="formValue.child.human.citizenship" placeholder="Гражданство пациента"></el-input>
+  </el-form-item>
+  <el-form-item
     v-if="activeFields.userPlaceBirth"
     label="Место рождения"
     prop="formValue.user.human.placeBirth"

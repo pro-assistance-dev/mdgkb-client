@@ -17,6 +17,7 @@ import IEducationPublicDocumentTypeSchema from '@/interfaces/schema/IEducationPu
 import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
 import IEmployeeSchema from '@/interfaces/schema/IEmployeeSchema';
 import IFormStatusSchema from '@/interfaces/schema/IFormStatusSchema';
+import IHospitalizationSchema from '@/interfaces/schema/IHospitalizationSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
 import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 import INewsCommentSchema from '@/interfaces/schema/INewsCommentSchema';
@@ -81,4 +82,5 @@ export default interface ISchema {
   agePeriod: IAgePeriodSchema;
   doctorDivision: IDoctorDivisionSchema;
   employee: IEmployeeSchema;
+  hospitalization: IHospitalizationSchema;
 }

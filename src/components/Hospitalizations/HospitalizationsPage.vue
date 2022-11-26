@@ -1,11 +1,11 @@
 <template>
   <PageWrapper title="Госпитализация">
     <div>
-      <el-steps v-if="activeStep < 3" :active="activeStep" finish-status="success" class="centered">
+      <el-steps v-if="activeStep < 4" :active="activeStep" finish-status="success" class="centered">
         <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
       </el-steps>
 
-      <HospitalizationsTable v-if="activeStep === 0" @selectHospitalization="activeStep++" />
+      <HospitalizationsTable v-if="activeStep === 0" @selectHospitalization="submitStep" />
       <div v-if="activeStep === 1" class="centered">
         <FilterSelect
           placeholder="Отделение"
@@ -50,8 +50,8 @@
     </div>
   </PageWrapper>
 
-  <!--      <HospitalizationsHowSendApplication v-if="showHowSendApplication" />-->
-  <!--      <HospitalizationStages v-if="showStages" />-->
+  <HospitalizationsHowSendApplication v-if="showHowSendApplication" />
+  <HospitalizationStages v-if="showStages" />
   <!--      <HospitalizationAnalyzes v-if="showStages" />-->
   <!--      <HospitalizationDocuments v-if="showStages" />-->
 </template>
@@ -70,6 +70,7 @@ import HospitalizationsTable from '@/components/Hospitalizations/Hospitalization
 import PageWrapper from '@/components/PageWrapper.vue';
 import IDivision from '@/interfaces/IDivision';
 import IHospitalization from '@/interfaces/IHospitalization';
+import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
@@ -92,7 +93,7 @@ export default defineComponent({
     const steps = ['Выберите тип госпитализации', 'Выберите отделение', 'Выберите дату', 'Укажите свои данные'];
 
     const userForm = ref();
-
+    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const activeStep: Ref<number> = ref(0);
     const buttonOff: Ref<boolean> = ref(false);
     const hospitalization: ComputedRef<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
@@ -117,7 +118,7 @@ export default defineComponent({
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
 
     watch(isAuth, async () => {
-      hospitalization.value.formValue.user = new User();
+      hospitalization.value.formValue.user = new User(user.value);
     });
 
     const submit = (): void => {
@@ -135,6 +136,8 @@ export default defineComponent({
 
     const submitStep = async () => {
       if (activeStep.value === 0) {
+        activeStep.value++;
+        hospitalization.value.formValue.user = new User(user.value);
         return;
       }
       hospitalization.value.formValue.validate();
@@ -146,7 +149,7 @@ export default defineComponent({
         return;
       }
       activeStep.value++;
-      if (activeStep.value > 4) {
+      if (activeStep.value > 3) {
         buttonOff.value = true;
         const loading = ElLoading.service({
           lock: true,

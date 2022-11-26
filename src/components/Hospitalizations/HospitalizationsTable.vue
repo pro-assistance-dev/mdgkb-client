@@ -69,8 +69,6 @@ export default defineComponent({
 
     const selectHospitalization = (hospitalizationType: IHospitalizationType): void => {
       store.commit('hospitalizations/selectHospitalization', hospitalizationType);
-      console.log(hospitalization.value.isMoscowReferral());
-      console.log(hospitalization.value.hospitalizationType.referralType);
       if (hospitalization.value.isMoscowReferral()) {
         ElMessageBox.alert(
           'Запись на плановую госпитализацию в ГБУЗ «Морозовская ДГКБ ДЗМ» пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
