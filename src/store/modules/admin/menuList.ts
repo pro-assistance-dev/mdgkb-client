@@ -61,6 +61,12 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-guide',
         tableName: 'visits_applications',
       },
+      {
+        title: 'Госпитализации',
+        to: '/admin/hospitalizations',
+        icon: 'el-icon-guide',
+        tableName: 'hospitalizations',
+      },
     ],
   },
   {

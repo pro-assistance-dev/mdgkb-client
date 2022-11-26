@@ -11,27 +11,29 @@
         </tr>
       </thead>
       <tbody class="section">
-        <tr v-for="(hospitalization, i) in hospitalizations" :key="hospitalization" align="left">
+        <tr v-for="(hospitalization, i) in hospitalizationsTypes" :key="hospitalization" align="left">
           <td class="red">
-            {{ i === 0 || hospitalizations[i - 1].policyType !== hospitalization.policyType ? hospitalization.policyType : '' }}
+            {{ i === 0 || hospitalizationsTypes[i - 1].policyType !== hospitalization.policyType ? hospitalization.policyType : '' }}
           </td>
           <td class="grey">
-            {{ i === 0 || hospitalizations[i - 1].treatmentType !== hospitalization.treatmentType ? hospitalization.treatmentType : '' }}
+            {{
+              i === 0 || hospitalizationsTypes[i - 1].treatmentType !== hospitalization.treatmentType ? hospitalization.treatmentType : ''
+            }}
           </td>
           <td>
             {{
               i === 0 ||
-              hospitalizations[i - 1].treatmentType !== hospitalization.treatmentType ||
-              hospitalizations[i - 1].stayType !== hospitalization.stayType
+              hospitalizationsTypes[i - 1].treatmentType !== hospitalization.treatmentType ||
+              hospitalizationsTypes[i - 1].stayType !== hospitalization.stayType
                 ? hospitalization.stayType
                 : ''
             }}
           </td>
           <td>
-            {{ i === 0 || hospitalizations[i - 1].referralType !== hospitalization.referralType ? hospitalization.referralType : '' }}
+            {{ i === 0 || hospitalizationsTypes[i - 1].referralType !== hospitalization.referralType ? hospitalization.referralType : '' }}
           </td>
           <td>
-            <button class="hospitalization-button application" @click="sendApplication(hospitalization)">Записаться</button>
+            <button class="hospitalization-button application" @click="selectHospitalization(hospitalization)">Записаться</button>
             <button class="hospitalization-button docs" @click="downloadDocs(hospitalization)">Список документов</button>
           </td>
         </tr>
@@ -41,36 +43,51 @@
 </template>
 
 <script lang="ts">
+import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
+import IHospitalization from '@/interfaces/IHospitalization';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 
 export default defineComponent({
   name: 'HospitalizationsTable',
-  emits: ['downloadDocs', 'sendApplication'],
+  emits: ['downloadDocs', 'selectHospitalization'],
   setup(props, { emit }) {
     const store = useStore();
-    const hospitalizations: ComputedRef<IHospitalizationType[]> = computed(() => store.getters['hospitalizations/items']);
+    const hospitalizationsTypes: ComputedRef<IHospitalizationType[]> = computed(() => store.getters['hospitalizationsTypes/items']);
+    const hospitalization: ComputedRef<IHospitalization> = computed(() => store.getters['hospitalizations/item']);
 
     onBeforeMount(() => {
-      store.dispatch('hospitalizations/getAll');
+      store.dispatch('hospitalizationsTypes/getAll');
     });
 
     const downloadDocs = (hospitalization: IHospitalizationType): void => {
       store.commit('hospitalizations/selectHospitalization', hospitalization);
-      emit('downloadDocs', hospitalization);
+      emit('downloadDocs');
     };
 
-    const sendApplication = (hospitalization: IHospitalizationType): void => {
-      store.commit('hospitalizations/selectHospitalization', hospitalization);
-      emit('sendApplication', hospitalization);
+    const selectHospitalization = (hospitalizationType: IHospitalizationType): void => {
+      store.commit('hospitalizations/selectHospitalization', hospitalizationType);
+      console.log(hospitalization.value.isMoscowReferral());
+      console.log(hospitalization.value.hospitalizationType.referralType);
+      if (hospitalization.value.isMoscowReferral()) {
+        ElMessageBox.alert(
+          'Запись на плановую госпитализацию в ГБУЗ «Морозовская ДГКБ ДЗМ» пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
+          '',
+          {
+            confirmButtonText: 'ОК',
+          }
+        );
+        return;
+      }
+      emit('selectHospitalization');
     };
 
     return {
-      sendApplication,
+      selectHospitalization,
       downloadDocs,
-      hospitalizations,
+      hospitalizationsTypes,
     };
   },
 });

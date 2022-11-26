@@ -1,12 +1,6 @@
 <template>
   <h4>Как записаться</h4>
-  <div v-if="hospitalization.isMoscowReferral()" class="attention">
-    <p>
-      Запись на плановую госпитализацию в ГБУЗ «Морозовская ДГКБ ДЗМ» пациентов, прикрепленных к московским поликлиникам, производится через
-      детскую поликлинику по месту жительства
-    </p>
-  </div>
-  <div v-else>
+  <div>
     <div class="card">
       <div class="flex-between-columm front">
         <div class="card-content">
@@ -20,12 +14,13 @@
       <div class="flex-between-columm front">
         <div class="card-content">
           <div class="title">Через контакты отделения</div>
-
-          <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationDoctor">
-            {{ hospitalization.selectedHospitalisation.division.hospitalizationDoctor.human.getFullName() }}
-          </div>
-          <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationContactInfo">
-            {{ hospitalization.selectedHospitalisation.division.hospitalizationContactInfo.emails[0] }}
+          <div v-if="hospitalization.selectedHospitalisation.division">
+            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationDoctor">
+              {{ hospitalization.selectedHospitalisation.division.hospitalizationDoctor.employee.human.getFullName() }}
+            </div>
+            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationContactInfo">
+              {{ hospitalization.selectedHospitalisation.division.hospitalizationContactInfo.emails[0] }}
+            </div>
           </div>
         </div>
       </div>
@@ -132,10 +127,5 @@ $card-width: 300px;
       }
     }
   }
-}
-.attention {
-  text-indent: 0.5em;
-  color: #ff4d3b;
-  font-weight: bold;
 }
 </style>

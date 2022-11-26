@@ -1,19 +1,25 @@
 import Division from '@/classes/Division';
-import HospitalizationStage from '@/classes/hospitalizations/HospitalizationStage';
+import Form from '@/classes/Form';
 import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDivision from '@/interfaces/IDivision';
+import IForm from '@/interfaces/IForm';
 import IHospitalization from '@/interfaces/IHospitalization';
-import IHospitalizationStage from '@/interfaces/IHospitalizationStage';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import { ReferralTypes } from '@/interfaces/ReferralTypes';
 
 export default class Hospitalization implements IHospitalization {
   id?: string;
   date: Date = new Date();
-  hospitalizationType?: IHospitalizationType;
+  hospitalizationType: IHospitalizationType = new HospitalizationType();
   hospitalizationTypeId?: string;
   division?: IDivision;
   divisionId?: string;
-  hospitalizationStages: IHospitalizationStage[] = [];
+
+  formValue: IForm = new Form();
+  formValueId?: string;
+
+  diagnosis = '';
   constructor(i?: IHospitalization) {
     if (!i) {
       return;
@@ -28,8 +34,18 @@ export default class Hospitalization implements IHospitalization {
       this.division = new Division(i.division);
     }
     this.divisionId = i.divisionId;
-    if (i.hospitalizationStages) {
-      this.hospitalizationStages = i.hospitalizationStages.map((item: IHospitalizationStage) => new HospitalizationStage(item));
+    if (i.formValue) {
+      this.formValue = new Form(i.formValue);
     }
+    this.formValueId = i.formValueId;
+    this.diagnosis = i.diagnosis;
+  }
+
+  isMoscowReferral(): boolean {
+    return this.hospitalizationType.referralType === ReferralTypes.Moscow;
+  }
+
+  getFileInfos(): IFileInfo[] {
+    return this.formValue.getFileInfos();
   }
 }

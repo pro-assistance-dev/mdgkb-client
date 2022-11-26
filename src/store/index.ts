@@ -43,6 +43,7 @@ import { formValues } from '@/store/modules/formValues';
 import { gates } from '@/store/modules/gates';
 import { heads } from '@/store/modules/heads';
 import { hospitalizations } from '@/store/modules/hospitalizations';
+import { hospitalizationsTypes } from '@/store/modules/hospitalizationsTypes';
 import { map } from '@/store/modules/map';
 import { medicalProfiles } from '@/store/modules/medicalProfiles';
 import { menus } from '@/store/modules/menus';
@@ -175,6 +176,7 @@ const s: StoreOptions<RootState> = {
     dishesGroups,
     dailyMenus,
     dishesSamples,
+    hospitalizationsTypes,
   },
 };
 
