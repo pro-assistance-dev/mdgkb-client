@@ -106,8 +106,6 @@ export default defineComponent({
   text-decoration: none;
   color: white;
   list-style: none;
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
@@ -167,7 +165,6 @@ body {
 .support__box {
   display: block;
   position: fixed;
-  // visibility: hidden;
   top: 0;
   left: 0;
   right: 0;
@@ -182,10 +179,8 @@ body {
 .support-zone {
   margin-top: 20px;
   position: fixed;
-  // left: -100%;
   max-width: 450px;
   width: 90%;
-  //   height: 30%;
   z-index: 100;
   background: #ffffff;
   border-top-left-radius: 5px 5px;
@@ -204,20 +199,7 @@ body {
 .menu__item:hover {
   background-color: #cfd8dc;
 }
-// #support__toggle:checked ~ .support__btn {
-//   transition-duration: 1s;
-// }
-// #support__toggle:checked ~ .support__btn > span {
-//   transform: rotate(45deg);
-// }
-// #support__toggle:checked ~ .support__btn > span::before {
-//   top: 0;
-//   transform: rotate(0);
-// }
-// #support__toggle:checked ~ .support__btn > span::after {
-//   top: 0;
-//   transform: rotate(90deg);
-// }
+
 #support__toggle:checked ~ .support__box {
   visibility: visible;
   .support-zone {
@@ -229,11 +211,6 @@ body {
   left: 0;
 }
 
-// .support__btn > span,
-// .support__btn > span::before,
-// .support__btn > span::after {
-//   transition-duration: 0.25s;
-// }
 .support__box,
 .support-zone {
   transition-duration: 0.25s;
@@ -288,8 +265,6 @@ a.btn:active {
 .menu .submenu {
   background: #22abe2;
   overflow: hidden;
-  /* max-height: 0; */
-  /* max-height: 40rem; */
   transition: max-height 0.3s ease-out;
   transition-duration: 0.25s;
 }
@@ -301,7 +276,6 @@ a.btn:active {
 }
 
 .menu .submenu a:hover {
-  // padding-left: calc(1rem + 5px);
   color: #343e5c;
   background: #eceff1;
 }
@@ -309,10 +283,6 @@ a.btn:active {
 .menu .submenu a:hover::before {
   opacity: 1;
 }
-
-/* .item:target .submenu {
-  max-height: 40rem;
-} */
 
 .icon-arrow {
   position: absolute;
@@ -332,7 +302,6 @@ a.btn:active {
   top: 5px;
   right: 0px;
   height: 46px;
-  // width: 120px;
   border-top-left-radius: 25px 25px;
   border-bottom-left-radius: 25px 25px;
   background: #ffffff;
@@ -391,5 +360,12 @@ a.btn:active {
 .support-title {
   font-size: 16px;
   color: #343e5c;
+}
+
+.right-button {
+  width: 100%;
+}
+
+:deep(.el-button el-button--success) {
 }
 </style>
