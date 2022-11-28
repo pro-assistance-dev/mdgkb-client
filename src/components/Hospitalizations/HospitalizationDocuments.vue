@@ -3,37 +3,25 @@
     <h4>Необходимые документы</h4>
     <div class="wrapper">
       <div class="card-space">
-        <HospitalizationDocumentsCard
-          title="Ребенку"
-          :documents="hospitalization.hospitalizationDocuments.filter((item) => item.children)"
-        />
+        <HospitalizationDocumentsCard title="Ребенку" :documents="hospitalizationTypeDocuments.filter((item) => item.children)" />
       </div>
       <div class="card-space">
-        <HospitalizationDocumentsCard
-          title="Представителю"
-          :documents="hospitalization.hospitalizationDocuments.filter((item) => !item.children)"
-        />
+        <HospitalizationDocumentsCard title="Представителю" :documents="hospitalizationTypeDocuments.filter((item) => !item.children)" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
 import HospitalizationDocumentsCard from '@/components/Hospitalizations/HospitalizationDocumentsCard.vue';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import IHospitalizationTypeDocument from '@/interfaces/IHospitalizationTypeDocument';
 export default defineComponent({
   name: 'HospitalizationDocuments',
   components: { HospitalizationDocumentsCard },
-  setup() {
-    const store = useStore();
-    const hospitalization: ComputedRef<IHospitalizationType> = computed(() => store.getters['hospitalizations/selectedHospitalisation']);
-
-    return {
-      hospitalization,
-    };
+  props: {
+    hospitalizationTypeDocuments: { type: Array as PropType<IHospitalizationTypeDocument[]>, required: true },
   },
 });
 </script>

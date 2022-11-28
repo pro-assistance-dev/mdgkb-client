@@ -49,11 +49,6 @@
       </div>
     </div>
   </PageWrapper>
-
-  <HospitalizationsHowSendApplication v-if="showHowSendApplication" />
-  <HospitalizationStages v-if="showStages" />
-  <!--      <HospitalizationAnalyzes v-if="showStages" />-->
-  <!--      <HospitalizationDocuments v-if="showStages" />-->
 </template>
 
 <script lang="ts">
@@ -81,11 +76,7 @@ export default defineComponent({
     DatePicker,
     FilterSelect,
     PageWrapper,
-    // HospitalizationStages,
     HospitalizationsTable,
-    // HospitalizationsHowSendApplication,
-    // HospitalizationAnalyzes,
-    // HospitalizationDocuments,
     UserForm,
     FieldValuesForm,
   },
@@ -97,11 +88,6 @@ export default defineComponent({
     const activeStep: Ref<number> = ref(0);
     const buttonOff: Ref<boolean> = ref(false);
     const hospitalization: ComputedRef<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
-    const showHowSendApplication: Ref<boolean> = ref(false);
-    const showQuestions: Ref<boolean> = ref(false);
-    const showMoscowReferralMessage: Ref<boolean> = ref(false);
-    const showStages: Ref<boolean> = ref(false);
-    const showForm: Ref<boolean> = ref(false);
 
     const getPDF = (id: string) => {
       Provider.store.dispatch('hospitalizations/pdf', id);
@@ -196,11 +182,6 @@ export default defineComponent({
       submit,
       UserFormFields,
       hospitalization,
-      showForm,
-      showMoscowReferralMessage,
-      showStages,
-      showQuestions,
-      showHowSendApplication,
       getPDF,
     };
   },

@@ -10,21 +10,21 @@
         </div>
       </div>
     </div>
-    <div class="card">
-      <div class="flex-between-columm front">
-        <div class="card-content">
-          <div class="title">Через контакты отделения</div>
-          <div v-if="hospitalization.selectedHospitalisation.division">
-            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationDoctor">
-              {{ hospitalization.selectedHospitalisation.division.hospitalizationDoctor.employee.human.getFullName() }}
-            </div>
-            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationContactInfo">
-              {{ hospitalization.selectedHospitalisation.division.hospitalizationContactInfo.emails[0] }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--    <div class="card">-->
+    <!--      <div class="flex-between-columm front">-->
+    <!--        <div class="card-content">-->
+    <!--          <div class="title">Через контакты отделения</div>-->
+    <!--          <div v-if="hospitalization.selectedHospitalisation.division">-->
+    <!--            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationDoctor">-->
+    <!--              {{ hospitalization.selectedHospitalisation.division.hospitalizationDoctor.employee.human.getFullName() }}-->
+    <!--            </div>-->
+    <!--            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationContactInfo">-->
+    <!--              {{ hospitalization.selectedHospitalisation.division.hospitalizationContactInfo.emails[0] }}-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="card">
       <div class="flex-between-columm front">
         <div class="card-content">
@@ -45,7 +45,7 @@ export default defineComponent({
   name: 'HospitalizationsHowSendApplication',
   setup() {
     const store = useStore();
-    const hospitalization: ComputedRef<HospitalizationType> = computed(() => store.getters['hospitalizations/selectedHospitalisation']);
+    const hospitalization: ComputedRef<HospitalizationType> = computed(() => store.getters['hospitalizations/item']);
 
     return {
       hospitalization,

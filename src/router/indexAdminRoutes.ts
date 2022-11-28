@@ -18,6 +18,7 @@ import AdminFormPatternRoutes from '@/router/AdminFormPatternRoutes';
 import AdminFormStatusesRoutes from '@/router/AdminFormStatusesRoutes';
 import AdminHeadsRoutes from '@/router/AdminHeadsRoutes';
 import AdminHospitalizationsRoutes from '@/router/AdminHospitalizationsRoutes';
+import AdminHospitalizationsTypeRoutes from '@/router/AdminHospitalizationsTypeRoutes';
 import AdminMedicalProfiles from '@/router/AdminMedicalProfiles';
 import AdminMenusRoutes from '@/router/AdminMenusRoutes';
 import AdminNewsRoutes from '@/router/AdminNewsRoutes';
@@ -31,6 +32,7 @@ import AdminProjectRoutes from '@/router/AdminProjectRoutes';
 import AdminPublicDocumentTypesRoutes from '@/router/AdminPublicDocumentTypesRoutes';
 import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
 import AdminRolesRoutes from '@/router/AdminRolesRoutes';
+import AdminSupportMessagesRoutes from '@/router/AdminSupportMessagesRoutes';
 import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminUsersRoutes from '@/router/AdminUsersRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
@@ -128,4 +130,6 @@ export default [
   ...AdminVisitsApplicationsRoutes,
   ...AdminEmployeesRoutes,
   ...AdminHospitalizationsRoutes,
+  ...AdminSupportMessagesRoutes,
+  ...AdminHospitalizationsTypeRoutes,
 ];

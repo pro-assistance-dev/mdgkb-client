@@ -10,6 +10,11 @@
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadHospitalizations" />
     </template>
     <el-table :data="hospitalizations" :border="false">
+      <el-table-column label="Статус" width="200" class-name="sticky-left">
+        <template #default="scope">
+          <TableFormStatus :form="scope.row.formValue" />
+        </template>
+      </el-table-column>
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
           {{ scope.row.formValue.user.human.getFullName() }}
@@ -58,6 +63,7 @@ import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
+import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -81,6 +87,7 @@ export default defineComponent({
     SortList,
     FilterMultipleSelect,
     FilterSelectV2,
+    TableFormStatus,
   },
   setup() {
     const hospitalizations = computed(() => Provider.store.getters['hospitalizations/items']);

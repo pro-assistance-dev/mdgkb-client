@@ -33,6 +33,7 @@ import IResidencyApplicationSchema from '@/interfaces/schema/IResidencyApplicati
 import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';
 import IRoleSchema from '@/interfaces/schema/IRoleSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
+import ISupportMessageSchema from '@/interfaces/schema/ISupportMessageSchema';
 import ITeacherSchema from '@/interfaces/schema/ITeacherSchema';
 import ITreatDirectionSchema from '@/interfaces/schema/ITreatDirectionSchema';
 import IVacancyResponseSchema from '@/interfaces/schema/IVacancyResponseSchema';
@@ -83,4 +84,5 @@ export default interface ISchema {
   doctorDivision: IDoctorDivisionSchema;
   employee: IEmployeeSchema;
   hospitalization: IHospitalizationSchema;
+  supportMessage: ISupportMessageSchema;
 }

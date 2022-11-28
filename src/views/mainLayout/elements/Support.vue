@@ -24,20 +24,59 @@
     >
       <div id="support-zone" class="support-zone" :style="{ right: !isDrawerOpen ? '-100%' : '0' }">
         <div class="support-title">Задать вопрос техподдержке</div>
-        <el-form ref="form" :model="question" :rules="rules" label-position="top">
-          <el-form-item label="Ваше имя">
-            <el-input placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
+        <el-form ref="form" :model="supportMessage" label-position="top">
+          <el-form-item
+            v-if="!supportMessage.user?.human?.name"
+            prop="user.human.name"
+            :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]"
+            label="Ваше имя"
+          >
+            <el-input v-model="supportMessage.user.human.name" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
+          </el-form-item>
+          <el-form-item
+            v-if="!supportMessage.user?.human?.surname"
+            prop="user.human.surname"
+            :rules="[{ required: true, message: 'Необходимо указать фамилию', trigger: 'blur' }]"
+            label="Ваша фамилия"
+          >
+            <el-input
+              v-model="supportMessage.user.human.surname"
+              placeholder="Имя"
+              minlength="1"
+              maxlength="100"
+              show-word-limit
+            ></el-input>
+          </el-form-item>
+          <el-form-item
+            v-if="!supportMessage.user?.human?.patronymic"
+            prop="user.human.patronymic"
+            :rules="[{ required: true, message: 'Необходимо указать отчество', trigger: 'blur' }]"
+            label="Ваше отчество"
+          >
+            <el-input
+              v-model="supportMessage.user.human.patronymic"
+              placeholder="Имя"
+              minlength="1"
+              maxlength="100"
+              show-word-limit
+            ></el-input>
           </el-form-item>
 
-          <el-form-item label="Ваш email">
-            <el-input placeholder="Адрес электронной почты" minlength="1"></el-input>
+          <el-form-item
+            v-if="!supportMessage.user?.email"
+            prop="user.email"
+            :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
+            label="Ваш email"
+          >
+            <el-input v-model="supportMessage.user.email" placeholder="Адрес электронной почты" minlength="1"></el-input>
           </el-form-item>
 
           <el-form-item label="Тема вопроса" prop="theme">
-            <el-input placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
+            <el-input v-model="supportMessage.theme" placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="Содержание обращения" prop="originalQuestion">
             <el-input
+              v-model="supportMessage.question"
               type="textarea"
               placeholder="Содержание обращения"
               minlength="5"
@@ -48,7 +87,7 @@
           </el-form-item>
 
           <div class="right-button">
-            <el-button type="success" @click="sendQuestion()">Отправить</el-button>
+            <el-button type="success" @click="submit">Отправить</el-button>
           </div>
         </el-form>
       </div>
@@ -57,20 +96,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+
+import User from '@/classes/User';
+import ISupportMessage from '@/interfaces/ISupportMessage';
+import IUser from '@/interfaces/IUser';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'BurgerMobile',
-
   emits: ['changeDrawerStatus'],
   setup(prop, { emit }) {
     const activePath: Ref<string> = ref('');
-    const store = useStore();
+    const supportMessage: ComputedRef<ISupportMessage> = computed<ISupportMessage>(() => Provider.store.getters['supportMessages/item']);
 
     const isDrawerOpen: Ref<boolean> = ref(false);
-    const route = useRoute();
 
     const toggleDrawer = (open?: boolean) => {
       isDrawerOpen.value = open ? open : !isDrawerOpen.value;
@@ -79,19 +119,33 @@ export default defineComponent({
       if (e.target.id !== 'support__box') return;
       toggleDrawer(false);
     };
+    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    watch(user, () => {
+      supportMessage.value.user = user.value;
+    });
 
     onBeforeMount(async () => {
-      await store.dispatch('menus/getAll');
-      activePath.value = route.path;
+      await Provider.store.dispatch('menus/getAll');
+      supportMessage.value.user = new User(user.value);
+      activePath.value = Provider.route().path;
     });
     watch(
-      () => route.path,
+      () => Provider.route().path,
       () => {
-        activePath.value = route.path;
+        activePath.value = Provider.route().path;
       }
     );
 
+    const submit = async () => {
+      supportMessage.value.date = new Date();
+      await Provider.store.dispatch('supportMessages/create', supportMessage.value);
+      Provider.store.commit('supportMessages/resetSupportMessage');
+      supportMessage.value.user = user.value;
+    };
+
     return {
+      submit,
+      supportMessage,
       isDrawerOpen,
       toggleDrawer,
       drawerLeaveHandler,

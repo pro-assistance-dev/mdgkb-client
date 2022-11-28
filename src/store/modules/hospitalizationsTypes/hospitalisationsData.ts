@@ -10,7 +10,7 @@ const hospitalizations: IHospitalizationType[] = [
     treatmentType: TreatmentTypes.Conservative,
     stayType: StayTypes.AllDay,
     referralType: ReferralTypes.Moscow,
-    hospitalizationAnalyzes: [
+    hospitalizationTypeAnalyzes: [
       {
         name: 'Клинический анализ крови',
         children: true,
@@ -70,7 +70,7 @@ const hospitalizations: IHospitalizationType[] = [
         durationDays: 365,
       },
     ],
-    hospitalizationDocuments: [
+    hospitalizationTypeDocuments: [
       {
         name: 'Свидетельство о рождении ребенка (с 14 лет и его паспорт), страховой полис обязательного медицинского страхования ребенка (оригиналы и их ксерокопии)',
         children: true,
@@ -118,7 +118,7 @@ const hospitalizations: IHospitalizationType[] = [
         children: false,
       },
     ],
-    hospitalizationStages: [
+    hospitalizationTypeStages: [
       {
         name: 'Обратиться в поликлинику по месту жительства',
         hospitalizationStageComments: [{ name: 'Комментарий1' }, { name: 'Комментарий2' }, { name: 'Комментарий3' }],
@@ -138,7 +138,7 @@ const hospitalizations: IHospitalizationType[] = [
     treatmentType: TreatmentTypes.Conservative,
     stayType: StayTypes.AllDay,
     referralType: ReferralTypes.Region,
-    hospitalizationAnalyzes: [
+    hospitalizationTypeAnalyzes: [
       {
         name: 'Клинический анализ крови',
         children: true,
@@ -188,7 +188,7 @@ const hospitalizations: IHospitalizationType[] = [
         durationDays: 365,
       },
     ],
-    hospitalizationDocuments: [
+    hospitalizationTypeDocuments: [
       {
         name: 'Свидетельство о рождении ребенка (с 14 лет и его паспорт), страховой полис обязательного медицинского страхования ребенка (оригиналы и их ксерокопии)',
         children: true,
@@ -236,7 +236,7 @@ const hospitalizations: IHospitalizationType[] = [
         children: false,
       },
     ],
-    hospitalizationStages: [
+    hospitalizationTypeStages: [
       {
         name: 'Обратиться в поликлинику по месту жительства',
         hospitalizationStageComments: [{ name: 'Комментарий1' }, { name: 'Комментарий2' }, { name: 'Комментарий3' }],
@@ -256,7 +256,7 @@ const hospitalizations: IHospitalizationType[] = [
     treatmentType: TreatmentTypes.Operative,
     stayType: StayTypes.AllDay,
     referralType: ReferralTypes.Moscow,
-    hospitalizationAnalyzes: [
+    hospitalizationTypeAnalyzes: [
       {
         name: 'Клинический анализ крови',
         children: true,
@@ -306,7 +306,7 @@ const hospitalizations: IHospitalizationType[] = [
         durationDays: 365,
       },
     ],
-    hospitalizationDocuments: [
+    hospitalizationTypeDocuments: [
       {
         name: 'Свидетельство о рождении ребенка (с 14 лет и его паспорт), страховой полис обязательного медицинского страхования ребенка (оригиналы и их ксерокопии)',
         children: true,
@@ -355,7 +355,7 @@ const hospitalizations: IHospitalizationType[] = [
         children: false,
       },
     ],
-    hospitalizationStages: [
+    hospitalizationTypeStages: [
       {
         name: 'Обратиться в поликлинику по месту жительства',
       },
@@ -372,7 +372,7 @@ const hospitalizations: IHospitalizationType[] = [
     treatmentType: TreatmentTypes.Operative,
     stayType: StayTypes.AllDay,
     referralType: ReferralTypes.Region,
-    hospitalizationAnalyzes: [
+    hospitalizationTypeAnalyzes: [
       {
         name: 'Клинический анализ крови',
         children: true,
@@ -422,7 +422,7 @@ const hospitalizations: IHospitalizationType[] = [
         durationDays: 365,
       },
     ],
-    hospitalizationDocuments: [
+    hospitalizationTypeDocuments: [
       {
         name: 'Свидетельство о рождении ребенка (с 14 лет и его паспорт), страховой полис обязательного медицинского страхования ребенка (оригиналы и их ксерокопии)',
         children: true,
@@ -470,7 +470,7 @@ const hospitalizations: IHospitalizationType[] = [
         children: false,
       },
     ],
-    hospitalizationStages: [
+    hospitalizationTypeStages: [
       {
         name: 'Обратиться в поликлинику по месту жительства',
         hospitalizationStageComments: [{ name: 'Комментарий1' }, { name: 'Комментарий2' }, { name: 'Комментарий3' }],
@@ -490,7 +490,7 @@ const hospitalizations: IHospitalizationType[] = [
     treatmentType: TreatmentTypes.Operative,
     stayType: StayTypes.ShortDay,
     referralType: ReferralTypes.Moscow,
-    hospitalizationAnalyzes: [
+    hospitalizationTypeAnalyzes: [
       {
         name: 'Клинический анализ крови',
         children: true,
@@ -540,7 +540,7 @@ const hospitalizations: IHospitalizationType[] = [
         durationDays: 365,
       },
     ],
-    hospitalizationDocuments: [
+    hospitalizationTypeDocuments: [
       {
         name: 'Свидетельство о рождении ребенка (с 14 лет и его паспорт), страховой полис обязательного медицинского страхования ребенка (оригиналы и их ксерокопии)',
         children: true,
@@ -588,7 +588,7 @@ const hospitalizations: IHospitalizationType[] = [
         children: false,
       },
     ],
-    hospitalizationStages: [
+    hospitalizationTypeStages: [
       {
         name: 'Обратиться в поликлинику по месту жительства',
         hospitalizationStageComments: [{ name: 'Комментарий1' }, { name: 'Комментарий2' }, { name: 'Комментарий3' }],
@@ -608,7 +608,7 @@ const hospitalizations: IHospitalizationType[] = [
     treatmentType: TreatmentTypes.Conservative,
     stayType: StayTypes.AllDay,
     referralType: ReferralTypes.Moscow,
-    hospitalizationAnalyzes: [
+    hospitalizationTypeAnalyzes: [
       {
         name: 'Клинический анализ крови',
         children: true,
@@ -658,7 +658,7 @@ const hospitalizations: IHospitalizationType[] = [
         durationDays: 365,
       },
     ],
-    hospitalizationDocuments: [
+    hospitalizationTypeDocuments: [
       {
         name: 'Свидетельство о рождении ребенка (с 14 лет и его паспорт), страховой полис обязательного медицинского страхования ребенка (оригиналы и их ксерокопии)',
         children: true,
@@ -706,7 +706,7 @@ const hospitalizations: IHospitalizationType[] = [
         children: false,
       },
     ],
-    hospitalizationStages: [
+    hospitalizationTypeStages: [
       {
         name: 'Обратиться в поликлинику по месту жительства',
         hospitalizationStageComments: [{ name: 'Комментарий1' }, { name: 'Комментарий2' }, { name: 'Комментарий3' }],

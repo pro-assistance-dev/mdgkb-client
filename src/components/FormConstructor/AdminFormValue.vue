@@ -51,7 +51,6 @@
       <!--      </div>-->
       <AdminUserInfo :form="formValue" :active-fields="activeFields" />
     </el-card>
-
     <el-card v-if="isEditMode">
       <template #header>
         <span>Форма для подачи заявления</span>

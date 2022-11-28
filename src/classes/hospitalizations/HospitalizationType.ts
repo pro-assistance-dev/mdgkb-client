@@ -1,14 +1,14 @@
 import Form from '@/classes/Form';
-import HospitalizationAnalysis from '@/classes/hospitalizations/HospitalizationAnalysis';
-import HospitalizationDocument from '@/classes/hospitalizations/HospitalizationDocument';
-import HospitalizationStage from '@/classes/hospitalizations/HospitalizationStage';
 import HospitalizationToDocumentType from '@/classes/hospitalizations/HospitalizationToDocumentType';
+import HospitalizationTypeAnalyze from '@/classes/hospitalizations/HospitalizationTypeAnalyze';
+import HospitalizationTypeDocument from '@/classes/hospitalizations/HospitalizationTypeDocument';
+import HospitalizationTypeStage from '@/classes/hospitalizations/HospitalizationTypeStage';
 import IForm from '@/interfaces/IForm';
-import IHospitalizationAnalysis from '@/interfaces/IHospitalizationAnalize';
-import IHospitalizationDocument from '@/interfaces/IHospitalizationDocument';
-import IHospitalizationStage from '@/interfaces/IHospitalizationStage';
 import IHospitalizationToDocumentType from '@/interfaces/IHospitalizationToDocumentType';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import IHospitalizationTypeAnalize from '@/interfaces/IHospitalizationTypeAnalize';
+import IHospitalizationTypeDocument from '@/interfaces/IHospitalizationTypeDocument';
+import IHospitalizationTypeStage from '@/interfaces/IHospitalizationTypeStage';
 import { PolicyTypes } from '@/interfaces/PolicyTypes';
 import { ReferralTypes } from '@/interfaces/ReferralTypes';
 import { StayTypes } from '@/interfaces/StayTypes';
@@ -16,16 +16,15 @@ import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
 
 export default class HospitalizationType implements IHospitalizationType {
   id?: string;
-  paid?: boolean;
+  description = '';
   hospitalizationsToDocumentTypes?: IHospitalizationToDocumentType[];
   policyType: PolicyTypes = PolicyTypes.OMS;
   referralType: ReferralTypes = ReferralTypes.Moscow;
   stayType: StayTypes = StayTypes.AllDay;
   treatmentType: TreatmentTypes = TreatmentTypes.Conservative;
-  // selectedHospitalisation: IHospitalization = new Hospitalization();
-  hospitalizationAnalyzes: IHospitalizationAnalysis[] = [];
-  hospitalizationDocuments: IHospitalizationDocument[] = [];
-  hospitalizationStages: IHospitalizationStage[] = [];
+  hospitalizationTypeAnalyzes: IHospitalizationTypeAnalize[] = [];
+  hospitalizationTypeDocuments: IHospitalizationTypeDocument[] = [];
+  hospitalizationTypeStages: IHospitalizationTypeStage[] = [];
 
   formPattern: IForm = new Form();
   formPatternId?: string;
@@ -34,13 +33,15 @@ export default class HospitalizationType implements IHospitalizationType {
       return;
     }
     this.id = i.id;
-    this.paid = i.paid;
+    this.description = i.description;
     this.policyType = i.policyType;
     this.referralType = i.referralType;
     this.stayType = i.stayType;
     this.treatmentType = i.treatmentType;
-    if (i.hospitalizationStages) {
-      this.hospitalizationStages = i.hospitalizationStages.map((item: IHospitalizationStage) => new HospitalizationStage(item));
+    if (i.hospitalizationTypeStages) {
+      this.hospitalizationTypeStages = i.hospitalizationTypeStages.map(
+        (item: IHospitalizationTypeStage) => new HospitalizationTypeStage(item)
+      );
     }
     if (i.hospitalizationsToDocumentTypes) {
       this.hospitalizationsToDocumentTypes = i.hospitalizationsToDocumentTypes.map((item: IHospitalizationToDocumentType) => {
@@ -50,14 +51,14 @@ export default class HospitalizationType implements IHospitalizationType {
     // if (i.selectedHospitalisation) {
     //   this.selectedHospitalisation = new Hospitalization(i.selectedHospitalisation);
     // }
-    if (i.hospitalizationAnalyzes) {
-      this.hospitalizationAnalyzes = i.hospitalizationAnalyzes.map((item: IHospitalizationAnalysis) => {
-        return new HospitalizationAnalysis(item);
+    if (i.hospitalizationTypeAnalyzes) {
+      this.hospitalizationTypeAnalyzes = i.hospitalizationTypeAnalyzes.map((item: IHospitalizationTypeAnalize) => {
+        return new HospitalizationTypeAnalyze(item);
       });
     }
-    if (i.hospitalizationDocuments) {
-      this.hospitalizationDocuments = i.hospitalizationDocuments.map((item: IHospitalizationDocument) => {
-        return new HospitalizationDocument(item);
+    if (i.hospitalizationTypeDocuments) {
+      this.hospitalizationTypeDocuments = i.hospitalizationTypeDocuments.map((item: IHospitalizationTypeDocument) => {
+        return new HospitalizationTypeDocument(item);
       });
     }
     if (i.formPattern) {

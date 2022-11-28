@@ -39,36 +39,52 @@
         </tr>
       </tbody>
     </table>
+    <template v-if="selectedHospitalizationsType">
+      <div v-html="selectedHospitalizationsType.description"></div>
+      <HospitalizationsHowSendApplication />
+      <HospitalizationStages :hospitalization-stages="selectedHospitalizationsType.hospitalizationTypeStages" />
+      <HospitalizationAnalyzes :hospitalization-type-analyzes="selectedHospitalizationsType.hospitalizationTypeAnalyzes" />
+      <HospitalizationDocuments :hospitalization-type-documents="selectedHospitalizationsType.hospitalizationTypeDocuments" />
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import HospitalizationAnalyzes from '@/components/Hospitalizations/HospitalizationAnalyzes.vue';
+import HospitalizationDocuments from '@/components/Hospitalizations/HospitalizationDocuments.vue';
+import HospitalizationsHowSendApplication from '@/components/Hospitalizations/HospitalizationsHowSendApplication.vue';
+import HospitalizationStages from '@/components/Hospitalizations/HospitalizationStages.vue';
 import IHospitalization from '@/interfaces/IHospitalization';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'HospitalizationsTable',
+  components: { HospitalizationsHowSendApplication, HospitalizationStages, HospitalizationAnalyzes, HospitalizationDocuments },
   emits: ['downloadDocs', 'selectHospitalization'],
   setup(props, { emit }) {
-    const store = useStore();
-    const hospitalizationsTypes: ComputedRef<IHospitalizationType[]> = computed(() => store.getters['hospitalizationsTypes/items']);
-    const hospitalization: ComputedRef<IHospitalization> = computed(() => store.getters['hospitalizations/item']);
+    const showInfo: Ref<boolean> = ref(false);
+    const hospitalizationsTypes: ComputedRef<IHospitalizationType[]> = computed(
+      () => Provider.store.getters['hospitalizationsTypes/items']
+    );
+    const selectedHospitalizationsType: Ref<IHospitalizationType | undefined> = ref(undefined);
+    const hospitalization: ComputedRef<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
 
     onBeforeMount(() => {
-      store.dispatch('hospitalizationsTypes/getAll');
+      Provider.store.dispatch('hospitalizationsTypes/getAll');
     });
 
     const downloadDocs = (hospitalization: IHospitalizationType): void => {
-      store.commit('hospitalizations/selectHospitalization', hospitalization);
+      Provider.store.commit('hospitalizations/selectHospitalization', hospitalization);
+      selectedHospitalizationsType.value = hospitalization;
       emit('downloadDocs');
     };
 
     const selectHospitalization = (hospitalizationType: IHospitalizationType): void => {
-      store.commit('hospitalizations/selectHospitalization', hospitalizationType);
+      Provider.store.commit('hospitalizations/selectHospitalization', hospitalizationType);
       if (hospitalization.value.isMoscowReferral()) {
         ElMessageBox.alert(
           'Запись на плановую госпитализацию в ГБУЗ «Морозовская ДГКБ ДЗМ» пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
@@ -77,12 +93,13 @@ export default defineComponent({
             confirmButtonText: 'ОК',
           }
         );
-        return;
       }
       emit('selectHospitalization');
     };
 
     return {
+      selectedHospitalizationsType,
+      showInfo,
       selectHospitalization,
       downloadDocs,
       hospitalizationsTypes,

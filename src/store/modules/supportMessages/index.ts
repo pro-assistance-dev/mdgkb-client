@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
+import SupportMessage from '@/classes/SupportMessage';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,14 +11,17 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new HospitalizationType(),
+    item: new SupportMessage(),
+    question: new SupportMessage(),
+    allLoaded: false,
+    count: 0,
   };
 };
 
 const state = getDefaultState();
 const namespaced = true;
 
-export const hospitalizationsTypes: Module<State, RootState> = {
+export const supportMessages: Module<State, RootState> = {
   namespaced,
   state,
   getters,

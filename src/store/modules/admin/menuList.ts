@@ -299,6 +299,16 @@ const menuList: IAdminMenu[] = [
         to: '/admin/dishes',
         icon: 'el-icon-user',
       },
+      {
+        title: 'Тех.поддержка',
+        to: '/admin/support-messages',
+        icon: 'el-icon-user',
+      },
+      {
+        title: 'Типы госпитализации',
+        to: '/admin/hospitalizations-types',
+        icon: 'el-icon-user',
+      },
     ],
   },
   {

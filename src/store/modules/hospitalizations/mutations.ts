@@ -10,7 +10,9 @@ import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, hospitalizations: IHospitalization[]) {
-    state.items = hospitalizations.map((item: IHospitalization) => new Hospitalization(item));
+    if (hospitalizations) {
+      state.items = hospitalizations.map((item: IHospitalization) => new Hospitalization(item));
+    }
   },
   set(state, item: IHospitalization) {
     state.item = new Hospitalization(item);
@@ -19,6 +21,7 @@ const mutations: MutationTree<State> = {
     state.item.hospitalizationType = new HospitalizationType(item);
     state.item.hospitalizationTypeId = item.id;
     state.item.formValue = new Form(item.formPattern);
+    state.item.formValue.initFieldsValues();
   },
 };
 

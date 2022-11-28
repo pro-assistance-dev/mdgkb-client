@@ -24,6 +24,14 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: state.item.getFileInfos(),
     });
   },
+  update: async ({ state }): Promise<void> => {
+    await httpClient.put<IHospitalization, IHospitalization>({
+      query: `${state.item.id}`,
+      payload: state.item,
+      fileInfos: state.item.getFileInfos(),
+      isFormData: true,
+    });
+  },
   pdf: async (_, id: string): Promise<void> => {
     await httpClient.get<IHospitalizationType>({
       query: `pdf/${id}`,

@@ -13,6 +13,16 @@ const actions: ActionTree<State, RootState> = {
     const items = await httpClient.get<IHospitalizationType>({ query: '' });
     commit('setAll', items);
   },
+  get: async ({ commit }, id: string) => {
+    commit('set', await httpClient.get<IHospitalizationType>({ query: `${id}` }));
+  },
+  update: async ({ state }): Promise<void> => {
+    await httpClient.put<IHospitalizationType, IHospitalizationType>({
+      query: `${state.item.id}`,
+      payload: state.item,
+      isFormData: true,
+    });
+  },
 };
 
 export default actions;

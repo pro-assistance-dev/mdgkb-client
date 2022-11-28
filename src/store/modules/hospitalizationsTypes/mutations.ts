@@ -9,6 +9,9 @@ const mutations: MutationTree<State> = {
   setAll(state, items: IHospitalizationType[]) {
     state.items = items.map((item: IHospitalizationType) => new HospitalizationType(item));
   },
+  set(state, item: IHospitalizationType) {
+    state.item = new HospitalizationType(item);
+  },
 };
 
 export default mutations;

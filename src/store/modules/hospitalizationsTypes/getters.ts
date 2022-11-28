@@ -9,6 +9,9 @@ const getters: GetterTree<State, RootState> = {
   items(state): IHospitalizationType[] {
     return state.items;
   },
+  item(state): IHospitalizationType {
+    return state.item;
+  },
 };
 
 export default getters;

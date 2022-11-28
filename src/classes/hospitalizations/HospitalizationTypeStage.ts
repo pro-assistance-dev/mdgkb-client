@@ -1,16 +1,18 @@
 import HospitalizationStageComment from '@/classes/hospitalizations/HospitalizationStageComment';
-import IHospitalizationStage from '@/interfaces/IHospitalizationStage';
 import IHospitalizationStageComment from '@/interfaces/IHospitalizationStageComment';
+import IHospitalizationTypeStage from '@/interfaces/IHospitalizationTypeStage';
 
-export default class HospitalizationStage implements IHospitalizationStage {
+export default class HospitalizationTypeStage implements IHospitalizationTypeStage {
   id?: string;
   name = '';
+  order = 0;
   hospitalizationStageComments: IHospitalizationStageComment[] = [];
-  constructor(i?: IHospitalizationStage) {
+  constructor(i?: IHospitalizationTypeStage) {
     if (!i) {
       return;
     }
     this.id = i.id;
+    this.order = i.order;
     this.name = i.name;
     if (i.hospitalizationStageComments) {
       this.hospitalizationStageComments = i.hospitalizationStageComments.map(

@@ -1,11 +1,20 @@
 <template>
   <div v-if="mounted">
-    <AdminFormValue
-      :form="hospitalization.formValue"
-      :validate-email="false"
-      :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true, userName: true })"
-      :is-edit-mode="isEditMode"
-    />
+    <el-form
+      ref="form"
+      v-model="hospitalization"
+      :model="hospitalization"
+      label-width="150px"
+      style="max-width: 700px"
+      label-position="left"
+    >
+      <AdminFormValue
+        :form="hospitalization.formValue"
+        :validate-email="false"
+        :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true, userName: true })"
+        :is-edit-mode="isEditMode"
+      />
+    </el-form>
   </div>
 </template>
 
@@ -40,13 +49,8 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-
       try {
-        if (Provider.route().params['id']) {
-          await Provider.store.dispatch('hospitalizations/update', hospitalization.value);
-        } else {
-          await Provider.store.dispatch('hospitalizations/create', hospitalization.value);
-        }
+        await Provider.store.dispatch('hospitalizations/update');
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
@@ -54,11 +58,20 @@ export default defineComponent({
       next ? next() : await Provider.router.push('/admin/hospitalizations');
     };
 
+    const updateNew = async () => {
+      if (!hospitalization.value.formValue.isNew) {
+        return;
+      }
+      hospitalization.value.formValue.isNew = false;
+      await Provider.store.dispatch('hospitalizations/update');
+    };
+
     const { saveButtonClick, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
       await Provider.store.dispatch('search/searchGroups');
       await loadHospitalization();
+      await updateNew();
     };
 
     Hooks.onBeforeMount(load);
@@ -69,7 +82,6 @@ export default defineComponent({
 
     const loadHospitalization = async (): Promise<void> => {
       if (Provider.route().params['id']) {
-        console.log(Provider.route().params['id']);
         await Provider.store.dispatch('hospitalizations/get', Provider.route().params['id']);
         Provider.store.commit('admin/setHeaderParams', {
           title: hospitalization.value.formValue.user.human.getFullName(),
