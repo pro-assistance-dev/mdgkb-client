@@ -42,7 +42,7 @@
     <template v-if="selectedHospitalizationsType">
       <div v-html="selectedHospitalizationsType.description"></div>
       <HospitalizationsHowSendApplication />
-      <HospitalizationStages :hospitalization-stages="selectedHospitalizationsType.hospitalizationTypeStages" />
+      <HospitalizationStages :hospitalization-type-stages="selectedHospitalizationsType.hospitalizationTypeStages" />
       <HospitalizationAnalyzes :hospitalization-type-analyzes="selectedHospitalizationsType.hospitalizationTypeAnalyzes" />
       <HospitalizationDocuments :hospitalization-type-documents="selectedHospitalizationsType.hospitalizationTypeDocuments" />
     </template>

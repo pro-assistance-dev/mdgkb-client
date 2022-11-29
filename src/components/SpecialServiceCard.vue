@@ -1,5 +1,5 @@
 <template>
-  <div class="spec-serv-card card-hover">
+  <div class="spec-serv-card card-hover" @click="toLink">
     <div class="spec-serv-card-img">
       <img v-if="item.fileInfo && item.fileInfo.fileSystemPath" :src="item.fileInfo.getImageUrl()" />
       <img v-else-if="item.imgName" :src="require(`@/assets/img/main-page/templates/${item.imgName}`)" />
@@ -16,6 +16,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import ISpecialService from '@/interfaces/ISpecialService';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'SpecialServiceCard',
@@ -24,6 +25,16 @@ export default defineComponent({
       type: Object as PropType<ISpecialService>,
       required: true,
     },
+  },
+  setup(props) {
+    const toLink = () => {
+      if (props.item.link) {
+        Provider.router.push(props.item.link);
+      }
+    };
+    return {
+      toLink,
+    };
   },
 });
 </script>

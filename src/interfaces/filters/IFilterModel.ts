@@ -1,3 +1,5 @@
+import { Ref } from 'vue';
+
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 
@@ -29,4 +31,6 @@ export default interface IFilterModel {
   joinTablePk: string;
   joinTableId: string;
   joinTableIdCol: string;
+
+  toRef: () => Ref<IFilterModel>;
 }

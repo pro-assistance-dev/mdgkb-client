@@ -63,8 +63,14 @@
                   :disabled="division.buildingId && buildingOption.entrances.length ? false : true"
                   @change="changeDivisionAddress"
                 >
-                  <el-optionou v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
+                  <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
                 </el-select>
+              </el-form-item>
+              <el-form-item>
+                <el-checkbox v-model="division.hasAmbulatory">Осуществляет амбулаторную помощь</el-checkbox>
+              </el-form-item>
+              <el-form-item>
+                <el-checkbox v-model="division.hasDiagnostic">Осуществляет услуги диагностики</el-checkbox>
               </el-form-item>
             </template>
           </el-card>

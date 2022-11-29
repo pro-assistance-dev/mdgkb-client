@@ -7,4 +7,5 @@ export default interface ISpecialService {
   imgPath?: string;
   fileInfoId?: string;
   fileInfo?: IFileInfo;
+  link?: string;
 }

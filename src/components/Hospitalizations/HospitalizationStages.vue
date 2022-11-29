@@ -2,7 +2,7 @@
   <div class="block">
     <h4>Что нужно сделать для госпитализации</h4>
     <div class="wrapper">
-      <div v-for="stage in hospitalizationStages" :key="stage.id" class="card-space">
+      <div v-for="stage in hospitalizationTypeStages" :key="stage.id" class="card-space">
         <HospitalizationStageCard :stage="stage" />
       </div>
     </div>
@@ -11,19 +11,16 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { useStore } from 'vuex';
 
 import HospitalizationStageCard from '@/components/Hospitalizations/HospitalizationStageCard.vue';
 import IHospitalizationTypeStage from '@/interfaces/IHospitalizationTypeStage';
 export default defineComponent({
   name: 'HospitalizationStages',
   props: {
-    hospitalizationStages: { type: Array as PropType<IHospitalizationTypeStage[]>, required: true },
+    hospitalizationTypeStages: { type: Array as PropType<IHospitalizationTypeStage[]>, required: true },
   },
   components: { HospitalizationStageCard },
   setup() {
-    const store = useStore();
-
     return {};
   },
 });
