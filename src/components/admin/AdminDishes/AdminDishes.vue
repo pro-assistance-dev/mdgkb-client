@@ -1,20 +1,113 @@
 <template>
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
-      <button :disabled="month.firstWeekActive" @click="month.moveActiveWeek(false)">-</button>
-      <span v-for="day in month.getActiveWeek().days" :key="day" @click="selectDay(day)">
-        {{ ' | ' }}
-        <span :class="{ blue: day.selected }">{{
-          $dateTimeFormatter.format(day.date, { month: '2-digit', day: '2-digit', year: undefined })
-        }}</span>
-        {{ ' | ' }}</span
-      >
-      <button :disabled="month.lastWeekActive" @click="month.moveActiveWeek(true)">+</button>
+      <div class="calendar-block">
+        <div class="calendar-title">Текущая неделя, 1.01 - 7.01:</div>
+        <div class="day-block">
+          <button class="arrow-button" :disabled="month.firstWeekActive" @click="month.moveActiveWeek(false)">
+            <svg class="icon-arrow-left">
+              <use xlink:href="#arrow-left"></use>
+            </svg>
+          </button>
+          <span v-for="day in month.getActiveWeek().days" :key="day" @click="selectDay(day)">
+            <span :class="{ blue: day.selected, normal: !day.selected }">
+              <div class="day">
+                <div class="date">
+                  {{ $dateTimeFormatter.format(day.date, { month: '2-digit', day: '2-digit', year: undefined }) }}
+                </div>
+                <div class="day-week">ПН</div>
+              </div>
+            </span>
+          </span>
+          <button class="arrow-button" :disabled="month.lastWeekActive" @click="month.moveActiveWeek(true)">
+            <svg class="icon-arrow-right">
+              <use xlink:href="#arrow-right"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
     </template>
     <template #sort> </template>
-    <button v-if="!selectedMenu" @click="createMenu">Добавить</button>
-    <button v-if="selectedMenu" @click="submit">Сохранить</button>
-    <button v-if="selectedMenu" @click="pdf">Печать</button>
+    <div class="menu">
+      <div class="menu-title-tools-tabs">
+        <div class="menu-title-tabs">
+          <div class="menu-title">Меню на 30.12:</div>
+          <div class="tabs">
+            <ul>
+              <li class="active-tabs-item">Завтрак</li>
+              <li class="tabs-item">Завтрак 2</li>
+              <li class="tabs-item">Обед</li>
+              <li class="tabs-item">Праздник</li>
+              <li class="tabs-button">
+                <button class="tools-button">
+                  <svg class="icon-add">
+                    <use xlink:href="#add"></use>
+                  </svg>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="tools">
+          <button class="tools-button">
+            <svg class="icon-delete">
+              <use xlink:href="#delete"></use>
+            </svg>
+          </button>
+          <button class="tools-button">
+            <svg class="icon-print">
+              <use xlink:href="#print"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="diets-container">
+        <div class="table-container">
+          <table class="table-list">
+            <colgroup>
+              <col width="78%" />
+              <col width="6%" />
+              <col width="6%" />
+              <col width="10%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; padding-left: 44px">Блюдо</td>
+                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
+                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
+                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорийность</td>
+              </tr>
+            </thead>
+            <tbody>
+              <td colspan="4" style="background: #f1f2f7">
+                <div class="schedule-name">
+                  <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
+                    Первые блюда
+                  </h4>
+                </div>
+              </td>
+              <tr>
+                <td style="font-size: 12px; padding-left: 44px">Суп овощной</td>
+                <td style="text-align: center">
+                  <h4 style="font-size: 13px; color: #343d5c">вес</h4>
+                </td>
+                <td style="text-align: center; font-weight: bold">
+                  <h4 style="font-size: 15px; color: #343d5c; font-weight: bold">25.00р.</h4>
+                </td>
+                <td style="text-align: center">
+                  <h4 style="font-size: 13px; color: #2754eb">50ккал</h4>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="button-block">
+        <button v-if="!selectedMenu" class="button-add" @click="createMenu">Добавить</button>
+        <button v-if="selectedMenu" class="button-save" @click="submit">Сохранить</button>
+        <button v-if="selectedMenu" class="button-print" @click="pdf">Печать</button>
+      </div>
+    </div>
     <template v-if="selectedMenu">
       <div v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
         <div>
@@ -24,7 +117,7 @@
           {{ dailyMenuItem.name }}
         </div>
       </div>
-      <button @click="addDishes">Добавить блюда</button>
+      <button class="button-add" @click="addDishes">Добавить блюда</button>
     </template>
 
     <el-dialog v-model="dishesConstructorVisible" :width="1200" :destroy-on-close="true" center @closed="closeModal">
@@ -35,11 +128,21 @@
       <AddDish :menu="selectedMenu" />
     </el-dialog>
   </component>
+  <ArrowLeft />
+  <ArrowRight />
+  <Add />
+  <Delete />
+  <Print />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import Add from '@/assets/svg/Buffet/Add.svg';
+import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
+import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
+import Delete from '@/assets/svg/Buffet/Delete.svg';
+import Print from '@/assets/svg/Buffet/Print.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import Month from '@/classes/Month';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
@@ -54,12 +157,18 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
+
 export default defineComponent({
   name: 'AdminDishes',
   components: {
     DishesSamplesConstructor,
     AdminListWrapper,
     AddDish,
+    ArrowLeft,
+    ArrowRight,
+    Add,
+    Delete,
+    Print,
   },
   setup() {
     const form = ref();
@@ -123,6 +232,15 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
     };
 
+    // function getWeekDay(date) {
+    //   let days = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+
+    //   return days[date.getDay()];
+    // }
+
+    // let date = new Date(2014, 0, 3); // 3 января 2014 года
+    // alert( getWeekDay(date) ); // ПТ
+
     return {
       dishesConstructorVisible,
       pdf,
@@ -148,7 +266,20 @@ export default defineComponent({
 $margin: 20px 0;
 
 .blue {
-  color: blue;
+  display: flex;
+  padding: 2px 3px;
+  background: #c4e3ff;
+  border: 2px solid #379fff;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.normal {
+  display: flex;
+  padding: 2px 3px;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+  transition: 0.3s;
 }
 
 .flex-column {
@@ -179,5 +310,368 @@ $margin: 20px 0;
 
 :deep(.el-dialog) {
   overflow: hidden;
+}
+
+.arrow-button {
+  background: #ffffff;
+  border-radius: none;
+  border: none;
+}
+
+.tools-button {
+  background: #ffffff;
+  border-radius: none;
+  border: none;
+  height: 24px;
+}
+
+.icon-arrow-left {
+  width: 24px;
+  height: 24px;
+  fill: #c4c4c4;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-arrow-left:hover {
+  fill: #7c8295;
+}
+
+.icon-arrow-right {
+  width: 24px;
+  height: 24px;
+  fill: #c4c4c4;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-arrow-right:hover {
+  fill: #7c8295;
+}
+
+.icon-add {
+  width: 22px;
+  height: 22px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-add:hover {
+  fill: #379fff;
+}
+
+.icon-delete {
+  width: 20px;
+  height: 20px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 10px;
+  margin-top: 1px;
+}
+
+.icon-delete:hover {
+  fill: #379fff;
+}
+
+.icon-print {
+  width: 24px;
+  height: 24px;
+  fill: #ffffff;
+  stroke: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 10px;
+}
+
+.icon-print:hover {
+  fill: #ffffff;
+  stroke: #379fff;
+}
+
+.calendar-title {
+  margin-left: 40px;
+  margin-bottom: 3px;
+  display: block;
+  font-size: 14px;
+  color: #343e5c;
+}
+
+.day-block {
+  display: flex;
+  width: 820px;
+}
+
+.day {
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  height: 30px;
+  border: 1px solid #7c8295;
+  border-radius: 5px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.date {
+  font-size: 18px;
+  color: #7c8295;
+  margin-left: 5px;
+}
+
+.day-week {
+  font-size: 18px;
+  color: #1979cf;
+  margin-right: 5px;
+}
+
+.menu {
+  width: 100%;
+  // height: 600px;
+  background: #ffffff;
+  border: 1px solid #d8d9db;
+  border-radius: 5px;
+  background: #f9fafb;
+}
+
+.menu-title-tools-tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #d8d9db;
+  background: #ffffff;
+}
+
+.menu-title-tabs {
+  display: flex;
+  justify-content: left;
+  position: relative;
+}
+
+.menu-title {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  color: #343e5c;
+  margin: 0 50px 0 10px;
+}
+
+.tabs {
+  position: absolute;
+  top: 3px;
+  left: 150px;
+  display: flex;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  z-index: 100;
+}
+
+.tools {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.diets-container {
+  width: calc(100% - 18px);
+  margin: 0 8px;
+}
+
+.table-container {
+  width: 100%;
+  border: 1px solid #dcdfe6;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  background: #ffffff;
+}
+
+.table-list {
+  height: auto;
+  border-collapse: collapse;
+  width: 100%;
+
+  td {
+    border-bottom: 1px solid #dcdfe6;
+    padding: 9px 7px 9px 7px;
+    height: auto;
+    position: sticky;
+  }
+
+  th {
+    border-bottom: 1px solid #dcdfe6;
+    padding: 9px 7px 9px 7px;
+    height: auto;
+    position: sticky;
+  }
+
+  th {
+    text-align: left;
+    padding: 2px 0 0 3px;
+    background-color: #eff2f6;
+    height: 20px;
+  }
+
+  th:first-child {
+    border-radius: 5px 0 0 0;
+  }
+
+  th:last-child {
+    border-radius: 0 5px 0 0;
+  }
+
+  tr {
+    &:hover {
+      background-color: #ecf5ff;
+    }
+  }
+}
+
+h4 {
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.1ex;
+  margin: 0px;
+  font-size: 11px;
+  font-weight: normal;
+  color: #a3a5b9;
+}
+
+ul {
+  display: flex;
+  align-items: center;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+ul li.active-tabs-item {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0 0 0 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #d8d9db;
+  border-bottom: 1px solid #f9fafb;
+  padding-right: 2px;
+  cursor: pointer;
+  z-index: 101;
+
+  display: flex;
+  justify-content: center;
+  height: 26px;
+  width: 120px;
+  margin-left: 0px;
+  text-transform: uppercase;
+  background: #f9fafb;
+}
+
+ul li.active-tabs-item:hover {
+  border: 1px solid #d8d9db;
+  border-bottom: 1px solid #f9fafb;
+}
+
+ul li.tabs-item {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 1px solid #ffffff;
+  border-bottom: 1px solid #d8d9db;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  height: 26px;
+  width: 120px;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+ul li.tabs-item:hover {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #d8d9db;
+  border-bottom: 1px solid #d8d9db;
+  background: #f9fafb;
+}
+
+ul li.tabs-button {
+  padding: 0;
+  border: 1px solid #ffffff;
+  border-bottom: 1px solid #d8d9db;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  height: 26px;
+  width: 40px;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+ul li.tabs-button:hover {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #d8d9db;
+  border-bottom: 1px solid #d8d9db;
+  background: #f9fafb;
+}
+
+.button-block {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.button-add {
+  height: 20px;
+  border: 1px solid #1979cf;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #1979cf;
+  margin: 10px 10px 10px 0;
+  padding: 0 20px;
+  transition: 0.3s;
+}
+
+.button-add:hover {
+  background: #1979cf;
+  color: #ffffff;
+}
+
+.button-save {
+  height: 20px;
+  border: 1px solid #449d7c;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #449d7c;
+  margin: 10px 10px 10px 0;
+  padding: 0 20px;
+}
+
+.button-save:hover {
+  background: #449d7c;
+  color: #ffffff;
+}
+
+.button-print {
+  height: 20px;
+  border: 1px solid #0741ca;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #0741ca;
+  margin: 10px 10px 10px 0;
+  padding: 0 20px;
+}
+
+.button-print:hover {
+  background: #0741ca;
+  color: #ffffff;
 }
 </style>
