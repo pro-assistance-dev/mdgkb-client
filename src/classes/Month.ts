@@ -8,9 +8,13 @@ export default class Month implements IMonth {
   weeks: IWeek[] = [];
   firstWeekActive = false;
   lastWeekActive = false;
+  active = false;
 
-  constructor() {
-    const now = new Date();
+  constructor(d?: Date) {
+    const now = d ? new Date(d) : new Date();
+    if (!d) {
+      this.active = true;
+    }
     const date = new Date(now.getFullYear(), now.getMonth(), 1);
     this.weeks.push(new Week());
     while (date.getMonth() === now.getMonth()) {
@@ -28,6 +32,36 @@ export default class Month implements IMonth {
       date.setDate(date.getDate() + 1);
     }
     this.setActiveBorder();
+  }
+
+  static Init(): Month {
+    return new Month();
+  }
+
+  static InitFilled(d: Date): IMonth {
+    const month = Month.Init();
+    const now = new Date(d);
+    if (!d) {
+      month.active = true;
+    }
+    const date = new Date(now.getFullYear(), now.getMonth(), 1);
+    month.weeks.push(new Week());
+    while (date.getMonth() === now.getMonth()) {
+      // monthDates.value.push(new Date(date));
+      if (date.getDay() === 1 || month.weeks.length === 0) {
+        month.weeks.push(new Week());
+      }
+      const day = new Day();
+      day.date = new Date(date);
+      month.weeks[month.weeks.length - 1].days.push(day);
+      if (date.getDate() === now.getDate()) {
+        day.selected = true;
+        month.weeks[month.weeks.length - 1].active = true;
+      }
+      date.setDate(date.getDate() + 1);
+    }
+    month.setActiveBorder();
+    return month;
   }
 
   getActiveWeek(): IWeek {

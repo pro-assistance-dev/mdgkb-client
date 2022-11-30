@@ -2,7 +2,7 @@
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
       <div class="calendar-block">
-        <div class="calendar-title">Текущая неделя, 1.01 - 7.01:</div>
+        <div class="calendar-title">Текущая неделя, {{ $dateTimeFormatter.getCurrentWeekPeriod() }}:</div>
         <div class="day-block">
           <button class="arrow-button" :disabled="month.firstWeekActive" @click="month.moveActiveWeek(false)">
             <svg class="icon-arrow-left">
@@ -15,7 +15,7 @@
                 <div class="date">
                   {{ $dateTimeFormatter.format(day.date, { month: '2-digit', day: '2-digit', year: undefined }) }}
                 </div>
-                <div class="day-week">ПН</div>
+                <div class="day-week" :class="{ weekend: day.isWeekend() }">{{ $dateTimeFormatter.getShortDayName(day.date) }}</div>
               </div>
             </span>
           </span>
@@ -31,7 +31,9 @@
     <div class="menu">
       <div class="menu-title-tools-tabs">
         <div class="menu-title-tabs">
-          <div class="menu-title">Меню на 30.12:</div>
+          <div class="menu-title">
+            Меню на {{ $dateTimeFormatter.format(month.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
+          </div>
           <div class="tabs">
             <ul>
               <li class="active-tabs-item">Завтрак</li>
@@ -175,6 +177,7 @@ export default defineComponent({
     const rules = ref(DoctorRules);
     const addDishVisible: Ref<boolean> = ref(false);
     const dishesConstructorVisible: Ref<boolean> = ref(false);
+    const months: Ref<IMonth[]> = ref([new Month()]);
     const month: Ref<IMonth> = ref(new Month());
     const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const dishesGroups: Ref<IDishesGroup[]> = ref([]);
@@ -232,16 +235,12 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
     };
 
-    // function getWeekDay(date) {
-    //   let days = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
-
-    //   return days[date.getDay()];
-    // }
-
-    // let date = new Date(2014, 0, 3); // 3 января 2014 года
-    // alert( getWeekDay(date) ); // ПТ
+    const getWeekDays = () => {
+      months.value[0].getActiveWeek().days;
+    };
 
     return {
+      getWeekDays,
       dishesConstructorVisible,
       pdf,
       submit,
@@ -424,6 +423,10 @@ $margin: 20px 0;
   font-size: 18px;
   color: #1979cf;
   margin-right: 5px;
+}
+
+.weekend {
+  color: red;
 }
 
 .menu {
