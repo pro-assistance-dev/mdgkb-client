@@ -1,12 +1,12 @@
-import DocumentType from '@/classes/document/DocumentType';
 import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
-import IDocumentType from '@/interfaces/IDocumentType';
+import PageSection from '@/classes/PageSection';
 import IHospitalizationToDocumentType from '@/interfaces/IHospitalizationToDocumentType';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import IPageSection from '@/interfaces/IPageSection';
 
 export default class HospitalizationToDocumentType implements IHospitalizationToDocumentType {
   id?: string;
-  documentType?: IDocumentType;
+  documentType?: IPageSection;
   documentTypeId?: string;
   hospitalization?: IHospitalizationType;
   hospitalizationId?: string;
@@ -17,7 +17,7 @@ export default class HospitalizationToDocumentType implements IHospitalizationTo
     }
     this.id = hospitalizationToDocumentType.id;
     if (hospitalizationToDocumentType.documentType) {
-      this.documentType = new DocumentType(hospitalizationToDocumentType.documentType);
+      this.documentType = new PageSection(hospitalizationToDocumentType.documentType);
     }
     this.documentTypeId = hospitalizationToDocumentType.documentTypeId;
     if (hospitalizationToDocumentType.hospitalization) {

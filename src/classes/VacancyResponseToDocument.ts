@@ -1,11 +1,11 @@
-import Document from '@/classes/document/Document';
-import IDocument from '@/interfaces/document/IDocument';
+import PageSectionDocument from '@/classes/PageSectionDocument';
+import IPageSectionDocument from '@/interfaces/IPageSectionDocument';
 import IVacancyResponseToDocument from '@/interfaces/vacancyResponse/IVacancyResponseToDocument';
 
 export default class VacancyResponseToDocument implements IVacancyResponseToDocument {
   id?: string;
   vacancyResponseId?: string;
-  document: IDocument = new Document();
+  document: IPageSectionDocument = new PageSectionDocument();
   documentId?: string;
   constructor(i?: IVacancyResponseToDocument) {
     if (!i) {
@@ -15,7 +15,7 @@ export default class VacancyResponseToDocument implements IVacancyResponseToDocu
     this.vacancyResponseId = i.vacancyResponseId;
     this.documentId = i.documentId;
     if (i.document) {
-      this.document = new Document(i.document);
+      this.document = new PageSectionDocument(i.document);
     }
   }
 }

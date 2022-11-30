@@ -123,10 +123,10 @@
             >
           </div>
           <!-- <el-divider /> -->
-          <div v-if="postgraduateCourse.documentType.documents.length > 0">
+          <div v-if="postgraduateCourse.documentType.pageSectionDocuments.length > 0">
             <h4>Документы</h4>
             <ul>
-              <li v-for="document in postgraduateCourse.documentType.documents" :key="document.id">
+              <li v-for="document in postgraduateCourse.documentType.pageSectionDocuments" :key="document.id">
                 <a
                   :href="document.documentsScans[0].scan.getFileUrl()"
                   :download="document.documentsScans[0]?.scan.originalName"

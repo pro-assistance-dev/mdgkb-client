@@ -1,9 +1,9 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
 
 export default interface IEducationPublicDocumentType {
   id?: string;
-  publicDocumentType: IPublicDocumentType;
+  publicDocumentType: IPageSideMenu;
   publicDocumentTypeId?: string;
 
   getFileInfos: () => IFileInfo[];

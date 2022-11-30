@@ -1,4 +1,4 @@
-import IDocumentFieldValue from '@/interfaces/document/IDocumentFieldValue';
+import IDocumentFieldValue from '@/interfaces/IDocumentFieldValue';
 
 export default class DocumentFieldValue implements IDocumentFieldValue {
   id?: string;

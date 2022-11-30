@@ -1,8 +1,8 @@
 <template>
-  <el-table :data="documentType.documents">
+  <el-table :data="documentType.pageSectionDocuments">
     <el-table-column width="50" fixed="left" align="center">
       <template #default="scope">
-        <TableMover :ordered-items="documentType.documents" :index="scope.$index" />
+        <TableMover :ordered-items="documentType.pageSectionDocuments" :index="scope.$index" />
       </template>
     </el-table-column>
     <el-table-column prop="name" label="Название документа">
@@ -29,14 +29,14 @@
       <template #default="scope">
         <TableButtonGroup
           :show-remove-button="true"
-          @remove="removeFromClass(scope.$index, documentType.documents, documentType.documentsForDelete)"
+          @remove="removeFromClass(scope.$index, documentType.pageSectionDocuments, documentType.pageSectionsDocumentsForDelete)"
         />
       </template>
     </el-table-column>
   </el-table>
   <AdminGallery
-    :file-list="documentType.documentTypeImages"
-    :file-list-for-delete="documentType.documentTypeImagesForDelete"
+    :file-list="documentType.pageSectionImages"
+    :file-list-for-delete="documentType.pageSectionImagesForDelete"
     @add-image="documentType.addDocumentTypeImage()"
   />
 </template>
@@ -48,7 +48,7 @@ import AdminGallery from '@/components/admin/AdminGallery.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
 export default defineComponent({
@@ -61,7 +61,7 @@ export default defineComponent({
   },
   props: {
     documentType: {
-      type: Object as PropType<IDocumentType>,
+      type: Object as PropType<IPageSection>,
       required: true,
     },
   },

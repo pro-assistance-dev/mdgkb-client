@@ -1,14 +1,14 @@
-import DocumentType from '@/classes/document/DocumentType';
 import EducationalOrganizationDocumentType from '@/classes/EducationalOrganizationDocumentType';
+import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IEducationalOrganizationDocumentType from '@/interfaces/IEducationalOrganizationDocumentType';
 import IEducationalOrganizationDocumentTypeDocument from '@/interfaces/IEducationalOrganizationDocumentTypeDocument';
+import IPageSection from '@/interfaces/IPageSection';
 
 export default class EducationalOrganizationDocumentTypeDocument implements IEducationalOrganizationDocumentTypeDocument {
   id?: string;
 
-  document: IDocumentType = new DocumentType();
+  document: IPageSection = new PageSection();
   documentId?: string;
 
   educationalOrganizationDocumentType: IEducationalOrganizationDocumentType = new EducationalOrganizationDocumentType();
@@ -21,7 +21,7 @@ export default class EducationalOrganizationDocumentTypeDocument implements IEdu
     this.id = educationalOrganizationDocumentTypeDocument.id;
     this.documentId = educationalOrganizationDocumentTypeDocument.documentId;
     if (educationalOrganizationDocumentTypeDocument.document) {
-      this.document = new DocumentType(educationalOrganizationDocumentTypeDocument.document);
+      this.document = new PageSection(educationalOrganizationDocumentTypeDocument.document);
     }
 
     this.educationalOrganizationDocumentTypeId = educationalOrganizationDocumentTypeDocument.educationalOrganizationDocumentTypeId;

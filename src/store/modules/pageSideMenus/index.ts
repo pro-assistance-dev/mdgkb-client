@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import PublicDocumentType from '@/classes/document/PublicDocumentType';
+import PageSideMenu from '@/classes/PageSideMenu';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -11,7 +11,7 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new PublicDocumentType(),
+    item: new PageSideMenu(),
     fileInfos: [],
   };
 };
@@ -19,7 +19,7 @@ export const getDefaultState = (): State => {
 const state = getDefaultState();
 const namespaced = true;
 
-export const publicDocumentTypes: Module<State, RootState> = {
+export const pageSideMenus: Module<State, RootState> = {
   namespaced,
   state,
   getters,

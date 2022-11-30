@@ -1,11 +1,11 @@
-import DocumentType from '@/classes/document/DocumentType';
+import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
 
 export default class PostgraduateDocumentType implements IPostgraduateDocumentType {
   id?: string;
-  documentType: IDocumentType = new DocumentType();
+  documentType: IPageSection = new PageSection();
   documentTypeId?: string;
 
   constructor(i?: IPostgraduateDocumentType) {
@@ -15,7 +15,7 @@ export default class PostgraduateDocumentType implements IPostgraduateDocumentTy
     this.id = i.id;
     this.documentTypeId = i.documentTypeId;
     if (i.documentType) {
-      this.documentType = new DocumentType(i.documentType);
+      this.documentType = new PageSection(i.documentType);
     }
   }
 

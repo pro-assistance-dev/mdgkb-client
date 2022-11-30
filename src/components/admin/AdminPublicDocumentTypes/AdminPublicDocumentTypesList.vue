@@ -25,7 +25,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
-import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
@@ -36,7 +36,7 @@ export default defineComponent({
   setup() {
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
-    const publicDocumentTypes: ComputedRef<IPublicDocumentType[]> = computed(() => Provider.store.getters['publicDocumentTypes/items']);
+    const publicDocumentTypes: ComputedRef<IPageSideMenu[]> = computed(() => Provider.store.getters['publicDocumentTypes/items']);
 
     const edit = (id: string): void => {
       Provider.router.push(`/admin/public-document-types/${id}`);

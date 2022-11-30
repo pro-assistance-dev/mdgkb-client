@@ -60,7 +60,7 @@ import { useStore } from 'vuex';
 
 import CardHeader from '@/components/admin/CardHeader.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IValueType from '@/interfaces/IValueType';
 import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -77,7 +77,7 @@ export default defineComponent({
     const form = ref();
     const mounted = ref(false);
 
-    const documentType: Ref<IDocumentType> = computed(() => store.getters['documentTypes/item']);
+    const documentType: Ref<IPageSection> = computed(() => store.getters['documentTypes/item']);
     const valueTypes: Ref<IValueType[]> = computed(() => store.getters['valueTypes/items']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();

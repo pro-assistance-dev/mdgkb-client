@@ -35,7 +35,7 @@ import PublicDocumentPage from '@/components/Educational/Education/PublicDocumen
 import StructurePage from '@/components/Educational/Education/StructurePage.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
-import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import IOption from '@/interfaces/schema/IOption';
 import ISchema from '@/interfaces/schema/ISchema';
 
@@ -55,14 +55,14 @@ export default defineComponent({
     const pageTitle: Ref<string> = ref('Основные сведения');
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const publicDocumentsTypes: ComputedRef<IPublicDocumentType[]> = computed(() => store.getters['publicDocumentTypes/items']);
-    const selectedDocumentType: Ref<IPublicDocumentType | undefined> = ref(undefined);
+    const publicDocumentsTypes: ComputedRef<IPageSideMenu[]> = computed(() => store.getters['publicDocumentTypes/items']);
+    const selectedDocumentType: Ref<IPageSideMenu | undefined> = ref(undefined);
     const modes: Ref<IOption[]> = ref([]);
 
     const setModes = async () => {
       modes.value.push({ value: 'info', label: 'Основные сведения' });
       modes.value.push({ value: 'structure', label: 'Структура и орган управления организации' });
-      publicDocumentsTypes.value.forEach((docType: IPublicDocumentType) => {
+      publicDocumentsTypes.value.forEach((docType: IPageSideMenu) => {
         if (docType.id) {
           modes.value.push({ value: docType.id, label: docType.name });
         }
@@ -83,7 +83,7 @@ export default defineComponent({
 
     const changeTab = (value: string) => {
       mode.value = value;
-      const dpoDocumentType = publicDocumentsTypes.value.find((dpoDocType: IPublicDocumentType) => dpoDocType.id === value);
+      const dpoDocumentType = publicDocumentsTypes.value.find((dpoDocType: IPageSideMenu) => dpoDocType.id === value);
       if (dpoDocumentType) {
         selectedDocumentType.value = dpoDocumentType;
       } else {

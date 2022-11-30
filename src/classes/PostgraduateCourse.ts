@@ -1,5 +1,5 @@
-import DocumentType from '@/classes/document/DocumentType';
 import FileInfo from '@/classes/File/FileInfo';
+import PageSection from '@/classes/PageSection';
 import PostgraduateCourseDates from '@/classes/PostgraduateCourseDates';
 import PostgraduateCoursePlan from '@/classes/PostgraduateCoursePlan';
 import PostgraduateCourseSpecialization from '@/classes/PostgraduateCourseSpecialization';
@@ -7,8 +7,8 @@ import PostgraduateCourseTeacher from '@/classes/PostgraduateCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IForm from '@/interfaces/IForm';
+import IPageSection from '@/interfaces/IPageSection';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
 import IPostgraduateCoursePlan from '@/interfaces/IPostgraduateCoursePlan';
@@ -28,7 +28,7 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
   slug = '';
   cost = 0;
   documentTypeId?: string;
-  documentType: IDocumentType = new DocumentType();
+  documentType: IPageSection = new PageSection();
   years = 3;
   postgraduateCoursesSpecializations: IPostgraduateCourseSpecialization[] = [];
   postgraduateCoursesSpecializationsForDelete: string[] = [];
@@ -95,7 +95,7 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
     }
     this.documentTypeId = i.documentTypeId;
     if (i.documentType) {
-      this.documentType = new DocumentType(i.documentType);
+      this.documentType = new PageSection(i.documentType);
     }
     this.questionsFileId = i.questionsFileId;
   }

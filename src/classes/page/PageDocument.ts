@@ -1,12 +1,12 @@
-import DocumentType from '@/classes/document/DocumentType';
+import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IPageDocument from '@/interfaces/page/IPageDocument';
 
 export default class PageDocument implements IPageDocument {
   id?: string;
 
-  document: IDocumentType = new DocumentType();
+  document: IPageSection = new PageSection();
   documentId?: string;
 
   pageId?: string;
@@ -18,7 +18,7 @@ export default class PageDocument implements IPageDocument {
     this.id = pageDocument.id;
     this.documentId = pageDocument.documentId;
     if (pageDocument.document) {
-      this.document = new DocumentType(pageDocument.document);
+      this.document = new PageSection(pageDocument.document);
     }
     this.pageId = pageDocument.pageId;
   }

@@ -21,7 +21,7 @@
             </el-form-item>
           </div>
         </template>
-        <el-table :data="residencyDocType.documentType.documents">
+        <el-table :data="residencyDocType.documentType.pageSectionDocuments">
           <el-table-column prop="name" label="Название документа">
             <template #default="scope">
               <el-form-item size="mini" style="margin: 0">
@@ -58,7 +58,7 @@ import ResidencyDocumentType from '@/classes/ResidencyDocumentType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import removeFromClass from '@/services/removeFromClass';
 import sort from '@/services/sort';
@@ -126,11 +126,11 @@ export default defineComponent({
       return `${process.env.VUE_APP_STATIC_URL}/${path}`;
     };
 
-    const addDocument = (docType: IDocumentType) => {
+    const addDocument = (docType: IPageSection) => {
       docType.addDocument();
     };
 
-    const removeDocument = (docType: IDocumentType, index: number) => {
+    const removeDocument = (docType: IPageSection, index: number) => {
       docType.removeDocument(index);
     };
 

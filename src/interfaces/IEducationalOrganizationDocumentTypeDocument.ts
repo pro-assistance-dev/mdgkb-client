@@ -1,10 +1,10 @@
-import IDocumentType from '@/interfaces/IDocumentType';
 import IEducationalOrganizationDocumentType from '@/interfaces/IEducationalOrganizationDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 
 export default interface IEducationalOrganizationDocumentTypeDocument {
   id?: string;
 
-  document: IDocumentType;
+  document: IPageSection;
   documentId?: string;
 
   educationalOrganizationDocumentType: IEducationalOrganizationDocumentType;

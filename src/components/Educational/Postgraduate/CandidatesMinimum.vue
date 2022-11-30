@@ -14,7 +14,7 @@
       </div>
       <div v-for="docType in documentTypes" :key="docType.id" class="docs-container">
         <h3>{{ docType.documentType.name }}</h3>
-        <DocumentsList :documents="docType.documentType.documents" />
+        <DocumentsList :documents="docType.documentType.pageSectionDocuments" />
       </div>
     </div>
   </div>

@@ -1,12 +1,12 @@
-import PublicDocumentType from '@/classes/document/PublicDocumentType';
+import PageSideMenu from '@/classes/PageSideMenu';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
-import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
 
 export default class EducationPublicDocumentType implements IEducationPublicDocumentType {
   id?: string;
-  publicDocumentType: IPublicDocumentType = new PublicDocumentType();
+  publicDocumentType: IPageSideMenu = new PageSideMenu();
   publicDocumentTypeId?: string;
 
   constructor(i?: IEducationPublicDocumentType) {
@@ -16,13 +16,13 @@ export default class EducationPublicDocumentType implements IEducationPublicDocu
     this.id = i.id;
     this.publicDocumentType = i.publicDocumentType;
     if (i.publicDocumentType) {
-      this.publicDocumentType = new PublicDocumentType(i.publicDocumentType);
+      this.publicDocumentType = new PageSideMenu(i.publicDocumentType);
     }
   }
 
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
-    this.publicDocumentType.documentTypes.forEach((d: IDocumentType) => {
+    this.publicDocumentType.pageSections.forEach((d: IPageSection) => {
       fileInfos.push(...d.getFileInfos());
     });
     return fileInfos;

@@ -1,11 +1,11 @@
-import DocumentType from '@/classes/document/DocumentType';
+import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDocumentType';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 
 export default class AdmissionCommitteeDocumentType implements IAdmissionCommitteeDocumentType {
   id?: string;
-  documentType: IDocumentType = new DocumentType();
+  documentType: IPageSection = new PageSection();
   documentTypeId?: string;
   order = 0;
   constructor(i?: IAdmissionCommitteeDocumentType) {
@@ -16,7 +16,7 @@ export default class AdmissionCommitteeDocumentType implements IAdmissionCommitt
     this.documentTypeId = i.documentTypeId;
     this.order = i.order;
     if (i.documentType) {
-      this.documentType = new DocumentType(i.documentType);
+      this.documentType = new PageSection(i.documentType);
     }
   }
 

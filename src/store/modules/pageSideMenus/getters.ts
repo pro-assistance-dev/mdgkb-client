@@ -1,15 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IPublicDocumentType[] {
+  items(state): IPageSideMenu[] {
     return state.items;
   },
-  item(state): IPublicDocumentType {
+  item(state): IPageSideMenu {
     return state.item;
   },
 };

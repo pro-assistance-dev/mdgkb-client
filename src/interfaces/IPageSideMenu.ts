@@ -1,20 +1,24 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
+import IPage from '@/interfaces/page/IPage';
 
-import IDocumentType from './IDocumentType';
+import IPageSection from './IPageSection';
 
-export default interface IPublicDocumentType {
+export default interface IPageSideMenu {
   id?: string;
   name: string;
   order: number;
   routeAnchor: string;
   description: string;
 
-  documentTypes: IDocumentType[];
-  documentTypesForDelete: string[];
+  pageSections: IPageSection[];
+  pageSectionsForDelete: string[];
 
   educationPublicDocumentType?: IEducationPublicDocumentType;
   setEducationPublicDocumentType: (add: boolean) => void;
 
   getFileInfos: () => IFileInfo[];
+
+  page: IPage;
+  pageId?: string;
 }

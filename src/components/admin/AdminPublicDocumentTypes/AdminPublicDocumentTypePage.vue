@@ -22,10 +22,10 @@
         <el-collapse>
           <draggable
             class="groups"
-            :list="publicDocumentType.documentTypes"
+            :list="publicDocumentType.pageSections"
             item-key="id"
             handle=".el-icon-s-grid"
-            @end="sort(publicDocumentType.documentTypes)"
+            @end="sort(publicDocumentType.pageSections)"
           >
             <template #item="{ element, index }">
               <el-collapse-item :title="element.name" :name="element.name">
@@ -71,8 +71,8 @@ import { useStore } from 'vuex';
 
 import AdminDocumentsForm from '@/components/admin/AdminDocumentsTypes/AdminDocumentsForm.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IDocumentType from '@/interfaces/IDocumentType';
-import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import sort from '@/services/sort';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -87,7 +87,7 @@ export default defineComponent({
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
-    const publicDocumentType: ComputedRef<IPublicDocumentType> = computed(() => store.getters['publicDocumentTypes/item']);
+    const publicDocumentType: ComputedRef<IPageSideMenu> = computed(() => store.getters['publicDocumentTypes/item']);
     const rules = {
       name: [{ required: true, message: 'Необходимо указать название раздела', trigger: 'blur' }],
       docName: [{ required: true, message: 'Необходимо указать название документа', trigger: 'blur' }],
@@ -104,11 +104,11 @@ export default defineComponent({
       store.commit('publicDocumentTypes/removeDocType', index);
     };
 
-    const addDocument = (docType: IDocumentType) => {
+    const addDocument = (docType: IPageSection) => {
       docType.addDocument();
     };
 
-    const removeDocument = (docType: IDocumentType, index: number) => {
+    const removeDocument = (docType: IPageSection, index: number) => {
       docType.removeDocument(index);
     };
 

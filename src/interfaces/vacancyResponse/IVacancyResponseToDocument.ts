@@ -1,8 +1,8 @@
-import IDocument from '@/interfaces/document/IDocument';
+import IPageSectionDocument from '@/interfaces/IPageSectionDocument';
 
 export default interface IVacancyResponseToDocument {
   id?: string;
   vacancyResponseId?: string;
-  document: IDocument;
+  document: IPageSectionDocument;
   documentId?: string;
 }

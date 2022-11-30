@@ -36,8 +36,8 @@ import PostgraduateCoursesList from '@/components/Educational/Postgraduate/Postg
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
@@ -63,7 +63,7 @@ export default defineComponent({
     const documentTypes: ComputedRef<IPostgraduateDocumentType[]> = computed(
       () => Provider.store.getters['postgraduateDocumentTypes/items']
     );
-    const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
+    const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
     const modes: Ref<IOption[]> = ref([]);
     const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;

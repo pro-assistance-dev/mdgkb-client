@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import DocumentType from '@/classes/document/DocumentType';
+import PageSection from '@/classes/PageSection';
 import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
 import RootState from '@/store/types';
 
@@ -12,7 +12,7 @@ import State from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    item: new DocumentType(),
+    item: new PageSection(),
     documentsForTablesNames: new DocumentsTypesForTablesNames(),
   };
 };

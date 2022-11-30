@@ -194,8 +194,8 @@ import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IForm from '@/interfaces/IForm';
+import IPageSection from '@/interfaces/IPageSection';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -229,7 +229,7 @@ export default defineComponent({
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
     const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
-    const documentTypes: ComputedRef<IDocumentType[]> = computed<IDocumentType[]>(() => store.getters['documentTypes/items']);
+    const documentTypes: ComputedRef<IPageSection[]> = computed<IPageSection[]>(() => store.getters['documentTypes/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {

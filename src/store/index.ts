@@ -53,6 +53,7 @@ import { newsSlides } from '@/store/modules/newsSlides';
 import normativeDocuments from '@/store/modules/normativeDocuments';
 import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { pages } from '@/store/modules/pages';
+import { pageSideMenus } from '@/store/modules/pageSideMenus';
 import { pagination } from '@/store/modules/pagination';
 import { paidPrograms } from '@/store/modules/paidPrograms';
 import { paidProgramsGroups } from '@/store/modules/paidProgramsGroups';
@@ -64,7 +65,6 @@ import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
 import { postgraduateDocumentTypes } from '@/store/modules/postgraduateDocumentTypes';
 import { preparations } from '@/store/modules/preparations';
 import { projects } from '@/store/modules/projects';
-import { publicDocumentTypes } from '@/store/modules/publicDocumentTypes';
 import { questions } from '@/store/modules/questions';
 import { residencyApplications } from '@/store/modules/residencyApplications';
 import { residencyCourses } from '@/store/modules/residencyCourses';
@@ -137,7 +137,7 @@ const s: StoreOptions<RootState> = {
     filter,
     meta,
     pagination,
-    publicDocumentTypes,
+    publicDocumentTypes: pageSideMenus,
     certificates,
     medicalProfiles,
     visitsApplications,

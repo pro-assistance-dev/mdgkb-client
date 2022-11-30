@@ -89,7 +89,7 @@ import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import { Orders } from '@/interfaces/filters/Orders';
 import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDocumentType';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IOption from '@/interfaces/schema/IOption';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -112,7 +112,7 @@ export default defineComponent({
     const docTypes: Ref<IAdmissionCommitteeDocumentType[]> = computed(
       () => Provider.store.getters['admissionCommitteeDocumentTypes/items']
     );
-    const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
+    const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
     const showForm: Ref<boolean> = ref(false);
     const setModes = async () => {
       docTypes.value.forEach((docType: IAdmissionCommitteeDocumentType) => {

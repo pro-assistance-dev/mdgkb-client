@@ -25,8 +25,8 @@ import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCo
 import ResidencyFilters from '@/components/Educational/Residency/ResidencyFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import { Orders } from '@/interfaces/filters/Orders';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
@@ -48,7 +48,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const documentTypes: ComputedRef<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
-    const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
+    const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
     const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const modes: Ref<IOption[]> = ref([]);
     const title: ComputedRef<string> = computed(() => {

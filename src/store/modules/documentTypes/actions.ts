@@ -2,7 +2,7 @@ import { ActionTree } from 'vuex';
 
 import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -11,13 +11,13 @@ import State from './state';
 const httpClient = new HttpClient('document-types');
 
 const actions: ActionTree<State, RootState> = {
-  create: async (_, item: IDocumentType): Promise<void> => {
+  create: async (_, item: IPageSection): Promise<void> => {
     const fileInfos: IFileInfo[] | undefined = item.scan ? [item.scan] : undefined;
 
-    await httpClient.post<IDocumentType, IDocumentType>({ payload: item, fileInfos, isFormData: true });
+    await httpClient.post<IPageSection, IPageSection>({ payload: item, fileInfos, isFormData: true });
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const type = await httpClient.get<IDocumentType>({ query: id });
+    const type = await httpClient.get<IPageSection>({ query: id });
 
     if (!type) {
       return;
@@ -27,7 +27,7 @@ const actions: ActionTree<State, RootState> = {
   },
   getAll: async ({ commit, state }): Promise<void> => {
     const query = state.documentsForTablesNames.createQueryParam();
-    const documents = await httpClient.get<IDocumentType[]>({ query: query });
+    const documents = await httpClient.get<IPageSection[]>({ query: query });
 
     if (!documents) {
       return;
@@ -35,10 +35,10 @@ const actions: ActionTree<State, RootState> = {
 
     commit('setAll', documents);
   },
-  update: async (_, document: IDocumentType): Promise<void> => {
+  update: async (_, document: IPageSection): Promise<void> => {
     const fileInfos: IFileInfo[] | undefined = document.scan ? [document.scan] : undefined;
 
-    await httpClient.put<IDocumentType, undefined>({ query: document.id, payload: document, fileInfos, isFormData: true });
+    await httpClient.put<IPageSection, undefined>({ query: document.id, payload: document, fileInfos, isFormData: true });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete<string, undefined>({ query: id });

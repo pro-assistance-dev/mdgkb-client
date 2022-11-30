@@ -7,11 +7,11 @@
           <template #title>
             <h3 class="collapseHeader">{{ pubDocType.name }}</h3>
           </template>
-          <div v-for="docType in pubDocType.documentTypes" :key="docType.id">
-            <h4 v-if="pubDocType.documentTypes.length > 1">{{ docType.name }}</h4>
+          <div v-for="docType in pubDocType.pageSections" :key="docType.id">
+            <h4 v-if="pubDocType.pageSections.length > 1">{{ docType.name }}</h4>
             <el-table
               ref="table"
-              :data="docType.documents"
+              :data="docType.pageSectionDocuments"
               class="table-shadow"
               header-row-class-name="header-style"
               row-class-name="no-hover"
@@ -55,7 +55,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IPublicDocumentType from '@/interfaces/IPublicDocumentType';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
 
 export default defineComponent({
   name: 'PublicDocumentsList',
@@ -70,7 +70,7 @@ export default defineComponent({
     const store = useStore();
     const mounted: Ref<boolean> = ref(false);
     const route = useRoute();
-    const publicDocumentTypes: ComputedRef<IPublicDocumentType[]> = computed(() => store.getters['publicDocumentTypes/items']);
+    const publicDocumentTypes: ComputedRef<IPageSideMenu[]> = computed(() => store.getters['publicDocumentTypes/items']);
     const activeName = ref('');
 
     const getFileUrl = (path: string): string => {
@@ -81,7 +81,7 @@ export default defineComponent({
       // const lastRoute = localStorage.getItem('lastRoute');
       await store.dispatch('publicDocumentTypes/getAll');
       if (route.query.doc) {
-        const publicDocType = publicDocumentTypes.value.find((item: IPublicDocumentType) => item.routeAnchor === route.query.doc);
+        const publicDocType = publicDocumentTypes.value.find((item: IPageSideMenu) => item.routeAnchor === route.query.doc);
         if (publicDocType && publicDocType.id) {
           activeName.value = publicDocType.name;
           const el = document.getElementById(publicDocType.id);

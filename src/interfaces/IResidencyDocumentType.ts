@@ -1,9 +1,9 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 
 export default interface IResidencyDocumentType {
   id?: string;
-  documentType: IDocumentType;
+  documentType: IPageSection;
   documentTypeId?: string;
 
   getFileInfos: () => IFileInfo[];

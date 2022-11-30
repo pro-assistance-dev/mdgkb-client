@@ -1,6 +1,6 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 
-export default interface IDocumentTypeImage {
+export default interface IPageSectionImage {
   id?: string;
   documentTypeId?: string;
   fileInfoId?: string;

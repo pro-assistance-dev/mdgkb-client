@@ -37,8 +37,8 @@ import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -59,7 +59,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => Provider.store.getters['dpoDocumentTypes/items']);
-    const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
+    const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
     const sortModels: Ref<ISortModel[]> = ref([]);
     const modes: Ref<IOption[]> = ref([]);
     const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');

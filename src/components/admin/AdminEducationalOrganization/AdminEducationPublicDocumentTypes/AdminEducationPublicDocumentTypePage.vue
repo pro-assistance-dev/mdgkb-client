@@ -16,7 +16,7 @@
             <el-button type="success" @click="addDocType">Добавить тип</el-button>
           </div>
         </template>
-        <el-card v-for="(docType, docTypeIndex) in publicDocumentType.publicDocumentType.documentTypes" :key="docTypeIndex">
+        <el-card v-for="(docType, docTypeIndex) in publicDocumentType.publicDocumentType.pageSections" :key="docTypeIndex">
           <template #header>
             <div class="card-header">
               <el-form-item
@@ -29,7 +29,7 @@
               <el-button type="danger" icon="el-icon-close" @click="removeDocType(docTypeIndex)"></el-button>
             </div>
           </template>
-          <el-table :data="docType.documents">
+          <el-table :data="docType.pageSectionDocuments">
             <el-table-column prop="name" label="Название документа">
               <template #default="scope">
                 <el-form-item
@@ -80,8 +80,8 @@ import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -113,11 +113,11 @@ export default defineComponent({
       store.commit('educationPublicDocumentTypes/removeDocType', index);
     };
 
-    const addDocument = (docType: IDocumentType) => {
+    const addDocument = (docType: IPageSection) => {
       docType.addDocument();
     };
 
-    const removeDocument = (docType: IDocumentType, index: number) => {
+    const removeDocument = (docType: IPageSection, index: number) => {
       docType.removeDocument(index);
     };
 
