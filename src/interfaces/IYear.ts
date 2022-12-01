@@ -5,4 +5,5 @@ export default interface IYear {
   number: number;
   active: boolean;
   getActiveMonth: () => IMonth;
+  move: (toForward: boolean) => void;
 }

@@ -9,58 +9,49 @@ export default class Month implements IMonth {
   firstWeekActive = false;
   lastWeekActive = false;
   active = false;
-
+  number = 0;
   constructor(d?: Date) {
-    const now = d ? new Date(d) : new Date();
-    if (!d) {
-      this.active = true;
-    }
-    const date = new Date(now.getFullYear(), now.getMonth(), 1);
-    this.weeks.push(new Week());
-    while (date.getMonth() === now.getMonth()) {
-      // monthDates.value.push(new Date(date));
-      if (date.getDay() === 1 || this.weeks.length === 0) {
-        this.weeks.push(new Week());
-      }
-      const day = new Day();
-      day.date = new Date(date);
-      this.weeks[this.weeks.length - 1].days.push(day);
-      if (date.getDate() === now.getDate()) {
-        day.selected = true;
-        this.weeks[this.weeks.length - 1].active = true;
-      }
-      date.setDate(date.getDate() + 1);
-    }
-    this.setActiveBorder();
+    // const now = d ? new Date(d) : new Date();
+    // if (!d) {
+    //   this.active = true;
+    // }
+    // const date = new Date(now.getFullYear(), now.getMonth(), 1);
+    // this.weeks.push(new Week());
+    // while (date.getMonth() === now.getMonth()) {
+    //   // monthDates.value.push(new Date(date));
+    //   if (date.getDay() === 1 || this.weeks.length === 0) {
+    //     this.weeks.push(new Week());
+    //   }
+    //   const day = new Day();
+    //   day.date = new Date(date);
+    //   this.weeks[this.weeks.length - 1].days.push(day);
+    //   if (date.getDate() === now.getDate()) {
+    //     day.selected = true;
+    //     this.weeks[this.weeks.length - 1].active = true;
+    //   }
+    //   date.setDate(date.getDate() + 1);
+    // }
+    // this.setActiveBorder();
   }
 
   static Init(): Month {
     return new Month();
   }
 
-  static InitFilled(d: Date): IMonth {
+  static InitFull(yearN: number, monthN: number): IMonth {
     const month = Month.Init();
-    const now = new Date(d);
-    if (!d) {
-      month.active = true;
-    }
-    const date = new Date(now.getFullYear(), now.getMonth(), 1);
-    month.weeks.push(new Week());
-    while (date.getMonth() === now.getMonth()) {
-      // monthDates.value.push(new Date(date));
+    month.number = monthN;
+    const firstDay = new Date(yearN, monthN, 1);
+    const date = new Date(firstDay);
+    while (date.getMonth() === firstDay.getMonth()) {
       if (date.getDay() === 1 || month.weeks.length === 0) {
         month.weeks.push(new Week());
       }
       const day = new Day();
       day.date = new Date(date);
       month.weeks[month.weeks.length - 1].days.push(day);
-      if (date.getDate() === now.getDate()) {
-        day.selected = true;
-        month.weeks[month.weeks.length - 1].active = true;
-      }
       date.setDate(date.getDate() + 1);
     }
-    month.setActiveBorder();
     return month;
   }
 
@@ -69,10 +60,14 @@ export default class Month implements IMonth {
     return week ?? new Week();
   }
 
+  getActiveWeekIndex(): number {
+    return this.weeks.findIndex((w: IWeek) => w.active);
+  }
+
   getSelectedDay(): IDay {
     let selectedDay: IDay = new Day();
     this.weeks.some((w: IWeek) => {
-      const d = w.days.find((d: IDay) => d.selected === true);
+      const d = w.days.find((d: IDay) => d.selected);
       if (d) {
         selectedDay = d;
         return true;
@@ -81,7 +76,7 @@ export default class Month implements IMonth {
     return selectedDay;
   }
 
-  moveActiveWeek(toForward: boolean): void {
+  move(toForward: boolean): void {
     // const activeWeek = this.getActiveWeek();
     const activeWeekIndex = this.weeks.findIndex((w: IWeek) => w.active);
     if (activeWeekIndex === -1) {
@@ -95,7 +90,7 @@ export default class Month implements IMonth {
     }
     this.setActiveBorder();
   }
-  private setActiveBorder(): void {
+  setActiveBorder(): void {
     const activeWeekIndex = this.weeks.findIndex((w: IWeek) => w.active);
     if (activeWeekIndex === 0) {
       this.firstWeekActive = true;
@@ -105,5 +100,13 @@ export default class Month implements IMonth {
       this.lastWeekActive = true;
       this.firstWeekActive = false;
     }
+  }
+
+  isLast(): boolean {
+    return this.number === 11;
+  }
+
+  isFirst(): boolean {
+    return this.number === 0;
   }
 }

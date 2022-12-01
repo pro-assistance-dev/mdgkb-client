@@ -2,14 +2,27 @@
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
       <div class="calendar-block">
-        <div class="calendar-title">Текущая неделя, {{ $dateTimeFormatter.getCurrentWeekPeriod() }}:</div>
+        <div class="calendar-title">
+          Текущая неделя,
+          {{
+            $dateTimeFormatter.getPeriod(
+              calendar.getActivePeriod()[0].date,
+              calendar.getActivePeriod()[calendar.getActivePeriod().length - 1].date,
+              {
+                month: '2-digit',
+                day: 'numeric',
+                year: undefined,
+              }
+            )
+          }}:
+        </div>
         <div class="day-block">
-          <button class="arrow-button" :disabled="month.firstWeekActive" @click="month.moveActiveWeek(false)">
+          <button class="arrow-button" @click="calendar.move(false)">
             <svg class="icon-arrow-left">
               <use xlink:href="#arrow-left"></use>
             </svg>
           </button>
-          <span v-for="day in month.getActiveWeek().days" :key="day" @click="selectDay(day)">
+          <span v-for="day in calendar.getActivePeriod()" :key="day" @click="selectDay(day)">
             <span :class="{ blue: day.selected, normal: !day.selected }">
               <div class="day">
                 <div class="date">
@@ -19,7 +32,7 @@
               </div>
             </span>
           </span>
-          <button class="arrow-button" :disabled="month.lastWeekActive" @click="month.moveActiveWeek(true)">
+          <button class="arrow-button" @click="calendar.move(true)">
             <svg class="icon-arrow-right">
               <use xlink:href="#arrow-right"></use>
             </svg>
@@ -63,6 +76,7 @@
           </button>
         </div>
       </div>
+
       <div class="diets-container">
         <div class="table-container">
           <table class="table-list">
@@ -145,10 +159,12 @@ import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
+import Calendar from '@/classes/Calendar';
 import DailyMenu from '@/classes/DailyMenu';
 import Month from '@/classes/Month';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
+import ICalendar from '@/interfaces/ICalendar';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDay from '@/interfaces/IDay';
 import IDishesGroup from '@/interfaces/IDishesGroup';
@@ -182,6 +198,11 @@ export default defineComponent({
     const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const dishesGroups: Ref<IDishesGroup[]> = ref([]);
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
+    const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
+
+    // const days = (): IDay[] => {
+    //   return calendar.getActivePeriod();
+    // };
 
     const load = async () => {
       await Provider.store.dispatch('search/searchGroups');
@@ -240,6 +261,8 @@ export default defineComponent({
     };
 
     return {
+      // days,
+      calendar,
       getWeekDays,
       dishesConstructorVisible,
       pdf,
