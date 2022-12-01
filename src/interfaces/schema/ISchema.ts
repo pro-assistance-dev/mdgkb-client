@@ -2,6 +2,7 @@ import IAgePeriodSchema from '@/interfaces/schema/IAgePeriodSchema';
 import IBuildingSchema from '@/interfaces/schema/IBuildingSchema';
 import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
+import IDailyMenuSchema from '@/interfaces/schema/IDailyMenuSchema';
 import IDietSchema from '@/interfaces/schema/IDietSchema';
 import IDivisionCommentSchema from '@/interfaces/schema/IDivisionCommentSchema';
 import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
@@ -85,4 +86,5 @@ export default interface ISchema {
   employee: IEmployeeSchema;
   hospitalization: IHospitalizationSchema;
   supportMessage: ISupportMessageSchema;
+  dailyMenu: IDailyMenuSchema;
 }

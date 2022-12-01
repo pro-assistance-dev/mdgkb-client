@@ -13,4 +13,7 @@ export default class Week implements IWeek {
       return this.days;
     }
   }
+  getSelectedDay(): IDay | undefined {
+    return this.days.find((d: IDay) => d.selected);
+  }
 }

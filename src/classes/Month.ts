@@ -64,10 +64,10 @@ export default class Month implements IMonth {
     return this.weeks.findIndex((w: IWeek) => w.active);
   }
 
-  getSelectedDay(): IDay {
-    let selectedDay: IDay = new Day();
+  getSelectedDay(): IDay | undefined {
+    let selectedDay: IDay | undefined = undefined;
     this.weeks.some((w: IWeek) => {
-      const d = w.days.find((d: IDay) => d.selected);
+      const d = w.getSelectedDay();
       if (d) {
         selectedDay = d;
         return true;

@@ -1,3 +1,4 @@
+import Day from '@/classes/Day';
 import Year from '@/classes/Year';
 import { CalendarScale } from '@/interfaces/CalendarScale';
 import ICalendar from '@/interfaces/ICalendar';
@@ -20,7 +21,6 @@ export default class Calendar implements ICalendar {
       calendar.years.push(Year.InitFull(i));
     }
     calendar.initActive();
-    console.log(calendar);
     return calendar;
   }
 
@@ -75,5 +75,41 @@ export default class Calendar implements ICalendar {
     if (this.scale === CalendarScale.Week) {
       this.getActiveYear().move(toForward);
     }
+  }
+
+  getToday(): IDay {
+    const now = new Date();
+    const year = this.years.find((i: IYear) => i.number === now.getFullYear());
+    if (!year) {
+      return new Day();
+    }
+    const month = year.months.find((i: IMonth) => i.number === now.getMonth());
+    if (!month) {
+      return new Day();
+    }
+    const week = month.weeks.find((i: IWeek) => i.days.some((d: IDay) => d.date.getDate() === now.getDate()));
+    if (!week) {
+      return new Day();
+    }
+    const day = week.days.find((i: IDay) => i.date.getDate() === now.getDate());
+    return day ?? new Day();
+  }
+
+  getSelectedDay(): IDay {
+    let selectedDay = new Day();
+    this.years.some((y: IYear) => {
+      const day = y.getSelectedDay();
+      if (day) {
+        selectedDay = day;
+        return true;
+      }
+    });
+    return selectedDay;
+  }
+
+  selectDay(day: IDay): void {
+    const previousSelectedDay = this.getSelectedDay();
+    previousSelectedDay.selected = false;
+    day.selected = true;
   }
 }

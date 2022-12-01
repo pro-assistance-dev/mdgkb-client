@@ -45,15 +45,12 @@
       <div class="menu-title-tools-tabs">
         <div class="menu-title-tabs">
           <div class="menu-title">
-            Меню на {{ $dateTimeFormatter.format(month.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
+            Меню на {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
           </div>
           <div class="tabs">
             <ul>
-              <li class="active-tabs-item">Завтрак</li>
-              <li class="tabs-item">Завтрак 2</li>
-              <li class="tabs-item">Обед</li>
-              <li class="tabs-item">Праздник</li>
-              <li class="tabs-button">
+              <li v-for="menu in dailyMenus" :key="menu.id" class="active-tabs-item" @click="selectMenu(menu)">{{ menu.name }}</li>
+              <li class="tabs-button" @click="addMenu">
                 <button class="tools-button">
                   <svg class="icon-add">
                     <use xlink:href="#add"></use>
@@ -161,18 +158,18 @@ import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
 import Calendar from '@/classes/Calendar';
 import DailyMenu from '@/classes/DailyMenu';
-import Month from '@/classes/Month';
+import FilterModel from '@/classes/filters/FilterModel';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ICalendar from '@/interfaces/ICalendar';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDay from '@/interfaces/IDay';
 import IDishesGroup from '@/interfaces/IDishesGroup';
-import IMonth from '@/interfaces/IMonth';
-import IWeek from '@/interfaces/IWeek';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
 import removeFromClass from '@/services/removeFromClass';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -193,26 +190,20 @@ export default defineComponent({
     const rules = ref(DoctorRules);
     const addDishVisible: Ref<boolean> = ref(false);
     const dishesConstructorVisible: Ref<boolean> = ref(false);
-    const months: Ref<IMonth[]> = ref([new Month()]);
-    const month: Ref<IMonth> = ref(new Month());
     const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const dishesGroups: Ref<IDishesGroup[]> = ref([]);
-    const selectedMenu: Ref<IDailyMenu | undefined> = ref();
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
-
-    // const days = (): IDay[] => {
-    //   return calendar.getActivePeriod();
-    // };
-
+    const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const selectedMenu: Ref<IDailyMenu | undefined> = ref();
     const load = async () => {
+      dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await Provider.store.dispatch('search/searchGroups');
       await Provider.store.dispatch('dishesGroups/getAll');
-      await Provider.store.dispatch('dailyMenus/getAll');
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Меню буфета',
         buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
       });
-      selectDay(month.value.getSelectedDay());
+      await selectDay(calendar.value.getToday());
     };
 
     const openDishesConstructor = () => {
@@ -221,11 +212,15 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load);
 
-    const selectDay = (day: IDay): void => {
-      month.value.weeks.forEach((w: IWeek) => w.days.forEach((d: IDay) => (d.selected = false)));
-      day.selected = true;
+    const getTodayMenus = async () => {
+      dayFilter.value.date1 = calendar.value.getSelectedDay().date;
+      Provider.setFilterModel(dayFilter.value);
+      await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+    };
+
+    const findMenu = () => {
       selectedMenu.value = dailyMenus.value.find((dm: IDailyMenu) => {
-        return dm.date.getDate() === day.date.getDate();
+        return dm.date.getDate() === calendar.value.getSelectedDay().date.getDate();
       });
       if (!selectedMenu.value) {
         return;
@@ -233,15 +228,20 @@ export default defineComponent({
       selectedMenu.value?.groupDishes();
     };
 
-    const addDishes = () => {
-      addDishVisible.value = true;
+    const selectDay = async (day: IDay): Promise<void> => {
+      calendar.value.selectDay(day);
+      await getTodayMenus();
+      if (dailyMenus.value.length === 0) {
+        selectedMenu.value = DailyMenu.Create(day.date);
+        dailyMenus.value.push(selectedMenu.value);
+        await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
+        return;
+      }
+      findMenu();
     };
 
-    const createMenu = () => {
-      const menu = new DailyMenu();
-      menu.date = month.value.getSelectedDay().date;
-      dailyMenus.value.push(menu);
-      selectedMenu.value = menu;
+    const addDishes = () => {
+      addDishVisible.value = true;
     };
 
     const submit = async () => {
@@ -256,23 +256,28 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
     };
 
-    const getWeekDays = () => {
-      months.value[0].getActiveWeek().days;
+    const addMenu = () => {
+      selectedMenu.value = DailyMenu.Create(new Date());
+      dailyMenus.value.push(selectedMenu.value);
+    };
+
+    const selectMenu = (menu: IDailyMenu): void => {
+      selectedMenu.value = menu;
+      selectedMenu.value?.groupDishes();
     };
 
     return {
-      // days,
+      addMenu,
+      selectMenu,
+      dailyMenus,
       calendar,
-      getWeekDays,
       dishesConstructorVisible,
       pdf,
       submit,
-      createMenu,
       selectedMenu,
       addDishVisible,
       addDishes,
       selectDay,
-      month,
       dishesGroups,
       rules,
       form,

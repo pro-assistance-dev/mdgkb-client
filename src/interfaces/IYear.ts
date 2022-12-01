@@ -1,3 +1,4 @@
+import IDay from '@/interfaces/IDay';
 import IMonth from '@/interfaces/IMonth';
 
 export default interface IYear {
@@ -6,4 +7,5 @@ export default interface IYear {
   active: boolean;
   getActiveMonth: () => IMonth;
   move: (toForward: boolean) => void;
+  getSelectedDay: () => IDay | undefined;
 }

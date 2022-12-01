@@ -7,7 +7,7 @@ export default interface IMonth {
   getActiveWeek: () => IWeek;
   firstWeekActive: boolean;
   lastWeekActive: boolean;
-  getSelectedDay: () => IDay;
+  getSelectedDay: () => IDay | undefined;
   getActiveWeekIndex: () => number;
   number: number;
 

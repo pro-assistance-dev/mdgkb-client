@@ -8,4 +8,7 @@ export default interface ICalendar {
   initActive: () => void;
   move: (toForward: boolean) => void;
   getActivePeriod: () => IDay[];
+  getToday: () => IDay;
+  getSelectedDay: () => IDay;
+  selectDay: (day: IDay) => void;
 }

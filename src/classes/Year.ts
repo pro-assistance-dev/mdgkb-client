@@ -1,4 +1,5 @@
 import Month from '@/classes/Month';
+import IDay from '@/interfaces/IDay';
 import IMonth from '@/interfaces/IMonth';
 import IYear from '@/interfaces/IYear';
 
@@ -78,5 +79,17 @@ export default class Year implements IYear {
       week.active = true;
     }
     newActiveMonth.setActiveBorder();
+  }
+
+  getSelectedDay(): IDay | undefined {
+    let selectedDay = undefined;
+    this.months.some((m: IMonth) => {
+      const day = m.getSelectedDay();
+      if (day) {
+        selectedDay = day;
+        return true;
+      }
+    });
+    return selectedDay;
   }
 }
