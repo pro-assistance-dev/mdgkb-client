@@ -137,7 +137,10 @@
       <DishesSamplesConstructor :menu="selectedMenu" />
     </el-dialog>
 
-    <el-dialog v-model="addDishVisible" :width="1200" :destroy-on-close="true" center @closed="closeModal">
+    <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
+      <template #title>
+        <div class="add-title">Выберите блюда из книги блюд</div>
+      </template>
       <AddDish :menu="selectedMenu" />
     </el-dialog>
   </component>
@@ -704,5 +707,14 @@ ul li.tabs-button:hover {
 .button-print:hover {
   background: #0741ca;
   color: #ffffff;
+}
+
+.add-title {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: 20px;
+  color: #1979cf;
 }
 </style>
