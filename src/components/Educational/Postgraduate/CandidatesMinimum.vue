@@ -21,14 +21,13 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidateApplicationForm from '@/components/Educational/Postgraduate/CandidateApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import ICandidateDocumentType from '@/interfaces/ICandidateDocumentType';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import scroll from '@/services/Scroll';
 
@@ -40,7 +39,7 @@ export default defineComponent({
     const store = useStore();
     const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
     const mounted = ref(false);
-    const documentTypes: ComputedRef<ICandidateDocumentType[]> = computed(() => store.getters['candidateDocumentTypes/items']);
+    // const documentTypes: ComputedRef<ICandidateDocumentType[]> = computed(() => store.getters['candidateDocumentTypes/items']);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
       showForm.value = true;
@@ -56,7 +55,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('candidateDocumentTypes/getAll');
       await store.dispatch('candidateExams/get');
       mounted.value = true;
       if (route.query.respondForm) {
@@ -71,7 +69,7 @@ export default defineComponent({
     // };
 
     return {
-      documentTypes,
+      // documentTypes,
       mounted,
       candidateExam,
       // loadMore,

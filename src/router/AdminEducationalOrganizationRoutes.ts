@@ -1,22 +1,16 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminAdmissionCommitteeList from '@/components/admin/AdminEducationalOrganization/AdminAdmissionCommitteeList.vue';
-import AdminAdmissionCommitteePage from '@/components/admin/AdminEducationalOrganization/AdminAdmissionCommitteePage.vue';
-import AdminDpo from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpo.vue';
 import AdminDpoApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationPage.vue';
 import AdminDpoApplicationsListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationsListContainer.vue';
 import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursePage.vue';
 import AdminDpoCoursesListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursesListContainer.vue';
 import AdminEducationalOrganizationPage from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationPage.vue';
-import AdminCandidate from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidate.vue';
 import AdminCandidateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationPage.vue';
 import AdminCandidateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationsList.vue';
-import AdminPostgraduate from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduate.vue';
 import AdminPostgraduateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationPage.vue';
 import AdminPostgraduateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationsList.vue';
 import AdminPostgraduateCoursePage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursePage.vue';
 import AdminPostgraduateCoursesList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursesList.vue';
-import AdminResidency from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidency.vue';
 import AdminResidencyApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationPage.vue';
 import AdminResidencyApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationsList.vue';
 import AdminResidencyCoursePage from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursePage.vue';
@@ -33,79 +27,6 @@ export default [
     path: '/admin/educational-organization',
     name: 'AdminEducationalOrganizationPage',
     component: AdminEducationalOrganizationPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/postgraduate',
-    name: 'AdminPostgraduate',
-    component: AdminPostgraduate,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/admission-committee',
-    name: 'AdminAdmissionCommitteeList',
-    component: AdminAdmissionCommitteeList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-      AdminLayout: AdminLayout.TableList,
-    },
-  },
-  {
-    path: '/admin/admission-committee/new',
-    name: 'AdminAdmissionCommitteePageNew',
-    component: AdminAdmissionCommitteePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/admission-committee/:id',
-    name: 'AdminAdmissionCommitteePageEdit',
-    component: AdminAdmissionCommitteePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/candidate',
-    name: 'AdminCandidate',
-    component: AdminCandidate,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/dpo',
-    name: 'AdminDpo',
-    component: AdminDpo,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
@@ -370,18 +291,6 @@ export default [
     path: '/admin/candidate-applications/:id',
     name: 'AdminCandidateApplicationPage',
     component: AdminCandidateApplicationPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/residency',
-    name: 'AdminResidency',
-    component: AdminResidency,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

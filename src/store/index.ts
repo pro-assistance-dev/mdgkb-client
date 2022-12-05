@@ -1,7 +1,6 @@
 import Vuex, { StoreOptions } from 'vuex';
 
 import { admin } from '@/store/modules/admin';
-import { admissionCommitteeDocumentTypes } from '@/store/modules/admissionCommitteeDocumentTypes';
 import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
 import auth from '@/store/modules/auth';
@@ -9,7 +8,6 @@ import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { callbacks } from '@/store/modules/callbacks';
 import { candidateApplications } from '@/store/modules/candidateApplications';
-import { candidateDocumentTypes } from '@/store/modules/candidateDocumentTypes';
 import { candidateExams } from '@/store/modules/candidateExams';
 import { certificates } from '@/store/modules/certificates';
 import { children } from '@/store/modules/children';
@@ -26,7 +24,6 @@ import { documentTypes } from '@/store/modules/documentTypes';
 import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
 import { dpoCourses } from '@/store/modules/dpoCourses';
-import { dpoDocumentTypes } from '@/store/modules/dpoDocumentTypes';
 import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { educationalOrganizationAcademics } from '@/store/modules/educationalOrganizationAcademics';
@@ -50,8 +47,6 @@ import { menus } from '@/store/modules/menus';
 import { meta } from '@/store/modules/meta';
 import { news } from '@/store/modules/news';
 import { newsSlides } from '@/store/modules/newsSlides';
-import normativeDocuments from '@/store/modules/normativeDocuments';
-import normativeDocumentTypes from '@/store/modules/normativeDocumentTypes';
 import { pages } from '@/store/modules/pages';
 import { pageSideMenus } from '@/store/modules/pageSideMenus';
 import { pagination } from '@/store/modules/pagination';
@@ -62,13 +57,11 @@ import { partnerTypes } from '@/store/modules/partnerTypes';
 import { pointsAchievements } from '@/store/modules/pointsAchievements';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
-import { postgraduateDocumentTypes } from '@/store/modules/postgraduateDocumentTypes';
 import { preparations } from '@/store/modules/preparations';
 import { projects } from '@/store/modules/projects';
 import { questions } from '@/store/modules/questions';
 import { residencyApplications } from '@/store/modules/residencyApplications';
 import { residencyCourses } from '@/store/modules/residencyCourses';
-import { residencyDocumentTypes } from '@/store/modules/residencyDocumentTypes';
 import { roles } from '@/store/modules/roles';
 import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
@@ -106,8 +99,6 @@ const s: StoreOptions<RootState> = {
     sideOrganizations,
     tags,
     news,
-    normativeDocuments,
-    normativeDocumentTypes,
     users,
     admin,
     timetables,
@@ -156,19 +147,14 @@ const s: StoreOptions<RootState> = {
     postgraduateApplications,
     candidateExams,
     candidateApplications,
-    postgraduateDocumentTypes,
-    dpoDocumentTypes,
     roles,
-    candidateDocumentTypes,
     residencyCourses,
-    residencyDocumentTypes,
     formStatuses,
     educationYears,
     formValues,
     residencyApplications,
     educationalOrganizationAcademics,
     formStatusGroups,
-    admissionCommitteeDocumentTypes,
     pointsAchievements,
     diets,
     dietsGroups,

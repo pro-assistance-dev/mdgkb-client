@@ -1,6 +1,10 @@
 import PageDocument from '@/classes/page/PageDocument';
 import PageImage from '@/classes/page/PageImage';
+import PageSection from '@/classes/PageSection';
+import PageSideMenu from '@/classes/PageSideMenu';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import IPageSection from '@/interfaces/IPageSection';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import IPage from '@/interfaces/page/IPage';
 import IPageComment from '@/interfaces/page/IPageComment';
 import IPageDocument from '@/interfaces/page/IPageDocument';
@@ -16,29 +20,42 @@ export default class Page implements IPage {
   pageImages: IPageImage[] = [];
   pageImagesForDelete: string[] = [];
   pageImagesNames: string[] = [];
+  pageSideMenus: IPageSideMenu[] = [];
+  pageSideMenusForDelete: string[] = [];
+
+  pageSections: IPageSection[] = [];
+  pageSectionsForDelete: string[] = [];
 
   pageDocuments: IPageDocument[] = [];
   pageComments: IPageComment[] = [];
 
-  constructor(page?: IPage) {
-    if (!page) {
+  constructor(i?: IPage) {
+    if (!i) {
       return;
     }
-    this.id = page.id;
-    this.title = page.title;
-    this.content = page.content;
-    this.slug = page.slug;
-    this.link = page.link;
-    this.withComments = page.withComments;
+    this.id = i.id;
+    this.title = i.title;
+    this.content = i.content;
+    this.slug = i.slug;
+    this.link = i.link;
+    this.withComments = i.withComments;
 
-    if (page.pageDocuments) {
-      this.pageDocuments = page.pageDocuments.map((i: IPageDocument) => new PageDocument(i));
+    if (i.pageDocuments) {
+      this.pageDocuments = i.pageDocuments.map((i: IPageDocument) => new PageDocument(i));
     }
-    if (page.pageDocuments) {
-      this.pageDocuments = page.pageDocuments.map((i: IPageDocument) => new PageDocument(i));
+    if (i.pageDocuments) {
+      this.pageDocuments = i.pageDocuments.map((i: IPageDocument) => new PageDocument(i));
     }
-    if (page.pageImages) {
-      this.pageImages = page.pageImages.map((i: IPageImage) => new PageImage(i));
+    if (i.pageImages) {
+      this.pageImages = i.pageImages.map((i: IPageImage) => new PageImage(i));
+    }
+
+    if (i.pageSideMenus) {
+      this.pageSideMenus = i.pageSideMenus.map((i: IPageSideMenu) => new PageSideMenu(i));
+    }
+
+    if (i.pageSections) {
+      this.pageSections = i.pageSections.map((i: IPageSection) => new PageSection(i));
     }
   }
 
@@ -62,5 +79,9 @@ export default class Page implements IPage {
       }
     });
     return fileInfos;
+  }
+
+  addSideMenu(): void {
+    this.pageSideMenus.push(new PageSideMenu());
   }
 }

@@ -79,7 +79,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import EditorContent from '@/components/EditorContent.vue';
@@ -88,13 +88,14 @@ import SelectResidencyCourseForm from '@/components/Educational/AdmissionCommitt
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import { Orders } from '@/interfaces/filters/Orders';
-import IAdmissionCommitteeDocumentType from '@/interfaces/IAdmissionCommitteeDocumentType';
-import IPageSection from '@/interfaces/IPageSection';
+import IPageSideMenu from '@/interfaces/IPageSideMenu';
+import IPage from '@/interfaces/page/IPage';
 import IOption from '@/interfaces/schema/IOption';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import store from '@/store';
 
 export default defineComponent({
   name: 'AdmissionCommittee',
@@ -109,15 +110,13 @@ export default defineComponent({
     const modes: Ref<IOption[]> = ref([]);
     const mode: Ref<string> = ref('');
     const route = useRoute();
-    const docTypes: Ref<IAdmissionCommitteeDocumentType[]> = computed(
-      () => Provider.store.getters['admissionCommitteeDocumentTypes/items']
-    );
-    const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
+    const page: ComputedRef<IPage> = computed(() => store.getters['pages/page']);
+    const selectedDocumentType: Ref<IPageSideMenu | undefined> = ref(undefined);
     const showForm: Ref<boolean> = ref(false);
     const setModes = async () => {
-      docTypes.value.forEach((docType: IAdmissionCommitteeDocumentType) => {
+      page.value.pageSideMenus.forEach((docType: IPageSideMenu) => {
         if (docType.id) {
-          modes.value.push({ value: docType.id, label: docType.documentType.name });
+          modes.value.push({ value: docType.id, label: docType.name });
         }
       });
       modes.value.push(
@@ -125,14 +124,14 @@ export default defineComponent({
         { value: 'paidPrograms', label: 'Ординатура по договорам о платных образовательных услугах' },
         { value: 'competition', label: 'Поданные заявления, рейтинг, конкурс' }
       );
-      selectedDocumentType.value = docTypes.value[0].documentType;
-      mode.value = docTypes.value[0].id ? docTypes.value[0].id : '';
+      selectedDocumentType.value = page.value.pageSideMenus[0];
+      mode.value = page.value.pageSideMenus[0].id ? page.value.pageSideMenus[0].id : '';
     };
 
     const changeTab = async (value: string) => {
-      const docType = docTypes.value.find((doc: IAdmissionCommitteeDocumentType) => doc.id === value);
+      const docType = page.value.pageSideMenus.find((doc: IPageSideMenu) => doc.id === value);
       if (docType) {
-        selectedDocumentType.value = docType.documentType;
+        selectedDocumentType.value = docType;
       } else {
         selectedDocumentType.value = undefined;
         await loadPrograms();
@@ -143,7 +142,7 @@ export default defineComponent({
     };
 
     const initLoad = async () => {
-      await Provider.store.dispatch('admissionCommitteeDocumentTypes/getAll');
+      await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       await loadPrograms();
       await setModes();
       setTabFromRoute();
@@ -171,7 +170,7 @@ export default defineComponent({
       return name === mode.value ? 'is-active' : '';
     };
 
-    return { docTypes, mounted: Provider.mounted, mode, modes, isActive, changeTab, selectedDocumentType, showForm };
+    return { mounted: Provider.mounted, mode, modes, isActive, changeTab, selectedDocumentType, showForm };
   },
 });
 </script>

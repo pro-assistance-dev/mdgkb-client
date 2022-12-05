@@ -1,5 +1,4 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
 import IPage from '@/interfaces/page/IPage';
 
 import IPageSection from './IPageSection';
@@ -14,11 +13,10 @@ export default interface IPageSideMenu {
   pageSections: IPageSection[];
   pageSectionsForDelete: string[];
 
-  educationPublicDocumentType?: IEducationPublicDocumentType;
-  setEducationPublicDocumentType: (add: boolean) => void;
-
   getFileInfos: () => IFileInfo[];
 
   page: IPage;
   pageId?: string;
+
+  addPageSection: () => void;
 }

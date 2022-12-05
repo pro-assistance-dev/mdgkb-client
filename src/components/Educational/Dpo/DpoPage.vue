@@ -37,7 +37,6 @@ import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IPageSection from '@/interfaces/IPageSection';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
@@ -58,7 +57,6 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const documentTypes: ComputedRef<IDpoDocumentType[]> = computed(() => Provider.store.getters['dpoDocumentTypes/items']);
     const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
     const sortModels: Ref<ISortModel[]> = ref([]);
     const modes: Ref<IOption[]> = ref([]);
@@ -82,22 +80,16 @@ export default defineComponent({
       if (value === mode.value) {
         return;
       }
-      const dpoDocumentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
-      if (dpoDocumentType) {
-        selectedDocumentType.value = dpoDocumentType.documentType;
-      } else {
-        selectedDocumentType.value = undefined;
-      }
+      // const dpoDocumentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
+      // if (dpoDocumentType) {
+      //   selectedDocumentType.value = dpoDocumentType.documentType;
+      // } else {
+      //   selectedDocumentType.value = undefined;
+      // }
     };
 
     const setModes = async () => {
-      await Provider.store.dispatch('dpoDocumentTypes/getAll');
       modes.value.push({ value: 'programs', label: 'Программы' });
-      documentTypes.value.forEach((docType: IDpoDocumentType) => {
-        if (docType.documentType.id) {
-          modes.value.push({ value: docType.documentType.id, label: docType.documentType.name });
-        }
-      });
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 

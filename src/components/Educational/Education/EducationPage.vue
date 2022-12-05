@@ -26,18 +26,16 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import InfoPage from '@/components/Educational/Education/InfoPage.vue';
 import PublicDocumentPage from '@/components/Educational/Education/PublicDocumentPage.vue';
 import StructurePage from '@/components/Educational/Education/StructurePage.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 import IPageSideMenu from '@/interfaces/IPageSideMenu';
+import IPage from '@/interfaces/page/IPage';
 import IOption from '@/interfaces/schema/IOption';
-import ISchema from '@/interfaces/schema/ISchema';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'EducationPage',
@@ -47,22 +45,16 @@ export default defineComponent({
     PublicDocumentPage,
   },
   setup() {
-    const mounted = ref(false);
-    const store = useStore();
-    const router = useRouter();
-    const route = useRoute();
     const mode: Ref<string> = ref('info');
     const pageTitle: Ref<string> = ref('Основные сведения');
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const publicDocumentsTypes: ComputedRef<IPageSideMenu[]> = computed(() => store.getters['publicDocumentTypes/items']);
+    const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
     const selectedDocumentType: Ref<IPageSideMenu | undefined> = ref(undefined);
     const modes: Ref<IOption[]> = ref([]);
 
     const setModes = async () => {
       modes.value.push({ value: 'info', label: 'Основные сведения' });
       modes.value.push({ value: 'structure', label: 'Структура и орган управления организации' });
-      publicDocumentsTypes.value.forEach((docType: IPageSideMenu) => {
+      page.value.pageSideMenus.forEach((docType: IPageSideMenu) => {
         if (docType.id) {
           modes.value.push({ value: docType.id, label: docType.name });
         }
@@ -70,7 +62,7 @@ export default defineComponent({
     };
 
     const setTabFromRoute = () => {
-      let routeMode = route.query.mode;
+      let routeMode = Provider.route().query.mode;
       if (typeof routeMode === 'string' && modes.value.some((m: IOption) => m.value === routeMode)) {
         mode.value = routeMode;
       }
@@ -83,46 +75,31 @@ export default defineComponent({
 
     const changeTab = (value: string) => {
       mode.value = value;
-      const dpoDocumentType = publicDocumentsTypes.value.find((dpoDocType: IPageSideMenu) => dpoDocType.id === value);
+      const dpoDocumentType = page.value.pageSideMenus.find((dpoDocType: IPageSideMenu) => dpoDocType.id === value);
       if (dpoDocumentType) {
         selectedDocumentType.value = dpoDocumentType;
       } else {
         selectedDocumentType.value = undefined;
       }
-      router.replace(`/educational-info?mode=${mode.value}`);
+      Provider.router.replace(`/educational-info?mode=${mode.value}`);
     };
 
-    const test = (activeName: string) => {
-      pageTitle.value = activeName;
-    };
+    const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
 
-    const educationalOrganisation: Ref<IEducationalOrganization> = computed(
-      () => store.getters['educationalOrganization/educationalOrganization']
-    );
-    const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
-
-    const loadDocs = async () => {
-      await store.dispatch('publicDocumentTypes/getAll', filterQuery.value);
-    };
-
-    onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      await store.dispatch('educationalOrganization/get');
-      await loadDocs();
+    const initLoad = async () => {
+      await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       await setModes();
-      mounted.value = true;
       setTabFromRoute();
-    });
+    };
+
+    Hooks.onBeforeMount(initLoad);
 
     return {
       mode,
-      publicDocumentsTypes,
+      page,
       filteredDoctors,
-      mounted,
+      mounted: Provider.mounted,
       selectedDocumentType,
-      educationalOrganisation,
-      test,
       modes,
       isActive,
       changeTab,

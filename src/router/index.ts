@@ -6,7 +6,6 @@ import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
-import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import MedicalOrganization from '@/components/MedicalOrganization/MedicalOrganization.vue';
@@ -189,12 +188,6 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter(to, from, next) {
       isAuthorized(next);
     },
-  },
-  {
-    path: '/public-documents',
-    name: 'PublicDocumentsList',
-    meta: { title: 'Документы' },
-    component: PublicDocumentsList,
   },
   {
     path: '/heads',

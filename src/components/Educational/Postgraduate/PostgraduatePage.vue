@@ -36,14 +36,14 @@ import PostgraduateCoursesList from '@/components/Educational/Postgraduate/Postg
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
 import IPageSection from '@/interfaces/IPageSection';
-import IPostgraduateDocumentType from '@/interfaces/IPostgraduateDocumentType';
+import IPage from '@/interfaces/page/IPage';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import PostgraduateCoursesSortsLib from '@/services/Provider/libs/sorts/PostgraduateCoursesSortsLib';
+import store from '@/store';
 
 export default defineComponent({
   name: 'PostgraduatePage',
@@ -60,9 +60,7 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const documentTypes: ComputedRef<IPostgraduateDocumentType[]> = computed(
-      () => Provider.store.getters['postgraduateDocumentTypes/items']
-    );
+    const page: ComputedRef<IPage> = computed(() => store.getters['pages/page']);
     const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
     const modes: Ref<IOption[]> = ref([]);
     const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
@@ -92,20 +90,20 @@ export default defineComponent({
     });
 
     const selectMode = async (value: string) => {
-      const documentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
+      const documentType = page.value.pageSections.find((dpoDocType: IPageSection) => dpoDocType.id === value);
       if (documentType) {
-        selectedDocumentType.value = documentType.documentType;
+        selectedDocumentType.value = documentType;
       } else {
         selectedDocumentType.value = undefined;
       }
     };
 
     const setModes = async () => {
-      await Provider.store.dispatch('postgraduateDocumentTypes/getAll');
+      await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       modes.value.push({ value: 'programs', label: 'Программы' });
-      documentTypes.value.forEach((docType: IPostgraduateDocumentType) => {
-        if (docType.documentType.id) {
-          modes.value.push({ value: docType.documentType.id, label: docType.documentType.name });
+      page.value.pageSections.forEach((docType: IPageSection) => {
+        if (docType.id) {
+          modes.value.push({ value: docType.id, label: docType.name });
         }
       });
       modes.value.push({ value: 'candidate', label: 'Кандидатский минимум' });

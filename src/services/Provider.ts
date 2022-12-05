@@ -109,6 +109,10 @@ const Provider = (() => {
     window.open(route.href, '_blank');
   }
 
+  function getPath(): string {
+    return route().path.slice(1);
+  }
+
   return {
     routerPushBlank,
     setSortList,
@@ -130,6 +134,7 @@ const Provider = (() => {
     getAll,
     route,
     handlerSSE,
+    getPath,
   };
 })();
 

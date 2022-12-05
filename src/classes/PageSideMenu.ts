@@ -1,8 +1,6 @@
-import EducationPublicDocumentType from '@/classes/EducationPublicDocumentType';
 import Page from '@/classes/page/Page';
 import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IEducationPublicDocumentType from '@/interfaces/IEducationPublicDocumentType';
 import IPageSection from '@/interfaces/IPageSection';
 import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import IPage from '@/interfaces/page/IPage';
@@ -16,7 +14,6 @@ export default class PageSideMenu implements IPageSideMenu {
 
   pageSections: IPageSection[] = [];
   pageSectionsForDelete: string[] = [];
-  educationPublicDocumentType?: IEducationPublicDocumentType;
 
   page: IPage = new Page();
   pageId?: string;
@@ -32,26 +29,10 @@ export default class PageSideMenu implements IPageSideMenu {
     if (i.pageSections) {
       this.pageSections = i.pageSections.map((item: IPageSection) => new PageSection(item));
     }
-    if (i.educationPublicDocumentType) {
-      this.educationPublicDocumentType = new EducationPublicDocumentType(i.educationPublicDocumentType);
-    }
     if (i.page) {
       this.page = new Page(i.page);
     }
     this.pageId = i.pageId;
-  }
-
-  public setEducationPublicDocumentType(add: boolean): void {
-    add ? this.addEducationPublicDocumentType() : this.removeEducationPublicDocumentType();
-  }
-
-  private addEducationPublicDocumentType(): void {
-    this.educationPublicDocumentType = new EducationPublicDocumentType();
-    this.educationPublicDocumentType.publicDocumentTypeId = this.id;
-  }
-
-  private removeEducationPublicDocumentType(): void {
-    this.educationPublicDocumentType = undefined;
   }
 
   getFileInfos(): IFileInfo[] {
@@ -60,5 +41,9 @@ export default class PageSideMenu implements IPageSideMenu {
       fileInfos.push(...i.getFileInfos());
     });
     return fileInfos;
+  }
+
+  addPageSection(): void {
+    this.pageSections.push(new PageSection());
   }
 }
