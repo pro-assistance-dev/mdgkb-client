@@ -1,7 +1,7 @@
 <template>
   <div class="modal-field" tabindex="-1" @click.self="close" @keydown.esc="close">
     <div class="modal-box">
-      <el-form>
+      <el-form class="modal-callback">
         <el-form-item label="Название блюда:">
           <el-input v-model="dishSample.name" placeholder="Введите название"></el-input>
         </el-form-item>
