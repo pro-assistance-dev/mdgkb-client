@@ -96,11 +96,9 @@ export default defineComponent({
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
-
     const dishedSamples: Ref<IDishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
-
     const isCallBackModalOpen: Ref<boolean> = ref(false);
 
     const addDishesGroup = () => {
@@ -132,10 +130,6 @@ export default defineComponent({
     const addDishesSample = () => {
       dishSampleConstructorVisible.value = true;
     };
-
-    // const close = () => {
-    //   dishesGroupConstructorVisible.value = false;
-    // };
 
     return {
       removeDishSample,

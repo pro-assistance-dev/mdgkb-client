@@ -1,7 +1,7 @@
 <template>
   <div class="modal-field" tabindex="-1" @click.self="close" @keydown.esc="close">
     <div class="modal-box">
-      <el-form ref="callbackForm" class="modal-callback" :model="callback" :rules="rules">
+      <el-form class="modal-callback">
         <el-form-item label="Название категории:">
           <el-input v-model="dishesGroup.name" placeholder="Введите название"></el-input>
         </el-form-item>
@@ -15,13 +15,10 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
-import ICallbackRequest from '@/interfaces/ICallbackRequest';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
-import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -29,34 +26,13 @@ export default defineComponent({
   emits: ['close'],
 
   setup(_, { emit }) {
-    const store = useStore();
-    const callbackForm = ref();
-    const callback: ComputedRef<ICallbackRequest> = computed(() => store.getters['callbacks/item']);
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
     const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
-    // const rules = {
-    //   name: [{ required: true, message: 'Необходимо указать название', trigger: 'blur' }],
-    // };
-
     const close = () => {
       emit('close');
     };
-
-    // const submit = () => {
-    //   if (!validate(callbackForm)) {
-    //     return;
-    //   }
-    //   store.dispatch('callbacks/create');
-    //   emit('close');
-    //   ElNotification({
-    //     title: 'Обратный звонок',
-    //     message: 'Спасибо за заявку.\nМы Вам перезвоним в ближайшее время',
-    //     type: 'success',
-    //     duration: 2000,
-    //   });
-    // };
 
     const saveDishSample = async () => {
       await Provider.store.dispatch('dishesSamples/create', dishSample.value);
@@ -70,11 +46,6 @@ export default defineComponent({
 
     return {
       close,
-      //   submit,
-      callback,
-      callbackForm,
-      //   rules,
-      PhoneService,
       saveDishSample,
       dishesGroup,
       saveDishesGroup,
