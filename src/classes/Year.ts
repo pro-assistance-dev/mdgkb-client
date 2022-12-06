@@ -7,6 +7,8 @@ export default class Year implements IYear {
   months: IMonth[] = [];
   number = 0;
   active = false;
+  lastMonthActive = false;
+  firstMonthActive = false;
 
   getActiveMonth(): IMonth {
     const month = this.months.find((m: IMonth) => m.active);
@@ -49,9 +51,6 @@ export default class Year implements IYear {
 
   move(toForward: boolean): void {
     const activeMonth = this.getActiveMonth();
-    if (activeMonth.isLast() && activeMonth.lastWeekActive) {
-      return;
-    }
     if ((activeMonth.lastWeekActive && toForward) || (activeMonth.firstWeekActive && !toForward)) {
       this.moveMonth(toForward);
       return;
@@ -61,8 +60,20 @@ export default class Year implements IYear {
 
   moveMonth(toForward: boolean): void {
     const activeMonthIndex = this.getActiveMonthIndex();
-    if (activeMonthIndex === -1) {
+    if (activeMonthIndex === -1 || activeMonthIndex > 11) {
+      this.lastMonthActive = false;
+      this.firstMonthActive = false;
       return;
+    }
+    if (activeMonthIndex === 11) {
+      this.lastMonthActive = true;
+      this.firstMonthActive = false;
+    } else if (activeMonthIndex === 0) {
+      this.lastMonthActive = false;
+      this.firstMonthActive = true;
+    } else {
+      this.lastMonthActive = false;
+      this.firstMonthActive = false;
     }
     this.months[activeMonthIndex].active = false;
     this.months[activeMonthIndex].getActiveWeek().active = false;
@@ -91,5 +102,33 @@ export default class Year implements IYear {
       }
     });
     return selectedDay;
+  }
+
+  dropActive(): void {
+    this.active = false;
+    this.firstMonthActive = false;
+    this.lastMonthActive = false;
+    this.getActiveMonth().dropActive();
+  }
+
+  initActive(fromStart: boolean): void {
+    this.active = true;
+    if (fromStart) {
+      this.firstMonthActive = true;
+      this.getFirstMonth().initActive(fromStart);
+    }
+    if (!fromStart) {
+      console.log('getLastMonth');
+      this.lastMonthActive = true;
+      this.getLastMonth().initActive(fromStart);
+    }
+  }
+
+  getFirstMonth(): IMonth {
+    return this.months[0];
+  }
+
+  getLastMonth(): IMonth {
+    return this.months[11];
   }
 }

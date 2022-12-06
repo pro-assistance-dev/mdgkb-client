@@ -49,22 +49,38 @@ export default class Calendar implements ICalendar {
     return year ?? new Year();
   }
 
+  getActiveYearIndex(): number {
+    return this.years.findIndex((i: IYear) => i.active);
+  }
+
   getActivePeriod(): IDay[] {
     if (this.scale === CalendarScale.Week) {
-      const y = this.getActiveYear();
-      const mi = y.months.findIndex((m: IMonth) => m.active);
-      const m = y.months[mi];
+      const activeYearIndex = this.getActiveYearIndex();
+      const mi = this.years[activeYearIndex].months.findIndex((m: IMonth) => m.active);
+      const m = this.years[activeYearIndex].months[mi];
       const days = m.getActiveWeek().days;
+      console.log(m);
       if (days.length === 7) {
         return days;
       }
       const lostDays = 7 - days.length;
+      if (m.isLast() && m.lastWeekActive) {
+        const d = this.years[activeYearIndex + 1].months[0].weeks[0].days.slice(0, lostDays);
+        return days.concat(d);
+      }
+      if (m.isFirst() && m.firstWeekActive) {
+        const d = this.years[activeYearIndex - 1].months[0].weeks[0].days.slice(0, lostDays);
+        return d.concat(days);
+      }
       if (m.lastWeekActive) {
-        const d = y.months[mi + 1].weeks[0].days.slice(0, lostDays);
+        const d = this.years[activeYearIndex].months[mi + 1].weeks[0].days.slice(0, lostDays);
         return days.concat(d);
       }
       if (m.firstWeekActive) {
-        const d = y.months[mi - 1].weeks[y.months[mi - 1].weeks.length - 1].days.slice(0, lostDays);
+        const d = this.years[activeYearIndex].months[mi - 1].weeks[this.years[activeYearIndex].months[mi - 1].weeks.length - 1].days.slice(
+          0,
+          lostDays
+        );
         return d.concat(days);
       }
     }
@@ -73,8 +89,30 @@ export default class Calendar implements ICalendar {
 
   move(toForward: boolean): void {
     if (this.scale === CalendarScale.Week) {
-      this.getActiveYear().move(toForward);
+      const activeYear = this.getActiveYear();
+      const activeMonth = activeYear.getActiveMonth();
+      if (toForward && activeMonth.isLast() && activeMonth.lastWeekActive) {
+        this.moveYear(toForward);
+        return;
+      }
+      if (!toForward && activeMonth.isFirst() && activeMonth.firstWeekActive) {
+        this.moveYear(toForward);
+        return;
+      }
+      console.log('move', this);
+      activeYear.move(toForward);
     }
+  }
+
+  moveYear(toForward: boolean): void {
+    const activeIndex = this.getActiveYearIndex();
+    if (activeIndex === -1) {
+      return;
+    }
+    this.years[activeIndex].dropActive();
+    const newActiveYear = this.years[toForward ? activeIndex + 1 : activeIndex - 1];
+    console.log(newActiveYear);
+    newActiveYear.initActive(toForward);
   }
 
   getToday(): IDay {

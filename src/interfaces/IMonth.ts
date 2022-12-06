@@ -15,4 +15,7 @@ export default interface IMonth {
   isLast: () => boolean;
   isFirst: () => boolean;
   setActiveBorder: () => void;
+
+  dropActive: () => void;
+  initActive: (fromStart: boolean) => void;
 }

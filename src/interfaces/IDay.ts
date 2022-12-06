@@ -3,4 +3,5 @@ export default interface IDay {
   shortName: string;
   selected: boolean;
   isWeekend: () => boolean;
+  active: boolean;
 }
