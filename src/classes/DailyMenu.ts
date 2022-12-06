@@ -12,6 +12,10 @@ export default class DailyMenu implements IDailyMenu {
   dailyMenuItems: IDailyMenuItem[] = [];
   dailyMenuItemsForDelete: string[] = [];
   dishesGroups: IDishesGroup[] = [];
+  order = 0;
+  name = '';
+  active = false;
+
   constructor(i?: IDailyMenu) {
     if (!i) {
       return;
@@ -23,6 +27,9 @@ export default class DailyMenu implements IDailyMenu {
     if (i.dailyMenuItems) {
       this.dailyMenuItems = i.dailyMenuItems.map((item: IDailyMenuItem) => new DailyMenuItem(item));
     }
+    this.order = i.order;
+    this.name = i.name;
+    this.active = i.active;
   }
 
   addDishesFromSamples(dishesSamples: IDishSample[]): void {
@@ -53,5 +60,13 @@ export default class DailyMenu implements IDailyMenu {
     const index = this.dailyMenuItems.findIndex((d: IDailyMenuItem) => d.id === id);
     removeFromClass(index, this.dailyMenuItems, this.dailyMenuItemsForDelete);
     this.groupDishes();
+  }
+
+  static Create(date: Date): IDailyMenu {
+    const menu = new DailyMenu();
+    menu.order = 0;
+    menu.name = 'Новое меню';
+    menu.date = date;
+    return menu;
   }
 }

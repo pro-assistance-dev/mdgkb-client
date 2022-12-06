@@ -7,4 +7,9 @@ export default class Day implements IDay {
   constructor() {
     return;
   }
+
+  isWeekend(): boolean {
+    const d = this.date.getDay();
+    return d === 6 || d === 0;
+  }
 }

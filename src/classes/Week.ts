@@ -7,4 +7,13 @@ export default class Week implements IWeek {
   constructor() {
     return;
   }
+
+  getDays(fullWeek?: boolean) {
+    if (!fullWeek) {
+      return this.days;
+    }
+  }
+  getSelectedDay(): IDay | undefined {
+    return this.days.find((d: IDay) => d.selected);
+  }
 }
