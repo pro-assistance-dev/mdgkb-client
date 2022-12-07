@@ -4,6 +4,7 @@ import { admin } from '@/store/modules/admin';
 import { admissionCommitteeDocumentTypes } from '@/store/modules/admissionCommitteeDocumentTypes';
 import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
+import { appointmentsTypes } from '@/store/modules/appointmentsTypes';
 import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
@@ -179,6 +180,7 @@ const s: StoreOptions<RootState> = {
     dishesSamples,
     hospitalizationsTypes,
     supportMessages,
+    appointmentsTypes,
   },
 };
 
