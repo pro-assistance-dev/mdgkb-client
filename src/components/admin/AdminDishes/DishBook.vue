@@ -1,39 +1,77 @@
 <template>
-  <!-- <div> -->
-  <div>
-    <div v-for="dishesGroup in menu.dishesGroups" :key="dishesGroup.id">
-      <div>{{ dishesGroup.name }}</div>
-      <div v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
-        {{ dish.name }}
-        <button @click="menu.removeMenuItem(dish.id)">Удалить блюдо</button>
-      </div>
-    </div>
-  </div>
   <div class="block-container">
     <div class="dishesGroup">
       <div class="tools">
-        <div class="tools-title">Книга блюд</div>
+        <div class="tools-title">
+          Книга блюд
+          <!-- <button class="tools-button">
+            <svg class="icon-edit">
+              <use xlink:href="#profile-edit"></use>
+            </svg>
+          </button> -->
+        </div>
         <div class="tools-buttons">
-          <button class="button-create">Создать блюдо</button>
+          <!-- <button class="button-create">Создать блюдо</button> -->
           <button class="tools-button" @click="addToMenu">
             <svg class="icon-add-to-menu">
               <use xlink:href="#add-to-menu"></use>
             </svg>
           </button>
-          <!-- <div @click="addToMenu">Добавить в меню</div>  -->
         </div>
       </div>
       <div class="column">
-        <div v-for="dishesGroup in dishesGroupsSource" :key="dishesGroup.id" :name="dishesGroup.name" :title="dishesGroup.name">
-          <CollapsContainer :tab-id="dishesGroup.id" :collapsed="true">
+        <!-- <div v-for="dishesGroupItem in dishesGroups" :key="dishesGroupItem.id"> -->
+        <div>
+          <!-- <CollapsContainer :tab-id="dishesGroupItem.id" :collapsed="true"> -->
+          <CollapsContainer :tab-id="1" :collapsed="true">
             <template #inside-title>
-              <div class="title-in">{{ dishesGroup.name }}</div>
+              <div class="title-in">
+                <!-- {{ dishesGroupItem.name }} -->
+                Первые блюда
+              </div>
             </template>
             <template #inside-content>
-              тест
-              <div v-for="dishSample in dishesGroup.dishSamples" :key="dishSample">
-                <button @click="dishesGroup.toggleSelectSample(dishSample.id)">Выбрать образец</button>
-                <div @click="menu.addDishesFromSamples([dishSample])">{{ dishSample.name }} {{ dishSample.selected ? 'Выбран' : '' }}</div>
+              <!-- <div class="group" v-for="dishSampleItem in dishedSamples" :key="dishSampleItem.id"> -->
+              <div class="group">
+                <div class="group-item">
+                  <input :id="999" type="checkbox" />
+                  <label :for="999">
+                    <div class="dish-item">
+                      <div class="left-field">Суп диетический</div>
+                      <div class="right-field">50 гр/25,00руб/100ккал</div>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="group-item">
+                  <input :id="998" type="checkbox" />
+                  <label :for="998">
+                    <div class="dish-item">
+                      <div class="left-field">Суп с фрикадельками</div>
+                      <div class="right-field">50 гр/25,00руб/100ккал</div>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="group-item">
+                  <input :id="997" type="checkbox" />
+                  <label :for="997">
+                    <div class="dish-item">
+                      <div class="left-field">Суп с вермишелью</div>
+                      <div class="right-field">50 гр/25,00руб/100ккал</div>
+                    </div>
+                  </label>
+                </div>
+
+                <div class="group-item">
+                  <input :id="996" type="checkbox" />
+                  <label :for="996">
+                    <div class="dish-item">
+                      <div class="left-field">Бульон куриный</div>
+                      <div class="right-field">50 гр/25,00руб/100ккал</div>
+                    </div>
+                  </label>
+                </div>
               </div>
             </template>
           </CollapsContainer>
@@ -41,7 +79,7 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
+  <Edit />
   <AddToMenu />
   <Save />
   <Delete />
@@ -52,6 +90,7 @@ import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
+import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
@@ -67,6 +106,7 @@ export default defineComponent({
     AddToMenu,
     Save,
     Delete,
+    Edit,
   },
   props: {
     visible: {
@@ -108,56 +148,24 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$margin: 20px 0;
-
-.flex-column {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.flex-row-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: $margin;
-}
-
-.flex-row-end {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin: $margin;
-}
-
-.el-container {
-  .el-card {
-    margin-bottom: 20px;
-  }
-}
-
-:deep(.el-dialog) {
-  overflow: hidden;
-}
-
 .block-container {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
+  background: #f9fafb;
+  height: 100%;
 }
 
 .dishesGroup {
-  position: relative;
-  width: 600px;
-  border: 1px solid #c4c4c4;
+  width: 100%;
   padding-bottom: 10px;
+  height: 100%;
 }
 
 .column {
-  padding: 0px 6px 0px 4px;
+  padding: 0px 2px 0px 8px;
   overflow: hidden;
   overflow-y: scroll;
-  height: 550px;
+  height: 100%;
+  min-width: 350px;
 }
 
 .tools {
@@ -165,10 +173,11 @@ $margin: 20px 0;
   justify-content: space-between;
   align-items: center;
   height: 32px;
-  border-bottom: 1px solid #c4c4c4;
-  background: #f5f6f8;
+  border-bottom: 1px solid #d8d9db;
+  background: #ffffff;
   padding: 0 10px;
   margin-bottom: 5px;
+  width: 100%;
 }
 
 .tools-title {
@@ -177,28 +186,13 @@ $margin: 20px 0;
   align-items: center;
   color: #1979cf;
   font-size: 16px;
+  min-width: 200px;
 }
 
 .tools-buttons {
   display: flex;
   justify-content: right;
   align-items: center;
-}
-
-.button-create {
-  height: 20px;
-  border: 1px solid #1979cf;
-  border-radius: 15px;
-  background: #d6ecf4;
-  color: #1979cf;
-  margin: 10px 10px 10px 0;
-  padding: 0 15px;
-  transition: 0.3s;
-}
-
-.button-create:hover {
-  background: #1979cf;
-  color: #ffffff;
 }
 
 .tools-button {
@@ -211,47 +205,122 @@ $margin: 20px 0;
   height: 24px;
 }
 
+.button-create {
+  height: 20px;
+  border: 1px solid #1979cf;
+  border-radius: 15px;
+  background: #d6ecf4;
+  color: #1979cf;
+  margin: 10px 10px 10px 0;
+  transition: 0.3s;
+  width: 130px;
+}
+
+.button-create:hover {
+  background: #1979cf;
+  color: #ffffff;
+}
+
+.tools-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: none;
+  border: none;
+  height: 24px;
+}
+
 .icon-add-to-menu {
   width: 43px;
   height: 26px;
   fill: #1979cf;
   cursor: pointer;
   transition: 0.3s;
+  margin-right: 10px;
 }
 
 .icon-add-to-menu:hover {
   fill: #3796eb;
 }
 
-.menusGroup {
-  position: relative;
-  width: 600px;
-  border: 1px solid #c4c4c4;
-  padding-bottom: 10px;
+.group-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
-.icon-save {
-  width: 24px;
-  height: 24px;
-  fill: #343e5c;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.icon-save:hover {
-  fill: #1979cf;
-}
-
-.icon-delete {
-  width: 20px;
+.dish-item {
   height: 20px;
-  fill: #343e5c;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-left: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.icon-delete:hover {
-  fill: #379fff;
+.group:last-child {
+  margin-bottom: 15px;
+}
+
+.left-field {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.right-field {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  color: #7c8295;
+  font-size: 10px;
+}
+
+.group-item label {
+  font-size: 14px;
+  color: #343e5c;
+  margin: 3px 20px;
+  padding: 0px 8px 0 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.group-item input {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.group-item label::after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  text-align: center;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+.group-item label:hover {
+  background: #e5e5e5;
+}
+
+.group-item input:checked ~ label {
+  background: #d6ecf4;
+}
+
+.icon-edit {
+  width: 16px;
+  height: 16px;
+  stroke: #a3a9be;
+  fill: none;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.icon-edit:hover {
+  stroke: #3796eb;
 }
 </style>

@@ -41,23 +41,12 @@
       </div>
     </template>
     <template #sort> </template>
-    <!-- <div class="slider-container"> -->
-    <!-- <div class="dishes"> -->
+
     <VerticalCollapsContainer :tab-id="1" :collapsed="true">
-      <template #inside-title> Книга блюд </template>
-      <!-- </div>  -->
-      <!-- <div class="dishes">
-        <div class="main-box"></div>
-        <div class="arrow-box">
-          <h4 class="arrow-box-title">Книга&nbsp;блюд</h4>
-          <button class="arrow-box-button" >
-            <svg class="icon-arrow-box-right">
-              <use xlink:href="#arrow-right"></use>
-            </svg>
-          </button> 
-        </div> -->
-      <!-- </div> -->
-      <template #inside-content-left> </template>
+      <template #inside-title>Книга блюд</template>
+      <template #inside-content-left>
+        <DishBook />
+      </template>
       <template #inside-content-right>
         <div class="menu">
           <div class="menu-title-tools-tabs">
@@ -140,25 +129,24 @@
             <button v-if="selectedMenu" class="button-print" @click="pdf">Печать</button>
           </div>
         </div>
+
+        <template v-if="selectedMenu">
+          <div v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
+            <div>
+              <b>{{ dishesGroup.name }}</b>
+            </div>
+            <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
+              {{ dailyMenuItem.name }}
+            </div>
+          </div>
+          <button class="button-add" @click="addDishes">Добавить блюда</button>
+        </template>
       </template>
     </VerticalCollapsContainer>
-    <!-- </div> -->
-    <template v-if="selectedMenu">
-      <div v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-        <div>
-          <b>{{ dishesGroup.name }}</b>
-        </div>
-        <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
-          {{ dailyMenuItem.name }}
-        </div>
-      </div>
-      <button class="button-add" @click="addDishes">Добавить блюда</button>
-    </template>
 
     <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
       <DishesSamplesConstructor :menu="selectedMenu" />
     </el-dialog>
-
     <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
       <template #title>
         <div class="add-title">Выберите блюда из книги блюд</div>
@@ -185,6 +173,7 @@ import Calendar from '@/classes/Calendar';
 import DailyMenu from '@/classes/DailyMenu';
 import FilterModel from '@/classes/filters/FilterModel';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
+import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
 import VerticalCollapsContainer from '@/components/Main/CollapsContainer/VerticalCollapsContainer.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -199,8 +188,6 @@ import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFil
 import removeFromClass from '@/services/removeFromClass';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-// import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
-
 export default defineComponent({
   name: 'AdminDishes',
   components: {
@@ -213,6 +200,7 @@ export default defineComponent({
     Delete,
     Print,
     VerticalCollapsContainer,
+    DishBook,
   },
   setup() {
     const form = ref();

@@ -1,7 +1,7 @@
 <template>
   <div class="tab">
     <div :style="{ width: !isDrawerOpen ? '20px' : '50%', transition: '0.3s' }" class="left">
-      <div :style="{ width: !isDrawerOpen ? '0' : 'auto', transition: '0.3s' }" class="left-content">
+      <div :style="{ width: !isDrawerOpen ? '0' : '100%', transition: '0.3s' }" class="left-content">
         <slot name="inside-content-left" />
       </div>
       <div class="arrow-bar" @click="toggleDrawer">
@@ -41,7 +41,6 @@ export default defineComponent({
 
     const toggleDrawer = async () => {
       isDrawerOpen.value = !isDrawerOpen.value;
-      console.log(isDrawerOpen.value);
     };
 
     return {
@@ -63,13 +62,18 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   width: 50%;
-  height: 700px;
+  height: 620px;
   background: #ffffff;
   margin-right: 6px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .left-content {
   overflow: hidden;
+  //   padding: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .right {
@@ -84,6 +88,8 @@ export default defineComponent({
   color: #ffffff;
   position: relative;
   cursor: pointer;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .arrow-bar:hover {

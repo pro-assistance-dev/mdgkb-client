@@ -70,7 +70,7 @@ export default defineComponent({
   border: 1px solid #dcdfe6;
   border-radius: 5px;
   position: absolute;
-  top: 25%;
+  top: 50px;
   transform: translateX(-50%);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
   z-index: 101;
