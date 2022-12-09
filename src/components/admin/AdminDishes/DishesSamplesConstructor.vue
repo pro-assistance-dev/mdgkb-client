@@ -1,12 +1,12 @@
 <template>
   <div class="title">Редактор книги блюд</div>
-  <div class="block-container">
+  <div v-if="mounted" class="block-container">
     <div class="dishesGroup">
       <div class="tools">
         <div class="tools-buttons">
           <div class="button-container">
-            <button class="button-create" @click="dishesGroupConstructorVisible = true">Создать категорию</button>
-            <AddGroupForm v-if="dishesGroupConstructorVisible" @close="dishesGroupConstructorVisible = false" />
+            <button class="button-create" @click="addDishesGroup">Создать категорию</button>
+            <AddGroupForm v-if="dishesGroupConstructorVisible" @close="closeDishesGroupForm" />
           </div>
         </div>
       </div>
@@ -24,10 +24,10 @@
               </div>
             </template>
             <template #inside-content>
-              <div v-for="dishSampleItem in dishedSamples" :key="dishSampleItem.id" class="group">
-                <div class="dish-item">
+              <div v-for="dishSampleItem in dishesGroupItem.dishSamples" :key="dishSampleItem.id" class="group">
+                <div class="dish-item" @click="openDishSampleConstructor(dishSampleItem)">
                   <div class="item-name">{{ dishSampleItem.name }}</div>
-                  <button class="item-button" @click="removeDishSample(dishSampleItem.id)">
+                  <button class="item-button" @click.stop="removeDishSample(dishesGroupItem, dishSampleItem.id)">
                     <svg class="icon-delete">
                       <use xlink:href="#delete"></use>
                     </svg>
@@ -43,14 +43,14 @@
       <div class="tools">
         <div class="tools-buttons">
           <div class="button-container">
-            <button class="button-create" @click="dishSampleConstructorVisible = true">Создать блюдо</button>
+            <button class="button-create" @click="openDishSampleConstructor">Создать блюдо</button>
             <AddForm v-if="dishSampleConstructorVisible" @close="dishSampleConstructorVisible = false" />
           </div>
         </div>
       </div>
-      <div class="column">
-        <DishInfo />
-      </div>
+      <!--      <div class="column">-->
+      <!--        <DishInfo />-->
+      <!--      </div>-->
     </div>
   </div>
   <AddToMenu />
@@ -66,7 +66,6 @@ import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
 import AddForm from '@/components/admin/AdminDishes/AddForm.vue';
 import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
-import DishInfo from '@/components/admin/AdminDishes/DishInfo.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
@@ -83,7 +82,6 @@ export default defineComponent({
     Delete,
     AddGroupForm,
     AddForm,
-    DishInfo,
   },
   props: {
     visible: {
@@ -101,6 +99,7 @@ export default defineComponent({
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
+    const dishSampleConstructorCreateMode: Ref<boolean> = ref(true);
     const dishedSamples: Ref<IDishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
@@ -111,6 +110,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
+      await Provider.store.dispatch('dishesGroups/getAll');
       await Provider.store.dispatch('dishesSamples/getAll');
     });
 
@@ -128,15 +128,33 @@ export default defineComponent({
       dishSampleConstructorVisible.value = false;
     };
 
-    const removeDishSample = async (id: string) => {
-      await Provider.store.dispatch('dishesSamples/remove', id);
+    const removeDishSample = async (dishesGroupItem: IDishesGroup, dishSampleId: string) => {
+      await Provider.store.dispatch('dishesSamples/remove', dishSampleId);
+      dishesGroupItem.removeDishSample(dishSampleId);
     };
 
     const addDishesSample = () => {
       dishSampleConstructorVisible.value = true;
     };
 
+    const openDishSampleConstructor = (item?: IDishSample) => {
+      if (item) {
+        dishSample.value = item;
+      }
+      Provider.store.commit('dishesSamples/set', item);
+      dishSampleConstructorCreateMode.value = !item;
+      dishSampleConstructorVisible.value = true;
+    };
+
+    const closeDishesGroupForm = () => {
+      dishesGroupConstructorVisible.value = false;
+      Provider.store.commit('dishesGroups/resetItem');
+    };
+
     return {
+      closeDishesGroupForm,
+      dishSampleConstructorCreateMode,
+      openDishSampleConstructor,
       removeDishSample,
       addDishesSample,
       saveDishSample,
@@ -349,10 +367,6 @@ $margin: 20px 0;
 
 .dish-item:hover > .item-button {
   display: flex;
-}
-
-.group:last-child {
-  margin-bottom: 15px;
 }
 
 .item-button {

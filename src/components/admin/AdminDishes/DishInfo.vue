@@ -3,7 +3,7 @@
     <div class="modal-box">
       <el-form class="modal-callback">
         <el-form-item label="Название блюда:">
-          <el-input v-model="dishSample.name" placeholder="Смузи из вишни"></el-input>
+          <el-input v-model="dishSample.name" placeholder="Название"></el-input>
         </el-form-item>
         <el-form-item label="Калорийность, ккал:">
           <el-input-number v-model="dishSample.caloric" placeholder="120"></el-input-number>

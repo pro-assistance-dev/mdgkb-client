@@ -6,21 +6,19 @@
           <el-input v-model="dishSample.name" placeholder="Введите название"></el-input>
         </el-form-item>
         <el-form-item label="Калорийность, ккал:">
-          <el-input-number v-model="dishSample.caloric" placeholder="0"></el-input-number>
+          <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
         </el-form-item>
-        <el-form-item label="Выход, грамм">
-          <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
-        </el-form-item>
-        <el-form-item label="Цена:">
-          <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
-        </el-form-item>
+        <el-form-item label="Выход, грамм"> </el-form-item>
+        <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
+        <el-form-item label="Цена:"> </el-form-item>
+        <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
         <el-form-item label="Категория:">
           <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 365px">
             <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
         <div class="button-field">
-          <button class="button-cancel" @click="close">Отмена</button>
+          <button class="button-cancel" @click.prevent="close">Отмена</button>
           <button class="button-save" @click.prevent="saveDishSample">Сохранить</button>
         </div>
       </el-form>
@@ -29,8 +27,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import DishSample from '@/classes/DishSample';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
@@ -40,29 +39,46 @@ export default defineComponent({
   emits: ['close'],
 
   setup(_, { emit }) {
-    const dishSampleConstructorVisible: Ref<boolean> = ref(false);
-    const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
+    const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
 
     const close = () => {
+      Provider.store.commit('dishesSamples/resetItem');
       emit('close');
     };
 
+    onBeforeMount(async () => {
+      console.log(dishesGroups.value);
+    });
+
     const saveDishSample = async () => {
-      await Provider.store.dispatch('dishesSamples/create', dishSample.value);
-      dishSampleConstructorVisible.value = false;
+      if (dishSample.value.id) {
+        await Provider.store.dispatch('dishesSamples/update');
+      } else {
+        await Provider.store.dispatch('dishesSamples/create');
+      }
+      const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSample.value.dishesGroupId);
+      if (dishSample.value.id) {
+        dishesGroup?.updateDishSample(dishSample.value);
+      } else {
+        dishesGroup?.dishSamples.push(new DishSample(dishSample.value));
+      }
+
+      Provider.store.commit('dishesSamples/resetItem');
+
+      emit('close');
+      // dishSampleConstructorVisible.value = false;
     };
 
     const saveDishesGroup = async () => {
-      await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
       dishesGroupConstructorVisible.value = false;
     };
 
     return {
       close,
       saveDishSample,
-      dishesGroup,
+      dishesGroups,
       saveDishesGroup,
       dishSample,
     };
