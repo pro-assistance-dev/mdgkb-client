@@ -3,15 +3,17 @@
     <div class="modal-box">
       <el-form class="modal-callback">
         <el-form-item label="Название блюда:">
-          <el-input v-model="dishSample.name" placeholder="Введите название"></el-input>
+          <el-input v-model="dishSample.name" placeholder="Смузи из вишни"></el-input>
         </el-form-item>
         <el-form-item label="Калорийность, ккал:">
-          <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
+          <el-input-number v-model="dishSample.caloric" placeholder="120"></el-input-number>
         </el-form-item>
-        <el-form-item label="Выход, грамм"> </el-form-item>
-        <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
-        <el-form-item label="Цена:"> </el-form-item>
-        <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
+        <el-form-item label="Выход, грамм">
+          <el-input-number v-model="dishSample.weight" placeholder="200"></el-input-number>
+        </el-form-item>
+        <el-form-item label="Цена:">
+          <el-input-number v-model="dishSample.price" placeholder="90,00"></el-input-number>
+        </el-form-item>
         <el-form-item label="Категория:">
           <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 365px">
             <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
@@ -38,36 +40,29 @@ export default defineComponent({
   emits: ['close'],
 
   setup(_, { emit }) {
-    const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishSampleConstructorVisible: Ref<boolean> = ref(false);
+    const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
 
     const close = () => {
-      Provider.store.commit('dishesSamples/resetItem');
       emit('close');
     };
 
     const saveDishSample = async () => {
-      await Provider.store.dispatch('dishesSamples/create');
-      Provider.store.commit('dishesSamples/resetItem');
-      addToDishesGroup();
-      emit('close');
-      // dishSampleConstructorVisible.value = false;
-    };
-
-    const addToDishesGroup = () => {
-      const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSample.value.dishesGroupId);
-      dishesGroup?.dishSamples.push(dishSample.value);
+      await Provider.store.dispatch('dishesSamples/create', dishSample.value);
+      dishSampleConstructorVisible.value = false;
     };
 
     const saveDishesGroup = async () => {
+      await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
       dishesGroupConstructorVisible.value = false;
     };
 
     return {
       close,
       saveDishSample,
-      dishesGroups,
+      dishesGroup,
       saveDishesGroup,
       dishSample,
     };
@@ -83,22 +78,20 @@ export default defineComponent({
 
 .modal-field {
   width: 100%;
-  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .modal-box {
   background: #ffffff;
   border: 1px solid #dcdfe6;
   border-radius: 5px;
-  position: absolute;
-  top: 50px;
-  transform: translateX(-50%);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
-  z-index: 101;
-  left: 50%;
-  transform: translateX(-50%);
   width: 560px;
   padding-top: 20px;
+  height: auto;
+  margin-top: 10px;
+  margin-left: 10px;
+  background: #f5f6f8;
 }
 
 .button-field {
@@ -223,11 +216,11 @@ export default defineComponent({
   color: #ffffff;
 }
 
-:deep(.el-input-number) {
+:deep(.el-form-item__content) {
   width: 100%;
 }
 
-:deep(.el-form-item__content) {
+:deep(.el-input-number) {
   width: 100%;
 }
 

@@ -1,4 +1,5 @@
 <template>
+  <div class="title">Редактор книги блюд</div>
   <div class="block-container">
     <div class="dishesGroup">
       <div class="tools">
@@ -23,7 +24,7 @@
               </div>
             </template>
             <template #inside-content>
-              <div v-for="dishSampleItem in dishesGroupItem.dishSamples" :key="dishSampleItem.id">
+              <div v-for="dishSampleItem in dishesGroupItem.dishSamples" :key="dishSampleItem.id" class="group">
                 <div class="dish-item" @click="openDishSampleConstructor(dishSampleItem)">
                   <div class="item-name">{{ dishSampleItem.name }}</div>
                   <button class="item-button" @click="removeDishSample(dishSampleItem.id)">
@@ -47,7 +48,9 @@
           </div>
         </div>
       </div>
-      <div class="column"></div>
+      <div class="column">
+        <DishInfo />
+      </div>
     </div>
   </div>
   <AddToMenu />
@@ -63,6 +66,7 @@ import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
 import AddForm from '@/components/admin/AdminDishes/AddForm.vue';
 import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
+import DishInfo from '@/components/admin/AdminDishes/DishInfo.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
@@ -79,6 +83,7 @@ export default defineComponent({
     Delete,
     AddGroupForm,
     AddForm,
+    DishInfo,
   },
   props: {
     visible: {
@@ -227,20 +232,20 @@ $margin: 20px 0;
 .tools {
   display: flex;
   justify-content: right;
-  // align-items: center;
   height: 32px;
-  // border-bottom: 1px solid #c4c4c4;
-  // background: #f5f6f8;
   padding: 0 10px;
   margin-top: 10px;
 }
 
-.tools-title {
+.title {
+  position: absolute;
+  top: 12px;
+  left: 30px;
   display: flex;
   justify-content: left;
   align-items: center;
   color: #1979cf;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .tools-buttons {
@@ -336,7 +341,7 @@ $margin: 20px 0;
   align-items: center;
   font-size: 14px;
   color: #343e5c;
-  margin: 0px 20px;
+  margin: 3px 20px;
   cursor: pointer;
   padding: 0px 36px 0 20px;
   border-radius: 5px;
@@ -357,6 +362,10 @@ $margin: 20px 0;
 
 .dish-item:hover > .item-button {
   display: flex;
+}
+
+.group:last-child {
+  margin-bottom: 15px;
 }
 
 .item-button {
