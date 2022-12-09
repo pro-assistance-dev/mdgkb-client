@@ -41,11 +41,10 @@
       </div>
     </template>
     <template #sort> </template>
-
-    <VerticalCollapsContainer :tab-id="1" :collapsed="true">
+    <VerticalCollapsContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
       <template #inside-title>Книга блюд</template>
       <template #inside-content-left>
-        <DishBook />
+        <DishBook :menu="selectedMenu" />
       </template>
       <template #inside-content-right>
         <div class="menu">
@@ -81,8 +80,7 @@
               </button>
             </div>
           </div>
-
-          <div class="diets-container">
+          <div v-if="selectedMenu" class="diets-container">
             <div class="table-container">
               <table class="table-list">
                 <colgroup>
@@ -100,25 +98,27 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <td colspan="4" style="background: #f1f2f7">
-                    <div class="schedule-name">
-                      <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
-                        Первые блюда
-                      </h4>
-                    </div>
-                  </td>
-                  <tr>
-                    <td style="font-size: 12px; padding-left: 44px">Суп овощной</td>
-                    <td style="text-align: center">
-                      <h4 style="font-size: 13px; color: #343d5c">вес</h4>
+                  <template v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
+                    <td colspan="4" style="background: #f1f2f7">
+                      <div class="schedule-name">
+                        <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
+                          {{ dishesGroup.name }}
+                        </h4>
+                      </div>
                     </td>
-                    <td style="text-align: center; font-weight: bold">
-                      <h4 style="font-size: 15px; color: #343d5c; font-weight: bold">25.00р.</h4>
-                    </td>
-                    <td style="text-align: center">
-                      <h4 style="font-size: 13px; color: #2754eb">50ккал</h4>
-                    </td>
-                  </tr>
+                    <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
+                      <td style="font-size: 12px; padding-left: 44px">{{ dish.name }}</td>
+                      <td style="text-align: center">
+                        <h4 style="font-size: 13px; color: #343d5c">{{ dish.weight }}</h4>
+                      </td>
+                      <td style="text-align: center; font-weight: bold">
+                        <h4 style="font-size: 15px; color: #343d5c; font-weight: bold">{{ dish.price }}.00р.</h4>
+                      </td>
+                      <td style="text-align: center">
+                        <h4 style="font-size: 13px; color: #2754eb">{{ dish.caloric }}ккал</h4>
+                      </td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
             </div>
@@ -129,18 +129,6 @@
             <button v-if="selectedMenu" class="button-print" @click="pdf">Печать</button>
           </div>
         </div>
-
-        <template v-if="selectedMenu">
-          <div v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-            <div>
-              <b>{{ dishesGroup.name }}</b>
-            </div>
-            <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
-              {{ dailyMenuItem.name }}
-            </div>
-          </div>
-          <button class="button-add" @click="addDishes">Добавить блюда</button>
-        </template>
       </template>
     </VerticalCollapsContainer>
 
@@ -230,7 +218,9 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const getTodayMenus = async () => {
-      dayFilter.value.date1 = calendar.value.getSelectedDay().date;
+      const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
+      dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
+      console.log(dayFilter.value.date1);
       Provider.setFilterModel(dayFilter.value);
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
     };

@@ -1,4 +1,5 @@
 import DishSample from '@/classes/DishSample';
+import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
@@ -41,5 +42,11 @@ export default class DishesGroup implements IDishesGroup {
     if (index > -1) {
       this.dishSamples[index] = new DishSample(dishSample);
     }
+  }
+
+  getSamplesNotFromMenu(menu: IDailyMenu): IDishSample[] {
+    return this.dishSamples.filter((ds: IDishSample) => {
+      return !menu.dailyMenuItems.find((dmi: IDailyMenuItem) => dmi.dishSampleId === ds.id);
+    });
   }
 }

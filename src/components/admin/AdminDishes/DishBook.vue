@@ -12,7 +12,7 @@
         </div>
         <div class="tools-buttons">
           <!-- <button class="button-create">Создать блюдо</button> -->
-          <button class="tools-button" @click="addToMenu">
+          <button v-show="dishesSelected()" class="tools-button" @click="addToMenu">
             <svg class="icon-add-to-menu">
               <use xlink:href="#add-to-menu"></use>
             </svg>
@@ -23,52 +23,25 @@
         <!-- <div v-for="dishesGroupItem in dishesGroups" :key="dishesGroupItem.id"> -->
         <div>
           <!-- <CollapsContainer :tab-id="dishesGroupItem.id" :collapsed="true"> -->
-          <CollapsContainer :tab-id="1" :collapsed="true">
+          <CollapsContainer v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" :tab-id="1" :collapsed="true">
             <template #inside-title>
               <div class="title-in">
-                <!-- {{ dishesGroupItem.name }} -->
-                Первые блюда
+                {{ dishesGroup.name }}
               </div>
             </template>
             <template #inside-content>
-              <!-- <div class="group" v-for="dishSampleItem in dishedSamples" :key="dishSampleItem.id"> -->
-              <div class="group">
+              <div
+                v-for="dishSample in dishesGroup.getSamplesNotFromMenu(menu)"
+                :key="dishSample.id"
+                class="group"
+                :class="{ checked: dishSample.selected }"
+                @click="selectSample(dishSample)"
+              >
                 <div class="group-item">
-                  <input :id="999" type="checkbox" />
                   <label :for="999">
                     <div class="dish-item">
-                      <div class="left-field">Суп диетический</div>
-                      <div class="right-field">50 гр/25,00руб/100ккал</div>
-                    </div>
-                  </label>
-                </div>
-
-                <div class="group-item">
-                  <input :id="998" type="checkbox" />
-                  <label :for="998">
-                    <div class="dish-item">
-                      <div class="left-field">Суп с фрикадельками</div>
-                      <div class="right-field">50 гр/25,00руб/100ккал</div>
-                    </div>
-                  </label>
-                </div>
-
-                <div class="group-item">
-                  <input :id="997" type="checkbox" />
-                  <label :for="997">
-                    <div class="dish-item">
-                      <div class="left-field">Суп с вермишелью</div>
-                      <div class="right-field">50 гр/25,00руб/100ккал</div>
-                    </div>
-                  </label>
-                </div>
-
-                <div class="group-item">
-                  <input :id="996" type="checkbox" />
-                  <label :for="996">
-                    <div class="dish-item">
-                      <div class="left-field">Бульон куриный</div>
-                      <div class="right-field">50 гр/25,00руб/100ккал</div>
+                      <div class="left-field">{{ dishSample.name }}</div>
+                      <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
                     </div>
                   </label>
                 </div>
@@ -120,7 +93,7 @@ export default defineComponent({
   },
   setup(props) {
     const dishesGroupsSource: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dailyMenuItems.length > 0));
+    const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0));
 
     const addToMenu = () => {
       const dishesSamples: IDishSample[] = [];
@@ -135,7 +108,17 @@ export default defineComponent({
       props.menu.addDishesFromSamples(dishesSamples);
     };
 
+    const selectSample = (dishSample: IDishSample): void => {
+      dishSample.selected = !dishSample.selected;
+    };
+
+    const dishesSelected = (): boolean => {
+      return dishesGroups.value.some((dg: IDishesGroup) => dg.dishSamples.some((ds: IDishSample) => ds.selected));
+    };
+
     return {
+      dishesSelected,
+      selectSample,
       addToMenu,
       dishesGroupsSource,
       dishesGroups,
@@ -307,7 +290,7 @@ export default defineComponent({
   background: #e5e5e5;
 }
 
-.group-item input:checked ~ label {
+.checked {
   background: #d6ecf4;
 }
 
