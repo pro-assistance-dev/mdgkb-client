@@ -6,13 +6,13 @@
           <el-input v-model="dishSample.name" placeholder="Введите название"></el-input>
         </el-form-item>
         <el-form-item label="Калорийность, ккал:">
-          <el-input v-model="dishSample.caloric" placeholder="Калории"></el-input>
+          <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
         </el-form-item>
         <el-form-item label="Выход, грамм">
-          <el-input v-model="dishSample.weight" placeholder="Выход, грамм"></el-input>
+          <el-input-number v-model="dishSample.weight" placeholder="Выход, грамм"></el-input-number>
         </el-form-item>
         <el-form-item label="Цена:">
-          <el-input v-model="dishSample.price" placeholder="Цена"></el-input>
+          <el-input-number v-model="dishSample.price" placeholder="Цена"></el-input-number>
         </el-form-item>
         <el-form-item label="Категория:">
           <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 365px">
@@ -21,7 +21,7 @@
         </el-form-item>
         <div class="button-field">
           <button class="button-cancel" @click="close">Отмена</button>
-          <button class="button-save" @click="saveDishSample">Сохранить</button>
+          <button class="button-save" @click.prevent="saveDishSample">Сохранить</button>
         </div>
       </el-form>
     </div>
@@ -40,29 +40,36 @@ export default defineComponent({
   emits: ['close'],
 
   setup(_, { emit }) {
-    const dishSampleConstructorVisible: Ref<boolean> = ref(false);
-    const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
+    const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
 
     const close = () => {
+      Provider.store.commit('dishesSamples/resetItem');
       emit('close');
     };
 
     const saveDishSample = async () => {
-      await Provider.store.dispatch('dishesSamples/create', dishSample.value);
-      dishSampleConstructorVisible.value = false;
+      await Provider.store.dispatch('dishesSamples/create');
+      Provider.store.commit('dishesSamples/resetItem');
+      addToDishesGroup();
+      emit('close');
+      // dishSampleConstructorVisible.value = false;
+    };
+
+    const addToDishesGroup = () => {
+      const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSample.value.dishesGroupId);
+      dishesGroup?.dishSamples.push(dishSample.value);
     };
 
     const saveDishesGroup = async () => {
-      await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
       dishesGroupConstructorVisible.value = false;
     };
 
     return {
       close,
       saveDishSample,
-      dishesGroup,
+      dishesGroups,
       saveDishesGroup,
       dishSample,
     };

@@ -4,7 +4,7 @@
       <div class="tools">
         <div class="tools-buttons">
           <div class="button-container">
-            <button class="button-create" @click="dishesGroupConstructorVisible = true">Создать категорию</button>
+            <button class="button-create" @click="openDishSampleConstructor">Создать категорию</button>
             <AddGroupForm v-if="dishesGroupConstructorVisible" @close="dishesGroupConstructorVisible = false" />
           </div>
         </div>
@@ -23,8 +23,8 @@
               </div>
             </template>
             <template #inside-content>
-              <div v-for="dishSampleItem in dishedSamples" :key="dishSampleItem.id">
-                <div class="dish-item">
+              <div v-for="dishSampleItem in dishesGroupItem.dishSamples" :key="dishSampleItem.id">
+                <div class="dish-item" @click="openDishSampleConstructor(dishSampleItem)">
                   <div class="item-name">{{ dishSampleItem.name }}</div>
                   <button class="item-button" @click="removeDishSample(dishSampleItem.id)">
                     <svg class="icon-delete">
@@ -96,6 +96,7 @@ export default defineComponent({
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
+    const dishSampleConstructorCreateMode: Ref<boolean> = ref(true);
     const dishedSamples: Ref<IDishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
@@ -131,7 +132,19 @@ export default defineComponent({
       dishSampleConstructorVisible.value = true;
     };
 
+    const openDishSampleConstructor = (item?: IDishSample) => {
+      if (item) {
+        dishSample.value = item;
+      }
+      console.log(item);
+      Provider.store.commit('dishesSamples/set', item);
+      dishSampleConstructorCreateMode.value = !item;
+      dishSampleConstructorVisible.value = true;
+    };
+
     return {
+      dishSampleConstructorCreateMode,
+      openDishSampleConstructor,
       removeDishSample,
       addDishesSample,
       saveDishSample,

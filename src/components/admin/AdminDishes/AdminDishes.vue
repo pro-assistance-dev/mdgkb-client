@@ -133,7 +133,7 @@
       <button class="button-add" @click="addDishes">Добавить блюда</button>
     </template>
 
-    <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
+    <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
       <DishesSamplesConstructor :menu="selectedMenu" />
     </el-dialog>
 
