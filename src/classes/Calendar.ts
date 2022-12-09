@@ -59,7 +59,6 @@ export default class Calendar implements ICalendar {
       const mi = this.years[activeYearIndex].months.findIndex((m: IMonth) => m.active);
       const m = this.years[activeYearIndex].months[mi];
       const days = m.getActiveWeek().days;
-      console.log(m);
       if (days.length === 7) {
         return days;
       }
@@ -99,7 +98,6 @@ export default class Calendar implements ICalendar {
         this.moveYear(toForward);
         return;
       }
-      console.log('move', this);
       activeYear.move(toForward);
     }
   }

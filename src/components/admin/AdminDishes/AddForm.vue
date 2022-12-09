@@ -18,8 +18,8 @@
           </el-select>
         </el-form-item>
         <div class="button-field">
-          <button class="button-cancel" @click="close">Отмена</button>
-          <button class="button-save" @click="saveDishSample">Сохранить</button>
+          <button class="button-cancel" @click.prevent="close">Отмена</button>
+          <button class="button-save" @click.prevent="saveDishSample">Сохранить</button>
         </div>
       </el-form>
     </div>
@@ -27,8 +27,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import DishSample from '@/classes/DishSample';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
@@ -47,17 +48,27 @@ export default defineComponent({
       emit('close');
     };
 
+    onBeforeMount(async () => {
+      console.log(dishesGroups.value);
+    });
+
     const saveDishSample = async () => {
-      await Provider.store.dispatch('dishesSamples/create');
+      if (dishSample.value.id) {
+        await Provider.store.dispatch('dishesSamples/update');
+      } else {
+        await Provider.store.dispatch('dishesSamples/create');
+      }
+      const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSample.value.dishesGroupId);
+      if (dishSample.value.id) {
+        dishesGroup?.updateDishSample(dishSample.value);
+      } else {
+        dishesGroup?.dishSamples.push(new DishSample(dishSample.value));
+      }
+
       Provider.store.commit('dishesSamples/resetItem');
-      addToDishesGroup();
+
       emit('close');
       // dishSampleConstructorVisible.value = false;
-    };
-
-    const addToDishesGroup = () => {
-      const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSample.value.dishesGroupId);
-      dishesGroup?.dishSamples.push(dishSample.value);
     };
 
     const saveDishesGroup = async () => {

@@ -6,8 +6,8 @@
           <el-input v-model="dishesGroup.name" placeholder="Введите название"></el-input>
         </el-form-item>
         <div class="button-field">
-          <button class="button-cancel" @click="close">Отмена</button>
-          <button class="button-save" @click="saveDishesGroup">Сохранить</button>
+          <button class="button-cancel" @click.prevent="close">Отмена</button>
+          <button class="button-save" @click.prevent="saveDishesGroup">Сохранить</button>
         </div>
       </el-form>
     </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
 
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
@@ -26,27 +26,19 @@ export default defineComponent({
   emits: ['close'],
 
   setup(_, { emit }) {
-    const dishSampleConstructorVisible: Ref<boolean> = ref(false);
     const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
-    const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
     const close = () => {
       emit('close');
     };
 
-    const saveDishSample = async () => {
-      await Provider.store.dispatch('dishesSamples/create', dishSample.value);
-      dishSampleConstructorVisible.value = false;
-    };
-
     const saveDishesGroup = async () => {
       await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
-      dishesGroupConstructorVisible.value = false;
+      close();
     };
 
     return {
       close,
-      saveDishSample,
       dishesGroup,
       saveDishesGroup,
     };

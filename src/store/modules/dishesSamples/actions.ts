@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import DishSample from '@/classes/DishSample';
 import IDishSample from '@/interfaces/IDishSample';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -25,10 +26,10 @@ const actions: ActionTree<State, RootState> = {
       return;
     }
     state.item.id = res.id;
-    state.items.unshift(state.item);
+    state.items.unshift(new DishSample(state.item));
   },
-  update: async (_, item: IDishSample): Promise<void> => {
-    await httpClient.put<IDishSample, IDishSample>({ query: `${item.id}`, payload: item, isFormData: true });
+  update: async ({ state }): Promise<void> => {
+    await httpClient.put<IDishSample, IDishSample>({ query: `${state.item.id}`, payload: state.item, isFormData: true });
   },
   remove: async ({ state }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
