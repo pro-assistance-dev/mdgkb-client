@@ -75,7 +75,6 @@ export default defineComponent({
   -o-transition: max-height 0.5s;
   transition: max-height 0.5s;
   color: #343e5c;
-  //padding-right: 5px;
   padding: 0 5px;
 }
 

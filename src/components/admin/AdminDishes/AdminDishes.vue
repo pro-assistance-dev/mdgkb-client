@@ -41,102 +41,112 @@
       </div>
     </template>
     <template #sort> </template>
-    <div class="menu">
-      <div class="menu-title-tools-tabs">
-        <div class="menu-title-tabs">
-          <div class="menu-title">
-            Меню на {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
-          </div>
-          <div class="tabs">
-            <ul>
-              <li v-for="menu in dailyMenus" :key="menu.id" class="active-tabs-item" @click="selectMenu(menu)">{{ menu.name }}</li>
-              <li class="tabs-button" @click="addMenu">
-                <button class="tools-button">
-                  <svg class="icon-add">
-                    <use xlink:href="#add"></use>
-                  </svg>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="tools">
-          <button class="tools-button">
-            <svg class="icon-delete">
-              <use xlink:href="#delete"></use>
-            </svg>
-          </button>
-          <button class="tools-button">
-            <svg class="icon-print">
-              <use xlink:href="#print"></use>
-            </svg>
-          </button>
-        </div>
-      </div>
 
-      <div class="diets-container">
-        <div class="table-container">
-          <table class="table-list">
-            <colgroup>
-              <col width="78%" />
-              <col width="6%" />
-              <col width="6%" />
-              <col width="10%" />
-            </colgroup>
-            <thead>
-              <tr>
-                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; padding-left: 44px">Блюдо</td>
-                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
-                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
-                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорийность</td>
-              </tr>
-            </thead>
-            <tbody>
-              <td colspan="4" style="background: #f1f2f7">
-                <div class="schedule-name">
-                  <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
-                    Первые блюда
-                  </h4>
-                </div>
-              </td>
-              <tr>
-                <td style="font-size: 12px; padding-left: 44px">Суп овощной</td>
-                <td style="text-align: center">
-                  <h4 style="font-size: 13px; color: #343d5c">вес</h4>
-                </td>
-                <td style="text-align: center; font-weight: bold">
-                  <h4 style="font-size: 15px; color: #343d5c; font-weight: bold">25.00р.</h4>
-                </td>
-                <td style="text-align: center">
-                  <h4 style="font-size: 13px; color: #2754eb">50ккал</h4>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+    <VerticalCollapsContainer :tab-id="1" :collapsed="true">
+      <template #inside-title>Книга блюд</template>
+      <template #inside-content-left>
+        <DishBook />
+      </template>
+      <template #inside-content-right>
+        <div class="menu">
+          <div class="menu-title-tools-tabs">
+            <div class="menu-title-tabs">
+              <div class="menu-title">
+                Меню на
+                {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
+              </div>
+              <div class="tabs">
+                <ul>
+                  <li v-for="menu in dailyMenus" :key="menu.id" class="active-tabs-item" @click="selectMenu(menu)">{{ menu.name }}</li>
+                  <li class="tabs-button" @click="addMenu">
+                    <button class="tools-button">
+                      <svg class="icon-add">
+                        <use xlink:href="#add"></use>
+                      </svg>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="tools">
+              <button class="tools-button">
+                <svg class="icon-delete">
+                  <use xlink:href="#delete"></use>
+                </svg>
+              </button>
+              <button class="tools-button">
+                <svg class="icon-print">
+                  <use xlink:href="#print"></use>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="diets-container">
+            <div class="table-container">
+              <table class="table-list">
+                <colgroup>
+                  <col width="78%" />
+                  <col width="6%" />
+                  <col width="6%" />
+                  <col width="10%" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; padding-left: 44px">Блюдо</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорийность</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <td colspan="4" style="background: #f1f2f7">
+                    <div class="schedule-name">
+                      <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
+                        Первые блюда
+                      </h4>
+                    </div>
+                  </td>
+                  <tr>
+                    <td style="font-size: 12px; padding-left: 44px">Суп овощной</td>
+                    <td style="text-align: center">
+                      <h4 style="font-size: 13px; color: #343d5c">вес</h4>
+                    </td>
+                    <td style="text-align: center; font-weight: bold">
+                      <h4 style="font-size: 15px; color: #343d5c; font-weight: bold">25.00р.</h4>
+                    </td>
+                    <td style="text-align: center">
+                      <h4 style="font-size: 13px; color: #2754eb">50ккал</h4>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="button-block">
+            <button v-if="!selectedMenu" class="button-add" @click="createMenu">Добавить</button>
+            <button v-if="selectedMenu" class="button-save" @click="submit">Сохранить</button>
+            <button v-if="selectedMenu" class="button-print" @click="pdf">Печать</button>
+          </div>
         </div>
-      </div>
-      <div class="button-block">
-        <button v-if="!selectedMenu" class="button-add" @click="createMenu">Добавить</button>
-        <button v-if="selectedMenu" class="button-save" @click="submit">Сохранить</button>
-        <button v-if="selectedMenu" class="button-print" @click="pdf">Печать</button>
-      </div>
-    </div>
-    <template v-if="selectedMenu">
-      <div v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-        <div>
-          <b>{{ dishesGroup.name }}</b>
-        </div>
-        <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
-          {{ dailyMenuItem.name }}
-        </div>
-      </div>
-      <button class="button-add" @click="addDishes">Добавить блюда</button>
-    </template>
+
+        <template v-if="selectedMenu">
+          <div v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
+            <div>
+              <b>{{ dishesGroup.name }}</b>
+            </div>
+            <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
+              {{ dailyMenuItem.name }}
+            </div>
+          </div>
+          <button class="button-add" @click="addDishes">Добавить блюда</button>
+        </template>
+      </template>
+    </VerticalCollapsContainer>
 
     <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
       <DishesSamplesConstructor :menu="selectedMenu" />
     </el-dialog>
-
     <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
       <template #title>
         <div class="add-title">Выберите блюда из книги блюд</div>
@@ -163,7 +173,9 @@ import Calendar from '@/classes/Calendar';
 import DailyMenu from '@/classes/DailyMenu';
 import FilterModel from '@/classes/filters/FilterModel';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
+import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
+import VerticalCollapsContainer from '@/components/Main/CollapsContainer/VerticalCollapsContainer.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ICalendar from '@/interfaces/ICalendar';
 import IDailyMenu from '@/interfaces/IDailyMenu';
@@ -187,6 +199,8 @@ export default defineComponent({
     Add,
     Delete,
     Print,
+    VerticalCollapsContainer,
+    DishBook,
   },
   setup() {
     const form = ref();
@@ -461,9 +475,7 @@ $margin: 20px 0;
 }
 
 .menu {
-  width: 100%;
-  // height: 600px;
-  background: #ffffff;
+  // width: 100%;
   border: 1px solid #d8d9db;
   border-radius: 5px;
   background: #f9fafb;
@@ -716,5 +728,55 @@ ul li.tabs-button:hover {
   align-items: center;
   font-size: 20px;
   color: #1979cf;
+}
+
+.slider-container {
+  // position: relative;
+  display: flex;
+}
+
+.dishes {
+  display: flex;
+  max-width: 50%;
+  height: 400px;
+  // background: #00B5A4;
+}
+
+.main-box {
+  width: calc(100% - 26px);
+  border: 1px solid #d8d9db;
+  border-radius: 5px;
+  background: #f9fafb;
+}
+.arrow-box {
+  width: 20px;
+  background: #00b5a4;
+  margin-right: 6px;
+  padding-top: 70px;
+}
+.arrow-box-title {
+  font-size: 14px;
+  color: #ffffff;
+  transform: rotate(-90deg);
+}
+.arrow-box-button {
+  width: 20px;
+  background: #00b5a4;
+  border-radius: none;
+  border: none;
+  padding: 0;
+  margin-top: 90px;
+}
+
+.icon-arrow-box-right {
+  width: 20px;
+  height: 20px;
+  fill: #ffffff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-arrow-box-right:hover {
+  fill: #7c8295;
 }
 </style>
