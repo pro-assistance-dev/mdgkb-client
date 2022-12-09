@@ -209,7 +209,7 @@ export default defineComponent({
   }
 }
 
-@media screen and (max-width: 1226px) {
+@media screen and (max-width: 1330px) {
   .menu-center {
     display: none;
   }
@@ -229,5 +229,11 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 480px) {
+  .app-title {
+    display: none;
+  }
+  .support-block {
+    display: none;
+  }
 }
 </style>

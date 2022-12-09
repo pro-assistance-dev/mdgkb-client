@@ -124,7 +124,7 @@
             </div>
           </div>
           <div class="button-block">
-            <button v-if="!selectedMenu" class="button-add" @click="createMenu">Добавить</button>
+            <!-- <button v-if="!selectedMenu" class="button-add" @click="createMenu">Добавить</button> -->
             <button v-if="selectedMenu" class="button-save" @click="submit">Сохранить</button>
             <button v-if="selectedMenu" class="button-print" @click="pdf">Печать</button>
           </div>
@@ -527,7 +527,8 @@ $margin: 20px 0;
 
 .diets-container {
   width: calc(100% - 18px);
-  margin: 0 8px;
+  margin: 0 8px 8px 8px;
+  min-height: 550px;
 }
 
 .table-container {
