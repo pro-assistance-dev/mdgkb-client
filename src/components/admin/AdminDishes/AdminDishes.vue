@@ -220,7 +220,6 @@ export default defineComponent({
     const getTodayMenus = async () => {
       const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
       dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-      console.log(dayFilter.value.date1);
       Provider.setFilterModel(dayFilter.value);
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
     };
@@ -240,7 +239,10 @@ export default defineComponent({
       await getTodayMenus();
       if (dailyMenus.value.length === 0) {
         selectedMenu.value = DailyMenu.Create(day.date);
+        const userTimezoneOffset = day.date.getTimezoneOffset() * 60000;
+        selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
         dailyMenus.value.push(selectedMenu.value);
+        console.log(day);
         await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
         return;
       }

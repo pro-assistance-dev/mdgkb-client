@@ -23,7 +23,7 @@
         <!-- <div v-for="dishesGroupItem in dishesGroups" :key="dishesGroupItem.id"> -->
         <div>
           <!-- <CollapsContainer :tab-id="dishesGroupItem.id" :collapsed="true"> -->
-          <CollapsContainer v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" :tab-id="1" :collapsed="true">
+          <CollapsContainer v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" :tab-id="dishesGroup.id" :collapsed="true">
             <template #inside-title>
               <div class="title-in">
                 {{ dishesGroup.name }}
@@ -106,6 +106,7 @@ export default defineComponent({
         });
       });
       props.menu.addDishesFromSamples(dishesSamples);
+      Provider.store.dispatch('dailyMenus/update', props.menu);
     };
 
     const selectSample = (dishSample: IDishSample): void => {
