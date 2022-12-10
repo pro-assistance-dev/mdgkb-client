@@ -107,6 +107,9 @@
                       </div>
                     </td>
                     <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
+                      <td>
+                        <el-button @click="removeFromMenu(dishesGroup, dish)">Удалить из меню</el-button>
+                      </td>
                       <td style="font-size: 12px; padding-left: 44px">{{ dish.name }}</td>
                       <td style="text-align: center">
                         <h4 style="font-size: 13px; color: #343d5c">{{ dish.weight }}</h4>
@@ -167,6 +170,7 @@ import VerticalCollapsContainer from '@/components/Main/CollapsContainer/Vertica
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ICalendar from '@/interfaces/ICalendar';
 import IDailyMenu from '@/interfaces/IDailyMenu';
+import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDay from '@/interfaces/IDay';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import DoctorRules from '@/rules/DoctorRules';
@@ -225,12 +229,10 @@ export default defineComponent({
     };
 
     const findMenu = () => {
-      selectedMenu.value = dailyMenus.value.find((dm: IDailyMenu) => {
-        return dm.date.getDate() === calendar.value.getSelectedDay().date.getDate();
-      });
-      if (!selectedMenu.value) {
+      if (dailyMenus.value.length < 1) {
         return;
       }
+      selectedMenu.value = dailyMenus.value[0];
       selectedMenu.value?.groupDishes();
     };
 
@@ -265,9 +267,13 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
     };
 
-    const addMenu = () => {
-      selectedMenu.value = DailyMenu.Create(new Date());
+    const addMenu = async () => {
+      const date = new Date();
+      selectedMenu.value = DailyMenu.Create(date);
+      const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+      selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
       dailyMenus.value.push(selectedMenu.value);
+      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
     };
 
     const selectMenu = (menu: IDailyMenu): void => {
@@ -275,7 +281,21 @@ export default defineComponent({
       selectedMenu.value?.groupDishes();
     };
 
+    const removeFromMenu = async (dishesGroup: IDishesGroup, dishItem: IDailyMenuItem): Promise<void> => {
+      const i = dishesGroup.dailyMenuItems.findIndex((di: IDailyMenuItem) => di.id === dishItem.id);
+      if (i < 0) {
+        return;
+      }
+      removeFromClass(i, dishesGroup.dailyMenuItems, []);
+      if (dishItem.id) {
+        selectedMenu.value?.removeMenuItem(dishItem.id);
+      }
+      selectedMenu.value?.groupDishes();
+      await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
+    };
+
     return {
+      removeFromMenu,
       addMenu,
       selectMenu,
       dailyMenus,
