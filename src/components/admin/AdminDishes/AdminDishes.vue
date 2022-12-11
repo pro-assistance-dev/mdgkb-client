@@ -101,7 +101,7 @@
                 </thead>
                 <tbody>
                   <template v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-                    <td colspan="4" style="background: #f1f2f7">
+                    <td colspan="5" style="background: #f1f2f7">
                       <div class="schedule-name">
                         <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
                           {{ dishesGroup.name }}
@@ -588,11 +588,15 @@ $margin: 20px 0;
     &:hover {
       background-color: #ecf5ff;
     }
-
-    &:hover ~ .icon-delete-table {
-      visibility: visible;
-    }
   }
+
+  // tr:active > td.icon-delete-table {
+  //   visibility: visible;
+  // }
+
+  // tr:hover > td {
+  //   background: #00b5a4;
+  // }
 }
 
 h4 {
@@ -803,10 +807,10 @@ ul li.tabs-button:hover {
 }
 
 .icon-delete-table {
-  visibility: hidden;
-  width: 20px;
-  height: 20px;
-  fill: #343e5c;
+  // visibility: hidden;
+  width: 16px;
+  height: 16px;
+  fill: #a1a7bd;
   cursor: pointer;
   transition: 0.3s;
   margin-left: 10px;
