@@ -4,10 +4,15 @@
       <template #header-left-top>
         <div class="route-block">
           <button v-if="selectedGroup" class="diet-router" @click="toMenu">Питание и диеты/</button>
+          <button v-if="selectedGroup" class="diet-router-mobile" @click="toMenu">Питание и диеты</button>
           <div v-for="item in DietRouter" :key="item.id">
             <button v-if="item.goBack == 'toDiet'" class="diet-router" @click="toDiet">{{ item.name }}/</button>
             <button v-if="item.goBack == 'toAge'" class="diet-router" @click="toAge">{{ item.name }}/</button>
-            <button v-if="item.goBack == 'noLink'" class="diet-router-no-link" @click="toAge" >{{ item.name }}</button>
+
+            <button v-if="item.goBack == 'toDiet'" class="diet-router-mobile" @click="toDiet">{{ item.name }}</button>
+            <button v-if="item.goBack == 'toAge'" class="diet-router-mobile" @click="toAge">{{ item.name }}</button>
+
+            <button v-if="item.goBack == 'noLink'" class="diet-router-no-link" @click="toAge">{{ item.name }}</button>
           </div>
         </div>
         <div class="field-2">
@@ -37,12 +42,13 @@
         </template>
       </template>
       <template #footer>
-
         <div class="page">
-          <h3 v-if="selectedDiet && selectedAge" style="text-align: left; color:#A1A7BD; margin:10px 0px 20px 20px">{{ selectedDiet.siteName }}</h3>
+          <h3 v-if="selectedDiet && selectedAge" style="text-align: left; color: #a1a7bd; margin: 10px 0px 20px 20px">
+            {{ selectedDiet.siteName }}
+          </h3>
           <DietPage v-if="selectedDiet && selectedAge" :timetable="selectedAge.timetable" />
           <div v-if="motherDiet && selectedAge">
-            <h3 v-if="motherDiet" style="text-align: left; color:#A1A7BD; margin:10px 0px 20px 20px">{{ motherDiet.siteName }}</h3>
+            <h3 v-if="motherDiet" style="text-align: left; color: #a1a7bd; margin: 10px 0px 20px 20px">{{ motherDiet.siteName }}</h3>
             <DietPage v-if="selectedDiet && selectedAge && motherDiet" :timetable="motherDiet.dietAges[0].timetable" />
             <div></div>
           </div>
@@ -53,6 +59,7 @@
 </template>
 
 <script lang="ts">
+import { v4 as uuidv4 } from 'uuid';
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import DietPage from '@/components/Diets/DietPage.vue';
@@ -64,8 +71,6 @@ import IDietGroup from '@/interfaces/IDietGroup';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
-import { v4 as uuidv4 } from 'uuid';
-
 export default defineComponent({
   name: 'DietsSelect',
   components: { DietPage, PageWrapper, FiltersWrapper },
@@ -76,7 +81,7 @@ export default defineComponent({
     const motherDiet: Ref<IDiet | undefined> = ref(undefined);
     const selectedAge: Ref<IDietAge | undefined> = ref(undefined);
     const dietsGroups: ComputedRef<IDietGroup[]> = computed<IDietGroup[]>(() => Provider.store.getters['dietsGroups/items']);
-    const DietRouter: { id: string, name: string, goBack: string }[] = [];
+    const DietRouter: { id: string; name: string; goBack: string }[] = [];
     const load = async () => {
       await loadDiets();
     };
@@ -97,37 +102,37 @@ export default defineComponent({
           }
         });
       }
-        DietRouter.push({id: uuidv4(), name: age.name, goBack: "noLink"});
-        DietRouter[0].goBack = "toAge";
-        if (DietRouter[2].goBack) {
-          DietRouter[1].goBack = "toAge";
-          DietRouter[0].goBack = "toDiet";
-        }
+      DietRouter.push({ id: uuidv4(), name: age.name, goBack: 'noLink' });
+      DietRouter[0].goBack = 'toAge';
+      if (DietRouter[2].goBack) {
+        DietRouter[1].goBack = 'toAge';
+        DietRouter[0].goBack = 'toDiet';
+      }
     };
 
     const selectDiet = (diet: IDiet): void => {
       selectedDiet.value = diet;
-      DietRouter[0].goBack = "toDiet";
-      DietRouter.push({id: uuidv4(), name: diet.siteName, goBack: "noLink"});
+      DietRouter[0].goBack = 'toDiet';
+      DietRouter.push({ id: uuidv4(), name: diet.siteName, goBack: 'noLink' });
 
       if (selectedDiet.value?.dietAges.length === 1) {
         selectAge(selectedDiet.value?.dietAges[0]);
         DietRouter.pop();
-        DietRouter[1].goBack = "noLink";
+        DietRouter[1].goBack = 'noLink';
       }
     };
 
     const selectGroup = (group: IDietGroup): void => {
       selectedGroup.value = group;
-      DietRouter.push({id: uuidv4(), name: group.name, goBack: "noLink"});
+      DietRouter.push({ id: uuidv4(), name: group.name, goBack: 'noLink' });
       if (selectedGroup.value?.diets.length === 1) {
         selectDiet(selectedGroup.value?.diets[0]);
         DietRouter.pop();
-        DietRouter[0].goBack = "noLink";
+        DietRouter[0].goBack = 'noLink';
       }
     };
 
-    const toMenu  = (): void => {
+    const toMenu = (): void => {
       selectedAge.value = undefined;
       selectedGroup.value = undefined;
       selectedDiet.value = undefined;
@@ -138,44 +143,42 @@ export default defineComponent({
       return;
     };
 
-    const toDiet  = (): void => {
+    const toDiet = (): void => {
       if (selectedGroup.value?.diets.length === 1) {
         selectedGroup.value = undefined;
         selectedAge.value = undefined;
         selectedDiet.value = undefined;
         DietRouter.pop();
-
       } else {
         selectedAge.value = undefined;
         selectedDiet.value = undefined;
         DietRouter.pop();
-        DietRouter[0].goBack = "noLink";
+        DietRouter[0].goBack = 'noLink';
         if (DietRouter[1].goBack) {
-          DietRouter[0].goBack = "toDiet";
-          DietRouter.pop()
+          DietRouter[0].goBack = 'toDiet';
+          DietRouter.pop();
         }
         return;
       }
     };
 
-    const toAge  = (): void => {
+    const toAge = (): void => {
       if (selectedDiet.value?.dietAges.length === 1) {
-      selectedAge.value = undefined;
-      selectedDiet.value = undefined;
-      DietRouter.pop();
-      DietRouter[0].goBack = "noLink";
+        selectedAge.value = undefined;
+        selectedDiet.value = undefined;
+        DietRouter.pop();
+        DietRouter[0].goBack = 'noLink';
       } else {
         selectedAge.value = undefined;
         DietRouter.pop();
-        DietRouter[0].goBack = "noLink";
+        DietRouter[0].goBack = 'noLink';
         if (DietRouter[1]) {
-          DietRouter[0].goBack = "toDiet";
-          DietRouter[1].goBack = "noLink";
+          DietRouter[0].goBack = 'toDiet';
+          DietRouter[1].goBack = 'noLink';
         }
       }
       return;
     };
-    
 
     return {
       selectAge,
@@ -208,8 +211,8 @@ export default defineComponent({
 }
 
 button {
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   text-decoration: none;
   display: inline-block;
   border: none;
@@ -218,8 +221,8 @@ button {
 
 .diet-router {
   font-size: 14px;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   cursor: pointer;
   color: $site_gray;
   white-space: nowrap;
@@ -231,12 +234,16 @@ button {
 }
 
 .diet-router-no-link {
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   color: $site_dark_gray;
   white-space: nowrap;
-  height: 25px;
+  height: 20px;
   font-size: 14px;
+}
+
+.diet-router-mobile {
+  display: none;
 }
 
 .back {
@@ -340,7 +347,6 @@ button {
   color: $site_gray;
 }
 
-
 .choice-item-router {
   display: inline-block;
   position: absolute;
@@ -353,7 +359,138 @@ button {
   align-items: center;
 }
 
+@media screen and (max-width: 768px) {
+  .field-item-3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 130px;
+    margin: 25px 10px 0 10px;
+    color: $site_gray;
+  }
 
+  // .route-block {
+  //   // position: absolute;
+  //   // width: 100%;
+  //   display: flex;
+  //   justify-content: ;
+  //   align-items: top;
+  //   flex-wrap: wrap;
+  //   height: 70px;
+  // }
+  .field-item {
+    padding-left: 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 400px;
+    font-size: 14px;
+    border-radius: $normal-border-radius;
+    color: $site_gray;
+    background: #f3911c;
+  }
 
+  .field {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 
+  .diet-router {
+    display: none;
+  }
+
+  .diet-router-mobile {
+    display: flex;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    color: $site_gray;
+    white-space: nowrap;
+    height: 20px;
+  }
+
+  .diet-router-mobile:hover {
+    color: $site_dark_gray;
+  }
+
+  .diet-router-no-link {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    color: $site_dark_gray;
+    white-space: nowrap;
+    height: 20px;
+    font-size: 14px;
+  }
+
+  .field-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2754eb;
+    color: #ffffff;
+    margin: 5px 5px;
+    padding: 0px;
+    height: 40px;
+  }
+
+  .field-item-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2754eb;
+    color: #ffffff;
+    margin: 5px 5px;
+    padding: 0px;
+    height: 40px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .field {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .field-2 {
+    display: flex;
+    justify-content: center;
+    // flex-wrap: wrap;
+  }
+
+  .field-item-3 {
+    width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .field {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .field-2 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .field-item-3 {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0px;
+  }
+}
 </style>

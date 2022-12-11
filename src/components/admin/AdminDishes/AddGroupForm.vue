@@ -208,10 +208,6 @@ export default defineComponent({
   font-size: 15px;
 }
 
-:deep(.el-input__inner::placeholder) {
-  color: #4a4a4a;
-}
-
 :deep(.el-select .el-input .el-select__caret) {
   color: #343e5c;
   font-size: 15px;
@@ -221,11 +217,6 @@ export default defineComponent({
 
 .el-select {
   width: 100%;
-}
-
-:deep(.el-input__prefix) {
-  left: 230px;
-  top: -3px;
 }
 
 :deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {

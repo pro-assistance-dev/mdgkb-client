@@ -8,10 +8,12 @@
         <el-form-item label="Калорийность, ккал:">
           <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
         </el-form-item>
-        <el-form-item label="Выход, грамм"> </el-form-item>
-        <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
-        <el-form-item label="Цена:"> </el-form-item>
-        <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
+        <el-form-item label="Выход, грамм">
+          <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
+        </el-form-item>
+        <el-form-item label="Цена:">
+          <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
+        </el-form-item>
         <el-form-item label="Категория:">
           <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 365px">
             <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
@@ -197,12 +199,6 @@ export default defineComponent({
   align-items: center;
 }
 
-:deep(.el-input__inner) {
-  border-radius: 20px;
-  height: 30px;
-  width: 340px;
-}
-
 .button-save {
   height: 30px;
   border: 1px solid #449d7c;
@@ -250,26 +246,18 @@ export default defineComponent({
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 15px;
-}
-
-:deep(.el-input__inner::placeholder) {
   color: #4a4a4a;
 }
 
 :deep(.el-select .el-input .el-select__caret) {
-  color: #343e5c;
+  color: #4a4a4a;
   font-size: 15px;
   font-weight: bold;
-  margin-right: 5px;
+  margin-right: -2px;
 }
 
 .el-select {
   width: 100%;
-}
-
-:deep(.el-input__prefix) {
-  left: 230px;
-  top: -3px;
 }
 
 :deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
@@ -281,7 +269,7 @@ export default defineComponent({
 }
 
 :deep(.el-input__suffix) {
-  top: -3px;
+  top: -4px;
 }
 
 :deep(.el-form-item__label) {
@@ -294,11 +282,6 @@ export default defineComponent({
   justify-content: left;
 }
 
-:deep(.el-input__prefix) {
-  left: auto;
-  right: 10px;
-}
-
 :deep(.el-input-number__increase) {
   display: flex;
   align-items: center;
@@ -307,7 +290,6 @@ export default defineComponent({
   height: 28px;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  // display: none;
 }
 
 :deep(.el-input-number__decrease) {
@@ -318,6 +300,5 @@ export default defineComponent({
   height: 28px;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
-  // display: none;
 }
 </style>
