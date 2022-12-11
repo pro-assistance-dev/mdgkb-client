@@ -26,7 +26,7 @@
         </div>
         <div class="column">
           <div v-for="dishesGroup in dishesGroupsSource" :key="dishesGroup.id" :name="dishesGroup.name" :title="dishesGroup.name">
-            <CollapsContainer :tab-id="dishesGroup.id" :collapsed="true">
+            <CollapsContainer :tab-id="dishesGroup.id">
               <template #inside-title>
                 <div class="title-in">{{ dishesGroup.name }}</div>
               </template>

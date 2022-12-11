@@ -13,4 +13,6 @@ export default interface IDishesGroup {
   removeDishSample: (id: string) => void;
   updateDishSample: (dishSample: IDishSample) => void;
   getSamplesNotFromMenu: (menu: IDailyMenu) => IDishSample[];
+  samplesExists: () => boolean;
+  upsertSample: (dishSample: IDishSample) => void;
 }

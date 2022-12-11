@@ -56,7 +56,14 @@
               </div>
               <div class="tabs">
                 <ul>
-                  <li v-for="menu in dailyMenus" :key="menu.id" class="active-tabs-item" @click="selectMenu(menu)">{{ menu.name }}</li>
+                  <li
+                    v-for="menu in dailyMenus"
+                    :key="menu.id"
+                    :class="{ 'active-tabs-item': selectedMenu.id === menu.id, 'tabs-item': selectedMenu.id !== menu.id }"
+                    @click="selectMenu(menu)"
+                  >
+                    {{ menu.name }}
+                  </li>
                   <li class="tabs-button" @click="addMenu">
                     <button class="tools-button">
                       <svg class="icon-add">
@@ -68,7 +75,7 @@
               </div>
             </div>
             <div class="tools">
-              <button class="tools-button">
+              <button class="tools-button" @click.stop="removeSelectedMenu">
                 <svg class="icon-delete">
                   <use xlink:href="#delete"></use>
                 </svg>
@@ -109,7 +116,7 @@
                       </div>
                     </td>
                     <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
-                      <td style="font-size: 12px">
+                      <td style="font-size: 12px" @click="removeFromMenu(dishesGroup, dish)">
                         <svg class="icon-delete-table">
                           <use xlink:href="#delete"></use>
                         </svg>
@@ -243,7 +250,6 @@ export default defineComponent({
         const userTimezoneOffset = day.date.getTimezoneOffset() * 60000;
         selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
         dailyMenus.value.push(selectedMenu.value);
-        console.log(day);
         await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
         return;
       }
@@ -293,7 +299,18 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
     };
 
+    const removeSelectedMenu = async () => {
+      const indexForDelete = dailyMenus.value.findIndex((dm: IDailyMenu) => dm.id === selectedMenu.value?.id);
+      if (indexForDelete < 0) {
+        return;
+      }
+      await Provider.store.dispatch('dailyMenus/remove', dailyMenus.value[indexForDelete].id);
+      selectedMenu.value = dailyMenus.value[dailyMenus.value.length - 1];
+      dailyMenus.value.splice(indexForDelete, 1);
+    };
+
     return {
+      removeSelectedMenu,
       removeFromMenu,
       addMenu,
       selectMenu,
