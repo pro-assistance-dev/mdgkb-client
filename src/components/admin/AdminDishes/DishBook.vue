@@ -110,6 +110,7 @@ export default defineComponent({
         });
       });
       props.menu.addDishesFromSamples(dishesSamples);
+      Provider.store.dispatch('dailyMenus/update', props.menu);
     };
 
     const selectSample = (dishSample: IDishSample): void => {

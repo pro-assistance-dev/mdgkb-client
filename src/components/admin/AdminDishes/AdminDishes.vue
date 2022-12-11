@@ -169,6 +169,7 @@ import VerticalCollapsContainer from '@/components/Main/CollapsContainer/Vertica
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ICalendar from '@/interfaces/ICalendar';
 import IDailyMenu from '@/interfaces/IDailyMenu';
+import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDay from '@/interfaces/IDay';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import DoctorRules from '@/rules/DoctorRules';
@@ -222,18 +223,15 @@ export default defineComponent({
     const getTodayMenus = async () => {
       const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
       dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-      console.log(dayFilter.value.date1);
       Provider.setFilterModel(dayFilter.value);
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
     };
 
     const findMenu = () => {
-      selectedMenu.value = dailyMenus.value.find((dm: IDailyMenu) => {
-        return dm.date.getDate() === calendar.value.getSelectedDay().date.getDate();
-      });
-      if (!selectedMenu.value) {
+      if (dailyMenus.value.length < 1) {
         return;
       }
+      selectedMenu.value = dailyMenus.value[0];
       selectedMenu.value?.groupDishes();
     };
 
@@ -242,7 +240,10 @@ export default defineComponent({
       await getTodayMenus();
       if (dailyMenus.value.length === 0) {
         selectedMenu.value = DailyMenu.Create(day.date);
+        const userTimezoneOffset = day.date.getTimezoneOffset() * 60000;
+        selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
         dailyMenus.value.push(selectedMenu.value);
+        console.log(day);
         await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
         return;
       }
@@ -265,9 +266,13 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
     };
 
-    const addMenu = () => {
-      selectedMenu.value = DailyMenu.Create(new Date());
+    const addMenu = async () => {
+      const date = new Date();
+      selectedMenu.value = DailyMenu.Create(date);
+      const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+      selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
       dailyMenus.value.push(selectedMenu.value);
+      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
     };
 
     const selectMenu = (menu: IDailyMenu): void => {
@@ -275,7 +280,21 @@ export default defineComponent({
       selectedMenu.value?.groupDishes();
     };
 
+    const removeFromMenu = async (dishesGroup: IDishesGroup, dishItem: IDailyMenuItem): Promise<void> => {
+      const i = dishesGroup.dailyMenuItems.findIndex((di: IDailyMenuItem) => di.id === dishItem.id);
+      if (i < 0) {
+        return;
+      }
+      removeFromClass(i, dishesGroup.dailyMenuItems, []);
+      if (dishItem.id) {
+        selectedMenu.value?.removeMenuItem(dishItem.id);
+      }
+      selectedMenu.value?.groupDishes();
+      await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
+    };
+
     return {
+      removeFromMenu,
       addMenu,
       selectMenu,
       dailyMenus,
