@@ -4,14 +4,16 @@
       <div class="tools">
         <div class="tools-title">
           Книга блюд
-          <!-- <button class="tools-button">
+          <button class="tools-button">
             <svg class="icon-edit">
               <use xlink:href="#profile-edit"></use>
             </svg>
-          </button> -->
+          </button>
+          <div class="search">
+            <DishSearchBar :is-search-page="true" @search="search" />
+          </div>
         </div>
         <div class="tools-buttons">
-          <!-- <button class="button-create">Создать блюдо</button> -->
           <button v-show="dishesSelected()" class="tools-button" @click="addToMenu">
             <svg class="icon-add-to-menu">
               <use xlink:href="#add-to-menu"></use>
@@ -20,9 +22,7 @@
         </div>
       </div>
       <div class="column">
-        <!-- <div v-for="dishesGroupItem in dishesGroups" :key="dishesGroupItem.id"> -->
         <div>
-          <!-- <CollapsContainer :tab-id="dishesGroupItem.id" :collapsed="true"> -->
           <CollapsContainer v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" :tab-id="dishesGroup.id" :collapsed="true">
             <template #inside-title>
               <div class="title-in">
@@ -30,20 +30,22 @@
               </div>
             </template>
             <template #inside-content>
-              <div
-                v-for="dishSample in dishesGroup.getSamplesNotFromMenu(menu)"
-                :key="dishSample.id"
-                class="group"
-                :class="{ checked: dishSample.selected }"
-                @click="selectSample(dishSample)"
-              >
-                <div class="group-item">
-                  <label :for="999">
-                    <div class="dish-item">
-                      <div class="left-field">{{ dishSample.name }}</div>
-                      <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
-                    </div>
-                  </label>
+              <div class="scroll-container">
+                <div
+                  v-for="dishSample in dishesGroup.getSamplesNotFromMenu(menu)"
+                  :key="dishSample.id"
+                  class="group"
+                  :class="{ checked: dishSample.selected }"
+                  @click="selectSample(dishSample)"
+                >
+                  <div class="group-item">
+                    <label :for="999">
+                      <div class="dish-item">
+                        <div class="left-field">{{ dishSample.name }}</div>
+                        <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
+                      </div>
+                    </label>
+                  </div>
                 </div>
               </div>
             </template>
@@ -65,6 +67,7 @@ import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
+import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
@@ -80,6 +83,7 @@ export default defineComponent({
     Save,
     Delete,
     Edit,
+    DishSearchBar,
   },
   props: {
     visible: {
@@ -132,6 +136,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
+
 .block-container {
   width: 100%;
   background: #f9fafb;
@@ -170,7 +176,7 @@ export default defineComponent({
   align-items: center;
   color: #1979cf;
   font-size: 16px;
-  min-width: 200px;
+  min-width: 400px;
 }
 
 .tools-buttons {
@@ -226,6 +232,21 @@ export default defineComponent({
 
 .icon-add-to-menu:hover {
   fill: #3796eb;
+}
+
+.scroll-container {
+  max-height: 30vh;
+  overflow: hidden;
+  overflow-y: scroll;
+  margin-right: 24px;
+}
+
+.group:hover {
+  background: #a8dcef;
+}
+
+.group:active {
+  background: #d6ecf4;
 }
 
 .group-item {
@@ -287,10 +308,6 @@ export default defineComponent({
   transition: all 0.5s;
 }
 
-.group-item label:hover {
-  background: #e5e5e5;
-}
-
 .checked {
   background: #d6ecf4;
 }
@@ -298,13 +315,30 @@ export default defineComponent({
 .icon-edit {
   width: 16px;
   height: 16px;
-  stroke: #a3a9be;
+  stroke: #343e5c;
   fill: none;
   margin-left: 10px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .icon-edit:hover {
   stroke: #3796eb;
+}
+
+.title-in {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: $site_dark_gray;
+  height: 60px;
+  align-items: center;
+  font-weight: bold;
+}
+
+.search {
+  margin-left: 10px;
+  width: 210px;
 }
 </style>

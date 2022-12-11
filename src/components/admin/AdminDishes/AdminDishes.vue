@@ -84,14 +84,16 @@
             <div class="table-container">
               <table class="table-list">
                 <colgroup>
-                  <col width="78%" />
+                  <col width="3%" />
+                  <col width="75%" />
                   <col width="6%" />
                   <col width="6%" />
                   <col width="10%" />
                 </colgroup>
                 <thead>
                   <tr>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; padding-left: 44px">Блюдо</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd"></td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">Блюдо</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорийность</td>
@@ -99,7 +101,7 @@
                 </thead>
                 <tbody>
                   <template v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-                    <td colspan="4" style="background: #f1f2f7">
+                    <td colspan="5" style="background: #f1f2f7">
                       <div class="schedule-name">
                         <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
                           {{ dishesGroup.name }}
@@ -107,10 +109,12 @@
                       </div>
                     </td>
                     <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
-                      <td>
-                        <el-button @click="removeFromMenu(dishesGroup, dish)">Удалить из меню</el-button>
+                      <td style="font-size: 12px">
+                        <svg class="icon-delete-table">
+                          <use xlink:href="#delete"></use>
+                        </svg>
                       </td>
-                      <td style="font-size: 12px; padding-left: 44px">{{ dish.name }}</td>
+                      <td style="font-size: 12px">{{ dish.name }}</td>
                       <td style="text-align: center">
                         <h4 style="font-size: 13px; color: #343d5c">{{ dish.weight }}</h4>
                       </td>
@@ -125,11 +129,6 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          <div class="button-block">
-            <button v-if="!selectedMenu" class="button-add" @click="createMenu">Добавить</button>
-            <button v-if="selectedMenu" class="button-save" @click="submit">Сохранить</button>
-            <button v-if="selectedMenu" class="button-print" @click="pdf">Печать</button>
           </div>
         </div>
       </template>
@@ -539,7 +538,8 @@ $margin: 20px 0;
 
 .diets-container {
   width: calc(100% - 18px);
-  margin: 0 8px;
+  margin: 0 8px 8px 8px;
+  min-height: 550px;
 }
 
 .table-container {
@@ -589,6 +589,14 @@ $margin: 20px 0;
       background-color: #ecf5ff;
     }
   }
+
+  // tr:active > td.icon-delete-table {
+  //   visibility: visible;
+  // }
+
+  // tr:hover > td {
+  //   background: #00b5a4;
+  // }
 }
 
 h4 {
@@ -743,7 +751,6 @@ ul li.tabs-button:hover {
 }
 
 .slider-container {
-  // position: relative;
   display: flex;
 }
 
@@ -751,7 +758,6 @@ ul li.tabs-button:hover {
   display: flex;
   max-width: 50%;
   height: 400px;
-  // background: #00B5A4;
 }
 
 .main-box {
@@ -790,5 +796,28 @@ ul li.tabs-button:hover {
 
 .icon-arrow-box-right:hover {
   fill: #7c8295;
+}
+
+.tools-button-table {
+  position: absolute;
+  background: #ffffff;
+  border-radius: none;
+  border: none;
+  height: 24px;
+}
+
+.icon-delete-table {
+  // visibility: hidden;
+  width: 16px;
+  height: 16px;
+  fill: #a1a7bd;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 10px;
+  margin-top: 1px;
+}
+
+.icon-delete-table:hover {
+  fill: #379fff;
 }
 </style>

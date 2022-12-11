@@ -95,6 +95,8 @@ export default defineComponent({
 
 .tab input:checked ~ .tab-content-down {
   max-height: 100vh;
+  // overflow: hidden;
+  // overflow-y: scroll;
 }
 
 .tab input:checked ~ .tab-content-up {

@@ -16,7 +16,12 @@
             <template #inside-title>
               <div class="title-in">
                 {{ dishesGroupItem.name }}
-                <button class="tools-button" @click="removeDishesGroup(dishesGroupItem.id)">
+                <button class="tools-button-e">
+                  <svg class="icon-edit">
+                    <use xlink:href="#profile-edit"></use>
+                  </svg>
+                </button>
+                <button class="tools-button-d" @click="removeDishesGroup(dishesGroupItem.id)">
                   <svg class="icon-delete">
                     <use xlink:href="#delete"></use>
                   </svg>
@@ -56,6 +61,7 @@
   <AddToMenu />
   <Save />
   <Delete />
+  <Edit />
 </template>
 
 <script lang="ts">
@@ -63,6 +69,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 
 import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
+import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
 import AddForm from '@/components/admin/AdminDishes/AddForm.vue';
 import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
@@ -82,6 +89,7 @@ export default defineComponent({
     Delete,
     AddGroupForm,
     AddForm,
+    Edit,
   },
   props: {
     visible: {
@@ -177,6 +185,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
+
 $margin: 20px 0;
 
 .flex-column {
@@ -275,10 +285,23 @@ $margin: 20px 0;
   color: #ffffff;
 }
 
-.tools-button {
+.tools-button-d {
   position: absolute;
   top: 18px;
   right: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: none;
+  border: none;
+  height: 24px;
+}
+
+.tools-button-e {
+  position: absolute;
+  top: 18px;
+  right: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -325,11 +348,23 @@ $margin: 20px 0;
   fill: #343e5c;
   cursor: pointer;
   transition: 0.3s;
-  margin-left: 10px;
 }
 
 .icon-delete:hover {
   fill: #379fff;
+}
+
+.icon-edit {
+  width: 16px;
+  height: 16px;
+  stroke: #343e5c;
+  fill: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-edit:hover {
+  stroke: #3796eb;
 }
 
 .new-group {
@@ -378,5 +413,16 @@ $margin: 20px 0;
   border: none;
   height: 24px;
   cursor: pointer;
+}
+
+.title-in {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: $site_dark_gray;
+  height: 60px;
+  align-items: center;
+  font-weight: bold;
 }
 </style>

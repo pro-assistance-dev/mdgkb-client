@@ -14,6 +14,7 @@
           </div>
         </div>
         <div class="text">ТЕСТОВЫЙ РЕЖИМ</div>
+        <div class="text-mobile">ТЕСТ РЕЖИМ</div>
       </div>
     </label>
     <div
@@ -352,7 +353,7 @@ a.btn:active {
 
 .support {
   position: absolute;
-  z-index: 1000;
+  z-index: 2000;
   top: 5px;
   right: 0px;
   height: 46px;
@@ -421,5 +422,61 @@ a.btn:active {
 }
 
 :deep(.el-button el-button--success) {
+}
+
+.text-mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 480px) {
+  .support {
+    position: absolute;
+    z-index: 1000;
+    top: 65px;
+    right: 0px;
+    height: 46px;
+    border-top-left-radius: 25px 25px;
+    border-bottom-left-radius: 25px 25px;
+    background: #ffffff;
+    border: 1px solid #343e5c;
+    border-right: none;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .text {
+    display: none;
+  }
+
+  .text-mobile {
+    font-size: 10px;
+    color: #343e5c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+  }
+
+  .avatar {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-left: 2px;
+    margin-top: 2px;
+    margin-right: 5px;
+    position: relative;
+    border: 1px solid #343e5c;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 46px;
+      height: 46px;
+      object-fit: cover;
+    }
+  }
 }
 </style>

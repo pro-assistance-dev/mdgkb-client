@@ -122,7 +122,7 @@ export default defineComponent({
     const getNameLabel = 'Наименование';
     const getDataLabel = 'Данные';
     const fields: Ref<IField[]> = ref([]);
-    const mobileWindow = ref(window.matchMedia('(max-width: 1226px)').matches);
+    const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
     onBeforeMount(async () => {
       formValue.value = props.form;
       await store.dispatch('formStatuses/getAll');
@@ -140,7 +140,7 @@ export default defineComponent({
 
     onMounted(() => {
       window.addEventListener('resize', () => {
-        mobileWindow.value = window.matchMedia('(max-width: 1226px)').matches;
+        mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches;
       });
     });
 
