@@ -55,26 +55,25 @@
                 {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
               </div>
               <div class="tabs">
-                <ul>
-                  <li
-                    v-for="menu in dailyMenus"
-                    :key="menu.id"
-                    :class="{ 'active-tabs-item': selectedMenu.id === menu.id, 'tabs-item': selectedMenu.id !== menu.id }"
-                    @click="selectMenu(menu)"
-                  >
-                    {{ menu.name }}
-                  </li>
-                  <li class="tabs-button" @click="addMenu">
-                    <button class="tools-button">
-                      <svg class="icon-add">
-                        <use xlink:href="#add"></use>
-                      </svg>
-                    </button>
-                  </li>
-                </ul>
+                <div
+                  v-for="menu in dailyMenus"
+                  :key="menu.id"
+                  :class="{ 'active-tabs-item': selectedMenu.id === menu.id, 'tabs-item': selectedMenu.id !== menu.id }"
+                  @click="selectMenu(menu)"
+                >
+                  <div class="title">{{ menu.name }}</div>
+                  <div :class="{ 'active-line': selectedMenu.id === menu.id, line: selectedMenu.id !== menu.id }"></div>
+                </div>
+                <div class="tabs-button" @click="addMenu">
+                  <button class="tools-button">
+                    <svg class="icon-add">
+                      <use xlink:href="#add"></use>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
-            <div class="tools">
+            <div class="tools-block">
               <button class="tools-button" @click.stop="removeSelectedMenu">
                 <svg class="icon-delete">
                   <use xlink:href="#delete"></use>
@@ -439,7 +438,6 @@ $margin: 20px 0;
   fill: #343e5c;
   cursor: pointer;
   transition: 0.3s;
-  margin-left: 10px;
   margin-top: 1px;
 }
 
@@ -454,7 +452,6 @@ $margin: 20px 0;
   stroke: #343e5c;
   cursor: pointer;
   transition: 0.3s;
-  margin-left: 10px;
 }
 
 .icon-print:hover {
@@ -503,54 +500,66 @@ $margin: 20px 0;
 }
 
 .menu {
-  // width: 100%;
   border: 1px solid #d8d9db;
   border-radius: 5px;
   background: #f9fafb;
 }
 
 .menu-title-tools-tabs {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  border-bottom: 1px solid #d8d9db;
+  border-bottom: 1px solid #7c8295;
+  height: 30px;
   background: #ffffff;
 }
 
 .menu-title-tabs {
+  width: 100%;
   display: flex;
   justify-content: left;
-  position: relative;
+  height: 30px;
 }
 
 .menu-title {
-  width: 100%;
+  min-width: 100px;
   height: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
   color: #343e5c;
-  margin: 0 50px 0 10px;
+  margin: 0 10px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .tabs {
-  position: absolute;
-  top: 3px;
-  left: 150px;
-  display: flex;
   width: 100%;
-  display: flex;
-  justify-content: left;
-  z-index: 100;
+  display: grid;
+  grid-gap: 0px;
+  grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+  grid-template-rows: repeat(1, 5px);
+  height: 30px;
 }
 
-.tools {
+.tabs > div {
+  height: 26px;
+  object-fit: cover;
+}
+
+.title {
+  overflow: hidden;
+}
+
+.tools-block {
   display: flex;
   justify-content: right;
   align-items: center;
-  padding: 0 10px;
+  padding: 0;
+  height: 30px;
 }
 
 .diets-container {
@@ -606,14 +615,6 @@ $margin: 20px 0;
       background-color: #ecf5ff;
     }
   }
-
-  // tr:active > td.icon-delete-table {
-  //   visibility: visible;
-  // }
-
-  // tr:hover > td {
-  //   background: #00b5a4;
-  // }
 }
 
 h4 {
@@ -625,85 +626,82 @@ h4 {
   color: #a3a5b9;
 }
 
-ul {
-  display: flex;
-  align-items: center;
-  height: auto;
-  padding: 0;
-  margin: 0;
+.line {
+  position: absolute;
+  top: 4px;
+  right: 0px;
+  height: 16px;
+  width: 1px;
+  border-right: 1px solid #7c8295;
+  margin-left: 10px;
 }
 
-ul li.active-tabs-item {
+.active-tabs-item {
+  position: relative;
   display: flex;
+  justify-content: left;
   align-items: center;
-  padding: 0;
-  margin: 0 0 0 0;
+  padding: 0 10px;
+  margin-top: 3px;
+  margin-left: -1px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border: 1px solid #d8d9db;
+  border: 1px solid #7c8295;
   border-bottom: 1px solid #f9fafb;
-  padding-right: 2px;
   cursor: pointer;
   z-index: 101;
-
-  display: flex;
-  justify-content: center;
-  height: 26px;
-  width: 120px;
-  margin-left: 0px;
+  width: auto;
+  white-space: nowrap;
   text-transform: uppercase;
   background: #f9fafb;
+  font-size: 12px;
 }
 
-ul li.active-tabs-item:hover {
-  border: 1px solid #d8d9db;
-  border-bottom: 1px solid #f9fafb;
-}
-
-ul li.tabs-item {
+.tabs-item {
+  position: relative;
   display: flex;
+  justify-content: left;
   align-items: center;
-  padding: 0;
-  border: 1px solid #ffffff;
-  border-bottom: 1px solid #d8d9db;
+  padding: 0 10px;
+  margin-top: 4px;
   cursor: pointer;
+  width: auto;
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-size: 12px;
+  transition: 0.3s;
+}
 
-  display: flex;
-  justify-content: center;
+.tabs-item:hover {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #7c8295;
+  border-bottom: 1px solid #7c8295;
+  background: #f9fafb;
+  margin-top: 3px;
+  margin-left: -1px;
+}
+
+.tabs-item:hover > .line {
+  display: none;
+}
+
+.tabs-button {
+  display: inline-block;
+  padding: 0;
+  cursor: pointer;
   height: 26px;
-  width: 120px;
+  margin-top: 4px;
   text-transform: uppercase;
   transition: 0.3s;
 }
 
-ul li.tabs-item:hover {
+.tabs-button:hover {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border: 1px solid #d8d9db;
-  border-bottom: 1px solid #d8d9db;
   background: #f9fafb;
-}
-
-ul li.tabs-button {
-  padding: 0;
-  border: 1px solid #ffffff;
-  border-bottom: 1px solid #d8d9db;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  height: 26px;
-  width: 40px;
-  text-transform: uppercase;
-  transition: 0.3s;
-}
-
-ul li.tabs-button:hover {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border: 1px solid #d8d9db;
-  border-bottom: 1px solid #d8d9db;
-  background: #f9fafb;
+  margin-top: 4px;
+  z-index: 101;
 }
 
 .button-block {
@@ -824,7 +822,6 @@ ul li.tabs-button:hover {
 }
 
 .icon-delete-table {
-  // visibility: hidden;
   width: 16px;
   height: 16px;
   fill: #a1a7bd;

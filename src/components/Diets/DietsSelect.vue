@@ -2,27 +2,39 @@
   <PageWrapper v-if="mounted" title="Питание и диеты">
     <FiltersWrapper>
       <template #header-left-top>
-        <div class="route-block">
-          <button v-if="selectedGroup" class="diet-router" @click="toMenu">Питание и диеты/</button>
-          <button v-if="selectedGroup" class="diet-router-mobile" @click="toMenu">Питание и диеты</button>
-          <div v-for="item in DietRouter" :key="item.id">
-            <button v-if="item.goBack == 'toDiet'" class="diet-router" @click="toDiet">{{ item.name }}/</button>
-            <button v-if="item.goBack == 'toAge'" class="diet-router" @click="toAge">{{ item.name }}/</button>
-
-            <button v-if="item.goBack == 'toDiet'" class="diet-router-mobile" @click="toDiet">{{ item.name }}</button>
-            <button v-if="item.goBack == 'toAge'" class="diet-router-mobile" @click="toAge">{{ item.name }}</button>
-
-            <button v-if="item.goBack == 'noLink'" class="diet-router-no-link" @click="toAge">{{ item.name }}</button>
-          </div>
-        </div>
-        <div class="field-2">
-          <template v-if="!selectedGroup">
-            <div v-for="dietGroup in dietsGroups" :key="dietGroup.id" class="field-item-3">
-              <button class="choice-item" @click="selectGroup(dietGroup)">
-                {{ dietGroup.name }}
-              </button>
+        <div class="main-field">
+          <div class="route-block">
+            <div v-if="selectedGroup" class="button-block">
+              <button class="diet-router" @click="toMenu">Питание и диеты</button>
+              <svg class="icon-arrow-right">
+                <use xlink:href="#arrow-right"></use>
+              </svg>
             </div>
-          </template>
+            <div v-for="item in DietRouter" :key="item.id">
+              <div v-if="item.goBack == 'toDiet'" class="button-block">
+                <button class="diet-router" @click="toDiet">{{ item.name }}</button>
+                <svg class="icon-arrow-right">
+                  <use xlink:href="#arrow-right"></use>
+                </svg>
+              </div>
+              <div v-if="item.goBack == 'toAge'" class="button-block">
+                <button class="diet-router" @click="toAge">{{ item.name }}</button>
+                <svg class="icon-arrow-right">
+                  <use xlink:href="#arrow-right"></use>
+                </svg>
+              </div>
+              <button v-if="item.goBack == 'noLink'" class="diet-router-no-link" @click="toAge">{{ item.name }}</button>
+            </div>
+          </div>
+          <div class="field-2">
+            <template v-if="!selectedGroup">
+              <div v-for="dietGroup in dietsGroups" :key="dietGroup.id" class="field-item-3">
+                <button class="choice-item" @click="selectGroup(dietGroup)">
+                  {{ dietGroup.name }}
+                </button>
+              </div>
+            </template>
+          </div>
         </div>
       </template>
       <template #header-left-bottom>
@@ -56,12 +68,14 @@
       </template>
     </FiltersWrapper>
   </PageWrapper>
+  <ArrowRight />
 </template>
 
 <script lang="ts">
 import { v4 as uuidv4 } from 'uuid';
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import DietPage from '@/components/Diets/DietPage.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
@@ -73,7 +87,7 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DietsSelect',
-  components: { DietPage, PageWrapper, FiltersWrapper },
+  components: { DietPage, PageWrapper, FiltersWrapper, ArrowRight },
 
   setup() {
     const selectedGroup: Ref<IDietGroup | undefined> = ref(undefined);
@@ -220,17 +234,24 @@ button {
 }
 
 .diet-router {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 14px;
   margin: 0;
-  padding: 0;
   cursor: pointer;
-  color: $site_gray;
+  color: $site_dark_gray;
   white-space: nowrap;
-  height: 20px;
+  height: 26px;
+  border: 1px solid $site_gray;
+  border-radius: 20px;
+  padding: 0 10px;
 }
 
 .diet-router:hover {
-  color: $site_dark_gray;
+  color: #ffffff;
+  border-color: #123dce;
+  background: #123dce;
 }
 
 .diet-router-no-link {
@@ -240,10 +261,6 @@ button {
   white-space: nowrap;
   height: 20px;
   font-size: 14px;
-}
-
-.diet-router-mobile {
-  display: none;
 }
 
 .back {
@@ -296,12 +313,13 @@ button {
 }
 
 .field-item {
-  padding-left: 20px;
-  height: 30px;
+  padding: 5px 0 5px 20px;
+  margin: 5px;
+  min-height: 20px;
   display: flex;
   align-items: center;
   justify-content: left;
-  width: 400px;
+  width: 410px;
   font-size: 14px;
   border-radius: $normal-border-radius;
   color: $site_gray;
@@ -320,8 +338,8 @@ button {
 }
 
 .field-item-2 {
-  padding-left: 20px;
-  height: 30px;
+  padding-left: 5px 0 5px 20px;
+  min-height: 20px;
   display: flex;
   align-items: center;
   justify-content: left;
@@ -354,9 +372,31 @@ button {
 }
 
 .route-block {
+  width: 100%;
   display: flex;
   justify-content: left;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.icon-arrow-right {
+  width: 16px;
+  height: 16px;
+  fill: $site_gray;
+  transition: 0.3s;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.button-block {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.main-field {
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {
@@ -369,28 +409,6 @@ button {
     color: $site_gray;
   }
 
-  // .route-block {
-  //   // position: absolute;
-  //   // width: 100%;
-  //   display: flex;
-  //   justify-content: ;
-  //   align-items: top;
-  //   flex-wrap: wrap;
-  //   height: 70px;
-  // }
-  .field-item {
-    padding-left: 20px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    width: 400px;
-    font-size: 14px;
-    border-radius: $normal-border-radius;
-    color: $site_gray;
-    background: #f3911c;
-  }
-
   .field {
     display: flex;
     justify-content: center;
@@ -398,55 +416,59 @@ button {
     width: 100%;
   }
 
-  .diet-router {
-    display: none;
-  }
-
-  .diet-router-mobile {
-    display: flex;
-    font-size: 14px;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-    color: $site_gray;
-    white-space: nowrap;
-    height: 20px;
-  }
-
-  .diet-router-mobile:hover {
-    color: $site_dark_gray;
-  }
-
-  .diet-router-no-link {
-    display: flex;
-    margin: 0;
-    padding: 0;
-    color: $site_dark_gray;
-    white-space: nowrap;
-    height: 20px;
-    font-size: 14px;
-  }
-
   .field-item {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #2754eb;
-    color: #ffffff;
+    background: #ffffff;
+    color: $site_dark_gray;
+    border: 1px solid $site_gray;
+    border-radius: 20px;
+    padding: 5px 10px;
     margin: 5px 5px;
-    padding: 0px;
-    height: 40px;
+    font-size: 14px;
+    min-height: 20px;
   }
 
   .field-item-2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #2754eb;
-    color: #ffffff;
+    background: #ffffff;
+    color: $site_dark_gray;
+    border: 1px solid $site_gray;
+    border-radius: 20px;
+    padding: 5px 10px;
     margin: 5px 5px;
-    padding: 0px;
-    height: 40px;
+    font-size: 14px;
+    min-height: 20px;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .field {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .field-2 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .field-item-3 {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0px;
+  }
+
+  h3 {
+    font-size: 16px;
   }
 }
 
@@ -469,28 +491,50 @@ button {
     margin-right: auto;
     padding-left: 0px;
   }
+
+  .diet-router {
+    font-size: 12px;
+  }
+  .diet-router-no-link {
+    font-size: 12px;
+  }
+
+  .field-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    color: $site_dark_gray;
+    border: 1px solid $site_gray;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin: 5px 5px;
+    font-size: 12px;
+    min-height: 20px;
+  }
+
+  .field-item-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    color: $site_dark_gray;
+    border: 1px solid $site_gray;
+    border-radius: 20px;
+    padding: 5px 10px;
+    margin: 5px 5px;
+    font-size: 12px;
+    min-height: 20px;
+  }
+
+  h3 {
+    font-size: 14px;
+  }
 }
 
-@media screen and (max-width: 560px) {
-  .field {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .field-2 {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .field-item-3 {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0px;
+@media screen and (max-width: 400px) {
+  h3 {
+    font-size: 12px;
   }
 }
 </style>
