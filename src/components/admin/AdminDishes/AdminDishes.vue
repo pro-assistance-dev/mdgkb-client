@@ -500,7 +500,6 @@ $margin: 20px 0;
 }
 
 .menu {
-  // width: 100%;
   border: 1px solid #d8d9db;
   border-radius: 5px;
   background: #f9fafb;
@@ -521,7 +520,6 @@ $margin: 20px 0;
   width: 100%;
   display: flex;
   justify-content: left;
-  // position: relative;
   height: 30px;
 }
 
@@ -557,7 +555,6 @@ $margin: 20px 0;
 }
 
 .tools-block {
-  // min-width: 90px;
   display: flex;
   justify-content: right;
   align-items: center;
@@ -655,16 +652,10 @@ h4 {
   z-index: 101;
   width: auto;
   white-space: nowrap;
-  overflow: hidden;
   text-transform: uppercase;
   background: #f9fafb;
   font-size: 12px;
 }
-
-// .active-tabs-item:hover {
-//   border: 1px solid #7C8295;
-//   border-bottom: 1px solid #f9fafb;
-// }
 
 .tabs-item {
   position: relative;
@@ -676,7 +667,6 @@ h4 {
   cursor: pointer;
   width: auto;
   white-space: nowrap;
-  overflow: hidden;
   text-transform: uppercase;
   font-size: 12px;
   transition: 0.3s;
@@ -699,7 +689,6 @@ h4 {
 .tabs-button {
   display: inline-block;
   padding: 0;
-  // border-bottom: 1px solid #d8d9db;
   cursor: pointer;
   height: 26px;
   margin-top: 4px;
@@ -710,11 +699,8 @@ h4 {
 .tabs-button:hover {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  // border: 1px solid #d8d9db;
-  // border-bottom: 1px solid #d8d9db;
   background: #f9fafb;
   margin-top: 4px;
-  // margin-left: -1px;
   z-index: 101;
 }
 
@@ -836,7 +822,6 @@ h4 {
 }
 
 .icon-delete-table {
-  // visibility: hidden;
   width: 16px;
   height: 16px;
   fill: #a1a7bd;
