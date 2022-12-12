@@ -61,7 +61,9 @@
                   :class="{ 'active-tabs-item': selectedMenu.id === menu.id, 'tabs-item': selectedMenu.id !== menu.id }"
                   @click="selectMenu(menu)"
                 >
-                  <div class="title">{{ menu.name }}</div>
+                  <div class="title">
+                    <input id="tab-name" type="text" name="name" placeholder="Имя вкладки" :value="menu.name" />
+                  </div>
                   <div :class="{ 'active-line': selectedMenu.id === menu.id, line: selectedMenu.id !== menu.id }"></div>
                 </div>
                 <div class="tabs-button" @click="addMenu">
@@ -833,5 +835,16 @@ h4 {
 
 .icon-delete-table:hover {
   fill: #379fff;
+}
+
+input[type='text'] {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-transform: uppercase;
 }
 </style>
