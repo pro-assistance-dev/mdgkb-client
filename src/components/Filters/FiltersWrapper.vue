@@ -60,7 +60,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .filters-container {
-  width: 100vw;
+  width: 100%;
   &-header {
     padding: 20px;
     margin: 10px 0;
@@ -69,6 +69,7 @@ export default defineComponent({
     border-bottom: 2px solid #e4e6f2;
 
     .container {
+      width: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
