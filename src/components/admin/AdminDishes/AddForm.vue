@@ -31,7 +31,6 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
-import DishSample from '@/classes/DishSample';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
@@ -61,16 +60,11 @@ export default defineComponent({
         await Provider.store.dispatch('dishesSamples/create');
       }
       const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSample.value.dishesGroupId);
-      if (dishSample.value.id) {
-        dishesGroup?.updateDishSample(dishSample.value);
-      } else {
-        dishesGroup?.dishSamples.push(new DishSample(dishSample.value));
+      if (dishesGroup) {
+        dishesGroup.upsertSample(dishSample.value);
       }
-
       Provider.store.commit('dishesSamples/resetItem');
-
       emit('close');
-      // dishSampleConstructorVisible.value = false;
     };
 
     const saveDishesGroup = async () => {

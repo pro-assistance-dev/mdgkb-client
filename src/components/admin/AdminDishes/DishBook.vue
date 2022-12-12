@@ -10,7 +10,7 @@
             </svg>
           </button>
           <div class="search">
-            <DishSearchBar :is-search-page="true" @search="search" />
+            <DishSearchBar :is-search-page="true" @search="searchDishSamples" />
           </div>
         </div>
         <div class="tools-buttons">
@@ -21,35 +21,49 @@
           </button>
         </div>
       </div>
-      <div class="column">
-        <div>
-          <CollapsContainer v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" :tab-id="dishesGroup.id" :collapsed="true">
-            <template #inside-title>
-              <div class="title-in">
-                {{ dishesGroup.name }}
-              </div>
-            </template>
-            <template #inside-content>
-              <div class="scroll-container">
-                <div
-                  v-for="dishSample in dishesGroup.getSamplesNotFromMenu(menu)"
-                  :key="dishSample.id"
-                  class="group"
-                  :class="{ checked: dishSample.selected }"
-                  @click="selectSample(dishSample)"
-                >
-                  <div class="group-item">
-                    <label :for="999">
-                      <div class="dish-item">
-                        <div class="left-field">{{ dishSample.name }}</div>
-                        <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
-                      </div>
-                    </label>
-                  </div>
+      <div v-if="dishSamplesFlat.length === 0" class="column">
+        <CollapsContainer v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" :tab-id="dishesGroup.id">
+          <template #inside-title>
+            <div class="title-in">{{ dishesGroup.name }}</div>
+          </template>
+          <template #inside-content>
+            <div class="scroll-container">
+              <div
+                v-for="dishSample in dishesGroup.getSamplesNotFromMenu(menu)"
+                :key="dishSample.id"
+                class="group"
+                :class="{ checked: dishSample.selected }"
+                @click="selectSample(dishSample)"
+              >
+                <div class="group-item">
+                  <label :for="999">
+                    <div class="dish-item">
+                      <div class="left-field">{{ dishSample.name }}</div>
+                      <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
+                    </div>
+                  </label>
                 </div>
               </div>
-            </template>
-          </CollapsContainer>
+            </div>
+          </template>
+        </CollapsContainer>
+      </div>
+      <div v-else>
+        <div
+          v-for="dishSample in dishSamplesFlat"
+          :key="dishSample.id"
+          class="group"
+          :class="{ checked: dishSample.selected }"
+          @click="selectSample(dishSample)"
+        >
+          <div class="group-item">
+            <label :for="999">
+              <div class="dish-item">
+                <div class="left-field">{{ dishSample.name }}</div>
+                <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
+              </div>
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -74,6 +88,7 @@ import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
+import translit from '@/services/Translit';
 
 export default defineComponent({
   name: 'DishBook',
@@ -98,6 +113,24 @@ export default defineComponent({
   setup(props) {
     const dishesGroupsSource: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0));
+    const dishSamplesFlat: Ref<IDishSample[]> = ref([]);
+
+    const searchDishSamples = (searchSource: string) => {
+      if (searchSource === '') {
+        dishSamplesFlat.value = [];
+        return;
+      }
+      dishSamplesFlat.value = [];
+      dishesGroups.value.forEach((ds: IDishesGroup) => {
+        dishSamplesFlat.value.push(
+          ...ds.dishSamples.filter((ds: IDishSample) => {
+            const n = ds.name.toLowerCase();
+            console.log(n);
+            return n.includes(searchSource.toLowerCase()) || n.includes(translit(searchSource.toLowerCase()));
+          })
+        );
+      });
+    };
 
     const addToMenu = () => {
       const dishesSamples: IDishSample[] = [];
@@ -122,6 +155,8 @@ export default defineComponent({
     };
 
     return {
+      dishSamplesFlat,
+      searchDishSamples,
       dishesSelected,
       selectSample,
       addToMenu,

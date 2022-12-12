@@ -12,16 +12,22 @@
       </div>
       <div class="column">
         <div v-for="dishesGroupItem in dishesGroups" :key="dishesGroupItem.id">
-          <CollapsContainer :tab-id="dishesGroupItem.id" :collapsed="true">
+          <CollapsContainer :tab-id="dishesGroupItem.id" :is-collaps="dishesGroupItem.samplesExists()">
             <template #inside-title>
               <div class="title-in">
-                {{ dishesGroupItem.name }}
+                <el-badge
+                  :value="dishesGroupItem.dishSamples.length"
+                  :type="dishesGroupItem.dishSamples.length > 0 ? 'primary' : ''"
+                  class="badge"
+                >
+                  {{ dishesGroupItem.name }}
+                </el-badge>
                 <button class="tools-button-e">
                   <svg class="icon-edit">
                     <use xlink:href="#profile-edit"></use>
                   </svg>
                 </button>
-                <button class="tools-button-d" @click="removeDishesGroup(dishesGroupItem.id)">
+                <button class="tools-button-d" @click.stop="removeDishesGroup(dishesGroupItem.id)">
                   <svg class="icon-delete">
                     <use xlink:href="#delete"></use>
                   </svg>
@@ -188,6 +194,10 @@ export default defineComponent({
 @import '@/assets/styles/elements/base-style.scss';
 
 $margin: 20px 0;
+
+:deep(.badge > .el-badge__content.is-fixed) {
+  right: 2px;
+}
 
 .flex-column {
   width: 100%;

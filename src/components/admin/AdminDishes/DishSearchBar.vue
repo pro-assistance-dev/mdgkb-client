@@ -1,26 +1,21 @@
 <template>
   <div class="search-container">
-    <form class="search-form" @submit.prevent="submitSearch">
-      <el-autocomplete
+    <form class="search-form">
+      <el-input
         ref="searchInput"
-        v-model="searchModel.query"
+        v-model="searchText"
         placeholder="Введите свой запрос"
         style="width: 100%; margin-right: 10px"
         popper-class="wide-dropdown"
-        :fetch-suggestions="suggestSearch"
-        @select="submitSearch"
+        @input="search"
       />
-      <button type="submit" @click="search"><i class="el-icon-search"></i></button>
+      <button type="submit"><i class="el-icon-search"></i></button>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
-import ISearchModel from '@/interfaces/ISearchModel';
+import { defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
   name: 'DishSearchBar',
@@ -32,57 +27,15 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const store = useStore();
-    const router = useRouter();
-    const route = useRoute();
-    const searchInputText = ref<string>('');
-    const searchInput = ref<HTMLInputElement | null>(null);
-    const searchModel: Ref<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
-
-    onBeforeMount((): void => {
-      if (!route.query.q || !route.query.q.length) {
-        searchModel.value.query = '';
-        return;
-      }
-      searchModel.value.query = route.query.q as string;
-    });
-
-    const showDrawer = () => {
-      store.commit('search/toggleDrawer', true);
-      // searchModel.value.query.blur();
-    };
-
-    const suggestSearch = async (queryString: string, cb: (arg: any) => void) => {
-      await router.push(`/dev`);
-      return;
-      // searchModel.value.suggester = true;
-      // searchModel.value.query = queryString;
-      // searchModel.value.options = [];
-      // searchModel.value.searchGroup.options = [];
-      // await store.dispatch('search/searchV1', searchModel.value);
-      // const options = searchModel.value.options.map((opt: IOption) => {
-      //   return { label: opt.value, value: opt.label };
-      // });
-      // cb(options);
-    };
-
-    const submitSearch = async () => {
-      await router.push(`/search?q=${searchModel.value.query}`);
-      emit('search');
-    };
+    const searchText = ref<string>('');
 
     const search = async () => {
-      emit('search');
+      emit('search', searchText.value);
     };
 
     return {
-      suggestSearch,
+      searchText,
       search,
-      searchModel,
-      searchInput,
-      searchInputText,
-      showDrawer,
-      submitSearch,
     };
   },
 });

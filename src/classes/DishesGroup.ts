@@ -49,4 +49,17 @@ export default class DishesGroup implements IDishesGroup {
       return !menu.dailyMenuItems.find((dmi: IDailyMenuItem) => dmi.dishSampleId === ds.id);
     });
   }
+
+  samplesExists(): boolean {
+    return this.dishSamples.length > 0;
+  }
+
+  upsertSample(dishSample: IDishSample): void {
+    const existingSampleIndex = this.dishSamples.findIndex((d: IDishSample) => d.id === dishSample.id);
+    if (existingSampleIndex > -1) {
+      this.dishSamples[existingSampleIndex] = new DishSample(dishSample);
+    } else {
+      this.dishSamples.push(new DishSample(dishSample));
+    }
+  }
 }
