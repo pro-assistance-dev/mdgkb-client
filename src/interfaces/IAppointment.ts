@@ -1,3 +1,4 @@
+import IAppointmentType from '@/interfaces/IAppointmentType';
 import IDoctor from '@/interfaces/IDoctor';
 import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -12,4 +13,7 @@ export default interface IAppointment {
   doctor?: IDoctor;
   formValue: IForm;
   formValueId?: string;
+
+  appointmentType?: IAppointmentType;
+  appointmentTypeId?: string;
 }

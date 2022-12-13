@@ -1,7 +1,9 @@
+import AppointmentType from '@/classes/AppointmentType';
 import Doctor from '@/classes/Doctor';
 import Form from '@/classes/Form';
 import Specialization from '@/classes/Specialization';
 import IAppointment from '@/interfaces/IAppointment';
+import IAppointmentType from '@/interfaces/IAppointmentType';
 import IDoctor from '@/interfaces/IDoctor';
 import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -16,6 +18,9 @@ export default class Appointment implements IAppointment {
   doctor?: IDoctor;
   formValue: IForm = new Form();
   formValueId?: string;
+
+  appointmentType?: IAppointmentType;
+  appointmentTypeId?: string;
   constructor(i?: IAppointment) {
     if (!i) {
       return;
@@ -36,5 +41,10 @@ export default class Appointment implements IAppointment {
       this.formValue = new Form(i.formValue);
     }
     this.formValueId = i.formValueId;
+
+    if (i.appointmentType) {
+      this.appointmentType = new AppointmentType(i.appointmentType);
+    }
+    this.appointmentTypeId = i.appointmentTypeId;
   }
 }

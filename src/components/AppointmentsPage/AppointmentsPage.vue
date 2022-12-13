@@ -2,8 +2,7 @@
   <div v-if="mounted">
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
-        <!--        <ModeButtons :second-mode-active="omsMode" :store-mode="false" first-mode="ОМС" second-mode="ДМС" @changeMode="changeMode" />-->
-        <div v-for="appointmentType in appointmentsTypes" :key="appointmentType.id">
+        <div v-for="appointmentType in appointmentsTypes" :key="appointmentType.id" @click="selectType(appointmentType)">
           {{ appointmentType.name }}
         </div>
       </el-col>
@@ -14,7 +13,13 @@
         <div class="card-item">
           <div class="flex-row">
             <div class="form">
-              <!--              <AppointmentForm @createChildMode="changeCreateChildMode" />-->
+              <UserForm
+                :form="appointment.formValue"
+                :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"
+              />
+              <FieldValuesForm :form="hospitalization.formValue" />
+
+              <!--                            <AppointmentForm @createChildMode="changeCreateChildMode" />-->
             </div>
             <hr class="gray-border" />
             <div class="calendar-zone">
@@ -40,8 +45,12 @@
 import { ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import AppointmentType from '@/classes/AppointmentType';
+import Form from '@/classes/Form';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
+import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import UserForm from '@/components/FormConstructor/UserForm.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IAppointment from '@/interfaces/IAppointment';
@@ -58,13 +67,16 @@ export default defineComponent({
     AppointmentsSlots,
     AppointmentsCalendar,
     // ModeButtons,
+    UserForm,
+    FieldValuesForm,
   },
 
   setup() {
     const chosenDay: Ref<string | undefined> = ref();
-    const omsMode: Ref<boolean> = ref(Provider.route().path === '/appointments/oms');
+    const userForm = ref();
     const appointment: ComputedRef<IAppointment> = computed(() => Provider.store.getters['appointments/item']);
     const appointmentsTypes: ComputedRef<IAppointmentType[]> = computed(() => Provider.store.getters['appointmentsTypes/items']);
+    const appointmentsType: Ref<IAppointmentType> = computed(() => Provider.store.getters['appointmentsTypes/item']);
     const createChildMode: Ref<boolean> = ref(false);
 
     const load = async () => {
@@ -72,16 +84,6 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load);
-
-    const changeMode = async (omsModeActive: boolean) => {
-      omsMode.value = omsModeActive;
-      // appointment.value.oms = omsMode.value;
-      if (omsModeActive) {
-        await Provider.router.replace('/appointments/oms');
-      } else {
-        await Provider.router.replace('/appointments/dms');
-      }
-    };
 
     const sendApplication = async () => {
       await Provider.store.dispatch('appointments/create', appointment.value);
@@ -120,7 +122,16 @@ export default defineComponent({
       });
     };
 
+    const selectType = async (appointmentType: IAppointmentType) => {
+      appointmentsType.value = appointmentType;
+      appointment.value.appointmentType = new AppointmentType(appointmentType);
+      appointment.value.appointmentTypeId = appointmentType.id;
+      appointment.value.formValue = new Form(appointmentType.formPattern);
+      appointment.value.formValue.initFieldsValues();
+    };
+
     return {
+      selectType,
       createChild,
       createChildMode,
       changeCreateChildMode,
@@ -129,8 +140,6 @@ export default defineComponent({
       chosenDay,
       appointment,
       sendApplication,
-      omsMode,
-      changeMode,
       Operators,
       DataTypes,
       submit,
