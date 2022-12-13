@@ -61,7 +61,9 @@
                   :class="{ 'active-tabs-item': selectedMenu.id === menu.id, 'tabs-item': selectedMenu.id !== menu.id }"
                   @click="selectMenu(menu)"
                 >
-                  <div class="title">{{ menu.name }}</div>
+                  <div class="title">
+                    <input id="tab-name" type="text" name="name" placeholder="Имя вкладки" :value="menu.name" />
+                  </div>
                   <div :class="{ 'active-line': selectedMenu.id === menu.id, line: selectedMenu.id !== menu.id }"></div>
                 </div>
                 <div class="tabs-button" @click="addMenu">
@@ -90,11 +92,11 @@
             <div class="table-container">
               <table class="table-list">
                 <colgroup>
-                  <col width="3%" />
-                  <col width="75%" />
-                  <col width="6%" />
-                  <col width="6%" />
-                  <col width="10%" />
+                  <col width="60px" />
+                  <col width="auto" />
+                  <col width="70px" />
+                  <col width="70px" />
+                  <col width="90px" />
                 </colgroup>
                 <thead>
                   <tr>
@@ -102,33 +104,67 @@
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">Блюдо</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорийность</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорииы</td>
                   </tr>
                 </thead>
                 <tbody>
                   <template v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
                     <td colspan="5" style="background: #f1f2f7">
                       <div class="schedule-name">
-                        <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
+                        <div class="table-tools">
+                          <svg
+                            :style="{ fill: selected ? '' : '#a1a7bd' }"
+                            class="icon-delete-table"
+                            @click="removeFromMenu(dishesGroup, dish)"
+                          >
+                            <use xlink:href="#delete"></use>
+                          </svg>
+                          <!-- Иконка, если видимый -->
+                          <svg v-if="selected" class="icon-eye" @click="selectDish">
+                            <use xlink:href="#eye"></use>
+                          </svg>
+                          <!-- Иконка, если невидимый -->
+                          <svg v-if="!selected" class="icon-closed" @click="selectDish">
+                            <use xlink:href="#eye-closed"></use>
+                          </svg>
+                        </div>
+                        <h4
+                          :class="{ visible: selected, hidden: !selected }"
+                          style="font-size: 15px; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'"
+                        >
                           {{ dishesGroup.name }}
                         </h4>
                       </div>
                     </td>
                     <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
-                      <td style="font-size: 12px" @click="removeFromMenu(dishesGroup, dish)">
-                        <svg class="icon-delete-table">
-                          <use xlink:href="#delete"></use>
-                        </svg>
+                      <td style="font-size: 12px">
+                        <div class="table-tools">
+                          <svg
+                            :style="{ fill: selected ? '' : '#a1a7bd' }"
+                            class="icon-delete-table"
+                            @click="removeFromMenu(dishesGroup, dish)"
+                          >
+                            <use xlink:href="#delete"></use>
+                          </svg>
+                          <!-- Иконка, если видимый -->
+                          <svg v-if="selected" class="icon-eye" @click="selectDish">
+                            <use xlink:href="#eye"></use>
+                          </svg>
+                          <!-- Иконка, если невидимый -->
+                          <svg v-if="!selected" class="icon-closed" @click="selectDish">
+                            <use xlink:href="#eye-closed"></use>
+                          </svg>
+                        </div>
                       </td>
-                      <td style="font-size: 12px">{{ dish.name }}</td>
+                      <td :class="{ visible: selected, hidden: !selected }" style="font-size: 12px">{{ dish.name }}</td>
                       <td style="text-align: center">
-                        <h4 style="font-size: 13px; color: #343d5c">{{ dish.weight }}</h4>
+                        <h4 :class="{ visible: selected, hidden: !selected }" style="font-size: 13px">{{ dish.weight }}</h4>
                       </td>
                       <td style="text-align: center; font-weight: bold">
-                        <h4 style="font-size: 15px; color: #343d5c; font-weight: bold">{{ dish.price }}.00р.</h4>
+                        <h4 :class="{ visible: selected, hidden: !selected }" style="font-weight: bold">{{ dish.price }}.00р.</h4>
                       </td>
                       <td style="text-align: center">
-                        <h4 style="font-size: 13px; color: #2754eb">{{ dish.caloric }}ккал</h4>
+                        <h4 :class="{ visible2: selected, hidden: !selected }" style="font-size: 13px">{{ dish.caloric }}ккал</h4>
                       </td>
                     </tr>
                   </template>
@@ -155,6 +191,8 @@
   <Add />
   <Delete />
   <Print />
+  <Eye />
+  <EyeClosed />
 </template>
 
 <script lang="ts">
@@ -164,6 +202,8 @@ import Add from '@/assets/svg/Buffet/Add.svg';
 import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
+import Eye from '@/assets/svg/Buffet/Eye.svg';
+import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
 import Calendar from '@/classes/Calendar';
 import DailyMenu from '@/classes/DailyMenu';
@@ -198,6 +238,8 @@ export default defineComponent({
     Print,
     VerticalCollapsContainer,
     DishBook,
+    Eye,
+    EyeClosed,
   },
   setup() {
     const form = ref();
@@ -209,6 +251,7 @@ export default defineComponent({
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
+    const selected: Ref<boolean> = ref(false);
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await Provider.store.dispatch('search/searchGroups');
@@ -308,6 +351,11 @@ export default defineComponent({
       dailyMenus.value.splice(indexForDelete, 1);
     };
 
+    const selectDish = async () => {
+      selected.value = !selected.value;
+      console.log(selected.value);
+    };
+
     return {
       removeSelectedMenu,
       removeFromMenu,
@@ -328,6 +376,8 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       removeFromClass,
+      selectDish,
+      selected,
     };
   },
 });
@@ -824,14 +874,79 @@ h4 {
 .icon-delete-table {
   width: 16px;
   height: 16px;
-  fill: #a1a7bd;
+  fill: #343e5c;
   cursor: pointer;
   transition: 0.3s;
-  margin-left: 10px;
   margin-top: 1px;
 }
 
 .icon-delete-table:hover {
   fill: #379fff;
+}
+
+.icon-eye {
+  width: 16px;
+  height: 16px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 1px;
+  margin-left: 10px;
+}
+
+.icon-eye:hover {
+  fill: #379fff;
+}
+
+.icon-closed {
+  width: 16px;
+  height: 16px;
+  fill: #a1a7bd;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 1px;
+  margin-left: 10px;
+}
+
+.icon-closed:hover {
+  fill: #379fff;
+}
+
+input[type='text'] {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-transform: uppercase;
+}
+
+.table-tools {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.visible {
+  color: #343e5c;
+  font-size: 13px;
+}
+
+.visible2 {
+  color: #2754eb;
+  font-size: 13px;
+}
+
+.hidden {
+  color: #a1a7bd;
+  font-size: 13px;
+}
+
+.schedule-name {
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 </style>
