@@ -9,7 +9,7 @@ export default interface IDailyMenuItem {
   caloric: number;
   dailyMenuId?: string;
   dailyMenu: IDailyMenu;
-
+  available: boolean;
   dishSampleId?: string;
   dishSample: IDishSample;
 }

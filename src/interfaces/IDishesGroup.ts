@@ -15,4 +15,6 @@ export default interface IDishesGroup {
   getSamplesNotFromMenu: (menu: IDailyMenu) => IDishSample[];
   samplesExists: () => boolean;
   upsertSample: (dishSample: IDishSample) => void;
+  containAvailableItems: () => boolean;
+  setAvailable: (available: boolean) => void;
 }

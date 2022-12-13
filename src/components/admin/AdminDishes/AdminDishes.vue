@@ -113,23 +113,21 @@
                       <div class="schedule-name">
                         <div class="table-tools">
                           <svg
-                            :style="{ fill: selected ? '' : '#a1a7bd' }"
+                            :style="{ fill: dishesGroup.containAvailableItems() ? '' : '#a1a7bd' }"
                             class="icon-delete-table"
                             @click="removeFromMenu(dishesGroup, dish)"
                           >
                             <use xlink:href="#delete"></use>
                           </svg>
-                          <!-- Иконка, если видимый -->
-                          <svg v-if="selected" class="icon-eye" @click="selectDish">
+                          <svg v-if="dishesGroup.containAvailableItems()" class="icon-eye" @click="dishesGroup.setAvailable(false)">
                             <use xlink:href="#eye"></use>
                           </svg>
-                          <!-- Иконка, если невидимый -->
-                          <svg v-if="!selected" class="icon-closed" @click="selectDish">
+                          <svg v-if="!dishesGroup.containAvailableItems()" class="icon-closed" @click="dishesGroup.setAvailable(true)">
                             <use xlink:href="#eye-closed"></use>
                           </svg>
                         </div>
                         <h4
-                          :class="{ visible: selected, hidden: !selected }"
+                          :class="{ visible: dishesGroup.containAvailableItems(), hidden: !dishesGroup.containAvailableItems() }"
                           style="font-size: 15px; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'"
                         >
                           {{ dishesGroup.name }}
@@ -146,25 +144,27 @@
                           >
                             <use xlink:href="#delete"></use>
                           </svg>
-                          <!-- Иконка, если видимый -->
-                          <svg v-if="selected" class="icon-eye" @click="selectDish">
+                          <svg v-if="dish.available" class="icon-eye" @click="dish.available = !dish.available">
                             <use xlink:href="#eye"></use>
                           </svg>
-                          <!-- Иконка, если невидимый -->
-                          <svg v-if="!selected" class="icon-closed" @click="selectDish">
+                          <svg v-if="!dish.available" class="icon-closed" @click="dish.available = !dish.available">
                             <use xlink:href="#eye-closed"></use>
                           </svg>
                         </div>
                       </td>
-                      <td :class="{ visible: selected, hidden: !selected }" style="font-size: 12px">{{ dish.name }}</td>
+                      <td :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 12px">{{ dish.name }}</td>
                       <td style="text-align: center">
-                        <h4 :class="{ visible: selected, hidden: !selected }" style="font-size: 13px">{{ dish.weight }}</h4>
+                        <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 13px">{{ dish.weight }}</h4>
                       </td>
                       <td style="text-align: center; font-weight: bold">
-                        <h4 :class="{ visible: selected, hidden: !selected }" style="font-weight: bold">{{ dish.price }}.00р.</h4>
+                        <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-weight: bold">
+                          {{ dish.price }}.00р.
+                        </h4>
                       </td>
                       <td style="text-align: center">
-                        <h4 :class="{ visible2: selected, hidden: !selected }" style="font-size: 13px">{{ dish.caloric }}ккал</h4>
+                        <h4 :class="{ visible2: dish.available, hidden: !dish.available }" style="font-size: 13px">
+                          {{ dish.caloric }}ккал
+                        </h4>
                       </td>
                     </tr>
                   </template>
@@ -251,7 +251,7 @@ export default defineComponent({
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
-    const selected: Ref<boolean> = ref(false);
+
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await Provider.store.dispatch('search/searchGroups');
@@ -351,11 +351,6 @@ export default defineComponent({
       dailyMenus.value.splice(indexForDelete, 1);
     };
 
-    const selectDish = async () => {
-      selected.value = !selected.value;
-      console.log(selected.value);
-    };
-
     return {
       removeSelectedMenu,
       removeFromMenu,
@@ -376,8 +371,6 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       removeFromClass,
-      selectDish,
-      selected,
     };
   },
 });

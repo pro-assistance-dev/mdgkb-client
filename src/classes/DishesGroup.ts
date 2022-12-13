@@ -62,4 +62,13 @@ export default class DishesGroup implements IDishesGroup {
       this.dishSamples.push(new DishSample(dishSample));
     }
   }
+
+  containAvailableItems(): boolean {
+    return this.dailyMenuItems.some((d: IDailyMenuItem) => d.available);
+  }
+  setAvailable(available: boolean): void {
+    console.log(this.dailyMenuItems);
+    this.dailyMenuItems.forEach((d: IDailyMenuItem) => (d.available = available));
+    console.log(this.dailyMenuItems);
+  }
 }
