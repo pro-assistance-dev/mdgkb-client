@@ -1,13 +1,13 @@
 <template>
   <div class="tab">
-    <input :id="tabId" type="checkbox" name="tabs" />
-    <svg v-if="isCollaps && collapsed" class="icon-arrow">
+    <!--    <input :id="tabId" type="checkbox" name="tabs" />-->
+    <svg v-if="isCollaps && collapsed" class="icon-arrow" @click="collapsed = !collapsed">
       <use xlink:href="#arrow-down"></use>
     </svg>
-    <svg v-else-if="isCollaps && !collapsed" class="icon-arrow">
+    <svg v-else-if="isCollaps && !collapsed" class="icon-arrow" @click="collapsed = !collapsed">
       <use xlink:href="#arrow-up"></use>
     </svg>
-    <label :for="tabId">
+    <label :for="tabId" @click="collapsed = !collapsed">
       <div :style="{ cursor: isCollaps ? 'pointer' : 'default' }" class="tab-name">
         <slot name="inside-title" />
       </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import Arrows from '@/assets/svg/CollapsContainer/Arrows.svg';
 
@@ -34,7 +34,14 @@ export default defineComponent({
   props: {
     tabId: { type: String as PropType<string>, required: true },
     isCollaps: { type: Boolean as PropType<boolean>, default: true },
-    collapsed: { type: Boolean as PropType<boolean>, default: true },
+  },
+
+  setup() {
+    const collapsed: Ref<boolean> = ref(true);
+
+    return {
+      collapsed,
+    };
   },
 });
 </script>
@@ -75,7 +82,6 @@ export default defineComponent({
   -o-transition: max-height 0.5s;
   transition: max-height 0.5s;
   color: #343e5c;
-  //padding-right: 5px;
   padding: 0 5px;
 }
 
@@ -96,6 +102,8 @@ export default defineComponent({
 
 .tab input:checked ~ .tab-content-down {
   max-height: 100vh;
+  // overflow: hidden;
+  // overflow-y: scroll;
 }
 
 .tab input:checked ~ .tab-content-up {

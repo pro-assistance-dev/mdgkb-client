@@ -14,7 +14,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
   caloric = 0;
   dailyMenuId?: string;
   dailyMenu: IDailyMenu = new DailyMenu();
-
+  available = false;
   dishSampleId?: string;
   dishSample: IDishSample = new DishSample();
 
@@ -28,6 +28,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
     this.caloric = i.caloric;
     this.weight = i.weight;
     this.dailyMenuId = i.dailyMenuId;
+    this.available = i.available;
     if (i.dailyMenu) {
       this.dailyMenu = new DailyMenu(i.dailyMenu);
     }

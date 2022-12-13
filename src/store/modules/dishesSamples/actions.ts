@@ -17,20 +17,19 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDishSample>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ state }, item: IDishSample): Promise<void> => {
+  create: async ({ commit, state }): Promise<void> => {
     const res = await httpClient.post<IDishSample, IDishSample>({
-      payload: item,
+      payload: state.item,
       isFormData: true,
     });
     if (!res) {
       return;
     }
-    item.id = res.id;
-    state.items.unshift(item);
-    state.item = new DishSample();
+    state.item.id = res.id;
+    state.items.unshift(new DishSample(state.item));
   },
-  update: async (_, item: IDishSample): Promise<void> => {
-    await httpClient.put<IDishSample, IDishSample>({ query: `${item.id}`, payload: item, isFormData: true });
+  update: async ({ state }): Promise<void> => {
+    await httpClient.put<IDishSample, IDishSample>({ query: `${state.item.id}`, payload: state.item, isFormData: true });
   },
   remove: async ({ state }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

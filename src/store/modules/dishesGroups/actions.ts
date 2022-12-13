@@ -26,8 +26,7 @@ const actions: ActionTree<State, RootState> = {
       return;
     }
     item.id = res.id;
-    state.items.unshift(item);
-    state.item = new DishesGroup();
+    state.items.unshift(new DishesGroup(res));
   },
   update: async (_, item: IDishesGroup): Promise<void> => {
     await httpClient.put<IDishesGroup, IDishesGroup>({ query: `${item.id}`, payload: item, isFormData: true });

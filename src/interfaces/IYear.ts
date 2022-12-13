@@ -8,4 +8,9 @@ export default interface IYear {
   getActiveMonth: () => IMonth;
   move: (toForward: boolean) => void;
   getSelectedDay: () => IDay | undefined;
+
+  lastMonthActive: boolean;
+  firstMonthActive: boolean;
+  dropActive: () => void;
+  initActive: (fromStart: boolean) => void;
 }

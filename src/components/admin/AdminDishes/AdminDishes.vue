@@ -41,103 +41,148 @@
       </div>
     </template>
     <template #sort> </template>
-    <div class="menu">
-      <div class="menu-title-tools-tabs">
-        <div class="menu-title-tabs">
-          <div class="menu-title">
-            Меню на {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
-          </div>
-          <div class="tabs">
-            <ul>
-              <li v-for="menu in dailyMenus" :key="menu.id" class="active-tabs-item" @click="selectMenu(menu)">{{ menu.name }}</li>
-              <li class="tabs-button" @click="addMenu">
-                <button class="tools-button">
-                  <svg class="icon-add">
-                    <use xlink:href="#add"></use>
-                  </svg>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="tools">
-          <button class="tools-button">
-            <svg class="icon-delete">
-              <use xlink:href="#delete"></use>
-            </svg>
-          </button>
-          <button class="tools-button">
-            <svg class="icon-print">
-              <use xlink:href="#print"></use>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="diets-container">
-        <div class="table-container">
-          <table class="table-list">
-            <colgroup>
-              <col width="78%" />
-              <col width="6%" />
-              <col width="6%" />
-              <col width="10%" />
-            </colgroup>
-            <thead>
-              <tr>
-                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; padding-left: 44px">Блюдо</td>
-                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
-                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
-                <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорийность</td>
-              </tr>
-            </thead>
-            <tbody>
-              <td colspan="4" style="background: #f1f2f7">
-                <div class="schedule-name">
-                  <h4 style="font-size: 15px; color: #343d5b; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
-                    Первые блюда
-                  </h4>
+    <VerticalCollapsContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
+      <template #inside-title>Книга блюд</template>
+      <template #inside-content-left>
+        <DishBook :menu="selectedMenu" />
+      </template>
+      <template #inside-content-right>
+        <div class="menu">
+          <div class="menu-title-tools-tabs">
+            <div class="menu-title-tabs">
+              <div class="menu-title">
+                Меню на
+                {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
+              </div>
+              <div class="tabs">
+                <div
+                  v-for="menu in dailyMenus"
+                  :key="menu.id"
+                  :class="{ 'active-tabs-item': selectedMenu.id === menu.id, 'tabs-item': selectedMenu.id !== menu.id }"
+                  @click="selectMenu(menu)"
+                >
+                  <div class="title">
+                    <input id="tab-name" type="text" name="name" placeholder="Имя вкладки" :value="menu.name" />
+                  </div>
+                  <div :class="{ 'active-line': selectedMenu.id === menu.id, line: selectedMenu.id !== menu.id }"></div>
                 </div>
-              </td>
-              <tr>
-                <td style="font-size: 12px; padding-left: 44px">Суп овощной</td>
-                <td style="text-align: center">
-                  <h4 style="font-size: 13px; color: #343d5c">вес</h4>
-                </td>
-                <td style="text-align: center; font-weight: bold">
-                  <h4 style="font-size: 15px; color: #343d5c; font-weight: bold">25.00р.</h4>
-                </td>
-                <td style="text-align: center">
-                  <h4 style="font-size: 13px; color: #2754eb">50ккал</h4>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                <div class="tabs-button" @click="addMenu">
+                  <button class="tools-button">
+                    <svg class="icon-add">
+                      <use xlink:href="#add"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="tools-block">
+              <button class="tools-button" @click.stop="removeSelectedMenu">
+                <svg class="icon-delete">
+                  <use xlink:href="#delete"></use>
+                </svg>
+              </button>
+              <button class="tools-button">
+                <svg class="icon-print">
+                  <use xlink:href="#print"></use>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div v-if="selectedMenu" class="diets-container">
+            <div class="table-container">
+              <table class="table-list">
+                <colgroup>
+                  <col width="60px" />
+                  <col width="auto" />
+                  <col width="70px" />
+                  <col width="70px" />
+                  <col width="90px" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd"></td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">Блюдо</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорииы</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
+                    <td colspan="5" style="background: #f1f2f7">
+                      <div class="schedule-name">
+                        <div class="table-tools">
+                          <svg
+                            :style="{ fill: dishesGroup.containAvailableItems() ? '' : '#a1a7bd' }"
+                            class="icon-delete-table"
+                            @click="removeFromMenu(dishesGroup, dish)"
+                          >
+                            <use xlink:href="#delete"></use>
+                          </svg>
+                          <svg v-if="dishesGroup.containAvailableItems()" class="icon-eye" @click="dishesGroup.setAvailable(false)">
+                            <use xlink:href="#eye"></use>
+                          </svg>
+                          <svg v-if="!dishesGroup.containAvailableItems()" class="icon-closed" @click="dishesGroup.setAvailable(true)">
+                            <use xlink:href="#eye-closed"></use>
+                          </svg>
+                        </div>
+                        <h4
+                          :class="{ visible: dishesGroup.containAvailableItems(), hidden: !dishesGroup.containAvailableItems() }"
+                          style="font-size: 15px; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'"
+                        >
+                          {{ dishesGroup.name }}
+                        </h4>
+                      </div>
+                    </td>
+                    <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
+                      <td style="font-size: 12px">
+                        <div class="table-tools">
+                          <svg
+                            :style="{ fill: selected ? '' : '#a1a7bd' }"
+                            class="icon-delete-table"
+                            @click="removeFromMenu(dishesGroup, dish)"
+                          >
+                            <use xlink:href="#delete"></use>
+                          </svg>
+                          <svg v-if="dish.available" class="icon-eye" @click="dish.available = !dish.available">
+                            <use xlink:href="#eye"></use>
+                          </svg>
+                          <svg v-if="!dish.available" class="icon-closed" @click="dish.available = !dish.available">
+                            <use xlink:href="#eye-closed"></use>
+                          </svg>
+                        </div>
+                      </td>
+                      <td :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 12px">{{ dish.name }}</td>
+                      <td style="text-align: center">
+                        <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 13px">{{ dish.weight }}</h4>
+                      </td>
+                      <td style="text-align: center; font-weight: bold">
+                        <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-weight: bold">
+                          {{ dish.price }}.00р.
+                        </h4>
+                      </td>
+                      <td style="text-align: center">
+                        <h4 :class="{ visible2: dish.available, hidden: !dish.available }" style="font-size: 13px">
+                          {{ dish.caloric }}ккал
+                        </h4>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="button-block">
-        <button v-if="!selectedMenu" class="button-add" @click="createMenu">Добавить</button>
-        <button v-if="selectedMenu" class="button-save" @click="submit">Сохранить</button>
-        <button v-if="selectedMenu" class="button-print" @click="pdf">Печать</button>
-      </div>
-    </div>
-    <template v-if="selectedMenu">
-      <div v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-        <div>
-          <b>{{ dishesGroup.name }}</b>
-        </div>
-        <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
-          {{ dailyMenuItem.name }}
-        </div>
-      </div>
-      <button class="button-add" @click="addDishes">Добавить блюда</button>
-    </template>
+      </template>
+    </VerticalCollapsContainer>
 
-    <el-dialog v-model="dishesConstructorVisible" :width="1200" :destroy-on-close="true" center @closed="closeModal">
+    <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
       <DishesSamplesConstructor :menu="selectedMenu" />
     </el-dialog>
-
-    <el-dialog v-model="addDishVisible" :width="1200" :destroy-on-close="true" center @closed="closeModal">
+    <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
+      <template #title>
+        <div class="add-title">Выберите блюда из книги блюд</div>
+      </template>
       <AddDish :menu="selectedMenu" />
     </el-dialog>
   </component>
@@ -146,6 +191,8 @@
   <Add />
   <Delete />
   <Print />
+  <Eye />
+  <EyeClosed />
 </template>
 
 <script lang="ts">
@@ -155,15 +202,20 @@ import Add from '@/assets/svg/Buffet/Add.svg';
 import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
+import Eye from '@/assets/svg/Buffet/Eye.svg';
+import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
 import Calendar from '@/classes/Calendar';
 import DailyMenu from '@/classes/DailyMenu';
 import FilterModel from '@/classes/filters/FilterModel';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
+import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
+import VerticalCollapsContainer from '@/components/Main/CollapsContainer/VerticalCollapsContainer.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ICalendar from '@/interfaces/ICalendar';
 import IDailyMenu from '@/interfaces/IDailyMenu';
+import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDay from '@/interfaces/IDay';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import DoctorRules from '@/rules/DoctorRules';
@@ -184,6 +236,10 @@ export default defineComponent({
     Add,
     Delete,
     Print,
+    VerticalCollapsContainer,
+    DishBook,
+    Eye,
+    EyeClosed,
   },
   setup() {
     const form = ref();
@@ -195,6 +251,7 @@ export default defineComponent({
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
+
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await Provider.store.dispatch('search/searchGroups');
@@ -213,18 +270,17 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const getTodayMenus = async () => {
-      dayFilter.value.date1 = calendar.value.getSelectedDay().date;
+      const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
+      dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
       Provider.setFilterModel(dayFilter.value);
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
     };
 
     const findMenu = () => {
-      selectedMenu.value = dailyMenus.value.find((dm: IDailyMenu) => {
-        return dm.date.getDate() === calendar.value.getSelectedDay().date.getDate();
-      });
-      if (!selectedMenu.value) {
+      if (dailyMenus.value.length < 1) {
         return;
       }
+      selectedMenu.value = dailyMenus.value[0];
       selectedMenu.value?.groupDishes();
     };
 
@@ -233,6 +289,8 @@ export default defineComponent({
       await getTodayMenus();
       if (dailyMenus.value.length === 0) {
         selectedMenu.value = DailyMenu.Create(day.date);
+        const userTimezoneOffset = day.date.getTimezoneOffset() * 60000;
+        selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
         dailyMenus.value.push(selectedMenu.value);
         await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
         return;
@@ -256,9 +314,13 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
     };
 
-    const addMenu = () => {
-      selectedMenu.value = DailyMenu.Create(new Date());
+    const addMenu = async () => {
+      const date = new Date();
+      selectedMenu.value = DailyMenu.Create(date);
+      const userTimezoneOffset = date.getTimezoneOffset() * 60000;
+      selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
       dailyMenus.value.push(selectedMenu.value);
+      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
     };
 
     const selectMenu = (menu: IDailyMenu): void => {
@@ -266,7 +328,32 @@ export default defineComponent({
       selectedMenu.value?.groupDishes();
     };
 
+    const removeFromMenu = async (dishesGroup: IDishesGroup, dishItem: IDailyMenuItem): Promise<void> => {
+      const i = dishesGroup.dailyMenuItems.findIndex((di: IDailyMenuItem) => di.id === dishItem.id);
+      if (i < 0) {
+        return;
+      }
+      removeFromClass(i, dishesGroup.dailyMenuItems, []);
+      if (dishItem.id) {
+        selectedMenu.value?.removeMenuItem(dishItem.id);
+      }
+      selectedMenu.value?.groupDishes();
+      await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
+    };
+
+    const removeSelectedMenu = async () => {
+      const indexForDelete = dailyMenus.value.findIndex((dm: IDailyMenu) => dm.id === selectedMenu.value?.id);
+      if (indexForDelete < 0) {
+        return;
+      }
+      await Provider.store.dispatch('dailyMenus/remove', dailyMenus.value[indexForDelete].id);
+      selectedMenu.value = dailyMenus.value[dailyMenus.value.length - 1];
+      dailyMenus.value.splice(indexForDelete, 1);
+    };
+
     return {
+      removeSelectedMenu,
+      removeFromMenu,
       addMenu,
       selectMenu,
       dailyMenus,
@@ -394,7 +481,6 @@ $margin: 20px 0;
   fill: #343e5c;
   cursor: pointer;
   transition: 0.3s;
-  margin-left: 10px;
   margin-top: 1px;
 }
 
@@ -409,7 +495,6 @@ $margin: 20px 0;
   stroke: #343e5c;
   cursor: pointer;
   transition: 0.3s;
-  margin-left: 10px;
 }
 
 .icon-print:hover {
@@ -458,61 +543,72 @@ $margin: 20px 0;
 }
 
 .menu {
-  width: 100%;
-  // height: 600px;
-  background: #ffffff;
   border: 1px solid #d8d9db;
   border-radius: 5px;
   background: #f9fafb;
 }
 
 .menu-title-tools-tabs {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
-  border-bottom: 1px solid #d8d9db;
+  border-bottom: 1px solid #7c8295;
+  height: 30px;
   background: #ffffff;
 }
 
 .menu-title-tabs {
+  width: 100%;
   display: flex;
   justify-content: left;
-  position: relative;
+  height: 30px;
 }
 
 .menu-title {
-  width: 100%;
+  min-width: 100px;
   height: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
   color: #343e5c;
-  margin: 0 50px 0 10px;
+  margin: 0 10px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .tabs {
-  position: absolute;
-  top: 3px;
-  left: 150px;
-  display: flex;
   width: 100%;
-  display: flex;
-  justify-content: left;
-  z-index: 100;
+  display: grid;
+  grid-gap: 0px;
+  grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+  grid-template-rows: repeat(1, 5px);
+  height: 30px;
 }
 
-.tools {
+.tabs > div {
+  height: 26px;
+  object-fit: cover;
+}
+
+.title {
+  overflow: hidden;
+}
+
+.tools-block {
   display: flex;
   justify-content: right;
   align-items: center;
-  padding: 0 10px;
+  padding: 0;
+  height: 30px;
 }
 
 .diets-container {
   width: calc(100% - 18px);
-  margin: 0 8px;
+  margin: 0 8px 8px 8px;
+  min-height: 550px;
 }
 
 .table-container {
@@ -573,85 +669,82 @@ h4 {
   color: #a3a5b9;
 }
 
-ul {
-  display: flex;
-  align-items: center;
-  height: auto;
-  padding: 0;
-  margin: 0;
+.line {
+  position: absolute;
+  top: 4px;
+  right: 0px;
+  height: 16px;
+  width: 1px;
+  border-right: 1px solid #7c8295;
+  margin-left: 10px;
 }
 
-ul li.active-tabs-item {
+.active-tabs-item {
+  position: relative;
   display: flex;
+  justify-content: left;
   align-items: center;
-  padding: 0;
-  margin: 0 0 0 0;
+  padding: 0 10px;
+  margin-top: 3px;
+  margin-left: -1px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border: 1px solid #d8d9db;
+  border: 1px solid #7c8295;
   border-bottom: 1px solid #f9fafb;
-  padding-right: 2px;
   cursor: pointer;
   z-index: 101;
-
-  display: flex;
-  justify-content: center;
-  height: 26px;
-  width: 120px;
-  margin-left: 0px;
+  width: auto;
+  white-space: nowrap;
   text-transform: uppercase;
   background: #f9fafb;
+  font-size: 12px;
 }
 
-ul li.active-tabs-item:hover {
-  border: 1px solid #d8d9db;
-  border-bottom: 1px solid #f9fafb;
-}
-
-ul li.tabs-item {
+.tabs-item {
+  position: relative;
   display: flex;
+  justify-content: left;
   align-items: center;
-  padding: 0;
-  border: 1px solid #ffffff;
-  border-bottom: 1px solid #d8d9db;
+  padding: 0 10px;
+  margin-top: 4px;
   cursor: pointer;
+  width: auto;
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-size: 12px;
+  transition: 0.3s;
+}
 
-  display: flex;
-  justify-content: center;
+.tabs-item:hover {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 1px solid #7c8295;
+  border-bottom: 1px solid #7c8295;
+  background: #f9fafb;
+  margin-top: 3px;
+  margin-left: -1px;
+}
+
+.tabs-item:hover > .line {
+  display: none;
+}
+
+.tabs-button {
+  display: inline-block;
+  padding: 0;
+  cursor: pointer;
   height: 26px;
-  width: 120px;
+  margin-top: 4px;
   text-transform: uppercase;
   transition: 0.3s;
 }
 
-ul li.tabs-item:hover {
+.tabs-button:hover {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border: 1px solid #d8d9db;
-  border-bottom: 1px solid #d8d9db;
   background: #f9fafb;
-}
-
-ul li.tabs-button {
-  padding: 0;
-  border: 1px solid #ffffff;
-  border-bottom: 1px solid #d8d9db;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  height: 26px;
-  width: 40px;
-  text-transform: uppercase;
-  transition: 0.3s;
-}
-
-ul li.tabs-button:hover {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  border: 1px solid #d8d9db;
-  border-bottom: 1px solid #d8d9db;
-  background: #f9fafb;
+  margin-top: 4px;
+  z-index: 101;
 }
 
 .button-block {
@@ -704,5 +797,149 @@ ul li.tabs-button:hover {
 .button-print:hover {
   background: #0741ca;
   color: #ffffff;
+}
+
+.add-title {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: 20px;
+  color: #1979cf;
+}
+
+.slider-container {
+  display: flex;
+}
+
+.dishes {
+  display: flex;
+  max-width: 50%;
+  height: 400px;
+}
+
+.main-box {
+  width: calc(100% - 26px);
+  border: 1px solid #d8d9db;
+  border-radius: 5px;
+  background: #f9fafb;
+}
+.arrow-box {
+  width: 20px;
+  background: #00b5a4;
+  margin-right: 6px;
+  padding-top: 70px;
+}
+.arrow-box-title {
+  font-size: 14px;
+  color: #ffffff;
+  transform: rotate(-90deg);
+}
+.arrow-box-button {
+  width: 20px;
+  background: #00b5a4;
+  border-radius: none;
+  border: none;
+  padding: 0;
+  margin-top: 90px;
+}
+
+.icon-arrow-box-right {
+  width: 20px;
+  height: 20px;
+  fill: #ffffff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-arrow-box-right:hover {
+  fill: #7c8295;
+}
+
+.tools-button-table {
+  position: absolute;
+  background: #ffffff;
+  border-radius: none;
+  border: none;
+  height: 24px;
+}
+
+.icon-delete-table {
+  width: 16px;
+  height: 16px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 1px;
+}
+
+.icon-delete-table:hover {
+  fill: #379fff;
+}
+
+.icon-eye {
+  width: 16px;
+  height: 16px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 1px;
+  margin-left: 10px;
+}
+
+.icon-eye:hover {
+  fill: #379fff;
+}
+
+.icon-closed {
+  width: 16px;
+  height: 16px;
+  fill: #a1a7bd;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 1px;
+  margin-left: 10px;
+}
+
+.icon-closed:hover {
+  fill: #379fff;
+}
+
+input[type='text'] {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-transform: uppercase;
+}
+
+.table-tools {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.visible {
+  color: #343e5c;
+  font-size: 13px;
+}
+
+.visible2 {
+  color: #2754eb;
+  font-size: 13px;
+}
+
+.hidden {
+  color: #a1a7bd;
+  font-size: 13px;
+}
+
+.schedule-name {
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 </style>

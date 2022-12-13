@@ -6,7 +6,7 @@ import RootState from '@/store/types';
 
 import { State } from './state';
 
-const httpClient = new HttpClient('DishesSamples');
+const httpClient = new HttpClient('daily-menu-items');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {

@@ -14,6 +14,7 @@ import { children } from '@/store/modules/children';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
 import { dailyMenus } from '@/store/modules/dailyMenus';
+import { dailyMenuItems } from '@/store/modules/dailyMenusItems';
 import { diets } from '@/store/modules/diets';
 import { dietsGroups } from '@/store/modules/dietsGroups';
 import { dishesGroups } from '@/store/modules/dishesGroups';
@@ -165,6 +166,7 @@ const s: StoreOptions<RootState> = {
     dishesSamples,
     hospitalizationsTypes,
     supportMessages,
+    dailyMenuItems,
   },
 };
 

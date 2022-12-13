@@ -77,7 +77,6 @@ export default class Month implements IMonth {
   }
 
   move(toForward: boolean): void {
-    // const activeWeek = this.getActiveWeek();
     const activeWeekIndex = this.weeks.findIndex((w: IWeek) => w.active);
     if (activeWeekIndex === -1) {
       return;
@@ -108,5 +107,39 @@ export default class Month implements IMonth {
 
   isFirst(): boolean {
     return this.number === 0;
+  }
+
+  dropActive(): void {
+    const activeWeek = this.weeks.find((w: IWeek) => w.active);
+    this.active = false;
+    this.firstWeekActive = false;
+    this.lastWeekActive = false;
+    if (activeWeek) {
+      activeWeek.dropActive();
+    }
+  }
+
+  initActive(fromStart: boolean): void {
+    this.active = true;
+    if (fromStart) {
+      this.firstWeekActive = true;
+      let week = this.getFirstWeek();
+      if (week.days.length < 7 && week.days[0].date.getDate() === 1) {
+        week = this.weeks[1];
+      }
+      week.initActive(fromStart);
+    }
+    if (!fromStart) {
+      this.lastWeekActive = true;
+      this.getLastWeek().initActive(fromStart);
+    }
+  }
+
+  getFirstWeek(): IWeek {
+    return this.weeks[0];
+  }
+
+  getLastWeek(): IWeek {
+    return this.weeks[this.weeks.length - 1];
   }
 }

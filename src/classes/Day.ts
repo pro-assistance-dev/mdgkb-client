@@ -4,6 +4,7 @@ export default class Day implements IDay {
   date: Date = new Date();
   shortName = '';
   selected = false;
+  active = false;
   constructor() {
     return;
   }
