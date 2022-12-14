@@ -7,7 +7,6 @@
       margin: 0px 6px;
   }
   :deep(.custom-calendar.vc-container) {
-  
     & .vc-title {
       position: relative;
       display: flex;
@@ -40,42 +39,42 @@
       position: relative;
       min-width: 32px;
       z-index: 1;
+      //
+      //&-content {
+      //  display: flex;
+      //  margin: 4px 4px;
+      //  font-size: 14px;
+      //  border: var(--day-border);
+      //  border-radius: 5px;
+      //  height: 33px;
+      //  width: 45px;
+      //  color: #31af5e;
+      //  font-weight: 400;
+      //  align-items: center;
+      //  justify-content: center;
+      //}
+      //
+      //.is-disabled {
+      //  border: none;
+      //  color: #a1a7bd;
+        //&:hover {
+        //  cursor: auto;
+        //  background: white;
+        //  color: #a1a7bd;
+        //}
+        //&:focus {
+        //  cursor: auto;
+        //  background: white;
+        //  color: #a1a7bd;
+        //}
+      //}
   
-      &-content {
-        display: flex;
-        margin: 4px 4px;
-        font-size: 14px;
-        border: var(--day-border);
-        border-radius: 5px;
-        height: 33px;
-        width: 45px;
-        color: #31af5e;
-        font-weight: 400;
-        align-items: center;
-        justify-content: center;
-      }
-  
-      .is-disabled {
-        border: none;
-        color: #a1a7bd;
-        &:hover {
-          cursor: auto;
-          background: white;
-          color: #a1a7bd;
-        }
-        &:focus {
-          cursor: auto;
-          background: white;
-          color: #a1a7bd;
-        }
-      }
-  
-      &-content:hover:not(.is-disabled),
-      &-content:focus {
-        cursor: pointer;
-        background: #31af5e;
-        color: white;
-      }
+      //&-content:hover:not(.is-disabled),
+      //&-content:focus {
+      //  cursor: pointer;
+      //  background: #31af5e;
+      //  color: white;
+      //}
     }
   }
   
@@ -84,14 +83,14 @@
       width: 100%;
   }
   
-  :deep(.custom-calendar.vc-container) {
-      --day-border: 2px solid #31af5e;
-      --day-border-highlight: 1px solid #b8c2cc;
-      --weekday-bg: #f8fafc;
-      width: 100%;
-      border: none;
-      position: relative;
-  }
+  //:deep(.custom-calendar.vc-container) {
+  //    --day-border: 2px solid #31af5e;
+  //    --day-border-highlight: 1px solid #b8c2cc;
+  //    --weekday-bg: #f8fafc;
+  //    width: 100%;
+  //    border: none;
+  //    position: relative;
+  //}
   :deep(.vc-container.vc-blue){
       --accent-100: var(--blue-100);
       --accent-200: var(--blue-200);
@@ -628,4 +627,4 @@
       font-weight: 400;
       align-items: center;
       justify-content: center;
-  }   
+  }

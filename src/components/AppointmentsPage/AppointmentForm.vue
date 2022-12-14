@@ -30,32 +30,6 @@
     <el-form-item v-if="!isAuth">
       <el-input v-model="appointment.user.phone" placeholder="Телефон"></el-input>
     </el-form-item>
-    <el-form-item v-if="!appointment.mrt">
-      <el-select v-model="appointment.specializationId" placeholder="Специальность врача">
-        <el-option v-for="option in schema.specialization.options" :key="option.value" :value="option.value" :label="option.label" />
-      </el-select>
-    </el-form-item>
-    <!--    <el-form-item v-if="!appointment.mrt">-->
-    <!--      <el-input placeholder="Врач"></el-input>-->
-    <!--    </el-form-item>-->
-    <el-form-item>
-      <el-checkbox v-model="appointment.mrt" label="МРТ/КТ" placeholder="МРТ/КТ"></el-checkbox>
-    </el-form-item>
-    <el-form-item v-if="appointment.mrt">
-      <el-checkbox v-model="appointment.mrtAnesthesia" label="Требуется анастезия" placeholder="МРТ/КТ"></el-checkbox>
-    </el-form-item>
-    <el-form-item v-if="appointment.mrt">
-      <el-input v-model="appointment.mrtZone" placeholder="Зона для исппледования МРТ/КТ"></el-input>
-    </el-form-item>
-    <el-form-item v-if="appointment.oms">
-      <el-input v-model="appointment.clinicReferralNumber" placeholder="Номер направления"></el-input>
-    </el-form-item>
-    <el-form-item v-if="appointment.oms">
-      <el-input v-model="appointment.clinicName" placeholder="Номер поликлиники"></el-input>
-    </el-form-item>
-    <el-form-item v-if="appointment.oms">
-      <DatePicker v-model="appointment.date" placeholder="Дата выдачи направления" />
-    </el-form-item>
   </el-form>
 </template>
 
@@ -63,15 +37,15 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Child from '@/classes/Child';
-import DatePicker from '@/components/DatePicker.vue';
 import IAppointment from '@/interfaces/IAppointment';
 import IUser from '@/interfaces/IUser';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'AppointmentForm',
-  components: { DatePicker },
+  components: {
+    // DatePicker
+  },
   emits: ['createChildMode'],
   setup(props, { emit }) {
     const store = useStore();
@@ -86,22 +60,22 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('meta/getSchema');
       await store.dispatch('meta/getOptions', schema.value.specialization);
-      if (!isAuth.value) {
-        appointment.value.child = new Child();
-      }
+      // if (!isAuth.value) {
+      //   appointment.value.child = new Child();
+      // }
       mount.value = true;
     });
 
     const createChildModeOn = () => {
-      appointment.value.child = new Child();
-      appointment.value.child.userId = user.value.id;
+      // appointment.value.child = new Child();
+      // appointment.value.child.userId = user.value.id;
       createChildMode.value = true;
       emit('createChildMode', true);
     };
 
     const createChildModeOff = () => {
-      appointment.value.child = undefined;
-      appointment.value.childId = undefined;
+      // appointment.value.child = undefined;
+      // appointment.value.childId = undefined;
       emit('createChildMode', false);
     };
 
