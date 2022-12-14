@@ -67,6 +67,10 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-guide',
         tableName: 'hospitalizations',
       },
+      {
+        title: 'Список записей',
+        to: '/admin/appointments',
+      },
     ],
   },
   {
@@ -319,10 +323,6 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Создать слоты для записи',
         to: '/admin/appointments/constructor',
-      },
-      {
-        title: 'Список записей',
-        to: '/admin/appointments/list',
       },
       {
         title: 'Платные услуги',

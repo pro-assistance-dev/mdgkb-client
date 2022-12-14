@@ -13,13 +13,22 @@
         <div class="card-item">
           <div class="flex-row">
             <div class="form">
-              <UserForm
-                :form="appointment.formValue"
-                :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"
-              />
-              <FieldValuesForm :form="hospitalization.formValue" />
+              <el-form
+                ref="userForm"
+                v-model="appointment"
+                :model="appointment"
+                label-width="150px"
+                style="max-width: 700px"
+                label-position="left"
+              >
+                <!--              <UserForm-->
+                <!--                :form="appointment.formValue"-->
+                <!--                :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"-->
+                <!--              />-->
+                <FieldValuesForm v-if="appointment.formValue" :form="appointment.formValue" />
 
-              <!--                            <AppointmentForm @createChildMode="changeCreateChildMode" />-->
+                <!--                            <AppointmentForm @createChildMode="changeCreateChildMode" />-->
+              </el-form>
             </div>
             <hr class="gray-border" />
             <div class="calendar-zone">
@@ -47,15 +56,16 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import AppointmentType from '@/classes/AppointmentType';
 import Form from '@/classes/Form';
+import User from '@/classes/User';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import UserForm from '@/components/FormConstructor/UserForm.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IAppointment from '@/interfaces/IAppointment';
 import IAppointmentType from '@/interfaces/IAppointmentType';
 import IChild from '@/interfaces/IChild';
+import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
@@ -67,13 +77,13 @@ export default defineComponent({
     AppointmentsSlots,
     AppointmentsCalendar,
     // ModeButtons,
-    UserForm,
     FieldValuesForm,
   },
 
   setup() {
     const chosenDay: Ref<string | undefined> = ref();
     const userForm = ref();
+    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const appointment: ComputedRef<IAppointment> = computed(() => Provider.store.getters['appointments/item']);
     const appointmentsTypes: ComputedRef<IAppointmentType[]> = computed(() => Provider.store.getters['appointmentsTypes/items']);
     const appointmentsType: Ref<IAppointmentType> = computed(() => Provider.store.getters['appointmentsTypes/item']);
@@ -89,8 +99,9 @@ export default defineComponent({
       await Provider.store.dispatch('appointments/create', appointment.value);
     };
 
-    const chooseDay = (day: Date) => {
-      appointment.value.date = day;
+    const chooseDay = (day: Record<string, string>) => {
+      appointment.value.date = new Date(day.id);
+      console.log(appointment.value.date);
       chosenDay.value = day.toString();
     };
 
@@ -127,7 +138,9 @@ export default defineComponent({
       appointment.value.appointmentType = new AppointmentType(appointmentType);
       appointment.value.appointmentTypeId = appointmentType.id;
       appointment.value.formValue = new Form(appointmentType.formPattern);
+      appointment.value.formValue.user = new User(user.value);
       appointment.value.formValue.initFieldsValues();
+      appointment.value.formValue.clearIds();
     };
 
     return {

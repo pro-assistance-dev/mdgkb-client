@@ -12,9 +12,9 @@
             {{ scope.row.time }}
           </template>
         </el-table-column>
-        <el-table-column label="Пациент" sortable>
+        <el-table-column label="Пользователь" sortable>
           <template #default="scope">
-            {{ scope.row.child }}
+            {{ scope.row.formValue.user.human.getFullName() }}
           </template>
         </el-table-column>
         <el-table-column label="Специальность" sortable>
@@ -27,7 +27,7 @@
             <TableButtonGroup
               :show-edit-button="true"
               :show-remove-button="true"
-              @edit="edit(scope.row.human.slug)"
+              @edit="edit(scope.row.id)"
               @remove="remove(scope.row.id)"
             />
           </template>
@@ -39,38 +39,36 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent } from 'vue';
 
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminDoctorsList',
   components: { TableButtonGroup, Pagination },
   setup() {
-    const store = useStore();
-    const router = useRouter();
-    const appointments = computed(() => store.getters['appointments/items']);
+    const appointments = computed(() => Provider.store.getters['appointments/items']);
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-
-      store.commit('filter/setStoreModule', 'appointments');
-      await store.dispatch('appointments/getAll', store.getters['filter/filterQuery']);
-
-      store.commit('admin/setHeaderParams', {
+    const load = async () => {
+      Provider.store.commit('filter/setStoreModule', 'appointments');
+      await Provider.store.dispatch('appointments/getAll', Provider.store.getters['filter/filterQuery']);
+      Provider.store.commit('admin/setHeaderParams', {
         title: 'Записи к врачу',
         buttons: [{ text: 'Добавить запись', type: 'primary', action: create }],
       });
-      store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
+    };
+
+    Hooks.onBeforeMount(load, {
+      pagination: { storeModule: 'appointments', action: 'getAll' },
+      sortModels: [],
     });
 
-    const create = () => router.push(`/admin/appointments/new`);
-    const edit = (slug: string) => router.push(`/admin/appointments/${slug}`);
-    const remove = async (id: string) => await store.dispatch('appointments/remove', id);
+    const create = () => Provider.router.push(`/admin/appointments/new`);
+    const edit = (id: string) => Provider.router.push(`/admin/appointments/${id}`);
+    const remove = async (id: string) => await Provider.store.dispatch('appointments/remove', id);
 
     return { appointments, remove, edit, create };
   },
