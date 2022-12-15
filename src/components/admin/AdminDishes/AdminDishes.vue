@@ -65,6 +65,11 @@
                     <input id="tab-name" type="text" name="name" placeholder="Имя вкладки" :value="menu.name" />
                   </div>
                   <div :class="{ 'active-line': selectedMenu.id === menu.id, line: selectedMenu.id !== menu.id }"></div>
+                  <div class="button-close">
+                    <svg class="icon-close">
+                      <use xlink:href="#close"></use>
+                    </svg>
+                  </div>
                 </div>
                 <div class="tabs-button" @click="addMenu">
                   <button class="tools-button">
@@ -89,6 +94,15 @@
             </div>
           </div>
           <div v-if="selectedMenu" class="diets-container">
+            <div class="tab-tools">
+              Активация:
+              <svg v-if="isActive" class="icon-active" @click="activate">
+                <use xlink:href="#active"></use>
+              </svg>
+              <svg v-else class="icon-non-active" @click="activate">
+                <use xlink:href="#non-active"></use>
+              </svg>
+            </div>
             <div class="table-container">
               <table class="table-list">
                 <colgroup>
@@ -193,17 +207,23 @@
   <Print />
   <Eye />
   <EyeClosed />
+  <Active />
+  <NonActive />
+  <Close />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import Active from '@/assets/svg/Buffet/Active.svg';
 import Add from '@/assets/svg/Buffet/Add.svg';
 import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
+import Close from '@/assets/svg/Buffet/Close.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Eye from '@/assets/svg/Buffet/Eye.svg';
 import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
+import NonActive from '@/assets/svg/Buffet/NonActive.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
 import Calendar from '@/classes/Calendar';
 import DailyMenu from '@/classes/DailyMenu';
@@ -240,6 +260,9 @@ export default defineComponent({
     DishBook,
     Eye,
     EyeClosed,
+    Active,
+    NonActive,
+    Close,
   },
   setup() {
     const form = ref();
@@ -251,6 +274,7 @@ export default defineComponent({
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
+    const isActive: Ref<boolean> = ref(true);
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
@@ -351,6 +375,10 @@ export default defineComponent({
       dailyMenus.value.splice(indexForDelete, 1);
     };
 
+    const activate = () => {
+      isActive.value = !isActive.value;
+    };
+
     return {
       removeSelectedMenu,
       removeFromMenu,
@@ -371,6 +399,8 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       removeFromClass,
+      isActive,
+      activate,
     };
   },
 });
@@ -553,7 +583,7 @@ $margin: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
   border-bottom: 1px solid #7c8295;
   height: 30px;
   background: #ffffff;
@@ -676,15 +706,15 @@ h4 {
   height: 16px;
   width: 1px;
   border-right: 1px solid #7c8295;
-  margin-left: 10px;
+  margin-left: 0px;
 }
 
 .active-tabs-item {
   position: relative;
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 5px 0 10px;
   margin-top: 3px;
   margin-left: -1px;
   border-top-left-radius: 5px;
@@ -703,9 +733,9 @@ h4 {
 .tabs-item {
   position: relative;
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 5px 0 10px;
   margin-top: 4px;
   cursor: pointer;
   width: auto;
@@ -941,5 +971,57 @@ input[type='text'] {
   display: flex;
   justify-content: left;
   align-items: center;
+}
+
+.tab-tools {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  height: 25px;
+}
+
+.icon-active {
+  width: 22px;
+  height: 22px;
+  fill: #1979cf;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 12px;
+}
+
+.icon-non-active {
+  width: 22px;
+  height: 22px;
+  fill: #c4c4c4;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 12px;
+}
+
+.button-close {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 24px;
+  margin-bottom: 2px;
+}
+
+.icon-close {
+  width: 18px;
+  height: 18px;
+  fill: #c4c4c4;
+  cursor: pointer;
+  transition: 0.3s;
+  padding-left: 5px;
+}
+
+.icon-close:hover {
+  fill: #ff142c;
+  transition: 0.3s;
+}
+
+.icon-close:active {
+  fill: #bd0123;
 }
 </style>
