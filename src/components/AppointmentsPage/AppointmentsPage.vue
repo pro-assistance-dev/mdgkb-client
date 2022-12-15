@@ -1,17 +1,34 @@
 <template>
-  <div v-if="mount">
+  <div v-if="mounted">
     <el-row :gutter="40">
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
-        <ModeButtons :second-mode-active="omsMode" :store-mode="false" first-mode="ОМС" second-mode="ДМС" @changeMode="changeMode" />
+        <div v-for="appointmentType in appointmentsTypes" :key="appointmentType.id" @click="selectType(appointmentType)">
+          {{ appointmentType.name }}
+        </div>
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
-        <div v-if="createChildMode" class="card-item">
-          <ChildForm @createChild="createChild" />
-        </div>
-        <div v-else class="card-item">
+        <!--        <div v-if="createChildMode" class="card-item">-->
+        <!--          <ChildForm @createChild="createChild" />-->
+        <!--        </div>-->
+        <div class="card-item">
           <div class="flex-row">
             <div class="form">
-              <AppointmentForm @createChildMode="changeCreateChildMode" />
+              <el-form
+                ref="userForm"
+                v-model="appointment"
+                :model="appointment"
+                label-width="150px"
+                style="max-width: 700px"
+                label-position="left"
+              >
+                <!--              <UserForm-->
+                <!--                :form="appointment.formValue"-->
+                <!--                :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"-->
+                <!--              />-->
+                <FieldValuesForm v-if="appointment.formValue" :form="appointment.formValue" />
+
+                <!--                            <AppointmentForm @createChildMode="changeCreateChildMode" />-->
+              </el-form>
             </div>
             <hr class="gray-border" />
             <div class="calendar-zone">
@@ -25,7 +42,7 @@
           </div>
           <div class="center-button">
             <button class="green-button" @click.prevent="submit">Записаться</button>
-            <AppointmentModal v-if="isAppointmentModalOpen" @close="isAppointmentModalOpen = false" />
+            <!--            <AppointmentModal v-if="isAppointmentModalOpen" @close="isAppointmentModalOpen = false" />-->
           </div>
         </div>
       </el-col>
@@ -35,62 +52,56 @@
 
 <script lang="ts">
 import { ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import AppointmentForm from '@/components/AppointmentsPage/AppointmentForm.vue';
+import AppointmentType from '@/classes/AppointmentType';
+import Form from '@/classes/Form';
+import User from '@/classes/User';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
-import ChildForm from '@/components/AppointmentsPage/ChildForm.vue';
-import ModeButtons from '@/components/ModeButtons.vue';
+import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IAppointment from '@/interfaces/IAppointment';
+import IAppointmentType from '@/interfaces/IAppointmentType';
 import IChild from '@/interfaces/IChild';
+import IUser from '@/interfaces/IUser';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AppointmentsPage',
   components: {
-    ChildForm,
-    AppointmentForm,
+    // ChildForm,
+    // AppointmentForm,
     AppointmentsSlots,
     AppointmentsCalendar,
-    ModeButtons,
+    // ModeButtons,
+    FieldValuesForm,
   },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
     const chosenDay: Ref<string | undefined> = ref();
-    const mount = ref(false);
-    const omsMode: Ref<boolean> = ref(route.path === '/appointments/oms');
-    const appointment: ComputedRef<IAppointment> = computed(() => store.getters['appointments/item']);
+    const userForm = ref();
+    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const appointment: ComputedRef<IAppointment> = computed(() => Provider.store.getters['appointments/item']);
+    const appointmentsTypes: ComputedRef<IAppointmentType[]> = computed(() => Provider.store.getters['appointmentsTypes/items']);
+    const appointmentsType: Ref<IAppointmentType> = computed(() => Provider.store.getters['appointmentsTypes/item']);
     const createChildMode: Ref<boolean> = ref(false);
 
-    onBeforeMount(async () => {
-      appointment.value.oms = omsMode.value;
-      await store.dispatch('meta/getSchema');
-      mount.value = true;
-    });
-
-    const changeMode = async (omsModeActive: boolean) => {
-      omsMode.value = omsModeActive;
-      appointment.value.oms = omsMode.value;
-      if (omsModeActive) {
-        await router.replace('/appointments/oms');
-      } else {
-        await router.replace('/appointments/dms');
-      }
+    const load = async () => {
+      await Provider.store.dispatch('appointmentsTypes/getAll');
     };
+
+    Hooks.onBeforeMount(load);
 
     const sendApplication = async () => {
-      await store.dispatch('appointments/create', appointment.value);
+      await Provider.store.dispatch('appointments/create', appointment.value);
     };
 
-    const chooseDay = (day: Date) => {
-      appointment.value.date = day;
+    const chooseDay = (day: Record<string, string>) => {
+      appointment.value.date = new Date(day.id);
+      console.log(appointment.value.date);
       chosenDay.value = day.toString();
     };
 
@@ -103,17 +114,17 @@ export default defineComponent({
     };
 
     const createChild = async (child: IChild) => {
-      store.commit('auth/addChild', child);
-      await store.dispatch('children/create', child);
-      if (appointment.value.user) {
-        appointment.value.user.children.push(child);
-      }
+      Provider.store.commit('auth/addChild', child);
+      await Provider.store.dispatch('children/create', child);
+      // if (appointment.value.user) {
+      //   appointment.value.user.children.push(child);
+      // }
       createChildMode.value = false;
     };
 
     const submit = async () => {
-      await store.dispatch('appointments/create', appointment.value);
-      store.commit('appointments/resetItem');
+      await Provider.store.dispatch('appointments/create', appointment.value);
+      Provider.store.commit('appointments/resetItem');
       ElNotification({
         title: 'Запись к врачу',
         message: 'Запись успешно создана!',
@@ -122,7 +133,18 @@ export default defineComponent({
       });
     };
 
+    const selectType = async (appointmentType: IAppointmentType) => {
+      appointmentsType.value = appointmentType;
+      appointment.value.appointmentType = new AppointmentType(appointmentType);
+      appointment.value.appointmentTypeId = appointmentType.id;
+      appointment.value.formValue = new Form(appointmentType.formPattern);
+      appointment.value.formValue.user = new User(user.value);
+      appointment.value.formValue.initFieldsValues();
+      appointment.value.formValue.clearIds();
+    };
+
     return {
+      selectType,
       createChild,
       createChildMode,
       changeCreateChildMode,
@@ -131,12 +153,11 @@ export default defineComponent({
       chosenDay,
       appointment,
       sendApplication,
-      omsMode,
-      changeMode,
       Operators,
       DataTypes,
-      mount,
       submit,
+      appointmentsTypes,
+      mounted: Provider.mounted,
     };
   },
 });
