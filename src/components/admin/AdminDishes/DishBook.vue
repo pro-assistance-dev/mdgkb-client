@@ -134,7 +134,9 @@ export default defineComponent({
 
     const addToMenu = () => {
       const dishesSamples: IDishSample[] = [];
-      dishesGroupsSource.value.forEach((dgs: IDishesGroup) => {
+      console.log(dishesGroupsSource.value[0]);
+      console.log(dishesGroups.value[0]);
+      dishesGroups.value.forEach((dgs: IDishesGroup) => {
         dgs.dishSamples.forEach((ds: IDishSample) => {
           if (ds.selected) {
             dishesSamples.push(ds);

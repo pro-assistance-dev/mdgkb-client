@@ -14,4 +14,6 @@ export default interface IDailyMenu {
   groupDishes: () => void;
   dailyMenuItemsForDelete: string[];
   removeMenuItem: (index: string) => void;
+  removeMenuItems: (ids: string[]) => void;
+  isActive: () => boolean;
 }

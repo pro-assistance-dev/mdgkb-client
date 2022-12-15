@@ -56,6 +56,11 @@ export default class DailyMenu implements IDailyMenu {
     this.dishesGroups.sort((g1: IDishesGroup, g2) => g1.order - g2.order);
   }
 
+  removeMenuItems(ids: string[]): void {
+    this.dailyMenuItems = this.dailyMenuItems.filter((d: IDailyMenuItem) => !ids.includes(d.id ?? ''));
+    this.groupDishes();
+  }
+
   removeMenuItem(id: string): void {
     const index = this.dailyMenuItems.findIndex((d: IDailyMenuItem) => d.id === id);
     removeFromClass(index, this.dailyMenuItems, this.dailyMenuItemsForDelete);
@@ -68,5 +73,9 @@ export default class DailyMenu implements IDailyMenu {
     menu.name = 'Новое меню';
     menu.date = date;
     return menu;
+  }
+
+  isActive(): boolean {
+    return this.active;
   }
 }

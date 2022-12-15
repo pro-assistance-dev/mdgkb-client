@@ -17,4 +17,5 @@ export default interface IDishesGroup {
   upsertSample: (dishSample: IDishSample) => void;
   containAvailableItems: () => boolean;
   setAvailable: (available: boolean) => void;
+  getDailyMenuItemsIds: () => string[];
 }

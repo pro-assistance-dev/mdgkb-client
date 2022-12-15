@@ -66,7 +66,7 @@
                   </div>
                   <div :class="{ 'active-line': selectedMenu.id === menu.id, line: selectedMenu.id !== menu.id }"></div>
                   <div class="button-close">
-                    <svg class="icon-close">
+                    <svg class="icon-close" @click="removeMenu(menu.id)">
                       <use xlink:href="#close"></use>
                     </svg>
                   </div>
@@ -81,11 +81,6 @@
               </div>
             </div>
             <div class="tools-block">
-              <button class="tools-button" @click.stop="removeSelectedMenu">
-                <svg class="icon-delete">
-                  <use xlink:href="#delete"></use>
-                </svg>
-              </button>
               <button class="tools-button">
                 <svg class="icon-print">
                   <use xlink:href="#print"></use>
@@ -96,10 +91,10 @@
           <div v-if="selectedMenu" class="diets-container">
             <div class="tab-tools">
               Активация:
-              <svg v-if="isActive" class="icon-active" @click="activate">
+              <svg v-if="selectedMenu.isActive()" class="icon-active" @click="activate(false)">
                 <use xlink:href="#active"></use>
               </svg>
-              <svg v-else class="icon-non-active" @click="activate">
+              <svg v-else class="icon-non-active" @click="activate(true)">
                 <use xlink:href="#non-active"></use>
               </svg>
             </div>
@@ -133,10 +128,14 @@
                           >
                             <use xlink:href="#delete"></use>
                           </svg>
-                          <svg v-if="dishesGroup.containAvailableItems()" class="icon-eye" @click="dishesGroup.setAvailable(false)">
+                          <svg v-if="dishesGroup.containAvailableItems()" class="icon-eye" @click="setGroupAvailable(dishesGroup, false)">
                             <use xlink:href="#eye"></use>
                           </svg>
-                          <svg v-if="!dishesGroup.containAvailableItems()" class="icon-closed" @click="dishesGroup.setAvailable(true)">
+                          <svg
+                            v-if="!dishesGroup.containAvailableItems()"
+                            class="icon-closed"
+                            @click="setGroupAvailable(dishesGroup, true)"
+                          >
                             <use xlink:href="#eye-closed"></use>
                           </svg>
                         </div>
@@ -158,10 +157,10 @@
                           >
                             <use xlink:href="#delete"></use>
                           </svg>
-                          <svg v-if="dish.available" class="icon-eye" @click="dish.available = !dish.available">
+                          <svg v-if="dish.available" class="icon-eye" @click="setDailyMenuItemAvailable(dish, false)">
                             <use xlink:href="#eye"></use>
                           </svg>
-                          <svg v-if="!dish.available" class="icon-closed" @click="dish.available = !dish.available">
+                          <svg v-if="!dish.available" class="icon-closed" @click="setDailyMenuItemAvailable(dish, true)">
                             <use xlink:href="#eye-closed"></use>
                           </svg>
                         </div>
@@ -213,6 +212,7 @@
 </template>
 
 <script lang="ts">
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Active from '@/assets/svg/Buffet/Active.svg';
@@ -274,7 +274,6 @@ export default defineComponent({
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
-    const isActive: Ref<boolean> = ref(true);
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
@@ -352,35 +351,71 @@ export default defineComponent({
       selectedMenu.value?.groupDishes();
     };
 
-    const removeFromMenu = async (dishesGroup: IDishesGroup, dishItem: IDailyMenuItem): Promise<void> => {
+    const removeFromMenu = async (dishesGroup: IDishesGroup, dishItem?: IDailyMenuItem): Promise<void> => {
+      if (!selectedMenu.value) {
+        return;
+      }
+      if (!dishItem) {
+        for (const id of dishesGroup.getDailyMenuItemsIds()) {
+          await Provider.store.dispatch('dailyMenuItems/remove', id);
+        }
+        selectedMenu.value?.removeMenuItems(dishesGroup.getDailyMenuItemsIds());
+        return;
+      }
       const i = dishesGroup.dailyMenuItems.findIndex((di: IDailyMenuItem) => di.id === dishItem.id);
       if (i < 0) {
         return;
       }
       removeFromClass(i, dishesGroup.dailyMenuItems, []);
       if (dishItem.id) {
-        selectedMenu.value?.removeMenuItem(dishItem.id);
+        selectedMenu.value.removeMenuItem(dishItem.id);
       }
-      selectedMenu.value?.groupDishes();
+      selectedMenu.value.groupDishes();
       await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
     };
 
-    const removeSelectedMenu = async () => {
-      const indexForDelete = dailyMenus.value.findIndex((dm: IDailyMenu) => dm.id === selectedMenu.value?.id);
-      if (indexForDelete < 0) {
+    const activate = async (active: boolean) => {
+      if (!selectedMenu.value) {
         return;
       }
-      await Provider.store.dispatch('dailyMenus/remove', dailyMenus.value[indexForDelete].id);
-      selectedMenu.value = dailyMenus.value[dailyMenus.value.length - 1];
-      dailyMenus.value.splice(indexForDelete, 1);
+      selectedMenu.value.active = active;
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
 
-    const activate = () => {
-      isActive.value = !isActive.value;
+    const removeMenu = async (menuId: string) => {
+      if (dailyMenus.value.length === 1) {
+        ElMessage({
+          message: 'Нельзя удалить едиственное меню',
+          type: 'error',
+        });
+        return;
+      }
+      ElMessageBox.confirm('Вы действительно хотите удалить меню?', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Нет',
+      }).then(async () => {
+        dailyMenus.value = dailyMenus.value.filter((dm: IDailyMenu) => dm.id === menuId);
+        await Provider.store.dispatch('dailyMenus/remove', menuId);
+        selectedMenu.value = dailyMenus.value[dailyMenus.value.length - 1];
+        selectedMenu.value?.groupDishes();
+      });
+    };
+
+    const setGroupAvailable = async (dishesGroup: IDishesGroup, available: boolean) => {
+      dishesGroup.setAvailable(available);
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
+    };
+
+    const setDailyMenuItemAvailable = async (dailyMenuItem: IDailyMenuItem, available: boolean) => {
+      dailyMenuItem.available = available;
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
 
     return {
-      removeSelectedMenu,
+      setDailyMenuItemAvailable,
+      setGroupAvailable,
+      removeMenu,
       removeFromMenu,
       addMenu,
       selectMenu,
@@ -399,7 +434,6 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       removeFromClass,
-      isActive,
       activate,
     };
   },
