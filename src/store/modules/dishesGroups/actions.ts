@@ -28,8 +28,12 @@ const actions: ActionTree<State, RootState> = {
     item.id = res.id;
     state.items.unshift(new DishesGroup(res));
   },
-  update: async (_, item: IDishesGroup): Promise<void> => {
+  update: async ({ state }, item: IDishesGroup): Promise<void> => {
     await httpClient.put<IDishesGroup, IDishesGroup>({ query: `${item.id}`, payload: item, isFormData: true });
+    const dishesGroupIndex = state.items.findIndex((i: IDishesGroup) => item.id === i.id);
+    if (dishesGroupIndex > -1) {
+      state.items[dishesGroupIndex] = item;
+    }
   },
   remove: async ({ state }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

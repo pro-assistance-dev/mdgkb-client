@@ -22,7 +22,7 @@
                 >
                   {{ dishesGroupItem.name }}
                 </el-badge>
-                <button class="tools-button-e">
+                <button class="tools-button-e" @click.stop="editDishesGroup(dishesGroupItem)">
                   <svg class="icon-edit">
                     <use xlink:href="#profile-edit"></use>
                   </svg>
@@ -128,11 +128,6 @@ export default defineComponent({
       await Provider.store.dispatch('dishesSamples/getAll');
     });
 
-    const saveDishesGroup = async () => {
-      await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
-      dishesGroupConstructorVisible.value = false;
-    };
-
     const removeDishesGroup = async (id: string) => {
       await Provider.store.dispatch('dishesGroups/remove', id);
     };
@@ -165,7 +160,13 @@ export default defineComponent({
       Provider.store.commit('dishesGroups/resetItem');
     };
 
+    const editDishesGroup = (group: IDishesGroup) => {
+      Provider.store.commit('dishesGroups/set', group);
+      dishesGroupConstructorVisible.value = true;
+    };
+
     return {
+      editDishesGroup,
       closeDishesGroupForm,
       dishSampleConstructorCreateMode,
       openDishSampleConstructor,
@@ -175,7 +176,6 @@ export default defineComponent({
       dishSampleConstructorVisible,
       dishSample,
       dishedSamples,
-      saveDishesGroup,
       removeDishesGroup,
       dishesGroupConstructorVisible,
       dishesGroup,

@@ -18,7 +18,6 @@
 import { computed, defineComponent, Ref } from 'vue';
 
 import IDishesGroup from '@/interfaces/IDishesGroup';
-import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -27,13 +26,16 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
-    const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const close = () => {
       emit('close');
     };
 
     const saveDishesGroup = async () => {
-      await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
+      if (dishesGroup.value.id) {
+        await Provider.store.dispatch('dishesGroups/update', dishesGroup.value);
+      } else {
+        await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
+      }
       close();
     };
 
