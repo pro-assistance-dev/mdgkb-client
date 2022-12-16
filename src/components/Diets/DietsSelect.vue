@@ -1,5 +1,6 @@
 <template>
   <PageWrapper v-if="mounted" title="Питание и диеты">
+    <button class="bufet" @click="$router.push('/bufet')">Буфет</button>
     <FiltersWrapper>
       <template #header-left-top>
         <div class="main-field">
@@ -397,6 +398,25 @@ button {
 
 .main-field {
   width: 100%;
+}
+
+.bufet {
+  position: absolute;
+  top: 77px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  margin: 0;
+  cursor: pointer;
+  color: $site_gray;
+  border: none;
+  padding: 0px;
+  background: inherit;
+}
+
+.bufet:hover {
+  color: #123dce;
 }
 
 @media screen and (max-width: 768px) {
