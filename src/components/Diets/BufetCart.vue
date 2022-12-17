@@ -7,59 +7,42 @@
           <input id="room" type="text" name="name" placeholder="000" />
         </div>
         <div class="header-right">
-          <svg class="icon-cart" @click="$router.push('/bufet/cart')">
-            <use xlink:href="#cart"></use>
-          </svg>
-          <div class="sup">20</div>
+          <button class="bufet" @click="$router.push('/bufet')">В меню</button>
         </div>
       </div>
       <div class="menu-bufet">
-        <div class="item">Завтраки</div>
-        <div class="active-item">Первые блюда</div>
-        <div class="item">Вторые блюда</div>
-        <div class="item">Напитки</div>
-        <div class="item">Выпечка</div>
+        <div class="menu-title">Ваш заказ:</div>
       </div>
     </div>
-    <div class="main">
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+    <div class="table-main">
+      <TableCard />
+      <TableCard />
+      <TableCard />
     </div>
     <div class="footer">
-      <button class="add-to-card">В корзину</button>
+      <button class="add-to-card">Заказать</button>
       <div class="footer-info">
         <div class="field1">650 ккал</div>
         <div class="field2">480 р.</div>
       </div>
     </div>
   </div>
-  <Cart />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import Cart from '@/assets/svg/Buffet/Cart.svg';
-import Card from '@/components/Diets/Card.vue';
+import TableCard from '@/components/Diets/TableCard.vue';
 
 export default defineComponent({
-  name: 'Bufet',
-  components: { Cart, Card },
+  name: 'BufetCart',
+  components: { TableCard },
 });
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
+
 .container-bufet {
   width: 100%;
   color: #ffffff;
@@ -140,12 +123,10 @@ input[type='text'] {
 .menu-bufet {
   width: 100%;
   height: 34px;
-  overflow: hidden;
   background: #379fff;
   display: flex;
   align-items: center;
   justify-content: left;
-  overflow-x: hidden;
 }
 
 .item {
@@ -164,12 +145,10 @@ input[type='text'] {
   color: #ffffff;
 }
 
-.main {
-  width: 100%;
-  display: grid;
-  grid-gap: 0px;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 5fr));
-  grid-template-rows: repeat(0 5px);
+.table-main {
+  width: calc(100% - 32px);
+  display: block;
+  padding: 16px;
 }
 
 .main > div {
@@ -221,16 +200,37 @@ input[type='text'] {
   color: #ffffff;
 }
 
+.menu-title {
+  font-size: 18px;
+  color: #ffffff;
+  margin-left: 20px;
+}
+
+.bufet {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  margin: 0;
+  cursor: pointer;
+  color: #d2def1;
+  border: none;
+  padding: 0px;
+  background: inherit;
+}
+
+.bufet:hover {
+  color: #ffffff;
+}
+
 @media screen and (max-width: 768px) {
   .menu-bufet {
     width: 100%;
     height: 34px;
-    overflow: hidden;
     background: #379fff;
     display: flex;
     align-items: center;
     justify-content: left;
-    overflow-x: scroll;
   }
 }
 </style>

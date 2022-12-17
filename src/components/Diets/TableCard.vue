@@ -1,21 +1,20 @@
 <template>
-  <div class="card">
-    <div class="image-box">
-      <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
-    </div>
-    <div class="name">Каша овсяная с маслом</div>
-    <div class="info">
-      <div class="left">
-        <div class="line1">Вес: 120гр.</div>
-        <div class="line2">110 ккал</div>
+  <div class="table-card">
+    <div class="left">
+      <div class="info">
+        <div class="name">Каша овсяная с маслом</div>
+        <div class="bottom">
+          <div class="item1">Вес: 120гр.</div>
+          <div class="item2">110 ккал</div>
+        </div>
       </div>
-      <div class="right">85 р.</div>
+      <div class="counter">
+        <el-form-item label="">
+          <el-input-number placeholder="1"></el-input-number>
+        </el-form-item>
+      </div>
     </div>
-    <div class="counter">
-      <el-form-item label="">
-        <el-input-number placeholder="1"></el-input-number>
-      </el-form-item>
-    </div>
+    <div class="right">85 р.</div>
   </div>
 </template>
 
@@ -23,17 +22,20 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'Bufet',
+  name: 'BufetCard',
 });
 </script>
 
 <style scoped lang="scss">
-.card {
-  width: 140px;
+.table-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 10px);
+  min-height: 45px;
   border: 1px solid #c4c4c4;
-  border-radius: 5px;
-  margin: 8px;
-  padding: 0 0 4px 0;
+  padding: 5px;
+  margin-bottom: -1px;
 }
 
 .image-box {
@@ -58,47 +60,71 @@ export default defineComponent({
 .name {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: calc(100% - 10px);
-  height: 30px;
+  justify-content: left;
+  min-width: 50px;
   font-size: 12px;
-  text-align: center;
-  padding: 0 5px;
   color: #343e5c;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
 
 .info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 5px;
-  width: calc(100% - 10px);
-  height: 30px;
+  display: block;
+  margin-right: 10px;
 }
 
-.line1 {
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 0;
+  width: calc(100% - 10px);
+}
+
+.item1 {
   font-size: 9px;
   color: #343e5c;
 }
-.line2 {
+
+.item2 {
   font-size: 9px;
   color: #2754eb;
+  margin-left: 5px;
 }
 
 .right {
+  display: flex;
+  align-items: center;
+  justify-content: right;
   font-size: 14px;
   color: #343e5c;
+  white-space: nowrap;
+  min-width: 50px;
 }
 
 .counter {
+  display: flex;
+  align-items: center;
   padding: 0 5px;
-  width: calc(100% - 10px);
-  height: 30px;
+  width: 102px;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 0px;
 }
 
 :deep(.el-input-number) {
   width: 100%;
   margin: 0;
+}
+
+:deep(.el-input-number .el-input__inner) {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 :deep(.el-form-item__content) {
@@ -114,6 +140,7 @@ export default defineComponent({
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 15px;
   color: #4a4a4a;
+  padding: 0 10px;
 }
 
 :deep(.el-input-number__increase) {
