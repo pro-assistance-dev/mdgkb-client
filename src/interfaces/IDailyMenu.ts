@@ -16,4 +16,8 @@ export default interface IDailyMenu {
   removeMenuItem: (index: string) => void;
   removeMenuItems: (ids: string[]) => void;
   isActive: () => boolean;
+  editMode: boolean;
+  cacheName: string;
+  cancelEditMode: () => void;
+  setEditMode: () => void;
 }

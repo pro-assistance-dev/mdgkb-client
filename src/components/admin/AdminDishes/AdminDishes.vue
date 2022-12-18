@@ -54,31 +54,41 @@
                 Меню на
                 {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
               </div>
-              <div class="tabs">
-                <div
-                  v-for="menu in dailyMenus"
-                  :key="menu.id"
-                  :class="{ 'active-tabs-item': selectedMenu.id === menu.id, 'tabs-item': selectedMenu.id !== menu.id }"
-                  @click="selectMenu(menu)"
-                >
-                  <div class="title">
-                    <input v-if="isEdit" id="tab-name" type="text" name="name" placeholder="Имя вкладки" :value="menu.name" />
-                    <span v-else class="span-class" @dblclick="dblcl"> {{ menu.name }} </span>
+              <draggable class="tabs" :list="dailyMenus" item-key="id" @end="saveMenusOrder">
+                <template #item="{ element }">
+                  <div
+                    :class="{ 'active-tabs-item': selectedMenu.id === element.id, 'tabs-item': selectedMenu.id !== element.id }"
+                    @click="selectMenu(element)"
+                  >
+                    <div class="title">
+                      <input
+                        v-if="element.editMode"
+                        id="tab-name"
+                        v-model="element.name"
+                        type="text"
+                        name="name"
+                        placeholder="Имя вкладки"
+                        @focusout="saveMenu(element)"
+                        @keyup.enter="saveMenu(element)"
+                        @keyup.esc="element.cancelEditMode()"
+                      />
+                      <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
+                    </div>
+                    <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }"></div>
+                    <div class="button-close">
+                      <svg class="icon-close" @click="removeMenu(element.id)">
+                        <use xlink:href="#close"></use>
+                      </svg>
+                    </div>
                   </div>
-                  <div :class="{ 'active-line': selectedMenu.id === menu.id, line: selectedMenu.id !== menu.id }"></div>
-                  <div class="button-close">
-                    <svg class="icon-close" @click="removeMenu(menu.id)">
-                      <use xlink:href="#close"></use>
-                    </svg>
-                  </div>
-                </div>
-                <div class="tabs-button" @click="addMenu">
-                  <button class="tools-button">
-                    <svg class="icon-add">
-                      <use xlink:href="#add"></use>
-                    </svg>
-                  </button>
-                </div>
+                </template>
+              </draggable>
+              <div class="tabs-button" @click="addMenu">
+                <button class="tools-button">
+                  <svg class="icon-add">
+                    <use xlink:href="#add"></use>
+                  </svg>
+                </button>
               </div>
             </div>
             <div class="tools-block">
@@ -215,6 +225,7 @@
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
+import draggable from 'vuedraggable';
 
 import Active from '@/assets/svg/Buffet/Active.svg';
 import Add from '@/assets/svg/Buffet/Add.svg';
@@ -243,9 +254,10 @@ import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
+import DailyMenusSortsLib from '@/services/Provider/libs/sorts/DailyMenus';
 import removeFromClass from '@/services/removeFromClass';
+import sort from '@/services/sort';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
-
 export default defineComponent({
   name: 'AdminDishes',
   components: {
@@ -264,6 +276,7 @@ export default defineComponent({
     Active,
     NonActive,
     Close,
+    draggable,
   },
   setup() {
     const form = ref();
@@ -275,8 +288,6 @@ export default defineComponent({
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
-
-    const isEdit: Ref<boolean> = ref(false);
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
@@ -299,6 +310,7 @@ export default defineComponent({
       const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
       dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
       Provider.setFilterModel(dayFilter.value);
+      Provider.setSortList(DailyMenusSortsLib.byOrder());
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
     };
 
@@ -415,12 +427,19 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
 
-    const dblcl = async () => {
-      isEdit.value = true;
-      console.log(isEdit.value);
+    const saveMenu = async (menu: IDailyMenu) => {
+      await Provider.store.dispatch('dailyMenus/update', menu);
+      menu.editMode = false;
+    };
+
+    const saveMenusOrder = async () => {
+      sort(dailyMenus.value);
+      await Provider.store.dispatch('dailyMenus/updateAll');
     };
 
     return {
+      saveMenusOrder,
+      saveMenu,
       setDailyMenuItemAvailable,
       setGroupAvailable,
       removeMenu,
@@ -443,8 +462,6 @@ export default defineComponent({
       schema: Provider.schema,
       removeFromClass,
       activate,
-      dblcl,
-      isEdit,
     };
   },
 });

@@ -42,6 +42,9 @@ const actions: ActionTree<State, RootState> = {
       downloadFileName: 'Меню.pdf',
     });
   },
+  updateAll: async ({ state }): Promise<void> => {
+    await httpClient.put<IDailyMenu[], IDailyMenu[]>({ payload: state.items, isFormData: true });
+  },
 };
 
 export default actions;

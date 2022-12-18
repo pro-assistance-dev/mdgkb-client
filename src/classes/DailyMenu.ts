@@ -15,6 +15,8 @@ export default class DailyMenu implements IDailyMenu {
   order = 0;
   name = '';
   active = false;
+  editMode = false;
+  cacheName = '';
 
   constructor(i?: IDailyMenu) {
     if (!i) {
@@ -77,5 +79,15 @@ export default class DailyMenu implements IDailyMenu {
 
   isActive(): boolean {
     return this.active;
+  }
+
+  setEditMode(): void {
+    this.editMode = true;
+    this.cacheName = this.name;
+  }
+
+  cancelEditMode(): void {
+    this.editMode = false;
+    this.name = this.cacheName;
   }
 }
