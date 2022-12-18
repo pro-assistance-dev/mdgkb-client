@@ -62,7 +62,8 @@
                   @click="selectMenu(menu)"
                 >
                   <div class="title">
-                    <input id="tab-name" type="text" name="name" placeholder="Имя вкладки" :value="menu.name" />
+                    <input v-if="isEdit" id="tab-name" type="text" name="name" placeholder="Имя вкладки" :value="menu.name" />
+                    <span v-else class="span-class" @dblclick="dblcl"> {{ menu.name }} </span>
                   </div>
                   <div :class="{ 'active-line': selectedMenu.id === menu.id, line: selectedMenu.id !== menu.id }"></div>
                   <div class="button-close">
@@ -275,6 +276,8 @@ export default defineComponent({
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu | undefined> = ref();
 
+    const isEdit: Ref<boolean> = ref(false);
+
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await Provider.store.dispatch('search/searchGroups');
@@ -412,6 +415,11 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
 
+    const dblcl = async () => {
+      isEdit.value = true;
+      console.log(isEdit.value);
+    };
+
     return {
       setDailyMenuItemAvailable,
       setGroupAvailable,
@@ -435,6 +443,8 @@ export default defineComponent({
       schema: Provider.schema,
       removeFromClass,
       activate,
+      dblcl,
+      isEdit,
     };
   },
 });
@@ -974,10 +984,12 @@ input[type='text'] {
   font-size: inherit;
   line-height: inherit;
   margin: 0;
-  border: none;
+  border: 1px solid #c4c4c4;
+  border-radius: 3px;
   outline: none;
-  background: transparent;
+  background: #ffffff;
   text-transform: uppercase;
+  width: 100px;
 }
 
 .table-tools {
