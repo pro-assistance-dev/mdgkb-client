@@ -1,29 +1,55 @@
 <template>
-  <div class="card">
-    <div class="image-box">
-      <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
-    </div>
-    <div class="name">Каша овсяная с маслом</div>
-    <div class="info">
-      <div class="left">
-        <div class="line1">Вес: 120гр.</div>
-        <div class="line2">110 ккал</div>
+  <el-form>
+    <div class="card">
+      <div class="image-box">
+        <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
       </div>
-      <div class="right">85 р.</div>
+      <div class="name">{{ dailyMenuItem.name }}</div>
+      <div class="info">
+        <div class="left">
+          <div class="line1">Вес: {{ dailyMenuItem.weight }}гр.</div>
+          <div class="line2">{{ dailyMenuItem.caloric }} ккал</div>
+        </div>
+        <div class="right">{{ dailyMenuItem.price }} р.</div>
+      </div>
+      <div class="counter">
+        <el-form-item label="">
+          <el-input-number min="0" :model-value="dailyMenuOrder.getItemQuantity(dailyMenuItem)" @change="(par, par1) => add(par, par1)" />
+        </el-form-item>
+      </div>
     </div>
-    <div class="counter">
-      <el-form-item label="">
-        <el-input-number placeholder="1"></el-input-number>
-      </el-form-item>
-    </div>
-  </div>
+  </el-form>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, PropType, Ref } from 'vue';
+
+import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
+import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
-  name: 'Bufet',
+  name: 'DishCard',
+  props: {
+    dailyMenuItem: {
+      type: Object as PropType<IDailyMenuItem>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const add = (curNum: number, prevNum: number) => {
+      if (curNum > prevNum) {
+        dailyMenuOrder.value.addDailyMenuItem(props.dailyMenuItem);
+      } else {
+        dailyMenuOrder.value.removeDailyMenuItem(props.dailyMenuItem);
+      }
+    };
+    return {
+      add,
+      dailyMenuOrder,
+    };
+  },
 });
 </script>
 

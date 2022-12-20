@@ -2,27 +2,53 @@
   <div class="table-card">
     <div class="left">
       <div class="info">
-        <div class="name">Каша овсяная с маслом</div>
+        <div class="name">{{ dailyMenuOrderItem.dailyMenuItem.name }}</div>
         <div class="bottom">
-          <div class="item1">Вес: 120гр.</div>
-          <div class="item2">110 ккал</div>
+          <div class="item1">Вес: {{ dailyMenuOrderItem.getWeightSum() }}гр.</div>
+          <div class="item2">110 {{ dailyMenuOrderItem.getCaloricSum() }}</div>
         </div>
       </div>
       <div class="counter">
-        <el-form-item label="">
-          <el-input-number placeholder="1"></el-input-number>
-        </el-form-item>
+        <el-form>
+          <el-form-item label="">
+            <el-input-number :model-value="dailyMenuOrderItem.quantity" placeholder="1" @change="add"></el-input-number>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
-    <div class="right">85 р.</div>
+    <div class="right">{{ dailyMenuOrderItem.getPriceSum() }} р.</div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, PropType, Ref } from 'vue';
+
+import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
+import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'BufetCard',
+  props: {
+    dailyMenuOrderItem: {
+      type: Object as PropType<IDailyMenuOrderItem>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const add = (curNum: number, prevNum: number) => {
+      if (curNum > prevNum) {
+        dailyMenuOrder.value.addDailyMenuItem(props.dailyMenuOrderItem.dailyMenuItem);
+      } else {
+        dailyMenuOrder.value.removeDailyMenuItem(props.dailyMenuOrderItem.dailyMenuItem);
+      }
+    };
+    return {
+      add,
+      dailyMenuOrder,
+    };
+  },
 });
 </script>
 

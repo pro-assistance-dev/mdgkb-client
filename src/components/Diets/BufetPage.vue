@@ -1,5 +1,5 @@
 <template>
-  <div class="container-bufet">
+  <div v-if="mounted" class="container-bufet">
     <div class="header">
       <div class="header-top">
         <div class="header-left">
@@ -14,33 +14,19 @@
         </div>
       </div>
       <div class="menu-bufet">
-        <div class="item">Завтраки</div>
-        <div class="active-item">Первые блюда</div>
-        <div class="item">Вторые блюда</div>
-        <div class="item">Напитки</div>
-        <div class="item">Выпечка</div>
+        <div v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" class="item" @click="scrollToGroup">{{ dishesGroup.name }}</div>
       </div>
     </div>
     <div class="main">
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+      <template v-for="dishesGroup in dailyMenus[0].dishesGroups" :key="dishesGroup.id">
+        <DishCard v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :daily-menu-item="dish" />
+      </template>
     </div>
     <div class="footer">
-      <button class="add-to-card">В корзину</button>
+      <button class="add-to-card" @click="$router.push('/bufet/cart')">В корзину</button>
       <div class="footer-info">
-        <div class="field1">650 ккал</div>
-        <div class="field2">480 р.</div>
+        <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
+        <div class="field2">{{ dailyMenuOrder.price }} р.</div>
       </div>
     </div>
   </div>
@@ -48,14 +34,56 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
-import Card from '@/components/Diets/Card.vue';
+import FilterModel from '@/classes/filters/FilterModel';
+import DishCard from '@/components/Diets/DishCard.vue';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
+import IDailyMenu from '@/interfaces/IDailyMenu';
+import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
+import IDishesGroup from '@/interfaces/IDishesGroup';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
+import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
-  name: 'Bufet',
-  components: { Cart, Card },
+  name: 'BufetPage',
+  components: { Cart, DishCard },
+  setup() {
+    const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+    const dailyMenu: Ref<IDailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+    const dishesGroups: Ref<IDishesGroup[]> = ref([]);
+    const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const load = async () => {
+      dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
+      await getDailyMenus();
+      await Provider.store.dispatch('dishesGroups/getAll');
+    };
+
+    const getDailyMenus = async () => {
+      const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+      dayFilter.value.date1 = new Date(new Date().getTime() - userTimezoneOffset);
+      Provider.setFilterModel(dayFilter.value);
+      await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+      dailyMenu.value = dailyMenus.value[0];
+      dailyMenus.value[0].groupDishes();
+    };
+
+    Hooks.onBeforeMount(load);
+
+    return {
+      dailyMenuOrder,
+      dishesGroups,
+      dailyMenu,
+      dailyMenus,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
+      removeFromClass,
+    };
+  },
 });
 </script>
 

@@ -15,28 +15,53 @@
       </div>
     </div>
     <div class="table-main">
-      <TableCard />
-      <TableCard />
-      <TableCard />
+      <TableCard
+        v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems"
+        :key="dailyMenuOrderItem.id"
+        :daily-menu-order-item="dailyMenuOrderItem"
+      />
     </div>
     <div class="footer">
       <button class="add-to-card">Заказать</button>
       <div class="footer-info">
-        <div class="field1">650 ккал</div>
-        <div class="field2">480 р.</div>
+        <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
+        <div class="field2">{{ dailyMenuOrder.price }} р.</div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
 
 import TableCard from '@/components/Diets/TableCard.vue';
+import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
+import Provider from '@/services/Provider';
+import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
   name: 'BufetCart',
   components: { TableCard },
+  setup() {
+    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+
+    const load = async () => {
+      await getDailyMenus();
+      await Provider.store.dispatch('dishesGroups/getAll');
+    };
+
+    const getDailyMenus = async () => {
+      const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+      await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+    };
+
+    return {
+      dailyMenuOrder,
+      mounted: Provider.mounted,
+      schema: Provider.schema,
+      removeFromClass,
+    };
+  },
 });
 </script>
 
