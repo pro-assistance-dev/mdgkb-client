@@ -1,6 +1,6 @@
 <template>
   <div v-if="mounted" class="container-bufet">
-    <div class="header">
+    <div class="bufet-header">
       <div class="header-top">
         <div class="header-left">
           Номер палаты:
@@ -89,12 +89,17 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .container-bufet {
+  position: relative;
   width: 100%;
   color: #ffffff;
 }
 
-.header {
+.bufet-header {
   display: block;
+  position: sticky;
+  top: 56px;
+  width: 100%;
+  z-index: 2;
 }
 
 .header-top {
@@ -198,6 +203,8 @@ input[type='text'] {
   grid-gap: 0px;
   grid-template-columns: repeat(auto-fit, minmax(150px, 5fr));
   grid-template-rows: repeat(0 5px);
+  min-height: 100vh;
+  grid-auto-rows: 240px;
 }
 
 .main > div {
@@ -212,6 +219,10 @@ input[type='text'] {
   display: flex;
   align-content: center;
   justify-content: space-between;
+
+  position: sticky;
+  bottom: 0px;
+  z-index: 2;
 }
 
 .footer-info {

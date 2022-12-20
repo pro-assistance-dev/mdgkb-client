@@ -56,6 +56,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .card {
   width: 140px;
+  height: 220px;
   border: 1px solid #c4c4c4;
   border-radius: 5px;
   margin: 8px;
