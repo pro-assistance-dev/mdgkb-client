@@ -44,12 +44,17 @@ export default defineComponent({
 @import '@/assets/styles/elements/base-style.scss';
 
 .container-bufet {
+  position: relative;
   width: 100%;
   color: #ffffff;
 }
 
 .header {
   display: block;
+  position: sticky;
+  top: 56px;
+  width: 100%;
+  z-index: 2;
 }
 
 .header-top {
@@ -149,6 +154,7 @@ input[type='text'] {
   width: calc(100% - 32px);
   display: block;
   padding: 16px;
+  height: 100vh;
 }
 
 .main > div {
@@ -163,6 +169,10 @@ input[type='text'] {
   display: flex;
   align-content: center;
   justify-content: space-between;
+
+  position: sticky;
+  bottom: 0px;
+  z-index: 2;
 }
 
 .footer-info {
