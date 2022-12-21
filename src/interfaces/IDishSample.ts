@@ -1,3 +1,4 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 
 export default interface IDishSample {
@@ -9,4 +10,9 @@ export default interface IDishSample {
   dishesGroupId?: string;
   dishesGroup: IDishesGroup;
   selected: boolean;
+
+  image: IFileInfo;
+  imageId?: string;
+  removeImage: () => void;
+  getFileInfos: () => IFileInfo[];
 }

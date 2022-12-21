@@ -1,4 +1,6 @@
 import DishesGroup from '@/classes/DishesGroup';
+import FileInfo from '@/classes/File/FileInfo';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDishSample from '@/interfaces/IDishSample';
 
 export default class DishSample implements IDishSample {
@@ -10,6 +12,8 @@ export default class DishSample implements IDishSample {
   dishesGroupId?: string;
   dishesGroup = new DishesGroup();
   selected = false;
+  image: IFileInfo = new FileInfo();
+  imageId?: string;
   constructor(i?: IDishSample) {
     if (!i) {
       return;
@@ -23,5 +27,18 @@ export default class DishSample implements IDishSample {
     if (i.dishesGroup) {
       this.dishesGroup = new DishesGroup(i.dishesGroup);
     }
+    this.imageId = i.imageId;
+    if (i.image) {
+      this.image = new FileInfo(i.image);
+    }
+  }
+
+  removeImage(): void {
+    this.image = new FileInfo();
+    this.imageId = undefined;
+  }
+
+  getFileInfos(): IFileInfo[] {
+    return [this.image];
   }
 }

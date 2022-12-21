@@ -2,7 +2,14 @@
   <el-form>
     <div class="card">
       <div class="image-box">
-        <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
+        <img
+          v-if="dailyMenuItem.dishSample.image.fileSystemPath"
+          data-test="doctor-photo"
+          :src="dailyMenuItem.dishSample.image.getImageUrl()"
+          alt="alt"
+          @error="dailyMenuItem.dishSample.image.errorImg($event)"
+        />
+        <img v-else src="../../assets/svg/Buffet/food.webp" alt="alt" />
       </div>
       <div class="name">{{ dailyMenuItem.name }}</div>
       <div class="info">

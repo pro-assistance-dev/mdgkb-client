@@ -55,7 +55,7 @@
         <div class="tools-buttons">
           <div class="button-container">
             <button class="button-create" @click="openDishSampleConstructor">Создать блюдо</button>
-            <AddForm v-if="dishSampleConstructorVisible" @close="dishSampleConstructorVisible = false" />
+            <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" @close="dishSampleConstructorVisible = false" />
           </div>
         </div>
       </div>
@@ -147,6 +147,7 @@ export default defineComponent({
     };
 
     const openDishSampleConstructor = (item?: IDishSample) => {
+      dishSampleConstructorVisible.value = false;
       if (item) {
         dishSample.value = item;
       }

@@ -19,6 +19,9 @@
             <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
+        <el-form-item label="Изображение:">
+          <UploaderSingleScan :file-info="dishSample.image" :height="200" :width="200" @remove-file="dishSample.removeImage()" />
+        </el-form-item>
         <div class="button-field">
           <button class="button-cancel" @click.prevent="close">Отмена</button>
           <button class="button-save" @click.prevent="saveDishSample">Сохранить</button>
@@ -29,29 +32,25 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
 
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AddForm',
+  components: { UploaderSingleScan },
   emits: ['close'],
-
   setup(_, { emit }) {
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
-    const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
 
     const close = () => {
       Provider.store.commit('dishesSamples/resetItem');
       emit('close');
     };
-
-    onBeforeMount(async () => {
-      console.log(dishesGroups.value);
-    });
 
     const saveDishSample = async () => {
       if (dishSample.value.id) {
@@ -67,15 +66,10 @@ export default defineComponent({
       emit('close');
     };
 
-    const saveDishesGroup = async () => {
-      dishesGroupConstructorVisible.value = false;
-    };
-
     return {
       close,
       saveDishSample,
       dishesGroups,
-      saveDishesGroup,
       dishSample,
     };
   },
