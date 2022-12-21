@@ -14,6 +14,7 @@ import { certificates } from '@/store/modules/certificates';
 import { children } from '@/store/modules/children';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
+import { dailyMenuOrders } from '@/store/modules/dailyMenuOrders';
 import { dailyMenus } from '@/store/modules/dailyMenus';
 import { dailyMenuItems } from '@/store/modules/dailyMenusItems';
 import { diets } from '@/store/modules/diets';
@@ -169,6 +170,7 @@ const s: StoreOptions<RootState> = {
     supportMessages,
     dailyMenuItems,
     appointmentsTypes,
+    dailyMenuOrders,
   },
 };
 
