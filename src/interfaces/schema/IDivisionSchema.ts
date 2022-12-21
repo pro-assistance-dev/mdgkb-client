@@ -8,4 +8,6 @@ export default interface IDivisionSchema extends IBaseSchema {
   slug: string;
   treatDirectionId: string;
   buildingId: string;
+  hasDiagnostic: string;
+  hasAmbulatory: string;
 }

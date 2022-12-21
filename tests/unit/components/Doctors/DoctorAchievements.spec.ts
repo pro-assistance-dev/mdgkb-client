@@ -42,12 +42,12 @@ describe('DoctorAchievements.vue', () => {
   });
 
   test('achievements-component shows', async () => {
-    doctor.academicDegree = 'academicDegree';
-    doctor.academicRank = 'academicRank';
+    doctor.employee.academicDegree = 'academicDegree';
+    doctor.employee.academicRank = 'academicRank';
     for (let i = 0; i < 5; i++) {
       const r = new Regalia();
       r.name = String(i);
-      doctor.regalias.push(r);
+      doctor.employee.regalias.push(r);
     }
 
     wrapper = createWrapper(doctor);
@@ -56,8 +56,8 @@ describe('DoctorAchievements.vue', () => {
   });
 
   test('achievements-component hidden ', async () => {
-    doctor.academicDegree = 'a';
-    doctor.academicRank = 'a';
+    doctor.employee.academicDegree = 'a';
+    doctor.employee.academicRank = 'a';
 
     wrapper = createWrapper(doctor);
 
@@ -68,23 +68,23 @@ describe('DoctorAchievements.vue', () => {
     for (let i = 0; i < 5; i++) {
       const r = new Regalia();
       r.name = String(i);
-      doctor.regalias.push(r);
+      doctor.employee.regalias.push(r);
     }
     wrapper = createWrapper(doctor);
 
-    expect(wrapper.findAll('[data-test="regalia-list"]')).toHaveLength(doctor.regalias.length);
+    expect(wrapper.findAll('[data-test="regalia-list"]')).toHaveLength(doctor.employee.regalias.length);
   });
 
-  test('doctor.academicDegree li shows', async () => {
-    doctor.academicDegree = 'a';
+  test('doctor.employee.academicDegree li shows', async () => {
+    doctor.employee.academicDegree = 'a';
 
     wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="academic-degree"]').exists()).toBe(false);
   });
 
-  test('doctor.academicRank li shows', async () => {
-    doctor.academicRank = 'academicRank';
+  test('doctor.employee.academicRank li shows', async () => {
+    doctor.employee.academicRank = 'academicRank';
 
     wrapper = createWrapper(doctor);
 

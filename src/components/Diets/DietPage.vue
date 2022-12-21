@@ -1,7 +1,13 @@
 <template>
   <!-- <div v-if="timetable.timetableDays.length > 1" class="title">Меню питания на неделю</div> -->
   <div v-if="timetable.timetableDays.length > 1" class="week">
-    <div v-for="(day, i) in setDay" :key="i" class="form_radio_btn">
+    <div v-for="(day, i) in setDays" :key="i" class="form_radio_btn">
+      <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
+        {{ day }}
+      </button>
+    </div>
+
+    <div v-for="(day, i) in setDaysMobile" :key="i" class="form_radio_btn_mobile">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
         {{ day }}
       </button>
@@ -10,18 +16,25 @@
   <div class="diets-container">
     <div class="table-container">
       <table class="table-list">
-        <colgroup>
-          <col width="78%" />
-          <col width="6%" />
-          <col width="6%" />
-          <col width="10%" />
+        <colgroup class="decktop">
+          <col width="auto" />
+          <col width="70px" />
+          <col width="70px" />
+          <col width="70px" />
+        </colgroup>
+        <colgroup class="mobile">
+          <col width="auto" />
+          <col width="50px" />
+          <col width="50px" />
+          <col width="50px" />
         </colgroup>
         <thead>
           <tr>
             <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; padding-left: 44px">Блюдо</td>
             <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
             <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
-            <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорийность</td>
+            <td class="decktop" style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калории</td>
+            <td class="mobile" style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Ккал</td>
           </tr>
         </thead>
         <tbody v-for="scheduleItem in timetable.timetableDays[selectedNumberDay].scheduleItems" :key="scheduleItem.id">
@@ -64,6 +77,8 @@ import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
 import Time from '@/assets/doctors/svg/Time.svg';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import Provider from '@/services/Provider';
+import setDays from '@/services/SetDays';
+import setDaysMobile from '@/services/SetDaysMobile';
 
 export default defineComponent({
   name: 'DietPage',
@@ -75,13 +90,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // const diets: Ref<IDiet[]> = computed<IDiet[]>(() => Provider.store.getters['diets/items']);
-    // const selectedDiet: Ref<IDiet> = computed(() => Provider.store.getters['diets/item']);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
-    const setDay = ref(['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']);
 
     const selectDay = (e: any) => {
-      console.log(e);
       selectedNumberDay.value = e;
     };
 
@@ -99,7 +110,8 @@ export default defineComponent({
       // selectedDiet,
       // diets,
       isAuth,
-      setDay,
+      setDays,
+      setDaysMobile,
       selectedNumberDay,
       selectDay,
     };
@@ -261,5 +273,211 @@ h4 {
   width: 14px;
   height: 14px;
   fill: $site_dark_gray;
+}
+
+.form_radio_btn_mobile {
+  display: none;
+}
+
+.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 1226px) {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 130px;
+    height: 26px;
+    border: 1px solid #a5a5bf;
+    border-radius: 20px;
+    user-select: none;
+    background: #ffffff;
+    color: $site_dark_gray;
+    font-size: 15px;
+  }
+
+  .checked-day {
+    background: #123dce;
+    color: #ffffff;
+    border: 1px solid #123dce;
+  }
+  .week {
+    width: 90%;
+    transform: translateX(5%);
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 130px;
+    height: 26px;
+    border: 1px solid #a5a5bf;
+    border-radius: 20px;
+    user-select: none;
+    background: #ffffff;
+    color: $site_dark_gray;
+    font-size: 15px;
+  }
+
+  .checked-day {
+    background: #123dce;
+    color: #ffffff;
+    border: 1px solid #123dce;
+  }
+  .week {
+    width: 100%;
+    transform: translateX(0%);
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 120px;
+    height: 26px;
+    border: 1px solid #a5a5bf;
+    border-radius: 20px;
+    user-select: none;
+    background: #ffffff;
+    color: $site_dark_gray;
+    font-size: 15px;
+  }
+
+  .checked-day {
+    background: #123dce;
+    color: #ffffff;
+    border: 1px solid #123dce;
+  }
+  .week {
+    width: 100%;
+    transform: translateX(0%);
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 95px;
+    height: 26px;
+    border: 1px solid #a5a5bf;
+    border-radius: 20px;
+    user-select: none;
+    background: #ffffff;
+    color: $site_dark_gray;
+    font-size: 12px;
+  }
+
+  .checked-day {
+    background: #123dce;
+    color: #ffffff;
+    border: 1px solid #123dce;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 70px;
+    height: 26px;
+    border: 1px solid #a5a5bf;
+    border-radius: 20px;
+    user-select: none;
+    background: #ffffff;
+    color: $site_dark_gray;
+    font-size: 10px;
+  }
+
+  .checked-day {
+    background: #123dce;
+    color: #ffffff;
+    border: 1px solid #123dce;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 40px;
+    height: 26px;
+    border: 1px solid #a5a5bf;
+    border-radius: 20px;
+    user-select: none;
+    background: #ffffff;
+    color: $site_dark_gray;
+    font-size: 12px;
+  }
+
+  .checked-day {
+    background: #123dce;
+    color: #ffffff;
+    border: 1px solid #123dce;
+  }
+
+  .form_radio_btn_mobile {
+    display: flex;
+  }
+
+  .form_radio_btn {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+
+  .decktop {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 34px;
+    height: 26px;
+    border: 1px solid #a5a5bf;
+    border-radius: 20px;
+    user-select: none;
+    background: #ffffff;
+    color: $site_dark_gray;
+    font-size: 12px;
+  }
+
+  .checked-day {
+    background: #123dce;
+    color: #ffffff;
+    border: 1px solid #123dce;
+  }
 }
 </style>

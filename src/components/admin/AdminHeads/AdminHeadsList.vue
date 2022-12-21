@@ -8,17 +8,17 @@
       <el-table :data="doctors">
         <el-table-column label="ФИО" sortable>
           <template #default="scope">
-            {{ scope.row.human.getFullName() }}
+            {{ scope.row.employee.human.getFullName() }}
           </template>
         </el-table-column>
         <el-table-column label="Пол" align="center" sortable>
           <template #default="scope">
-            {{ scope.row.human.getGender() }}
+            {{ scope.row.employee.human.getGender() }}
           </template>
         </el-table-column>
         <el-table-column label="Дата рождения" sortable>
           <template #default="scope">
-            {{ $dateTimeFormatter.format(scope.row.human.dateBirth) }}
+            {{ $dateTimeFormatter.format(scope.row.employee.human.dateBirth) }}
           </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">

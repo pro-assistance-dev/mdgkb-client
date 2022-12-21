@@ -1,0 +1,14 @@
+ version: '3'
+services:
+
+  front:
+    container_name: mdgkb-client-master
+    build:
+      context: .
+      dockerfile: master.Dockerfile
+        - ./:/app
+    ports:
+      - ${VUE_APP_PORT}:${VUE_APP_PORT}
+    stdin_open: true
+    tty: true
+    network_mode: "host"

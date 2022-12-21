@@ -17,7 +17,6 @@ const actions: ActionTree<State, RootState> = {
       'set',
       await httpClient.put<IEducationalOrganization, IEducationalOrganization>({
         payload: item,
-        fileInfos: item.getFileInfos(),
         isFormData: true,
       })
     );

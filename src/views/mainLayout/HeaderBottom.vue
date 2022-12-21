@@ -1,10 +1,11 @@
 <template>
   <div class="navbar">
     <div v-if="devTitle === 'dev'" class="app-title">Разработка</div>
+    <div class="support-field"><Support /></div>
     <div class="container">
       <div class="menu">
         <div class="menu-left"><BurgerMobile /></div>
-        <div class="left-block2"></div>
+
         <div class="left-block">
           <el-row class="mb-4" @click="$scroll('#header-top')">
             <el-button v-if="scrollOffset >= 66 || mobileWindow" class="menu-item" @click="$router.push('/')">
@@ -13,7 +14,11 @@
           </el-row>
         </div>
         <div id="top" class="menu-center"><NavMenu /></div>
-        <div class="menu-right"><PhoneInfo /></div>
+        <div class="menu-right">
+          <PhoneInfo />
+
+          <div class="support-block"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -27,6 +32,7 @@ import { useStore } from 'vuex';
 import BurgerMobile from '@/views/mainLayout/elements/BurgerMobile.vue';
 import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
 import PhoneInfo from '@/views/mainLayout/elements/PhoneInfo.vue';
+import Support from '@/views/mainLayout/elements/Support.vue';
 
 export default defineComponent({
   name: 'HeaderBottom',
@@ -34,6 +40,7 @@ export default defineComponent({
     NavMenu,
     BurgerMobile,
     PhoneInfo,
+    Support,
   },
   setup() {
     const store = useStore();
@@ -180,7 +187,29 @@ export default defineComponent({
   border-radius: 2px;
 }
 
-@media screen and (max-width: 1226px) {
+.support-field {
+  position: absolute;
+  top: 0;
+  right: 0px;
+  z-index: 101;
+  width: 120px;
+}
+
+.support-block {
+  width: 120px;
+}
+
+@media screen and (max-width: 1600px) {
+  .support-block {
+    width: 120px;
+  }
+  .menu-right {
+    display: flex;
+    justify-content: right;
+  }
+}
+
+@media screen and (max-width: 1330px) {
   .menu-center {
     display: none;
   }
@@ -200,5 +229,11 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 480px) {
+  .app-title {
+    display: none;
+  }
+  .support-block {
+    display: none;
+  }
 }
 </style>

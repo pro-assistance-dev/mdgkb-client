@@ -1,9 +1,9 @@
-import IDocumentType from '@/interfaces/IDocumentType';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import IPageSection from '@/interfaces/IPageSection';
 
 export default interface IHospitalizationToDocumentType {
   id?: string;
-  documentType?: IDocumentType;
+  documentType?: IPageSection;
   documentTypeId?: string;
   hospitalization?: IHospitalizationType;
   hospitalizationId?: string;

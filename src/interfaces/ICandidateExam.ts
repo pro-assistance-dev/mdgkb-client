@@ -1,4 +1,4 @@
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 
 import IForm from './IForm';
 
@@ -8,5 +8,5 @@ export default interface ICandidateExam {
   formPatternId?: string;
 
   documentTypeId?: string;
-  documentType: IDocumentType;
+  documentType: IPageSection;
 }

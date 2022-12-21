@@ -10,99 +10,77 @@
                 <el-input v-model="page.title" placeholder="Заголовок"></el-input>
               </el-form-item>
             </el-card>
-            <el-card class="content-card">
-              <template #header>Контент</template>
-              <el-form-item prop="content">
-                <WysiwygEditor v-model="page.content" />
-              </el-form-item>
-            </el-card>
           </el-container>
         </el-col>
         <el-col :lg="8" :xl="6">
           <el-checkbox v-model="page.withComments">Включить комментарии</el-checkbox>
         </el-col>
       </el-row>
-
-      <el-row>
-        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
-          <el-container direction="vertical">
-            <el-card>
-              <template #header>
-                <CardHeader :remove-button="false" :label="'Документы'" @add="addDocument" />
-              </template>
-              <div v-for="pageDocument in page.pageDocuments" :key="pageDocument.id">
-                <el-form-item>
-                  <el-input v-model="pageDocument.document.name" placeholder="Название документа"> </el-input>
-                </el-form-item>
-                <el-form-item>
-                  <el-upload
-                    ref="uploader"
-                    action="#"
-                    :auto-upload="false"
-                    :limit="1"
-                    :multiple="false"
-                    accept="application/pdf"
-                    :show-file-list="false"
-                    @change="(file) => pageDocument.document.addFile(file)"
-                  >
-                    <el-popover placement="top-start" :width="200" trigger="hover" :content="pageDocument.document.fileInfo.originalName">
-                      <template #reference>
-                        <el-button>{{ pageDocument.document.fileInfo.originalName ? 'Заменить файл' : 'Приложить файл' }}</el-button>
-                      </template>
-                    </el-popover>
-                  </el-upload>
-                </el-form-item>
-              </div>
-            </el-card>
-          </el-container>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-card>
-          <AdminGallery :store-module="'pages'" />
-        </el-card>
-      </el-row>
+      <el-button @click="page.addSideMenu()">Добавить меню</el-button>
+      <el-card v-for="pageSideMenu in page.pageSideMenus" :key="pageSideMenu">
+        <template #header>
+          <div class="card-header">
+            <el-input v-model="pageSideMenu.name" />
+            <WysiwygEditor v-model="pageSideMenu.description" />
+            <el-button type="success" @click="pageSideMenu.addPageSection()">Добавить тип</el-button>
+          </div>
+        </template>
+        <el-collapse>
+          <draggable
+            class="groups"
+            :list="pageSideMenu.pageSections"
+            item-key="id"
+            handle=".el-icon-s-grid"
+            @end="sort(pageSideMenu.pageSections)"
+          >
+            <template #item="{ element }">
+              <el-collapse-item :title="element.name" :name="element.name">
+                <template #title>
+                  <i class="el-icon-s-grid drug-icon" />
+                  {{ element.name }}
+                </template>
+                <el-card>
+                  <template #header>
+                    <div class="card-header">
+                      <el-form-item style="margin: 0 10px 0 0; width: 100%">
+                        <el-input v-model="element.name" placeholder="Название типа документов"></el-input>
+                      </el-form-item>
+                      <!--                      <el-button type="danger" icon="el-icon-close" @click="removeDocType(index)"></el-button>-->
+                    </div>
+                    <div>
+                      <el-form-item prop="description">
+                        <WysiwygEditor v-model="element.description" />
+                      </el-form-item>
+                    </div>
+                  </template>
+                  <AdminDocumentsForm :document-type="element" />
+                </el-card>
+              </el-collapse-item>
+            </template>
+          </draggable>
+        </el-collapse>
+      </el-card>
     </el-form>
   </div>
-  <ImageCropper />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
-import AdminGallery from '@/components/admin/AdminGallery.vue';
-import CardHeader from '@/components/admin/CardHeader.vue';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
+import AdminDocumentsForm from '@/components/AdminDocumentsForm.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IPage from '@/interfaces/page/IPage';
+import sort from '@/services/sort';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPagesPage',
-  components: { AdminGallery, WysiwygEditor, CardHeader, ImageCropper },
+  components: { WysiwygEditor, draggable, AdminDocumentsForm },
   setup() {
-    const editorOption = {
-      modules: {
-        toolbar: [
-          ['полужирный', 'курсив', 'подчеркивание', 'зачеркивание'], // полужирный, курсив, подчеркивание, зачеркивание
-          ['blockquote', 'code-block'], // цитата, кодовый блок
-          [{ header: 1 }, { header: 2 }], // Заголовок в виде пар ключ-значение; 1, 2 означает размер шрифта
-          [{ script: 'sub' }, { script: 'super' }], // нижний индекс и нижний индекс
-          [{ indent: '- 1' }, { indent: '+ 1' }], // отступ
-          [{ direction: 'rtl' }], // направление текста
-          [{ size: ['small', false, 'large', 'huge'] }], // размер шрифта
-          [{ header: [1, 2, 3, 4, 5, 6, false] }], // Несколько уровней заголовка
-          [{ color: [] }, { background: [] }], // цвет шрифта, цвет фона шрифта
-          [{ font: [] }], // шрифт
-          [{ align: [] }], // Выравнивание
-          ['clean'], // Очистить стиль шрифта
-          ['image', 'video'], // Загрузить изображения, загрузить видео
-        ],
-      },
-    };
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -156,7 +134,7 @@ export default defineComponent({
 
     return {
       addDocument,
-      editorOption,
+      sort,
       mounted,
       submit,
       page,

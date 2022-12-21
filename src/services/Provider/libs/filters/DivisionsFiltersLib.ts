@@ -1,44 +1,12 @@
+import { toRef } from 'vue';
+
 import FilterModel from '@/classes/filters/FilterModel';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import Provider from '@/services/Provider';
 
-const NewsFiltersLib = (() => {
-  function onlyPublished(): IFilterModel {
-    const onlyPublished = FilterModel.CreateFilterModel(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.publishedOn,
-      DataTypes.Date
-    );
-    onlyPublished.date1 = new Date();
-    onlyPublished.operator = Operators.Lt;
-    return onlyPublished;
-  }
-
-  function excludeSlug(slug: string): IFilterModel {
-    const sf = FilterModel.CreateFilterModel(Provider.schema.value.news.tableName, Provider.schema.value.news.slug, DataTypes.String);
-    sf.value1 = slug;
-    sf.operator = Operators.Ne;
-    return sf;
-  }
-
-  function filterByTags(tagsIdSet: string[]): IFilterModel {
-    const filterModel: IFilterModel = FilterModel.CreateFilterModelWithJoin(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.id,
-      Provider.schema.value.newsToTag.tableName,
-      Provider.schema.value.newsToTag.id,
-      Provider.schema.value.newsToTag.newsId,
-      DataTypes.Join,
-      Provider.schema.value.newsToTag.id,
-      Provider.schema.value.newsToTag.tagId
-    );
-    filterModel.operator = Operators.In;
-    filterModel.set = tagsIdSet;
-    return filterModel;
-  }
-
+const DivisionsFiltersLib = (() => {
   function onlyDivisions(): IFilterModel {
     const filterModel = FilterModel.CreateFilterModel(
       Provider.schema.value.division.tableName,
@@ -48,6 +16,65 @@ const NewsFiltersLib = (() => {
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Отделения';
+    return filterModel;
+  }
+
+  function byTreatDirection(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.division.tableName,
+      Provider.schema.value.division.isCenter,
+      DataTypes.Boolean
+    );
+    filterModel.boolean = false;
+    filterModel.operator = Operators.Eq;
+    filterModel.label = 'Отделения';
+    return filterModel;
+  }
+
+  function withComments(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.division.tableName,
+      Provider.schema.value.division.commentsCount,
+      DataTypes.Number
+    );
+    filterModel.operator = Operators.Gt;
+    filterModel.number = 0;
+    filterModel.label = 'С отзывами';
+    return filterModel;
+  }
+
+  function withHospitalization(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.division.tableName,
+      Provider.schema.value.division.hospitalizationContactInfoId,
+      DataTypes.String
+    );
+    filterModel.operator = Operators.NotNull;
+    filterModel.label = 'С возможностью госпитализации';
+    return filterModel;
+  }
+
+  function onlyWithAmbulatory(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.division.tableName,
+      Provider.schema.value.division.hasAmbulatory,
+      DataTypes.Boolean
+    );
+    filterModel.boolean = false;
+    filterModel.operator = Operators.Eq;
+    filterModel.label = 'С амбулаторным лечением';
+    return filterModel;
+  }
+
+  function onlyWithDiagnostic(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.division.tableName,
+      Provider.schema.value.division.hasDiagnostic,
+      DataTypes.Boolean
+    );
+    filterModel.boolean = false;
+    filterModel.operator = Operators.Eq;
+    filterModel.label = 'С услугами диагностики';
     return filterModel;
   }
 
@@ -64,12 +91,14 @@ const NewsFiltersLib = (() => {
   }
 
   return {
-    filterByTags,
-    excludeSlug,
-    onlyPublished,
+    toRef,
+    withHospitalization,
+    withComments,
+    withDiagnostic: onlyWithDiagnostic,
+    withAmbulatory: onlyWithAmbulatory,
     onlyDivisions,
     onlyCenters,
   };
 })();
 
-export default NewsFiltersLib;
+export default DivisionsFiltersLib;

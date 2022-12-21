@@ -52,6 +52,8 @@ export default class Division implements IDivision {
   timetableId?: string;
   schedule: ISchedule = new Schedule();
   scheduleId?: string;
+  hasDiagnostic = false;
+  hasAmbulatory = false;
   divisionImages: IDivisionImage[] = [];
   divisionImagesForDelete: string[] = [];
   divisionComments: IDivisionComment[] = [];
@@ -90,6 +92,8 @@ export default class Division implements IDivision {
     }
     this.contactInfoId = i.contactInfoId;
     this.show = i.show;
+    this.hasAmbulatory = i.hasAmbulatory;
+    this.hasDiagnostic = i.hasDiagnostic;
     this.address = i.address;
     this.floorId = i.floorId;
     this.entranceId = i.entranceId;
@@ -199,5 +203,19 @@ export default class Division implements IDivision {
       return !!vg.visitingRules.length;
     });
     return scheduleItemsExists && visitingRulesExists;
+  }
+
+  getDoctors(onlyShowed: boolean): IDoctor[] {
+    const doctors: IDoctor[] = [];
+    this.doctorsDivisions.forEach((dd: IDoctorDivision) => {
+      if (onlyShowed) {
+        if (dd.show) {
+          doctors.push(dd.doctor);
+        }
+      } else {
+        doctors.push(dd.doctor);
+      }
+    });
+    return doctors;
   }
 }

@@ -8,7 +8,7 @@
           </div>
         </div>
         <div class="main-doctor-title">
-          <h3 class="main-doctor-title-h3">{{ mainDoctor.human.getFullName() }}</h3>
+          <h3 class="main-doctor-title-h3">{{ mainDoctor.employee.human.getFullName() }}</h3>
           <h2 class="main-doctor-title-h2">{{ mainDoctor.position }}</h2>
           <div v-for="phone in mainDoctor.contactInfo.telephoneNumbers" :key="phone.id">
             <div class="contact-h3">
@@ -76,11 +76,15 @@
       <div v-for="head in heads" :key="head.id" class="vice-doctor-info">
         <div class="vice-doctor-avatar">
           <div class="doctor-avatar">
-            <img :src="head.human.photo.getImageUrl()" alt="alt" @error="head.human.photo.errorImg($event, 'doctor-default.webp')" />
+            <img
+              :src="head.employee.human.photo.getImageUrl()"
+              alt="alt"
+              @error="head.employee.human.photo.errorImg($event, 'doctor-default.webp')"
+            />
           </div>
         </div>
         <div class="vice-doctor-title">
-          <h3 class="vice-doctor-title-h3">{{ head.human.getFullName() }}</h3>
+          <h3 class="vice-doctor-title-h3">{{ head.employee.human.getFullName() }}</h3>
           <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
           <ContactBlock :contact-info="head.contactInfo" />
         </div>

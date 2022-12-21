@@ -25,9 +25,7 @@ import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCo
 import ResidencyFilters from '@/components/Educational/Residency/ResidencyFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import { Orders } from '@/interfaces/filters/Orders';
-import IDocumentType from '@/interfaces/IDocumentType';
-import IDpoDocumentType from '@/interfaces/IDpoDocumentType';
-import IResidencyDocumentType from '@/interfaces/IResidencyDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -47,8 +45,8 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const documentTypes: ComputedRef<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
-    const selectedDocumentType: Ref<IDocumentType | undefined> = ref(undefined);
+    // const documentTypes: ComputedRef<IResidencyDocumentType[]> = computed(() => Provider.store.getters['residencyDocumentTypes/items']);
+    const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
     const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const modes: Ref<IOption[]> = ref([]);
     const title: ComputedRef<string> = computed(() => {
@@ -56,22 +54,16 @@ export default defineComponent({
     });
 
     const selectMode = async (value: string) => {
-      const documentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
-      if (documentType) {
-        selectedDocumentType.value = documentType.documentType;
-      } else {
-        selectedDocumentType.value = undefined;
-      }
+      // const documentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
+      // if (documentType) {
+      //   selectedDocumentType.value = documentType.documentType;
+      // } else {
+      //   selectedDocumentType.value = undefined;
+      // }
     };
 
     const setModes = async () => {
-      await Provider.store.dispatch('residencyDocumentTypes/getAll');
       modes.value.push({ value: 'programs', label: 'Программы' });
-      documentTypes.value.forEach((docType: IResidencyDocumentType) => {
-        if (docType.documentType.id) {
-          modes.value.push({ value: docType.documentType.id, label: docType.documentType.name });
-        }
-      });
       modes.value.push({ value: 'contacts', label: 'Контакты' });
     };
 

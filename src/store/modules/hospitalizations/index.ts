@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 
+import Hospitalization from '@/classes/hospitalizations/Hospitalization';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -10,7 +11,7 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
-    selectedHospitalization: undefined,
+    item: new Hospitalization(),
   };
 };
 

@@ -61,6 +61,16 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-guide',
         tableName: 'visits_applications',
       },
+      {
+        title: 'Госпитализации',
+        to: '/admin/hospitalizations',
+        icon: 'el-icon-guide',
+        tableName: 'hospitalizations',
+      },
+      {
+        title: 'Список записей',
+        to: '/admin/appointments',
+      },
     ],
   },
   {
@@ -251,6 +261,11 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-user',
       },
       {
+        title: 'Сотрудники',
+        to: '/admin/employees',
+        icon: 'el-icon-user',
+      },
+      {
         title: 'Пользователи',
         to: '/admin/users',
         icon: 'el-icon-user',
@@ -283,6 +298,21 @@ const menuList: IAdminMenu[] = [
         to: '/admin/form-statuses',
         icon: 'el-icon-user',
       },
+      {
+        title: 'Буфет',
+        to: '/admin/dishes',
+        icon: 'el-icon-user',
+      },
+      {
+        title: 'Тех.поддержка',
+        to: '/admin/support-messages',
+        icon: 'el-icon-user',
+      },
+      {
+        title: 'Типы госпитализации',
+        to: '/admin/hospitalizations-types',
+        icon: 'el-icon-user',
+      },
     ],
   },
   {
@@ -293,10 +323,6 @@ const menuList: IAdminMenu[] = [
       {
         title: 'Создать слоты для записи',
         to: '/admin/appointments/constructor',
-      },
-      {
-        title: 'Список записей',
-        to: '/admin/appointments/list',
       },
       {
         title: 'Платные услуги',

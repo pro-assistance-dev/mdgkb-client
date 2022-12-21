@@ -1,8 +1,8 @@
 import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 
 export default interface State {
-  items: IDocumentType[];
-  item: IDocumentType;
+  items: IPageSection[];
+  item: IPageSection;
   documentsForTablesNames: DocumentsTypesForTablesNames;
 }

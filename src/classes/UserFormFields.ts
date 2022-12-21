@@ -21,6 +21,7 @@ export default class UserFormFields implements IUserFormFields {
   childPatronymic = false;
   childDateBirth = false;
   childIsMale = false;
+  childCitizenship = false;
 
   constructor(i?: IUserFormFields) {
     if (!i) return;
@@ -69,6 +70,9 @@ export default class UserFormFields implements IUserFormFields {
     if (i.childIsMale !== undefined) {
       this.childIsMale = i.childIsMale;
     }
+    if (i.childCitizenship !== undefined) {
+      this.childCitizenship = i.childCitizenship;
+    }
   }
 
   static CreateWithAllChildFields(form?: IUserFormFields): IUserFormFields {
@@ -78,6 +82,7 @@ export default class UserFormFields implements IUserFormFields {
     newForm.childPatronymic = true;
     newForm.childDateBirth = true;
     newForm.childIsMale = true;
+    newForm.childCitizenship = true;
     return newForm;
   }
 

@@ -76,7 +76,6 @@ export default defineComponent({
     const load = async (): Promise<void> => {
       Provider.setSortModels(DivisionsSortsLib.byName());
       sortList.value = [DivisionsSortsLib.byName(), DivisionsSortsLib.byCommentsCount()];
-      Provider.store.commit('divisions/clearDivisions');
       Provider.setSortList(...createSortModels(DivisionsSortsLib));
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.building);
       // Provider.setSortModels(NewsSortsLib.byPublishedOn());

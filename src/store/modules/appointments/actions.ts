@@ -24,8 +24,8 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.get<IAppointment[]>({ query: 'init' });
     commit('resetItem');
   },
-  update: async ({ commit }, item: IAppointment): Promise<void> => {
-    const res = await httpClient.put<IAppointment, IAppointment>({ query: `${item.id}`, payload: item });
+  update: async ({ commit, state }): Promise<void> => {
+    const res = await httpClient.put<IAppointment, IAppointment>({ query: `${state.item.id}`, payload: state.item, isFormData: true });
     commit('set', res);
   },
   remove: async ({ commit }, id: string): Promise<void> => {

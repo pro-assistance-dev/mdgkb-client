@@ -9,8 +9,8 @@
             </el-form-item>
             <el-form-item label="Заведующий отделением">
               <RemoteSearch placeholder="Выберите заведующего" :key-value="schema.doctor.key" @select="selectDoctorSearch" />
-              <div v-if="division.chief" @click="Provider.routerPushBlank(`/admin/doctors/${division.chief.human.slug}`)">
-                {{ division.chief.human.getFullName() }}
+              <div v-if="division.chief" @click="Provider.routerPushBlank(`/admin/doctors/${division.chief.employee.human.slug}`)">
+                {{ division.chief.employee.human.getFullName() }}
               </div>
               <el-button @click="division.removeChief()"> Удалить заведующего</el-button>
             </el-form-item>
@@ -66,6 +66,12 @@
                   <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
                 </el-select>
               </el-form-item>
+              <el-form-item>
+                <el-checkbox v-model="division.hasAmbulatory">Осуществляет амбулаторную помощь</el-checkbox>
+              </el-form-item>
+              <el-form-item>
+                <el-checkbox v-model="division.hasDiagnostic">Осуществляет услуги диагностики</el-checkbox>
+              </el-form-item>
             </template>
           </el-card>
 
@@ -77,7 +83,7 @@
             <el-table :data="division.doctorsDivisions">
               <el-table-column label="ФИО" sortable>
                 <template #default="scope">
-                  {{ scope.row.doctor.human.getFullName() }}
+                  {{ scope.row.doctor.employee.human.getFullName() }}
                 </template>
               </el-table-column>
               <el-table-column label="Должность" sortable>
@@ -96,7 +102,7 @@
                     :show-more-button="true"
                     :show-remove-button="true"
                     @remove="removeFromClass(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)"
-                    @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.human.slug}`)"
+                    @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.slug}`)"
                   />
                 </template>
               </el-table-column>

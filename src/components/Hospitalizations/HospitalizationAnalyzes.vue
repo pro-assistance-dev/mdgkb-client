@@ -3,35 +3,26 @@
     <h4>Необходимые анализы</h4>
     <div class="wrapper">
       <div class="card-space">
-        <HospitalizationAnalysisCard title="Ребенку" :analyzes="hospitalization.hospitalizationAnalyzes.filter((item) => item.children)" />
+        <HospitalizationAnalysisCard title="Ребенку" :analyzes="hospitalizationTypeAnalyzes.filter((item) => item.children)" />
       </div>
       <div class="card-space">
-        <HospitalizationAnalysisCard
-          title="Представителю"
-          :analyzes="hospitalization.hospitalizationAnalyzes.filter((item) => !item.children)"
-        />
+        <HospitalizationAnalysisCard title="Представителю" :analyzes="hospitalizationTypeAnalyzes.filter((item) => !item.children)" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
 import HospitalizationAnalysisCard from '@/components/Hospitalizations/HospitalizationAnalysisCard.vue';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import IHospitalizationTypeAnalyze from '@/interfaces/IHospitalizationTypeAnalize';
 export default defineComponent({
   name: 'HospitalizationAnalyzes',
-  components: { HospitalizationAnalysisCard },
-  setup() {
-    const store = useStore();
-    const hospitalization: ComputedRef<IHospitalizationType> = computed(() => store.getters['hospitalizations/selectedHospitalisation']);
-
-    return {
-      hospitalization,
-    };
+  props: {
+    hospitalizationTypeAnalyzes: { type: Array as PropType<IHospitalizationTypeAnalyze[]>, required: true },
   },
+  components: { HospitalizationAnalysisCard },
 });
 </script>
 

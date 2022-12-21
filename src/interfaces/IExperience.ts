@@ -4,5 +4,5 @@ export default interface IExperience {
   end: number;
   place: string;
   position: string;
-  doctorId?: string;
+  employeeId?: string;
 }

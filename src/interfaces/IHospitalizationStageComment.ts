@@ -1,8 +1,8 @@
-import IHospitalizationStage from '@/interfaces/IHospitalizationStage';
+import IHospitalizationTypeStage from '@/interfaces/IHospitalizationStage';
 
 export default interface IHospitalizationStageComment {
   id?: string;
-  hospitalizationStage?: IHospitalizationStage;
+  hospitalizationStage?: IHospitalizationTypeStage;
   hospitalizationStageId?: string;
   name: string;
 }

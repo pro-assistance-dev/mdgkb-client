@@ -10,7 +10,7 @@ export default class Certificate implements ICertificate {
   description = '';
   scan: IFileInfo = new FileInfo();
   scanId?: string;
-  doctorId?: string;
+  employeeId?: string;
 
   constructor(i?: ICertificate) {
     if (!i) {
@@ -18,7 +18,7 @@ export default class Certificate implements ICertificate {
     }
     this.id = i.id;
     this.scanId = i.scanId;
-    this.doctorId = i.doctorId;
+    this.employeeId = i.employeeId;
     this.description = i.description;
     if (i.scan) {
       this.scan = new FileInfo(i.scan);

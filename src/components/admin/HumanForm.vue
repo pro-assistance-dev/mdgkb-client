@@ -4,7 +4,7 @@
       <div class="line-item">
         <div class="item-block">
           <div class="item-data">
-            <el-form-item label="Фамилия" prop="human.surname">
+            <el-form-item label="Фамилия">
               <el-input
                 v-model="human.surname"
                 placeholder="Введите фамилию"
@@ -16,14 +16,14 @@
         </div>
         <div class="item-block">
           <div class="item-data">
-            <el-form-item label="Имя" prop="human.name">
+            <el-form-item label="Имя">
               <el-input v-model="human.name" placeholder="Введите имя" @blur="checkCompleteName"></el-input>
             </el-form-item>
           </div>
         </div>
         <div class="item-block">
           <div class="item-data">
-            <el-form-item label="Отчество" prop="human.patronymic">
+            <el-form-item label="Отчество">
               <el-input v-model="human.patronymic" placeholder="Введите отчество" @blur="checkCompleteName"></el-input>
             </el-form-item>
           </div>
@@ -33,7 +33,7 @@
       <div class="line-item">
         <div class="item-block">
           <div class="item-data">
-            <el-form-item label="Пол" prop="human.isMale">
+            <el-form-item label="Пол">
               <el-select v-model="human.isMale" placeholder="Выберите пол">
                 <el-option label="Мужчина" :value="true"></el-option>
                 <el-option label="Женщина" :value="false"></el-option>
@@ -43,14 +43,14 @@
         </div>
         <div class="item-block">
           <div class="item-data">
-            <el-form-item label="Место&nbsp;рождения" prop="human.placeBirth">
+            <el-form-item label="Место&nbsp;рождения">
               <el-input v-model="human.placeBirth" placeholder="Введите страну"></el-input>
             </el-form-item>
           </div>
         </div>
         <div class="item-block">
           <div class="item-data">
-            <el-form-item label="Дата рождения" prop="human.dateBirth">
+            <el-form-item label="Дата рождения">
               <DatePicker v-model="human.dateBirth" />
             </el-form-item>
           </div>
@@ -59,17 +59,17 @@
 
       <div class="line-item">
         <div class="item-block">
-          <el-form-item label="Гражданство" prop="human.citizenship">
+          <el-form-item label="Гражданство">
             <el-input v-model="human.citizenship" placeholder="Введите гражданство"></el-input>
           </el-form-item>
         </div>
         <div class="item-block">
-          <el-form-item label="СНИЛС" prop="human.snils">
+          <el-form-item label="СНИЛС">
             <el-input v-model="human.snils" placeholder="Введите СНИЛС"></el-input>
           </el-form-item>
         </div>
         <div class="item-block">
-          <el-form-item label="Адрес" prop="human.address">
+          <el-form-item label="Адрес">
             <el-input v-model="human.address" placeholder="Введите адрес"></el-input>
           </el-form-item>
         </div>
@@ -103,7 +103,7 @@ export default defineComponent({
     const store = useStore();
     const form = ref();
 
-    const human: Ref<IHuman> = computed(() => store.getters[`${props.storeModule}/item`].human);
+    const human: Ref<IHuman> = computed(() => store.getters[`${props.storeModule}/item`].getHuman());
 
     const checkCompleteName = (n: string): void => {
       if (!!human.value.name && !!human.value.surname && !!human.value.patronymic) {

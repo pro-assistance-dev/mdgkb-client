@@ -1,14 +1,11 @@
 import EducationalManager from '@/classes/EducationalManager';
 import EducationalOrganizationAcademic from '@/classes/EducationalOrganizationAcademic';
-import EducationalOrganizationDocumentType from '@/classes/EducationalOrganizationDocumentType';
 import EducationalOrganizationProperty from '@/classes/EducationalOrganizationProperty';
 import Teacher from '@/classes/Teacher';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDoctor from '@/interfaces/IDoctor';
 import IEducationalManager from '@/interfaces/IEducationalManager';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
-import IEducationalOrganizationDocumentType from '@/interfaces/IEducationalOrganizationDocumentType';
 import IEducationalOrganizationProperty from '@/interfaces/IEducationalOrganizationProperty';
 import ITeacher from '@/interfaces/ITeacher';
 
@@ -20,9 +17,6 @@ export default class EducationalOrganization implements IEducationalOrganization
 
   teachers: ITeacher[] = [];
   teachersForDelete: string[] = [];
-
-  educationalOrganizationDocumentTypes: IEducationalOrganizationDocumentType[] = [];
-  educationalOrganizationDocumentTypesForDelete: string[] = [];
 
   educationalOrganizationAcademics: IEducationalOrganizationAcademic[] = [];
   educationalOrganizationAcademicsForDelete: string[] = [];
@@ -50,25 +44,6 @@ export default class EducationalOrganization implements IEducationalOrganization
         (item: IEducationalOrganizationAcademic) => new EducationalOrganizationAcademic(item)
       );
     }
-
-    if (i.educationalOrganizationDocumentTypes) {
-      this.educationalOrganizationDocumentTypes = i.educationalOrganizationDocumentTypes.map(
-        (item: IEducationalOrganizationDocumentType) => new EducationalOrganizationDocumentType(item)
-      );
-    }
-  }
-
-  addDocumentType(): void {
-    const docType = new EducationalOrganizationDocumentType();
-    this.educationalOrganizationDocumentTypes.push(docType);
-  }
-
-  removeDocumentType(i: number): void {
-    this.educationalOrganizationDocumentTypes.splice(i, 1);
-  }
-
-  getFileInfos(): IFileInfo[] {
-    return EducationalOrganizationDocumentType.GetFileInfos(this.educationalOrganizationDocumentTypes);
   }
 
   addAcademic(doctor: IDoctor): void {

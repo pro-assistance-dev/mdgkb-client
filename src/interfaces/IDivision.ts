@@ -52,7 +52,8 @@ export default interface IDivision {
   medicalProfilesDivisions: IMedicalProfileDivision[];
   socialMedias: ISocialMedia[];
   isCenter: boolean;
-
+  hasDiagnostic: boolean;
+  hasAmbulatory: boolean;
   treatDirection: ITreatDirection;
   treatDirectionId?: string;
 
@@ -77,4 +78,5 @@ export default interface IDivision {
   getEntranceNumber: () => string;
 
   scheduleAndRulesExists: () => boolean;
+  getDoctors: (onlyShowed: boolean) => IDoctor[];
 }

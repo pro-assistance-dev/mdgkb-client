@@ -13,14 +13,14 @@ const DoctorsSortsLib = (() => {
       order === Orders.Desc ? false : true
     );
   }
-  function byDivisionName(order?: Orders): ISortModel {
-    return SortModel.CreateSortModel(
-      Provider.schema.value.doctor.tableName,
-      Provider.schema.value.doctor.divisionName,
-      order ? order : Orders.Asc,
-      `По названию отделения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
-    );
-  }
+  // function byDivisionName(order?: Orders): ISortModel {
+  //   return SortModel.CreateSortModel(
+  //     Provider.schema.value.doctor.tableName,
+  //     Provider.schema.value.doctor.divisionName,
+  //     order ? order : Orders.Asc,
+  //     `По названию отделения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
+  //   );
+  // }
   function byDateBirth(order?: Orders): ISortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.doctor.tableName,
@@ -32,7 +32,7 @@ const DoctorsSortsLib = (() => {
 
   return {
     byFullName,
-    byDivisionName,
+    // byDivisionName,
     byDateBirth,
   };
 })();

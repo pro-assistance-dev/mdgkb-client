@@ -11,7 +11,7 @@
               </div>
             </div>
             <div class="main-doctor-title">
-              <h3 class="main-doctor-title-h3">{{ mainDoctor.human.getFullName() }}</h3>
+              <h3 class="main-doctor-title-h3">{{ mainDoctor.employee.human.getFullName() }}</h3>
               <h2 class="main-doctor-title-h2">{{ mainDoctor.position }}</h2>
               <div v-for="phone in mainDoctor.contactInfo.telephoneNumbers" :key="phone.id">
                 <h3 class="contact-h3">{{ phone.description }}: {{ phone.number }}</h3>
@@ -42,7 +42,7 @@
                   </div>
                 </div>
                 <div class="vice-doctor-title">
-                  <h3 class="vice-doctor-title-h3">{{ head.human.getFullName() }}</h3>
+                  <h3 class="vice-doctor-title-h3">{{ head.employee.human.getFullName() }}</h3>
                   <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
                   <div v-for="phone in head.contactInfo.telephoneNumbers" :key="phone.id">
                     <h3 class="contact-h3">{{ phone.description }} <span v-if="phone.description">:</span> {{ phone.number }}</h3>

@@ -1,3 +1,4 @@
+import { Ref } from 'vue';
 import { LocationQuery } from 'vue-router';
 
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -33,4 +34,6 @@ export default interface IFilterModel {
   joinTablePk: string;
   joinTableId: string;
   joinTableIdCol: string;
+
+  toRef: () => Ref<IFilterModel>;
 }

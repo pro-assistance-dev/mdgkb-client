@@ -2,7 +2,7 @@
   <div class="block">
     <h4>Что нужно сделать для госпитализации</h4>
     <div class="wrapper">
-      <div v-for="stage in hospitalization.selectedHospitalisation.hospitalizationStages" :key="stage.id" class="card-space">
+      <div v-for="stage in hospitalizationTypeStages" :key="stage.id" class="card-space">
         <HospitalizationStageCard :stage="stage" />
       </div>
     </div>
@@ -10,21 +10,18 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
 import HospitalizationStageCard from '@/components/Hospitalizations/HospitalizationStageCard.vue';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import IHospitalizationTypeStage from '@/interfaces/IHospitalizationTypeStage';
 export default defineComponent({
-  name: 'HospitalizationAnalyzes',
+  name: 'HospitalizationStages',
+  props: {
+    hospitalizationTypeStages: { type: Array as PropType<IHospitalizationTypeStage[]>, required: true },
+  },
   components: { HospitalizationStageCard },
   setup() {
-    const store = useStore();
-    const hospitalization: ComputedRef<IHospitalizationType> = computed(() => store.getters['hospitalizations/selectedHospitalisation']);
-
-    return {
-      hospitalization,
-    };
+    return {};
   },
 });
 </script>

@@ -4,9 +4,10 @@ import AboutPage from '@/components/About/AboutPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
+import BufetCart from '@/components/Diets/BufetCart.vue';
+import BufetPage from '@/components/Diets/BufetPage.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
-import PublicDocumentsList from '@/components/Documents/PublicDocumentsList.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import MedicalOrganization from '@/components/MedicalOrganization/MedicalOrganization.vue';
@@ -191,12 +192,6 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: '/public-documents',
-    name: 'PublicDocumentsList',
-    meta: { title: 'Документы' },
-    component: PublicDocumentsList,
-  },
-  {
     path: '/heads',
     name: 'HeadsList',
     meta: { title: 'Руководство' },
@@ -257,6 +252,16 @@ const routes: Array<RouteRecordRaw> = [
     name: 'DietsSelect',
     meta: { title: 'Выбор питания' },
     component: DietsSelect,
+  },
+  {
+    path: '/bufet',
+    name: 'BufetPage',
+    component: BufetPage,
+  },
+  {
+    path: '/bufet/cart',
+    name: 'BufetCart',
+    component: BufetCart,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,

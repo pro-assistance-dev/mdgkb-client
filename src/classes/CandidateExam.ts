@@ -1,7 +1,7 @@
-import DocumentType from '@/classes/document/DocumentType';
+import PageSection from '@/classes/PageSection';
 import ICandidateExam from '@/interfaces/ICandidateExam';
-import IDocumentType from '@/interfaces/IDocumentType';
 import IForm from '@/interfaces/IForm';
+import IPageSection from '@/interfaces/IPageSection';
 
 import Form from './Form';
 
@@ -10,7 +10,7 @@ export default class CandidateExam implements ICandidateExam {
   formPattern: IForm = new Form();
   formPatternId?: string;
   documentTypeId?: string;
-  documentType: IDocumentType = new DocumentType();
+  documentType: IPageSection = new PageSection();
   constructor(i?: ICandidateExam) {
     if (!i) {
       return;
@@ -21,7 +21,7 @@ export default class CandidateExam implements ICandidateExam {
     }
     this.documentTypeId = i.documentTypeId;
     if (i.documentType) {
-      this.documentType = new DocumentType(i.documentType);
+      this.documentType = new PageSection(i.documentType);
     }
   }
 }

@@ -62,7 +62,7 @@ describe('DivisionInfo.vue', () => {
 
     const divisionWithChiefPhoto = new Division();
     divisionWithChiefPhoto.chief.id = uuidv4();
-    divisionWithChiefPhoto.chief.human.photo.fileSystemPath = '123';
+    divisionWithChiefPhoto.chief.employee.human.photo.fileSystemPath = '123';
 
     await wrapper.setProps({ division: divisionWithChiefPhoto });
 

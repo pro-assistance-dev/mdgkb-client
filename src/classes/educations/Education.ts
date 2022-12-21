@@ -24,7 +24,7 @@ export default class Education implements IEducation {
   educationCertification?: IEducationCertification;
   educationCertificationId?: string;
 
-  doctorId?: string;
+  employeeId?: string;
 
   constructor(education?: IEducation) {
     if (!education) {
@@ -50,7 +50,7 @@ export default class Education implements IEducation {
       this.educationAccreditation = new EducationAccreditation(education.educationAccreditation);
     }
     this.educationAccreditationId = education.educationAccreditationId;
-    this.doctorId = education.doctorId;
+    this.employeeId = education.employeeId;
   }
 
   getEndYear(): number {

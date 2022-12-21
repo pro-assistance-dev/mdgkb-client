@@ -15,7 +15,7 @@ const actions: ActionTree<State, RootState> = {
     commit('setAll', await httpClient.get<IPreparation[]>());
   },
   getAllTags: async ({ commit }): Promise<void> => {
-    commit('setAllTags', await httpClient.get<IPreparationTag[]>({ query: '/tags' }));
+    commit('setAllTags', await httpClient.get<IPreparationTag[]>({ query: 'tags' }));
   },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<IPreparation[]>({ query: `${id}` });

@@ -5,9 +5,9 @@
     </template>
     <template #header-left-top>
       <RemoteSearch :key-value="schema.division.key" @select="selectSearch" />
-
       <FilterSelect
         placeholder="Выберите направление"
+        :max-width="300"
         :options="schema.treatDirection.options"
         :table="schema.division.tableName"
         :col="schema.division.treatDirectionId"
@@ -18,23 +18,10 @@
     </template>
 
     <template #header-left-bottom>
-      <FilterCheckbox
-        label="С возможностью госпитализации"
-        :table="schema.division.tableName"
-        :col="schema.division.hospitalizationContactInfoId"
-        :data-type="DataTypes.String"
-        :operator="Operators.NotNull"
-        @load="$emit('load')"
-      />
-
-      <FilterCheckbox
-        label="С отзывами"
-        :table="schema.division.tableName"
-        :col="schema.division.commentsCount"
-        :data-type="DataTypes.Number"
-        :operator="Operators.Gt"
-        @load="$emit('load')"
-      />
+      <FilterCheckboxV2 :filter-model="hospitalizationFilter" @load="$emit('load')" />
+      <FilterCheckboxV2 :filter-model="withCommentsFilter" @load="$emit('load')" />
+      <FilterCheckboxV2 :filter-model="withAmbulatoryFilter" @load="$emit('load')" />
+      <FilterCheckboxV2 :filter-model="withDiagnosticFilter" @load="$emit('load')" />
     </template>
     <template #footer>
       <SortList :models="sortList" @load="$emit('load')" />
@@ -43,9 +30,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 
-import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
@@ -54,18 +41,20 @@ import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
+import ITreatDirection from '@/interfaces/ITreatDirection';
 import IOption from '@/interfaces/schema/IOption';
 import Provider from '@/services/Provider';
+import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
 
 export default defineComponent({
   name: 'DivisionsListFilters',
   components: {
-    FilterCheckbox,
     RemoteSearch,
     SortList,
     ModeChoice,
     FilterSelect,
     FiltersWrapper,
+    FilterCheckboxV2,
   },
   props: {
     mode: {
@@ -81,6 +70,7 @@ export default defineComponent({
   },
   emits: ['selectMode', 'load'],
   setup(props, { emit }) {
+    const treatDirections: Ref<ITreatDirection[]> = computed<ITreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push(`/divisions/${event.value}`);
     };
@@ -89,13 +79,28 @@ export default defineComponent({
       emit('selectMode', value);
     };
 
+    onBeforeMount(async () => {
+      Provider.store.commit('filter/setStoreModule', 'divisions');
+      await loadFilters();
+    });
+
+    const loadFilters = async () => {
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.treatDirection);
+      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
+    };
+
     return {
+      hospitalizationFilter: DivisionsFiltersLib.withHospitalization().toRef(),
+      withCommentsFilter: DivisionsFiltersLib.withComments().toRef(),
+      withAmbulatoryFilter: DivisionsFiltersLib.withAmbulatory().toRef(),
+      withDiagnosticFilter: DivisionsFiltersLib.withDiagnostic().toRef(),
       selectSearch,
       selectMode,
       Operators,
       DataTypes,
       schema: Provider.schema,
       sortList: Provider.sortList,
+      treatDirections,
     };
   },
 });

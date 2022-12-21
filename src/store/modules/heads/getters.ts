@@ -9,7 +9,6 @@ import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
   items(state): IHead[] {
-    console.log(state.items);
     return state.items.filter((head: IHead) => !head.isMain);
   },
   mainDoctor(state): IHead {

@@ -1,17 +1,17 @@
 <template>
   <el-upload
-    :on-change="changeFileHandler"
+    :on-change="(e) => document.uploadScan(e)"
     action="#"
     :auto-upload="false"
     class="upload-container"
     :show-file-list="false"
     list-type="picture"
   >
-    <el-button size="mini" type="success">{{ document.documentsScans.length ? 'Обновить' : 'Загрузить' }}</el-button>
+    <el-button size="mini" type="success">{{ document.scan.id ? 'Обновить' : 'Загрузить' }}</el-button>
     <template #tip>
-      <div v-if="document.documentsScans[0]?.scan" class="file-name">
-        <a :href="document?.documentsScans[0]?.scan.getFileUrl()" target="_blank">
-          {{ document.documentsScans[0]?.scan?.originalName }}
+      <div v-if="document.scan" class="file-name">
+        <a :href="document?.scan.getFileUrl()" target="_blank">
+          {{ document.scan?.originalName }}
         </a>
       </div>
       <div v-else class="file-name">Файл не загружен</div>
@@ -21,36 +21,16 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { useStore } from 'vuex';
 
-import IDocument from '@/interfaces/document/IDocument';
-import IFile from '@/interfaces/files/IFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import IPageSectionDocument from '@/interfaces/IPageSectionDocument';
 
 export default defineComponent({
   name: 'DocumentUploader',
   props: {
     document: {
-      type: Object as PropType<IDocument>,
+      type: Object as PropType<IPageSectionDocument>,
       required: true,
     },
-  },
-
-  setup(props) {
-    const store = useStore();
-
-    const changeFileHandler = (file: IFile) => {
-      if (props.document.documentsScans.length) {
-        const fileForDelete = props.document.deleteScan();
-        store.commit('publicDocumentTypes/updateFileInfo', fileForDelete);
-      }
-      const newScan: IFileInfo = props.document.uploadScan(file);
-      store.commit('publicDocumentTypes/addFileInfo', newScan);
-    };
-
-    return {
-      changeFileHandler,
-    };
   },
 });
 </script>

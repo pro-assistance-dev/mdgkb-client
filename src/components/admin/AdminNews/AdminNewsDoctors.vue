@@ -6,7 +6,7 @@
     <el-table :data="news.newsDoctors">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
-          {{ scope.row.doctor.human.getFullName() }}
+          {{ scope.row.doctor.employee.human.getFullName() }}
         </template>
       </el-table-column>
       <el-table-column width="50" fixed="right" align="center">

@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { Ref, ref } from 'vue';
 import { LocationQuery } from 'vue-router';
 
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -125,5 +126,9 @@ export default class FilterModel implements IFilterModel {
 
   setBoolean(value: boolean): void {
     this.boolean = value;
+  }
+
+  toRef(): Ref<IFilterModel> {
+    return ref(this);
   }
 }

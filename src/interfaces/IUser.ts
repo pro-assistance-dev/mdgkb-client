@@ -53,4 +53,5 @@ export default interface IUser {
   setApplicationsViewed: () => void;
   setAnswersViewed: () => void;
   hasComments: () => boolean;
+  getHuman: () => IHuman;
 }

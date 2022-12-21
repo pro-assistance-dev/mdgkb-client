@@ -1,21 +1,21 @@
 import { MutationTree } from 'vuex';
 
-import DocumentType from '@/classes/document/DocumentType';
+import PageSection from '@/classes/PageSection';
 import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
-import IDocumentType from '@/interfaces/IDocumentType';
+import IPageSection from '@/interfaces/IPageSection';
 import { getDefaultState } from '@/store/modules/documentTypes/index';
 
 import State from './state';
 
 const mutations: MutationTree<State> = {
-  set(state, item: IDocumentType) {
-    state.item = new DocumentType(item);
+  set(state, item: IPageSection) {
+    state.item = new PageSection(item);
   },
-  setAll(state, documents: IDocumentType[]) {
-    state.items = documents.map((document: IDocumentType) => new DocumentType(document));
+  setAll(state, documents: IPageSection[]) {
+    state.items = documents.map((document: IPageSection) => new PageSection(document));
   },
   remove(state, id: string) {
-    const index = state.items.findIndex((i: IDocumentType) => i.id === id);
+    const index = state.items.findIndex((i: IPageSection) => i.id === id);
     state.items.splice(index, 1);
   },
   resetState(state) {
