@@ -60,6 +60,8 @@ export default defineComponent({
   border: 1px solid #c4c4c4;
   border-radius: 5px;
   margin: 8px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0 0 4px 0;
 }
 
@@ -162,4 +164,9 @@ export default defineComponent({
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
+
+// :deep(.el-form) {
+//   width: 120px;
+
+// }
 </style>

@@ -204,11 +204,12 @@ input[type='text'] {
 .main {
   width: 100%;
   display: grid;
-  grid-gap: 0px;
+  grid-gap: 5px;
   grid-template-columns: repeat(auto-fit, minmax(150px, 5fr));
   grid-template-rows: repeat(0 5px);
   min-height: 100vh;
   grid-auto-rows: 240px;
+  justify-content: center;
 }
 
 .main > div {

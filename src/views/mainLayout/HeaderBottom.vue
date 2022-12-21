@@ -237,5 +237,9 @@ export default defineComponent({
   .support-block {
     display: none;
   }
+
+  .support-field {
+    display: none;
+  }
 }
 </style>
