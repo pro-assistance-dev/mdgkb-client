@@ -12,7 +12,9 @@ export default interface IDailyMenuOrder {
   formValue: IForm;
   formValueId?: string;
 
-  addDailyMenuItem: (dailyMenuItem: IDailyMenuItem) => void;
-  removeDailyMenuItem: (dailyMenuItem: IDailyMenuItem) => void;
+  increaseDailyMenuOrderItem: (dailyMenuItem: IDailyMenuItem) => void;
+  decreaseDailyMenuOrderItem: (dailyMenuItem: IDailyMenuItem) => void;
+
+  removeDailyMenuOrderItem: (item: IDailyMenuOrderItem) => void;
   getCaloricSum: () => number;
 }

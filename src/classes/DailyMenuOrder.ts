@@ -48,12 +48,12 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
     }
   }
 
-  addDailyMenuItem(dailyMenuItem: IDailyMenuItem): void {
+  increaseDailyMenuOrderItem(dailyMenuItem: IDailyMenuItem): void {
     this.price += dailyMenuItem.price;
     this.addToDailyMenuItems(dailyMenuItem);
   }
 
-  removeDailyMenuItem(dailyMenuItem: IDailyMenuItem): void {
+  decreaseDailyMenuOrderItem(dailyMenuItem: IDailyMenuItem): void {
     this.price -= dailyMenuItem.price;
     this.removeFromDailyMenuItems(dailyMenuItem);
   }
@@ -63,11 +63,12 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
     if (index === -1) {
       return;
     }
-    if (this.dailyMenuOrderItems[index].quantity > 0) {
+    if (this.dailyMenuOrderItems[index].quantity > 1) {
       this.dailyMenuOrderItems[index].quantity--;
     } else {
-      this.dailyMenuOrderItems.splice(index, 0);
+      this.dailyMenuOrderItems.splice(index, 1);
     }
+    console.log(this.dailyMenuOrderItems);
   }
 
   getItemQuantity(dailyMenuItem: IDailyMenuItem): number {
@@ -81,5 +82,13 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
       sum += item.dailyMenuItem.caloric * item.quantity;
     });
     return sum;
+  }
+
+  removeDailyMenuOrderItem(item: IDailyMenuOrderItem): void {
+    const index = this.dailyMenuOrderItems.findIndex((d: IDailyMenuOrderItem) => d.id === item.id);
+    if (index === -1) {
+      return;
+    }
+    this.dailyMenuOrderItems.splice(index, 1);
   }
 }

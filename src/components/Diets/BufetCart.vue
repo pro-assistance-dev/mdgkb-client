@@ -32,10 +32,12 @@
 </template>
 
 <script lang="ts">
+import { watch } from '@vue/runtime-core';
 import { computed, defineComponent, Ref } from 'vue';
 
 import TableCard from '@/components/Diets/TableCard.vue';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
 
@@ -45,14 +47,23 @@ export default defineComponent({
   setup() {
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
-    const load = async () => {
-      await getDailyMenus();
-      await Provider.store.dispatch('dishesGroups/getAll');
+    const checkDailyMenuOrderItemsLength = () => {
+      if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
+        Provider.router.push('/bufet');
+      }
     };
 
+    watch(dailyMenuOrder.value.dailyMenuOrderItems, checkDailyMenuOrderItemsLength);
+
+    const load = () => {
+      checkDailyMenuOrderItemsLength();
+    };
+
+    Hooks.onBeforeMount(load);
+
     const getDailyMenus = async () => {
-      const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
-      await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+      // const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+      // await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
     };
 
     return {

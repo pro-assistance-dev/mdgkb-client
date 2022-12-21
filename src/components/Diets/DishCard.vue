@@ -40,9 +40,9 @@ export default defineComponent({
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const add = (curNum: number, prevNum: number) => {
       if (curNum > prevNum) {
-        dailyMenuOrder.value.addDailyMenuItem(props.dailyMenuItem);
+        dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuItem);
       } else {
-        dailyMenuOrder.value.removeDailyMenuItem(props.dailyMenuItem);
+        dailyMenuOrder.value.decreaseDailyMenuOrderItem(props.dailyMenuItem);
       }
     };
     return {

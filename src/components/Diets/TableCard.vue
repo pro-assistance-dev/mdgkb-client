@@ -5,22 +5,24 @@
         <div class="name">{{ dailyMenuOrderItem.dailyMenuItem.name }}</div>
         <div class="bottom">
           <div class="item1">Вес: {{ dailyMenuOrderItem.getWeightSum() }}гр.</div>
-          <div class="item2">110 {{ dailyMenuOrderItem.getCaloricSum() }}</div>
+          <div class="item2">Калории: {{ dailyMenuOrderItem.getCaloricSum() }}</div>
         </div>
       </div>
       <div class="counter">
         <el-form>
           <el-form-item label="">
-            <el-input-number :model-value="dailyMenuOrderItem.quantity" placeholder="1" @change="add"></el-input-number>
+            <el-input-number :min="1" :model-value="dailyMenuOrderItem.quantity" placeholder="1" @change="add"></el-input-number>
           </el-form-item>
         </el-form>
       </div>
     </div>
+    <el-button @click="removeItem">Удалить</el-button>
     <div class="right">{{ dailyMenuOrderItem.getPriceSum() }} р.</div>
   </div>
 </template>
 
 <script lang="ts">
+import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, PropType, Ref } from 'vue';
 
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
@@ -38,13 +40,33 @@ export default defineComponent({
   setup(props) {
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const add = (curNum: number, prevNum: number) => {
+      changeDailyMenuOrderItemQuantity(curNum, prevNum);
+    };
+
+    const changeDailyMenuOrderItemQuantity = (curNum: number, prevNum: number) => {
       if (curNum > prevNum) {
-        dailyMenuOrder.value.addDailyMenuItem(props.dailyMenuOrderItem.dailyMenuItem);
+        dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuOrderItem.dailyMenuItem);
       } else {
-        dailyMenuOrder.value.removeDailyMenuItem(props.dailyMenuOrderItem.dailyMenuItem);
+        dailyMenuOrder.value.decreaseDailyMenuOrderItem(props.dailyMenuOrderItem.dailyMenuItem);
       }
     };
+
+    const removeItem = () => {
+      ElMessageBox.confirm('Убрить блюдо из корзины?', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Убрать',
+        cancelButtonText: 'Отмена',
+      })
+        .then(() => {
+          dailyMenuOrder.value.removeDailyMenuOrderItem(props.dailyMenuOrderItem);
+        })
+        .catch(() => {
+          return;
+        });
+    };
+
     return {
+      removeItem,
       add,
       dailyMenuOrder,
     };

@@ -29,7 +29,7 @@ export default class DailyMenuOrderItem implements IDailyMenuOrderItem {
   }
 
   getWeightSum(): number {
-    return this.quantity * this.dailyMenuItem.weight;
+    return this.quantity * this.dailyMenuItem.weight ?? 0;
   }
   getCaloricSum(): number {
     return this.quantity * this.dailyMenuItem.caloric;

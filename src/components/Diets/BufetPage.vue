@@ -10,7 +10,7 @@
           <svg class="icon-cart" @click="$router.push('/bufet/cart')">
             <use xlink:href="#cart"></use>
           </svg>
-          <div class="sup">20</div>
+          <div class="sup">{{ dailyMenuOrder.dailyMenuOrderItems.length }}</div>
         </div>
       </div>
       <div class="menu-bufet">
@@ -22,7 +22,7 @@
         <DishCard v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :daily-menu-item="dish" />
       </template>
     </div>
-    <div class="footer">
+    <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer">
       <button class="add-to-card" @click="$router.push('/bufet/cart')">В корзину</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
@@ -68,6 +68,10 @@ export default defineComponent({
       dayFilter.value.date1 = new Date(new Date().getTime() - userTimezoneOffset);
       Provider.setFilterModel(dayFilter.value);
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+      console.log(dailyMenu.value);
+      if (dailyMenus.value.length === 0) {
+        return;
+      }
       dailyMenu.value = dailyMenus.value[0];
       dailyMenus.value[0].groupDishes();
     };
