@@ -1,3 +1,5 @@
+import { LocationQuery } from 'vue-router';
+
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 
@@ -17,6 +19,8 @@ export default interface IFilterModel {
 
   isSet: boolean;
 
+  toUrlQuery: () => string;
+  fromUrlQuery: (obj: LocationQuery) => void;
   isUnaryFilter: () => boolean;
   isBetweenFilter: () => boolean;
   isSetFilter: () => boolean;

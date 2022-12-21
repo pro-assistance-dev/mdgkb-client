@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { LocationQuery } from 'vue-router';
 
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -25,6 +26,25 @@ export default class FilterModel implements IFilterModel {
   joinTablePk = '';
   joinTableId = '';
   joinTableIdCol = '';
+
+  toUrlQuery(): string {
+    let url = '';
+    Object.keys(this).forEach((el, i) => {
+      let value: any = this[el as keyof typeof this];
+      if (value && value !== undefined && url !== '?' && value.length !== 0) {
+        if (el == ('date1' || 'date2') && value) value = String(new Date(String(value)).toISOString().split('T')[0]);
+        if (i !== 0) url += '&';
+        url += `fm${el}=${value}`;
+      }
+    });
+
+    return url;
+  }
+
+  fromUrlQuery(obj: LocationQuery): void {
+    console.log(obj);
+  }
+
   isUnaryFilter(): boolean {
     return this.operator === Operators.Eq || this.operator === Operators.Gt || this.operator === Operators.Lt;
   }
