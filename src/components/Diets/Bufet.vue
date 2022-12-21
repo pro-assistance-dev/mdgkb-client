@@ -69,7 +69,7 @@ export default defineComponent({
 .bufet-header {
   display: block;
   position: sticky;
-  top: 56px;
+  top: 59px;
   width: 100%;
   z-index: 2;
 }
@@ -242,6 +242,10 @@ input[type='text'] {
     align-items: center;
     justify-content: left;
     overflow-x: scroll;
+  }
+
+  .container-bufet {
+    margin-top: -20px;
   }
 }
 </style>
