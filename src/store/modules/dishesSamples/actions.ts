@@ -21,6 +21,7 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.post<IDishSample, IDishSample>({
       payload: state.item,
       isFormData: true,
+      fileInfos: state.item.getFileInfos(),
     });
     if (!res) {
       return;
@@ -29,7 +30,12 @@ const actions: ActionTree<State, RootState> = {
     state.items.unshift(new DishSample(state.item));
   },
   update: async ({ state }): Promise<void> => {
-    await httpClient.put<IDishSample, IDishSample>({ query: `${state.item.id}`, payload: state.item, isFormData: true });
+    await httpClient.put<IDishSample, IDishSample>({
+      query: `${state.item.id}`,
+      payload: state.item,
+      isFormData: true,
+      fileInfos: state.item.getFileInfos(),
+    });
   },
   remove: async ({ state }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
