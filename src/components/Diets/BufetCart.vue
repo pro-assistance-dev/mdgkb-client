@@ -88,7 +88,7 @@ export default defineComponent({
 .header {
   display: block;
   position: sticky;
-  top: 56px;
+  top: 59px;
   width: 100%;
   z-index: 2;
 }
@@ -277,6 +277,10 @@ input[type='text'] {
     display: flex;
     align-items: center;
     justify-content: left;
+  }
+
+  .container-bufet {
+    margin-top: -20px;
   }
 }
 </style>

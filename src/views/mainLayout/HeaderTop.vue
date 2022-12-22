@@ -80,7 +80,7 @@ export default defineComponent({
 }
 
 .header-top {
-  padding-left: 10px;
+  padding: 10px 0 10px 10px;
   // padding-right: 10px;
 }
 

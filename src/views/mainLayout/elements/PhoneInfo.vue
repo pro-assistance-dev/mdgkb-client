@@ -25,25 +25,10 @@
           +7 (495) 959-88-00<br />
           +7 (495) 959-88-03
         </div>
-        <div class="call-center margin-bottom">
-          <!-- <small> -->
-          Call-центр принимает звонки круглосуточно и без выходных. По России звонок бесплатный.<!--  </small> -->
-        </div>
+        <div class="call-center margin-bottom">Call-центр принимает звонки круглосуточно и без выходных. По России звонок бесплатный.</div>
         <div class="address margin-bottom font-weight-600">119049 г. Москва, 4-й Добрынинский переулок, дом 1/9</div>
-        <div class="address2 margin-bottom">
-          <!-- <small> -->Вход на территорию больницы с 1-ого Добрынинского переулка.<!-- </small> -->
-        </div>
+        <div class="address2 margin-bottom">Вход на территорию больницы с 1-ого Добрынинского переулка.</div>
         <div class="icons">
-          <!-- <a href="https://www.facebook.com/Morozdgkbdzm/" class="social-icon" target="_blank">
-            <svg class="icon-fb">
-              <use xlink:href="#icon-FB"></use>
-            </svg>
-          </a>
-          <a href="https://www.instagram.com/Morozdgkbdzm/" class="social-icon" target="_blank">
-            <svg class="icon-insta">
-              <use xlink:href="#icon-insta"></use>
-            </svg>
-          </a> -->
           <a href="https://www.youtube.com/channel/UCG0gK-lfsZUVe6TvTrZh8uA" class="social-icon" target="_blank">
             <svg class="icon-yt">
               <use xlink:href="#icon-YT"></use>
@@ -331,10 +316,6 @@ ul.menu-right li {
 .info-block:hover {
   display: block;
 }
-
-// .burger-menu:focus-within {
-//   fill: #0034CF;
-// }
 
 button {
   padding: 0;

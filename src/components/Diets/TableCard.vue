@@ -8,29 +8,40 @@
           <div class="item2">Калории: {{ dailyMenuOrderItem.getCaloricSum() }}</div>
         </div>
       </div>
-      <div class="counter">
-        <el-form>
-          <el-form-item label="">
-            <el-input-number :min="1" :model-value="dailyMenuOrderItem.quantity" placeholder="1" @change="add"></el-input-number>
-          </el-form-item>
-        </el-form>
-      </div>
     </div>
-    <el-button @click="removeItem">Удалить</el-button>
-    <div class="right">{{ dailyMenuOrderItem.getPriceSum() }} р.</div>
+    <div class="right">
+      <div class="right-item">
+        <div class="counter">
+          <el-form>
+            <el-form-item label="">
+              <el-input-number :min="1" :model-value="dailyMenuOrderItem.quantity" placeholder="1" @change="add"></el-input-number>
+            </el-form-item>
+          </el-form>
+        </div>
+        <svg class="icon-delete-table" @click="removeItem">
+          <use xlink:href="#delete"></use>
+        </svg>
+      </div>
+      <div class="price">{{ dailyMenuOrderItem.getPriceSum() }} р.</div>
+    </div>
   </div>
+  <Delete />
 </template>
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, PropType, Ref } from 'vue';
 
+import Delete from '@/assets/svg/Buffet/Delete.svg';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'BufetCard',
+  components: {
+    Delete,
+  },
   props: {
     dailyMenuOrderItem: {
       type: Object as PropType<IDailyMenuOrderItem>,
@@ -109,7 +120,6 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: left;
-  min-width: 50px;
   font-size: 12px;
   color: #343e5c;
 }
@@ -117,19 +127,21 @@ export default defineComponent({
 .left {
   display: flex;
   align-items: center;
-  justify-content: left;
+  min-width: 50%;
+  justify-content: space-between;
 }
 
 .info {
   display: block;
   margin-right: 10px;
+  width: 100%;
 }
 
 .bottom {
   display: flex;
   align-items: center;
   justify-content: left;
-  padding: 0;
+  padding: 0 0 0 5px;
   width: calc(100% - 10px);
 }
 
@@ -209,5 +221,60 @@ export default defineComponent({
   height: 24px;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
+}
+
+.icon-delete-table {
+  width: 16px;
+  height: 16px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 1px 20px 0 20px;
+  margin-right: 20px;
+}
+
+.icon-delete-table:hover {
+  fill: #379fff;
+}
+
+.right-item {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 170px;
+}
+
+.price {
+  font-size: 18px;
+}
+
+@media screen and (max-width: 540px) {
+  .table-card {
+    display: block;
+    padding: 10px;
+    width: calc(100% - 20px);
+  }
+
+  .left {
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
+  .info {
+    width: 100%;
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .right-item {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 170px;
+  }
 }
 </style>

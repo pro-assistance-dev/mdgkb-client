@@ -154,6 +154,7 @@ body {
 
 .drop-burger-menu {
   position: relative;
+  width: 60px;
 }
 
 #menu__toggle {

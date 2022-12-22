@@ -101,7 +101,7 @@ export default defineComponent({
 .bufet-header {
   display: block;
   position: sticky;
-  top: 56px;
+  top: 59px;
   width: 100%;
   z-index: 2;
 }
@@ -204,11 +204,12 @@ input[type='text'] {
 .main {
   width: 100%;
   display: grid;
-  grid-gap: 0px;
+  grid-gap: 5px;
   grid-template-columns: repeat(auto-fit, minmax(150px, 5fr));
   grid-template-rows: repeat(0 5px);
   min-height: 100vh;
   grid-auto-rows: 240px;
+  justify-content: center;
 }
 
 .main > div {
@@ -274,6 +275,10 @@ input[type='text'] {
     align-items: center;
     justify-content: left;
     overflow-x: scroll;
+  }
+
+  .container-bufet {
+    margin-top: -20px;
   }
 }
 </style>
