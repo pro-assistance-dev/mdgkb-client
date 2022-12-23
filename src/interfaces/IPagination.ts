@@ -1,3 +1,5 @@
+import { LocationQuery } from 'vue-router';
+
 import ICursor from '@/interfaces/ICursor';
 
 export default interface IPagination {
@@ -7,4 +9,7 @@ export default interface IPagination {
   offset: number;
   append: boolean;
   setLoadMore: (lastCursor: string, column: string, table: string) => void;
+
+  toUrlQuery: () => string;
+  fromUrlQuery: (obj: LocationQuery) => void;
 }

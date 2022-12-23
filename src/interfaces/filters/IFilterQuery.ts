@@ -1,3 +1,5 @@
+import { LocationQuery } from 'vue-router';
+
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import IPagination from '@/interfaces/IPagination';
@@ -13,6 +15,8 @@ export default interface IFilterQuery {
   allLoaded: boolean;
 
   toUrl: () => string;
+  toUrlQuery: () => string;
+  fromUrlQuery: (obj: LocationQuery) => void;
   setAllLoaded: (loadedItemsLength: number) => void;
   resetAllLoaded: () => void;
   setParams: (col: string, value: string) => void;

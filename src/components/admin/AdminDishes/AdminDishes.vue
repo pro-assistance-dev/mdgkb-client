@@ -17,22 +17,24 @@
           }}:
         </div>
         <div class="day-block">
-          <button class="arrow-button" @click="calendar.move(false)">
+          <button class="arrow-button" @click="move(false)">
             <svg class="icon-arrow-left">
               <use xlink:href="#arrow-left"></use>
             </svg>
           </button>
-          <span v-for="day in calendar.getActivePeriod()" :key="day" @click="selectDay(day)">
-            <span :class="{ blue: day.selected, normal: !day.selected }">
-              <div class="day">
-                <div class="date">
-                  {{ $dateTimeFormatter.format(day.date, { month: '2-digit', day: '2-digit', year: undefined }) }}
+          <div v-for="day in calendar.getActivePeriod()" :key="day">
+            <el-badge type="danger" value="!" :hidden="day.eventsExists()" class="event-badge">
+              <div :class="{ blue: day.selected, normal: !day.selected }" @click="selectDay(day)">
+                <div class="day">
+                  <div class="date">
+                    {{ $dateTimeFormatter.format(day.date, { month: '2-digit', day: '2-digit', year: undefined }) }}
+                  </div>
+                  <div class="day-week" :class="{ weekend: day.isWeekend() }">{{ $dateTimeFormatter.getShortDayName(day.date) }}</div>
                 </div>
-                <div class="day-week" :class="{ weekend: day.isWeekend() }">{{ $dateTimeFormatter.getShortDayName(day.date) }}</div>
               </div>
-            </span>
-          </span>
-          <button class="arrow-button" @click="calendar.move(true)">
+            </el-badge>
+          </div>
+          <button class="arrow-button" @click="move(true)">
             <svg class="icon-arrow-right">
               <use xlink:href="#arrow-right"></use>
             </svg>
@@ -92,7 +94,7 @@
               </div>
             </div>
             <div class="tools-block">
-              <button class="tools-button">
+              <button class="tools-button" @click="pdf">
                 <svg class="icon-print">
                   <use xlink:href="#print"></use>
                 </svg>
@@ -238,8 +240,10 @@ import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
 import NonActive from '@/assets/svg/Buffet/NonActive.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
 import Calendar from '@/classes/Calendar';
+import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
 import FilterModel from '@/classes/filters/FilterModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
@@ -284,6 +288,7 @@ export default defineComponent({
     const addDishVisible: Ref<boolean> = ref(false);
     const dishesConstructorVisible: Ref<boolean> = ref(false);
     const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+    const periodMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
     const dishesGroups: Ref<IDishesGroup[]> = ref([]);
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
@@ -298,6 +303,7 @@ export default defineComponent({
         buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
       });
       await selectDay(calendar.value.getToday());
+      await fillCalendar();
     };
 
     const openDishesConstructor = () => {
@@ -312,6 +318,23 @@ export default defineComponent({
       Provider.setFilterModel(dayFilter.value);
       Provider.setSortList(DailyMenusSortsLib.byOrder());
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+    };
+
+    const fillCalendar = async () => {
+      const period = calendar.value.getActivePeriod();
+      if (period.length === 0) {
+        return;
+      }
+      const fq = new FilterQuery();
+      fq.filterModels.push(DailyMenusFiltersLib.byPeriod(period[0].date, period[period.length - 1].date));
+      await Provider.store.dispatch('dailyMenus/getPeriodItems', fq);
+      period.forEach((day: IDay) => {
+        const menu = periodMenus.value.find((m: IDailyMenu) => m.date.getDate() === day.date.getDate());
+        if (!menu) {
+          return;
+        }
+        day.events.push(new CalendarEvent());
+      });
     };
 
     const findMenu = () => {
@@ -334,6 +357,7 @@ export default defineComponent({
         return;
       }
       findMenu();
+      await fillCalendar();
     };
 
     const addDishes = () => {
@@ -387,6 +411,7 @@ export default defineComponent({
       }
       selectedMenu.value.groupDishes();
       await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
 
     const activate = async (active: boolean) => {
@@ -437,7 +462,12 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/updateAll');
     };
 
+    const move = async (direction: boolean) => {
+      calendar.value.move(direction);
+      await fillCalendar();
+    };
     return {
+      move,
       saveMenusOrder,
       saveMenu,
       setDailyMenuItemAvailable,

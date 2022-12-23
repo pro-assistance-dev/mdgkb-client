@@ -11,6 +11,7 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     items: [],
+    periodItems: [],
     item: new DailyMenu(),
   };
 };

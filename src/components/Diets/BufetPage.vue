@@ -3,8 +3,8 @@
     <div class="bufet-header">
       <div class="header-top">
         <div class="header-left">
-          Номер палаты:
-          <input id="room" type="text" name="name" placeholder="000" />
+          Номер бокса:
+          <input id="room" v-model="dailyMenuOrder.boxNumber" type="text" name="name" placeholder="0" />
         </div>
         <div class="header-right">
           <svg class="icon-cart" @click="$router.push('/bufet/cart')">
@@ -17,8 +17,9 @@
         <div v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" class="item" @click="scrollToGroup">{{ dishesGroup.name }}</div>
       </div>
     </div>
+
     <div class="main">
-      <template v-for="dishesGroup in dailyMenus[0].dishesGroups" :key="dishesGroup.id">
+      <template v-for="dishesGroup in dailyMenu.dishesGroups" :key="dishesGroup.id">
         <DishCard v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :daily-menu-item="dish" />
       </template>
     </div>
@@ -34,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import FilterModel from '@/classes/filters/FilterModel';
@@ -54,13 +55,23 @@ export default defineComponent({
   setup() {
     const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const dailyMenu: Ref<IDailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-    const dishesGroups: Ref<IDishesGroup[]> = ref([]);
+    const dishesGroupsSource: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0));
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+
+    let sourceSSE: EventSource | undefined = undefined;
+
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await getDailyMenus();
+      sourceSSE = await Provider.handlerSSE<IDailyMenu>('daily-menu-update', '', updateMenu);
       await Provider.store.dispatch('dishesGroups/getAll');
+    };
+
+    const updateMenu = async (e: MessageEvent) => {
+      Provider.store.commit('dailyMenus/set', JSON.parse(e.data));
+      dailyMenu.value.groupDishes();
     };
 
     const getDailyMenus = async () => {
@@ -68,15 +79,19 @@ export default defineComponent({
       dayFilter.value.date1 = new Date(new Date().getTime() - userTimezoneOffset);
       Provider.setFilterModel(dayFilter.value);
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
-      console.log(dailyMenu.value);
       if (dailyMenus.value.length === 0) {
         return;
       }
-      dailyMenu.value = dailyMenus.value[0];
-      dailyMenus.value[0].groupDishes();
+      Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
+      dailyMenu.value.groupDishes();
     };
 
     Hooks.onBeforeMount(load);
+
+    onBeforeUnmount(async () => {
+      sourceSSE?.close();
+      // await Provider.store.dispatch('comments/unsubscribeCreate');
+    });
 
     return {
       dailyMenuOrder,
