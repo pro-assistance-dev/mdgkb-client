@@ -16,6 +16,10 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
   formValueId?: string;
 
   constructor(i?: IDailyMenuOrder) {
+    this.createClass(i);
+  }
+
+  createClass(i?: IDailyMenuOrder): void {
     if (!i) {
       return;
     }
@@ -46,6 +50,7 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
       newOrderItem.quantity = 1;
       this.dailyMenuOrderItems.push(newOrderItem);
     }
+    this.setLocalStorage();
   }
 
   increaseDailyMenuOrderItem(dailyMenuItem: IDailyMenuItem): void {
@@ -56,6 +61,7 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
   decreaseDailyMenuOrderItem(dailyMenuItem: IDailyMenuItem): void {
     this.price -= dailyMenuItem.price;
     this.removeFromDailyMenuItems(dailyMenuItem);
+    this.setLocalStorage();
   }
 
   private removeFromDailyMenuItems(dailyMenuItem: IDailyMenuItem): void {
@@ -90,5 +96,17 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
       return;
     }
     this.dailyMenuOrderItems.splice(index, 1);
+  }
+
+  setLocalStorage() {
+    localStorage.setItem('dailyMenuOrder', JSON.stringify(this));
+  }
+
+  reproduceFromStore() {
+    const newOrder = localStorage.getItem('dailyMenuOrder');
+    if (!newOrder) {
+      return;
+    }
+    this.createClass(JSON.parse(newOrder));
   }
 }
