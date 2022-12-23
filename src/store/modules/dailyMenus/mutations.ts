@@ -12,6 +12,9 @@ const mutations: MutationTree<State> = {
   set(state, item: IDailyMenu) {
     state.item = new DailyMenu(item);
   },
+  setPeriodItems(state, items: IDailyMenu[]) {
+    state.periodItems = items.map((i: IDailyMenu) => new DailyMenu(i));
+  },
   remove(state, id: string) {
     const index = state.items.findIndex((i: IDailyMenu) => i.id === id);
     state.items.splice(index, 1);

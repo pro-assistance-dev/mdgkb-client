@@ -1,3 +1,5 @@
+import { LocationQuery } from 'vue-router';
+
 import { Orders } from '@/interfaces/filters/Orders';
 
 export default interface ISortModel {
@@ -9,4 +11,6 @@ export default interface ISortModel {
   default: boolean;
   isAsc: () => boolean;
   isDesc: () => boolean;
+  toUrlQuery: () => string;
+  fromUrlQuery: (obj: LocationQuery) => void;
 }

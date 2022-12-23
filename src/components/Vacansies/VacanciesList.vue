@@ -11,7 +11,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
@@ -30,6 +31,8 @@ export default defineComponent({
 
   setup() {
     const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/items']);
+    const route = useRoute();
+    const router = useRouter();
 
     const loadVacancies = async () => {
       Provider.filterQuery.value.pagination.limit = 8;
@@ -41,10 +44,22 @@ export default defineComponent({
       Provider.setSortList(...createSortModels(VacanciesSortsLib));
       Provider.setFilterModel(VacanciesFiltersLib.onlyActive());
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
+      Provider.filterQuery.value.fromUrlQuery(route.query);
       await loadVacancies();
     };
 
     Hooks.onBeforeMount(load);
+    watch(
+      Provider.filterQuery.value,
+      async () => {
+        const routeQuery = await Provider.filterQuery.value.toUrlQuery();
+        await router.replace(route.path + routeQuery);
+        // console.log('Provider.filterQuery.value', Provider.filterQuery.value);
+        // console.log('route.query', route.query);
+        // console.log('route.fullPath', route.fullPath);
+      },
+      { deep: true }
+    );
 
     const loadMore = async () => {
       Provider.filterQuery.value.pagination.append = true;

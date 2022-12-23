@@ -13,6 +13,9 @@ const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
     commit('setAll', await httpClient.get<IDailyMenu[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
+  getPeriodItems: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+    commit('setPeriodItems', await httpClient.get<IDailyMenu[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
+  },
   get: async ({ commit }, id: string): Promise<void> => {
     const res = await httpClient.get<IDailyMenu>({ query: `${id}` });
     commit('set', res);

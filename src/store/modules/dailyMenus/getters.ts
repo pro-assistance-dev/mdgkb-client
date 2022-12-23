@@ -9,6 +9,9 @@ const getters: GetterTree<State, RootState> = {
   items(state): IDailyMenu[] {
     return state.items;
   },
+  periodItems(state): IDailyMenu[] {
+    return state.periodItems;
+  },
   item(state): IDailyMenu {
     return state.item;
   },
