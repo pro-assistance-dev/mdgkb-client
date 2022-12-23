@@ -1,8 +1,8 @@
 <template>
   <div class="modal-field" tabindex="-1" @click.self="close" @keydown.esc="close">
     <div class="modal-box">
-      <el-form class="modal-callback">
-        <el-form-item label="Название категории:">
+      <el-form ref="form" :model="dishesGroup" class="modal-callback" :rules="rules">
+        <el-form-item label="Название категории:" prop="name">
           <el-input v-model="dishesGroup.name" placeholder="Введите название"></el-input>
         </el-form-item>
         <div class="button-field">
@@ -15,10 +15,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import Provider from '@/services/Provider';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AddGroupForm',
@@ -29,8 +30,15 @@ export default defineComponent({
     const close = () => {
       emit('close');
     };
+    const form = ref();
+    const rules = ref({
+      name: [{ required: true, message: 'Необходимо указать название категории', trigger: 'blur' }],
+    });
 
     const saveDishesGroup = async () => {
+      if (!validate(form)) {
+        return;
+      }
       if (dishesGroup.value.id) {
         await Provider.store.dispatch('dishesGroups/update', dishesGroup.value);
       } else {
@@ -43,6 +51,8 @@ export default defineComponent({
       close,
       dishesGroup,
       saveDishesGroup,
+      form,
+      rules,
     };
   },
 });
@@ -246,5 +256,9 @@ export default defineComponent({
 :deep(.el-input__prefix) {
   left: auto;
   right: 10px;
+}
+
+:deep(.el-form-item__error) {
+  padding-top: 0;
 }
 </style>
