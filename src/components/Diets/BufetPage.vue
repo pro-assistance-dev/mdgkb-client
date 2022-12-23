@@ -58,6 +58,7 @@ export default defineComponent({
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const load = async () => {
+      dailyMenuOrder.value.reproduceFromStore();
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await getDailyMenus();
       await Provider.store.dispatch('dishesGroups/getAll');
