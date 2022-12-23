@@ -27,22 +27,46 @@
                     <use xlink:href="#profile-edit"></use>
                   </svg>
                 </button>
-                <button class="tools-button-d" @click.stop="removeDishesGroup(dishesGroupItem.id)">
-                  <svg class="icon-delete">
-                    <use xlink:href="#delete"></use>
-                  </svg>
-                </button>
+                <el-popconfirm
+                  confirm-button-text="Да"
+                  cancel-button-text="Отмена"
+                  icon="el-icon-info"
+                  icon-color="red"
+                  title="Вы уверен, что хотите удалить категорию?"
+                  @confirm="removeDishesGroup(dishesGroupItem.id)"
+                  @cancel="() => {}"
+                >
+                  <template #reference>
+                    <button class="tools-button-d">
+                      <svg class="icon-delete">
+                        <use xlink:href="#delete"></use>
+                      </svg>
+                    </button>
+                  </template>
+                </el-popconfirm>
               </div>
             </template>
             <template #inside-content>
               <div v-for="dishSampleItem in dishesGroupItem.dishSamples" :key="dishSampleItem.id" class="group">
                 <div class="dish-item" @click="openDishSampleConstructor(dishSampleItem)">
                   <div class="item-name">{{ dishSampleItem.name }}</div>
-                  <button class="item-button" @click.stop="removeDishSample(dishesGroupItem, dishSampleItem.id)">
-                    <svg class="icon-delete">
-                      <use xlink:href="#delete"></use>
-                    </svg>
-                  </button>
+                  <el-popconfirm
+                    confirm-button-text="Да"
+                    cancel-button-text="Отмена"
+                    icon="el-icon-info"
+                    icon-color="red"
+                    title="Вы уверен, что хотите удалить категорию?"
+                    @confirm="removeDishSample(dishesGroupItem, dishSampleItem.id)"
+                    @cancel="() => {}"
+                  >
+                    <template #reference>
+                      <button class="item-button">
+                        <svg class="icon-delete">
+                          <use xlink:href="#delete"></use>
+                        </svg>
+                      </button>
+                    </template>
+                  </el-popconfirm>
                 </div>
               </div>
             </template>

@@ -1,25 +1,25 @@
 <template>
   <div class="modal-field" tabindex="-1" @click.self="close" @keydown.esc="close">
     <div class="modal-box">
-      <el-form class="modal-callback">
-        <el-form-item label="Название блюда:">
+      <el-form ref="form" label-width="160px" :model="dishSample" class="modal-callback" :rules="rules">
+        <el-form-item label="Название блюда:" prop="name">
           <el-input v-model="dishSample.name" placeholder="Введите название"></el-input>
         </el-form-item>
-        <el-form-item label="Калорийность, ккал:">
+        <el-form-item label="Калорийность, ккал:" prop="caloric">
           <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
         </el-form-item>
-        <el-form-item label="Выход, грамм">
+        <el-form-item label="Выход, грамм" prop="weight">
           <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
         </el-form-item>
-        <el-form-item label="Цена:">
+        <el-form-item label="Цена:" prop="price">
           <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
         </el-form-item>
-        <el-form-item label="Категория:">
+        <el-form-item label="Категория:" prop="dishesGroupId">
           <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 365px">
             <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item label="Изображение:">
+        <el-form-item label="Изображение:" prop="image">
           <UploaderSingleScan :file-info="dishSample.image" :height="200" :width="200" @remove-file="dishSample.removeImage()" />
         </el-form-item>
         <div class="button-field">
@@ -32,12 +32,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AddForm',
@@ -46,13 +48,48 @@ export default defineComponent({
   setup(_, { emit }) {
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
+    const confirmLeave: Ref<boolean> = ref(false);
+    const form = ref();
+    const rules = ref({
+      name: [{ required: true, message: 'Необходимо указать название блюда', trigger: 'blur' }],
+      caloric: [{ required: true, message: 'Необходимо указать калорийность', trigger: 'change' }],
+      weight: [{ required: true, message: 'Необходимо указать выход', trigger: 'change' }],
+      price: [{ required: true, message: 'Необходимо указать цену', trigger: 'change' }],
+      dishesGroupId: [{ required: true, message: 'Необходимо выбрать категорию', trigger: 'change' }],
+    });
+
+    watch(dishSample, () => (confirmLeave.value = true), { deep: true });
 
     const close = () => {
-      Provider.store.commit('dishesSamples/resetItem');
-      emit('close');
+      if (confirmLeave.value) {
+        ElMessageBox.confirm('У вас есть несохранённые изменения', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: 'Сохранить',
+          cancelButtonText: 'Не сохранять',
+        })
+          .then(async () => {
+            await saveDishSample();
+          })
+          .catch((action: string) => {
+            if (action === 'cancel') {
+              ElMessage({
+                type: 'warning',
+                message: 'Изменения не были сохранены',
+              });
+              Provider.store.commit('dishesSamples/resetItem');
+              emit('close');
+            }
+          });
+      } else {
+        Provider.store.commit('dishesSamples/resetItem');
+        emit('close');
+      }
     };
 
     const saveDishSample = async () => {
+      if (!validate(form)) {
+        return;
+      }
       if (dishSample.value.id) {
         await Provider.store.dispatch('dishesSamples/update');
       } else {
@@ -71,6 +108,8 @@ export default defineComponent({
       saveDishSample,
       dishesGroups,
       dishSample,
+      form,
+      rules,
     };
   },
 });
@@ -288,5 +327,13 @@ export default defineComponent({
   height: 28px;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 18px !important;
+}
+
+:deep(.el-form-item__error) {
+  padding-top: 0;
 }
 </style>
