@@ -105,7 +105,6 @@ export default class HttpClient {
     const { query } = params;
 
     const source = new EventSource(this.buildUrl(query));
-
     return source;
   }
 

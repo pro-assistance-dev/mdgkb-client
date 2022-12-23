@@ -4,11 +4,6 @@
       <div class="tools">
         <div class="tools-title">
           Книга блюд
-          <button class="tools-button">
-            <svg class="icon-edit">
-              <use xlink:href="#profile-edit"></use>
-            </svg>
-          </button>
           <div class="search">
             <DishSearchBar :is-search-page="true" @search="searchDishSamples" />
           </div>

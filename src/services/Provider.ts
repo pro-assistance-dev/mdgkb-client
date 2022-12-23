@@ -76,19 +76,29 @@ const Provider = (() => {
 
   let sseReconnectCount = 0;
   const maxReconnectCount = 100;
-
-  async function handlerSSE<T>(query: string, storeModule?: string): Promise<EventSource> {
+  type f = (e: MessageEvent) => void;
+  async function handlerSSE<T>(query: string, storeModule?: string, funcForMessage?: f): Promise<EventSource> {
     if (!storeModule) {
       storeModule = query;
     }
     const c = new HttpClient('subscribe');
     let source = await c.subscribe<T>({ query: query });
-    source.onmessage = function (e) {
-      console.log(storeModule, e.data);
+    const defaultFunc = function (e: MessageEvent) {
       Provider.store.commit(`${storeModule}/unshiftToAll`, JSON.parse(e.data));
     };
 
+    const f = (e: MessageEvent) => {
+      if (funcForMessage) {
+        funcForMessage(e);
+      } else {
+        defaultFunc(e);
+      }
+    };
+    source.onmessage = f;
+
     source.onerror = function (e) {
+      console.log(e);
+      console.log('onError', sseReconnectCount);
       setTimeout(async () => {
         source.close();
         sseReconnectCount++;
