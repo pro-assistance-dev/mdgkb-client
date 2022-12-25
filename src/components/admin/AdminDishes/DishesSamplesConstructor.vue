@@ -78,14 +78,18 @@
       <div class="tools">
         <div class="tools-buttons">
           <div class="button-container">
-            <button class="button-create" @click="openDishSampleConstructor">Создать блюдо</button>
-            <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" @close="dishSampleConstructorVisible = false" />
+            <button v-if="!dishSampleConstructorVisible" class="button-create" @click="openDishSampleConstructor">Создать блюдо</button>
+            <AddForm
+              v-if="dishSampleConstructorVisible"
+              :key="dishSample.id"
+              :close-function="() => (dishSampleConstructorVisible.value = false)"
+            />
           </div>
         </div>
       </div>
-      <!--      <div class="column">-->
-      <!--        <DishInfo />-->
-      <!--      </div>-->
+      <div class="column">
+        <DishInfo />
+      </div>
     </div>
   </div>
   <AddToMenu />
