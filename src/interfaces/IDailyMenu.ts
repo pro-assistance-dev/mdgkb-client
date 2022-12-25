@@ -20,4 +20,5 @@ export default interface IDailyMenu {
   cacheName: string;
   cancelEditMode: () => void;
   setEditMode: () => void;
+  getNonEmptyGroups: () => IDishesGroup[];
 }

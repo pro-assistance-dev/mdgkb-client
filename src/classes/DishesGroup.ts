@@ -79,4 +79,14 @@ export default class DishesGroup implements IDishesGroup {
     });
     return ids;
   }
+
+  getAvailableDishes(): IDailyMenuItem[] {
+    const items: IDailyMenuItem[] = [];
+    this.dailyMenuItems.forEach((i: IDailyMenuItem) => {
+      if (i.available) {
+        items.push(i);
+      }
+    });
+    return items;
+  }
 }

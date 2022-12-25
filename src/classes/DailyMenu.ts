@@ -90,4 +90,14 @@ export default class DailyMenu implements IDailyMenu {
     this.editMode = false;
     this.name = this.cacheName;
   }
+
+  getNonEmptyGroups(): IDishesGroup[] {
+    const groups: IDishesGroup[] = [];
+    this.dishesGroups.forEach((g: IDishesGroup) => {
+      if (g.containAvailableItems()) {
+        groups.push(g);
+      }
+    });
+    return groups;
+  }
 }
