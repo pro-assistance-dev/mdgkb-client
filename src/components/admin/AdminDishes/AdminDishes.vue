@@ -111,7 +111,7 @@
                 <use xlink:href="#non-active"></use>
               </svg>
             </div>
-            <div class="table-container">
+            <div v-if="dailyMenus.length" class="table-container">
               <table class="table-list">
                 <colgroup>
                   <col width="60px" />
@@ -197,6 +197,9 @@
                 </tbody>
               </table>
             </div>
+          </div>
+          <div v-if="!dailyMenus.length" class="menu-shadow">
+            <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus">Создать меню</el-button>
           </div>
         </div>
       </template>
@@ -349,15 +352,28 @@ export default defineComponent({
       calendar.value.selectDay(day);
       await getTodayMenus();
       if (dailyMenus.value.length === 0) {
-        selectedMenu.value = DailyMenu.Create(day.date);
-        const userTimezoneOffset = day.date.getTimezoneOffset() * 60000;
-        selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-        dailyMenus.value.push(selectedMenu.value);
-        await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
+        // await createNewDailyMenus();
         return;
       }
       findMenu();
       await fillCalendar();
+    };
+
+    const createNewDailyMenus = async () => {
+      const day = calendar.value.getSelectedDay();
+
+      selectedMenu.value = DailyMenu.Create(day.date);
+      const userTimezoneOffset = day.date.getTimezoneOffset() * 60000;
+      selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
+      selectedMenu.value.name = 'Завтрак';
+      dailyMenus.value.push(selectedMenu.value);
+      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
+
+      const lunch = DailyMenu.Create(day.date);
+      lunch.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
+      lunch.name = 'Обед';
+      dailyMenus.value.push(lunch);
+      await Provider.store.dispatch('dailyMenus/create', lunch);
     };
 
     const addDishes = () => {
@@ -492,6 +508,7 @@ export default defineComponent({
       schema: Provider.schema,
       removeFromClass,
       activate,
+      createNewDailyMenus,
     };
   },
 });
@@ -667,6 +684,19 @@ $margin: 20px 0;
   border: 1px solid #d8d9db;
   border-radius: 5px;
   background: #f9fafb;
+  position: relative;
+}
+
+.menu-shadow {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .menu-title-tools-tabs {
