@@ -246,6 +246,7 @@ export default defineComponent({
 
 .price {
   font-size: 18px;
+  width: 60px;
 }
 
 @media screen and (max-width: 540px) {

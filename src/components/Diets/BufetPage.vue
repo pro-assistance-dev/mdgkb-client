@@ -63,6 +63,7 @@ export default defineComponent({
     let sourceSSE: EventSource | undefined = undefined;
 
     const load = async () => {
+      dailyMenuOrder.value.reproduceFromStore();
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await getDailyMenus();
       sourceSSE = await Provider.handlerSSE<IDailyMenu>('daily-menu-update', '', updateMenu);
