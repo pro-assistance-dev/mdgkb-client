@@ -10,7 +10,6 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
   date: Date = new Date();
   boxNumber = 0;
   number = 0;
-  price = 0;
   dailyMenuOrderItems: IDailyMenuOrderItem[] = [];
   formValue: IForm = new Form();
   formValueId?: string;
@@ -36,7 +35,6 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
     }
     this.boxNumber = i.boxNumber;
     this.number = i.number;
-    this.price = i.price;
     if (i.formValue) {
       this.formValue = new Form(i.formValue);
     } else {
@@ -46,26 +44,27 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
   }
 
   private addToDailyMenuItems(dailyMenuItem: IDailyMenuItem): void {
+    console.log(dailyMenuItem.price);
     const index = this.dailyMenuOrderItems.findIndex((d: IDailyMenuOrderItem) => dailyMenuItem.id === d.dailyMenuItem.id);
     if (index !== -1) {
       this.dailyMenuOrderItems[index].quantity++;
+      this.dailyMenuOrderItems[index].price += dailyMenuItem.price;
     } else {
       const newOrderItem = new DailyMenuOrderItem();
       newOrderItem.dailyMenuItem = dailyMenuItem;
       newOrderItem.dailyMenuItemId = dailyMenuItem.id;
       newOrderItem.quantity = 1;
+      newOrderItem.price = dailyMenuItem.price;
       this.dailyMenuOrderItems.push(newOrderItem);
     }
-    this.setLocalStorage();
   }
 
   increaseDailyMenuOrderItem(dailyMenuItem: IDailyMenuItem): void {
-    this.price += dailyMenuItem.price;
     this.addToDailyMenuItems(dailyMenuItem);
+    this.setLocalStorage();
   }
 
   decreaseDailyMenuOrderItem(dailyMenuItem: IDailyMenuItem): void {
-    this.price -= dailyMenuItem.price;
     this.removeFromDailyMenuItems(dailyMenuItem);
     this.setLocalStorage();
   }
@@ -77,6 +76,7 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
     }
     if (this.dailyMenuOrderItems[index].quantity > 1) {
       this.dailyMenuOrderItems[index].quantity--;
+      this.dailyMenuOrderItems[index].price -= dailyMenuItem.price;
     } else {
       this.dailyMenuOrderItems.splice(index, 1);
     }
@@ -118,5 +118,12 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
 
   removeFromLocalStore(): void {
     localStorage.removeItem('dailyMenuOrder');
+  }
+  getPriceSum(): number {
+    let sum = 0;
+    this.dailyMenuOrderItems.forEach((i: IDailyMenuOrderItem) => {
+      sum += i.price;
+    });
+    return sum;
   }
 }

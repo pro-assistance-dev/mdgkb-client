@@ -25,7 +25,7 @@
       <button class="add-to-card" @click="createOrder">Создать заказ</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
-        <div class="field2">{{ dailyMenuOrder.price }} р.</div>
+        <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
       </div>
     </div>
   </div>

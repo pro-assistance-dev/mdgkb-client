@@ -18,7 +18,7 @@
           </template>
         </el-table-column>
         <el-table-column label="Стоимость заказа" sortable>
-          <template #default="scope"> {{ scope.row.price }} руб. </template>
+          <template #default="scope"> {{ scope.row.getPriceSum() }} руб. </template>
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">

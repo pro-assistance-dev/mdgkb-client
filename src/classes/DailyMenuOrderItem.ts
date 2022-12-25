@@ -7,6 +7,7 @@ import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
 export default class DailyMenuOrderItem implements IDailyMenuOrderItem {
   id?: string;
   quantity = 0;
+  price = 0;
   dailyMenuOrderId?: string;
   dailyMenuOrder: IDailyMenuOrder = new DailyMenuOrder();
   dailyMenuItemId?: string;
@@ -17,6 +18,7 @@ export default class DailyMenuOrderItem implements IDailyMenuOrderItem {
       return;
     }
     this.id = i.id;
+    this.price = i.price;
     this.quantity = i.quantity;
     if (i.dailyMenuItem) {
       this.dailyMenuItem = new DailyMenuItem(i.dailyMenuItem);
