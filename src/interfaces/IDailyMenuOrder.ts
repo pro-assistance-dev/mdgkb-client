@@ -19,4 +19,5 @@ export default interface IDailyMenuOrder {
   getCaloricSum: () => number;
   setLocalStorage: () => void;
   reproduceFromStore: () => void;
+  removeFromLocalStore: () => void;
 }

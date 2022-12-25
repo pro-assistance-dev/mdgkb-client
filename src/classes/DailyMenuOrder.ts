@@ -26,15 +26,21 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
     this.id = i.id;
     if (i.date) {
       this.date = new Date(i.date);
+    } else {
+      this.date = new Date();
     }
     if (i.dailyMenuOrderItems) {
       this.dailyMenuOrderItems = i.dailyMenuOrderItems.map((item: IDailyMenuOrderItem) => new DailyMenuOrderItem(item));
+    } else {
+      this.dailyMenuOrderItems = [];
     }
     this.boxNumber = i.boxNumber;
     this.number = i.number;
     this.price = i.price;
     if (i.formValue) {
       this.formValue = new Form(i.formValue);
+    } else {
+      this.formValue = new Form();
     }
     this.formValueId = i.formValueId;
   }
@@ -74,7 +80,6 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
     } else {
       this.dailyMenuOrderItems.splice(index, 1);
     }
-    console.log(this.dailyMenuOrderItems);
   }
 
   getItemQuantity(dailyMenuItem: IDailyMenuItem): number {
@@ -96,17 +101,22 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
       return;
     }
     this.dailyMenuOrderItems.splice(index, 1);
+    this.setLocalStorage();
   }
 
-  setLocalStorage() {
+  setLocalStorage(): void {
     localStorage.setItem('dailyMenuOrder', JSON.stringify(this));
   }
 
-  reproduceFromStore() {
+  reproduceFromStore(): void {
     const newOrder = localStorage.getItem('dailyMenuOrder');
     if (!newOrder) {
       return;
     }
     this.createClass(JSON.parse(newOrder));
+  }
+
+  removeFromLocalStore(): void {
+    localStorage.removeItem('dailyMenuOrder');
   }
 }

@@ -71,6 +71,9 @@ export default class Form implements IForm {
   formValueFilesForDelete: string[] = [];
 
   constructor(form?: IForm) {
+    this.constructorMethod(form);
+  }
+  private constructorMethod(form?: IForm) {
     if (!form) {
       return;
     }
@@ -150,6 +153,11 @@ export default class Form implements IForm {
     if (form.formValueFiles) {
       this.formValueFiles = form.formValueFiles.map((item: IFormValueFile) => new FormValueFile(item));
     }
+  }
+  reproduceFromPattern(form?: IForm) {
+    this.constructorMethod(form);
+    this.initFieldsValues();
+    this.clearIds();
   }
 
   addField(field?: IField): void {

@@ -16,13 +16,14 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<IDailyMenuOrder>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ state }, item: IDailyMenuOrder): Promise<void> => {
+  create: async ({ state }): Promise<void> => {
     await httpClient.post<IDailyMenuOrder, IDailyMenuOrder>({
-      payload: item,
+      payload: state.item,
+      isFormData: true,
     });
   },
-  update: async (_, item: IDailyMenuOrder): Promise<void> => {
-    await httpClient.put<IDailyMenuOrder, IDailyMenuOrder>({ query: `${item.id}`, payload: item });
+  update: async ({ state }): Promise<void> => {
+    await httpClient.put<IDailyMenuOrder, IDailyMenuOrder>({ query: `${state.item.id}`, payload: state.item, isFormData: true });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

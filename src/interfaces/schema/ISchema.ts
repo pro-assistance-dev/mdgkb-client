@@ -17,6 +17,7 @@ import IEducationalOrganizationAcademicSchema from '@/interfaces/schema/IEducati
 import IEducationPublicDocumentTypeSchema from '@/interfaces/schema/IEducationPublicDocumentTypeSchema';
 import IEducationYearSchema from '@/interfaces/schema/IEducationYearSchema';
 import IEmployeeSchema from '@/interfaces/schema/IEmployeeSchema';
+import IFormPatternSchema from '@/interfaces/schema/IFormPatternSchema';
 import IFormStatusSchema from '@/interfaces/schema/IFormStatusSchema';
 import IHospitalizationSchema from '@/interfaces/schema/IHospitalizationSchema';
 import IHumanSchema from '@/interfaces/schema/IHumanSchema';
@@ -87,4 +88,5 @@ export default interface ISchema {
   hospitalization: IHospitalizationSchema;
   supportMessage: ISupportMessageSchema;
   dailyMenu: IDailyMenuSchema;
+  formPattern: IFormPatternSchema;
 }

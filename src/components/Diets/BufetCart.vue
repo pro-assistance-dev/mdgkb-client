@@ -22,7 +22,7 @@
       />
     </div>
     <div class="footer">
-      <button class="add-to-card">Заказать</button>
+      <button class="add-to-card" @click="createOrder">Создать заказ</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
         <div class="field2">{{ dailyMenuOrder.price }} р.</div>
@@ -61,12 +61,12 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load);
 
-    const getDailyMenus = async () => {
-      // const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
-      // await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+    const createOrder = () => {
+      Provider.router.push('/bufet/order');
     };
 
     return {
+      createOrder,
       dailyMenuOrder,
       mounted: Provider.mounted,
       schema: Provider.schema,

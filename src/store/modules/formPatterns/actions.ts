@@ -1,5 +1,6 @@
 import { ActionTree } from 'vuex';
 
+import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IForm from '@/interfaces/IForm';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -12,8 +13,8 @@ const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
     commit('setAll', await httpClient.get<IForm[]>());
   },
-  get: async ({ commit }, id: string) => {
-    commit('set', await httpClient.get<IForm>({ query: `${id}` }));
+  get: async ({ commit }, filterQuery: IFilterQuery) => {
+    commit('set', await httpClient.get<IForm>({ query: `get${filterQuery.toUrl()}` }));
   },
   create: async ({ state }): Promise<void> => {
     await httpClient.post<IForm, IForm>({ payload: state.item, isFormData: true, fileInfos: state.item.getFileInfos() });

@@ -5,6 +5,7 @@ import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
 import BufetCart from '@/components/Diets/BufetCart.vue';
+import BufetOrder from '@/components/Diets/BufetOrder.vue';
 import BufetPage from '@/components/Diets/BufetPage.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
@@ -262,6 +263,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/bufet/cart',
     name: 'BufetCart',
     component: BufetCart,
+  },
+  {
+    path: '/bufet/order',
+    name: 'BufetOrder',
+    component: BufetOrder,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,

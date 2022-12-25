@@ -17,7 +17,6 @@
         <div v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" class="item" @click="scrollToGroup">{{ dishesGroup.name }}</div>
       </div>
     </div>
-
     <div class="main">
       <template v-for="dishesGroup in dailyMenu.dishesGroups" :key="dishesGroup.id">
         <DishCard v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :daily-menu-item="dish" />
@@ -39,11 +38,14 @@ import { computed, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import FilterModel from '@/classes/filters/FilterModel';
+import User from '@/classes/User';
 import DishCard from '@/components/Diets/DishCard.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import IDishesGroup from '@/interfaces/IDishesGroup';
+import IForm from '@/interfaces/IForm';
+import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
@@ -55,6 +57,7 @@ export default defineComponent({
   setup() {
     const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const dailyMenu: Ref<IDailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+    const formPattern: Ref<IForm> = computed(() => Provider.store.getters['formPatterns/item']);
     const dishesGroupsSource: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0));
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
@@ -62,8 +65,15 @@ export default defineComponent({
 
     let sourceSSE: EventSource | undefined = undefined;
 
+    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const userForm = ref();
+
     const load = async () => {
+      Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
+      await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
       dailyMenuOrder.value.reproduceFromStore();
+      dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
+      dailyMenuOrder.value.formValue.user = new User(user.value);
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await getDailyMenus();
       sourceSSE = await Provider.handlerSSE<IDailyMenu>('daily-menu-update', '', updateMenu);
