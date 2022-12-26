@@ -294,7 +294,7 @@ input[type='text'] {
   align-items: center;
   font-size: 18px;
   color: $site_dark_gray;
-  margin-left: 10px;
+  margin-left: 30px;
   height: 50px;
 }
 
