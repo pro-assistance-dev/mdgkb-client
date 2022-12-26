@@ -111,7 +111,7 @@
             </svg>
           </div>
           <div v-if="selectedMenu" class="diets-container">
-            <div class="table-container">
+            <div v-if="dailyMenus.length" class="table-container">
               <table class="table-list">
                 <colgroup>
                   <col width="60px" />
