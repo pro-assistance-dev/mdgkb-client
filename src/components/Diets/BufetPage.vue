@@ -20,7 +20,10 @@
 
     <div class="main">
       <template v-for="dishesGroup in dailyMenu.dishesGroups" :key="dishesGroup.id">
-        <DishCard v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :daily-menu-item="dish" />
+        <div class="title-group">{{ dishesGroup.name }}</div>
+        <div class="group-items">
+          <DishCard v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :daily-menu-item="dish" />
+        </div>
       </template>
     </div>
     <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer">
@@ -108,6 +111,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
 .container-bufet {
   position: relative;
   width: 100%;
@@ -219,16 +223,18 @@ input[type='text'] {
 
 .main {
   width: 100%;
-  display: grid;
-  grid-gap: 5px;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 5fr));
-  grid-template-rows: repeat(0 5px);
-  min-height: 100vh;
-  grid-auto-rows: 240px;
-  justify-content: center;
 }
 
-.main > div {
+.group-items {
+  width: 100%;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-rows: repeat(0 5px);
+  grid-auto-rows: 240px;
+}
+
+.group-items > div {
   object-fit: cover;
 }
 
@@ -279,6 +285,11 @@ input[type='text'] {
 .field2 {
   font-size: 16px;
   color: #ffffff;
+}
+
+.title-group {
+  font-size: 18px;
+  color: $site_dark_gray;
 }
 
 @media screen and (max-width: 768px) {
