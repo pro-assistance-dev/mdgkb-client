@@ -46,10 +46,10 @@ import FileUploader from '@/components/FileUploader.vue';
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminFormPatternPage',
@@ -91,7 +91,8 @@ export default defineComponent({
 
     const load = async () => {
       if (Provider.route().params['id']) {
-        await Provider.store.dispatch('formPatterns/get', Provider.route().params['id']);
+        Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.tableName, 'bufet');
+        await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
         Provider.store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
       } else {
         Provider.store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });

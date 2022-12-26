@@ -81,4 +81,6 @@ export default interface IForm {
   getFieldsByCodes: (codes: string[]) => IField[];
   clearAllFields: () => void;
   addForValueFile: () => void;
+
+  reproduceFromPattern: (form?: IForm) => void;
 }

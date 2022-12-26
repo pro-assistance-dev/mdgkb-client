@@ -7,7 +7,6 @@ export default interface IDailyMenuOrder {
   date: Date;
   boxNumber: number;
   number: number;
-  price: number;
   dailyMenuOrderItems: IDailyMenuOrderItem[];
   formValue: IForm;
   formValueId?: string;
@@ -19,4 +18,6 @@ export default interface IDailyMenuOrder {
   getCaloricSum: () => number;
   setLocalStorage: () => void;
   reproduceFromStore: () => void;
+  removeFromLocalStore: () => void;
+  getPriceSum: () => number;
 }

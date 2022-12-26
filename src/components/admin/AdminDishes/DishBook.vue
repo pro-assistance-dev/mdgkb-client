@@ -29,6 +29,7 @@
                 class="group"
                 :class="{ checked: dishSample.selected }"
                 @click="selectSample(dishSample)"
+                @dblclick="addOneDishToMenu(dishSample)"
               >
                 <div class="group-item">
                   <label :for="999">
@@ -143,6 +144,12 @@ export default defineComponent({
       Provider.store.dispatch('dailyMenus/update', props.menu);
     };
 
+    const addOneDishToMenu = (dishSample: IDishSample) => {
+      dishSample.selected = !dishSample.selected;
+      props.menu.addDishesFromSamples([dishSample]);
+      Provider.store.dispatch('dailyMenus/update', props.menu);
+    };
+
     const selectSample = (dishSample: IDishSample): void => {
       dishSample.selected = !dishSample.selected;
     };
@@ -162,6 +169,7 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       removeFromClass,
+      addOneDishToMenu,
     };
   },
 });

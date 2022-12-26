@@ -304,6 +304,11 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-user',
       },
       {
+        title: 'Буфет. Заказы',
+        to: '/admin/daily-menu-orders',
+        icon: 'el-icon-user',
+      },
+      {
         title: 'Тех.поддержка',
         to: '/admin/support-messages',
         icon: 'el-icon-user',

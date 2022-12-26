@@ -8,6 +8,7 @@ import AdminGatesList from '@/components/admin/AdminGates/AdminGatesList.vue';
 import AdminAppointmentsRoutes from '@/router/AdminAppointmentsRoutes';
 import AdminBannersRoutes from '@/router/AdminBannersRoutes';
 import AdminCommentsRoutes from '@/router/AdminCommentsRoutes';
+import AdminDailyMenuOrdersRoutes from '@/router/AdminDailyMenuOrdersRoutes';
 import AdminDictionaryRoutes from '@/router/AdminDictionaryRoutes';
 import AdminDoctorsRoutes from '@/router/AdminDoctorsRoutes';
 import AdminEducationalOrganizationRoutes from '@/router/AdminEducationalOrganizationRoutes';
@@ -128,4 +129,5 @@ export default [
   ...AdminHospitalizationsRoutes,
   ...AdminSupportMessagesRoutes,
   ...AdminHospitalizationsTypeRoutes,
+  ...AdminDailyMenuOrdersRoutes,
 ];

@@ -2,10 +2,6 @@
   <div class="container-bufet">
     <div class="header">
       <div class="header-top">
-        <div class="header-left">
-          Номер палаты:
-          <input id="room" type="text" name="name" placeholder="000" />
-        </div>
         <div class="header-right">
           <button class="bufet" @click="$router.push('/bufet')">В меню</button>
         </div>
@@ -15,14 +11,20 @@
       </div>
     </div>
     <div class="table-main">
-      <TableCard
-        v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems"
-        :key="dailyMenuOrderItem.id"
-        :daily-menu-order-item="dailyMenuOrderItem"
-      />
+      <el-form
+        ref="userForm"
+        v-model="dailyMenuOrder"
+        :model="dailyMenuOrder"
+        label-width="150px"
+        style="max-width: 700px"
+        label-position="left"
+      >
+        <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithFullName()" />
+        <FieldValuesForm :form="dailyMenuOrder.formValue" />
+      </el-form>
     </div>
     <div class="footer">
-      <button class="add-to-card" @click="createOrder">Создать заказ</button>
+      <button class="add-to-card" @click="createOrder">Заказать</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
         <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
@@ -33,20 +35,23 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
-import { computed, defineComponent, Ref } from 'vue';
+import { ElLoading, ElMessage } from 'element-plus';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
-import TableCard from '@/components/Diets/TableCard.vue';
+import UserFormFields from '@/classes/UserFormFields';
+import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
-  name: 'BufetCart',
-  components: { TableCard },
+  name: 'BufetOrder',
+  components: { UserForm, FieldValuesForm },
   setup() {
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-
+    const userForm = ref();
     const checkDailyMenuOrderItemsLength = () => {
       if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
         Provider.router.push('/bufet');
@@ -61,11 +66,21 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load);
 
-    const createOrder = () => {
-      Provider.router.push('/bufet/order');
+    const createOrder = async () => {
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Загрузка',
+      });
+      await Provider.store.dispatch('dailyMenuOrders/create');
+      ElMessage({ message: 'Заказ успешно создан', type: 'success' });
+      await Provider.store.commit('dailyMenuOrders/resetItem');
+      dailyMenuOrder.value.removeFromLocalStore();
+      await Provider.router.push('/bufet');
+      loading.close();
     };
 
     return {
+      UserFormFields,
       createOrder,
       dailyMenuOrder,
       mounted: Provider.mounted,
