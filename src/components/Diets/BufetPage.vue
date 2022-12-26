@@ -203,6 +203,7 @@ input[type='text'] {
   align-items: center;
   justify-content: left;
   overflow-x: hidden;
+  margin-bottom: 8px;
 }
 
 .item {
@@ -288,8 +289,13 @@ input[type='text'] {
 }
 
 .title-group {
+  display: flex;
+  justify-content: left;
+  align-items: center;
   font-size: 18px;
   color: $site_dark_gray;
+  margin-left: 10px;
+  height: 50px;
 }
 
 @media screen and (max-width: 768px) {
