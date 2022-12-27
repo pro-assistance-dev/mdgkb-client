@@ -21,4 +21,9 @@ export default interface IDailyMenu {
   cancelEditMode: () => void;
   setEditMode: () => void;
   getNonEmptyGroups: () => IDishesGroup[];
+  startTime?: string;
+
+  addActiveDishesFromOthersMenus: (dailyMenus: IDailyMenu[]) => void;
+  removeDailyMenuItemsFromOthersMenus: () => void;
+  availableDishesExists: () => boolean;
 }

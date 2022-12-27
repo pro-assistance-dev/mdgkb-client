@@ -12,4 +12,5 @@ export default interface IDailyMenuItem {
   available: boolean;
   dishSampleId?: string;
   dishSample: IDishSample;
+  fromOtherMenu: boolean;
 }
