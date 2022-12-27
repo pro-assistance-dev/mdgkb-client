@@ -77,6 +77,10 @@
                       <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
                     </div>
                     <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }"></div>
+
+                    <svg class="icon-close" @click="removeMenu(element.id)">
+                      <use xlink:href="#close"></use>
+                    </svg>
                     <div class="button-close">
                       <svg class="icon-close" @click="removeMenu(element.id)">
                         <use xlink:href="#close"></use>
@@ -486,6 +490,33 @@ export default defineComponent({
       calendar.value.move(direction);
       await fillCalendar();
     };
+
+    const startMenu = async (activeMenu: IDailyMenu): Promise<void> => {
+      const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: IDailyMenu) => menu.active);
+      if (previousActiveMenuIndex < 0) {
+        return;
+      }
+
+      let textConfirm = 'Вы хотите запустить следующее меню?';
+      if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
+        textConfirm += ` В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
+      }
+      ElMessageBox.confirm(`Вы хотите запустить следующее меню? ${dailyMenus.value[previousActiveMenuIndex].availableDishesExists()}`, {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Нет',
+      })
+        .then(async () => {
+          dailyMenus.value[previousActiveMenuIndex].active = false;
+          activeMenu.active = true;
+          activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+          dailyMenus.value[previousActiveMenuIndex].removeDailyMenuItemsFromOthersMenus();
+        })
+        .catch(() => {
+          return;
+        });
+    };
+
     return {
       move,
       saveMenusOrder,

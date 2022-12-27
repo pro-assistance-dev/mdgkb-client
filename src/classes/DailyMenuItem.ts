@@ -19,6 +19,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
   dishSample: IDishSample = new DishSample();
   highlight = false;
 
+  fromOtherMenu = false;
   constructor(i?: IDailyMenuItem) {
     if (!i) {
       return;
@@ -39,6 +40,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
     if (i.dishSample) {
       this.dishSample = new DishSample(i.dishSample);
     }
+    this.fromOtherMenu = i.fromOtherMenu;
   }
 
   static CreateFromSample(dishSample: IDishSample): IDailyMenuItem {

@@ -18,4 +18,5 @@ export default interface IDishesGroup {
   containAvailableItems: () => boolean;
   setAvailable: (available: boolean) => void;
   getDailyMenuItemsIds: () => string[];
+  getAvailableDishes: () => IDailyMenuItem[];
 }

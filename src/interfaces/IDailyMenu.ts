@@ -20,4 +20,10 @@ export default interface IDailyMenu {
   cacheName: string;
   cancelEditMode: () => void;
   setEditMode: () => void;
+  getNonEmptyGroups: () => IDishesGroup[];
+  startTime?: string;
+
+  addActiveDishesFromOthersMenus: (dailyMenus: IDailyMenu[]) => void;
+  removeDailyMenuItemsFromOthersMenus: () => void;
+  availableDishesExists: () => boolean;
 }
