@@ -56,13 +56,14 @@ export default defineComponent({
 
 .tab {
   display: flex;
+  height: 100%;
 }
 
 .left {
   display: flex;
   justify-content: space-between;
   width: 50%;
-  height: 620px;
+  height: 100%;
   background: #ffffff;
   margin-right: 6px;
   border-top-right-radius: 5px;
@@ -71,7 +72,6 @@ export default defineComponent({
 
 .left-content {
   overflow: hidden;
-  //   padding: 5px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }

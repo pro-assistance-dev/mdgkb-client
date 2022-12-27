@@ -79,7 +79,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  height: 100%;
+  height: calc(100% - 30px);
   padding: 10px;
   box-sizing: border-box;
   &-main {
