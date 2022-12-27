@@ -57,7 +57,7 @@
                 {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
               </div>
               <draggable class="tabs" :list="dailyMenus" item-key="id" @end="saveMenusOrder">
-                <template #item="{ element }">
+                <template #item="{ element, index }">
                   <div
                     :class="{ 'active-tabs-item': selectedMenu.id === element.id, 'tabs-item': selectedMenu.id !== element.id }"
                     @click="selectMenu(element)"
@@ -77,10 +77,10 @@
                       <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
                     </div>
                     <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }"></div>
-
-                    <svg class="icon-close" @click="removeMenu(element.id)">
-                      <use xlink:href="#close"></use>
-                    </svg>
+                    <div class="button-close">
+                      <el-button v-if="element.active" size="mini" @click.stop="stopMenu(element, index)"> || </el-button>
+                      <el-button v-else size="mini" @click.stop="startMenu(element, index)"> > </el-button>
+                    </div>
                     <div class="button-close">
                       <svg class="icon-close" @click="removeMenu(element.id)">
                         <use xlink:href="#close"></use>
@@ -182,7 +182,9 @@
                           </svg>
                         </div>
                       </td>
-                      <td :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 12px">{{ dish.name }}</td>
+                      <td :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 12px">
+                        {{ dish.name }} {{ dish.fromOtherMenu ? '(Перенесено)' : '' }}
+                      </td>
                       <td style="text-align: center">
                         <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 13px">{{ dish.weight }}</h4>
                       </td>
@@ -364,20 +366,15 @@ export default defineComponent({
     };
 
     const createNewDailyMenus = async () => {
-      const day = calendar.value.getSelectedDay();
-
-      selectedMenu.value = DailyMenu.Create(day.date);
-      const userTimezoneOffset = day.date.getTimezoneOffset() * 60000;
-      selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-      selectedMenu.value.name = 'Завтрак';
-      dailyMenus.value.push(selectedMenu.value);
+      const date = new Date(
+        calendar.value.getSelectedDay().date.getTime() - calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000
+      );
+      selectedMenu.value = DailyMenu.CreateBreakfast(date);
+      const lunch = DailyMenu.CreateDinner(date);
+      await Provider.store.dispatch('dailyMenus/create', lunch);
       await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
 
-      const lunch = DailyMenu.Create(day.date);
-      lunch.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-      lunch.name = 'Обед';
-      dailyMenus.value.push(lunch);
-      await Provider.store.dispatch('dailyMenus/create', lunch);
+      dailyMenus.value.push(selectedMenu.value, lunch);
     };
 
     const addDishes = () => {
@@ -487,33 +484,52 @@ export default defineComponent({
       await fillCalendar();
     };
 
-    const startMenu = async (activeMenu: IDailyMenu): Promise<void> => {
-      const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: IDailyMenu) => menu.active);
-      if (previousActiveMenuIndex < 0) {
+    const startMenu = async (activeMenu: IDailyMenu, selectedMenuIndex: number): Promise<void> => {
+      if (selectedMenuIndex === 0) {
+        dailyMenus.value.forEach((dmi: IDailyMenu) => {
+          dmi.active = false;
+          dmi.removeDailyMenuItemsFromOthersMenus();
+        });
+        activeMenu.active = true;
         return;
       }
-
+      const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: IDailyMenu) => menu.active);
+      console.log(previousActiveMenuIndex);
+      if (previousActiveMenuIndex === -1) {
+        return;
+      }
       let textConfirm = 'Вы хотите запустить следующее меню?';
       if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
-        textConfirm += ` В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
+        textConfirm += `\n В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
       }
-      ElMessageBox.confirm(`Вы хотите запустить следующее меню? ${dailyMenus.value[previousActiveMenuIndex].availableDishesExists()}`, {
+
+      ElMessageBox.confirm(textConfirm, {
         distinguishCancelAndClose: true,
         confirmButtonText: 'Да',
         cancelButtonText: 'Нет',
       })
         .then(async () => {
           dailyMenus.value[previousActiveMenuIndex].active = false;
-          activeMenu.active = true;
-          activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
           dailyMenus.value[previousActiveMenuIndex].removeDailyMenuItemsFromOthersMenus();
+          activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+          activeMenu.active = true;
         })
         .catch(() => {
           return;
         });
+
+      for (const dmi of dailyMenus.value) {
+        await Provider.store.dispatch('dailyMenus/update', dmi);
+      }
+    };
+
+    const stopMenu = async (activeMenu: IDailyMenu, selectedMenuIndex: number): Promise<void> => {
+      activeMenu.active = false;
     };
 
     return {
+      stopMenu,
+      startMenu,
       move,
       saveMenusOrder,
       saveMenu,
