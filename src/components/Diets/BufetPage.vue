@@ -18,10 +18,10 @@
       </div>
     </div>
     <div class="main">
-      <template v-for="dishesGroup in dailyMenu.dishesGroups" :key="dishesGroup.id">
+      <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
         <div class="title-group">{{ dishesGroup.name }}</div>
         <div class="group-items">
-          <DishCard v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :daily-menu-item="dish" />
+          <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
         </div>
       </template>
     </div>
