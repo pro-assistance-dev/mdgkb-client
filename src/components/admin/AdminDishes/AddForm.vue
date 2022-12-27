@@ -44,8 +44,13 @@ import validate from '@/services/validate';
 export default defineComponent({
   name: 'AddForm',
   components: { UploaderSingleScan },
-  emits: ['close'],
-  setup(_, { emit }) {
+  props: {
+    closeFunction: {
+      type: Function,
+      required: true,
+    },
+  },
+  setup(props) {
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const confirmLeave: Ref<boolean> = ref(false);
@@ -77,17 +82,18 @@ export default defineComponent({
                 message: 'Изменения не были сохранены',
               });
               Provider.store.commit('dishesSamples/resetItem');
-              emit('close');
+              props.closeFunction();
             }
           });
       } else {
         Provider.store.commit('dishesSamples/resetItem');
-        emit('close');
+        props.closeFunction();
       }
     };
 
     const saveDishSample = async () => {
       if (!validate(form)) {
+        console.log('validate');
         return;
       }
       if (dishSample.value.id) {
@@ -100,7 +106,7 @@ export default defineComponent({
         dishesGroup.upsertSample(dishSample.value);
       }
       Provider.store.commit('dishesSamples/resetItem');
-      emit('close');
+      props.closeFunction();
     };
 
     return {
@@ -131,7 +137,7 @@ export default defineComponent({
   border: 1px solid #dcdfe6;
   border-radius: 5px;
   position: absolute;
-  top: 50px;
+  top: 2%;
   transform: translateX(-50%);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
   z-index: 101;

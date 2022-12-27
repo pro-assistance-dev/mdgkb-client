@@ -37,7 +37,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { computed, defineComponent, h, onBeforeUnmount, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import FilterModel from '@/classes/filters/FilterModel';
@@ -85,7 +86,26 @@ export default defineComponent({
 
     const updateMenu = async (e: MessageEvent) => {
       Provider.store.commit('dailyMenus/set', JSON.parse(e.data));
+      console.log('updateMenu()');
       dailyMenu.value.groupDishes();
+      checkDailyMenuItemsAvailable();
+    };
+
+    const checkDailyMenuItemsAvailable = () => {
+      const nonAvailableItems = dailyMenuOrder.value.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
+      if (nonAvailableItems.length === 0) {
+        return;
+      }
+      ElMessageBox({
+        title: 'Некоторые блюда стали недоступны и удалены из корзины',
+        message: h(
+          'p',
+          null,
+          nonAvailableItems.map(({ id, dailyMenuItem: dailyMenuItem }) => {
+            return h('div', { key: id }, `${dailyMenuItem.name}`);
+          })
+        ),
+      });
     };
 
     const getDailyMenus = async () => {

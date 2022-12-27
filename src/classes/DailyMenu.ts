@@ -17,6 +17,7 @@ export default class DailyMenu implements IDailyMenu {
   active = false;
   editMode = false;
   cacheName = '';
+  startTime?: string;
 
   constructor(i?: IDailyMenu) {
     if (!i) {
@@ -32,13 +33,18 @@ export default class DailyMenu implements IDailyMenu {
     this.order = i.order;
     this.name = i.name;
     this.active = i.active;
+    this.startTime = i.startTime;
   }
 
   addDishesFromSamples(dishesSamples: IDishSample[]): void {
     dishesSamples.forEach((ds: IDishSample) => {
       const item = DailyMenuItem.CreateFromSample(ds);
       item.dailyMenuId = this.id;
+      item.highlight = true;
       this.dailyMenuItems.push(item);
+      setTimeout(() => {
+        item.highlight = false;
+      }, 1000);
     });
     this.groupDishes();
   }
@@ -77,6 +83,22 @@ export default class DailyMenu implements IDailyMenu {
     return menu;
   }
 
+  static CreateBreakfast(date: Date): IDailyMenu {
+    const menu = new DailyMenu();
+    menu.order = 0;
+    menu.name = 'Завтрак';
+    menu.date = date;
+    return menu;
+  }
+
+  static CreateDinner(date: Date): IDailyMenu {
+    const menu = new DailyMenu();
+    menu.order = 1;
+    menu.name = 'Обед';
+    menu.date = date;
+    return menu;
+  }
+
   isActive(): boolean {
     return this.active;
   }
@@ -89,5 +111,36 @@ export default class DailyMenu implements IDailyMenu {
   cancelEditMode(): void {
     this.editMode = false;
     this.name = this.cacheName;
+  }
+
+  getNonEmptyGroups(): IDishesGroup[] {
+    const groups: IDishesGroup[] = [];
+    this.dishesGroups.forEach((g: IDishesGroup) => {
+      if (g.containAvailableItems()) {
+        groups.push(g);
+      }
+    });
+    return groups;
+  }
+
+  addActiveDishesFromOthersMenus(dailyMenus: IDailyMenu[]): void {
+    dailyMenus.forEach((m: IDailyMenu) => {
+      m.dailyMenuItems.forEach((dmi: IDailyMenuItem) => {
+        if (dmi.available) {
+          const newMenuItem = new DailyMenuItem(dmi);
+          newMenuItem.fromOtherMenu = true;
+          this.dailyMenuItems.push(newMenuItem);
+        }
+      });
+    });
+    this.groupDishes();
+  }
+
+  removeDailyMenuItemsFromOthersMenus(): void {
+    this.dailyMenuItems = this.dailyMenuItems.filter((dmi: IDailyMenuItem) => !dmi.fromOtherMenu);
+  }
+
+  availableDishesExists(): boolean {
+    return this.dailyMenuItems.some((d: IDailyMenuItem) => d.available);
   }
 }

@@ -78,14 +78,14 @@
       <div class="tools">
         <div class="tools-buttons">
           <div class="button-container">
-            <button class="button-create" @click="openDishSampleConstructor">Создать блюдо</button>
-            <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" @close="dishSampleConstructorVisible = false" />
+            <button v-if="!dishSampleConstructorVisible" class="button-create" @click="openDishSampleConstructor">Создать блюдо</button>
+            <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
           </div>
         </div>
       </div>
-      <!--      <div class="column">-->
-      <!--        <DishInfo />-->
-      <!--      </div>-->
+      <div class="column">
+        <DishInfo />
+      </div>
     </div>
   </div>
   <AddToMenu />
@@ -190,7 +190,12 @@ export default defineComponent({
       dishesGroupConstructorVisible.value = true;
     };
 
+    const closeDishSampleConstructorVisible = () => {
+      dishSampleConstructorVisible.value = false;
+    };
+
     return {
+      closeDishSampleConstructorVisible,
       editDishesGroup,
       closeDishesGroupForm,
       dishSampleConstructorCreateMode,

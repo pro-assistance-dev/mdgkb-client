@@ -1,5 +1,6 @@
 import DailyMenuOrderItem from '@/classes/DailyMenuOrderItem';
 import Form from '@/classes/Form';
+import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
@@ -125,5 +126,20 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
       sum += i.price;
     });
     return sum;
+  }
+
+  filterAndGetNonActualDailyMenuItems(menu: IDailyMenu): IDailyMenuOrderItem[] {
+    const nonActualItems: IDailyMenuOrderItem[] = [];
+    this.dailyMenuOrderItems = this.dailyMenuOrderItems.filter((orderItem: IDailyMenuOrderItem) => {
+      const availableMenuItemExists = menu.dailyMenuItems.some(
+        (dailyMenuItem: IDailyMenuItem) => dailyMenuItem.id === orderItem.dailyMenuItem.id && dailyMenuItem.available
+      );
+      if (!availableMenuItemExists) {
+        nonActualItems.push(orderItem);
+      }
+      return availableMenuItemExists;
+    });
+    this.setLocalStorage();
+    return nonActualItems;
   }
 }
