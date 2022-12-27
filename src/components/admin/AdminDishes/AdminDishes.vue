@@ -1121,4 +1121,9 @@ input[type='text'] {
 .icon-close:active {
   fill: #bd0123;
 }
+
+:deep(.el-badge__content.is-fixed) {
+  top: 3px;
+  right: 16px;
+}
 </style>
