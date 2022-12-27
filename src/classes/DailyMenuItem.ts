@@ -17,6 +17,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
   available = false;
   dishSampleId?: string;
   dishSample: IDishSample = new DishSample();
+  highlight = false;
 
   constructor(i?: IDailyMenuItem) {
     if (!i) {
@@ -29,6 +30,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
     this.weight = i.weight;
     this.dailyMenuId = i.dailyMenuId;
     this.available = i.available;
+    this.highlight = i.highlight;
     if (i.dailyMenu) {
       this.dailyMenu = new DailyMenu(i.dailyMenu);
     }

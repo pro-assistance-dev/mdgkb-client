@@ -160,7 +160,11 @@
                         </h4>
                       </div>
                     </td>
-                    <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
+                    <tr
+                      v-for="dish in dishesGroup.dailyMenuItems"
+                      :key="dish.id"
+                      :style="{ backgroundColor: dish.highlight ? 'lightcyan' : '' }"
+                    >
                       <td style="font-size: 12px">
                         <div class="table-tools">
                           <svg

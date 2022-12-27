@@ -38,7 +38,11 @@ export default class DailyMenu implements IDailyMenu {
     dishesSamples.forEach((ds: IDishSample) => {
       const item = DailyMenuItem.CreateFromSample(ds);
       item.dailyMenuId = this.id;
+      item.highlight = true;
       this.dailyMenuItems.push(item);
+      setTimeout(() => {
+        item.highlight = false;
+      }, 1000);
     });
     this.groupDishes();
   }
