@@ -305,7 +305,7 @@ export default defineComponent({
     const dishesGroups: Ref<IDishesGroup[]> = ref([]);
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
-    const selectedMenu: Ref<IDailyMenu | undefined> = ref();
+    const selectedMenu: Ref<IDailyMenu> = ref(new DailyMenu());
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
