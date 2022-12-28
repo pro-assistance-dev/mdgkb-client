@@ -22,6 +22,7 @@ import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
 import RefreshPasswordPage from '@/components/RefreshPasswordPage.vue';
 import RejectEmailPage from '@/components/RejectEmailPage.vue';
+import ScreeningPage from '@/components/ScreeningPage.vue';
 import SearchPage from '@/components/Search/SearchPage.vue';
 import ServiceQualityAssessmentPage from '@/components/ServiceQualityAssessment/ServiceQualityAssessmentPage.vue';
 import SideOrganizationsPage from '@/components/SideOrganizations/SideOrganizationsPage.vue';
@@ -268,6 +269,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/bufet/order',
     name: 'BufetOrder',
     component: BufetOrder,
+  },
+  {
+    path: '/screening',
+    name: 'ScreeningPage',
+    component: ScreeningPage,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
