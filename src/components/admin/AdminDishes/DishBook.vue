@@ -191,11 +191,12 @@ export default defineComponent({
 }
 
 .column {
-  padding: 0px 2px 0px 8px;
+  padding: 0px 2px 10px 8px;
   overflow: hidden;
   overflow-y: scroll;
-  height: 100%;
+  height: calc(100% - 53px);
   min-width: 350px;
+  background: inherit;
 }
 
 .tools {

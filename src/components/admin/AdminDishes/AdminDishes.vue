@@ -105,16 +105,16 @@
               </button>
             </div>
           </div>
+          <div class="tab-tools">
+            Активация:
+            <svg v-if="selectedMenu.isActive()" class="icon-active" @click="activate(false)">
+              <use xlink:href="#active"></use>
+            </svg>
+            <svg v-else class="icon-non-active" @click="activate(true)">
+              <use xlink:href="#non-active"></use>
+            </svg>
+          </div>
           <div v-if="selectedMenu" class="diets-container">
-            <div class="tab-tools">
-              Активация:
-              <svg v-if="selectedMenu.isActive()" class="icon-active" @click="activate(false)">
-                <use xlink:href="#active"></use>
-              </svg>
-              <svg v-else class="icon-non-active" @click="activate(true)">
-                <use xlink:href="#non-active"></use>
-              </svg>
-            </div>
             <div v-if="dailyMenus.length" class="table-container">
               <table class="table-list">
                 <colgroup>
@@ -735,6 +735,7 @@ $margin: 20px 0;
   border: 1px solid #d8d9db;
   border-radius: 5px;
   background: #f9fafb;
+  height: 100%;
   position: relative;
 }
 
@@ -810,7 +811,9 @@ $margin: 20px 0;
 .diets-container {
   width: calc(100% - 18px);
   margin: 0 8px 8px 8px;
-  min-height: 550px;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 .table-container {
@@ -1153,6 +1156,7 @@ input[type='text'] {
   align-items: center;
   justify-content: left;
   height: 25px;
+  margin-left: 10px;
 }
 
 .icon-active {
@@ -1197,5 +1201,10 @@ input[type='text'] {
 
 .icon-close:active {
   fill: #bd0123;
+}
+
+:deep(.el-badge__content.is-fixed) {
+  top: 3px;
+  right: 16px;
 }
 </style>
