@@ -145,7 +145,7 @@ export default defineComponent({
     };
 
     const addOneDishToMenu = (dishSample: IDishSample) => {
-      dishSample.selected = !dishSample.selected;
+      dishSample.selected = false;
       props.menu.addDishesFromSamples([dishSample]);
       Provider.store.dispatch('dailyMenus/update', props.menu);
     };
