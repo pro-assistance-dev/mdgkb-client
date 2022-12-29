@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="column">
-        <div v-for="dishesGroupItem in dishesGroups" :key="dishesGroupItem.id">
+        <draggable class="tabs" :list="dishesGroups" item-key="id" @end="saveMenusOrder">
           <CollapsContainer :tab-id="dishesGroupItem.id" :is-collaps="dishesGroupItem.samplesExists()">
             <template #inside-title>
               <div class="title-in">
@@ -71,7 +71,7 @@
               </div>
             </template>
           </CollapsContainer>
-        </div>
+        </draggable>
       </div>
     </div>
     <div class="menusGroup">
@@ -109,6 +109,7 @@ import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
+import sort from '@/services/sort';
 
 export default defineComponent({
   name: 'DishesSamplesConstructor',
@@ -194,7 +195,15 @@ export default defineComponent({
       dishSampleConstructorVisible.value = false;
     };
 
+    const saveGroupsOrder = () => {
+      sort(dishesGroups.value);
+      dishesGroups.value.forEach(async (d: IDishesGroup) => {
+        await Provider.store.dispatch('dishesGroups/update', d);
+      });
+    };
+
     return {
+      saveGroupsOrder,
       closeDishSampleConstructorVisible,
       editDishesGroup,
       closeDishesGroupForm,

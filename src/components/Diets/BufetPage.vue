@@ -14,12 +14,14 @@
         </div>
       </div>
       <div class="menu-bufet">
-        <div v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" class="item" @click="scrollToGroup">{{ dishesGroup.name }}</div>
+        <div v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" class="item" @click="$scroll('#' + dishesGroup.name, -150)">
+          {{ dishesGroup.name }}
+        </div>
       </div>
     </div>
     <div class="main">
       <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
-        <div class="title-group">{{ dishesGroup.name }}</div>
+        <div :id="dishesGroup.name" class="title-group">{{ dishesGroup.name }}</div>
         <div class="group-items">
           <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
         </div>
@@ -116,7 +118,8 @@ export default defineComponent({
       if (dailyMenus.value.length === 0) {
         return;
       }
-      Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
+      const activeMenu = dailyMenus.value.find((d: IDailyMenu) => d.active);
+      Provider.store.commit('dailyMenus/set', activeMenu);
       dailyMenu.value.groupDishes();
     };
 
