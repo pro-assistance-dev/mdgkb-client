@@ -1,20 +1,27 @@
 <template>
   <div class="card-item">
-    <ul>
-      <h2>{{ publicDocumentType.name }}</h2>
-      <div v-if="publicDocumentType.description != '<p>undefined</p>'" v-html="publicDocumentType.description"></div>
-    </ul>
+    <h2>{{ publicDocumentType.name }}</h2>
+    <div v-if="publicDocumentType.description != '<p>undefined</p>'" v-html="publicDocumentType.description"></div>
   </div>
   <div v-for="docType in publicDocumentType.pageSections" :key="docType" class="card-item">
-    <ul>
+    <template v-if="docType.description != '<p>undefined</p>' && docType.description.length < 1000">
       <h2>{{ docType.name }}</h2>
-      <div v-if="docType.description != '<p>undefined</p>'" v-html="docType.description"></div>
-      <li v-for="file in docType.pageSectionDocuments" :key="file.id">
-        <a v-if="file.downloadToFile" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{ file.name }}</a>
-        <a v-else target="_blank" :href="file.scan.getFileUrl()">{{ file.name }}</a>
-      </li>
-      <ImageGallery :images="docType.pageSectionImages" />
-    </ul>
+      <div v-html="docType.description"></div>
+    </template>
+    <CollapsContainer v-if="docType.description.length > 1000" tab-id="400" :collapsed="false">
+      <template #inside-title>
+        <h2>{{ docType.name }}</h2>
+      </template>
+      <template #inside-content>
+        <div v-html="docType.description"></div>
+      </template>
+    </CollapsContainer>
+
+    <li v-for="file in docType.pageSectionDocuments" :key="file.id">
+      <a v-if="file.downloadToFile" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{ file.name }}</a>
+      <a v-else target="_blank" :href="file.scan.getFileUrl()">{{ file.name }}</a>
+    </li>
+    <ImageGallery :images="docType.pageSectionImages" />
   </div>
 </template>
 
@@ -22,11 +29,12 @@
 import { defineComponent, PropType, ref } from 'vue';
 
 import ImageGallery from '@/components/ImageGallery.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IPageSideMenu from '@/interfaces/IPageSideMenu';
 
 export default defineComponent({
   name: 'PublicDocumentPage',
-  components: { ImageGallery },
+  components: { ImageGallery, CollapsContainer },
   props: {
     publicDocumentType: {
       type: Object as PropType<IPageSideMenu>,
