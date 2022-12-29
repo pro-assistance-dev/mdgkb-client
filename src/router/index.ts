@@ -4,9 +4,7 @@ import AboutPage from '@/components/About/AboutPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
-import BufetCart from '@/components/Diets/BufetCart.vue';
-import BufetOrder from '@/components/Diets/BufetOrder.vue';
-import BufetPage from '@/components/Diets/BufetPage.vue';
+import BufetWrapper from '@/components/Diets/BufetWrapper.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
@@ -258,17 +256,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/bufet',
     name: 'BufetPage',
-    component: BufetPage,
+    component: BufetWrapper,
   },
   {
     path: '/bufet/cart',
     name: 'BufetCart',
-    component: BufetCart,
+    component: BufetWrapper,
   },
   {
     path: '/bufet/order',
     name: 'BufetOrder',
-    component: BufetOrder,
+    component: BufetWrapper,
   },
   {
     path: '/screening',
