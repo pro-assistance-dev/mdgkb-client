@@ -11,67 +11,47 @@
         </div>
       </div>
       <div class="column">
-        <div v-for="dishesGroupItem in dishesGroups" :key="dishesGroupItem.id">
-          <CollapsContainer :tab-id="dishesGroupItem.id" :is-collaps="dishesGroupItem.samplesExists()">
-            <template #inside-title>
-              <div class="title-in">
-                <el-badge
-                  :value="dishesGroupItem.dishSamples.length"
-                  :type="dishesGroupItem.dishSamples.length > 0 ? 'primary' : ''"
-                  class="badge"
-                >
-                  {{ dishesGroupItem.name }}
-                </el-badge>
-                <button class="tools-button-e" @click.stop="editDishesGroup(dishesGroupItem)">
-                  <svg class="icon-edit">
-                    <use xlink:href="#profile-edit"></use>
-                  </svg>
-                </button>
-                <el-popconfirm
-                  confirm-button-text="Да"
-                  cancel-button-text="Отмена"
-                  icon="el-icon-info"
-                  icon-color="red"
-                  title="Вы уверен, что хотите удалить категорию?"
-                  @confirm="removeDishesGroup(dishesGroupItem.id)"
-                  @cancel="() => {}"
-                >
-                  <template #reference>
-                    <button class="tools-button-d">
-                      <svg class="icon-delete">
-                        <use xlink:href="#delete"></use>
+        <draggable class="tabs" :list="dishesGroups" item-key="id" handle=".el-icon-s-grid" @end="saveGroupsOrder">
+          <template #item="{ element }">
+            <div>
+              <CollapsContainer :tab-id="element.id" :is-collaps="element.samplesExists()">
+                <template #inside-title>
+                  <i class="el-icon-s-grid drug-icon" />
+                  <div class="title-in">
+                    <el-badge :value="element.dishSamples.length" :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
+                      {{ element.name }}
+                    </el-badge>
+                    <button class="tools-button-e" @click.stop="editDishesGroup(element)">
+                      <svg class="icon-edit">
+                        <use xlink:href="#profile-edit"></use>
                       </svg>
                     </button>
-                  </template>
-                </el-popconfirm>
-              </div>
-            </template>
-            <template #inside-content>
-              <div v-for="dishSampleItem in dishesGroupItem.dishSamples" :key="dishSampleItem.id" class="group">
-                <div class="dish-item" @click="openDishSampleConstructor(dishSampleItem)">
-                  <div class="item-name">{{ dishSampleItem.name }}</div>
-                  <el-popconfirm
-                    confirm-button-text="Да"
-                    cancel-button-text="Отмена"
-                    icon="el-icon-info"
-                    icon-color="red"
-                    title="Вы уверен, что хотите удалить категорию?"
-                    @confirm="removeDishSample(dishesGroupItem, dishSampleItem.id)"
-                    @cancel="() => {}"
-                  >
-                    <template #reference>
-                      <button class="item-button">
-                        <svg class="icon-delete">
-                          <use xlink:href="#delete"></use>
-                        </svg>
-                      </button>
-                    </template>
-                  </el-popconfirm>
-                </div>
-              </div>
-            </template>
-          </CollapsContainer>
-        </div>
+                    <el-popconfirm
+                      confirm-button-text="Да"
+                      cancel-button-text="Отмена"
+                      icon="el-icon-info"
+                      icon-color="red"
+                      title="Вы уверен, что хотите удалить категорию?"
+                      @confirm="removeDishesGroup(element.id)"
+                      @cancel="() => {}"
+                    >
+                      <template #reference>
+                        <button class="tools-button-d">
+                          <svg class="icon-delete">
+                            <use xlink:href="#delete"></use>
+                          </svg>
+                        </button>
+                      </template>
+                    </el-popconfirm>
+                  </div>
+                </template>
+                <template #inside-content>
+                  <DishesConstructorList :dishes-group="element" @openDishSampleConstructor="openDishSampleConstructor" />
+                </template>
+              </CollapsContainer>
+            </div>
+          </template>
+        </draggable>
       </div>
     </div>
     <div class="menusGroup">
@@ -96,6 +76,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import draggable from 'vuedraggable';
 
 import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
@@ -103,12 +84,14 @@ import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
 import AddForm from '@/components/admin/AdminDishes/AddForm.vue';
 import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
+import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
+import sort from '@/services/sort';
 
 export default defineComponent({
   name: 'DishesSamplesConstructor',
@@ -120,6 +103,8 @@ export default defineComponent({
     AddGroupForm,
     AddForm,
     Edit,
+    draggable,
+    DishesConstructorList,
   },
   props: {
     visible: {
@@ -161,11 +146,6 @@ export default defineComponent({
       dishSampleConstructorVisible.value = false;
     };
 
-    const removeDishSample = async (dishesGroupItem: IDishesGroup, dishSampleId: string) => {
-      await Provider.store.dispatch('dishesSamples/remove', dishSampleId);
-      dishesGroupItem.removeDishSample(dishSampleId);
-    };
-
     const addDishesSample = () => {
       dishSampleConstructorVisible.value = true;
     };
@@ -194,13 +174,20 @@ export default defineComponent({
       dishSampleConstructorVisible.value = false;
     };
 
+    const saveGroupsOrder = () => {
+      sort(dishesGroups.value);
+      dishesGroups.value.forEach(async (d: IDishesGroup) => {
+        await Provider.store.dispatch('dishesGroups/update', d);
+      });
+    };
+
     return {
+      saveGroupsOrder,
       closeDishSampleConstructorVisible,
       editDishesGroup,
       closeDishesGroupForm,
       dishSampleConstructorCreateMode,
       openDishSampleConstructor,
-      removeDishSample,
       addDishesSample,
       saveDishSample,
       dishSampleConstructorVisible,
@@ -464,5 +451,8 @@ $margin: 20px 0;
   height: 60px;
   align-items: center;
   font-weight: bold;
+}
+.drug-icon {
+  cursor: pointer;
 }
 </style>

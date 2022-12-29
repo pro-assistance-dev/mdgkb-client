@@ -10,7 +10,7 @@
       <h2>{{ docType.name }}</h2>
       <div v-if="docType.description != '<p>undefined</p>'" v-html="docType.description"></div>
       <li v-for="file in docType.pageSectionDocuments" :key="file.id">
-        <a v-if="file.downloadToFile" :download="file.downloadToFile" :href="file.scan.getFileUrl()">{{ file.name }}</a>
+        <a v-if="file.downloadToFile" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{ file.name }}</a>
         <a v-else target="_blank" :href="file.scan.getFileUrl()">{{ file.name }}</a>
       </li>
       <ImageGallery :images="docType.pageSectionImages" />
