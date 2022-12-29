@@ -37,6 +37,12 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: state.item.getFileInfos(),
     });
   },
+  updateAll: async (_, items: IDishSample[]): Promise<void> => {
+    await httpClient.put<IDishSample[], IDishSample[]>({
+      payload: items,
+      isFormData: true,
+    });
+  },
   remove: async ({ state }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
     const index = state.items.findIndex((i: IDishSample) => i.id === id);
