@@ -39,8 +39,7 @@
 </template>
 
 <script lang="ts">
-import { ElMessageBox } from 'element-plus';
-import { computed, defineComponent, h, onBeforeUnmount, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import FilterModel from '@/classes/filters/FilterModel';
@@ -69,8 +68,6 @@ export default defineComponent({
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
-    let sourceSSE: EventSource | undefined = undefined;
-
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const userForm = ref();
 
@@ -82,32 +79,7 @@ export default defineComponent({
       dailyMenuOrder.value.formValue.user = new User(user.value);
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await getDailyMenus();
-      sourceSSE = await Provider.handlerSSE<IDailyMenu>('daily-menu-update', '', updateMenu);
       await Provider.store.dispatch('dishesGroups/getAll');
-    };
-
-    const updateMenu = async (e: MessageEvent) => {
-      Provider.store.commit('dailyMenus/set', JSON.parse(e.data));
-      console.log('updateMenu()');
-      dailyMenu.value.groupDishes();
-      checkDailyMenuItemsAvailable();
-    };
-
-    const checkDailyMenuItemsAvailable = () => {
-      const nonAvailableItems = dailyMenuOrder.value.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
-      if (nonAvailableItems.length === 0) {
-        return;
-      }
-      ElMessageBox({
-        title: 'Некоторые блюда стали недоступны и удалены из корзины',
-        message: h(
-          'p',
-          null,
-          nonAvailableItems.map(({ id, dailyMenuItem: dailyMenuItem }) => {
-            return h('div', { key: id }, `${dailyMenuItem.name}`);
-          })
-        ),
-      });
     };
 
     const getDailyMenus = async () => {
@@ -124,11 +96,6 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load);
-
-    onBeforeUnmount(async () => {
-      sourceSSE?.close();
-      // await Provider.store.dispatch('comments/unsubscribeCreate');
-    });
 
     return {
       dailyMenuOrder,
