@@ -2,10 +2,6 @@
   <div v-if="mounted" class="container-bufet">
     <div class="bufet-header">
       <div class="header-top">
-        <div class="header-left">
-          Номер бокса:
-          <input id="room" v-model="dailyMenuOrder.boxNumber" type="text" name="name" placeholder="0" />
-        </div>
         <div class="header-right">
           <svg class="icon-cart" @click="$router.push('/bufet/cart')">
             <use xlink:href="#cart"></use>
@@ -14,14 +10,19 @@
         </div>
       </div>
       <div class="menu-bufet">
-        <div v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" class="item" @click="$scroll('#' + dishesGroup.name, -150)">
+        <div
+          v-for="dishesGroup in dailyMenu.getNonEmptyGroups()"
+          :key="dishesGroup.id"
+          class="item"
+          @click="$scroll('#' + dishesGroup.getTransliteIdFromName(), -150)"
+        >
           {{ dishesGroup.name }}
         </div>
       </div>
     </div>
     <div class="main">
       <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
-        <div :id="dishesGroup.name" class="title-group">{{ dishesGroup.name }}</div>
+        <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
         <div class="group-items">
           <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
         </div>
@@ -43,6 +44,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import FilterModel from '@/classes/filters/FilterModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import User from '@/classes/User';
 import DishCard from '@/components/Diets/DishCard.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -54,6 +56,7 @@ import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
+import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
@@ -79,7 +82,14 @@ export default defineComponent({
       dailyMenuOrder.value.formValue.user = new User(user.value);
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await getDailyMenus();
-      await Provider.store.dispatch('dishesGroups/getAll');
+      await getDishesGroups();
+    };
+
+    const getDishesGroups = async () => {
+      const queryFilter = new FilterQuery();
+      queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
+      await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
+      dishesGroups.value = dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0);
     };
 
     const getDailyMenus = async () => {
@@ -98,6 +108,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     return {
+      dishesGroupsSource,
       dailyMenuOrder,
       dishesGroups,
       dailyMenu,

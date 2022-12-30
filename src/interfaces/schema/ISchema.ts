@@ -4,6 +4,7 @@ import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
 import IDailyMenuSchema from '@/interfaces/schema/IDailyMenuSchema';
 import IDietSchema from '@/interfaces/schema/IDietSchema';
+import IDishesGroupSchema from '@/interfaces/schema/IDishesGroupSchema';
 import IDivisionCommentSchema from '@/interfaces/schema/IDivisionCommentSchema';
 import IDivisionSchema from '@/interfaces/schema/IDivisionSchema';
 import IDoctorCommentSchema from '@/interfaces/schema/IDoctorCommentSchema';
@@ -89,4 +90,5 @@ export default interface ISchema {
   supportMessage: ISupportMessageSchema;
   dailyMenu: IDailyMenuSchema;
   formPattern: IFormPatternSchema;
+  dishesGroup: IDishesGroupSchema;
 }
