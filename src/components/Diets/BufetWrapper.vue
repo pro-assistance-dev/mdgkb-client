@@ -1,7 +1,7 @@
 <template>
-  <BufetPage v-if="$route.path == '/bufet'" />
-  <BufetCart v-else-if="$route.path == '/bufet/cart'" />
-  <BufetOrder v-else-if="$route.path == '/bufet/order'" />
+  <BufetPage v-if="$route.path === '/bufet'" />
+  <BufetCart v-else-if="$route.path === '/bufet/cart'" />
+  <BufetOrder v-else-if="$route.path === '/bufet/order'" />
 </template>
 
 <script lang="ts">
@@ -31,7 +31,6 @@ export default defineComponent({
 
     const updateMenu = async (e: MessageEvent) => {
       Provider.store.commit('dailyMenus/set', JSON.parse(e.data));
-      console.log('updateMenu()');
       dailyMenu.value.groupDishes();
       checkDailyMenuItemsAvailable();
     };

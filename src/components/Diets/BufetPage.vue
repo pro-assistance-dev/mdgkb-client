@@ -2,10 +2,6 @@
   <div v-if="mounted" class="container-bufet">
     <div class="bufet-header">
       <div class="header-top">
-        <div class="header-left">
-          Номер бокса:
-          <input id="room" v-model="dailyMenuOrder.boxNumber" type="text" name="name" placeholder="0" />
-        </div>
         <div class="header-right">
           <svg class="icon-cart" @click="$router.push('/bufet/cart')">
             <use xlink:href="#cart"></use>
@@ -14,7 +10,12 @@
         </div>
       </div>
       <div class="menu-bufet">
-        <div v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" class="item" @click="$scroll('#' + dishesGroup.name, -150)">
+        <div
+          v-for="dishesGroup in dailyMenu.getNonEmptyGroups()"
+          :key="dishesGroup.id"
+          class="item"
+          @click="$scroll('#' + dishesGroup.getTransliteIdFromName(), -150)"
+        >
           {{ dishesGroup.name }}
         </div>
       </div>
@@ -22,13 +23,13 @@
     <div class="main">
       <div v-if="!dishesGroups.length" class="info-window">На данный момент нет блюд для выбора</div>
       <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
-        <div :id="dishesGroup.name" class="title-group">{{ dishesGroup.name }}</div>
+        <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
         <div class="group-items">
           <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
         </div>
       </template>
     </div>
-    <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer">
+    <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer" @click="$router.push('/bufet/cart')">
       <button class="add-to-card" @click="$router.push('/bufet/cart')">В корзину</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
@@ -44,6 +45,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import FilterModel from '@/classes/filters/FilterModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import User from '@/classes/User';
 import DishCard from '@/components/Diets/DishCard.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -55,6 +57,7 @@ import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
+import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
@@ -80,7 +83,14 @@ export default defineComponent({
       dailyMenuOrder.value.formValue.user = new User(user.value);
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await getDailyMenus();
-      await Provider.store.dispatch('dishesGroups/getAll');
+      await getDishesGroups();
+    };
+
+    const getDishesGroups = async () => {
+      const queryFilter = new FilterQuery();
+      queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
+      await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
+      dishesGroups.value = dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0);
     };
 
     const getDailyMenus = async () => {
@@ -99,6 +109,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     return {
+      dishesGroupsSource,
       dailyMenuOrder,
       dishesGroups,
       dailyMenu,
@@ -248,10 +259,14 @@ input[type='text'] {
   display: flex;
   align-content: center;
   justify-content: space-between;
-
+  cursor: pointer;
   position: sticky;
   bottom: 0px;
   z-index: 2;
+}
+
+.footer:hover {
+  background: lighten(#449d7c, 10%);
 }
 
 .footer-info {
@@ -266,16 +281,11 @@ input[type='text'] {
   align-items: center;
   font-size: 12px;
   margin: 0;
-  cursor: pointer;
   border: none;
   padding: 0px;
   background: inherit;
-  color: #d2def1;
-  font-size: 16px;
-}
-
-.add-to-card:hover {
   color: #ffffff;
+  font-size: 16px;
 }
 
 .field1 {

@@ -18,4 +18,7 @@ export default interface IMonth {
 
   dropActive: () => void;
   initActive: (fromStart: boolean) => void;
+
+  getFirstWeek: () => IWeek;
+  getLastWeek: () => IWeek;
 }

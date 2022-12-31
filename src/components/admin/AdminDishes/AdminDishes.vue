@@ -2,19 +2,21 @@
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
       <div class="calendar-block">
-        <div class="calendar-title">
-          Текущая неделя,
-          {{
-            $dateTimeFormatter.getPeriod(
-              calendar.getActivePeriod()[0].date,
-              calendar.getActivePeriod()[calendar.getActivePeriod().length - 1].date,
-              {
-                month: '2-digit',
-                day: 'numeric',
-                year: undefined,
-              }
-            )
-          }}:
+        <div class="calendar-tools">
+          <div class="calendar-title">
+            Текущая неделя,
+            {{
+              $dateTimeFormatter.getPeriod(
+                calendar.getActivePeriod()[0].date,
+                calendar.getActivePeriod()[calendar.getActivePeriod().length - 1].date,
+                {
+                  month: '2-digit',
+                  day: 'numeric',
+                  year: undefined,
+                }
+              )
+            }}:
+          </div>
         </div>
         <div class="day-block">
           <button class="arrow-button" @click="move(false)">
@@ -57,9 +59,10 @@
                 {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
               </div>
               <draggable class="tabs" :list="dailyMenus" item-key="id" @end="saveMenusOrder">
-                <template #item="{ element, index }">
+                <template #item="{ element }">
                   <div
-                    :class="{ 'active-tabs-item': selectedMenu.id === element.id, 'tabs-item': selectedMenu.id !== element.id }"
+                    :class="{ 'selected-tabs-item': selectedMenu.id === element.id, 'tabs-item': selectedMenu.id !== element.id }"
+                    :style="{ color: element.active ? '#00B5A4' : '#DD1D12' }"
                     @click="selectMenu(element)"
                   >
                     <div class="title">
@@ -77,10 +80,6 @@
                       <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
                     </div>
                     <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }"></div>
-                    <div class="button-close">
-                      <el-button v-if="element.active" size="mini" @click.stop="stopMenu(element, index)"> || </el-button>
-                      <el-button v-else size="mini" @click.stop="startMenu(element, index)"> > </el-button>
-                    </div>
                     <div class="button-close">
                       <svg class="icon-close" @click="removeMenu(element.id)">
                         <use xlink:href="#close"></use>
@@ -495,32 +494,42 @@ export default defineComponent({
           dmi.removeDailyMenuItemsFromOthersMenus();
         });
         activeMenu.active = true;
+
+        for (const dmi of dailyMenus.value) {
+          await Provider.store.dispatch('dailyMenus/update', dmi);
+        }
         return;
       }
       const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: IDailyMenu) => menu.active);
-      console.log(previousActiveMenuIndex);
-      if (previousActiveMenuIndex === -1) {
-        return;
-      }
-      let textConfirm = 'Вы хотите запустить следующее меню?';
-      if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
-        textConfirm += `\n В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
-      }
-
-      ElMessageBox.confirm(textConfirm, {
-        distinguishCancelAndClose: true,
-        confirmButtonText: 'Да',
-        cancelButtonText: 'Нет',
-      })
-        .then(async () => {
-          dailyMenus.value[previousActiveMenuIndex].active = false;
-          dailyMenus.value[previousActiveMenuIndex].removeDailyMenuItemsFromOthersMenus();
-          activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
-          activeMenu.active = true;
+      if (previousActiveMenuIndex > -1) {
+        let textConfirm = 'Вы хотите запустить следующее меню?';
+        if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
+          textConfirm += `\n В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
+        }
+        ElMessageBox.confirm(textConfirm, {
+          distinguishCancelAndClose: true,
+          confirmButtonText: 'Да',
+          cancelButtonText: 'Нет',
         })
-        .catch(() => {
-          return;
+          .then(async () => {
+            dailyMenus.value.forEach((m: IDailyMenu) => {
+              m.active = false;
+              m.removeDailyMenuItemsFromOthersMenus();
+            });
+            activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+            activeMenu.active = true;
+          })
+          .catch(() => {
+            return;
+          });
+      } else {
+        dailyMenus.value.forEach((m: IDailyMenu) => {
+          m.active = false;
+          m.removeDailyMenuItemsFromOthersMenus();
         });
+        activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+        activeMenu.active = true;
+      }
 
       for (const dmi of dailyMenus.value) {
         await Provider.store.dispatch('dailyMenus/update', dmi);
@@ -689,6 +698,12 @@ $margin: 20px 0;
 .icon-print:hover {
   fill: #ffffff;
   stroke: #379fff;
+}
+
+.calendar-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .calendar-title {
@@ -884,7 +899,7 @@ h4 {
   margin-left: 0px;
 }
 
-.active-tabs-item {
+.selected-tabs-item {
   position: relative;
   display: flex;
   justify-content: space-between;

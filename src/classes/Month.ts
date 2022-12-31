@@ -94,9 +94,11 @@ export default class Month implements IMonth {
     if (activeWeekIndex === 0) {
       this.firstWeekActive = true;
       this.lastWeekActive = false;
-    }
-    if (activeWeekIndex === this.weeks.length - 1) {
+    } else if (activeWeekIndex === this.weeks.length - 1) {
       this.lastWeekActive = true;
+      this.firstWeekActive = false;
+    } else {
+      this.lastWeekActive = false;
       this.firstWeekActive = false;
     }
   }

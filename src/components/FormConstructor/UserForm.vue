@@ -78,7 +78,11 @@
     label="Ваш телефон"
     prop="formValue.user.phone"
   >
-    <el-input v-model="formValue.user.phone" placeholder="Ваш телефон"></el-input>
+    <el-input
+      v-model="formValue.user.phone"
+      placeholder="+7(___) ___ __ __"
+      @input="($event) => (formValue.user.phone = PhoneService.Format($event))"
+    ></el-input>
   </el-form-item>
   <el-form-item v-if="activeFields.childSurname" :rules="rules.childSurname" label="Фамилия пациента" prop="formValue.child.human.surname">
     <el-input v-model="formValue.child.human.surname" placeholder="Фамилия пациента"></el-input>
@@ -145,6 +149,7 @@ import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IForm from '@/interfaces/IForm';
 import IUser from '@/interfaces/IUser';
 import IUserFormFields from '@/interfaces/IUserFormFields';
+import PhoneService from '@/services/PhoneService';
 
 export default defineComponent({
   name: 'UserForm',
@@ -207,7 +212,10 @@ export default defineComponent({
       userIsMale: [{ required: true, message: 'Пожалуйста, выберите ваш пол', trigger: 'change' }],
       userDateBirth: [{ required: true, message: 'Пожалуйста, укажите вашу дату рождения', trigger: 'change' }],
       userSnils: [{ required: true, message: 'Пожалуйста, укажите СНИЛС', trigger: 'blur' }],
-      userPhone: [{ required: true, message: 'Пожалуйста, укажите телефон', trigger: 'blur' }],
+      userPhone: [
+        { required: true, message: 'Пожалуйста, укажите телефон', trigger: 'blur' },
+        { required: true, validator: PhoneService.validatePhone, trigger: 'blur' },
+      ],
       userCitizenship: [{ required: true, message: 'Пожалуйста, укажите своё гражданство', trigger: 'change' }],
       userPlaceBirth: [{ required: true, message: 'Пожалуйста, укажите своё место рождения', trigger: 'change' }],
       userPostIndex: [{ required: true, message: 'Пожалуйста, укажите почтовый индекс', trigger: 'change' }],
@@ -232,6 +240,7 @@ export default defineComponent({
     });
 
     return {
+      PhoneService,
       rules,
       isAuth,
       user,

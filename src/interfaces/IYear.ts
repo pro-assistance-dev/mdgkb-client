@@ -13,4 +13,6 @@ export default interface IYear {
   firstMonthActive: boolean;
   dropActive: () => void;
   initActive: (fromStart: boolean) => void;
+  getLastMonth: () => IMonth;
+  getFirstMonth: () => IMonth;
 }

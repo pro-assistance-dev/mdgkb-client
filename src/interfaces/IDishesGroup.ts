@@ -19,4 +19,5 @@ export default interface IDishesGroup {
   setAvailable: (available: boolean) => void;
   getDailyMenuItemsIds: () => string[];
   getAvailableDishes: () => IDailyMenuItem[];
+  getTransliteIdFromName: () => string;
 }
