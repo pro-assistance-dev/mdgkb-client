@@ -29,7 +29,6 @@ export default class PhoneService {
           break;
       }
     }
-    console.log(phone);
     return phone;
   }
 

@@ -109,4 +109,10 @@ export default class UserFormFields implements IUserFormFields {
     newForm.userPatronymic = true;
     return newForm;
   }
+
+  static CreateWithPhone(form?: IUserFormFields): IUserFormFields {
+    const newForm = new UserFormFields(form);
+    newForm.userPhone = true;
+    return newForm;
+  }
 }

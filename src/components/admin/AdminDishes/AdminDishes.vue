@@ -502,32 +502,42 @@ export default defineComponent({
           dmi.removeDailyMenuItemsFromOthersMenus();
         });
         activeMenu.active = true;
+
+        for (const dmi of dailyMenus.value) {
+          await Provider.store.dispatch('dailyMenus/update', dmi);
+        }
         return;
       }
       const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: IDailyMenu) => menu.active);
-      console.log(previousActiveMenuIndex);
-      if (previousActiveMenuIndex === -1) {
-        return;
-      }
-      let textConfirm = 'Вы хотите запустить следующее меню?';
-      if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
-        textConfirm += `\n В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
-      }
-
-      ElMessageBox.confirm(textConfirm, {
-        distinguishCancelAndClose: true,
-        confirmButtonText: 'Да',
-        cancelButtonText: 'Нет',
-      })
-        .then(async () => {
-          dailyMenus.value[previousActiveMenuIndex].active = false;
-          dailyMenus.value[previousActiveMenuIndex].removeDailyMenuItemsFromOthersMenus();
-          activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
-          activeMenu.active = true;
+      if (previousActiveMenuIndex > -1) {
+        let textConfirm = 'Вы хотите запустить следующее меню?';
+        if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
+          textConfirm += `\n В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
+        }
+        ElMessageBox.confirm(textConfirm, {
+          distinguishCancelAndClose: true,
+          confirmButtonText: 'Да',
+          cancelButtonText: 'Нет',
         })
-        .catch(() => {
-          return;
+          .then(async () => {
+            dailyMenus.value.forEach((m: IDailyMenu) => {
+              m.active = false;
+              m.removeDailyMenuItemsFromOthersMenus();
+            });
+            activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+            activeMenu.active = true;
+          })
+          .catch(() => {
+            return;
+          });
+      } else {
+        dailyMenus.value.forEach((m: IDailyMenu) => {
+          m.active = false;
+          m.removeDailyMenuItemsFromOthersMenus();
         });
+        activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+        activeMenu.active = true;
+      }
 
       for (const dmi of dailyMenus.value) {
         await Provider.store.dispatch('dailyMenus/update', dmi);

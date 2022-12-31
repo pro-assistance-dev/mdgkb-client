@@ -89,4 +89,8 @@ export default class DishesGroup implements IDishesGroup {
     });
     return items;
   }
+
+  getTransliteIdFromName(): string {
+    return this.name.replace(' ', '');
+  }
 }

@@ -19,7 +19,7 @@
         style="max-width: 700px"
         label-position="left"
       >
-        <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithFullName()" />
+        <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
         <FieldValuesForm :form="dailyMenuOrder.formValue" />
       </el-form>
     </div>
@@ -45,6 +45,7 @@ import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import removeFromClass from '@/services/removeFromClass';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'BufetOrder',
@@ -67,10 +68,15 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const createOrder = async () => {
+      dailyMenuOrder.value.formValue.validate();
+      if (!validate(userForm, true) || dailyMenuOrder.value.formValue.validated) {
+        return;
+      }
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',
       });
+
       await Provider.store.dispatch('dailyMenuOrders/create');
       ElMessage({ message: 'Заказ успешно создан', type: 'success' });
       await Provider.store.commit('dailyMenuOrders/resetItem');
@@ -80,6 +86,7 @@ export default defineComponent({
     };
 
     return {
+      userForm,
       UserFormFields,
       createOrder,
       dailyMenuOrder,

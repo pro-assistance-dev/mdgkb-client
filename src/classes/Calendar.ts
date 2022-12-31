@@ -68,7 +68,7 @@ export default class Calendar implements ICalendar {
         return days.concat(d);
       }
       if (m.isFirst() && m.firstWeekActive) {
-        const d = this.years[activeYearIndex - 1].months[0].weeks[0].days.slice(0, lostDays);
+        const d = this.years[activeYearIndex - 1].getLastMonth().getLastWeek().days.slice(0, lostDays);
         return d.concat(days);
       }
       if (m.lastWeekActive) {
@@ -88,17 +88,30 @@ export default class Calendar implements ICalendar {
 
   move(toForward: boolean): void {
     if (this.scale === CalendarScale.Week) {
+      const previousPeriod = this.getActivePeriod();
       const activeYear = this.getActiveYear();
       const activeMonth = activeYear.getActiveMonth();
       if (toForward && activeMonth.isLast() && activeMonth.lastWeekActive) {
         this.moveYear(toForward);
+        const nowPeriod = this.getActivePeriod();
+        if (this.periodsIsEqual(previousPeriod, nowPeriod)) {
+          this.move(toForward);
+        }
         return;
       }
       if (!toForward && activeMonth.isFirst() && activeMonth.firstWeekActive) {
         this.moveYear(toForward);
+        const nowPeriod = this.getActivePeriod();
+        if (this.periodsIsEqual(previousPeriod, nowPeriod)) {
+          this.move(toForward);
+        }
         return;
       }
       activeYear.move(toForward);
+      const nowPeriod = this.getActivePeriod();
+      if (this.periodsIsEqual(previousPeriod, nowPeriod)) {
+        this.move(toForward);
+      }
     }
   }
 
@@ -109,7 +122,6 @@ export default class Calendar implements ICalendar {
     }
     this.years[activeIndex].dropActive();
     const newActiveYear = this.years[toForward ? activeIndex + 1 : activeIndex - 1];
-    console.log(newActiveYear);
     newActiveYear.initActive(toForward);
   }
 
@@ -147,5 +159,9 @@ export default class Calendar implements ICalendar {
     const previousSelectedDay = this.getSelectedDay();
     previousSelectedDay.selected = false;
     day.selected = true;
+  }
+
+  periodsIsEqual(activePeriod1: IDay[], activePeriod2: IDay[]): boolean {
+    return activePeriod1.every((day: IDay, i: number) => day.date.getDate() === activePeriod2[i].date.getDate());
   }
 }
