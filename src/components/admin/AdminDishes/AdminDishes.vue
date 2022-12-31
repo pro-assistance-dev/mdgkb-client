@@ -362,14 +362,16 @@ export default defineComponent({
     };
 
     const selectDay = async (day: IDay): Promise<void> => {
+      let DayYear = day.date.getFullYear();
       let DayMonth = day.date.getMonth();
       let DayDay = day.date.getDate();
       let Today = new Date();
+      let TodayYear = Today.getFullYear();
       let TodayMonth = Today.getMonth();
       let TodayDay = Today.getDate();
 
       calendar.value.selectDay(day);
-      if (DayMonth === TodayMonth && DayDay === TodayDay) {
+      if (DayMonth === TodayMonth && DayDay === TodayDay && DayYear === TodayYear) {
         isToDay.value = true;
       } else {
         isToDay.value = false;
