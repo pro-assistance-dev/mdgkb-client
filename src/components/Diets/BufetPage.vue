@@ -28,7 +28,7 @@
         </div>
       </template>
     </div>
-    <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer">
+    <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer" @click="$router.push('/bufet/cart')">
       <button class="add-to-card" @click="$router.push('/bufet/cart')">В корзину</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
@@ -258,10 +258,14 @@ input[type='text'] {
   display: flex;
   align-content: center;
   justify-content: space-between;
-
+  cursor: pointer;
   position: sticky;
   bottom: 0px;
   z-index: 2;
+}
+
+.footer:hover {
+  background: lighten(#449d7c, 10%);
 }
 
 .footer-info {
@@ -276,16 +280,11 @@ input[type='text'] {
   align-items: center;
   font-size: 12px;
   margin: 0;
-  cursor: pointer;
   border: none;
   padding: 0px;
   background: inherit;
-  color: #d2def1;
-  font-size: 16px;
-}
-
-.add-to-card:hover {
   color: #ffffff;
+  font-size: 16px;
 }
 
 .field1 {
