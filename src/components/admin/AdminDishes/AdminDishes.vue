@@ -17,6 +17,7 @@
               )
             }}:
           </div>
+          <div v-if="!isToDay" class="calendar-button" @click="backToToday()">Вернуться к сегодняшнему дню</div>
         </div>
         <div class="day-block">
           <button class="arrow-button" @click="move(false)">
@@ -305,6 +306,8 @@ export default defineComponent({
     const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu> = ref(new DailyMenu());
+    const moveCounter: Ref<number> = ref(0);
+    const isToDay: Ref<boolean> = ref(true);
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
@@ -316,6 +319,7 @@ export default defineComponent({
       });
       await selectDay(calendar.value.getToday());
       await fillCalendar();
+      console.log(isToDay.value);
     };
 
     const openDishesConstructor = () => {
@@ -358,13 +362,41 @@ export default defineComponent({
     };
 
     const selectDay = async (day: IDay): Promise<void> => {
+      let DayYear = day.date.getFullYear();
+      let DayMonth = day.date.getMonth();
+      let DayDay = day.date.getDate();
+      let Today = new Date();
+      let TodayYear = Today.getFullYear();
+      let TodayMonth = Today.getMonth();
+      let TodayDay = Today.getDate();
+
       calendar.value.selectDay(day);
+      if (DayMonth === TodayMonth && DayDay === TodayDay && DayYear === TodayYear) {
+        isToDay.value = true;
+      } else {
+        isToDay.value = false;
+      }
+
       await getTodayMenus();
       if (dailyMenus.value.length === 0) {
-        // await createNewDailyMenus();
         return;
       }
       findMenu();
+      await fillCalendar();
+    };
+
+    const backToToday = async () => {
+      await selectDay(calendar.value.getToday());
+      selectedMenu.value = dailyMenus.value[0];
+      if (moveCounter.value > 0) {
+        for (let i = moveCounter.value; i > 0; i--) {
+          move(false);
+        }
+      } else if (moveCounter.value < 0) {
+        for (let i = moveCounter.value; i < 0; i++) {
+          move(true);
+        }
+      }
       await fillCalendar();
     };
 
@@ -485,6 +517,12 @@ export default defineComponent({
     const move = async (direction: boolean) => {
       calendar.value.move(direction);
       await fillCalendar();
+      if (direction) {
+        moveCounter.value++;
+      } else {
+        moveCounter.value--;
+      }
+      // isToDay.value = false;
     };
 
     const startMenu = async (activeMenu: IDailyMenu, selectedMenuIndex: number): Promise<void> => {
@@ -569,6 +607,8 @@ export default defineComponent({
       removeFromClass,
       activate,
       createNewDailyMenus,
+      backToToday,
+      isToDay,
     };
   },
 });
@@ -712,6 +752,15 @@ $margin: 20px 0;
   display: block;
   font-size: 14px;
   color: #343e5c;
+}
+
+.calendar-button {
+  font-size: 14px;
+  color: #2754eb;
+  cursor: pointer;
+}
+.calendar-button:hover {
+  color: darken(#2754eb, 20%);
 }
 
 .day-block {
