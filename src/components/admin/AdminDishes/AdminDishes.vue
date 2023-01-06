@@ -107,10 +107,10 @@
           </div>
           <div class="tab-tools">
             Активация:
-            <svg v-if="selectedMenu.isActive()" class="icon-active" @click="activate(false)">
+            <svg v-if="selectedMenu.isActive()" class="icon-active" @click="stopMenu()">
               <use xlink:href="#active"></use>
             </svg>
-            <svg v-else class="icon-non-active" @click="activate(true)">
+            <svg v-else class="icon-non-active" @click="startMenu()">
               <use xlink:href="#non-active"></use>
             </svg>
           </div>
@@ -525,13 +525,14 @@ export default defineComponent({
       // isToDay.value = false;
     };
 
-    const startMenu = async (activeMenu: IDailyMenu, selectedMenuIndex: number): Promise<void> => {
+    const startMenu = async (): Promise<void> => {
+      const selectedMenuIndex = dailyMenus.value.findIndex((d: IDailyMenu) => d.id === selectedMenu.value.id);
       if (selectedMenuIndex === 0) {
         dailyMenus.value.forEach((dmi: IDailyMenu) => {
           dmi.active = false;
           dmi.removeDailyMenuItemsFromOthersMenus();
         });
-        activeMenu.active = true;
+        selectedMenu.value.active = true;
 
         for (const dmi of dailyMenus.value) {
           await Provider.store.dispatch('dailyMenus/update', dmi);
@@ -554,8 +555,8 @@ export default defineComponent({
               m.active = false;
               m.removeDailyMenuItemsFromOthersMenus();
             });
-            activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
-            activeMenu.active = true;
+            selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+            selectedMenu.value.active = true;
           })
           .catch(() => {
             return;
@@ -565,8 +566,8 @@ export default defineComponent({
           m.active = false;
           m.removeDailyMenuItemsFromOthersMenus();
         });
-        activeMenu.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
-        activeMenu.active = true;
+        selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+        selectedMenu.value.active = true;
       }
 
       for (const dmi of dailyMenus.value) {
@@ -574,8 +575,11 @@ export default defineComponent({
       }
     };
 
-    const stopMenu = async (activeMenu: IDailyMenu, selectedMenuIndex: number): Promise<void> => {
-      activeMenu.active = false;
+    const stopMenu = async (): Promise<void> => {
+      selectedMenu.value.active = false;
+      for (const dmi of dailyMenus.value) {
+        await Provider.store.dispatch('dailyMenus/update', dmi);
+      }
     };
 
     return {

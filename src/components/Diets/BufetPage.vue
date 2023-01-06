@@ -43,11 +43,9 @@
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
-import FilterModel from '@/classes/filters/FilterModel';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import User from '@/classes/User';
 import DishCard from '@/components/Diets/DishCard.vue';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import IDishesGroup from '@/interfaces/IDishesGroup';
@@ -55,7 +53,6 @@ import IForm from '@/interfaces/IForm';
 import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import removeFromClass from '@/services/removeFromClass';
 
@@ -68,7 +65,7 @@ export default defineComponent({
     const formPattern: Ref<IForm> = computed(() => Provider.store.getters['formPatterns/item']);
     const dishesGroupsSource: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0));
-    const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
+
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
@@ -80,8 +77,7 @@ export default defineComponent({
       dailyMenuOrder.value.reproduceFromStore();
       dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
       dailyMenuOrder.value.formValue.user = new User(user.value);
-      dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
-      await getDailyMenus();
+
       await getDishesGroups();
     };
 
@@ -90,19 +86,6 @@ export default defineComponent({
       queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
       await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
       dishesGroups.value = dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0);
-    };
-
-    const getDailyMenus = async () => {
-      const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
-      dayFilter.value.date1 = new Date(new Date().getTime() - userTimezoneOffset);
-      Provider.setFilterModel(dayFilter.value);
-      await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
-      if (dailyMenus.value.length === 0) {
-        return;
-      }
-      const activeMenu = dailyMenus.value.find((d: IDailyMenu) => d.active);
-      Provider.store.commit('dailyMenus/set', activeMenu);
-      dailyMenu.value.groupDishes();
     };
 
     Hooks.onBeforeMount(load);
@@ -224,6 +207,10 @@ input[type='text'] {
   white-space: nowrap;
   margin: 0 10px;
   color: #343e5c;
+  &:hover {
+    cursor: pointer;
+    color: lighten(#343e5c, 10%);
+  }
 }
 .active-item {
   display: flex;
