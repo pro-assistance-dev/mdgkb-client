@@ -73,4 +73,5 @@ export default interface IResidencyCourse {
   getDoctors: () => IDoctor[];
   residencyCoursePracticePlaces: IResidencyCoursePracticePlace[];
   residencyCoursePracticePlacesForDelete: string[];
+  getInfoFiles: () => IFileInfo[];
 }

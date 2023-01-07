@@ -251,4 +251,16 @@ export default class ResidencyCourse implements IResidencyCourse {
   getDoctors(): IDoctor[] {
     return this.residencyCoursesTeachers.map((item: IResidencyCourseTeacher) => item.teacher.doctor);
   }
+
+  getInfoFiles(): IFileInfo[] {
+    const annotaion = new FileInfo(this.annotation);
+    annotaion.originalName = 'Аннотация';
+    const plan = new FileInfo(this.plan);
+    plan.originalName = 'План обучения';
+    const program = new FileInfo(this.program);
+    program.originalName = 'Программа';
+    const schedule = new FileInfo(this.schedule);
+    schedule.originalName = 'Расписание';
+    return [annotaion, plan, program, schedule].filter((f: IFileInfo) => f.fileSystemPath);
+  }
 }

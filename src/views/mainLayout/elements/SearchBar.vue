@@ -20,6 +20,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import IOption from '@/interfaces/IOption';
 import ISearchModel from '@/interfaces/ISearchModel';
 
 export default defineComponent({
@@ -53,17 +54,15 @@ export default defineComponent({
     };
 
     const suggestSearch = async (queryString: string, cb: (arg: any) => void) => {
-      await router.push(`/dev`);
-      return;
-      // searchModel.value.suggester = true;
-      // searchModel.value.query = queryString;
-      // searchModel.value.options = [];
-      // searchModel.value.searchGroup.options = [];
-      // await store.dispatch('search/searchV1', searchModel.value);
-      // const options = searchModel.value.options.map((opt: IOption) => {
-      //   return { label: opt.value, value: opt.label };
-      // });
-      // cb(options);
+      searchModel.value.suggester = true;
+      searchModel.value.query = queryString;
+      searchModel.value.options = [];
+      searchModel.value.searchGroup.options = [];
+      await store.dispatch('search/full', searchModel.value);
+      const options = searchModel.value.options.map((opt: IOption) => {
+        return { label: opt.value, value: opt.label };
+      });
+      cb(options);
     };
 
     const submitSearch = async () => {

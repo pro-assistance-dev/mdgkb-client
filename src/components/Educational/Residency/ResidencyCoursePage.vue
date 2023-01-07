@@ -2,23 +2,41 @@
   <div v-if="mounted" class="size">
     <ResidencyCourseInfo :course="residencyCourse" />
     <DoctorsCarousel header-title="Преподаватели" header-button-title="Все преподаватели" :doctors="residencyCourse.getDoctors()" />
-    <component :is="'MainContainer'" v-if="mounted" header-title="Информация о программе">
-      <div class="card-item">
+    <CollapsContainer tab-id="6" :collapsed="true">
+      <template #inside-title>
+        <div class="title-in">Информация о программе</div>
+      </template>
+      <template #inside-content>
         <div style="display: flex; justify-content: space-around">
           <div>
-            <div>Язык обучения: русский</div>
-            <div>Время обучения: 2 года</div>
+            <div><b>Язык обучения:</b> русский</div>
+            <div><b>Срок получения образования, включая каникулы</b>: 2 года</div>
           </div>
           <div>
-            Практика проходит в:
             <ul>
-              <li>ГКБ им. братьев Бахрушиных</li>
-              <li>Клиника Корсакова</li>
+              <li v-for="file in residencyCourse.getInfoFiles()" :key="file.id">
+                <a :href="file.getFileUrl()" :download="file.originalName" target="_blank" style="margin-right: 10px">
+                  {{ file.originalName }}</a
+                >
+              </li>
             </ul>
           </div>
         </div>
-      </div>
-    </component>
+      </template>
+    </CollapsContainer>
+    <CollapsContainer v-if="residencyCourse.residencyCoursePracticePlaces.length" tab-id="6" :collapsed="true">
+      <template #inside-title>
+        <div class="title-in">Базы практики</div>
+      </template>
+      <template #inside-content>
+        <ul>
+          <li v-for="practicePlace in residencyCourse.residencyCoursePracticePlaces" :key="practicePlace.id">
+            <a v-if="practicePlace.link" :href="practicePlace.link" target="_blank" style="margin-right: 10px"> {{ practicePlace.name }}</a>
+            <template v-else>{{ practicePlace.name }}</template>
+          </li>
+        </ul>
+      </template>
+    </CollapsContainer>
   </div>
 </template>
 
@@ -27,7 +45,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
 import ResidencyCourseInfo from '@/components/Educational/Residency/ResidencyCourseInfo.vue';
-import MainContainer from '@/components/Main/MainContainer.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
@@ -36,7 +54,7 @@ import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'ResidencyCoursePage',
-  components: { DoctorsCarousel, ResidencyCourseInfo, MainContainer },
+  components: { DoctorsCarousel, ResidencyCourseInfo, CollapsContainer },
   setup() {
     const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const showForm: Ref<boolean> = ref(false);
@@ -90,6 +108,17 @@ export default defineComponent({
 $side-container-max-width: 300px;
 $medical-profile-content-max-width: 1000px;
 $card-margin-size: 30px;
+@import '@/assets/styles/elements/base-style.scss';
+.title-in {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: $site_dark_gray;
+  height: 60px;
+  align-items: center;
+  font-weight: bold;
+}
 
 .info-tags-block {
   display: flex;

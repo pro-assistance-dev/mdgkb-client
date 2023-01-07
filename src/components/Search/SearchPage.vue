@@ -6,11 +6,7 @@
     <div>
       <ul class="tag-list">
         <li>
-          <button
-            class="tag-item-batton"
-            :class="{ 'tag-active': searchModel.searchGroups.every((group) => group.active) }"
-            @click="selectSearchGroup(undefined)"
-          >
+          <button class="tag-item-batton" :class="{ 'tag-active': !searchModel.searchGroup.id }" @click="selectSearchGroup(undefined)">
             Все
           </button>
         </li>
@@ -18,7 +14,7 @@
           <button
             v-if="searchGroup.label"
             class="tag-item-batton"
-            :class="{ 'tag-active': searchModel.searchGroups.some((group) => !group.active) && searchGroup.active }"
+            :class="{ 'tag-active': searchGroup.id === searchModel.searchGroup.id }"
             @click="selectSearchGroup(searchGroup.id)"
           >
             {{ searchGroup.label }}
@@ -101,8 +97,9 @@ export default defineComponent({
     const search = async () => {
       searchModel.value.options = [];
       searchModel.value.searchGroup.options = [];
-      await store.dispatch('search/searchV1', searchModel.value);
+      await store.dispatch('search/full', searchModel.value);
       results.value = searchModel.value.searchGroup.options;
+      results.value = searchModel.value.options;
     };
 
     return {

@@ -12,54 +12,31 @@
       </el-card>
     </div>
 
-    <el-collapse accordion>
-      <!--      <PaidService ref="ginService" v-model:services="ginDiv" :title="'Гинекологическое отделение'" @selectService="selectServiceGin" />-->
-      <!--      <PaidService-->
-      <!--        ref="otoService"-->
-      <!--        v-model:services="otoDiv"-->
-      <!--        :title="'Оториноларингологическое отделение'"-->
-      <!--        @selectService="selectServiceOto"-->
-      <!--      />-->
-    </el-collapse>
+    <div v-if="mounted">
+      <PaidServicesTable ref="ginService" :services="paidServices" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, Ref, ref } from 'vue';
 
+import PaidServicesTable from '@/components/PaidServices/PaidServicesTable.vue';
 import IPaidService from '@/interfaces/IPaidService';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'PaidServices',
-  components: {},
+  components: { PaidServicesTable },
   setup() {
     let sum = ref(0);
-    const ginService = ref();
-    const otoService = ref();
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
-    let selectedServiceGin: IPaidService[] = [];
-    let selectedServiceOto: IPaidService[] = [];
-
+    const paidServices: Ref<IPaidService[]> = computed<IPaidService[]>(() => Provider.store.getters['paidServices/items']);
     const calcSum = () => {
       sum.value = 0;
-      selectedServiceGin.forEach((s) => (sum.value = Number(s.price) + sum.value));
-      selectedServiceOto.forEach((s) => (sum.value = Number(s.price) + sum.value));
-    };
-
-    const selectServiceGin = (services: IPaidService[]) => {
-      selectedServiceGin = services;
-      calcSum();
-    };
-
-    const selectServiceOto = (services: IPaidService[]) => {
-      selectedServiceOto = services;
-      calcSum();
-    };
-    const clearSelectedService = () => {
-      ginService.value.clearSelection();
-      otoService.value.clearSelection();
     };
 
     const handleScroll = () => {
@@ -70,16 +47,21 @@ export default defineComponent({
       scrollOffset.value = window.scrollY;
     };
 
+    const load = async () => {
+      Provider.filterQuery.value.pagination.limit = 100;
+      await Provider.store.dispatch('paidServices/getAll', Provider.filterQuery.value);
+    };
+
+    Hooks.onBeforeMount(load);
+
     onMounted(() => window.addEventListener('scroll', handleScroll));
     onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     return {
-      clearSelectedService,
-      ginService,
-      otoService,
+      mounted: Provider.mounted,
+      paidServices,
+      // clearSelectedService,
       sum,
-      selectServiceOto,
-      selectServiceGin,
       scrollOffset,
       previousOffset,
       rememberedOffset,

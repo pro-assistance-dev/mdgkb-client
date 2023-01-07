@@ -1,7 +1,7 @@
 <template>
   <CollapsContainer v-if="carousel.length > 0" tab-id="6" :collapsed="false">
     <template #inside-title>
-      <div class="title-in">Специалисты отделения</div>
+      <div class="title-in">{{ headerTitle ? headerTitle : 'Специалисты' }}</div>
     </template>
     <template #inside-content>
       <component
@@ -30,10 +30,10 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import makeCarousel from '@/services/MakeCarousel';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DoctorsCarousel',
@@ -58,8 +58,6 @@ export default defineComponent({
     };
   },
 });
-
-
 </script>
 
 <style scoped lang="scss">
@@ -75,5 +73,4 @@ export default defineComponent({
   align-items: center;
   font-weight: bold;
 }
-
 </style>

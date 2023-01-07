@@ -19,12 +19,6 @@
         </router-link>
       </div>
       <div class="flex-column right-side">
-        <!-- <div
-          v-for="doctorDivision in doctor.doctorsDivisions"
-          :key="doctorDivision.id"
-          class="division-name"
-          @click="$router.push(`/divisions/${doctorDivision.division.slug}`)"
-        > -->
         <div
           v-if="doctor.doctorsDivisions && doctor.doctorsDivisions.length > 0"
           class="division-name"
@@ -59,25 +53,6 @@
       <button @click="$router.push('/appointments/oms')">Запись на прием</button>
     </div>
   </div>
-  <!-- <div class="flex-column">
-      <div class="flex-row">
-        <div class="doctor-img-container">
-          <img v-if="doctor.fileInfo.fileSystemPath" :src="doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
-          <img v-else src="@/assets/img/doctor-default.webp" />
-        </div>
-        <div class="flex-column">
-          <span class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } })">
-            <b>{{ doctor.employee.human.getFullName() }}</b>
-          </span>
-          <span>Врач {{ doctor.position }}</span>
-          <span>{{ doctor.tags }}</span>
-          <span>Прием: {{ division.address }}</span>
-          <span>График работы: {{ doctor.schedule }}</span>
-        </div>
-      </div>
-      <span>Отделение: {{ division.name }}</span>
-      <span>Образование: {{ doctor.education }}</span>
-    </div> -->
 </template>
 
 <script lang="ts">

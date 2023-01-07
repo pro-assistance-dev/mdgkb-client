@@ -1,29 +1,30 @@
 <template>
   <div class="card-item">
-    <ChiefCard :chief="course.getMainTeacher().doctor" chief-role="Руководитель курса" :show-favourite="false" />
+    <ChiefCard
+      v-if="course.getMainTeacher()"
+      :chief="course.getMainTeacher().doctor"
+      chief-role="Руководитель курса"
+      :show-favourite="false"
+    />
 
     <div class="card-item-field">
       <div class="card-item-middle">
-        <!--        <div class="division-line" data-test="treatDirection-name">-->
-        <!--          {{ division.treatDirection.name }}-->
-        <!--        </div>-->
         <div class="division-name" data-test="division-name">
-          {{ course.getFullName() }}
+          {{ course.getFullName() }}<br />
+          {{ course.getPeriod() }}
         </div>
         <div class="card-item-middle-bottom">
           <div class="info-block">
-            <div class="contact-h3">
-              <TimetableComponent :timetable="timetable" />
-            </div>
-            <AddressInfo :address="address" />
-            <ContactsBlock :contact-info="contactInfo" />
+            <!--            <div class="contact-h3">-->
+            <!--              <TimetableComponent :timetable="timetable" />-->
+            <!--            </div>-->
           </div>
         </div>
       </div>
 
       <div class="card-item-right">
-        <a @click="$scroll('#block-footer')">
-          <button>Запросить обратную связь</button>
+        <a @click="openApplicationDialog">
+          <button>Подать заявление</button>
         </a>
       </div>
     </div>
@@ -32,41 +33,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { ElMessage } from 'element-plus';
+import { defineComponent, PropType, Ref, ref } from 'vue';
 
-import ContactInfo from '@/classes/contacts/ContactInfo';
-import Email from '@/classes/contacts/Email';
-import TelephoneNumber from '@/classes/contacts/TelephoneNumber';
-import Timetable from '@/classes/timetable/Timetable';
-import AddressInfo from '@/components/AddressInfo.vue';
 import ChiefCard from '@/components/ChiefCard.vue';
-import ContactsBlock from '@/components/ContactsBlock.vue';
-import TimetableComponent from '@/components/TimetableComponent.vue';
 import IResidencyCourse from '@/interfaces/IResidencyCourse';
 
 export default defineComponent({
   name: 'ResidencyCourseInfo',
   components: {
     ChiefCard,
-    TimetableComponent,
-    AddressInfo,
-    ContactsBlock,
   },
   props: {
     course: { type: Object as PropType<IResidencyCourse>, required: true },
   },
   setup() {
-    const contactInfo = new ContactInfo();
-    const phone = new TelephoneNumber();
-    phone.number = '+7 (495) 959-88-01 доб. ординатура 11-36';
-    contactInfo.telephoneNumbers = [phone];
-
-    const email = new Email();
-    email.address = 'pdo@morozdgkb.ru';
-    contactInfo.emails = [email];
-    const address = '4-й Добрынинский переулок 1/9 корпус 11, 2 этаж';
-    const timetable = Timetable.CreateStandartTimetable([]);
-    return { contactInfo, address, timetable };
+    const applicationDialogOpen: Ref<boolean> = ref(false);
+    const openApplicationDialog = () => {
+      applicationDialogOpen.value = true;
+      ElMessage({ message: 'Возможность подать заявление будет предоставлена позже', type: 'warning' });
+    };
+    return { openApplicationDialog };
   },
 });
 </script>

@@ -37,14 +37,11 @@ export default class SearchModel implements ISearchModel {
   }
 
   setSearchGroup(groupId: string | undefined): void {
-    if (!groupId) {
-      this.searchGroups.forEach((group: ISearchGroup) => {
-        group.active = true;
-      });
-      return;
+    const g = this.searchGroups.find((group: ISearchGroup) => group.id === groupId);
+    if (g) {
+      this.searchGroup = g;
+    } else {
+      this.searchGroup = new SearchGroup();
     }
-    this.searchGroups.forEach((group: ISearchGroup) => {
-      group.active = group.id === groupId;
-    });
   }
 }

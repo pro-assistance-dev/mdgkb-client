@@ -55,6 +55,7 @@ import { pageSideMenus } from '@/store/modules/pageSideMenus';
 import { pagination } from '@/store/modules/pagination';
 import { paidPrograms } from '@/store/modules/paidPrograms';
 import { paidProgramsGroups } from '@/store/modules/paidProgramsGroups';
+import { paidServices } from '@/store/modules/paidServices';
 import { partners } from '@/store/modules/partners';
 import { partnerTypes } from '@/store/modules/partnerTypes';
 import { pointsAchievements } from '@/store/modules/pointsAchievements';
@@ -171,6 +172,7 @@ const s: StoreOptions<RootState> = {
     dailyMenuItems,
     appointmentsTypes,
     dailyMenuOrders,
+    paidServices,
   },
 };
 
