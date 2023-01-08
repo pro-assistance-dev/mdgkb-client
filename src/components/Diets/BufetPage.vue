@@ -21,6 +21,7 @@
       </div>
     </div>
     <div class="main">
+      <div v-if="!dishesGroups.length" class="info-window">На данный момент нет блюд для выбора</div>
       <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
         <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
         <div class="group-items">
@@ -306,6 +307,16 @@ input[type='text'] {
   color: $site_dark_gray;
   margin-left: 30px;
   height: 50px;
+}
+.info-window {
+  text-align: center;
+  width: auto;
+  color: #343e5c;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  font-style: italic;
+  font-size: 18px;
 }
 
 @media screen and (max-width: 768px) {
