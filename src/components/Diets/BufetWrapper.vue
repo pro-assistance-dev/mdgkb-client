@@ -39,8 +39,7 @@ export default defineComponent({
 
     const updateMenu = async (e: MessageEvent) => {
       console.log(sourceSSE);
-      Provider.store.commit('dailyMenus/set', JSON.parse(e.data));
-      dailyMenu.value.groupDishes();
+      await getDailyMenus();
       checkDailyMenuItemsAvailable();
     };
 

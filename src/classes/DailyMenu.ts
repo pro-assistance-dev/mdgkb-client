@@ -125,6 +125,9 @@ export default class DailyMenu implements IDailyMenu {
 
   addActiveDishesFromOthersMenus(dailyMenus: IDailyMenu[]): void {
     dailyMenus.forEach((m: IDailyMenu) => {
+      if (!m) {
+        return;
+      }
       m.dailyMenuItems.forEach((dmi: IDailyMenuItem) => {
         if (dmi.available) {
           const newMenuItem = new DailyMenuItem(dmi);

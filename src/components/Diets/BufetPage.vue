@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="main">
-      <div v-if="!dishesGroups.length" class="info-window">На данный момент нет блюд для выбора</div>
+      <div v-if="!dailyMenu.getNonEmptyGroups().length" class="info-window">На данный момент нет блюд для выбора</div>
       <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
         <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
         <div class="group-items">
@@ -70,7 +70,6 @@ export default defineComponent({
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
-    const userForm = ref();
 
     const load = async () => {
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');

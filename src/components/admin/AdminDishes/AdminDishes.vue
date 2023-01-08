@@ -557,6 +557,10 @@ export default defineComponent({
             });
             selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
             selectedMenu.value.active = true;
+
+            for (const dmi of dailyMenus.value) {
+              await Provider.store.dispatch('dailyMenus/update', dmi);
+            }
           })
           .catch(() => {
             return;
@@ -568,10 +572,10 @@ export default defineComponent({
         });
         selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
         selectedMenu.value.active = true;
-      }
 
-      for (const dmi of dailyMenus.value) {
-        await Provider.store.dispatch('dailyMenus/update', dmi);
+        for (const dmi of dailyMenus.value) {
+          await Provider.store.dispatch('dailyMenus/update', dmi);
+        }
       }
     };
 
