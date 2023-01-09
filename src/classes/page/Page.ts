@@ -3,6 +3,7 @@ import PageImage from '@/classes/page/PageImage';
 import PageSection from '@/classes/PageSection';
 import PageSideMenu from '@/classes/PageSideMenu';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import ICustomSection from '@/interfaces/ICustomSection';
 import IPageSection from '@/interfaces/IPageSection';
 import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import IPage from '@/interfaces/page/IPage';
@@ -86,5 +87,31 @@ export default class Page implements IPage {
 
   addSideMenu(): void {
     this.pageSideMenus.push(new PageSideMenu());
+  }
+
+  selectSideMenu(id: string): void {
+    if (!id && this.pageSideMenus.length > 0) {
+      this.pageSideMenus[0].selected = true;
+      return;
+    }
+    this.pageSideMenus.forEach((m: IPageSideMenu) => (m.selected = m.id === id));
+  }
+
+  getSelectedSideMenu(): IPageSideMenu {
+    const selectedMenu = this.pageSideMenus.find((m: IPageSideMenu) => m.selected);
+    return selectedMenu ? selectedMenu : new PageSideMenu();
+  }
+
+  addCustomSectionsToSideMenu(customSections: ICustomSection[]): void {
+    customSections.forEach((c: ICustomSection) => {
+      const menu = new PageSideMenu();
+      menu.id = c.id;
+      menu.name = c.name;
+      if (typeof c.order !== 'undefined') {
+        this.pageSideMenus.splice(c.order, 0, menu);
+      } else {
+        this.pageSideMenus.push(menu);
+      }
+    });
   }
 }

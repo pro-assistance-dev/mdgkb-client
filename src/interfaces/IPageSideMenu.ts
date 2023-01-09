@@ -19,4 +19,5 @@ export default interface IPageSideMenu {
   pageId?: string;
 
   addPageSection: () => void;
+  selected: boolean;
 }

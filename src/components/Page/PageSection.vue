@@ -1,27 +1,28 @@
 <template>
   <div class="card-item">
-    <h2>{{ publicDocumentType.name }}</h2>
-    <div v-if="publicDocumentType.description != '<p>undefined</p>'" v-html="publicDocumentType.description"></div>
+    <h2>{{ title }}</h2>
+    <div v-if="description !== '<p>undefined</p>'" v-html="description"></div>
   </div>
-  <div v-for="docType in publicDocumentType.pageSections" :key="docType" class="card-item">
-    <template v-if="docType.description != '<p>undefined</p>' && docType.description.length < 1000">
-      <h2>{{ docType.name }}</h2>
-      <div v-html="docType.description"></div>
+  <div v-for="section in pageSections" :key="section" class="card-item">
+    <template v-if="section.description && section.description !== '<p>undefined</p>' && section.description.length < 1000">
+      <h2>{{ section.name }}</h2>
+      <div v-html="section.description"></div>
     </template>
-    <CollapsContainer v-if="docType.description.length > 1000" tab-id="400" :collapsed="false">
+    <CollapsContainer v-if="section.description && section.description.length > 1000" tab-id="400" :collapsed="false">
       <template #inside-title>
-        <h2>{{ docType.name }}</h2>
+        <h2>{{ section.name }}</h2>
       </template>
       <template #inside-content>
-        <div v-html="docType.description"></div>
+        <div v-html="section.description"></div>
       </template>
     </CollapsContainer>
-
-    <li v-for="file in docType.pageSectionDocuments" :key="file.id">
-      <a v-if="file.downloadToFile" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{ file.name }}</a>
-      <a v-else target="_blank" :href="file.scan.getFileUrl()">{{ file.name }}</a>
-    </li>
-    <ImageGallery :images="docType.pageSectionImages" />
+    <ul>
+      <li v-for="file in section.pageSectionDocuments" :key="file.id">
+        <a v-if="file.downloadToFile" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{ file.name }}</a>
+        <a v-else target="_blank" :href="file.scan.getFileUrl()">{{ file.name }}</a>
+      </li>
+    </ul>
+    <ImageGallery :images="section.pageSectionImages" />
   </div>
 </template>
 
@@ -30,14 +31,22 @@ import { defineComponent, PropType, ref } from 'vue';
 
 import ImageGallery from '@/components/ImageGallery.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
-import IPageSideMenu from '@/interfaces/IPageSideMenu';
+import IPageSection from '@/interfaces/IPageSection';
 
 export default defineComponent({
-  name: 'PublicDocumentPage',
+  name: 'PageSection',
   components: { ImageGallery, CollapsContainer },
   props: {
-    publicDocumentType: {
-      type: Object as PropType<IPageSideMenu>,
+    title: {
+      type: String as PropType<string>,
+      required: true,
+    },
+    description: {
+      type: String as PropType<string>,
+      required: true,
+    },
+    pageSections: {
+      type: Array as PropType<IPageSection[]>,
       required: true,
     },
   },
