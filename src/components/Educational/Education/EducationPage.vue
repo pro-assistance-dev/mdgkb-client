@@ -30,7 +30,7 @@ export default defineComponent({
     Hooks.onBeforeMount(() => {
       customSections.value.push(
         CustomSection.Create('info', 'Основные сведения', 'InfoPage', 0),
-        CustomSection.Create('structure', "Структура и орган управления организации'", 'InfoPage', 1)
+        CustomSection.Create('structure', 'Структура и орган управления организацией', 'StructurePage', 1)
       );
     });
 
