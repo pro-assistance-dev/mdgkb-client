@@ -4,6 +4,6 @@ $header_top_desktop: 45px;
   height: $header_top_desktop;
   background: #fff;
 
-   padding-top: $header_top_desktop / 4;
-   padding-bottom: $header_top_desktop / 4;
+   padding-top: calc(#{$header_top_desktop} / 4);
+   padding-bottom: calc(#{$header_top_desktop} / 4);
 }
