@@ -3,7 +3,7 @@
     <template #item="{ element }">
       <div class="group-item">
         <div :id="element.id" class="dish-item" @click.prevent="(e) => selectDish(element, e)">
-          {{ element.name }} {{ element.selected }}
+          {{ element.name }}
           <el-popconfirm
             confirm-button-text="Да"
             cancel-button-text="Отмена"
