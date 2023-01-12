@@ -2,8 +2,8 @@
   <draggable class="tabs" :list="dishesGroup.dishSamples" item-key="id" handle=".group-item" @end="saveDishesOrder">
     <template #item="{ element }">
       <div class="group-item">
-        <div class="dish-item" @click="$emit('openDishSampleConstructor', element)">
-          <div class="item-name">{{ element.name }}</div>
+        <div :id="element.id" class="dish-item" @click.prevent="(e) => selectDish(element, e)">
+          {{ element.name }} {{ element.selected }}
           <el-popconfirm
             confirm-button-text="Да"
             cancel-button-text="Отмена"
@@ -34,6 +34,7 @@ import draggable from 'vuedraggable';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import IDishesGroup from '@/interfaces/IDishesGroup';
+import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
 import sort from '@/services/sort';
 
@@ -51,7 +52,8 @@ export default defineComponent({
   },
 
   emits: ['openDishSampleConstructor'],
-  setup(props) {
+  setup(props, { emit }) {
+    let selectedDishId = '';
     const removeDishSample = async (dishesGroupItem: IDishesGroup, dishSampleId: string) => {
       await Provider.store.dispatch('dishesSamples/remove', dishSampleId);
       dishesGroupItem.removeDishSample(dishSampleId);
@@ -62,9 +64,28 @@ export default defineComponent({
       await Provider.store.dispatch('dishesSamples/updateAll', props.dishesGroup.dishSamples);
     };
 
+    const selectDish = (dish: IDishSample, e: Event) => {
+      emit('openDishSampleConstructor', dish);
+      const el = e.target as HTMLInputElement;
+      let selectedElement = document.getElementById(selectedDishId);
+
+      if (selectedElement) {
+        selectedElement.classList.remove('dish-item-active');
+      }
+
+      selectedDishId = el.id;
+
+      selectedElement = document.getElementById(el.id);
+
+      if (selectedElement) {
+        selectedElement.classList.add('dish-item-active');
+      }
+    };
+
     return {
       saveDishesOrder,
       removeDishSample,
+      selectDish,
     };
   },
 });
@@ -286,7 +307,6 @@ $margin: 20px 0;
 }
 
 .dish-item:active {
-  top: 100px;
   height: 34px;
   background: #e6f8f6;
   border: 1px solid #e6f8f6;
@@ -294,11 +314,10 @@ $margin: 20px 0;
 }
 
 .dish-item-active {
+  background: #e6f8f6;
+  border: 1px solid #e6f8f6;
   height: 34px;
-  background: #f5f6f8;
-  margin-left: 11px;
-  margin-right: 1px;
-  border: 1px solid #379fff;
+  padding-left: 44px;
 }
 
 .dish-item:active > .item-button {
