@@ -26,19 +26,17 @@
               <div
                 v-for="dishSample in dishesGroup.getSamplesNotFromMenu(menu)"
                 :key="dishSample.id"
-                class="group"
+                class="group-item"
                 :class="{ checked: dishSample.selected }"
                 @click="selectSample(dishSample)"
                 @dblclick="addOneDishToMenu(dishSample)"
               >
-                <div class="group-item">
-                  <label :for="999">
-                    <div class="dish-item">
-                      <div class="left-field">{{ dishSample.name }}</div>
-                      <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
-                    </div>
-                  </label>
-                </div>
+                <label :for="999">
+                  <div class="dish-item">
+                    <div class="left-field">{{ dishSample.name }}</div>
+                    <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
+                  </div>
+                </label>
               </div>
             </div>
           </template>
@@ -48,22 +46,22 @@
         <div
           v-for="dishSample in dishSamplesFlat"
           :key="dishSample.id"
-          class="group"
+          class="group-item"
           :class="{ checked: dishSample.selected }"
           @click="selectSample(dishSample)"
         >
-          <div class="group-item">
-            <label :for="999">
-              <div class="dish-item">
-                <div class="left-field">{{ dishSample.name }}</div>
-                <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
-              </div>
-            </label>
-          </div>
+          <!-- <div class="group-item"> -->
+          <label :for="999">
+            <div class="dish-item">
+              <div class="left-field">{{ dishSample.name }}</div>
+              <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
+            </div>
+          </label>
         </div>
       </div>
     </div>
   </div>
+  <!-- </div> -->
   <Edit />
   <AddToMenu />
   <Save />
@@ -282,12 +280,8 @@ export default defineComponent({
   margin-right: 24px;
 }
 
-.group:hover {
+.group-item:hover {
   background: #a8dcef;
-}
-
-.group:active {
-  background: #d6ecf4;
 }
 
 .group-item {

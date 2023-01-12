@@ -670,6 +670,29 @@ $margin: 20px 0;
 
 :deep(.el-dialog) {
   overflow: hidden;
+  top: -50px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 0;
+}
+
+:deep(.el-dialog--center .el-dialog__body) {
+  padding: 0;
+}
+
+:deep(.el-dialog__headerbtn) {
+  top: 12px;
+  right: 13px;
+}
+
+:deep(.el-dialog__headerbtn .el-dialog__close) {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+:deep(.el-dialog__headerbtn .el-dialog__close:hover) {
+  color: #343e5c;
 }
 
 .arrow-button {
@@ -828,7 +851,6 @@ $margin: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // margin-bottom: 30px;
   border-bottom: 1px solid #7c8295;
   height: 30px;
   background: #ffffff;

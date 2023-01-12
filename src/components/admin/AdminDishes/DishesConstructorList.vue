@@ -1,16 +1,15 @@
 <template>
-  <draggable class="tabs" :list="dishesGroup.dishSamples" item-key="id" handle=".el-icon-s-grid" @end="saveDishesOrder">
+  <draggable class="tabs" :list="dishesGroup.dishSamples" item-key="id" handle=".group-item" @end="saveDishesOrder">
     <template #item="{ element }">
-      <div class="group">
+      <div class="group-item">
         <div class="dish-item" @click="$emit('openDishSampleConstructor', element)">
-          <i class="el-icon-s-grid drug-icon" />
           <div class="item-name">{{ element.name }}</div>
           <el-popconfirm
             confirm-button-text="Да"
             cancel-button-text="Отмена"
             icon="el-icon-info"
             icon-color="red"
-            title="Вы уверен, что хотите удалить категорию?"
+            title="Вы уверены, что хотите удалить категорию?"
             @confirm="removeDishSample(dishesGroup, element.id)"
             @cancel="() => {}"
           >
@@ -132,7 +131,6 @@ $margin: 20px 0;
   overflow: hidden;
   overflow-y: scroll;
   height: 550px;
-  // position: relative;
 }
 
 .tools {
@@ -236,7 +234,8 @@ $margin: 20px 0;
 .icon-delete {
   width: 20px;
   height: 20px;
-  fill: #343e5c;
+  fill: #c4c4c4;
+  fill: #8d8d8d;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -266,29 +265,44 @@ $margin: 20px 0;
 }
 
 .dish-item {
-  height: 36px;
+  height: 34px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
   color: #343e5c;
-  margin: 3px 20px;
   cursor: pointer;
-  padding: 0px 36px 0 20px;
-  border-radius: 5px;
+  padding-left: 40px;
+  padding-right: 16px;
+  transition: 0.05s;
+  border: 1px solid #ffffff;
 }
 
 .dish-item:hover {
-  background: #e5e5e5;
+  background: #e6f8f6;
+  border: 1px solid #e6f8f6;
+  height: 34px;
+  padding-left: 44px;
 }
 
 .dish-item:active {
-  background: #d6ecf4;
+  top: 100px;
+  height: 34px;
+  background: #e6f8f6;
+  border: 1px solid #e6f8f6;
+  padding-left: 44px;
+}
+
+.dish-item-active {
+  height: 34px;
+  background: #f5f6f8;
+  margin-left: 11px;
+  margin-right: 1px;
+  border: 1px solid #379fff;
 }
 
 .dish-item:active > .item-button {
   display: flex;
-  background: #d6ecf4;
 }
 
 .dish-item:hover > .item-button {
@@ -299,7 +313,7 @@ $margin: 20px 0;
   display: none;
   align-items: center;
   justify-content: center;
-  background: #e5e5e5;
+  background: inherit;
   border-radius: none;
   border: none;
   height: 24px;
@@ -318,5 +332,13 @@ $margin: 20px 0;
 }
 .drug-icon {
   cursor: pointer;
+}
+
+.checked {
+  background: #d6ecf4;
+}
+
+.tabs {
+  position: relative;
 }
 </style>

@@ -1,48 +1,47 @@
 <template>
-  <div class="title">Редактор книги блюд</div>
+  <div class="title">
+    Редактор книги блюд
+    <button class="button-create" @click="addDishesGroup">+ Создать категорию</button>
+  </div>
   <div v-if="mounted" class="block-container">
     <div class="dishesGroup">
-      <div class="tools">
-        <div class="tools-buttons">
-          <div class="button-container">
-            <button class="button-create" @click="addDishesGroup">Создать категорию</button>
-            <AddGroupForm v-if="dishesGroupConstructorVisible" @close="closeDishesGroupForm" />
-          </div>
-        </div>
-      </div>
+      <AddGroupForm v-if="dishesGroupConstructorVisible" @close="closeDishesGroupForm" />
       <div class="column">
-        <draggable class="tabs" :list="dishesGroups" item-key="id" handle=".el-icon-s-grid" @end="saveGroupsOrder">
+        <div class="hidden-scroll"></div>
+        <draggable class="tabs" :list="dishesGroups" item-key="id" handle=".tab-name" @end="saveGroupsOrder">
           <template #item="{ element }">
             <div>
               <CollapsContainer :tab-id="element.id" :is-collaps="element.samplesExists()">
+                <template #tools>
+                  <svg class="icon-add" @click.stop="openDishSampleConstructor">
+                    <use xlink:href="#add"></use>
+                  </svg>
+                  <svg class="icon-edit" @click.stop="editDishesGroup(element)">
+                    <use xlink:href="#profile-edit"></use>
+                  </svg>
+                  <el-popconfirm
+                    confirm-button-text="Да"
+                    cancel-button-text="Отмена"
+                    icon="el-icon-info"
+                    icon-color="red"
+                    title="Вы уверены, что хотите удалить категорию?"
+                    @confirm="removeDishesGroup(element.id)"
+                    @cancel="() => {}"
+                  >
+                    <template #reference>
+                      <button class="tools-button">
+                        <svg class="icon-delete">
+                          <use xlink:href="#delete"></use>
+                        </svg>
+                      </button>
+                    </template>
+                  </el-popconfirm>
+                </template>
                 <template #inside-title>
-                  <i class="el-icon-s-grid drug-icon" />
                   <div class="title-in">
                     <el-badge :value="element.dishSamples.length" :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
                       {{ element.name }}
                     </el-badge>
-                    <button class="tools-button-e" @click.stop="editDishesGroup(element)">
-                      <svg class="icon-edit">
-                        <use xlink:href="#profile-edit"></use>
-                      </svg>
-                    </button>
-                    <el-popconfirm
-                      confirm-button-text="Да"
-                      cancel-button-text="Отмена"
-                      icon="el-icon-info"
-                      icon-color="red"
-                      title="Вы уверен, что хотите удалить категорию?"
-                      @confirm="removeDishesGroup(element.id)"
-                      @cancel="() => {}"
-                    >
-                      <template #reference>
-                        <button class="tools-button-d">
-                          <svg class="icon-delete">
-                            <use xlink:href="#delete"></use>
-                          </svg>
-                        </button>
-                      </template>
-                    </el-popconfirm>
                   </div>
                 </template>
                 <template #inside-content>
@@ -55,15 +54,9 @@
       </div>
     </div>
     <div class="menusGroup">
-      <div class="tools">
-        <div class="tools-buttons">
-          <div class="button-container">
-            <button v-if="!dishSampleConstructorVisible" class="button-create" @click="openDishSampleConstructor">Создать блюдо</button>
-            <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
-          </div>
-        </div>
-      </div>
-      <div class="column">
+      <DishConstructorInfo v-if="!dishSampleConstructorVisible" />
+      <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
+      <div v-if="!dishSampleConstructorVisible">
         <DishInfo />
       </div>
     </div>
@@ -84,6 +77,7 @@ import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
 import AddForm from '@/components/admin/AdminDishes/AddForm.vue';
 import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
+import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorInfo.vue';
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
@@ -105,6 +99,7 @@ export default defineComponent({
     Edit,
     draggable,
     DishesConstructorList,
+    DishConstructorInfo,
   },
   props: {
     visible: {
@@ -213,7 +208,9 @@ export default defineComponent({
 $margin: 20px 0;
 
 :deep(.badge > .el-badge__content.is-fixed) {
-  right: 2px;
+  right: 0px;
+  background: #ffffff;
+  color: #1979cf;
 }
 
 .flex-column {
@@ -254,6 +251,8 @@ $margin: 20px 0;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  background: #e6f8f6;
+  margin-bottom: -21px;
 }
 
 .dishesGroup {
@@ -261,33 +260,28 @@ $margin: 20px 0;
   width: 600px;
   border: 1px solid #c4c4c4;
   padding-bottom: 10px;
+  margin: 10px;
+  background: #ffffff;
+  padding-left: 7px;
 }
 
 .column {
   padding: 0px 6px 0px 4px;
   overflow: hidden;
   overflow-y: scroll;
-  height: 550px;
-  // position: relative;
-}
-
-.tools {
-  display: flex;
-  justify-content: right;
-  height: 32px;
-  padding: 0 10px;
-  margin-top: 10px;
+  height: 650px;
 }
 
 .title {
-  position: absolute;
-  top: 12px;
-  left: 30px;
   display: flex;
   justify-content: left;
   align-items: center;
-  color: #1979cf;
+  color: #ffffff;
   font-size: 20px;
+  height: 40px;
+  padding-left: 20px;
+  background: #00b5a4;
+  z-index: 3;
 }
 
 .tools-buttons {
@@ -297,38 +291,20 @@ $margin: 20px 0;
 }
 
 .button-create {
-  height: 30px;
-  border: 1px solid #1979cf;
-  border-radius: 15px;
-  background: #d6ecf4;
-  color: #1979cf;
-  margin: 10px 10px 10px 0;
+  border: none;
+  background: inherit;
+  color: #ffe666;
+  margin: 10px;
   padding: 0 15px;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .button-create:hover {
-  background: #1979cf;
-  color: #ffffff;
+  color: #d6ecf4;
 }
 
-.tools-button-d {
-  position: absolute;
-  top: 18px;
-  right: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border-radius: none;
-  border: none;
-  height: 24px;
-}
-
-.tools-button-e {
-  position: absolute;
-  top: 18px;
-  right: 90px;
+.tools-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -350,11 +326,23 @@ $margin: 20px 0;
   fill: #3796eb;
 }
 
+.icon-add {
+  width: 24px;
+  height: 24px;
+  fill: #c3c3c3;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 1;
+  padding-right: 3px;
+}
+
+.icon-add:hover {
+  fill: #379fff;
+}
+
 .menusGroup {
   position: relative;
-  width: 600px;
-  border: 1px solid #c4c4c4;
-  padding-bottom: 10px;
+  width: 50%;
 }
 
 .icon-save {
@@ -372,7 +360,7 @@ $margin: 20px 0;
 .icon-delete {
   width: 20px;
   height: 20px;
-  fill: #343e5c;
+  fill: #c3c3c3;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -384,14 +372,27 @@ $margin: 20px 0;
 .icon-edit {
   width: 16px;
   height: 16px;
-  stroke: #343e5c;
+  stroke: #c3c3c3;
   fill: none;
   cursor: pointer;
   transition: 0.3s;
+  padding: 5px;
 }
 
 .icon-edit:hover {
   stroke: #3796eb;
+}
+
+.icon-transfer {
+  width: 24px;
+  height: 24px;
+  fill: #838383;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-transfer:hover {
+  fill: #1979cf;
 }
 
 .new-group {
@@ -454,5 +455,15 @@ $margin: 20px 0;
 }
 .drug-icon {
   cursor: pointer;
+}
+
+.hidden-scroll {
+  width: 8px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  background: #ffffff;
 }
 </style>

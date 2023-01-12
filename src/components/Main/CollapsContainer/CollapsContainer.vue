@@ -1,6 +1,5 @@
 <template>
   <div class="tab">
-    <!--    <input :id="tabId" type="checkbox" name="tabs" />-->
     <svg v-if="isCollaps && collapsed" class="icon-arrow" @click="collapsed = !collapsed">
       <use xlink:href="#arrow-down"></use>
     </svg>
@@ -9,7 +8,13 @@
     </svg>
     <label :for="tabId" @click="collapsed = !collapsed">
       <div :style="{ cursor: isCollaps ? 'pointer' : 'default' }" class="tab-name">
+        <div class="insade-icon">
+          <slot name="icon" />
+        </div>
         <slot name="inside-title" />
+        <div class="tools-bar">
+          <slot name="tools" />
+        </div>
       </div>
     </label>
     <div v-if="collapsed" :style="{ maxHeight: isCollaps ? '' : '100vh' }" class="tab-content-down">
@@ -93,7 +98,7 @@ export default defineComponent({
   -o-transition: max-height 0.5s;
   transition: max-height 0.5s;
   color: #343e5c;
-  padding-right: 5px;
+  // padding-right: 5px;
 }
 
 .tab input:checked ~ .icon-arrow {
@@ -148,5 +153,39 @@ export default defineComponent({
 }
 :deep(.el-carousel__container) {
   max-height: auto;
+}
+
+.tools-bar {
+  display: flex;
+  position: absolute;
+  top: 20px;
+  right: 60px;
+  justify-content: space-between;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.insade-icon {
+  display: flex;
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  align-items: center;
+  padding-left: 4px;
+}
+
+.tab-name:active > .tools-bar {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tab-name {
+  padding-left: 30px;
+}
+
+.tab-name:hover > .tools-bar {
+  visibility: visible;
+  opacity: 1;
 }
 </style>
