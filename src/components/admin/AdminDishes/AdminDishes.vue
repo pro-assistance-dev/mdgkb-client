@@ -47,6 +47,11 @@
     </template>
     <template #sort> </template>
     <VerticalCollapsContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
+      <template #main>
+        <div v-if="!dailyMenus.length" class="menu-shadow">
+          <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus">Создать меню</el-button>
+        </div>
+      </template>
       <template #inside-title>Книга блюд</template>
       <template #inside-content-left>
         <DishBook :menu="selectedMenu" />
@@ -207,9 +212,6 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          <div v-if="!dailyMenus.length" class="menu-shadow">
-            <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus">Создать меню</el-button>
           </div>
         </div>
       </template>
