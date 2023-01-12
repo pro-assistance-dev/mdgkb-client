@@ -17,6 +17,8 @@ export default class PageSideMenu implements IPageSideMenu {
 
   page: IPage = new Page();
   pageId?: string;
+
+  selected = false;
   constructor(i?: IPageSideMenu) {
     if (!i) {
       return;
@@ -33,6 +35,7 @@ export default class PageSideMenu implements IPageSideMenu {
       this.page = new Page(i.page);
     }
     this.pageId = i.pageId;
+    this.selected = i.selected;
   }
 
   getFileInfos(): IFileInfo[] {

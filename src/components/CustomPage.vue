@@ -216,7 +216,7 @@ h3 {
   margin-bottom: $card-margin-size;
   img {
     width: 100%;
-    max-height: $news-content-max-width / 2;
+    max-height: calc(#{$news-content-max-width} / 2);
   }
 }
 </style>

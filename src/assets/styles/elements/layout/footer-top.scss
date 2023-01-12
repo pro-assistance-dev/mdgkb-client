@@ -5,8 +5,8 @@ $footer_top_desktop: 200px;
   background: #fff;
 
   .container {
-    padding-top: $footer_top_desktop / 5;
-    padding-bottom: $footer_top_desktop / 5;
+    padding-top: calc(#{$footer_top_desktop} / 5);
+    padding-bottom: calc(#{$footer_top_desktop} / 5);
   }
 
   .image {

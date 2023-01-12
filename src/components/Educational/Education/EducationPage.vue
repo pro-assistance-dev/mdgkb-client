@@ -1,39 +1,19 @@
 <template>
-  <div class="ordinatura-page-container">
-    <div class="side-container">
-      <div class="side-item">
-        <div class="card-item">
-          <h4>Сведения об образовательной организации</h4>
-          <el-divider />
-          <el-table :data="modes" cell-class-name="cell-row" :show-header="false">
-            <el-table-column>
-              <template #default="scope" @click="changeTab(scope.row.value)">
-                <div class="menu-item" :class="isActive(scope.row.value)" @click="changeTab(scope.row.value)">
-                  {{ scope.row.label }}
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
-    </div>
-    <div class="content-container">
-      <InfoPage v-if="mode === 'info'" />
-      <StructurePage v-if="mode === 'structure'" />
-      <PublicDocumentPage v-if="selectedDocumentType" :public-document-type="selectedDocumentType" />
-    </div>
-  </div>
+  <PageComponent :custom-sections="customSections">
+    <template v-for="section in customSections" :key="section" #[section.id]>
+      <component :is="section.component"></component>
+    </template>
+  </PageComponent>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
+import CustomSection from '@/classes/CustomSection';
 import InfoPage from '@/components/Educational/Education/InfoPage.vue';
-import PublicDocumentPage from '@/components/Educational/Education/PublicDocumentPage.vue';
 import StructurePage from '@/components/Educational/Education/StructurePage.vue';
-import IPageSideMenu from '@/interfaces/IPageSideMenu';
-import IPage from '@/interfaces/page/IPage';
-import IOption from '@/interfaces/schema/IOption';
+import PageComponent from '@/components/Page/PageComponent.vue';
+import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
@@ -42,68 +22,21 @@ export default defineComponent({
   components: {
     InfoPage,
     StructurePage,
-    PublicDocumentPage,
+    PageComponent,
   },
   setup() {
-    const mode: Ref<string> = ref('info');
-    const pageTitle: Ref<string> = ref('Основные сведения');
-    const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
-    const selectedDocumentType: Ref<IPageSideMenu | undefined> = ref(undefined);
-    const modes: Ref<IOption[]> = ref([]);
+    const customSections: Ref<ICustomSection[]> = ref([]);
 
-    const setModes = async () => {
-      modes.value.push({ value: 'info', label: 'Основные сведения' });
-      modes.value.push({ value: 'structure', label: 'Структура и орган управления организации' });
-      page.value.pageSideMenus.forEach((docType: IPageSideMenu) => {
-        if (docType.id) {
-          modes.value.push({ value: docType.id, label: docType.name });
-        }
-      });
-    };
-
-    const setTabFromRoute = () => {
-      let routeMode = Provider.route().query.mode;
-      if (typeof routeMode === 'string' && modes.value.some((m: IOption) => m.value === routeMode)) {
-        mode.value = routeMode;
-      }
-      changeTab(mode.value);
-    };
-
-    const isActive = (name: string): string => {
-      return name === mode.value ? 'is-active' : '';
-    };
-
-    const changeTab = (value: string) => {
-      mode.value = value;
-      const dpoDocumentType = page.value.pageSideMenus.find((dpoDocType: IPageSideMenu) => dpoDocType.id === value);
-      if (dpoDocumentType) {
-        selectedDocumentType.value = dpoDocumentType;
-      } else {
-        selectedDocumentType.value = undefined;
-      }
-      Provider.router.replace(`/educational-info?mode=${mode.value}`);
-    };
-
-    const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
-
-    const initLoad = async () => {
-      await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
-      await setModes();
-      setTabFromRoute();
-    };
-
-    Hooks.onBeforeMount(initLoad);
+    Hooks.onBeforeMount(() => {
+      customSections.value.push(
+        CustomSection.Create('info', 'Основные сведения', 'InfoPage', 0),
+        CustomSection.Create('structure', 'Структура и орган управления организацией', 'StructurePage', 1)
+      );
+    });
 
     return {
-      mode,
-      page,
-      filteredDoctors,
+      customSections,
       mounted: Provider.mounted,
-      selectedDocumentType,
-      modes,
-      isActive,
-      changeTab,
-      pageTitle,
     };
   },
 });

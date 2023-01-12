@@ -1,4 +1,5 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import ICustomSection from '@/interfaces/ICustomSection';
 import IPageSection from '@/interfaces/IPageSection';
 import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import IPageComment from '@/interfaces/page/IPageComment';
@@ -29,4 +30,7 @@ export default interface IPage {
   getFileInfos: () => IFileInfo[];
 
   addSideMenu: () => void;
+  selectSideMenu: (id: string) => void;
+  getSelectedSideMenu: () => IPageSideMenu;
+  addCustomSectionsToSideMenu: (customSections: ICustomSection[]) => void;
 }
