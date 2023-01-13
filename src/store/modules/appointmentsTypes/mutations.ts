@@ -7,7 +7,9 @@ import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: IAppointmentType[]) {
-    state.items = items.map((item: IAppointmentType) => new AppointmentType(item));
+    if (items && items.length) {
+      state.items = items.map((item: IAppointmentType) => new AppointmentType(item));
+    }
   },
   set(state, item: IAppointmentType) {
     state.item = new AppointmentType(item);

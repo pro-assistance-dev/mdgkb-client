@@ -1,52 +1,42 @@
 <template>
-  <div v-if="mounted">
-    <el-row :gutter="40">
-      <el-col :xl="6" :lg="6" :md="24" class="calendar">
-        <div v-for="appointmentType in appointmentsTypes" :key="appointmentType.id" @click="selectType(appointmentType)">
-          {{ appointmentType.name }}
+  <h2 style="text-align: center">Запись на прием</h2>
+  <div v-if="mounted" class="card-item">
+    <div class="flex-row">
+      <div class="calendar-zone">
+        <AppointmentsCalendar @chooseDay="chooseDay" />
+        <hr class="gray-border" />
+        <div v-if="chosenDay">
+          <div class="middle-header">Время записи</div>
+          <AppointmentsSlots @chooseSlot="chooseSlot" />
         </div>
-      </el-col>
-      <el-col :xl="18" :lg="18" :md="24">
+      </div>
+      <div class="form-zone">
+        <!-- <div v-for="appointmentType in appointmentsTypes" :key="appointmentType.id" @click="selectType(appointmentType)">
+          {{ appointmentType.name }}
+        </div> -->
         <!--        <div v-if="createChildMode" class="card-item">-->
         <!--          <ChildForm @createChild="createChild" />-->
         <!--        </div>-->
-        <div class="card-item">
-          <div class="flex-row">
-            <div class="form">
-              <el-form
-                ref="userForm"
-                v-model="appointment"
-                :model="appointment"
-                label-width="150px"
-                style="max-width: 700px"
-                label-position="left"
-              >
-                <!--              <UserForm-->
-                <!--                :form="appointment.formValue"-->
-                <!--                :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"-->
-                <!--              />-->
-                <FieldValuesForm v-if="appointment.formValue" :form="appointment.formValue" />
+        <el-form ref="userForm" v-model="appointment" :model="appointment" label-position="top">
+          <el-form-item label="Тип записи">
+            <el-select v-model="appointmentsType" value-key="id" placeholder="Выберите тип записи" @change="selectType">
+              <el-option v-for="item in appointmentsTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
+            </el-select>
+          </el-form-item>
+          <!--              <UserForm-->
+          <!--                :form="appointment.formValue"-->
+          <!--                :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"-->
+          <!--              />-->
+          <FieldValuesForm v-if="appointment.formValue" :form="appointment.formValue" />
 
-                <!--                            <AppointmentForm @createChildMode="changeCreateChildMode" />-->
-              </el-form>
-            </div>
-            <hr class="gray-border" />
-            <div class="calendar-zone">
-              <AppointmentsCalendar @chooseDay="chooseDay" />
-              <hr class="gray-border" />
-              <div v-if="chosenDay">
-                <div class="middle-header">Время записи</div>
-                <AppointmentsSlots @chooseSlot="chooseSlot" />
-              </div>
-            </div>
-          </div>
-          <div class="center-button">
-            <button class="green-button" @click.prevent="submit">Записаться</button>
-            <!--            <AppointmentModal v-if="isAppointmentModalOpen" @close="isAppointmentModalOpen = false" />-->
-          </div>
-        </div>
-      </el-col>
-    </el-row>
+          <!--                            <AppointmentForm @createChildMode="changeCreateChildMode" />-->
+        </el-form>
+      </div>
+    </div>
+    <div class="center-button">
+      <button class="green-button" @click.prevent="submit">Записаться</button>
+      <!--            <AppointmentModal v-if="isAppointmentModalOpen" @close="isAppointmentModalOpen = false" />-->
+    </div>
   </div>
 </template>
 
@@ -55,7 +45,6 @@ import { ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import AppointmentType from '@/classes/AppointmentType';
-import Form from '@/classes/Form';
 import User from '@/classes/User';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
@@ -91,6 +80,7 @@ export default defineComponent({
 
     const load = async () => {
       await Provider.store.dispatch('appointmentsTypes/getAll');
+      appointment.value.formValue.user = new User(user.value);
     };
 
     Hooks.onBeforeMount(load);
@@ -134,13 +124,14 @@ export default defineComponent({
     };
 
     const selectType = async (appointmentType: IAppointmentType) => {
-      appointmentsType.value = appointmentType;
+      Provider.store.commit('appointmentsTypes/set', appointmentType);
       appointment.value.appointmentType = new AppointmentType(appointmentType);
       appointment.value.appointmentTypeId = appointmentType.id;
-      appointment.value.formValue = new Form(appointmentType.formPattern);
-      appointment.value.formValue.user = new User(user.value);
-      appointment.value.formValue.initFieldsValues();
-      appointment.value.formValue.clearIds();
+      appointment.value.formValue.reproduceFromPattern(appointmentsType.value.formPattern);
+      // appointment.value.formValue = new Form(appointmentType.formPattern);
+      // appointment.value.formValue.user = new User(user.value);
+      // appointment.value.formValue.initFieldsValues();
+      // appointment.value.formValue.clearIds();
     };
 
     return {
@@ -158,6 +149,7 @@ export default defineComponent({
       submit,
       appointmentsTypes,
       mounted: Provider.mounted,
+      appointmentsType,
     };
   },
 });
@@ -168,6 +160,7 @@ export default defineComponent({
   font-weight: 400;
   font-size: 18px;
   text-align: center;
+  margin-bottom: 10px;
 }
 
 .center-button {
@@ -204,7 +197,11 @@ export default defineComponent({
   margin-top: 10px;
 }
 .flex-row {
-  justify-content: space-between;
+  display: flex;
+  // justify-content: space-between;
+}
+.form-zone {
+  margin-left: 30px;
 }
 .calendar-zone {
   width: 450px;
