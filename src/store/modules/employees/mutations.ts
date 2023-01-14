@@ -1,34 +1,37 @@
 import { MutationTree } from 'vuex';
 
+import Education from '@/classes/educations/Education';
+import EducationAccreditation from '@/classes/educations/EducationAccreditation';
+import EducationCertification from '@/classes/educations/EducationCertification';
 import Employee from '@/classes/Employee';
+import Regalia from '@/classes/Regalia';
 import IEmployee from '@/interfaces/IEmployee';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  appendToAll(state, items: IEmployee[]) {
-    if (!items) {
-      return;
-    }
-    const Employees = items.map((i: IEmployee) => new Employee(i));
-    state.items.push(...Employees);
+  ...getBaseMutations<IEmployee, State>(Employee),
+  addEducation(state) {
+    state.item.educations.push(new Education());
   },
-  setAll(state, items: IEmployee[]) {
-    if (!items) {
-      return;
-    }
-    state.items = items.map((a: IEmployee) => new Employee(a));
+  removeEducation(state, educationIndex: number) {
+    state.item.educations.splice(educationIndex, 1);
   },
-  set(state, item: IEmployee) {
-    state.item = new Employee(item);
+  addCertification(state, educationIndex: number) {
+    state.item.educations[educationIndex].educationCertification = new EducationCertification();
   },
-  resetState(state) {
-    Object.assign(state, getDefaultState());
+  removeCertification(state, educationIndex: number) {
+    state.item.educations[educationIndex].educationCertification = undefined;
   },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IEmployee) => i.id === id);
-    state.items.splice(index, 1);
+  addAccreditation(state, educationIndex: number) {
+    state.item.educations[educationIndex].educationAccreditation = new EducationAccreditation();
+  },
+  removeAccreditation(state, educationIndex: number) {
+    state.item.educations[educationIndex].educationAccreditation = undefined;
+  },
+  addRegalia(state) {
+    state.item.regalias.push(new Regalia());
   },
 };
 

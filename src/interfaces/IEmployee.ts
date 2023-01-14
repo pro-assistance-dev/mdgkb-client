@@ -1,12 +1,12 @@
 import IEducation from '@/interfaces/education/IEducation';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICertificate from '@/interfaces/ICertificate';
 import IExperience from '@/interfaces/IExperience';
+import IFileInfosGetter from '@/interfaces/IFileInfosGetter';
 import IHuman from '@/interfaces/IHuman';
 import IRegalia from '@/interfaces/IRegalia';
+import IWithId from '@/interfaces/IWithId';
 
-export default interface IEmployee {
-  id?: string;
+export default interface IEmployee extends IWithId, IFileInfosGetter {
   human: IHuman;
   humanId?: string;
   academicDegree: string;
@@ -25,7 +25,6 @@ export default interface IEmployee {
   addCertificate: () => void;
   removeCertificate: (index: number) => void;
 
-  getFileInfos: () => IFileInfo[];
   addRegalia: () => void;
   removeRegalia: (i: number) => void;
   getHuman: () => IHuman;

@@ -5,8 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
       <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-<!--      <script src="https://lidrekon.ru/slep/js/jquery.js"></script>-->
-<!--      <script src="https://lidrekon.ru/slep/js/uhpv-full.min.js"></script>-->
+      <link href="dist/css/bvi.css" rel="stylesheet">
     <title>Морозовская детская городская клиническая больница</title>
     <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
   </head>
@@ -14,7 +13,24 @@
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+
+
+
+
+
+
     <div id="app"></div>
 
+    <script src="dist/js/bvi.js"></script>
+    <script>
+        document.onreadystatechange = () => {
+            if (document.readyState == "complete") {
+                const c = new isvek.Bvi();
+                console.log(c)
+                console.log('Page completed with image and files!')
+                // fetch to next page or some code
+            }
+        }
+    </script>
   </body>
 </html>
