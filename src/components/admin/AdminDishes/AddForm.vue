@@ -5,8 +5,10 @@
         <el-form-item label="Название блюда:" prop="name">
           <el-input v-model="dishSample.name" placeholder="Введите название"></el-input>
         </el-form-item>
-        <el-form-item label="&nbsp;&nbsp;Калорийность, ккал:" prop="caloric">
-          <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
+        <el-form-item label="Категория:" prop="dishesGroupId">
+          <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 100%">
+            <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
+          </el-select>
         </el-form-item>
         <el-form-item label="Выход, грамм" prop="weight">
           <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
@@ -14,13 +16,14 @@
         <el-form-item label="Цена:" prop="price">
           <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
         </el-form-item>
-        <el-form-item label="Категория:" prop="dishesGroupId">
-          <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 100%">
-            <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
-          </el-select>
+        <el-form-item label="Стандартное кол-во" prop="price">
+          <el-input-number v-model="dishSample.quantity" placeholder="0"></el-input-number>
+        </el-form-item>
+        <el-form-item label="&nbsp;&nbsp;Калорийность, ккал:" prop="caloric">
+          <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
         </el-form-item>
         <el-form-item label="&nbsp;&nbsp;Изображение:" prop="image">
-          <UploaderSingleScan :file-info="dishSample.image" :height="280" :width="280" @remove-file="dishSample.removeImage()" />
+          <UploaderSingleScan :file-info="dishSample.image" :height="200" :width="200" @remove-file="dishSample.removeImage()" />
         </el-form-item>
         <div class="button-field">
           <button class="button-cancel" @click.prevent="close">Отмена</button>
@@ -93,7 +96,6 @@ export default defineComponent({
 
     const saveDishSample = async () => {
       if (!validate(form)) {
-        console.log('validate');
         return;
       }
       if (dishSample.value.id) {

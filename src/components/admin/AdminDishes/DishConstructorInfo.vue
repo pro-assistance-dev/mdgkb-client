@@ -4,36 +4,36 @@
       <div class="info">
         <div class="title">Общая информация</div>
         <div class="text">
-          <div class="line">
-            <div class="item">Дата последней архивации:</div>
-            <div class="item2">01.09.2022г</div>
-          </div>
+          <!--          <div class="line">-->
+          <!--            <div class="item">Дата последней архивации:</div>-->
+          <!--            <div class="item2">01.09.2022г</div>-->
+          <!--          </div>-->
           <div class="line">
             <div class="item">Категорий в книге:</div>
-            <div class="item2">6</div>
+            <div class="item2">{{ dishesGroups.length }}</div>
           </div>
           <div class="line">
             <div class="item">Блюд в книге:</div>
-            <div class="item2">32</div>
+            <div class="item2">{{ dishesGroups.reduce((s, g) => s + g.dishSamples.length, 0) }}</div>
           </div>
-          <div class="line">
-            <div class="item">Дата создания первой записи:</div>
-            <div class="item2">10.01.2022г</div>
-          </div>
-          <div class="line2">
-            <div class="item">Последняя добавленная категория:</div>
-            <div class="line3">
-              <div class="item1">Вторые блюда</div>
-              <div class="item3">&nbsp;11.01.2023г.</div>
-            </div>
-          </div>
-          <div class="line2">
-            <div class="item">Последнее добавленное блюдо:</div>
-            <div class="line3">
-              <div class="item1">Манты</div>
-              <div class="item3">&nbsp;(категория: Вторые блюда), 11.01.2023г.</div>
-            </div>
-          </div>
+          <!--          <div class="line">-->
+          <!--            <div class="item">Дата создания первой записи:</div>-->
+          <!--            <div class="item2">10.01.2022г</div>-->
+          <!--          </div>-->
+          <!--          <div class="line2">-->
+          <!--            <div class="item">Последняя добавленная категория:</div>-->
+          <!--            <div class="line3">-->
+          <!--              <div class="item1">Вторые блюда</div>-->
+          <!--              <div class="item3">&nbsp;11.01.2023г.</div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--          <div class="line2">-->
+          <!--            <div class="item">Последнее добавленное блюдо:</div>-->
+          <!--            <div class="line3">-->
+          <!--              <div class="item1">Манты</div>-->
+          <!--              <div class="item3">&nbsp;(категория: Вторые блюда), 11.01.2023г.</div>-->
+          <!--            </div>-->
+          <!--          </div>-->
         </div>
       </div>
       <div class="tools">
@@ -48,7 +48,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
+
+import IDishesGroup from '@/interfaces/IDishesGroup';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DishConstructorInfo',
@@ -57,6 +60,13 @@ export default defineComponent({
       type: Function,
       required: true,
     },
+  },
+  setup() {
+    const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+
+    return {
+      dishesGroups,
+    };
   },
 });
 </script>

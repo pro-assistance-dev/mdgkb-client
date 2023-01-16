@@ -83,7 +83,7 @@
                         @keyup.enter="saveMenu(element)"
                         @keyup.esc="element.cancelEditMode()"
                       />
-                      <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
+                      <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} {{ element.order }}</span>
                     </div>
                     <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }"></div>
                     <div class="button-close">
@@ -132,15 +132,17 @@
                   <col width="auto" />
                   <col width="70px" />
                   <col width="70px" />
+                  <col width="70px" />
                   <col width="90px" />
                 </colgroup>
                 <thead>
                   <tr>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd"></td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">Блюдо</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Доступно</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорииы</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калории</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -198,6 +200,14 @@
                       </td>
                       <td :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 12px">
                         {{ dish.name }} {{ dish.fromOtherMenu ? '(Перенесено)' : '' }}
+                      </td>
+                      <td style="text-align: center">
+                        <el-input-number
+                          v-model="dish.quantity"
+                          :disabled="!dish.available"
+                          size="mini"
+                          @change="updateSelectedMenu"
+                        ></el-input-number>
                       </td>
                       <td style="text-align: center">
                         <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 13px">{{ dish.weight }}</h4>
@@ -329,7 +339,6 @@ export default defineComponent({
       });
       await selectDay(calendar.value.getToday());
       await fillCalendar();
-      console.log(isToDay.value);
     };
 
     const openDishesConstructor = () => {
@@ -342,7 +351,7 @@ export default defineComponent({
       const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
       dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
       Provider.setFilterModel(dayFilter.value);
-      Provider.setSortList(DailyMenusSortsLib.byOrder());
+      Provider.setSortModels(DailyMenusSortsLib.byOrder());
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
     };
 
@@ -381,11 +390,7 @@ export default defineComponent({
       let TodayDay = Today.getDate();
 
       calendar.value.selectDay(day);
-      if (DayMonth === TodayMonth && DayDay === TodayDay && DayYear === TodayYear) {
-        isToDay.value = true;
-      } else {
-        isToDay.value = false;
-      }
+      isToDay.value = DayMonth === TodayMonth && DayDay === TodayDay && DayYear === TodayYear;
 
       await getTodayMenus();
       if (dailyMenus.value.length === 0) {
@@ -596,7 +601,12 @@ export default defineComponent({
       }
     };
 
+    const updateSelectedMenu = async (): Promise<void> => {
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
+    };
+
     return {
+      updateSelectedMenu,
       stopMenu,
       startMenu,
       move,

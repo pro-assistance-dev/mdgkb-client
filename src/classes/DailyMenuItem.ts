@@ -10,6 +10,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
   id?: string;
   name = '';
   price = 0;
+  quantity = 0;
   weight = 0;
   caloric = 0;
   order = 0;
@@ -33,6 +34,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
     this.weight = i.weight;
     this.dailyMenuId = i.dailyMenuId;
     this.available = i.available;
+    this.quantity = i.quantity;
     this.highlight = i.highlight;
     if (i.dailyMenu) {
       this.dailyMenu = new DailyMenu(i.dailyMenu);
@@ -53,6 +55,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
     item.weight = dishSample.weight;
     item.caloric = dishSample.caloric;
     item.order = dishSample.order;
+    item.quantity = dishSample.quantity;
     item.price = dishSample.price;
     item.dishSample = new DishSample(dishSample);
     return item;
