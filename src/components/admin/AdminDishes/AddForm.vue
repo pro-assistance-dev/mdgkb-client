@@ -5,7 +5,7 @@
         <el-form-item label="Название блюда:" prop="name">
           <el-input v-model="dishSample.name" placeholder="Введите название"></el-input>
         </el-form-item>
-        <el-form-item label="Калорийность, ккал:" prop="caloric">
+        <el-form-item label="&nbsp;&nbsp;Калорийность, ккал:" prop="caloric">
           <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
         </el-form-item>
         <el-form-item label="Выход, грамм" prop="weight">
@@ -57,7 +57,7 @@ export default defineComponent({
     const form = ref();
     const rules = ref({
       name: [{ required: true, message: 'Необходимо указать название блюда', trigger: 'blur' }],
-      caloric: [{ required: true, message: 'Необходимо указать калорийность', trigger: 'change' }],
+      // caloric: [{ required: true, message: 'Необходимо указать калорийность', trigger: 'change' }],
       weight: [{ required: true, message: 'Необходимо указать выход', trigger: 'change' }],
       price: [{ required: true, message: 'Необходимо указать цену', trigger: 'change' }],
       dishesGroupId: [{ required: true, message: 'Необходимо выбрать категорию', trigger: 'change' }],
