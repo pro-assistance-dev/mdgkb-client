@@ -104,6 +104,11 @@
             </div>
             <div class="tools-block">
               <button class="tools-button" @click="pdf">
+                <svg class="icon-excel">
+                  <use xlink:href="#excel"></use>
+                </svg>
+              </button>
+              <button class="tools-button" @click="pdf">
                 <svg class="icon-print">
                   <use xlink:href="#print"></use>
                 </svg>
@@ -237,6 +242,7 @@
   <Active />
   <NonActive />
   <Close />
+  <Excel />
 </template>
 
 <script lang="ts">
@@ -250,6 +256,7 @@ import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Close from '@/assets/svg/Buffet/Close.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
+import Excel from '@/assets/svg/Buffet/Excel.svg';
 import Eye from '@/assets/svg/Buffet/Eye.svg';
 import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
 import NonActive from '@/assets/svg/Buffet/NonActive.svg';
@@ -296,6 +303,7 @@ export default defineComponent({
     NonActive,
     Close,
     draggable,
+    Excel,
   },
   setup() {
     const form = ref();
@@ -771,6 +779,18 @@ $margin: 20px 0;
 .icon-print:hover {
   fill: #ffffff;
   stroke: #379fff;
+}
+
+.icon-excel {
+  width: 24px;
+  height: 24px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-excel:hover {
+  fill: #379fff;
 }
 
 .calendar-tools {

@@ -3,7 +3,8 @@
     <template #item="{ element }">
       <div class="group-item">
         <div :id="element.id" class="dish-item" @click.prevent="(e) => selectDish(element, e)">
-          {{ element.name }}
+          <div>{{ element.name }}</div>
+          <div class="right-field">{{ element.weight }} гр/{{ element.price }},00руб/{{ element.caloric }}ккал</div>
           <el-popconfirm
             confirm-button-text="Да"
             cancel-button-text="Отмена"
@@ -286,6 +287,7 @@ $margin: 20px 0;
 }
 
 .dish-item {
+  position: relative;
   height: 34px;
   display: flex;
   justify-content: space-between;
@@ -293,7 +295,7 @@ $margin: 20px 0;
   font-size: 14px;
   color: #343e5c;
   cursor: pointer;
-  padding-left: 40px;
+  padding-left: 20px;
   padding-right: 16px;
   transition: 0.05s;
   border: 1px solid #ffffff;
@@ -303,7 +305,7 @@ $margin: 20px 0;
   background: #e6f8f6;
   border: 1px solid #e6f8f6;
   height: 34px;
-  padding-left: 44px;
+  padding-left: 24px;
 }
 
 .dish-item:active {
@@ -359,5 +361,16 @@ $margin: 20px 0;
 
 .tabs {
   position: relative;
+}
+
+.right-field {
+  position: absolute;
+  top: 10px;
+  right: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  color: #7c8295;
+  font-size: 10px;
 }
 </style>
