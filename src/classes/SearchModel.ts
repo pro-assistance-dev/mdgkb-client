@@ -37,7 +37,6 @@ export default class SearchModel implements ISearchModel {
   }
 
   setSearchGroup(groupId: string | undefined): void {
-    console.log('test');
     const g = this.searchGroups.find((group: ISearchGroup) => group.id === groupId);
     if (g) {
       this.searchGroup = g;
