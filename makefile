@@ -23,6 +23,12 @@ git_merge: git_push
 	git merge @{-1}
 	git push
 
+git_deploy: git_push
+	git checkout master
+	git pull
+	git merge @{-1}
+	git push
+
 # example: make git_feature n=1
 git_feature:
 	git flow feature start PORTAL-$n
