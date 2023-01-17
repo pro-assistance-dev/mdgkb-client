@@ -47,6 +47,11 @@
     </template>
     <template #sort> </template>
     <VerticalCollapsContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
+      <template #main>
+        <div v-if="!dailyMenus.length" class="menu-shadow">
+          <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus">Создать меню</el-button>
+        </div>
+      </template>
       <template #inside-title>Книга блюд</template>
       <template #inside-content-left>
         <DishBook :menu="selectedMenu" />
@@ -99,6 +104,11 @@
             </div>
             <div class="tools-block">
               <button class="tools-button" @click="pdf">
+                <svg class="icon-excel">
+                  <use xlink:href="#excel"></use>
+                </svg>
+              </button>
+              <button class="tools-button" @click="pdf">
                 <svg class="icon-print">
                   <use xlink:href="#print"></use>
                 </svg>
@@ -122,15 +132,17 @@
                   <col width="auto" />
                   <col width="70px" />
                   <col width="70px" />
+                  <col width="70px" />
                   <col width="90px" />
                 </colgroup>
                 <thead>
                   <tr>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd"></td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">Блюдо</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Доступно</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
                     <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калорииы</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калории</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -190,6 +202,14 @@
                         {{ dish.name }} {{ dish.fromOtherMenu ? '(Перенесено)' : '' }}
                       </td>
                       <td style="text-align: center">
+                        <el-input-number
+                          v-model="dish.quantity"
+                          :disabled="!dish.available"
+                          size="mini"
+                          @change="updateSelectedMenu"
+                        ></el-input-number>
+                      </td>
+                      <td style="text-align: center">
                         <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 13px">{{ dish.weight }}</h4>
                       </td>
                       <td style="text-align: center; font-weight: bold">
@@ -207,9 +227,6 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          <div v-if="!dailyMenus.length" class="menu-shadow">
-            <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus">Создать меню</el-button>
           </div>
         </div>
       </template>
@@ -235,6 +252,7 @@
   <Active />
   <NonActive />
   <Close />
+  <Excel />
 </template>
 
 <script lang="ts">
@@ -248,6 +266,7 @@ import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Close from '@/assets/svg/Buffet/Close.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
+import Excel from '@/assets/svg/Buffet/Excel.svg';
 import Eye from '@/assets/svg/Buffet/Eye.svg';
 import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
 import NonActive from '@/assets/svg/Buffet/NonActive.svg';
@@ -294,6 +313,7 @@ export default defineComponent({
     NonActive,
     Close,
     draggable,
+    Excel,
   },
   setup() {
     const form = ref();
@@ -319,7 +339,6 @@ export default defineComponent({
       });
       await selectDay(calendar.value.getToday());
       await fillCalendar();
-      console.log(isToDay.value);
     };
 
     const openDishesConstructor = () => {
@@ -332,7 +351,7 @@ export default defineComponent({
       const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
       dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
       Provider.setFilterModel(dayFilter.value);
-      Provider.setSortList(DailyMenusSortsLib.byOrder());
+      Provider.setSortModels(DailyMenusSortsLib.byOrder());
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
     };
 
@@ -371,11 +390,7 @@ export default defineComponent({
       let TodayDay = Today.getDate();
 
       calendar.value.selectDay(day);
-      if (DayMonth === TodayMonth && DayDay === TodayDay && DayYear === TodayYear) {
-        isToDay.value = true;
-      } else {
-        isToDay.value = false;
-      }
+      isToDay.value = DayMonth === TodayMonth && DayDay === TodayDay && DayYear === TodayYear;
 
       await getTodayMenus();
       if (dailyMenus.value.length === 0) {
@@ -586,7 +601,12 @@ export default defineComponent({
       }
     };
 
+    const updateSelectedMenu = async (): Promise<void> => {
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
+    };
+
     return {
+      updateSelectedMenu,
       stopMenu,
       startMenu,
       move,
@@ -670,6 +690,29 @@ $margin: 20px 0;
 
 :deep(.el-dialog) {
   overflow: hidden;
+  top: -50px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 0;
+}
+
+:deep(.el-dialog--center .el-dialog__body) {
+  padding: 0;
+}
+
+:deep(.el-dialog__headerbtn) {
+  top: 12px;
+  right: 13px;
+}
+
+:deep(.el-dialog__headerbtn .el-dialog__close) {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+:deep(.el-dialog__headerbtn .el-dialog__close:hover) {
+  color: #343e5c;
 }
 
 .arrow-button {
@@ -746,6 +789,18 @@ $margin: 20px 0;
 .icon-print:hover {
   fill: #ffffff;
   stroke: #379fff;
+}
+
+.icon-excel {
+  width: 24px;
+  height: 24px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-excel:hover {
+  fill: #379fff;
 }
 
 .calendar-tools {
@@ -828,7 +883,6 @@ $margin: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // margin-bottom: 30px;
   border-bottom: 1px solid #7c8295;
   height: 30px;
   background: #ffffff;

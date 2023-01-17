@@ -6,6 +6,7 @@ export default interface IDishSample {
   name: string;
   price: number;
   order: number;
+  quantity: number;
   weight: number;
   caloric: number;
   dishesGroupId?: string;

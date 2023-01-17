@@ -54,6 +54,11 @@ export default defineComponent({
     };
 
     const suggestSearch = async (queryString: string, cb: (arg: any) => void) => {
+      console.log(queryString);
+      if (queryString.length < 3) {
+        cb([]);
+        return;
+      }
       searchModel.value.suggester = true;
       searchModel.value.query = queryString;
       searchModel.value.options = [];

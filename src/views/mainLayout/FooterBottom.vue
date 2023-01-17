@@ -9,9 +9,9 @@
         </el-col>
         <el-col :xl="2">
           <div class="flex-center">
-            <!--            <a id="specialButton" href="#">-->
-            <!--              <i class="el-icon-view"></i>-->
-            <!--            </a>-->
+            <a id="specialButton" href="#">
+              <i class="bvi-open el-icon-view"></i>
+            </a>
           </div>
           <!-- <div class="flex-center">
             <a class="site-map" href="/site-map">Карта сайта</a>
@@ -126,10 +126,24 @@
 <script>
 export default {
   name: 'FooterBottom',
+  setup() {
+    // const b = new isvek.Bvi();
+    //
+    // console.log(b);
+    // return {
+    //   b,
+    // };
+  },
 };
 </script>
 
 <style scoped lang="scss">
+.el-icon-view {
+  &:hover {
+    cursor: pointer;
+    color: lighten(#379fff, 20%);
+  }
+}
 /* .hidden {
   display: none;
 }

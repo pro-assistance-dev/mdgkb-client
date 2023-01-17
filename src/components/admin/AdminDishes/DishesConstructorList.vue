@@ -1,16 +1,16 @@
 <template>
-  <draggable class="tabs" :list="dishesGroup.dishSamples" item-key="id" handle=".el-icon-s-grid" @end="saveDishesOrder">
+  <draggable class="tabs" :list="dishesGroup.dishSamples" item-key="id" handle=".group-item" @end="saveDishesOrder">
     <template #item="{ element }">
-      <div class="group">
-        <div class="dish-item" @click="$emit('openDishSampleConstructor', element)">
-          <i class="el-icon-s-grid drug-icon" />
-          <div class="item-name">{{ element.name }}</div>
+      <div class="group-item">
+        <div :id="element.id" class="dish-item" @click.prevent="(e) => selectDish(element, e)">
+          <div>{{ element.name }}</div>
+          <div class="right-field">{{ element.weight }} гр/{{ element.price }},00руб/{{ element.caloric }}ккал</div>
           <el-popconfirm
             confirm-button-text="Да"
             cancel-button-text="Отмена"
             icon="el-icon-info"
             icon-color="red"
-            title="Вы уверен, что хотите удалить категорию?"
+            title="Вы уверены, что хотите удалить категорию?"
             @confirm="removeDishSample(dishesGroup, element.id)"
             @cancel="() => {}"
           >
@@ -35,6 +35,7 @@ import draggable from 'vuedraggable';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import IDishesGroup from '@/interfaces/IDishesGroup';
+import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
 import sort from '@/services/sort';
 
@@ -52,7 +53,8 @@ export default defineComponent({
   },
 
   emits: ['openDishSampleConstructor'],
-  setup(props) {
+  setup(props, { emit }) {
+    let selectedDishId = '';
     const removeDishSample = async (dishesGroupItem: IDishesGroup, dishSampleId: string) => {
       await Provider.store.dispatch('dishesSamples/remove', dishSampleId);
       dishesGroupItem.removeDishSample(dishSampleId);
@@ -63,9 +65,28 @@ export default defineComponent({
       await Provider.store.dispatch('dishesSamples/updateAll', props.dishesGroup.dishSamples);
     };
 
+    const selectDish = (dish: IDishSample, e: Event) => {
+      emit('openDishSampleConstructor', dish);
+      const el = e.target as HTMLInputElement;
+      let selectedElement = document.getElementById(selectedDishId);
+
+      if (selectedElement) {
+        selectedElement.classList.remove('dish-item-active');
+      }
+
+      selectedDishId = el.id;
+
+      selectedElement = document.getElementById(el.id);
+
+      if (selectedElement) {
+        selectedElement.classList.add('dish-item-active');
+      }
+    };
+
     return {
       saveDishesOrder,
       removeDishSample,
+      selectDish,
     };
   },
 });
@@ -132,7 +153,6 @@ $margin: 20px 0;
   overflow: hidden;
   overflow-y: scroll;
   height: 550px;
-  // position: relative;
 }
 
 .tools {
@@ -236,7 +256,8 @@ $margin: 20px 0;
 .icon-delete {
   width: 20px;
   height: 20px;
-  fill: #343e5c;
+  fill: #c4c4c4;
+  fill: #8d8d8d;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -266,29 +287,43 @@ $margin: 20px 0;
 }
 
 .dish-item {
-  height: 36px;
+  position: relative;
+  height: 34px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
   color: #343e5c;
-  margin: 3px 20px;
   cursor: pointer;
-  padding: 0px 36px 0 20px;
-  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 16px;
+  transition: 0.05s;
+  border: 1px solid #ffffff;
 }
 
 .dish-item:hover {
-  background: #e5e5e5;
+  background: #e6f8f6;
+  border: 1px solid #e6f8f6;
+  height: 34px;
+  padding-left: 24px;
 }
 
 .dish-item:active {
-  background: #d6ecf4;
+  height: 34px;
+  background: #e6f8f6;
+  border: 1px solid #e6f8f6;
+  padding-left: 44px;
+}
+
+.dish-item-active {
+  background: #e6f8f6;
+  border: 1px solid #e6f8f6;
+  height: 34px;
+  padding-left: 44px;
 }
 
 .dish-item:active > .item-button {
   display: flex;
-  background: #d6ecf4;
 }
 
 .dish-item:hover > .item-button {
@@ -299,7 +334,7 @@ $margin: 20px 0;
   display: none;
   align-items: center;
   justify-content: center;
-  background: #e5e5e5;
+  background: inherit;
   border-radius: none;
   border: none;
   height: 24px;
@@ -318,5 +353,24 @@ $margin: 20px 0;
 }
 .drug-icon {
   cursor: pointer;
+}
+
+.checked {
+  background: #d6ecf4;
+}
+
+.tabs {
+  position: relative;
+}
+
+.right-field {
+  position: absolute;
+  top: 10px;
+  right: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  color: #7c8295;
+  font-size: 10px;
 }
 </style>

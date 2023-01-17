@@ -3,6 +3,7 @@ import FileInfo from '@/classes/File/FileInfo';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IHuman from '@/interfaces/IHuman';
+import ClassBuilder from '@/services/ClassBuilder';
 import StringsService from '@/services/Strings';
 
 export default class Human implements IHuman {
@@ -25,37 +26,21 @@ export default class Human implements IHuman {
   slug = '';
   postIndex = '';
   address = '';
+
   constructor(i?: IHuman) {
     if (!i) {
       return;
     }
-    this.id = i.id;
-    this.name = i.name;
-    this.surname = i.surname;
-    this.patronymic = i.patronymic;
-    this.snils = i.snils;
-    this.isMale = i.isMale;
-    this.dateBirth = i.dateBirth;
-    this.slug = i.slug;
-    this.citizenship = i.citizenship;
-    this.placeBirth = i.placeBirth;
-    this.carNumber = i.carNumber;
-    this.carModel = i.carModel;
-
+    ClassBuilder.BuildPrimitives(this, i);
     if (i.photo) {
       this.photo = new FileInfo(i.photo);
     }
-    this.photoId = i.photoId;
     if (i.photoMini) {
       this.photoMini = new FileInfo(i.photoMini);
     }
-    this.photoMiniId = i.photoMiniId;
     if (i.contactInfo) {
       this.contactInfo = new ContactInfo(i.contactInfo);
     }
-
-    this.postIndex = i.postIndex;
-    this.address = i.address;
   }
 
   getFullName(): string {

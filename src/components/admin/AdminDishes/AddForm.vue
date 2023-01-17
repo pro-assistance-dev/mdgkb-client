@@ -5,8 +5,10 @@
         <el-form-item label="Название блюда:" prop="name">
           <el-input v-model="dishSample.name" placeholder="Введите название"></el-input>
         </el-form-item>
-        <el-form-item label="Калорийность, ккал:" prop="caloric">
-          <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
+        <el-form-item label="Категория:" prop="dishesGroupId">
+          <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 100%">
+            <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
+          </el-select>
         </el-form-item>
         <el-form-item label="Выход, грамм" prop="weight">
           <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
@@ -14,12 +16,13 @@
         <el-form-item label="Цена:" prop="price">
           <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
         </el-form-item>
-        <el-form-item label="Категория:" prop="dishesGroupId">
-          <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 365px">
-            <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
-          </el-select>
+        <el-form-item label="Стандартное кол-во" prop="price">
+          <el-input-number v-model="dishSample.quantity" placeholder="0"></el-input-number>
         </el-form-item>
-        <el-form-item label="Изображение:" prop="image">
+        <el-form-item label="&nbsp;&nbsp;Калорийность, ккал:" prop="caloric">
+          <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
+        </el-form-item>
+        <el-form-item label="&nbsp;&nbsp;Изображение:" prop="image">
           <UploaderSingleScan :file-info="dishSample.image" :height="200" :width="200" @remove-file="dishSample.removeImage()" />
         </el-form-item>
         <div class="button-field">
@@ -57,7 +60,7 @@ export default defineComponent({
     const form = ref();
     const rules = ref({
       name: [{ required: true, message: 'Необходимо указать название блюда', trigger: 'blur' }],
-      caloric: [{ required: true, message: 'Необходимо указать калорийность', trigger: 'change' }],
+      // caloric: [{ required: true, message: 'Необходимо указать калорийность', trigger: 'change' }],
       weight: [{ required: true, message: 'Необходимо указать выход', trigger: 'change' }],
       price: [{ required: true, message: 'Необходимо указать цену', trigger: 'change' }],
       dishesGroupId: [{ required: true, message: 'Необходимо выбрать категорию', trigger: 'change' }],
@@ -93,7 +96,6 @@ export default defineComponent({
 
     const saveDishSample = async () => {
       if (!validate(form)) {
-        console.log('validate');
         return;
       }
       if (dishSample.value.id) {
@@ -127,34 +129,37 @@ export default defineComponent({
   margin: 0px;
 }
 
+:deep(.el-dialog--center .el-dialog__body) {
+  padding: 0;
+}
+
 .modal-field {
   width: 100%;
   height: 100%;
 }
 
 .modal-box {
-  background: #ffffff;
-  border: 1px solid #dcdfe6;
-  border-radius: 5px;
-  position: absolute;
-  top: 2%;
-  transform: translateX(-50%);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
-  z-index: 101;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 560px;
+  background: #e6f8f6;
+  width: 100%;
+  height: 100%;
   padding-top: 20px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .button-field {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
   display: flex;
   justify-content: right;
   margin-top: 15px;
 }
 
 .modal-callback {
-  padding: 20px;
+  height: 100%;
+  padding: 0 20px 0 10px;
   padding-top: 0;
   height: auto;
 }
@@ -267,6 +272,10 @@ export default defineComponent({
   width: 100%;
 }
 
+:deep(.el-input-number) {
+  width: 100%;
+}
+
 :deep(.el-form-item__content) {
   width: 100%;
 }
@@ -289,8 +298,8 @@ export default defineComponent({
   margin-right: -2px;
 }
 
-.el-select {
-  width: 100%;
+:deep(.el-select) {
+  width: calc(100% - 20px);
 }
 
 :deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {

@@ -1,5 +1,6 @@
 <template>
   <div class="tab">
+    <slot name="main" />
     <div :style="{ width: !isDrawerOpen ? '20px' : '50%', transition: '0.3s' }" class="left">
       <div :style="{ width: !isDrawerOpen ? '0' : '100%', transition: '0.3s' }" class="left-content">
         <slot name="inside-content-left" />
@@ -57,6 +58,7 @@ export default defineComponent({
 .tab {
   display: flex;
   height: 100%;
+  position: relative;
 }
 
 .left {

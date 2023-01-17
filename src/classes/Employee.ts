@@ -9,7 +9,8 @@ import ICertificate from '@/interfaces/ICertificate';
 import IEmployee from '@/interfaces/IEmployee';
 import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
-import IRegalia from '@/interfaces/IRegalia';
+import ClassBuilder from '@/services/ClassBuilder';
+import removeFromClass from '@/services/removeFromClass';
 
 export default class Employee implements IEmployee {
   id?: string;
@@ -17,60 +18,37 @@ export default class Employee implements IEmployee {
   humanId?: string;
   academicDegree = '';
   academicRank = '';
-  regalias: IRegalia[] = [];
+  @ClassBuilder.GetClassConstructorForArray(Regalia)
+  regalias: Regalia[] = [];
   regaliasForDelete: string[] = [];
+  @ClassBuilder.GetClassConstructorForArray(Education)
   educations: IEducation[] = [];
   educationsForDelete: string[] = [];
+  @ClassBuilder.GetClassConstructorForArray(Certificate)
   certificates: ICertificate[] = [];
   certificatesForDelete: string[] = [];
+  @ClassBuilder.GetClassConstructorForArray(Experience)
   experiences: IExperience[] = [];
   experiencesForDelete: string[] = [];
 
   constructor(i?: IEmployee) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.human = new Human(i.human);
-    this.humanId = i.humanId;
-    this.academicDegree = i.academicDegree;
-    this.academicRank = i.academicRank;
-    if (i.regalias) {
-      this.regalias = i.regalias.map((item: IRegalia) => new Regalia(item));
-    }
-    if (i.educations) {
-      this.educations = i.educations.map((item: IEducation) => new Education(item));
-    }
-    if (i.certificates) {
-      this.certificates = i.certificates.map((item: ICertificate) => new Certificate(item));
-    }
-    if (i.experiences) {
-      this.experiences = i.experiences.map((item: IExperience) => new Experience(item));
-    }
+    ClassBuilder.BuildPrimitives(this, i);
   }
 
   addExperience(): void {
     this.experiences.push(new Experience());
   }
 
-  removeExperience(index: number): void {
-    const idForDelete = this.experiences[index].id;
-    if (idForDelete) {
-      this.experiencesForDelete.push(idForDelete);
-    }
-    this.experiences.splice(index, 1);
+  removeExperience(i: number): void {
+    removeFromClass(i, this.experiences, this.experiencesForDelete);
   }
 
   addCertificate(): void {
     this.certificates.push(new Certificate());
   }
 
-  removeCertificate(index: number): void {
-    const idForDelete = this.certificates[index].id;
-    if (idForDelete) {
-      this.certificatesForDelete.push(idForDelete);
-    }
-    this.certificates.splice(index, 1);
+  removeCertificate(i: number): void {
+    removeFromClass(i, this.certificates, this.certificatesForDelete);
   }
 
   getFileInfos(): IFileInfo[] {
@@ -85,16 +63,12 @@ export default class Employee implements IEmployee {
     return fileInfos;
   }
 
-  addRegalia() {
+  addRegalia(): void {
     this.regalias.push(new Regalia());
   }
 
-  removeRegalia(i: number) {
-    const idForDelete = this.regalias[i].id;
-    if (idForDelete) {
-      this.regaliasForDelete.push(idForDelete);
-    }
-    this.regalias.splice(i);
+  removeRegalia(i: number): void {
+    removeFromClass(i, this.regalias, this.regaliasForDelete);
   }
 
   getHuman(): IHuman {

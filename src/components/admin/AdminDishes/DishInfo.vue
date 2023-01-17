@@ -83,7 +83,6 @@ export default defineComponent({
 }
 
 .modal-box {
-  background: #ffffff;
   border: 1px solid #dcdfe6;
   border-radius: 5px;
   width: 560px;

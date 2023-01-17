@@ -88,28 +88,6 @@ const mutations: MutationTree<State> = {
   setParentIdToComment(state, parentId: string) {
     state.comment.doctorId = parentId;
   },
-  // addEducation(state) {
-  //   state.item.educations.push(new Education());
-  // },
-  // removeEducation(state, educationIndex: number) {
-  //   state.item.educations.splice(educationIndex, 1);
-  // },
-  // addCertification(state, educationIndex: number) {
-  //   state.item.educations[educationIndex].educationCertification = new EducationCertification();
-  // },
-  // removeCertification(state, educationIndex: number) {
-  //   state.item.educations[educationIndex].educationCertification = undefined;
-  // },
-  // addAccreditation(state, educationIndex: number) {
-  //   state.item.educations[educationIndex].educationAccreditation = new EducationAccreditation();
-  // },
-  // removeAccreditation(state, educationIndex: number) {
-  //   state.item.educations[educationIndex].educationAccreditation = undefined;
-  // },
-  // addRegalia(state) {
-  //   state.item.regalias.push(new Regalia());
-  // },
-
   setTimetable(state, timetable: ITimetable) {
     if (!state.item) {
       return;

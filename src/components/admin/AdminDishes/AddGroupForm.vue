@@ -65,16 +65,17 @@ export default defineComponent({
 }
 
 .modal-field {
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
 }
 
 .modal-box {
+  background: #faf4d9;
   background: #ffffff;
   border: 1px solid #dcdfe6;
   border-radius: 5px;
   position: absolute;
-  top: 50px;
+  top: 23px;
   transform: translateX(-50%);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
   z-index: 101;

@@ -66,7 +66,7 @@ export default defineComponent({
     const genderFilter: Ref<IFilterModel> = ref(new FilterModel());
 
     const loadEmployees = async () => {
-      await Provider.store.dispatch('employees/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('employees/getAllWithCount', Provider.filterQuery.value);
     };
     const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
     const load = async () => {
@@ -82,7 +82,7 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'employees', action: 'getAllAdmin' },
+      pagination: { storeModule: 'employees', action: 'getAllWithCount' },
       sortModels: [],
     });
 
@@ -90,7 +90,7 @@ export default defineComponent({
     const edit = (slug: string) => Provider.router.push(`/admin/employees/${slug}`);
     const remove = async (id: string) => await Provider.store.dispatch('employees/remove', id);
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push({ name: `AdminEditDoctorPage`, params: { id: event.value } });
+      await Provider.router.push({ name: `AdminEditEmployeePage`, params: { id: event.value } });
     };
 
     const createGenderFilterModels = (): IFilterModel[] => {

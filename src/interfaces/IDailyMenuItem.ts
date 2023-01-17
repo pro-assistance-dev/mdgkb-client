@@ -6,6 +6,7 @@ export default interface IDailyMenuItem {
   name: string;
   order: number;
   price: number;
+  quantity: number;
   weight: number;
   caloric: number;
   dailyMenuId?: string;

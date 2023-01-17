@@ -14,6 +14,9 @@
         <el-form-item label="Цена:">
           <el-input v-model="dishSample.price" placeholder="Цена"></el-input>
         </el-form-item>
+        <el-form-item label="Стандартное количество:">
+          <el-input v-model="dishSample.price" placeholder="Стдартное количество"></el-input>
+        </el-form-item>
         <el-form-item label="Категория:">
           <el-select v-model="dishSample.dishesGroupId" filterable placeholder=" " style="width: 365px">
             <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />

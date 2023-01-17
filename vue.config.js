@@ -1,6 +1,9 @@
 module.exports = {
   lintOnSave: false,
   outputDir: './test',
+  // configureWebpack: {
+  //   devtool: 'source-map',
+  // },
   devServer: {
     disableHostCheck: true,
     host: process.env.VUE_APP_HOST,
