@@ -5,6 +5,7 @@ import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
 import IForm from '@/interfaces/IForm';
+import MillisecondsTime from '@/services/MillisecondsTime';
 
 export default class DailyMenuOrder implements IDailyMenuOrder {
   id?: string;
@@ -114,11 +115,13 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
     if (!newOrder) {
       return;
     }
-    this.createClass(JSON.parse(newOrder));
     const localStorDate = Date.parse(JSON.parse(newOrder).date);
-    if (new Date().getTime() > localStorDate + 43200000) {
+    const storagePeriod = 12;
+    if (new Date().getTime() > localStorDate + MillisecondsTime.Hour * storagePeriod) {
       localStorage.removeItem('dailyMenuOrder');
+      return;
     }
+    this.createClass(JSON.parse(newOrder));
   }
 
   removeFromLocalStore(): void {
