@@ -16,7 +16,7 @@ export default class HttpClient {
   }
 
   newWebSocket(query: string): WebSocket {
-    const url = apiHost.replace('http', 'ws') + '/ws' + '/' + this.endpoint + '/' + query;
+    const url = apiHost.replace('http', 'ws') + 'ws' + '/' + this.endpoint + '/' + query;
     return new WebSocket(url);
   }
 
