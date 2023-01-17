@@ -1,24 +1,29 @@
 <template>
-  <div v-if="mounted" class="page-container">
-    <PageSideMenuComponent :page="page" />
-    <div class="content-container">
-      <PageSection
-        :title="page.getSelectedSideMenu().name"
-        :description="page.getSelectedSideMenu().description"
-        :page-sections="page.getSelectedSideMenu().pageSections"
-      />
-      <slot
-        v-for="component in customSections.filter((c) => c.id === page.getSelectedSideMenu().id)"
-        :key="component.id"
-        :name="component.id"
-      />
+  <div v-if="mounted">
+    <div v-if="page.pageSideMenus.length" class="page-container">
+      <PageSideMenuComponent :page="page" />
+      <div class="content-container">
+        <PageSection
+          :title="page.getSelectedSideMenu().name"
+          :description="page.getSelectedSideMenu().description"
+          :page-sections="page.getSelectedSideMenu().pageSections"
+        />
+        <slot
+          v-for="component in customSections.filter((c) => c.id === page.getSelectedSideMenu().id)"
+          :key="component.id"
+          :name="component.id"
+        />
+      </div>
     </div>
+    <CustomPage v-else />
   </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
@@ -30,6 +35,7 @@ export default defineComponent({
   components: {
     PageSideMenuComponent,
     PageSection,
+    CustomPage,
   },
   props: {
     customSections: {
@@ -40,8 +46,11 @@ export default defineComponent({
   setup(props) {
     const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
     const mounted: Ref<boolean> = ref(false);
+    const route = useRoute();
 
     onBeforeMount(async () => {
+      console.log(route);
+      console.log(Provider.getPath());
       await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       page.value.addCustomSectionsToSideMenu(props.customSections);
       mounted.value = true;

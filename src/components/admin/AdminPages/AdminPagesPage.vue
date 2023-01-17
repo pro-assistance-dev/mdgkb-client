@@ -1,23 +1,34 @@
 <template>
-  <div class="wrapper">
+  <div v-if="mounted" class="wrapper">
     <el-form ref="form" :key="page" :model="page">
-      <el-row :gutter="40">
-        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
-          <el-container direction="vertical">
-            <el-card>
-              <template #header>Заголовок</template>
-              <el-form-item prop="title">
-                <el-input v-model="page.title" placeholder="Заголовок"></el-input>
-              </el-form-item>
-            </el-card>
-          </el-container>
-        </el-col>
-        <el-col :lg="8" :xl="6">
+      <el-container direction="vertical">
+        <el-card>
+          <template #header>Заголовок</template>
+          <el-form-item prop="title">
+            <el-input v-model="page.title" placeholder="Заголовок"></el-input>
+          </el-form-item>
           <el-checkbox v-model="page.withComments">Включить комментарии</el-checkbox>
-        </el-col>
-      </el-row>
-      <el-button @click="page.addSideMenu()">Добавить меню</el-button>
-      <el-card v-for="pageSideMenu in page.pageSideMenus" :key="pageSideMenu">
+          <WysiwygEditor v-model="page.content" />
+        </el-card>
+      </el-container>
+      <el-button @click="() => openDialog()">Добавить меню</el-button>
+      <el-card style="margin-top: 10px">
+        <draggable class="groups" :list="page.pageSideMenus" item-key="id" handle=".el-icon-s-grid" @end="sort(page.pageSideMenus)">
+          <template #item="{ element, index }">
+            <div class="side-menu-row">
+              <i style="margin-right: 5px; cursor: pointer" class="el-icon-s-grid drug-icon" />
+              <div style="width: 100%">
+                <a @click="openDialog(index)"> {{ element.name }} </a>
+              </div>
+              <TableButtonGroup
+                :show-remove-button="true"
+                @remove="removeFromClass(index, page.pageSideMenus, page.pageSideMenusForDelete)"
+              />
+            </div>
+          </template>
+        </draggable>
+      </el-card>
+      <!-- <el-card v-for="pageSideMenu in page.pageSideMenus" :key="pageSideMenu">
         <template #header>
           <div class="card-header">
             <el-input v-model="pageSideMenu.name" />
@@ -45,7 +56,6 @@
                       <el-form-item style="margin: 0 10px 0 0; width: 100%">
                         <el-input v-model="element.name" placeholder="Название типа документов"></el-input>
                       </el-form-item>
-                      <!--                      <el-button type="danger" icon="el-icon-close" @click="removeDocType(index)"></el-button>-->
                     </div>
                     <div>
                       <el-form-item prop="description">
@@ -59,57 +69,52 @@
             </template>
           </draggable>
         </el-collapse>
-      </el-card>
+      </el-card> -->
+      <AdminPageSideMenuDialog />
     </el-form>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 import draggable from 'vuedraggable';
-import { useStore } from 'vuex';
 
-import AdminDocumentsForm from '@/components/AdminDocumentsForm.vue';
+import AdminPageSideMenuDialog from '@/components/admin/AdminPages/AdminPageSideMenuDialog.vue';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IPage from '@/interfaces/page/IPage';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
+import removeFromClass from '@/services/removeFromClass';
 import sort from '@/services/sort';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPagesPage',
-  components: { WysiwygEditor, draggable, AdminDocumentsForm },
+  components: { WysiwygEditor, TableButtonGroup, draggable, AdminPageSideMenuDialog },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    let mounted = ref(false);
     const form = ref();
+    const route = useRoute();
 
-    const page: Ref<IPage> = computed(() => store.getters['pages/page']);
+    const page: Ref<IPage> = computed(() => Provider.store.getters['pages/page']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await loadNewsItem();
-      store.commit('admin/closeLoading');
-    });
-
     const loadNewsItem = async () => {
       if (route.params['slug']) {
-        await store.dispatch('pages/getBySlug', route.params['slug']);
-        store.commit('admin/setHeaderParams', { title: page.value.title, showBackButton: true, buttons: [{ action: submit }] });
+        await Provider.store.dispatch('pages/getBySlug', route.params['slug']);
+        Provider.store.commit('admin/setHeaderParams', { title: page.value.title, showBackButton: true, buttons: [{ action: submit }] });
       } else {
-        store.commit('pages/resetState');
-        store.commit('admin/setHeaderParams', { title: 'Добавить страницу', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('pages/resetState');
+        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить страницу', showBackButton: true, buttons: [{ action: submit }] });
       }
-      mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(page, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     };
+
+    Hooks.onBeforeMount(loadNewsItem);
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
@@ -122,23 +127,34 @@ export default defineComponent({
         return;
       }
       if (!route.params['slug']) {
-        await store.dispatch('pages/create', page.value);
-        await router.push('/admin/pages');
+        await Provider.store.dispatch('pages/create', page.value);
+        await Provider.router.push('/admin/pages');
         return;
       }
-      await store.dispatch('pages/update', page.value);
-      next ? next() : await router.push('/admin/pages');
+      await Provider.store.dispatch('pages/update', page.value);
+      next ? next() : await Provider.router.push('/admin/pages');
     };
 
-    const addDocument = () => store.commit('pages/addDocument');
+    const addDocument = () => Provider.store.commit('pages/addDocument');
+    const openDialog = async (index?: number) => {
+      if (index !== undefined) {
+        Provider.store.commit('pages/setIndex', index);
+      } else {
+        await page.value.addSideMenu();
+        Provider.store.commit('pages/setIndex', page.value.pageSideMenus.length - 1);
+      }
+      Provider.store.commit('pages/setSideMenuDialogActive', true);
+    };
 
     return {
       addDocument,
       sort,
-      mounted,
+      mounted: Provider.mounted,
       submit,
       page,
       form,
+      openDialog,
+      removeFromClass,
     };
   },
 });
@@ -158,5 +174,14 @@ export default defineComponent({
 
 :deep(.el-dialog) {
   overflow: hidden;
+}
+
+.side-menu-row {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  &:hover {
+    background-color: lightblue;
+  }
 }
 </style>

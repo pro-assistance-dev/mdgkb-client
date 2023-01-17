@@ -83,7 +83,7 @@
                         @keyup.enter="saveMenu(element)"
                         @keyup.esc="element.cancelEditMode()"
                       />
-                      <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} {{ element.order }}</span>
+                      <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
                     </div>
                     <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }"></div>
                     <div class="button-close">

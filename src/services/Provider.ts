@@ -120,7 +120,8 @@ const Provider = (() => {
   }
 
   function getPath(): string {
-    return route().path.slice(1);
+    const arr = route().path.split('/');
+    return arr[arr.length - 1];
   }
 
   return {
