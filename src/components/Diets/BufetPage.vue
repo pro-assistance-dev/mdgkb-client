@@ -74,7 +74,7 @@ export default defineComponent({
     const load = async () => {
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
-      dailyMenuOrder.value.reproduceFromStore();
+      await dailyMenuOrder.value.reproduceFromStore();
       dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
       dailyMenuOrder.value.formValue.user = new User(user.value);
 

@@ -115,6 +115,10 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
       return;
     }
     this.createClass(JSON.parse(newOrder));
+    const localStorDate = Date.parse(JSON.parse(newOrder).date);
+    if (new Date().getTime() > localStorDate + 43200000) {
+      localStorage.removeItem('dailyMenuOrder');
+    }
   }
 
   removeFromLocalStore(): void {
