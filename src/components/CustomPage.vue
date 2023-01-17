@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -58,20 +58,20 @@ import IPage from '@/interfaces/page/IPage';
 export default defineComponent({
   name: 'CustomPage',
   components: { ImageGallery },
-  async setup() {
+  setup() {
     let comment = ref(new NewsComment());
     const commentInput = ref();
     const store = useStore();
     const route = useRoute();
-    const slug = computed(() => route.params['slug']);
+    // const slug = computed(() => route.params['slug']);
     const page: ComputedRef<IPage> = computed(() => store.getters['pages/page']);
 
-    watch(slug, () => {
-      if (slug.value) {
-        store.dispatch('news/get', slug.value);
-      }
-    });
-    await store.dispatch('pages/getBySlug', slug.value);
+    // watch(slug, () => {
+    //   if (slug.value) {
+    //     store.dispatch('news/get', slug.value);
+    //   }
+    // });
+    // await store.dispatch('pages/getBySlug', slug.value);
     const pageContent = computed(() =>
       page.value.content ? page.value.content : '<p style="text-align: center">Описание отсутствует</p>'
     );

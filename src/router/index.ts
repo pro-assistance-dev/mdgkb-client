@@ -2,7 +2,6 @@ import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNorma
 
 import AboutPage from '@/components/About/AboutPage.vue';
 import Contacts from '@/components/Contacts/Contacts.vue';
-import CustomPage from '@/components/CustomPage.vue';
 import DevPage from '@/components/DevPage.vue';
 import BufetWrapper from '@/components/Diets/BufetWrapper.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
@@ -14,6 +13,7 @@ import MedicalOrganizationStructure from '@/components/MedicalOrganization/Medic
 import MedicalProfilesList from '@/components/MedicalProfiles/MedicalProfilesList.vue';
 import MedicalProfilesPage from '@/components/MedicalProfiles/MedicalProfilesPage.vue';
 import MedicalWorkersList from '@/components/MedicalWorkers/MedicalWorkersList.vue';
+import PageComponent from '@/components/Page/PageComponent.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
@@ -289,8 +289,8 @@ const routes: Array<RouteRecordRaw> = [
   ...VacanciesRoutes,
   {
     path: '/pages/:slug',
-    name: 'CustomPage',
-    component: CustomPage,
+    name: 'PageComponent',
+    component: PageComponent,
   },
   {
     path: '/dev',

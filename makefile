@@ -33,13 +33,6 @@ git_deploy: git_push
 git_feature:
 	git flow feature start PORTAL-$n
 
-git_deploy:
-	git checkout develop
-	git pull
-	git checkout master
-	git merge --no-commit develop
-	git push
-
 #######
 #TESTS#
 #######
