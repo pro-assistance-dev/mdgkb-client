@@ -34,11 +34,10 @@ export default defineComponent({
       sourceSSE = await Provider.handlerSSE<IDailyMenu>('daily-menu-update', '', updateMenu);
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
       await getDailyMenus();
-      console.log(sourceSSE);
+      await Provider.store.dispatch('dailyMenus/updateTodayMenu');
     };
 
     const updateMenu = async (e: MessageEvent) => {
-      console.log(sourceSSE);
       await getDailyMenus();
       checkDailyMenuItemsAvailable();
     };
@@ -47,7 +46,7 @@ export default defineComponent({
       const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
       dayFilter.value.date1 = new Date(new Date().getTime() - userTimezoneOffset);
       Provider.setFilterModel(dayFilter.value);
-      await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+      // await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
       if (dailyMenus.value.length === 0) {
         return;
       }
