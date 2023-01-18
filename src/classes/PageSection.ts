@@ -25,7 +25,7 @@ export default class PageSection implements IPageSection {
   scansForDelete: string[] = [];
 
   pageSectionDocuments: IPageSectionDocument[] = [];
-  pageSectionsDocumentsForDelete: string[] = [];
+  pageSectionDocumentsForDelete: string[] = [];
 
   pageSectionImages: IPageSectionImage[] = [];
   pageSectionImagesForDelete: string[] = [];
@@ -84,7 +84,7 @@ export default class PageSection implements IPageSection {
   removeDocument(index: number): void {
     const idForDelete = this.pageSectionDocuments[index].id;
     if (idForDelete) {
-      this.pageSectionsDocumentsForDelete.push(idForDelete);
+      this.pageSectionDocumentsForDelete.push(idForDelete);
     }
     this.pageSectionDocuments.splice(index, 1);
   }

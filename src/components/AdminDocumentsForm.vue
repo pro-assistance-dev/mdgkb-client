@@ -29,7 +29,7 @@
       <template #default="scope">
         <TableButtonGroup
           :show-remove-button="true"
-          @remove="removeFromClass(scope.$index, documentType.pageSectionDocuments, documentType.pageSectionsDocumentsForDelete)"
+          @remove="removeFromClass(scope.$index, documentType.pageSectionDocuments, documentType.pageSectionDocumentsForDelete)"
         />
       </template>
     </el-table-column>

@@ -18,7 +18,7 @@ export default interface IPageSection {
   scansForDelete: string[];
 
   pageSectionDocuments: IPageSectionDocument[];
-  pageSectionsDocumentsForDelete: string[];
+  pageSectionDocumentsForDelete: string[];
 
   addFile: (file: IElementPlusFile) => void;
   addDocument: () => void;
