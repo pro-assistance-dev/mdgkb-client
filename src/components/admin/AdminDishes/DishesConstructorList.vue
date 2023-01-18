@@ -9,7 +9,10 @@
         @click.prevent="(e) => selectDish(element, e)"
       >
         <div class="item-line">
-          <div class="left-field">{{ element.name }}</div>
+          <div class="left-field">
+            {{ element.name }}
+            <el-tag v-if="!element.image.fileSystemPath" type="warning" size="small">Отсутствует изображение </el-tag>
+          </div>
           <div class="right-field">{{ element.weight }} гр/{{ element.price }},00руб/{{ element.caloric }}ккал</div>
         </div>
         <el-popconfirm
