@@ -10,7 +10,7 @@ export default interface IDishesGroup {
   dishSamples: IDishSample[];
 
   toggleSelectSample: (id: string) => void;
-  removeDishSample: (id: string) => void;
+  removeDishSample: (id?: string) => void;
   updateDishSample: (dishSample: IDishSample) => void;
   getSamplesNotFromMenu: (menu: IDailyMenu) => IDishSample[];
   samplesExists: () => boolean;

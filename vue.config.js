@@ -9,22 +9,12 @@ module.exports = {
     host: process.env.VUE_APP_HOST,
     port: process.env.VUE_APP_PORT,
     proxy: {
-      // '^/': {
-      //   target: process.env.VUE_APP_API_HOST,
-      //   ws: true,
-      //   changeOrigin: true,
-      // },
       '/api': {
         ws: true,
         target: process.env.VUE_APP_API_HOST,
         changeOrigin: true,
         secure: false,
       },
-      // '/api-ws': {
-      //   target: process.env.VUE_APP_API_HOST,
-      //   ws: true,
-      //   changeOrigin: true,
-      // },
     },
   },
   chainWebpack: (config) => {

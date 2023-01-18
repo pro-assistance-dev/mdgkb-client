@@ -55,12 +55,6 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DishConstructorInfo',
-  props: {
-    closeFunction: {
-      type: Function,
-      required: true,
-    },
-  },
   setup() {
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
 

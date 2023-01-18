@@ -7,12 +7,7 @@
     Вы уже подавали заявку. Для просмотра данных, пожалуйста, перейдите в
     <a @click="$router.push('/profile')"> личный кабинет</a>.
   </div>
-  <el-form-item
-    v-if="(!formValue.user.email || fromAdmin) && activeFields.userEmail"
-    label="Электронная почта"
-    prop="formValue.user.email"
-    :rules="rules.email"
-  >
+  <el-form-item v-if="activeFields.userEmail" label="Электронная почта" prop="formValue.user.email" :rules="rules.email">
     <el-input v-model="formValue.user.email" placeholder="Электронная почта" @input="findEmail"></el-input>
   </el-form-item>
   <el-form-item
@@ -72,16 +67,11 @@
       <el-option label="Женский" :value="false"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item
-    v-if="(!formValue.user.phone || fromAdmin) && activeFields.userPhone"
-    :rules="rules.userPhone"
-    label="Ваш телефон"
-    prop="formValue.user.phone"
-  >
+  <el-form-item v-if="activeFields.userPhone" :rules="rules.userPhone" label="Ваш телефон" prop="formValue.user.phone">
     <el-input
       v-model="formValue.user.phone"
       placeholder="+7(___) ___ __ __"
-      @input="() => (formValue.user.phone = PhoneService.Format($event))"
+      @input="(e) => (formValue.user.phone = PhoneService.Format(e))"
     ></el-input>
   </el-form-item>
   <el-form-item v-if="activeFields.childSurname" :rules="rules.childSurname" label="Фамилия пациента" prop="formValue.child.human.surname">
