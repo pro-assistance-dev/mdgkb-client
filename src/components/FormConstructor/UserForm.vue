@@ -67,16 +67,11 @@
       <el-option label="Женский" :value="false"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item
-    v-if="(!formValue.user.phone || fromAdmin) && activeFields.userPhone"
-    :rules="rules.userPhone"
-    label="Ваш телефон"
-    prop="formValue.user.phone"
-  >
+  <el-form-item v-if="activeFields.userPhone" :rules="rules.userPhone" label="Ваш телефон" prop="formValue.user.phone">
     <el-input
       v-model="formValue.user.phone"
       placeholder="+7(___) ___ __ __"
-      @input="() => (formValue.user.phone = PhoneService.Format($event))"
+      @input="(e) => (formValue.user.phone = PhoneService.Format(e))"
     ></el-input>
   </el-form-item>
   <el-form-item v-if="activeFields.childSurname" :rules="rules.childSurname" label="Фамилия пациента" prop="formValue.child.human.surname">
