@@ -1,63 +1,107 @@
 <template>
-  <el-button @click="addEducation">Добавить образование</el-button>
-  <div v-for="(education, i) in educations" :key="education.id">
-    <el-form-item label="Тип образования" prop="human.isMale">
-      <el-select v-model="education.type" placeholder="Выберите пол">
-        <el-option label="Основное образование" :value="'Основное образование'"></el-option>
-        <el-option label="Дополнительно образование" :value="'Дополнительно образование'"></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="Учебное заведение">
-      <el-input v-model="education.institution" />
-    </el-form-item>
-    <el-form-item label="Диплом">
-      <el-input v-model="education.document" />
-    </el-form-item>
-    <el-row :gutter="1">
-      <el-col :span="11">
-        <el-card>
-          <template #header>
-            <CardHeader
-              :label="'Сертификация'"
-              :add-button="!education.educationCertification"
-              :remove-button="education.educationCertification"
-              :add-button-text="'Добавить сертификацию'"
-              :remove-button-text="'Удалить сертификацию'"
-              @add="addCertification(i)"
-              @remove="removeCertification(i)"
-            />
-          </template>
-          <div v-if="education.educationCertification">
-            <DatePicker v-model="education.educationCertification.certificationDate" />
-            <DatePicker v-model="education.educationCertification.endDate" />
-            <el-input v-model="education.educationCertification.place" />
-            <el-input v-model="education.educationCertification.specialization" />
-            <el-input v-model="education.educationCertification.document" />
+  <div class="field">
+    <CollapsContainer :tab-id="1011" :collapsed="false">
+      <template #inside-title>
+        <div class="title-in">Раздел образования</div>
+      </template>
+      <template #inside-content>
+        <div class="tools-buttons"><button class="admin-add" @click.prevent="addEducation">+ Добавить образование</button></div>
+        <div v-for="(education, i) in educations" :key="education.id" class="container">
+          <div class="list-number">{{ i + 1 }}</div>
+          <el-form-item label="Учебное заведение">
+            <el-input v-model="education.institution" />
+          </el-form-item>
+          <div class="column-block">
+            <div class="column-item">
+              <el-form-item label="Тип образования" prop="human.isMale">
+                <el-select v-model="education.type" placeholder="Выберите тип">
+                  <el-option label="Основное образование" :value="'Основное образование'"></el-option>
+                  <el-option label="Дополнительно образование" :value="'Дополнительно образование'"></el-option>
+                  <el-option label="Специалитет" :value="'Специалитет'"></el-option>
+                  <el-option label="Интернатура" :value="'Интернатура'"></el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+            <div class="column-item2">
+              <el-form-item label="Диплом">
+                <el-input v-model="education.document" />
+              </el-form-item>
+            </div>
           </div>
-        </el-card>
-      </el-col>
-      <el-col :span="11" :offset="2">
-        <el-card>
-          <template #header>
-            <CardHeader
-              :label="'Аккредитация'"
-              :add-button="!education.educationAccreditation"
-              :remove-button="education.educationAccreditation"
-              :add-button-text="'Добавить аккредитацию'"
-              :remove-button-text="'Удалить аккредитацию'"
-              @add="addAccreditation(i)"
-              @remove="removeAccreditation(i)"
-            />
-          </template>
-          <div v-if="education.educationAccreditation">
-            <DatePicker v-model="education.educationAccreditation.startDate" />
-            <DatePicker v-model="education.educationAccreditation.endDate" />
-            <el-input v-model="education.educationAccreditation.specialization" />
-            <el-input v-model="education.educationAccreditation.document" />
+          <div class="bottom-block">
+            <div class="certification" :style="{ background: !education.educationCertification ? '' : '#F9FAFB' }">
+              <div class="bottom-buttons">
+                <div class="title" :style="{ color: !education.educationCertification ? '#c4c4c4' : '#303133' }">Сертификация</div>
+                <button v-if="!education.educationCertification" class="admin-add2" @click="addCertification(i)">+ Добавить</button>
+                <button v-if="education.educationCertification" class="admin-del" @click="removeCertification(i)">Удалить</button>
+              </div>
+              <div v-if="education.educationCertification">
+                <div class="column-block">
+                  <div class="column-item">
+                    <el-form-item label="Специальность">
+                      <el-input v-model="education.educationCertification.specialization" />
+                    </el-form-item>
+                  </div>
+                  <div class="column-item2">
+                    <el-form-item label="Диплом">
+                      <el-input v-model="education.educationCertification.document" />
+                    </el-form-item>
+                  </div>
+                </div>
+                <el-form-item label="Образовательное учреждение">
+                  <el-input v-model="education.educationCertification.place" />
+                </el-form-item>
+                <div class="column-block">
+                  <div class="column-item3">
+                    <el-form-item label="Дата проведения">
+                      <DatePicker v-model="education.educationCertification.certificationDate" />
+                    </el-form-item>
+                  </div>
+                  <div class="column-item3">
+                    <el-form-item label="Дата окончания действия">
+                      <DatePicker v-model="education.educationCertification.endDate" />
+                    </el-form-item>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accreditation" :style="{ background: !education.educationAccreditation ? '' : '#F9FAFB' }">
+              <div class="bottom-buttons">
+                <div class="title" :style="{ color: !education.educationAccreditation ? '#c4c4c4' : '#303133' }">Аккредитация</div>
+                <button v-if="!education.educationAccreditation" class="admin-add2" @click="addAccreditation(i)">+ Добавить</button>
+                <button v-if="education.educationAccreditation" class="admin-del" @click="removeAccreditation(i)">Удалить</button>
+              </div>
+              <div v-if="education.educationAccreditation">
+                <div class="column-block">
+                  <div class="column-item">
+                    <el-form-item label="Специальность">
+                      <el-input v-model="education.educationAccreditation.specialization" />
+                    </el-form-item>
+                  </div>
+                  <div class="column-item2">
+                    <el-form-item label="Диплом">
+                      <el-input v-model="education.educationAccreditation.document" />
+                    </el-form-item>
+                  </div>
+                </div>
+                <div class="column-block">
+                  <div class="column-item3">
+                    <el-form-item label="Дата проведения">
+                      <DatePicker v-model="education.educationAccreditation.startDate" />
+                    </el-form-item>
+                  </div>
+                  <div class="column-item3">
+                    <el-form-item label="Дата окончания действия">
+                      <DatePicker v-model="education.educationAccreditation.endDate" />
+                    </el-form-item>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </el-card>
-      </el-col>
-    </el-row>
+        </div>
+      </template>
+    </CollapsContainer>
   </div>
 </template>
 
@@ -65,12 +109,12 @@
 import { computed, defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import CardHeader from '@/components/admin/CardHeader.vue';
 import DatePicker from '@/components/DatePicker.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 
 export default defineComponent({
   name: 'EducationForm',
-  components: { CardHeader, DatePicker },
+  components: { DatePicker, CollapsContainer },
   props: {
     storeModule: {
       type: String as PropType<string>,
@@ -120,3 +164,242 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
+
+.field {
+  margin: 0 0 10px 0;
+}
+
+.admin-add {
+  border: none;
+  background: inherit;
+  color: #1979cf;
+  margin: 10px;
+  padding: 0 15px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-add:hover {
+  color: darken($color: #1979cf, $amount: 10%);
+  background: inherit;
+}
+
+.admin-add:hover {
+  color: darken($color: #1979cf, $amount: 10%);
+  background: inherit;
+}
+
+.admin-add2 {
+  border: none;
+  background: inherit;
+  color: #00b5a4;
+  margin: 10px;
+  transition: 0.3s;
+  padding: 0px;
+  cursor: pointer;
+}
+
+.admin-add2:hover {
+  color: darken($color: #00b5a4, $amount: 10%);
+}
+
+.admin-del {
+  border: none;
+  background: inherit;
+  color: #a3a9be;
+  margin: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-del:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.title-in {
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #303133;
+  height: 60px;
+  align-items: center;
+  font-weight: normal;
+}
+
+.tools-buttons {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.bottom-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  position: relative;
+  width: calc(100% - 60px);
+  margin: 0px 20px 40px 20px;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 12px 10px;
+  background: #dff2f8;
+}
+
+.column-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.column-item {
+  width: 40%;
+  margin-left: 0px;
+}
+
+.column-item2 {
+  width: 60%;
+  margin-left: 20px;
+}
+
+.column-item3 {
+  width: 50%;
+  margin-left: 20px;
+}
+
+.column-item3:first-child {
+  width: 50%;
+  margin-left: 0px;
+}
+
+.list-number {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: #1979cf;
+  border-radius: 20px;
+}
+
+.title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #c4c4c4;
+}
+
+.title2 {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #303133;
+}
+
+.certification {
+  padding: 0 10px;
+  margin-bottom: 20px;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+}
+
+.accreditation {
+  padding: 0 10px;
+  margin-top: 10px 0;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+}
+
+:deep(.el-form-item__content) {
+  width: 100%;
+}
+
+:deep(.el-input__inner) {
+  border-radius: 40px;
+  padding-left: 25px;
+  height: 32px;
+  width: 100%;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+:deep(.el-input__inner::placeholder) {
+  color: #4a4a4a;
+}
+
+:deep(.el-select .el-input .el-select__caret) {
+  color: #343e5c;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.el-select {
+  width: 100%;
+}
+
+:deep(.el-input__prefix) {
+  left: 230px;
+  top: -3px;
+}
+
+:deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
+  width: 100%;
+}
+
+:deep(.el-input__icon) {
+  color: #343e5c;
+}
+
+:deep(.el-input__suffix) {
+  top: -3px;
+}
+
+:deep(.el-form-item__label) {
+  font-size: 12px;
+  color: #a3a9be;
+  padding: 0 !important;
+  text-transform: uppercase;
+  margin-left: 5px;
+  height: 30px;
+}
+
+:deep(.el-input__prefix) {
+  left: auto;
+  right: 10px;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 910px) {
+  .column-block {
+    display: block;
+  }
+  .column-item {
+    width: 100%;
+    margin-left: 0px;
+  }
+  .column-item2 {
+    width: 100%;
+    margin-left: 0px;
+  }
+  .column-item3 {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .column-item3:first-child {
+    width: 100%;
+    margin-left: 0px;
+  }
+}
+</style>

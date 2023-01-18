@@ -146,6 +146,12 @@ export default defineComponent({
       dishSampleConstructorVisible.value = false;
       if (item) {
         dishSample.value = item;
+        dishesGroups.value.forEach((g: IDishesGroup) => {
+          g.dishSamples.forEach((e) => {
+            e.selected = false;
+          });
+        });
+        item.selected = true;
       }
       Provider.store.commit('dishesSamples/set', item);
       dishSampleConstructorCreateMode.value = !item;
