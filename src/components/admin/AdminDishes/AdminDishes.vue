@@ -54,7 +54,7 @@
       </template>
       <template #inside-title>Книга блюд</template>
       <template #inside-content-left>
-        <DishBook :menu="selectedMenu" />
+        <DishBook v-if="!dishesConstructorVisible" :menu="selectedMenu" />
       </template>
       <template #inside-content-right>
         <div class="menu">

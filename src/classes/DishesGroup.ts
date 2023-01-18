@@ -30,7 +30,7 @@ export default class DishesGroup implements IDishesGroup {
     dishSample.selected = !dishSample.selected;
   }
 
-  removeDishSample(id: string): void {
+  removeDishSample(id?: string): void {
     const index = this.dishSamples.findIndex((i: IDishSample) => i.id === id);
     if (index > -1) {
       this.dishSamples.splice(index, 1);
