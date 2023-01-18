@@ -10,9 +10,9 @@
             <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
           </el-card>
           <el-checkbox v-model="employee.hasAppointment" label="Включить расписание приёма" />
-          <el-card>
-            <EducationForm :store-module="'employees'" />
-          </el-card>
+          <!-- <el-card> -->
+          <EducationForm :store-module="'employees'" />
+          <!-- </el-card> -->
           <el-card>
             <el-button @click="employee.addExperience()">Добавить опыт работы</el-button>
             <div v-for="(experience, i) in employee.experiences" :key="experience.id">
@@ -275,5 +275,9 @@ $margin: 20px 0;
 
 :deep(.el-dialog) {
   overflow: hidden;
+}
+
+:deep(.el-form--label-top .el-form-item) {
+  display: flex;
 }
 </style>
