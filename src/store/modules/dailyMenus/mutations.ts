@@ -11,6 +11,7 @@ const mutations: MutationTree<State> = {
   },
   set(state, item: IDailyMenu) {
     state.item = new DailyMenu(item);
+    state.item.groupDishes();
   },
   setPeriodItems(state, items: IDailyMenu[]) {
     state.periodItems = items.map((i: IDailyMenu) => new DailyMenu(i));

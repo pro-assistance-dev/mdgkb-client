@@ -7,12 +7,7 @@
     Вы уже подавали заявку. Для просмотра данных, пожалуйста, перейдите в
     <a @click="$router.push('/profile')"> личный кабинет</a>.
   </div>
-  <el-form-item
-    v-if="(!formValue.user.email || fromAdmin) && activeFields.userEmail"
-    label="Электронная почта"
-    prop="formValue.user.email"
-    :rules="rules.email"
-  >
+  <el-form-item v-if="activeFields.userEmail" label="Электронная почта" prop="formValue.user.email" :rules="rules.email">
     <el-input v-model="formValue.user.email" placeholder="Электронная почта" @input="findEmail"></el-input>
   </el-form-item>
   <el-form-item

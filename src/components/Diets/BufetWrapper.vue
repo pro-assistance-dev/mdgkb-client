@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, defineComponent, h, onBeforeUnmount, Ref, ref } from 'vue';
+import { computed, defineComponent, h, Ref, ref } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import BufetCart from '@/components/Diets/BufetCart.vue';
@@ -17,7 +17,6 @@ import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
 
 export default defineComponent({
   name: 'BufetWrapper',
@@ -31,53 +30,30 @@ export default defineComponent({
     let sourceSSE: EventSource | undefined = undefined;
 
     const load = async () => {
-      sourceSSE = await Provider.handlerSSE<IDailyMenu>('daily-menu-update', '', updateMenu);
-      dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
-      await getDailyMenus();
       await Provider.store.dispatch('dailyMenus/updateTodayMenu');
-    };
-
-    const updateMenu = async (e: MessageEvent) => {
-      await getDailyMenus();
       checkDailyMenuItemsAvailable();
     };
 
-    const getDailyMenus = async () => {
-      const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
-      dayFilter.value.date1 = new Date(new Date().getTime() - userTimezoneOffset);
-      Provider.setFilterModel(dayFilter.value);
-      // await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
-      if (dailyMenus.value.length === 0) {
-        return;
-      }
-      const activeMenu = dailyMenus.value.find((d: IDailyMenu) => d.active);
-      Provider.store.commit('dailyMenus/set', activeMenu);
-      dailyMenu.value.groupDishes();
-    };
-
     const checkDailyMenuItemsAvailable = () => {
-      const nonAvailableItems = dailyMenuOrder.value.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
-      if (nonAvailableItems.length === 0) {
-        return;
-      }
-      ElMessageBox({
-        title: 'Некоторые блюда стали недоступны и удалены из корзины',
-        message: h(
-          'p',
-          null,
-          nonAvailableItems.map(({ id, dailyMenuItem: dailyMenuItem }) => {
-            return h('div', { key: id }, `${dailyMenuItem.name}`);
-          })
-        ),
-      });
+      setInterval(() => {
+        const nonAvailableItems = dailyMenuOrder.value.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
+        if (nonAvailableItems.length === 0) {
+          return;
+        }
+        ElMessageBox({
+          title: 'Некоторые блюда стали недоступны и удалены из корзины',
+          message: h(
+            'p',
+            null,
+            nonAvailableItems.map(({ id, dailyMenuItem: dailyMenuItem }) => {
+              return h('div', { key: id }, `${dailyMenuItem.name}`);
+            })
+          ),
+        });
+      }, 1000);
     };
 
     Hooks.onBeforeMount(load);
-
-    onBeforeUnmount(async () => {
-      sourceSSE?.close();
-      // await Provider.store.dispatch('comments/unsubscribeCreate');
-    });
   },
 });
 </script>
