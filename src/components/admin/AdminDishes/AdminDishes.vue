@@ -939,7 +939,7 @@ $margin: 20px 0;
   margin: 0 8px 8px 8px;
   overflow: hidden;
   overflow-y: scroll;
-  height: 100%;
+  height: calc(100% - 65px);
 }
 
 .table-container {
