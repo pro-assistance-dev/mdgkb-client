@@ -3,16 +3,20 @@
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical">
-          <el-card>
-            <template #header>
-              <CardHeader :label="'Личная информация'" :add-button="false" />
-            </template>
-            <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
-          </el-card>
+          <div class="field">
+            <CollapsContainer :tab-id="1011" :collapsed="false">
+              <template #inside-title>
+                <div class="title-in">Личная информация</div>
+              </template>
+              <template #inside-content>
+                <div class="container">
+                  <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
+                </div>
+              </template>
+            </CollapsContainer>
+          </div>
           <el-checkbox v-model="employee.hasAppointment" label="Включить расписание приёма" />
-          <!-- <el-card> -->
           <EducationForm :store-module="'employees'" />
-          <!-- </el-card> -->
           <el-card>
             <el-button @click="employee.addExperience()">Добавить опыт работы</el-button>
             <div v-for="(experience, i) in employee.experiences" :key="experience.id">
@@ -103,6 +107,7 @@ import FilterModel from '@/classes/filters/FilterModel';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -121,6 +126,7 @@ export default defineComponent({
     EducationForm,
     CardHeader,
     UploaderSingleScan,
+    CollapsContainer,
   },
   setup() {
     const form = ref();
@@ -247,6 +253,49 @@ export default defineComponent({
 <style lang="scss" scoped>
 $margin: 20px 0;
 
+.container {
+  width: auto;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  background: #dff2f8;
+  border-radius: 5px;
+  border: 1px solid #c3c3c3;
+}
+
+.column-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.column-item {
+  width: 40%;
+  margin-left: 0px;
+}
+
+.column-item2 {
+  width: 60%;
+  margin-left: 20px;
+}
+
+.column-item3 {
+  width: 50%;
+  margin-left: 20px;
+}
+
+.field {
+  margin: 0 0 10px 0;
+}
+
+.title-in {
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #303133;
+  height: 60px;
+  align-items: center;
+  font-weight: normal;
+}
+
 .flex-column {
   width: 100%;
   display: flex;
@@ -279,5 +328,69 @@ $margin: 20px 0;
 
 :deep(.el-form--label-top .el-form-item) {
   display: flex;
+}
+
+:deep(.el-form-item__content) {
+  width: 100%;
+}
+
+:deep(.el-input__inner) {
+  border-radius: 40px;
+  padding-left: 25px;
+  height: 32px;
+  width: 100%;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+:deep(.el-input__inner::placeholder) {
+  color: #4a4a4a;
+}
+
+:deep(.el-select .el-input .el-select__caret) {
+  color: #343e5c;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.el-select {
+  width: 100%;
+}
+
+:deep(.el-input__prefix) {
+  left: 230px;
+  top: -3px;
+}
+
+:deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
+  width: 100%;
+}
+
+:deep(.el-input__icon) {
+  color: #343e5c;
+}
+
+:deep(.el-input__suffix) {
+  top: -3px;
+}
+
+:deep(.el-form-item__label) {
+  font-size: 12px;
+  color: #a3a9be;
+  padding: 0 !important;
+  text-transform: uppercase;
+  margin-left: 5px;
+  height: 30px;
+}
+
+:deep(.el-input__prefix) {
+  left: auto;
+  right: 10px;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 10px;
 }
 </style>
