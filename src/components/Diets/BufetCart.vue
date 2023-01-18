@@ -21,8 +21,8 @@
         :daily-menu-order-item="dailyMenuOrderItem"
       />
     </div>
-    <div class="footer">
-      <button class="add-to-card" @click="createOrder">Создать заказ</button>
+    <div class="footer" @click="createOrder">
+      <button class="add-to-card">Создать заказ</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
         <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
