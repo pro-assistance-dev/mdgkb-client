@@ -80,7 +80,7 @@
 
 <script lang="ts">
 import { ElNotification } from 'element-plus';
-import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import FileUploader from '@/components/FileUploader.vue';
@@ -99,9 +99,9 @@ export default defineComponent({
     const mounted = ref(false);
     const question: Ref<IQuestion> = computed(() => store.getters['questions/question']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
-    watch(user, () => {
-      store.commit('questions/setUser', user.value);
-    });
+    // watch(user, () => {
+    //   store.commit('questions/setUser', user.value);
+    // });
 
     const privacyRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value) {

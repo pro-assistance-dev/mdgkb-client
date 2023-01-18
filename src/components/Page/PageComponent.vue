@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import CustomPage from '@/components/CustomPage.vue';
@@ -47,13 +47,19 @@ export default defineComponent({
     const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
     const mounted: Ref<boolean> = ref(false);
     const route = useRoute();
+    const path = computed(() => route.path);
 
-    onBeforeMount(async () => {
-      console.log(route);
-      console.log(Provider.getPath());
+    const load = async () => {
+      mounted.value = false;
       await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       page.value.addCustomSectionsToSideMenu(props.customSections);
       mounted.value = true;
+    };
+
+    watch(path, load);
+
+    onBeforeMount(async () => {
+      await load();
     });
 
     return {
