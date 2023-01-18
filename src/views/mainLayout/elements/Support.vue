@@ -126,7 +126,6 @@ export default defineComponent({
     });
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('menus/getAll');
       supportMessage.value.user = new User(user.value);
       activePath.value = Provider.route().path;
     });

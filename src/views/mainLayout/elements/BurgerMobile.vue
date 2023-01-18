@@ -61,7 +61,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IMenu from '@/interfaces/IMenu';
@@ -74,7 +74,6 @@ export default defineComponent({
     let expand = ref(false);
     const activePath: Ref<string> = ref('');
     const store = useStore();
-    const router = useRouter();
 
     const isDrawerOpen: Ref<boolean> = ref(false);
     const menus = computed(() => store.getters['menus/items']);
@@ -92,11 +91,9 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('menus/getAll');
       activePath.value = route.path;
     });
     const test = (e: any, menu: IMenu) => {
-      console.log(e.target?.nextSibling?.currentStyle);
       menus.value.forEach((menuEl: IMenu) => {
         if (menu.id !== menuEl.id) {
           menuEl.show = false;
