@@ -56,9 +56,6 @@
     <div class="menusGroup">
       <DishConstructorInfo v-if="!dishSampleConstructorVisible" />
       <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
-      <!--            <div v-if="!dishSampleConstructorVisible">-->
-      <!--              <DishInfo />-->
-      <!--            </div>-->
     </div>
   </div>
   <AddToMenu />
@@ -165,7 +162,8 @@ export default defineComponent({
       dishesGroupConstructorVisible.value = true;
     };
 
-    const closeDishSampleConstructorVisible = () => {
+    const closeDishSampleConstructorVisible = async () => {
+      await Provider.store.dispatch('dishesGroups/getAll');
       dishSampleConstructorVisible.value = false;
     };
 

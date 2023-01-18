@@ -17,7 +17,11 @@
         </div>
       </div>
       <div v-if="dishSamplesFlat.length === 0" class="column">
-        <CollapsContainer v-for="dishesGroup in dishesGroups" :key="dishesGroup.id" :tab-id="dishesGroup.id">
+        <CollapsContainer
+          v-for="dishesGroup in dishesGroups.filter((d) => d.getSamplesNotFromMenu(menu).length)"
+          :key="dishesGroup.id"
+          :tab-id="dishesGroup.id"
+        >
           <template #inside-title>
             <div class="title-in">{{ dishesGroup.name }}</div>
           </template>
@@ -119,7 +123,6 @@ export default defineComponent({
         dishSamplesFlat.value.push(
           ...ds.dishSamples.filter((ds: IDishSample) => {
             const n = ds.name.toLowerCase();
-            console.log(n);
             return n.includes(searchSource.toLowerCase()) || n.includes(translit(searchSource.toLowerCase()));
           })
         );
@@ -128,8 +131,6 @@ export default defineComponent({
 
     const addToMenu = () => {
       const dishesSamples: IDishSample[] = [];
-      console.log(dishesGroupsSource.value[0]);
-      console.log(dishesGroups.value[0]);
       dishesGroups.value.forEach((dgs: IDishesGroup) => {
         dgs.dishSamples.forEach((ds: IDishSample) => {
           if (ds.selected) {

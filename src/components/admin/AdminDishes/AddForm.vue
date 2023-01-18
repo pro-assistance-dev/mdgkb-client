@@ -38,6 +38,7 @@
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
+import DishSample from '@/classes/DishSample';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
@@ -56,6 +57,7 @@ export default defineComponent({
   setup(props) {
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
+    const dishSamplePrototype: IDishSample = new DishSample(dishSample.value);
     const confirmLeave: Ref<boolean> = ref(false);
     const form = ref();
     const rules = ref({
@@ -95,6 +97,7 @@ export default defineComponent({
     };
 
     const saveDishSample = async () => {
+      console.log(dishSamplePrototype, dishSample.value);
       if (!validate(form)) {
         return;
       }
@@ -102,6 +105,12 @@ export default defineComponent({
         await Provider.store.dispatch('dishesSamples/update');
       } else {
         await Provider.store.dispatch('dishesSamples/create');
+      }
+      if (dishSamplePrototype.dishesGroupId !== dishSample.value.dishesGroupId) {
+        const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSamplePrototype.dishesGroupId);
+        if (dishesGroup) {
+          dishesGroup.removeDishSample(dishSamplePrototype.id);
+        }
       }
       const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSample.value.dishesGroupId);
       if (dishesGroup) {
