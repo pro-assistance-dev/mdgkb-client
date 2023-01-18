@@ -16,7 +16,7 @@
               :show-remove-button="true"
               @edit="edit(scope.row.id)"
               @remove="remove(scope.row.id)"
-              @showMore="$router.push(scope.row.getLink())"
+              @showMore="openPage(scope.row.getLink())"
             />
           </template>
         </el-table-column>
@@ -71,7 +71,12 @@ export default defineComponent({
       store.commit('admin/closeLoading');
     });
 
-    return { pages, edit, remove };
+    const openPage = (link: string) => {
+      const route = router.resolve(link);
+      window.open(route.href, '_blank');
+    };
+
+    return { pages, edit, remove, openPage };
   },
 });
 </script>

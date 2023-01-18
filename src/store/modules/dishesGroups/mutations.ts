@@ -7,6 +7,9 @@ import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setAll(state, items: IDishesGroup[]) {
+    if (!items) {
+      return;
+    }
     state.items = items.map((i: IDishesGroup) => new DishesGroup(i));
   },
   set(state, item: IDishesGroup) {

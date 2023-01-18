@@ -6,4 +6,8 @@ export interface State {
   page: IPage;
   curGalleryCropIndex: number;
   galleryList: IFilesList[];
+  isSideMenuDialogActive: boolean;
+  isPageSectionDialogActive: boolean;
+  index: number;
+  pageSectionIndex: number;
 }

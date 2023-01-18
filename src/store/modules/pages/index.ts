@@ -15,6 +15,10 @@ export const getDefaultState = (): State => {
 
     galleryList: [],
     curGalleryCropIndex: 0,
+    isSideMenuDialogActive: false,
+    isPageSectionDialogActive: false,
+    index: 0,
+    pageSectionIndex: 0,
   };
 };
 

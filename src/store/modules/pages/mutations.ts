@@ -79,6 +79,18 @@ const mutations: MutationTree<State> = {
       state.page.pageImages.splice(index, 1);
     }
   },
+  setSideMenuDialogActive(state, value: boolean) {
+    state.isSideMenuDialogActive = value;
+  },
+  setPageSectionDialogActive(state, value: boolean) {
+    state.isPageSectionDialogActive = value;
+  },
+  setIndex(state, value: number) {
+    state.index = value;
+  },
+  setPageSectionIndex(state, value: number) {
+    state.pageSectionIndex = value;
+  },
 };
 
 export default mutations;

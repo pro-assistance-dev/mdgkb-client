@@ -16,6 +16,18 @@ const getters: GetterTree<State, RootState> = {
   galleryList(state): IFilesList[] {
     return state.galleryList;
   },
+  isSideMenuDialogActive(state): boolean {
+    return state.isSideMenuDialogActive;
+  },
+  isPageSectionDialogActive(state): boolean {
+    return state.isPageSectionDialogActive;
+  },
+  sideMenu(state) {
+    return state.page.pageSideMenus[state.index];
+  },
+  pageSection(state) {
+    return state.page.pageSideMenus[state.index].pageSections[state.pageSectionIndex];
+  },
 };
 
 export default getters;
