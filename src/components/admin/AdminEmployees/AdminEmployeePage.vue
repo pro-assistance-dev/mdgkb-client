@@ -134,7 +134,6 @@
               </template>
             </CollapsContainer>
           </div>
-          <el-checkbox v-model="employee.hasAppointment" label="Включить расписание приёма" />
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
