@@ -274,6 +274,27 @@ export default defineComponent({
       padding-bottom: 15px;
       margin-bottom: 20px;
     }
+
+    .column-block {
+      display: block;
+    }
+    .column-item {
+      width: 100%;
+      margin-left: 0px;
+    }
+    .column-item2 {
+      width: 100%;
+      margin-left: 0px;
+    }
+    .column-item3 {
+      width: 100%;
+      margin-left: 0px;
+    }
+
+    .column-item3:first-child {
+      width: 100%;
+      margin-left: 0px;
+    }
   }
 
   @media screen and (max-width: 730px) {

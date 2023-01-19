@@ -1,28 +1,34 @@
 <template>
   <draggable class="tabs" :list="dishesGroup.dishSamples" item-key="id" handle=".group-item" @end="saveDishesOrder">
     <template #item="{ element }">
-      <div class="group-item">
-        <div :id="element.id" class="dish-item" @click.prevent="(e) => selectDish(element, e)">
-          <div>{{ element.name }}</div>
+      <div
+        :id="element.id"
+        group-item
+        class="dish-item"
+        :style="{ background: !element.selected ? '' : '#e6f8f6', borderColor: !element.selected ? '' : '#e6f8f6' }"
+        @click.prevent="(e) => selectDish(element, e)"
+      >
+        <div class="item-line">
+          <div class="left-field">{{ element.name }}</div>
           <div class="right-field">{{ element.weight }} гр/{{ element.price }},00руб/{{ element.caloric }}ккал</div>
-          <el-popconfirm
-            confirm-button-text="Да"
-            cancel-button-text="Отмена"
-            icon="el-icon-info"
-            icon-color="red"
-            title="Вы уверены, что хотите удалить категорию?"
-            @confirm="removeDishSample(dishesGroup, element.id)"
-            @cancel="() => {}"
-          >
-            <template #reference>
-              <button class="item-button">
-                <svg class="icon-delete">
-                  <use xlink:href="#delete"></use>
-                </svg>
-              </button>
-            </template>
-          </el-popconfirm>
         </div>
+        <el-popconfirm
+          confirm-button-text="Да"
+          cancel-button-text="Отмена"
+          icon="el-icon-info"
+          icon-color="red"
+          title="Вы уверены, что хотите удалить категорию?"
+          @confirm="removeDishSample(dishesGroup, element.id)"
+          @cancel="() => {}"
+        >
+          <template #reference>
+            <button class="item-button" :style="{ display: !element.selected ? '' : 'flex' }">
+              <svg class="icon-delete">
+                <use xlink:href="#delete"></use>
+              </svg>
+            </button>
+          </template>
+        </el-popconfirm>
       </div>
     </template>
   </draggable>
@@ -54,7 +60,6 @@ export default defineComponent({
 
   emits: ['openDishSampleConstructor'],
   setup(props, { emit }) {
-    let selectedDishId = '';
     const removeDishSample = async (dishesGroupItem: IDishesGroup, dishSampleId: string) => {
       await Provider.store.dispatch('dishesSamples/remove', dishSampleId);
       dishesGroupItem.removeDishSample(dishSampleId);
@@ -67,20 +72,6 @@ export default defineComponent({
 
     const selectDish = (dish: IDishSample, e: Event) => {
       emit('openDishSampleConstructor', dish);
-      const el = e.target as HTMLInputElement;
-      let selectedElement = document.getElementById(selectedDishId);
-
-      if (selectedElement) {
-        selectedElement.classList.remove('dish-item-active');
-      }
-
-      selectedDishId = el.id;
-
-      selectedElement = document.getElementById(el.id);
-
-      if (selectedElement) {
-        selectedElement.classList.add('dish-item-active');
-      }
     };
 
     return {
@@ -254,8 +245,8 @@ $margin: 20px 0;
 }
 
 .icon-delete {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   fill: #c4c4c4;
   fill: #8d8d8d;
   cursor: pointer;
@@ -287,43 +278,21 @@ $margin: 20px 0;
 }
 
 .dish-item {
-  position: relative;
-  height: 34px;
+  min-height: 34px;
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   align-items: center;
   font-size: 14px;
   color: #343e5c;
   cursor: pointer;
-  padding-left: 20px;
-  padding-right: 16px;
   transition: 0.05s;
   border: 1px solid #ffffff;
+  padding: 8px 0;
 }
 
 .dish-item:hover {
-  background: #e6f8f6;
-  border: 1px solid #e6f8f6;
-  height: 34px;
-  padding-left: 24px;
-}
-
-.dish-item:active {
-  height: 34px;
-  background: #e6f8f6;
-  border: 1px solid #e6f8f6;
-  padding-left: 44px;
-}
-
-.dish-item-active {
-  background: #e6f8f6;
-  border: 1px solid #e6f8f6;
-  height: 34px;
-  padding-left: 44px;
-}
-
-.dish-item:active > .item-button {
-  display: flex;
+  background: darken($color: #e6f8f6, $amount: 5%);
+  border: 1px solid darken($color: #e6f8f6, $amount: 5%);
 }
 
 .dish-item:hover > .item-button {
@@ -339,6 +308,7 @@ $margin: 20px 0;
   border: none;
   height: 24px;
   cursor: pointer;
+  padding: 0 5px 0 8px;
 }
 
 .title-in {
@@ -364,13 +334,24 @@ $margin: 20px 0;
 }
 
 .right-field {
-  position: absolute;
-  top: 10px;
-  right: 55px;
   display: flex;
   align-items: center;
   justify-content: right;
   color: #7c8295;
   font-size: 10px;
+}
+
+.left-field {
+  width: 380px;
+  line-height: 1.2;
+  word-break: normal;
+}
+
+.item-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 520px;
+  margin-left: 30px;
 }
 </style>
