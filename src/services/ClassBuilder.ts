@@ -16,7 +16,7 @@ export default abstract class ClassBuilder {
       }
       if (Array.isArray(prop)) {
         const constructor = Reflect.getMetadata(key, passedClass);
-        passedClass[key] = prop.map((t) => constructor.constructor(t));
+        passedClass[key] = prop.map((t) => new constructor[key](t));
       }
     });
   }
