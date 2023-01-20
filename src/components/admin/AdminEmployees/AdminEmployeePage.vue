@@ -123,7 +123,9 @@
                 <div class="title-in">Педагогическая деятельность&nbsp;&nbsp;&nbsp;&nbsp;</div>
               </template>
               <template #inside-content>
-                <div class="tools-buttons"><button class="admin-add" @click.prevent="addTeachingActivity">+ Добавить</button></div>
+                <div class="tools-buttons">
+                  <button class="admin-add" @click.prevent="employee.addTeachingActivity()">+ Добавить</button>
+                </div>
                 <div v-for="(regalia, i) in employee.teachingActivities" :key="regalia" class="container">
                   <button class="admin-del" @click.prevent="employee.removeTeachingActivity(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
