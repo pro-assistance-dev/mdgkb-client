@@ -80,7 +80,7 @@
           <div class="margin-container">
             <CollapsContainer :tab-id="1016" :collapsed="false">
               <template #inside-title>
-                <div class="title-in">Ученая степень, звание, московский врач, интересы</div>
+                <div class="title-in">Ученая степень, звание</div>
               </template>
               <template #inside-content>
                 <div class="background-container">
@@ -89,12 +89,6 @@
                   </el-form-item>
                   <el-form-item label="Звание">
                     <el-input v-model="employee.academicRank" />
-                  </el-form-item>
-                  <el-form-item label="Ссылка на профиль в системе Московский врач">
-                    <el-input v-model="employee.mosDoctorLink" />
-                  </el-form-item>
-                  <el-form-item label="Краткое описание сферы интересов">
-                    <el-input v-model="employee.description" />
                   </el-form-item>
                 </div>
               </template>
