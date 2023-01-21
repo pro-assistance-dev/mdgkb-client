@@ -1,107 +1,99 @@
 <template>
-  <div class="field">
-    <CollapsContainer :tab-id="1011" :collapsed="false">
-      <template #inside-title>
-        <div class="title-in">Раздел образования</div>
-      </template>
-      <template #inside-content>
-        <div class="tools-buttons"><button class="admin-add" @click.prevent="addEducation">+ Добавить образование</button></div>
-        <div v-for="(education, i) in educations" :key="education.id" class="container">
-          <div class="list-number">{{ i + 1 }}</div>
-          <el-form-item label="Учебное заведение">
-            <el-input v-model="education.institution" />
-          </el-form-item>
+  <div class="tools-buttons"><button class="admin-add" @click.prevent="addEducation">+ Добавить</button></div>
+  <div v-for="(education, i) in educations" :key="education.id" class="container">
+    <button class="admin-del" @click.prevent="removeEducation(i)">Удалить</button>
+    <div class="list-number">{{ i + 1 }}</div>
+    <el-form-item label="Учебное заведение">
+      <el-input v-model="education.institution" />
+    </el-form-item>
+    <div class="column-block">
+      <div class="column-item">
+        <el-form-item label="Тип образования" prop="human.isMale">
+          <el-select v-model="education.type" placeholder="Выберите тип">
+            <el-option label="Основное образование" :value="'Основное образование'"></el-option>
+            <el-option label="Дополнительно образование" :value="'Дополнительно образование'"></el-option>
+            <el-option label="Специалитет" :value="'Специалитет'"></el-option>
+            <el-option label="Интернатура" :value="'Интернатура'"></el-option>
+          </el-select>
+        </el-form-item>
+      </div>
+      <div class="column-item2">
+        <el-form-item label="Диплом">
+          <el-input v-model="education.document" />
+        </el-form-item>
+      </div>
+    </div>
+    <div class="bottom-block">
+      <div class="certification" :style="{ background: !education.educationCertification ? '' : '#F9FAFB' }">
+        <div class="bottom-buttons">
+          <div class="title" :style="{ color: !education.educationCertification ? '#c4c4c4' : '#303133' }">Сертификация</div>
+          <button v-if="!education.educationCertification" class="admin-add2" @click="addCertification(i)">+ Добавить</button>
+          <button v-if="education.educationCertification" class="admin-del2" @click="removeCertification(i)">Удалить</button>
+        </div>
+        <div v-if="education.educationCertification">
           <div class="column-block">
             <div class="column-item">
-              <el-form-item label="Тип образования" prop="human.isMale">
-                <el-select v-model="education.type" placeholder="Выберите тип">
-                  <el-option label="Основное образование" :value="'Основное образование'"></el-option>
-                  <el-option label="Дополнительно образование" :value="'Дополнительно образование'"></el-option>
-                  <el-option label="Специалитет" :value="'Специалитет'"></el-option>
-                  <el-option label="Интернатура" :value="'Интернатура'"></el-option>
-                </el-select>
+              <el-form-item label="Специальность">
+                <el-input v-model="education.educationCertification.specialization" />
               </el-form-item>
             </div>
             <div class="column-item2">
               <el-form-item label="Диплом">
-                <el-input v-model="education.document" />
+                <el-input v-model="education.educationCertification.document" />
               </el-form-item>
             </div>
           </div>
-          <div class="bottom-block">
-            <div class="certification" :style="{ background: !education.educationCertification ? '' : '#F9FAFB' }">
-              <div class="bottom-buttons">
-                <div class="title" :style="{ color: !education.educationCertification ? '#c4c4c4' : '#303133' }">Сертификация</div>
-                <button v-if="!education.educationCertification" class="admin-add2" @click="addCertification(i)">+ Добавить</button>
-                <button v-if="education.educationCertification" class="admin-del" @click="removeCertification(i)">Удалить</button>
-              </div>
-              <div v-if="education.educationCertification">
-                <div class="column-block">
-                  <div class="column-item">
-                    <el-form-item label="Специальность">
-                      <el-input v-model="education.educationCertification.specialization" />
-                    </el-form-item>
-                  </div>
-                  <div class="column-item2">
-                    <el-form-item label="Диплом">
-                      <el-input v-model="education.educationCertification.document" />
-                    </el-form-item>
-                  </div>
-                </div>
-                <el-form-item label="Образовательное учреждение">
-                  <el-input v-model="education.educationCertification.place" />
-                </el-form-item>
-                <div class="column-block">
-                  <div class="column-item3">
-                    <el-form-item label="Дата проведения">
-                      <DatePicker v-model="education.educationCertification.certificationDate" />
-                    </el-form-item>
-                  </div>
-                  <div class="column-item3">
-                    <el-form-item label="Дата окончания действия">
-                      <DatePicker v-model="education.educationCertification.endDate" />
-                    </el-form-item>
-                  </div>
-                </div>
-              </div>
+          <el-form-item label="Образовательное учреждение">
+            <el-input v-model="education.educationCertification.place" />
+          </el-form-item>
+          <div class="column-block">
+            <div class="column-item3">
+              <el-form-item label="Дата проведения">
+                <DatePicker v-model="education.educationCertification.certificationDate" />
+              </el-form-item>
             </div>
-            <div class="accreditation" :style="{ background: !education.educationAccreditation ? '' : '#F9FAFB' }">
-              <div class="bottom-buttons">
-                <div class="title" :style="{ color: !education.educationAccreditation ? '#c4c4c4' : '#303133' }">Аккредитация</div>
-                <button v-if="!education.educationAccreditation" class="admin-add2" @click="addAccreditation(i)">+ Добавить</button>
-                <button v-if="education.educationAccreditation" class="admin-del" @click="removeAccreditation(i)">Удалить</button>
-              </div>
-              <div v-if="education.educationAccreditation">
-                <div class="column-block">
-                  <div class="column-item">
-                    <el-form-item label="Специальность">
-                      <el-input v-model="education.educationAccreditation.specialization" />
-                    </el-form-item>
-                  </div>
-                  <div class="column-item2">
-                    <el-form-item label="Диплом">
-                      <el-input v-model="education.educationAccreditation.document" />
-                    </el-form-item>
-                  </div>
-                </div>
-                <div class="column-block">
-                  <div class="column-item3">
-                    <el-form-item label="Дата проведения">
-                      <DatePicker v-model="education.educationAccreditation.startDate" />
-                    </el-form-item>
-                  </div>
-                  <div class="column-item3">
-                    <el-form-item label="Дата окончания действия">
-                      <DatePicker v-model="education.educationAccreditation.endDate" />
-                    </el-form-item>
-                  </div>
-                </div>
-              </div>
+            <div class="column-item3">
+              <el-form-item label="Дата окончания действия">
+                <DatePicker v-model="education.educationCertification.endDate" />
+              </el-form-item>
             </div>
           </div>
         </div>
-      </template>
-    </CollapsContainer>
+      </div>
+      <div class="accreditation" :style="{ background: !education.educationAccreditation ? '' : '#F9FAFB' }">
+        <div class="bottom-buttons">
+          <div class="title" :style="{ color: !education.educationAccreditation ? '#c4c4c4' : '#303133' }">Аккредитация</div>
+          <button v-if="!education.educationAccreditation" class="admin-add2" @click="addAccreditation(i)">+ Добавить</button>
+          <button v-if="education.educationAccreditation" class="admin-del2" @click="removeAccreditation(i)">Удалить</button>
+        </div>
+        <div v-if="education.educationAccreditation">
+          <div class="column-block">
+            <div class="column-item">
+              <el-form-item label="Специальность">
+                <el-input v-model="education.educationAccreditation.specialization" />
+              </el-form-item>
+            </div>
+            <div class="column-item2">
+              <el-form-item label="Диплом">
+                <el-input v-model="education.educationAccreditation.document" />
+              </el-form-item>
+            </div>
+          </div>
+          <div class="column-block">
+            <div class="column-item3">
+              <el-form-item label="Дата проведения">
+                <DatePicker v-model="education.educationAccreditation.startDate" />
+              </el-form-item>
+            </div>
+            <div class="column-item3">
+              <el-form-item label="Дата окончания действия">
+                <DatePicker v-model="education.educationAccreditation.endDate" />
+              </el-form-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -110,11 +102,10 @@ import { computed, defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import DatePicker from '@/components/DatePicker.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 
 export default defineComponent({
   name: 'EducationForm',
-  components: { DatePicker, CollapsContainer },
+  components: { DatePicker },
   props: {
     storeModule: {
       type: String as PropType<string>,
@@ -168,23 +159,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
 
-.field {
-  margin: 0 0 10px 0;
-}
-
 .admin-add {
   border: none;
   background: inherit;
   color: #1979cf;
   margin: 10px;
-  padding: 0 15px;
+  padding: 0 10px;
   transition: 0.3s;
   cursor: pointer;
-}
-
-.admin-add:hover {
-  color: darken($color: #1979cf, $amount: 10%);
-  background: inherit;
 }
 
 .admin-add:hover {
@@ -196,9 +178,7 @@ export default defineComponent({
   border: none;
   background: inherit;
   color: #00b5a4;
-  margin: 10px;
   transition: 0.3s;
-  padding: 0px;
   cursor: pointer;
 }
 
@@ -207,15 +187,29 @@ export default defineComponent({
 }
 
 .admin-del {
+  position: absolute;
+  top: 23px;
+  right: 36px;
   border: none;
   background: inherit;
   color: #a3a9be;
-  margin: 10px;
   transition: 0.3s;
   cursor: pointer;
 }
 
 .admin-del:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.admin-del2 {
+  border: none;
+  background: inherit;
+  color: #a3a9be;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-del2:hover {
   color: darken($color: #cf3d19, $amount: 5%);
 }
 
@@ -239,12 +233,13 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-right: 15px;
 }
 
 .container {
   position: relative;
-  width: calc(100% - 60px);
-  margin: 0px 20px 40px 20px;
+  width: calc(100% - 62px);
+  margin: 0px 20px 20px 20px;
   border: 1px solid #c3c3c3;
   border-radius: 5px;
   padding: 12px 10px;
@@ -278,10 +273,10 @@ export default defineComponent({
 
 .list-number {
   position: absolute;
-  top: 10px;
+  top: 20px;
   right: 10px;
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,6 +289,7 @@ export default defineComponent({
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   color: #c4c4c4;
+  margin: 10px;
 }
 
 .title2 {
@@ -400,6 +396,34 @@ export default defineComponent({
   .column-item3:first-child {
     width: 100%;
     margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    width: calc(100% - 42px);
+    margin: 0px 10px 20px 10px;
+  }
+  .admin-del {
+    position: absolute;
+    top: 23px;
+    right: 36px;
+    border: none;
+    background: inherit;
+    color: #a3a9be;
+    transition: 0.3s;
+    cursor: pointer;
+    padding: 1px 0px;
+  }
+  .bottom-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5px;
+  }
+
+  .background-container {
+    margin: 0 10px 20px 10px;
   }
 }
 </style>

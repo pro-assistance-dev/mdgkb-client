@@ -3,12 +3,14 @@ import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
 import Human from '@/classes/Human';
 import Regalia from '@/classes/Regalia';
+import TeachingActivity from '@/classes/TeachingActivity';
 import IEducation from '@/interfaces/education/IEducation';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICertificate from '@/interfaces/ICertificate';
 import IEmployee from '@/interfaces/IEmployee';
 import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
+import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import ClassBuilder from '@/services/ClassBuilder';
 import removeFromClass from '@/services/removeFromClass';
 
@@ -30,6 +32,9 @@ export default class Employee implements IEmployee {
   @ClassBuilder.GetClassConstructorForArray(Experience)
   experiences: IExperience[] = [];
   experiencesForDelete: string[] = [];
+  @ClassBuilder.GetClassConstructorForArray(TeachingActivity)
+  teachingActivities: ITeachingActivity[] = [];
+  teachingActivitiesForDelete: string[] = [];
 
   constructor(i?: IEmployee) {
     ClassBuilder.BuildPrimitives(this, i);
@@ -69,6 +74,14 @@ export default class Employee implements IEmployee {
 
   removeRegalia(i: number): void {
     removeFromClass(i, this.regalias, this.regaliasForDelete);
+  }
+
+  addTeachingActivity(): void {
+    this.teachingActivities.push(new TeachingActivity());
+  }
+
+  removeTeachingActivity(i: number): void {
+    removeFromClass(i, this.teachingActivities, this.teachingActivitiesForDelete);
   }
 
   getHuman(): IHuman {

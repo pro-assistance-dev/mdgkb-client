@@ -10,14 +10,14 @@
       <div v-if="doctor.description" class="hidden-comment">{{ doctor.description }}</div>
     </div>
     <div class="info-block-child">
-      <div v-if="doctor.teachingActivities.length > 0" class="item">
+      <div v-if="doctor.employee.teachingActivities.length > 0" class="item">
         <svg class="icon-cap">
           <use xlink:href="#la_graduation-cap"></use>
         </svg>
         <div class="title">Педагогическая деятельность</div>
       </div>
-      <div v-if="doctor.teachingActivities.length > 0" class="hidden-comment">
-        <div v-for="teaching in doctor.teachingActivities" :key="teaching.id">{{ teaching.name }}</div>
+      <div v-if="doctor.employee.teachingActivities.length > 0" class="hidden-comment">
+        <div v-for="teaching in doctor.employee.teachingActivities" :key="teaching.id">{{ teaching.name }}</div>
       </div>
     </div>
   </div>
@@ -28,9 +28,9 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IDoctor from '@/interfaces/IDoctor';
-import Smile from '@/assets/doctors/svg/Smile.svg';
 import Cap from '@/assets/doctors/svg/Cap.svg';
+import Smile from '@/assets/doctors/svg/Smile.svg';
+import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'WorkAndTeaching',

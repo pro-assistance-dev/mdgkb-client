@@ -7,7 +7,6 @@ import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
-import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -43,10 +42,7 @@ export default interface IDoctor {
   getMosDoctorLink: () => string;
   getOnlineDoctorLink: () => string;
   setAcademic: () => void;
-  teachingActivities: ITeachingActivity[];
-  teachingActivitiesForDelete: string[];
 
-  addTeachingActivity: () => void;
   isChief: () => boolean;
   hasAppointment: boolean;
   addDoctorDivision: (division: IDivision) => void;

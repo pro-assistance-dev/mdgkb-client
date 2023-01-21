@@ -27,10 +27,6 @@
             <el-form-item label="Ссылка на профиль в системе Московский врач">
               <el-input v-model="doctor.mosDoctorLink" />
             </el-form-item>
-            <el-button @click="doctor.addTeachingActivity()"> Добавить педагогическую деятельнсоть</el-button>
-            <el-form-item label="Преподавательская деятельность">
-              <el-input v-for="regalia in doctor.teachingActivities" :key="regalia" v-model="regalia.name" />
-            </el-form-item>
             <el-divider />
             <el-form-item label="Краткое описание сферы интересов">
               <el-input v-model="doctor.description" />
