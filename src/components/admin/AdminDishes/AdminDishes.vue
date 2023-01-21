@@ -402,7 +402,6 @@ export default defineComponent({
 
     const backToToday = async () => {
       await selectDay(calendar.value.getToday());
-      selectedMenu.value = dailyMenus.value[0];
       if (moveCounter.value > 0) {
         for (let i = moveCounter.value; i > 0; i--) {
           move(false);
