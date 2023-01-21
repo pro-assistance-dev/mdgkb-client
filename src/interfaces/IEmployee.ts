@@ -4,6 +4,7 @@ import IExperience from '@/interfaces/IExperience';
 import IFileInfosGetter from '@/interfaces/IFileInfosGetter';
 import IHuman from '@/interfaces/IHuman';
 import IRegalia from '@/interfaces/IRegalia';
+import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import IWithId from '@/interfaces/IWithId';
 
 export default interface IEmployee extends IWithId, IFileInfosGetter {
@@ -19,6 +20,9 @@ export default interface IEmployee extends IWithId, IFileInfosGetter {
   experiencesForDelete: string[];
   certificates: ICertificate[];
   certificatesForDelete: string[];
+  teachingActivities: ITeachingActivity[];
+  teachingActivitiesForDelete: string[];
+
   addExperience: () => void;
   removeExperience: (index: number) => void;
 
@@ -27,5 +31,9 @@ export default interface IEmployee extends IWithId, IFileInfosGetter {
 
   addRegalia: () => void;
   removeRegalia: (i: number) => void;
+
+  addTeachingActivity: () => void;
+  removeTeachingActivity: (i: number) => void;
+
   getHuman: () => IHuman;
 }

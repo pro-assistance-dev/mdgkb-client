@@ -3,51 +3,139 @@
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical">
-          <div class="field">
+          <div class="margin-container">
             <CollapsContainer :tab-id="1011" :collapsed="false">
               <template #inside-title>
                 <div class="title-in">Личная информация</div>
               </template>
               <template #inside-content>
-                <div class="container">
+                <div class="background-container">
                   <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
                 </div>
               </template>
             </CollapsContainer>
           </div>
-          <el-checkbox v-model="employee.hasAppointment" label="Включить расписание приёма" />
-          <EducationForm :store-module="'employees'" />
-          <el-card>
-            <el-button @click="employee.addExperience()">Добавить опыт работы</el-button>
-            <div v-for="(experience, i) in employee.experiences" :key="experience.id">
-              <el-form-item label="Место работы">
-                <el-input v-model="experience.place" />
-              </el-form-item>
-              <el-form-item label="Должность">
-                <el-input v-model="experience.position" />
-              </el-form-item>
-              <el-form-item label="Начало">
-                <el-input-number v-model="experience.start" />
-              </el-form-item>
-              <el-form-item label="Конец">
-                <el-input-number v-model="experience.end" />
-              </el-form-item>
-              <el-form-item label="Должность">
-                <el-button @click="employee.removeExperience(i)">Удалить опыт работы</el-button>
-              </el-form-item>
-            </div>
-          </el-card>
-
-          <el-card>
-            <el-button @click="employee.addCertificate()">Добавить сертификат</el-button>
-            <div v-for="(certificate, i) in employee.certificates" :key="certificate.id">
-              <el-form-item label="Название сертификата">
-                <el-input v-model="certificate.description" />
-              </el-form-item>
-              <UploaderSingleScan :file-info="certificate.scan" />
-              <el-button @click="employee.removeCertificate(i)">Удалить сертификат</el-button>
-            </div>
-          </el-card>
+          <div class="margin-container">
+            <CollapsContainer :tab-id="1012" :collapsed="false">
+              <template #inside-title>
+                <div class="title-in">Образование</div>
+              </template>
+              <template #inside-content>
+                <EducationForm :store-module="'employees'" />
+              </template>
+            </CollapsContainer>
+          </div>
+          <div class="margin-container">
+            <CollapsContainer :tab-id="1013" :collapsed="false">
+              <template #inside-title>
+                <div class="title-in">Опыт работы</div>
+              </template>
+              <template #inside-content>
+                <div class="tools-buttons"><button class="admin-add" @click.prevent="employee.addExperience()">+ Добавить</button></div>
+                <div v-for="(experience, i) in employee.experiences" :key="experience.id" class="container">
+                  <button class="admin-del" @click="employee.removeExperience(i)">Удалить</button>
+                  <div class="list-number">{{ i + 1 }}</div>
+                  <el-form-item label="Место работы">
+                    <el-input v-model="experience.place" />
+                  </el-form-item>
+                  <el-form-item label="Должность">
+                    <el-input v-model="experience.position" />
+                  </el-form-item>
+                  <div class="column-block">
+                    <div class="column-item3">
+                      <el-form-item label="С:">
+                        <DatePicker v-model="experience.start" />
+                      </el-form-item>
+                    </div>
+                    <div class="column-item3">
+                      <el-form-item label="По:">
+                        <DatePicker v-model="experience.end" />
+                      </el-form-item>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </CollapsContainer>
+          </div>
+          <div class="margin-container">
+            <CollapsContainer :tab-id="1014" :collapsed="false">
+              <template #inside-title>
+                <div class="title-in">Сертификаты</div>
+              </template>
+              <template #inside-content>
+                <div class="tools-buttons"><button class="admin-add" @click.prevent="employee.addCertificate()">+ Добавить</button></div>
+                <div v-for="(certificate, i) in employee.certificates" :key="certificate.id" class="container">
+                  <button class="admin-del" @click.prevent="employee.removeCertificate(i)">Удалить</button>
+                  <div class="list-number">{{ i + 1 }}</div>
+                  <el-form-item label="Название сертификата">
+                    <el-input v-model="certificate.description" />
+                  </el-form-item>
+                  <el-form-item label="Загрузить сертификат">
+                    <UploaderSingleScan :height="238" :width="238" :file-info="certificate.scan" />
+                  </el-form-item>
+                </div>
+              </template>
+            </CollapsContainer>
+          </div>
+          <div class="margin-container">
+            <CollapsContainer :tab-id="1016" :collapsed="false">
+              <template #inside-title>
+                <div class="title-in">Ученая степень, звание, московский врач, интересы</div>
+              </template>
+              <template #inside-content>
+                <div class="background-container">
+                  <el-form-item label="Учёная степень">
+                    <el-input v-model="employee.academicDegree" />
+                  </el-form-item>
+                  <el-form-item label="Звание">
+                    <el-input v-model="employee.academicRank" />
+                  </el-form-item>
+                  <el-form-item label="Ссылка на профиль в системе Московский врач">
+                    <el-input v-model="employee.mosDoctorLink" />
+                  </el-form-item>
+                  <el-form-item label="Краткое описание сферы интересов">
+                    <el-input v-model="employee.description" />
+                  </el-form-item>
+                </div>
+              </template>
+            </CollapsContainer>
+          </div>
+          <div class="margin-container">
+            <CollapsContainer :tab-id="1015" :collapsed="false">
+              <template #inside-title>
+                <div class="title-in">Регалии</div>
+              </template>
+              <template #inside-content>
+                <div class="tools-buttons"><button class="admin-add" @click.prevent="addRegalia">+ Добавить</button></div>
+                <div v-for="(regalia, i) in employee.regalias" :key="regalia" class="container">
+                  <button class="admin-del" @click.prevent="employee.removeRegalia(i)">Удалить</button>
+                  <div class="list-number">{{ i + 1 }}</div>
+                  <el-form-item label=" ">
+                    <el-input v-model="regalia.name" />
+                  </el-form-item>
+                </div>
+              </template>
+            </CollapsContainer>
+          </div>
+          <div class="margin-container">
+            <CollapsContainer :tab-id="1015" :collapsed="false">
+              <template #inside-title>
+                <div class="title-in">Педагогическая деятельность&nbsp;&nbsp;&nbsp;&nbsp;</div>
+              </template>
+              <template #inside-content>
+                <div class="tools-buttons">
+                  <button class="admin-add" @click.prevent="employee.addTeachingActivity()">+ Добавить</button>
+                </div>
+                <div v-for="(regalia, i) in employee.teachingActivities" :key="regalia" class="container">
+                  <button class="admin-del" @click.prevent="employee.removeTeachingActivity(i)">Удалить</button>
+                  <div class="list-number">{{ i + 1 }}</div>
+                  <el-form-item label=" ">
+                    <el-input v-model="regalia.name" />
+                  </el-form-item>
+                </div>
+              </template>
+            </CollapsContainer>
+          </div>
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
@@ -63,35 +151,6 @@
               @remove-file="employee.human.removePhotoMini()"
             />
           </el-card>
-          <el-card>
-            <template #header>
-              <CardHeader :label="'Регалии, звания'" :add-button="false" />
-            </template>
-            <!-- <el-form-item label="Должность" prop="position">
-              <RemoteSearch :key-value="'position'" :model-value="employee.position.name" @select="selectPosition" />
-            </el-form-item> -->
-            <el-form-item label="Учёная степень">
-              <el-input v-model="employee.academicDegree" />
-            </el-form-item>
-            <el-form-item label="Звание">
-              <el-input v-model="employee.academicRank" />
-            </el-form-item>
-            <el-form-item label="Ссылка на профиль в системе Московский врач">
-              <el-input v-model="employee.mosDoctorLink" />
-            </el-form-item>
-            <el-button @click="addRegalia"> Добавить регалию</el-button>
-            <el-form-item label="Регалии">
-              <el-input v-for="regalia in employee.regalias" :key="regalia" v-model="regalia.name" />
-            </el-form-item>
-            <el-button @click="employee.addTeachingActivity()"> Добавить педагогическую деятельнсоть</el-button>
-            <el-form-item label="Преподавательская деятельность">
-              <el-input v-for="regalia in employee.teachingActivities" :key="regalia" v-model="regalia.name" />
-            </el-form-item>
-            <el-divider />
-            <el-form-item label="Краткое описание сферы интересов">
-              <el-input v-model="employee.description" />
-            </el-form-item>
-          </el-card>
         </el-container>
       </el-col>
     </el-row>
@@ -104,9 +163,9 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import FilterModel from '@/classes/filters/FilterModel';
-import CardHeader from '@/components/admin/CardHeader.vue';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
+import DatePicker from '@/components/DatePicker.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -124,9 +183,9 @@ export default defineComponent({
   components: {
     HumanForm,
     EducationForm,
-    CardHeader,
     UploaderSingleScan,
     CollapsContainer,
+    DatePicker,
   },
   setup() {
     const form = ref();
@@ -253,13 +312,23 @@ export default defineComponent({
 <style lang="scss" scoped>
 $margin: 20px 0;
 
-.container {
+.background-container {
   width: auto;
   padding: 10px;
   margin: 0 20px 20px 20px;
   background: #dff2f8;
   border-radius: 5px;
   border: 1px solid #c3c3c3;
+}
+
+.container {
+  position: relative;
+  width: calc(100% - 60px);
+  margin: 0px 20px 20px 20px;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 12px 10px;
+  background: #dff2f8;
 }
 
 .column-block {
@@ -282,8 +351,12 @@ $margin: 20px 0;
   margin-left: 20px;
 }
 
-.field {
+.margin-container {
   margin: 0 0 10px 0;
+}
+
+.margin-container:first-child {
+  margin: -10px 0 10px 0;
 }
 
 .title-in {
@@ -392,5 +465,156 @@ $margin: 20px 0;
 
 :deep(.el-form-item) {
   margin-bottom: 10px;
+}
+
+.tools-buttons {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.admin-add {
+  border: none;
+  background: inherit;
+  color: #1979cf;
+  margin: 10px;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-add:hover {
+  color: darken($color: #1979cf, $amount: 10%);
+  background: inherit;
+}
+
+.list-number {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: #1979cf;
+  border-radius: 20px;
+}
+
+.admin-del {
+  position: absolute;
+  top: 23px;
+  right: 36px;
+  border: none;
+  background: inherit;
+  color: #a3a9be;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-del:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.admin-del2 {
+  border: none;
+  background: inherit;
+  color: #a3a9be;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-del2:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.bottom-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.column-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.column-item {
+  width: 40%;
+  margin-left: 0px;
+}
+
+.column-item3 {
+  width: 50%;
+  margin-left: 20px;
+}
+
+.column-item3:first-child {
+  width: 50%;
+  margin-left: 0px;
+}
+
+.title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #c4c4c4;
+  margin: 10px;
+}
+
+.admin-add2 {
+  border: none;
+  background: inherit;
+  color: #00b5a4;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-add2:hover {
+  color: darken($color: #00b5a4, $amount: 10%);
+}
+
+@media screen and (max-width: 910px) {
+  .column-block {
+    display: block;
+  }
+  .column-item {
+    width: 100%;
+    margin-left: 0px;
+  }
+  .column-item2 {
+    width: 100%;
+    margin-left: 0px;
+  }
+  .column-item3 {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .column-item3:first-child {
+    width: 100%;
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    width: calc(100% - 42px);
+    margin: 0px 10px 20px 10px;
+  }
+  .admin-del {
+    position: absolute;
+    top: 23px;
+    right: 36px;
+    border: none;
+    background: inherit;
+    color: #a3a9be;
+    transition: 0.3s;
+    cursor: pointer;
+    padding: 1px 0px;
+  }
+  .background-container {
+    margin: 0 10px 20px 10px;
+  }
 }
 </style>

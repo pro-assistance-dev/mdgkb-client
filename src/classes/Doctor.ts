@@ -5,7 +5,6 @@ import Employee from '@/classes/Employee';
 import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/news/NewsDoctor';
 import Position from '@/classes/Position';
-import TeachingActivity from '@/classes/TeachingActivity';
 import Timetable from '@/classes/timetable/Timetable';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDivision from '@/interfaces/IDivision';
@@ -17,7 +16,6 @@ import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizat
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
-import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
@@ -46,8 +44,6 @@ export default class Doctor implements IDoctor {
   medicalProfile?: IMedicalProfile;
   mosDoctorLink?: string;
   educationalOrganizationAcademic?: IEducationalOrganizationAcademic;
-  teachingActivities: ITeachingActivity[] = [];
-  teachingActivitiesForDelete: string[] = [];
   hasAppointment = true;
   doctorsDivisionsForDelete: string[] = [];
 
@@ -80,10 +76,6 @@ export default class Doctor implements IDoctor {
     this.positionId = i.positionId;
     if (i.position) {
       this.position = new Position(i.position);
-    }
-
-    if (i.teachingActivities) {
-      this.teachingActivities = i.teachingActivities.map((item: ITeachingActivity) => new TeachingActivity(item));
     }
 
     if (i.doctorPaidServices) {
@@ -135,10 +127,6 @@ export default class Doctor implements IDoctor {
     } else {
       this.educationalOrganizationAcademic = undefined;
     }
-  }
-
-  addTeachingActivity(): void {
-    this.teachingActivities.push(new TeachingActivity());
   }
 
   isChief(): boolean {
