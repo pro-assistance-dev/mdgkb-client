@@ -1,9 +1,10 @@
 <template>
-  <el-dialog v-if="mounted" v-model="isSideMenuDialogActive" fullscreen destroy-on-close @close="handleClose">
+  <el-dialog v-if="mounted" v-model="isSideMenuDialogActive" fullscreen destroy-on-close :before-close="handleClose">
     <el-input v-model="pageSideMenu.name" placeholder="Название меню"></el-input>
     <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
-    <el-button @click="() => openDrawer()">Добавить тип</el-button>
+    <el-button @click="() => openDrawer()">Добавить раздел</el-button>
     <draggable
+      v-if="pageSideMenu.pageSections.length"
       class="groups"
       :list="pageSideMenu.pageSections"
       item-key="id"
@@ -47,6 +48,9 @@ export default defineComponent({
     const isSideMenuDialogActive: ComputedRef<boolean> = computed(() => Provider.store.getters['pages/isSideMenuDialogActive']);
     const pageSideMenu: ComputedRef<IPageSideMenu> = computed(() => Provider.store.getters['pages/sideMenu']);
     const mounted: Ref<boolean> = ref(false);
+    const rules = {
+      name: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
+    };
 
     const handleClose = () => {
       Provider.store.commit('pages/setSideMenuDialogActive', false);
@@ -74,6 +78,7 @@ export default defineComponent({
       sort,
       openDrawer,
       removeFromClass,
+      rules,
     };
   },
 });

@@ -1,10 +1,10 @@
 <template>
   <div v-if="mounted" class="wrapper">
-    <el-form ref="form" :key="page" :model="page">
+    <el-form ref="form" :key="page" :rules="rules" :model="page" label-position="top">
       <el-container direction="vertical">
         <el-card>
           <template #header>Заголовок</template>
-          <el-form-item prop="title">
+          <el-form-item prop="title" label="Заголовок">
             <el-input v-model="page.title" placeholder="Заголовок"></el-input>
           </el-form-item>
           <el-checkbox v-model="page.withComments">Включить комментарии</el-checkbox>
@@ -12,7 +12,7 @@
         </el-card>
       </el-container>
       <el-button @click="() => openDialog()">Добавить меню</el-button>
-      <el-card style="margin-top: 10px">
+      <div v-if="page.pageSideMenus.length" class="card-item" style="margin-top: 10px">
         <draggable class="groups" :list="page.pageSideMenus" item-key="id" handle=".el-icon-s-grid" @end="sort(page.pageSideMenus)">
           <template #item="{ element, index }">
             <div class="side-menu-row">
@@ -27,51 +27,9 @@
             </div>
           </template>
         </draggable>
-      </el-card>
-      <!-- <el-card v-for="pageSideMenu in page.pageSideMenus" :key="pageSideMenu">
-        <template #header>
-          <div class="card-header">
-            <el-input v-model="pageSideMenu.name" />
-            <WysiwygEditor v-model="pageSideMenu.description" />
-            <el-button type="success" @click="pageSideMenu.addPageSection()">Добавить тип</el-button>
-          </div>
-        </template>
-        <el-collapse>
-          <draggable
-            class="groups"
-            :list="pageSideMenu.pageSections"
-            item-key="id"
-            handle=".el-icon-s-grid"
-            @end="sort(pageSideMenu.pageSections)"
-          >
-            <template #item="{ element }">
-              <el-collapse-item :title="element.name" :name="element.name">
-                <template #title>
-                  <i class="el-icon-s-grid drug-icon" />
-                  {{ element.name }}
-                </template>
-                <el-card>
-                  <template #header>
-                    <div class="card-header">
-                      <el-form-item style="margin: 0 10px 0 0; width: 100%">
-                        <el-input v-model="element.name" placeholder="Название типа документов"></el-input>
-                      </el-form-item>
-                    </div>
-                    <div>
-                      <el-form-item prop="description">
-                        <WysiwygEditor v-model="element.description" />
-                      </el-form-item>
-                    </div>
-                  </template>
-                  <AdminDocumentsForm :document-type="element" />
-                </el-card>
-              </el-collapse-item>
-            </template>
-          </draggable>
-        </el-collapse>
-      </el-card> -->
-      <AdminPageSideMenuDialog />
+      </div>
     </el-form>
+    <AdminPageSideMenuDialog />
   </div>
 </template>
 
@@ -97,7 +55,9 @@ export default defineComponent({
   setup() {
     const form = ref();
     const route = useRoute();
-
+    const rules = {
+      title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
+    };
     const page: Ref<IPage> = computed(() => Provider.store.getters['pages/page']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
@@ -155,6 +115,7 @@ export default defineComponent({
       form,
       openDialog,
       removeFromClass,
+      rules,
     };
   },
 });

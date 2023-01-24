@@ -1,21 +1,23 @@
 <template>
   <el-form-item>
     <template v-if="showLabel" #label>
-      <div style="margin-bottom: 5px">
-        <span v-if="field.required" class="red">*</span>
-        {{ field.name }}
-      </div>
-      <div v-if="field.comment" style="margin-bottom: 5px">
-        <i>{{ field.comment }}</i>
-      </div>
-      <div v-if="showModComments" style="margin-bottom: 5px">
-        <i style="color: red">{{ fieldValue?.modComment }}</i>
-      </div>
-      <div v-if="field.file.fileSystemPath">
-        <span>Образец: </span>
-        <a v-if="field.file.fileSystemPath" :href="field.file.getFileUrl()" target="_blank">
-          {{ field.file.originalName }}
-        </a>
+      <div style="margin-left: 10px">
+        <div style="margin-bottom: 5px">
+          <span v-if="field.required" class="red">*</span>
+          {{ field.name }}
+        </div>
+        <div v-if="field.comment" style="margin-bottom: 5px">
+          <i>{{ field.comment }}</i>
+        </div>
+        <div v-if="showModComments" style="margin-bottom: 5px">
+          <i style="color: red">{{ fieldValue?.modComment }}</i>
+        </div>
+        <div v-if="field.file.fileSystemPath">
+          <span>Образец: </span>
+          <a v-if="field.file.fileSystemPath" :href="field.file.getFileUrl()" target="_blank">
+            {{ field.file.originalName }}
+          </a>
+        </div>
       </div>
     </template>
     <div v-if="field.valueType.isString()">
