@@ -3,12 +3,12 @@
   <div v-for="(education, i) in educations" :key="education.id" class="container">
     <button class="admin-del" @click.prevent="removeEducation(i)">Удалить</button>
     <div class="list-number">{{ i + 1 }}</div>
-    <el-form-item label="Учебное заведение">
+    <el-form-item label="Учебное заведение" prop="institution">
       <el-input v-model="education.institution" />
     </el-form-item>
     <div class="column-block">
       <div class="column-item">
-        <el-form-item label="Тип образования" prop="human.isMale">
+        <el-form-item label="Тип образования" prop="type">
           <el-select v-model="education.type" placeholder="Выберите тип">
             <el-option label="Основное образование" :value="'Основное образование'"></el-option>
             <el-option label="Дополнительно образование" :value="'Дополнительно образование'"></el-option>
@@ -18,13 +18,19 @@
         </el-form-item>
       </div>
       <div class="column-item2">
-        <el-form-item label="Диплом">
+        <el-form-item label="Диплом" prop="document">
           <el-input v-model="education.document" />
         </el-form-item>
       </div>
     </div>
     <div class="bottom-block">
-      <div class="certification" :style="{ background: !education.educationCertification ? '' : '#F9FAFB' }">
+      <div
+        class="certification"
+        :style="{
+          background: !education.educationCertification ? '' : '#F9FAFB',
+          padding: !education.educationCertification ? '0 10px' : '',
+        }"
+      >
         <div class="bottom-buttons">
           <div class="title" :style="{ color: !education.educationCertification ? '#c4c4c4' : '#303133' }">Сертификация</div>
           <button v-if="!education.educationCertification" class="admin-add2" @click="addCertification(i)">+ Добавить</button>
@@ -33,34 +39,40 @@
         <div v-if="education.educationCertification">
           <div class="column-block">
             <div class="column-item">
-              <el-form-item label="Специальность">
+              <el-form-item label="Специальность" prop="specialization">
                 <el-input v-model="education.educationCertification.specialization" />
               </el-form-item>
             </div>
             <div class="column-item2">
-              <el-form-item label="Диплом">
+              <el-form-item label="Диплом" prop="document">
                 <el-input v-model="education.educationCertification.document" />
               </el-form-item>
             </div>
           </div>
-          <el-form-item label="Образовательное учреждение">
+          <el-form-item label="Образовательное учреждение" prop="educationCertificationPlace">
             <el-input v-model="education.educationCertification.place" />
           </el-form-item>
           <div class="column-block">
             <div class="column-item3">
-              <el-form-item label="Дата проведения">
+              <el-form-item label="Дата проведения" prop="certificationDate">
                 <DatePicker v-model="education.educationCertification.certificationDate" />
               </el-form-item>
             </div>
             <div class="column-item3">
-              <el-form-item label="Дата окончания действия">
+              <el-form-item label="Дата окончания действия" prop="endDate">
                 <DatePicker v-model="education.educationCertification.endDate" />
               </el-form-item>
             </div>
           </div>
         </div>
       </div>
-      <div class="accreditation" :style="{ background: !education.educationAccreditation ? '' : '#F9FAFB' }">
+      <div
+        class="accreditation"
+        :style="{
+          background: !education.educationAccreditation ? '' : '#F9FAFB',
+          padding: !education.educationAccreditation ? '0 10px' : '',
+        }"
+      >
         <div class="bottom-buttons">
           <div class="title" :style="{ color: !education.educationAccreditation ? '#c4c4c4' : '#303133' }">Аккредитация</div>
           <button v-if="!education.educationAccreditation" class="admin-add2" @click="addAccreditation(i)">+ Добавить</button>
@@ -69,24 +81,24 @@
         <div v-if="education.educationAccreditation">
           <div class="column-block">
             <div class="column-item">
-              <el-form-item label="Специальность">
+              <el-form-item label="Специальность" prop="specialization">
                 <el-input v-model="education.educationAccreditation.specialization" />
               </el-form-item>
             </div>
             <div class="column-item2">
-              <el-form-item label="Диплом">
+              <el-form-item label="Диплом" prop="document">
                 <el-input v-model="education.educationAccreditation.document" />
               </el-form-item>
             </div>
           </div>
           <div class="column-block">
             <div class="column-item3">
-              <el-form-item label="Дата проведения">
+              <el-form-item label="Дата проведения" prop="startDate">
                 <DatePicker v-model="education.educationAccreditation.startDate" />
               </el-form-item>
             </div>
             <div class="column-item3">
-              <el-form-item label="Дата окончания действия">
+              <el-form-item label="Дата окончания действия" prop="endDate">
                 <DatePicker v-model="education.educationAccreditation.endDate" />
               </el-form-item>
             </div>
@@ -299,15 +311,15 @@ export default defineComponent({
 }
 
 .certification {
-  padding: 0 10px;
-  margin-bottom: 20px;
+  padding: 0 10px 20px 10px;
+  margin: 20px 0px;
   border: 1px solid #c3c3c3;
   border-radius: 5px;
 }
 
 .accreditation {
-  padding: 0 10px;
-  margin-top: 10px 0;
+  padding: 0 10px 20px 10px;
+  margin: 20px 0px;
   border: 1px solid #c3c3c3;
   border-radius: 5px;
 }

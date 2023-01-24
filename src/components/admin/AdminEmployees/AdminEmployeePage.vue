@@ -21,7 +21,9 @@
                 <div class="title-in">Образование</div>
               </template>
               <template #inside-content>
+                <!-- <el-form ref="form" :model="employee" :rules="rules"> -->
                 <EducationForm :store-module="'employees'" />
+                <!-- </el-form> -->
               </template>
             </CollapsContainer>
           </div>
@@ -35,20 +37,20 @@
                 <div v-for="(experience, i) in employee.experiences" :key="experience.id" class="container">
                   <button class="admin-del" @click="employee.removeExperience(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label="Место работы">
-                    <el-input v-model="experience.place" />
+                  <el-form-item label="Место работы" prop="place">
+                    <el-input v-model="experience.place" minlength="10" />
                   </el-form-item>
-                  <el-form-item label="Должность">
+                  <el-form-item label="Должность" prop="position">
                     <el-input v-model="experience.position" />
                   </el-form-item>
                   <div class="column-block">
                     <div class="column-item3">
-                      <el-form-item label="С:">
+                      <el-form-item label="С:" prop="start">
                         <DatePicker v-model="experience.start" />
                       </el-form-item>
                     </div>
                     <div class="column-item3">
-                      <el-form-item label="По:">
+                      <el-form-item label="По:" prop="end">
                         <DatePicker v-model="experience.end" />
                       </el-form-item>
                     </div>
@@ -67,7 +69,7 @@
                 <div v-for="(certificate, i) in employee.certificates" :key="certificate.id" class="container">
                   <button class="admin-del" @click.prevent="employee.removeCertificate(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label="Название сертификата">
+                  <el-form-item label="Название сертификата" prop="description">
                     <el-input v-model="certificate.description" />
                   </el-form-item>
                   <el-form-item label="Загрузить сертификат">
@@ -104,7 +106,7 @@
                 <div v-for="(regalia, i) in employee.regalias" :key="regalia" class="container">
                   <button class="admin-del" @click.prevent="employee.removeRegalia(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label=" ">
+                  <el-form-item label=" " prop="name">
                     <el-input v-model="regalia.name" />
                   </el-form-item>
                 </div>
@@ -123,7 +125,7 @@
                 <div v-for="(regalia, i) in employee.teachingActivities" :key="regalia" class="container">
                   <button class="admin-del" @click.prevent="employee.removeTeachingActivity(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label=" ">
+                  <el-form-item label=" " prop="name">
                     <el-input v-model="regalia.name" />
                   </el-form-item>
                 </div>
@@ -185,6 +187,23 @@ export default defineComponent({
     const form = ref();
     const employee: Ref<IEmployee> = computed(() => Provider.store.getters['employees/item']);
     const employees: Ref<IEmployee[]> = computed(() => Provider.store.getters['employees/items']);
+    const rules = ref({
+      place: [{ required: true, message: 'Поле "МЕСТО РАБОТЫ" не может быть пустым', trigger: 'blur' }],
+      position: [{ required: true, message: 'Поле "ДОЛЖНОСТЬ" не может быть пустым', trigger: 'change' }],
+      start: [{ required: true, message: 'Поле "С:" не может быть пустым', trigger: 'change' }],
+      end: [{ required: true, message: 'Поле "ПО:" не может быть пустым', trigger: 'change' }],
+      description: [{ required: true, message: 'Поле "НАЗВАНИЕ СЕРТИФИКАТА" не может быть пустым', trigger: 'change' }],
+      name: [{ required: true, message: 'Это поле не может быть пустым', trigger: 'change' }],
+
+      educationCertificationPlace: [{ required: true, message: 'Поле "ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ" не может быть пустым', trigger: 'blur' }],
+      institution: [{ required: true, message: 'Поле "УЧЕБНОЕ ЗАВЕДЕНИЕ" не может быть пустым', trigger: 'blur' }],
+      type: [{ required: true, message: 'Поле "ТИП ОБРАЗОВАНИЯ" не может быть пустым', trigger: 'change' }],
+      document: [{ required: true, message: 'Поле "ДИПЛОМ" не может быть пустым', trigger: 'change' }],
+      specialization: [{ required: true, message: 'Поле "СПЕЦИАЛЬНОСТЬ" не может быть пустым', trigger: 'change' }],
+      certificationDate: [{ required: true, message: 'Поле "ДАТА ПРОВЕДЕНИЯ" не может быть пустым', trigger: 'change' }],
+      startDate: [{ required: true, message: 'Поле "ДАТА ПРОВЕДЕНИЯ" не может быть пустым', trigger: 'change' }],
+      endDate: [{ required: true, message: 'Поле "ДАТА ОКОНЧАНИЯ ДЕЙСТВИЯ" не может быть пустым', trigger: 'change' }],
+    });
 
     let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {
@@ -193,12 +212,6 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-
-      // if (!employee.value.fileInfo.fileSystemPath) {
-      //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
-      //   saveButtonClick.value = false;
-      //   return;
-      // }
 
       try {
         if (Provider.route().params['id']) {
@@ -298,6 +311,7 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       removeFromClass,
+      rules,
     };
   },
 });
