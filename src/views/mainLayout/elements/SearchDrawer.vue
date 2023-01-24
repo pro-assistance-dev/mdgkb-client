@@ -44,8 +44,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import SearchModel from '@/classes/SearchModel';
 import ISearchGroup from '@/interfaces/ISearchGroup';
-import ISearchModel from '@/interfaces/ISearchModel';
 
 export default defineComponent({
   name: 'SearchDrawer',
@@ -56,7 +56,7 @@ export default defineComponent({
     let groups: Ref<string[]> = ref([]);
     const router = useRouter();
 
-    const searchModel: ComputedRef<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
+    const searchModel: ComputedRef<SearchModel> = computed<SearchModel>(() => store.getters['search/searchModel']);
     const searchGroups: ComputedRef<ISearchGroup[]> = computed<ISearchGroup[]>(() => store.getters['search/searchGroups']);
     const isDrawerOpen: ComputedRef<boolean> = computed<boolean>(() => store.getters['search/isSearchDrawerOpen']);
 

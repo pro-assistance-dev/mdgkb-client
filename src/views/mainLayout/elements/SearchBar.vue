@@ -20,8 +20,8 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import SearchModel from '@/classes/SearchModel';
 import IOption from '@/interfaces/IOption';
-import ISearchModel from '@/interfaces/ISearchModel';
 
 export default defineComponent({
   name: 'SearchBar',
@@ -38,10 +38,10 @@ export default defineComponent({
     const route = useRoute();
     const searchInputText = ref<string>('');
     const searchInput = ref<HTMLInputElement | null>(null);
-    const searchModel: Ref<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
+    const searchModel: Ref<SearchModel> = computed<SearchModel>(() => store.getters['search/searchModel']);
 
     onBeforeMount((): void => {
-      if (!route.query.q || !route.query.q.length) {
+      if (!route.query.query || !route.query.query.length) {
         searchModel.value.query = '';
         return;
       }
@@ -71,7 +71,7 @@ export default defineComponent({
     };
 
     const submitSearch = async () => {
-      await router.push(`/search?q=${searchModel.value.query}`);
+      await router.push(`/search?query=${searchModel.value.query}`);
       emit('search');
     };
 
