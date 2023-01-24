@@ -40,11 +40,11 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import SearchModel from '@/classes/SearchModel';
 import ISearchElement from '@/interfaces/ISearchElement';
-import ISearchModel from '@/interfaces/ISearchModel';
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({
@@ -59,10 +59,9 @@ export default defineComponent({
     const searchString: Ref<string> = ref('');
     let groups: Ref<string[]> = ref([]);
     const router = useRouter();
-    const route = useRoute();
     const results: Ref<ISearchElement[]> = ref([]);
 
-    const searchModel: Ref<ISearchModel> = computed<ISearchModel>(() => store.getters['search/searchModel']);
+    const searchModel: Ref<SearchModel> = computed<SearchModel>(() => store.getters['search/searchModel']);
     const isDrawerOpen: ComputedRef<boolean> = computed<boolean>(() => store.getters['search/isSearchDrawerOpen']);
 
     const openDrawer = () => {
@@ -73,9 +72,11 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await store.dispatch('search/searchGroups');
-      searchModel.value.query = route.query.q && typeof route.query.q === 'string' ? route.query.q : '';
-      await selectSearchGroup(undefined);
+      await searchModel.value.reproduceFromRoute();
+      await search();
+      // await selectSearchGroup(undefined);
     });
+
     onUnmounted(() => {
       searchModel.value.query = '';
     });
@@ -90,7 +91,7 @@ export default defineComponent({
     };
 
     const selectSearchGroup = async (searchGroupId: string | undefined) => {
-      searchModel.value.setSearchGroup(searchGroupId);
+      await searchModel.value.setSearchGroup(searchGroupId);
       await search();
     };
 

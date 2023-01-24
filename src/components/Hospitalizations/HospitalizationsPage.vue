@@ -96,6 +96,7 @@ export default defineComponent({
     const load = async () => {
       await Provider.store.dispatch('meta/getSchema');
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
+
       // await Provider.store.dispatch('hospitalizationsTypes/getAll');
     };
 

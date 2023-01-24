@@ -3,7 +3,6 @@ import { MutationTree } from 'vuex';
 import SearchGroup from '@/classes/SearchGroup';
 import SearchModel from '@/classes/SearchModel';
 import ISearchGroup from '@/interfaces/ISearchGroup';
-import ISearchModel from '@/interfaces/ISearchModel';
 
 import State from './state';
 
@@ -12,7 +11,7 @@ const mutations: MutationTree<State> = {
     state.isSearchDrawerOpen = isOpen;
     state.searchModel = new SearchModel();
   },
-  setSearchModel(state, searchModel: ISearchModel): void {
+  setSearchModel(state, searchModel: SearchModel): void {
     state.searchModel = new SearchModel(searchModel);
   },
   setSearchGroups(state, searchGroups: ISearchGroup[]): void {

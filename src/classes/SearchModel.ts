@@ -2,10 +2,10 @@ import SearchElement from '@/classes/SearchElement';
 import SearchGroup from '@/classes/SearchGroup';
 import ISearchElement from '@/interfaces/ISearchElement';
 import ISearchGroup from '@/interfaces/ISearchGroup';
-import ISearchModel from '@/interfaces/ISearchModel';
 import ISearchObject from '@/interfaces/ISearchObject';
+import Provider from '@/services/Provider';
 
-export default class SearchModel implements ISearchModel {
+export default class SearchModel {
   query = '';
   params = '';
   suggester = false;
@@ -36,12 +36,26 @@ export default class SearchModel implements ISearchModel {
     return JSON.stringify(this);
   }
 
-  setSearchGroup(groupId: string | undefined): void {
+  async setSearchGroup(groupId: string | undefined): Promise<void> {
     const g = this.searchGroups.find((group: ISearchGroup) => group.id === groupId);
     if (g) {
       this.searchGroup = g;
+      await Provider.router.replace({ query: { query: this.query, groupId: groupId } });
     } else {
       this.searchGroup = new SearchGroup();
+      await Provider.router.replace({ query: { query: this.query } });
+    }
+  }
+
+  async reproduceFromRoute(): Promise<void> {
+    this.setQuery();
+    await this.setSearchGroup(Provider.route().query.groupId as string);
+  }
+
+  setQuery(): void {
+    const query = Provider.route().query.query;
+    if (query) {
+      this.query = query as string;
     }
   }
 }
