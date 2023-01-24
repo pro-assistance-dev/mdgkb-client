@@ -39,13 +39,15 @@
         </tr>
       </tbody>
     </table>
-    <template v-if="selectedHospitalizationsType">
-      <div v-html="selectedHospitalizationsType.description"></div>
-      <HospitalizationsHowSendApplication />
-      <HospitalizationStages :hospitalization-type-stages="selectedHospitalizationsType.hospitalizationTypeStages" />
-      <HospitalizationAnalyzes :hospitalization-type-analyzes="selectedHospitalizationsType.hospitalizationTypeAnalyzes" />
-      <HospitalizationDocuments :hospitalization-type-documents="selectedHospitalizationsType.hospitalizationTypeDocuments" />
-    </template>
+    <el-dialog v-model="showDialog" top="10vh" width="80%" title="Список документов" destroy-on-close>
+      <template v-if="selectedHospitalizationsType">
+        <div v-html="selectedHospitalizationsType.description"></div>
+        <HospitalizationsHowSendApplication />
+        <HospitalizationStages :hospitalization-type-stages="selectedHospitalizationsType.hospitalizationTypeStages" />
+        <HospitalizationAnalyzes :hospitalization-type-analyzes="selectedHospitalizationsType.hospitalizationTypeAnalyzes" />
+        <HospitalizationDocuments :hospitalization-type-documents="selectedHospitalizationsType.hospitalizationTypeDocuments" />
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -65,6 +67,7 @@ export default defineComponent({
   name: 'HospitalizationsTable',
   components: { HospitalizationsHowSendApplication, HospitalizationStages, HospitalizationAnalyzes, HospitalizationDocuments },
   emits: ['downloadDocs', 'selectHospitalization'],
+
   setup(props, { emit }) {
     const showInfo: Ref<boolean> = ref(false);
     const hospitalizationsTypes: ComputedRef<IHospitalizationType[]> = computed(
@@ -72,6 +75,7 @@ export default defineComponent({
     );
     const selectedHospitalizationsType: Ref<IHospitalizationType | undefined> = ref(undefined);
     const hospitalization: ComputedRef<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
+    const showDialog: Ref<boolean> = ref(false);
 
     onBeforeMount(() => {
       Provider.store.dispatch('hospitalizationsTypes/getAll');
@@ -81,6 +85,7 @@ export default defineComponent({
       Provider.store.commit('hospitalizations/selectHospitalization', hospitalization);
       selectedHospitalizationsType.value = hospitalization;
       emit('downloadDocs');
+      showDialog.value = true;
     };
 
     const selectHospitalization = (hospitalizationType: IHospitalizationType): void => {
@@ -103,6 +108,7 @@ export default defineComponent({
       selectHospitalization,
       downloadDocs,
       hospitalizationsTypes,
+      showDialog,
     };
   },
 });

@@ -12,6 +12,7 @@ export const state: State = {
   isSearchDrawerOpen: false,
   searchModel: new SearchModel(),
   searchGroups: [],
+  count: 0,
 };
 
 const namespaced = true;

@@ -25,11 +25,11 @@
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
+import SearchModel from '@/classes/SearchModel';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISearchGroup from '@/interfaces/ISearchGroup';
-import ISearchModel from '@/interfaces/ISearchModel';
 import ISearch from '@/interfaces/ISearchObject';
 import Provider from '@/services/Provider';
 
@@ -77,7 +77,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const queryString: Ref<string> = ref(props.modelValue);
     const searchForm = ref();
-    const searchModel: Ref<ISearchModel> = computed<ISearchModel>(() => Provider.store.getters['search/searchModel']);
+    const searchModel: Ref<SearchModel> = computed<SearchModel>(() => Provider.store.getters['search/searchModel']);
 
     const find = async (query: string, resolve: (arg: any) => void): Promise<void> => {
       searchForm.value.activated = true;
