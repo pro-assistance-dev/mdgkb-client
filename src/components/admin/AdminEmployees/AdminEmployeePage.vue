@@ -21,9 +21,7 @@
                 <div class="title-in">Образование</div>
               </template>
               <template #inside-content>
-                <!-- <el-form ref="form" :model="employee" :rules="rules"> -->
                 <EducationForm :store-module="'employees'" />
-                <!-- </el-form> -->
               </template>
             </CollapsContainer>
           </div>
