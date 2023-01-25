@@ -21,7 +21,7 @@
                 <div class="title-in">Образование</div>
               </template>
               <template #inside-content>
-                <EducationForm :store-module="'employees'" />
+                <EducationForm :store-module="'employees'" :props="props" />
               </template>
             </CollapsContainer>
           </div>
@@ -35,20 +35,20 @@
                 <div v-for="(experience, i) in employee.experiences" :key="experience.id" class="container">
                   <button class="admin-del" @click="employee.removeExperience(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label="Место работы" prop="place">
+                  <el-form-item label="Место работы" :prop="'experiences.' + i + '.place'" :rules="rules.experiencePlace">
                     <el-input v-model="experience.place" minlength="10" />
                   </el-form-item>
-                  <el-form-item label="Должность" prop="position">
+                  <el-form-item label="Должность" :prop="'experiences.' + i + '.position'" :rules="rules.position">
                     <el-input v-model="experience.position" />
                   </el-form-item>
                   <div class="column-block">
                     <div class="column-item3">
-                      <el-form-item label="С:" prop="start">
+                      <el-form-item label="С:" :prop="'experiences.' + i + '.start'" :rules="rules.start">
                         <DatePicker v-model="experience.start" />
                       </el-form-item>
                     </div>
                     <div class="column-item3">
-                      <el-form-item label="По:" prop="end">
+                      <el-form-item label="По:" :prop="'experiences.' + i + '.end'" :rules="rules.end">
                         <DatePicker v-model="experience.end" />
                       </el-form-item>
                     </div>
@@ -67,7 +67,7 @@
                 <div v-for="(certificate, i) in employee.certificates" :key="certificate.id" class="container">
                   <button class="admin-del" @click.prevent="employee.removeCertificate(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label="Название сертификата" prop="description">
+                  <el-form-item label="Название сертификата" :prop="'certificates.' + i + '.description'" :rules="rules.description">
                     <el-input v-model="certificate.description" />
                   </el-form-item>
                   <el-form-item label="Загрузить сертификат">
@@ -104,7 +104,7 @@
                 <div v-for="(regalia, i) in employee.regalias" :key="regalia" class="container">
                   <button class="admin-del" @click.prevent="employee.removeRegalia(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label=" " prop="name">
+                  <el-form-item label="Описание" :prop="'regalias.' + i + '.name'" :rules="rules.regaliaName">
                     <el-input v-model="regalia.name" />
                   </el-form-item>
                 </div>
@@ -120,11 +120,11 @@
                 <div class="tools-buttons">
                   <button class="admin-add" @click.prevent="employee.addTeachingActivity()">+ Добавить</button>
                 </div>
-                <div v-for="(regalia, i) in employee.teachingActivities" :key="regalia" class="container">
+                <div v-for="(teachingActivity, i) in employee.teachingActivities" :key="teachingActivity" class="container">
                   <button class="admin-del" @click.prevent="employee.removeTeachingActivity(i)">Удалить</button>
                   <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label=" " prop="name">
-                    <el-input v-model="regalia.name" />
+                  <el-form-item label="Описание" :prop="'teachingActivities.' + i + '.name'" :rules="rules.teachName">
+                    <el-input v-model="teachingActivity.name" />
                   </el-form-item>
                 </div>
               </template>
@@ -153,7 +153,7 @@
 
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import FilterModel from '@/classes/filters/FilterModel';
@@ -186,15 +186,18 @@ export default defineComponent({
     const employee: Ref<IEmployee> = computed(() => Provider.store.getters['employees/item']);
     const employees: Ref<IEmployee[]> = computed(() => Provider.store.getters['employees/items']);
     const rules = ref({
-      place: [{ required: true, message: 'Поле "МЕСТО РАБОТЫ" не может быть пустым', trigger: 'blur' }],
+      experiencePlace: [{ required: true, message: 'Поле "МЕСТО РАБОТЫ" не может быть пустым', trigger: 'change' }],
       position: [{ required: true, message: 'Поле "ДОЛЖНОСТЬ" не может быть пустым', trigger: 'change' }],
       start: [{ required: true, message: 'Поле "С:" не может быть пустым', trigger: 'change' }],
       end: [{ required: true, message: 'Поле "ПО:" не может быть пустым', trigger: 'change' }],
       description: [{ required: true, message: 'Поле "НАЗВАНИЕ СЕРТИФИКАТА" не может быть пустым', trigger: 'change' }],
-      name: [{ required: true, message: 'Это поле не может быть пустым', trigger: 'change' }],
+      regaliaName: [{ required: true, message: 'Поле "ОПИСАНИЕ" не может быть пустым', trigger: 'change' }],
+      teachName: [{ required: true, message: 'Поле "ОПИСАНИЕ" не может быть пустым', trigger: 'change' }],
 
-      educationCertificationPlace: [{ required: true, message: 'Поле "ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ" не может быть пустым', trigger: 'blur' }],
-      institution: [{ required: true, message: 'Поле "УЧЕБНОЕ ЗАВЕДЕНИЕ" не может быть пустым', trigger: 'blur' }],
+      educationCertificationPlace: [
+        { required: true, message: 'Поле "ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ" не может быть пустым', trigger: 'change' },
+      ],
+      institution: [{ required: true, message: 'Поле "УЧЕБНОЕ ЗАВЕДЕНИЕ" не может быть пустым', trigger: 'change' }],
       type: [{ required: true, message: 'Поле "ТИП ОБРАЗОВАНИЯ" не может быть пустым', trigger: 'change' }],
       document: [{ required: true, message: 'Поле "ДИПЛОМ" не может быть пустым', trigger: 'change' }],
       specialization: [{ required: true, message: 'Поле "СПЕЦИАЛЬНОСТЬ" не может быть пустым', trigger: 'change' }],
@@ -246,7 +249,7 @@ export default defineComponent({
         Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
-      // watch(employee, formUpdated, { deep: true });
+      watch(employee, formUpdated, { deep: true });
 
       filterModel = FilterModel.CreateFilterModel(
         Provider.schema.value.employee.tableName,

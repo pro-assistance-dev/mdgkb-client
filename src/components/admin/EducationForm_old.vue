@@ -3,14 +3,12 @@
   <div v-for="(education, i) in educations" :key="education.id" class="container">
     <button class="admin-del" @click.prevent="removeEducation(i)">Удалить</button>
     <div class="list-number">{{ i + 1 }}</div>
-    <el-form-item label="Учебное заведение" :prop="'educations.' + i + '.institution'" :rules="rules.institution">
+    <el-form-item label="Учебное заведение" prop="institution">
       <el-input v-model="education.institution" />
     </el-form-item>
-    {{ education }}
-
     <div class="column-block">
       <div class="column-item">
-        <el-form-item label="Тип образования" :prop="'educations.' + i + '.type'" :rules="rules.type">
+        <el-form-item label="Тип образования" prop="type">
           <el-select v-model="education.type" placeholder="Выберите тип">
             <el-option label="Основное образование" :value="'Основное образование'"></el-option>
             <el-option label="Дополнительно образование" :value="'Дополнительно образование'"></el-option>
@@ -20,7 +18,7 @@
         </el-form-item>
       </div>
       <div class="column-item2">
-        <el-form-item label="Диплом" :prop="'educations.' + i + '.document'" :rules="rules.document">
+        <el-form-item label="Диплом" prop="document">
           <el-input v-model="education.document" />
         </el-form-item>
       </div>
@@ -41,43 +39,27 @@
         <div v-if="education.educationCertification">
           <div class="column-block">
             <div class="column-item">
-              <el-form-item
-                label="Специальность"
-                :prop="'educations.' + i + '.educationCertification.specialization'"
-                :rules="rules.specialization"
-              >
+              <el-form-item label="Специальность" prop="specialization">
                 <el-input v-model="education.educationCertification.specialization" />
               </el-form-item>
             </div>
             <div class="column-item2">
-              <el-form-item label="Диплом" :prop="'educations.' + i + '.educationCertification.document'" :rules="rules.document">
+              <el-form-item label="Диплом" prop="document">
                 <el-input v-model="education.educationCertification.document" />
               </el-form-item>
             </div>
           </div>
-          <el-form-item
-            label="Образовательное учреждение"
-            :prop="'educations.' + i + '.educationCertification.place'"
-            :rules="rules.educationCertificationPlace"
-          >
+          <el-form-item label="Образовательное учреждение" prop="educationCertificationPlace">
             <el-input v-model="education.educationCertification.place" />
           </el-form-item>
           <div class="column-block">
             <div class="column-item3">
-              <el-form-item
-                label="Дата проведения"
-                :prop="'educations.' + i + '.educationCertification.certificationDate'"
-                :rules="rules.certificationDate"
-              >
+              <el-form-item label="Дата проведения" prop="certificationDate">
                 <DatePicker v-model="education.educationCertification.certificationDate" />
               </el-form-item>
             </div>
             <div class="column-item3">
-              <el-form-item
-                label="Дата окончания действия"
-                :prop="'educations.' + i + '.educationCertification.endDate'"
-                :rules="rules.endDate"
-              >
+              <el-form-item label="Дата окончания действия" prop="endDate">
                 <DatePicker v-model="education.educationCertification.endDate" />
               </el-form-item>
             </div>
@@ -99,37 +81,24 @@
         <div v-if="education.educationAccreditation">
           <div class="column-block">
             <div class="column-item">
-              <el-form-item
-                label="Специальность"
-                :prop="'educations.' + i + '.educationAccreditation.specialization'"
-                :rules="rules.specialization"
-              >
+              <el-form-item label="Специальность" prop="specialization">
                 <el-input v-model="education.educationAccreditation.specialization" />
               </el-form-item>
             </div>
             <div class="column-item2">
-              <el-form-item label="Диплом" :prop="'educations.' + i + '.educationAccreditation.document'" :rules="rules.document">
+              <el-form-item label="Диплом" prop="document">
                 <el-input v-model="education.educationAccreditation.document" />
               </el-form-item>
             </div>
           </div>
           <div class="column-block">
             <div class="column-item3">
-              <el-form-item
-                label="Дата проведения"
-                :prop="'educations.' + i + '.educationAccreditation.startDate'"
-                :rules="rules.startDate"
-              >
+              <el-form-item label="Дата проведения" prop="startDate">
                 <DatePicker v-model="education.educationAccreditation.startDate" />
-                {{ education.educationAccreditation }}
               </el-form-item>
             </div>
             <div class="column-item3">
-              <el-form-item
-                label="Дата окончания действия"
-                :prop="'educations.' + i + '.educationAccreditation.endDate'"
-                :rules="rules.endDate"
-              >
+              <el-form-item label="Дата окончания действия" prop="endDate">
                 <DatePicker v-model="education.educationAccreditation.endDate" />
               </el-form-item>
             </div>
@@ -185,19 +154,6 @@ export default defineComponent({
       store.commit(`${props.storeModule}/removeAccreditation`, educationIndex);
     };
 
-    const rules = ref({
-      educationCertificationPlace: [
-        { required: true, message: 'Поле "ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ" не может быть пустым', trigger: 'change' },
-      ],
-      institution: [{ required: true, message: 'Поле "УЧЕБНОЕ ЗАВЕДЕНИЕ" не может быть пустым', trigger: 'change' }],
-      type: [{ required: true, message: 'Поле "ТИП ОБРАЗОВАНИЯ" не может быть пустым', trigger: 'change' }],
-      document: [{ required: true, message: 'Поле "ДИПЛОМ" не может быть пустым', trigger: 'change' }],
-      specialization: [{ required: true, message: 'Поле "СПЕЦИАЛЬНОСТЬ" не может быть пустым', trigger: 'change' }],
-      certificationDate: [{ required: true, message: 'Поле "ДАТА ПРОВЕДЕНИЯ" не может быть пустым', trigger: 'change' }],
-      startDate: [{ required: true, message: 'Поле "ДАТА ПРОВЕДЕНИЯ" не может быть пустым', trigger: 'change' }],
-      endDate: [{ required: true, message: 'Поле "ДАТА ОКОНЧАНИЯ ДЕЙСТВИЯ" не может быть пустым', trigger: 'change' }],
-    });
-
     return {
       addCertification,
       removeCertification,
@@ -207,7 +163,6 @@ export default defineComponent({
       removeEducation,
       educations,
       form,
-      rules,
     };
   },
 });
