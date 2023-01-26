@@ -6,8 +6,6 @@
     <el-form-item label="Учебное заведение" :prop="'educations.' + i + '.institution'" :rules="rules.institution">
       <el-input v-model="education.institution" />
     </el-form-item>
-    {{ education }}
-
     <div class="column-block">
       <div class="column-item">
         <el-form-item label="Тип образования" :prop="'educations.' + i + '.type'" :rules="rules.type">
@@ -121,7 +119,6 @@
                 :rules="rules.startDate"
               >
                 <DatePicker v-model="education.educationAccreditation.startDate" />
-                {{ education.educationAccreditation }}
               </el-form-item>
             </div>
             <div class="column-item3">
