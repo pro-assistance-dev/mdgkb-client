@@ -1,35 +1,29 @@
 <template>
   <PageWrapper title="Госпитализация">
-    <div>
-      <el-steps v-if="activeStep < 4" :active="activeStep" finish-status="success" class="centered">
+    <div style="width: 90%">
+      <el-steps v-if="activeStep < 4" align-center :active="activeStep" finish-status="success" class="steps centered">
         <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
       </el-steps>
 
       <HospitalizationsTable v-if="activeStep === 0" @selectHospitalization="submitStep" />
-      <div v-if="activeStep === 1" class="centered">
-        <FilterSelect
-          placeholder="Отделение"
-          :options="schema.division.options"
-          :table="schema.doctor.tableName"
-          :col="schema.doctor.divisionId"
-          @load="selectDivision"
-        />
-        <a @click="activeStep++"> Я не знаю, какое отделение мне нужно </a>
+      <div v-if="activeStep === 1" class="card-item centered" style="display: flex; flex-direction: column; align-items: center">
+        <div>
+          <FilterSelect
+            placeholder="Отделение"
+            :options="schema.division.options"
+            :table="schema.doctor.tableName"
+            :col="schema.doctor.divisionId"
+            @load="selectDivision"
+          />
+          <a @click="activeStep++"> Я не знаю, какое отделение мне нужно </a>
+        </div>
       </div>
-      <div v-if="activeStep === 2" class="centered">
+      <div v-if="activeStep === 2" class="card-item centered">
         <DatePicker v-model="hospitalization.date" class="secondQuestion" @change="activeStep++" /><br />
         <a @click="activeStep++"> Я не знаю, какая дата мне нужна </a>
       </div>
-      <div class="centered">
-        <el-form
-          v-if="activeStep === 3"
-          ref="userForm"
-          v-model="hospitalization"
-          :model="hospitalization"
-          label-width="150px"
-          style="max-width: 700px"
-          label-position="left"
-        >
+      <div v-if="activeStep === 3" class="card-item centered">
+        <el-form ref="userForm" v-model="hospitalization" :model="hospitalization" label-position="left" label-width="300px">
           <UserForm
             :form="hospitalization.formValue"
             :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"
@@ -283,6 +277,15 @@ export default defineComponent({
       cursor: auto;
     }
     background-color: #f49524;
+  }
+}
+
+:deep(.steps) {
+  margin-bottom: 20px;
+
+  .el-step__title {
+    line-height: unset;
+    margin-top: 10px;
   }
 }
 </style>

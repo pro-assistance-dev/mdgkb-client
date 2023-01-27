@@ -1,5 +1,7 @@
+import Pagination from '@/classes/filters/Pagination';
 import SearchElement from '@/classes/SearchElement';
 import SearchGroup from '@/classes/SearchGroup';
+import IPagination from '@/interfaces/IPagination';
 import ISearchElement from '@/interfaces/ISearchElement';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -15,6 +17,7 @@ export default class SearchModel {
   searchGroups: ISearchGroup[] = [];
   searchGroup: ISearchGroup = new SearchGroup();
   searchObjects: ISearchObject[] = [];
+  pagination: IPagination = new Pagination();
 
   constructor(i?: SearchModel) {
     if (!i) {

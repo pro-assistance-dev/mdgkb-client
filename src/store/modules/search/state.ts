@@ -5,4 +5,5 @@ export default interface State {
   isSearchDrawerOpen: boolean;
   searchModel: SearchModel;
   searchGroups: ISearchGroup[];
+  count: number;
 }

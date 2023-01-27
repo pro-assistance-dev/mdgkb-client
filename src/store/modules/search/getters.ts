@@ -16,6 +16,9 @@ const getters: GetterTree<State, RootState> = {
   searchGroups(state): ISearchGroup[] {
     return state.searchGroups;
   },
+  count(state): number {
+    return state.count;
+  },
 };
 
 export default getters;
