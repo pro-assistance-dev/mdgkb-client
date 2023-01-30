@@ -7,11 +7,16 @@
     Вы уже подавали заявку. Для просмотра данных, пожалуйста, перейдите в
     <a @click="$router.push('/profile')"> личный кабинет</a>.
   </div>
-  <el-form-item v-if="activeFields.userEmail" label="Электронная почта" prop="formValue.user.email" :rules="rules.email">
+  <el-form-item
+    v-if="(!user.email || fromAdmin) && activeFields.userEmail"
+    label="Электронная почта"
+    prop="formValue.user.email"
+    :rules="rules.email"
+  >
     <el-input v-model="formValue.user.email" placeholder="Электронная почта" @input="findEmail"></el-input>
   </el-form-item>
   <el-form-item
-    v-if="(!formValue.user.human.surname || fromAdmin) && activeFields.userSurname"
+    v-if="(!user.human.surname || fromAdmin) && activeFields.userSurname"
     label="Фамилия"
     prop="formValue.user.human.surname"
     :rules="rules.userSurname"
@@ -19,7 +24,7 @@
     <el-input v-model="formValue.user.human.surname" placeholder="Фамилия"></el-input>
   </el-form-item>
   <el-form-item
-    v-if="(!formValue.user.human.name || fromAdmin) && activeFields.userName"
+    v-if="(!user.human.name || fromAdmin) && activeFields.userName"
     :rules="rules.userName"
     label="Имя"
     prop="formValue.user.human.name"
@@ -27,7 +32,7 @@
     <el-input v-model="formValue.user.human.name" placeholder="Имя"></el-input>
   </el-form-item>
   <el-form-item
-    v-if="(!formValue.user.human.patronymic || fromAdmin) && activeFields.userPatronymic"
+    v-if="(!user.human.patronymic || fromAdmin) && activeFields.userPatronymic"
     :rules="rules.userPatronymic"
     label="Отчество"
     prop="formValue.user.human.patronymic"
@@ -35,7 +40,7 @@
     <el-input v-model="formValue.user.human.patronymic" placeholder="Отчество"></el-input>
   </el-form-item>
   <el-form-item
-    v-if="(!formValue.user.human.patronymic || fromAdmin) && activeFields.userPostIndex"
+    v-if="(!user.human.patronymic || fromAdmin) && activeFields.userPostIndex"
     label="Почтовый индекс"
     :rules="rules.userPostIndex"
     prop="formValue.user.human.postIndex"
@@ -43,7 +48,7 @@
     <el-input v-model="formValue.user.human.postIndex" placeholder="Почтовый индекс"></el-input>
   </el-form-item>
   <el-form-item
-    v-if="(!formValue.user.human.patronymic || fromAdmin) && activeFields.userAddress"
+    v-if="(!user.human.patronymic || fromAdmin) && activeFields.userAddress"
     label="Адрес"
     prop="formValue.user.human.address"
     :rules="rules.userAddress"
@@ -51,7 +56,7 @@
     <el-input v-model="formValue.user.human.address" placeholder="Адрес"></el-input>
   </el-form-item>
   <el-form-item
-    v-if="(!formValue.user.human.snils || fromAdmin) && activeFields.userSnils"
+    v-if="(!user.human.snils || fromAdmin) && activeFields.userSnils"
     :rules="rules.userSnils"
     label="СНИЛС"
     prop="formValue.user.human.snils"
@@ -176,7 +181,6 @@ export default defineComponent({
     const store = useStore();
     const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
     const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
-    // const user: Ref<IUser> = ref(store.getters['auth/user']);
     const formValue: Ref<IForm> = ref(new Form());
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
@@ -184,7 +188,7 @@ export default defineComponent({
         callback(new Error('Необходимо указать email'));
         return;
       }
-      // await store.dispatch('users/findEmail', value);
+      await store.dispatch('users/findEmail', value);
       if (value && props.emailExists && props.validateEmail) {
         callback(new Error('Ведённый email уже существует'));
       }
@@ -194,7 +198,7 @@ export default defineComponent({
     const rules = {
       email: [
         { validator: emailRule, trigger: 'blur' },
-        // { required: true, validator: emailRule, trigger: 'blur' },
+        { required: true, validator: emailRule, trigger: 'blur' },
         { type: 'email', message: 'Пожалуйста, введите корректный email', trigger: 'blur' },
       ],
       userSurname: [{ required: true, message: 'Пожалуйста, укажите вашу фамилию', trigger: 'blur' }],
