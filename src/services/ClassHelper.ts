@@ -1,9 +1,10 @@
 import 'reflect-metadata';
 
+import IWithId from '@/interfaces/IWithId';
 import { Constructable } from '@/store/baseModule/baseIndex';
 
-export default abstract class ClassBuilder {
-  static BuildPrimitives(passedClass: { [key: string]: any }, arg?: { [key: string]: any }): void {
+export default class ClassHelper {
+  static BuildClass(passedClass: { [key: string]: any }, arg?: { [key: string]: any }): void {
     if (!arg) {
       return;
     }
@@ -31,5 +32,25 @@ export default abstract class ClassBuilder {
 
   private static isPrimitive(prop: any): boolean {
     return prop !== null && typeof prop !== 'undefined' && prop !== Object(prop);
+  }
+
+  static RemoveFromClassByIndex(index: number, arrayFromDelete: IWithId[], arrayForDelete: string[]): void {
+    const idForDelete = arrayFromDelete[index].id;
+    if (idForDelete) {
+      arrayForDelete.push(idForDelete);
+    }
+    arrayFromDelete.splice(index, 1);
+  }
+
+  static RemoveFromClassById(id: string | undefined, arrayFromDelete: IWithId[], arrayForDelete: string[]): void {
+    const index = arrayFromDelete.findIndex((i: IWithId) => i.id === id);
+    if (index < 0) {
+      return;
+    }
+    const idForDelete = arrayFromDelete[index].id;
+    if (idForDelete) {
+      arrayForDelete.push(idForDelete);
+    }
+    arrayFromDelete.splice(index, 1);
   }
 }
