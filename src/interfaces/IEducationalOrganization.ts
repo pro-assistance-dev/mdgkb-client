@@ -23,6 +23,6 @@ export default interface IEducationalOrganization {
   addProperty: () => void;
   addManager: (manager: IEducationalManager) => void;
   addTeacher: (teacher: ITeacher) => void;
-  doctorExistsInTeachers: (doctorId: string) => boolean;
+  employeeExistsInTeachers: (employeeId: string) => boolean;
   doctorExistsInManagers: (doctorId: string) => boolean;
 }
