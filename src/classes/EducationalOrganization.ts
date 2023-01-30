@@ -73,8 +73,8 @@ export default class EducationalOrganization implements IEducationalOrganization
     this.teachers.push(teacher);
   }
 
-  doctorExistsInTeachers(doctorId: string): boolean {
-    return !!this.teachers.find((teacher: ITeacher) => teacher.doctorId === doctorId);
+  employeeExistsInTeachers(employeeId: string): boolean {
+    return !!this.teachers.find((teacher: ITeacher) => teacher.employeeId === employeeId);
   }
 
   doctorExistsInManagers(doctorId: string): boolean {

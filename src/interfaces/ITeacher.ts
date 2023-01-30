@@ -1,10 +1,13 @@
-import IDoctor from '@/interfaces/IDoctor';
 import IDpoCourse from '@/interfaces/IDpoCourse';
+import IEmployee from '@/interfaces/IEmployee';
 
 export default interface ITeacher {
   id?: string;
-  doctorId?: string;
-  doctor: IDoctor;
+  employeeId?: string;
+  employee: IEmployee;
   position: string;
   dpoCourses: IDpoCourse[];
+
+  setEmployee: (employee: IEmployee) => void;
+  resetEmployee: () => void;
 }

@@ -47,7 +47,7 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
-  name: 'AdminDoctorsList',
+  name: 'AdminAppointmentsList',
   components: { TableButtonGroup, Pagination },
   setup() {
     const appointments = computed(() => Provider.store.getters['appointments/items']);

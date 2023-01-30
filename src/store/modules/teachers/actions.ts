@@ -41,6 +41,11 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<ITeacher>({ query: `slug/${slug}` });
     commit('set', res);
   },
+
+  // getAllAdmin: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+  //   const query = `admin/${filterQuery.toUrl()}`;
+  //   commit('setAllAdmin', await httpClient.get<IDoctorsWithCount>({ query }));
+  // },
 };
 
 export default actions;
