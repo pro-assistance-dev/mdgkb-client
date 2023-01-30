@@ -1,5 +1,11 @@
 <template>
-  <draggable class="groups" :list="fileList" item-key="id" handle=".el-icon-s-grid" @end="sort(fileList)">
+  <draggable
+    class="groups"
+    :list="fileList"
+    item-key="id"
+    handle=".el-icon-s-grid"
+    @end="sort(fileList)"
+  >
     <template #item="{ element, index }">
       <div>
         <i class="el-icon-s-grid drug-icon" />
@@ -7,12 +13,14 @@
           :file-info="element.fileInfo"
           :height="165"
           :width="400"
-          @remove-file="removeFromClass(index, fileList, fileListForDelete)"
-        ></UploaderSingleScan>
+          @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
+        />
       </div>
     </template>
   </draggable>
-  <el-button @click="$emit('addImage')">Добавить изображение</el-button>
+  <el-button @click="$emit('addImage')">
+    Добавить изображение
+  </el-button>
 </template>
 
 <script lang="ts">
@@ -21,7 +29,6 @@ import draggable from 'vuedraggable';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IFiler from '@/interfaces/IFiler';
-import removeFromClass from '@/services/removeFromClass';
 import sort from '@/services/sort';
 
 export default defineComponent({
@@ -41,7 +48,6 @@ export default defineComponent({
   setup(props) {
     return {
       sort,
-      removeFromClass,
     };
   },
 });

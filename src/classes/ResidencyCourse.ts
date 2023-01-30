@@ -17,7 +17,7 @@ import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecial
 import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
-import removeFromClass from '@/services/removeFromClass';
+import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 
@@ -145,7 +145,7 @@ export default class ResidencyCourse implements IResidencyCourse {
       (i: IResidencyCourseSpecialization) => i.specializationId === specialization.id
     );
     if (index > -1) {
-      removeFromClass(index, this.residencyCoursesSpecializations, this.residencyCoursesSpecializationsForDelete);
+      ClassHelper.RemoveFromClassByIndex(index, this.residencyCoursesSpecializations, this.residencyCoursesSpecializationsForDelete);
       return;
     }
     const residencyCourseSpecialization = new ResidencyCourseSpecialization();

@@ -6,7 +6,7 @@ import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateApplicationSpecialization from '@/interfaces/ICandidateApplicationSpecialization';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
-import removeFromClass from '@/services/removeFromClass';
+import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 
@@ -48,7 +48,11 @@ export default class CandidateApplication implements ICandidateApplication {
       (i: ICandidateApplicationSpecialization) => i.specializationId === specialization.id
     );
     if (index > -1) {
-      removeFromClass(index, this.candidateApplicationSpecializations, this.candidateApplicationSpecializationsForDelete);
+      ClassHelper.RemoveFromClassByIndex(
+        index,
+        this.candidateApplicationSpecializations,
+        this.candidateApplicationSpecializationsForDelete
+      );
       return;
     }
     const s = new CandidateApplicationSpecialization();

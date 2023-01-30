@@ -1,6 +1,13 @@
 <template>
   <div v-if="mounted">
-    <el-form ref="form" v-model="appointment" :model="appointment" label-width="150px" style="max-width: 700px" label-position="left">
+    <el-form
+      ref="form"
+      v-model="appointment"
+      :model="appointment"
+      label-width="150px"
+      style="max-width: 700px"
+      label-position="left"
+    >
       <AdminFormValue
         :form="appointment.formValue"
         :validate-email="false"
@@ -22,7 +29,6 @@ import IAppointment from '@/interfaces/IAppointment';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -100,7 +106,6 @@ export default defineComponent({
       form,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      removeFromClass,
     };
   },
 });

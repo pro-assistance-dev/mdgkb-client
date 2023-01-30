@@ -1,15 +1,35 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="certificatesWithDeleted" label-position="top" :rules="rules">
+  <el-form
+    v-if="mounted"
+    ref="form"
+    :model="certificatesWithDeleted"
+    label-position="top"
+    :rules="rules"
+  >
     <el-card>
-      <el-button @click="certificatesWithDeleted.addCertificate()">Добавить сертификат</el-button>
-      <div v-for="(certificate, i) in certificatesWithDeleted.certificates" :key="certificate.id">
+      <el-button @click="certificatesWithDeleted.addCertificate()">
+        Добавить сертификат
+      </el-button>
+      <div
+        v-for="(certificate, i) in certificatesWithDeleted.certificates"
+        :key="certificate.id"
+      >
         <el-form-item label="Название сертификата">
           <el-input v-model="certificate.description" />
         </el-form-item>
-        <UploaderSingleScan :crop-ratio="true" :height="297" :width="210" :file-info="certificate.scan" />
-        <el-button @click="removeFromClass(i, certificatesWithDeleted.certificates, certificatesWithDeleted.certificatesForDelete)"
-          >Удалить сертификат</el-button
+        <UploaderSingleScan
+          :crop-ratio="true"
+          :height="297"
+          :width="210"
+          :file-info="certificate.scan"
+        />
+        <el-button
+          @click="
+            $classHelper.RemoveFromClassByIndex(i, certificatesWithDeleted.certificates, certificatesWithDeleted.certificatesForDelete)
+          "
         >
+          Удалить сертификат
+        </el-button>
       </div>
     </el-card>
   </el-form>
@@ -21,7 +41,6 @@ import { useStore } from 'vuex';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import ICertificatesWithDeleted from '@/interfaces/ICertificatesWithDeleted';
-import removeFromClass from '@/services/removeFromClass';
 import sort from '@/services/sort';
 
 export default defineComponent({
@@ -48,7 +67,6 @@ export default defineComponent({
     });
 
     return {
-      removeFromClass,
       certificatesWithDeleted,
       sort,
       mounted,

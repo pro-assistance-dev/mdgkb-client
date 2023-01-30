@@ -1,7 +1,19 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="employee" label-position="top" :rules="rules">
+  <el-form
+    v-if="mounted"
+    ref="form"
+    :model="employee"
+    label-position="top"
+    :rules="rules"
+  >
     <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
+      <el-col
+        :xs="24"
+        :sm="24"
+        :md="14"
+        :lg="16"
+        :xl="16"
+      >
         <el-container direction="vertical">
           <CollapseList>
             <template #default="scope">
@@ -15,7 +27,11 @@
                 >
                   <template #inside-content>
                     <div class="background-container">
-                      <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
+                      <HumanForm
+                        :with-styles="false"
+                        store-module="employees"
+                        @input-name-complete="completeInput"
+                      />
                     </div>
                   </template>
                 </CollapsContainer>
@@ -42,10 +58,28 @@
                   @changeActiveId="scope.changeActiveId"
                 >
                   <template #inside-content>
-                    <div class="tools-buttons"><button class="admin-add" @click.prevent="employee.addExperience()">+ Добавить</button></div>
-                    <div v-for="(experience, i) in employee.experiences" :key="experience.id" class="container">
-                      <button class="admin-del" @click="employee.removeExperience(i)">Удалить</button>
-                      <div class="list-number">{{ i + 1 }}</div>
+                    <div class="tools-buttons">
+                      <button
+                        class="admin-add"
+                        @click.prevent="employee.addExperience()"
+                      >
+                        + Добавить
+                      </button>
+                    </div>
+                    <div
+                      v-for="(experience, i) in employee.experiences"
+                      :key="experience.id"
+                      class="container"
+                    >
+                      <button
+                        class="admin-del"
+                        @click="employee.removeExperience(i)"
+                      >
+                        Удалить
+                      </button>
+                      <div class="list-number">
+                        {{ i + 1 }}
+                      </div>
                       <el-form-item label="Место работы">
                         <el-input v-model="experience.place" />
                       </el-form-item>
@@ -78,16 +112,36 @@
                 >
                   <template #inside-content>
                     <div class="tools-buttons">
-                      <button class="admin-add" @click.prevent="employee.addCertificate()">+ Добавить</button>
+                      <button
+                        class="admin-add"
+                        @click.prevent="employee.addCertificate()"
+                      >
+                        + Добавить
+                      </button>
                     </div>
-                    <div v-for="(certificate, i) in employee.certificates" :key="certificate.id" class="container">
-                      <button class="admin-del" @click.prevent="employee.removeCertificate(i)">Удалить</button>
-                      <div class="list-number">{{ i + 1 }}</div>
+                    <div
+                      v-for="(certificate, i) in employee.certificates"
+                      :key="certificate.id"
+                      class="container"
+                    >
+                      <button
+                        class="admin-del"
+                        @click.prevent="employee.removeCertificate(i)"
+                      >
+                        Удалить
+                      </button>
+                      <div class="list-number">
+                        {{ i + 1 }}
+                      </div>
                       <el-form-item label="Название сертификата">
                         <el-input v-model="certificate.description" />
                       </el-form-item>
                       <el-form-item label="Загрузить сертификат">
-                        <UploaderSingleScan :height="238" :width="238" :file-info="certificate.scan" />
+                        <UploaderSingleScan
+                          :height="238"
+                          :width="238"
+                          :file-info="certificate.scan"
+                        />
                       </el-form-item>
                     </div>
                   </template>
@@ -122,10 +176,28 @@
                   @changeActiveId="scope.changeActiveId"
                 >
                   <template #inside-content>
-                    <div class="tools-buttons"><button class="admin-add" @click.prevent="addRegalia">+ Добавить</button></div>
-                    <div v-for="(regalia, i) in employee.regalias" :key="regalia" class="container">
-                      <button class="admin-del" @click.prevent="employee.removeRegalia(i)">Удалить</button>
-                      <div class="list-number">{{ i + 1 }}</div>
+                    <div class="tools-buttons">
+                      <button
+                        class="admin-add"
+                        @click.prevent="addRegalia"
+                      >
+                        + Добавить
+                      </button>
+                    </div>
+                    <div
+                      v-for="(regalia, i) in employee.regalias"
+                      :key="regalia"
+                      class="container"
+                    >
+                      <button
+                        class="admin-del"
+                        @click.prevent="employee.removeRegalia(i)"
+                      >
+                        Удалить
+                      </button>
+                      <div class="list-number">
+                        {{ i + 1 }}
+                      </div>
                       <el-form-item label=" ">
                         <el-input v-model="regalia.name" />
                       </el-form-item>
@@ -143,11 +215,27 @@
                 >
                   <template #inside-content>
                     <div class="tools-buttons">
-                      <button class="admin-add" @click.prevent="employee.addTeachingActivity()">+ Добавить</button>
+                      <button
+                        class="admin-add"
+                        @click.prevent="employee.addTeachingActivity()"
+                      >
+                        + Добавить
+                      </button>
                     </div>
-                    <div v-for="(regalia, i) in employee.teachingActivities" :key="regalia" class="container">
-                      <button class="admin-del" @click.prevent="employee.removeTeachingActivity(i)">Удалить</button>
-                      <div class="list-number">{{ i + 1 }}</div>
+                    <div
+                      v-for="(regalia, i) in employee.teachingActivities"
+                      :key="regalia"
+                      class="container"
+                    >
+                      <button
+                        class="admin-del"
+                        @click.prevent="employee.removeTeachingActivity(i)"
+                      >
+                        Удалить
+                      </button>
+                      <div class="list-number">
+                        {{ i + 1 }}
+                      </div>
                       <el-form-item label=" ">
                         <el-input v-model="regalia.name" />
                       </el-form-item>
@@ -159,10 +247,21 @@
           </CollapseList>
         </el-container>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
+      <el-col
+        :xs="24"
+        :sm="24"
+        :md="10"
+        :lg="8"
+        :xl="8"
+      >
         <el-container direction="vertical">
           <el-card header="Фото">
-            <UploaderSingleScan :file-info="employee.human.photo" :height="300" :width="300" @remove-file="employee.human.removePhoto()" />
+            <UploaderSingleScan
+              :file-info="employee.human.photo"
+              :height="300"
+              :width="300"
+              @remove-file="employee.human.removePhoto()"
+            />
           </el-card>
           <el-card header="Фото-миниатюра">
             <UploaderSingleScan
@@ -196,7 +295,6 @@ import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -326,7 +424,6 @@ export default defineComponent({
       form,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      removeFromClass,
     };
   },
 });

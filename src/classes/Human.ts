@@ -3,7 +3,7 @@ import FileInfo from '@/classes/File/FileInfo';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IHuman from '@/interfaces/IHuman';
-import ClassBuilder from '@/services/ClassBuilder';
+import ClassHelper from '@/services/ClassHelper';
 import StringsService from '@/services/Strings';
 
 export default class Human implements IHuman {
@@ -31,7 +31,7 @@ export default class Human implements IHuman {
     if (!i) {
       return;
     }
-    ClassBuilder.BuildPrimitives(this, i);
+    ClassHelper.BuildClass(this, i);
     if (i.photo) {
       this.photo = new FileInfo(i.photo);
     }

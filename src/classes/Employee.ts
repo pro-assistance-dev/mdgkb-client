@@ -11,8 +11,7 @@ import IEmployee from '@/interfaces/IEmployee';
 import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
 import ITeachingActivity from '@/interfaces/ITeachingActivity';
-import ClassBuilder from '@/services/ClassBuilder';
-import removeFromClass from '@/services/removeFromClass';
+import ClassHelper from '@/services/ClassHelper';
 
 export default class Employee implements IEmployee {
   id?: string;
@@ -20,24 +19,24 @@ export default class Employee implements IEmployee {
   humanId?: string;
   academicDegree = '';
   academicRank = '';
-  @ClassBuilder.GetClassConstructorForArray(Regalia)
+  @ClassHelper.GetClassConstructorForArray(Regalia)
   regalias: Regalia[] = [];
   regaliasForDelete: string[] = [];
-  @ClassBuilder.GetClassConstructorForArray(Education)
+  @ClassHelper.GetClassConstructorForArray(Education)
   educations: IEducation[] = [];
   educationsForDelete: string[] = [];
-  @ClassBuilder.GetClassConstructorForArray(Certificate)
+  @ClassHelper.GetClassConstructorForArray(Certificate)
   certificates: ICertificate[] = [];
   certificatesForDelete: string[] = [];
-  @ClassBuilder.GetClassConstructorForArray(Experience)
+  @ClassHelper.GetClassConstructorForArray(Experience)
   experiences: IExperience[] = [];
   experiencesForDelete: string[] = [];
-  @ClassBuilder.GetClassConstructorForArray(TeachingActivity)
+  @ClassHelper.GetClassConstructorForArray(TeachingActivity)
   teachingActivities: ITeachingActivity[] = [];
   teachingActivitiesForDelete: string[] = [];
 
   constructor(i?: IEmployee) {
-    ClassBuilder.BuildPrimitives(this, i);
+    ClassHelper.BuildClass(this, i);
   }
 
   addExperience(): void {
@@ -45,7 +44,7 @@ export default class Employee implements IEmployee {
   }
 
   removeExperience(i: number): void {
-    removeFromClass(i, this.experiences, this.experiencesForDelete);
+    ClassHelper.RemoveFromClassByIndex(i, this.experiences, this.experiencesForDelete);
   }
 
   addCertificate(): void {
@@ -53,7 +52,7 @@ export default class Employee implements IEmployee {
   }
 
   removeCertificate(i: number): void {
-    removeFromClass(i, this.certificates, this.certificatesForDelete);
+    ClassHelper.RemoveFromClassByIndex(i, this.certificates, this.certificatesForDelete);
   }
 
   getFileInfos(): IFileInfo[] {
@@ -73,7 +72,7 @@ export default class Employee implements IEmployee {
   }
 
   removeRegalia(i: number): void {
-    removeFromClass(i, this.regalias, this.regaliasForDelete);
+    ClassHelper.RemoveFromClassByIndex(i, this.regalias, this.regaliasForDelete);
   }
 
   addTeachingActivity(): void {
@@ -81,7 +80,7 @@ export default class Employee implements IEmployee {
   }
 
   removeTeachingActivity(i: number): void {
-    removeFromClass(i, this.teachingActivities, this.teachingActivitiesForDelete);
+    ClassHelper.RemoveFromClassByIndex(i, this.teachingActivities, this.teachingActivitiesForDelete);
   }
 
   getHuman(): IHuman {

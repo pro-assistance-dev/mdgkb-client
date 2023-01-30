@@ -18,7 +18,6 @@ interface CustomDateTimeFormatOptions {
 
 export default class DateTimeFormat {
   locale = 'ru-RU';
-  setDay = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
 
   constructor(locale?: string) {
     this.locale = locale ?? this.locale;

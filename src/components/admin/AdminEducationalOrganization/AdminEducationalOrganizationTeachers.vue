@@ -1,29 +1,59 @@
 <template>
   <el-card>
     <el-space>
-      <el-select v-model="newId" filterable placeholder="Выберите преподавателя">
-        <el-option v-for="item in doctors" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
+      <el-select
+        v-model="newId"
+        filterable
+        placeholder="Выберите преподавателя"
+      >
+        <el-option
+          v-for="item in doctors"
+          :key="item.id"
+          :label="item.human.getFullName()"
+          :value="item.id"
+        />
       </el-select>
-      <el-input v-model="newPosition" placeholder="Роль руководителя"> </el-input>
-      <el-button type="success" style="margin: 20px" @click="add">Добавить преподавателя</el-button>
+      <el-input
+        v-model="newPosition"
+        placeholder="Роль руководителя"
+      />
+      <el-button
+        type="success"
+        style="margin: 20px"
+        @click="add"
+      >
+        Добавить преподавателя
+      </el-button>
     </el-space>
 
     <el-table :data="educationalOrganization.teachers">
-      <el-table-column label="ФИО" sortable>
+      <el-table-column
+        label="ФИО"
+        sortable
+      >
         <template #default="scope">
           {{ scope.row.doctor.employee.human.getFullName() }}
         </template>
       </el-table-column>
-      <el-table-column label="Должность" sortable>
+      <el-table-column
+        label="Должность"
+        sortable
+      >
         <template #default="scope">
           {{ scope.row.position }}
         </template>
       </el-table-column>
-      <el-table-column width="50" fixed="right" align="center">
+      <el-table-column
+        width="50"
+        fixed="right"
+        align="center"
+      >
         <template #default="scope">
           <TableButtonGroup
             :show-remove-button="true"
-            @remove="removeFromClass(scope.$index, educationalOrganization.teachers, educationalOrganization.teachersForDelete)"
+            @remove="
+              $classHelper.RemoveFromClassByIndex(scope.$index, educationalOrganization.teachers, educationalOrganization.teachersForDelete)
+            "
           />
         </template>
       </el-table-column>
@@ -40,7 +70,7 @@ import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
-import removeFromClass from '@/services/removeFromClass';
+
 export default defineComponent({
   name: 'AdminEducationalOrganizationTeachers',
   components: { TableButtonGroup },
@@ -75,7 +105,6 @@ export default defineComponent({
     };
 
     return {
-      removeFromClass,
       newPosition,
       educationalOrganization,
       newId,

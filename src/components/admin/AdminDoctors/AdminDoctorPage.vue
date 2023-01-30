@@ -1,22 +1,50 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="doctor" label-position="top" :rules="rules">
+  <el-form
+    v-if="mounted"
+    ref="form"
+    :model="doctor"
+    label-position="top"
+    :rules="rules"
+  >
     <div class="margin-container">
-      <CollapsContainer :tab-id="1036" :collapsed="true">
+      <CollapsContainer
+        :tab-id="1036"
+        :collapsed="true"
+      >
         <template #inside-title>
-          <div class="title-in">Отделения</div>
+          <div class="title-in">
+            Отделения
+          </div>
         </template>
         <template #inside-content>
           <div class="background-container">
             <div class="search-line">
-              <div class="search-label">Выберите отделение для добавления:</div>
-              <RemoteSearch :key-value="schema.division.key" :max-width="2000" @select="addDoctorDivision" />
+              <div class="search-label">
+                Выберите отделение для добавления:
+              </div>
+              <RemoteSearch
+                :key-value="schema.division.key"
+                :max-width="2000"
+                @select="addDoctorDivision"
+              />
             </div>
-            <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision" class="container">
-              <button class="admin-del" @click.prevent="removeFromClass(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)">
+            <div
+              v-for="(doctorDivision, i) in doctor.doctorsDivisions"
+              :key="doctorDivision"
+              class="container"
+            >
+              <button
+                class="admin-del"
+                @click.prevent="$classHelper.RemoveFromClassByIndex(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)"
+              >
                 Удалить
               </button>
-              <div class="list-number">{{ i + 1 }}</div>
-              <div class="division-name">{{ doctorDivision.division.name }}</div>
+              <div class="list-number">
+                {{ i + 1 }}
+              </div>
+              <div class="division-name">
+                {{ doctorDivision.division.name }}
+              </div>
             </div>
           </div>
         </template>
@@ -25,7 +53,9 @@
     <div class="margin-container">
       <CollapsContainer :tab-id="1036">
         <template #inside-title>
-          <div class="title-in">Прочая информация</div>
+          <div class="title-in">
+            Прочая информация
+          </div>
         </template>
         <template #inside-content>
           <div class="background-container">
@@ -40,7 +70,10 @@
       </CollapsContainer>
     </div>
     <el-container direction="vertical">
-      <el-checkbox v-model="doctor.hasAppointment" label="Включить расписание приёма" />
+      <el-checkbox
+        v-model="doctor.hasAppointment"
+        label="Включить расписание приёма"
+      />
       <div v-if="doctor.hasAppointment">
         <TimetableConstructorV2 :store-module="'doctors'" />
       </div>
@@ -67,7 +100,6 @@ import ISearchObject from '@/interfaces/ISearchObject';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -238,7 +270,6 @@ export default defineComponent({
       schema: Provider.schema,
       addDoctorDivision,
       academicChangeHandler,
-      removeFromClass,
     };
   },
 });

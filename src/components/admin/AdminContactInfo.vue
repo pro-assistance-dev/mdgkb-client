@@ -3,11 +3,20 @@
     <div class="flex-between">
       <label class="el-form-item__label">Телефоны</label>
       <div class="add-button">
-        <el-button type="success" size="mini" @click.prevent="contactInfo.addTelephoneNumber()">Добавить</el-button>
+        <el-button
+          type="success"
+          size="mini"
+          @click.prevent="contactInfo.addTelephoneNumber()"
+        >
+          Добавить
+        </el-button>
       </div>
     </div>
 
-    <el-table :data="contactInfo.telephoneNumbers" cell-class-name="cell-style">
+    <el-table
+      :data="contactInfo.telephoneNumbers"
+      cell-class-name="cell-style"
+    >
       <el-table-column label="Телефоны">
         <template #default="scope">
           <el-form-item>
@@ -24,11 +33,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="50" fixed="right" align="center">
+      <el-table-column
+        width="50"
+        fixed="right"
+        align="center"
+      >
         <template #default="scope">
           <TableButtonGroup
             :show-remove-button="true"
-            @remove="removeFromClass(scope.$index, contactInfo.telephoneNumbers, contactInfo.telephoneNumbersForDelete)"
+            @remove="$classHelper.RemoveFromClassByIndex(scope.$index, contactInfo.telephoneNumbers, contactInfo.telephoneNumbersForDelete)"
           />
         </template>
       </el-table-column>
@@ -39,11 +52,20 @@
     <div class="flex-between">
       <label class="el-form-item__label">Email</label>
       <div class="add-button">
-        <el-button type="success" size="mini" @click.prevent="contactInfo.addEmail()">Добавить</el-button>
+        <el-button
+          type="success"
+          size="mini"
+          @click.prevent="contactInfo.addEmail()"
+        >
+          Добавить
+        </el-button>
       </div>
     </div>
 
-    <el-table :data="contactInfo.emails" cell-class-name="cell-style">
+    <el-table
+      :data="contactInfo.emails"
+      cell-class-name="cell-style"
+    >
       <el-table-column label="Email">
         <template #default="scope">
           <el-form-item>
@@ -60,11 +82,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="50" fixed="right" align="center">
+      <el-table-column
+        width="50"
+        fixed="right"
+        align="center"
+      >
         <template #default="scope">
           <TableButtonGroup
             :show-remove-button="true"
-            @remove="removeFromClass(scope.$index, contactInfo.emails, contactInfo.emailsForDelete)"
+            @remove="$classHelper.RemoveFromClassByIndex(scope.$index, contactInfo.emails, contactInfo.emailsForDelete)"
           />
         </template>
       </el-table-column>
@@ -79,7 +105,7 @@ import { useStore } from 'vuex';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IHuman from '@/interfaces/IHuman';
-import removeFromClass from '@/services/removeFromClass';
+
 export default defineComponent({
   name: 'AdminContactInfo',
   components: { TableButtonGroup },
@@ -95,7 +121,6 @@ export default defineComponent({
     );
     return {
       contactInfo,
-      removeFromClass,
     };
   },
 });

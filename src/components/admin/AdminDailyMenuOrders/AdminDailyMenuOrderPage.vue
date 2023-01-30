@@ -1,6 +1,13 @@
 <template>
   <div v-if="mounted">
-    <el-form ref="form" v-model="dailyMenuOrder" :model="dailyMenuOrder" label-width="150px" style="max-width: 700px" label-position="left">
+    <el-form
+      ref="form"
+      v-model="dailyMenuOrder"
+      :model="dailyMenuOrder"
+      label-width="150px"
+      style="max-width: 700px"
+      label-position="left"
+    >
       <AdminFormValue
         :form="dailyMenuOrder.formValue"
         :validate-email="false"
@@ -21,7 +28,6 @@ import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -97,7 +103,6 @@ export default defineComponent({
       form,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      removeFromClass,
     };
   },
 });

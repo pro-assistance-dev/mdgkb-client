@@ -4,7 +4,7 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
-import removeFromClass from '@/services/removeFromClass';
+import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 import ResidencyCourse from './ResidencyCourse';
@@ -163,7 +163,11 @@ export default class ResidencyApplication implements IResidencyApplication {
     const index = this.residencyApplicationPointsAchievements.findIndex(
       (i: IResidencyApplicationPointsAchievement) => i.pointsAchievementId === achievementId
     );
-    removeFromClass(index, this.residencyApplicationPointsAchievements, this.residencyApplicationPointsAchievementsForDelete);
+    ClassHelper.RemoveFromClassByIndex(
+      index,
+      this.residencyApplicationPointsAchievements,
+      this.residencyApplicationPointsAchievementsForDelete
+    );
   }
 
   validateAchievementsPoints(): boolean {

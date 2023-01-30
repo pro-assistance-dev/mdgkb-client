@@ -4,7 +4,7 @@ import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
-import removeFromClass from '@/services/removeFromClass';
+import ClassHelper from '@/services/ClassHelper';
 
 export default class DailyMenu implements IDailyMenu {
   id?: string;
@@ -70,8 +70,7 @@ export default class DailyMenu implements IDailyMenu {
   }
 
   removeMenuItem(id: string): void {
-    const index = this.dailyMenuItems.findIndex((d: IDailyMenuItem) => d.id === id);
-    removeFromClass(index, this.dailyMenuItems, this.dailyMenuItemsForDelete);
+    ClassHelper.RemoveFromClassById(id, this.dailyMenuItems, this.dailyMenuItemsForDelete);
     this.groupDishes();
   }
 

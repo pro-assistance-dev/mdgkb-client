@@ -1,5 +1,9 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <component
+    :is="'AdminListWrapper'"
+    v-if="mounted"
+    show-header
+  >
     <template #header>
       <div class="calendar-block">
         <div class="calendar-tools">
@@ -17,44 +21,92 @@
               )
             }}:
           </div>
-          <div v-if="!isToDay" class="calendar-button" @click="backToToday()">Вернуться к сегодняшнему дню</div>
+          <div
+            v-if="!isToDay"
+            class="calendar-button"
+            @click="backToToday()"
+          >
+            Вернуться к сегодняшнему дню
+          </div>
         </div>
         <div class="day-block">
-          <button class="arrow-button" @click="move(false)">
+          <button
+            class="arrow-button"
+            @click="move(false)"
+          >
             <svg class="icon-arrow-left">
-              <use xlink:href="#arrow-left"></use>
+              <use xlink:href="#arrow-left" />
             </svg>
           </button>
-          <div v-for="day in calendar.getActivePeriod()" :key="day">
-            <el-badge type="danger" value="!" :hidden="day.eventsExists()" class="event-badge">
-              <div :class="{ blue: day.selected, normal: !day.selected }" @click="selectDay(day)">
+          <div
+            v-for="day in calendar.getActivePeriod()"
+            :key="day"
+          >
+            <el-badge
+              type="danger"
+              value="!"
+              :hidden="day.eventsExists()"
+              class="event-badge"
+            >
+              <div
+                :class="{ blue: day.selected, normal: !day.selected }"
+                @click="selectDay(day)"
+              >
                 <div class="day">
                   <div class="date">
                     {{ $dateTimeFormatter.format(day.date, { month: '2-digit', day: '2-digit', year: undefined }) }}
                   </div>
-                  <div class="day-week" :class="{ weekend: day.isWeekend() }">{{ $dateTimeFormatter.getShortDayName(day.date) }}</div>
+                  <div
+                    class="day-week"
+                    :class="{ weekend: day.isWeekend() }"
+                  >
+                    {{ $dateTimeFormatter.getShortDayName(day.date) }}
+                  </div>
                 </div>
               </div>
             </el-badge>
           </div>
-          <button class="arrow-button" @click="move(true)">
+          <button
+            class="arrow-button"
+            @click="move(true)"
+          >
             <svg class="icon-arrow-right">
-              <use xlink:href="#arrow-right"></use>
+              <use xlink:href="#arrow-right" />
             </svg>
           </button>
         </div>
       </div>
     </template>
-    <template #sort> </template>
-    <VerticalCollapsContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
+    <template #sort />
+    <VerticalCollapsContainer
+      v-if="selectedMenu"
+      :tab-id="1"
+      :collapsed="true"
+    >
       <template #main>
-        <div v-if="!dailyMenus.length" class="menu-shadow">
-          <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus">Создать меню</el-button>
+        <div
+          v-if="!dailyMenus.length"
+          class="menu-shadow"
+        >
+          <el-button
+            round
+            type="primary"
+            plain
+            style="scale: 1.2"
+            @click="createNewDailyMenus"
+          >
+            Создать меню
+          </el-button>
         </div>
       </template>
-      <template #inside-title>Книга блюд</template>
+      <template #inside-title>
+        Книга блюд
+      </template>
       <template #inside-content-left>
-        <DishBook v-if="!dishesConstructorVisible" :menu="selectedMenu" />
+        <DishBook
+          v-if="!dishesConstructorVisible"
+          :menu="selectedMenu"
+        />
       </template>
       <template #inside-content-right>
         <div class="menu">
@@ -64,7 +116,12 @@
                 Меню на
                 {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
               </div>
-              <draggable class="tabs" :list="dailyMenus" item-key="id" @end="saveMenusOrder">
+              <draggable
+                class="tabs"
+                :list="dailyMenus"
+                item-key="id"
+                @end="saveMenusOrder"
+              >
                 <template #item="{ element }">
                   <div
                     :class="{ 'selected-tabs-item': selectedMenu.id === element.id, 'tabs-item': selectedMenu.id !== element.id }"
@@ -82,72 +139,118 @@
                         @focusout="saveMenu(element)"
                         @keyup.enter="saveMenu(element)"
                         @keyup.esc="element.cancelEditMode()"
-                      />
-                      <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
+                      >
+                      <span
+                        v-else
+                        class="span-class"
+                        @dblclick="element.setEditMode()"
+                      > {{ element.name }} </span>
                     </div>
-                    <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }"></div>
+                    <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }" />
                     <div class="button-close">
-                      <svg class="icon-close" @click="removeMenu(element.id)">
-                        <use xlink:href="#close"></use>
+                      <svg
+                        class="icon-close"
+                        @click="removeMenu(element.id)"
+                      >
+                        <use xlink:href="#close" />
                       </svg>
                     </div>
                   </div>
                 </template>
               </draggable>
-              <div class="tabs-button" @click="addMenu">
+              <div
+                class="tabs-button"
+                @click="addMenu"
+              >
                 <button class="tools-button">
                   <svg class="icon-add">
-                    <use xlink:href="#add"></use>
+                    <use xlink:href="#add" />
                   </svg>
                 </button>
               </div>
             </div>
             <div class="tools-block">
-              <button class="tools-button" @click="pdf">
+              <button
+                class="tools-button"
+                @click="pdf"
+              >
                 <svg class="icon-excel">
-                  <use xlink:href="#excel"></use>
+                  <use xlink:href="#excel" />
                 </svg>
               </button>
-              <button class="tools-button" @click="pdf">
+              <button
+                class="tools-button"
+                @click="pdf"
+              >
                 <svg class="icon-print">
-                  <use xlink:href="#print"></use>
+                  <use xlink:href="#print" />
                 </svg>
               </button>
             </div>
           </div>
           <div class="tab-tools">
             Активация:
-            <svg v-if="selectedMenu.isActive()" class="icon-active" @click="stopMenu()">
-              <use xlink:href="#active"></use>
+            <svg
+              v-if="selectedMenu.isActive()"
+              class="icon-active"
+              @click="stopMenu()"
+            >
+              <use xlink:href="#active" />
             </svg>
-            <svg v-else class="icon-non-active" @click="startMenu()">
-              <use xlink:href="#non-active"></use>
+            <svg
+              v-else
+              class="icon-non-active"
+              @click="startMenu()"
+            >
+              <use xlink:href="#non-active" />
             </svg>
           </div>
-          <div v-if="selectedMenu" class="diets-container">
-            <div v-if="dailyMenus.length" class="table-container">
+          <div
+            v-if="selectedMenu"
+            class="diets-container"
+          >
+            <div
+              v-if="dailyMenus.length"
+              class="table-container"
+            >
               <table class="table-list">
                 <colgroup>
-                  <col width="60px" />
-                  <col width="auto" />
-                  <col width="70px" />
-                  <col width="70px" />
-                  <col width="70px" />
-                  <col width="90px" />
+                  <col width="60px">
+                  <col width="auto">
+                  <col width="70px">
+                  <col width="70px">
+                  <col width="70px">
+                  <col width="90px">
                 </colgroup>
                 <thead>
                   <tr>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd"></td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">Блюдо</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Доступно</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калории</td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd" />
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">
+                      Блюдо
+                    </td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">
+                      Доступно
+                    </td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">
+                      Вес
+                    </td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">
+                      Цена
+                    </td>
+                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">
+                      Калории
+                    </td>
                   </tr>
                 </thead>
                 <tbody>
-                  <template v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-                    <td colspan="5" style="background: #f1f2f7">
+                  <template
+                    v-for="dishesGroup in selectedMenu.dishesGroups"
+                    :key="dishesGroup.id"
+                  >
+                    <td
+                      colspan="5"
+                      style="background: #f1f2f7"
+                    >
                       <div class="schedule-name">
                         <div class="table-tools">
                           <svg
@@ -155,17 +258,21 @@
                             class="icon-delete-table"
                             @click="removeFromMenu(dishesGroup, dish)"
                           >
-                            <use xlink:href="#delete"></use>
+                            <use xlink:href="#delete" />
                           </svg>
-                          <svg v-if="dishesGroup.containAvailableItems()" class="icon-eye" @click="setGroupAvailable(dishesGroup, false)">
-                            <use xlink:href="#eye"></use>
+                          <svg
+                            v-if="dishesGroup.containAvailableItems()"
+                            class="icon-eye"
+                            @click="setGroupAvailable(dishesGroup, false)"
+                          >
+                            <use xlink:href="#eye" />
                           </svg>
                           <svg
                             v-if="!dishesGroup.containAvailableItems()"
                             class="icon-closed"
                             @click="setGroupAvailable(dishesGroup, true)"
                           >
-                            <use xlink:href="#eye-closed"></use>
+                            <use xlink:href="#eye-closed" />
                           </svg>
                         </div>
                         <h4
@@ -188,17 +295,28 @@
                             class="icon-delete-table"
                             @click="removeFromMenu(dishesGroup, dish)"
                           >
-                            <use xlink:href="#delete"></use>
+                            <use xlink:href="#delete" />
                           </svg>
-                          <svg v-if="dish.available" class="icon-eye" @click="setDailyMenuItemAvailable(dish, false)">
-                            <use xlink:href="#eye"></use>
+                          <svg
+                            v-if="dish.available"
+                            class="icon-eye"
+                            @click="setDailyMenuItemAvailable(dish, false)"
+                          >
+                            <use xlink:href="#eye" />
                           </svg>
-                          <svg v-if="!dish.available" class="icon-closed" @click="setDailyMenuItemAvailable(dish, true)">
-                            <use xlink:href="#eye-closed"></use>
+                          <svg
+                            v-if="!dish.available"
+                            class="icon-closed"
+                            @click="setDailyMenuItemAvailable(dish, true)"
+                          >
+                            <use xlink:href="#eye-closed" />
                           </svg>
                         </div>
                       </td>
-                      <td :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 12px">
+                      <td
+                        :class="{ visible: dish.available, hidden: !dish.available }"
+                        style="font-size: 12px"
+                      >
                         {{ dish.name }} {{ dish.fromOtherMenu ? '(Перенесено)' : '' }}
                       </td>
                       <td style="text-align: center">
@@ -207,18 +325,29 @@
                           :disabled="!dish.available"
                           size="mini"
                           @change="updateSelectedMenu"
-                        ></el-input-number>
+                        />
                       </td>
                       <td style="text-align: center">
-                        <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 13px">{{ dish.weight }}</h4>
+                        <h4
+                          :class="{ visible: dish.available, hidden: !dish.available }"
+                          style="font-size: 13px"
+                        >
+                          {{ dish.weight }}
+                        </h4>
                       </td>
                       <td style="text-align: center; font-weight: bold">
-                        <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-weight: bold">
+                        <h4
+                          :class="{ visible: dish.available, hidden: !dish.available }"
+                          style="font-weight: bold"
+                        >
                           {{ dish.price }}.00р.
                         </h4>
                       </td>
                       <td style="text-align: center">
-                        <h4 :class="{ visible2: dish.available, hidden: !dish.available }" style="font-size: 13px">
+                        <h4
+                          :class="{ visible2: dish.available, hidden: !dish.available }"
+                          style="font-size: 13px"
+                        >
                           {{ dish.caloric }}ккал
                         </h4>
                       </td>
@@ -232,12 +361,25 @@
       </template>
     </VerticalCollapsContainer>
 
-    <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
+    <el-dialog
+      v-model="dishesConstructorVisible"
+      :width="1280"
+      :destroy-on-close="true"
+      center
+    >
       <DishesSamplesConstructor :menu="selectedMenu" />
     </el-dialog>
-    <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
+    <el-dialog
+      v-model="addDishVisible"
+      :width="1280"
+      :destroy-on-close="true"
+      center
+      @closed="closeModal"
+    >
       <template #title>
-        <div class="add-title">Выберите блюда из книги блюд</div>
+        <div class="add-title">
+          Выберите блюда из книги блюд
+        </div>
       </template>
       <AddDish :menu="selectedMenu" />
     </el-dialog>
@@ -287,11 +429,11 @@ import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDay from '@/interfaces/IDay';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import DoctorRules from '@/rules/DoctorRules';
+import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
 import DailyMenusSortsLib from '@/services/Provider/libs/sorts/DailyMenus';
-import removeFromClass from '@/services/removeFromClass';
 import sort from '@/services/sort';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 export default defineComponent({
@@ -471,7 +613,7 @@ export default defineComponent({
       if (i < 0) {
         return;
       }
-      removeFromClass(i, dishesGroup.dailyMenuItems, []);
+      ClassHelper.RemoveFromClassById(dishItem.id, dishesGroup.dailyMenuItems, []);
       if (dishItem.id) {
         selectedMenu.value.removeMenuItem(dishItem.id);
       }
@@ -631,7 +773,7 @@ export default defineComponent({
       form,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      removeFromClass,
+
       activate,
       createNewDailyMenus,
       backToToday,

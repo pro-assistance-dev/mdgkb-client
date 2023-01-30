@@ -1,6 +1,9 @@
 <template>
   <div v-if="filteredFields().length">
-    <div v-if="mobileWindow || !table" class="mobile-container">
+    <div
+      v-if="mobileWindow || !table"
+      class="mobile-container"
+    >
       <FieldValuesFormItem
         v-for="item in filteredFields()"
         :key="item.id"
@@ -11,40 +14,75 @@
       />
     </div>
 
-    <div v-else class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
+    <div
+      v-else
+      class="table-container"
+      :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''"
+    >
       <div>
         <EditorContent :content="form.description" />
       </div>
 
-      <el-table :data="fields" :header-cell-style="headerCellStyle">
-        <el-table-column :label="getNameLabel" min-width="300">
+      <el-table
+        :data="fields"
+        :header-cell-style="headerCellStyle"
+      >
+        <el-table-column
+          :label="getNameLabel"
+          min-width="300"
+        >
           <template #default="scope">
             {{ scope.row.name }}
-            <span v-if="scope.row.required" class="red">*</span>
+            <span
+              v-if="scope.row.required"
+              class="red"
+            >*</span>
           </template>
         </el-table-column>
 
-        <el-table-column v-if="showModComments" label="Замечания" width="200px">
+        <el-table-column
+          v-if="showModComments"
+          label="Замечания"
+          width="200px"
+        >
           <template #default="scope">
             {{ form.findFieldValue(scope.row.id)?.modComment }}
           </template>
         </el-table-column>
 
-        <el-table-column v-if="showColumnComment()" label="Комментарий" min-width="300">
+        <el-table-column
+          v-if="showColumnComment()"
+          label="Комментарий"
+          min-width="300"
+        >
           <template #default="scope">
             {{ scope.row.comment }}
           </template>
         </el-table-column>
 
-        <el-table-column :label="getDataLabel" min-width="300">
+        <el-table-column
+          :label="getDataLabel"
+          min-width="300"
+        >
           <template #default="scope">
-            <FieldValuesFormItem :form="formValue" :field="scope.row" />
+            <FieldValuesFormItem
+              :form="formValue"
+              :field="scope.row"
+            />
           </template>
         </el-table-column>
 
-        <el-table-column v-if="showColumnFile()" label="Образец" min-width="200">
+        <el-table-column
+          v-if="showColumnFile()"
+          label="Образец"
+          min-width="200"
+        >
           <template #default="scope">
-            <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
+            <a
+              v-if="scope.row.file.fileSystemPath"
+              :href="scope.row.file.getFileUrl()"
+              target="_blank"
+            >
               {{ scope.row.file.originalName }}
             </a>
             <!-- <span v-else>Нет файла</span> -->
@@ -53,22 +91,30 @@
       </el-table>
     </div>
   </div>
-  <el-form-item v-if="showAdditionalFiles" style="margin: 0" label="Добавить дополнительные файлы">
+  <el-form-item
+    v-if="showAdditionalFiles"
+    style="margin: 0"
+    label="Добавить дополнительные файлы"
+  >
     <el-button
       style="margin-bottom: 5px"
       size="mini"
       type="success"
       icon="el-icon-document-add"
       @click="form.addForValueFile()"
-    ></el-button>
-    <div v-for="(fieldValueFile, i) in form.formValueFiles" :key="fieldValueFile.id" style="display: flex; margin-bottom: 5px">
+    />
+    <div
+      v-for="(fieldValueFile, i) in form.formValueFiles"
+      :key="fieldValueFile.id"
+      style="display: flex; margin-bottom: 5px"
+    >
       <FileUploader :file-info="fieldValueFile.file" />
       <el-button
         size="mini"
         icon="el-icon-document-delete"
         style="padding: 5px; margin: 0; min-height: unset; border: none"
-        @click="removeFromClass(i, form.formValueFiles, form.formValueFilesForDelete)"
-      ></el-button>
+        @click="$classHelper.RemoveFromClassByIndex(i, form.formValueFiles, form.formValueFilesForDelete)"
+      />
     </div>
   </el-form-item>
 </template>
@@ -84,7 +130,6 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
-import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
   name: 'FieldValuesForm',
@@ -155,7 +200,6 @@ export default defineComponent({
     };
 
     return {
-      removeFromClass,
       fields,
       filteredFields,
       formValue,

@@ -1,23 +1,49 @@
 <template>
   <div class="title">
     Редактор книги блюд
-    <button class="button-create" @click="addDishesGroup">+ Создать категорию</button>
+    <button
+      class="button-create"
+      @click="addDishesGroup"
+    >
+      + Создать категорию
+    </button>
   </div>
-  <div v-if="mounted" class="block-container">
+  <div
+    v-if="mounted"
+    class="block-container"
+  >
     <div class="dishesGroup">
-      <AddGroupForm v-if="dishesGroupConstructorVisible" @close="closeDishesGroupForm" />
+      <AddGroupForm
+        v-if="dishesGroupConstructorVisible"
+        @close="closeDishesGroupForm"
+      />
       <div class="column">
-        <div class="hidden-scroll"></div>
-        <draggable class="tabs" :list="dishesGroups" item-key="id" handle=".tab-name" @end="saveGroupsOrder">
+        <div class="hidden-scroll" />
+        <draggable
+          class="tabs"
+          :list="dishesGroups"
+          item-key="id"
+          handle=".tab-name"
+          @end="saveGroupsOrder"
+        >
           <template #item="{ element }">
             <div>
-              <CollapsContainer :tab-id="element.id" :is-collaps="element.samplesExists()">
+              <CollapsContainer
+                :tab-id="element.id"
+                :is-collaps="element.samplesExists()"
+              >
                 <template #tools>
-                  <svg class="icon-add" @click.stop="openDishSampleConstructor">
-                    <use xlink:href="#add"></use>
+                  <svg
+                    class="icon-add"
+                    @click.stop="openDishSampleConstructor"
+                  >
+                    <use xlink:href="#add" />
                   </svg>
-                  <svg class="icon-edit" @click.stop="editDishesGroup(element)">
-                    <use xlink:href="#profile-edit"></use>
+                  <svg
+                    class="icon-edit"
+                    @click.stop="editDishesGroup(element)"
+                  >
+                    <use xlink:href="#profile-edit" />
                   </svg>
                   <el-popconfirm
                     confirm-button-text="Да"
@@ -31,7 +57,7 @@
                     <template #reference>
                       <button class="tools-button">
                         <svg class="icon-delete">
-                          <use xlink:href="#delete"></use>
+                          <use xlink:href="#delete" />
                         </svg>
                       </button>
                     </template>
@@ -39,13 +65,20 @@
                 </template>
                 <template #inside-title>
                   <div class="title-in">
-                    <el-badge :value="element.dishSamples.length" :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
+                    <el-badge
+                      :value="element.dishSamples.length"
+                      :type="element.dishSamples.length > 0 ? 'primary' : ''"
+                      class="badge"
+                    >
                       {{ element.name }}
                     </el-badge>
                   </div>
                 </template>
                 <template #inside-content>
-                  <DishesConstructorList :dishes-group="element" @openDishSampleConstructor="openDishSampleConstructor" />
+                  <DishesConstructorList
+                    :dishes-group="element"
+                    @openDishSampleConstructor="openDishSampleConstructor"
+                  />
                 </template>
               </CollapsContainer>
             </div>
@@ -55,7 +88,11 @@
     </div>
     <div class="menusGroup">
       <DishConstructorInfo v-if="!dishSampleConstructorVisible" />
-      <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
+      <AddForm
+        v-if="dishSampleConstructorVisible"
+        :key="dishSample.id"
+        :close-function="closeDishSampleConstructorVisible"
+      />
     </div>
   </div>
   <AddToMenu />
@@ -81,7 +118,6 @@ import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
-import removeFromClass from '@/services/removeFromClass';
 import sort from '@/services/sort';
 
 export default defineComponent({
@@ -199,7 +235,7 @@ export default defineComponent({
       dishesGroups,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      removeFromClass,
+
       isCallBackModalOpen,
     };
   },

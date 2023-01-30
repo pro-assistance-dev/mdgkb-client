@@ -1,8 +1,22 @@
 <template>
-  <el-dialog v-if="mounted" v-model="isSideMenuDialogActive" fullscreen destroy-on-close :before-close="handleClose">
-    <el-input v-model="pageSideMenu.name" placeholder="Название меню"></el-input>
-    <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
-    <el-button @click="() => openDrawer()">Добавить раздел</el-button>
+  <el-dialog
+    v-if="mounted"
+    v-model="isSideMenuDialogActive"
+    fullscreen
+    destroy-on-close
+    :before-close="handleClose"
+  >
+    <el-input
+      v-model="pageSideMenu.name"
+      placeholder="Название меню"
+    />
+    <WysiwygEditor
+      :key="pageSideMenu.name"
+      v-model="pageSideMenu.description"
+    />
+    <el-button @click="() => openDrawer()">
+      Добавить раздел
+    </el-button>
     <draggable
       v-if="pageSideMenu.pageSections.length"
       class="groups"
@@ -13,13 +27,16 @@
     >
       <template #item="{ element, index }">
         <div class="side-menu-row">
-          <i style="margin-right: 5px; cursor: pointer" class="el-icon-s-grid drug-icon" />
+          <i
+            style="margin-right: 5px; cursor: pointer"
+            class="el-icon-s-grid drug-icon"
+          />
           <div style="width: 100%">
             <a @click="openDrawer(index)"> {{ element.name }} </a>
           </div>
           <TableButtonGroup
             :show-remove-button="true"
-            @remove="removeFromClass(index, pageSideMenu.pageSections, pageSideMenu.pageSectionsForDelete)"
+            @remove="$classHelper.RemoveFromClassByIndex(index, pageSideMenu.pageSections, pageSideMenu.pageSectionsForDelete)"
           />
         </div>
       </template>
@@ -37,7 +54,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IPageSideMenu from '@/interfaces/IPageSideMenu';
 import Provider from '@/services/Provider';
-import removeFromClass from '@/services/removeFromClass';
 import sort from '@/services/sort';
 
 export default defineComponent({
@@ -77,7 +93,7 @@ export default defineComponent({
       mounted,
       sort,
       openDrawer,
-      removeFromClass,
+
       rules,
     };
   },

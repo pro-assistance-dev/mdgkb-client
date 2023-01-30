@@ -7,7 +7,7 @@ module.exports = {
     'plugin:vue/vue3-recommended',
     'eslint:recommended',
     '@vue/typescript/recommended',
-    '@vue/prettier',
+    // '@vue/prettier',
     '@vue/prettier/@typescript-eslint',
   ],
   parserOptions: {
@@ -19,7 +19,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
-    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-imports': 'warn',
     'vue/no-v-html': 0,
   },
   overrides: [

@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { Commit } from 'vuex';
 
-import ClassBuilder from '@/services/ClassBuilder';
+import ClassHelper from '@/services/ClassHelper';
 
 const apiHost = process.env.VUE_APP_API_HOST ?? '';
 export default class WebSocketClient {
@@ -12,7 +12,7 @@ export default class WebSocketClient {
   private period = 1000;
 
   constructor(endpoint = '', query = '', mutation = 'set') {
-    ClassBuilder.BuildPrimitives(this, { endpoint, query, mutation });
+    ClassHelper.BuildClass(this, { endpoint, query, mutation });
     this.connect();
     this.ping();
   }

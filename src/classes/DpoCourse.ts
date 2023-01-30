@@ -10,7 +10,7 @@ import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
 import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
-import removeFromClass from '@/services/removeFromClass';
+import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
 
 import Form from './Form';
@@ -105,7 +105,7 @@ export default class DpoCourse implements IDpoCourse {
   addSpecialization(specialization: ISpecialization): void {
     const index = this.dpoCoursesSpecializations.findIndex((i: IDpoCourseSpecialization) => i.specializationId === specialization.id);
     if (index > -1) {
-      removeFromClass(index, this.dpoCoursesSpecializations, this.dpoCoursesSpecializationsForDelete);
+      ClassHelper.RemoveFromClassByIndex(index, this.dpoCoursesSpecializations, this.dpoCoursesSpecializationsForDelete);
       return;
     }
     const dpoCourseSpecialization = new DpoCourseSpecialization();

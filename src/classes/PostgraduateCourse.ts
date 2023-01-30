@@ -16,8 +16,8 @@ import IPostgraduateCourseSpecialization from '@/interfaces/IPostgraduateCourseS
 import IPostgraduateCourseTeacher from '@/interfaces/IPostgraduateCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ITeacher from '@/interfaces/ITeacher';
+import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
-import removeFromClass from '@/services/removeFromClass';
 
 import Form from './Form';
 
@@ -133,7 +133,7 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
       (i: IPostgraduateCourseSpecialization) => i.specializationId === specialization.id
     );
     if (index > -1) {
-      removeFromClass(index, this.postgraduateCoursesSpecializations, this.postgraduateCoursesSpecializationsForDelete);
+      ClassHelper.RemoveFromClassByIndex(index, this.postgraduateCoursesSpecializations, this.postgraduateCoursesSpecializationsForDelete);
       return;
     }
     const postgraduateCourseSpecialization = new PostgraduateCourseSpecialization();

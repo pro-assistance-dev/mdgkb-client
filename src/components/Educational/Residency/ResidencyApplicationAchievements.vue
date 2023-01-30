@@ -3,11 +3,18 @@
     <thead>
       <th>№</th>
       <th>Достижение</th>
-      <th style="text-align: center">Баллы</th>
-      <th style="text-align: center">Файл (название аналогично достижению)</th>
+      <th style="text-align: center">
+        Баллы
+      </th>
+      <th style="text-align: center">
+        Файл (название аналогично достижению)
+      </th>
     </thead>
     <tbody>
-      <tr v-for="achievement in pointsAchievements" :key="achievement.id">
+      <tr
+        v-for="achievement in pointsAchievements"
+        :key="achievement.id"
+      >
         <td>{{ achievement.code }}</td>
         <td>
           <em v-if="achievement.points === 0">{{ achievement.name }}</em>
@@ -16,22 +23,32 @@
         <td style="text-align: center">
           {{ achievement.points > 0 ? achievement.points : '' }}
         </td>
-        <td v-if="achievement.points > 0" style="text-align: center">
+        <td
+          v-if="achievement.points > 0"
+          style="text-align: center"
+        >
           <div v-if="residencyApplication.achievementExists(achievement.id)">
             <FileUploader :file-info="residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo" />
-            <el-button @click="residencyApplication.removeAchievementByAchievementId(achievement.id)">Удалить достижение </el-button>
+            <el-button @click="residencyApplication.removeAchievementByAchievementId(achievement.id)">
+              Удалить достижение
+            </el-button>
             <div
               v-if="
                 residencyApplication.getAchievementResultByAchievementId(achievement.id).showError &&
-                residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo &&
-                !residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo.fileSystemPath
+                  residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo &&
+                  !residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo.fileSystemPath
               "
               class="form-item-error"
             >
               Необходимо добавить файл
             </div>
           </div>
-          <el-button v-else @click="addAchievement(achievement)">Добавить</el-button>
+          <el-button
+            v-else
+            @click="addAchievement(achievement)"
+          >
+            Добавить
+          </el-button>
         </td>
       </tr>
     </tbody>
@@ -45,7 +62,6 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import FileUploader from '@/components/FileUploader.vue';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import removeFromClass from '@/services/removeFromClass';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -80,7 +96,6 @@ export default defineComponent({
       selectedAchievement,
       addAchievement,
       pointsAchievements,
-      removeFromClass,
     };
   },
 });

@@ -1,7 +1,7 @@
 import PathPermissionRole from '@/classes/PathPermissionRole';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
-import removeFromClass from '@/services/removeFromClass';
+import ClassHelper from '@/services/ClassHelper';
 
 export default class PathPermission implements IPathPermission {
   id?: string;
@@ -29,11 +29,7 @@ export default class PathPermission implements IPathPermission {
   }
 
   removeRole(roleId: string): void {
-    const index = this.pathPermissionsRoles.findIndex((p: IPathPermissionRole) => p.roleId === roleId);
-    if (index < 0) {
-      return;
-    }
-    removeFromClass(index, this.pathPermissionsRoles, this.pathPermissionsRolesForDelete);
+    ClassHelper.RemoveFromClassById(roleId, this.pathPermissionsRoles, this.pathPermissionsRolesForDelete);
   }
 
   addRole(roleId: string): void {

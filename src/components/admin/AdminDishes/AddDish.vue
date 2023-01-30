@@ -2,38 +2,62 @@
   <!-- <div style="display: flex; justify-content: space-between"> -->
   <div>
     <div>
-      <div v-for="dishesGroup in menu.dishesGroups" :key="dishesGroup.id">
+      <div
+        v-for="dishesGroup in menu.dishesGroups"
+        :key="dishesGroup.id"
+      >
         <div>{{ dishesGroup.name }}</div>
-        <div v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id">
+        <div
+          v-for="dish in dishesGroup.dailyMenuItems"
+          :key="dish.id"
+        >
           {{ dish.name }}
-          <button @click="menu.removeMenuItem(dish.id)">Удалить блюдо</button>
+          <button @click="menu.removeMenuItem(dish.id)">
+            Удалить блюдо
+          </button>
         </div>
       </div>
     </div>
     <div class="block-container">
       <div class="dishesGroup">
         <div class="tools">
-          <div class="tools-title">Книга блюд</div>
+          <div class="tools-title">
+            Книга блюд
+          </div>
           <div class="tools-buttons">
-            <button class="button-create">Создать блюдо</button>
+            <button class="button-create">
+              Создать блюдо
+            </button>
             <button class="tools-button">
               <svg class="icon-add-to-menu">
-                <use xlink:href="#add-to-menu"></use>
+                <use xlink:href="#add-to-menu" />
               </svg>
             </button>
             <!-- <div @click="addToMenu">Добавить в меню</div>  -->
           </div>
         </div>
         <div class="column">
-          <div v-for="dishesGroup in dishesGroupsSource" :key="dishesGroup.id" :name="dishesGroup.name" :title="dishesGroup.name">
+          <div
+            v-for="dishesGroup in dishesGroupsSource"
+            :key="dishesGroup.id"
+            :name="dishesGroup.name"
+            :title="dishesGroup.name"
+          >
             <CollapsContainer :tab-id="dishesGroup.id">
               <template #inside-title>
-                <div class="title-in">{{ dishesGroup.name }}</div>
+                <div class="title-in">
+                  {{ dishesGroup.name }}
+                </div>
               </template>
               <template #inside-content>
                 тест
-                <div v-for="dishSample in dishesGroup.dishSamples" :key="dishSample">
-                  <button @click="dishesGroup.toggleSelectSample(dishSample.id)">Выбрать образец</button>
+                <div
+                  v-for="dishSample in dishesGroup.dishSamples"
+                  :key="dishSample"
+                >
+                  <button @click="dishesGroup.toggleSelectSample(dishSample.id)">
+                    Выбрать образец
+                  </button>
                   <div @click="menu.addDishesFromSamples([dishSample])">
                     {{ dishSample.name }} {{ dishSample.selected ? 'Выбран' : '' }}
                   </div>
@@ -45,21 +69,23 @@
       </div>
       <div class="menusGroup">
         <div class="tools">
-          <div class="tools-title">Меню</div>
+          <div class="tools-title">
+            Меню
+          </div>
           <div class="tools-buttons">
             <button class="tools-button">
               <svg class="icon-delete">
-                <use xlink:href="#delete"></use>
+                <use xlink:href="#delete" />
               </svg>
             </button>
             <button class="tools-button">
               <svg class="icon-save">
-                <use xlink:href="#save"></use>
+                <use xlink:href="#save" />
               </svg>
             </button>
           </div>
         </div>
-        <div class="column"></div>
+        <div class="column" />
       </div>
     </div>
   </div>
@@ -79,7 +105,6 @@ import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
-import removeFromClass from '@/services/removeFromClass';
 
 export default defineComponent({
   name: 'AddDish',
@@ -122,7 +147,6 @@ export default defineComponent({
       dishesGroups,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      removeFromClass,
     };
   },
 });

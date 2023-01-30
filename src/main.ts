@@ -19,6 +19,7 @@ import VueSocialSharing from 'vue-social-sharing';
 // import YmapPlugin from 'vue-yandex-maps';
 import Vue3TouchEvents from 'vue3-touch-events';
 
+app.config.globalProperties.$classHelper = ClassHelper;
 app.config.globalProperties.$dateTimeFormatter = new DateTimeFormatter('ru-RU');
 app.config.globalProperties.$sanitize = sanitizeHTML;
 app.config.globalProperties.$scroll = scroll;
@@ -34,6 +35,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Maska from 'maska';
 
 import buildUrl from '@/services/BuildUrl';
+import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
 import Provider from '@/services/Provider';
 
