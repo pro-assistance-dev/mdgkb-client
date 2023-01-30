@@ -1,40 +1,50 @@
 <template>
   <el-form v-if="mounted" ref="form" :model="doctor" label-position="top" :rules="rules">
-    <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
-        <el-card>
-          <RemoteSearch :key-value="schema.division.key" @select="addDoctorDivision" />
-          <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision">
-            <span> {{ doctorDivision.division.name }}</span>
-            <el-button @click="removeFromClass(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)">
-              Удалить отделение
-            </el-button>
+    <div class="margin-container">
+      <CollapsContainer :tab-id="1036" :collapsed="true">
+        <template #inside-title>
+          <div class="title-in">Отделения</div>
+        </template>
+        <template #inside-content>
+          <div class="background-container">
+            <div class="search-line">
+              <div class="search-label">Выберите отделение для добавления:</div>
+              <RemoteSearch :key-value="schema.division.key" :max-width="2000" @select="addDoctorDivision" />
+            </div>
+            <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision" class="container">
+              <button class="admin-del" @click.prevent="removeFromClass(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)">
+                Удалить
+              </button>
+              <div class="list-number">{{ i + 1 }}</div>
+              <div class="division-name">{{ doctorDivision.division.name }}</div>
+            </div>
           </div>
-        </el-card>
-        <el-container direction="vertical">
-          <el-checkbox v-model="doctor.hasAppointment" label="Включить расписание приёма" />
-          <div v-if="doctor.hasAppointment">
-            <TimetableConstructorV2 :store-module="'doctors'" />
-          </div>
-        </el-container>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
-        <el-container direction="vertical">
-          <el-card>
-            <template #header>
-              <CardHeader :label="'Прочая информация'" :add-button="false" />
-            </template>
+        </template>
+      </CollapsContainer>
+    </div>
+    <div class="margin-container">
+      <CollapsContainer :tab-id="1036">
+        <template #inside-title>
+          <div class="title-in">Прочая информация</div>
+        </template>
+        <template #inside-content>
+          <div class="background-container">
             <el-form-item label="Ссылка на профиль в системе Московский врач">
               <el-input v-model="doctor.mosDoctorLink" />
             </el-form-item>
-            <el-divider />
             <el-form-item label="Краткое описание сферы интересов">
               <el-input v-model="doctor.description" />
             </el-form-item>
-          </el-card>
-        </el-container>
-      </el-col>
-    </el-row>
+          </div>
+        </template>
+      </CollapsContainer>
+    </div>
+    <el-container direction="vertical">
+      <el-checkbox v-model="doctor.hasAppointment" label="Включить расписание приёма" />
+      <div v-if="doctor.hasAppointment">
+        <TimetableConstructorV2 :store-module="'doctors'" />
+      </div>
+    </el-container>
   </el-form>
 </template>
 
@@ -45,8 +55,8 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import Division from '@/classes/Division';
 import FilterModel from '@/classes/filters/FilterModel';
-import CardHeader from '@/components/admin/CardHeader.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -66,7 +76,7 @@ export default defineComponent({
   components: {
     RemoteSearch,
     TimetableConstructorV2,
-    CardHeader,
+    CollapsContainer,
   },
   setup() {
     const form = ref();
@@ -257,13 +267,207 @@ $margin: 20px 0;
   margin: $margin;
 }
 
+.el-card {
+  background: #f9fafb;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+}
+
 .el-container {
   .el-card {
     margin-bottom: 20px;
+    background: #f9fafb;
   }
 }
 
 :deep(.el-dialog) {
   overflow: hidden;
+}
+
+:deep(.el-dialog) {
+  overflow: hidden;
+}
+
+:deep(.el-form--label-top .el-form-item) {
+  display: flex;
+}
+
+:deep(.el-form-item__content) {
+  width: 100%;
+}
+
+:deep(.el-input__inner) {
+  border-radius: 40px;
+  padding-left: 25px;
+  height: 32px;
+  width: 100%;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+}
+
+:deep(.el-input__inner::placeholder) {
+  color: #4a4a4a;
+}
+
+:deep(.el-select .el-input .el-select__caret) {
+  color: #343e5c;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.el-select {
+  width: 100%;
+}
+
+:deep(.el-input__prefix) {
+  left: 230px;
+  top: -3px;
+}
+
+:deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
+  width: 100%;
+}
+
+:deep(.el-input__icon) {
+  color: #343e5c;
+}
+
+:deep(.el-input__suffix) {
+  top: -3px;
+}
+
+:deep(.el-form-item__label) {
+  font-size: 12px;
+  color: #a3a9be;
+  padding: 0 !important;
+  text-transform: uppercase;
+  margin-left: 5px;
+  height: 30px;
+}
+
+:deep(.el-input__prefix) {
+  left: auto;
+  right: 10px;
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 10px;
+}
+
+:deep(.el-form) {
+  padding: 0;
+}
+
+:deep(.el-form--label-top .el-form-item__label) {
+  margin-right: 20px;
+}
+
+.search-line {
+  display: block;
+  align-items: center;
+  justify-content: left;
+}
+
+.search-label {
+  font-size: 12px;
+  color: #a3a9be;
+  padding: 0 !important;
+  text-transform: uppercase;
+  margin-left: 5px;
+}
+
+.margin-container {
+  margin: 0 0 10px 0;
+}
+
+.margin-container:first-child {
+  margin: -10px 0 10px 0;
+}
+
+.container {
+  position: relative;
+  width: calc(100% - 20px);
+  margin: 10px 0px 10px 0px;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 12px 10px;
+  background: #f9fafb;
+}
+
+.title-in {
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #303133;
+  height: 60px;
+  align-items: center;
+  font-weight: normal;
+}
+
+.background-container {
+  width: auto;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  background: #dff2f8;
+  border-radius: 5px;
+  border: 1px solid #c3c3c3;
+}
+
+.admin-del {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 36px;
+  border: none;
+  background: inherit;
+  color: #a3a9be;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-del:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.list-number {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: #1979cf;
+  border-radius: 20px;
+}
+
+.division-name {
+  width: calc(100% - 100px);
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    width: calc(100% - 42px);
+    margin: 0px 10px 20px 10px;
+  }
+  .admin-del {
+    position: absolute;
+    top: 23px;
+    right: 36px;
+    border: none;
+    background: inherit;
+    color: #a3a9be;
+    transition: 0.3s;
+    cursor: pointer;
+    padding: 1px 0px;
+  }
+  .background-container {
+    margin: 0 10px 20px 10px;
+  }
 }
 </style>
