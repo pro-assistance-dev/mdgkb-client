@@ -1,7 +1,4 @@
-import FilterModel from '@/classes/filters/FilterModel';
 import SortModel from '@/classes/filters/SortModel';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
@@ -52,19 +49,7 @@ const VisitsApplicationsSortsLib = (() => {
     );
   }
 
-  function byStatus(statusId: string, label: string): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.visitsApplication.tableName,
-      Provider.schema.value.visitsApplication.formStatusId,
-      DataTypes.String
-    );
-    filterModel.value1 = statusId;
-    filterModel.label = label;
-    return filterModel;
-  }
-
   return {
-    byStatus,
     byCreatedAt,
     byChildFullName,
     byUserEmail,

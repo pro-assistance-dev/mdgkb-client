@@ -1,10 +1,11 @@
+import Employee from '@/classes/Employee';
 import IRegalia from '@/interfaces/IRegalia';
 
 export default class Regalia implements IRegalia {
   id?: string;
   name = '';
   employeeId?: string;
-
+  employee?: Employee;
   constructor(i?: IRegalia) {
     if (!i) {
       return;
