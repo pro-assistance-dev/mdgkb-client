@@ -1,26 +1,26 @@
 <template>
   <div class="tab">
-    <svg v-if="isCollaps && collapsed" class="icon-arrow" @click="collapsed = !collapsed">
+    <svg v-if="isCollaps && collapsed" class="icon-arrow" @click="handleItemClick">
       <use xlink:href="#arrow-down"></use>
     </svg>
-    <svg v-else-if="isCollaps && !collapsed" class="icon-arrow" @click="collapsed = !collapsed">
+    <svg v-else-if="isCollaps && !collapsed" class="icon-arrow" @click="handleItemClick">
       <use xlink:href="#arrow-up"></use>
     </svg>
-    <label :for="tabId" @click="collapsed = !collapsed">
+    <label :for="tabId" @click="handleItemClick">
       <div :style="{ cursor: isCollaps ? 'pointer' : 'default' }" class="tab-name">
         <div class="insade-icon">
           <slot name="icon" />
         </div>
-        <slot name="inside-title" />
+        <div v-if="title" class="title-in">
+          {{ title }}
+        </div>
+        <slot v-else name="inside-title" />
         <div class="tools-bar">
           <slot name="tools" />
         </div>
       </div>
     </label>
-    <div v-if="collapsed" :style="{ maxHeight: isCollaps ? '' : '100vh' }" class="tab-content-down">
-      <slot name="inside-content" />
-    </div>
-    <div v-else-if="!collapsed" class="tab-content-up">
+    <div :style="{ maxHeight: isCollaps ? '' : '100vh' }" :class="collapsed ? 'tab-content-down' : 'tab-content-up'">
       <slot name="inside-content" />
     </div>
   </div>
@@ -28,24 +28,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue';
+import { defineComponent, onUpdated, PropType, Ref, ref } from 'vue';
 
 import Arrows from '@/assets/svg/CollapsContainer/Arrows.svg';
 
 export default defineComponent({
   name: 'CollapsContainer',
   components: { Arrows },
-
   props: {
-    tabId: { type: String as PropType<string>, required: true },
+    tabId: { type: Number as PropType<number>, required: true },
+    activeId: { type: Number as PropType<number>, default: 0 },
     isCollaps: { type: Boolean as PropType<boolean>, default: true },
+    title: { type: String as PropType<string>, default: '' },
   },
+  emits: ['changeActiveId'],
 
-  setup() {
+  setup(props, { emit }) {
     const collapsed: Ref<boolean> = ref(true);
+
+    const handleItemClick = () => {
+      collapsed.value = !collapsed.value;
+      emit('changeActiveId', props.tabId);
+    };
+
+    onUpdated(() => {
+      if (props.activeId && props.activeId !== props.tabId) {
+        console.log(123);
+        collapsed.value = true;
+      }
+    });
 
     return {
       collapsed,
+      handleItemClick,
     };
   },
 });
@@ -187,5 +202,15 @@ export default defineComponent({
 .tab-name:hover > .tools-bar {
   visibility: visible;
   opacity: 1;
+}
+
+.title-in {
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #303133;
+  height: 60px;
+  align-items: center;
+  font-weight: normal;
 }
 </style>

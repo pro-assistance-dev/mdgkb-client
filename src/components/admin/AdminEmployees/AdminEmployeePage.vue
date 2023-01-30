@@ -3,133 +3,160 @@
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical">
-          <div class="margin-container">
-            <CollapsContainer :tab-id="1011" :collapsed="false">
-              <template #inside-title>
-                <div class="title-in">Личная информация</div>
-              </template>
-              <template #inside-content>
-                <div class="background-container">
-                  <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
-                </div>
-              </template>
-            </CollapsContainer>
-          </div>
-          <div class="margin-container">
-            <CollapsContainer :tab-id="1012" :collapsed="false">
-              <template #inside-title>
-                <div class="title-in">Образование</div>
-              </template>
-              <template #inside-content>
-                <EducationForm :store-module="'employees'" />
-              </template>
-            </CollapsContainer>
-          </div>
-          <div class="margin-container">
-            <CollapsContainer :tab-id="1013" :collapsed="false">
-              <template #inside-title>
-                <div class="title-in">Опыт работы</div>
-              </template>
-              <template #inside-content>
-                <div class="tools-buttons"><button class="admin-add" @click.prevent="employee.addExperience()">+ Добавить</button></div>
-                <div v-for="(experience, i) in employee.experiences" :key="experience.id" class="container">
-                  <button class="admin-del" @click="employee.removeExperience(i)">Удалить</button>
-                  <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label="Место работы">
-                    <el-input v-model="experience.place" />
-                  </el-form-item>
-                  <el-form-item label="Должность">
-                    <el-input v-model="experience.position" />
-                  </el-form-item>
-                  <div class="column-block">
-                    <div class="column-item3">
-                      <el-form-item label="С:">
-                        <DatePicker v-model="experience.start" />
+          <CollapseList>
+            <template #default="scope">
+              <div class="margin-container">
+                <CollapsContainer
+                  title="Личная информация"
+                  :active-id="scope.activeId"
+                  :tab-id="1011"
+                  :collapsed="false"
+                  @changeActiveId="scope.changeActiveId"
+                >
+                  <template #inside-content>
+                    <div class="background-container">
+                      <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
+                    </div>
+                  </template>
+                </CollapsContainer>
+              </div>
+              <div class="margin-container">
+                <CollapsContainer
+                  title="Образование"
+                  :active-id="scope.activeId"
+                  :tab-id="1012"
+                  :collapsed="false"
+                  @changeActiveId="scope.changeActiveId"
+                >
+                  <template #inside-content>
+                    <EducationForm :store-module="'employees'" />
+                  </template>
+                </CollapsContainer>
+              </div>
+              <div class="margin-container">
+                <CollapsContainer
+                  title="Опыт работы"
+                  :active-id="scope.activeId"
+                  :tab-id="1013"
+                  :collapsed="false"
+                  @changeActiveId="scope.changeActiveId"
+                >
+                  <template #inside-content>
+                    <div class="tools-buttons"><button class="admin-add" @click.prevent="employee.addExperience()">+ Добавить</button></div>
+                    <div v-for="(experience, i) in employee.experiences" :key="experience.id" class="container">
+                      <button class="admin-del" @click="employee.removeExperience(i)">Удалить</button>
+                      <div class="list-number">{{ i + 1 }}</div>
+                      <el-form-item label="Место работы">
+                        <el-input v-model="experience.place" />
+                      </el-form-item>
+                      <el-form-item label="Должность">
+                        <el-input v-model="experience.position" />
+                      </el-form-item>
+                      <div class="column-block">
+                        <div class="column-item3">
+                          <el-form-item label="С:">
+                            <DatePicker v-model="experience.start" />
+                          </el-form-item>
+                        </div>
+                        <div class="column-item3">
+                          <el-form-item label="По:">
+                            <DatePicker v-model="experience.end" />
+                          </el-form-item>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </CollapsContainer>
+              </div>
+              <div class="margin-container">
+                <CollapsContainer
+                  title="Сертификаты"
+                  :active-id="scope.activeId"
+                  :tab-id="1014"
+                  :collapsed="false"
+                  @changeActiveId="scope.changeActiveId"
+                >
+                  <template #inside-content>
+                    <div class="tools-buttons">
+                      <button class="admin-add" @click.prevent="employee.addCertificate()">+ Добавить</button>
+                    </div>
+                    <div v-for="(certificate, i) in employee.certificates" :key="certificate.id" class="container">
+                      <button class="admin-del" @click.prevent="employee.removeCertificate(i)">Удалить</button>
+                      <div class="list-number">{{ i + 1 }}</div>
+                      <el-form-item label="Название сертификата">
+                        <el-input v-model="certificate.description" />
+                      </el-form-item>
+                      <el-form-item label="Загрузить сертификат">
+                        <UploaderSingleScan :height="238" :width="238" :file-info="certificate.scan" />
                       </el-form-item>
                     </div>
-                    <div class="column-item3">
-                      <el-form-item label="По:">
-                        <DatePicker v-model="experience.end" />
+                  </template>
+                </CollapsContainer>
+              </div>
+              <div class="margin-container">
+                <CollapsContainer
+                  title="Ученая степень, звание"
+                  :active-id="scope.activeId"
+                  :tab-id="1016"
+                  :collapsed="false"
+                  @changeActiveId="scope.changeActiveId"
+                >
+                  <template #inside-content>
+                    <div class="background-container">
+                      <el-form-item label="Учёная степень">
+                        <el-input v-model="employee.academicDegree" />
+                      </el-form-item>
+                      <el-form-item label="Звание">
+                        <el-input v-model="employee.academicRank" />
                       </el-form-item>
                     </div>
-                  </div>
-                </div>
-              </template>
-            </CollapsContainer>
-          </div>
-          <div class="margin-container">
-            <CollapsContainer :tab-id="1014" :collapsed="false">
-              <template #inside-title>
-                <div class="title-in">Сертификаты</div>
-              </template>
-              <template #inside-content>
-                <div class="tools-buttons"><button class="admin-add" @click.prevent="employee.addCertificate()">+ Добавить</button></div>
-                <div v-for="(certificate, i) in employee.certificates" :key="certificate.id" class="container">
-                  <button class="admin-del" @click.prevent="employee.removeCertificate(i)">Удалить</button>
-                  <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label="Название сертификата">
-                    <el-input v-model="certificate.description" />
-                  </el-form-item>
-                  <el-form-item label="Загрузить сертификат">
-                    <UploaderSingleScan :height="238" :width="238" :file-info="certificate.scan" />
-                  </el-form-item>
-                </div>
-              </template>
-            </CollapsContainer>
-          </div>
-          <div class="margin-container">
-            <CollapsContainer :tab-id="1016" :collapsed="false">
-              <template #inside-title>
-                <div class="title-in">Ученая степень, звание</div>
-              </template>
-              <template #inside-content>
-                <div class="background-container">
-                  <el-form-item label="Учёная степень">
-                    <el-input v-model="employee.academicDegree" />
-                  </el-form-item>
-                  <el-form-item label="Звание">
-                    <el-input v-model="employee.academicRank" />
-                  </el-form-item>
-                </div>
-              </template>
-            </CollapsContainer>
-          </div>
-          <div class="margin-container">
-            <CollapsContainer :tab-id="1015" :collapsed="false">
-              <template #inside-title>
-                <div class="title-in">Регалии</div>
-              </template>
-              <template #inside-content>
-                <div class="tools-buttons"><button class="admin-add" @click.prevent="addRegalia">+ Добавить</button></div>
-                <div v-for="(regalia, i) in employee.regalias" :key="regalia" class="container">
-                  <button class="admin-del" @click.prevent="employee.removeRegalia(i)">Удалить</button>
-                  <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label=" ">
-                    <el-input v-model="regalia.name" />
-                  </el-form-item>
-                </div>
-              </template>
-            </CollapsContainer>
-          </div>
-          <div class="margin-container">
-            <CollapsContainer :tab-id="1015" :collapsed="false">
-              <template #inside-title>
-                <div class="title-in">Педагогическая деятельность&nbsp;&nbsp;&nbsp;&nbsp;</div>
-              </template>
-              <template #inside-content>
-                <div class="tools-buttons">
-                  <button class="admin-add" @click.prevent="employee.addTeachingActivity()">+ Добавить</button>
-                </div>
-                <div v-for="(regalia, i) in employee.teachingActivities" :key="regalia" class="container">
-                  <button class="admin-del" @click.prevent="employee.removeTeachingActivity(i)">Удалить</button>
-                  <div class="list-number">{{ i + 1 }}</div>
-                  <el-form-item label=" ">
-                    <el-input v-model="regalia.name" />
-                  </el-form-item>
-                </div>
-              </template>
-            </CollapsContainer>
-          </div>
+                  </template>
+                </CollapsContainer>
+              </div>
+              <div class="margin-container">
+                <CollapsContainer
+                  title="Регалии"
+                  :active-id="scope.activeId"
+                  :tab-id="1017"
+                  :collapsed="false"
+                  @changeActiveId="scope.changeActiveId"
+                >
+                  <template #inside-content>
+                    <div class="tools-buttons"><button class="admin-add" @click.prevent="addRegalia">+ Добавить</button></div>
+                    <div v-for="(regalia, i) in employee.regalias" :key="regalia" class="container">
+                      <button class="admin-del" @click.prevent="employee.removeRegalia(i)">Удалить</button>
+                      <div class="list-number">{{ i + 1 }}</div>
+                      <el-form-item label=" ">
+                        <el-input v-model="regalia.name" />
+                      </el-form-item>
+                    </div>
+                  </template>
+                </CollapsContainer>
+              </div>
+              <div class="margin-container">
+                <CollapsContainer
+                  title="Педагогическая деятельность"
+                  :active-id="scope.activeId"
+                  :tab-id="1018"
+                  :collapsed="false"
+                  @changeActiveId="scope.changeActiveId"
+                >
+                  <template #inside-content>
+                    <div class="tools-buttons">
+                      <button class="admin-add" @click.prevent="employee.addTeachingActivity()">+ Добавить</button>
+                    </div>
+                    <div v-for="(regalia, i) in employee.teachingActivities" :key="regalia" class="container">
+                      <button class="admin-del" @click.prevent="employee.removeTeachingActivity(i)">Удалить</button>
+                      <div class="list-number">{{ i + 1 }}</div>
+                      <el-form-item label=" ">
+                        <el-input v-model="regalia.name" />
+                      </el-form-item>
+                    </div>
+                  </template>
+                </CollapsContainer>
+              </div>
+            </template>
+          </CollapseList>
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
@@ -161,6 +188,7 @@ import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseList from '@/components/Main/CollapsContainer/CollapseList.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -180,6 +208,7 @@ export default defineComponent({
     UploaderSingleScan,
     CollapsContainer,
     DatePicker,
+    CollapseList,
   },
   setup() {
     const form = ref();
