@@ -24,8 +24,8 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IWithPaidService from '@/interfaces/IWithPaidService';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'PaidServices',
@@ -75,7 +75,6 @@ export default defineComponent({
     cursor: pointer;
     color: darken($site_blue, 30%);
   }
-
 }
 * {
   padding: 0px;

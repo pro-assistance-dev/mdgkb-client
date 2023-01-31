@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted } from 'vue';
 
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
@@ -53,7 +53,6 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(_, { emit }) {
-    const form = ref();
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);

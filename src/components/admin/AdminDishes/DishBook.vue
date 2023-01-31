@@ -5,28 +5,18 @@
         <div class="tools-title">
           Книга блюд
           <div class="search">
-            <DishSearchBar
-              :is-search-page="true"
-              @search="searchDishSamples"
-            />
+            <DishSearchBar :is-search-page="true" @search="searchDishSamples" />
           </div>
         </div>
         <div class="tools-buttons">
-          <button
-            v-show="dishesSelected()"
-            class="tools-button"
-            @click="addToMenu"
-          >
+          <button v-show="dishesSelected()" class="tools-button" @click="addToMenu">
             <svg class="icon-add-to-menu">
               <use xlink:href="#add-to-menu" />
             </svg>
           </button>
         </div>
       </div>
-      <div
-        v-if="dishSamplesFlat.length === 0"
-        class="column"
-      >
+      <div v-if="dishSamplesFlat.length === 0" class="column">
         <CollapsContainer
           v-for="dishesGroup in dishesGroups.filter((d) => d.getSamplesNotFromMenu(menu).length)"
           :key="dishesGroup.id"

@@ -77,7 +77,7 @@ export default defineComponent({
     const onlyNewFilter: Ref<IFilterModel> = ref(new FilterModel());
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
-    const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
+    const { saveButtonClick } = useConfirmLeavePage();
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount'](' questions'));
     let sourceSSE: EventSource | undefined = undefined;
     const edit = () => {

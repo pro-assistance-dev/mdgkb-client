@@ -55,7 +55,7 @@ export default defineComponent({
     const hospitalizationType: Ref<IHospitalizationType> = computed<IHospitalizationType>(
       () => Provider.store.getters['hospitalizationsTypes/item']
     );
-    const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const rules = {
       answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],
     };

@@ -50,7 +50,6 @@ import ISupportMessage from '@/interfaces/ISupportMessage';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminSupportMessagePage',
@@ -72,17 +71,6 @@ export default defineComponent({
         message: 'Изменения сохранены',
       });
       Provider.store.commit('supportMessages/resetSupportMessage');
-    };
-
-    const update = async () => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      await Provider.store.dispatch('supportMessages/update', supportMessage.value);
-      Provider.router.push('/admin/supportMessages');
-      Provider.store.commit('supportMessages/resetsupportMessage');
     };
 
     Hooks.onBeforeMount(async () => {

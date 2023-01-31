@@ -19,7 +19,6 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import UserFormFields from '@/classes/UserFormFields';
@@ -28,9 +27,9 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IUser from '@/interfaces/IUser';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
-import validate from '@/services/validate';
 import VacancyResponseRules from '@/rules/VacancyResponseRules';
 import scroll from '@/services/Scroll';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'VacancyResponseForm',
@@ -40,7 +39,6 @@ export default defineComponent({
   setup(_, { emit }) {
     const filter = ref('');
     const store = useStore();
-    const router = useRouter();
     const mounted = ref(false);
     const rules = ref(VacancyResponseRules);
     const form = ref();

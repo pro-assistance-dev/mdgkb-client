@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, toRefs } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import FilterModel from '@/classes/filters/FilterModel';
@@ -76,7 +76,6 @@ export default defineComponent({
   },
   emits: ['load'],
   setup(props, { emit }) {
-    const { table, col } = toRefs(props);
     const store = useStore();
 
     const createModel = (): IFilterModel => {

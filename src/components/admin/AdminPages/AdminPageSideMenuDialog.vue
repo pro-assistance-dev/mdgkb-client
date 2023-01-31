@@ -1,22 +1,8 @@
 <template>
-  <el-dialog
-    v-if="mounted"
-    v-model="isSideMenuDialogActive"
-    fullscreen
-    destroy-on-close
-    :before-close="handleClose"
-  >
-    <el-input
-      v-model="pageSideMenu.name"
-      placeholder="Название меню"
-    />
-    <WysiwygEditor
-      :key="pageSideMenu.name"
-      v-model="pageSideMenu.description"
-    />
-    <el-button @click="() => openDrawer()">
-      Добавить раздел
-    </el-button>
+  <el-dialog v-if="mounted" v-model="isSideMenuDialogActive" fullscreen destroy-on-close :before-close="handleClose">
+    <el-input v-model="pageSideMenu.name" placeholder="Название меню" />
+    <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
+    <el-button @click="() => openDrawer()"> Добавить раздел </el-button>
     <draggable
       v-if="pageSideMenu.pageSections.length"
       class="groups"
@@ -27,10 +13,7 @@
     >
       <template #item="{ element, index }">
         <div class="side-menu-row">
-          <i
-            style="margin-right: 5px; cursor: pointer"
-            class="el-icon-s-grid drug-icon"
-          />
+          <i style="margin-right: 5px; cursor: pointer" class="el-icon-s-grid drug-icon" />
           <div style="width: 100%">
             <a @click="openDrawer(index)"> {{ element.name }} </a>
           </div>

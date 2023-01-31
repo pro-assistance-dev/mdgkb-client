@@ -84,7 +84,6 @@ export default defineComponent({
     };
 
     const isFound: Ref<boolean> = ref(true);
-    const path = '/files/contest.pdf';
 
     // const found = async () => {
     //   try {

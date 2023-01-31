@@ -44,7 +44,6 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import IDpoCourse from '@/interfaces/IDpoCourse';
-import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'DpoCoursesList',
@@ -52,14 +51,12 @@ export default defineComponent({
     const store = useStore();
     const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
     const mounted = ref(false);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     onBeforeMount(async () => {
       mounted.value = true;
     });
 
     const loadMore = async () => {
-      const lastCursor = dpoCourses.value[dpoCourses.value.length - 1].name;
       // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
       // await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };

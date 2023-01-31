@@ -4,8 +4,7 @@
       <div class="title-in">Дата и время приема</div>
     </template>
     <template #inside-content>
-      <div v-if="false" class="Date-and-time">
-      </div>
+      <div v-if="false" class="Date-and-time"></div>
     </template>
   </CollapsContainer>
 </template>
@@ -13,8 +12,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IDoctor from '@/interfaces/IDoctor';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DoctorDateAndTime',

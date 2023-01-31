@@ -56,8 +56,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import Time from '@/assets/doctors/svg/Time.svg';
 
+import Time from '@/assets/doctors/svg/Time.svg';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 export default defineComponent({

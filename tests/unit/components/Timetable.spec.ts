@@ -1,4 +1,4 @@
-import { mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
+import { mount, VueWrapper } from '@vue/test-utils';
 
 import TimePeriod from '@/classes/TimePeriod';
 import Timetable from '@/classes/timetable/Timetable';
@@ -6,24 +6,11 @@ import TimetableDay from '@/classes/timetable/TimetableDay';
 import TimetableComponent from '@/components/TimetableComponent.vue';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
-import ComponentStub from '../../__mocks__/ComponentStub';
-
 jest.mock('vue-router', () => ({
   useRoute: jest.fn(() => ({ params: { slug: 1 } })),
 }));
 
-const stubs = {
-  FavouriteIcon: ComponentStub,
-  Rating: ComponentStub,
-  RouterLink: RouterLinkStub,
-};
-
-let mockRouter;
-
 const createWrapper = (timetable: ITimetable, route?: string): VueWrapper<any> => {
-  mockRouter = {
-    push: jest.fn(),
-  };
   return mount(TimetableComponent, {
     props: {
       timetable: timetable,

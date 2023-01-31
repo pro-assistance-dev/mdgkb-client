@@ -45,7 +45,6 @@ import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import IUser from '@/interfaces/IUser';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -61,8 +60,6 @@ export default defineComponent({
     const roles: ComputedRef<IUser[]> = computed<IUser[]>(() => Provider.store.getters['roles/items']);
     const mounted: Ref<boolean> = ref(false);
     const isEditMode: Ref<boolean> = ref(false);
-    const isNotEditMode: Ref<boolean> = ref(true);
-    const sortList: Ref<ISortModel[]> = ref([]);
 
     const create = (): void => {
       Provider.router.push('/admin/users/new');

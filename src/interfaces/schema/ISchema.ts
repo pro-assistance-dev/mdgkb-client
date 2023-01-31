@@ -26,7 +26,6 @@ import IMedicalProfileSchema from '@/interfaces/schema/IMedicalProfileSchema';
 import INewsCommentSchema from '@/interfaces/schema/INewsCommentSchema';
 import INewsSchema from '@/interfaces/schema/INewsSchema';
 import INewsToTag from '@/interfaces/schema/INewsToTag';
-import IPageSideMenuSchema from '@/interfaces/schema/IPageSideMenuSchema';
 import IPathPermissionsSchema from '@/interfaces/schema/IPathPermissionsSchema';
 import IPostgraduateApplicationSchema from '@/interfaces/schema/IPostgraduateApplicationSchema';
 import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSchema';
@@ -66,7 +65,6 @@ export default interface ISchema {
   postgraduateCourse: IPostgraduateCourseSchema;
   residencyCourse: IResidencyCourseSchema;
   educationPublicDocumentType: IEducationPublicDocumentTypeSchema;
-  publicDocumentType: IPageSideMenuSchema;
   educationYear: IEducationYearSchema;
   postgraduateCourseSpecialization: IPostgraduateCourseSpecializationSchema;
   educationalOrganizationAcademic: IEducationalOrganizationAcademicSchema;

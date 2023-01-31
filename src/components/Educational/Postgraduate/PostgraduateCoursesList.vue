@@ -109,7 +109,6 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
-import ISchema from '@/interfaces/schema/ISchema';
 import buildNameNumbers from '@/services/buildNameNumbers';
 export default defineComponent({
   name: 'PostgraduateCoursesList',
@@ -119,7 +118,6 @@ export default defineComponent({
       () => store.getters['postgraduateCourses/items']
     );
     const mounted = ref(false);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     onBeforeMount(async () => {
       mounted.value = true;

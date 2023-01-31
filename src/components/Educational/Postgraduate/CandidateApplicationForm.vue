@@ -49,10 +49,10 @@ import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
-import validate from '@/services/validate';
 import Provider from '@/services/Provider';
 import SpecializationsFiltersLib from '@/services/Provider/libs/filters/SpecializationsFiltersLib';
 import scroll from '@/services/Scroll';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'CandidateApplicationForm',

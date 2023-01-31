@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IPaidProgramsGroup from '@/interfaces/IPaidProgramsGroupsForServer';
@@ -23,7 +22,6 @@ export default defineComponent({
   name: 'PaidPrograms',
   setup() {
     const store = useStore();
-    const router = useRouter();
     const paidProgramsGroups: Ref<IPaidProgramsGroup[]> = computed(() => store.getters['paidProgramsGroups/items']);
 
     onBeforeMount(async () => {

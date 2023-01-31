@@ -19,18 +19,6 @@ const DivisionsFiltersLib = (() => {
     return filterModel;
   }
 
-  function byTreatDirection(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.isCenter,
-      DataTypes.Boolean
-    );
-    filterModel.boolean = false;
-    filterModel.operator = Operators.Eq;
-    filterModel.label = 'Отделения';
-    return filterModel;
-  }
-
   function withComments(): IFilterModel {
     const filterModel = FilterModel.CreateFilterModel(
       Provider.schema.value.division.tableName,

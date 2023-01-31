@@ -57,16 +57,17 @@
 import { Calendar } from 'v-calendar';
 import { computed, defineComponent, PropType, ref } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IDivision from '@/interfaces/IDivision';
 import Provider from '@/services/Provider';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'DivisionDateAndTime',
   components: {
-    Calendar, CollapsContainer
+    Calendar,
+    CollapsContainer,
   },
   props: {
     division: { type: Object as PropType<IDivision>, required: true },

@@ -1,11 +1,5 @@
 <template>
-  <draggable
-    class="groups"
-    :list="fileList"
-    item-key="id"
-    handle=".el-icon-s-grid"
-    @end="sort(fileList)"
-  >
+  <draggable class="groups" :list="fileList" item-key="id" handle=".el-icon-s-grid" @end="sort(fileList)">
     <template #item="{ element, index }">
       <div>
         <i class="el-icon-s-grid drug-icon" />
@@ -18,9 +12,7 @@
       </div>
     </template>
   </draggable>
-  <el-button @click="$emit('addImage')">
-    Добавить изображение
-  </el-button>
+  <el-button @click="$emit('addImage')"> Добавить изображение </el-button>
 </template>
 
 <script lang="ts">

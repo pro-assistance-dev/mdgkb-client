@@ -21,7 +21,6 @@ export interface IPaginationOptions {
 }
 
 type func = (filterQuery: IFilterQuery) => void;
-type asyncFunc = () => Promise<void>;
 
 const Hooks = (() => {
   // const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
@@ -49,7 +48,7 @@ const Hooks = (() => {
     });
   };
 
-  const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+  const { saveButtonClick, showConfirmModal } = useConfirmLeavePage();
 
   const onBeforeRouteLeaveWithSubmit = (submitFunction: CallableFunction) => {
     return onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

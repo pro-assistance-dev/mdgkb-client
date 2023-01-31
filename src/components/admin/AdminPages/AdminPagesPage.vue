@@ -1,56 +1,22 @@
 <template>
-  <div
-    v-if="mounted"
-    class="wrapper"
-  >
-    <el-form
-      ref="form"
-      :key="page"
-      :rules="rules"
-      :model="page"
-      label-position="top"
-    >
+  <div v-if="mounted" class="wrapper">
+    <el-form ref="form" :key="page" :rules="rules" :model="page" label-position="top">
       <el-container direction="vertical">
         <el-card>
-          <template #header>
-            Заголовок
-          </template>
-          <el-form-item
-            prop="title"
-            label="Заголовок"
-          >
-            <el-input
-              v-model="page.title"
-              placeholder="Заголовок"
-            />
+          <template #header> Заголовок </template>
+          <el-form-item prop="title" label="Заголовок">
+            <el-input v-model="page.title" placeholder="Заголовок" />
           </el-form-item>
-          <el-checkbox v-model="page.withComments">
-            Включить комментарии
-          </el-checkbox>
+          <el-checkbox v-model="page.withComments"> Включить комментарии </el-checkbox>
           <WysiwygEditor v-model="page.content" />
         </el-card>
       </el-container>
-      <el-button @click="() => openDialog()">
-        Добавить меню
-      </el-button>
-      <div
-        v-if="page.pageSideMenus.length"
-        class="card-item"
-        style="margin-top: 10px"
-      >
-        <draggable
-          class="groups"
-          :list="page.pageSideMenus"
-          item-key="id"
-          handle=".el-icon-s-grid"
-          @end="sort(page.pageSideMenus)"
-        >
+      <el-button @click="() => openDialog()"> Добавить меню </el-button>
+      <div v-if="page.pageSideMenus.length" class="card-item" style="margin-top: 10px">
+        <draggable class="groups" :list="page.pageSideMenus" item-key="id" handle=".el-icon-s-grid" @end="sort(page.pageSideMenus)">
           <template #item="{ element, index }">
             <div class="side-menu-row">
-              <i
-                style="margin-right: 5px; cursor: pointer"
-                class="el-icon-s-grid drug-icon"
-              />
+              <i style="margin-right: 5px; cursor: pointer" class="el-icon-s-grid drug-icon" />
               <div style="width: 100%">
                 <a @click="openDialog(index)"> {{ element.name }} </a>
               </div>

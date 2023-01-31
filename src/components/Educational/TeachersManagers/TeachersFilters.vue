@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SortModel from '@/classes/filters/SortModel';
@@ -38,7 +38,6 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const route = useRoute();
     const router = useRouter();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
@@ -59,10 +58,6 @@ export default defineComponent({
       filterQuery.value.pagination.limit = 6;
       store.commit('filter/setStoreModule', 'teachers');
       await store.dispatch('teachers/getAll', filterQuery.value);
-    };
-
-    const loadFilters = async () => {
-      await store.dispatch('meta/getOptions', schema.value.teacher);
     };
 
     const createSortModels = (): ISortModel[] => {

@@ -138,8 +138,6 @@ class BooleanProperty implements IProperty {
   }
 }
 
-type PropertyContructor = { new (): IProperty };
-
 const TypedClassesMap: any = {
   undefined: UndefinedProperty,
   string: StringProperty,

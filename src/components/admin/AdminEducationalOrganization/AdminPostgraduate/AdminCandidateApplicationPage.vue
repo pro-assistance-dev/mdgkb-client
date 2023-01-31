@@ -46,11 +46,9 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import IFormStatus from '@/interfaces/IFormStatus';
-import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -64,13 +62,10 @@ export default defineComponent({
     const router = useRouter();
     const mounted = ref(false);
     const form = ref();
-    const filterModel = ref();
 
     const application: ComputedRef<ICandidateApplication> = computed<ICandidateApplication>(
       () => store.getters['candidateApplications/item']
     );
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
     const candidateExams: Ref<ICandidateExam[]> = computed<ICandidateExam[]>(() => [store.getters['candidateExams/item']]);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);

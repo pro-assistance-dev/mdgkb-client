@@ -19,8 +19,8 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, WritableComputedRef } from 'vue';
 
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
-import validate from '@/services/validate';
 import Provider from '@/services/Provider';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminFormStatusGroupDialog',

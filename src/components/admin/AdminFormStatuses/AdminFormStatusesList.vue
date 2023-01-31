@@ -48,9 +48,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
@@ -68,7 +66,6 @@ export default defineComponent({
     const formStatusToFormStatuses: ComputedRef<IFormStatusToFormStatus[]> = computed<IFormStatusToFormStatus[]>(
       () => Provider.store.getters['formStatuses/formStatusToFormStatuses']
     );
-    const filterByGroupId: Ref<IFilterModel> = ref(new FilterModel());
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
 

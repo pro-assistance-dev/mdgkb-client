@@ -30,7 +30,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
@@ -53,7 +52,6 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const route = useRoute();
     const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
     const mount = ref(false);
 
@@ -66,7 +64,7 @@ export default defineComponent({
     });
 
     const loadMore = async () => {
-      const lastCursor = doctors.value[doctors.value.length - 1].human.getFullName();
+      const lastCursor = doctors.value[doctors.value.length - 1].employee.human.getFullName();
       filterQuery.value.pagination.cursor.value = lastCursor;
       filterQuery.value.pagination.cursor.initial = false;
       filterQuery.value.pagination.cursor.operation = Operators.Gt;

@@ -1,22 +1,8 @@
 <template>
-  <div
-    v-if="mounted"
-    class="wrapper"
-  >
-    <el-form
-      ref="form"
-      :key="postgraduateCourse"
-      :model="postgraduateCourse"
-      label-position="top"
-    >
+  <div v-if="mounted" class="wrapper">
+    <el-form ref="form" :key="postgraduateCourse" :model="postgraduateCourse" label-position="top">
       <el-row :gutter="40">
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="14"
-          :lg="16"
-          :xl="19"
-        >
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
               <el-form-item label="Вопросы для подготовки к кандидатскому экзамену">
@@ -31,32 +17,19 @@
               <el-form-item label="Календарный учебный график">
                 <FileUploader :file-info="postgraduateCourse.calendar" />
               </el-form-item>
-              <el-button @click="postgraduateCourse.addPostgraduateCoursePlan()">
-                Добавить учебный план
-              </el-button>
+              <el-button @click="postgraduateCourse.addPostgraduateCoursePlan()"> Добавить учебный план </el-button>
               <el-table :data="postgraduateCourse.postgraduateCoursePlans">
-                <el-table-column
-                  label="Год"
-                  sortable
-                >
+                <el-table-column label="Год" sortable>
                   <template #default="scope">
                     <DatePicker v-model="scope.row.year" />
                   </template>
                 </el-table-column>
-                <el-table-column
-                  label="Учебный план"
-                  sortable
-                  width="300px"
-                >
+                <el-table-column label="Учебный план" sortable width="300px">
                   <template #default="scope">
                     <FileUploader :file-info="scope.row.plan" />
                   </template>
                 </el-table-column>
-                <el-table-column
-                  width="50"
-                  fixed="right"
-                  align="center"
-                >
+                <el-table-column width="50" fixed="right" align="center">
                   <template #default="scope">
                     <TableButtonGroup
                       :show-remove-button="true"
@@ -74,43 +47,27 @@
             </el-card>
 
             <el-card class="content-card">
-              <template #header>
-                Квалификация
-              </template>
+              <template #header> Квалификация </template>
               <el-form-item prop="description">
                 <WysiwygEditor v-model="postgraduateCourse.description" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Расписание курсов
-              </template>
-              <el-button @click="postgraduateCourse.addDates()">
-                Добавить даты
-              </el-button>
+              <template #header> Расписание курсов </template>
+              <el-button @click="postgraduateCourse.addDates()"> Добавить даты </el-button>
               <el-form-item prop="publishedOn">
                 <el-table :data="postgraduateCourse.postgraduateCoursesDates">
-                  <el-table-column
-                    label="Начало"
-                    sortable
-                  >
+                  <el-table-column label="Начало" sortable>
                     <template #default="scope">
                       <DatePicker v-model="scope.row.start" />
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="Конец"
-                    sortable
-                  >
+                  <el-table-column label="Конец" sortable>
                     <template #default="scope">
                       <DatePicker v-model="scope.row.end" />
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    width="50"
-                    fixed="right"
-                    align="center"
-                  >
+                  <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
                       <TableButtonGroup
                         :show-remove-button="true"
@@ -128,39 +85,21 @@
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Преподаватели
-              </template>
+              <template #header> Преподаватели </template>
               <el-form-item prop="listeners">
-                <RemoteSearch
-                  :key-value="schema.teacher.key"
-                  @select="addTeacher"
-                />
+                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />
                 <el-table :data="postgraduateCourse.postgraduateCoursesTeachers">
-                  <el-table-column
-                    label="ФИО"
-                    sortable
-                  >
+                  <el-table-column label="ФИО" sortable>
                     <template #default="scope">
                       {{ scope.row.teacher.doctor.employee.human.getFullName() }}
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="Руководитель программы"
-                    sortable
-                  >
+                  <el-table-column label="Руководитель программы" sortable>
                     <template #default="scope">
-                      <el-checkbox
-                        v-model="scope.row.main"
-                        @change="postgraduateCourse.setMainTeacher(scope.$index)"
-                      />
+                      <el-checkbox v-model="scope.row.main" @change="postgraduateCourse.setMainTeacher(scope.$index)" />
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    width="50"
-                    fixed="right"
-                    align="center"
-                  >
+                  <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
                       <TableButtonGroup
                         :show-remove-button="true"
@@ -178,29 +117,18 @@
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Специализации
-              </template>
+              <template #header> Специализации </template>
               <el-form-item prop="listeners">
                 <!--                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />-->
                 <el-table :data="postgraduateCourse.postgraduateCoursesSpecializations">
-                  <el-table-column
-                    label="Название"
-                    sortable
-                  >
+                  <el-table-column label="Название" sortable>
                     <template #default="scope">
                       {{ scope.row.specialization.name }}
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="Выбрать главную"
-                    sortable
-                  >
+                  <el-table-column label="Выбрать главную" sortable>
                     <template #default="scope">
-                      <el-checkbox
-                        v-model="scope.row.main"
-                        @change="postgraduateCourse.setMainSpecialization(scope.$index)"
-                      />
+                      <el-checkbox v-model="scope.row.main" @change="postgraduateCourse.setMainSpecialization(scope.$index)" />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -208,30 +136,18 @@
             </el-card>
           </el-container>
         </el-col>
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="10"
-          :lg="8"
-          :xl="5"
-        >
+        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">
             <el-card>
-              <template #header>
-                Форма обучения
-              </template>
+              <template #header> Форма обучения </template>
               <el-input v-model="postgraduateCourse.educationForm" />
             </el-card>
             <el-card>
-              <template #header>
-                Нормативный срок обучения
-              </template>
+              <template #header> Нормативный срок обучения </template>
               <el-input-number v-model="postgraduateCourse.years" /> года
             </el-card>
             <el-card>
-              <template #header>
-                Стоимость
-              </template>
+              <template #header> Стоимость </template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="postgraduateCourse.cost" />
               </el-form-item>
@@ -245,19 +161,12 @@
                   label="Шаблон формы"
                   @change="changeFormPatternHandler()"
                 >
-                  <el-option
-                    v-for="item in formPatterns"
-                    :key="item.id"
-                    :label="item.title"
-                    :value="item"
-                  />
+                  <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item" />
                 </el-select>
               </el-container>
             </el-card>
             <el-card>
-              <template #header>
-                Специальности
-              </template>
+              <template #header> Специальности </template>
               <el-checkbox
                 v-for="specialization in specializations"
                 :key="specialization.id"

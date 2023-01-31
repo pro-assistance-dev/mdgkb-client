@@ -10,6 +10,5 @@ export default class HospitalizationStageComment implements IHospitalizationStag
     }
     this.id = i.id;
     this.name = i.name;
-    this.hospitalizationStageId = i.hospitalizationStageId;
   }
 }

@@ -1,13 +1,15 @@
+import IAccreditation from '@/interfaces/accreditation/IAccreditation';
+
 export default class Accreditation implements IAccreditation {
   id?: string;
 
-  specialization: string;
+  specialization = '';
 
-  startDate: string;
+  startDate = '';
 
-  endDate: string;
+  endDate = '';
 
-  document: string;
+  document = '';
 
   constructor(accreditation?: IAccreditation) {
     if (!accreditation) return;

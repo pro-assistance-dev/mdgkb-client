@@ -1,6 +1,5 @@
 <template>
-  
-  <div 
+  <div
     v-if="news.content"
     :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
     :body-style="{ padding: '0px', height: '75%' }"
@@ -32,11 +31,11 @@
     </div>
   </div>
 
-   <div 
-      v-else
-      :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
-      :body-style="{ padding: '0px', height: '75%' }"
-    >
+  <div
+    v-else
+    :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
+    :body-style="{ padding: '0px', height: '75%' }"
+  >
     <a class="link-block" target="_blank" :href="news.articleLink"></a>
     <div class="flex-between-columm front">
       <div class="image">
@@ -61,13 +60,12 @@
           <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
       </div>
-    </div> 
-   </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, PropType } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 
 import NewsMeta from '@/components/News/NewsMeta.vue';
 import INews from '@/interfaces/news/INews';
@@ -91,9 +89,6 @@ export default defineComponent({
     },
   },
   setup() {
-    const store = useStore();
-    const filteredTagList: ComputedRef<ITag[]> = computed(() => store.getters['tags/filteredTagList']);
-
     const filterNews = async (tag: ITag): Promise<void> => {
       // tag.selected = !tag.selected;
       // filteredTagList.value.forEach((filterTag: ITag) => {
@@ -340,8 +335,8 @@ $card-width: 300px;
   width: 100%;
   height: 100%;
   z-index: 1;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
 }
 
 // @media screen and (max-width: 980px) {

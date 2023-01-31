@@ -29,7 +29,6 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const { table, col } = toRefs(props);
     const storeModule: string = store.getters['filter/storeModule'];
     const storeAction: string = store.getters['filter/storeAction'];
     const Asc = Orders.Asc;

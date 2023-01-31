@@ -1,83 +1,34 @@
 <template>
-  <div
-    v-if="mounted"
-    class="wrapper"
-  >
-    <el-form
-      ref="form"
-      :key="news"
-      :model="news"
-      label-position="top"
-      :rules="rules"
-    >
+  <div v-if="mounted" class="wrapper">
+    <el-form ref="form" :key="news" :model="news" label-position="top" :rules="rules">
       <el-row :gutter="40">
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="14"
-          :lg="16"
-          :xl="19"
-        >
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <el-form-item
-                prop="title"
-                label="Заголовок:"
-              >
-                <el-input
-                  v-model="news.title"
-                  placeholder="Заголовок"
-                />
+              <el-form-item prop="title" label="Заголовок:">
+                <el-input v-model="news.title" placeholder="Заголовок" />
               </el-form-item>
-              <el-form-item
-                prop="previewText"
-                label="Превью новости:"
-              >
-                <el-input
-                  v-model="news.previewText"
-                  placeholder="Превью новости"
-                  type="textarea"
-                  :autosize="{ minRows: 2 }"
-                />
+              <el-form-item prop="previewText" label="Превью новости:">
+                <el-input v-model="news.previewText" placeholder="Превью новости" type="textarea" :autosize="{ minRows: 2 }" />
               </el-form-item>
             </el-card>
             <el-card class="content-card">
-              <template #header>
-                Контент
-              </template>
+              <template #header> Контент </template>
               <el-form-item prop="content">
                 <WysiwygEditor v-model="news.content" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Основное изображение
-              </template>
-              <el-form-item
-                prop="mainImage.fileSystemPath"
-                :rules="rules.mainImage"
-              >
-                <UploaderSingleScan
-                  :file-info="news.mainImage"
-                  :height="200"
-                  :width="400"
-                  @remove-file="news.removeMainImage()"
-                />
+              <template #header> Основное изображение </template>
+              <el-form-item prop="mainImage.fileSystemPath" :rules="rules.mainImage">
+                <UploaderSingleScan :file-info="news.mainImage" :height="200" :width="400" @remove-file="news.removeMainImage()" />
               </el-form-item>
-              <el-form-item
-                prop="mainImageDescription"
-                label="Описание:"
-              >
-                <el-input
-                  v-model="news.mainImageDescription"
-                  placeholder="Описание"
-                />
+              <el-form-item prop="mainImageDescription" label="Описание:">
+                <el-input v-model="news.mainImageDescription" placeholder="Описание" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Галерея
-              </template>
+              <template #header> Галерея </template>
               <AdminGallery
                 :file-list="news.newsImages"
                 :file-list-for-delete="news.newsImagesForDelete"
@@ -86,59 +37,25 @@
             </el-card>
           </el-container>
         </el-col>
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="10"
-          :lg="8"
-          :xl="5"
-        >
+        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">
             <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
             <el-card>
-              <template #header>
-                Время и статус публикации
-              </template>
-              <el-form-item
-                label="Черновик"
-                prop="isDraft"
-              >
-                <el-switch
-                  v-model="news.isDraft"
-                  active-text="Да"
-                  inactive-text="Нет"
-                />
+              <template #header> Время и статус публикации </template>
+              <el-form-item label="Черновик" prop="isDraft">
+                <el-switch v-model="news.isDraft" active-text="Да" inactive-text="Нет" />
               </el-form-item>
-              <el-space
-                direction="vertical"
-                alignment="start"
-                :size="10"
-              >
+              <el-space direction="vertical" alignment="start" :size="10">
                 <el-form-item prop="publishedOn">
-                  <el-date-picker
-                    v-model="news.publishedOn"
-                    format="DD.MM.YYYY HH:mm"
-                    type="datetime"
-                    placeholder="Дата публикации"
-                  />
+                  <el-date-picker v-model="news.publishedOn" format="DD.MM.YYYY HH:mm" type="datetime" placeholder="Дата публикации" />
                 </el-form-item>
               </el-space>
             </el-card>
             <AdminNewsPageTags />
             <el-card>
-              <template #header>
-                Загрузить превью новости
-              </template>
-              <el-form-item
-                prop="previewImage.fileSystemPath"
-                :rules="rules.previewImage"
-              >
-                <UploaderSingleScan
-                  :file-info="news.previewImage"
-                  :height="300"
-                  :width="300"
-                  @remove-file="news.removePreviewImage()"
-                />
+              <template #header> Загрузить превью новости </template>
+              <el-form-item prop="previewImage.fileSystemPath" :rules="rules.previewImage">
+                <UploaderSingleScan :file-info="news.previewImage" :height="300" :width="300" @remove-file="news.removePreviewImage()" />
               </el-form-item>
             </el-card>
             <AdminNewsDoctors />

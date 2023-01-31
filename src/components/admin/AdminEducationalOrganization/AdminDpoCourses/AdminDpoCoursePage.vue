@@ -1,72 +1,36 @@
 <template>
-  <div
-    v-if="mounted"
-    class="wrapper"
-  >
-    <el-form
-      ref="form"
-      :key="dpoCourse"
-      :model="dpoCourse"
-      label-position="top"
-    >
+  <div v-if="mounted" class="wrapper">
+    <el-form ref="form" :key="dpoCourse" :model="dpoCourse" label-position="top">
       <el-row :gutter="40">
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="14"
-          :lg="16"
-          :xl="19"
-        >
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <el-form-item
-                prop="title"
-                label="Название:"
-              >
-                <el-input
-                  v-model="dpoCourse.name"
-                  placeholder="Заголовок"
-                />
+              <el-form-item prop="title" label="Название:">
+                <el-input v-model="dpoCourse.name" placeholder="Заголовок" />
               </el-form-item>
             </el-card>
             <el-card class="content-card">
-              <template #header>
-                Контент
-              </template>
+              <template #header> Контент </template>
               <el-form-item prop="description">
                 <WysiwygEditor v-model="dpoCourse.description" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Расписание курсов
-              </template>
-              <el-button @click="dpoCourse.addDates()">
-                Добавить даты
-              </el-button>
+              <template #header> Расписание курсов </template>
+              <el-button @click="dpoCourse.addDates()"> Добавить даты </el-button>
               <el-form-item prop="publishedOn">
                 <el-table :data="dpoCourse.dpoCoursesDates">
-                  <el-table-column
-                    label="Начало"
-                    sortable
-                  >
+                  <el-table-column label="Начало" sortable>
                     <template #default="scope">
                       <DatePicker v-model="scope.row.start" />
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="Начало"
-                    sortable
-                  >
+                  <el-table-column label="Начало" sortable>
                     <template #default="scope">
                       <DatePicker v-model="scope.row.end" />
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    width="50"
-                    fixed="right"
-                    align="center"
-                  >
+                  <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
                       <TableButtonGroup
                         :show-remove-button="true"
@@ -80,39 +44,21 @@
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Преподаватели
-              </template>
+              <template #header> Преподаватели </template>
               <el-form-item prop="listeners">
-                <RemoteSearch
-                  :key-value="schema.teacher.key"
-                  @select="addTeacher"
-                />
+                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />
                 <el-table :data="dpoCourse.dpoCoursesTeachers">
-                  <el-table-column
-                    label="ФИО"
-                    sortable
-                  >
+                  <el-table-column label="ФИО" sortable>
                     <template #default="scope">
                       {{ scope.row.teacher.doctor.employee.human.getFullName() }}
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="Руководитель программы"
-                    sortable
-                  >
+                  <el-table-column label="Руководитель программы" sortable>
                     <template #default="scope">
-                      <el-checkbox
-                        v-model="scope.row.main"
-                        @change="dpoCourse.setMainTeacher(scope.$index)"
-                      />
+                      <el-checkbox v-model="scope.row.main" @change="dpoCourse.setMainTeacher(scope.$index)" />
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    width="50"
-                    fixed="right"
-                    align="center"
-                  >
+                  <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
                       <TableButtonGroup
                         :show-remove-button="true"
@@ -131,88 +77,47 @@
             </el-card>
           </el-container>
         </el-col>
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="10"
-          :lg="8"
-          :xl="5"
-        >
+        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">
             <el-card>
               <el-container direction="vertical">
                 <!-- <el-checkbox v-model="dpoCourse.isNmo">Программа НМО</el-checkbox> -->
-                <el-form-item
-                  v-if="dpoCourse.isNmo"
-                  prop="listeners"
-                  label="Ссылка НМО"
-                >
-                  <el-input
-                    v-model="dpoCourse.linkNmo"
-                    placeholder="Ссылка НМО"
-                  />
+                <el-form-item v-if="dpoCourse.isNmo" prop="listeners" label="Ссылка НМО">
+                  <el-input v-model="dpoCourse.linkNmo" placeholder="Ссылка НМО" />
                 </el-form-item>
-                <el-select
-                  v-model="dpoCourse.formPattern"
-                  value-key="id"
-                  placeholder="Шаблон формы"
-                  @change="changeFormPatternHandler()"
-                >
-                  <el-option
-                    v-for="item in formPatterns"
-                    :key="item.id"
-                    :label="item.title"
-                    :value="item"
-                  />
+                <el-select v-model="dpoCourse.formPattern" value-key="id" placeholder="Шаблон формы" @change="changeFormPatternHandler()">
+                  <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item" />
                 </el-select>
               </el-container>
             </el-card>
             <el-card>
-              <template #header>
-                Количество слушателей
-              </template>
+              <template #header> Количество слушателей </template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="dpoCourse.listeners" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Стоимость
-              </template>
+              <template #header> Стоимость </template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="dpoCourse.cost" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Количество часов
-              </template>
+              <template #header> Количество часов </template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="dpoCourse.hours" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Специальность, по которой читается программа
-              </template>
+              <template #header> Специальность, по которой читается программа </template>
               <el-form-item prop="listeners">
-                <el-select
-                  v-model="dpoCourse.specializationId"
-                  placeholder="Выбрать специальность"
-                >
-                  <el-option
-                    v-for="spec in specializations"
-                    :key="spec.id"
-                    :label="spec.name"
-                    :value="spec.id"
-                  />
+                <el-select v-model="dpoCourse.specializationId" placeholder="Выбрать специальность">
+                  <el-option v-for="spec in specializations" :key="spec.id" :label="spec.name" :value="spec.id" />
                 </el-select>
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Выбрать специальности, для которых читается программа
-              </template>
+              <template #header> Выбрать специальности, для которых читается программа </template>
               <el-checkbox
                 v-for="specialization in specializations"
                 :key="specialization.id"

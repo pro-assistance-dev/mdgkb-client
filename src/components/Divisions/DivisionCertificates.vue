@@ -4,17 +4,15 @@
       <div class="title-in">Сертификаты</div>
     </template>
     <template #inside-content>
-      <div v-if="false" class="Date-and-time">
-      </div>
+      <div v-if="false" class="Date-and-time"></div>
     </template>
   </CollapsContainer>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
 
-import IDoctor from '@/interfaces/IDoctor';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 
 export default defineComponent({
   name: 'DivisionCertificates',

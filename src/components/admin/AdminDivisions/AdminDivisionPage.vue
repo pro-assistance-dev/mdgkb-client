@@ -1,56 +1,24 @@
 <template>
-  <el-form
-    v-if="mounted"
-    ref="form"
-    :key="division"
-    :model="division"
-    label-position="top"
-    :rules="rules"
-  >
+  <el-form v-if="mounted" ref="form" :key="division" :model="division" label-position="top" :rules="rules">
     <el-row :gutter="40">
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="24"
-        :lg="15"
-        :xl="15"
-      >
+      <el-col :xs="24" :sm="24" :md="24" :lg="15" :xl="15">
         <el-container direction="vertical">
           <el-card>
-            <el-form-item
-              label="Наименование отделения"
-              prop="name"
-            >
-              <el-input
-                v-model="division.name"
-                placeholder="Наименование отделения"
-              />
+            <el-form-item label="Наименование отделения" prop="name">
+              <el-input v-model="division.name" placeholder="Наименование отделения" />
             </el-form-item>
             <el-form-item label="Заведующий отделением">
-              <RemoteSearch
-                placeholder="Выберите заведующего"
-                :key-value="schema.doctor.key"
-                @select="selectDoctorSearch"
-              />
-              <div
-                v-if="division.chief"
-                @click="Provider.routerPushBlank(`/admin/doctors/${division.chief.employee.human.slug}`)"
-              >
+              <RemoteSearch placeholder="Выберите заведующего" :key-value="schema.doctor.key" @select="selectDoctorSearch" />
+              <div v-if="division.chief" @click="Provider.routerPushBlank(`/admin/doctors/${division.chief.employee.human.slug}`)">
                 {{ division.chief.employee.human.getFullName() }}
               </div>
-              <el-button @click="division.removeChief()">
-                Удалить заведующего
-              </el-button>
+              <el-button @click="division.removeChief()"> Удалить заведующего </el-button>
             </el-form-item>
             <el-form-item label="Общая информация">
               <WysiwygEditor v-model="division.info" />
             </el-form-item>
             <el-form-item label="Адрес">
-              <el-input
-                v-model="division.address"
-                placeholder="Адрес"
-                disabled
-              />
+              <el-input v-model="division.address" placeholder="Адрес" disabled />
             </el-form-item>
           </el-card>
 
@@ -60,140 +28,75 @@
           <AdminDivisionGallery />
         </el-container>
       </el-col>
-      <el-col
-        :xs="24"
-        :sm="24"
-        :md="24"
-        :lg="9"
-        :xl="9"
-      >
+      <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="9">
         <el-container direction="vertical">
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>
             <el-form-item label="Телефон">
-              <el-input
-                v-model="division.phone"
-                placeholder="Телефон"
-              />
+              <el-input v-model="division.phone" placeholder="Телефон" />
             </el-form-item>
-            <el-form-item
-              label="Email"
-              prop="email"
-            >
-              <el-input
-                v-model="division.email"
-                placeholder="Email"
-              />
+            <el-form-item label="Email" prop="email">
+              <el-input v-model="division.email" placeholder="Email" />
             </el-form-item>
-            <el-form-item
-              label="Здание"
-              prop="buildingId"
-            >
-              <el-select
-                v-model="division.buildingId"
-                filterable
-                placeholder="Выберите здание"
-                @change="changeBuildingHandler"
-              >
-                <el-option
-                  v-for="item in buildingsOptions"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
+            <el-form-item label="Здание" prop="buildingId">
+              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание" @change="changeBuildingHandler">
+                <el-option v-for="item in buildingsOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
             <template v-if="division.buildingId && buildingOption">
-              <el-form-item
-                label="Этаж"
-                prop="floorId"
-              >
+              <el-form-item label="Этаж" prop="floorId">
                 <el-select
                   v-model="division.floorId"
                   placeholder="Выберите этаж"
                   :disabled="division.buildingId ? false : true"
                   @change="changeDivisionAddress"
                 >
-                  <el-option
-                    v-for="item in buildingOption.floors"
-                    :key="item.id"
-                    :label="item.number"
-                    :value="item.id"
-                  >
+                  <el-option v-for="item in buildingOption.floors" :key="item.id" :label="item.number" :value="item.id">
                     {{ item.number }}
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item
-                label="Вход"
-                prop="entranceId"
-              >
+              <el-form-item label="Вход" prop="entranceId">
                 <el-select
                   v-model="division.entranceId"
                   placeholder="Выберите вход"
                   :disabled="division.buildingId && buildingOption.entrances.length ? false : true"
                   @change="changeDivisionAddress"
                 >
-                  <el-option
-                    v-for="item in buildingOption.entrances"
-                    :key="item.id"
-                    :label="item.number"
-                    :value="item.id"
-                  />
+                  <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
                 </el-select>
               </el-form-item>
               <el-form-item>
-                <el-checkbox v-model="division.hasAmbulatory">
-                  Осуществляет амбулаторную помощь
-                </el-checkbox>
+                <el-checkbox v-model="division.hasAmbulatory"> Осуществляет амбулаторную помощь </el-checkbox>
               </el-form-item>
               <el-form-item>
-                <el-checkbox v-model="division.hasDiagnostic">
-                  Осуществляет услуги диагностики
-                </el-checkbox>
+                <el-checkbox v-model="division.hasDiagnostic"> Осуществляет услуги диагностики </el-checkbox>
               </el-form-item>
             </template>
           </el-card>
 
           <el-card>
             <div class="flex-between">
-              <RemoteSearch
-                placeholder="Найдите доктора"
-                :key-value="schema.doctor.key"
-                @select="addDoctor"
-              />
+              <RemoteSearch placeholder="Найдите доктора" :key-value="schema.doctor.key" @select="addDoctor" />
             </div>
 
             <el-table :data="division.doctorsDivisions">
-              <el-table-column
-                label="ФИО"
-                sortable
-              >
+              <el-table-column label="ФИО" sortable>
                 <template #default="scope">
                   {{ scope.row.doctor.employee.human.getFullName() }}
                 </template>
               </el-table-column>
-              <el-table-column
-                label="Должность"
-                sortable
-              >
+              <el-table-column label="Должность" sortable>
                 <template #default="scope">
                   {{ scope.row.doctor.position.name }}
                 </template>
               </el-table-column>
-              <el-table-column
-                label="Отображать"
-                sortable
-              >
+              <el-table-column label="Отображать" sortable>
                 <template #default="scope">
                   <el-switch v-model="scope.row.show" />
                 </template>
               </el-table-column>
-              <el-table-column
-                width="50"
-                fixed="right"
-                align="center"
-              >
+              <el-table-column width="50" fixed="right" align="center">
                 <template #default="scope">
                   <TableButtonGroup
                     :show-more-button="true"
@@ -211,18 +114,8 @@
         </el-container>
         <el-container>
           <el-card>
-            <el-button
-              size="mini"
-              type="success"
-              style="margin: 20px"
-              @click="division.addDivisionVideo()"
-            >
-              Добавить видео
-            </el-button>
-            <div
-              v-for="(video, i) in division.divisionVideos"
-              :key="video"
-            >
+            <el-button size="mini" type="success" style="margin: 20px" @click="division.addDivisionVideo()"> Добавить видео </el-button>
+            <div v-for="(video, i) in division.divisionVideos" :key="video">
               <el-input v-model="video.youTubeVideoId" /><el-button
                 @click="$classHelper.RemoveFromClassByIndex(i, division.divisionVideos, division.divisionVideosForDelete)"
               >

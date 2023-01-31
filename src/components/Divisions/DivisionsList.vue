@@ -45,7 +45,7 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   padding: 20px 0px 10px 0px;
-  justify-content: space-between
+  justify-content: space-between;
   // margin-right: 20px;
 }
 

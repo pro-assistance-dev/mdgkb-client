@@ -35,9 +35,6 @@ export default defineComponent({
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
     const paidServices: Ref<IPaidService[]> = computed<IPaidService[]>(() => Provider.store.getters['paidServices/items']);
-    const calcSum = () => {
-      sum.value = 0;
-    };
 
     const handleScroll = () => {
       if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {

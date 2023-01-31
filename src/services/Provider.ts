@@ -20,10 +20,6 @@ const Provider = (() => {
   const filterQuery: ComputedRef<IFilterQuery> = computed(() => s.getters['filter/filterQuery']);
   const sortList: Ref<ISortModel[]> = ref([]);
 
-  function syncFilterQueryWithURL(): void {
-    return;
-  }
-
   async function getAll(module: string): Promise<void> {
     await s.dispatch(`${module}/getAll`, filterQuery.value);
   }

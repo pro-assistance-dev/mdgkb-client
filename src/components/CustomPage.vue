@@ -49,7 +49,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import NewsComment from '@/classes/news/NewsComment';
@@ -62,8 +61,6 @@ export default defineComponent({
     let comment = ref(new NewsComment());
     const commentInput = ref();
     const store = useStore();
-    const route = useRoute();
-    // const slug = computed(() => route.params['slug']);
     const page: ComputedRef<IPage> = computed(() => store.getters['pages/page']);
 
     // watch(slug, () => {

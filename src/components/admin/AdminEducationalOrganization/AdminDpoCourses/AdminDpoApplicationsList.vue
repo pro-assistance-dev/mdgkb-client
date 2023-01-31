@@ -95,13 +95,6 @@ export default defineComponent({
       Provider.store.commit('filter/setFilterModel', filterModel.value);
     };
 
-    const setFilter = async () => {
-      await Provider.store.dispatch('meta/getSchema');
-      Provider.store.commit(`filter/resetQueryFilter`);
-      Provider.store.commit('filter/replaceSortModel', DpoApplicationsSortsLib.byCreatedAt());
-      Provider.filterQuery.value.pagination.cursorMode = false;
-    };
-
     const loadApplications = async () => {
       await Provider.store.dispatch('dpoApplications/getAll', Provider.filterQuery.value);
     };

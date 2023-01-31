@@ -93,7 +93,7 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
@@ -111,10 +111,7 @@ export default defineComponent({
   components: { SharesBlock, HelpProfileIcon, BaseIcon, DpoApplicationForm },
 
   setup() {
-    const fileInfos = ['Инструкция по записи на цикл НМО', 'Презентация по циклу НМО Педиатрия'];
-    const ped: any = [];
     const store = useStore();
-    const router = useRouter();
     const route = useRoute();
     const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);

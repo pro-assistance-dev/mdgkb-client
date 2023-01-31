@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -42,7 +42,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const route = useRoute();
     const pages = computed(() => store.getters['pages/pages']);
 
     const loadNews = async (): Promise<void> => {

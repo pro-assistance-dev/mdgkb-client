@@ -85,12 +85,11 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FileUploader from '@/components/FileUploader.vue';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdmissionQuestionsForm',
@@ -109,7 +108,6 @@ export default defineComponent({
       residencyApplicationValue.value = props.residencyApplication;
     });
     const showFreeDialog: Ref<boolean> = ref(false);
-    const typeExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/typeExists']);
     const rules = {
       primaryAccreditation: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],
       main: [{ required: true, message: 'Пожалуйста, выберите вариант', trigger: 'change' }],

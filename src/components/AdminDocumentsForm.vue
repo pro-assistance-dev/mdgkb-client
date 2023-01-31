@@ -1,30 +1,14 @@
 <template>
   <el-table :data="documentType.pageSectionDocuments">
-    <el-table-column
-      width="50"
-      fixed="left"
-      align="center"
-    >
+    <el-table-column width="50" fixed="left" align="center">
       <template #default="scope">
-        <TableMover
-          :ordered-items="documentType.pageSectionDocuments"
-          :index="scope.$index"
-        />
+        <TableMover :ordered-items="documentType.pageSectionDocuments" :index="scope.$index" />
       </template>
     </el-table-column>
-    <el-table-column
-      prop="name"
-      label="Название документа"
-    >
+    <el-table-column prop="name" label="Название документа">
       <template #default="scope">
-        <el-form-item
-          size="mini"
-          style="margin: 0"
-        >
-          <el-input
-            v-model="scope.row.name"
-            placeholder="Название документа"
-          />
+        <el-form-item size="mini" style="margin: 0">
+          <el-input v-model="scope.row.name" placeholder="Название документа" />
         </el-form-item>
       </template>
     </el-table-column>
@@ -38,17 +22,9 @@
         <el-checkbox v-model="scope.row.downloadToFile" />
       </template>
     </el-table-column>
-    <el-table-column
-      width="70"
-      align="center"
-    >
+    <el-table-column width="70" align="center">
       <template #header>
-        <el-button
-          type="success"
-          icon="el-icon-plus"
-          size="mini"
-          @click="documentType.addDocument()"
-        />
+        <el-button type="success" icon="el-icon-plus" size="mini" @click="documentType.addDocument()" />
       </template>
       <template #default="scope">
         <TableButtonGroup

@@ -1,22 +1,8 @@
 <template>
-  <div
-    v-if="mounted"
-    class="wrapper"
-  >
-    <el-form
-      ref="form"
-      :key="residencyCourse"
-      :model="residencyCourse"
-      label-position="top"
-    >
+  <div v-if="mounted" class="wrapper">
+    <el-form ref="form" :key="residencyCourse" :model="residencyCourse" label-position="top">
       <el-row :gutter="40">
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="14"
-          :lg="16"
-          :xl="19"
-        >
+        <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
               <el-form-item label="Основная профессиональная программа Высшего образования">
@@ -33,74 +19,42 @@
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Основная профессиональная программа Высшего образования
-              </template>
+              <template #header> Основная профессиональная программа Высшего образования </template>
               <div class="files-block">
                 <el-form-item label="Год начала">
                   <el-select v-model="residencyCourse.startYearId">
-                    <el-option
-                      v-for="year in educationYears"
-                      :key="year.id"
-                      :label="year.year.getFullYear()"
-                      :value="year.id"
-                    />
+                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()" :value="year.id" />
                   </el-select>
                 </el-form-item>
                 <el-form-item label="Год конца">
                   <el-select v-model="residencyCourse.endYearId">
-                    <el-option
-                      v-for="year in educationYears"
-                      :key="year.id"
-                      :label="year.year.getFullYear()"
-                      :value="year.id"
-                    />
+                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()" :value="year.id" />
                   </el-select>
                 </el-form-item>
               </div>
             </el-card>
             <el-card class="content-card">
-              <template #header>
-                Описание
-              </template>
+              <template #header> Описание </template>
               <el-form-item prop="description">
                 <WysiwygEditor v-model="residencyCourse.description" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Преподаватели
-              </template>
+              <template #header> Преподаватели </template>
               <el-form-item prop="listeners">
-                <RemoteSearch
-                  :key-value="schema.teacher.key"
-                  @select="addTeacher"
-                />
+                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />
                 <el-table :data="residencyCourse.residencyCoursesTeachers">
-                  <el-table-column
-                    label="ФИО"
-                    sortable
-                  >
+                  <el-table-column label="ФИО" sortable>
                     <template #default="scope">
                       {{ scope.row.teacher.doctor.employee.human.getFullName() }}
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="Руководитель программы"
-                    sortable
-                  >
+                  <el-table-column label="Руководитель программы" sortable>
                     <template #default="scope">
-                      <el-checkbox
-                        v-model="scope.row.main"
-                        @change="residencyCourse.setMainTeacher(scope.$index)"
-                      />
+                      <el-checkbox v-model="scope.row.main" @change="residencyCourse.setMainTeacher(scope.$index)" />
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    width="50"
-                    fixed="right"
-                    align="center"
-                  >
+                  <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
                       <TableButtonGroup
                         :show-remove-button="true"
@@ -118,29 +72,18 @@
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Специализации
-              </template>
+              <template #header> Специализации </template>
               <el-form-item prop="listeners">
                 <!--                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />-->
                 <el-table :data="residencyCourse.residencyCoursesSpecializations">
-                  <el-table-column
-                    label="Название"
-                    sortable
-                  >
+                  <el-table-column label="Название" sortable>
                     <template #default="scope">
                       {{ scope.row.specialization.name }}
                     </template>
                   </el-table-column>
-                  <el-table-column
-                    label="Выбрать главную"
-                    sortable
-                  >
+                  <el-table-column label="Выбрать главную" sortable>
                     <template #default="scope">
-                      <el-checkbox
-                        v-model="scope.row.main"
-                        @change="residencyCourse.setMainSpecialization(scope.$index)"
-                      />
+                      <el-checkbox v-model="scope.row.main" @change="residencyCourse.setMainSpecialization(scope.$index)" />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -148,68 +91,45 @@
             </el-card>
           </el-container>
         </el-col>
-        <el-col
-          :xs="24"
-          :sm="24"
-          :md="10"
-          :lg="8"
-          :xl="5"
-        >
+        <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">
             <el-card>
-              <template #header>
-                Количество бюджетных мест
-              </template>
+              <template #header> Количество бюджетных мест </template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="residencyCourse.freePlaces" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Количество бюджетных мест из федерального бюджета
-              </template>
+              <template #header> Количество бюджетных мест из федерального бюджета </template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="residencyCourse.freeGovernmentPlaces" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Количество платных мест
-              </template>
+              <template #header> Количество платных мест </template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="residencyCourse.paidPlaces" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Стоимость
-              </template>
+              <template #header> Стоимость </template>
               <el-form-item prop="listeners">
                 <el-input-number v-model="residencyCourse.cost" />
               </el-form-item>
             </el-card>
             <el-card>
-              <template #header>
-                Шаблон формы
-              </template>
+              <template #header> Шаблон формы </template>
               <el-select
                 v-model="residencyCourse.formPattern"
                 value-key="id"
                 placeholder="Шаблон формы"
                 @change="changeFormPatternHandler()"
               >
-                <el-option
-                  v-for="item in formPatterns"
-                  :key="item.id"
-                  :label="item.title"
-                  :value="item"
-                />
+                <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item" />
               </el-select>
             </el-card>
             <el-card>
-              <template #header>
-                Выбрать специальности, для которых читается программа
-              </template>
+              <template #header> Выбрать специальности, для которых читается программа </template>
               <el-checkbox
                 v-for="specialization in specializations"
                 :key="specialization.id"

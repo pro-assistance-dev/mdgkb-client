@@ -11,26 +11,22 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import EducationalManagerCard from '@/components/Educational/TeachersManagers/EducationalManagerCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IEducationalManager from '@/interfaces/IEducationalManager';
-import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'EducationalManagersList',
   components: { EducationalManagerCard, LoadMoreButton },
   setup() {
     const store = useStore();
-    const mounted: Ref<boolean> = ref(false);
     const educationalManagers: Ref<IEducationalManager[]> = computed<IEducationalManager[]>(
       () => store.getters['educationalManagers/items']
     );
-
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     onBeforeMount(async () => {
       filterQuery.value.pagination.cursorMode = false;

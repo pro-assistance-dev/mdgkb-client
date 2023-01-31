@@ -24,6 +24,10 @@ export default class ClassHelper {
 
   static GetClassConstructorForArray = <T>(construct: Constructable<T>): PropertyDecorator => {
     return (targetClass, propertyName) => {
+      if (propertyName === 'educations') {
+        console.log(construct);
+      }
+
       const metadataSingleton = Reflect.getMetadata(`property:${propertyName as string}`, targetClass) || {};
       metadataSingleton[propertyName] = construct;
       Reflect.defineMetadata(propertyName, metadataSingleton, targetClass);

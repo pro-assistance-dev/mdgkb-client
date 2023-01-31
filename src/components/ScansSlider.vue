@@ -6,10 +6,15 @@
     <template #inside-content>
       <div v-if="carousel.length" class="certificate">
         <div v-if="carousel.length > 0" class="gallery-container">
-          <el-carousel ref="carouselRef" v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)" arrow="always" :interval="4000">
+          <el-carousel
+            ref="carouselRef"
+            v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+            arrow="always"
+            :interval="4000"
+          >
             <el-carousel-item v-for="certificatesGroups in carousel" :key="certificatesGroups">
               <div v-for="certificate in certificatesGroups" :key="certificate.id" class="image-container">
-                <img 
+                <img
                   class="image-card"
                   :src="certificate.scan.getImageUrl()"
                   :alt="certificate.scan.originalName"
@@ -38,9 +43,9 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IScanWithDescription from '@/interfaces/IScanWithDescription';
 import makeCarousel from '@/services/MakeCarousel';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'ScansSlider',
@@ -138,7 +143,7 @@ html {
 }
 
 .image-card {
-    transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .image-card:hover {

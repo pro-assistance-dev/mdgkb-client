@@ -113,7 +113,6 @@ export default defineComponent({
 
   setup(props) {
     const paths = Provider.router.getRoutes();
-    const filterString: Ref<string> = ref('');
     const searchString: Ref<string> = ref('');
     const sortString: Ref<string> = ref('');
 

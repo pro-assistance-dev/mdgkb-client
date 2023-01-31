@@ -20,22 +20,20 @@
         </svg>
         <span class="NameNumbers">
           {{ buildNameNumbers(comments, ['отзыв', 'отзыва', 'отзывов']) }}
-          </span>
+        </span>
       </div>
     </a>
     <Comment />
   </div>
-
-
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Comment from '@/assets/doctors/svg/Comment.svg';
 import IWithComment from '@/interfaces/IWithComment';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import countRating from '@/services/countRating';
-import Comment from '@/assets/doctors/svg/Comment.svg';
 
 export default defineComponent({
   name: 'Rating',

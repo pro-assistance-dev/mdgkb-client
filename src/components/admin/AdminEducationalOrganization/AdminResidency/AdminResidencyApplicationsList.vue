@@ -121,13 +121,13 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IOption from '@/interfaces/schema/IOption';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import ResidencyApplicationsFiltersLib from '@/services/Provider/libs/filters/ResidencyApplicationsFiltersLib';
 import ResidencyApplicationsSortsLib from '@/services/Provider/libs/sorts/ResidencyApplicationsSortsLib';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
@@ -161,11 +161,6 @@ export default defineComponent({
       isNotEditMode.value = false;
     };
 
-    const cancel = () => {
-      isEditMode.value = false;
-      isNotEditMode.value = true;
-    };
-
     const save = async (next?: NavigationGuardNext) => {
       if (!isEditMode.value) {
         return;
@@ -176,7 +171,7 @@ export default defineComponent({
       isNotEditMode.value = true;
       if (next) next();
     };
-    const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
+    const { confirmLeave, saveButtonClick } = useConfirmLeavePage();
 
     const load = async () => {
       Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));

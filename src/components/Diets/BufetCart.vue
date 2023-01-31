@@ -4,26 +4,14 @@
       <div class="header-top">
         <div class="header-left">
           Номер палаты:
-          <input
-            id="room"
-            type="text"
-            name="name"
-            placeholder="000"
-          >
+          <input id="room" type="text" name="name" placeholder="000" />
         </div>
         <div class="header-right">
-          <button
-            class="bufet"
-            @click="$router.push('/bufet')"
-          >
-            В меню
-          </button>
+          <button class="bufet" @click="$router.push('/bufet')">В меню</button>
         </div>
       </div>
       <div class="menu-bufet">
-        <div class="menu-title">
-          Ваш заказ:
-        </div>
+        <div class="menu-title">Ваш заказ:</div>
       </div>
     </div>
     <div class="table-main">
@@ -33,20 +21,11 @@
         :daily-menu-order-item="dailyMenuOrderItem"
       />
     </div>
-    <div
-      class="footer"
-      @click="createOrder"
-    >
-      <button class="add-to-card">
-        Создать заказ
-      </button>
+    <div class="footer" @click="createOrder">
+      <button class="add-to-card">Создать заказ</button>
       <div class="footer-info">
-        <div class="field1">
-          {{ dailyMenuOrder.getCaloricSum() }} ккал
-        </div>
-        <div class="field2">
-          {{ dailyMenuOrder.getPriceSum() }} р.
-        </div>
+        <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
+        <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
       </div>
     </div>
   </div>

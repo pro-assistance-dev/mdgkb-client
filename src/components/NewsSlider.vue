@@ -25,10 +25,10 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import IWithNews from '@/interfaces/IWithNews';
 import makeCarousel from '@/services/MakeCarousel';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue'
 
 export default defineComponent({
   name: 'NewsSlider',

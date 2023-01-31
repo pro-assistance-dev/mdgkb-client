@@ -3,18 +3,11 @@
     <div class="header">
       <div class="header-top">
         <div class="header-right">
-          <button
-            class="bufet"
-            @click="$router.push('/bufet')"
-          >
-            В меню
-          </button>
+          <button class="bufet" @click="$router.push('/bufet')">В меню</button>
         </div>
       </div>
       <div class="menu-bufet">
-        <div class="menu-title">
-          Ваш заказ:
-        </div>
+        <div class="menu-title">Ваш заказ:</div>
       </div>
     </div>
     <div class="table-main">
@@ -26,27 +19,15 @@
         style="max-width: 700px"
         label-position="left"
       >
-        <UserForm
-          :form="dailyMenuOrder.formValue"
-          :active-fields="UserFormFields.CreateWithPhone()"
-        />
+        <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
         <FieldValuesForm :form="dailyMenuOrder.formValue" />
       </el-form>
     </div>
     <div class="footer">
-      <button
-        class="add-to-card"
-        @click="createOrder"
-      >
-        Заказать
-      </button>
+      <button class="add-to-card" @click="createOrder">Заказать</button>
       <div class="footer-info">
-        <div class="field1">
-          {{ dailyMenuOrder.getCaloricSum() }} ккал
-        </div>
-        <div class="field2">
-          {{ dailyMenuOrder.getPriceSum() }} р.
-        </div>
+        <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
+        <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
       </div>
     </div>
   </div>

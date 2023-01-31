@@ -27,14 +27,13 @@ import { useStore } from 'vuex';
 
 import Map from '@/assets/img/map.svg';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
+import MapLegends from '@/components/Map/MapLegends.vue';
+import MapPopover from '@/components/Map/MapPopover.vue';
+import MapRouter from '@/components/Map/MapRouter.vue';
 import IBuilding from '@/interfaces/IBuilding';
 import IDivision from '@/interfaces/IDivision';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
-
-import MapPopover from '@/components/Map/MapPopover.vue';
-import MapRouter from '@/components/Map/MapRouter.vue';
-import MapLegends from '@/components/Map/MapLegends.vue';
 
 export default defineComponent({
   name: 'MapSvg',
@@ -196,18 +195,6 @@ export default defineComponent({
         building.classList.remove('hover-building');
         numberOfBuilding.classList.remove('blue-num');
       });
-    };
-
-    const decorAnimate = (): void => {
-      const decor = document.getElementById('decor');
-      if (!decor) {
-        return;
-      }
-      decor.childNodes.forEach((n) =>
-        n.addEventListener('mouseover', () => {
-          treeJump(n as HTMLElement);
-        })
-      );
     };
 
     const treeJump = (item: HTMLElement) => {

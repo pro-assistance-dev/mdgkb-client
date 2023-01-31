@@ -96,9 +96,9 @@ import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue
 
 import HumanForm from '@/components/admin/HumanForm.vue';
 import IUser from '@/interfaces/IUser';
-import validate from '@/services/validate';
 import UserRules from '@/rules/UserRules';
 import Provider from '@/services/Provider';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'ProfileEditPage',

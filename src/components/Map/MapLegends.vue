@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
+import { defineComponent } from 'vue';
 
 import LegendIcons from '@/assets/svg/Map/LegendIcons.svg';
 
@@ -25,7 +25,6 @@ export default defineComponent({
   },
   emits: ['selectLegend'],
   setup(_, { emit }) {
-    const selectedLegend: Ref<string> = ref('');
     const legends = [
       { href: 'barrier', label: 'КПП' },
       { href: 'pedestrian', label: 'Проходная' },

@@ -39,10 +39,10 @@ import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminVisitsApplicationPage',

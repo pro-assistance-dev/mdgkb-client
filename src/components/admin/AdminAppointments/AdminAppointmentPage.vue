@@ -1,13 +1,6 @@
 <template>
   <div v-if="mounted">
-    <el-form
-      ref="form"
-      v-model="appointment"
-      :model="appointment"
-      label-width="150px"
-      style="max-width: 700px"
-      label-position="left"
-    >
+    <el-form ref="form" v-model="appointment" :model="appointment" label-width="150px" style="max-width: 700px" label-position="left">
       <AdminFormValue
         :form="appointment.formValue"
         :validate-email="false"

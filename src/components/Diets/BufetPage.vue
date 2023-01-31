@@ -1,15 +1,9 @@
 <template>
-  <div
-    v-if="mounted"
-    class="container-bufet"
-  >
+  <div v-if="mounted" class="container-bufet">
     <div class="bufet-header">
       <div class="header-top">
         <div class="header-right">
-          <svg
-            class="icon-cart"
-            @click="$router.push('/bufet/cart')"
-          >
+          <svg class="icon-cart" @click="$router.push('/bufet/cart')">
             <use xlink:href="#cart" />
           </svg>
           <div class="sup">
@@ -29,49 +23,21 @@
       </div>
     </div>
     <div class="main">
-      <div
-        v-if="!dailyMenu.getNonEmptyGroups().length"
-        class="info-window"
-      >
-        На данный момент нет блюд для выбора
-      </div>
-      <template
-        v-for="dishesGroup in dailyMenu.getNonEmptyGroups()"
-        :key="dishesGroup.id"
-      >
-        <div
-          :id="dishesGroup.getTransliteIdFromName()"
-          class="title-group"
-        >
+      <div v-if="!dailyMenu.getNonEmptyGroups().length" class="info-window">На данный момент нет блюд для выбора</div>
+      <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
+        <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">
           {{ dishesGroup.name }}
         </div>
         <div class="group-items">
-          <DishCard
-            v-for="dish in dishesGroup.getAvailableDishes()"
-            :key="dish.id"
-            :daily-menu-item="dish"
-          />
+          <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
         </div>
       </template>
     </div>
-    <div
-      v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0"
-      class="footer"
-      @click="$router.push('/bufet/cart')"
-    >
-      <button
-        class="add-to-card"
-        @click="$router.push('/bufet/cart')"
-      >
-        В корзину
-      </button>
+    <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer" @click="$router.push('/bufet/cart')">
+      <button class="add-to-card" @click="$router.push('/bufet/cart')">В корзину</button>
       <div class="footer-info">
-        <div class="field1">
-          {{ dailyMenuOrder.getCaloricSum() }} ккал
-        </div>
-        <div class="field2">
-          {{ dailyMenuOrder.getPriceSum() }} р.
-        </div>
+        <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
+        <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
       </div>
     </div>
   </div>

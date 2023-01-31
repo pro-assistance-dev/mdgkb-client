@@ -113,7 +113,6 @@
 
 <script lang="ts">
 import { computed, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import IHead from '@/interfaces/IHead';
@@ -123,7 +122,6 @@ export default {
   name: 'MedicalOrganizationStructure',
   setup() {
     const store = useStore();
-    const route = useRoute();
     const heads: Ref<IHead[]> = computed<IHead[]>(() => store.getters['heads/heads']);
     const mainDoctor: Ref<IHead> = computed<IHead>(() => store.getters['heads/mainDoctor']);
     const mount = ref(false);

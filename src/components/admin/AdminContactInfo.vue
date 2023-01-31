@@ -3,20 +3,11 @@
     <div class="flex-between">
       <label class="el-form-item__label">Телефоны</label>
       <div class="add-button">
-        <el-button
-          type="success"
-          size="mini"
-          @click.prevent="contactInfo.addTelephoneNumber()"
-        >
-          Добавить
-        </el-button>
+        <el-button type="success" size="mini" @click.prevent="contactInfo.addTelephoneNumber()"> Добавить </el-button>
       </div>
     </div>
 
-    <el-table
-      :data="contactInfo.telephoneNumbers"
-      cell-class-name="cell-style"
-    >
+    <el-table :data="contactInfo.telephoneNumbers" cell-class-name="cell-style">
       <el-table-column label="Телефоны">
         <template #default="scope">
           <el-form-item>
@@ -33,11 +24,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        width="50"
-        fixed="right"
-        align="center"
-      >
+      <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
           <TableButtonGroup
             :show-remove-button="true"
@@ -52,20 +39,11 @@
     <div class="flex-between">
       <label class="el-form-item__label">Email</label>
       <div class="add-button">
-        <el-button
-          type="success"
-          size="mini"
-          @click.prevent="contactInfo.addEmail()"
-        >
-          Добавить
-        </el-button>
+        <el-button type="success" size="mini" @click.prevent="contactInfo.addEmail()"> Добавить </el-button>
       </div>
     </div>
 
-    <el-table
-      :data="contactInfo.emails"
-      cell-class-name="cell-style"
-    >
+    <el-table :data="contactInfo.emails" cell-class-name="cell-style">
       <el-table-column label="Email">
         <template #default="scope">
           <el-form-item>
@@ -82,11 +60,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        width="50"
-        fixed="right"
-        align="center"
-      >
+      <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
           <TableButtonGroup
             :show-remove-button="true"
@@ -99,12 +73,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, Ref, WritableComputedRef } from 'vue';
+import { computed, defineComponent, PropType, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
-import IHuman from '@/interfaces/IHuman';
 
 export default defineComponent({
   name: 'AdminContactInfo',
@@ -115,7 +88,6 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const human: Ref<IHuman> = computed(() => store.getters[`${props.storeModule}/item`].human);
     const contactInfo: WritableComputedRef<IContactInfo> = computed(
       () => store.getters[`${props.storeModule}/${props.storeGetter}`].contactInfo
     );
