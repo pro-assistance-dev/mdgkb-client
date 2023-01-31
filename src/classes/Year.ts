@@ -41,8 +41,7 @@ export default class Year implements IYear {
   }
 
   static InitFilled(): IYear {
-    const year = Year.Init();
-    return year;
+    return Year.Init();
   }
 
   getFirstDay(): Date {

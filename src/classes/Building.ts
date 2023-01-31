@@ -16,7 +16,9 @@ export default class Building implements IBuilding {
   entrances: IEntrance[] = [];
 
   constructor(i?: IBuilding) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.address = i.address;
     this.number = i.number;

@@ -55,58 +55,36 @@ export default class FieldValue implements IFieldValue {
 
   validate(): void {
     if (this.field.valueType.isString()) {
-      if (!this.valueString) {
-        this.showError = true;
-      } else {
-        this.showError = false;
-      }
+      this.showError = !this.valueString;
       return;
     }
     if (this.field.valueType.isNumber()) {
-      if (!this.valueNumber) {
-        this.showError = true;
-      } else {
-        this.showError = false;
-      }
+      this.showError = !this.valueNumber;
       return;
     }
     if (this.field.valueType.isDate()) {
-      if (!this.valueDate) {
-        this.showError = true;
-      } else {
-        this.showError = false;
-      }
+      this.showError = !this.valueDate;
       return;
     }
     if (this.field.valueType.isFile()) {
-      if (!this.file.fileSystemPath) {
-        this.showError = true;
-      } else {
-        this.showError = false;
-      }
+      this.showError = !this.file.fileSystemPath;
       return;
     }
     if (this.field.valueType.isText()) {
-      if (!this.valueString) {
-        this.showError = true;
-      } else {
-        this.showError = false;
-      }
+      this.showError = !this.valueString;
       return;
     }
     if (this.field.valueType.isFiles()) {
-      if (!this.fieldValuesFiles.length) {
-        this.showError = true;
-      } else {
-        this.showError = false;
-      }
+      this.showError = !this.fieldValuesFiles.length;
       return;
     }
   }
 
   clearIds(): void {
     this.id = undefined;
-    if (this.field) this.field.id = undefined;
+    if (this.field) {
+      this.field.id = undefined;
+    }
   }
 
   addFieldValueFile(): void {

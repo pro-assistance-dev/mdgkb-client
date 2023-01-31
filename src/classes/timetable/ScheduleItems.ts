@@ -10,7 +10,9 @@ export default class ScheduleItem implements IScheduleItem {
   endTime = '';
   dishes: IDish[] = [];
   constructor(i?: IScheduleItem) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.name = i.name;
     this.startTime = i.startTime;
@@ -68,7 +70,9 @@ export default class ScheduleItem implements IScheduleItem {
   }
 
   public getTime(dateString: string): string {
-    if (!dateString) return '';
+    if (!dateString) {
+      return '';
+    }
     const date = new Date(dateString);
     if (isNaN(date.getHours())) {
       const parts = dateString.split(':');

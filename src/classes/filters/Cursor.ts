@@ -14,8 +14,10 @@ export default class Cursor implements ICursor {
     let url = '';
     Object.keys(this).forEach((el, i) => {
       const value: any = this[el as keyof typeof this];
-      if (value && value !== undefined && url !== '?' && value.length !== 0) {
-        if (i !== 0) url += '&';
+      if (value && url !== '?' && value.length !== 0) {
+        if (i !== 0) {
+          url += '&';
+        }
         url += `curs${el}=${value}`;
       }
     });

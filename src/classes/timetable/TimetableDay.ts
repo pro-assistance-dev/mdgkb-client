@@ -55,7 +55,9 @@ export default class TimetableDay implements ITimetableDay {
     timetableDay.endTimeLimit = '23:59';
     timetableDay.weekday = weekday;
     timetableDay.weekdayId = weekday.id;
-    if (timetableDay.weekday.isWeekend()) timetableDay.isWeekend = true;
+    if (timetableDay.weekday.isWeekend()) {
+      timetableDay.isWeekend = true;
+    }
     return timetableDay;
   }
 
@@ -69,7 +71,9 @@ export default class TimetableDay implements ITimetableDay {
   // }
 
   public getTime(dateString: string): string {
-    if (!dateString) return '';
+    if (!dateString) {
+      return '';
+    }
     const date = new Date(dateString);
     if (isNaN(date.getHours())) {
       const parts = dateString.split(':');

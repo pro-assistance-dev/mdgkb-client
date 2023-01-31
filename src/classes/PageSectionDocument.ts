@@ -41,10 +41,12 @@ export default class PageSectionDocument implements IPageSectionDocument {
   }
 
   uploadScan(file: IFile): IFileInfo {
+    if (!this.scan.id) {
+      uuidv4();
+    }
     this.scan.originalName = file.name;
     this.scan.file = file.raw;
     this.scan.fileSystemPath = uuidv4();
-    this.scan.id = this.scan.id ?? uuidv4();
     this.scan.url = file.url;
     return this.scan;
   }

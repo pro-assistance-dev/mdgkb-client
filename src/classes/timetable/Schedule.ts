@@ -9,10 +9,14 @@ export default class Schedule implements ISchedule {
   scheduleItemsForDelete: string[] = [];
 
   constructor(i?: ISchedule) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.name = i.name;
-    if (i.scheduleItems) this.scheduleItems = i.scheduleItems.map((item: IScheduleItem) => new ScheduleItem(item));
+    if (i.scheduleItems) {
+      this.scheduleItems = i.scheduleItems.map((item: IScheduleItem) => new ScheduleItem(item));
+    }
   }
 
   static CreateStandartSchedule(): ISchedule {

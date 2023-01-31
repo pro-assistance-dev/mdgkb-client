@@ -7,7 +7,9 @@ export default class Tag implements ITag {
   selected = false;
 
   constructor(i?: ITag) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.color = i.color;
     this.label = i.label;

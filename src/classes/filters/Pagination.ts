@@ -31,8 +31,10 @@ export default class Pagination implements IPagination {
     Object.keys(this).forEach((el, i) => {
       const value: any = this[el as keyof typeof this];
       const isObj = typeof this[el as keyof typeof this] == 'object';
-      if (value && value !== undefined && url !== '?' && !isObj) {
-        if (i !== 0) url += '&';
+      if (value && url !== '?' && !isObj) {
+        if (i !== 0) {
+          url += '&';
+        }
         url += `pag${el}=${value}`;
       }
     });

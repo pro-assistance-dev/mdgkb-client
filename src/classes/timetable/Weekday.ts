@@ -7,7 +7,9 @@ export default class Weekday implements IWeekday {
   number = 0;
 
   constructor(i?: IWeekday) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.name = i.name;
     this.shortName = i.shortName;

@@ -50,10 +50,9 @@ export default class PaidProgramPackage implements IPaidProgramPackage {
       return packageOption;
     });
     paidPackage.id = uuidv4();
-    const name = options.reduce((accumulator: string, currentValue: IPaidProgramOption) => {
+    paidPackage.name = options.reduce((accumulator: string, currentValue: IPaidProgramOption) => {
       return accumulator + ' + ' + currentValue.name;
     }, '');
-    paidPackage.name = name;
     return paidPackage;
   }
 

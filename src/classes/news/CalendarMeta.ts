@@ -5,7 +5,9 @@ export default class CalendarMeta implements ICalendarMeta {
   year?: number;
 
   constructor(i?: ICalendarMeta) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.month = i.month;
     this.year = i.year;
   }

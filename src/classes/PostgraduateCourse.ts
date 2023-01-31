@@ -147,7 +147,7 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
   }
 
   getClosestPeriod(): string {
-    if (!this.postgraduateCoursesDates[0] || !this.postgraduateCoursesDates[0]) {
+    if (!this.postgraduateCoursesDates[0]) {
       return 'Даты неизвестны';
     }
     return new DateTimeFormatter().getPeriod(this.postgraduateCoursesDates[0].start, this.postgraduateCoursesDates[0].end, {

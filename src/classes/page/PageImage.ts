@@ -16,6 +16,8 @@ export default class PageImage implements IPageImage {
     this.id = pageImage.id;
     this.fileInfoId = pageImage.fileInfoId;
     this.description = pageImage.description;
-    if (pageImage.fileInfo) this.fileInfo = new FileInfo(pageImage.fileInfo);
+    if (pageImage.fileInfo) {
+      this.fileInfo = new FileInfo(pageImage.fileInfo);
+    }
   }
 }

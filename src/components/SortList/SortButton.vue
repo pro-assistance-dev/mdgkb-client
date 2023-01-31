@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons-vue';
-import { defineComponent, PropType, ref, toRefs } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import { Orders } from '@/interfaces/filters/Orders';

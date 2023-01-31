@@ -12,7 +12,9 @@ export default class FieldValueFile implements IFieldValueFile {
   fieldValue?: IFieldValue;
 
   constructor(i?: IFieldValueFile) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.fileInfoId = i.fileInfoId;
     if (i.fileInfo) {

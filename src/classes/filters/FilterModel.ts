@@ -32,9 +32,13 @@ export default class FilterModel implements IFilterModel {
     let url = '';
     Object.keys(this).forEach((el, i) => {
       let value: any = this[el as keyof typeof this];
-      if (value && value !== undefined && url !== '?' && value.length !== 0) {
-        if (el == ('date1' || 'date2') && value) value = String(new Date(String(value)).toISOString().split('T')[0]);
-        if (i !== 0) url += '&';
+      if (value && url !== '?' && value.length !== 0) {
+        if (el == ('date1' || 'date2') && value) {
+          value = String(new Date(String(value)).toISOString().split('T')[0]);
+        }
+        if (i !== 0) {
+          url += '&';
+        }
         url += `fm${el}=${value}`;
       }
     });

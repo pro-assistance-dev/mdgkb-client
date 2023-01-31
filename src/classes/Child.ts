@@ -10,7 +10,9 @@ export default class Child implements IChild {
   user?: IUser;
   userId?: string;
   constructor(i?: IChild) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
 
     this.human = new Human(i.human);

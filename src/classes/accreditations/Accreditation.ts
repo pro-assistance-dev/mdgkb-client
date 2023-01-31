@@ -12,7 +12,9 @@ export default class Accreditation implements IAccreditation {
   document = '';
 
   constructor(accreditation?: IAccreditation) {
-    if (!accreditation) return;
+    if (!accreditation) {
+      return;
+    }
     this.id = accreditation.id;
 
     this.specialization = accreditation.specialization;

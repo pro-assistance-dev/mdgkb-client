@@ -17,7 +17,9 @@ export default class TimePeriod implements ITimePeriod {
   }
 
   public getTime(dateString: string): string {
-    if (!dateString) return '';
+    if (!dateString) {
+      return '';
+    }
     const date = new Date(dateString);
     if (isNaN(date.getHours())) {
       const parts = dateString.split(':');

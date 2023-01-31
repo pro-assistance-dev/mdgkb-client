@@ -47,13 +47,17 @@ export default class FilterQuery implements IFilterQuery {
   toUrlQuery(): string {
     let filterModelsUrlQuery = '';
     this.filterModels.forEach((fm, i) => {
-      if (i !== 0) filterModelsUrlQuery += '&';
+      if (i !== 0) {
+        filterModelsUrlQuery += '&';
+      }
       filterModelsUrlQuery += fm.toUrlQuery();
     });
 
     let sortModelsUrlQuery = '';
     this.sortModels.forEach((sm, i) => {
-      if (i !== 0) sortModelsUrlQuery += '&';
+      if (i !== 0) {
+        sortModelsUrlQuery += '&';
+      }
       sortModelsUrlQuery += sm.toUrlQuery();
     });
 
@@ -61,17 +65,23 @@ export default class FilterQuery implements IFilterQuery {
     Object.keys(this).forEach((el, i) => {
       const value = this[el as keyof typeof this];
       const isObj = typeof this[el as keyof typeof this] == 'object';
-      if (value && value !== undefined && !isObj) {
-        if (i !== 0 && url !== '?') url += '&';
+      if (value && !isObj) {
+        if (i !== 0 && url !== '?') {
+          url += '&';
+        }
         url += `${el}=${value}`;
       }
     });
     if (this.filterModels.length) {
-      if (url !== '?') url += '&';
+      if (url !== '?') {
+        url += '&';
+      }
       url += `${filterModelsUrlQuery}`;
     }
     if (this.sortModels.length) {
-      if (url !== '?') url += '&';
+      if (url !== '?') {
+        url += '&';
+      }
       url += `${sortModelsUrlQuery}`;
     }
     url += this.pagination.toUrlQuery();

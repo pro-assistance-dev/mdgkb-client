@@ -81,7 +81,9 @@ export default class FormStatus implements IFormStatus {
   }
 
   removeFormStatusToFormStatuses(item: IFormStatusToFormStatus): void {
-    if (!item.id) return;
+    if (!item.id) {
+      return;
+    }
     this.formStatusToFormStatusesForDelete.push(item.id);
   }
 }

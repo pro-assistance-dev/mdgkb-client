@@ -11,7 +11,9 @@ export default class DocumentTypeImage implements IPageSectionImage {
   description = '';
 
   constructor(i?: IPageSectionImage) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.fileInfoId = i.fileInfoId;
     this.documentTypeId = i.documentTypeId;

@@ -9,7 +9,9 @@ export default class FileObject implements IFileObject {
   extension = '';
 
   constructor(i?: IFileObject) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.filename_disk = i.filename_disk;
     this.filename_download = i.filename_download;

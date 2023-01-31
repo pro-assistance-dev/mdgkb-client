@@ -11,7 +11,9 @@ export default class Banner implements IBanner {
   fileInfoId?: string;
 
   constructor(i?: IBanner) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.name = i.name;
     this.link = i.link;

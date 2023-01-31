@@ -9,7 +9,9 @@ export default class Floor implements IFloor {
   divisions: IDivision[] = [];
 
   constructor(i?: IFloor) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.number = i.number;
     this.buildingId = i.buildingId;

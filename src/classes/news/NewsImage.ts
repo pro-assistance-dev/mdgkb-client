@@ -11,11 +11,15 @@ export default class NewsImage implements INewsImage {
   description?: string;
 
   constructor(i?: INewsImage) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.fileInfoId = i.fileInfoId;
     this.order = i.order;
     this.description = i.description;
-    if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
+    if (i.fileInfo) {
+      this.fileInfo = new FileInfo(i.fileInfo);
+    }
   }
 }

@@ -61,7 +61,9 @@ export default class Field implements IField {
   }
   removeMaskToken(index: number): void {
     const idForDelete = this.maskTokens[index].id;
-    if (idForDelete) this.maskTokensForDelete.push(idForDelete);
+    if (idForDelete) {
+      this.maskTokensForDelete.push(idForDelete);
+    }
     this.maskTokens.splice(index, 1);
   }
   getMaskTokens(): any {

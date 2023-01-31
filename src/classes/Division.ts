@@ -198,11 +198,11 @@ export default class Division implements IDivision {
   }
 
   scheduleAndRulesExists(): boolean {
-    const scheduleItemsExists = !!this.schedule.scheduleItems.length;
-    const visitingRulesExists = !!this.visitingRulesGroups.filter((vg: IVisitingRuleGroup) => {
+    const scheduleItemsExists = this.schedule.scheduleItems.length;
+    const visitingRulesExists = this.visitingRulesGroups.filter((vg: IVisitingRuleGroup) => {
       return !!vg.visitingRules.length;
     });
-    return scheduleItemsExists && visitingRulesExists;
+    return !!scheduleItemsExists && !!visitingRulesExists;
   }
 
   getDoctors(onlyShowed: boolean): IDoctor[] {

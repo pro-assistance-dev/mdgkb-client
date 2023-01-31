@@ -5,7 +5,9 @@ export default class Category implements ICategory {
   name = '';
 
   constructor(i?: ICategory) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.name = i.name;
   }

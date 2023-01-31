@@ -10,10 +10,14 @@ export default class DivisionImage implements IDivisionImage {
   description?: string;
 
   constructor(i?: IDivisionImage) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.fileInfoId = i.fileInfoId;
     this.description = i.description;
-    if (i.fileInfo) this.fileInfo = new FileInfo(i.fileInfo);
+    if (i.fileInfo) {
+      this.fileInfo = new FileInfo(i.fileInfo);
+    }
   }
 }

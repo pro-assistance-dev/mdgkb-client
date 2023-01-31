@@ -6,7 +6,9 @@ export default class NewsLike implements INewsLike {
   userId = '';
 
   constructor(i?: INewsLike) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.newsId = i.newsId;
     this.userId = i.userId;

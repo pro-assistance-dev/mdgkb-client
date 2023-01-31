@@ -24,7 +24,9 @@ export default class UserFormFields implements IUserFormFields {
   childCitizenship = false;
 
   constructor(i?: IUserFormFields) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     if (i.userEmail !== undefined) {
       this.userEmail = i.userEmail;
     }

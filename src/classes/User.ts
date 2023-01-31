@@ -51,7 +51,9 @@ export default class User implements IUser {
   formValues: IForm[] = [];
   createdAt?: Date;
   constructor(i?: IUser) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.email = i.email;
     this.password = i.password;
@@ -183,7 +185,9 @@ export default class User implements IUser {
   getNotViewedApplicationsCount(): number {
     let result = 0;
     this.formValues.forEach((el) => {
-      if (el.viewedByUser === false) result += 1;
+      if (!el.viewedByUser) {
+        result += 1;
+      }
     });
     return result;
   }

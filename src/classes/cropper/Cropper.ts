@@ -9,7 +9,9 @@ export default class Cropper implements ICropper {
   mutation = '';
   // fileInfo?: IFileInfo;
   constructor(i?: ICropper) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.isOpen = i.isOpen;
     this.ratio = i.ratio;
     this.src = i.src;
@@ -21,7 +23,9 @@ export default class Cropper implements ICropper {
     cropper.src = src;
     cropper.store = store;
     cropper.mutation = mutation;
-    if (ratio) cropper.ratio = ratio;
+    if (ratio) {
+      cropper.ratio = ratio;
+    }
     return cropper;
   }
 
@@ -29,7 +33,9 @@ export default class Cropper implements ICropper {
     const cropper = new Cropper();
     cropper.src = src;
     cropper.id = id;
-    if (ratio) cropper.ratio = ratio;
+    if (ratio) {
+      cropper.ratio = ratio;
+    }
     return cropper;
   }
 }

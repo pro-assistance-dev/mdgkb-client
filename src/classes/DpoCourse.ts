@@ -119,7 +119,7 @@ export default class DpoCourse implements IDpoCourse {
   }
 
   getClosestPeriod(): string {
-    if (!this.dpoCoursesDates[0] || !this.dpoCoursesDates[0]) {
+    if (!this.dpoCoursesDates[0]) {
       return 'Даты неизвестны';
     }
     return new DateTimeFormatter().getPeriod(this.dpoCoursesDates[0].start, this.dpoCoursesDates[0].end, { year: '2-digit' });

@@ -1,14 +1,13 @@
 import PaidProgramServicesGroup from '@/classes/PaidProgramServicesGroup';
-import IPaidProgramLevel from '@/interfaces/IPaidProgramLevel';
 import IPaidProgramServicesGroup from '@/interfaces/IPaidProgramServicesGroup';
 
-export default class PaidProgramLevel implements IPaidProgramLevel {
+export default class PaidProgramLevel {
   id?: string;
   name = '';
   yearProgramGroupId?: string;
   yearsProgramServicesGroups: IPaidProgramServicesGroup[] = [];
 
-  constructor(i?: IPaidProgramLevel) {
+  constructor(i?: PaidProgramLevel) {
     if (!i) {
       return;
     }

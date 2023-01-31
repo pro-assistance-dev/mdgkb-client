@@ -7,7 +7,9 @@ export default class CustomSection implements ICustomSection {
   order?: number;
 
   constructor(i?: ICustomSection) {
-    if (!i) return;
+    if (!i) {
+      return;
+    }
     this.id = i.id;
     this.name = i.name;
     this.component = i.component;

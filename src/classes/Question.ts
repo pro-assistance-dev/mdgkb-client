@@ -105,11 +105,7 @@ export default class Question implements IQuestion {
   }
   getUpdateCondition(): boolean {
     if (!this.publishAgreement) {
-      if (this.answered) {
-        return false;
-      } else {
-        return true;
-      }
+      return !this.answered;
     }
     return true;
   }
@@ -137,12 +133,8 @@ export default class Question implements IQuestion {
   // }
 
   hasNewAnswer(): boolean {
-    if (this.originalAnswer.length != 0) {
-      if (this.answerIsRead) {
-        return false;
-      } else {
-        return true;
-      }
+    if (this.originalAnswer.length !== 0) {
+      return !this.answerIsRead;
     }
     return false;
   }

@@ -20,14 +20,22 @@ export default class Entrance implements IEntrance {
     }
     this.id = entrance.id;
     this.number = entrance.number;
-    if (entrance.building) this.building = new Building(entrance.building);
-    if (entrance.buildingId) this.buildingId = entrance.buildingId;
-    if (entrance.divisions) this.divisions = entrance.divisions.map((item: IDivision) => new Division(item));
+    if (entrance.building) {
+      this.building = new Building(entrance.building);
+    }
+    if (entrance.buildingId) {
+      this.buildingId = entrance.buildingId;
+    }
+    if (entrance.divisions) {
+      this.divisions = entrance.divisions.map((item: IDivision) => new Division(item));
+    }
     this.setName();
   }
 
   setName(): void {
-    if (!this.building) return;
+    if (!this.building) {
+      return;
+    }
     this.name = this.building.address + ', вход ' + this.number;
     this.address = this.name;
   }
