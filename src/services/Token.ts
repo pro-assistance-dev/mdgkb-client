@@ -4,7 +4,8 @@ import ITokens from '@/interfaces/ITokens';
 const TokenService = (() => {
   function _isAuth(): boolean {
     const token = _getAccessToken();
-    return !(!token || token === 'undefined');
+    const u = 'undefined';
+    return !(!token || token === u);
   }
 
   function _setToken(tokenObj: ITokens) {
@@ -44,9 +45,13 @@ const TokenService = (() => {
   }
 
   function _updateHuman(human: IHuman) {
-    if (!_isAuth()) return;
+    if (!_isAuth()) {
+      return;
+    }
     const user = TokenService.getUser();
-    if (!user) return;
+    if (!user) {
+      return;
+    }
     user.human = human;
     localStorage.setItem('user', JSON.stringify(user));
   }

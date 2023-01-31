@@ -109,8 +109,6 @@ export default defineComponent({
         Provider.store.commit('vacancies/resetState');
         Provider.store.commit('admin/setHeaderParams', { title: 'Добавить вакансию', showBackButton: true, buttons: [{ action: submit }] });
       }
-      await Provider.store.dispatch('documentTypes/getDocumentsTypesForTables');
-      await Provider.store.dispatch('documentTypes/getAll');
       await Provider.store.dispatch('formPatterns/getAll');
 
       window.addEventListener('beforeunload', beforeWindowUnload);

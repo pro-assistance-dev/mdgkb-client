@@ -61,7 +61,6 @@ import ISearchObject from '@/interfaces/ISearchObject';
 import ITeacher from '@/interfaces/ITeacher';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import removeFromClass from '@/services/removeFromClass';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -189,7 +188,6 @@ export default defineComponent({
       form,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      removeFromClass,
       selectEmployeeSearch,
     };
   },

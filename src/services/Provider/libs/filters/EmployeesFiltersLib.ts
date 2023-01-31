@@ -25,7 +25,7 @@ const EmployeesFiltersLib = (() => {
     );
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
-    filterModel.label = 'Жунский';
+    filterModel.label = 'Женский';
     return filterModel;
   }
 

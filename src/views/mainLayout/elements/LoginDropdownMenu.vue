@@ -39,11 +39,10 @@
 <script lang="ts">
 import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import IUser from '@/interfaces/IUser';
 import { authGuard } from '@/router';
+import Provider from '@/services/Provider';
 import UserService from '@/services/User';
 export default defineComponent({
   name: 'LoginDropdownMenu',
@@ -51,29 +50,26 @@ export default defineComponent({
   props: { showButtonName: { type: Boolean, default: false } },
 
   async setup() {
-    const store = useStore();
-    const router = useRouter();
-    const route = useRoute();
-    const login = () => store.commit('auth/openModal', 'login');
-    const register = () => store.commit('auth/openModal', 'register');
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
-    const curUser: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
+    const login = () => Provider.store.commit('auth/openModal', 'login');
+    const register = () => Provider.store.commit('auth/openModal', 'register');
+    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
+    const curUser: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
 
     const loadUser = async () => {
-      await store.dispatch('users/get', userId.value);
+      await Provider.store.dispatch('users/get', userId.value);
     };
 
     const logout = async () => {
-      await store.dispatch('auth/logout');
-      const curRoute = route.name;
-      const rr = router.options.routes.find((r) => r.name === curRoute);
+      await Provider.store.dispatch('auth/logout');
+      const curRoute = Provider.route().name;
+      const rr = Provider.router.options.routes.find((r) => r.name === curRoute);
       if (rr && rr.meta && rr.meta.protected) {
         authGuard();
       }
     };
 
-    const isAuth = computed(() => store.getters['auth/isAuth']);
+    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
     const isLaptopWindowWidth: Ref<boolean> = ref(window.matchMedia('(max-width: 1024px)').matches);
 
     onBeforeMount(async () => {

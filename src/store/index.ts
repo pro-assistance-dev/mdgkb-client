@@ -23,7 +23,6 @@ import { dishesGroups } from '@/store/modules/dishesGroups';
 import { dishesSamples } from '@/store/modules/dishesSamples';
 import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
-import { documentTypes } from '@/store/modules/documentTypes';
 import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
 import { dpoCourses } from '@/store/modules/dpoCourses';
@@ -51,6 +50,7 @@ import { meta } from '@/store/modules/meta';
 import { news } from '@/store/modules/news';
 import { newsSlides } from '@/store/modules/newsSlides';
 import { pages } from '@/store/modules/pages';
+import { pageSections } from '@/store/modules/pageSections';
 import { pageSideMenus } from '@/store/modules/pageSideMenus';
 import { pagination } from '@/store/modules/pagination';
 import { paidPrograms } from '@/store/modules/paidPrograms';
@@ -93,7 +93,7 @@ const s: StoreOptions<RootState> = {
   mutations: {},
   modules: {
     valueTypes,
-    documentTypes,
+    pageSections,
     auth,
     banners,
     cropper,

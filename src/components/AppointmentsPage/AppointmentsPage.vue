@@ -23,13 +23,13 @@
               <el-option v-for="item in appointmentsTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
             </el-select>
           </el-form-item>
-          <!--              <UserForm-->
-          <!--                :form="appointment.formValue"-->
-          <!--                :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"-->
-          <!--              />-->
+          <UserForm
+            :form="appointment.formValue"
+            :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"
+          />
           <FieldValuesForm v-if="appointment.formValue" :form="appointment.formValue" />
 
-          <!--                            <AppointmentForm @createChildMode="changeCreateChildMode" />-->
+          <AppointmentForm @createChildMode="changeCreateChildMode" />
         </el-form>
       </div>
     </div>
@@ -46,6 +46,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import AppointmentType from '@/classes/AppointmentType';
 import User from '@/classes/User';
+import UserFormFields from '@/classes/UserFormFields';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
@@ -149,6 +150,7 @@ export default defineComponent({
       appointmentsTypes,
       mounted: Provider.mounted,
       appointmentsType,
+      UserFormFields,
     };
   },
 });

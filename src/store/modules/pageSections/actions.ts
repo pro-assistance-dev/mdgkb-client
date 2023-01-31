@@ -1,6 +1,5 @@
 import { ActionTree } from 'vuex';
 
-import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPageSection from '@/interfaces/IPageSection';
 import HttpClient from '@/services/HttpClient';
@@ -26,26 +25,19 @@ const actions: ActionTree<State, RootState> = {
     commit('set', type);
   },
   getAll: async ({ commit, state }): Promise<void> => {
-    const query = state.documentsForTablesNames.createQueryParam();
-    const documents = await httpClient.get<IPageSection[]>({ query: query });
-
+    const documents = await httpClient.get<IPageSection[]>();
     if (!documents) {
       return;
     }
-
     commit('setAll', documents);
   },
   update: async (_, document: IPageSection): Promise<void> => {
     const fileInfos: IFileInfo[] | undefined = document.scan ? [document.scan] : undefined;
-
     await httpClient.put<IPageSection, undefined>({ query: document.id, payload: document, fileInfos, isFormData: true });
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete<string, undefined>({ query: id });
     commit('remove', id);
-  },
-  getDocumentsTypesForTables: async ({ commit }): Promise<void> => {
-    commit('setDocumentsForTablesNames', await httpClient.get<DocumentsTypesForTablesNames[]>({ query: 'for/tables-names' }));
   },
 };
 

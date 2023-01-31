@@ -1,9 +1,8 @@
 import { MutationTree } from 'vuex';
 
 import PageSection from '@/classes/PageSection';
-import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
 import IPageSection from '@/interfaces/IPageSection';
-import { getDefaultState } from '@/store/modules/documentTypes/index';
+import { getDefaultState } from '@/store/modules/pageSections/index';
 
 import State from './state';
 
@@ -20,9 +19,6 @@ const mutations: MutationTree<State> = {
   },
   resetState(state) {
     Object.assign(state, getDefaultState());
-  },
-  setDocumentsForTablesNames(state, item: DocumentsTypesForTablesNames) {
-    state.documentsForTablesNames = new DocumentsTypesForTablesNames(item);
   },
 };
 
