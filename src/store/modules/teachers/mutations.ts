@@ -3,6 +3,7 @@ import { MutationTree } from 'vuex';
 import Teacher from '@/classes/Teacher';
 import ITeacher from '@/interfaces/ITeacher';
 
+import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
@@ -22,6 +23,9 @@ const mutations: MutationTree<State> = {
   },
   resetItem(state) {
     state.item = new Teacher();
+  },
+  resetState(state) {
+    Object.assign(state, getDefaultState());
   },
 };
 

@@ -47,4 +47,7 @@ export default interface IDoctor {
   hasAppointment: boolean;
   addDoctorDivision: (division: IDivision) => void;
   getHuman: () => IHuman;
+
+  setEmployee: (employee: IEmployee) => void;
+  resetEmployee: () => void;
 }

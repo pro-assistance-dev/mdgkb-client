@@ -1,5 +1,17 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="doctor" label-position="top" :rules="rules">
+  <div v-if="mounted && !doctor.id" class="employee-name">
+    <div class="search-line">
+      <div class="search-label">Выберите сотрудника для добавления:</div>
+      <RemoteSearch :key-value="schema.employee.key" :max-width="2000" @select="selectEmployeeSearch" />
+    </div>
+    <div v-if="doctor.employee.id" class="container">
+      <button class="admin-employee-del" @click.prevent="doctor.resetEmployee()">Удалить</button>
+      <div class="division-name">
+        {{ doctor.employee.human.getFullName() }}
+      </div>
+    </div>
+  </div>
+  <el-form v-if="mounted && doctor.employee.id" ref="form" :model="doctor" label-position="top" :rules="rules">
     <div class="margin-container">
       <CollapsContainer :tab-id="1036" :collapsed="true">
         <template #inside-title>
@@ -18,12 +30,8 @@
               >
                 Удалить
               </button>
-              <div class="list-number">
-                {{ i + 1 }}
-              </div>
-              <div class="division-name">
-                {{ doctorDivision.division.name }}
-              </div>
+              <div class="list-number">{{ i + 1 }}</div>
+              <div class="division-name">{{ doctorDivision.division.name }}</div>
             </div>
           </div>
         </template>
@@ -69,6 +77,7 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDivision from '@/interfaces/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
+import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
 import DoctorRules from '@/rules/DoctorRules';
@@ -92,6 +101,7 @@ export default defineComponent({
     const doctor: Ref<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
     const doctors: Ref<IDoctor[]> = computed(() => Provider.store.getters['doctors/items']);
     const division: Ref<IDivision> = computed(() => Provider.store.getters['divisions/division']);
+    const employee: Ref<IEmployee> = computed(() => Provider.store.getters['employees/item']);
     let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -99,12 +109,6 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-
-      // if (!doctor.value.fileInfo.fileSystemPath) {
-      //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
-      //   saveButtonClick.value = false;
-      //   return;
-      // }
 
       try {
         if (Provider.route().params['id']) {
@@ -222,6 +226,11 @@ export default defineComponent({
       doctor.value.addDoctorDivision(division.value);
     };
 
+    const selectEmployeeSearch = async (searchObject: ISearchObject) => {
+      await Provider.store.dispatch('employees/get', searchObject.value);
+      doctor.value.setEmployee(employee.value);
+    };
+
     return {
       doctors,
       completeInput,
@@ -237,6 +246,7 @@ export default defineComponent({
       schema: Provider.schema,
       addDoctorDivision,
       academicChangeHandler,
+      selectEmployeeSearch,
     };
   },
 });
@@ -394,6 +404,17 @@ $margin: 20px 0;
   background: #f9fafb;
 }
 
+.employee-name {
+  height: auto;
+  position: relative;
+  width: calc(100% - 40px);
+  margin: 10px 0px 20px 0px;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 12px 20px;
+  background: #dff2f8;
+}
+
 .title-in {
   display: flex;
   font-family: 'Open Sans', sans-serif;
@@ -426,6 +447,23 @@ $margin: 20px 0;
 }
 
 .admin-del:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.admin-employee-del {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+  border: none;
+  background: inherit;
+  color: #a3a9be;
+  transition: 0.3s;
+  cursor: pointer;
+  padding: 1px 0;
+}
+
+.admin-employee-del:hover {
   color: darken($color: #cf3d19, $amount: 5%);
 }
 
