@@ -130,12 +130,6 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load);
-    // watch(
-    //   () => route.path,
-    //   async () => {
-    //     await load();
-    //   }
-    // );
 
     const loadDivisionOptions = async (): Promise<void> => {
       await Provider.store.dispatch('divisions/getAll');
@@ -159,7 +153,6 @@ export default defineComponent({
         Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
-      // watch(doctor, formUpdated, { deep: true });
 
       filterModel = FilterModel.CreateFilterModel(
         Provider.schema.value.doctor.tableName,
