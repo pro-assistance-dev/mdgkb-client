@@ -1,10 +1,13 @@
 import 'reflect-metadata';
 
 import IWithId from '@/interfaces/IWithId';
-import { Constructable } from '@/store/baseModule/baseIndex';
+import StringsService from '@/services/Strings';
+
+export type ClassType = { [key: string]: any };
+export type Constructable<T> = { new (...args: any[]): T };
 
 export default class ClassHelper {
-  static BuildClass(passedClass: { [key: string]: any }, arg?: { [key: string]: any }): void {
+  static BuildClass(passedClass: ClassType, arg?: ClassType): void {
     if (!arg) {
       return;
     }
@@ -52,5 +55,27 @@ export default class ClassHelper {
       arrayForDelete.push(idForDelete);
     }
     arrayFromDelete.splice(index, 1);
+  }
+
+  static GetPropertyName<T extends ClassType>(obj: Constructable<T>): T {
+    const o = new obj();
+    return new Proxy(o, {
+      get(_, key) {
+        return key;
+      },
+    });
+  }
+
+  static GetPropertyNameV<T extends ClassType>(obj: Constructable<T>): T {
+    const o = new obj();
+    return new Proxy(o, {
+      get(_, key) {
+        return key;
+      },
+    });
+  }
+
+  static GetModelName(obj: ClassType): string {
+    return StringsService.toCamelCase(obj.constructor.name);
   }
 }

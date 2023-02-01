@@ -69,6 +69,7 @@ export default defineComponent({
       await Provider.store.dispatch('employees/getAllWithCount', Provider.filterQuery.value);
     };
     const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
+
     const load = async () => {
       Provider.setSortList(...createSortModels(EmployeesSortsLib));
       Provider.setSortModels(EmployeesSortsLib.byFullName(Orders.Asc));

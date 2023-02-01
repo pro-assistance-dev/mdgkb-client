@@ -4,9 +4,10 @@ import { LocationQuery } from 'vue-router';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 
-export default class SortModel implements ISortModel {
+export default class SortModel {
   id?: string;
   table = '';
+  model = '';
   col = '';
   order: Orders | undefined;
   label = '';
@@ -21,6 +22,24 @@ export default class SortModel implements ISortModel {
     model.label = label ?? '';
     model.default = defaultModel ?? false;
     return model;
+  }
+
+  static CreateSortModelV2(
+    model: string,
+    col: string | undefined,
+    order?: Orders,
+    label?: string,
+    defaultModel?: boolean,
+    code?: string
+  ): ISortModel {
+    const m = new SortModel();
+    m.id = uuidv4();
+    m.model = model;
+    m.col = col ?? '';
+    m.order = order ?? Orders.Asc;
+    m.label = label ?? '';
+    m.default = defaultModel ?? false;
+    return m;
   }
 
   isAsc(): boolean {

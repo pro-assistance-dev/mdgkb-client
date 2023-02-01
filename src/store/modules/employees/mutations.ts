@@ -5,13 +5,12 @@ import EducationAccreditation from '@/classes/educations/EducationAccreditation'
 import EducationCertification from '@/classes/educations/EducationCertification';
 import Employee from '@/classes/Employee';
 import Regalia from '@/classes/Regalia';
-import IEmployee from '@/interfaces/IEmployee';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  ...getBaseMutations<IEmployee, State>(Employee),
+  ...getBaseMutations<Employee, State>(Employee),
   addEducation(state) {
     state.item.educations.push(new Education());
   },

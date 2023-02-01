@@ -1,4 +1,4 @@
-import IEmployee from '@/interfaces/IEmployee';
+import Employee from '@/classes/Employee';
 import IBasicState from '@/store/baseModule/baseState';
 
-export type State = IBasicState<IEmployee>;
+export type State = IBasicState<Employee>;

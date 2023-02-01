@@ -69,6 +69,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Division from '@/classes/Division';
+import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
@@ -77,7 +78,6 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDivision from '@/interfaces/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
-import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
 import DoctorRules from '@/rules/DoctorRules';
@@ -101,7 +101,7 @@ export default defineComponent({
     const doctor: Ref<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
     const doctors: Ref<IDoctor[]> = computed(() => Provider.store.getters['doctors/items']);
     const division: Ref<IDivision> = computed(() => Provider.store.getters['divisions/division']);
-    const employee: Ref<IEmployee> = computed(() => Provider.store.getters['employees/item']);
+    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
     let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;

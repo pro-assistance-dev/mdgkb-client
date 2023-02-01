@@ -13,7 +13,6 @@ import IDoctorComment from '@/interfaces/IDoctorComment';
 import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
-import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
@@ -140,7 +139,7 @@ export default class Doctor implements IDoctor {
     this.doctorsDivisions.push(doctorDivision);
   }
 
-  setEmployee(employee: IEmployee): void {
+  setEmployee(employee: Employee): void {
     this.employee = new Employee(employee);
     this.employeeId = employee.id;
   }

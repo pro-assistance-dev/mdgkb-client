@@ -1,12 +1,12 @@
+import Employee from '@/classes/Employee';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDepartment from '@/interfaces/IDepartment';
-import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 export default interface IHead {
   id?: string;
-  employee: IEmployee;
+  employee: Employee;
   employeeId?: string;
   timetable: ITimetable;
   timetableId?: string;

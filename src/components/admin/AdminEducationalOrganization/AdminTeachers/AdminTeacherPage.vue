@@ -50,12 +50,12 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ITeacher from '@/interfaces/ITeacher';
@@ -74,7 +74,7 @@ export default defineComponent({
     const form = ref();
     const teacher: Ref<ITeacher> = computed(() => Provider.store.getters['teachers/item']);
     const teachers: Ref<ITeacher[]> = computed(() => Provider.store.getters['teachers/items']);
-    const employee: Ref<IEmployee> = computed(() => Provider.store.getters['employees/item']);
+    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
     let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;

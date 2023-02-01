@@ -1,6 +1,5 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IEducationYear from '@/interfaces/IEducationYear';
-import IEmployee from '@/interfaces/IEmployee';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IResidencyCoursePracticePlace from '@/interfaces/IResidencyCoursePracticePlace';
 import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecialization';
@@ -70,7 +69,7 @@ export default interface IResidencyCourse {
 
   paidAcceptedApplicationsExists: () => boolean;
 
-  getEmployees: () => IEmployee[];
+  getEmployees: () => Employee[];
   residencyCoursePracticePlaces: IResidencyCoursePracticePlace[];
   residencyCoursePracticePlacesForDelete: string[];
   getInfoFiles: () => IFileInfo[];

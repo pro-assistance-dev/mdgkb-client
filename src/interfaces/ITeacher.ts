@@ -1,13 +1,13 @@
+import Employee from '@/classes/Employee';
 import IDpoCourse from '@/interfaces/IDpoCourse';
-import IEmployee from '@/interfaces/IEmployee';
 
 export default interface ITeacher {
   id?: string;
   employeeId?: string;
-  employee: IEmployee;
+  employee: Employee;
   position: string;
   dpoCourses: IDpoCourse[];
 
-  setEmployee: (employee: IEmployee) => void;
+  setEmployee: (employee: Employee) => void;
   resetEmployee: () => void;
 }

@@ -2,7 +2,8 @@ import { MutationTree } from 'vuex';
 
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import IWithId from '@/interfaces/IWithId';
-import getBaseDefaultState, { Constructable } from '@/store/baseModule/baseIndex';
+import { Constructable } from '@/services/ClassHelper';
+import getBaseDefaultState from '@/store/baseModule/baseIndex';
 import IBasicState from '@/store/baseModule/baseState';
 
 export default function getBaseMutations<T extends IWithId, StateType extends IBasicState<T>>(

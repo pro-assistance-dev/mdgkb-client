@@ -1,13 +1,12 @@
 import DpoCourse from '@/classes/DpoCourse';
 import Employee from '@/classes/Employee';
 import IDpoCourse from '@/interfaces/IDpoCourse';
-import IEmployee from '@/interfaces/IEmployee';
 import ITeacher from '@/interfaces/ITeacher';
 
 export default class Teacher implements ITeacher {
   id?: string;
   employeeId?: string;
-  employee: IEmployee = new Employee();
+  employee: Employee = new Employee();
   position = '';
   dpoCourses: IDpoCourse[] = [];
 
@@ -26,7 +25,7 @@ export default class Teacher implements ITeacher {
     }
   }
 
-  setEmployee(employee: IEmployee): void {
+  setEmployee(employee: Employee): void {
     this.employee = new Employee(employee);
     this.employeeId = employee.id;
   }
