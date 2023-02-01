@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="menusGroup">
-      <DishConstructorInfo v-if="!dishSampleConstructorVisible" />
+      <DishConstructorInfo v-if="!dishSampleConstructorVisible" @selectLastDish="openDishSampleConstructor" />
       <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
     </div>
   </div>
