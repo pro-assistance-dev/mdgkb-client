@@ -7,13 +7,12 @@ import TeachingActivity from '@/classes/TeachingActivity';
 import IEducation from '@/interfaces/education/IEducation';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICertificate from '@/interfaces/ICertificate';
-import IEmployee from '@/interfaces/IEmployee';
 import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
 import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class Employee implements IEmployee {
+export default class Employee {
   id?: string;
   human = new Human();
   humanId?: string;
@@ -35,7 +34,9 @@ export default class Employee implements IEmployee {
   teachingActivities: ITeachingActivity[] = [];
   teachingActivitiesForDelete: string[] = [];
 
-  constructor(i?: IEmployee) {
+  fullName?: string;
+
+  constructor(i?: Employee) {
     ClassHelper.BuildClass(this, i);
   }
 

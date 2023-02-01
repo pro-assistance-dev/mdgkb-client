@@ -149,6 +149,11 @@ const menuList: IAdminMenu[] = [
     icon: 'el-icon-school',
     children: [
       {
+        title: 'Преподаватели',
+        to: '/admin/teachers',
+        icon: 'el-icon-first-aid-kit',
+      },
+      {
         title: 'Сведения об образовательной организации',
         to: '/admin/educational-organization',
       },

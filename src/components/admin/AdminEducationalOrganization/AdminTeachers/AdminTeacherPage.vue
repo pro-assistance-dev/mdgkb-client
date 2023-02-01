@@ -1,39 +1,34 @@
 <template>
-  <div v-if="mounted && !doctor.id" class="employee-name">
+  <div v-if="mounted && !teacher.id" class="employee-name">
     <div class="search-line">
       <div class="search-label">Выберите сотрудника для добавления:</div>
       <RemoteSearch :key-value="schema.employee.key" :max-width="2000" @select="selectEmployeeSearch" />
     </div>
-    <div v-if="doctor.employee.id" class="container">
-      <button class="admin-employee-del" @click.prevent="doctor.resetEmployee()">Удалить</button>
+    <div v-if="teacher.employee.id" class="container">
+      <button class="admin-employee-del" @click.prevent="teacher.resetEmployee()">Удалить</button>
       <div class="division-name">
-        {{ doctor.employee.human.getFullName() }}
+        {{ teacher.employee.human.getFullName() }}
       </div>
     </div>
   </div>
-  <el-form v-if="mounted && doctor.employee.id" ref="form" :model="doctor" label-position="top" :rules="rules">
+  <el-form v-if="mounted && teacher.employee.id" ref="form" :model="teacher" label-position="top" :rules="rules">
     <div class="margin-container">
       <CollapsContainer :tab-id="1036" :collapsed="true">
         <template #inside-title>
-          <div class="title-in">Отделения</div>
+          <div class="title-in">Стаж преподавания, статус</div>
         </template>
         <template #inside-content>
-          <div class="background-container">
-            <div class="search-line">
-              <div class="search-label">Выберите отделение для добавления:</div>
-              <RemoteSearch :key-value="schema.division.key" :max-width="2000" @select="addDoctorDivision" />
-            </div>
-            <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision" class="container">
-              <button
-                class="admin-del"
-                @click.prevent="$classHelper.RemoveFromClassByIndex(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)"
-              >
-                Удалить
-              </button>
-              <div class="list-number">{{ i + 1 }}</div>
-              <div class="division-name">{{ doctorDivision.division.name }}</div>
-            </div>
-          </div>
+          <div class="background-container"></div>
+        </template>
+      </CollapsContainer>
+    </div>
+    <div class="margin-container">
+      <CollapsContainer :tab-id="1036">
+        <template #inside-title>
+          <div class="title-in">Сертификация</div>
+        </template>
+        <template #inside-content>
+          <div class="background-container"></div>
         </template>
       </CollapsContainer>
     </div>
@@ -43,64 +38,42 @@
           <div class="title-in">Прочая информация</div>
         </template>
         <template #inside-content>
-          <div class="background-container">
-            <el-form-item label="Ссылка на профиль в системе Московский врач">
-              <el-input v-model="doctor.mosDoctorLink" />
-            </el-form-item>
-            <el-form-item label="Краткое описание сферы интересов">
-              <el-input v-model="doctor.description" />
-            </el-form-item>
-          </div>
+          <div class="background-container"></div>
         </template>
       </CollapsContainer>
     </div>
-    <el-container direction="vertical">
-      <el-checkbox v-model="doctor.hasAppointment" label="Включить расписание приёма" />
-      <div v-if="doctor.hasAppointment">
-        <TimetableConstructorV2 :store-module="'doctors'" />
-      </div>
-    </el-container>
   </el-form>
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
-import Division from '@/classes/Division';
 import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
-import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IDivision from '@/interfaces/IDivision';
-import IDoctor from '@/interfaces/IDoctor';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
-import DoctorRules from '@/rules/DoctorRules';
+import ITeacher from '@/interfaces/ITeacher';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
-  name: 'AdminDoctorPage',
+  name: 'AdminTeacherPage',
   components: {
     RemoteSearch,
-    TimetableConstructorV2,
     CollapsContainer,
   },
   setup() {
     const form = ref();
-    const rules = ref(DoctorRules);
-
-    const divisionOptions = ref([new Division()]);
-    const doctor: Ref<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
-    const doctors: Ref<IDoctor[]> = computed(() => Provider.store.getters['doctors/items']);
-    const division: Ref<IDivision> = computed(() => Provider.store.getters['divisions/division']);
+    const teacher: Ref<ITeacher> = computed(() => Provider.store.getters['teachers/item']);
+    const teachers: Ref<ITeacher[]> = computed(() => Provider.store.getters['teachers/items']);
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
     let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {
@@ -112,53 +85,51 @@ export default defineComponent({
 
       try {
         if (Provider.route().params['id']) {
-          await Provider.store.dispatch('doctors/update', doctor.value);
+          await Provider.store.dispatch('teachers/update', teacher.value);
         } else {
-          await Provider.store.dispatch('doctors/create', doctor.value);
+          await Provider.store.dispatch('teachers/create', teacher.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : await Provider.router.push('/admin/doctors');
+      next ? next() : await Provider.router.push('/admin/teachers');
     };
 
     const { saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
       await Provider.store.dispatch('search/searchGroups');
-      await loadDivisionOptions();
-      await loadDoctor();
+      await loadTeacher();
     };
 
     Hooks.onBeforeMount(load);
 
-    const loadDivisionOptions = async (): Promise<void> => {
-      await Provider.store.dispatch('divisions/getAll');
-      divisionOptions.value = Provider.store.getters['divisions/divisions'];
-    };
-
     const toEmployeeInfo = async (): Promise<void> => {
-      await Provider.router.push(`/admin/employees/${doctor.value.employee.human.slug}`);
+      await Provider.router.push(`/admin/employees/${teacher.value.employee.human.slug}`);
     };
 
-    const loadDoctor = async (): Promise<void> => {
+    const loadTeacher = async (): Promise<void> => {
       if (Provider.route().params['id']) {
-        await Provider.store.dispatch('doctors/get', Provider.route().params['id']);
+        await Provider.store.dispatch('teachers/get', Provider.route().params['id']);
         Provider.store.commit('admin/setHeaderParams', {
-          title: doctor.value.employee.human.getFullName(),
+          title: teacher.value.employee.human.getFullName(),
           showBackButton: true,
           buttons: [{ action: toEmployeeInfo, text: 'Личная информация', type: 'warning' }, { action: submit }],
         });
       } else {
-        Provider.store.commit('doctors/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('teachers/resetState');
+        Provider.store.commit('admin/setHeaderParams', {
+          title: 'Добавить преподавателя',
+          showBackButton: true,
+          buttons: [{ action: submit }],
+        });
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
 
       filterModel = FilterModel.CreateFilterModel(
-        Provider.schema.value.doctor.tableName,
-        Provider.schema.value.doctor.fullName,
+        Provider.schema.value.teacher.tableName,
+        Provider.schema.value.teacher.fullName,
         DataTypes.String
       );
     };
@@ -167,85 +138,56 @@ export default defineComponent({
       showConfirmModal(submit, next);
     });
 
-    const addRegalia = () => Provider.store.commit('doctors/addRegalia');
-
-    const selectPosition = async (event: ISearchObject) => {
-      doctor.value.positionId = event.id;
-      await Provider.store.dispatch('');
-    };
-
-    const selectPaidService = (event: ISearchObject) => {
-      doctor.value.positionId = event.id;
-    };
-
-    const academicChangeHandler = () => {
-      doctor.value.setAcademic();
-    };
-
     const completeInput = async (human: IHuman) => {
       if (!filterModel) {
         return;
       }
       filterModel.value1 = human.getFullName();
       Provider.setFilterModels(filterModel);
-      await Provider.store.dispatch('doctors/getAll', Provider.filterQuery.value);
-      if (doctors.value.length === 0) {
+      await Provider.store.dispatch('teachers/getAll', Provider.filterQuery.value);
+      if (teachers.value.length === 0) {
         return;
       }
-      await offerEditExistingDoctor();
     };
 
-    const offerEditExistingDoctor = async () => {
-      const existingDoctor = doctors.value[0];
-      if (!existingDoctor) {
-        return;
-      }
-      ElMessageBox.confirm('Врач с введённым именем уже существует в системе', 'Отредактировать существующего врача?', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: 'Перейти к редактированию',
-        cancelButtonText: 'Остаться в создании нового',
-      })
-        .then(async () => {
-          // Provider.router.push({ name: 'AdminEditDoctorPage', params: { id: existingDoctor.human.slug } });
-          await Provider.router.push(`/admin/doctors/${existingDoctor.employee.human.slug}`);
-          await loadDoctor();
-        })
-        .catch((action: string) => {
-          if (action === 'cancel') {
-            ElMessage({
-              type: 'warning',
-              message: 'Врач с введённым именем уже существует в системе',
-            });
-          }
-        });
-    };
-
-    const addDoctorDivision = async (searchObject: ISearchObject) => {
-      Provider.filterQuery.value.setParams(Provider.schema.value.division.id, searchObject.id);
-      await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
-      doctor.value.addDoctorDivision(division.value);
-    };
+    // const offerEditExistingDoctor = async () => {
+    //   const existingDoctor = doctors.value[0];
+    //   if (!existingDoctor) {
+    //     return;
+    //   }
+    //   ElMessageBox.confirm('Врач с введённым именем уже существует в системе', 'Отредактировать существующего врача?', {
+    //     distinguishCancelAndClose: true,
+    //     confirmButtonText: 'Перейти к редактированию',
+    //     cancelButtonText: 'Остаться в создании нового',
+    //   })
+    //     .then(async () => {
+    //       // Provider.router.push({ name: 'AdminEditDoctorPage', params: { id: existingDoctor.human.slug } });
+    //       await Provider.router.push(`/admin/doctors/${existingDoctor.employee.human.slug}`);
+    //       await loadDoctor();
+    //     })
+    //     .catch((action: string) => {
+    //       if (action === 'cancel') {
+    //         ElMessage({
+    //           type: 'warning',
+    //           message: 'Врач с введённым именем уже существует в системе',
+    //         });
+    //       }
+    //     });
+    // };
 
     const selectEmployeeSearch = async (searchObject: ISearchObject) => {
       await Provider.store.dispatch('employees/get', searchObject.value);
-      doctor.value.setEmployee(employee.value);
+      teacher.value.setEmployee(employee.value);
     };
 
     return {
-      doctors,
+      teachers,
       completeInput,
-      selectPaidService,
-      selectPosition,
-      addRegalia,
-      rules,
       submit,
-      doctor,
-      divisionOptions,
+      teacher,
       form,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      addDoctorDivision,
-      academicChangeHandler,
       selectEmployeeSearch,
     };
   },

@@ -1,9 +1,9 @@
+import Employee from '@/classes/Employee';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDivision from '@/interfaces/IDivision';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
-import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
@@ -14,7 +14,7 @@ import IEducationalOrganizationAcademic from './IEducationalOrganizationAcademic
 
 export default interface IDoctor {
   id?: string;
-  employee: IEmployee;
+  employee: Employee;
   employeeId?: string;
   description: string;
   mosDoctorLink?: string;
@@ -47,4 +47,7 @@ export default interface IDoctor {
   hasAppointment: boolean;
   addDoctorDivision: (division: IDivision) => void;
   getHuman: () => IHuman;
+
+  setEmployee: (employee: Employee) => void;
+  resetEmployee: () => void;
 }

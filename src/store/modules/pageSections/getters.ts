@@ -1,6 +1,5 @@
 import { GetterTree } from 'vuex';
 
-import DocumentsTypesForTablesNames from '@/classes/schema/DocumentsTypesForTablesNames';
 import IPageSection from '@/interfaces/IPageSection';
 import RootState from '@/store/types';
 
@@ -12,9 +11,6 @@ const getters: GetterTree<State, RootState> = {
   },
   items(state): IPageSection[] {
     return state.items;
-  },
-  getDocumentsTypesForTables(state): DocumentsTypesForTablesNames {
-    return state.documentsForTablesNames;
   },
 };
 

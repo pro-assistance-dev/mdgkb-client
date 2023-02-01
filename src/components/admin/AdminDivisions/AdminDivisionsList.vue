@@ -62,7 +62,9 @@ export default defineComponent({
 
     const edit = async (id: string): Promise<void> => {
       const item = divisions.value.find((i: IDivision) => i.id === id);
-      if (item) await Provider.router.push(`/admin/divisions/${id}`);
+      if (item) {
+        await Provider.router.push(`/admin/divisions/${id}`);
+      }
     };
 
     const remove = async (id: string) => {

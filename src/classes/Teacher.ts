@@ -1,13 +1,12 @@
-import Doctor from '@/classes/Doctor';
 import DpoCourse from '@/classes/DpoCourse';
-import IDoctor from '@/interfaces/IDoctor';
+import Employee from '@/classes/Employee';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import ITeacher from '@/interfaces/ITeacher';
 
 export default class Teacher implements ITeacher {
   id?: string;
-  doctorId?: string;
-  doctor: IDoctor = new Doctor();
+  employeeId?: string;
+  employee: Employee = new Employee();
   position = '';
   dpoCourses: IDpoCourse[] = [];
 
@@ -16,13 +15,23 @@ export default class Teacher implements ITeacher {
       return;
     }
     this.id = i.id;
-    this.doctorId = i.doctorId;
+    this.employeeId = i.employeeId;
     this.position = i.position;
-    if (i.doctor) {
-      this.doctor = new Doctor(i.doctor);
+    if (i.employee) {
+      this.employee = new Employee(i.employee);
     }
     if (i.dpoCourses) {
       this.dpoCourses = i.dpoCourses.map((item: IDpoCourse) => new DpoCourse(item));
     }
+  }
+
+  setEmployee(employee: Employee): void {
+    this.employee = new Employee(employee);
+    this.employeeId = employee.id;
+  }
+
+  resetEmployee(): void {
+    this.employee = new Employee();
+    this.employeeId = undefined;
   }
 }

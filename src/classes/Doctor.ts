@@ -139,6 +139,16 @@ export default class Doctor implements IDoctor {
     this.doctorsDivisions.push(doctorDivision);
   }
 
+  setEmployee(employee: Employee): void {
+    this.employee = new Employee(employee);
+    this.employeeId = employee.id;
+  }
+
+  resetEmployee(): void {
+    this.employee = new Employee();
+    this.employeeId = undefined;
+  }
+
   getHuman(): IHuman {
     return this.employee.human;
   }

@@ -195,6 +195,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
@@ -204,7 +205,6 @@ import CollapseList from '@/components/Main/CollapsContainer/CollapseList.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IEmployee from '@/interfaces/IEmployee';
 import IHuman from '@/interfaces/IHuman';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -223,8 +223,8 @@ export default defineComponent({
   },
   setup() {
     const form = ref();
-    const employee: Ref<IEmployee> = computed(() => Provider.store.getters['employees/item']);
-    const employees: Ref<IEmployee[]> = computed(() => Provider.store.getters['employees/items']);
+    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
+    const employees: Ref<Employee[]> = computed(() => Provider.store.getters['employees/items']);
 
     let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {

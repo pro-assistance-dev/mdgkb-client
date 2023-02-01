@@ -1,22 +1,20 @@
 <template>
   <Suspense>
-    <component :is="$route.meta.layout || 'MainLayout'">
+    <component :is="$route.meta.layout || 'MainLayout'" v-if="mounted">
       <router-view />
     </component>
   </Suspense>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, watch } from '@vue/runtime-core';
-import { onBeforeMount } from 'vue';
+import { defineComponent, watch } from '@vue/runtime-core';
+import { onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TokenService from '@/services/Token';
 import AdminLayout from '@/views/admin/AdminLayout.vue';
 import MainLayout from '@/views/main/MainLayout.vue';
-
-import User from './classes/User';
 
 export default defineComponent({
   name: 'App',
@@ -27,7 +25,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-
+    const mounted: Ref<boolean> = ref(false);
     watch(route, () => {
       changeDocumentTitle();
     });
@@ -39,10 +37,9 @@ export default defineComponent({
 
     // TODO безопасно ли это?
     const setLocalStorageToVuex = () => {
-      const userData = localStorage.getItem('user');
+      const user = TokenService.getUser();
       const token = TokenService.getAccessToken();
-      if (userData && token) {
-        const user = new User(JSON.parse(userData));
+      if (user && token) {
         store.commit('auth/setTokens', token);
         store.commit('auth/setUser', user);
         store.commit('auth/setIsAuth', true);
@@ -53,11 +50,17 @@ export default defineComponent({
       changeDocumentTitle();
       await store.dispatch('meta/getSchema');
       await store.dispatch('search/searchGroups');
+      setLocalStorageToVuex();
+      mounted.value = true;
     });
 
-    onMounted(() => {
-      setLocalStorageToVuex();
-    });
+    // onMounted(() => {
+    //
+    // });
+
+    return {
+      mounted,
+    };
   },
 });
 </script>

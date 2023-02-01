@@ -1,4 +1,5 @@
 import EducationYear from '@/classes/EducationYear';
+import Employee from '@/classes/Employee';
 import FileInfo from '@/classes/File/FileInfo';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCoursePracticePlace from '@/classes/ResidencyCoursePracticePlace';
@@ -7,7 +8,6 @@ import ResidencyCourseTeacher from '@/classes/ResidencyCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDoctor from '@/interfaces/IDoctor';
 import IEducationYear from '@/interfaces/IEducationYear';
 import IForm from '@/interfaces/IForm';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
@@ -248,8 +248,8 @@ export default class ResidencyCourse implements IResidencyCourse {
     return this.residencyApplications.some((a) => a.paid && a.formValue.formStatus.isAccepted());
   }
 
-  getDoctors(): IDoctor[] {
-    return this.residencyCoursesTeachers.map((item: IResidencyCourseTeacher) => item.teacher.doctor);
+  getEmployees(): Employee[] {
+    return this.residencyCoursesTeachers.map((item: IResidencyCourseTeacher) => item.teacher.employee);
   }
 
   getInfoFiles(): IFileInfo[] {
