@@ -5,10 +5,11 @@ import { Orders } from '@/interfaces/filters/Orders';
 import ClassHelper from '@/services/ClassHelper';
 
 const EmployeesSortsLib = (() => {
+  const modelName = 'employee';
   function byFullName(order?: Orders): ISortModel {
     return SortModel.CreateSortModelV2(
-      ClassHelper.GetModelName(Employee),
-      ClassHelper.GetPropertyNameV(Employee).fullName,
+      modelName,
+      ClassHelper.GetPropertyName(Employee).fullName,
       order ? order : Orders.Asc,
       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? false : true
