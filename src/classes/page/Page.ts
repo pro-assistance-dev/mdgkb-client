@@ -86,7 +86,9 @@ export default class Page implements IPage {
   }
 
   addSideMenu(): void {
-    this.pageSideMenus.push(new PageSideMenu());
+    const menu = new PageSideMenu();
+    menu.order = this.pageSideMenus.length - 1;
+    this.pageSideMenus.push(menu);
   }
 
   selectSideMenu(id: string): void {

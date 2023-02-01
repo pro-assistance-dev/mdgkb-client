@@ -34,6 +34,7 @@
 </template>
 
 <script lang="ts">
+import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 import draggable from 'vuedraggable';
@@ -59,15 +60,32 @@ export default defineComponent({
     };
     const page: Ref<IPage> = computed(() => Provider.store.getters['pages/page']);
 
+    const openPage = () => {
+      const route = Provider.router.resolve(page.value.getLink());
+      window.open(route.href, '_blank');
+    };
+
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const loadNewsItem = async () => {
+      const buttons = [
+        { action: submit, text: 'Сохранить' },
+        { action: submitAndExit, text: 'Сохранить и выйти' },
+      ];
       if (route.params['slug']) {
         await Provider.store.dispatch('pages/getBySlug', route.params['slug']);
-        Provider.store.commit('admin/setHeaderParams', { title: page.value.title, showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('admin/setHeaderParams', {
+          title: page.value.title,
+          showBackButton: true,
+          buttons: [...buttons, { action: openPage, text: 'Посмотреть страницу', type: 'warning' }],
+        });
       } else {
         Provider.store.commit('pages/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить страницу', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('admin/setHeaderParams', {
+          title: 'Добавить страницу',
+          showBackButton: true,
+          buttons: buttons,
+        });
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(page, formUpdated, { deep: true });
@@ -79,7 +97,7 @@ export default defineComponent({
       showConfirmModal(submit, next);
     });
 
-    const submit = async (next?: NavigationGuardNext) => {
+    const submit = async () => {
       saveButtonClick.value = true;
       if (!validate(form)) {
         saveButtonClick.value = false;
@@ -91,6 +109,11 @@ export default defineComponent({
         return;
       }
       await Provider.store.dispatch('pages/update', page.value);
+      ElMessage({ message: 'Успешно сохранено', type: 'success' });
+    };
+
+    const submitAndExit = async (next?: NavigationGuardNext) => {
+      await submit();
       next ? next() : await Provider.router.push('/admin/pages');
     };
 

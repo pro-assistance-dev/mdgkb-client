@@ -27,7 +27,7 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: page.getFileInfos(),
       isFormData: true,
     });
-    commit('set');
+    commit('set', page);
   },
   remove: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });

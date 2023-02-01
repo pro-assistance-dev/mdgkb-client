@@ -30,48 +30,48 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import INews from '@/interfaces/news/INews';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminPagesList',
   components: { TableButtonGroup },
   setup() {
-    const store = useStore();
-    const router = useRouter();
-    const pages = computed(() => store.getters['pages/pages']);
+    const pages = computed(() => Provider.store.getters['pages/pages']);
 
     const loadNews = async (): Promise<void> => {
-      await store.dispatch('pages/getAll');
-      store.commit('admin/setHeaderParams', { title: 'Страницы', buttons: [{ text: 'Добавить', type: 'primary', action: create }] });
+      await Provider.store.dispatch('pages/getAll');
+      Provider.store.commit('admin/setHeaderParams', {
+        title: 'Страницы',
+        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+      });
     };
 
     const edit = async (id: string): Promise<void> => {
       const item = pages.value.find((i: INews) => i.id === id);
       if (item) {
-        await router.push(`/admin/pages/${item.slug}`);
+        await Provider.router.push(`/admin/pages/${item.slug}`);
       }
     };
 
     const remove = async (id: string) => {
-      await store.dispatch('pages/remove', id);
+      await Provider.store.dispatch('pages/remove', id);
     };
 
     const create = () => {
-      router.push('/admin/pages/new');
+      Provider.router.push('/admin/pages/new');
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
+      Provider.store.commit('admin/showLoading');
       await loadNews();
-      store.commit('admin/closeLoading');
+      Provider.store.commit('admin/closeLoading');
     });
 
     const openPage = (link: string) => {
-      const route = router.resolve(link);
+      const route = Provider.router.resolve(link);
       window.open(route.href, '_blank');
     };
 
