@@ -55,7 +55,8 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import DoctorsFiltersLib from '@/services/Provider/libs/filters/DoctorsFiltersLib';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
-import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLib';
+// import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLib';
+import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLibV2';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

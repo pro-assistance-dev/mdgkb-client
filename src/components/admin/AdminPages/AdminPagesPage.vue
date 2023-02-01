@@ -28,8 +28,8 @@
           </template>
         </draggable>
       </div>
+      <AdminPageSideMenuDialog />
     </el-form>
-    <AdminPageSideMenuDialog />
   </div>
 </template>
 

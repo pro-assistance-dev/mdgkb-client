@@ -76,6 +76,6 @@ export default class ClassHelper {
   }
 
   static GetModelName(obj: ClassType): string {
-    return StringsService.toCamelCase(obj.constructor.name);
+    return StringsService.toCamelCase(obj.name);
   }
 }

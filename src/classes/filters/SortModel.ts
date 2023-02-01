@@ -12,6 +12,7 @@ export default class SortModel {
   order: Orders | undefined;
   label = '';
   default = false;
+  version = '';
 
   static CreateSortModel(table: string, col: string, order?: Orders, label?: string, defaultModel?: boolean, code?: string): ISortModel {
     const model = new SortModel();
@@ -39,6 +40,7 @@ export default class SortModel {
     m.order = order ?? Orders.Asc;
     m.label = label ?? '';
     m.default = defaultModel ?? false;
+    m.version = 'v2';
     return m;
   }
 
