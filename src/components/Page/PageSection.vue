@@ -4,16 +4,16 @@
     <div v-if="description !== '<p>undefined</p>'" v-html="description"></div>
   </div>
   <div v-for="section in pageSections" :key="section" class="card-item">
-    <template v-if="section.description && section.description !== '<p>undefined</p>' && section.description.length < 1000">
+    <template v-if="section.description && section.description.length < 1000">
       <h2>{{ section.name }}</h2>
-      <div v-html="section.description"></div>
+      <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
     </template>
     <CollapsContainer v-if="section.description && section.description.length > 1000" tab-id="400" :collapsed="false">
       <template #inside-title>
         <h2>{{ section.name }}</h2>
       </template>
       <template #inside-content>
-        <div v-html="section.description"></div>
+        <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
       </template>
     </CollapsContainer>
     <ul>
