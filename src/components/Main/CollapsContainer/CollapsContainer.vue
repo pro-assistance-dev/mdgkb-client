@@ -53,7 +53,6 @@ export default defineComponent({
 
     onUpdated(() => {
       if (props.activeId && props.activeId !== props.tabId) {
-        console.log(123);
         collapsed.value = true;
       }
     });
