@@ -38,7 +38,6 @@ import PostgraduateCoursesList from '@/components/Educational/Postgraduate/Postg
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IPageSection from '@/interfaces/IPageSection';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';

@@ -45,6 +45,7 @@ export default defineComponent({
     const changeMenu = (id: string) => {
       props.page.selectSideMenu(id);
       Provider.router.replace({ query: { menu: props.page.getSelectedSideMenu().id as string } });
+      console.log(props.page.getSelectedSideMenu());
     };
 
     onBeforeMount(() => {

@@ -1,11 +1,10 @@
 import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageSection from '@/interfaces/IPageSection';
 import IWithDocumentType from '@/interfaces/IWithDocumentType';
 
 export default class WithDocumentType implements IWithDocumentType {
   id?: string;
-  documentType: IPageSection = new PageSection();
+  documentType: PageSection = new PageSection();
   documentTypeId?: string;
   order = 0;
   constructor(i?: IWithDocumentType) {

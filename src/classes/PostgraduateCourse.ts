@@ -8,7 +8,6 @@ import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IForm from '@/interfaces/IForm';
-import IPageSection from '@/interfaces/IPageSection';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
 import IPostgraduateCoursePlan from '@/interfaces/IPostgraduateCoursePlan';

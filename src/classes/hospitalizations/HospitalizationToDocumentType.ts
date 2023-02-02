@@ -1,11 +1,10 @@
 import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
 import PageSection from '@/classes/PageSection';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
-import IPageSection from '@/interfaces/IPageSection';
 
 export default class HospitalizationToDocumentType {
   id?: string;
-  documentType?: IPageSection;
+  documentType?: PageSection;
   documentTypeId?: string;
   hospitalization?: IHospitalizationType;
   hospitalizationId?: string;

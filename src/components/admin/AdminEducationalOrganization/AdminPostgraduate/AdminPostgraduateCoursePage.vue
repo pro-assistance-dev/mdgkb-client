@@ -188,6 +188,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } fro
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import PageSection from '@/classes/PageSection';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
@@ -195,7 +196,6 @@ import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IForm from '@/interfaces/IForm';
-import IPageSection from '@/interfaces/IPageSection';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -228,7 +228,7 @@ export default defineComponent({
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
     const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
-    const documentTypes: ComputedRef<IPageSection[]> = computed<IPageSection[]>(() => store.getters['documentTypes/items']);
+    const documentTypes: ComputedRef<PageSection[]> = computed<PageSection[]>(() => store.getters['documentTypes/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {

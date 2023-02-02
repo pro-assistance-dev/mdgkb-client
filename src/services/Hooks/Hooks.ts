@@ -27,7 +27,7 @@ const Hooks = (() => {
     return onBeforeMount(async () => {
       Provider.mounted.value = false;
       Provider.store.commit('admin/showLoading');
-      Provider.store.commit(`filter/resetQueryFilter`);
+      Provider.resetFilterQuery();
       await Provider.store.dispatch('meta/getSchema');
       if (options?.pagination) {
         Provider.store.commit('filter/setStoreModule', options.pagination.storeModule);

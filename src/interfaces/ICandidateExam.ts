@@ -1,5 +1,4 @@
 import PageSection from '@/classes/PageSection';
-import IPageSection from '@/interfaces/IPageSection';
 
 import IForm from './IForm';
 

@@ -1,7 +1,5 @@
 import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageSection from '@/interfaces/IPageSection';
-import IPageDocument from '@/interfaces/page/IPageDocument';
 
 export default class PageDocument {
   id?: string;

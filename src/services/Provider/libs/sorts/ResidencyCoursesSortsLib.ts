@@ -1,13 +1,17 @@
+import Employee from '@/classes/Employee';
 import SortModel from '@/classes/filters/SortModel';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
+import ClassHelper from '@/services/ClassHelper';
 import Provider from '@/services/Provider';
 
 const ResidencyCoursesSortsLib = (() => {
   function byName(order?: Orders): ISortModel {
-    return SortModel.CreateSortModel(
-      Provider.schema.value.residencyCourse.tableName,
-      Provider.schema.value.residencyCourse.name,
+    const model = 'residencyCourse';
+    return SortModel.CreateSortModelV2(
+      model,
+      ClassHelper.GetPropertyName(ResidencyCourse).name,
       order ? order : Orders.Desc,
       `По алфавиту ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
