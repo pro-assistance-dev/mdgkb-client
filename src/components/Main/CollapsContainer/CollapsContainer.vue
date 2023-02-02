@@ -44,7 +44,7 @@ export default defineComponent({
   emits: ['changeActiveId'],
 
   setup(props, { emit }) {
-    const collapsed: Ref<boolean> = ref(true);
+    const collapsed: Ref<boolean> = ref(false);
 
     const handleItemClick = () => {
       collapsed.value = !collapsed.value;
@@ -102,7 +102,7 @@ export default defineComponent({
   -o-transition: max-height 0.5s;
   transition: max-height 0.5s;
   color: #343e5c;
-  padding: 0 5px;
+  // padding: 0 5px;
 }
 
 .tab-content-up {
