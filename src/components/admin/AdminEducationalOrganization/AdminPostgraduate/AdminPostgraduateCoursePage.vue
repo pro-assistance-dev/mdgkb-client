@@ -289,7 +289,7 @@ export default defineComponent({
       postgraduateCourse.value.formPatternId = postgraduateCourse.value.formPattern.id;
     };
     const changeDocumentTypeHandler = () => {
-      postgraduateCourse.value.documentTypeId = postgraduateCourse.value.documentType.id;
+      // postgraduateCourse.value.documentTypeId = postgraduateCourse.value.documentType.id;
     };
     return {
       documentTypes,

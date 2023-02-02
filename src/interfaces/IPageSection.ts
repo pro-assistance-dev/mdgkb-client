@@ -1,8 +1,8 @@
+import Page from '@/classes/page/Page';
+import PageSideMenu from '@/classes/PageSideMenu';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPageSectionImage from '@/interfaces/IPageSectionImage';
-import IPageSideMenu from '@/interfaces/IPageSideMenu';
-import IPage from '@/interfaces/page/IPage';
 
 import IPageSectionDocument from './IPageSectionDocument';
 
@@ -29,9 +29,9 @@ export default interface IPageSection {
   addDocumentTypeImage: () => void;
   getFileInfos: () => IFileInfo[];
 
-  pageSideMenu: IPageSideMenu;
+  pageSideMenu: PageSideMenu;
   pageSideMenuId?: string;
-  page: IPage;
+  page: Page;
   pageId?: string;
   // findDocument: (documents: IPageSectionDocument[]) => IPageSectionDocument;
 }

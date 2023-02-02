@@ -21,14 +21,14 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType } from 'vue';
 
-import IPage from '@/interfaces/page/IPage';
+import Page from '@/classes/page/Page';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'PageSideMenu',
   props: {
     page: {
-      type: Object as PropType<IPage>,
+      type: Object as PropType<Page>,
       required: true,
     },
   },

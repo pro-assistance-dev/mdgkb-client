@@ -1,14 +1,15 @@
 import { LocationQuery } from 'vue-router';
 
 import { Operators } from '@/interfaces/filters/Operators';
-import ICursor from '@/interfaces/ICursor';
 
-export default class Cursor implements ICursor {
+export default class Cursor {
   operation: Operators = Operators.Lt;
   column = '';
   value?: unknown;
   initial = true;
   tableName = '';
+  version = '';
+  model = '';
 
   toUrlQuery(): string {
     let url = '';

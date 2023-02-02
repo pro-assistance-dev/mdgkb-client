@@ -6,14 +6,14 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import Page from '@/classes/page/Page';
 import User from '@/classes/User';
 import IUser from '@/interfaces/IUser';
-import IPage from '@/interfaces/page/IPage';
 import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'RefreshPasswordPage',
   async setup() {
-    const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
+    const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
     const user: Ref<IUser> = computed(() => new User());
     const newPassword: Ref<string> = ref('');
 

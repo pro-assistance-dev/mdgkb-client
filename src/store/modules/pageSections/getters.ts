@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import IPageSection from '@/interfaces/IPageSection';
+import PageSection from '@/classes/PageSection';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import State from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  item(state): IPageSection {
-    return state.item;
-  },
-  items(state): IPageSection[] {
-    return state.items;
-  },
+  ...getBaseGetters<PageSection, State>(),
 };
 
 export default getters;

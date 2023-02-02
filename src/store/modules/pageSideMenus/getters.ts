@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import IPageSideMenu from '@/interfaces/IPageSideMenu';
+import PageSideMenu from '@/classes/PageSideMenu';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IPageSideMenu[] {
-    return state.items;
-  },
-  item(state): IPageSideMenu {
-    return state.item;
-  },
+  ...getBaseGetters<PageSideMenu, State>(),
 };
 
 export default getters;

@@ -7,6 +7,13 @@
           <el-form-item prop="title" label="Заголовок">
             <el-input v-model="page.title" placeholder="Заголовок" />
           </el-form-item>
+          <el-form-item prop="title" label="Группа страниц">
+            <el-select v-model="page.pagesGroup" placeholder="Группа страниц">
+              <el-option label="Без группы" value="Без группы" />
+              <el-option label="Образование" value="Образование" />
+              <el-option label="Сведения об организации" value="Сведения об организации" />
+            </el-select>
+          </el-form-item>
           <el-checkbox v-model="page.withComments"> Включить комментарии </el-checkbox>
           <WysiwygEditor v-model="page.content" />
         </el-card>
@@ -36,13 +43,13 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
+import Page from '@/classes/page/Page';
 import AdminPageSideMenuDialog from '@/components/admin/AdminPages/AdminPageSideMenuDialog.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IPage from '@/interfaces/page/IPage';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import sort from '@/services/sort';
@@ -54,11 +61,10 @@ export default defineComponent({
   components: { WysiwygEditor, TableButtonGroup, draggable, AdminPageSideMenuDialog },
   setup() {
     const form = ref();
-    const route = useRoute();
     const rules = {
       title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
     };
-    const page: Ref<IPage> = computed(() => Provider.store.getters['pages/page']);
+    const page: Ref<Page> = computed(() => Provider.store.getters['pages/item']);
 
     const openPage = () => {
       const route = Provider.router.resolve(page.value.getLink());
@@ -72,8 +78,8 @@ export default defineComponent({
         { action: submit, text: 'Сохранить' },
         { action: submitAndExit, text: 'Сохранить и выйти' },
       ];
-      if (route.params['slug']) {
-        await Provider.store.dispatch('pages/getBySlug', route.params['slug']);
+      if (Provider.route().params['slug']) {
+        await Provider.store.dispatch('pages/getBySlug', Provider.route().params['slug']);
         Provider.store.commit('admin/setHeaderParams', {
           title: page.value.title,
           showBackButton: true,
@@ -103,12 +109,12 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (!route.params['slug']) {
+      if (!Provider.route().params['slug']) {
         await Provider.store.dispatch('pages/create', page.value);
         await Provider.router.push('/admin/pages');
         return;
       }
-      await Provider.store.dispatch('pages/update', page.value);
+      await Provider.store.dispatch('pages/updateWithoutReset', page.value);
       ElMessage({ message: 'Успешно сохранено', type: 'success' });
     };
 
@@ -117,19 +123,17 @@ export default defineComponent({
       next ? next() : await Provider.router.push('/admin/pages');
     };
 
-    const addDocument = () => Provider.store.commit('pages/addDocument');
     const openDialog = async (index?: number) => {
-      if (index !== undefined) {
-        Provider.store.commit('pages/setIndex', index);
-      } else {
+      if (index === undefined) {
         await page.value.addSideMenu();
         Provider.store.commit('pages/setIndex', page.value.pageSideMenus.length - 1);
+      } else {
+        Provider.store.commit('pages/setIndex', index);
       }
       Provider.store.commit('pages/setSideMenuDialogActive', true);
     };
 
     return {
-      addDocument,
       sort,
       mounted: Provider.mounted,
       submit,

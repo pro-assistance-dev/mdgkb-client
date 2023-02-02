@@ -1,63 +1,38 @@
+import CustomSection from '@/classes/CustomSection';
+import PageComment from '@/classes/page/PageComment';
 import PageDocument from '@/classes/page/PageDocument';
 import PageImage from '@/classes/page/PageImage';
 import PageSection from '@/classes/PageSection';
 import PageSideMenu from '@/classes/PageSideMenu';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICustomSection from '@/interfaces/ICustomSection';
-import IPageSection from '@/interfaces/IPageSection';
-import IPageSideMenu from '@/interfaces/IPageSideMenu';
-import IPage from '@/interfaces/page/IPage';
-import IPageComment from '@/interfaces/page/IPageComment';
-import IPageDocument from '@/interfaces/page/IPageDocument';
 import IPageImage from '@/interfaces/page/IPageImage';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Page implements IPage {
+export default class Page {
   id?: string;
   title = '';
   content = '';
   slug = '';
+  pagesGroup = 'Без группы';
   link = '';
   withComments = false;
-  pageImages: IPageImage[] = [];
+  @ClassHelper.GetClassConstructorForArray(PageImage)
+  pageImages: PageImage[] = [];
   pageImagesForDelete: string[] = [];
   pageImagesNames: string[] = [];
-  pageSideMenus: IPageSideMenu[] = [];
+  @ClassHelper.GetClassConstructorForArray(PageSideMenu)
+  pageSideMenus: PageSideMenu[] = [];
   pageSideMenusForDelete: string[] = [];
-
-  pageSections: IPageSection[] = [];
+  @ClassHelper.GetClassConstructorForArray(PageSection)
+  pageSections: PageSection[] = [];
   pageSectionsForDelete: string[] = [];
+  @ClassHelper.GetClassConstructorForArray(PageDocument)
+  pageDocuments: PageDocument[] = [];
+  @ClassHelper.GetClassConstructorForArray(PageComment)
+  pageComments: PageComment[] = [];
 
-  pageDocuments: IPageDocument[] = [];
-  pageComments: IPageComment[] = [];
-
-  constructor(i?: IPage) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.title = i.title;
-    this.content = i.content;
-    this.slug = i.slug;
-    this.link = i.link;
-    this.withComments = i.withComments;
-
-    if (i.pageDocuments) {
-      this.pageDocuments = i.pageDocuments.map((i: IPageDocument) => new PageDocument(i));
-    }
-    if (i.pageDocuments) {
-      this.pageDocuments = i.pageDocuments.map((i: IPageDocument) => new PageDocument(i));
-    }
-    if (i.pageImages) {
-      this.pageImages = i.pageImages.map((i: IPageImage) => new PageImage(i));
-    }
-
-    if (i.pageSideMenus) {
-      this.pageSideMenus = i.pageSideMenus.map((i: IPageSideMenu) => new PageSideMenu(i));
-    }
-
-    if (i.pageSections) {
-      this.pageSections = i.pageSections.map((i: IPageSection) => new PageSection(i));
-    }
+  constructor(i?: Page) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getLink(): string {
@@ -69,10 +44,10 @@ export default class Page implements IPage {
 
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
-    this.pageSideMenus.forEach((item: IPageSideMenu) => {
+    this.pageSideMenus.forEach((item: PageSideMenu) => {
       fileInfos.push(...item.getFileInfos());
     });
-    this.pageDocuments.forEach((pageDocument: IPageDocument) => {
+    this.pageDocuments.forEach((pageDocument: PageDocument) => {
       if (pageDocument.document.scan) {
         fileInfos.push(pageDocument.document.scan);
       }
@@ -96,16 +71,16 @@ export default class Page implements IPage {
       this.pageSideMenus[0].selected = true;
       return;
     }
-    this.pageSideMenus.forEach((m: IPageSideMenu) => (m.selected = m.id === id));
+    this.pageSideMenus.forEach((m: PageSideMenu) => (m.selected = m.id === id));
   }
 
-  getSelectedSideMenu(): IPageSideMenu {
-    const selectedMenu = this.pageSideMenus.find((m: IPageSideMenu) => m.selected);
+  getSelectedSideMenu(): PageSideMenu {
+    const selectedMenu = this.pageSideMenus.find((m: PageSideMenu) => m.selected);
     return selectedMenu ? selectedMenu : new PageSideMenu();
   }
 
-  addCustomSectionsToSideMenu(customSections: ICustomSection[]): void {
-    customSections.forEach((c: ICustomSection) => {
+  addCustomSectionsToSideMenu(customSections: CustomSection[]): void {
+    customSections.forEach((c: CustomSection) => {
       const menu = new PageSideMenu();
       menu.id = c.id;
       menu.name = c.name;

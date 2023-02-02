@@ -1,22 +1,13 @@
 import { MutationTree } from 'vuex';
 
 import PageSideMenu from '@/classes/PageSideMenu';
-import IPageSideMenu from '@/interfaces/IPageSideMenu';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IPageSideMenu[]) {
-    state.items = items.map((i: IPageSideMenu) => new PageSideMenu(i));
-  },
-  set(state, item: IPageSideMenu) {
-    state.item = new PageSideMenu(item);
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IPageSideMenu) => i.id === id);
-    state.items.splice(index, 1);
-  },
+  ...getBaseMutations<PageSideMenu, State>(PageSideMenu),
   resetState(state) {
     Object.assign(state, getDefaultState());
   },

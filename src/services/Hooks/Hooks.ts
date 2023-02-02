@@ -23,7 +23,6 @@ export interface IPaginationOptions {
 type func = (filterQuery: IFilterQuery) => void;
 
 const Hooks = (() => {
-  // const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
       Provider.mounted.value = false;

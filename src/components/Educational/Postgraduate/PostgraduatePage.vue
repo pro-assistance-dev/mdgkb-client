@@ -28,6 +28,8 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
+import Page from '@/classes/page/Page';
+import PageSection from '@/classes/PageSection';
 import EditorContent from '@/components/EditorContent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';
@@ -37,7 +39,6 @@ import PostgraduateFilters from '@/components/Educational/Postgraduate/Postgradu
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import IPageSection from '@/interfaces/IPageSection';
-import IPage from '@/interfaces/page/IPage';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -60,8 +61,8 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const page: ComputedRef<IPage> = computed(() => store.getters['pages/page']);
-    const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
+    const page: ComputedRef<Page> = computed(() => store.getters['pages/item']);
+    const selectedDocumentType: Ref<PageSection | undefined> = ref(undefined);
     const modes: Ref<IOption[]> = ref([]);
     const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
     const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
@@ -90,7 +91,7 @@ export default defineComponent({
     });
 
     const selectMode = async (value: string) => {
-      const documentType = page.value.pageSections.find((dpoDocType: IPageSection) => dpoDocType.id === value);
+      const documentType = page.value.pageSections.find((dpoDocType: PageSection) => dpoDocType.id === value);
       if (documentType) {
         selectedDocumentType.value = documentType;
       } else {
@@ -101,7 +102,7 @@ export default defineComponent({
     const setModes = async () => {
       await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       modes.value.push({ value: 'programs', label: 'Программы' });
-      page.value.pageSections.forEach((docType: IPageSection) => {
+      page.value.pageSections.forEach((docType: PageSection) => {
         if (docType.id) {
           modes.value.push({ value: docType.id, label: docType.name });
         }

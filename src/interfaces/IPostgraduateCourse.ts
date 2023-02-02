@@ -56,5 +56,5 @@ export default interface IPostgraduateCourse {
   addPostgraduateCoursePlan: () => void;
 
   documentTypeId?: string;
-  documentType: IPageSection;
+  // documentType: IPageSection;
 }

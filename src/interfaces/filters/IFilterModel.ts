@@ -17,6 +17,8 @@ export default interface IFilterModel {
   value1?: string;
   boolean: boolean;
   set: string[];
+  model: string;
+  version: string;
 
   isSet: boolean;
 

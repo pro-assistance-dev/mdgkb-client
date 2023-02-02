@@ -6,9 +6,10 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 
-export default class FilterModel implements IFilterModel {
+export default class FilterModel {
   id?: string;
   table = '';
+  model = '';
   label = '';
   col = '';
   operator: Operators = Operators.Eq;
@@ -19,7 +20,7 @@ export default class FilterModel implements IFilterModel {
   number = 0;
   type: DataTypes = DataTypes.String;
   set: string[] = [];
-
+  version = '';
   isSet = false;
 
   joinTable = '';
@@ -76,6 +77,25 @@ export default class FilterModel implements IFilterModel {
     if (filterModel.type === DataTypes.Boolean) {
       filterModel.value1 = 'false';
     }
+    return filterModel;
+  }
+
+  static CreateFilterModelV2(model: string, col: string | undefined, type: DataTypes): IFilterModel {
+    const filterModel = new FilterModel();
+    filterModel.id = uuidv4();
+    filterModel.model = model;
+    filterModel.col = col ?? '';
+    filterModel.type = type;
+    if (filterModel.type === DataTypes.Number) {
+      filterModel.value1 = '0';
+    }
+    if (filterModel.type === DataTypes.String) {
+      filterModel.value1 = '';
+    }
+    if (filterModel.type === DataTypes.Boolean) {
+      filterModel.value1 = 'false';
+    }
+    filterModel.version = 'v2';
     return filterModel;
   }
 

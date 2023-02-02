@@ -2,18 +2,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import DocumentTypeImage from '@/classes/DocumentTypeImage';
 import FileInfo from '@/classes/File/FileInfo';
-import Page from '@/classes/page/Page';
 import PageSectionDocument from '@/classes/PageSectionDocument';
-import PageSideMenu from '@/classes/PageSideMenu';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageSection from '@/interfaces/IPageSection';
 import IPageSectionDocument from '@/interfaces/IPageSectionDocument';
 import IPageSectionImage from '@/interfaces/IPageSectionImage';
-import IPageSideMenu from '@/interfaces/IPageSideMenu';
-import IPage from '@/interfaces/page/IPage';
 
-export default class PageSection implements IPageSection {
+export default class PageSection {
   id?: string;
   name = '';
   singleScan = false;
@@ -30,12 +25,12 @@ export default class PageSection implements IPageSection {
   pageSectionImages: IPageSectionImage[] = [];
   pageSectionImagesForDelete: string[] = [];
 
-  pageSideMenu: IPageSideMenu = new PageSideMenu();
+  // pageSideMenu: IPageSideMenu = new PageSideMenu();
   pageSideMenuId?: string;
-  page: IPage = new Page();
+  // page?: Page;
   pageId?: string;
 
-  constructor(i?: IPageSection) {
+  constructor(i?: PageSection) {
     if (!i) {
       return;
     }
@@ -48,13 +43,13 @@ export default class PageSection implements IPageSection {
       this.scan = new FileInfo(i.scan);
     }
     this.scanId = i.scanId;
-    if (i.pageSideMenu) {
-      this.pageSideMenu = new PageSideMenu(i.pageSideMenu);
-    }
+    // if (i.pageSideMenu) {
+    //   this.pageSideMenu = new PageSideMenu(i.pageSideMenu);
+    // }
     this.pageSideMenuId = i.pageSideMenuId;
-    if (i.page) {
-      this.page = new Page(i.page);
-    }
+    // if (i.page) {
+    //   this.page = new Page(i.page);
+    // }
     this.pageId = i.pageId;
     if (i.pageSectionDocuments) {
       this.pageSectionDocuments = i.pageSectionDocuments.map((item: IPageSectionDocument) => new PageSectionDocument(item));

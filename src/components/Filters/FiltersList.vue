@@ -13,7 +13,6 @@
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, WritableComputedRef } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -21,7 +20,7 @@ export default defineComponent({
   components: {},
   props: {
     models: {
-      type: Array as PropType<IFilterModel[]>,
+      type: Array as PropType<FilterModel[]>,
       default: () => [],
     },
     defaultLabel: {
@@ -31,10 +30,9 @@ export default defineComponent({
   },
   emits: ['load'],
   setup(props, { emit }) {
-    const emptyFilterModel: WritableComputedRef<IFilterModel> = computed(() => new FilterModel());
-    const selectedFilterModel: Ref<IFilterModel | undefined> = ref(undefined);
+    const emptyFilterModel: WritableComputedRef<FilterModel> = computed(() => new FilterModel());
+    const selectedFilterModel: Ref<FilterModel | undefined> = ref(undefined);
     const selectedId: Ref<string | undefined> = ref(undefined);
-    const sortModels: Ref<IFilterModel[]> = computed(() => Provider.store.getters['filter/sortModels']);
     const setDefaultFilterModel = (): void => {
       selectedFilterModel.value = emptyFilterModel.value;
     };
@@ -43,7 +41,7 @@ export default defineComponent({
     });
 
     const setFilter = () => {
-      if (selectedFilterModel.value && selectedFilterModel.value.table) {
+      if (selectedFilterModel.value && (selectedFilterModel.value.table || selectedFilterModel.value.model)) {
         Provider.replaceFilterModel(selectedFilterModel.value, selectedId.value);
         selectedId.value = selectedFilterModel.value.id;
       } else {
@@ -55,7 +53,6 @@ export default defineComponent({
     return {
       selectedFilterModel,
       setDefaultFilterModel,
-      sortModels,
       setFilter,
       emptyFilterModel,
     };

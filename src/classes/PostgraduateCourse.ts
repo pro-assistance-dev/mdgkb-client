@@ -21,14 +21,14 @@ import DateTimeFormatter from '@/services/DateFormat';
 
 import Form from './Form';
 
-export default class PostgraduateCourse implements IPostgraduateCourse {
+export default class PostgraduateCourse {
   id?: string;
   description = '';
   educationForm = 'Очная';
   slug = '';
   cost = 0;
   documentTypeId?: string;
-  documentType: IPageSection = new PageSection();
+  documentType: PageSection = new PageSection();
   years = 3;
   postgraduateCoursesSpecializations: IPostgraduateCourseSpecialization[] = [];
   postgraduateCoursesSpecializationsForDelete: string[] = [];
@@ -94,9 +94,9 @@ export default class PostgraduateCourse implements IPostgraduateCourse {
       this.postgraduateCoursePlans = i.postgraduateCoursePlans.map((item: IPostgraduateCoursePlan) => new PostgraduateCoursePlan(item));
     }
     this.documentTypeId = i.documentTypeId;
-    if (i.documentType) {
-      this.documentType = new PageSection(i.documentType);
-    }
+    // if (i.documentType) {
+    //   this.documentType = new PageSection(i.documentType);
+    // }
     this.questionsFileId = i.questionsFileId;
   }
 

@@ -1,48 +1,51 @@
 <template>
-  <div class="flex-column">
-    <!-- <div class="flex-row-between"> -->
-    <!-- <el-button type="primary" @click="$router.push('/admin/pages/new')">Добавить страницу</el-button> -->
-    <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
-    <!-- </div> -->
-    <el-card>
-      <el-table v-if="pages" :data="pages">
-        <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
-        <el-table-column prop="slug" label="Ссылка" sortable> </el-table-column>
-        <el-table-column width="50" fixed="right" align="center">
-          <template #default="scope">
-            <TableButtonGroup
-              :show-more-button="true"
-              :show-edit-button="true"
-              :show-remove-button="true"
-              @edit="edit(scope.row.id)"
-              @remove="remove(scope.row.id)"
-              @showMore="openPage(scope.row.getLink())"
-            />
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <div class="flex-row-end">
-      <!--      <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination>-->
-    </div>
-  </div>
+  <AdminListWrapper v-if="mounted" show-header>
+    <template #header>
+      <FiltersList :models="createPagesGroupFilters()" @load="load" />
+    </template>
+    <el-table v-if="pages" :data="pages">
+      <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
+      <!--      <el-table-column prop="slug" label="Ссылка" sortable> </el-table-column>-->
+      <el-table-column prop="pagesGroup" label="Группа страниц" sortable> </el-table-column>
+      <el-table-column width="50" align="center">
+        <template #default="scope">
+          <TableButtonGroup
+            :show-more-button="true"
+            :show-edit-button="true"
+            :show-remove-button="true"
+            @edit="edit(scope.row.id)"
+            @remove="remove(scope.row.id)"
+            @showMore="openPage(scope.row.getLink())"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
 
+import FilterModel from '@/classes/filters/FilterModel';
+import Page from '@/classes/page/Page';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import INews from '@/interfaces/news/INews';
+import FiltersList from '@/components/Filters/FiltersList.vue';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
+import PagesFiltersLib from '@/services/Provider/libs/filters/PagesFiltersLib';
+import PagesSortsLib from '@/services/Provider/libs/sorts/PagesSortsLib';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminPagesList',
-  components: { TableButtonGroup },
+  components: { AdminListWrapper, TableButtonGroup, FiltersList },
   setup() {
-    const pages = computed(() => Provider.store.getters['pages/pages']);
+    const pages: ComputedRef<Page[]> = computed(() => Provider.store.getters['pages/items']);
 
-    const loadNews = async (): Promise<void> => {
-      await Provider.store.dispatch('pages/getAll');
+    const load = async (): Promise<void> => {
+      Provider.setSortModels(PagesSortsLib.byTitle());
+      await Provider.store.dispatch('pages/getAllWithCount', Provider.filterQuery.value);
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Страницы',
         buttons: [{ text: 'Добавить', type: 'primary', action: create }],
@@ -50,7 +53,7 @@ export default defineComponent({
     };
 
     const edit = async (id: string): Promise<void> => {
-      const item = pages.value.find((i: INews) => i.id === id);
+      const item = pages.value.find((i: Page) => i.id === id);
       if (item) {
         await Provider.router.push(`/admin/pages/${item.slug}`);
       }
@@ -64,10 +67,8 @@ export default defineComponent({
       Provider.router.push('/admin/pages/new');
     };
 
-    onBeforeMount(async () => {
-      Provider.store.commit('admin/showLoading');
-      await loadNews();
-      Provider.store.commit('admin/closeLoading');
+    Hooks.onBeforeMount(async () => {
+      await load();
     });
 
     const openPage = (link: string) => {
@@ -75,7 +76,15 @@ export default defineComponent({
       window.open(route.href, '_blank');
     };
 
-    return { pages, edit, remove, openPage };
+    const createPagesGroupFilters = (): FilterModel[] => {
+      return [
+        PagesFiltersLib.byPagesGroup('Без группы'),
+        PagesFiltersLib.byPagesGroup('Образование'),
+        PagesFiltersLib.byPagesGroup('Сведения об организации'),
+      ];
+    };
+
+    return { createPagesGroupFilters, load, pages, mounted: Provider.mounted, edit, remove, openPage };
   },
 });
 </script>

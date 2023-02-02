@@ -7,7 +7,6 @@ export default interface IPageSectionDocument {
   id?: string;
   name: string;
   pageSectionId?: string;
-  pageSection?: IPageSection;
   downloadToFile: boolean;
   order: number;
   scan: IFileInfo;
