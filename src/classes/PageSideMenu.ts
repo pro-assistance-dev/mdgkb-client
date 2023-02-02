@@ -1,25 +1,22 @@
 import Page from '@/classes/page/Page';
 import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageSection from '@/interfaces/IPageSection';
-import IPageSideMenu from '@/interfaces/IPageSideMenu';
-import IPage from '@/interfaces/page/IPage';
 
-export default class PageSideMenu implements IPageSideMenu {
+export default class PageSideMenu {
   id?: string;
   name = '';
   order = 0;
   description = '';
   routeAnchor = '';
 
-  pageSections: IPageSection[] = [];
+  pageSections: PageSection[] = [];
   pageSectionsForDelete: string[] = [];
 
-  page: IPage = new Page();
+  page: Page = new Page();
   pageId?: string;
 
   selected = false;
-  constructor(i?: IPageSideMenu) {
+  constructor(i?: PageSideMenu) {
     if (!i) {
       return;
     }
@@ -29,7 +26,7 @@ export default class PageSideMenu implements IPageSideMenu {
     this.routeAnchor = i.routeAnchor;
     this.description = i.description;
     if (i.pageSections) {
-      this.pageSections = i.pageSections.map((item: IPageSection) => new PageSection(item));
+      this.pageSections = i.pageSections.map((item: PageSection) => new PageSection(item));
     }
     if (i.page) {
       this.page = new Page(i.page);
@@ -40,7 +37,7 @@ export default class PageSideMenu implements IPageSideMenu {
 
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
-    this.pageSections.forEach((i: IPageSection) => {
+    this.pageSections.forEach((i: PageSection) => {
       fileInfos.push(...i.getFileInfos());
     });
     return fileInfos;

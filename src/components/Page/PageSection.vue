@@ -29,9 +29,9 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
+import PageSection from '@/classes/PageSection';
 import ImageGallery from '@/components/ImageGallery.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
-import IPageSection from '@/interfaces/IPageSection';
 
 export default defineComponent({
   name: 'PageSection',
@@ -46,7 +46,7 @@ export default defineComponent({
       required: true,
     },
     pageSections: {
-      type: Array as PropType<IPageSection[]>,
+      type: Array as PropType<PageSection[]>,
       required: true,
     },
   },

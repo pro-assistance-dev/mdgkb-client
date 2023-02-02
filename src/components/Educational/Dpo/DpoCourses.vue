@@ -1,6 +1,6 @@
 <template>
-  <PageWrapper v-if="mounted">
-    <ResidencyCoursesList :free-programs="false" />
+  <PageWrapper>
+    <DpoCoursesList />
   </PageWrapper>
 </template>
 
@@ -9,139 +9,59 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 
 import PageSection from '@/classes/PageSection';
-import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
+import EditorContent from '@/components/EditorContent.vue';
+import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
+import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
+import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
+import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
+import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
-import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import DpoCoursesSortsLib from '@/services/Provider/libs/sorts/DpoCoursesSortsLib';
 
 export default defineComponent({
-  name: 'ResidencyCourses',
+  name: 'DpoCourses',
   components: {
-    PageWrapper,
-    ResidencyCoursesList,
+    DpoCoursesList,
   },
 
   setup() {
-    const route = useRoute();
-    const selectedDocumentType: Ref<PageSection | undefined> = ref(undefined);
-    const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
-    const modes: Ref<IOption[]> = ref([]);
+    const sortModels: Ref<ISortModel[]> = ref([]);
 
     const loadCourses = async () => {
-      Provider.store.commit('residencyCourses/clearItems');
-      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
     };
 
     const load = async () => {
-      Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 100;
-      // Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
-      Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
-      Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
+      Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
+      Provider.setSortList(...createSortModels(DpoCoursesSortsLib));
       await loadCourses();
     };
 
     onBeforeMount(load);
 
+    // Hooks.onBeforeMount(load);
+
     return {
-      modes,
-      selectedDocumentType,
-      mode,
-      mounted: Provider.mounted,
+      // mounted: Provider.mounted,
       load,
+      sortModels,
       loadCourses,
     };
   },
 });
 </script>
-
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
+.editor-content:empty {
+  display: none;
+}
 /* .el-descriptions__label {
-  font-size: 15px;
-}
-
-.links {
-  text-align: left;
-  padding-left: 7px;
-}
-
-.icon-phone {
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
-}
-
-.icon-email {
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
-}
-
-.icon-time {
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
-}
-
-.icon-map-marker {
-  width: 23px;
-  height: 23px;
-  fill: #2754eb;
-}
-
-.search_block {
-  padding-top: 10px;
-}
-
-.contact-data {
-  margin-top: 25px;
-}
-
-.contact-data-list {
-  list-style-type: none;
-}
-
-.contact-data-list-item-h4 {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
-  overflow-wrap: break-word;
-  color: #4a4a4a;
-  text-align: left;
-  justify-content: left;
-}
-
-.contact-data-list-item {
-  padding-bottom: 20px;
-}
-
-.contact-h3 {
-  display: flex;
-  justify-content: left;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 12px;
-  font-weight: lighter;
-  color: #4a4a4a;
-  align-content: center;
-  text-align: center;
-  margin: 2px;
-}
-
-.item {
-  font-size: 14px;
-  display: flex;
-  padding-right: 10px;
-  width: auto;
-  align-items: center;
-  text-align: left;
-}
-
-.el-descriptions__label {
   font-size: 15px;
 }
 
@@ -252,7 +172,13 @@ h3 {
 }
 
 /* .filter-block {
-  height: 80px;
+  height: 145px;
+  background: #ffffff;
+  z-index: 200;
+}
+
+.filter-block-2 {
+  height: 145px;
   background: #ffffff;
   z-index: 200;
 }
@@ -262,7 +188,7 @@ h3 {
   position: absolute;
   left: 0px;
   top: 0;
-  height: 80px;
+  height: 145px;
   margin-top: 20px;
   border: 1px solid #e4e6f2;
   border-radius: 5px;
@@ -274,16 +200,11 @@ h3 {
   position: absolute;
   left: 0px;
   top: 0;
-  height: 80px;
+  height: 145px;
   margin-top: 20px;
   border: 1px solid #e4e6f2;
   border-radius: 5px;
   width: 100%;
-}
-
-.block-item {
-  width: 272px;
-  margin-top: 22px;
 }
 
 .hidden {
@@ -295,6 +216,7 @@ h3 {
   justify-content: right;
   align-items: center;
   height: 60px;
+  padding: 0 10px;
 }
 
 .sort-item-1 {
@@ -334,23 +256,23 @@ h3 {
   display: flex;
 }
 
-@media screen and (max-width: 897px) {
+@media screen and (max-width: 1216px) {
   .full-width {
-    height: 144px;
+    height: 200px;
   }
 
   .filter-block {
-    height: 144px;
+    height: 200px;
   }
 }
 
 @media screen and (max-width: 605px) {
   .full-width {
-    height: 206px;
+    height: 324px;
   }
 
   .filter-block {
-    height: 206px;
+    height: 324px;
   }
 }
 
@@ -364,5 +286,6 @@ h3 {
     width: 158px;
     display: flex;
   }
-} */
+}
+*/
 </style>

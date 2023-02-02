@@ -1,20 +1,24 @@
 import { Module } from 'vuex';
 
 import Page from '@/classes/page/Page';
+import getBaseDefaultState from '@/store/baseModule/baseIndex';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+
+export interface State extends IBasicState<Page> {
+  isSideMenuDialogActive: boolean;
+  isPageSectionDialogActive: boolean;
+  index: number;
+  pageSectionIndex: number;
+}
 
 export const getDefaultState = (): State => {
   return {
-    pages: [],
-    page: new Page(),
-
-    galleryList: [],
-    curGalleryCropIndex: 0,
+    ...getBaseDefaultState(Page),
     isSideMenuDialogActive: false,
     isPageSectionDialogActive: false,
     index: 0,
@@ -22,7 +26,8 @@ export const getDefaultState = (): State => {
   };
 };
 
-const state = getDefaultState();
+export const state = getDefaultState();
+
 const namespaced = true;
 
 export const pages: Module<State, RootState> = {

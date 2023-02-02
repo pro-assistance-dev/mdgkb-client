@@ -22,13 +22,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IPageSectionDocument from '@/interfaces/IPageSectionDocument';
+import PageSectionDocument from '@/classes/PageSectionDocument';
 
 export default defineComponent({
   name: 'DocumentUploader',
   props: {
     document: {
-      type: Object as PropType<IPageSectionDocument>,
+      type: Object as PropType<PageSectionDocument>,
       required: true,
     },
   },

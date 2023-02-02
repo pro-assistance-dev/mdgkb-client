@@ -29,7 +29,7 @@ const DoctorsFiltersLib = (() => {
     return filterModel;
   }
 
-  function byDivisions(divisionsIds: string[]): IFilterModel {
+  function byDivisions(divisionsIds: string[]): FilterModel {
     const filterModel = FilterModel.CreateFilterModelWithJoin(
       Provider.schema.value.doctor.tableName,
       Provider.schema.value.doctor.id,

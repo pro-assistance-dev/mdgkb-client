@@ -1,7 +1,7 @@
+import Page from '@/classes/page/Page';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFiler from '@/interfaces/files/IFiler';
 import IOrdered from '@/interfaces/IOrdered';
-import IPage from '@/interfaces/page/IPage';
 import ICrud from '@/interfaces/shared/ICrud';
 
 export default interface ISubMenu extends IFiler, IOrdered {
@@ -15,7 +15,7 @@ export default interface ISubMenu extends IFiler, IOrdered {
   color: string;
   background: string;
 
-  page: IPage;
+  page: Page;
   pageId?: string;
 
   isPageLink: () => boolean;

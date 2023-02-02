@@ -9,9 +9,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
 
+import PageSection from '@/classes/PageSection';
 import AdminDocumentsForm from '@/components/AdminDocumentsForm.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IPageSection from '@/interfaces/IPageSection';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -19,7 +19,7 @@ export default defineComponent({
   components: { WysiwygEditor, AdminDocumentsForm },
 
   setup() {
-    const pageSection: ComputedRef<IPageSection> = computed(() => Provider.store.getters['pages/pageSection']);
+    const pageSection: ComputedRef<PageSection> = computed(() => Provider.store.getters['pages/pageSection']);
     const isPageSectionDialogActive: ComputedRef<boolean> = computed(() => Provider.store.getters['pages/isPageSectionDialogActive']);
     const mounted: Ref<boolean> = ref(false);
 

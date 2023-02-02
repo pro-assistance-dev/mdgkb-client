@@ -20,14 +20,14 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, watch } from 'vue';
 
+import Page from '@/classes/page/Page';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
-import IPage from '@/interfaces/page/IPage';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -44,27 +44,20 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
-    const mounted: Ref<boolean> = ref(false);
-    const route = useRoute();
-    const path = computed(() => route.path);
+    const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
+    const path = computed(() => Provider.route().path);
 
     const load = async () => {
-      mounted.value = false;
       await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       page.value.addCustomSectionsToSideMenu(props.customSections);
-      mounted.value = true;
     };
 
     watch(path, load);
-
-    onBeforeMount(async () => {
-      await load();
-    });
+    Hooks.onBeforeMount(load);
 
     return {
       page,
-      mounted,
+      mounted: Provider.mounted,
     };
   },
 });

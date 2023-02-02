@@ -19,7 +19,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'simple-import-sort/imports': 'warn',
     'simple-import-sort/exports': 'warn',
-    '@typescript-eslint/no-unused-vars': 0,
+    '@typescript-eslint/no-unused-vars': 'warn',
     'vue/no-v-html': 0,
   },
   overrides: [

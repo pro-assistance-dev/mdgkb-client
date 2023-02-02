@@ -1,17 +1,15 @@
 import PageSection from '@/classes/PageSection';
-import ICandidateExam from '@/interfaces/ICandidateExam';
 import IForm from '@/interfaces/IForm';
-import IPageSection from '@/interfaces/IPageSection';
 
 import Form from './Form';
 
-export default class CandidateExam implements ICandidateExam {
+export default class CandidateExam {
   id?: string;
   formPattern: IForm = new Form();
   formPatternId?: string;
   documentTypeId?: string;
-  documentType: IPageSection = new PageSection();
-  constructor(i?: ICandidateExam) {
+  documentType: PageSection = new PageSection();
+  constructor(i?: CandidateExam) {
     if (!i) {
       return;
     }

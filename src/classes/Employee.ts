@@ -34,7 +34,10 @@ export default class Employee {
   teachingActivities: ITeachingActivity[] = [];
   teachingActivitiesForDelete: string[] = [];
 
+  //meta
   fullName?: string;
+  dateBirth?: string;
+  isMale?: string;
 
   constructor(i?: Employee) {
     ClassHelper.BuildClass(this, i);

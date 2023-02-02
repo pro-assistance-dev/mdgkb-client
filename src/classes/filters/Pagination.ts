@@ -2,11 +2,9 @@ import { LocationQuery } from 'vue-router';
 
 import Cursor from '@/classes/filters/Cursor';
 import { Operators } from '@/interfaces/filters/Operators';
-import ICursor from '@/interfaces/ICursor';
-import IPagination from '@/interfaces/IPagination';
 
-export default class Pagination implements IPagination {
-  cursor: ICursor = new Cursor();
+export default class Pagination {
+  cursor: Cursor = new Cursor();
   cursorMode = false;
   append = false;
   offset = 0;
@@ -18,6 +16,16 @@ export default class Pagination implements IPagination {
     this.cursor.operation = Operators.Gt;
     this.cursor.column = column;
     this.cursor.tableName = table;
+    this.cursorMode = true;
+    return;
+  }
+
+  setLoadMoreV2(lastCursor: string, column: string, model: string): void {
+    this.cursor.value = lastCursor;
+    this.cursor.initial = false;
+    this.cursor.operation = Operators.Gt;
+    this.cursor.column = column;
+    this.cursor.model = model;
     this.cursorMode = true;
     return;
   }

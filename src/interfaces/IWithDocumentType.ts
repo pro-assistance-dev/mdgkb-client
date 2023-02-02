@@ -1,9 +1,9 @@
+import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageSection from '@/interfaces/IPageSection';
 
 export default interface IWithDocumentType {
   id?: string;
-  documentType: IPageSection;
+  documentType: PageSection;
   documentTypeId?: string;
   order: number;
 

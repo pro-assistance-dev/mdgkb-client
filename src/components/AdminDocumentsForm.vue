@@ -46,11 +46,11 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import PageSection from '@/classes/PageSection';
 import AdminGallery from '@/components/admin/AdminGallery.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
-import IPageSection from '@/interfaces/IPageSection';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -63,7 +63,7 @@ export default defineComponent({
   },
   props: {
     documentType: {
-      type: Object as PropType<IPageSection>,
+      type: Object as PropType<PageSection>,
       required: true,
     },
   },

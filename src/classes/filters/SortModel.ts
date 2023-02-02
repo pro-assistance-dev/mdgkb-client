@@ -32,7 +32,7 @@ export default class SortModel {
     label?: string,
     defaultModel?: boolean,
     code?: string
-  ): ISortModel {
+  ): SortModel {
     const m = new SortModel();
     m.id = uuidv4();
     m.model = model;

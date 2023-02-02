@@ -1,15 +1,14 @@
-import Employee from '@/classes/Employee';
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
+import Page from '@/classes/page/Page';
 import { Orders } from '@/interfaces/filters/Orders';
 import ClassHelper from '@/services/ClassHelper';
 
-const EmployeesSortsLib = (() => {
-  const modelName = 'employee';
-  function byFullName(order?: Orders): ISortModel {
+const PagesSortsLib = (() => {
+  const modelName = 'page';
+  function byTitle(order?: Orders): SortModel {
     return SortModel.CreateSortModelV2(
       modelName,
-      ClassHelper.GetPropertyName(Employee).fullName,
+      ClassHelper.GetPropertyName(Page).title,
       order ? order : Orders.Asc,
       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? false : true
@@ -17,8 +16,8 @@ const EmployeesSortsLib = (() => {
   }
 
   return {
-    byFullName,
+    byTitle,
   };
 })();
 
-export default EmployeesSortsLib;
+export default PagesSortsLib;
