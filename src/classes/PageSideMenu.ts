@@ -1,6 +1,6 @@
-import Page from '@/classes/page/Page';
 import PageSection from '@/classes/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import ClassHelper from '@/services/ClassHelper';
 
 export default class PageSideMenu {
   id?: string;
@@ -8,31 +8,15 @@ export default class PageSideMenu {
   order = 0;
   description = '';
   routeAnchor = '';
-
+  @ClassHelper.GetClassConstructorForArray(PageSection)
   pageSections: PageSection[] = [];
   pageSectionsForDelete: string[] = [];
 
-  page: Page = new Page();
   pageId?: string;
 
   selected = false;
   constructor(i?: PageSideMenu) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.order = i.order;
-    this.routeAnchor = i.routeAnchor;
-    this.description = i.description;
-    if (i.pageSections) {
-      this.pageSections = i.pageSections.map((item: PageSection) => new PageSection(item));
-    }
-    if (i.page) {
-      this.page = new Page(i.page);
-    }
-    this.pageId = i.pageId;
-    this.selected = i.selected;
+    ClassHelper.BuildClass(this, i);
   }
 
   getFileInfos(): IFileInfo[] {
