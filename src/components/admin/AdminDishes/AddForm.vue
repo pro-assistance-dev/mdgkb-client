@@ -102,7 +102,10 @@ export default defineComponent({
         return;
       }
       if (dishSample.value.id) {
+        // dishSample.value.updateAt = new Date();
         await Provider.store.dispatch('dishesSamples/update');
+        console.log('UPDATE!!!!!!!!!!!!!!!!!!!');
+        console.log(dishSample.value);
       } else {
         await Provider.store.dispatch('dishesSamples/create');
       }
