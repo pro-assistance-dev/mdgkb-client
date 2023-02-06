@@ -1,16 +1,16 @@
 <template>
-  <!-- <div v-if="mounted && !doctor.id" class="employee-name">
+  <div v-if="mounted && !head.id" class="employee-name">
     <div class="search-line">
       <div class="search-label">Выберите сотрудника для добавления:</div>
       <RemoteSearch :key-value="schema.employee.key" :max-width="2000" @select="selectEmployeeSearch" />
     </div>
-    <div v-if="doctor.employee.id" class="container">
-      <button class="admin-employee-del" @click.prevent="doctor.resetEmployee()">Удалить</button>
+    <div v-if="head.employee.id" class="container">
+      <button class="admin-employee-del" @click.prevent="head.resetEmployee()">Удалить</button>
       <div class="division-name">
-        {{ doctor.employee.human.getFullName() }}
+        {{ head.employee.human.getFullName() }}
       </div>
     </div>
-  </div> -->
+  </div>
   <el-form v-if="mounted" ref="form" :model="head" label-position="top" :rules="rules">
     <div class="margin-container">
       <CollapsContainer :tab-id="1036">
@@ -32,13 +32,13 @@
     <div class="margin-container">
       <CollapsContainer :tab-id="1036" :collapsed="false">
         <template #inside-title>
-          <div class="title-in">Отделения в подчинении</div>
+          <div class="title-in">Отделы в подчинении</div>
         </template>
         <template #inside-content>
           <div class="background-container">
             <div class="search-line">
-              <div class="search-label">Выберите отделение для добавления:</div>
-              <!-- <RemoteSearch :key-value="schema.division.key" :max-width="2000" @select="addDepartment" /> -->
+              <div class="search-label">Выберите отдел для добавления:</div>
+              <RemoteSearch :key-value="schema.department.key" :max-width="2000" @select="addDepartment" />
             </div>
             <div v-for="(department, i) in head.departments" :key="i" class="container">
               <button class="admin-del" @click.prevent="removeDepartment(i)">Удалить</button>
@@ -133,22 +133,29 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import Division from '@/classes/Division';
+import Employee from '@/classes/Employee';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import RemoteSearch from '@/components/RemoteSearch.vue';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import IDepartment from '@/interfaces/IDepartment';
 import IHead from '@/interfaces/IHead';
+import ISearchObject from '@/interfaces/ISearchObject';
+import Provider from '@/services/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminHeadPage',
-  components: { TimetableConstructorV2New, CollapsContainer },
+  components: { TimetableConstructorV2New, CollapsContainer, RemoteSearch },
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const form = ref();
     const mounted = ref(false);
+    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
+    const department: Ref<IDepartment> = computed(() => Provider.store.getters['departments/item']);
 
     const contactInfo: WritableComputedRef<IContactInfo> = computed(() => store.getters['heads/item'].contactInfo);
 
@@ -182,6 +189,10 @@ export default defineComponent({
       store.commit('admin/closeLoading');
     });
 
+    const toEmployeeInfo = async (): Promise<void> => {
+      await Provider.router.push(`/admin/employees/${head.value.employee.human.slug}`);
+    };
+
     const load = async (): Promise<void> => {
       if (route.params['id']) {
         await store.dispatch('heads/get', route.params['id']);
@@ -190,6 +201,11 @@ export default defineComponent({
           showBackButton: true,
           buttons: [{ action: submit }],
         });
+        Provider.store.commit('admin/setHeaderParams', {
+          title: head.value.employee.human.getFullName(),
+          showBackButton: true,
+          buttons: [{ action: toEmployeeInfo, text: 'Личная информация', type: 'warning' }, { action: submit }],
+        });
       } else {
         store.commit('heads/resetState');
         store.commit('admin/setHeaderParams', { title: 'Добавить руководителя', showBackButton: true, buttons: [{ action: submit }] });
@@ -197,6 +213,8 @@ export default defineComponent({
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(head, formUpdated, { deep: true });
+      console.log('Отделы' + Provider.schema.value.department.name);
+      console.log('Сотрудники' + Provider.schema.value.employee.fullName);
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -205,8 +223,21 @@ export default defineComponent({
 
     const addRegalia = () => head.value.employee.addRegalia();
     const removeRegalia = (i: number) => head.value.employee.removeRegalia(i);
-    const addDepartment = () => head.value.addDepartment();
+    // const addDepartment = () => head.value.addDepartment();
+
+    const addDepartment = async (searchObject: ISearchObject) => {
+      Provider.filterQuery.value.setParams(Provider.schema.value.department.id, searchObject.id);
+      await Provider.store.dispatch('departments/get', Provider.filterQuery.value);
+      head.value.addDepartment(department.value);
+    };
+
     const removeDepartment = (i: number) => head.value.removeDepartment(i);
+
+    const selectEmployeeSearch = async (searchObject: ISearchObject) => {
+      await Provider.store.dispatch('employees/get', searchObject.value);
+      head.value.setEmployee(employee.value);
+      console.log('Сотрудники' + Provider.schema.value.employee.fullName);
+    };
 
     return {
       removeDepartment,
@@ -219,6 +250,9 @@ export default defineComponent({
       form,
       mounted,
       contactInfo,
+      selectEmployeeSearch,
+      // mounted: Provider.mounted,
+      schema: Provider.schema,
     };
   },
 });
@@ -425,6 +459,38 @@ $margin: 20px 0;
   align-items: center;
 }
 
+.admin-employee-del {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+  border: none;
+  background: inherit;
+  color: #a3a9be;
+  transition: 0.3s;
+  cursor: pointer;
+  padding: 1px 0;
+}
+
+.division-name {
+  width: calc(100% - 100px);
+}
+
+.admin-employee-del:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.employee-name {
+  height: auto;
+  position: relative;
+  width: calc(100% - 40px);
+  margin: 10px 0px 20px 0px;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 12px 20px;
+  background: #dff2f8;
+}
+
 :deep(.el-dialog) {
   overflow: hidden;
 }
@@ -500,6 +566,10 @@ $margin: 20px 0;
 
 :deep(.el-checkbox__input) {
   margin-left: 24px;
+}
+
+:deep(.el-form) {
+  padding: 0;
 }
 
 @media screen and (max-width: 400px) {

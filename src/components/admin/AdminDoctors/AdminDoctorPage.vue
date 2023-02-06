@@ -56,8 +56,14 @@
     </div>
     <el-container direction="vertical">
       <el-checkbox v-model="doctor.hasAppointment" label="Включить расписание приёма" />
-      <div v-if="doctor.hasAppointment">
-        <TimetableConstructorV2 :store-module="'doctors'" />
+      <div v-if="doctor.hasAppointment" class="margin-container">
+        <CollapsContainer title="Расписание" :tab-id="2017" :is-collaps="false">
+          <template #inside-content>
+            <div class="background-container">
+              <TimetableConstructorV2New :store-module="'doctors'" />
+            </div>
+          </template>
+        </CollapsContainer>
       </div>
     </el-container>
   </el-form>
@@ -71,7 +77,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import Division from '@/classes/Division';
 import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
-import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
+import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
@@ -90,7 +96,7 @@ export default defineComponent({
   name: 'AdminDoctorPage',
   components: {
     RemoteSearch,
-    TimetableConstructorV2,
+    TimetableConstructorV2New,
     CollapsContainer,
   },
   setup() {

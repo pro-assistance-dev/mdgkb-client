@@ -20,7 +20,11 @@ export default interface IHead {
 
   workNow: () => boolean;
 
-  addDepartment: () => void;
+  // addDepartment: () => void;
+  addDepartment: (department: IDepartment) => void;
   removeDepartment: (index: number) => void;
   getHuman: () => IHuman;
+
+  setEmployee: (employee: Employee) => void;
+  resetEmployee: () => void;
 }
