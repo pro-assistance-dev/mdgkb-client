@@ -32,7 +32,6 @@ import FileInfo from '@/classes/File/FileInfo';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDivisionImage from '@/interfaces/IDivisionImage';
-import IPageSectionImage from '@/interfaces/IPageSectionImage';
 import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({
@@ -40,7 +39,7 @@ export default defineComponent({
   components: { CollapsContainer },
   props: {
     images: {
-      type: Array as PropType<Array<INewsImage | IDivisionImage | IPageSectionImage>>,
+      type: Array as PropType<Array<INewsImage | IDivisionImage>>,
       required: true,
     },
   },

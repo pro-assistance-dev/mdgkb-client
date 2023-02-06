@@ -2,14 +2,13 @@ import { LocationQuery } from 'vue-router';
 
 import Pagination from '@/classes/filters/Pagination';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import IPagination from '@/interfaces/IPagination';
 
 import SortModel from './SortModel';
 
-export default class FilterQuery implements IFilterQuery {
+export default class FilterQuery {
   id?: string;
   col = '';
   value = '';
@@ -60,7 +59,7 @@ export default class FilterQuery implements IFilterQuery {
       }
       sortModelsUrlQuery += sm.toUrlQuery();
     });
-
+    //
     let url = '?';
     Object.keys(this).forEach((el, i) => {
       const value = this[el as keyof typeof this];
@@ -85,7 +84,7 @@ export default class FilterQuery implements IFilterQuery {
       url += `${sortModelsUrlQuery}`;
     }
     url += this.pagination.toUrlQuery();
-    return url;
+    return url + sortModelsUrlQuery;
   }
 
   fromUrlQuery(obj: LocationQuery): void {

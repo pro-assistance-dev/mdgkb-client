@@ -1,18 +1,10 @@
 <template>
   <div v-if="mounted">
-    <div v-if="page.pageSideMenus.length" class="page-container">
-      <PageSideMenuComponent :page="page" />
+    <div v-if="page.id && page.pageSideMenus.length" class="page-container">
+      <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" />
       <div class="content-container">
-        <PageSection
-          :title="page.getSelectedSideMenu().name"
-          :description="page.getSelectedSideMenu().description"
-          :page-sections="page.getSelectedSideMenu().pageSections"
-        />
-        <slot
-          v-for="component in customSections.filter((c) => c.id === page.getSelectedSideMenu().id)"
-          :key="component.id"
-          :name="component.id"
-        />
+        <PageSection :title="selectedMenu.name" :description="selectedMenu.description" :page-sections="selectedMenu.pageSections" />
+        <slot v-for="component in customSections.filter((c) => c.id === selectedMenu.id)" :key="component.id" :name="component.id" />
       </div>
     </div>
     <CustomPage v-else />
@@ -21,13 +13,14 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 
+import Page from '@/classes/page/Page';
+import PageSideMenu from '@/classes/PageSideMenu';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
-import IPage from '@/interfaces/page/IPage';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -44,10 +37,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
-    const mounted: Ref<boolean> = ref(false);
-    const route = useRoute();
-    const path = computed(() => route.path);
+    const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
+    const path = computed(() => Provider.route().path);
+    const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
+    const mounted = ref(false);
 
     const load = async () => {
       mounted.value = false;
@@ -57,14 +50,12 @@ export default defineComponent({
     };
 
     watch(path, load);
-
-    onBeforeMount(async () => {
-      await load();
-    });
+    Hooks.onBeforeMount(load);
 
     return {
-      page,
       mounted,
+      page,
+      selectedMenu,
     };
   },
 });

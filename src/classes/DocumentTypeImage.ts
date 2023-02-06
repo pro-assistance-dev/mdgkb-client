@@ -1,8 +1,7 @@
 import FileInfo from '@/classes/File/FileInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageSectionImage from '@/interfaces/IPageSectionImage';
 
-export default class DocumentTypeImage implements IPageSectionImage {
+export default class DocumentTypeImage {
   id?: string;
   documentTypeId?: string;
   order = 0;
@@ -10,7 +9,7 @@ export default class DocumentTypeImage implements IPageSectionImage {
   fileInfo: IFileInfo = new FileInfo();
   description = '';
 
-  constructor(i?: IPageSectionImage) {
+  constructor(i?: DocumentTypeImage) {
     if (!i) {
       return;
     }

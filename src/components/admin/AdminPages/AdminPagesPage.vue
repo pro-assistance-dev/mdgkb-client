@@ -7,6 +7,13 @@
           <el-form-item prop="title" label="Заголовок">
             <el-input v-model="page.title" placeholder="Заголовок" />
           </el-form-item>
+          <el-form-item prop="title" label="Группа страниц">
+            <el-select v-model="page.pagesGroup" placeholder="Группа страниц">
+              <el-option label="Без группы" value="Без группы" />
+              <el-option label="Образование" value="Образование" />
+              <el-option label="Сведения об организации" value="Сведения об организации" />
+            </el-select>
+          </el-form-item>
           <el-checkbox v-model="page.withComments"> Включить комментарии </el-checkbox>
           <WysiwygEditor v-model="page.content" />
         </el-card>
@@ -28,20 +35,21 @@
           </template>
         </draggable>
       </div>
+      <AdminPageSideMenuDialog />
     </el-form>
-    <AdminPageSideMenuDialog />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
+import { ElMessage } from 'element-plus';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
+import Page from '@/classes/page/Page';
 import AdminPageSideMenuDialog from '@/components/admin/AdminPages/AdminPageSideMenuDialog.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IPage from '@/interfaces/page/IPage';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import sort from '@/services/sort';
@@ -53,21 +61,37 @@ export default defineComponent({
   components: { WysiwygEditor, TableButtonGroup, draggable, AdminPageSideMenuDialog },
   setup() {
     const form = ref();
-    const route = useRoute();
     const rules = {
       title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
     };
-    const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
+    const page: Ref<Page> = computed(() => Provider.store.getters['pages/item']);
+
+    const openPage = () => {
+      const route = Provider.router.resolve(page.value.getLink());
+      window.open(route.href, '_blank');
+    };
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const loadNewsItem = async () => {
-      if (route.params['slug']) {
-        await Provider.store.dispatch('pages/getBySlug', route.params['slug']);
-        Provider.store.commit('admin/setHeaderParams', { title: page.value.title, showBackButton: true, buttons: [{ action: submit }] });
+      const buttons = [
+        { action: submit, text: 'Сохранить' },
+        { action: submitAndExit, text: 'Сохранить и выйти' },
+      ];
+      if (Provider.route().params['slug']) {
+        await Provider.store.dispatch('pages/getBySlug', Provider.route().params['slug']);
+        Provider.store.commit('admin/setHeaderParams', {
+          title: page.value.title,
+          showBackButton: true,
+          buttons: [...buttons, { action: openPage, text: 'Посмотреть страницу', type: 'warning' }],
+        });
       } else {
         Provider.store.commit('pages/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить страницу', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('admin/setHeaderParams', {
+          title: 'Добавить страницу',
+          showBackButton: true,
+          buttons: buttons,
+        });
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(page, formUpdated, { deep: true });
@@ -79,34 +103,37 @@ export default defineComponent({
       showConfirmModal(submit, next);
     });
 
-    const submit = async (next?: NavigationGuardNext) => {
+    const submit = async () => {
       saveButtonClick.value = true;
       if (!validate(form)) {
         saveButtonClick.value = false;
         return;
       }
-      if (!route.params['slug']) {
+      if (!Provider.route().params['slug']) {
         await Provider.store.dispatch('pages/create', page.value);
         await Provider.router.push('/admin/pages');
         return;
       }
-      await Provider.store.dispatch('pages/update', page.value);
+      await Provider.store.dispatch('pages/updateWithoutReset', page.value);
+      ElMessage({ message: 'Успешно сохранено', type: 'success' });
+    };
+
+    const submitAndExit = async (next?: NavigationGuardNext) => {
+      await submit();
       next ? next() : await Provider.router.push('/admin/pages');
     };
 
-    const addDocument = () => Provider.store.commit('pages/addDocument');
     const openDialog = async (index?: number) => {
-      if (index !== undefined) {
-        Provider.store.commit('pages/setIndex', index);
-      } else {
+      if (index === undefined) {
         await page.value.addSideMenu();
         Provider.store.commit('pages/setIndex', page.value.pageSideMenus.length - 1);
+      } else {
+        Provider.store.commit('pages/setIndex', index);
       }
       Provider.store.commit('pages/setSideMenuDialogActive', true);
     };
 
     return {
-      addDocument,
       sort,
       mounted: Provider.mounted,
       submit,

@@ -27,18 +27,21 @@
           <!--              <div class="item3">&nbsp;11.01.2023г.</div>-->
           <!--            </div>-->
           <!--          </div>-->
-          <!--          <div class="line2">-->
-          <!--            <div class="item">Последнее добавленное блюдо:</div>-->
-          <!--            <div class="line3">-->
-          <!--              <div class="item1">Манты</div>-->
-          <!--              <div class="item3">&nbsp;(категория: Вторые блюда), 11.01.2023г.</div>-->
-          <!--            </div>-->
-          <!--          </div>-->
+          <div class="line2">
+            <!-- <div class="item">Последнее добавленное блюдо:</div>
+            <div class="line3">
+              <div class="item1">{{ dishedSamples[dishedSamples.length - 1] }}</div>
+           </div> -->
+            <div class="item">Последнее отредактированное блюдо:</div>
+            <div class="line3">
+              <div class="item1" @click="$emit('selectLastDish', getLastDish())">{{ getLastDish().name }}</div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="tools">
         <!-- <div class="button-field">
-          <button class="button">Гид по интерфейсу</button>
+          <button class="button">Гид по интselectLastDishерфейсу</button>
           <button class="button">Справка</button>
           <button class="button">Архивация и бэкап</button>
         </div> -->
@@ -50,16 +53,36 @@
 <script lang="ts">
 import { computed, defineComponent, Ref } from 'vue';
 
+import DishSample from '@/classes/DishSample';
 import IDishesGroup from '@/interfaces/IDishesGroup';
+import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'DishConstructorInfo',
+  emits: ['selectLastDish'],
+
   setup() {
     const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishedSamples: Ref<IDishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
+
+    const getLastDish = () => {
+      let lastDishSample: IDishSample = new DishSample();
+      lastDishSample.updatedAt = new Date(-8640000000000000);
+      dishesGroups.value.forEach((g: IDishesGroup) => {
+        g.dishSamples.forEach((e: IDishSample) => {
+          if (e.updatedAt && lastDishSample.updatedAt && e.updatedAt.getTime() > lastDishSample.updatedAt.getTime()) {
+            lastDishSample = e;
+          }
+        });
+      });
+      return lastDishSample;
+    };
 
     return {
       dishesGroups,
+      dishedSamples,
+      getLastDish,
     };
   },
 });
@@ -137,6 +160,11 @@ export default defineComponent({
   align-items: center;
   margin-left: 10px;
   color: #00b5a4;
+  cursor: pointer;
+}
+
+.item1:hover {
+  color: darken(#00b5a4, 10%);
 }
 
 .item2 {

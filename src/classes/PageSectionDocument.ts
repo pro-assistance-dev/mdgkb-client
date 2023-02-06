@@ -1,24 +1,21 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import FileInfo from '@/classes/File/FileInfo';
-import PageSection from '@/classes/PageSection';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageSection from '@/interfaces/IPageSection';
-import IPageSectionDocument from '@/interfaces/IPageSectionDocument';
 
-export default class PageSectionDocument implements IPageSectionDocument {
+export default class PageSectionDocument {
   id?: string;
   name = '';
   order = 0;
   downloadToFile = false;
   pageSectionId?: string;
-  pageSection: IPageSection = new PageSection();
+  // pageSection: IPageSection = new PageSection();
 
   scan: IFileInfo = new FileInfo();
   scanId?: string;
 
-  constructor(i?: IPageSectionDocument) {
+  constructor(i?: PageSectionDocument) {
     if (!i) {
       return;
     }
@@ -27,9 +24,9 @@ export default class PageSectionDocument implements IPageSectionDocument {
     this.order = i.order;
     this.downloadToFile = i.downloadToFile;
     this.pageSectionId = i.pageSectionId;
-    if (i.pageSection) {
-      this.pageSection = new PageSection(i.pageSection);
-    }
+    // if (i.pageSection) {
+    //   this.pageSection = new PageSection(i.pageSection);
+    // }
     if (i.scan) {
       this.scan = new FileInfo(i.scan);
     }
@@ -42,7 +39,7 @@ export default class PageSectionDocument implements IPageSectionDocument {
 
   uploadScan(file: IFile): IFileInfo {
     if (!this.scan.id) {
-      uuidv4();
+      this.scan.id = uuidv4();
     }
     this.scan.originalName = file.name;
     this.scan.file = file.raw;

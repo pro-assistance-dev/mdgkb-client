@@ -36,6 +36,7 @@ const actions: ActionTree<State, RootState> = {
       isFormData: true,
       fileInfos: state.item.getFileInfos(),
     });
+    // console.log('actions update' + state.item.updateAt);
   },
   updateAll: async (_, items: IDishSample[]): Promise<void> => {
     await httpClient.put<IDishSample[], IDishSample[]>({

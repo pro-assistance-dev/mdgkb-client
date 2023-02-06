@@ -12,6 +12,7 @@ export default interface IDishSample {
   dishesGroupId?: string;
   dishesGroup: IDishesGroup;
   selected: boolean;
+  updatedAt?: Date;
 
   image: IFileInfo;
   imageId?: string;

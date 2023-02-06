@@ -1,43 +1,29 @@
 <template>
-  <!--  <div class="way">-->
-  <!--    <h4>Главная / Образование / <font color="#2754EB">Дополнительное профессиональное образование</font></h4>-->
-  <!--  </div>-->
-  <PageWrapper v-if="mounted" :title="title">
-    <template #filters>
-      <DpoFilters
-        :condition="mode === 'programs' || mode === ''"
-        :modes="modes"
-        :mode="mode"
-        @selectMode="selectMode"
-        @load="loadCourses"
-      />
+  <PageComponent :custom-sections="customSections">
+    <template v-for="section in customSections" :key="section" #[section.id]>
+      <component :is="section.component"></component>
     </template>
-
-    <div class="editor-content card-item">
-      <EditorContent
-        v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'"
-        :content="selectedDocumentType.description"
-      />
-    </div>
-    <DpoCoursesList v-if="mode === 'programs'" />
-    <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
-    <DpoCoursesContacts v-if="mode === 'contacts'" />
-  </PageWrapper>
+  </PageComponent>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
+import CustomSection from '@/classes/CustomSection';
+import PageSection from '@/classes/PageSection';
 import EditorContent from '@/components/EditorContent.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
+import DpoCourses from '@/components/Educational/Dpo/DpoCourses.vue';
 import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
 import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
 import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
+import ResidencyCourses from '@/components/Educational/Residency/ResidencyCourses.vue';
+import PageComponent from '@/components/Page/PageComponent.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import IPageSection from '@/interfaces/IPageSection';
+import ICustomSection from '@/interfaces/ICustomSection';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -47,78 +33,23 @@ import DpoCoursesSortsLib from '@/services/Provider/libs/sorts/DpoCoursesSortsLi
 export default defineComponent({
   name: 'DpoPage',
   components: {
-    DocumentsList,
+    PageComponent,
+    DpoCourses,
     DpoCoursesContacts,
-    DpoFilters,
-    EditorContent,
-    DpoCoursesList,
-    PageWrapper,
   },
-
   setup() {
-    const route = useRoute();
-    const selectedDocumentType: Ref<IPageSection | undefined> = ref(undefined);
-    const sortModels: Ref<ISortModel[]> = ref([]);
-    const modes: Ref<IOption[]> = ref([]);
-    const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
-    const title: ComputedRef<string> = computed(() => {
-      let title = '';
-      switch (true) {
-        case mode.value === 'programs':
-          title = 'Программы дополнительного профессионального образования';
-          break;
-        case mode.value === 'contacts':
-          title = 'Контакты дополнительного профессионального образования';
-          break;
-        default:
-          break;
-      }
-      return title;
+    const customSections: Ref<ICustomSection[]> = ref([]);
+
+    Hooks.onBeforeMount(() => {
+      customSections.value.push(
+        CustomSection.Create('courses', 'Программы', 'DpoCourses'),
+        CustomSection.Create('contacts', 'Контакты', 'DpoCoursesContacts')
+      );
     });
 
-    const selectMode = async (value: string) => {
-      if (value === mode.value) {
-        return;
-      }
-      // const dpoDocumentType = documentTypes.value.find((dpoDocType: IDpoDocumentType) => dpoDocType.documentType.id === value);
-      // if (dpoDocumentType) {
-      //   selectedDocumentType.value = dpoDocumentType.documentType;
-      // } else {
-      //   selectedDocumentType.value = undefined;
-      // }
-    };
-
-    const setModes = async () => {
-      modes.value.push({ value: 'programs', label: 'Программы' });
-      modes.value.push({ value: 'contacts', label: 'Контакты' });
-    };
-
-    const loadCourses = async () => {
-      Provider.store.commit('dpoCourses/clearItems');
-      await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
-    };
-
-    const load = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 100;
-      Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
-      Provider.setSortList(...createSortModels(DpoCoursesSortsLib));
-      await setModes();
-      await loadCourses();
-    };
-
-    Hooks.onBeforeMount(load);
-
     return {
-      title,
-      selectedDocumentType,
-      mode,
+      customSections,
       mounted: Provider.mounted,
-      load,
-      sortModels,
-      modes,
-      selectMode,
-      loadCourses,
     };
   },
 });

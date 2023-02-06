@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -46,14 +46,12 @@ import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import ISearchObject from '@/interfaces/ISearchObject';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import DoctorsFiltersLib from '@/services/Provider/libs/filters/DoctorsFiltersLib';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
 import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLib';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
@@ -63,18 +61,26 @@ export default defineComponent({
   components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
   setup() {
     const employees = computed(() => Provider.store.getters['employees/items']);
-    const genderFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const genderFilter: Ref<FilterModel> = ref(new FilterModel());
 
     const loadEmployees = async () => {
       await Provider.store.dispatch('employees/getAllWithCount', Provider.filterQuery.value);
     };
-    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
+
+    watch(
+      Provider.filterQuery.value,
+      async () => {
+        const routeQuery = Provider.filterQuery.value.toUrlQuery();
+        await Provider.router.replace(Provider.route().path + routeQuery);
+      },
+      { deep: true }
+    );
 
     const load = async () => {
       Provider.setSortList(...createSortModels(EmployeesSortsLib));
       Provider.setSortModels(EmployeesSortsLib.byFullName(Orders.Asc));
+      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
-      filterByDivision.value = DoctorsFiltersLib.byDivisions([]);
       await loadEmployees();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Врачи',
@@ -94,7 +100,7 @@ export default defineComponent({
       await Provider.router.push({ name: `AdminEditEmployeePage`, params: { id: event.value } });
     };
 
-    const createGenderFilterModels = (): IFilterModel[] => {
+    const createGenderFilterModels = (): FilterModel[] => {
       return [EmployeesFiltersLib.onlyMale(), EmployeesFiltersLib.onlyFemale()];
     };
 

@@ -52,8 +52,8 @@ import { computed, ComputedRef, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import NewsComment from '@/classes/news/NewsComment';
+import Page from '@/classes/page/Page';
 import ImageGallery from '@/components/ImageGallery.vue';
-import IPage from '@/interfaces/page/IPage';
 export default defineComponent({
   name: 'CustomPage',
   components: { ImageGallery },
@@ -61,14 +61,8 @@ export default defineComponent({
     let comment = ref(new NewsComment());
     const commentInput = ref();
     const store = useStore();
-    const page: ComputedRef<IPage> = computed(() => store.getters['pages/page']);
+    const page: ComputedRef<Page> = computed(() => store.getters['pages/item']);
 
-    // watch(slug, () => {
-    //   if (slug.value) {
-    //     store.dispatch('news/get', slug.value);
-    //   }
-    // });
-    // await store.dispatch('pages/getBySlug', slug.value);
     const pageContent = computed(() =>
       page.value.content ? page.value.content : '<p style="text-align: center">Описание отсутствует</p>'
     );

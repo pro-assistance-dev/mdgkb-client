@@ -44,6 +44,10 @@ const mutations: MutationTree<State> = {
     });
     state.item.timetable = new Timetable();
   },
+  remove(state, id: string) {
+    const index = state.items.findIndex((i: IHead) => i.id === id);
+    state.items.splice(index, 1);
+  },
 };
 
 export default mutations;

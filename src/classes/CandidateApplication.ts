@@ -4,7 +4,6 @@ import Specialization from '@/classes/Specialization';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateApplicationSpecialization from '@/interfaces/ICandidateApplicationSpecialization';
-import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -12,7 +11,7 @@ import Form from './Form';
 
 export default class CandidateApplication implements ICandidateApplication {
   id?: string;
-  candidateExam: ICandidateExam = new CandidateExam();
+  candidateExam: CandidateExam = new CandidateExam();
   candidateExamId?: string;
   candidateApplicationSpecializations: ICandidateApplicationSpecialization[] = [];
   candidateApplicationSpecializationsForDelete: string[] = [];

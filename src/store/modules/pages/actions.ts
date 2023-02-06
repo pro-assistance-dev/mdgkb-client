@@ -1,40 +1,24 @@
 import { ActionTree } from 'vuex';
 
-import IPage from '@/interfaces/page/IPage';
+import Page from '@/classes/page/Page';
 import HttpClient from '@/services/HttpClient';
+import getBaseActions from '@/store/baseModule/baseActions';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
-import { State } from './state';
+export interface State extends IBasicState<Page> {
+  isSideMenuDialogActive: boolean;
+  isPageSectionDialogActive: boolean;
+  index: number;
+  pageSectionIndex: number;
+}
 
 const httpClient = new HttpClient('pages');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IPage[]>());
-  },
-  get: async ({ commit }, slug: string): Promise<void> => {
-    const res = await httpClient.get<IPage>({ query: `${slug}` });
-    commit('set', res);
-  },
-  create: async ({ commit }, page: IPage): Promise<void> => {
-    await httpClient.post<IPage, IPage>({ payload: page, fileInfos: page.getFileInfos(), isFormData: true });
-    commit('set');
-  },
-  update: async ({ commit }, page: IPage): Promise<void> => {
-    await httpClient.put<IPage, IPage>({
-      query: `${page.id}`,
-      payload: page,
-      fileInfos: page.getFileInfos(),
-      isFormData: true,
-    });
-    commit('set');
-  },
-  remove: async ({ commit }, id: string): Promise<void> => {
-    await httpClient.delete({ query: `${id}` });
-    commit('remove', id);
-  },
+  ...getBaseActions<Page, State>('pages'),
   getBySlug: async ({ commit }, slug: string): Promise<void> => {
-    const res = await httpClient.get<IPage>({ query: `slug/${slug}` });
+    const res = await httpClient.get<Page>({ query: `slug/${slug}` });
     commit('set', res);
   },
 };

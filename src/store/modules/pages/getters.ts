@@ -1,21 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import IFilesList from '@/interfaces/files/IFIlesList';
-import IPage from '@/interfaces/page/IPage';
+import Page from '@/classes/page/Page';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  pages(state): IPage[] {
-    return state.pages;
-  },
-  page(state): IPage {
-    return state.page;
-  },
-  galleryList(state): IFilesList[] {
-    return state.galleryList;
-  },
+  ...getBaseGetters<Page, State>(),
   isSideMenuDialogActive(state): boolean {
     return state.isSideMenuDialogActive;
   },
@@ -23,10 +15,10 @@ const getters: GetterTree<State, RootState> = {
     return state.isPageSectionDialogActive;
   },
   sideMenu(state) {
-    return state.page.pageSideMenus[state.index];
+    return state.item.pageSideMenus[state.index];
   },
   pageSection(state) {
-    return state.page.pageSideMenus[state.index].pageSections[state.pageSectionIndex];
+    return state.item.pageSideMenus[state.index].pageSections[state.pageSectionIndex];
   },
 };
 
