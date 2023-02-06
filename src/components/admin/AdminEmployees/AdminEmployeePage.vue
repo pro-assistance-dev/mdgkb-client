@@ -42,6 +42,12 @@
                   @changeActiveId="scope.changeActiveId"
                 >
                   <template #inside-content>
+                    <div class="container">
+                      <el-form-item label="Совместитель">
+                        <el-checkbox v-model="employee.partTime" />
+                      </el-form-item>
+                    </div>
+
                     <div class="tools-buttons">
                       <button class="admin-add" @click.prevent="employee.addExperience()">+ Добавить</button>
                     </div>

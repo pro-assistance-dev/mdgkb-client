@@ -4,18 +4,18 @@
     <div v-if="description !== '<p>undefined</p>'" v-html="description"></div>
   </div>
   <div v-for="section in pageSections" :key="section" class="card-item">
-    <template v-if="section.description && section.description.length < 1000">
-      <h2>{{ section.name }}</h2>
-      <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
-    </template>
-    <CollapsContainer v-if="section.description && section.description.length > 1000" tab-id="400" :collapsed="false">
-      <template #inside-title>
-        <h2>{{ section.name }}</h2>
-      </template>
-      <template #inside-content>
-        <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
-      </template>
-    </CollapsContainer>
+    <!--    <template v-if="section.description && section.description.length < 1000">-->
+    <h2>{{ section.name }}</h2>
+    <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
+    <!--    </template>-->
+    <!--    <CollapsContainer v-if="section.description && section.description.length > 1000" tab-id="400" :collapsed="false">-->
+    <!--      <template #inside-title>-->
+    <!--        <h2>{{ section.name }}</h2>-->
+    <!--      </template>-->
+    <!--      <template #inside-content>-->
+    <!--        <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>-->
+    <!--      </template>-->
+    <!--    </CollapsContainer>-->
     <ul>
       <li v-for="file in section.pageSectionDocuments" :key="file.id">
         <a v-if="file.downloadToFile" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{ file.name }}</a>
@@ -31,11 +31,10 @@ import { defineComponent, PropType, ref } from 'vue';
 
 import PageSection from '@/classes/PageSection';
 import ImageGallery from '@/components/ImageGallery.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 
 export default defineComponent({
   name: 'PageSection',
-  components: { ImageGallery, CollapsContainer },
+  components: { ImageGallery },
   props: {
     title: {
       type: String as PropType<string>,
