@@ -6,19 +6,18 @@
         <div class="content">{{ item.content }}</div>
       </div>
       <div class="slide-buttons">
-        <button
-          v-for="(button, i) in item.newsSlideButtons"
-          :key="i"
-          :style="{
-            boxShadow: 'none',
-            'background-color': button.backgroundColor ? button.backgroundColor : 'white',
-            color: button.color ? button.color : 'black',
-            border: 'none',
-          }"
-          @click="$router.push(button.link)"
-        >
-          {{ button.name }}
-        </button>
+        <a v-for="(button, i) in item.newsSlideButtons" :key="i" :href="'//' + button.link">
+          <button
+            :style="{
+              boxShadow: 'none',
+              'background-color': button.backgroundColor ? button.backgroundColor : 'white',
+              color: button.color ? button.color : 'black',
+              border: 'none',
+            }"
+          >
+            {{ button.name }}
+          </button>
+        </a>
       </div>
     </div>
   </div>
@@ -27,13 +26,13 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import NewsSlide from '@/classes/newsSlides/NewsSlide';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
 export default defineComponent({
   name: 'NewsCarouselSlide',
   props: {
     item: {
-      type: Object as PropType<INewsSlide>,
+      type: Object as PropType<NewsSlide>,
       required: true,
     },
     width: {

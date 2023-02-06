@@ -1,6 +1,6 @@
-import INewsSlideButton from '@/interfaces/newsSlides/INewsSlideButton';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class NewsSlideButton implements INewsSlideButton {
+export default class NewsSlideButton {
   id?: string;
   name = '';
   color = '#000000';
@@ -10,17 +10,7 @@ export default class NewsSlideButton implements INewsSlideButton {
   borderColor = '';
   shadow = false;
 
-  constructor(newsSlideButton?: INewsSlideButton) {
-    if (!newsSlideButton) {
-      return;
-    }
-    this.id = newsSlideButton.id;
-    this.name = newsSlideButton.name;
-    this.color = newsSlideButton.color;
-    this.backgroundColor = newsSlideButton.backgroundColor;
-    this.order = newsSlideButton.order;
-    this.link = newsSlideButton.link;
-    this.borderColor = newsSlideButton.borderColor;
-    this.shadow = newsSlideButton.shadow;
+  constructor(i?: NewsSlideButton) {
+    ClassHelper.BuildClass(this, i);
   }
 }

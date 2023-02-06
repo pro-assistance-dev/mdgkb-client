@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 import draggable from 'vuedraggable';
 
@@ -57,7 +57,7 @@ export default defineComponent({
     const rules = {
       title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
     };
-    const page: Ref<IPage> = computed(() => Provider.store.getters['pages/page']);
+    const page: ComputedRef<IPage> = computed(() => Provider.store.getters['pages/page']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
