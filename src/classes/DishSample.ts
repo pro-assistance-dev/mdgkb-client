@@ -16,6 +16,8 @@ export default class DishSample implements IDishSample {
   selected = false;
   image: IFileInfo = new FileInfo();
   imageId?: string;
+  updatedAt?: Date;
+
   constructor(i?: IDishSample) {
     if (!i) {
       return;
@@ -28,6 +30,10 @@ export default class DishSample implements IDishSample {
     this.quantity = i.quantity;
     this.order = i.order;
     this.dishesGroupId = i.dishesGroupId;
+    if (i.updatedAt) {
+      this.updatedAt = new Date(i.updatedAt);
+    }
+
     if (i.dishesGroup) {
       this.dishesGroup = new DishesGroup(i.dishesGroup);
     }
