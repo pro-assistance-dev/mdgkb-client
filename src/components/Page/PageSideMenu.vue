@@ -1,7 +1,7 @@
 <template>
   <div class="side-container">
     <div class="side-item">
-      <div class="card-item">
+      <div v-if="mounted" class="card-item">
         <h4>{{ page.title }}</h4>
         <el-divider />
         <el-table :data="page.pageSideMenus" cell-class-name="cell-row" :show-header="false">
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, PropType } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Page from '@/classes/page/Page';
 import Provider from '@/services/Provider';
@@ -32,28 +32,36 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  emits: ['selectMenu'],
+  setup(props, { emit }) {
+    const mounted = ref(false);
+    const activeMenuId: Ref<string | undefined> = ref('');
     const setMenuFromRoute = () => {
       let menu = Provider.route().query.menu as string;
       changeMenu(menu);
     };
 
     const isActive = (id: string): string => {
-      return id === props.page.getSelectedSideMenu().id ? 'is-active' : '';
+      return id === activeMenuId.value ? 'is-active' : '';
     };
 
     const changeMenu = (id: string) => {
       props.page.selectSideMenu(id);
-      Provider.router.replace({ query: { menu: props.page.getSelectedSideMenu().id as string } });
-      console.log(props.page.getSelectedSideMenu());
+      const menu = props.page.getSelectedSideMenu();
+      activeMenuId.value = menu.id;
+      emit('selectMenu', menu);
+      Provider.router.replace({ query: { menu: activeMenuId.value as string } });
     };
 
     onBeforeMount(() => {
       setMenuFromRoute();
+      mounted.value = true;
     });
 
     return {
+      activeMenuId,
       isActive,
+      mounted,
       changeMenu,
     };
   },

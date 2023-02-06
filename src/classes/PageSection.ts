@@ -17,10 +17,10 @@ export default class PageSection {
   description = '';
   scans: IFileInfo[] = [];
   scansForDelete: string[] = [];
-
+  @ClassHelper.GetClassConstructorForArray(PageSectionDocument)
   pageSectionDocuments: PageSectionDocument[] = [];
   pageSectionDocumentsForDelete: string[] = [];
-
+  @ClassHelper.GetClassConstructorForArray(WithDocumentType)
   pageSectionImages: WithDocumentType[] = [];
   pageSectionImagesForDelete: string[] = [];
 

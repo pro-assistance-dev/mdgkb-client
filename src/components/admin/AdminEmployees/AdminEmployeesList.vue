@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -67,9 +67,19 @@ export default defineComponent({
       await Provider.store.dispatch('employees/getAllWithCount', Provider.filterQuery.value);
     };
 
+    watch(
+      Provider.filterQuery.value,
+      async () => {
+        const routeQuery = Provider.filterQuery.value.toUrlQuery();
+        await Provider.router.replace(Provider.route().path + routeQuery);
+      },
+      { deep: true }
+    );
+
     const load = async () => {
       Provider.setSortList(...createSortModels(EmployeesSortsLib));
       Provider.setSortModels(EmployeesSortsLib.byFullName(Orders.Asc));
+      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       await loadEmployees();
       Provider.store.commit('admin/setHeaderParams', {
