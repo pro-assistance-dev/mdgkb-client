@@ -11,7 +11,14 @@
     <DivisionCertificates />
     <ScansSlider :gallery-elements="division.certificates" />
     <DivisionDateAndTime :division="division" />
-    <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
+    <CollapsContainer tab-id="134" :collapsed="false">
+      <template #inside-title>
+        <div class="title-in">Видео отделения</div>
+      </template>
+      <template #inside-content>
+        <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
+      </template>
+    </CollapsContainer>
     <!-- <ImageGallery :images="division.divisionImages" /> -->
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
@@ -27,6 +34,7 @@ import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
@@ -51,6 +59,7 @@ export default defineComponent({
     Comments,
     ScansSlider,
     DivisionInfoBlock,
+    CollapsContainer,
   },
 
   setup() {
