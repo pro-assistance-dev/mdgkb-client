@@ -16,6 +16,7 @@
     @closed="closeModal"
   >
     <el-form ref="myForm" label-width="0" :model="form" :rules="rules" @submit.prevent="submitForm">
+      <div v-if="showWarning" class="warning">Пожалуйста, авторизируйтесь для продолжения</div>
       <el-form-item v-if="loginStatus === 'login' || loginStatus === 'register' || loginStatus === 'forgotPassword'" prop="email">
         <el-input v-model="form.email" placeholder="Email" type="email" @input="findEmail" />
       </el-form-item>
@@ -52,7 +53,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -70,6 +71,9 @@ export default defineComponent({
     const closeModal = () => {
       store.commit('auth/closeModal');
       form.value = new User();
+      if (showWarning.value) {
+        router.go(-1);
+      }
     };
 
     const route = useRoute();
@@ -81,6 +85,7 @@ export default defineComponent({
     const authModalVisible = computed(() => store.getters['auth/authModalVisible']);
     const emailExists: Ref<boolean> = computed(() => store.getters['users/emailExists']);
     const loginStatus: Ref<'login' | 'register' | 'forgotPassword' | 'passwordChange'> = computed(() => store.getters['auth/loginStatus']);
+    const showWarning: ComputedRef<boolean> = computed(() => store.getters['auth/showWarning']);
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value.trim().length) {
@@ -142,6 +147,7 @@ export default defineComponent({
         }
         return;
       }
+      store.commit('auth/showWarning', false);
       closeModal();
     };
 
@@ -178,6 +184,7 @@ export default defineComponent({
       setRegister,
       setForgotPassword,
       setPasswordChange,
+      showWarning,
     };
   },
   methods: {
@@ -199,5 +206,14 @@ export default defineComponent({
 
 .reg-item {
   margin-bottom: 0;
+}
+.warning {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  border: 1px solid #f56c6c;
+  color: #f56c6c;
+  background-color: lighten(#f56c6c, 25%);
+  word-break: break-word;
 }
 </style>
