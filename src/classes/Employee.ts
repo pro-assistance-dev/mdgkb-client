@@ -18,6 +18,7 @@ export default class Employee {
   humanId?: string;
   academicDegree = '';
   academicRank = '';
+  partTime = false;
   @ClassHelper.GetClassConstructorForArray(Regalia)
   regalias: Regalia[] = [];
   regaliasForDelete: string[] = [];

@@ -114,7 +114,7 @@ export default defineComponent({
         await Provider.router.push('/admin/pages');
         return;
       }
-      await Provider.store.dispatch('pages/updateWithoutReset', page.value);
+      await Provider.store.dispatch('pages/updateAndSet', page.value);
       ElMessage({ message: 'Успешно сохранено', type: 'success' });
     };
 
