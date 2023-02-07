@@ -56,7 +56,7 @@ const actions: ActionTree<State, RootState> = {
   },
   createComment: async ({ commit }, comment: IDivisionComment): Promise<void> => {
     const res = await httpClient.post<IDivisionComment, IDivisionComment>({ query: `comment`, payload: comment });
-    commit('setComment', res);
+    commit('resetComment', res);
   },
   updateComment: async ({ commit }, newComment: IDivisionComment): Promise<void> => {
     await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });

@@ -20,7 +20,7 @@
         </div>
       </div>
     </label>
-    <div :style="{ maxHeight: isCollaps ? '' : '100vh' }" :class="collapsed ? 'tab-content-down' : 'tab-content-up'">
+    <div :style="{ maxHeight: isCollaps ? '' : '1000000vh' }" :class="collapsed ? 'tab-content-down' : 'tab-content-up'">
       <slot name="inside-content" />
     </div>
   </div>
@@ -102,11 +102,12 @@ export default defineComponent({
   -o-transition: max-height 0.5s;
   transition: max-height 0.5s;
   color: #343e5c;
-  padding: 0 5px;
+  // padding: 0 5px;
 }
 
 .tab-content-up {
   max-height: 500vh;
+  overflow-y: scroll;
   overflow: hidden;
   background: #ffffff;
   -webkit-transition: max-height 0.35s;
