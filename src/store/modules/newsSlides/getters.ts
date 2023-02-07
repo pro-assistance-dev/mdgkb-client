@@ -1,19 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
-import INewsSlideButton from '@/interfaces/newsSlides/INewsSlideButton';
+import NewsSlide from '@/classes/newsSlides/NewsSlide';
+import NewsSlideButton from '@/classes/newsSlides/NewsSlideButton';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): INewsSlide[] {
-    return state.items;
-  },
-  item(state): INewsSlide {
-    return state.item;
-  },
-  itemButtons(state): INewsSlideButton[] {
+  ...getBaseGetters<NewsSlide, State>(),
+  itemButtons(state): NewsSlideButton[] {
     return state.item.newsSlideButtons;
   },
 };

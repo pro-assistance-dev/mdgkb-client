@@ -55,6 +55,7 @@ export default defineComponent({
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
     const curUser: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
 
     const loadUser = async () => {
       await Provider.store.dispatch('users/get', userId.value);
@@ -66,6 +67,10 @@ export default defineComponent({
       const rr = Provider.router.options.routes.find((r) => r.name === curRoute);
       if (rr && rr.meta && rr.meta.protected) {
         authGuard();
+      }
+      if (authOnly.value) {
+        Provider.store.commit('auth/showWarning', true);
+        Provider.store.commit('auth/openModal', 'login');
       }
     };
 
