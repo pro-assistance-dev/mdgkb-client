@@ -27,8 +27,8 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import NewsSlide from '@/classes/newsSlides/NewsSlide';
 import NewsCarouselSlide from '@/components/News/NewsCarouselSlide.vue';
-import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
 
 export default defineComponent({
   name: 'AdminNewsSlidePreview',
@@ -36,7 +36,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const activeName: Ref<string> = ref<string>('Desktop');
-    const slide: ComputedRef<INewsSlide> = computed<INewsSlide>(() => store.getters['newsSlides/item']);
+    const slide: ComputedRef<NewsSlide> = computed<NewsSlide>(() => store.getters['newsSlides/item']);
 
     return {
       slide,

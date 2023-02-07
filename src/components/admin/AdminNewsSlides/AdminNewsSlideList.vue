@@ -39,9 +39,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import NewsSlide from '@/classes/newsSlides/NewsSlide';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
-import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
 
 export default defineComponent({
   name: 'AdminNewsSlideList',
@@ -52,7 +52,7 @@ export default defineComponent({
     const store = useStore();
     const isEdit: Ref<boolean> = ref(false);
     const isNotEdit: Ref<boolean> = ref(true);
-    const slides: ComputedRef<INewsSlide[]> = computed(() => store.getters['newsSlides/items']);
+    const slides: ComputedRef<NewsSlide[]> = computed(() => store.getters['newsSlides/items']);
 
     const create = (): void => {
       router.push('/admin/news-slides/new');

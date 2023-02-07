@@ -44,7 +44,7 @@ export default defineComponent({
   emits: ['changeActiveId'],
 
   setup(props, { emit }) {
-    const collapsed: Ref<boolean> = ref(true);
+    const collapsed: Ref<boolean> = ref(false);
 
     const handleItemClick = () => {
       collapsed.value = !collapsed.value;
@@ -53,7 +53,6 @@ export default defineComponent({
 
     onUpdated(() => {
       if (props.activeId && props.activeId !== props.tabId) {
-        console.log(123);
         collapsed.value = true;
       }
     });

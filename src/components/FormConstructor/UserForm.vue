@@ -134,7 +134,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Form from '@/classes/Form';
@@ -195,6 +195,7 @@ export default defineComponent({
       callback();
       return;
     };
+
     const rules = {
       email: [
         { validator: emailRule, trigger: 'blur' },
@@ -230,7 +231,17 @@ export default defineComponent({
       if (props.validateEmail) emit('findEmail');
     };
     onBeforeMount(() => {
+      store.commit('auth/showWarning', true);
+      store.commit('auth/authOnly', true);
       formValue.value = props.form;
+      if (!isAuth.value) {
+        openLoginModal();
+      }
+    });
+
+    onBeforeUnmount(() => {
+      store.commit('auth/showWarning', false);
+      store.commit('auth/authOnly', false);
     });
 
     return {
@@ -262,7 +273,7 @@ export default defineComponent({
 }
 :deep(.el-form-item__label) {
   margin-left: 10px;
-  line-height: 1;
+  // line-height: 1;
   display: flex;
   align-items: center;
   justify-content: flex-start;

@@ -18,6 +18,8 @@ export const getDefaultState = (): State => {
     pathPermissions: [],
     userPathPermissions: [],
     count: 0,
+    showWarning: false,
+    authOnly: false,
   };
 };
 

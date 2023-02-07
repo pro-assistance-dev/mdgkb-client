@@ -3,6 +3,7 @@ import IBuildingSchema from '@/interfaces/schema/IBuildingSchema';
 import ICenterSchema from '@/interfaces/schema/ICenterSchema';
 import ICommentsSchema from '@/interfaces/schema/ICommentsSchema';
 import IDailyMenuSchema from '@/interfaces/schema/IDailyMenuSchema';
+import IDepartmentSchema from '@/interfaces/schema/IDepartmentSchema';
 import IDietSchema from '@/interfaces/schema/IDietSchema';
 import IDishesGroupSchema from '@/interfaces/schema/IDishesGroupSchema';
 import IDivisionCommentSchema from '@/interfaces/schema/IDivisionCommentSchema';
@@ -89,4 +90,5 @@ export default interface ISchema {
   dailyMenu: IDailyMenuSchema;
   formPattern: IFormPatternSchema;
   dishesGroup: IDishesGroupSchema;
+  department: IDepartmentSchema;
 }
