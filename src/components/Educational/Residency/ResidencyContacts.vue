@@ -18,7 +18,7 @@
               <use xlink:href="#map-marker"></use>
             </svg>
           </div>
-          <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 22а, 1 этаж Отдел постдипломного образования, кабинет № 1</div>
+          <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 11, 2 этаж Отдел постдипломного образования, кабинет № 5</div>
         </div>
       </div>
       <div class="contact-data-list-item">
@@ -41,7 +41,7 @@
               <use xlink:href="#email"></use>
             </svg>
           </div>
-          <div class="item">dpo@morozdgkb.ru</div>
+          <div class="item">pdo@morozdgkb.ru</div>
         </div>
       </div>
     </div>
