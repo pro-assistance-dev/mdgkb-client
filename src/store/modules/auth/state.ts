@@ -5,6 +5,8 @@ export default interface State {
   user: IUser;
   token: string;
   isAuth: boolean;
+  showWarning: boolean;
+  authOnly: boolean;
   authModalVisible: boolean;
   loginStatus: 'login' | 'register' | 'forgotPassword' | 'passwordChange';
   pathPermissions: IPathPermission[];

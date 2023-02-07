@@ -24,6 +24,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       await Provider.store.dispatch('meta/getSocialMedia');
       mounted.value = true;
+      console.log('Список ссылок' + items.value);
     });
 
     return {

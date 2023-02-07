@@ -17,15 +17,15 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import NewsSlide from '@/classes/newsSlides/NewsSlide';
 import NewsCarouselSlide from '@/components/News/NewsCarouselSlide.vue';
-import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
 
 export default defineComponent({
   name: 'NewsCarousel',
   components: { NewsCarouselSlide },
   setup() {
     const store = useStore();
-    const slides: ComputedRef<INewsSlide[]> = computed(() => store.getters['newsSlides/items']);
+    const slides: ComputedRef<NewsSlide[]> = computed(() => store.getters['newsSlides/items']);
     const carouselRef = ref();
     const mount = ref(false);
     onBeforeMount(async () => {

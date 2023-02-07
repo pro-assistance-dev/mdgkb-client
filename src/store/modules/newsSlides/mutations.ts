@@ -2,25 +2,12 @@ import { MutationTree } from 'vuex';
 
 import NewsSlide from '@/classes/newsSlides/NewsSlide';
 import NewsSlideButton from '@/classes/newsSlides/NewsSlideButton';
-import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: INewsSlide[]) {
-    state.items = items?.map((a: INewsSlide) => new NewsSlide(a));
-  },
-  set(state, item: INewsSlide) {
-    state.item = new NewsSlide(item);
-  },
-  resetState(state) {
-    Object.assign(state, getDefaultState());
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: INewsSlide) => i.id === id);
-    state.items.splice(index, 1);
-  },
+  ...getBaseMutations<NewsSlide, State>(NewsSlide),
   addButton(state) {
     state.item.newsSlideButtons.push(new NewsSlideButton());
   },

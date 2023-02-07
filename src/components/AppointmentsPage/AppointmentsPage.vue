@@ -17,9 +17,13 @@
         <!--        <div v-if="createChildMode" class="card-item">-->
         <!--          <ChildForm @createChild="createChild" />-->
         <!--        </div>-->
-        <el-form ref="userForm" v-model="appointment" :model="appointment" label-position="top">
-          <el-form-item label="Тип записи">
-            <el-select v-model="appointmentsType" value-key="id" placeholder="Выберите тип записи" @change="selectType">
+        <el-form ref="form" v-model="appointment" :model="appointment" label-position="top">
+          <el-form-item
+            label="Тип записи"
+            prop="appointmentTypeId"
+            :rules="[{ required: true, message: 'Необходимо выбрать тип записи', trigger: 'blur' }]"
+          >
+            <el-select v-model="appointmentsType" value-key="id" style="width: 100%" placeholder="Выберите тип записи" @change="selectType">
               <el-option v-for="item in appointmentsTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
             </el-select>
           </el-form-item>
@@ -29,7 +33,7 @@
           />
           <FieldValuesForm v-if="appointment.formValue" :form="appointment.formValue" />
 
-          <AppointmentForm @createChildMode="changeCreateChildMode" />
+          <!-- <AppointmentForm @createChildMode="changeCreateChildMode" /> -->
         </el-form>
       </div>
     </div>
@@ -50,6 +54,7 @@ import UserFormFields from '@/classes/UserFormFields';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
+import UserForm from '@/components/FormConstructor/UserForm.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import IAppointment from '@/interfaces/IAppointment';
@@ -58,6 +63,7 @@ import IChild from '@/interfaces/IChild';
 import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AppointmentsPage',
@@ -68,15 +74,17 @@ export default defineComponent({
     AppointmentsCalendar,
     // ModeButtons,
     FieldValuesForm,
+    UserForm,
   },
 
   setup() {
-    const chosenDay: Ref<string | undefined> = ref();
+    const chosenDay: Ref<string> = ref(new Date().toString());
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const appointment: ComputedRef<IAppointment> = computed(() => Provider.store.getters['appointments/item']);
     const appointmentsTypes: ComputedRef<IAppointmentType[]> = computed(() => Provider.store.getters['appointmentsTypes/items']);
     const appointmentsType: Ref<IAppointmentType> = computed(() => Provider.store.getters['appointmentsTypes/item']);
     const createChildMode: Ref<boolean> = ref(false);
+    const form = ref();
 
     const load = async () => {
       await Provider.store.dispatch('appointmentsTypes/getAll');
@@ -113,6 +121,7 @@ export default defineComponent({
     };
 
     const submit = async () => {
+      if (!validate(form)) return;
       await Provider.store.dispatch('appointments/create', appointment.value);
       Provider.store.commit('appointments/resetItem');
       ElNotification({
@@ -151,6 +160,7 @@ export default defineComponent({
       mounted: Provider.mounted,
       appointmentsType,
       UserFormFields,
+      form,
     };
   },
 });
@@ -203,6 +213,7 @@ export default defineComponent({
 }
 .form-zone {
   margin-left: 30px;
+  width: 100%;
 }
 .calendar-zone {
   width: 450px;
