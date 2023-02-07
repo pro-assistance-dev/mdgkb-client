@@ -82,15 +82,16 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import NewsSlide from '@/classes/newsSlides/NewsSlide';
 import AdminNewsSlidePreview from '@/components/admin/AdminNewsSlides/AdminNewsSlidePreview.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -99,32 +100,33 @@ export default defineComponent({
   components: { TableMover, TableButtonGroup, UploaderSingleScan, AdminNewsSlidePreview },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
+    const urlRegex =
+      /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     const rules = {
       title: [{ required: true, message: 'Необходимо указать название', trigger: 'blur' }],
       buttonName: [{ required: true, message: 'Необходимо указать текст кнопки', trigger: 'blur' }],
-      buttonLink: [{ required: true, message: 'Необходимо указать ссылку', trigger: 'blur' }],
+      buttonLink: [
+        { required: true, message: 'Необходимо указать ссылку', trigger: 'blur' },
+        { pattern: urlRegex, message: 'Неверно указана ссылка', trigger: 'blur' },
+      ],
       desktopImg: [{ required: true, message: 'Необходимо загрузить desktop версию изображения', trigger: 'change' }],
       laptopImg: [{ required: true, message: 'Необходимо загрузить laptop версию изображения', trigger: 'change' }],
       tabletImg: [{ required: true, message: 'Необходимо загрузить tablet версию изображения', trigger: 'change' }],
       mobileImg: [{ required: true, message: 'Необходимо загрузить mobile версию изображения', trigger: 'change' }],
     };
     const form = ref();
-    const mounted: Ref<boolean> = ref(false);
     const showPreview: Ref<boolean> = ref(false);
     const previewFullScreen: Ref<boolean> = ref(false);
-    const slide: ComputedRef<INewsSlide> = computed<INewsSlide>(() => store.getters['newsSlides/item']);
-    const slides: ComputedRef<INewsSlide[]> = computed<INewsSlide[]>(() => store.getters['newsSlides/items']);
+    const slide: ComputedRef<NewsSlide> = computed<NewsSlide>(() => Provider.store.getters['newsSlides/item']);
+    const slides: ComputedRef<NewsSlide[]> = computed<NewsSlide[]>(() => Provider.store.getters['newsSlides/items']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const addButton = () => {
-      store.commit('newsSlides/addButton');
+      Provider.store.commit('newsSlides/addButton');
     };
     const removeButton = (index: number) => {
-      store.commit('newsSlides/removeButton', index);
+      Provider.store.commit('newsSlides/removeButton', index);
     };
 
     const openPreview = () => {
@@ -137,48 +139,47 @@ export default defineComponent({
     };
 
     const submit = async (next?: NavigationGuardNext) => {
-      store.commit('newsSlides/setOrder', slides.value.length);
+      Provider.store.commit('newsSlides/setOrder', slides.value.length);
       try {
-        if (route.params['id']) {
-          await store.dispatch('newsSlides/update', slide.value);
+        if (Provider.route().params['id']) {
+          await Provider.store.dispatch('newsSlides/update', slide.value);
         } else {
-          await store.dispatch('newsSlides/create', slide.value);
+          await Provider.store.dispatch('newsSlides/create', slide.value);
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : router.push('/admin/news-slides');
+      next ? next() : Provider.router.push('/admin/news-slides');
     };
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
+    const load = async () => {
       if (!slides.value.length) {
-        store.dispatch('newsSlides/getAll');
+        Provider.store.dispatch('newsSlides/getAll');
       }
-      if (route.params['id']) {
-        await store.dispatch('newsSlides/get', route.params['id']);
-        store.commit('admin/setHeaderParams', {
+      if (Provider.route().params['id']) {
+        await Provider.store.dispatch('newsSlides/get', Provider.route().params['id']);
+        Provider.store.commit('admin/setHeaderParams', {
           title: 'Обновить новость (слайдер)',
           showBackButton: true,
           buttons: [{ action: openPreview }],
         });
       } else {
-        store.commit('admin/setHeaderParams', {
+        Provider.store.commit('admin/setHeaderParams', {
           title: 'Добавить новость (слайдер)',
           showBackButton: true,
           buttons: [{ action: openPreview }],
         });
       }
       previewFullScreen.value = window.innerWidth < 1200;
-      mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(slide, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
-    });
+    };
+
+    Hooks.onBeforeMount(load);
 
     onBeforeUnmount(() => {
-      store.commit('newsSlides/resetState');
+      Provider.store.commit('newsSlides/resetState');
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -187,7 +188,7 @@ export default defineComponent({
 
     return {
       slide,
-      mounted,
+      mounted: Provider.mounted,
       addButton,
       removeButton,
       showPreview,

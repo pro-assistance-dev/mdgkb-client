@@ -1,6 +1,4 @@
-import INewsSlide from '@/interfaces/newsSlides/INewsSlide';
+import NewsSlide from '@/classes/newsSlides/NewsSlide';
+import IBasicState from '@/store/baseModule/baseState';
 
-export interface State {
-  items: INewsSlide[];
-  item: INewsSlide;
-}
+export type State = IBasicState<NewsSlide>;
