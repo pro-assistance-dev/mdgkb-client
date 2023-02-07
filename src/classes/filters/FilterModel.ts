@@ -40,15 +40,21 @@ export default class FilterModel {
         if (i !== 0) {
           url += '&';
         }
-        url += `fm${el}=${value}`;
+        url += `${el}=${value}`;
       }
     });
-
+    url += '|';
     return url;
   }
 
   fromUrlQuery(obj: LocationQuery): void {
-    console.log(obj);
+    const str = window.location.search;
+    const sormModelString = str.substring(str.indexOf('p=') + 2, str.lastIndexOf('|'));
+    const params = new URLSearchParams(decodeURIComponent(sormModelString));
+    this.model = params.get('offset') ?? '';
+    this.col = params.get('col') ?? '';
+    this.operator = (params.get('operator') as Operators) ?? '';
+    this.value1 = params.get('value1') ?? '';
   }
 
   isUnaryFilter(): boolean {

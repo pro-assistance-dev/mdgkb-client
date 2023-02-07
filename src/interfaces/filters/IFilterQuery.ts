@@ -1,5 +1,6 @@
 import { LocationQuery } from 'vue-router';
 
+import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import IPagination from '@/interfaces/IPagination';
@@ -10,7 +11,7 @@ export default interface IFilterQuery {
   value: string;
   filterModels: IFilterModel[];
   pagination: IPagination;
-  sortModels: ISortModel[];
+  sortModels: SortModel[];
   withDeleted: boolean;
   allLoaded: boolean;
 

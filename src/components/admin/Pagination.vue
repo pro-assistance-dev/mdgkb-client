@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeUnmount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
 
 import Provider from '@/services/Provider';
 
@@ -65,7 +65,6 @@ export default defineComponent({
         setPage(pageNum);
       }
     };
-
     const setPage = async (pageNum: number): Promise<void> => {
       const loading = ElLoading.service({
         lock: true,
@@ -73,6 +72,7 @@ export default defineComponent({
       });
       Provider.store.commit('pagination/setCurPage', pageNum);
       Provider.store.commit('filter/setOffset', pageNum - 1);
+      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       await Provider.store.dispatch(`${storeModule}/${action}`, Provider.filterQuery.value);
       const table = document.querySelector('.el-table__body-wrapper');
       const list = document.querySelector('#list');
@@ -87,6 +87,11 @@ export default defineComponent({
     onBeforeUnmount(async () => {
       Provider.store.commit('pagination/setCurPage', 1);
       Provider.store.commit('filter/setOffset', 0);
+    });
+
+    onBeforeMount(async () => {
+      const p = Provider.filterQuery.value.pagination.offset / Provider.filterQuery.value.pagination.limit;
+      await setPage(p + 1);
     });
 
     return {

@@ -40,13 +40,14 @@ export default defineComponent({
       setDefaultFilterModel();
     });
 
-    const setFilter = () => {
+    const setFilter = async () => {
       if (selectedFilterModel.value && (selectedFilterModel.value.table || selectedFilterModel.value.model)) {
         Provider.replaceFilterModel(selectedFilterModel.value, selectedId.value);
         selectedId.value = selectedFilterModel.value.id;
       } else {
         Provider.spliceFilterModel(selectedId.value);
       }
+      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       emit('load');
     };
 

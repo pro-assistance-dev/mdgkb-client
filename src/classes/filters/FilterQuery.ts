@@ -1,10 +1,8 @@
 import { LocationQuery } from 'vue-router';
 
+import FilterModel from '@/classes/filters/FilterModel';
 import Pagination from '@/classes/filters/Pagination';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
-import IPagination from '@/interfaces/IPagination';
 
 import SortModel from './SortModel';
 
@@ -12,24 +10,23 @@ export default class FilterQuery {
   id?: string;
   col = '';
   value = '';
-  filterModels: IFilterModel[] = [];
-  sortModels: ISortModel[] = [];
-  pagination: IPagination = new Pagination();
+  filterModels: FilterModel[] = [];
+  sortModels: SortModel[] = [];
+  sortModel: SortModel | undefined;
+  pagination: Pagination = new Pagination();
   withDeleted = false;
-  offset = 0;
-  limit = 0;
   allLoaded = false;
 
   toUrl(): string {
     // const offset = `offset=${this.pagination.offset}`;
     // const limit = `limit=${this.pagination.limit}`;
-    const filterModels = this.filterModels?.map((filterModel: IFilterModel) => {
+    const filterModels = this.filterModels?.map((filterModel: FilterModel) => {
       return `filterModel=${JSON.stringify(filterModel)}`;
     });
-    const sortModels = this.sortModels.map((sortModels: ISortModel) => {
+    const sortModels = this.sortModels.map((sortModels: SortModel) => {
       return `sortModel=${JSON.stringify(sortModels)}`;
     });
-
+    sortModels.push(`sortModel=${JSON.stringify(this.sortModel)}`);
     const pagination = `pagination=${JSON.stringify(this.pagination)}`;
     // const cursor = `operator=${JSON.stringify(this.pagination)}`;
 
@@ -44,76 +41,61 @@ export default class FilterQuery {
   }
 
   toUrlQuery(): string {
-    let filterModelsUrlQuery = '';
+    let url = '';
+
+    url += 's=';
+    url += this.sortModel?.toUrlQuery();
+
+    url += 'p=';
+    url += this.pagination.toUrlQuery();
+
+    let filterModelsUrlQuery = 'f=';
     this.filterModels.forEach((fm, i) => {
       if (i !== 0) {
         filterModelsUrlQuery += '&';
       }
       filterModelsUrlQuery += fm.toUrlQuery();
     });
-
-    let sortModelsUrlQuery = '';
-    this.sortModels.forEach((sm, i) => {
-      if (i !== 0) {
-        sortModelsUrlQuery += '&';
-      }
-      sortModelsUrlQuery += sm.toUrlQuery();
-    });
-    //
-    let url = '?';
-    Object.keys(this).forEach((el, i) => {
-      const value = this[el as keyof typeof this];
-      const isObj = typeof this[el as keyof typeof this] == 'object';
-      if (value && !isObj) {
-        if (i !== 0 && url !== '?') {
-          url += '&';
-        }
-        url += `${el}=${value}`;
-      }
-    });
-    if (this.filterModels.length) {
-      if (url !== '?') {
-        url += '&';
-      }
-      url += `${filterModelsUrlQuery}`;
-    }
-    if (this.sortModels.length) {
-      if (url !== '?') {
-        url += '&';
-      }
-      url += `${sortModelsUrlQuery}`;
-    }
-    url += this.pagination.toUrlQuery();
-    return url + sortModelsUrlQuery;
+    console.log(filterModelsUrlQuery);
+    url += filterModelsUrlQuery;
+    return url;
   }
 
-  fromUrlQuery(obj: LocationQuery): void {
+  async fromUrlQuery(obj: LocationQuery): Promise<void> {
     // Bugged
-    // this.pagination.fromUrlQuery(obj);
+    this.pagination.fromUrlQuery(obj);
+    if (!this.pagination.limit || !this.pagination.offset) {
+      this.pagination.limit = 25;
+    }
     // ----------
     // Fore one sortModel. Bugged too
     const sortModel = new SortModel();
-    sortModel.fromUrlQuery(obj);
-    this.sortModels = [sortModel];
+    await sortModel.fromUrlQuery(obj);
+    if (sortModel.model) {
+      this.setSortModel(sortModel);
+    }
+
+    // this.sortModel = sortModel;
+    // this.sortModels = [sortModel];
     // ----------
-    if (obj.value) {
-      this.value = String(obj.value);
-    }
-    if (obj.col) {
-      this.col = String(obj.col);
-    }
-    if (obj.withDeleted !== undefined) {
-      this.withDeleted = Boolean(obj.withDeleted);
-    }
-    if (obj.offset) {
-      this.offset = Number(obj.offset);
-    }
-    if (obj.limit) {
-      this.limit = Number(obj.limit);
-    }
-    if (obj.allLoaded !== undefined) {
-      this.allLoaded = Boolean(obj.allLoaded);
-    }
+    // if (obj.value) {
+    //   this.value = String(obj.value);
+    // }
+    // if (obj.col) {
+    //   this.col = String(obj.col);
+    // }
+    // if (obj.withDeleted !== undefined) {
+    //   this.withDeleted = Boolean(obj.withDeleted);
+    // }
+    // if (obj.offset) {
+    //   this.offset = Number(obj.offset);
+    // }
+    // if (obj.limit) {
+    //   this.limit = Number(obj.limit);
+    // }
+    // if (obj.allLoaded !== undefined) {
+    //   this.allLoaded = Boolean(obj.allLoaded);
+    // }
   }
 
   setAllLoaded(loadedItemsLength: number): void {
@@ -130,7 +112,7 @@ export default class FilterQuery {
 
   setCursorPagination(schema: unknown, object: Record<string, unknown>): void {
     const s = schema as Record<string, unknown>;
-    const sortModel = this.sortModels.find((s: ISortModel) => s.id);
+    const sortModel = this.sortModels.find((s: SortModel) => s.id);
     if (!sortModel) {
       return;
     }
@@ -147,5 +129,12 @@ export default class FilterQuery {
         break;
       }
     }
+  }
+
+  setSortModel(sortModel: SortModel) {
+    if (this.sortModel) {
+      return;
+    }
+    this.sortModel = sortModel;
   }
 }

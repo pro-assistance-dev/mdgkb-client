@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const VacancyResponsesSortsLib = (() => {
-  function byDate(order?: Orders): ISortModel {
+  function byDate(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancyResponse.tableName,
       Provider.schema.value.vacancyResponse.date,
@@ -14,7 +13,7 @@ const VacancyResponsesSortsLib = (() => {
     );
   }
 
-  function byTitle(order?: Orders): ISortModel {
+  function byTitle(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancyResponse.tableName,
       Provider.schema.value.vacancyResponse.title,
@@ -24,7 +23,7 @@ const VacancyResponsesSortsLib = (() => {
     );
   }
 
-  function byUserFullName(order?: Orders): ISortModel {
+  function byUserFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancyResponse.tableName,
       Provider.schema.value.vacancyResponse.fullName,
@@ -33,7 +32,7 @@ const VacancyResponsesSortsLib = (() => {
     );
   }
 
-  function byUserEmail(order?: Orders): ISortModel {
+  function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancyResponse.tableName,
       Provider.schema.value.vacancyResponse.email,

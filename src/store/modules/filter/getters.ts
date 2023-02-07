@@ -1,5 +1,6 @@
 import { GetterTree } from 'vuex';
 
+import SortModel from '@/classes/filters/SortModel';
 import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import RootState from '@/store/types';
@@ -34,7 +35,12 @@ const getters: GetterTree<State, RootState> = {
   setDefaultSortModel(state): boolean {
     return state.setDefaultSortModel;
   },
-  sortModel(state): ISortModel {
+  sortModel(state): SortModel {
+    console.log(state.filterQuery.sortModels);
+    const selected = state.filterQuery.sortModels.find((s: SortModel) => s.selected);
+    if (selected) {
+      return selected;
+    }
     return state.filterQuery.sortModels[0];
   },
 };

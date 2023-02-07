@@ -1,10 +1,9 @@
 import { computed, ComputedRef, Ref, ref } from 'vue';
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import ISchema from '@/interfaces/schema/ISchema';
 
 import router from '../router';
@@ -17,8 +16,8 @@ const Provider = (() => {
   const mounted: Ref<boolean> = ref(false);
   const form = ref();
   const schema: Ref<ISchema> = computed(() => s.getters['meta/schema']);
-  const filterQuery: ComputedRef<IFilterQuery> = computed(() => s.getters['filter/filterQuery']);
-  const sortList: Ref<ISortModel[]> = ref([]);
+  const filterQuery: ComputedRef<FilterQuery> = computed(() => s.getters['filter/filterQuery']);
+  const sortList: Ref<SortModel[]> = ref([]);
 
   function filterQueryToUrl(): void {
     filterQuery.value.toUrlQuery;
@@ -35,11 +34,11 @@ const Provider = (() => {
     models.forEach((model: IFilterModel) => setFilterModel(model));
   }
 
-  function setSortList(...models: ISortModel[]): void {
+  function setSortList(...models: SortModel[]): void {
     sortList.value = models;
   }
 
-  function setSortModel(model: ISortModel): void {
+  function setSortModel(model: SortModel): void {
     s.commit('filter/setSortModel', model);
   }
 
@@ -47,8 +46,8 @@ const Provider = (() => {
     s.commit(`filter/resetQueryFilter`);
   }
 
-  function setSortModels(...models: ISortModel[]): void {
-    models.forEach((model: ISortModel) => setSortModel(model));
+  function setSortModels(...models: SortModel[]): void {
+    models.forEach((model: SortModel) => setSortModel(model));
   }
 
   function setLimit(limit: number): void {

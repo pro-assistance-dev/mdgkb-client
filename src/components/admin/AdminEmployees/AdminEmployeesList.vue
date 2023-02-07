@@ -5,7 +5,7 @@
       <FiltersList :models="createGenderFilterModels()" @load="loadEmployees" />
     </template>
     <template #sort>
-      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadEmployees" />
+      <SortList :max-width="400" @load="loadEmployees" />
     </template>
     <el-table :data="employees" :border="false">
       <el-table-column label="ФИО" sortable>
@@ -38,13 +38,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
+import SortList from '@/components/SortList/SortListV2.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
@@ -66,21 +66,13 @@ export default defineComponent({
     const loadEmployees = async () => {
       await Provider.store.dispatch('employees/getAllWithCount', Provider.filterQuery.value);
     };
-
-    watch(
-      Provider.filterQuery.value,
-      async () => {
-        const routeQuery = Provider.filterQuery.value.toUrlQuery();
-        await Provider.router.replace(Provider.route().path + routeQuery);
-      },
-      { deep: true }
-    );
-
+    // http://localhost:8080/admin/employees?q=?s=model=employee&col=fullName&label=%D0%9F%D0%BE+%D0%A4%D0%98%D0%9E+(%D0%BF%D0%BE+%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B0%D0%BD%D0%B8%D1%8E)&default=true&version=v2&id=b7387e54-564c-4944-9fc2-9309b84eca75&order=asc|
     const load = async () => {
-      Provider.setSortList(...createSortModels(EmployeesSortsLib));
-      Provider.setSortModels(EmployeesSortsLib.byFullName(Orders.Asc));
+      await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
+      Provider.filterQuery.value.setSortModel(EmployeesSortsLib.byFullName(Orders.Asc));
       await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
+
+      Provider.setSortList(...createSortModels(EmployeesSortsLib));
       await loadEmployees();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Врачи',

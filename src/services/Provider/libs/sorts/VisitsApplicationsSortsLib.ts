@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const VisitsApplicationsSortsLib = (() => {
-  function byCreatedAt(order?: Orders): ISortModel {
+  function byCreatedAt(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.visitsApplication.tableName,
       Provider.schema.value.visitsApplication.createdAt,
@@ -13,7 +12,7 @@ const VisitsApplicationsSortsLib = (() => {
       order === Orders.Desc ? true : false
     );
   }
-  function byChildFullName(order?: Orders): ISortModel {
+  function byChildFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.visitsApplication.tableName,
       Provider.schema.value.visitsApplication.childFullName,
@@ -22,7 +21,7 @@ const VisitsApplicationsSortsLib = (() => {
     );
   }
 
-  function byUserEmail(order?: Orders): ISortModel {
+  function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.visitsApplication.tableName,
       Provider.schema.value.visitsApplication.email,
@@ -31,7 +30,7 @@ const VisitsApplicationsSortsLib = (() => {
     );
   }
 
-  function byGateName(order?: Orders): ISortModel {
+  function byGateName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.visitsApplication.tableName,
       Provider.schema.value.visitsApplication.gateName,
@@ -40,7 +39,7 @@ const VisitsApplicationsSortsLib = (() => {
     );
   }
 
-  function byDivisionName(order?: Orders): ISortModel {
+  function byDivisionName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.visitsApplication.tableName,
       Provider.schema.value.visitsApplication.divisionName,

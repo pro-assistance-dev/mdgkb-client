@@ -44,6 +44,7 @@ const Hooks = (() => {
 
       Provider.store.commit('admin/closeLoading');
       Provider.mounted.value = true;
+      console.log('end');
     });
   };
 

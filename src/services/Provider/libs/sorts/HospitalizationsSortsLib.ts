@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const HospitalizationsSortsLib = (() => {
-  function byCreatedAt(order?: Orders): ISortModel {
+  function byCreatedAt(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.hospitalization.tableName,
       Provider.schema.value.hospitalization.createdAt,
@@ -13,7 +12,7 @@ const HospitalizationsSortsLib = (() => {
       order === Orders.Desc ? true : false
     );
   }
-  function byApprovingDate(order?: Orders): ISortModel {
+  function byApprovingDate(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.hospitalization.tableName,
       Provider.schema.value.hospitalization.approvingDate,
@@ -23,7 +22,7 @@ const HospitalizationsSortsLib = (() => {
     );
   }
 
-  function byUserFullName(order?: Orders): ISortModel {
+  function byUserFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.hospitalization.tableName,
       Provider.schema.value.hospitalization.fullName,
@@ -32,7 +31,7 @@ const HospitalizationsSortsLib = (() => {
     );
   }
 
-  function byUserEmail(order?: Orders): ISortModel {
+  function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.hospitalization.tableName,
       Provider.schema.value.hospitalization.email,

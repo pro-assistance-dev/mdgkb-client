@@ -2,8 +2,8 @@ import { MutationTree } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import Pagination from '@/classes/filters/Pagination';
+import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 
 import { State } from './state';
 
@@ -56,15 +56,15 @@ const mutations: MutationTree<State> = {
   resetFilterModels(state) {
     state.filterQuery.filterModels = [];
   },
-  replaceSortModel(state, sortModel: ISortModel) {
+  replaceSortModel(state, sortModel: SortModel) {
     state.filterQuery.sortModels = [];
     state.filterQuery.sortModels.push(sortModel);
   },
-  addSortModels(state, sortModels: ISortModel[]) {
+  addSortModels(state, sortModels: SortModel[]) {
     state.sortModels = sortModels;
   },
-  setSortModel(state, sortModel: ISortModel) {
-    let item = state.filterQuery.sortModels.find((i: ISortModel) => i.id === sortModel.id);
+  setSortModel(state, sortModel: SortModel) {
+    let item = state.filterQuery.sortModels.find((i: SortModel) => i.id === sortModel.id);
     if (item) {
       item = sortModel;
     } else {
@@ -72,7 +72,7 @@ const mutations: MutationTree<State> = {
     }
   },
   spliceSortModel(state, id: string) {
-    const index = state.filterQuery.sortModels.findIndex((i: ISortModel) => i.id === id);
+    const index = state.filterQuery.sortModels.findIndex((i: SortModel) => i.id === id);
     if (index > -1) state.filterQuery.sortModels.splice(index, 1);
   },
   spliceFilterModel(state, id: string) {
@@ -88,7 +88,7 @@ const mutations: MutationTree<State> = {
     if (state.filterQuery.sortModels.length > 0) {
       return;
     }
-    const defaultSort = state.sortModels.find((sortModel: ISortModel) => sortModel.default);
+    const defaultSort = state.sortModels.find((sortModel: SortModel) => sortModel.default);
     if (defaultSort) {
       state.filterQuery.sortModels.push(defaultSort);
     }

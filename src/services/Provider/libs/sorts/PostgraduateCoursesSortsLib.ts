@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 export default (() => {
-  function byName(order?: Orders): ISortModel {
+  function byName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.postgraduateCourse.tableName,
       Provider.schema.value.postgraduateCourse.name,
@@ -14,7 +13,7 @@ export default (() => {
     );
   }
 
-  function byYears(order?: Orders): ISortModel {
+  function byYears(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.postgraduateCourse.tableName,
       Provider.schema.value.postgraduateCourse.years,
@@ -24,7 +23,7 @@ export default (() => {
     );
   }
 
-  function byCode(order?: Orders): ISortModel {
+  function byCode(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.postgraduateCourse.tableName,
       Provider.schema.value.postgraduateCourse.code,
@@ -34,7 +33,7 @@ export default (() => {
     );
   }
 
-  function byCost(order?: Orders): ISortModel {
+  function byCost(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.postgraduateCourse.tableName,
       Provider.schema.value.postgraduateCourse.cost,

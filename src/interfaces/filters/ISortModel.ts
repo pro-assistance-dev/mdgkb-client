@@ -12,5 +12,7 @@ export default interface ISortModel {
   isAsc: () => boolean;
   isDesc: () => boolean;
   toUrlQuery: () => string;
-  fromUrlQuery: (obj: LocationQuery) => void;
+  fromUrlQuery: (query: LocationQuery) => void;
+  model: string;
+  version: string;
 }
