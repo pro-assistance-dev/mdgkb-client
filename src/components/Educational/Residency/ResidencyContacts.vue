@@ -47,7 +47,7 @@
     </div>
     <div class="map-data">
       <div class="map-container">
-        <YandexMapComponent />
+        <YandexMapComponent :coords="coords" />
       </div>
     </div>
   </div>
@@ -95,12 +95,13 @@ export default defineComponent({
   components: { YandexMapComponent },
   setup() {
     const mounted = ref(false);
+    const coords = [55.72606343239642, 37.61780868792668];
 
     onMounted(async () => {
       mounted.value = true;
     });
 
-    return { mounted };
+    return { mounted, coords };
   },
 });
 </script>
