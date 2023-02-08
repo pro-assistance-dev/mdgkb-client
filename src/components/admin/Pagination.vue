@@ -38,7 +38,7 @@ export default defineComponent({
     );
     const curPage: ComputedRef<number> = computed(() => Provider.store.getters['pagination/curPage']);
 
-    const currentChange = (pageNum: number) => {
+    const currentChange = async (pageNum: number) => {
       if (prop.showConfirm) {
         ElMessageBox.confirm('У вас есть несохранённые изменения', 'Вы уверены, что хотите покинуть страницу?', {
           distinguishCancelAndClose: true,
@@ -48,24 +48,24 @@ export default defineComponent({
           .then(async () => {
             // Вызывается при сохранении
             emit('save');
-            setPage(pageNum);
+            await setPage(pageNum, true);
           })
-          .catch((action: string) => {
+          .catch(async (action: string) => {
             if (action === 'cancel') {
               ElMessage({
                 type: 'warning',
                 message: 'Изменения не были сохранены',
               });
               emit('cancel');
-              setPage(pageNum);
+              await setPage(pageNum, true);
             }
             return;
           });
       } else {
-        setPage(pageNum);
+        await setPage(pageNum, true);
       }
     };
-    const setPage = async (pageNum: number): Promise<void> => {
+    const setPage = async (pageNum: number, load: boolean): Promise<void> => {
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',
@@ -73,7 +73,9 @@ export default defineComponent({
       Provider.store.commit('pagination/setCurPage', pageNum);
       Provider.store.commit('filter/setOffset', pageNum - 1);
       await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
-      await Provider.store.dispatch(`${storeModule}/${action}`, Provider.filterQuery.value);
+      if (load) {
+        await Provider.store.dispatch(`${storeModule}/${action}`, Provider.filterQuery.value);
+      }
       const table = document.querySelector('.el-table__body-wrapper');
       const list = document.querySelector('#list');
       if (table) {
@@ -91,7 +93,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       const p = Provider.filterQuery.value.pagination.offset / Provider.filterQuery.value.pagination.limit;
-      await setPage(p + 1);
+      await setPage(p + 1, false);
     });
 
     return {

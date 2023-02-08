@@ -188,13 +188,13 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } fro
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import PageSection from '@/classes/PageSection';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IForm from '@/interfaces/IForm';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -221,7 +221,7 @@ export default defineComponent({
     const form = ref();
 
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const postgraduateCourse: ComputedRef<IPostgraduateCourse> = computed<IPostgraduateCourse>(
       () => store.getters['postgraduateCourses/item']
     );

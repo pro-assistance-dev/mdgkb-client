@@ -1,9 +1,10 @@
+import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 
 export interface State {
   trigger: string;
-  filterQuery: IFilterQuery;
+  filterQuery: FilterQuery;
   storeModule: string;
   action: string;
   sortModels: SortModel[];

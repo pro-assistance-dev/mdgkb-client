@@ -37,6 +37,11 @@ export default defineComponent({
       selectedFilterModel.value = emptyFilterModel.value;
     };
     onBeforeMount((): void => {
+      const findedModel = props.models?.find((m: FilterModel) => Provider.filterQuery.value.findFilterModel(m));
+      if (findedModel) {
+        selectedFilterModel.value = findedModel;
+        return;
+      }
       setDefaultFilterModel();
     });
 

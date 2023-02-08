@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IForm from '@/interfaces/IForm';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -13,7 +13,7 @@ const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
     commit('setAll', await httpClient.get<IForm[]>());
   },
-  get: async ({ commit }, filterQuery: IFilterQuery) => {
+  get: async ({ commit }, filterQuery: FilterQuery) => {
     commit('set', await httpClient.get<IForm>({ query: `get${filterQuery.toUrl()}` }));
   },
   create: async ({ state }): Promise<void> => {

@@ -53,7 +53,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'vacancyResponses', action: 'getAll' },
-      sortModels: [],
     });
 
     return {

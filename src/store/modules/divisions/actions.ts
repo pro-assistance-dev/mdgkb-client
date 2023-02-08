@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDivision from '@/interfaces/IDivision';
 import IDivisionComment from '@/interfaces/IDivisionComment';
 import IDivisionImage from '@/interfaces/IDivisionImage';
@@ -14,10 +14,10 @@ import { State } from './state';
 const httpClient = new HttpClient('divisions');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const item = await httpClient.get<IDivisionsWithCount>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(item ? item.divisions.length : 0);
+      filterQuery.pagination.setAllLoaded(item ? item.divisions.length : 0);
     }
     if (filterQuery && filterQuery.pagination.append) {
       commit('appendToAll', item);
@@ -25,7 +25,7 @@ const actions: ActionTree<State, RootState> = {
     }
     commit('setAll', item);
   },
-  get: async ({ commit }, filterQuery: IFilterQuery) => {
+  get: async ({ commit }, filterQuery: FilterQuery) => {
     commit('set', await httpClient.get<IDivision>({ query: `get${filterQuery.toUrl()}` }));
   },
   create: async ({ commit }, division: IDivision): Promise<void> => {

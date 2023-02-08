@@ -10,6 +10,7 @@ export default class Pagination {
   cursor: Cursor = new Cursor();
   cursorMode = false;
   append = false;
+  allLoaded = false;
 
   setLoadMore(lastCursor: string, column: string, table: string): void {
     this.cursor.value = lastCursor;
@@ -60,5 +61,12 @@ export default class Pagination {
     const params = new URLSearchParams(decodeURIComponent(sormModelString));
     this.offset = Number(params.get('offset'));
     this.limit = Number(params.get('col'));
+  }
+
+  setAllLoaded(loadedItemsLength: number): void {
+    this.allLoaded = !(loadedItemsLength >= this.limit);
+  }
+  resetAllLoaded(): void {
+    this.allLoaded = false;
   }
 }

@@ -15,25 +15,28 @@ export default class FilterQuery {
   sortModel: SortModel | undefined;
   pagination: Pagination = new Pagination();
   withDeleted = false;
-  allLoaded = false;
 
   toUrl(): string {
-    // const offset = `offset=${this.pagination.offset}`;
-    // const limit = `limit=${this.pagination.limit}`;
     const filterModels = this.filterModels?.map((filterModel: FilterModel) => {
       return `filterModel=${JSON.stringify(filterModel)}`;
     });
     const sortModels = this.sortModels.map((sortModels: SortModel) => {
       return `sortModel=${JSON.stringify(sortModels)}`;
     });
-    sortModels.push(`sortModel=${JSON.stringify(this.sortModel)}`);
+    if (this.sortModel) {
+      sortModels.push(`sortModel=${JSON.stringify(this.sortModel)}`);
+    }
     const pagination = `pagination=${JSON.stringify(this.pagination)}`;
-    // const cursor = `operator=${JSON.stringify(this.pagination)}`;
 
     const withDeleted = `withDeleted=${this.withDeleted}`;
-    const col = `col=${this.col}`;
-    const value = `value=${this.value}`;
-    let url = `?${[...filterModels, ...sortModels, withDeleted, pagination, col, value].join('&')}`;
+    const all = [...filterModels, ...sortModels, withDeleted, pagination];
+    if (this.col) {
+      all.push(`col=${this.col}`);
+    }
+    if (this.value) {
+      all.push(`value=${this.value}`);
+    }
+    let url = `?${all.join('&')}`;
     if (this.id) {
       url = `${this.id}${url}`;
     }
@@ -42,67 +45,46 @@ export default class FilterQuery {
 
   toUrlQuery(): string {
     let url = '';
-
     url += 's=';
     url += this.sortModel?.toUrlQuery();
-
     url += 'p=';
     url += this.pagination.toUrlQuery();
 
     let filterModelsUrlQuery = 'f=';
     this.filterModels.forEach((fm, i) => {
       if (i !== 0) {
-        filterModelsUrlQuery += '&';
+        filterModelsUrlQuery += ',';
       }
       filterModelsUrlQuery += fm.toUrlQuery();
     });
-    console.log(filterModelsUrlQuery);
     url += filterModelsUrlQuery;
     return url;
   }
 
   async fromUrlQuery(obj: LocationQuery): Promise<void> {
-    // Bugged
     this.pagination.fromUrlQuery(obj);
     if (!this.pagination.limit || !this.pagination.offset) {
       this.pagination.limit = 25;
     }
-    // ----------
-    // Fore one sortModel. Bugged too
+
     const sortModel = new SortModel();
     await sortModel.fromUrlQuery(obj);
     if (sortModel.model) {
       this.setSortModel(sortModel);
     }
 
-    // this.sortModel = sortModel;
-    // this.sortModels = [sortModel];
-    // ----------
-    // if (obj.value) {
-    //   this.value = String(obj.value);
-    // }
-    // if (obj.col) {
-    //   this.col = String(obj.col);
-    // }
-    // if (obj.withDeleted !== undefined) {
-    //   this.withDeleted = Boolean(obj.withDeleted);
-    // }
-    // if (obj.offset) {
-    //   this.offset = Number(obj.offset);
-    // }
-    // if (obj.limit) {
-    //   this.limit = Number(obj.limit);
-    // }
-    // if (obj.allLoaded !== undefined) {
-    //   this.allLoaded = Boolean(obj.allLoaded);
-    // }
-  }
+    const str = window.location.search;
+    const filterModels = str.substring(str.indexOf('f=') + 2, str.lastIndexOf('|'));
+    const modelsStrings = filterModels.split(',');
+    const params = modelsStrings.map((m) => new URLSearchParams(decodeURIComponent(m)));
 
-  setAllLoaded(loadedItemsLength: number): void {
-    this.allLoaded = !(loadedItemsLength >= this.pagination.limit);
-  }
-  resetAllLoaded(): void {
-    this.allLoaded = false;
+    params.forEach((p: URLSearchParams) => {
+      const fm = new FilterModel();
+      fm.fromUrlQuery(p);
+      if (fm.col) {
+        this.filterModels.push(fm);
+      }
+    });
   }
 
   setParams(col: string, value: string): void {
@@ -112,18 +94,18 @@ export default class FilterQuery {
 
   setCursorPagination(schema: unknown, object: Record<string, unknown>): void {
     const s = schema as Record<string, unknown>;
-    const sortModel = this.sortModels.find((s: SortModel) => s.id);
-    if (!sortModel) {
+    // const sortModel = this.sortModels.find((s: SortModel) => s.id);
+    if (!this.sortModel) {
       return;
     }
     for (const p in s) {
-      if (s[p] === sortModel.col) {
+      if (s[p] === this.sortModel.col) {
         if (p === 'sortColumn') {
           continue;
         }
-        this.pagination.cursor.column = sortModel.col;
+        this.pagination.cursor.column = this.sortModel.col;
         this.pagination.cursor.value = String(object[p]);
-        this.pagination.cursor.operation = sortModel.isAsc() ? Operators.Gt : Operators.Lt;
+        this.pagination.cursor.operation = this.sortModel.isAsc() ? Operators.Gt : Operators.Lt;
         this.pagination.cursorMode = true;
         this.pagination.cursor.initial = false;
         break;
@@ -136,5 +118,15 @@ export default class FilterQuery {
       return;
     }
     this.sortModel = sortModel;
+  }
+
+  findFilterModel(m: FilterModel): FilterModel | undefined {
+    return this.filterModels.find((f: FilterModel) => {
+      if (f.model === m.model && f.label === m.label && f.col === m.col && f.operator === m.operator) {
+        if (f.value1 === m.value1 || f.boolean === m.boolean) {
+          return true;
+        }
+      }
+    });
   }
 }

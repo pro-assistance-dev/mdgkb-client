@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import ISpecialization from '@/interfaces/ISpecialization';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -10,7 +10,7 @@ import { State } from './state';
 const httpClient = new HttpClient('specializations');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit, state }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<ISpecialization[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     commit('setAll', items);
   },

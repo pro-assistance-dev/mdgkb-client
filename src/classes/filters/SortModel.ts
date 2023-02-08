@@ -6,7 +6,6 @@ import { Orders } from '@/interfaces/filters/Orders';
 import StringsService from '@/services/Strings';
 
 export default class SortModel {
-  id?: string;
   model = '';
   table = '';
   col = '';
@@ -18,7 +17,6 @@ export default class SortModel {
 
   static CreateSortModel(table: string, col: string, order?: Orders, label?: string, defaultModel?: boolean, code?: string): SortModel {
     const model = new SortModel();
-    model.id = uuidv4();
     model.table = table;
     model.col = col;
     model.order = order ?? Orders.Asc;
@@ -36,7 +34,6 @@ export default class SortModel {
     code?: string
   ): SortModel {
     const m = new SortModel();
-    m.id = uuidv4();
     m.model = model;
     m.col = col ?? '';
     m.order = order ?? Orders.Asc;
@@ -77,7 +74,8 @@ export default class SortModel {
     this.col = params.get('col') ?? '';
     this.label = params.get('label') ?? '';
     this.version = params.get('version') ?? '';
-    this.id = params.get('id') ?? '';
+    this.default = Boolean(params.get('default'));
+    // this.id = params.get('id') ?? '';
     this.order = (params.get('order') as Orders) ?? ('' as Orders);
   }
 }

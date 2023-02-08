@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IFavourite from '@/interfaces/IFavourite';
 import IUser from '@/interfaces/IUser';
 import FavouriteService from '@/services/Favourite';
@@ -12,7 +12,7 @@ import { State } from './state';
 const httpClient = new HttpClient('users');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<IUser[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);

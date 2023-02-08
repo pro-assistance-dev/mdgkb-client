@@ -1,7 +1,7 @@
 import SortModel from '@/classes/filters/SortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 
-interface ISortModelBuildersLib {
+export interface ISortModelBuildersLib {
   [key: string]: SortModelBuilder;
 }
 
@@ -16,6 +16,9 @@ export default function createSortModels(lib: ISortModelBuildersLib, mainOrder?:
     sortModels.push(el(firstOrder));
     sortModels.push(el(secondOrder));
   });
+  if (sortModels.length > 0 && !sortModels.some((s: SortModel) => s.default)) {
+    sortModels[0].default = true;
+  }
   if (!mainOrder) {
     return sortModels;
   }
@@ -24,6 +27,5 @@ export default function createSortModels(lib: ISortModelBuildersLib, mainOrder?:
       sortModel.default = sortModel.order === mainOrder;
     }
   });
-
   return sortModels;
 }

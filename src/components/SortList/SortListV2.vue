@@ -2,11 +2,11 @@
   <el-form :style="{ width: '100%', maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
     <el-form-item :label="labelName">
       <el-select
-        v-model="sortModel"
+        v-model="Provider.filterQuery.value.sortModel"
         :popper-append-to-body="false"
         value-key="label"
-        :clearable="!defaultSortOn"
-        :placeholder="sortModel.label"
+        :clearable="!Provider.filterQuery.value.sortModel.default"
+        :placeholder="Provider.filterQuery.value.sortModel.label"
         @change="setSort"
       >
         <el-option v-for="item in sortModels" :key="item.label" :label="item.label" :value="item" />
@@ -18,9 +18,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import Pagination from '@/classes/filters/Pagination';
 import SortModel from '@/classes/filters/SortModel';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import Provider from '@/services/Provider';
 
@@ -43,51 +43,39 @@ export default defineComponent({
   },
   emits: ['load'],
   setup(props, { emit }) {
-    const sortModel: WritableComputedRef<SortModel | undefined> = computed({
-      get(): SortModel | undefined {
-        return Provider.filterQuery.value.sortModel;
-      },
-      set(sortModel: SortModel | undefined): void {
-        if (!sortModel) {
-          return;
-        }
-        Provider.filterQuery.value.sortModel = sortModel;
-      },
-    });
-    const defaultSortOn: Ref<boolean> = ref(false);
     const setDefaultSortModel: Ref<boolean> = computed(() => Provider.store.getters['filter/setDefaultSortModel']);
 
-    const setDefaultSort = () => {
-      const defaultSort = Provider.sortList.value.find((sortModel: SortModel) => sortModel.default);
-      if (defaultSort) {
-        sortModel.value = defaultSort;
-      }
-      defaultSortOn.value = true;
-    };
-
     onBeforeMount((): void => {
-      if (!Provider.filterQuery.value.sortModel) {
-        setDefaultSort();
-      }
+      changeModel(Provider.filterQuery.value.sortModel);
     });
 
     watch(setDefaultSortModel, () => {
-      if (!Provider.filterQuery.value.sortModel) {
-        setDefaultSort();
-      }
+      setSort(undefined);
       emit('load');
     });
 
-    const setSort = async (s: SortModel) => {
+    const dropPagination = (): void => {
       Provider.filterQuery.value.pagination = new Pagination();
-      Provider.filterQuery.value.allLoaded = false;
-      Provider.filterQuery.value.sortModel = s;
+      Provider.filterQuery.value.pagination.allLoaded = false;
       Provider.store.commit('pagination/setCurPage', 1);
+    };
+
+    const changeModel = async (s: SortModel | undefined): Promise<void> => {
+      if (s) {
+        Provider.filterQuery.value.sortModel = s;
+      } else {
+        Provider.setDefaultSortModel();
+      }
       await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       emit('load');
     };
 
-    return { defaultSortOn, setDefaultSortModel, sortModels: Provider.sortList, setSort, sortModel };
+    const setSort = async (s: SortModel | undefined) => {
+      dropPagination();
+      await changeModel(s);
+    };
+
+    return { setDefaultSortModel, sortModels: Provider.sortList, setSort, Provider };
   },
 });
 </script>

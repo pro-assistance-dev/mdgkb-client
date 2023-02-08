@@ -19,8 +19,64 @@ const Provider = (() => {
   const filterQuery: ComputedRef<FilterQuery> = computed(() => s.getters['filter/filterQuery']);
   const sortList: Ref<SortModel[]> = ref([]);
 
-  function filterQueryToUrl(): void {
-    filterQuery.value.toUrlQuery;
+  let storeModule = '';
+  let getAction = '';
+
+  function getItems<T>(): ComputedRef<T> {
+    const items = computed(() => store.getters[storeModule + '/items']);
+    return items;
+  }
+
+  function getStoreModule(): string {
+    return storeModule;
+  }
+
+  async function loadItems(): Promise<void> {
+    return await store.dispatch(`${storeModule}/${getAction}`, filterQuery.value);
+  }
+
+  function setGetAction(action: string): void {
+    getAction = action;
+  }
+
+  function getGetAction(): string {
+    return getAction;
+  }
+
+  async function createAdmin(): Promise<void> {
+    await router.push(`/admin/${storeModule}/new`);
+  }
+
+  async function editAdmin(id: string): Promise<void> {
+    await router.push(`/admin/${storeModule}/${id}`);
+  }
+
+  async function remove(id: string): Promise<void> {
+    return await store.dispatch(`${storeModule}/remove`, id);
+  }
+
+  function getAdminLib() {
+    return {
+      items: getItems(),
+      loadItems,
+      create: createAdmin,
+      edit: editAdmin,
+      remove,
+      mounted: mounted,
+      schema: schema,
+      sortList: sortList,
+    };
+  }
+
+  function setStoreModule(): void {
+    storeModule = route().path.split('/').pop() ?? '';
+  }
+
+  function setDefaultSortModel(): void {
+    const defaultSortModel = sortList.value.find((sortModel: SortModel) => sortModel.default);
+    if (defaultSortModel) {
+      filterQuery.value.sortModel = defaultSortModel;
+    }
   }
 
   async function getAll(module: string): Promise<void> {
@@ -145,6 +201,18 @@ const Provider = (() => {
     route,
     handlerSSE,
     getPath,
+    setDefaultSortModel,
+    //
+    getStoreModule,
+    setStoreModule,
+    setGetAction,
+    getGetAction,
+    getItems,
+    createAdmin,
+    editAdmin,
+    remove,
+    getAdminLib,
+    loadItems,
   };
 })();
 

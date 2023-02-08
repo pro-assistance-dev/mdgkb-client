@@ -126,7 +126,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'dpoCourses', action: 'getAll' },
-      sortModels: [],
     });
 
     const createDpoSortModels = (): ISortModel[] => {

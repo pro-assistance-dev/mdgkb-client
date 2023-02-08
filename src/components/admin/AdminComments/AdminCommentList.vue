@@ -26,6 +26,8 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
+import FilterModel from '@/classes/filters/FilterModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
@@ -33,8 +35,6 @@ import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IComment from '@/interfaces/comments/IComment';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import createSortModels from '@/services/CreateSortModels';
@@ -53,7 +53,7 @@ export default defineComponent({
     const searchString: Ref<string> = ref('');
     let sourceSSE: EventSource | undefined = undefined;
 
-    const load = async (filterQuery: IFilterQuery) => {
+    const load = async (filterQuery: FilterQuery) => {
       Provider.setSortList(...createSortModels(CommentsSortsLib, Orders.Desc));
       Provider.setSortModels(CommentsSortsLib.byPublishedOn(Orders.Desc));
       await Provider.store.dispatch('comments/getAll', filterQuery);
@@ -67,7 +67,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'comments', action: 'getAll' },
-      sortModels: [],
     });
 
     const loadComments = async () => {
@@ -79,7 +78,7 @@ export default defineComponent({
       // await Provider.store.dispatch('comments/unsubscribeCreate');
     });
 
-    const createFilterModels = (): IFilterModel[] => {
+    const createFilterModels = (): FilterModel[] => {
       return [CommentsFiltersLib.onlyNewsComments(), CommentsFiltersLib.onlyDoctorsComments(), CommentsFiltersLib.onlyDivisionsComments()];
     };
 

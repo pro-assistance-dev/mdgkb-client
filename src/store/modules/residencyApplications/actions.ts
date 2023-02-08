@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import Human from '@/classes/Human';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoApplication from '@/interfaces/IDpoApplication';
 import IForm from '@/interfaces/IForm';
 import IResidencyApplication from '@/interfaces/IResidencyApplication';
@@ -16,10 +16,10 @@ const httpClient = new HttpClient('residency-applications');
 let source: EventSource | undefined = undefined;
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const item = await httpClient.get<IResidencyApplicationsWithCount>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(item ? item.residencyApplications.length : 0);
+      filterQuery.pagination.setAllLoaded(item ? item.residencyApplications.length : 0);
     }
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', item);
