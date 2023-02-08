@@ -86,6 +86,7 @@ export default defineComponent({
       if (userId.value) item.comment.userId = userId.value;
       try {
         await store.dispatch(`${prop.storeModule}/createComment`, item);
+        ElMessage({ message: 'Ваш отзыв отправлен и будет опубликован после модерации', type: 'success' });
       } catch (e) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;

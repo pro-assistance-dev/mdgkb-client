@@ -105,6 +105,10 @@ const mutations: MutationTree<State> = {
     });
     state.item.timetable = new Timetable();
   },
+
+  resetComment(state, item: IDoctorComment) {
+    state.comment = new DoctorComment();
+  },
 };
 
 export default mutations;

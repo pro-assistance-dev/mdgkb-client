@@ -169,6 +169,9 @@ const mutations: MutationTree<State> = {
       return item;
     });
   },
+  resetComment(state, item: INewsComment) {
+    state.comment = new NewsComment();
+  },
 };
 
 export default mutations;
