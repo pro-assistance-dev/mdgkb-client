@@ -106,7 +106,7 @@ const actions: ActionTree<State, RootState> = {
   },
   createComment: async ({ commit }, comment: INewsComment): Promise<void> => {
     const res = await httpClient.post<INewsComment, INewsComment>({ query: `comment`, payload: comment });
-    commit('setComment', res);
+    commit('resetComment', res);
   },
   updateComment: async ({ commit }, newComment: INewsComment): Promise<void> => {
     await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });

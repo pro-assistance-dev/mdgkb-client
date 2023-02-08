@@ -44,10 +44,11 @@
           <div class="item">pdo@morozdgkb.ru</div>
         </div>
       </div>
+      <div class="contact-comments">Предварительный заказ пропуска по телефону обязателен!</div>
     </div>
     <div class="map-data">
       <div class="map-container">
-        <YandexMapComponent />
+        <YandexMapComponent :coords="coords" />
       </div>
     </div>
   </div>
@@ -95,12 +96,13 @@ export default defineComponent({
   components: { YandexMapComponent },
   setup() {
     const mounted = ref(false);
+    const coords = [55.72606343239642, 37.61780868792668];
 
     onMounted(async () => {
       mounted.value = true;
     });
 
-    return { mounted };
+    return { mounted, coords };
   },
 });
 </script>
@@ -150,7 +152,7 @@ export default defineComponent({
 }
 
 .contact-data {
-  margin: 15px 30px 0 10px;
+  margin: 15px 30px 0 0px;
   padding-top: 10px;
   min-width: 272px;
   max-width: 272px;
@@ -158,6 +160,19 @@ export default defineComponent({
   border-radius: 5px;
   background: #ffffff;
   max-height: 270px;
+}
+
+.contact-comments {
+  margin: 15px 30px 0 0px;
+  padding: 15px;
+  min-width: 242px;
+  max-width: 242px;
+  border: 1px solid #dee5ef;
+  border-radius: 5px;
+  background: #ffffff;
+  max-height: 270px;
+  color: #e62c21;
+  font-size: 14px;
 }
 
 .contact-data-list {

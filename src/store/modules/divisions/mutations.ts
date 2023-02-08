@@ -169,6 +169,10 @@ const mutations: MutationTree<State> = {
   setParentIdToComment(state, parentId: string) {
     state.comment.divisionId = parentId;
   },
+
+  resetComment(state) {
+    state.comment = new DivisionComment();
+  },
 };
 
 export default mutations;

@@ -8,7 +8,7 @@
   >
     <div class="main-page-reviews">
       <!-- <div class="mobile1"><ReviewCard  v-for="item in reviews" :key="item.id" :item="item" @showMore="showMore(item)" /></div> -->
-      <ReviewCard v-for="item in reviews.splice(0, 3)" :key="item.id" :item="item" @showMore="showMore(item)" />
+      <ReviewCard v-for="item in reviews" :key="item.id" :item="item" @showMore="showMore(item)" />
       <!-- <div class="mobile3"><ReviewCard  v-for="item in reviews.splice(0, 2)" :key="item.id" :item="item" @showMore="showMore(item)" /></div> -->
     </div>
 
