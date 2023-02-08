@@ -124,7 +124,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'dpoApplications', action: 'getAll' },
-      sortModels: [],
     });
 
     const subscribe = async () => {

@@ -134,7 +134,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'visitsApplications', action: 'getAll' },
-      sortModels: [],
     });
 
     const filtersToOptions = (): IOption[] => {

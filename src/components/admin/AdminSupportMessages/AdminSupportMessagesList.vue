@@ -111,7 +111,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'supportMessages', action: 'getAll' },
-      sortModels: [],
     });
 
     onBeforeUnmount(async () => {

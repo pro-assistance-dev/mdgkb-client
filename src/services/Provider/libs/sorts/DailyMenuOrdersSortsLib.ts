@@ -1,5 +1,5 @@
 const DailyMenuOrdersSortsLib = (() => {
-  // function byCreatedAt(order?: Orders): ISortModel {
+  // function byCreatedAt(order?: Orders): SortModel {
   //   return SortModel.CreateSortModel(
   //     Provider.schema.value.dailyMenuOrder.tableName,
   //     Provider.schema.value.dailyMenuOrder.createdAt,
@@ -9,7 +9,7 @@ const DailyMenuOrdersSortsLib = (() => {
   //   );
   // }
   //
-  // function byUserFullName(order?: Orders): ISortModel {
+  // function byUserFullName(order?: Orders): SortModel {
   //   return SortModel.CreateSortModel(
   //     Provider.schema.value.dailyMenuOrder.tableName,
   //     Provider.schema.value.dailyMenuOrder.fullName,
@@ -18,7 +18,7 @@ const DailyMenuOrdersSortsLib = (() => {
   //   );
   // }
   //
-  // function byUserEmail(order?: Orders): ISortModel {
+  // function byUserEmail(order?: Orders): SortModel {
   //   return SortModel.CreateSortModel(
   //     Provider.schema.value.dailyMenuOrder.tableName,
   //     Provider.schema.value.dailyMenuOrder.email,

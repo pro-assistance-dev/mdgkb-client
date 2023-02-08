@@ -18,7 +18,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import Provider from '@/services/Provider';
 
@@ -61,7 +61,7 @@ export default defineComponent({
         Provider.store.commit('filter/replaceSortModel', sortModel);
       },
     });
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
     const mounted: Ref<boolean> = ref(false);
 
     const sortModels: Ref<ISortModel[]> = computed(() => Provider.store.getters['filter/sortModels']);
@@ -100,7 +100,7 @@ export default defineComponent({
 
     const setSort = () => {
       // Provider.filterQuery.value.pagination = new Pagination();
-      Provider.filterQuery.value.allLoaded = false;
+      Provider.filterQuery.value.pagination.allLoaded = false;
       Provider.store.commit('pagination/setCurPage', 1);
       Provider.store.commit('filter/setOffset', 0);
       emit('load');

@@ -10,7 +10,12 @@ const StringsService = (() => {
     return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
   }
 
+  function getStringBetweenChars(str: string, first: string, two: string): string {
+    return str.substring(str.indexOf(first) + 2, str.lastIndexOf(two));
+  }
+
   return {
+    getStringBetweenChars,
     toCamelCase,
     capitalizeString,
   };

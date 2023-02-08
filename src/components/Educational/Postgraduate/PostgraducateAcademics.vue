@@ -10,9 +10,9 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
 import AcademicCard from '@/components/Educational/AcademicCard.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import { Orders } from '@/interfaces/filters/Orders';
 import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
 import ISchema from '@/interfaces/schema/ISchema';
@@ -23,7 +23,7 @@ export default defineComponent({
   setup() {
     const mounted = ref(false);
     const store = useStore();
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const educationalOrganisationAcademics: Ref<IEducationalOrganizationAcademic[]> = computed(
       () => store.getters['educationalOrganizationAcademics/items']

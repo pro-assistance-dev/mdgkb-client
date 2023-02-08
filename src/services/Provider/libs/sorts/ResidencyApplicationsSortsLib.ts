@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const ResidencyApplicationsSortsLib = (() => {
-  function byCreatedAt(order?: Orders): ISortModel {
+  function byCreatedAt(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.createdAt,
@@ -13,7 +12,7 @@ const ResidencyApplicationsSortsLib = (() => {
       order === Orders.Desc ? true : false
     );
   }
-  function byApprovingDate(order?: Orders): ISortModel {
+  function byApprovingDate(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.approvingDate,
@@ -23,7 +22,7 @@ const ResidencyApplicationsSortsLib = (() => {
     );
   }
 
-  function byUserFullName(order?: Orders): ISortModel {
+  function byUserFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.fullName,
@@ -32,7 +31,7 @@ const ResidencyApplicationsSortsLib = (() => {
     );
   }
 
-  function byUserEmail(order?: Orders): ISortModel {
+  function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.email,
@@ -41,7 +40,7 @@ const ResidencyApplicationsSortsLib = (() => {
     );
   }
 
-  function byCourseName(order?: Orders): ISortModel {
+  function byCourseName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.courseName,
@@ -50,7 +49,7 @@ const ResidencyApplicationsSortsLib = (() => {
     );
   }
 
-  function byPointsAchievements(order?: Orders): ISortModel {
+  function byPointsAchievements(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.pointsAchievements,
@@ -59,7 +58,7 @@ const ResidencyApplicationsSortsLib = (() => {
     );
   }
 
-  function byPointsEntrance(order?: Orders): ISortModel {
+  function byPointsEntrance(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.pointsEntrance,
@@ -68,7 +67,7 @@ const ResidencyApplicationsSortsLib = (() => {
     );
   }
 
-  function byPointsSum(order?: Orders): ISortModel {
+  function byPointsSum(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.residencyApplication.tableName,
       Provider.schema.value.residencyApplication.pointsSum,

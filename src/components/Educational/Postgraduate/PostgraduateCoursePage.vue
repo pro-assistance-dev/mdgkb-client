@@ -159,9 +159,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import PostgraduateApplicationForm from '@/components/Educational/Postgraduate/PostgraduateApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/services/brandColors';
@@ -172,7 +172,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const postgraduateCourse: Ref<IPostgraduateCourse> = computed<IPostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
     const mounted: Ref<boolean> = ref(false);

@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import ISupportMessage from '@/interfaces/ISupportMessage';
 import ISupportMessagesWithCount from '@/interfaces/ISupportMessagesWithCount';
 import INews from '@/interfaces/news/INews';
@@ -13,11 +13,11 @@ const httpClient = new HttpClient('support-messages');
 // eslint-disable-next-line prefer-const
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery: FilterQuery): Promise<void> => {
     const items = await httpClient.get<ISupportMessagesWithCount>({ query: filterQuery.toUrl() });
     if (filterQuery && filterQuery.pagination.append) {
       commit('appendToAll', items);
-      filterQuery.setAllLoaded(items ? items.supportMessages.length : 0);
+      filterQuery.pagination.setAllLoaded(items ? items.supportMessages.length : 0);
       return;
     }
     commit('setAll', items);

@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IFileInfosGetter from '@/interfaces/IFileInfosGetter';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import IWithId from '@/interfaces/IWithId';
@@ -12,16 +12,16 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
 ): ActionTree<StateType, RootState> {
   const httpClient = new HttpClient(endPoint);
   return {
-    getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
       const items = await httpClient.get<T[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
       if (filterQuery && filterQuery.pagination.append) {
         commit('appendToAll', items);
-        filterQuery.setAllLoaded(items ? items.length : 0);
+        filterQuery.pagination.setAllLoaded(items ? items.length : 0);
         return;
       }
       commit('setAll', items);
     },
-    getAllWithCount: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+    getAllWithCount: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
       commit('setAllWithCount', await httpClient.get<ItemsWithCount<T>[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
     },
     get: async ({ commit }, id: string) => {

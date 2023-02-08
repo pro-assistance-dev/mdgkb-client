@@ -91,7 +91,6 @@ export default defineComponent({
     PageWrapper,
     FiltersWrapper,
   },
-
   setup() {
     const comments: Ref<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
     const showDialog: Ref<boolean> = ref(false);
@@ -111,7 +110,7 @@ export default defineComponent({
     };
 
     const loadComments = async () => {
-      Provider.filterQuery.value.allLoaded = false;
+      Provider.filterQuery.value.pagination.allLoaded = false;
       Provider.store.commit('comments/clearComments');
       await Provider.getAll('comments');
     };

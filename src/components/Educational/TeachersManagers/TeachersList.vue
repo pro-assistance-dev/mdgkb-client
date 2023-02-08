@@ -14,9 +14,9 @@
 import { computed, ComputedRef, defineComponent, Ref } from 'vue';
 import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ITeacher from '@/interfaces/ITeacher';
 import ISchema from '@/interfaces/schema/ISchema';
 
@@ -29,7 +29,7 @@ export default defineComponent({
 
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     const loadMore = async () => {
       const lastCursor = teachers.value[teachers.value.length - 1].employee.human.getFullName();

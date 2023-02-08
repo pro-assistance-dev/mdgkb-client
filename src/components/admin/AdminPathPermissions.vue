@@ -81,11 +81,11 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
 import { RouteRecordNormalized } from 'vue-router';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import PathPermission from '@/classes/PathPermission';
 import Role from '@/classes/Role';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IPathPermission from '@/interfaces/IPathPermission';
@@ -134,7 +134,7 @@ export default defineComponent({
     const filteredRoles: Ref<IRole[]> = ref([]);
     const chosenRole: Ref<IRole> = ref(new Role());
     const permissions: Ref<IPathPermission[]> = ref([]);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => Provider.store.getters['meta/schema']);
 
     const loadPaths = async () => {

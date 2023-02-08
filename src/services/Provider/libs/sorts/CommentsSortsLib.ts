@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const CommentsSortsLib = (() => {
-  function byPublishedOn(order?: Orders): ISortModel {
+  function byPublishedOn(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.comment.tableName,
       Provider.schema.value.comment.publishedOn,
@@ -14,7 +13,7 @@ const CommentsSortsLib = (() => {
     );
   }
 
-  function byRating(order?: Orders): ISortModel {
+  function byRating(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.comment.tableName,
       Provider.schema.value.comment.rating,

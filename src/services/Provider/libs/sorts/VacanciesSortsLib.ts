@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const VacanciesSortsLib = (() => {
-  function byTitle(order?: Orders): ISortModel {
+  function byTitle(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.title,
@@ -14,7 +13,7 @@ const VacanciesSortsLib = (() => {
     );
   }
 
-  function byMinSalary(order?: Orders): ISortModel {
+  function byMinSalary(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.minSalary,
@@ -24,7 +23,7 @@ const VacanciesSortsLib = (() => {
     );
   }
 
-  function byMaxSalary(order?: Orders): ISortModel {
+  function byMaxSalary(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.maxSalary,
@@ -34,7 +33,7 @@ const VacanciesSortsLib = (() => {
     );
   }
 
-  function byDate(order?: Orders): ISortModel {
+  function byDate(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.date,
@@ -44,7 +43,7 @@ const VacanciesSortsLib = (() => {
     );
   }
 
-  function byResponsesCount(order?: Orders): ISortModel {
+  function byResponsesCount(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancy.tableName,
       Provider.schema.value.vacancy.responsesCount,

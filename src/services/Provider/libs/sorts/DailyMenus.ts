@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const DailyMenusSortsLib = (() => {
-  function byOrder(order?: Orders): ISortModel {
+  function byOrder(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.dailyMenu.tableName,
       Provider.schema.value.dailyMenu.order,

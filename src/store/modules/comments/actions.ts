@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IComment from '@/interfaces/comments/IComment';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ICommentsWithCount from '@/interfaces/ICommentsWithCount';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -11,11 +11,11 @@ import State from './state';
 const httpClient = new HttpClient('comments');
 let source: EventSource | undefined = undefined;
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<ICommentsWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
     if (filterQuery && filterQuery.pagination.append) {
       commit('appendToAll', items);
-      filterQuery.setAllLoaded(items ? items.comments.length : 0);
+      filterQuery.pagination.setAllLoaded(items ? items.comments.length : 0);
       return;
     }
     commit('setAllWithCount', items);
