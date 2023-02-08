@@ -1,53 +1,56 @@
 <template>
   <div v-if="mounted" class="flex">
-    <div class="contact-data">
-      <div class="contact-data-list-item">
-        <div class="contact-h3">
-          <div class="item">
-            <svg class="icon-time">
-              <use xlink:href="#time"></use>
-            </svg>
-          </div>
-          <div class="item">Пн-Пт, с 9:00 до 17:00</div>
-        </div>
-      </div>
-      <div class="contact-data-list-item">
-        <div class="contact-h3">
-          <div class="item">
-            <svg class="icon-map-marker">
-              <use xlink:href="#map-marker"></use>
-            </svg>
-          </div>
-          <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 22а, 1 этаж Отдел постдипломного образования, кабинет № 1</div>
-        </div>
-      </div>
-      <div class="contact-data-list-item">
-        <div class="contact-h3">
-          <div class="item">
-            <svg class="icon-phone">
-              <use xlink:href="#phone"></use>
-            </svg>
-          </div>
-          <div class="item">
-            +7 (495) 959-88-01<br />
-            доб. 11-36 Ординатура
+    <div>
+      <div class="contact-data">
+        <div class="contact-data-list-item">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-time">
+                <use xlink:href="#time"></use>
+              </svg>
+            </div>
+            <div class="item">Пн-Пт, с 9:00 до 17:00</div>
           </div>
         </div>
-      </div>
-      <div class="contact-data-list-item">
-        <div class="contact-h3">
-          <div class="item">
-            <svg class="icon-email">
-              <use xlink:href="#email"></use>
-            </svg>
+        <div class="contact-data-list-item">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-map-marker">
+                <use xlink:href="#map-marker"></use>
+              </svg>
+            </div>
+            <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 22а, 1 этаж Отдел постдипломного образования, кабинет № 1</div>
           </div>
-          <div class="item">dpo@morozdgkb.ru</div>
+        </div>
+        <div class="contact-data-list-item">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-phone">
+                <use xlink:href="#phone"></use>
+              </svg>
+            </div>
+            <div class="item">
+              +7 (495) 959-88-01<br />
+              доб. 11-36 Ординатура
+            </div>
+          </div>
+        </div>
+        <div class="contact-data-list-item">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-email">
+                <use xlink:href="#email"></use>
+              </svg>
+            </div>
+            <div class="item">dpo@morozdgkb.ru</div>
+          </div>
         </div>
       </div>
+      <div class="contact-comments">Предварительный заказ пропуска по телефону обязателен!</div>
     </div>
     <div class="map-data">
       <div class="map-container">
-        <YandexMapComponent />
+        <YandexMapComponent :coords="coords" />
       </div>
     </div>
   </div>
@@ -95,12 +98,13 @@ export default defineComponent({
   components: { YandexMapComponent },
   setup() {
     const mounted = ref(false);
+    const coords = [55.72606343239642, 37.61780868792668];
 
     onMounted(async () => {
       mounted.value = true;
     });
 
-    return { mounted };
+    return { mounted, coords };
   },
 });
 </script>
@@ -150,7 +154,7 @@ export default defineComponent({
 }
 
 .contact-data {
-  margin: 15px 30px 0 10px;
+  margin: 15px 30px 0 0px;
   padding-top: 10px;
   min-width: 272px;
   max-width: 272px;
@@ -158,6 +162,19 @@ export default defineComponent({
   border-radius: 5px;
   background: #ffffff;
   max-height: 270px;
+}
+
+.contact-comments {
+  margin: 15px 30px 0 0px;
+  padding: 15px;
+  min-width: 242px;
+  max-width: 242px;
+  border: 1px solid #dee5ef;
+  border-radius: 5px;
+  background: #ffffff;
+  max-height: 270px;
+  color: #e62c21;
+  font-size: 14px;
 }
 
 .contact-data-list {
