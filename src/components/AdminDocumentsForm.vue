@@ -36,18 +36,17 @@
       </template>
     </el-table-column>
   </el-table>
-  <AdminGallery
-    :file-list="documentType.pageSectionImages"
-    :file-list-for-delete="documentType.pageSectionImagesForDelete"
-    @add-image="documentType.addDocumentTypeImage()"
-  />
+  <!--  <AdminGallery-->
+  <!--    :file-list="documentType.pageSectionImages"-->
+  <!--    :file-list-for-delete="documentType.pageSectionImagesForDelete"-->
+  <!--    @add-image="documentType.addDocumentTypeImage()"-->
+  <!--  />-->
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 import PageSection from '@/classes/PageSection';
-import AdminGallery from '@/components/admin/AdminGallery.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
@@ -59,7 +58,6 @@ export default defineComponent({
     DocumentUploader,
     TableMover,
     TableButtonGroup,
-    AdminGallery,
   },
   props: {
     documentType: {
