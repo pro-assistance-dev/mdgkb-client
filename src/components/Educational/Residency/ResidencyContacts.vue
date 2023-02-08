@@ -166,14 +166,15 @@ export default defineComponent({
 
 .contact-comments {
   margin: 15px 30px 0 0px;
-  padding: 10px;
-  min-width: 252px;
-  max-width: 252px;
+  padding: 15px;
+  min-width: 242px;
+  max-width: 242px;
   border: 1px solid #dee5ef;
   border-radius: 5px;
   background: #ffffff;
   max-height: 270px;
   color: #e62c21;
+  font-size: 14px;
 }
 
 .contact-data-list {
