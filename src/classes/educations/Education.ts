@@ -10,8 +10,6 @@ export default class Education {
   end: Date = new Date();
   specialization = '';
   start: Date = new Date();
-  educationSpeciality?: EducationSpeciality;
-  educationSpecialityId?: string;
   employeeId?: string;
 
   constructor(i?: Education) {
