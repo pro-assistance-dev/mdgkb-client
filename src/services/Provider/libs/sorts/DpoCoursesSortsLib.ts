@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const DpoCoursesSortsLib = (() => {
-  function byName(order?: Orders): ISortModel {
+  function byName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.dpoCourse.tableName,
       Provider.schema.value.dpoCourse.name,
@@ -14,7 +13,7 @@ const DpoCoursesSortsLib = (() => {
     );
   }
 
-  function byCost(order?: Orders): ISortModel {
+  function byCost(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.dpoCourse.tableName,
       Provider.schema.value.dpoCourse.cost,
@@ -24,7 +23,7 @@ const DpoCoursesSortsLib = (() => {
     );
   }
 
-  function byHours(order?: Orders): ISortModel {
+  function byHours(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.dpoCourse.tableName,
       Provider.schema.value.dpoCourse.hours,

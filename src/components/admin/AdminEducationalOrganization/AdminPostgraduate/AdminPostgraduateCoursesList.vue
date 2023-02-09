@@ -144,7 +144,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'postgraduateCourses', action: 'getAll' },
-      sortModels: [],
     });
 
     const createResidencySortModels = (): ISortModel[] => {

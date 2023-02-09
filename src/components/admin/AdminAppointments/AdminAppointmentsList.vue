@@ -63,7 +63,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'appointments', action: 'getAll' },
-      sortModels: [],
     });
 
     const create = () => Provider.router.push(`/admin/appointments/new`);

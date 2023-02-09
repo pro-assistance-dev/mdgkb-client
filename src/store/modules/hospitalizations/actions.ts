@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IHospitalization from '@/interfaces/IHospitalization';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import HttpClient from '@/services/HttpClient';
@@ -11,7 +11,7 @@ import { State } from './state';
 const httpClient = new HttpClient('hospitalizations');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     commit('setAll', await httpClient.get<IHospitalization>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
   get: async ({ commit }, id: string) => {

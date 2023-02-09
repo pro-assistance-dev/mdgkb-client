@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const DivisionsSortsLib = (() => {
-  function byName(order?: Orders): ISortModel {
+  function byName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.division.tableName,
       Provider.schema.value.division.name,
@@ -14,7 +13,7 @@ const DivisionsSortsLib = (() => {
     );
   }
 
-  function byCommentsCount(order?: Orders): ISortModel {
+  function byCommentsCount(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.division.tableName,
       Provider.schema.value.division.commentsCount,

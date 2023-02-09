@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import IEducation from '@/interfaces/education/IEducation';
+import Education from '@/classes/educations/Education';
 import IFIlesList from '@/interfaces/files/IFIlesList';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
@@ -42,7 +42,7 @@ const getters: GetterTree<State, RootState> = {
   human(state): IHuman {
     return state.item.employee.human;
   },
-  educations(state): IEducation[] {
+  educations(state): Education[] {
     return state.item.employee.educations;
   },
   paidServices(state): IWithPaidService[] {

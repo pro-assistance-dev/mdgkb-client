@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const QuestionsSortsLib = (() => {
-  function byDate(order?: Orders): ISortModel {
+  function byDate(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.question.tableName,
       Provider.schema.value.question.date,

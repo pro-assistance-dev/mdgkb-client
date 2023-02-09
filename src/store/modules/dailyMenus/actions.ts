@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import HttpClient from '@/services/HttpClient';
 import WebSocketClient from '@/services/WebSocketClient';
@@ -11,10 +11,10 @@ import { State } from './state';
 const httpClient = new HttpClient('daily-menus');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery: FilterQuery): Promise<void> => {
     commit('setAll', await httpClient.get<IDailyMenu[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
-  getPeriodItems: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+  getPeriodItems: async ({ commit }, filterQuery: FilterQuery): Promise<void> => {
     commit('setPeriodItems', await httpClient.get<IDailyMenu[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
   get: async ({ commit }, id: string): Promise<void> => {

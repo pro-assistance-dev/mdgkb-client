@@ -96,9 +96,7 @@ export default defineComponent({
       await Provider.store.dispatch('formStatuses/getAll', filterQuery);
     };
 
-    Hooks.onBeforeMount(load, {
-      sortModels: [],
-    });
+    Hooks.onBeforeMount(load, {});
 
     onBeforeUnmount(() => {
       Provider.store.commit('admin/resetState');

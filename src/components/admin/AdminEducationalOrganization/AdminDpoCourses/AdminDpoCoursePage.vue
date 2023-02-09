@@ -140,11 +140,11 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } fro
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
 import IForm from '@/interfaces/IForm';
@@ -171,7 +171,7 @@ export default defineComponent({
     const form = ref();
 
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const dpoCourse: ComputedRef<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
     const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);

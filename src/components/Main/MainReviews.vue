@@ -1,6 +1,7 @@
 <template>
   <component
     :is="'MainContainer'"
+    v-if="mounted"
     header-title="Отзывы"
     footer-button-title="Все отзывы"
     footer-button-link="/comments"
@@ -34,7 +35,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const showDialog: Ref<boolean> = ref(false);
-
+    const mounted = ref(false);
     const reviews: ComputedRef<IComment[]> = computed(() => store.getters['comments/comments']);
     const dialogComment: Ref<IComment | undefined> = ref();
 
@@ -44,10 +45,14 @@ export default defineComponent({
     };
 
     onBeforeMount(async (): Promise<void> => {
+      console.log('1');
       await store.dispatch('comments/getAllMain');
+      console.log('2');
+      mounted.value = true;
     });
 
     return {
+      mounted,
       reviews,
       showDialog,
       showMore,

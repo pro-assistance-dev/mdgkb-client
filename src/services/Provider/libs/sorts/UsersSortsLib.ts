@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const UsersSortsLib = (() => {
-  function byUserEmail(order?: Orders): ISortModel {
+  function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.user.tableName,
       Provider.schema.value.user.email,
@@ -14,7 +13,7 @@ const UsersSortsLib = (() => {
     );
   }
 
-  function byUserFullName(order?: Orders): ISortModel {
+  function byUserFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.user.tableName,
       Provider.schema.value.user.fullName,

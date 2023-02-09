@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const PostgraduateApplicationsSortsLib = (() => {
-  function byCreatedAt(order?: Orders): ISortModel {
+  function byCreatedAt(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.postgraduateApplication.tableName,
       Provider.schema.value.postgraduateApplication.createdAt,
@@ -13,7 +12,7 @@ const PostgraduateApplicationsSortsLib = (() => {
       order === Orders.Desc ? true : false
     );
   }
-  function byUserFullName(order?: Orders): ISortModel {
+  function byUserFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.postgraduateApplication.tableName,
       Provider.schema.value.postgraduateApplication.fullName,
@@ -22,7 +21,7 @@ const PostgraduateApplicationsSortsLib = (() => {
     );
   }
 
-  function byUserEmail(order?: Orders): ISortModel {
+  function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.postgraduateApplication.tableName,
       Provider.schema.value.postgraduateApplication.email,
@@ -31,7 +30,7 @@ const PostgraduateApplicationsSortsLib = (() => {
     );
   }
 
-  function byCourseName(order?: Orders): ISortModel {
+  function byCourseName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.postgraduateApplication.tableName,
       Provider.schema.value.postgraduateApplication.courseName,

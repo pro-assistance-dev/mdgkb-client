@@ -41,10 +41,10 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IUser from '@/interfaces/IUser';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -75,7 +75,7 @@ export default defineComponent({
       await Provider.store.dispatch('users/getAll', Provider.filterQuery.value);
     };
 
-    const load = async (filterQuery: IFilterQuery) => {
+    const load = async (filterQuery: FilterQuery) => {
       await Provider.store.dispatch('users/getAll', filterQuery);
       await Provider.store.dispatch('roles/getAll', filterQuery);
       Provider.setSortList(...createSortModels(UsersSortsLib));
@@ -85,7 +85,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'users', action: 'getAll' },
-      sortModels: [],
       adminHeader: {
         title: 'Пользователи',
         buttons: [{ text: 'Добавить', type: 'primary', action: create }],

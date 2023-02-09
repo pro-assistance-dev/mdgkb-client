@@ -1,16 +1,11 @@
-import ITeachingActivity from '@/interfaces/ITeachingActivity';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class TeachingActivity implements ITeachingActivity {
+export default class TeachingActivity {
   id?: string;
   name = '';
   employeeId?: string;
 
-  constructor(i?: ITeachingActivity) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.employeeId = i.employeeId;
+  constructor(i?: TeachingActivity) {
+    ClassHelper.BuildClass(this, i);
   }
 }

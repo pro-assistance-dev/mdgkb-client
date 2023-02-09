@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const DpoApplicationsSortsLib = (() => {
-  function byCreatedAt(order?: Orders): ISortModel {
+  function byCreatedAt(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.dpoApplication.tableName,
       Provider.schema.value.dpoApplication.createdAt,
@@ -13,7 +12,7 @@ const DpoApplicationsSortsLib = (() => {
       order === Orders.Desc ? true : false
     );
   }
-  function byUserFullName(order?: Orders): ISortModel {
+  function byUserFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.dpoApplication.tableName,
       Provider.schema.value.dpoApplication.fullName,
@@ -22,7 +21,7 @@ const DpoApplicationsSortsLib = (() => {
     );
   }
 
-  function byUserEmail(order?: Orders): ISortModel {
+  function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.dpoApplication.tableName,
       Provider.schema.value.dpoApplication.email,
@@ -31,7 +30,7 @@ const DpoApplicationsSortsLib = (() => {
     );
   }
 
-  function byCourseName(order?: Orders): ISortModel {
+  function byCourseName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.dpoApplication.tableName,
       Provider.schema.value.dpoApplication.courseName,

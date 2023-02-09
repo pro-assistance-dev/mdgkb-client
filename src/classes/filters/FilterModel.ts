@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Ref, ref } from 'vue';
-import { LocationQuery } from 'vue-router';
 
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -40,15 +39,22 @@ export default class FilterModel {
         if (i !== 0) {
           url += '&';
         }
-        url += `fm${el}=${value}`;
+        url += `${el}=${value}`;
       }
     });
-
+    url += '|';
     return url;
   }
 
-  fromUrlQuery(obj: LocationQuery): void {
-    console.log(obj);
+  fromUrlQuery(params: URLSearchParams): void {
+    this.model = params.get('model') ?? '';
+    this.col = params.get('col') ?? '';
+    this.label = params.get('label') ?? '';
+    this.version = params.get('version') ?? '';
+    this.operator = (params.get('operator') as Operators) ?? '';
+    this.value1 = params.get('value1') ?? '';
+    this.type = (params.get('type') as DataTypes) ?? '';
+    this.boolean = Boolean(params.get('boolean') ?? '');
   }
 
   isUnaryFilter(): boolean {

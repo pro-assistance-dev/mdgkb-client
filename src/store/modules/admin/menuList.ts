@@ -109,17 +109,17 @@ const menuList: IAdminMenu[] = [
       },
     ],
   },
-  {
-    title: 'Документы',
-    to: '/',
-    icon: 'el-icon-document',
-    children: [
-      {
-        title: 'Сертификаты',
-        to: '/admin/certificates',
-      },
-    ],
-  },
+  // {
+  //   title: 'Документы',
+  //   to: '/',
+  //   icon: 'el-icon-document',
+  //   children: [
+  //     {
+  //       title: 'Сертификаты',
+  //       to: '/admin/certificates',
+  //     },
+  //   ],
+  // },
   {
     title: 'Проекты, партнеры, профили, организации',
     to: '/',
@@ -157,30 +157,30 @@ const menuList: IAdminMenu[] = [
         title: 'Сведения об образовательной организации',
         to: '/admin/educational-organization',
       },
-      {
-        title: 'Сведения об образовательной организации - разделы',
-        to: '/admin/public-document-types',
-      },
-      {
-        title: 'Ординатура',
-        to: '/admin/residency',
-      },
-      {
-        title: 'Аспирантура',
-        to: '/admin/postgraduate',
-      },
-      {
-        title: 'Кандидатские экзамены',
-        to: '/admin/candidate',
-      },
-      {
-        title: 'Дополнительное профессиональное образование',
-        to: '/admin/dpo',
-      },
-      {
-        title: 'Приёмная комиссия',
-        to: '/admin/admission-committee',
-      },
+      // {
+      //   title: 'Сведения об образовательной организации - разделы',
+      //   to: '/admin/public-document-types',
+      // },
+      // {
+      //   title: 'Ординатура',
+      //   to: '/admin/residency',
+      // },
+      // {
+      //   title: 'Аспирантура',
+      //   to: '/admin/postgraduate',
+      // },
+      // {
+      //   title: 'Кандидатские экзамены',
+      //   to: '/admin/candidate',
+      // },
+      // {
+      //   title: 'Дополнительное профессиональное образование',
+      //   to: '/admin/dpo',
+      // },
+      // {
+      //   title: 'Приёмная комиссия',
+      //   to: '/admin/admission-committee',
+      // },
       {
         title: 'Программы ДПО',
         to: '/admin/dpo/courses',

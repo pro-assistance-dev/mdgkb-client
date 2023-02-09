@@ -2,9 +2,6 @@
   <div v-if="mounted" class="news-page-container">
     <div class="side-container hidden-md-and-down">
       <div class="side-item">
-        <NewsCalendar />
-      </div>
-      <div class="side-item">
         <RecentNewsCard :key="$route.fullPath" />
       </div>
       <div v-if="news.newsDoctors.length" class="side-item">
@@ -63,7 +60,7 @@ import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsDoctorsCard, NewsPageFooter, NewsCalendar, RecentNewsCard, ImageGallery, EventRegistration, Comments },
+  components: { NewsDoctorsCard, NewsPageFooter, RecentNewsCard, ImageGallery, EventRegistration, Comments },
 
   async setup() {
     let comment = ref(new NewsComment());

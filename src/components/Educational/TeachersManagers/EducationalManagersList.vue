@@ -14,9 +14,9 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref } from 'vue';
 import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import EducationalManagerCard from '@/components/Educational/TeachersManagers/EducationalManagerCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IEducationalManager from '@/interfaces/IEducationalManager';
 
 export default defineComponent({
@@ -35,7 +35,7 @@ export default defineComponent({
       await store.dispatch('educationalManagers/getAll', filterQuery.value);
     });
 
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     const loadMore = async () => {
       // const lastCursor = managers.value[managers.value.length - 1].name;

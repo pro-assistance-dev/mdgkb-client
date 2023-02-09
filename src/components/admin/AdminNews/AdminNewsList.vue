@@ -102,7 +102,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'news', action: 'getAll' },
-      sortModels: [],
     });
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {

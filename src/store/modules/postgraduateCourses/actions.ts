@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IPostgraduateCourseWithCount from '@/interfaces/IPostgraduateCourseWithCount';
 import HttpClient from '@/services/HttpClient';
@@ -11,7 +11,7 @@ import { State } from './state';
 const httpClient = new HttpClient('postgraduate-courses');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<IPostgraduateCourseWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);
@@ -19,7 +19,7 @@ const actions: ActionTree<State, RootState> = {
     }
     commit('setAllWithCount', items);
   },
-  get: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+  get: async ({ commit }, filterQuery: FilterQuery): Promise<void> => {
     const res = await httpClient.get<IPostgraduateCourse[]>({ query: `get${filterQuery.toUrl()}` });
     commit('set', res);
   },

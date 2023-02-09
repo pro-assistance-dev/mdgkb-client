@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IQuestion from '@/interfaces/IQuestion';
 import IQuestionsWithCount from '@/interfaces/IQuestionsWithCount';
 import INews from '@/interfaces/news/INews';
@@ -13,11 +13,11 @@ const httpClient = new HttpClient('questions');
 // eslint-disable-next-line prefer-const
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery: FilterQuery): Promise<void> => {
     const items = await httpClient.get<IQuestionsWithCount>({ query: filterQuery.toUrl() });
     if (filterQuery && filterQuery.pagination.append) {
       commit('appendToAll', items);
-      filterQuery.setAllLoaded(items ? items.questions.length : 0);
+      filterQuery.pagination.setAllLoaded(items ? items.questions.length : 0);
       return;
     }
     commit('setAll', items);

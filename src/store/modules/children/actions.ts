@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IChild from '@/interfaces/IChild';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -10,10 +10,10 @@ import { State } from './state';
 const httpClient = new HttpClient('children');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit, state }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<IChild[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(items ? items.length : 0);
+      filterQuery.pagination.setAllLoaded(items ? items.length : 0);
     }
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);

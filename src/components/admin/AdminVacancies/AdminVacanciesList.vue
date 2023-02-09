@@ -207,7 +207,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'vacancies', action: 'getAll' },
-      sortModels: [],
     });
 
     const remove = async (id: string) => {

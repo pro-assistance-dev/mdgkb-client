@@ -60,7 +60,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'dailyMenuOrders', action: 'getAll' },
-      sortModels: [],
     });
 
     const edit = (id: string) => Provider.router.push(`/admin/daily-menu-orders/${id}`);

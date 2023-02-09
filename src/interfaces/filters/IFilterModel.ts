@@ -23,7 +23,7 @@ export default interface IFilterModel {
   isSet: boolean;
 
   toUrlQuery: () => string;
-  fromUrlQuery: (obj: LocationQuery) => void;
+  fromUrlQuery: (obj: URLSearchParams) => void;
   isUnaryFilter: () => boolean;
   isBetweenFilter: () => boolean;
   isSetFilter: () => boolean;

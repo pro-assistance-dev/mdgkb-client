@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import Human from '@/classes/Human';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import HttpClient from '@/services/HttpClient';
 import TokenService from '@/services/Token';
@@ -12,10 +12,10 @@ import { State } from './state';
 const httpClient = new HttpClient('candidate-applications');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<ICandidateApplication[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(items ? items.length : 0);
+      filterQuery.pagination.setAllLoaded(items ? items.length : 0);
     }
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);

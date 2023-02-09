@@ -1,9 +1,9 @@
 import { MutationTree } from 'vuex';
 
+import FilterModel from '@/classes/filters/FilterModel';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import Pagination from '@/classes/filters/Pagination';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
+import SortModel from '@/classes/filters/SortModel';
 
 import { State } from './state';
 
@@ -31,7 +31,7 @@ const mutations: MutationTree<State> = {
     state.filterQuery.withDeleted = withDeleted;
   },
   resetQueryFilter(state) {
-    state.filterQuery.filterModels.forEach((filterModel: IFilterModel) => {
+    state.filterQuery.filterModels.forEach((filterModel: FilterModel) => {
       filterModel.isSet = false;
       filterModel.value1 = '';
       filterModel.date1 = undefined;
@@ -41,12 +41,12 @@ const mutations: MutationTree<State> = {
     });
     state.filterQuery.pagination = new Pagination();
     state.filterQuery.filterModels = [];
-    state.filterQuery.allLoaded = false;
     state.filterQuery.sortModels = [];
+    state.filterQuery.sortModel = undefined;
   },
-  setFilterModel(state, filterModel: IFilterModel) {
+  setFilterModel(state, filterModel: FilterModel) {
     filterModel.isSet = true;
-    let item = state.filterQuery.filterModels.find((i: IFilterModel) => i.id === filterModel.id);
+    let item = state.filterQuery.filterModels.find((i: FilterModel) => i.id === filterModel.id);
     if (item) {
       item = filterModel;
     } else {
@@ -56,27 +56,29 @@ const mutations: MutationTree<State> = {
   resetFilterModels(state) {
     state.filterQuery.filterModels = [];
   },
-  replaceSortModel(state, sortModel: ISortModel) {
+  replaceSortModel(state, sortModel: SortModel) {
     state.filterQuery.sortModels = [];
     state.filterQuery.sortModels.push(sortModel);
   },
-  addSortModels(state, sortModels: ISortModel[]) {
+  addSortModels(state, sortModels: SortModel[]) {
     state.sortModels = sortModels;
   },
-  setSortModel(state, sortModel: ISortModel) {
-    let item = state.filterQuery.sortModels.find((i: ISortModel) => i.id === sortModel.id);
-    if (item) {
-      item = sortModel;
-    } else {
-      state.filterQuery.sortModels.push(sortModel);
-    }
+  setSortModel(state, sortModel: SortModel) {
+    state.filterQuery.sortModel = sortModel;
+    // let item = state.filterQuery.sortModels.find((i: SortModel) => i.id === sortModel.id);
+    // if (item) {
+    //   item = sortModel;
+    // } else {
+    //   state.filterQuery.sortModels.push(sortModel);
+    // }
   },
   spliceSortModel(state, id: string) {
-    const index = state.filterQuery.sortModels.findIndex((i: ISortModel) => i.id === id);
-    if (index > -1) state.filterQuery.sortModels.splice(index, 1);
+    state.filterQuery.sortModel = undefined;
+    // const index = state.filterQuery.sortModels.findIndex((i: SortModel) => i.id === id);
+    // if (index > -1) state.filterQuery.sortModels.splice(index, 1);
   },
   spliceFilterModel(state, id: string) {
-    const index = state.filterQuery.filterModels.findIndex((i: IFilterModel) => i.id === id);
+    const index = state.filterQuery.filterModels.findIndex((i: FilterModel) => i.id === id);
     if (index > -1) {
       state.filterQuery.filterModels.splice(index, 1);
     }
@@ -88,7 +90,7 @@ const mutations: MutationTree<State> = {
     if (state.filterQuery.sortModels.length > 0) {
       return;
     }
-    const defaultSort = state.sortModels.find((sortModel: ISortModel) => sortModel.default);
+    const defaultSort = state.sortModels.find((sortModel: SortModel) => sortModel.default);
     if (defaultSort) {
       state.filterQuery.sortModels.push(defaultSort);
     }

@@ -1,10 +1,9 @@
 import { computed, ComputedRef, Ref, ref } from 'vue';
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import ISchema from '@/interfaces/schema/ISchema';
 
 import router from '../router';
@@ -17,11 +16,67 @@ const Provider = (() => {
   const mounted: Ref<boolean> = ref(false);
   const form = ref();
   const schema: Ref<ISchema> = computed(() => s.getters['meta/schema']);
-  const filterQuery: ComputedRef<IFilterQuery> = computed(() => s.getters['filter/filterQuery']);
-  const sortList: Ref<ISortModel[]> = ref([]);
+  const filterQuery: ComputedRef<FilterQuery> = computed(() => s.getters['filter/filterQuery']);
+  const sortList: Ref<SortModel[]> = ref([]);
 
-  function filterQueryToUrl(): void {
-    filterQuery.value.toUrlQuery;
+  let storeModule = '';
+  let getAction = '';
+
+  function getItems<T>(): ComputedRef<T> {
+    const items = computed(() => store.getters[storeModule + '/items']);
+    return items;
+  }
+
+  function getStoreModule(): string {
+    return storeModule;
+  }
+
+  async function loadItems(): Promise<void> {
+    return await store.dispatch(`${storeModule}/${getAction}`, filterQuery.value);
+  }
+
+  function setGetAction(action: string): void {
+    getAction = action;
+  }
+
+  function getGetAction(): string {
+    return getAction;
+  }
+
+  async function createAdmin(): Promise<void> {
+    await router.push(`/admin/${storeModule}/new`);
+  }
+
+  async function editAdmin(id: string): Promise<void> {
+    await router.push(`/admin/${storeModule}/${id}`);
+  }
+
+  async function remove(id: string): Promise<void> {
+    return await store.dispatch(`${storeModule}/remove`, id);
+  }
+
+  function getAdminLib() {
+    return {
+      items: getItems(),
+      loadItems,
+      create: createAdmin,
+      edit: editAdmin,
+      remove,
+      mounted: mounted,
+      schema: schema,
+      sortList: sortList,
+    };
+  }
+
+  function setStoreModule(): void {
+    storeModule = route().path.split('/').pop() ?? '';
+  }
+
+  function setDefaultSortModel(): void {
+    const defaultSortModel = sortList.value.find((sortModel: SortModel) => sortModel.default);
+    if (defaultSortModel) {
+      filterQuery.value.sortModel = defaultSortModel;
+    }
   }
 
   async function getAll(module: string): Promise<void> {
@@ -35,11 +90,11 @@ const Provider = (() => {
     models.forEach((model: IFilterModel) => setFilterModel(model));
   }
 
-  function setSortList(...models: ISortModel[]): void {
+  function setSortList(...models: SortModel[]): void {
     sortList.value = models;
   }
 
-  function setSortModel(model: ISortModel): void {
+  function setSortModel(model: SortModel): void {
     s.commit('filter/setSortModel', model);
   }
 
@@ -47,8 +102,8 @@ const Provider = (() => {
     s.commit(`filter/resetQueryFilter`);
   }
 
-  function setSortModels(...models: ISortModel[]): void {
-    models.forEach((model: ISortModel) => setSortModel(model));
+  function setSortModels(...models: SortModel[]): void {
+    models.forEach((model: SortModel) => setSortModel(model));
   }
 
   function setLimit(limit: number): void {
@@ -146,6 +201,18 @@ const Provider = (() => {
     route,
     handlerSSE,
     getPath,
+    setDefaultSortModel,
+    //
+    getStoreModule,
+    setStoreModule,
+    setGetAction,
+    getGetAction,
+    getItems,
+    createAdmin,
+    editAdmin,
+    remove,
+    getAdminLib,
+    loadItems,
   };
 })();
 

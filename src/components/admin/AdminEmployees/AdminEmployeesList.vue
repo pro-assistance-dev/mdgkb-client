@@ -2,12 +2,13 @@
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <RemoteSearch :key-value="schema.employee.key" placeholder="Начните вводить ФИО сотрудника" @select="selectSearch" />
-      <FiltersList :models="createGenderFilterModels()" @load="loadEmployees" />
+      <FiltersList :models="createGenderFilterModels()" @load="loadItems" />
     </template>
     <template #sort>
-      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadEmployees" />
+      <SortList :max-width="400" @load="loadItems" />
     </template>
-    <el-table :data="employees" :border="false">
+
+    <el-table :data="items" :border="false">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
           {{ scope.row.human.getFullName() }}
@@ -38,18 +39,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { defineComponent } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
-import { Orders } from '@/interfaces/filters/Orders';
+import SortList from '@/components/SortList/SortListV2.vue';
 import ISearchObject from '@/interfaces/ISearchObject';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
@@ -60,42 +57,15 @@ export default defineComponent({
   name: 'AdminEmployeeList',
   components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
   setup() {
-    const employees = computed(() => Provider.store.getters['employees/items']);
-    const genderFilter: Ref<FilterModel> = ref(new FilterModel());
-
-    const loadEmployees = async () => {
-      await Provider.store.dispatch('employees/getAllWithCount', Provider.filterQuery.value);
-    };
-
-    watch(
-      Provider.filterQuery.value,
-      async () => {
-        const routeQuery = Provider.filterQuery.value.toUrlQuery();
-        await Provider.router.replace(Provider.route().path + routeQuery);
+    Hooks.onBeforeMount(Provider.loadItems, {
+      adminHeader: {
+        title: 'Сотрудники',
+        buttons: [{ text: 'Добавить сотрудника', type: 'primary', action: Provider.createAdmin }],
       },
-      { deep: true }
-    );
-
-    const load = async () => {
-      Provider.setSortList(...createSortModels(EmployeesSortsLib));
-      Provider.setSortModels(EmployeesSortsLib.byFullName(Orders.Asc));
-      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
-      await loadEmployees();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Врачи',
-        buttons: [{ text: 'Добавить сотрудника', type: 'primary', action: create }],
-      });
-    };
-
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'employees', action: 'getAllWithCount' },
-      sortModels: [],
+      sortsLib: EmployeesSortsLib,
+      getAction: 'getAllWithCount',
     });
 
-    const create = () => Provider.router.push(`/admin/employees/new`);
-    const edit = (slug: string) => Provider.router.push(`/admin/employees/${slug}`);
-    const remove = async (id: string) => await Provider.store.dispatch('employees/remove', id);
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push({ name: `AdminEditEmployeePage`, params: { id: event.value } });
     };
@@ -105,19 +75,9 @@ export default defineComponent({
     };
 
     return {
-      employees,
-      remove,
-      edit,
-      create,
-      mounted: Provider.mounted,
-      schema: Provider.schema,
+      ...Provider.getAdminLib(),
       selectSearch,
-      genderFilter,
-      loadEmployees,
-      sortList: Provider.sortList,
       createGenderFilterModels,
-      DataTypes,
-      Operators,
     };
   },
 });

@@ -1,14 +1,15 @@
 import ClassHelper from '@/services/ClassHelper';
 
-export default class Accreditation {
+export default class Certification {
   id?: string;
   specialization = '';
-  startDate: Date = new Date();
+  certificationDate: Date = new Date();
   endDate: Date = new Date();
+  place = '';
   document = '';
   employeeId?: string;
 
-  constructor(i?: Accreditation) {
+  constructor(i?: Certification) {
     ClassHelper.BuildClass(this, i);
   }
 }

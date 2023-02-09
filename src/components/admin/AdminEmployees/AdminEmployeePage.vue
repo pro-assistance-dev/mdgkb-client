@@ -29,7 +29,7 @@
                   @changeActiveId="scope.changeActiveId"
                 >
                   <template #inside-content>
-                    <EducationForm :store-module="'employees'" />
+                    <EducationForm :employee="employee" />
                   </template>
                 </CollapsContainer>
               </div>

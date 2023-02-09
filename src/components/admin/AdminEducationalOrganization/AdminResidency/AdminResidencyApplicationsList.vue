@@ -198,7 +198,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'residencyApplications', action: 'getAll' },
-      sortModels: [],
     });
 
     onBeforeUnmount(async () => {

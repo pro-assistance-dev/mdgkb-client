@@ -1,14 +1,10 @@
-import IEducationSpeciality from '@/interfaces/education/IEducationSpeciality';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class EducationSpeciality implements IEducationSpeciality {
+export default class EducationSpeciality {
   id?: string;
   name = '';
 
-  constructor(educationSpeciality?: IEducationSpeciality) {
-    if (!educationSpeciality) {
-      return;
-    }
-    this.id = educationSpeciality.id;
-    this.name = educationSpeciality.name;
+  constructor(i?: EducationSpeciality) {
+    ClassHelper.BuildClass(this, i);
   }
 }
