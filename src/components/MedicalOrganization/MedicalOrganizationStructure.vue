@@ -115,15 +115,15 @@
 import { computed, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IHead from '@/interfaces/IHead';
+import Head from '@/classes/Head';
 import countRating from '@/services/countRating';
 
 export default {
   name: 'MedicalOrganizationStructure',
   setup() {
     const store = useStore();
-    const heads: Ref<IHead[]> = computed<IHead[]>(() => store.getters['heads/heads']);
-    const mainDoctor: Ref<IHead> = computed<IHead>(() => store.getters['heads/mainDoctor']);
+    const heads: Ref<Head[]> = computed<Head[]>(() => store.getters['heads/items']);
+    const mainDoctor: Ref<Head> = computed<Head>(() => store.getters['heads/mainDoctor']);
     const mount = ref(false);
 
     onBeforeMount(async () => {

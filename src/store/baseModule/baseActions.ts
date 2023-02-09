@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
+import { IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
 import IFileInfosGetter from '@/interfaces/IFileInfosGetter';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import IWithId from '@/interfaces/IWithId';
@@ -28,18 +29,34 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       commit('set', await httpClient.get<T>({ query: `${id}` }));
     },
     create: async ({ commit }, item: T): Promise<void> => {
-      await httpClient.post<T, T>({ payload: item, fileInfos: item.getFileInfos(), isFormData: true });
+      const opts: IBodyfulParams<T> = { payload: item, isFormData: true };
+      if (item.getFileInfos) {
+        opts.fileInfos = item.getFileInfos();
+      }
+      await httpClient.post<T, T>(opts);
       commit('set');
     },
     update: async ({ commit }, item: T): Promise<void> => {
-      await httpClient.put<T, T>({ query: `${item.id}`, payload: item, fileInfos: item.getFileInfos(), isFormData: true });
+      const opts: IBodyfulParams<T> = { query: `${item.id}`, payload: item, isFormData: true };
+      if (item.getFileInfos) {
+        opts.fileInfos = item.getFileInfos();
+      }
+      await httpClient.put<T, T>(opts);
       commit('set');
     },
     updateAndSet: async ({ commit }, item: T): Promise<void> => {
-      commit('set', await httpClient.put<T, T>({ query: `${item.id}`, payload: item, fileInfos: item.getFileInfos(), isFormData: true }));
+      const opts: IBodyfulParams<T> = { query: `${item.id}`, payload: item, isFormData: true };
+      if (item.getFileInfos) {
+        opts.fileInfos = item.getFileInfos();
+      }
+      commit('set', await httpClient.put<T, T>(opts));
     },
     updateWithoutReset: async ({ commit }, item: T): Promise<void> => {
-      await httpClient.put<T, T>({ query: `${item.id}`, payload: item, fileInfos: item.getFileInfos(), isFormData: true });
+      const opts: IBodyfulParams<T> = { query: `${item.id}`, payload: item, isFormData: true };
+      if (item.getFileInfos) {
+        opts.fileInfos = item.getFileInfos();
+      }
+      await httpClient.put<T, T>(opts);
     },
     remove: async ({ commit }, id: string): Promise<void> => {
       await httpClient.delete({ query: `${id}` });

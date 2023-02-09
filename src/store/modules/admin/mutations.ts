@@ -2,7 +2,6 @@ import { ElLoading } from 'element-plus';
 import { MutationTree } from 'vuex';
 
 import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
-import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import IPathPermission from '@/interfaces/IPathPermission';
@@ -12,7 +11,7 @@ import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setHeaderParams(state, params: IAdminHeaderParams) {
+  setHeaderParams(state, params: AdminHeaderParams) {
     state.headerParams = new AdminHeaderParams(params);
   },
   collapseSideMenu(state) {

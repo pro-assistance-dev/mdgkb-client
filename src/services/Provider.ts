@@ -35,7 +35,7 @@ const Provider = (() => {
     return await store.dispatch(`${storeModule}/${getAction}`, filterQuery.value);
   }
 
-  function setGetAction(action: string): void {
+  function setGetAction(action: string | undefined = 'getAll'): void {
     getAction = action;
   }
 

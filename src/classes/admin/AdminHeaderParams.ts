@@ -1,15 +1,14 @@
 import IAdminButtonParams from '@/interfaces/admin/IAdminButtonParams';
-import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 
 import AdminButtonParams from './AdminButtonParams';
 
-export default class AdminHeaderParams implements IAdminHeaderParams {
+export default class AdminHeaderParams {
   title = '';
-  showBackButton = false;
+  showBackButton? = false;
   buttons: IAdminButtonParams[] = [];
-  applicationsCount = 0;
+  applicationsCount? = 0;
 
-  constructor(adminHeaderParams?: IAdminHeaderParams) {
+  constructor(adminHeaderParams?: AdminHeaderParams) {
     if (!adminHeaderParams) {
       return;
     }

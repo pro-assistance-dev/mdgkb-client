@@ -29,26 +29,26 @@
         </template>
       </CollapsContainer>
     </div>
-    <div class="margin-container">
-      <CollapsContainer :tab-id="1036" :collapsed="false">
-        <template #inside-title>
-          <div class="title-in">Отделы в подчинении</div>
-        </template>
-        <template #inside-content>
-          <div class="background-container">
-            <div class="search-line">
-              <div class="search-label">Выберите отдел для добавления:</div>
-              <RemoteSearch :key-value="schema.department.key" :max-width="2000" @select="addDepartment" />
-            </div>
-            <div v-for="(department, i) in head.departments" :key="i" class="container">
-              <button class="admin-del" @click.prevent="removeDepartment(i)">Удалить</button>
-              <div class="list-number">{{ i + 1 }}</div>
-              <div class="division-name">{{ department.name }}</div>
-            </div>
-          </div>
-        </template>
-      </CollapsContainer>
-    </div>
+    <!--    <div class="margin-container">-->
+    <!--      <CollapsContainer :tab-id="1036" :collapsed="false">-->
+    <!--        <template #inside-title>-->
+    <!--          <div class="title-in">Отделы в подчинении</div>-->
+    <!--        </template>-->
+    <!--        <template #inside-content>-->
+    <!--          <div class="background-container">-->
+    <!--            <div class="search-line">-->
+    <!--              <div class="search-label">Выберите отдел для добавления:</div>-->
+    <!--              <RemoteSearch :key-value="schema.department.key" :max-width="2000" @select="addDepartment" />-->
+    <!--            </div>-->
+    <!--            <div v-for="(department, i) in head.departments" :key="i" class="container">-->
+    <!--              <button class="admin-del" @click.prevent="removeDepartment(i)">Удалить</button>-->
+    <!--              <div class="list-number">{{ i + 1 }}</div>-->
+    <!--              <div class="division-name">{{ department.name }}</div>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </template>-->
+    <!--      </CollapsContainer>-->
+    <!--    </div>-->
 
     <div class="margin-container">
       <CollapsContainer title="Телефоны" :tab-id="2017" :collapsed="false">
@@ -134,12 +134,12 @@ import { useStore } from 'vuex';
 
 import Division from '@/classes/Division';
 import Employee from '@/classes/Employee';
+import Head from '@/classes/Head';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDepartment from '@/interfaces/IDepartment';
-import IHead from '@/interfaces/IHead';
 import ISearchObject from '@/interfaces/ISearchObject';
 import Provider from '@/services/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -160,7 +160,7 @@ export default defineComponent({
     const contactInfo: WritableComputedRef<IContactInfo> = computed(() => store.getters['heads/item'].contactInfo);
 
     const divisionOptions = ref([new Division()]);
-    const head: Ref<IHead> = computed(() => store.getters['heads/item']);
+    const head: Ref<Head> = computed(() => store.getters['heads/item']);
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -228,7 +228,7 @@ export default defineComponent({
     const addDepartment = async (searchObject: ISearchObject) => {
       Provider.filterQuery.value.setParams(Provider.schema.value.department.id, searchObject.id);
       await Provider.store.dispatch('departments/get', Provider.filterQuery.value);
-      head.value.addDepartment(department.value);
+      head.value.addDepartment();
     };
 
     const removeDepartment = (i: number) => head.value.removeDepartment(i);

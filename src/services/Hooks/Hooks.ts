@@ -2,8 +2,8 @@ import { ElMessage } from 'element-plus';
 import { onBeforeMount } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
 import FilterQuery from '@/classes/filters/FilterQuery';
-import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
 import createSortModels, { ISortModelBuildersLib } from '@/services/CreateSortModels';
 import Provider from '@/services/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -12,8 +12,9 @@ import validate from '@/services/validate';
 export interface IHooksOptions {
   pagination?: IPaginationOptions;
   sortsLib?: ISortModelBuildersLib;
-  adminHeader?: IAdminHeaderParams;
+  adminHeader?: AdminHeaderParams;
   getAction?: string;
+  v2?: boolean;
 }
 
 export interface IPaginationOptions {
@@ -36,14 +37,16 @@ const Hooks = (() => {
       if (Provider.filterQuery.value) {
         Provider.filterQuery.value.pagination.cursorMode = false;
       }
-      if (options?.sortsLib) {
+      if (options?.sortsLib || options?.v2) {
         await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
-        Provider.setSortList(...createSortModels(options.sortsLib));
+        if (options.sortsLib) {
+          Provider.setSortList(...createSortModels(options.sortsLib));
+        }
         if (!Provider.filterQuery.value.sortModel) {
           Provider.setDefaultSortModel();
         }
         Provider.setStoreModule();
-        Provider.setGetAction(options.getAction ?? '');
+        Provider.setGetAction(options.getAction);
         console.log(Provider.getStoreModule(), Provider.getGetAction());
         Provider.store.commit('filter/setStoreModule', Provider.getStoreModule());
         Provider.store.commit('filter/setAction', Provider.getGetAction());

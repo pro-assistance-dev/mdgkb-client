@@ -1,27 +1,22 @@
 import { GetterTree } from 'vuex';
 
 import Head from '@/classes/Head';
-import IHead from '@/interfaces/IHead';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import Timetable from '@/classes/timetable/Timetable';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IHead[] {
-    return state.items.filter((head: IHead) => !head.isMain);
-  },
-  mainDoctor(state): IHead {
-    const main = state.items.find((head: IHead) => head.isMain);
+  ...getBaseGetters<Head, State>(),
+  mainDoctor(state): Head {
+    const main = state.items.find((head: Head) => head.isMain);
     if (main) {
       return main;
     }
     return new Head();
   },
-  item(state): IHead {
-    return state.item;
-  },
-  timetable(state): ITimetable {
+  timetable(state): Timetable {
     return state.item.timetable;
   },
 };
