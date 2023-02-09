@@ -1,7 +1,9 @@
 <template>
-  <div class="tools-buttons"><button class="admin-add" @click.prevent="addEducation">+ Добавить</button></div>
-  <div v-for="(education, i) in educations" :key="education.id" class="container">
-    <button class="admin-del" @click.prevent="removeEducation(i)">Удалить</button>
+  <div class="tools-buttons"><button class="admin-add" @click.prevent="employee.addEducation()">+ Добавить</button></div>
+  <div v-for="(education, i) in employee.educations" :key="education.id" class="container">
+    <button class="admin-del" @click.prevent="$classHelper.RemoveFromClassByIndex(i, employee.educations, employee.educationsForDelete)">
+      Удалить
+    </button>
     <div class="list-number">{{ i + 1 }}</div>
     <el-form-item label="Учебное заведение">
       <el-input v-model="education.institution" />
@@ -23,74 +25,87 @@
         </el-form-item>
       </div>
     </div>
-    <div class="bottom-block">
-      <div class="certification" :style="{ background: !education.educationCertification ? '' : '#F9FAFB' }">
-        <div class="bottom-buttons">
-          <div class="title" :style="{ color: !education.educationCertification ? '#c4c4c4' : '#303133' }">Сертификация</div>
-          <button v-if="!education.educationCertification" class="admin-add2" @click="addCertification(i)">+ Добавить</button>
-          <button v-if="education.educationCertification" class="admin-del2" @click="removeCertification(i)">Удалить</button>
-        </div>
-        <div v-if="education.educationCertification">
-          <div class="column-block">
-            <div class="column-item">
-              <el-form-item label="Специальность">
-                <el-input v-model="education.educationCertification.specialization" />
-              </el-form-item>
-            </div>
-            <div class="column-item2">
-              <el-form-item label="Диплом">
-                <el-input v-model="education.educationCertification.document" />
-              </el-form-item>
-            </div>
-          </div>
-          <el-form-item label="Образовательное учреждение">
-            <el-input v-model="education.educationCertification.place" />
+  </div>
+  <div class="certification container" :style="{ background: !employee.certifications ? '' : '#F9FAFB' }">
+    <div class="bottom-buttons">
+      <div class="title" :style="{ color: !employee.certifications ? '#c4c4c4' : '#303133' }">Сертификации</div>
+      <button class="admin-add2" @click.prevent="employee.addCertification()">+ Добавить</button>
+    </div>
+
+    <div v-for="(certification, i) in employee.certifications" :key="certification">
+      <el-divider />
+      <button
+        v-if="employee.certifications"
+        class="admin-del2"
+        @click.prevent="$classHelper.RemoveFromClassByIndex(i, employee.certifications, employee.certificationsForDelete)"
+      >
+        Удалить
+      </button>
+      <div class="column-block">
+        <div class="column-item">
+          <el-form-item label="Специальность">
+            <el-input v-model="certification.specialization" />
           </el-form-item>
-          <div class="column-block">
-            <div class="column-item3">
-              <el-form-item label="Дата проведения">
-                <DatePicker v-model="education.educationCertification.certificationDate" />
-              </el-form-item>
-            </div>
-            <div class="column-item3">
-              <el-form-item label="Дата окончания действия">
-                <DatePicker v-model="education.educationCertification.endDate" />
-              </el-form-item>
-            </div>
-          </div>
+        </div>
+        <div class="column-item2">
+          <el-form-item label="Диплом">
+            <el-input v-model="certification.document" />
+          </el-form-item>
         </div>
       </div>
-      <div class="accreditation" :style="{ background: !education.educationAccreditation ? '' : '#F9FAFB' }">
-        <div class="bottom-buttons">
-          <div class="title" :style="{ color: !education.educationAccreditation ? '#c4c4c4' : '#303133' }">Аккредитация</div>
-          <button v-if="!education.educationAccreditation" class="admin-add2" @click="addAccreditation(i)">+ Добавить</button>
-          <button v-if="education.educationAccreditation" class="admin-del2" @click="removeAccreditation(i)">Удалить</button>
+      <el-form-item label="Образовательное учреждение">
+        <el-input v-model="certification.place" />
+      </el-form-item>
+      <div class="column-block">
+        <div class="column-item3">
+          <el-form-item label="Дата проведения">
+            <DatePicker v-model="certification.certificationDate" />
+          </el-form-item>
         </div>
-        <div v-if="education.educationAccreditation">
-          <div class="column-block">
-            <div class="column-item">
-              <el-form-item label="Специальность">
-                <el-input v-model="education.educationAccreditation.specialization" />
-              </el-form-item>
-            </div>
-            <div class="column-item2">
-              <el-form-item label="Диплом">
-                <el-input v-model="education.educationAccreditation.document" />
-              </el-form-item>
-            </div>
-          </div>
-          <div class="column-block">
-            <div class="column-item3">
-              <el-form-item label="Дата проведения">
-                <DatePicker v-model="education.educationAccreditation.startDate" />
-              </el-form-item>
-            </div>
-            <div class="column-item3">
-              <el-form-item label="Дата окончания действия">
-                <DatePicker v-model="education.educationAccreditation.endDate" />
-              </el-form-item>
-            </div>
-          </div>
+        <div class="column-item3">
+          <el-form-item label="Дата окончания действия">
+            <DatePicker v-model="certification.endDate" />
+          </el-form-item>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container accreditation" :style="{ background: !employee.accreditations ? '' : '#F9FAFB' }">
+    <div class="bottom-buttons">
+      <div class="title" :style="{ color: !employee.accreditations ? '#c4c4c4' : '#303133' }">Аккредитации</div>
+      <button class="admin-add2" @click.prevent="employee.addAccreditation()">+ Добавить</button>
+    </div>
+
+    <div v-for="(accreditation, i) in employee.accreditations" :key="accreditation">
+      <el-divider />
+      <button
+        class="admin-del2"
+        @click.prevent="$classHelper.RemoveFromClassByIndex(i, employee.accreditations, employee.accreditaionsForDelete)"
+      >
+        Удалить
+      </button>
+      <div class="column-block">
+        <div class="column-item">
+          <el-form-item label="Специальность">
+            <el-input v-model="accreditation.specialization" />
+          </el-form-item>
+        </div>
+        <div class="column-item2">
+          <el-form-item label="Диплом">
+            <el-input v-model="accreditation.document" />
+          </el-form-item>
+        </div>
+      </div>
+      <div class="column-block">
+        <div class="column-item3">
+          <el-form-item label="Дата проведения">
+            <DatePicker v-model="accreditation.startDate" />
+          </el-form-item>
+        </div>
+        <div class="column-item3">
+          <el-form-item label="Дата окончания действия">
+            <DatePicker v-model="accreditation.endDate" />
+          </el-form-item>
         </div>
       </div>
     </div>
@@ -98,58 +113,24 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, PropType, ref } from 'vue';
 
+import Employee from '@/classes/Employee';
 import DatePicker from '@/components/DatePicker.vue';
 
 export default defineComponent({
   name: 'EducationForm',
   components: { DatePicker },
   props: {
-    storeModule: {
-      type: String as PropType<string>,
-      default: '',
+    employee: {
+      type: Object as PropType<Employee>,
+      required: true,
     },
   },
   setup(props) {
-    const store = useStore();
     const form = ref();
 
-    const educations = computed(() => store.getters[`${props.storeModule}/educations`]);
-
-    const addEducation = () => {
-      store.commit(`${props.storeModule}/addEducation`);
-    };
-
-    const removeEducation = (educationIndex: number) => {
-      store.commit(`${props.storeModule}/removeEducation`, educationIndex);
-    };
-
-    const addCertification = (educationIndex: string) => {
-      store.commit(`${props.storeModule}/addCertification`, educationIndex);
-    };
-
-    const removeCertification = (educationIndex: string) => {
-      store.commit(`${props.storeModule}/removeCertification`, educationIndex);
-    };
-
-    const addAccreditation = (educationIndex: string) => {
-      store.commit(`${props.storeModule}/addAccreditation`, educationIndex);
-    };
-
-    const removeAccreditation = (educationIndex: string) => {
-      store.commit(`${props.storeModule}/removeAccreditation`, educationIndex);
-    };
-
     return {
-      addCertification,
-      removeCertification,
-      addAccreditation,
-      removeAccreditation,
-      addEducation,
-      removeEducation,
-      educations,
       form,
     };
   },

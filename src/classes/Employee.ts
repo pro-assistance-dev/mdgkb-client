@@ -1,15 +1,15 @@
+import Accreditation from '@/classes/accreditations/Accreditation';
 import Certificate from '@/classes/Certificate';
+import Certification from '@/classes/educations/Certification';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
 import Human from '@/classes/Human';
 import Regalia from '@/classes/Regalia';
 import TeachingActivity from '@/classes/TeachingActivity';
-import IEducation from '@/interfaces/education/IEducation';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICertificate from '@/interfaces/ICertificate';
 import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
-import ITeachingActivity from '@/interfaces/ITeachingActivity';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Employee {
@@ -23,7 +23,7 @@ export default class Employee {
   regalias: Regalia[] = [];
   regaliasForDelete: string[] = [];
   @ClassHelper.GetClassConstructorForArray(Education)
-  educations: IEducation[] = [];
+  educations: Education[] = [];
   educationsForDelete: string[] = [];
   @ClassHelper.GetClassConstructorForArray(Certificate)
   certificates: ICertificate[] = [];
@@ -32,8 +32,16 @@ export default class Employee {
   experiences: IExperience[] = [];
   experiencesForDelete: string[] = [];
   @ClassHelper.GetClassConstructorForArray(TeachingActivity)
-  teachingActivities: ITeachingActivity[] = [];
+  teachingActivities: TeachingActivity[] = [];
   teachingActivitiesForDelete: string[] = [];
+
+  @ClassHelper.GetClassConstructorForArray(Certification)
+  certifications: Certification[] = [];
+  certificationsForDelete: string[] = [];
+
+  @ClassHelper.GetClassConstructorForArray(Accreditation)
+  accreditations: Accreditation[] = [];
+  accreditaionsForDelete: string[] = [];
 
   //meta
   fullName?: string;
@@ -46,6 +54,14 @@ export default class Employee {
 
   addExperience(): void {
     this.experiences.push(new Experience());
+  }
+
+  addCertification(): void {
+    this.certifications.push(new Certification());
+  }
+
+  addAccreditation(): void {
+    this.accreditations.push(new Accreditation());
   }
 
   removeExperience(i: number): void {
@@ -90,5 +106,9 @@ export default class Employee {
 
   getHuman(): IHuman {
     return this.human;
+  }
+
+  addEducation() {
+    this.educations.push(new Education());
   }
 }
