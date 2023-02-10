@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IFormStatusGroupsWithCount from '@/interfaces/IFormStatusGroupsWithCount';
 import HttpClient from '@/services/HttpClient';
@@ -11,7 +11,7 @@ import { State } from './state';
 const httpClient = new HttpClient('form-status-groups');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const item = await httpClient.get<IFormStatusGroupsWithCount>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', item);

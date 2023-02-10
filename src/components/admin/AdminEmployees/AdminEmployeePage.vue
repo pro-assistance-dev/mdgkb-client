@@ -10,7 +10,6 @@
                   title="Личная информация"
                   :active-id="scope.activeId"
                   :tab-id="1011"
-                  :collapsed="false"
                   @changeActiveId="scope.changeActiveId"
                 >
                   <template #inside-content>
@@ -21,26 +20,14 @@
                 </CollapsContainer>
               </div>
               <div class="margin-container">
-                <CollapsContainer
-                  title="Образование"
-                  :active-id="scope.activeId"
-                  :tab-id="1012"
-                  :collapsed="false"
-                  @changeActiveId="scope.changeActiveId"
-                >
+                <CollapsContainer title="Образование" :active-id="scope.activeId" :tab-id="1012" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
-                    <EducationForm :store-module="'employees'" />
+                    <EducationForm :employee="employee" />
                   </template>
                 </CollapsContainer>
               </div>
               <div class="margin-container">
-                <CollapsContainer
-                  title="Опыт работы"
-                  :active-id="scope.activeId"
-                  :tab-id="1013"
-                  :collapsed="false"
-                  @changeActiveId="scope.changeActiveId"
-                >
+                <CollapsContainer title="Опыт работы" :active-id="scope.activeId" :tab-id="1013" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <div class="container">
                       <el-form-item label="Совместитель">
@@ -79,13 +66,7 @@
                 </CollapsContainer>
               </div>
               <div class="margin-container">
-                <CollapsContainer
-                  title="Сертификаты"
-                  :active-id="scope.activeId"
-                  :tab-id="1014"
-                  :collapsed="false"
-                  @changeActiveId="scope.changeActiveId"
-                >
+                <CollapsContainer title="Сертификаты" :active-id="scope.activeId" :tab-id="1014" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <div class="tools-buttons">
                       <button class="admin-add" @click.prevent="employee.addCertificate()">+ Добавить</button>
@@ -110,7 +91,6 @@
                   title="Ученая степень, звание"
                   :active-id="scope.activeId"
                   :tab-id="1016"
-                  :collapsed="false"
                   @changeActiveId="scope.changeActiveId"
                 >
                   <template #inside-content>
@@ -126,13 +106,7 @@
                 </CollapsContainer>
               </div>
               <div class="margin-container">
-                <CollapsContainer
-                  title="Регалии"
-                  :active-id="scope.activeId"
-                  :tab-id="1017"
-                  :collapsed="false"
-                  @changeActiveId="scope.changeActiveId"
-                >
+                <CollapsContainer title="Регалии" :active-id="scope.activeId" :tab-id="1017" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <div class="tools-buttons">
                       <button class="admin-add" @click.prevent="addRegalia">+ Добавить</button>
@@ -154,7 +128,6 @@
                   title="Педагогическая деятельность"
                   :active-id="scope.activeId"
                   :tab-id="1018"
-                  :collapsed="false"
                   @changeActiveId="scope.changeActiveId"
                 >
                   <template #inside-content>

@@ -139,8 +139,8 @@
 <script lang="ts">
 import { computed, Ref } from 'vue';
 
+import Head from '@/classes/Head';
 import ContactBlock from '@/components/ContactBlock.vue';
-import IHead from '@/interfaces/IHead';
 import countRating from '@/services/countRating';
 import Provider from '@/services/Provider';
 
@@ -148,8 +148,8 @@ export default {
   name: 'MedicalOrganizationStructureVertical',
   components: { ContactBlock },
   setup() {
-    const heads: Ref<IHead[]> = computed<IHead[]>(() => Provider.store.getters['heads/items']);
-    const mainDoctor: Ref<IHead> = computed<IHead>(() => Provider.store.getters['heads/mainDoctor']);
+    const heads: Ref<Head[]> = computed<Head[]>(() => Provider.store.getters['heads/items']);
+    const mainDoctor: Ref<Head> = computed<Head>(() => Provider.store.getters['heads/mainDoctor']);
 
     return {
       countRating,

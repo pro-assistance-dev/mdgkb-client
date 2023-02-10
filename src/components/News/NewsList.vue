@@ -5,9 +5,7 @@
       <el-col :xl="6" :lg="6" :md="24" class="calendar">
         <div class="left-side-container">
           <NewsEventsButtons @load="load" />
-          <NewsCalendar />
           <NewsFilters @load="load" @load-news="loadNews" />
-          <HelperElena />
         </div>
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
@@ -42,7 +40,7 @@ import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsEventsButtons, NewsCalendar, NewsCard, NewsFilters, LoadMoreButton, HelperElena },
+  components: { NewsEventsButtons, NewsCard, NewsFilters, LoadMoreButton },
   emits: ['add', 'remove'],
   setup() {
     const allNewsLoaded = computed(() => Provider.store.getters['news/allNewsLoaded']);
@@ -75,6 +73,7 @@ export default defineComponent({
       Provider.filterQuery.value.pagination.cursor.value = news.value[news.value.length - 1].publishedOn;
       Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
       Provider.filterQuery.value.pagination.cursor.column = Provider.schema.value.news.publishedOn;
+      Provider.filterQuery.value.pagination.cursor.tableName = Provider.schema.value.news.tableName;
       Provider.filterQuery.value.pagination.cursor.initial = false;
       Provider.filterQuery.value.pagination.cursorMode = true;
 

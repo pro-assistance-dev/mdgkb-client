@@ -20,7 +20,7 @@
         </div>
       </div>
     </label>
-    <div :style="{ maxHeight: isCollaps ? '' : '100vh' }" :class="collapsed ? 'tab-content-down' : 'tab-content-up'">
+    <div :style="{ maxHeight: isCollaps ? '' : '1000000vh' }" :class="collapsed ? 'tab-content-down' : 'tab-content-up'">
       <slot name="inside-content" />
     </div>
   </div>
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onUpdated, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, onUpdated, PropType, Ref, ref } from 'vue';
 
 import Arrows from '@/assets/svg/CollapsContainer/Arrows.svg';
 
@@ -44,7 +44,7 @@ export default defineComponent({
   emits: ['changeActiveId'],
 
   setup(props, { emit }) {
-    const collapsed: Ref<boolean> = ref(false);
+    const collapsed: Ref<boolean> = ref(true);
 
     const handleItemClick = () => {
       collapsed.value = !collapsed.value;
@@ -52,6 +52,12 @@ export default defineComponent({
     };
 
     onUpdated(() => {
+      if (props.activeId && props.activeId !== props.tabId) {
+        collapsed.value = true;
+      }
+    });
+
+    onBeforeMount(() => {
       if (props.activeId && props.activeId !== props.tabId) {
         collapsed.value = true;
       }
@@ -106,6 +112,7 @@ export default defineComponent({
 
 .tab-content-up {
   max-height: 500vh;
+  overflow-y: scroll;
   overflow: hidden;
   background: #ffffff;
   -webkit-transition: max-height 0.35s;

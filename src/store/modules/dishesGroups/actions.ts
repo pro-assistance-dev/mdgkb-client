@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import DishesGroup from '@/classes/DishesGroup';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -11,7 +11,7 @@ import { State } from './state';
 const httpClient = new HttpClient('dishes-groups');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     commit('setAll', await httpClient.get<IDishesGroup[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
   get: async ({ commit }, id: string): Promise<void> => {

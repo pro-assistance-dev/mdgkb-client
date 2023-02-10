@@ -121,7 +121,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'questions', action: 'getAll' },
-      sortModels: [],
     });
 
     const publish = async (question: IQuestion) => {

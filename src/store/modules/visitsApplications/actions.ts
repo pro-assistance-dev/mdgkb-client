@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IVisitsApplicationsWithCount from '@/interfaces/IVisitsApplicationsWithCount';
 import HttpClient from '@/services/HttpClient';
@@ -11,10 +11,10 @@ import { State } from './state';
 const httpClient = new HttpClient('visits-applications');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const item = await httpClient.get<IVisitsApplicationsWithCount>({ query: filterQuery ? filterQuery?.toUrl() : '' });
     if (filterQuery) {
-      filterQuery.setAllLoaded(item ? item.visitsApplications.length : 0);
+      filterQuery.pagination.setAllLoaded(item ? item.visitsApplications.length : 0);
     }
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', item);

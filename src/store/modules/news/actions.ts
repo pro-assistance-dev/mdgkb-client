@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import INewsWithCount from '@/interfaces/INewsWithCount';
 import IEventApplication from '@/interfaces/news/IEventApplication';
 import INews from '@/interfaces/news/INews';
@@ -18,7 +18,7 @@ import { State } from './state';
 const httpClient = new HttpClient('news');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<INewsWithCount[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery && filterQuery.pagination.cursorMode) {
       commit('appendToAll', items);
@@ -26,38 +26,14 @@ const actions: ActionTree<State, RootState> = {
     }
     commit('setAll', items);
   },
-  // getAll: async ({ commit, state }): Promise<void> => {
-  //   state.params.filterTags = state.filterTags.map((tag: ITag) => tag.id);
-  //   if (state.news[state.news.length - 1]) {
-  //     state.params.publishedOn = state.news[state.news.length - 1].publishedOn;
-  //   } else {
-  //     state.params.publishedOn = undefined;
-  //   }
-  //   const res = await httpClient.get<{ data: INews[] }>({ query: state.params.toUrl() });
-  //   commit('setAll', res);
-  // },
-  // getAllAdmin: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
-  //   const query = `admin/${filterQuery.toUrl()}`;
-  //   commit('setAllAdmin', await httpClient.get<INewsWithCount[]>({ query: query }));
-  // },
-  // getAllMain: async ({ commit }): Promise<void> => {
-  //   commit('setAllMain', await httpClient.get<INewsWithCount[]>({ query: 'main' }));
-  // },
   get: async ({ commit }, slug: string): Promise<void> => {
     const res = await httpClient.get<INews>({ query: `${slug}` });
     commit('set', res);
   },
-  getByMonth: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getByMonth: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<INewsWithCount[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     commit('setCalendarNews', items);
-    // commit('updateCalendarMeta', params);
   },
-  // getByMonth: async ({ commit }, params: ICalendarMeta): Promise<void> => {
-  //   const query = `month/?month=${params.month}&year=${params.year}`;
-  //   const res = await httpClient.get<{ data: INews[] }>({ query: query });
-  //   commit('setCalendarNews', res);
-  //   commit('updateCalendarMeta', params);
-  // },
   create: async ({ commit }, news: INews): Promise<void> => {
     const fileInfos: IFileInfo[] = [];
     news.newsImages.forEach((image: INewsImage) => {
@@ -106,7 +82,7 @@ const actions: ActionTree<State, RootState> = {
   },
   createComment: async ({ commit }, comment: INewsComment): Promise<void> => {
     const res = await httpClient.post<INewsComment, INewsComment>({ query: `comment`, payload: comment });
-    commit('setComment', res);
+    commit('resetComment', res);
   },
   updateComment: async ({ commit }, newComment: INewsComment): Promise<void> => {
     await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });

@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const PathPermissionsSortsLib = (() => {
-  function byResource(order?: Orders): ISortModel {
+  function byResource(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.pathPermission.tableName,
       Provider.schema.value.pathPermission.resource,

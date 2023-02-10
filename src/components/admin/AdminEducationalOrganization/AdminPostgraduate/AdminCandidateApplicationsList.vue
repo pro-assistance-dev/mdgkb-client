@@ -60,7 +60,7 @@ export default defineComponent({
     const route = useRoute();
 
     const candidateApplications: ComputedRef<ICandidateApplication[]> = computed(() => store.getters['candidateApplications/items']);
-    // const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    // const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     // const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     // const filterModel = ref();
 

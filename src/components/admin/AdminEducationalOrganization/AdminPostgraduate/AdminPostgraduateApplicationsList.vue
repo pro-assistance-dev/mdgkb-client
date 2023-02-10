@@ -81,7 +81,6 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       pagination: { storeModule: 'postgraduateApplications', action: 'getAll' },
-      sortModels: [],
     });
 
     const create = () => Provider.router.push(`${Provider.route().path}/new`);

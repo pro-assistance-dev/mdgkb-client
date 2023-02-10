@@ -10,13 +10,13 @@
           :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } }"
         />
         <Rating :comments="doctor.doctorComments" />
-        <router-link v-if="doctor.mosDoctorLink" :to="doctor.getMosDoctorLink()">
+        <a v-if="doctor.mosDoctorLink" :href="doctor.getMosDoctorLink()" target="_blank">
           <div class="mos-doctor-img">
             <img src="@/assets/img/mos-doctor.webp" />
             <span>Московский</span>
             <span>врач</span>
           </div>
-        </router-link>
+        </a>
       </div>
       <div class="flex-column right-side">
         <div

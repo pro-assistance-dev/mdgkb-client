@@ -55,12 +55,11 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
+import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
 import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue';
-import IVacancy from '@/interfaces/IVacancy';
+import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
@@ -68,10 +67,8 @@ export default defineComponent({
   components: { ContactBlock, VacancyResponseForm },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
     const showForm: Ref<boolean> = ref(false);
-    const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/item']);
+    const vacancy: ComputedRef<Vacancy> = computed(() => Provider.store.getters['vacancies/item']);
     const mounted: Ref<boolean> = ref(false);
 
     const showFormFunc = async () => {
@@ -89,14 +86,14 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('vacancies/getBySlug', route.params['slug']);
+      await Provider.store.dispatch('vacancies/getBySlug', Provider.route().params['slug']);
       mounted.value = true;
-      if (route.query.respondForm) {
-        openRespondForm();
+      if (Provider.route().query.respondForm) {
+        await openRespondForm();
       }
     });
 
-    const register = () => store.commit('auth/openModal');
+    const register = () => Provider.store.commit('auth/openModal');
 
     return {
       vacancy,

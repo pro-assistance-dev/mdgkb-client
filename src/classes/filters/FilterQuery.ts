@@ -1,10 +1,8 @@
 import { LocationQuery } from 'vue-router';
 
+import FilterModel from '@/classes/filters/FilterModel';
 import Pagination from '@/classes/filters/Pagination';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
-import IPagination from '@/interfaces/IPagination';
 
 import SortModel from './SortModel';
 
@@ -12,31 +10,33 @@ export default class FilterQuery {
   id?: string;
   col = '';
   value = '';
-  filterModels: IFilterModel[] = [];
-  sortModels: ISortModel[] = [];
-  pagination: IPagination = new Pagination();
+  filterModels: FilterModel[] = [];
+  sortModels: SortModel[] = [];
+  sortModel: SortModel | undefined;
+  pagination: Pagination = new Pagination();
   withDeleted = false;
-  offset = 0;
-  limit = 0;
-  allLoaded = false;
 
   toUrl(): string {
-    // const offset = `offset=${this.pagination.offset}`;
-    // const limit = `limit=${this.pagination.limit}`;
-    const filterModels = this.filterModels?.map((filterModel: IFilterModel) => {
+    const filterModels = this.filterModels?.map((filterModel: FilterModel) => {
       return `filterModel=${JSON.stringify(filterModel)}`;
     });
-    const sortModels = this.sortModels.map((sortModels: ISortModel) => {
+    const sortModels = this.sortModels.map((sortModels: SortModel) => {
       return `sortModel=${JSON.stringify(sortModels)}`;
     });
-
+    if (this.sortModel) {
+      sortModels.push(`sortModel=${JSON.stringify(this.sortModel)}`);
+    }
     const pagination = `pagination=${JSON.stringify(this.pagination)}`;
-    // const cursor = `operator=${JSON.stringify(this.pagination)}`;
 
     const withDeleted = `withDeleted=${this.withDeleted}`;
-    const col = `col=${this.col}`;
-    const value = `value=${this.value}`;
-    let url = `?${[...filterModels, ...sortModels, withDeleted, pagination, col, value].join('&')}`;
+    const all = [...filterModels, ...sortModels, withDeleted, pagination];
+    if (this.col) {
+      all.push(`col=${this.col}`);
+    }
+    if (this.value) {
+      all.push(`value=${this.value}`);
+    }
+    let url = `?${all.join('&')}`;
     if (this.id) {
       url = `${this.id}${url}`;
     }
@@ -44,83 +44,47 @@ export default class FilterQuery {
   }
 
   toUrlQuery(): string {
-    let filterModelsUrlQuery = '';
+    let url = '';
+    url += 's=';
+    url += this.sortModel?.toUrlQuery();
+    url += 'p=';
+    url += this.pagination.toUrlQuery();
+
+    let filterModelsUrlQuery = 'f=';
     this.filterModels.forEach((fm, i) => {
       if (i !== 0) {
-        filterModelsUrlQuery += '&';
+        filterModelsUrlQuery += ',';
       }
       filterModelsUrlQuery += fm.toUrlQuery();
     });
-
-    let sortModelsUrlQuery = '';
-    this.sortModels.forEach((sm, i) => {
-      if (i !== 0) {
-        sortModelsUrlQuery += '&';
-      }
-      sortModelsUrlQuery += sm.toUrlQuery();
-    });
-    //
-    let url = '?';
-    Object.keys(this).forEach((el, i) => {
-      const value = this[el as keyof typeof this];
-      const isObj = typeof this[el as keyof typeof this] == 'object';
-      if (value && !isObj) {
-        if (i !== 0 && url !== '?') {
-          url += '&';
-        }
-        url += `${el}=${value}`;
-      }
-    });
-    if (this.filterModels.length) {
-      if (url !== '?') {
-        url += '&';
-      }
-      url += `${filterModelsUrlQuery}`;
-    }
-    if (this.sortModels.length) {
-      if (url !== '?') {
-        url += '&';
-      }
-      url += `${sortModelsUrlQuery}`;
-    }
-    url += this.pagination.toUrlQuery();
-    return url + sortModelsUrlQuery;
+    url += filterModelsUrlQuery;
+    return url;
   }
 
-  fromUrlQuery(obj: LocationQuery): void {
-    // Bugged
-    // this.pagination.fromUrlQuery(obj);
-    // ----------
-    // Fore one sortModel. Bugged too
+  async fromUrlQuery(obj: LocationQuery): Promise<void> {
+    this.pagination.fromUrlQuery(obj);
+    if (!this.pagination.limit || !this.pagination.offset) {
+      this.pagination.limit = 25;
+    }
+
     const sortModel = new SortModel();
-    sortModel.fromUrlQuery(obj);
-    this.sortModels = [sortModel];
-    // ----------
-    if (obj.value) {
-      this.value = String(obj.value);
+    await sortModel.fromUrlQuery(obj);
+    if (sortModel.model) {
+      this.setSortModel(sortModel);
     }
-    if (obj.col) {
-      this.col = String(obj.col);
-    }
-    if (obj.withDeleted !== undefined) {
-      this.withDeleted = Boolean(obj.withDeleted);
-    }
-    if (obj.offset) {
-      this.offset = Number(obj.offset);
-    }
-    if (obj.limit) {
-      this.limit = Number(obj.limit);
-    }
-    if (obj.allLoaded !== undefined) {
-      this.allLoaded = Boolean(obj.allLoaded);
-    }
-  }
 
-  setAllLoaded(loadedItemsLength: number): void {
-    this.allLoaded = !(loadedItemsLength >= this.pagination.limit);
-  }
-  resetAllLoaded(): void {
-    this.allLoaded = false;
+    const str = window.location.search;
+    const filterModels = str.substring(str.indexOf('f=') + 2, str.lastIndexOf('|'));
+    const modelsStrings = filterModels.split(',');
+    const params = modelsStrings.map((m) => new URLSearchParams(decodeURIComponent(m)));
+
+    params.forEach((p: URLSearchParams) => {
+      const fm = new FilterModel();
+      fm.fromUrlQuery(p);
+      if (fm.col) {
+        this.filterModels.push(fm);
+      }
+    });
   }
 
   setParams(col: string, value: string): void {
@@ -130,22 +94,39 @@ export default class FilterQuery {
 
   setCursorPagination(schema: unknown, object: Record<string, unknown>): void {
     const s = schema as Record<string, unknown>;
-    const sortModel = this.sortModels.find((s: ISortModel) => s.id);
-    if (!sortModel) {
+    // const sortModel = this.sortModels.find((s: SortModel) => s.id);
+    if (!this.sortModel) {
       return;
     }
     for (const p in s) {
-      if (s[p] === sortModel.col) {
+      if (s[p] === this.sortModel.col) {
         if (p === 'sortColumn') {
           continue;
         }
-        this.pagination.cursor.column = sortModel.col;
+        this.pagination.cursor.column = this.sortModel.col;
         this.pagination.cursor.value = String(object[p]);
-        this.pagination.cursor.operation = sortModel.isAsc() ? Operators.Gt : Operators.Lt;
+        this.pagination.cursor.operation = this.sortModel.isAsc() ? Operators.Gt : Operators.Lt;
         this.pagination.cursorMode = true;
         this.pagination.cursor.initial = false;
         break;
       }
     }
+  }
+
+  setSortModel(sortModel: SortModel) {
+    if (this.sortModel) {
+      return;
+    }
+    this.sortModel = sortModel;
+  }
+
+  findFilterModel(m: FilterModel): FilterModel | undefined {
+    return this.filterModels.find((f: FilterModel) => {
+      if (f.model === m.model && f.label === m.label && f.col === m.col && f.operator === m.operator) {
+        if (f.value1 === m.value1 || f.boolean === m.boolean) {
+          return true;
+        }
+      }
+    });
   }
 }

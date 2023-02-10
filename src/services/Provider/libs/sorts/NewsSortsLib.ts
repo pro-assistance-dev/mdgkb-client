@@ -1,10 +1,9 @@
 import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import Provider from '@/services/Provider';
 
 const NewsSortsLib = (() => {
-  function byViewsCount(order?: Orders): ISortModel {
+  function byViewsCount(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.news.tableName,
       Provider.schema.value.news.viewsCount,
@@ -13,7 +12,7 @@ const NewsSortsLib = (() => {
     );
   }
 
-  function byPublishedOn(order?: Orders): ISortModel {
+  function byPublishedOn(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.news.tableName,
       Provider.schema.value.news.publishedOn,
@@ -23,7 +22,7 @@ const NewsSortsLib = (() => {
     );
   }
 
-  function byTitle(order?: Orders): ISortModel {
+  function byTitle(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.news.tableName,
       Provider.schema.value.news.title,
@@ -32,7 +31,7 @@ const NewsSortsLib = (() => {
     );
   }
 
-  function byCreatedAt(order?: Orders): ISortModel {
+  function byCreatedAt(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.news.tableName,
       Provider.schema.value.news.createdAt,

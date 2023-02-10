@@ -13,7 +13,11 @@ export default class ClassHelper {
     Object.keys(arg).forEach((key) => {
       const prop = arg[key];
       if (this.isPrimitive(prop)) {
-        passedClass[key] = prop;
+        if (passedClass[key] instanceof Date) {
+          passedClass[key] = new Date(prop);
+        } else {
+          passedClass[key] = prop;
+        }
       } else if (prop !== null && !Array.isArray(prop)) {
         passedClass[key] = new passedClass[key].constructor(prop);
       }

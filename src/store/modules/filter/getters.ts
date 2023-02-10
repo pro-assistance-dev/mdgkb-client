@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
-import ISortModel from '@/interfaces/filters/ISortModel';
+import FilterQuery from '@/classes/filters/FilterQuery';
+import SortModel from '@/classes/filters/SortModel';
 import RootState from '@/store/types';
 
 import { State } from './state';
@@ -13,28 +13,29 @@ const getters: GetterTree<State, RootState> = {
   storeModule(state): string {
     return state.storeModule;
   },
-  filterQuery(state): IFilterQuery {
-    // if (!state.filterQuery.limit) {
-    //   state.filterQuery.limit = 25;
-    // }
+  filterQuery(state): FilterQuery {
     return state.filterQuery;
   },
   action(state): string {
     return state.action;
   },
   allLoaded(state): boolean {
-    return state.filterQuery.allLoaded;
+    return state.filterQuery.pagination.allLoaded;
   },
-  sortModels(state): ISortModel[] {
+  sortModels(state): SortModel[] {
     return state.sortModels;
   },
-  defaultSortModel(state): ISortModel | undefined {
-    return state.sortModels.find((sortModel: ISortModel) => sortModel.default);
+  defaultSortModel(state): SortModel | undefined {
+    return state.sortModels.find((sortModel: SortModel) => sortModel.default);
   },
   setDefaultSortModel(state): boolean {
     return state.setDefaultSortModel;
   },
-  sortModel(state): ISortModel {
+  sortModel(state): SortModel {
+    const selected = state.filterQuery.sortModels.find((s: SortModel) => s.selected);
+    if (selected) {
+      return selected;
+    }
     return state.filterQuery.sortModels[0];
   },
 };

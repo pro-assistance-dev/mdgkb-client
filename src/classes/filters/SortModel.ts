@@ -3,20 +3,20 @@ import { LocationQuery } from 'vue-router';
 
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
+import StringsService from '@/services/Strings';
 
 export default class SortModel {
-  id?: string;
-  table = '';
   model = '';
+  table = '';
   col = '';
   order: Orders | undefined;
   label = '';
   default = false;
   version = '';
+  selected = false;
 
-  static CreateSortModel(table: string, col: string, order?: Orders, label?: string, defaultModel?: boolean, code?: string): ISortModel {
+  static CreateSortModel(table: string, col: string, order?: Orders, label?: string, defaultModel?: boolean, code?: string): SortModel {
     const model = new SortModel();
-    model.id = uuidv4();
     model.table = table;
     model.col = col;
     model.order = order ?? Orders.Asc;
@@ -34,7 +34,6 @@ export default class SortModel {
     code?: string
   ): SortModel {
     const m = new SortModel();
-    m.id = uuidv4();
     m.model = model;
     m.col = col ?? '';
     m.order = order ?? Orders.Asc;
@@ -61,27 +60,22 @@ export default class SortModel {
         if (i !== 0) {
           url += '&';
         }
-        url += `sortm${el}=${value}`;
+        url += `${el}=${value}`;
       }
     });
+    url += '|';
     return url;
   }
-
-  fromUrlQuery(obj: LocationQuery): void {
-    if (obj.sortmcol) {
-      this.col = String(obj.sortmcol);
-    }
-    if (obj.sortmtable) {
-      this.table = String(obj.sortmtable);
-    }
-    if (obj.sortmlabel) {
-      this.label = String(obj.sortmlabel);
-    }
-    if (obj.sortmdefault !== undefined) {
-      this.default = Boolean(obj.sortmdefault);
-    }
-    if (obj.sortmorder) {
-      this.order = obj.sortmorder as Orders;
-    }
+  async fromUrlQuery(obj: LocationQuery): Promise<void> {
+    const str = window.location.search;
+    const sormModelString = str.substring(str.indexOf('s=') + 2, str.indexOf('|'));
+    const params = new URLSearchParams(decodeURIComponent(sormModelString));
+    this.model = params.get('model') ?? '';
+    this.col = params.get('col') ?? '';
+    this.label = params.get('label') ?? '';
+    this.version = params.get('version') ?? '';
+    this.default = Boolean(params.get('default'));
+    // this.id = params.get('id') ?? '';
+    this.order = (params.get('order') as Orders) ?? ('' as Orders);
   }
 }

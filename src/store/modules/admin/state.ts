@@ -1,11 +1,11 @@
 import { ILoadingInstance } from 'element-plus';
 
-import IAdminHeaderParams from '@/interfaces/admin/IAdminHeaderParams';
+import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import ISearchQuery from '@/interfaces/ISearchQuery';
 
 export interface State {
-  headerParams: IAdminHeaderParams;
+  headerParams: AdminHeaderParams;
   isCollapseSideMenu: boolean;
   showHeader: boolean;
   isDrawerOpen: boolean;

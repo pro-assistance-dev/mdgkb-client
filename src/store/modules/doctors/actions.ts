@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
+import FilterQuery from '@/classes/filters/FilterQuery';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import IDoctorsWithCount from '@/interfaces/IDoctorsWithCount';
@@ -13,11 +13,11 @@ import { State } from './state';
 const httpClient = new HttpClient('doctors');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: IFilterQuery): Promise<void> => {
+  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<IDoctor[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery && filterQuery.pagination.append) {
       commit('appendToAll', items);
-      filterQuery.setAllLoaded(items ? items.length : 0);
+      filterQuery.pagination.setAllLoaded(items ? items.length : 0);
       return;
     }
     commit('setAll', items);
@@ -25,7 +25,7 @@ const actions: ActionTree<State, RootState> = {
   getAllMain: async ({ commit }): Promise<void> => {
     commit('setAll', await httpClient.get<IDoctor[]>({ query: 'main' }));
   },
-  getAllAdmin: async ({ commit }, filterQuery: IFilterQuery): Promise<void> => {
+  getAllAdmin: async ({ commit }, filterQuery: FilterQuery): Promise<void> => {
     const query = `admin/${filterQuery.toUrl()}`;
     commit('setAllAdmin', await httpClient.get<IDoctorsWithCount>({ query }));
   },
@@ -60,7 +60,7 @@ const actions: ActionTree<State, RootState> = {
   },
   createComment: async ({ commit }, comment: IDoctorComment): Promise<void> => {
     const res = await httpClient.post<IDoctorComment, IDoctorComment>({ query: `comment`, payload: comment });
-    commit('setComment', res);
+    commit('resetComment', res);
   },
   updateComment: async ({ commit }, newComment: IDoctorComment): Promise<void> => {
     await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });

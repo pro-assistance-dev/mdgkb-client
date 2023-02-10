@@ -96,11 +96,11 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import DpoApplicationForm from '@/components/Educational/Dpo/DpoApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import IFilterQuery from '@/interfaces/filters/IFilterQuery';
 import IDpoCourse from '@/interfaces/IDpoCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/services/brandColors';
@@ -113,7 +113,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const filterQuery: ComputedRef<IFilterQuery> = computed(() => store.getters['filter/filterQuery']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const dpoCourse: Ref<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
     const mounted: Ref<boolean> = ref(false);
