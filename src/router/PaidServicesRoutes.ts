@@ -8,9 +8,9 @@ export default [
     path: '/paid-services',
     name: 'PaidServicesPage',
     component: PaidServicesPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      devGuard();
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    //   devGuard();
+    // },
   },
 ];

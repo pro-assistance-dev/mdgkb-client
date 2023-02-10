@@ -9,8 +9,8 @@ export default [
     name: 'CommentsList',
     meta: { title: 'Отзывы' },
     component: CommentsList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
 ];

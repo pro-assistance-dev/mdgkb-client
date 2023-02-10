@@ -46,89 +46,89 @@ export default [
     name: 'PostgraduatePage',
     meta: { title: 'Аспирантура' },
     component: PostgraduatePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/postgraduate-courses/:id',
     name: 'PostgraduateCoursePage',
     meta: { title: 'Аспирантура - курс' },
     component: PostgraduateCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/residency',
     name: 'ResidencyPage',
     meta: { title: 'Ординатура' },
     component: ResidencyPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/residency-courses/:id',
     name: 'ResidencyCoursePage',
     meta: { title: 'Ординатура - курс' },
     component: ResidencyCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/admission-courses/:id',
     name: 'AdmissionCoursePage',
     meta: { title: 'Ординатура - курс' },
     component: AdmissionCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/candidates-minimum',
     name: 'CandidatesMinimum',
     meta: { title: 'Кандидатский минимум' },
     component: PostgraduatePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/dpo',
     name: 'DpoCourses',
     meta: { title: 'ДПО' },
     component: DpoPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/courses/:id',
     name: 'CoursePage',
     meta: { title: 'ДПО - курс' },
     component: CoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/teachers',
     name: 'Teachers',
     meta: { title: 'Преподаватели' },
     component: TeachersManagers,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/educational-managers',
     name: 'EducationalManagers',
     meta: { title: 'Руководство' },
     component: TeachersManagers,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
 ];

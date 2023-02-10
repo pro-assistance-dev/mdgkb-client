@@ -9,24 +9,24 @@ export default [
     path: '/divisions',
     name: 'DivisionsList',
     component: DivisionsCentersList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/centers',
     name: 'CentersList',
     component: DivisionsCentersList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/divisions/:id',
     name: 'DivisionPage',
     component: DivisionPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
 ];

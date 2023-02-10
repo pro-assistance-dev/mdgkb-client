@@ -9,10 +9,10 @@ export default [
     path: '/admin/paid-programs-groups',
     name: 'AdminPaidProgramsGroupsList',
     component: AdminPaidProgramsGroupsList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    //   authGuard();
+    // },
     meta: {
       layout: 'AdminLayout',
     },
@@ -21,10 +21,10 @@ export default [
     path: '/admin/paid-programs/:id',
     name: 'AdminPaidProgramPage',
     component: AdminPaidProgramPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    //   authGuard();
+    // },
     meta: {
       layout: 'AdminLayout',
     },

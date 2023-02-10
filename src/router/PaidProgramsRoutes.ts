@@ -9,18 +9,18 @@ export default [
     path: '/paid-programs',
     name: 'PaidPrograms',
     component: PaidPrograms,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      devGuard();
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    //   devGuard();
+    // },
   },
   {
     path: '/paid-programs/:id',
     name: 'PaidProgramPage',
     component: PaidProgramPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      devGuard();
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    //   devGuard();
+    // },
   },
 ];
