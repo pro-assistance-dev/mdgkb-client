@@ -27,7 +27,7 @@ export default class Vacancy implements IVacancy {
   responsesCount = 0;
   newResponsesCount = 0;
   @ClassHelper.GetClassConstructorForArray(VacancyResponse)
-  vacancyResponses: IVacancyResponse[] = [];
+  vacancyResponses: VacancyResponse[] = [];
   vacancyResponsesForDelete = [];
   experience = '';
   @ClassHelper.GetClassConstructorForArray(VacancyDuty)

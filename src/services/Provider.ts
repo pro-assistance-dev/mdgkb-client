@@ -114,7 +114,7 @@ const Provider = (() => {
   }
 
   function setDefaultSortModel(): void {
-    if (Provider.filterQuery.value.sortModel) {
+    if (filterQuery.value.sortModel) {
       return;
     }
     const defaultSortModel = sortList.value.find((sortModel: SortModel) => sortModel.default);
@@ -144,6 +144,8 @@ const Provider = (() => {
 
   function resetFilterQuery(): void {
     s.commit(`filter/resetQueryFilter`);
+    filterQuery.value.reset();
+    sortList.value = [];
   }
 
   function setSortModels(...models: SortModel[]): void {

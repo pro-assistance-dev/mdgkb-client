@@ -4,7 +4,7 @@ import IVacancy from '@/interfaces/IVacancy';
 
 export default interface IVacancyResponse {
   id?: string;
-  vacancy: IVacancy;
+  vacancy?: IVacancy;
   vacancyId?: string;
   formValue: IForm;
   formValueId?: string;

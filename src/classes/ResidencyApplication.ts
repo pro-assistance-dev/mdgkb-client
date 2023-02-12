@@ -1,15 +1,16 @@
 import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
-import ResidencyCourse from './ResidencyCourse';
+// import ResidencyCourse from './ResidencyCourse';
 
 export default class ResidencyApplication {
   id?: string;
-  residencyCourse = new ResidencyCourse();
+  residencyCourse?: ResidencyCourse;
   residencyCourseId?: string;
   applicationNum = '';
   formValue = new Form();

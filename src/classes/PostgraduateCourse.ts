@@ -23,10 +23,13 @@ export default class PostgraduateCourse {
   documentTypeId?: string;
   documentType: PageSection = new PageSection();
   years = 3;
+  @ClassHelper.GetClassConstructorForArray(PostgraduateCourseSpecialization)
   postgraduateCoursesSpecializations: PostgraduateCourseSpecialization[] = [];
   postgraduateCoursesSpecializationsForDelete: string[] = [];
+  @ClassHelper.GetClassConstructorForArray(PostgraduateCourseTeacher)
   postgraduateCoursesTeachers: PostgraduateCourseTeacher[] = [];
   postgraduateCoursesTeachersForDelete: string[] = [];
+  @ClassHelper.GetClassConstructorForArray(PostgraduateCourseDates)
   postgraduateCoursesDates: PostgraduateCourseDates[] = [];
   postgraduateCoursesDatesForDelete: string[] = [];
   formPattern: IForm = new Form();

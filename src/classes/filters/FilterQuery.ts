@@ -129,4 +129,19 @@ export default class FilterQuery {
       }
     });
   }
+
+  reset(): void {
+    this.filterModels.forEach((filterModel: FilterModel) => {
+      filterModel.isSet = false;
+      filterModel.value1 = '';
+      filterModel.date1 = undefined;
+      filterModel.date2 = undefined;
+      filterModel.boolean = false;
+      filterModel.set = [];
+    });
+    this.pagination = new Pagination();
+    this.filterModels = [];
+    this.sortModels = [];
+    this.sortModel = undefined;
+  }
 }

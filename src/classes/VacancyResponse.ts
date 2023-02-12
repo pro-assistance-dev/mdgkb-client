@@ -1,13 +1,13 @@
+import Vacancy from '@/classes/Vacancy';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
-import Vacancy from './Vacancy';
 
 export default class VacancyResponse implements IVacancyResponse {
   id?: string;
-  vacancy = new Vacancy();
+  vacancy?: Vacancy;
   vacancyId?: string;
 
   formValue = new Form();

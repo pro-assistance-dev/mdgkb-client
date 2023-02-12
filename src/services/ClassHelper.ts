@@ -19,11 +19,12 @@ export default class ClassHelper {
           passedClass[key] = prop;
         }
       } else if (prop !== null && !Array.isArray(prop)) {
-        passedClass[key] = new passedClass[key].constructor(prop);
+        if (passedClass[key] && passedClass[key].constructor) {
+          passedClass[key] = new passedClass[key].constructor(prop);
+        }
       }
       if (Array.isArray(prop)) {
         const constructor = Reflect.getMetadata(key, passedClass);
-        console.log(key, passedClass, constructor);
         if (constructor) {
           passedClass[key] = prop.map((t) => new constructor[key](t));
         }

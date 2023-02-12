@@ -426,7 +426,7 @@ export default class Form implements IForm {
     if (this.dpoApplication) {
       return this.dpoApplication.dpoCourse.name;
     }
-    if (this.residencyApplication) {
+    if (this.residencyApplication && this.residencyApplication.residencyCourse) {
       return this.residencyApplication.residencyCourse.getMainSpecialization().name;
     }
     if (this.postgraduateApplication) {
@@ -438,8 +438,8 @@ export default class Form implements IForm {
     if (this.visitsApplication) {
       return this.visitsApplication.division?.name;
     }
-    if (this.vacancyResponse) {
-      return this.vacancyResponse.vacancy.title;
+    if (this.vacancyResponse?.vacancy) {
+      return this.vacancyResponse.vacancy?.title;
     }
     return '';
   }
@@ -449,10 +449,10 @@ export default class Form implements IForm {
       return `/courses/${this.dpoApplication.dpoCourse.slug}`;
     }
     if (this.residencyApplication) {
-      return `/residency-courses/${this.residencyApplication.residencyCourse.id}`;
+      return `/residency-courses/${this.residencyApplication.residencyCourse?.id}`;
     }
     if (this.postgraduateApplication) {
-      return `/postgraduate-courses/${this.postgraduateApplication.postgraduateCourse.getMainSpecialization().slug}`;
+      return `/postgraduate-courses/${this.postgraduateApplication.postgraduateCourse?.getMainSpecialization().slug}`;
     }
     if (this.candidateApplication) {
       return `/postgraduate?mode=candidate`;
@@ -461,7 +461,7 @@ export default class Form implements IForm {
       return `/divisions/${this.visitsApplication.division?.slug}`;
     }
     if (this.vacancyResponse) {
-      return `/vacancies/${this.vacancyResponse.vacancy.slug}`;
+      return `/vacancies/${this.vacancyResponse.vacancy?.slug}`;
     }
     return '';
   }

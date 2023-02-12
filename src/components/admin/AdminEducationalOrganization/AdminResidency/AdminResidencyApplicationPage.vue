@@ -149,7 +149,7 @@ export default defineComponent({
     };
 
     const findEmail = async () => {
-      await store.dispatch('residencyApplications/emailExists', application.value.residencyCourse.id);
+      await store.dispatch('residencyApplications/emailExists', application.value.residencyCourse?.id);
     };
 
     const updateNew = async () => {
@@ -212,7 +212,7 @@ export default defineComponent({
     const courseChangeHandler = async () => {
       if (!route.params['id']) {
         store.commit('residencyApplications/setCourse', application.value.residencyCourse);
-        store.commit('residencyApplications/setFormValue', application.value.residencyCourse.formPattern);
+        store.commit('residencyApplications/setFormValue', application.value.residencyCourse?.formPattern);
         application.value.formValue.initFieldsValues();
       }
       await findEmail();
