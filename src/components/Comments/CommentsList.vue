@@ -98,7 +98,7 @@ export default defineComponent({
 
     const openLoginModal = () => {
       if (!isAuth.value) {
-        Provider.store.commit('auth/openModal', true);
+        Provider.store.commit('auth/openModal', 'login');
       }
     };
 
