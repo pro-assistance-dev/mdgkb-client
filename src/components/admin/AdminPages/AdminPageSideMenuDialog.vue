@@ -19,7 +19,9 @@
           </div>
           <TableButtonGroup
             :show-remove-button="true"
+            :show-edit-button="true"
             @remove="$classHelper.RemoveFromClassByIndex(index, pageSideMenu.pageSections, pageSideMenu.pageSectionsForDelete)"
+            @edit="openDrawer(index)"
           />
         </div>
       </template>

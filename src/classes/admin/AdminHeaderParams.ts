@@ -1,9 +1,12 @@
+import { ComputedRef } from 'vue';
+
 import IAdminButtonParams from '@/interfaces/admin/IAdminButtonParams';
 
 import AdminButtonParams from './AdminButtonParams';
 
+type f = () => string;
 export default class AdminHeaderParams {
-  title = '';
+  title: string | f | ComputedRef = '';
   showBackButton? = false;
   buttons: IAdminButtonParams[] = [];
   applicationsCount? = 0;
@@ -12,7 +15,14 @@ export default class AdminHeaderParams {
     if (!adminHeaderParams) {
       return;
     }
-    this.title = adminHeaderParams.title;
+    if (typeof adminHeaderParams.title === 'function') {
+      this.title = adminHeaderParams.title();
+    } else if (typeof adminHeaderParams.title === 'string') {
+      this.title = adminHeaderParams.title;
+    } else {
+      this.title = adminHeaderParams.title.value;
+    }
+
     if (adminHeaderParams.applicationsCount) {
       this.applicationsCount = adminHeaderParams.applicationsCount;
     }

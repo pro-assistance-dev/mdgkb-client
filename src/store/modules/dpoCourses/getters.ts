@@ -1,20 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IDpoCourse from '@/interfaces/IDpoCourse';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IDpoCourse[] {
-    return state.items;
-  },
-  item(state): IDpoCourse {
-    return state.item;
-  },
-  count(state): number {
-    return state.count;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

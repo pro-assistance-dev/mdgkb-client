@@ -42,9 +42,9 @@
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import PointsAchievement from '@/classes/PointsAchievement';
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import FileUploader from '@/components/FileUploader.vue';
-import IPointsAchievement from '@/interfaces/IPointsAchievement';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -52,17 +52,17 @@ export default defineComponent({
   components: { FileUploader },
   props: {
     residencyApplication: {
-      type: Object as PropType<IResidencyApplication>,
+      type: Object as PropType<ResidencyApplication>,
       required: true,
     },
   },
   emits: ['close'],
   setup(props) {
-    const pointsAchievements: Ref<IPointsAchievement[]> = computed<IPointsAchievement[]>(
+    const pointsAchievements: Ref<PointsAchievement[]> = computed<PointsAchievement[]>(
       () => Provider.store.getters['pointsAchievements/items']
     );
-    const selectedAchievement: Ref<IPointsAchievement | undefined> = ref(undefined);
-    const addAchievement = (achievement: IPointsAchievement) => {
+    const selectedAchievement: Ref<PointsAchievement | undefined> = ref(undefined);
+    const addAchievement = (achievement: PointsAchievement) => {
       if (!achievement.id || props.residencyApplication.achievementExists(achievement.id)) {
         ElMessage({ message: 'Данное достижение уже добавлено', type: 'error' });
         selectedAchievement.value = undefined;

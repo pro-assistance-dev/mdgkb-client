@@ -3,6 +3,7 @@ import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
+import ClassHelper from '@/services/ClassHelper';
 
 export default class DailyMenuOrderItem implements IDailyMenuOrderItem {
   id?: string;
@@ -14,20 +15,7 @@ export default class DailyMenuOrderItem implements IDailyMenuOrderItem {
   dailyMenuItem: IDailyMenuItem = new DailyMenuItem();
 
   constructor(i?: IDailyMenuOrderItem) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.price = i.price;
-    this.quantity = i.quantity;
-    if (i.dailyMenuItem) {
-      this.dailyMenuItem = new DailyMenuItem(i.dailyMenuItem);
-    }
-    this.dailyMenuItemId = i.dailyMenuItemId;
-    if (i.dailyMenuOrder) {
-      this.dailyMenuOrder = new DailyMenuOrder(i.dailyMenuOrder);
-    }
-    this.dailyMenuOrderId = i.dailyMenuOrderId;
+    ClassHelper.BuildClass(this, i);
   }
 
   getWeightSum(): number {

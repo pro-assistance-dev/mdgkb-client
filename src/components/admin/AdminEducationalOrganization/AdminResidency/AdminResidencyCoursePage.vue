@@ -151,17 +151,17 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import EducationYear from '@/classes/EducationYear';
+import ResidencyCourse from '@/classes/ResidencyCourse';
+import ResidencyCourseTeacher from '@/classes/ResidencyCourseTeacher';
+import Specialization from '@/classes/Specialization';
+import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IEducationYear from '@/interfaces/IEducationYear';
 import IForm from '@/interfaces/IForm';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISearchObject from '@/interfaces/ISearchObject';
-import ISpecialization from '@/interfaces/ISpecialization';
-import ITeacher from '@/interfaces/ITeacher';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -176,15 +176,13 @@ export default defineComponent({
     TableButtonGroup,
   },
   setup() {
-    const residencyCourse: ComputedRef<IResidencyCourse> = computed<IResidencyCourse>(
-      () => Provider.store.getters['residencyCourses/item']
-    );
-    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(
+    const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
+    const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(
       () => Provider.store.getters['specializations/items']
     );
-    const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => Provider.store.getters['teachers/item']);
+    const selectedTeacher: ComputedRef<Teacher> = computed<Teacher>(() => Provider.store.getters['teachers/item']);
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);
-    const educationYears: ComputedRef<IEducationYear[]> = computed<IEducationYear[]>(() => Provider.store.getters['educationYears/items']);
+    const educationYears: ComputedRef<EducationYear[]> = computed<EducationYear[]>(() => Provider.store.getters['educationYears/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
@@ -242,7 +240,7 @@ export default defineComponent({
 
     const addTeacher = async (searchObject: ISearchObject) => {
       const teacherExists = !!residencyCourse.value.residencyCoursesTeachers.find(
-        (courseTeacher: IResidencyCourseTeacher) => courseTeacher.teacherId === searchObject.id
+        (courseTeacher: ResidencyCourseTeacher) => courseTeacher.teacherId === searchObject.id
       );
 
       if (teacherExists) {

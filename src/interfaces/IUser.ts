@@ -1,3 +1,6 @@
+import DpoApplication from '@/classes/DpoApplication';
+import Form from '@/classes/Form';
+import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IChild from '@/interfaces/IChild';
@@ -9,9 +12,6 @@ import IQuestion from '@/interfaces/IQuestion';
 import IRole from '@/interfaces/IRole';
 
 import ICandidateApplication from './ICandidateApplication';
-import IDpoApplication from './IDpoApplication';
-import IForm from './IForm';
-import IPostgraduateApplication from './IPostgraduateApplication';
 import IOption from './schema/IOption';
 
 export default interface IUser {
@@ -25,13 +25,13 @@ export default interface IUser {
   comments: IComment[];
   children: IChild[];
   childrenForDelete: string[];
-  dpoApplications: IDpoApplication[];
+  dpoApplications: DpoApplication[];
   dpoApplicationsForDelete: string[];
-  postgraduateApplications: IPostgraduateApplication[];
+  postgraduateApplications: PostgraduateApplication[];
   postgraduateApplicationsForDelete: string[];
   candidateApplications: ICandidateApplication[];
   candidateApplicationsForDelete: string[];
-  formValues: IForm[];
+  formValues: Form[];
   donorRulesUsers: IDonorRuleUser[];
   doctorsUsers: IDoctorUser[];
   role: IRole;

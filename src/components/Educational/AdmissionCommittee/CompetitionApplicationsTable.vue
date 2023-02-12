@@ -41,24 +41,24 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import ResidencyApplication from '@/classes/ResidencyApplication';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 
 export default defineComponent({
   name: 'CompetitionApplicationsTable',
   components: { TableFormStatus },
   props: {
     residencyCourses: {
-      type: Array as PropType<IResidencyCourse[]>,
+      type: Array as PropType<ResidencyCourse[]>,
       default: () => [],
     },
   },
   setup(props) {
-    const residencyApplications = (): IResidencyApplication[] => {
-      const applications: IResidencyApplication[] = [];
-      props.residencyCourses.forEach((rc: IResidencyCourse) => applications.push(...rc.residencyApplications));
-      return applications.sort((a: IResidencyApplication, b: IResidencyApplication) => {
+    const residencyApplications = (): ResidencyApplication[] => {
+      const applications: ResidencyApplication[] = [];
+      props.residencyCourses.forEach((rc: ResidencyCourse) => applications.push(...rc.residencyApplications));
+      return applications.sort((a: ResidencyApplication, b: ResidencyApplication) => {
         const timeA = a.formValue?.approvingDate?.getTime();
         const timeB = b.formValue?.approvingDate?.getTime();
         if (timeA && timeB) {

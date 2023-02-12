@@ -110,6 +110,7 @@ import { NavigationGuardNext } from 'vue-router';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import FilterQuery from '@/classes/filters/FilterQuery';
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
@@ -119,7 +120,6 @@ import SortList from '@/components/SortList/SortList.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import IFormStatus from '@/interfaces/IFormStatus';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -135,7 +135,7 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterCheckboxV2, FilterMultipleSelect, FilterSelectV2 },
 
   setup() {
-    const residencyApplications: ComputedRef<IResidencyApplication[]> = computed<IResidencyApplication[]>(
+    const residencyApplications: ComputedRef<ResidencyApplication[]> = computed<ResidencyApplication[]>(
       () => Provider.store.getters['residencyApplications/items']
     );
 

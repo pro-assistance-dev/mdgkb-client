@@ -13,33 +13,18 @@ export default class CandidateApplication implements ICandidateApplication {
   id?: string;
   candidateExam: CandidateExam = new CandidateExam();
   candidateExamId?: string;
+  @ClassHelper.GetClassConstructorForArray(CandidateApplicationSpecialization)
   candidateApplicationSpecializations: ICandidateApplicationSpecialization[] = [];
   candidateApplicationSpecializationsForDelete: string[] = [];
   formValue = new Form();
   formValueId?: string;
 
   constructor(i?: ICandidateApplication) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.candidateExamId = i.candidateExamId;
-    if (i.candidateExam) {
-      this.candidateExam = new CandidateExam(i.candidateExam);
-    }
-    if (i.candidateApplicationSpecializations) {
-      this.candidateApplicationSpecializations = i.candidateApplicationSpecializations.map(
-        (item: ICandidateApplicationSpecialization) => new CandidateApplicationSpecialization(item)
-      );
-    }
-    if (i.formValue) {
-      this.formValue = new Form(i.formValue);
-    }
-    this.formValueId = i.formValueId;
+    ClassHelper.BuildClass(this, i);
   }
 
   getFileInfos(): IFileInfo[] {
-    return this.formValue.getFieldValuesFileInfos();
+    return this.formValue.getFileInfos();
   }
 
   addSpecialization(specialization: ISpecialization): void {

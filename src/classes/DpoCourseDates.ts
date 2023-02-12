@@ -1,11 +1,9 @@
-import IDpoCourseDates from '@/interfaces/IDpoCourseDates';
-
-export default class DpoCourseDates implements IDpoCourseDates {
+export default class DpoCourseDates {
   id?: string;
   start = new Date();
   end = new Date();
 
-  constructor(i?: IDpoCourseDates) {
+  constructor(i?: DpoCourseDates) {
     if (!i) {
       return;
     }

@@ -53,15 +53,15 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Teacher from '@/classes/Teacher';
 import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
 import Rating from '@/components/Rating.vue';
-import ITeacher from '@/interfaces/ITeacher';
 
 export default defineComponent({
   name: 'TeacherCard',
   components: { Rating, AvatarWithFavourite },
   props: {
-    teacher: { type: Object as PropType<ITeacher>, required: true },
+    teacher: { type: Object as PropType<Teacher>, required: true },
   },
   setup() {
     const errorImg = (event: Event) => {

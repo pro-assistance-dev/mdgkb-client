@@ -36,8 +36,8 @@
 import { ElMessage } from 'element-plus';
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import ChiefCard from '@/components/ChiefCard.vue';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 
 export default defineComponent({
   name: 'ResidencyCourseInfo',
@@ -45,7 +45,7 @@ export default defineComponent({
     ChiefCard,
   },
   props: {
-    course: { type: Object as PropType<IResidencyCourse>, required: true },
+    course: { type: Object as PropType<ResidencyCourse>, required: true },
   },
   setup() {
     const applicationDialogOpen: Ref<boolean> = ref(false);

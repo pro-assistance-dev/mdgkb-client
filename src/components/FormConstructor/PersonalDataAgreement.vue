@@ -13,24 +13,23 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Form from '@/classes/Form';
-import IForm from '@/interfaces/IForm';
 
 export default defineComponent({
   name: 'PersonalDataAgreement',
   props: {
     formValue: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
     formPattern: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
   },
 
   setup(props) {
-    const formValueCopy: Ref<IForm> = ref(new Form());
-    const formPatternCopy: Ref<IForm> = ref(new Form());
+    const formValueCopy = ref(new Form());
+    const formPatternCopy = ref(new Form());
 
     onBeforeMount(() => {
       formValueCopy.value = props.formValue;

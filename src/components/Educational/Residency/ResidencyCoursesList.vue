@@ -101,7 +101,7 @@
 <script lang="ts">
 import { computed, defineComponent, Ref } from 'vue';
 
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import Provider from '@/services/Provider';
 export default defineComponent({
@@ -127,7 +127,7 @@ export default defineComponent({
   },
 
   setup() {
-    const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
+    const residencyCourses: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
 
     return {
       residencyCourses,

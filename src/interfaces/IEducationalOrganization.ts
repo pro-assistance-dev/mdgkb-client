@@ -1,15 +1,15 @@
+import Teacher from '@/classes/Teacher';
 import IDoctor from '@/interfaces/IDoctor';
 import IEducationalManager from '@/interfaces/IEducationalManager';
 import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
 import IEducationalOrganizationProperty from '@/interfaces/IEducationalOrganizationProperty';
-import ITeacher from '@/interfaces/ITeacher';
 
 export default interface IEducationalOrganization {
   educationalOrganizationProperties: IEducationalOrganizationProperty[];
   educationalOrganizationPropertiesForDelete: string[];
   educationalOrganizationManagers: IEducationalManager[];
   educationalOrganizationManagersForDelete: string[];
-  teachers: ITeacher[];
+  teachers: Teacher[];
   teachersForDelete: string[];
 
   educationalOrganizationAcademics: IEducationalOrganizationAcademic[];
@@ -22,7 +22,7 @@ export default interface IEducationalOrganization {
 
   addProperty: () => void;
   addManager: (manager: IEducationalManager) => void;
-  addTeacher: (teacher: ITeacher) => void;
+  addTeacher: (teacher: Teacher) => void;
   employeeExistsInTeachers: (employeeId: string) => boolean;
   doctorExistsInManagers: (doctorId: string) => boolean;
 }

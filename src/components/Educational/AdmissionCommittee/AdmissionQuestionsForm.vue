@@ -89,20 +89,19 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FileUploader from '@/components/FileUploader.vue';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
 export default defineComponent({
   name: 'AdmissionQuestionsForm',
   components: { FileUploader },
   props: {
     residencyApplication: {
-      type: Object as PropType<IResidencyApplication>,
+      type: Object as PropType<ResidencyApplication>,
       required: true,
     },
   },
   emits: ['allQuestionsAnswered'],
   setup(props, { emit }) {
-    const residencyApplicationValue: Ref<IResidencyApplication> = ref(new ResidencyApplication());
+    const residencyApplicationValue = ref(new ResidencyApplication());
 
     onBeforeMount(() => {
       residencyApplicationValue.value = props.residencyApplication;

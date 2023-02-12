@@ -75,12 +75,12 @@
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -93,7 +93,7 @@ export default defineComponent({
   name: 'AdminPostgraduateCoursesList',
   components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
   setup() {
-    const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed(() => Provider.store.getters['postgraduateCourses/items']);
+    const postgraduateCourses: Ref<PostgraduateCourse[]> = computed(() => Provider.store.getters['postgraduateCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
 

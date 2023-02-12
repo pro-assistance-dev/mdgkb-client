@@ -30,13 +30,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IDpoCourse from '@/interfaces/IDpoCourse';
+import DpoCourse from '@/classes/DpoCourse';
 
 export default defineComponent({
   name: 'CourseCard',
   components: {},
   props: {
-    dpoCourse: { type: Object as PropType<IDpoCourse>, required: true },
+    dpoCourse: { type: Object as PropType<DpoCourse>, required: true },
   },
   setup() {
     const errorImg = (event: Event) => {

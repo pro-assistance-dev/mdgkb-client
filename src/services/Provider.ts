@@ -1,10 +1,12 @@
-import { computed, ComputedRef, Ref, ref } from 'vue';
-import { RouteLocationNormalizedLoaded } from 'vue-router';
+import { computed, ComputedRef, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, RouteLocationNormalizedLoaded } from 'vue-router';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISchema from '@/interfaces/schema/ISchema';
+import { IPaginationOptions } from '@/services/Hooks/Hooks';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 import router from '../router';
 import store from '../store';
@@ -22,9 +24,28 @@ const Provider = (() => {
   let storeModule = '';
   let getAction = '';
 
-  function getItems<T>(): ComputedRef<T> {
-    const items = computed(() => store.getters[storeModule + '/items']);
-    return items;
+  function initPagination(options?: IPaginationOptions): void {
+    store.commit('filter/setStoreModule', options?.storeModule ?? getStoreModule());
+    store.commit('filter/setAction', options?.action ?? getGetAction());
+    store.commit('pagination/setCurPage', 1);
+  }
+
+  // function getItems<T>(): ComputedRef<T> {
+  //   return computed(() => store.getters[storeModule + '/items']);
+  // }
+
+  const item = computed(() => store.getters[storeModule + '/item']);
+  const items = computed(() => store.getters[storeModule + '/items']);
+
+  // function getItem<T>(): ComputedRef<T> {
+  //   return
+  // }
+
+  function resetState(): void {
+    if (storeModule === '') {
+      return;
+    }
+    store.commit(`${storeModule}/resetState`);
   }
 
   function getStoreModule(): string {
@@ -33,6 +54,26 @@ const Provider = (() => {
 
   async function loadItems(): Promise<void> {
     return await store.dispatch(`${storeModule}/${getAction}`, filterQuery.value);
+  }
+
+  async function submit(next?: NavigationGuardNext): Promise<void> {
+    if (route().params['id']) {
+      await store.dispatch(`${storeModule}/update`, item.value);
+    } else {
+      await store.dispatch(`${storeModule}/create`, item.value);
+    }
+    next ? next() : await Provider.router.push(`/admin/${storeModule}`);
+  }
+
+  async function loadItem(): Promise<void> {
+    const { beforeWindowUnload, formUpdated } = useConfirmLeavePage();
+    if (route().params['id']) {
+      await Provider.store.dispatch(`${storeModule}/get`, route().params['id']);
+    } else {
+      Provider.store.commit(`${storeModule}/resetState`);
+    }
+    window.addEventListener('beforeunload', beforeWindowUnload);
+    watch(item, formUpdated, { deep: true });
   }
 
   function setGetAction(action: string | undefined = 'getAll'): void {
@@ -57,7 +98,8 @@ const Provider = (() => {
 
   function getAdminLib() {
     return {
-      items: getItems(),
+      items,
+      item,
       loadItems,
       create: createAdmin,
       edit: editAdmin,
@@ -68,11 +110,23 @@ const Provider = (() => {
     };
   }
 
-  function setStoreModule(): void {
-    storeModule = route().path.split('/').pop() ?? '';
+  function setStoreModule(module: string | undefined = ''): void {
+    if (module) {
+      storeModule = module;
+      return;
+    }
+    const pathParts = route().path.split('/');
+    let pathLen = 1;
+    if (route().params['id'] || pathParts[pathParts.length - 1] === 'new') {
+      pathLen = 2;
+    }
+    storeModule = pathParts[pathParts.length - pathLen];
   }
 
   function setDefaultSortModel(): void {
+    if (filterQuery.value.sortModel) {
+      return;
+    }
     const defaultSortModel = sortList.value.find((sortModel: SortModel) => sortModel.default);
     if (defaultSortModel) {
       filterQuery.value.sortModel = defaultSortModel;
@@ -100,6 +154,8 @@ const Provider = (() => {
 
   function resetFilterQuery(): void {
     s.commit(`filter/resetQueryFilter`);
+    filterQuery.value.reset();
+    sortList.value = [];
   }
 
   function setSortModels(...models: SortModel[]): void {
@@ -180,6 +236,7 @@ const Provider = (() => {
   }
 
   return {
+    resetState,
     routerPushBlank,
     setSortList,
     sortList,
@@ -207,12 +264,16 @@ const Provider = (() => {
     setStoreModule,
     setGetAction,
     getGetAction,
-    getItems,
+    items,
     createAdmin,
     editAdmin,
     remove,
     getAdminLib,
     loadItems,
+    initPagination,
+    loadItem,
+    item,
+    submit,
   };
 })();
 

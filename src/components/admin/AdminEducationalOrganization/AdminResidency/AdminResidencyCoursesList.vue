@@ -78,6 +78,7 @@
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
@@ -85,7 +86,6 @@ import SortList from '@/components/SortList/SortList.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -100,7 +100,7 @@ export default defineComponent({
   setup() {
     const mounted = ref(false);
     const route = useRoute();
-    const residencyCourses: Ref<IResidencyCourse[]> = computed(() => Provider.store.getters['residencyCourses/items']);
+    const residencyCourses: Ref<ResidencyCourse[]> = computed(() => Provider.store.getters['residencyCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
 

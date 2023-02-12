@@ -96,12 +96,12 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import DpoCourse from '@/classes/DpoCourse';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import DpoApplicationForm from '@/components/Educational/Dpo/DpoApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import IDpoCourse from '@/interfaces/IDpoCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/services/brandColors';
 import scroll from '@/services/Scroll';
@@ -115,7 +115,7 @@ export default defineComponent({
     const route = useRoute();
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const dpoCourse: Ref<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
+    const dpoCourse: Ref<DpoCourse> = computed<DpoCourse>(() => store.getters['dpoCourses/item']);
     const mounted: Ref<boolean> = ref(false);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {

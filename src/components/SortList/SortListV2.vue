@@ -56,7 +56,6 @@ export default defineComponent({
 
     const dropPagination = (): void => {
       Provider.filterQuery.value.pagination = new Pagination();
-      Provider.filterQuery.value.pagination.allLoaded = false;
       Provider.store.commit('pagination/setCurPage', 1);
     };
 

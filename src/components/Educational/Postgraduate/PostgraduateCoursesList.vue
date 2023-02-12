@@ -108,15 +108,13 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
+import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import buildNameNumbers from '@/services/buildNameNumbers';
 export default defineComponent({
   name: 'PostgraduateCoursesList',
   setup() {
     const store = useStore();
-    const postgraduateCourses: Ref<IPostgraduateCourse[]> = computed<IPostgraduateCourse[]>(
-      () => store.getters['postgraduateCourses/items']
-    );
+    const postgraduateCourses: Ref<PostgraduateCourse[]> = computed<PostgraduateCourse[]>(() => store.getters['postgraduateCourses/items']);
     const mounted = ref(false);
 
     onBeforeMount(async () => {

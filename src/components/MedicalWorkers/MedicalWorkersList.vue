@@ -60,7 +60,9 @@ export default defineComponent({
     };
 
     const loadHeads = async () => {
-      await Provider.getAll('heads');
+      console.log('Heads');
+      await Provider.store.dispatch('heads/getAll', Provider.filterQuery.value);
+      console.log('end');
     };
 
     const load = async () => {
@@ -82,6 +84,7 @@ export default defineComponent({
     };
 
     const changeMode = async (doctorsModeActive: boolean) => {
+      console.log('changeMode');
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 8;
       Provider.store.commit('admin/showLoading');

@@ -1,22 +1,14 @@
 import { GetterTree } from 'vuex';
 
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IPostgraduateApplication[] {
-    return state.items;
-  },
-  item(state): IPostgraduateApplication {
-    return state.item;
-  },
+  ...getBaseGetters(),
   emailExists(state): boolean {
     return state.emailExists;
-  },
-  count(state): number {
-    return state.count;
   },
 };
 

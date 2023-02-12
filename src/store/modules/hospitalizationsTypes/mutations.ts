@@ -1,17 +1,12 @@
 import { MutationTree } from 'vuex';
 
 import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IHospitalizationType[]) {
-    state.items = items.map((item: IHospitalizationType) => new HospitalizationType(item));
-  },
-  set(state, item: IHospitalizationType) {
-    state.item = new HospitalizationType(item);
-  },
+  ...getBaseMutations(HospitalizationType),
 };
 
 export default mutations;

@@ -63,12 +63,12 @@
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
+import DpoCourse from '@/classes/DpoCourse';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import IDpoCourse from '@/interfaces/IDpoCourse';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -83,7 +83,7 @@ export default defineComponent({
   setup() {
     const mounted = ref(false);
     const route = useRoute();
-    const dpoCourses: ComputedRef<IDpoCourse[]> = computed(() => Provider.store.getters['dpoCourses/items']);
+    const dpoCourses: ComputedRef<DpoCourse[]> = computed(() => Provider.store.getters['dpoCourses/items']);
     const title = ref('');
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
@@ -141,6 +141,7 @@ export default defineComponent({
       isEditMode.value = true;
       isNotEditMode.value = false;
     };
+
     const save = async (next?: NavigationGuardNext) => {
       if (!isEditMode.value) {
         return;

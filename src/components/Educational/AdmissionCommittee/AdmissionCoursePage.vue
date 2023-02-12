@@ -89,9 +89,9 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import AdmissionForm from '@/components/Educational/AdmissionCommittee/AdmissionForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -100,7 +100,7 @@ export default defineComponent({
   name: 'AdmissionCoursePage',
   components: { AdmissionForm, SharesBlock },
   setup() {
-    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
+    const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
       showForm.value = true;

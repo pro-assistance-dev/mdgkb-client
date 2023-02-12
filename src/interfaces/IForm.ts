@@ -1,17 +1,18 @@
+import Form from '@/classes/Form';
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import IField from '@/interfaces/IField';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 
+import DpoApplication from './DpoApplication';
 import IFileInfo from './files/IFileInfo';
 import ICandidateApplication from './ICandidateApplication';
 import IChild from './IChild';
-import IDpoApplication from './IDpoApplication';
 import IFieldValue from './IFieldValue';
 import IFormStatus from './IFormStatus';
 import IFormStatusGroup from './IFormStatusGroup';
-import IPostgraduateApplication from './IPostgraduateApplication';
-import IResidencyApplication from './IResidencyApplication';
 import IUser from './IUser';
 import IVisitsApplication from './IVisitsApplication';
+import PostgraduateApplication from './PostgraduateApplication';
 import IVacancyResponse from './vacancyResponse/IVacancyResponse';
 
 export default interface IForm {
@@ -32,7 +33,7 @@ export default interface IForm {
   isNew: boolean;
   viewedByUser: boolean;
   user: IUser;
-  dpoApplication?: IDpoApplication;
+  dpoApplication?: DpoApplication;
   defaultFormStatus?: IFormStatus;
   defaultFormStatusId?: string;
   formStatusGroup?: IFormStatusGroup;
@@ -46,16 +47,15 @@ export default interface IForm {
   showPersonalDataAgreementError: boolean;
   formValueFiles: IFormValueFile[];
   formValueFilesForDelete: string[];
-  postgraduateApplication?: IPostgraduateApplication;
+  postgraduateApplication?: PostgraduateApplication;
   candidateApplication?: ICandidateApplication;
-  residencyApplication?: IResidencyApplication;
+  residencyApplication?: ResidencyApplication;
   visitsApplication?: IVisitsApplication;
   vacancyResponse?: IVacancyResponse;
 
   addField: (field?: IField) => void;
   removeField: (index: number) => void;
   getFileInfos: () => IFileInfo[];
-  getFieldValuesFileInfos: () => IFileInfo[];
   initFieldsValues: () => void;
   getFieldValue: (field: IField) => string | number | Date | IFileInfo | boolean | undefined;
   findFieldValue: (fieldId: string) => IFieldValue | undefined;
@@ -82,5 +82,5 @@ export default interface IForm {
   clearAllFields: () => void;
   addForValueFile: () => void;
 
-  reproduceFromPattern: (form?: IForm) => void;
+  reproduceFromPattern: (form?: Form) => void;
 }

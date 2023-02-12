@@ -1,11 +1,9 @@
-import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
-
-export default class PostgraduateCourseDates implements IPostgraduateCourseDates {
+export default class PostgraduateCourseDates {
   id?: string;
   start = new Date();
   end = new Date();
 
-  constructor(i?: IPostgraduateCourseDates) {
+  constructor(i?: PostgraduateCourseDates) {
     if (!i) {
       return;
     }

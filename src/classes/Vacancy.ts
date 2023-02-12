@@ -1,5 +1,4 @@
 import ContactInfo from '@/classes/contacts/ContactInfo';
-import Division from '@/classes/Division';
 import VacancyDuty from '@/classes/VacancyDuty';
 import VacancyRequirement from '@/classes/VacancyRequirement';
 import VacancyResponse from '@/classes/VacancyResponse';
@@ -10,11 +9,12 @@ import IVacancy from '@/interfaces/IVacancy';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 
 export default class Vacancy implements IVacancy {
-  id?;
+  id?: string;
   title = '';
   slug = '';
   contactInfo: IContactInfo = new ContactInfo();
@@ -26,12 +26,14 @@ export default class Vacancy implements IVacancy {
   active = false;
   responsesCount = 0;
   newResponsesCount = 0;
-
-  vacancyResponses: IVacancyResponse[] = [];
+  @ClassHelper.GetClassConstructorForArray(VacancyResponse)
+  vacancyResponses: VacancyResponse[] = [];
   vacancyResponsesForDelete = [];
   experience = '';
+  @ClassHelper.GetClassConstructorForArray(VacancyDuty)
   vacancyDuties: IVacancyDuty[] = [];
   vacancyDutiesForDelete = [];
+  @ClassHelper.GetClassConstructorForArray(VacancyRequirement)
   vacancyRequirements: IVacancyRequirement[] = [];
   vacancyRequirementsForDelete = [];
   schedule = '';
@@ -42,45 +44,7 @@ export default class Vacancy implements IVacancy {
   formPatternId?: string;
 
   constructor(i?: IVacancy) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.slug = i.slug;
-    this.title = i.title;
-    this.responsesCount = i.responsesCount;
-    if (i.contactInfo) {
-      this.contactInfo = new ContactInfo(i.contactInfo);
-    }
-    this.contactInfoId = i.contactInfoId;
-    this.specialization = i.specialization;
-    this.minSalary = i.minSalary;
-    this.maxSalary = i.maxSalary;
-    this.salaryComment = i.salaryComment;
-    this.active = i.active;
-    this.experience = i.experience;
-    this.schedule = i.schedule;
-    this.date = i.date;
-    this.formPatternId = i.formPatternId;
-
-    if (i.vacancyResponses) {
-      this.vacancyResponses = i.vacancyResponses.map((response: IVacancyResponse) => new VacancyResponse(response));
-    }
-    if (i.division) {
-      this.division = new Division(i.division);
-    }
-    if (i.vacancyDuties) {
-      this.vacancyDuties = i.vacancyDuties.map((item: IVacancyDuty) => new VacancyDuty(item));
-    }
-    if (i.vacancyRequirements) {
-      this.vacancyRequirements = i.vacancyRequirements.map((item: IVacancyRequirement) => new VacancyRequirement(item));
-    }
-    if (i.formPattern) {
-      this.formPattern = new Form(i.formPattern);
-    }
-    this.divisionId = i.divisionId;
-    this.newResponsesCount = i.newResponsesCount;
-    // this.newResponsesCount = this.countResponses(true);
+    ClassHelper.BuildClass(this, i);
   }
 
   withNewResponses(): boolean {

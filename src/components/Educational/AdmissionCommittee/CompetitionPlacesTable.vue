@@ -44,23 +44,23 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 
 export default defineComponent({
   name: 'CompetitionPlacesTable',
   props: {
     residencyCourses: {
-      type: Array as PropType<IResidencyCourse[]>,
+      type: Array as PropType<ResidencyCourse[]>,
       default: () => [],
     },
   },
   setup(props) {
-    const allFreePlaces = () => props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.freePlaces, 0);
-    const allPaidPlaces = () => props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.paidPlaces, 0);
+    const allFreePlaces = () => props.residencyCourses.reduce((sum: number, course: ResidencyCourse) => sum + course.freePlaces, 0);
+    const allPaidPlaces = () => props.residencyCourses.reduce((sum: number, course: ResidencyCourse) => sum + course.paidPlaces, 0);
     const allFreeApplications = () =>
-      props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.getFreeApplications().length, 0);
+      props.residencyCourses.reduce((sum: number, course: ResidencyCourse) => sum + course.getFreeApplications().length, 0);
     const allPaidApplications = () =>
-      props.residencyCourses.reduce((sum: number, course: IResidencyCourse) => sum + course.getPaidApplications().length, 0);
+      props.residencyCourses.reduce((sum: number, course: ResidencyCourse) => sum + course.getPaidApplications().length, 0);
 
     return { allFreePlaces, allPaidPlaces, allFreeApplications, allPaidApplications };
   },

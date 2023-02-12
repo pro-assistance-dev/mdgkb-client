@@ -8,13 +8,7 @@ import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IForm from '@/interfaces/IForm';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
-import IPostgraduateCourseDates from '@/interfaces/IPostgraduateCourseDates';
-import IPostgraduateCoursePlan from '@/interfaces/IPostgraduateCoursePlan';
-import IPostgraduateCourseSpecialization from '@/interfaces/IPostgraduateCourseSpecialization';
-import IPostgraduateCourseTeacher from '@/interfaces/IPostgraduateCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
-import ITeacher from '@/interfaces/ITeacher';
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
 
@@ -29,11 +23,14 @@ export default class PostgraduateCourse {
   documentTypeId?: string;
   documentType: PageSection = new PageSection();
   years = 3;
-  postgraduateCoursesSpecializations: IPostgraduateCourseSpecialization[] = [];
+  @ClassHelper.GetClassConstructorForArray(PostgraduateCourseSpecialization)
+  postgraduateCoursesSpecializations: PostgraduateCourseSpecialization[] = [];
   postgraduateCoursesSpecializationsForDelete: string[] = [];
-  postgraduateCoursesTeachers: IPostgraduateCourseTeacher[] = [];
+  @ClassHelper.GetClassConstructorForArray(PostgraduateCourseTeacher)
+  postgraduateCoursesTeachers: PostgraduateCourseTeacher[] = [];
   postgraduateCoursesTeachersForDelete: string[] = [];
-  postgraduateCoursesDates: IPostgraduateCourseDates[] = [];
+  @ClassHelper.GetClassConstructorForArray(PostgraduateCourseDates)
+  postgraduateCoursesDates: PostgraduateCourseDates[] = [];
   postgraduateCoursesDatesForDelete: string[] = [];
   formPattern: IForm = new Form();
   formPatternId?: string;
@@ -46,60 +43,14 @@ export default class PostgraduateCourse {
   annotation: IFileInfo = new FileInfo();
   annotationId?: string;
 
-  postgraduateCoursePlans: IPostgraduateCoursePlan[] = [];
+  postgraduateCoursePlans: PostgraduateCoursePlan[] = [];
   postgraduateCoursePlansForDelete: string[] = [];
 
-  constructor(i?: IPostgraduateCourse) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.description = i.description;
-    this.slug = i.slug;
-    this.cost = i.cost;
-    this.formPatternId = i.formPatternId;
-    this.educationForm = i.educationForm;
-    this.years = i.years;
-    if (i.postgraduateCoursesDates) {
-      this.postgraduateCoursesDates = i.postgraduateCoursesDates.map((item: IPostgraduateCourseDates) => new PostgraduateCourseDates(item));
-    }
-    if (i.postgraduateCoursesTeachers) {
-      this.postgraduateCoursesTeachers = i.postgraduateCoursesTeachers.map(
-        (item: IPostgraduateCourseTeacher) => new PostgraduateCourseTeacher(item)
-      );
-    }
-    if (i.postgraduateCoursesSpecializations) {
-      this.postgraduateCoursesSpecializations = i.postgraduateCoursesSpecializations.map(
-        (item: IPostgraduateCourseSpecialization) => new PostgraduateCourseSpecialization(item)
-      );
-    }
-    if (i.formPattern) {
-      this.formPattern = new Form(i.formPattern);
-    }
-    if (i.questionsFile) {
-      this.questionsFile = new FileInfo(i.questionsFile);
-    }
-    if (i.programFile) {
-      this.programFile = new FileInfo(i.programFile);
-    }
-    if (i.calendar) {
-      this.calendar = new FileInfo(i.calendar);
-    }
-    this.annotationId = i.annotationId;
-    if (i.annotation) {
-      this.annotation = new FileInfo(i.annotation);
-    }
-    if (i.postgraduateCoursePlans) {
-      this.postgraduateCoursePlans = i.postgraduateCoursePlans.map((item: IPostgraduateCoursePlan) => new PostgraduateCoursePlan(item));
-    }
-    this.documentTypeId = i.documentTypeId;
-    // if (i.documentType) {
-    //   this.documentType = new PageSection(i.documentType);
-    // }
-    this.questionsFileId = i.questionsFileId;
+  constructor(i?: PostgraduateCourse) {
+    ClassHelper.BuildClass(this, i);
   }
 
-  addTeacher(teacher: ITeacher): void {
+  addTeacher(teacher: Teacher): void {
     const postgraduateCourseTeacher = new PostgraduateCourseTeacher();
     postgraduateCourseTeacher.teacher = new Teacher(teacher);
     postgraduateCourseTeacher.teacherId = teacher.id;
@@ -107,17 +58,17 @@ export default class PostgraduateCourse {
   }
 
   setMainTeacher(index: number): void {
-    this.postgraduateCoursesTeachers.forEach((courseTeacher: IPostgraduateCourseTeacher) => (courseTeacher.main = false));
+    this.postgraduateCoursesTeachers.forEach((courseTeacher: PostgraduateCourseTeacher) => (courseTeacher.main = false));
     this.postgraduateCoursesTeachers[index].main = true;
   }
 
   setMainSpecialization(index: number): void {
-    this.postgraduateCoursesSpecializations.forEach((i: IPostgraduateCourseSpecialization) => (i.main = false));
+    this.postgraduateCoursesSpecializations.forEach((i: PostgraduateCourseSpecialization) => (i.main = false));
     this.postgraduateCoursesSpecializations[index].main = true;
   }
 
-  getMainTeacher(): ITeacher | undefined {
-    const mainPostgraduateCoursesTeacher = this.postgraduateCoursesTeachers.find((item: IPostgraduateCourseTeacher) => item.main);
+  getMainTeacher(): Teacher | undefined {
+    const mainPostgraduateCoursesTeacher = this.postgraduateCoursesTeachers.find((item: PostgraduateCourseTeacher) => item.main);
     if (mainPostgraduateCoursesTeacher) {
       return mainPostgraduateCoursesTeacher.teacher;
     }
@@ -129,7 +80,7 @@ export default class PostgraduateCourse {
 
   addSpecialization(specialization: ISpecialization): void {
     const index = this.postgraduateCoursesSpecializations.findIndex(
-      (i: IPostgraduateCourseSpecialization) => i.specializationId === specialization.id
+      (i: PostgraduateCourseSpecialization) => i.specializationId === specialization.id
     );
     if (index > -1) {
       ClassHelper.RemoveFromClassByIndex(index, this.postgraduateCoursesSpecializations, this.postgraduateCoursesSpecializationsForDelete);
@@ -141,7 +92,7 @@ export default class PostgraduateCourse {
     this.postgraduateCoursesSpecializations.push(postgraduateCourseSpecialization);
   }
   findSpecialization(id: string): boolean {
-    const spec = this.postgraduateCoursesSpecializations.find((i: IPostgraduateCourseSpecialization) => i.specializationId === id);
+    const spec = this.postgraduateCoursesSpecializations.find((i: PostgraduateCourseSpecialization) => i.specializationId === id);
     return !!spec;
   }
 
@@ -168,7 +119,7 @@ export default class PostgraduateCourse {
     if (this.annotation) {
       fileInfos.push(this.annotation);
     }
-    this.postgraduateCoursePlans.forEach((plan: IPostgraduateCoursePlan) => {
+    this.postgraduateCoursePlans.forEach((plan: PostgraduateCoursePlan) => {
       if (plan.plan) {
         fileInfos.push(plan.plan);
       }
@@ -182,7 +133,7 @@ export default class PostgraduateCourse {
   }
 
   getMainSpecialization(): ISpecialization {
-    const spec = this.postgraduateCoursesSpecializations.find((s: IPostgraduateCourseSpecialization) => s.main);
+    const spec = this.postgraduateCoursesSpecializations.find((s: PostgraduateCourseSpecialization) => s.main);
     if (spec) {
       return spec.specialization;
     }

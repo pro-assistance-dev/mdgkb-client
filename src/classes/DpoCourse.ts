@@ -3,19 +3,13 @@ import DpoCourseSpecialization from '@/classes/DpoCourseSpecialization';
 import DpoCourseTeacher from '@/classes/DpoCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
-import IDpoCourse from '@/interfaces/IDpoCourse';
-import IDpoCourseDates from '@/interfaces/IDpoCourseDates';
-import IDpoCourseSpecialization from '@/interfaces/IDpoCourseSpecialization';
-import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
-import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
-import ITeacher from '@/interfaces/ITeacher';
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
 
 import Form from './Form';
 
-export default class DpoCourse implements IDpoCourse {
+export default class DpoCourse {
   id?: string;
   slug = '';
   name = '';
@@ -28,58 +22,26 @@ export default class DpoCourse implements IDpoCourse {
   cost = 0;
   order = 0;
 
-  specialization: ISpecialization = new Specialization();
+  specialization: Specialization = new Specialization();
   specializationId?: string;
 
-  dpoCoursesSpecializations: IDpoCourseSpecialization[] = [];
+  @ClassHelper.GetClassConstructorForArray(DpoCourseSpecialization)
+  dpoCoursesSpecializations: DpoCourseSpecialization[] = [];
   dpoCoursesSpecializationsForDelete: string[] = [];
-  dpoCoursesTeachers: IDpoCourseTeacher[] = [];
+  @ClassHelper.GetClassConstructorForArray(DpoCourseTeacher)
+  dpoCoursesTeachers: DpoCourseTeacher[] = [];
   dpoCoursesTeachersForDelete: string[] = [];
-  dpoCoursesDates: IDpoCourseDates[] = [];
+  @ClassHelper.GetClassConstructorForArray(DpoCourseDates)
+  dpoCoursesDates: DpoCourseDates[] = [];
   dpoCoursesDatesForDelete: string[] = [];
-  formPattern: IForm = new Form();
+  formPattern: Form = new Form();
   formPatternId?: string;
 
-  constructor(i?: IDpoCourse) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.slug = i.slug;
-    this.description = i.description;
-    this.hours = i.hours;
-    this.cost = i.cost;
-    this.isNmo = i.isNmo;
-    if (i.isEditMode !== undefined) {
-      this.isEditMode = i.isEditMode;
-    }
-    this.linkNmo = i.linkNmo;
-    this.listeners = i.listeners;
-    this.order = i.order;
-    this.formPatternId = i.formPatternId;
-    if (i.dpoCoursesDates) {
-      this.dpoCoursesDates = i.dpoCoursesDates.map((item: IDpoCourseDates) => new DpoCourseDates(item));
-    }
-    if (i.dpoCoursesTeachers) {
-      this.dpoCoursesTeachers = i.dpoCoursesTeachers.map((item: IDpoCourseTeacher) => new DpoCourseTeacher(item));
-    }
-    if (i.dpoCoursesSpecializations) {
-      this.dpoCoursesSpecializations = i.dpoCoursesSpecializations.map(
-        (item: IDpoCourseSpecialization) => new DpoCourseSpecialization(item)
-      );
-    }
-    if (i.formPattern) {
-      this.formPattern = new Form(i.formPattern);
-    }
-
-    if (i.specialization) {
-      this.specialization = new Specialization(i.specialization);
-    }
-    this.specializationId = i.specializationId;
+  constructor(i?: DpoCourse) {
+    ClassHelper.BuildClass(this, i);
   }
 
-  addTeacher(teacher: ITeacher): void {
+  addTeacher(teacher: Teacher): void {
     const dpoCourseTeacher = new DpoCourseTeacher();
     dpoCourseTeacher.teacher = new Teacher(teacher);
     dpoCourseTeacher.teacherId = teacher.id;
@@ -87,12 +49,12 @@ export default class DpoCourse implements IDpoCourse {
   }
 
   setMainTeacher(index: number): void {
-    this.dpoCoursesTeachers.forEach((courseTeacher: IDpoCourseTeacher) => (courseTeacher.main = false));
+    this.dpoCoursesTeachers.forEach((courseTeacher: DpoCourseTeacher) => (courseTeacher.main = false));
     this.dpoCoursesTeachers[index].main = true;
   }
 
-  getMainTeacher(): ITeacher | undefined {
-    const mainDpoCoursesTeacher = this.dpoCoursesTeachers.find((item: IDpoCourseTeacher) => item.main);
+  getMainTeacher(): Teacher | undefined {
+    const mainDpoCoursesTeacher = this.dpoCoursesTeachers.find((item: DpoCourseTeacher) => item.main);
     if (mainDpoCoursesTeacher) {
       return mainDpoCoursesTeacher.teacher;
     }
@@ -103,7 +65,7 @@ export default class DpoCourse implements IDpoCourse {
   }
 
   addSpecialization(specialization: ISpecialization): void {
-    const index = this.dpoCoursesSpecializations.findIndex((i: IDpoCourseSpecialization) => i.specializationId === specialization.id);
+    const index = this.dpoCoursesSpecializations.findIndex((i: DpoCourseSpecialization) => i.specializationId === specialization.id);
     if (index > -1) {
       ClassHelper.RemoveFromClassByIndex(index, this.dpoCoursesSpecializations, this.dpoCoursesSpecializationsForDelete);
       return;
@@ -114,7 +76,7 @@ export default class DpoCourse implements IDpoCourse {
     this.dpoCoursesSpecializations.push(dpoCourseSpecialization);
   }
   findSpecialization(id: string): boolean {
-    const spec = this.dpoCoursesSpecializations.find((i: IDpoCourseSpecialization) => i.specializationId === id);
+    const spec = this.dpoCoursesSpecializations.find((i: DpoCourseSpecialization) => i.specializationId === id);
     return !!spec;
   }
 

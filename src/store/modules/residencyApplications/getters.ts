@@ -1,19 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IForm from '@/interfaces/IForm';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
+import Form from '@/classes/Form';
+import ResidencyApplication from '@/classes/ResidencyApplication';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IResidencyApplication[] {
-    return state.items;
-  },
-  item(state): IResidencyApplication {
-    return state.item;
-  },
-  formValue(state): IForm {
+  ...getBaseGetters<ResidencyApplication, State>(),
+  formValue(state): Form {
     return state.item.formValue;
   },
   emailExists(state): boolean {
@@ -21,9 +17,6 @@ const getters: GetterTree<State, RootState> = {
   },
   typeExists(state): boolean {
     return state.typeExists;
-  },
-  count(state): number {
-    return state.count;
   },
 };
 

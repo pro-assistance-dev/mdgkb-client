@@ -57,13 +57,12 @@ import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import UserFormFields from '@/classes/UserFormFields';
 import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IUser from '@/interfaces/IUser';
 import Provider from '@/services/Provider';
 import scroll from '@/services/Scroll';
@@ -77,7 +76,7 @@ export default defineComponent({
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
     const activeStep: Ref<number> = ref(0);
-    const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
+    const residencyApplication: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
     const textFields = ['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName', 'DiplomaSpeciality'];
@@ -100,7 +99,7 @@ export default defineComponent({
 
     const buttonOff: Ref<boolean> = ref(false);
 
-    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
+    const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const form = ref();

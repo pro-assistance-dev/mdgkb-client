@@ -43,31 +43,31 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
+import ResidencyApplication from '@/classes/ResidencyApplication';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 
 export default defineComponent({
   name: 'CompetitionTable',
   props: {
     residencyCourses: {
-      type: Array as PropType<IResidencyCourse[]>,
+      type: Array as PropType<ResidencyCourse[]>,
       default: () => [],
     },
   },
   setup(props) {
-    const getPassClass = (course: IResidencyCourse, applicationPlace: number): Record<string, boolean> => {
+    const getPassClass = (course: ResidencyCourse, applicationPlace: number): Record<string, boolean> => {
       return {
         pass: course.applicationPassCompetition(applicationPlace),
         'not-pass': !course.applicationPassCompetition(applicationPlace),
       };
     };
 
-    const filteredCourses = (): IResidencyCourse[] => {
+    const filteredCourses = (): ResidencyCourse[] => {
       return props.residencyCourses.filter((c) => c.paidAcceptedApplicationsExists());
     };
 
-    const leaveOnlyNeededApplications = (course: IResidencyCourse): IResidencyApplication[] => {
-      return course.getPaidApplicationsByPoint().filter((a: IResidencyApplication, appPlace: number) => {
+    const leaveOnlyNeededApplications = (course: ResidencyCourse): ResidencyApplication[] => {
+      return course.getPaidApplicationsByPoint().filter((a: ResidencyApplication, appPlace: number) => {
         if (a.formValue.user.human.snils === '180-933-880-93') {
           console.log(a.formValue.user.human.snils);
         }
@@ -75,8 +75,8 @@ export default defineComponent({
           return true;
         }
         let finded = false;
-        props.residencyCourses.forEach((c: IResidencyCourse) => {
-          const sameUserApplicationIndex = c.getPaidApplicationsByPoint().findIndex((application: IResidencyApplication) => {
+        props.residencyCourses.forEach((c: ResidencyCourse) => {
+          const sameUserApplicationIndex = c.getPaidApplicationsByPoint().findIndex((application: ResidencyApplication) => {
             if (a.formValue.user.human.snils === '180-933-880-93' && c.getFullName() === '31.08.19 Педиатрия') {
               console.log(application.id !== a.id);
               console.log(application.formValue.user.human.snils, a.formValue.user.human.snils);

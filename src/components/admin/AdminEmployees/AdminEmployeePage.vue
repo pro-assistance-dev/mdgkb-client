@@ -109,7 +109,7 @@
                 <CollapsContainer title="Регалии" :active-id="scope.activeId" :tab-id="1017" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <div class="tools-buttons">
-                      <button class="admin-add" @click.prevent="addRegalia">+ Добавить</button>
+                      <button class="admin-add" @click.prevent="employee.addRegalia()">+ Добавить</button>
                     </div>
                     <div v-for="(regalia, i) in employee.regalias" :key="regalia" class="container">
                       <button class="admin-del" @click.prevent="employee.removeRegalia(i)">Удалить</button>
@@ -176,6 +176,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
+import Human from '@/classes/Human';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import DatePicker from '@/components/DatePicker.vue';
@@ -187,6 +188,7 @@ import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IHuman from '@/interfaces/IHuman';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -202,80 +204,15 @@ export default defineComponent({
   },
   setup() {
     const form = ref();
-    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
-    const employees: Ref<Employee[]> = computed(() => Provider.store.getters['employees/items']);
+    Provider.form = form;
+    const employee: Ref<Employee> = Provider.item;
+    const employees: Ref<Employee[]> = Provider.items;
+    let filterModel: FilterModel = EmployeesFiltersLib.byFullName();
 
-    let filterModel: IFilterModel | undefined = undefined;
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-
-      // if (!employee.value.fileInfo.fileSystemPath) {
-      //   ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
-      //   saveButtonClick.value = false;
-      //   return;
-      // }
-
-      try {
-        if (Provider.route().params['id']) {
-          await Provider.store.dispatch('employees/update', employee.value);
-        } else {
-          await Provider.store.dispatch('employees/create', employee.value);
-        }
-      } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      next ? next() : await Provider.router.push('/admin/employees');
-    };
-
-    const { saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
-
-    const load = async () => {
-      await Provider.store.dispatch('search/searchGroups');
-      await loadEmployee();
-    };
-
-    Hooks.onBeforeMount(load);
-
-    const loadEmployee = async (): Promise<void> => {
-      if (Provider.route().params['id']) {
-        await Provider.store.dispatch('employees/get', Provider.route().params['id']);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: employee.value.human.getFullName(),
-          showBackButton: true,
-          buttons: [{ action: submit }],
-        });
-      } else {
-        Provider.store.commit('employees/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
-      }
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      // watch(employee, formUpdated, { deep: true });
-
-      filterModel = FilterModel.CreateFilterModel(
-        Provider.schema.value.employee.tableName,
-        Provider.schema.value.employee.fullName,
-        DataTypes.String
-      );
-    };
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    const addRegalia = () => Provider.store.commit('employees/addRegalia');
-
-    const completeInput = async (human: IHuman) => {
-      if (!filterModel) {
-        return;
-      }
+    const completeInput = async (human: Human) => {
       filterModel.value1 = human.getFullName();
-      Provider.setFilterModels(filterModel);
-      await Provider.store.dispatch('employees/getAll', Provider.filterQuery.value);
+      Provider.setFilterModel(filterModel);
+      await Provider.loadItems();
       if (employees.value.length === 0) {
         return;
       }
@@ -291,27 +228,23 @@ export default defineComponent({
         distinguishCancelAndClose: true,
         confirmButtonText: 'Перейти к редактированию',
         cancelButtonText: 'Остаться в создании нового',
-      })
-        .then(async () => {
-          // Provider.router.push({ name: 'AdminEditDoctorPage', params: { id: existingDoctor.human.slug } });
-          await Provider.router.push(`/admin/employees/${existing.human.slug}`);
-          await loadEmployee();
-        })
-        .catch((action: string) => {
-          if (action === 'cancel') {
-            ElMessage({
-              type: 'warning',
-              message: 'Сотрудник с введённым именем уже существует в системе',
-            });
-          }
-        });
+      }).then(async () => {
+        await Provider.router.push(`/admin/employees/${existing.human.slug}`);
+        await Provider.loadItem();
+      });
     };
 
+    Hooks.onBeforeMount(Provider.loadItem, {
+      adminHeader: {
+        title: Provider.route().params['id'] ? employee.value.human.getFullName() : 'Добавить сотрудника',
+        showBackButton: true,
+        buttons: [{ action: Hooks.submit() }],
+      },
+    });
+    Hooks.onBeforeRouteLeave();
     return {
       employees,
       completeInput,
-      addRegalia,
-      submit,
       employee,
       form,
       mounted: Provider.mounted,

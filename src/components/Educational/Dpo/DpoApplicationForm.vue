@@ -26,10 +26,10 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import DpoApplication from '@/classes/DpoApplication';
+import DpoCourse from '@/classes/DpoCourse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IDpoApplication from '@/interfaces/IDpoApplication';
-import IDpoCourse from '@/interfaces/IDpoCourse';
 import IUser from '@/interfaces/IUser';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
@@ -42,8 +42,8 @@ export default defineComponent({
   setup(_, { emit }) {
     const store = useStore();
     const mounted = ref(false);
-    const dpoApplication: ComputedRef<IDpoApplication> = computed<IDpoApplication>(() => store.getters['dpoApplications/item']);
-    const dpoCourse: ComputedRef<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
+    const dpoApplication: ComputedRef<DpoApplication> = computed<DpoApplication>(() => store.getters['dpoApplications/item']);
+    const dpoCourse: ComputedRef<DpoCourse> = computed<DpoCourse>(() => store.getters['dpoCourses/item']);
     const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['dpoApplications/emailExists']);

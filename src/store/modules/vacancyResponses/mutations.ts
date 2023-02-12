@@ -45,7 +45,7 @@ const mutations: MutationTree<State> = {
   resetItem(state) {
     state.item = new VacancyResponse();
   },
-  setFormValue(state, form: IForm) {
+  setFormValue(state, form: Form) {
     state.item.formValue = new Form(form);
   },
   setVacancy(state, vacancy: IVacancy) {

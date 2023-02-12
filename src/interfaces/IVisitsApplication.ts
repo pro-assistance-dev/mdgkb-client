@@ -1,6 +1,6 @@
+import Form from '@/classes/Form';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDivision from '@/interfaces/IDivision';
-import IForm from '@/interfaces/IForm';
 import IGate from '@/interfaces/IGate';
 import IVisit from '@/interfaces/IVisit';
 
@@ -10,7 +10,7 @@ export default interface IVisitsApplication {
   divisionId?: string;
   gate?: IGate;
   gateId?: string;
-  formValue: IForm;
+  formValue: Form;
   formValueId?: string;
   withCar: boolean;
   visits: IVisit[];

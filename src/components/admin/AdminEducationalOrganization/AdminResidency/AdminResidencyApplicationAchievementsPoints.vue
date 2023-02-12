@@ -54,15 +54,15 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import FileUploader from '@/components/FileUploader.vue';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
 
 export default defineComponent({
   name: 'AdminResidencyApplicationAchievementsPoints',
   components: { FileUploader },
   props: {
     residencyApplication: {
-      type: Object as PropType<IResidencyApplication>,
+      type: Object as PropType<ResidencyApplication>,
       required: true,
     },
     isEditMode: {

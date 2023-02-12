@@ -5,11 +5,12 @@ import IDivision from '@/interfaces/IDivision';
 import IGate from '@/interfaces/IGate';
 import IVisit from '@/interfaces/IVisit';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
+import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 import Visit from './Visit';
 
-export default class VisitsApplication implements IVisitsApplication {
+export default class VisitsApplication {
   id?: string;
   division: IDivision = new Division();
   divisionId?: string;
@@ -20,34 +21,16 @@ export default class VisitsApplication implements IVisitsApplication {
   formValue = new Form();
   formValueId?: string;
 
+  @ClassHelper.GetClassConstructorForArray(Visit)
   visits: IVisit[] = [];
   visitsForDelete: string[] = [];
 
-  constructor(i?: IVisitsApplication) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.divisionId = i.divisionId;
-    this.gateId = i.gateId;
-    this.formValueId = i.formValueId;
-    this.withCar = i.withCar;
-    if (i.division) {
-      this.division = new Division(i.division);
-    }
-    if (i.gate) {
-      this.gate = new Gate(i.gate);
-    }
-    if (i.formValue) {
-      this.formValue = new Form(i.formValue);
-    }
-    if (i.visits) {
-      this.visits = i.visits.map((item: IVisit) => new Visit(item));
-    }
+  constructor(i?: VisitsApplication) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getFileInfos(): IFileInfo[] {
-    return this.formValue.getFieldValuesFileInfos();
+    return this.formValue.getFileInfos();
   }
 
   addVisit(): void {

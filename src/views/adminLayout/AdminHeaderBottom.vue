@@ -19,19 +19,18 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+
+import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'AdminHeaderBottom',
 
   setup() {
-    const store = useStore();
-    const router = useRouter();
-    const headerParams = computed(() => store.getters['admin/headerParams']);
+    const headerParams = computed(() => Provider.store.getters['admin/headerParams']);
     const goBack = () => {
-      router.go(-1);
+      Provider.router.go(-1);
     };
     return {
+      mounted: Provider.mounted,
       headerParams,
       goBack,
     };

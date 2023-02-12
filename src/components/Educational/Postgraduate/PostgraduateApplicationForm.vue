@@ -27,10 +27,10 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import PostgraduateApplication from '@/classes/PostgraduateApplication';
+import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import IUser from '@/interfaces/IUser';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
@@ -43,10 +43,10 @@ export default defineComponent({
   setup(_, { emit }) {
     const store = useStore();
     const mounted = ref(false);
-    const postgraduateApplication: ComputedRef<IPostgraduateApplication> = computed<IPostgraduateApplication>(
+    const postgraduateApplication: ComputedRef<PostgraduateApplication> = computed<PostgraduateApplication>(
       () => store.getters['postgraduateApplications/item']
     );
-    const postgraduateCourse: Ref<IPostgraduateCourse> = computed<IPostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
+    const postgraduateCourse: Ref<PostgraduateCourse> = computed<PostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['postgraduateApplications/emailExists']);

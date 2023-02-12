@@ -1,18 +1,12 @@
-import IResidencyCoursePracticePlace from '@/interfaces/IResidencyCoursePracticePlace';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class ResidencyCoursePracticePlace implements IResidencyCoursePracticePlace {
+export default class ResidencyCoursePracticePlace {
   id?: string;
   name = '';
   link = '';
   order = 0;
 
-  constructor(i?: IResidencyCoursePracticePlace) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.link = i.link;
-    this.order = i.order;
+  constructor(i?: ResidencyCoursePracticePlace) {
+    ClassHelper.BuildClass(this, i);
   }
 }

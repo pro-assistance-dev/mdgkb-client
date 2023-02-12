@@ -41,12 +41,12 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import CompetitionApplicationsTable from '@/components/Educational/AdmissionCommittee/CompetitionApplicationsTable.vue';
 import CompetitionPlacesTable from '@/components/Educational/AdmissionCommittee/CompetitionPlacesTable.vue';
 import CompetitionRating from '@/components/Educational/AdmissionCommittee/CompetitionRating.vue';
 import CompetitionTable from '@/components/Educational/AdmissionCommittee/CompetitionTable.vue';
 import { Orders } from '@/interfaces/filters/Orders';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
@@ -64,7 +64,7 @@ export default defineComponent({
   },
   setup() {
     const mounted: Ref<boolean> = ref(false);
-    const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
+    const residencyCourses: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
     const activeName = ref('Конкурс');
 
     const loadPrograms = async () => {

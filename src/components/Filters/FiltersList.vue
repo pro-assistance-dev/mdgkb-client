@@ -13,6 +13,7 @@
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, WritableComputedRef } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
+import Pagination from '@/classes/filters/Pagination';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -52,6 +53,8 @@ export default defineComponent({
       } else {
         Provider.spliceFilterModel(selectedId.value);
       }
+      Provider.filterQuery.value.pagination = new Pagination();
+      Provider.store.commit('pagination/setCurPage', 1);
       await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       emit('load');
     };

@@ -53,7 +53,6 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Form from '@/classes/Form';
 import UserFormFields from '@/classes/UserFormFields';
-import IForm from '@/interfaces/IForm';
 import IUserFormFields from '@/interfaces/IUserFormFields';
 
 export default defineComponent({
@@ -61,7 +60,7 @@ export default defineComponent({
 
   props: {
     form: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
     activeFields: {
@@ -71,7 +70,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const formValue: Ref<IForm> = ref(new Form());
+    const formValue = ref(new Form());
 
     onBeforeMount(() => {
       formValue.value = props.form;

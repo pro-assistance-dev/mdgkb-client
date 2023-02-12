@@ -160,9 +160,9 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
+import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import PostgraduateApplicationForm from '@/components/Educational/Postgraduate/PostgraduateApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/services/brandColors';
 import scroll from '@/services/Scroll';
@@ -174,7 +174,7 @@ export default defineComponent({
     const route = useRoute();
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const postgraduateCourse: Ref<IPostgraduateCourse> = computed<IPostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
+    const postgraduateCourse: Ref<PostgraduateCourse> = computed<PostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
     const mounted: Ref<boolean> = ref(false);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {

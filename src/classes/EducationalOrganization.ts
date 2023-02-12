@@ -7,7 +7,6 @@ import IEducationalManager from '@/interfaces/IEducationalManager';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
 import IEducationalOrganizationProperty from '@/interfaces/IEducationalOrganizationProperty';
-import ITeacher from '@/interfaces/ITeacher';
 
 export default class EducationalOrganization implements IEducationalOrganization {
   educationalOrganizationProperties: IEducationalOrganizationProperty[] = [];
@@ -15,7 +14,7 @@ export default class EducationalOrganization implements IEducationalOrganization
   educationalOrganizationManagers: IEducationalManager[] = [];
   educationalOrganizationManagersForDelete: string[] = [];
 
-  teachers: ITeacher[] = [];
+  teachers: Teacher[] = [];
   teachersForDelete: string[] = [];
 
   educationalOrganizationAcademics: IEducationalOrganizationAcademic[] = [];
@@ -37,7 +36,7 @@ export default class EducationalOrganization implements IEducationalOrganization
       );
     }
     if (i.teachers) {
-      this.teachers = i.teachers.map((item: ITeacher) => new Teacher(item));
+      this.teachers = i.teachers.map((item: Teacher) => new Teacher(item));
     }
     if (i.educationalOrganizationAcademics) {
       this.educationalOrganizationAcademics = i.educationalOrganizationAcademics.map(
@@ -69,12 +68,12 @@ export default class EducationalOrganization implements IEducationalOrganization
     this.educationalOrganizationManagers.push(manager);
   }
 
-  addTeacher(teacher: ITeacher): void {
+  addTeacher(teacher: Teacher): void {
     this.teachers.push(teacher);
   }
 
   employeeExistsInTeachers(employeeId: string): boolean {
-    return !!this.teachers.find((teacher: ITeacher) => teacher.employeeId === employeeId);
+    return !!this.teachers.find((teacher: Teacher) => teacher.employeeId === employeeId);
   }
 
   doctorExistsInManagers(doctorId: string): boolean {

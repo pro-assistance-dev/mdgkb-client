@@ -1,54 +1,15 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
-import ICandidateExam from '@/interfaces/ICandidateExam';
 import HttpClient from '@/services/HttpClient';
+import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const httpClient = new HttpClient('candidate-exams');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }, filterQuery?: FilterQuery): Promise<void> => {
-    const items = await httpClient.get<ICandidateExam[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
-    if (filterQuery) {
-      filterQuery.pagination.setAllLoaded(items ? items.length : 0);
-    }
-    if (filterQuery && filterQuery.pagination.cursorMode) {
-      commit('appendToAll', items);
-      return;
-    }
-    commit('setAll', items);
-  },
-  get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<ICandidateExam[]>();
-    commit('set', res);
-  },
-  create: async ({ state }): Promise<void> => {
-    await httpClient.post<ICandidateExam, ICandidateExam>({
-      payload: state.item,
-      isFormData: true,
-      fileInfos: state.item.formPattern.getFileInfos(),
-    });
-  },
-  update: async ({ state, commit }): Promise<void> => {
-    const res = await httpClient.put<ICandidateExam, ICandidateExam>({
-      query: `${state.item.id}`,
-      payload: state.item,
-      isFormData: true,
-      fileInfos: state.item.formPattern.getFileInfos(),
-    });
-    commit('set', res);
-  },
-  remove: async ({ commit }, id: string): Promise<void> => {
-    await httpClient.delete({ query: `${id}` });
-    commit('remove', id);
-  },
-  getBySlug: async ({ commit }, slug: string): Promise<void> => {
-    const res = await httpClient.get<ICandidateExam>({ query: `slug/${slug}` });
-    commit('set', res);
-  },
+  ...getBaseActions('candidate-exams'),
 };
 
 export default actions;
