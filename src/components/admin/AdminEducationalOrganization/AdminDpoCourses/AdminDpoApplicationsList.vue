@@ -44,6 +44,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 
+import DpoApplication from '@/classes/DpoApplication';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
@@ -51,7 +52,6 @@ import SortList from '@/components/SortList/SortList.vue';
 // import FiltersList from '@/components/Filters/FiltersList.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import IDpoApplication from '@/interfaces/IDpoApplication';
 import IFormStatus from '@/interfaces/IFormStatus';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -66,7 +66,7 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
 
   setup() {
-    const dpoApplications: ComputedRef<IDpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
+    const dpoApplications: ComputedRef<DpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount'](tableName));
 

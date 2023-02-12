@@ -1,28 +1,20 @@
 import DpoCourse from '@/classes/DpoCourse';
 import Employee from '@/classes/Employee';
-import IDpoCourse from '@/interfaces/IDpoCourse';
-import ITeacher from '@/interfaces/ITeacher';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Teacher implements ITeacher {
+export default class Teacher {
   id?: string;
   employeeId?: string;
   employee: Employee = new Employee();
   position = '';
-  dpoCourses: IDpoCourse[] = [];
+  @ClassHelper.GetClassConstructorForArray(DpoCourse)
+  dpoCourses: DpoCourse[] = [];
 
-  constructor(i?: ITeacher) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.employeeId = i.employeeId;
-    this.position = i.position;
-    if (i.employee) {
-      this.employee = new Employee(i.employee);
-    }
-    if (i.dpoCourses) {
-      this.dpoCourses = i.dpoCourses.map((item: IDpoCourse) => new DpoCourse(item));
-    }
+  fullName?: string;
+  isMale?: string;
+
+  constructor(i?: Teacher) {
+    ClassHelper.BuildClass(this, i);
   }
 
   setEmployee(employee: Employee): void {

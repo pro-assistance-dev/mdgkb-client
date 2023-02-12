@@ -190,16 +190,16 @@ import { useStore } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import PageSection from '@/classes/PageSection';
+import PostgraduateCourse from '@/classes/PostgraduateCourse';
+import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IForm from '@/interfaces/IForm';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
-import ITeacher from '@/interfaces/ITeacher';
 import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -222,11 +222,11 @@ export default defineComponent({
 
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const postgraduateCourse: ComputedRef<IPostgraduateCourse> = computed<IPostgraduateCourse>(
+    const postgraduateCourse: ComputedRef<PostgraduateCourse> = computed<PostgraduateCourse>(
       () => store.getters['postgraduateCourses/item']
     );
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
-    const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
+    const selectedTeacher: ComputedRef<Teacher> = computed<Teacher>(() => store.getters['teachers/item']);
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
     const documentTypes: ComputedRef<PageSection[]> = computed<PageSection[]>(() => store.getters['documentTypes/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();

@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex';
 
+import DpoApplication from '@/classes/DpoApplication';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import IWithId from '@/interfaces/IWithId';
 import { Constructable } from '@/services/ClassHelper';
@@ -39,6 +40,15 @@ export default function getBaseMutations<T extends IWithId, StateType extends IB
     remove(state, id: string) {
       const index = state.items.findIndex((i: T) => i.id === id);
       state.items.splice(index, 1);
+    },
+    resetItem(state) {
+      state.item = new passedClass();
+    },
+    unshiftToAll(state, item: T) {
+      state.items.unshift(new passedClass(item));
+    },
+    clearItems(state) {
+      state.items = [];
     },
   };
 }

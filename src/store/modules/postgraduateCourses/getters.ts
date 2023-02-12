@@ -1,20 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IPostgraduateCourse[] {
-    return state.items;
-  },
-  item(state): IPostgraduateCourse {
-    return state.item;
-  },
-  count(state): number {
-    return state.count;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

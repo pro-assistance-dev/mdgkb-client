@@ -48,6 +48,7 @@
 import { ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import Appointment from '@/classes/Appointment';
 import AppointmentType from '@/classes/AppointmentType';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
@@ -80,9 +81,9 @@ export default defineComponent({
   setup() {
     const chosenDay: Ref<string> = ref(new Date().toString());
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
-    const appointment: ComputedRef<IAppointment> = computed(() => Provider.store.getters['appointments/item']);
-    const appointmentsTypes: ComputedRef<IAppointmentType[]> = computed(() => Provider.store.getters['appointmentsTypes/items']);
-    const appointmentsType: Ref<IAppointmentType> = computed(() => Provider.store.getters['appointmentsTypes/item']);
+    const appointment: ComputedRef<Appointment> = computed(() => Provider.store.getters['appointments/item']);
+    const appointmentsTypes: ComputedRef<AppointmentType[]> = computed(() => Provider.store.getters['appointmentsTypes/items']);
+    const appointmentsType: Ref<AppointmentType> = computed(() => Provider.store.getters['appointmentsTypes/item']);
     const createChildMode: Ref<boolean> = ref(false);
     const form = ref();
 
@@ -132,7 +133,7 @@ export default defineComponent({
       });
     };
 
-    const selectType = async (appointmentType: IAppointmentType) => {
+    const selectType = async (appointmentType: AppointmentType) => {
       Provider.store.commit('appointmentsTypes/set', appointmentType);
       appointment.value.appointmentType = new AppointmentType(appointmentType);
       appointment.value.appointmentTypeId = appointmentType.id;

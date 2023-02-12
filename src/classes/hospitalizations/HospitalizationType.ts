@@ -3,7 +3,6 @@ import HospitalizationToDocumentType from '@/classes/hospitalizations/Hospitaliz
 import HospitalizationTypeAnalyze from '@/classes/hospitalizations/HospitalizationTypeAnalyze';
 import HospitalizationTypeDocument from '@/classes/hospitalizations/HospitalizationTypeDocument';
 import HospitalizationTypeStage from '@/classes/hospitalizations/HospitalizationTypeStage';
-import IForm from '@/interfaces/IForm';
 import IHospitalizationToDocumentType from '@/interfaces/IHospitalizationToDocumentType';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import IHospitalizationTypeAnalize from '@/interfaces/IHospitalizationTypeAnalize';
@@ -26,9 +25,9 @@ export default class HospitalizationType implements IHospitalizationType {
   hospitalizationTypeDocuments: IHospitalizationTypeDocument[] = [];
   hospitalizationTypeStages: IHospitalizationTypeStage[] = [];
 
-  formPattern: IForm = new Form();
+  formPattern: Form = new Form();
   formPatternId?: string;
-  constructor(i?: IHospitalizationType) {
+  constructor(i?: HospitalizationType) {
     if (!i) {
       return;
     }

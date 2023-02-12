@@ -12,6 +12,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import DpoCourse from '@/classes/DpoCourse';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
@@ -22,7 +23,6 @@ import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
-import IDpoCourse from '@/interfaces/IDpoCourse';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISchema from '@/interfaces/schema/ISchema';
@@ -45,7 +45,7 @@ export default defineComponent({
 
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
+    const dpoCourses: Ref<DpoCourse[]> = computed<DpoCourse[]>(() => store.getters['dpoCourses/items']);
 
     onBeforeMount(async () => {
       store.commit(`filter/resetQueryFilter`);

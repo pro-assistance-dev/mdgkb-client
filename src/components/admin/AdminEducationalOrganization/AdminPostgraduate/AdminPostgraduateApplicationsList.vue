@@ -41,11 +41,11 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
 
+import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { Orders } from '@/interfaces/filters/Orders';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -57,7 +57,7 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
 
   setup() {
-    const postgraduateApplications: ComputedRef<IPostgraduateApplication[]> = computed(
+    const postgraduateApplications: ComputedRef<PostgraduateApplication[]> = computed(
       () => Provider.store.getters['postgraduateApplications/items']
     );
     const applicationsCount: ComputedRef<number> = computed(() =>

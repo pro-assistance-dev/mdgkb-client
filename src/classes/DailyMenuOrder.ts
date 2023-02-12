@@ -4,7 +4,6 @@ import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
-import IForm from '@/interfaces/IForm';
 import TimeMeasures from '@/services/TimeMeasures';
 
 export default class DailyMenuOrder implements IDailyMenuOrder {
@@ -13,14 +12,14 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
   boxNumber = 0;
   number = 0;
   dailyMenuOrderItems: IDailyMenuOrderItem[] = [];
-  formValue: IForm = new Form();
+  formValue: Form = new Form();
   formValueId?: string;
 
-  constructor(i?: IDailyMenuOrder) {
+  constructor(i?: DailyMenuOrder) {
     this.createClass(i);
   }
 
-  createClass(i?: IDailyMenuOrder): void {
+  createClass(i?: DailyMenuOrder): void {
     if (!i) {
       return;
     }
@@ -46,7 +45,6 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
   }
 
   private addToDailyMenuItems(dailyMenuItem: IDailyMenuItem): void {
-    console.log(dailyMenuItem.price);
     const index = this.dailyMenuOrderItems.findIndex((d: IDailyMenuOrderItem) => dailyMenuItem.id === d.dailyMenuItem.id);
     if (index !== -1) {
       this.dailyMenuOrderItems[index].quantity++;

@@ -1,23 +1,27 @@
 import { Module } from 'vuex';
 
+import Page from '@/classes/page/Page';
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import getBaseDefaultState from '@/store/baseModule/baseIndex';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+
+export interface State extends IBasicState<ResidencyApplication> {
+  emailExists: boolean;
+  typeExists: boolean;
+}
 
 export const getDefaultState = (): State => {
   return {
-    items: [],
-    item: new ResidencyApplication(),
+    ...getBaseDefaultState(ResidencyApplication),
     emailExists: false,
     typeExists: false,
-    count: 0,
   };
 };
-
 const state = getDefaultState();
 const namespaced = true;
 

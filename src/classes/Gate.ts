@@ -1,5 +1,4 @@
 import Form from '@/classes/Form';
-import IForm from '@/interfaces/IForm';
 import IGate from '@/interfaces/IGate';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 
@@ -10,10 +9,10 @@ export default class Gate implements IGate {
   name = '';
   visitsApplications: IVisitsApplication[] = [];
   num = 0;
-  formPattern: IForm = new Form();
+  formPattern: Form = new Form();
   formPatternId?: string;
 
-  constructor(i?: IGate) {
+  constructor(i?: Gate) {
     if (!i) {
       return;
     }

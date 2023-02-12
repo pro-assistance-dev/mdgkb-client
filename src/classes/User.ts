@@ -16,10 +16,8 @@ import IChild from '@/interfaces/IChild';
 import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
-import IDpoApplication from '@/interfaces/IDpoApplication';
 import IForm from '@/interfaces/IForm';
 import IHuman from '@/interfaces/IHuman';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
 import IOption from '@/interfaces/schema/IOption';
@@ -42,13 +40,13 @@ export default class User implements IUser {
   childrenForDelete: string[] = [];
   donorRulesUsers: IDonorRuleUser[] = [];
   doctorsUsers: IDoctorUser[] = [];
-  dpoApplications: IDpoApplication[] = [];
+  dpoApplications: DpoApplication[] = [];
   dpoApplicationsForDelete: string[] = [];
-  postgraduateApplications: IPostgraduateApplication[] = [];
+  postgraduateApplications: PostgraduateApplication[] = [];
   postgraduateApplicationsForDelete: string[] = [];
   candidateApplications: ICandidateApplication[] = [];
   candidateApplicationsForDelete: string[] = [];
-  formValues: IForm[] = [];
+  formValues: Form[] = [];
   createdAt?: Date;
   constructor(i?: IUser) {
     if (!i) {
@@ -86,16 +84,16 @@ export default class User implements IUser {
       this.doctorsUsers = i.doctorsUsers.map((item: IDoctorUser) => new DoctorUser(item));
     }
     if (i.dpoApplications) {
-      this.dpoApplications = i.dpoApplications.map((item: IDpoApplication) => new DpoApplication(item));
+      this.dpoApplications = i.dpoApplications.map((item: DpoApplication) => new DpoApplication(item));
     }
     if (i.postgraduateApplications) {
-      this.postgraduateApplications = i.postgraduateApplications.map((item: IPostgraduateApplication) => new PostgraduateApplication(item));
+      this.postgraduateApplications = i.postgraduateApplications.map((item: PostgraduateApplication) => new PostgraduateApplication(item));
     }
     if (i.candidateApplications) {
       this.candidateApplications = i.candidateApplications.map((item: ICandidateApplication) => new CandidateApplication(item));
     }
     if (i.formValues) {
-      this.formValues = i.formValues.map((item: IForm) => new Form(item));
+      this.formValues = i.formValues.map((item: Form) => new Form(item));
     }
   }
 

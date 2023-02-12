@@ -1,32 +1,21 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDpoApplication from '@/interfaces/IDpoApplication';
+import ClassHelper from '@/services/ClassHelper';
 
 import DpoCourse from './DpoCourse';
 import Form from './Form';
 
-export default class DpoApplication implements IDpoApplication {
+export default class DpoApplication {
   id?: string;
   dpoCourse = new DpoCourse();
   dpoCourseId?: string;
   formValue = new Form();
   formValueId?: string;
 
-  constructor(dpoApplication?: IDpoApplication) {
-    if (!dpoApplication) {
-      return;
-    }
-    this.id = dpoApplication.id;
-    this.dpoCourseId = dpoApplication.dpoCourseId;
-    this.formValueId = dpoApplication.formValueId;
-    if (dpoApplication.dpoCourse) {
-      this.dpoCourse = new DpoCourse(dpoApplication.dpoCourse);
-    }
-    if (dpoApplication.formValue) {
-      this.formValue = new Form(dpoApplication.formValue);
-    }
+  constructor(i?: DpoApplication) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getFileInfos(): IFileInfo[] {
-    return this.formValue.getFieldValuesFileInfos();
+    return this.formValue.getFileInfos();
   }
 }

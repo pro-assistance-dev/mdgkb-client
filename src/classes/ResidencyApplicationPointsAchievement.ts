@@ -3,12 +3,10 @@ import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
 
-export default class ResidencyApplicationPointsAchievement implements IResidencyApplicationPointsAchievement {
+export default class ResidencyApplicationPointsAchievement {
   id?: string;
-  residencyApplication: IResidencyApplication = new ResidencyApplication();
+  residencyApplication: ResidencyApplication = new ResidencyApplication();
   residencyApplicationId?: string;
   pointsAchievement: IPointsAchievement = new PointsAchievement();
   pointsAchievementId?: string;
@@ -18,7 +16,7 @@ export default class ResidencyApplicationPointsAchievement implements IResidency
   //
   showError = false;
 
-  constructor(i?: IResidencyApplicationPointsAchievement) {
+  constructor(i?: ResidencyApplicationPointsAchievement) {
     if (!i) {
       return;
     }

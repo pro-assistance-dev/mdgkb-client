@@ -1,28 +1,16 @@
 import DpoCourse from '@/classes/DpoCourse';
 import Specialization from '@/classes/Specialization';
-import IDpoCourse from '@/interfaces/IDpoCourse';
-import IDpoCourseSpecialization from '@/interfaces/IDpoCourseSpecialization';
 import ISpecialization from '@/interfaces/ISpecialization';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class DpoCourseSpecialization implements IDpoCourseSpecialization {
+export default class DpoCourseSpecialization {
   id?: string;
-  dpoCourse: IDpoCourse = new DpoCourse();
+  dpoCourse: DpoCourse = new DpoCourse();
   dpoCourseId?: string;
   specialization: ISpecialization = new Specialization();
   specializationId?: string;
 
-  constructor(i?: IDpoCourseSpecialization) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    if (i.specialization) {
-      this.specialization = new Specialization(i.specialization);
-    }
-    this.specializationId = i.specializationId;
-    if (i.dpoCourse) {
-      this.dpoCourse = new DpoCourse(i.dpoCourse);
-    }
-    this.dpoCourseId = i.dpoCourseId;
+  constructor(i?: DpoCourseSpecialization) {
+    ClassHelper.BuildClass(this, i);
   }
 }

@@ -140,17 +140,17 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } fro
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import DpoCourse from '@/classes/DpoCourse';
+import DpoCourseTeacher from '@/classes/DpoCourseTeacher';
 import FilterQuery from '@/classes/filters/FilterQuery';
+import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IDpoCourse from '@/interfaces/IDpoCourse';
-import IDpoCourseTeacher from '@/interfaces/IDpoCourseTeacher';
 import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
-import ITeacher from '@/interfaces/ITeacher';
 import ISchema from '@/interfaces/schema/ISchema';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -172,9 +172,9 @@ export default defineComponent({
 
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const dpoCourse: ComputedRef<IDpoCourse> = computed<IDpoCourse>(() => store.getters['dpoCourses/item']);
+    const dpoCourse: ComputedRef<DpoCourse> = computed<DpoCourse>(() => store.getters['dpoCourses/item']);
     const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
-    const selectedTeacher: ComputedRef<ITeacher> = computed<ITeacher>(() => store.getters['teachers/item']);
+    const selectedTeacher: ComputedRef<Teacher> = computed<Teacher>(() => store.getters['teachers/item']);
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
@@ -231,7 +231,7 @@ export default defineComponent({
 
     const addTeacher = async (searchObject: ISearchObject) => {
       const teacherExists = !!dpoCourse.value.dpoCoursesTeachers.find(
-        (courseTeacher: IDpoCourseTeacher) => courseTeacher.teacherId === searchObject.id
+        (courseTeacher: DpoCourseTeacher) => courseTeacher.teacherId === searchObject.id
       );
 
       if (teacherExists) {

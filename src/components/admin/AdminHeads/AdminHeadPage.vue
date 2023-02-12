@@ -54,12 +54,14 @@
       <CollapsContainer title="Телефоны" :tab-id="2017" :collapsed="false">
         <template #inside-content>
           <div class="tools-buttons">
-            <button class="admin-add" @click.prevent="contactInfo.addTelephoneNumber()">+ Добавить</button>
+            <button class="admin-add" @click.prevent="head.contactInfo.addTelephoneNumber()">+ Добавить</button>
           </div>
-          <div v-for="(telephoneNumber, i) in contactInfo.telephoneNumbers" :key="telephoneNumber" class="container2">
+          <div v-for="(telephoneNumber, i) in head.contactInfo.telephoneNumbers" :key="telephoneNumber" class="container2">
             <button
               class="admin-del2"
-              @click.prevent="$classHelper.RemoveFromClassByIndex(i, contactInfo.telephoneNumbers, contactInfo.telephoneNumbersForDelete)"
+              @click.prevent="
+                $classHelper.RemoveFromClassByIndex(i, head.contactInfo.telephoneNumbers, head.contactInfo.telephoneNumbersForDelete)
+              "
             >
               Удалить
             </button>
@@ -81,12 +83,12 @@
       <CollapsContainer title="Emails" :tab-id="2017" :collapsed="false">
         <template #inside-content>
           <div class="tools-buttons">
-            <button class="admin-add" @click.prevent="contactInfo.addEmail()">+ Добавить</button>
+            <button class="admin-add" @click.prevent="head.contactInfo.addEmail()">+ Добавить</button>
           </div>
-          <div v-for="(email, i) in contactInfo.emails" :key="email" class="container2">
+          <div v-for="(email, i) in head.contactInfo.emails" :key="email" class="container2">
             <button
               class="admin-del2"
-              @click.prevent="$classHelper.RemoveFromClassByIndex(i, contactInfo.emails, contactInfo.emailsForDelete)"
+              @click.prevent="$classHelper.RemoveFromClassByIndex(i, head.contactInfo.emails, head.contactInfo.emailsForDelete)"
             >
               Удалить
             </button>
@@ -127,103 +129,32 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch, WritableComputedRef } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
-import Division from '@/classes/Division';
 import Employee from '@/classes/Employee';
 import Head from '@/classes/Head';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IDepartment from '@/interfaces/IDepartment';
 import ISearchObject from '@/interfaces/ISearchObject';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminHeadPage',
   components: { TimetableConstructorV2New, CollapsContainer, RemoteSearch },
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
     const form = ref();
-    const mounted = ref(false);
+    Provider.form = form;
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
     const department: Ref<IDepartment> = computed(() => Provider.store.getters['departments/item']);
-
-    const contactInfo: WritableComputedRef<IContactInfo> = computed(() => store.getters['heads/item'].contactInfo);
-
-    const divisionOptions = ref([new Division()]);
-    const head: Ref<Head> = computed(() => store.getters['heads/item']);
-
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      try {
-        if (route.params['id']) {
-          await store.dispatch('heads/update', head.value);
-        } else {
-          await store.dispatch('heads/create', head.value);
-        }
-      } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      next ? next() : router.push('/admin/heads');
-    };
-
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await load();
-      store.commit('admin/closeLoading');
-    });
+    const head: Ref<Head> = Provider.item;
 
     const toEmployeeInfo = async (): Promise<void> => {
       await Provider.router.push(`/admin/employees/${head.value.employee.human.slug}`);
     };
-
-    const load = async (): Promise<void> => {
-      if (route.params['id']) {
-        await store.dispatch('heads/get', route.params['id']);
-        store.commit('admin/setHeaderParams', {
-          title: head.value.employee.human.getFullName(),
-          showBackButton: true,
-          buttons: [{ action: submit }],
-        });
-        Provider.store.commit('admin/setHeaderParams', {
-          title: head.value.employee.human.getFullName(),
-          showBackButton: true,
-          buttons: [{ action: toEmployeeInfo, text: 'Личная информация', type: 'warning' }, { action: submit }],
-        });
-      } else {
-        store.commit('heads/resetState');
-        store.commit('admin/setHeaderParams', { title: 'Добавить руководителя', showBackButton: true, buttons: [{ action: submit }] });
-      }
-      mounted.value = true;
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(head, formUpdated, { deep: true });
-      console.log('Отделы' + Provider.schema.value.department.name);
-      console.log('Сотрудники' + Provider.schema.value.employee.fullName);
-    };
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    const addRegalia = () => head.value.employee.addRegalia();
-    const removeRegalia = (i: number) => head.value.employee.removeRegalia(i);
-    // const addDepartment = () => head.value.addDepartment();
 
     const addDepartment = async (searchObject: ISearchObject) => {
       Provider.filterQuery.value.setParams(Provider.schema.value.department.id, searchObject.id);
@@ -231,27 +162,28 @@ export default defineComponent({
       head.value.addDepartment();
     };
 
-    const removeDepartment = (i: number) => head.value.removeDepartment(i);
-
     const selectEmployeeSearch = async (searchObject: ISearchObject) => {
       await Provider.store.dispatch('employees/get', searchObject.value);
       head.value.setEmployee(employee.value);
-      console.log('Сотрудники' + Provider.schema.value.employee.fullName);
     };
 
+    Hooks.onBeforeMount(Provider.loadItem, {
+      adminHeader: {
+        title: head.value.employee.human.getFullName(),
+        showBackButton: true,
+        buttons: Provider.route().params['id']
+          ? [{ action: Hooks.submit() }]
+          : [{ action: toEmployeeInfo, text: 'Личная информация', type: 'warning' }, { action: Hooks.submit() }],
+      },
+    });
+    Hooks.onBeforeRouteLeave(Hooks.submit);
+
     return {
-      removeDepartment,
       addDepartment,
-      removeRegalia,
-      addRegalia,
-      submit,
       head,
-      divisionOptions,
       form,
-      mounted,
-      contactInfo,
+      mounted: Provider.mounted,
       selectEmployeeSearch,
-      // mounted: Provider.mounted,
       schema: Provider.schema,
     };
   },

@@ -8,10 +8,10 @@ import { getDefaultState } from '.';
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IForm[]) {
-    state.items = items.map((a: IForm) => new Form(a));
+  setAll(state, items: Form[]) {
+    state.items = items.map((a: Form) => new Form(a));
   },
-  set(state, item: IForm) {
+  set(state, item: Form) {
     state.item = new Form(item);
   },
   resetState(state) {

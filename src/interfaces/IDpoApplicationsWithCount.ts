@@ -1,6 +1,6 @@
-import IDpoApplication from './IDpoApplication';
+import DpoApplication from './DpoApplication';
 
 export default interface IDpoApplicationsWithCount {
-  dpoApplications: IDpoApplication[];
+  dpoApplications: DpoApplication[];
   count: number;
 }

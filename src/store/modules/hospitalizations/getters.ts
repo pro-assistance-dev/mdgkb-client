@@ -1,17 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IHospitalization from '@/interfaces/IHospitalization';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IHospitalization[] {
-    return state.items;
-  },
-  item(state): IHospitalization {
-    return state.item;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

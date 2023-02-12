@@ -121,13 +121,13 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IDpoCourse from '@/interfaces/IDpoCourse';
+import DpoCourse from '@/classes/DpoCourse';
 
 export default defineComponent({
   name: 'DpoCoursesList',
   setup() {
     const store = useStore();
-    const dpoCourses: Ref<IDpoCourse[]> = computed<IDpoCourse[]>(() => store.getters['dpoCourses/items']);
+    const dpoCourses: Ref<DpoCourse[]> = computed<DpoCourse[]>(() => store.getters['dpoCourses/items']);
     const mounted = ref(false);
 
     onBeforeMount(async () => {

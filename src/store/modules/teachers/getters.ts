@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import ITeacher from '@/interfaces/ITeacher';
+import Teacher from '@/classes/Teacher';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): ITeacher[] {
-    return state.items;
-  },
-  item(state): ITeacher {
-    return state.item;
-  },
+  ...getBaseGetters<Teacher, State>(),
 };
 
 export default getters;

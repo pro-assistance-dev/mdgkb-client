@@ -1,9 +1,9 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination>
     <template #sort>
-      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadTeachers" />
+      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadItems" />
     </template>
-    <el-table :data="teachers" :border="false">
+    <el-table :data="items" :border="false">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
           {{ scope.row.employee.human.getFullName() }}
@@ -34,17 +34,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
-import { Orders } from '@/interfaces/filters/Orders';
 import ISearchObject from '@/interfaces/ISearchObject';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import TeachersFiltersLib from '@/services/Provider/libs/filters/TeachersFiltersLib';
@@ -55,30 +52,15 @@ export default defineComponent({
   name: 'AdminTeachersList',
   components: { AdminListWrapper, TableButtonGroup, SortList },
   setup() {
-    const teachers = computed(() => Provider.store.getters['teachers/items']);
-    const genderFilter: Ref<IFilterModel> = ref(new FilterModel());
-
-    const loadTeachers = async () => {
-      await Provider.store.dispatch('teachers/getAll', Provider.filterQuery.value);
-    };
-    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
-    const load = async () => {
-      Provider.setSortList(...createSortModels(TeachersSortsLib));
-      Provider.setSortModels(TeachersSortsLib.byFullName(Orders.Asc));
-      await loadTeachers();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Преподаватели',
-        buttons: [{ text: 'Добавить преподавателя', type: 'primary', action: create }],
-      });
-    };
-
-    Hooks.onBeforeMount(load, {
+    Hooks.onBeforeMount(Provider.loadItems, {
       pagination: { storeModule: 'teachers', action: 'getAll' },
+      adminHeader: {
+        title: 'Преподаватели',
+        buttons: [{ text: 'Добавить преподавателя', type: 'primary', action: Provider.createAdmin }],
+      },
+      sortsLib: TeachersSortsLib,
     });
 
-    const create = () => Provider.router.push(`/admin/teachers/new`);
-    const edit = (slug: string) => Provider.router.push(`/admin/teachers/${slug}`);
-    const remove = async (id: string) => await Provider.store.dispatch('teachers/remove', id);
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push({ name: `AdminEditTeacherPage`, params: { id: event.value } });
     };
@@ -88,16 +70,11 @@ export default defineComponent({
     };
 
     return {
-      filterByDivision,
-      teachers,
-      remove,
-      edit,
-      create,
+      // teachers,
+      ...Provider.getAdminLib(),
       mounted: Provider.mounted,
       schema: Provider.schema,
       selectSearch,
-      genderFilter,
-      loadTeachers,
       sortList: Provider.sortList,
       createGenderFilterModels,
       DataTypes,

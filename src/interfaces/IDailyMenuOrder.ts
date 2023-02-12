@@ -1,7 +1,7 @@
+import Form from '@/classes/Form';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
-import IForm from '@/interfaces/IForm';
 
 export default interface IDailyMenuOrder {
   id?: string;
@@ -9,7 +9,7 @@ export default interface IDailyMenuOrder {
   boxNumber: number;
   number: number;
   dailyMenuOrderItems: IDailyMenuOrderItem[];
-  formValue: IForm;
+  formValue: Form;
   formValueId?: string;
 
   increaseDailyMenuOrderItem: (dailyMenuItem: IDailyMenuItem) => void;

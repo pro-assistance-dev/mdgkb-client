@@ -1,54 +1,42 @@
+import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
+import Teacher from '@/classes/Teacher';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
+import { Orders } from '@/interfaces/filters/Orders';
+import ClassHelper from '@/services/ClassHelper';
 import Provider from '@/services/Provider';
 
 const TeachersFiltersLib = (() => {
-  function onlyMale(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.teacher.tableName,
-      Provider.schema.value.teacher.isMale,
-      DataTypes.Boolean
-    );
+  const modelName = 'teacher';
+  function onlyMale(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Teacher).isMale, DataTypes.Boolean);
     filterModel.boolean = true;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Мужской';
     return filterModel;
   }
 
-  function onlyFemale(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.doctor.tableName,
-      Provider.schema.value.teacher.isMale,
-      DataTypes.Boolean
-    );
+  function onlyFemale(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Teacher).isMale, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Женский';
     return filterModel;
   }
 
-  // function byDivisions(divisionsIds: string[]): IFilterModel {
-  //   const filterModel = FilterModel.CreateFilterModelWithJoin(
-  //     Provider.schema.value.doctor.tableName,
-  //     Provider.schema.value.doctor.id,
-  //     Provider.schema.value.doctorDivision.tableName,
-  //     Provider.schema.value.doctorDivision.id,
-  //     Provider.schema.value.doctorDivision.doctorId,
-  //     DataTypes.Join,
-  //     Provider.schema.value.doctorDivision.id,
-  //     Provider.schema.value.doctorDivision.divisionId
-  //   );
-  //   filterModel.operator = Operators.In;
-  //   filterModel.set = divisionsIds;
-  //   return filterModel;
-  // }
+  function byFullName(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Teacher).fullName, DataTypes.String);
+    filterModel.operator = Operators.Eq;
+    filterModel.label = 'По ФИО';
+    return filterModel;
+  }
 
   return {
     onlyMale,
     onlyFemale,
-    // byDivisions,
+    byFullName,
   };
 })();
 

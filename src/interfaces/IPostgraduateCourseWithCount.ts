@@ -1,6 +1,6 @@
-import IPostgraduateCourse from './IPostgraduateCourse';
+import PostgraduateCourse from './PostgraduateCourse';
 
 export default interface IPostgraduateCourseWithCount {
-  postgraduateCourses: IPostgraduateCourse[];
+  postgraduateCourses: PostgraduateCourse[];
   count: number;
 }

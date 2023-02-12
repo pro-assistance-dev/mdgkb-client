@@ -26,9 +26,6 @@ export default function (): IReturn {
   };
 
   const showConfirmModal = (submit: SubmitCallback, next: NavigationGuardNext): void => {
-    console.log('confirmLeave.value', confirmLeave.value);
-    console.log('saveButtonClick.value', saveButtonClick.value);
-    console.log(123, confirmLeave.value && !saveButtonClick.value);
     if (confirmLeave.value && !saveButtonClick.value) {
       ElMessageBox.confirm('У вас есть несохранённые изменения', 'Вы уверены, что хотите покинуть страницу?', {
         distinguishCancelAndClose: true,

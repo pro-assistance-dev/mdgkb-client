@@ -10,18 +10,12 @@ import Teacher from '@/classes/Teacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IEducationYear from '@/interfaces/IEducationYear';
 import IForm from '@/interfaces/IForm';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import IResidencyCoursePracticePlace from '@/interfaces/IResidencyCoursePracticePlace';
-import IResidencyCourseSpecialization from '@/interfaces/IResidencyCourseSpecialization';
-import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
 import ISpecialization from '@/interfaces/ISpecialization';
-import ITeacher from '@/interfaces/ITeacher';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 
-export default class ResidencyCourse implements IResidencyCourse {
+export default class ResidencyCourse {
   id?: string;
   slug = '';
   name = '';
@@ -30,9 +24,11 @@ export default class ResidencyCourse implements IResidencyCourse {
   freePlaces = 0;
   freeGovernmentPlaces = 0;
   paidPlaces = 0;
-  residencyCoursesSpecializations: IResidencyCourseSpecialization[] = [];
+  @ClassHelper.GetClassConstructorForArray(ResidencyCourseSpecialization)
+  residencyCoursesSpecializations: ResidencyCourseSpecialization[] = [];
   residencyCoursesSpecializationsForDelete: string[] = [];
-  residencyCoursesTeachers: IResidencyCourseTeacher[] = [];
+  @ClassHelper.GetClassConstructorForArray(ResidencyCourseTeacher)
+  residencyCoursesTeachers: ResidencyCourseTeacher[] = [];
   residencyCoursesTeachersForDelete: string[] = [];
   formPattern: IForm = new Form();
   formPatternId?: string;
@@ -54,70 +50,16 @@ export default class ResidencyCourse implements IResidencyCourse {
 
   endYear: IEducationYear = new EducationYear();
   endYearId?: string;
-  residencyApplications: IResidencyApplication[] = [];
-
-  residencyCoursePracticePlaces: IResidencyCoursePracticePlace[] = [];
+  @ClassHelper.GetClassConstructorForArray(ResidencyApplication)
+  residencyApplications: ResidencyApplication[] = [];
+  @ClassHelper.GetClassConstructorForArray(ResidencyCoursePracticePlace)
+  residencyCoursePracticePlaces: ResidencyCoursePracticePlace[] = [];
   residencyCoursePracticePlacesForDelete: string[] = [];
-  constructor(i?: IResidencyCourse) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.slug = i.slug;
-    this.description = i.description;
-
-    this.freePlaces = i.freePlaces;
-    this.freeGovernmentPlaces = i.freeGovernmentPlaces;
-    this.cost = i.cost;
-    this.paidPlaces = i.paidPlaces;
-    if (i.residencyCoursesTeachers) {
-      this.residencyCoursesTeachers = i.residencyCoursesTeachers.map((item: IResidencyCourseTeacher) => new ResidencyCourseTeacher(item));
-    }
-    if (i.residencyCoursesSpecializations) {
-      this.residencyCoursesSpecializations = i.residencyCoursesSpecializations.map(
-        (item: IResidencyCourseSpecialization) => new ResidencyCourseSpecialization(item)
-      );
-    }
-    if (i.formPattern) {
-      this.formPattern = new Form(i.formPattern);
-    }
-    this.formPatternId = i.formPatternId;
-    this.programId = i.programId;
-    if (i.program) {
-      this.program = new FileInfo(i.program);
-    }
-    this.annotationId = i.annotationId;
-    if (i.annotation) {
-      this.annotation = new FileInfo(i.annotation);
-    }
-    this.planId = i.planId;
-    if (i.plan) {
-      this.plan = new FileInfo(i.plan);
-    }
-    this.scheduleId = i.scheduleId;
-    if (i.schedule) {
-      this.schedule = new FileInfo(i.schedule);
-    }
-    this.startYearId = i.startYearId;
-    if (i.startYear) {
-      this.startYear = new EducationYear(i.startYear);
-    }
-    this.endYearId = i.endYearId;
-    if (i.endYear) {
-      this.endYear = new EducationYear(i.endYear);
-    }
-    if (i.residencyApplications) {
-      this.residencyApplications = i.residencyApplications.map((item: IResidencyApplication) => new ResidencyApplication(item));
-    }
-    if (i.residencyCoursePracticePlaces) {
-      this.residencyCoursePracticePlaces = i.residencyCoursePracticePlaces.map(
-        (item: IResidencyCoursePracticePlace) => new ResidencyCoursePracticePlace(item)
-      );
-    }
+  constructor(i?: ResidencyCourse) {
+    ClassHelper.BuildClass(this, i);
   }
 
-  addTeacher(teacher: ITeacher): void {
+  addTeacher(teacher: Teacher): void {
     const residencyCourseTeacher = new ResidencyCourseTeacher();
     residencyCourseTeacher.teacher = new Teacher(teacher);
     residencyCourseTeacher.teacherId = teacher.id;
@@ -129,12 +71,12 @@ export default class ResidencyCourse implements IResidencyCourse {
       return;
     }
 
-    this.residencyCoursesTeachers.forEach((courseTeacher: IResidencyCourseTeacher) => (courseTeacher.main = false));
+    this.residencyCoursesTeachers.forEach((courseTeacher: ResidencyCourseTeacher) => (courseTeacher.main = false));
     this.residencyCoursesTeachers[index].main = true;
   }
 
-  getMainTeacher(): ITeacher | undefined {
-    const mainDpoCoursesTeacher = this.residencyCoursesTeachers.find((item: IResidencyCourseTeacher) => item.main);
+  getMainTeacher(): Teacher | undefined {
+    const mainDpoCoursesTeacher = this.residencyCoursesTeachers.find((item: ResidencyCourseTeacher) => item.main);
     if (mainDpoCoursesTeacher) {
       return mainDpoCoursesTeacher.teacher;
     }
@@ -142,7 +84,7 @@ export default class ResidencyCourse implements IResidencyCourse {
 
   addSpecialization(specialization: ISpecialization): void {
     const index = this.residencyCoursesSpecializations.findIndex(
-      (i: IResidencyCourseSpecialization) => i.specializationId === specialization.id
+      (i: ResidencyCourseSpecialization) => i.specializationId === specialization.id
     );
     if (index > -1) {
       ClassHelper.RemoveFromClassByIndex(index, this.residencyCoursesSpecializations, this.residencyCoursesSpecializationsForDelete);
@@ -155,7 +97,7 @@ export default class ResidencyCourse implements IResidencyCourse {
   }
 
   findSpecialization(id: string): boolean {
-    const spec = this.residencyCoursesSpecializations.find((i: IResidencyCourseSpecialization) => i.specializationId === id);
+    const spec = this.residencyCoursesSpecializations.find((i: ResidencyCourseSpecialization) => i.specializationId === id);
     return !!spec;
   }
 
@@ -163,12 +105,12 @@ export default class ResidencyCourse implements IResidencyCourse {
     if (typeof index !== 'number' || index < 0 || index >= this.residencyCoursesSpecializations.length - 1) {
       return;
     }
-    this.residencyCoursesSpecializations.forEach((i: IResidencyCourseSpecialization) => (i.main = false));
+    this.residencyCoursesSpecializations.forEach((i: ResidencyCourseSpecialization) => (i.main = false));
     this.residencyCoursesSpecializations[index].main = true;
   }
 
   getMainSpecialization(): ISpecialization {
-    const spec = this.residencyCoursesSpecializations.find((s: IResidencyCourseSpecialization) => s.main);
+    const spec = this.residencyCoursesSpecializations.find((s: ResidencyCourseSpecialization) => s.main);
     if (spec) {
       return spec.specialization;
     }
@@ -210,30 +152,30 @@ export default class ResidencyCourse implements IResidencyCourse {
     return Number(res);
   }
 
-  getApplicationsByPoint(): IResidencyApplication[] {
-    return this.getAcceptedApplications().sort((a: IResidencyApplication, b: IResidencyApplication) => {
+  getApplicationsByPoint(): ResidencyApplication[] {
+    return this.getAcceptedApplications().sort((a: ResidencyApplication, b: ResidencyApplication) => {
       return b.pointsSum() - a.pointsSum();
     });
   }
 
-  getPaidApplicationsByPoint(): IResidencyApplication[] {
-    return this.getApplicationsByPoint().filter((a: IResidencyApplication) => a.paid === true);
+  getPaidApplicationsByPoint(): ResidencyApplication[] {
+    return this.getApplicationsByPoint().filter((a: ResidencyApplication) => a.paid === true);
   }
 
-  getAcceptedApplications(): IResidencyApplication[] {
-    return this.residencyApplications.filter((i: IResidencyApplication) => i.formValue.formStatus.isAccepted());
+  getAcceptedApplications(): ResidencyApplication[] {
+    return this.residencyApplications.filter((i: ResidencyApplication) => i.formValue.formStatus.isAccepted());
   }
 
   isThisYear(): boolean {
     return this.startYear.year.getFullYear() === new Date().getFullYear();
   }
 
-  getFreeApplications(): IResidencyApplication[] {
-    return this.getAcceptedApplications().filter((a: IResidencyApplication) => !a.paid);
+  getFreeApplications(): ResidencyApplication[] {
+    return this.getAcceptedApplications().filter((a: ResidencyApplication) => !a.paid);
   }
 
-  getPaidApplications(): IResidencyApplication[] {
-    return this.getAcceptedApplications().filter((a: IResidencyApplication) => a.paid);
+  getPaidApplications(): ResidencyApplication[] {
+    return this.getAcceptedApplications().filter((a: ResidencyApplication) => a.paid);
   }
 
   getFullName(): string {
@@ -249,7 +191,7 @@ export default class ResidencyCourse implements IResidencyCourse {
   }
 
   getEmployees(): Employee[] {
-    return this.residencyCoursesTeachers.map((item: IResidencyCourseTeacher) => item.teacher.employee);
+    return this.residencyCoursesTeachers.map((item: ResidencyCourseTeacher) => item.teacher.employee);
   }
 
   getInfoFiles(): IFileInfo[] {

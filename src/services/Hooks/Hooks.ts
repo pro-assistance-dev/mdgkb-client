@@ -31,33 +31,18 @@ const Hooks = (() => {
       Provider.store.commit('admin/showLoading');
       Provider.resetFilterQuery();
       await Provider.store.dispatch('meta/getSchema');
+      if (options?.sortsLib) {
+        Provider.setSortList(...createSortModels(options.sortsLib));
+      }
+      Provider.setDefaultSortModel();
+      await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
+      Provider.setStoreModule();
+      Provider.setGetAction(options?.getAction);
+      Provider.initPagination(options?.pagination);
+      await f(Provider.filterQuery.value);
       if (options?.adminHeader) {
         Provider.store.commit('admin/setHeaderParams', options.adminHeader);
       }
-      if (Provider.filterQuery.value) {
-        Provider.filterQuery.value.pagination.cursorMode = false;
-      }
-      if (options?.sortsLib || options?.v2) {
-        await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
-        if (options.sortsLib) {
-          Provider.setSortList(...createSortModels(options.sortsLib));
-        }
-        if (!Provider.filterQuery.value.sortModel) {
-          Provider.setDefaultSortModel();
-        }
-        Provider.setStoreModule();
-        Provider.setGetAction(options.getAction);
-        console.log(Provider.getStoreModule(), Provider.getGetAction());
-        Provider.store.commit('filter/setStoreModule', Provider.getStoreModule());
-        Provider.store.commit('filter/setAction', Provider.getGetAction());
-        Provider.store.commit('pagination/setCurPage', 1);
-      }
-      if (options?.pagination) {
-        Provider.store.commit('filter/setStoreModule', options.pagination.storeModule);
-        Provider.store.commit('filter/setAction', options.pagination.action);
-        Provider.store.commit('pagination/setCurPage', 1);
-      }
-      await f(Provider.filterQuery.value);
       Provider.store.commit('admin/closeLoading');
       Provider.mounted.value = true;
     });
@@ -65,13 +50,14 @@ const Hooks = (() => {
 
   const { saveButtonClick, showConfirmModal } = useConfirmLeavePage();
 
-  const onBeforeRouteLeaveWithSubmit = (submitFunction: CallableFunction) => {
+  const onBeforeRouteLeaveWithSubmit = (submitFunction?: CallableFunction) => {
     return onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submitFunction(), next);
+      const func = submitFunction ? submitFunction : submit;
+      showConfirmModal(func(), next);
     });
   };
 
-  const submit = (submitFunction: CallableFunction) => {
+  const submit = (submitFunction?: CallableFunction) => {
     return async () => {
       saveButtonClick.value = true;
       if (!validate(Provider.form)) {
@@ -79,11 +65,14 @@ const Hooks = (() => {
         return;
       }
       try {
-        await submitFunction();
+        if (submitFunction) {
+          await submitFunction();
+        } else {
+          await Provider.submit();
+        }
         ElMessage({ message: 'Сохранено', type: 'success' });
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        console.log(error);
         return;
       }
     };

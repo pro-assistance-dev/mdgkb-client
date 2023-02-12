@@ -23,6 +23,7 @@ export default class ClassHelper {
       }
       if (Array.isArray(prop)) {
         const constructor = Reflect.getMetadata(key, passedClass);
+        console.log(key, passedClass, constructor);
         if (constructor) {
           passedClass[key] = prop.map((t) => new constructor[key](t));
         }

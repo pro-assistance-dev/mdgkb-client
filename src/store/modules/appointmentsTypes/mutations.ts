@@ -1,19 +1,12 @@
 import { MutationTree } from 'vuex';
 
 import AppointmentType from '@/classes/AppointmentType';
-import IAppointmentType from '@/interfaces/IAppointmentType';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IAppointmentType[]) {
-    if (items && items.length) {
-      state.items = items.map((item: IAppointmentType) => new AppointmentType(item));
-    }
-  },
-  set(state, item: IAppointmentType) {
-    state.item = new AppointmentType(item);
-  },
+  ...getBaseMutations(AppointmentType),
 };
 
 export default mutations;

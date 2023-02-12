@@ -28,15 +28,15 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'SelectResidencyCourseForm',
   setup() {
-    const residencyCourses: Ref<IResidencyCourse[]> = computed<IResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
-    const selectedCourse: Ref<IResidencyCourse | undefined> = ref(undefined);
-    const selectCourse = (course: IResidencyCourse) => {
+    const residencyCourses: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
+    const selectedCourse: Ref<ResidencyCourse | undefined> = ref(undefined);
+    const selectCourse = (course: ResidencyCourse) => {
       selectedCourse.value = course;
     };
     return {

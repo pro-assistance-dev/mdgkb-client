@@ -126,7 +126,7 @@ export default defineComponent({
   },
   props: {
     form: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
     emailExists: {
@@ -149,7 +149,7 @@ export default defineComponent({
   emits: ['findEmail'],
 
   setup(props, { emit }) {
-    const formValue: Ref<IForm> = ref(new Form());
+    const formValue = ref(new Form());
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
     const mounted: Ref<boolean> = ref(false);
     const changeFormStatusHandler = (status: IFormStatus) => {

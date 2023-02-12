@@ -1,18 +1,16 @@
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import Specialization from '@/classes/Specialization';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
-import IPostgraduateCourseSpecialization from '@/interfaces/IPostgraduateCourseSpecialization';
 import ISpecialization from '@/interfaces/ISpecialization';
 
-export default class PostgraduateCourseSpecialization implements IPostgraduateCourseSpecialization {
+export default class PostgraduateCourseSpecialization {
   id?: string;
-  postgraduateCourse: IPostgraduateCourse = new PostgraduateCourse();
+  postgraduateCourse: PostgraduateCourse = new PostgraduateCourse();
   postgraduateCourseId?: string;
   main = false;
   specialization: ISpecialization = new Specialization();
   specializationId?: string;
 
-  constructor(i?: IPostgraduateCourseSpecialization) {
+  constructor(i?: PostgraduateCourseSpecialization) {
     if (!i) {
       return;
     }

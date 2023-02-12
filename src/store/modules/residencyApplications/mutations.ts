@@ -4,50 +4,20 @@ import Form from '@/classes/Form';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import User from '@/classes/User';
-import IForm from '@/interfaces/IForm';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyApplicationsWithCount from '@/interfaces/IResidencyApplicationsWithCount';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import IUser from '@/interfaces/IUser';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IResidencyApplication[]) {
-    state.items = items.map((i: IResidencyApplication) => new ResidencyApplication(i));
-  },
-  setAllWithCount(state, item: IResidencyApplicationsWithCount) {
-    if (!item.residencyApplications) {
-      state.items = [];
-      return;
-    }
-    state.items = item.residencyApplications.map((i: IResidencyApplication) => new ResidencyApplication(i));
-    state.count = item.count;
-  },
-  appendToAll(state, item: IResidencyApplicationsWithCount) {
-    if (!item.residencyApplications) {
-      state.items = [];
-      return;
-    }
-    const residencyApplications = item.residencyApplications.map((i: IResidencyApplication) => new ResidencyApplication(i));
-    state.items.push(...residencyApplications);
-    state.count = item.count;
-  },
-  set(state, item: IResidencyApplication) {
-    state.item = new ResidencyApplication(item);
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IResidencyApplication) => i.id === id);
-    state.items.splice(index, 1);
-  },
+  ...getBaseMutations<ResidencyApplication, State>(ResidencyApplication),
   resetItem(state) {
     state.item = new ResidencyApplication();
     state.emailExists = false;
   },
-  setUser(state, user: IUser) {
+  setUser(state, user: User) {
     state.item.formValue.user = new User(user);
   },
-  setCourse(state, residencyCourse: IResidencyCourse) {
+  setCourse(state, residencyCourse: ResidencyCourse) {
     state.item.residencyCourse = new ResidencyCourse(residencyCourse);
     state.item.residencyCourseId = state.item.residencyCourse.id;
   },
@@ -57,10 +27,10 @@ const mutations: MutationTree<State> = {
   setTypeExists(state, typeExists: boolean) {
     state.typeExists = typeExists;
   },
-  setFormValue(state, form: IForm) {
+  setFormValue(state, form: Form) {
     state.item.formValue = new Form(form);
   },
-  changeFormPattern(state, pattern: IForm) {
+  changeFormPattern(state, pattern: Form) {
     state.item.formValue.removeAllFieldsAndValues();
     state.item.formValue.applyFormPatternFields(pattern);
     state.item.formValue.initFieldsValues();

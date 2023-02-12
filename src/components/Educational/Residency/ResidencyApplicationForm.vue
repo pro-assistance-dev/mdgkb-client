@@ -21,11 +21,11 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import ResidencyApplication from '@/classes/ResidencyApplication';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import IUser from '@/interfaces/IUser';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
@@ -37,10 +37,10 @@ export default defineComponent({
   setup(_, { emit }) {
     const store = useStore();
     const mounted = ref(false);
-    const residencyApplication: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
+    const residencyApplication: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
       () => store.getters['residencyApplications/item']
     );
-    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => store.getters['residencyCourses/item']);
+    const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => store.getters['residencyCourses/item']);
     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['residencyApplications/emailExists']);

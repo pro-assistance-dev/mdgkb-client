@@ -1,17 +1,18 @@
 import { Module } from 'vuex';
 
 import Gate from '@/classes/Gate';
+import getBaseDefaultState from '@/store/baseModule/baseIndex';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
 
+export type State = IBasicState<Gate>;
 export const getDefaultState = (): State => {
   return {
-    items: [],
-    item: new Gate(),
+    ...getBaseDefaultState(Gate),
   };
 };
 

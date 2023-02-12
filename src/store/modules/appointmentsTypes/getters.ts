@@ -3,7 +3,7 @@ import { GetterTree } from 'vuex';
 import IAppointmentType from '@/interfaces/IAppointmentType';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
   items(state): IAppointmentType[] {

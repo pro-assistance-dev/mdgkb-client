@@ -43,10 +43,10 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
 import ResidencyCourseInfo from '@/components/Educational/Residency/ResidencyCourseInfo.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -56,7 +56,7 @@ export default defineComponent({
   name: 'ResidencyCoursePage',
   components: { DoctorsCarousel, ResidencyCourseInfo, CollapsContainer },
   setup() {
-    const residencyCourse: Ref<IResidencyCourse> = computed<IResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
+    const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
       showForm.value = true;

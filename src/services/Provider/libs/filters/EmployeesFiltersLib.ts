@@ -2,6 +2,7 @@ import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
+import { Orders } from '@/interfaces/filters/Orders';
 import ClassHelper from '@/services/ClassHelper';
 
 const EmployeesFiltersLib = (() => {
@@ -22,9 +23,17 @@ const EmployeesFiltersLib = (() => {
     return filterModel;
   }
 
+  function byFullName(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Employee).fullName, DataTypes.String);
+    filterModel.operator = Operators.Eq;
+    filterModel.label = 'По ФИО';
+    return filterModel;
+  }
+
   return {
     onlyMale,
     onlyFemale,
+    byFullName,
   };
 })();
 

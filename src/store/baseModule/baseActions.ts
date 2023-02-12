@@ -6,12 +6,19 @@ import IFileInfosGetter from '@/interfaces/IFileInfosGetter';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import IWithId from '@/interfaces/IWithId';
 import HttpClient from '@/services/HttpClient';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
-export default function getBaseActions<T extends IWithId & IFileInfosGetter, StateType>(
-  endPoint: string
+export default function getBaseActions<T extends IWithId & IFileInfosGetter, StateType extends IBasicState<T>>(
+  endPointOrClient: HttpClient | string
 ): ActionTree<StateType, RootState> {
-  const httpClient = new HttpClient(endPoint);
+  let httpClient: HttpClient = new HttpClient();
+  if (typeof endPointOrClient === 'string') {
+    httpClient = new HttpClient(endPointOrClient);
+  } else {
+    httpClient = endPointOrClient;
+  }
+
   return {
     getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
       const items = await httpClient.get<T[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
@@ -61,6 +68,9 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
     remove: async ({ commit }, id: string): Promise<void> => {
       await httpClient.delete({ query: `${id}` });
       commit('remove', id);
+    },
+    updateMany: async ({ state }): Promise<void> => {
+      await httpClient.put<T[], T[]>({ query: 'many', payload: state.items });
     },
   };
 }

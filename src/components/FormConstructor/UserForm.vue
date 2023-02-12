@@ -138,11 +138,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { useStore } from 'vuex';
 
 import Form from '@/classes/Form';
+import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import DatePicker from '@/components/DatePicker.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-import IForm from '@/interfaces/IForm';
-import IUser from '@/interfaces/IUser';
 import IUserFormFields from '@/interfaces/IUserFormFields';
 import PhoneService from '@/services/PhoneService';
 
@@ -151,7 +150,7 @@ export default defineComponent({
   components: { DatePicker },
   props: {
     form: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
     emailExists: {
@@ -180,8 +179,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
-    const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
-    const formValue: Ref<IForm> = ref(new Form());
+    const user: ComputedRef<User> = computed(() => store.getters['auth/user']);
+    const formValue = ref(new Form());
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value.trim().length) {

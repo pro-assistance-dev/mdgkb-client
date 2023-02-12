@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IDailyMenuOrder[] {
-    return state.items;
-  },
-  item(state): IDailyMenuOrder {
-    return state.item;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

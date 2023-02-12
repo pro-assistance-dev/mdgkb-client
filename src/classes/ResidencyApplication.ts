@@ -2,14 +2,12 @@ import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 import ResidencyCourse from './ResidencyCourse';
 
-export default class ResidencyApplication implements IResidencyApplication {
+export default class ResidencyApplication {
   id?: string;
   residencyCourse = new ResidencyCourse();
   residencyCourseId?: string;
@@ -25,53 +23,21 @@ export default class ResidencyApplication implements IResidencyApplication {
   pointsEntrance = 0;
   pointsAchievements = 0;
   mdgkbExam?: boolean;
-  residencyApplicationPointsAchievements: IResidencyApplicationPointsAchievement[] = [];
+  @ClassHelper.GetClassConstructorForArray(ResidencyApplicationPointsAchievement)
+  residencyApplicationPointsAchievements: ResidencyApplicationPointsAchievement[] = [];
   residencyApplicationPointsAchievementsForDelete: string[] = [];
   primaryAccreditation?: boolean;
   primaryAccreditationPoints = 0;
   primaryAccreditationPlace = '';
 
-  constructor(i?: IResidencyApplication) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.residencyCourseId = i.residencyCourseId;
-    this.pointsEntrance = i.pointsEntrance;
-    this.pointsAchievements = i.pointsAchievements;
-    this.formValueId = i.formValueId;
-    this.applicationNum = i.applicationNum;
-    this.main = i.main;
-    this.mdgkbExam = i.mdgkbExam;
-    this.paid = i.paid;
-    if (i.userEdit != undefined) {
-      this.userEdit = i.userEdit;
-    }
-    if (i.admissionCommittee != undefined) {
-      this.admissionCommittee = i.admissionCommittee;
-    }
-    // this.entranceExamPlace = i.entranceExamPlace;
-    this.entranceExamSpecialisation = i.entranceExamSpecialisation;
-    if (i.residencyCourse) {
-      this.residencyCourse = new ResidencyCourse(i.residencyCourse);
-    }
-    if (i.formValue) {
-      this.formValue = new Form(i.formValue);
-    }
-    if (i.residencyApplicationPointsAchievements) {
-      this.residencyApplicationPointsAchievements = i.residencyApplicationPointsAchievements.map(
-        (item: IResidencyApplicationPointsAchievement) => new ResidencyApplicationPointsAchievement(item)
-      );
-    }
-    this.primaryAccreditation = i.primaryAccreditation;
-    this.primaryAccreditationPoints = i.primaryAccreditationPoints;
-    this.primaryAccreditationPlace = i.primaryAccreditationPlace;
+  constructor(i?: ResidencyApplication) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
-    fileInfos.push(...this.formValue.getFieldValuesFileInfos());
-    this.residencyApplicationPointsAchievements.forEach((pa: IResidencyApplicationPointsAchievement) => fileInfos.push(pa.fileInfo));
+    fileInfos.push(...this.formValue.getFileInfos());
+    this.residencyApplicationPointsAchievements.forEach((pa: ResidencyApplicationPointsAchievement) => fileInfos.push(pa.fileInfo));
     return fileInfos;
   }
 
@@ -89,10 +55,10 @@ export default class ResidencyApplication implements IResidencyApplication {
 
   calculateAchievementsPoints(onlyApproved: boolean): number {
     const a = this.filterAchievements(onlyApproved);
-    return a.reduce((sum: number, p: IResidencyApplicationPointsAchievement) => sum + p.pointsAchievement.points, 0);
+    return a.reduce((sum: number, p: ResidencyApplicationPointsAchievement) => sum + p.pointsAchievement.points, 0);
   }
 
-  private filterAchievements(onlyApproved: boolean): IResidencyApplicationPointsAchievement[] {
+  private filterAchievements(onlyApproved: boolean): ResidencyApplicationPointsAchievement[] {
     const simpleAchievementsCodes: string[] = ['1', '2', '3', '4.1', '4.4', '5', '6'];
     const additionalAchievementsCodes: string[] = [
       '9.1',
@@ -113,8 +79,8 @@ export default class ResidencyApplication implements IResidencyApplication {
 
     const maxAdditionalPoints = 20;
     let additionalPointsSum = 0;
-    let achievements: IResidencyApplicationPointsAchievement[] = [];
-    this.residencyApplicationPointsAchievements.forEach((item: IResidencyApplicationPointsAchievement) => {
+    let achievements: ResidencyApplicationPointsAchievement[] = [];
+    this.residencyApplicationPointsAchievements.forEach((item: ResidencyApplicationPointsAchievement) => {
       if (onlyApproved && !item.approved) {
         return;
       }
@@ -131,37 +97,36 @@ export default class ResidencyApplication implements IResidencyApplication {
       }
     });
     let a = achievements.filter(
-      (a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) === '7' || String(a.pointsAchievement.code) === '8'
+      (a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) === '7' || String(a.pointsAchievement.code) === '8'
     );
     if (a.length > 1) {
-      achievements = achievements.filter((a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '7');
+      achievements = achievements.filter((a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '7');
     }
     a = achievements.filter(
-      (a: IResidencyApplicationPointsAchievement) =>
-        String(a.pointsAchievement.code) === '4.2' || String(a.pointsAchievement.code) === '4.3'
+      (a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) === '4.2' || String(a.pointsAchievement.code) === '4.3'
     );
     if (a.length > 1) {
-      achievements = achievements.filter((a: IResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '4.2');
+      achievements = achievements.filter((a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '4.2');
     }
     return achievements;
   }
 
   achievementExists(pointsAchievementId: string): boolean {
     return !!this.residencyApplicationPointsAchievements.find(
-      (a: IResidencyApplicationPointsAchievement) => a.pointsAchievementId === pointsAchievementId
+      (a: ResidencyApplicationPointsAchievement) => a.pointsAchievementId === pointsAchievementId
     );
   }
 
-  getAchievementResultByAchievementId(achievementId: string): IResidencyApplicationPointsAchievement {
+  getAchievementResultByAchievementId(achievementId: string): ResidencyApplicationPointsAchievement {
     const a = this.residencyApplicationPointsAchievements.find(
-      (i: IResidencyApplicationPointsAchievement) => i.pointsAchievementId === achievementId
+      (i: ResidencyApplicationPointsAchievement) => i.pointsAchievementId === achievementId
     );
     return a ? a : new ResidencyApplicationPointsAchievement();
   }
 
   removeAchievementByAchievementId(achievementId: string): void {
     const index = this.residencyApplicationPointsAchievements.findIndex(
-      (i: IResidencyApplicationPointsAchievement) => i.pointsAchievementId === achievementId
+      (i: ResidencyApplicationPointsAchievement) => i.pointsAchievementId === achievementId
     );
     ClassHelper.RemoveFromClassByIndex(
       index,
@@ -172,7 +137,7 @@ export default class ResidencyApplication implements IResidencyApplication {
 
   validateAchievementsPoints(): boolean {
     let valid = true;
-    this.residencyApplicationPointsAchievements.forEach((i: IResidencyApplicationPointsAchievement) => {
+    this.residencyApplicationPointsAchievements.forEach((i: ResidencyApplicationPointsAchievement) => {
       if (!i.fileInfo || !i.fileInfo.fileSystemPath) {
         i.showError = true;
         valid = false;

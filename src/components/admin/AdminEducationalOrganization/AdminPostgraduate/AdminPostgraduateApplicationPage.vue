@@ -47,10 +47,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import PostgraduateApplication from '@/classes/PostgraduateApplication';
+import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
-import IPostgraduateCourse from '@/interfaces/IPostgraduateCourse';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -65,10 +65,10 @@ export default defineComponent({
     const mounted = ref(false);
     const form = ref();
 
-    const application: ComputedRef<IPostgraduateApplication> = computed<IPostgraduateApplication>(
+    const application: ComputedRef<PostgraduateApplication> = computed<PostgraduateApplication>(
       () => store.getters['postgraduateApplications/item']
     );
-    const postgraduateCourses: ComputedRef<IPostgraduateCourse[]> = computed(() => store.getters['postgraduateCourses/items']);
+    const postgraduateCourses: ComputedRef<PostgraduateCourse[]> = computed(() => store.getters['postgraduateCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактирования');

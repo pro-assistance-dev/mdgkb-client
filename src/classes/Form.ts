@@ -1,8 +1,9 @@
 import Field from '@/classes/Field';
 import FormValueFile from '@/classes/FormValueFile';
+import PostgraduateApplication from '@/classes/PostgraduateApplication';
+import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
-import IDpoApplication from '@/interfaces/IDpoApplication';
 import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
 import IFieldValueFile from '@/interfaces/IFieldValueFile';
@@ -10,9 +11,6 @@ import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IFormValueFile from '@/interfaces/IFormValueFile';
-import IPostgraduateApplication from '@/interfaces/IPostgraduateApplication';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyApplicationPointsAchievement from '@/interfaces/IResidencyApplicationPointsAchievement';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
@@ -23,7 +21,6 @@ import FieldValue from './FieldValue';
 import FileInfo from './File/FileInfo';
 import FormStatus from './FormStatus';
 import FormStatusGroup from './FormStatusGroup';
-import PostgraduateApplication from './PostgraduateApplication';
 import ResidencyApplication from './ResidencyApplication';
 import User from './User';
 import VacancyResponse from './VacancyResponse';
@@ -48,7 +45,7 @@ export default class Form implements IForm {
   createdAt: Date = new Date();
   user = new User();
   formStatus = new FormStatus();
-  dpoApplication?: IDpoApplication;
+  dpoApplication?: DpoApplication;
   defaultFormStatus?: IFormStatus;
   defaultFormStatusId?: string;
   formStatusGroup?: IFormStatusGroup;
@@ -62,18 +59,18 @@ export default class Form implements IForm {
   showPersonalDataAgreementError = false;
   // changed = false;
 
-  postgraduateApplication?: IPostgraduateApplication;
+  postgraduateApplication?: PostgraduateApplication;
   candidateApplication?: ICandidateApplication;
-  residencyApplication?: IResidencyApplication;
+  residencyApplication?: ResidencyApplication;
   visitsApplication?: IVisitsApplication;
   vacancyResponse?: IVacancyResponse;
   formValueFiles: IFormValueFile[] = [];
   formValueFilesForDelete: string[] = [];
 
-  constructor(form?: IForm) {
+  constructor(form?: Form) {
     this.constructorMethod(form);
   }
-  private constructorMethod(form?: IForm) {
+  constructorMethod(form?: Form) {
     if (!form) {
       return;
     }
@@ -154,7 +151,7 @@ export default class Form implements IForm {
       this.formValueFiles = form.formValueFiles.map((item: IFormValueFile) => new FormValueFile(item));
     }
   }
-  reproduceFromPattern(form?: IForm) {
+  reproduceFromPattern(form?: Form) {
     this.constructorMethod(form);
     this.initFieldsValues();
     this.clearIds();
@@ -172,12 +169,24 @@ export default class Form implements IForm {
   }
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
-    this.fields.forEach((i: IField) => {
+    this.fieldValues.forEach((i: IFieldValue) => {
+      if (i.file) {
+        fileInfos.push(i.file);
+      }
+      if (i.fieldValuesFiles.length > 0) {
+        i.fieldValuesFiles.forEach((fvf: IFieldValueFile) => fileInfos.push(fvf.fileInfo));
+      }
+    });
+    if (this.residencyApplication) {
+      this.residencyApplication.residencyApplicationPointsAchievements.forEach((r: ResidencyApplicationPointsAchievement) => {
+        fileInfos.push(r.fileInfo);
+      });
+    }
+    this.formValueFiles.forEach((i: IFormValueFile) => {
       if (i.file) {
         fileInfos.push(i.file);
       }
     });
-    fileInfos.push(this.personalDataAgreement);
     return fileInfos;
   }
   getFieldValuesFileInfos(): IFileInfo[] {
@@ -191,7 +200,7 @@ export default class Form implements IForm {
       }
     });
     if (this.residencyApplication) {
-      this.residencyApplication.residencyApplicationPointsAchievements.forEach((r: IResidencyApplicationPointsAchievement) => {
+      this.residencyApplication.residencyApplicationPointsAchievements.forEach((r: ResidencyApplicationPointsAchievement) => {
         fileInfos.push(r.fileInfo);
       });
     }

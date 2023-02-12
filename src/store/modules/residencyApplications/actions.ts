@@ -1,50 +1,26 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
-import Human from '@/classes/Human';
-import IDpoApplication from '@/interfaces/IDpoApplication';
-import IForm from '@/interfaces/IForm';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyApplicationsWithCount from '@/interfaces/IResidencyApplicationsWithCount';
+import DpoApplication from '@/classes/DpoApplication';
+import Form from '@/classes/Form';
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import HttpClient from '@/services/HttpClient';
-import TokenService from '@/services/Token';
+import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const httpClient = new HttpClient('residency-applications');
 let source: EventSource | undefined = undefined;
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
-    const item = await httpClient.get<IResidencyApplicationsWithCount>({ query: filterQuery ? filterQuery.toUrl() : '' });
-    if (filterQuery) {
-      filterQuery.pagination.setAllLoaded(item ? item.residencyApplications.length : 0);
-    }
-    if (filterQuery && filterQuery.pagination.cursorMode) {
-      commit('appendToAll', item);
-      return;
-    }
-    commit('setAllWithCount', item);
-  },
-  get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IResidencyApplication[]>({ query: `${id}` });
-    commit('set', res);
-  },
-  create: async ({ state }): Promise<void> => {
-    await httpClient.post<IResidencyApplication, IResidencyApplication>({
-      payload: state.item,
+  ...getBaseActions<ResidencyApplication, State>('residency-applications'),
+  updateForm: async (_, form: Form): Promise<void> => {
+    await httpClient.put<Form, Form>({
+      query: `form/${form.id}`,
+      payload: form,
       isFormData: true,
-      fileInfos: state.item.getFileInfos(),
+      fileInfos: form.getFileInfos(),
     });
-    TokenService.updateHuman(new Human(state.item.formValue.user.human));
-  },
-  emailExists: async ({ state, commit }, courseId): Promise<void> => {
-    if (state.item.formValue.user.email.length < 3) {
-      return;
-    }
-    const res = await httpClient.get<boolean>({ query: `email-exists/${state.item.formValue.user.email}/${courseId}` });
-    commit('setEmailExists', res);
   },
   typeExists: async ({ state, commit }, value: boolean): Promise<void> => {
     if (state.item.formValue.user.email.length < 3) {
@@ -53,38 +29,17 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<boolean>({ query: `type-exists/${state.item.formValue.user.email}/${value}` });
     commit('setTypeExists', res);
   },
-  update: async ({ state, commit }): Promise<void> => {
-    console.log('COMMIT');
-    const res = await httpClient.put<IResidencyApplication, IResidencyApplication>({
-      query: `${state.item.id}`,
-      payload: state.item,
-      isFormData: true,
-      fileInfos: state.item.getFileInfos(),
-    });
-    commit('set', res);
+  emailExists: async ({ state, commit }, courseId): Promise<void> => {
+    if (state.item.formValue.user.email.length < 3) {
+      return;
+    }
+    const res = await httpClient.get<boolean>({ query: `email-exists/${state.item.formValue.user.email}/${courseId}` });
+    commit('setEmailExists', res);
   },
-  updateForm: async (_, form: IForm): Promise<void> => {
-    await httpClient.put<IForm, IForm>({
-      query: `form/${form.id}`,
-      payload: form,
-      isFormData: true,
-      fileInfos: form.getFieldValuesFileInfos(),
-    });
-  },
-  remove: async ({ commit }, id: string): Promise<void> => {
-    await httpClient.delete({ query: `${id}` });
-    commit('remove', id);
-  },
-  getBySlug: async ({ commit }, slug: string): Promise<void> => {
-    const res = await httpClient.get<IResidencyApplication>({ query: `slug/${slug}` });
-    commit('set', res);
-  },
-  updateMany: async ({ state }): Promise<void> => {
-    await httpClient.put<IResidencyApplication[], IResidencyApplication[]>({ query: 'many', payload: state.items });
-  },
+
   subscribeCreate: async ({ commit }): Promise<void> => {
     const c = new HttpClient('subscribe');
-    source = await c.subscribe<IDpoApplication>({ query: 'residency-application-create' });
+    source = await c.subscribe<DpoApplication>({ query: 'residency-application-create' });
     source.onmessage = function (e) {
       commit('appendToAll', [e.data]);
     };
@@ -92,8 +47,8 @@ const actions: ActionTree<State, RootState> = {
   unsubscribeCreate: async ({ commit }): Promise<void> => {
     source?.close();
   },
-  filledApplicationDownload: async (_, item: IResidencyApplication): Promise<void> => {
-    await httpClient.post<IResidencyApplication, IResidencyApplication>({
+  filledApplicationDownload: async (_, item: ResidencyApplication): Promise<void> => {
+    await httpClient.post<ResidencyApplication, ResidencyApplication>({
       payload: item,
       query: `fill-application-template`,
       isBlob: true,

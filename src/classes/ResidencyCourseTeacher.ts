@@ -1,18 +1,15 @@
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import Teacher from '@/classes/Teacher';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
-import IResidencyCourseTeacher from '@/interfaces/IResidencyCourseTeacher';
-import ITeacher from '@/interfaces/ITeacher';
 
-export default class ResidencyCourseTeacher implements IResidencyCourseTeacher {
+export default class ResidencyCourseTeacher {
   id?: string;
   main = false;
-  residencyCourse: IResidencyCourse = new ResidencyCourse();
+  residencyCourse: ResidencyCourse = new ResidencyCourse();
   residencyCourseId?: string;
-  teacher: ITeacher = new Teacher();
+  teacher: Teacher = new Teacher();
   teacherId?: string;
 
-  constructor(i?: IResidencyCourseTeacher) {
+  constructor(i?: ResidencyCourseTeacher) {
     if (!i) {
       return;
     }

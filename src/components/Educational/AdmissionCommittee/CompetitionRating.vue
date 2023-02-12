@@ -31,13 +31,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 
 export default defineComponent({
   name: 'CompetitionRating',
   props: {
     residencyCourses: {
-      type: Array as PropType<IResidencyCourse[]>,
+      type: Array as PropType<ResidencyCourse[]>,
       default: () => [],
     },
   },

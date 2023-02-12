@@ -46,23 +46,18 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
+import Teacher from '@/classes/Teacher';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
-import ITeacher from '@/interfaces/ITeacher';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
+import TeachersFiltersLib from '@/services/Provider/libs/filters/TeachersFiltersLib';
 
 export default defineComponent({
   name: 'AdminTeacherPage',
@@ -72,76 +67,18 @@ export default defineComponent({
   },
   setup() {
     const form = ref();
-    const teacher: Ref<ITeacher> = computed(() => Provider.store.getters['teachers/item']);
-    const teachers: Ref<ITeacher[]> = computed(() => Provider.store.getters['teachers/items']);
+    Provider.form = form;
+    const teacher: Ref<Teacher> = Provider.item;
+    const teachers: Ref<Teacher[]> = Provider.items;
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
-    let filterModel: IFilterModel | undefined = undefined;
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
 
-      try {
-        if (Provider.route().params['id']) {
-          await Provider.store.dispatch('teachers/update', teacher.value);
-        } else {
-          await Provider.store.dispatch('teachers/create', teacher.value);
-        }
-      } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      next ? next() : await Provider.router.push('/admin/teachers');
-    };
-
-    const { saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
-
-    const load = async () => {
-      await Provider.store.dispatch('search/searchGroups');
-      await loadTeacher();
-    };
-
-    Hooks.onBeforeMount(load);
+    let filterModel: FilterModel = TeachersFiltersLib.byFullName();
 
     const toEmployeeInfo = async (): Promise<void> => {
       await Provider.router.push(`/admin/employees/${teacher.value.employee.human.slug}`);
     };
 
-    const loadTeacher = async (): Promise<void> => {
-      if (Provider.route().params['id']) {
-        await Provider.store.dispatch('teachers/get', Provider.route().params['id']);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: teacher.value.employee.human.getFullName(),
-          showBackButton: true,
-          buttons: [{ action: toEmployeeInfo, text: 'Личная информация', type: 'warning' }, { action: submit }],
-        });
-      } else {
-        Provider.store.commit('teachers/resetState');
-        Provider.store.commit('admin/setHeaderParams', {
-          title: 'Добавить преподавателя',
-          showBackButton: true,
-          buttons: [{ action: submit }],
-        });
-      }
-      window.addEventListener('beforeunload', beforeWindowUnload);
-
-      filterModel = FilterModel.CreateFilterModel(
-        Provider.schema.value.teacher.tableName,
-        Provider.schema.value.teacher.fullName,
-        DataTypes.String
-      );
-    };
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
     const completeInput = async (human: IHuman) => {
-      if (!filterModel) {
-        return;
-      }
       filterModel.value1 = human.getFullName();
       Provider.setFilterModels(filterModel);
       await Provider.store.dispatch('teachers/getAll', Provider.filterQuery.value);
@@ -150,40 +87,23 @@ export default defineComponent({
       }
     };
 
-    // const offerEditExistingDoctor = async () => {
-    //   const existingDoctor = doctors.value[0];
-    //   if (!existingDoctor) {
-    //     return;
-    //   }
-    //   ElMessageBox.confirm('Врач с введённым именем уже существует в системе', 'Отредактировать существующего врача?', {
-    //     distinguishCancelAndClose: true,
-    //     confirmButtonText: 'Перейти к редактированию',
-    //     cancelButtonText: 'Остаться в создании нового',
-    //   })
-    //     .then(async () => {
-    //       // Provider.router.push({ name: 'AdminEditDoctorPage', params: { id: existingDoctor.human.slug } });
-    //       await Provider.router.push(`/admin/doctors/${existingDoctor.employee.human.slug}`);
-    //       await loadDoctor();
-    //     })
-    //     .catch((action: string) => {
-    //       if (action === 'cancel') {
-    //         ElMessage({
-    //           type: 'warning',
-    //           message: 'Врач с введённым именем уже существует в системе',
-    //         });
-    //       }
-    //     });
-    // };
-
     const selectEmployeeSearch = async (searchObject: ISearchObject) => {
       await Provider.store.dispatch('employees/get', searchObject.value);
       teacher.value.setEmployee(employee.value);
     };
 
+    Hooks.onBeforeMount(Provider.loadItem, {
+      adminHeader: {
+        title: Provider.route().params['id'] ? teacher.value.employee.human.getFullName() : 'Добавить преподавателя',
+        showBackButton: true,
+        buttons: [{ action: Hooks.submit() }],
+      },
+    });
+    Hooks.onBeforeRouteLeave();
+
     return {
       teachers,
       completeInput,
-      submit,
       teacher,
       form,
       mounted: Provider.mounted,

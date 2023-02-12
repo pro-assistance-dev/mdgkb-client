@@ -95,12 +95,12 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import ResidencyApplication from '@/classes/ResidencyApplication';
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import UserFormFields from '@/classes/UserFormFields';
 import AdminResidencyApplicationAchievementsPoints from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationAchievementsPoints.vue';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
-import IResidencyApplication from '@/interfaces/IResidencyApplication';
-import IResidencyCourse from '@/interfaces/IResidencyCourse';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -115,10 +115,10 @@ export default defineComponent({
     const mounted = ref(false);
     const form = ref();
 
-    const application: ComputedRef<IResidencyApplication> = computed<IResidencyApplication>(
+    const application: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
       () => store.getters['residencyApplications/item']
     );
-    const residencyCourses: ComputedRef<IResidencyCourse[]> = computed(() => store.getters['residencyCourses/items']);
+    const residencyCourses: ComputedRef<ResidencyCourse[]> = computed(() => store.getters['residencyCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактирования');

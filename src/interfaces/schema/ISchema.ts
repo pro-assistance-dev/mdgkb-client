@@ -30,7 +30,6 @@ import INewsToTag from '@/interfaces/schema/INewsToTag';
 import IPathPermissionsSchema from '@/interfaces/schema/IPathPermissionsSchema';
 import IPostgraduateApplicationSchema from '@/interfaces/schema/IPostgraduateApplicationSchema';
 import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSchema';
-import IPostgraduateCourseSpecializationSchema from '@/interfaces/schema/IPostgraduateCourseSpecializationSchema';
 import IQuestionSchema from '@/interfaces/schema/IQuestionSchema';
 import IResidencyApplicationSchema from '@/interfaces/schema/IResidencyApplicationSchema';
 import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';

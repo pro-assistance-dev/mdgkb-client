@@ -15,17 +15,16 @@ import { computed, ComputedRef, defineComponent, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
+import Teacher from '@/classes/Teacher';
 import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import ITeacher from '@/interfaces/ITeacher';
 import ISchema from '@/interfaces/schema/ISchema';
-
 export default defineComponent({
   name: 'TeachersList',
   components: { TeacherCard, LoadMoreButton },
   setup() {
     const store = useStore();
-    const teachers: Ref<ITeacher[]> = computed<ITeacher[]>(() => store.getters['teachers/items']);
+    const teachers: Ref<Teacher[]> = computed<Teacher[]>(() => store.getters['teachers/items']);
 
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
