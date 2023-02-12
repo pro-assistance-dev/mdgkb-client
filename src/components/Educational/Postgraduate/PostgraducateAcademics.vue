@@ -16,35 +16,22 @@ import AcademicCard from '@/components/Educational/AcademicCard.vue';
 import { Orders } from '@/interfaces/filters/Orders';
 import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
 import ISchema from '@/interfaces/schema/ISchema';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'PostgraduateAcademics',
   components: { AcademicCard },
   setup() {
     const mounted = ref(false);
-    const store = useStore();
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const schema: Ref<ISchema> = computed(() => Provider.store.getters['meta/schema']);
     const educationalOrganisationAcademics: Ref<IEducationalOrganizationAcademic[]> = computed(
-      () => store.getters['educationalOrganizationAcademics/items']
+      () => Provider.store.getters['educationalOrganizationAcademics/items']
     );
 
     onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      store.commit(
-        'filter/replaceSortModel',
-        SortModel.CreateSortModel(
-          schema.value.educationalOrganizationAcademic.tableName,
-          schema.value.educationalOrganizationAcademic.fullName,
-          Orders.Asc,
-          'По алфавиту',
-          true
-        )
-      );
-      filterQuery.value.pagination.cursorMode = false;
-      await store.dispatch('educationalOrganizationAcademics/getAll', filterQuery.value);
-      store.commit('pagination/setCurPage', 1);
+      Provider.store.commit(`filter/resetQueryFilter`);
+      await Provider.getAll('educationalOrganizationAcademics');
+      Provider.store.commit('pagination/setCurPage', 1);
       mounted.value = true;
     });
 

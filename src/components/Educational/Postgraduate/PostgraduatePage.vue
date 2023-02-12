@@ -1,141 +1,52 @@
 <template>
-  <PageWrapper v-if="mounted" :title="title">
-    <template #filters>
-      <PostgraduateFilters
-        :condition="mode === 'programs' || mode === ''"
-        :modes="modes"
-        :mode="mode"
-        @selectMode="selectMode"
-        @load="loadCourses"
-      />
+  <PageComponent :custom-sections="customSections">
+    <template v-for="section in customSections" :key="section" #[section.id]>
+      <component :is="section.component"></component>
     </template>
-
-    <div class="editor-content card-item">
-      <EditorContent
-        v-if="selectedDocumentType && selectedDocumentType.description !== '<p>undefined</p>'"
-        :content="selectedDocumentType.description"
-      />
-    </div>
-    <PostgraduateCoursesList v-if="mode === 'programs'" />
-    <DocumentsList v-if="selectedDocumentType" :documents="selectedDocumentType.documents" />
-    <CandidatesMinimum v-if="mode === 'candidate'" />
-    <PostgraduateContacts v-if="mode === 'contacts'" />
-    <PostgraducateAcademics v-if="mode === 'academics'" />
-  </PageWrapper>
+  </PageComponent>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
-import Page from '@/classes/page/Page';
-import PageSection from '@/classes/PageSection';
-import EditorContent from '@/components/EditorContent.vue';
+import CustomSection from '@/classes/CustomSection';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';
 import PostgraduateContacts from '@/components/Educational/Postgraduate/PostgraduateContacts.vue';
 import PostgraduateCoursesList from '@/components/Educational/Postgraduate/PostgraduateCoursesList.vue';
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
+import PageComponent from '@/components/Page/PageComponent.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IOption from '@/interfaces/schema/IOption';
-import createSortModels from '@/services/CreateSortModels';
+import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
-import PostgraduateCoursesSortsLib from '@/services/Provider/libs/sorts/PostgraduateCoursesSortsLib';
-import store from '@/store';
 
 export default defineComponent({
   name: 'PostgraduatePage',
   components: {
-    EditorContent,
-    DocumentsList,
-    PostgraduateFilters,
     PostgraduateContacts,
     PostgraduateCoursesList,
     PageWrapper,
     CandidatesMinimum,
+    PageComponent,
     PostgraducateAcademics,
   },
 
   setup() {
-    const route = useRoute();
-    const page: ComputedRef<Page> = computed(() => store.getters['pages/item']);
-    const selectedDocumentType: Ref<PageSection | undefined> = ref(undefined);
-    const modes: Ref<IOption[]> = ref([]);
-    const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
-    const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
-    const title: ComputedRef<string> = computed(() => {
-      let title = '';
-      switch (true) {
-        case mode.value === 'programs':
-          title = 'Программы аспирантуры';
-          break;
-        case mode.value === 'contacts':
-          title = 'Контакты аспирантуры';
-          break;
-        case mode.value === 'academics':
-          title = 'Ученый совет аспирантуры';
-          break;
-        case mode.value === 'candidate':
-          title = 'Кандидатский минимум';
-          break;
-        case uuidRegex.test(mode.value):
-          title = 'Приемная кампания 2022/2023';
-          break;
-        default:
-          break;
-      }
-      return title;
+    const customSections: Ref<ICustomSection[]> = ref([]);
+
+    Hooks.onBeforeMount(() => {
+      customSections.value.push(
+        CustomSection.Create('info', 'Основные сведения', 'InfoPage', 0),
+        CustomSection.Create('programs', 'Программы', 'PostgraduateCoursesList', 1),
+        CustomSection.Create('candidate', 'Кандидатский минимум', 'CandidatesMinimum', 2),
+        CustomSection.Create('academics', 'Учёный совет', 'PostgraducateAcademics', 3),
+        CustomSection.Create('contacts', 'Контакты', 'PostgraduateContacts', 4)
+      );
     });
 
-    const selectMode = async (value: string) => {
-      const documentType = page.value.pageSections.find((dpoDocType: PageSection) => dpoDocType.id === value);
-      if (documentType) {
-        selectedDocumentType.value = documentType;
-      } else {
-        selectedDocumentType.value = undefined;
-      }
-    };
-
-    const setModes = async () => {
-      await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
-      modes.value.push({ value: 'programs', label: 'Программы' });
-      page.value.pageSections.forEach((docType: PageSection) => {
-        if (docType.id) {
-          modes.value.push({ value: docType.id, label: docType.name });
-        }
-      });
-      modes.value.push({ value: 'candidate', label: 'Кандидатский минимум' });
-      modes.value.push({ value: 'academics', label: 'Учёный совет' });
-      modes.value.push({ value: 'contacts', label: 'Контакты' });
-    };
-
-    const loadCourses = async () => {
-      Provider.store.commit('postgraduateCourses/clearItems');
-      await Provider.store.dispatch('postgraduateCourses/getAll', Provider.filterQuery.value);
-    };
-
-    const load = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 100;
-      Provider.setSortModels(PostgraduateCoursesSortsLib.byName());
-      Provider.setSortList(...createSortModels(PostgraduateCoursesSortsLib));
-      await setModes();
-      await loadCourses();
-      await selectMode(mode.value);
-    };
-
-    Hooks.onBeforeMount(load);
-
     return {
-      modes,
-      selectedDocumentType,
-      mode,
-      selectMode,
-      mounted: Provider.mounted,
-      loadCourses,
-      title,
+      customSections,
     };
   },
 });

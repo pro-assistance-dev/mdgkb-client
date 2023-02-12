@@ -1,6 +1,6 @@
 <template>
   <AdminListWrapper v-if="mounted">
-    <el-table :data="items">
+    <el-table :data="heads">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
           {{ scope.row.employee.human.getFullName() }}
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Hooks from '@/services/Hooks/Hooks';
@@ -32,6 +32,7 @@ export default defineComponent({
   name: 'AdminHeadsList',
   components: { TableButtonGroup },
   setup() {
+    const heads = computed(() => Provider.store.getters['heads/items']);
     Hooks.onBeforeMount(Provider.loadItems, {
       adminHeader: {
         title: 'Руководители',
@@ -40,7 +41,7 @@ export default defineComponent({
       sortsLib: HeadsSortsLib,
     });
 
-    return { ...Provider.getAdminLib() };
+    return { ...Provider.getAdminLib(), heads };
   },
 });
 </script>
