@@ -29,7 +29,9 @@
               </div>
               <TableButtonGroup
                 :show-remove-button="true"
+                :show-edit-button="true"
                 @remove="$classHelper.RemoveFromClassByIndex(index, page.pageSideMenus, page.pageSideMenusForDelete)"
+                @edit="openDialog(index)"
               />
             </div>
           </template>

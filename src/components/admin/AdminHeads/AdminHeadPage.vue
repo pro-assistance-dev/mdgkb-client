@@ -150,7 +150,7 @@ export default defineComponent({
     Provider.form = form;
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
     const department: Ref<IDepartment> = computed(() => Provider.store.getters['departments/item']);
-    const head: Ref<Head> = Provider.item;
+    const head: Ref<Head> = computed(() => Provider.store.getters['heads/item']);
 
     const toEmployeeInfo = async (): Promise<void> => {
       await Provider.router.push(`/admin/employees/${head.value.employee.human.slug}`);
@@ -167,9 +167,14 @@ export default defineComponent({
       head.value.setEmployee(employee.value);
     };
 
+    const load = async () => {
+      await Provider.loadItem();
+      // await Provider.store.dispatch("employee/resetItem")
+    };
+
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
-        title: head.value.employee.human.getFullName(),
+        title: computed(() => (Provider.route().params['id'] ? head.value.employee.human.getFullName() : 'Создать сотрудника')),
         showBackButton: true,
         buttons: Provider.route().params['id']
           ? [{ action: Hooks.submit() }]

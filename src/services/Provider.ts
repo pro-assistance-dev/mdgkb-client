@@ -41,6 +41,13 @@ const Provider = (() => {
   //   return
   // }
 
+  function resetState(): void {
+    if (storeModule === '') {
+      return;
+    }
+    store.commit(`${storeModule}/resetState`);
+  }
+
   function getStoreModule(): string {
     return storeModule;
   }
@@ -109,7 +116,10 @@ const Provider = (() => {
       return;
     }
     const pathParts = route().path.split('/');
-    const pathLen = route().params['id'] ? 2 : 1;
+    let pathLen = 1;
+    if (route().params['id'] || pathParts[pathParts.length - 1] === 'new') {
+      pathLen = 2;
+    }
     storeModule = pathParts[pathParts.length - pathLen];
   }
 
@@ -226,6 +236,7 @@ const Provider = (() => {
   }
 
   return {
+    resetState,
     routerPushBlank,
     setSortList,
     sortList,

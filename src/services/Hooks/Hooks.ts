@@ -40,9 +40,12 @@ const Hooks = (() => {
       Provider.setGetAction(options?.getAction);
       Provider.initPagination(options?.pagination);
       await f(Provider.filterQuery.value);
+      console.log('load');
       if (options?.adminHeader) {
+        console.log(Provider.item);
         Provider.store.commit('admin/setHeaderParams', options.adminHeader);
       }
+      console.log('opt');
       Provider.store.commit('admin/closeLoading');
       Provider.mounted.value = true;
     });
@@ -54,6 +57,7 @@ const Hooks = (() => {
     return onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       const func = submitFunction ? submitFunction : submit;
       showConfirmModal(func(), next);
+      Provider.resetState();
     });
   };
 
