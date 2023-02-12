@@ -19,28 +19,28 @@ export default [
     name: 'EducationPage',
     meta: { title: 'Сведения об образовательной организации' },
     component: EducationPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
   {
     path: '/admission-committee',
     name: 'AdmissionCommittee',
     meta: { title: 'Приёмная кампания' },
     component: AdmissionCommittee,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   isAuthorized(next);
+    // },
   },
-  {
-    path: '/academics',
-    name: 'EducationalOrganizationAcademics',
-    meta: { title: 'Учёный совет' },
-    component: EducationalOrganizationAcademics,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-    },
-  },
+  // {
+  //   path: '/academics',
+  //   name: 'EducationalOrganizationAcademics',
+  //   meta: { title: 'Учёный совет' },
+  //   component: EducationalOrganizationAcademics,
+  //   beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+  //     isAuthorized(next);
+  //   },
+  // },
   {
     path: '/postgraduate',
     name: 'PostgraduatePage',
