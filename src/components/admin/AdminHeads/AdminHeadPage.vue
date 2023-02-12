@@ -177,8 +177,8 @@ export default defineComponent({
         title: computed(() => (Provider.route().params['id'] ? head.value.employee.human.getFullName() : 'Создать сотрудника')),
         showBackButton: true,
         buttons: Provider.route().params['id']
-          ? [{ action: Hooks.submit() }]
-          : [{ action: toEmployeeInfo, text: 'Личная информация', type: 'warning' }, { action: Hooks.submit() }],
+          ? [{ action: toEmployeeInfo, text: 'Личная информация', type: 'warning' }, { action: Hooks.submit() }]
+          : [{ action: Hooks.submit() }],
       },
     });
     Hooks.onBeforeRouteLeave(Hooks.submit);

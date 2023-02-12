@@ -41,11 +41,11 @@ const Hooks = (() => {
       Provider.initPagination(options?.pagination);
       await f(Provider.filterQuery.value);
       console.log('load');
-      if (options?.adminHeader) {
+      if ((options?.adminHeader, options?.adminHeader)) {
         console.log(Provider.item);
         Provider.store.commit('admin/setHeaderParams', options.adminHeader);
       }
-      console.log('opt');
+      console.log('opt', options?.adminHeader);
       Provider.store.commit('admin/closeLoading');
       Provider.mounted.value = true;
     });

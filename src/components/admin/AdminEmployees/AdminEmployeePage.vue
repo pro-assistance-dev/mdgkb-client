@@ -236,7 +236,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
-        title: Provider.route().params['id'] ? employee.value.human.getFullName() : 'Добавить сотрудника',
+        title: computed(() => (Provider.route().params['id'] ? employee.value?.human?.getFullName() : 'Добавить сотрудника')),
         showBackButton: true,
         buttons: [{ action: Hooks.submit() }],
       },
