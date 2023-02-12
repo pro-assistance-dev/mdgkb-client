@@ -55,7 +55,6 @@ export default defineComponent({
     NewsSlider,
     DivisionCertificates,
     DivisionDateAndTime,
-    // ImageGallery,
     Comments,
     ScansSlider,
     DivisionInfoBlock,

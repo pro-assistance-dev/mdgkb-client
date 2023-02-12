@@ -81,43 +81,30 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/main',
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    // },
   },
   {
     path: '/main',
     name: 'MainPage',
     component: MainPage,
     meta: { carousel: true, main: true, title: 'Главная' },
-    // beforeEnter: isAuthorized,
   },
   {
     path: '/stop-coma',
     name: 'StopComaPage',
     component: StopComaPage,
     meta: { title: 'Стоп-кома' },
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    // },
   },
   {
     path: '/dispanserization',
     name: 'DispanserizationPage',
     component: DispanserizationPage,
     meta: { title: 'Диспансеризация' },
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    // },
   },
   {
     path: '/side-organizations',
     name: 'SideOrganizationsPage',
     component: SideOrganizationsPage,
     meta: { title: 'Сведения об организации' },
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    // },
   },
   {
     path: '/partners',
@@ -142,46 +129,30 @@ const routes: Array<RouteRecordRaw> = [
     name: 'QuestionsAnswersPage',
     meta: { title: 'Вопросы и ответы' },
     component: QuestionsAnswersPage,
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    // },
   },
   {
     path: '/preparations',
     name: 'PreparationsPage',
     meta: { title: 'Подготовки к исследованиям' },
     component: PreparationsPage,
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    // },
   },
   {
     path: '/donor-rules',
     name: 'DonorRulesPage',
     meta: { title: 'Правила для доноров' },
     component: DonorRulesPage,
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    // },
   },
   {
     path: '/medical-profiles/:id',
     name: 'MedicalProfilesPage',
     meta: { title: 'Профиль помощи' },
     component: MedicalProfilesPage,
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    //   devGuard();
-    // },
   },
   {
     path: '/medical-profiles',
     name: 'MedicalProfilesList',
     meta: { title: 'Профили помощи' },
     component: MedicalProfilesList,
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    // },
   },
   {
     path: '/heads',
@@ -212,10 +183,6 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SearchPage',
     meta: { title: 'Поиск' },
     component: SearchPage,
-    // beforeEnter(to, from, next) {
-    //   isAuthorized(next);
-    //   devGuard();
-    // },
   },
   {
     path: '/restore/password/:userId/:uniqueId',
@@ -305,6 +272,5 @@ router.beforeEach(() => {
   scroll();
 });
 
-// router.beforeEach(isAuthorized);
 router.beforeEach(adminGuard);
 export default router;
