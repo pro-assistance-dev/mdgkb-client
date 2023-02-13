@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
-import { IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
+import { IBodilessParams, IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
 import IFileInfosGetter from '@/interfaces/IFileInfosGetter';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import IWithId from '@/interfaces/IWithId';
@@ -32,8 +32,14 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
     getAllWithCount: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
       commit('setAllWithCount', await httpClient.get<ItemsWithCount<T>[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
     },
-    get: async ({ commit }, id: string) => {
-      commit('set', await httpClient.get<T>({ query: `${id}` }));
+    get: async ({ commit }, filter: string | FilterQuery) => {
+      let query: IBodilessParams;
+      if (typeof filter === 'string') {
+        query = { query: filter };
+      } else {
+        query = { query: `get${filter.toUrl()}` };
+      }
+      commit('set', await httpClient.get<T>(query));
     },
     create: async ({ commit }, item: T): Promise<void> => {
       const opts: IBodyfulParams<T> = { payload: item, isFormData: true };

@@ -1,14 +1,15 @@
+import { ComputedRef } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
 import IAdminButtonParams from '@/interfaces/admin/IAdminButtonParams';
 
 export default class AdminButtonParams implements IAdminButtonParams {
-  text = 'Сохранить';
-  type = 'success';
-  condition = true;
+  text?: string = 'Сохранить';
+  type?: string = 'success';
+  condition?: boolean | ComputedRef<boolean> = true;
   action?: undefined | ((next?: NavigationGuardNext | undefined) => Promise<void>) | (() => Promise<void>) | (() => void);
 
-  constructor(adminButtonParams?: IAdminButtonParams) {
+  constructor(adminButtonParams?: AdminButtonParams) {
     if (!adminButtonParams) {
       return;
     }

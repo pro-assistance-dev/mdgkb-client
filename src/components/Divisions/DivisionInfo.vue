@@ -1,7 +1,7 @@
 <template>
   <div class="card-item">
     <ChiefCard
-      :chief="division.chief"
+      :employee="division.chief.employee"
       :chief-role="division.chief.employee.human.isMale ? 'Заведующий' : 'Заведующая' + ' отделением'"
       show-favourite
       favourite-domain="division"

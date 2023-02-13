@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <SortList class="filters-block" :models="createResidencySortModels()" @load="loadCourses" />
       <FiltersList :models="createFilterModels()" @load="loadCourses" />
@@ -22,7 +22,7 @@
       <el-table-column label="Руководитель" min-width="300">
         <template #default="scope">
           <div v-if="scope.row.getMainTeacher()">
-            {{ scope.row.getMainTeacher().doctor.employee.human.getFullName() }}
+            {{ scope.row.getMainTeacher()?.doctor?.employee.human.getFullName() }}
           </div>
           <div v-else>Руководителя нет</div>
         </template>
@@ -68,10 +68,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <template #footer>
-      <Pagination :show-confirm="isEditMode" @save="save" @cancel="cancel" />
-    </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
@@ -96,16 +93,14 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminResidencyCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, Pagination, SortList, FiltersList },
+  components: { TableButtonGroup, AdminListWrapper, SortList, FiltersList },
   setup() {
-    const mounted = ref(false);
-    const route = useRoute();
     const residencyCourses: Ref<ResidencyCourse[]> = computed(() => Provider.store.getters['residencyCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
-
-    const create = () => Provider.router.push(`${route.path}/new`);
-    const open = (id: string) => Provider.router.push(`${route.path}/${id}`);
+    const mounted: Ref<boolean> = ref(false);
+    const create = () => Provider.router.push(`${Provider.route().path}/new`);
+    const open = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
     const remove = async (id: string) => await Provider.store.dispatch('residencyCourses/remove', id);
     const edit = () => {
       if (isEditMode.value) {
@@ -142,10 +137,10 @@ export default defineComponent({
         buttons: [
           { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
           { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
-          { text: 'Добавить программу', type: 'primary', action: create },
+          // { text: 'Добавить программу', type: 'primary', action: create },
         ],
       });
-      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('residencyCourses/getAllWithCount', Provider.filterQuery.value);
       window.addEventListener('beforeunload', beforeWindowUnload);
       mounted.value = true;
     };
@@ -178,9 +173,9 @@ export default defineComponent({
       isEditMode,
       mounted,
       residencyCourses,
-      remove,
+      // remove,
       open,
-      create,
+      // create,
       loadCourses,
       createResidencySortModels,
       cancel,

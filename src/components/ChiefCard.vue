@@ -1,17 +1,17 @@
 <template>
-  <div v-if="chief.id" data-test="chief-id" class="card-item-left">
+  <div v-if="employee.id" data-test="chief-id" class="card-item-left">
     <div class="division-img">
       <img
-        v-if="chief.employee.human.photo.fileSystemPath"
-        :src="chief.employee.human.photo.getImageUrl()"
+        v-if="employee.human.photo.fileSystemPath"
+        :src="employee.human.photo.getImageUrl()"
         alt="alt"
         data-test="chief-photo"
-        @error="chief.employee.human.photo.errorImg"
+        @error="employee.human.photo.errorImg"
       />
       <img v-else data-test="chief-alt-photo" src="@/assets/img/doctor-default.webp" />
       <div data-test="chief-name" class="doctor-name">
-        <router-link class="recent-news-item" :to="`/doctors/${chief.employee.human.slug}`" style="padding-left: 0">
-          {{ chief.employee.human.getFullName() }}
+        <router-link class="recent-news-item" :to="`/doctors/${employee.human.slug}`" style="padding-left: 0">
+          {{ employee.human.getFullName() }}
         </router-link>
       </div>
       <div class="status">{{ chiefRole }}</div>
@@ -25,8 +25,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Employee from '@/classes/Employee';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'ChiefCard',
@@ -34,7 +34,7 @@ export default defineComponent({
     FavouriteIcon,
   },
   props: {
-    chief: { type: Object as PropType<IDoctor>, required: true },
+    employee: { type: Object as PropType<Employee>, required: true },
     chiefRole: { type: String as PropType<string>, required: true },
     showFavourite: { type: Boolean as PropType<boolean>, required: true, default: false },
     favouriteId: { type: String as PropType<string>, required: false },

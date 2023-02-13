@@ -59,6 +59,10 @@ export default class ResidencyCourse {
     ClassHelper.BuildClass(this, i);
   }
 
+  getTeachers(): Teacher[] {
+    return this.residencyCoursesTeachers.map((t: ResidencyCourseTeacher) => t.teacher);
+  }
+
   addTeacher(teacher: Teacher): void {
     const residencyCourseTeacher = new ResidencyCourseTeacher();
     residencyCourseTeacher.teacher = new Teacher(teacher);

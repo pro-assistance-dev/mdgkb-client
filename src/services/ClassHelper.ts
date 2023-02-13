@@ -18,9 +18,14 @@ export default class ClassHelper {
         } else {
           passedClass[key] = prop;
         }
-      } else if (prop !== null && !Array.isArray(prop)) {
+      } else if (prop !== null && prop !== undefined && !Array.isArray(prop)) {
         if (passedClass[key] && passedClass[key].constructor) {
           passedClass[key] = new passedClass[key].constructor(prop);
+        } else {
+          const constructor = Reflect.getMetadata(key, passedClass);
+          if (constructor) {
+            passedClass[key] = new constructor[key](prop);
+          }
         }
       }
       if (Array.isArray(prop)) {

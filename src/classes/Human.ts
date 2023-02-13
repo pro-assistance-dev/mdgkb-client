@@ -32,15 +32,15 @@ export default class Human implements IHuman {
       return;
     }
     ClassHelper.BuildClass(this, i);
-    if (i.photo) {
-      this.photo = new FileInfo(i.photo);
-    }
-    if (i.photoMini) {
-      this.photoMini = new FileInfo(i.photoMini);
-    }
-    if (i.contactInfo) {
-      this.contactInfo = new ContactInfo(i.contactInfo);
-    }
+    // if (i.photo) {
+    //   this.photo = new FileInfo(i.photo);
+    // }
+    // if (i.photoMini) {
+    //   this.photoMini = new FileInfo(i.photoMini);
+    // }
+    // if (i.contactInfo) {
+    //   this.contactInfo = new ContactInfo(i.contactInfo);
+    // }
   }
 
   getFullName(): string {

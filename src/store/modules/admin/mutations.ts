@@ -1,6 +1,7 @@
 import { ElLoading } from 'element-plus';
 import { MutationTree } from 'vuex';
 
+import AdminButtonParams from '@/classes/admin/AdminButtonParams';
 import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
@@ -13,6 +14,11 @@ import { State } from './state';
 const mutations: MutationTree<State> = {
   setHeaderParams(state, params: AdminHeaderParams) {
     state.headerParams = new AdminHeaderParams(params);
+  },
+  addButtons(state, buttons: AdminButtonParams[]) {
+    console.log(state.headerParams.buttons);
+    state.headerParams.buttons.push(...buttons);
+    console.log(state.headerParams.buttons);
   },
   collapseSideMenu(state) {
     state.isCollapseSideMenu = !state.isCollapseSideMenu;

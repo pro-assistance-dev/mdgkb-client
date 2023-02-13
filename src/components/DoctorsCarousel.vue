@@ -18,7 +18,12 @@
           height="350px"
         >
           <el-carousel-item v-for="(doctors, i) in carousel" :key="i" data-test="doctors-carousel">
-            <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
+            <temlate v-if="doctors.length > 0">
+              <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
+            </temlate>
+            <temlate v-if="doctors.length > 0">
+              <TeacherCard v-for="item in doctors" :key="item.id" :doctor="item" />
+            </temlate>
           </el-carousel-item>
         </el-carousel>
       </component>
@@ -29,7 +34,10 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import Doctor from '@/classes/Doctor';
+import Teacher from '@/classes/Teacher';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
+import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import IDoctor from '@/interfaces/IDoctor';
@@ -37,19 +45,20 @@ import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'DoctorsCarousel',
-  components: { DoctorInfoCard, MainContainer, CollapsContainer },
+  components: { DoctorInfoCard, MainContainer, CollapsContainer, TeacherCard },
   props: {
-    doctors: { type: Array as PropType<IDoctor[]>, required: true },
+    teachers: { type: Array as PropType<Teacher[]>, default: () => [] },
+    doctors: { type: Array as PropType<Doctor[]>, default: () => [] },
     headerTitle: { type: String as PropType<string>, default: 'Специалисты' },
     headerButtonTitle: { type: String as PropType<string>, default: 'Все врачи' },
     headerButtonLink: { type: String as PropType<string>, default: '/doctors' },
   },
   setup(props) {
-    const carousel: Ref<IDoctor[][]> = ref([]);
+    const carousel: Ref<(Doctor | Teacher)[][]> = ref([]);
     const carouselRef = ref();
 
     onBeforeMount(() => {
-      carousel.value = makeCarousel<IDoctor>(props.doctors, 3);
+      carousel.value = makeCarousel<Doctor | Teacher>(props.doctors ? props.doctors : props.teachers, 3);
     });
 
     return {

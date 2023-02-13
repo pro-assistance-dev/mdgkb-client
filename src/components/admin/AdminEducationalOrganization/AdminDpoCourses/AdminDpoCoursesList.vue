@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" :key="$route.fullPath" show-header>
+  <AdminListWrapper v-if="mounted" show-header>
     <template #header>
       <SortList class="filters-block" :models="createDpoSortModels()" @load="loadDpoCourses" />
     </template>
@@ -14,14 +14,14 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="Руководитель" width="300">
-        <template #default="scope">
-          <div v-if="scope.row.getMainTeacher()">
-            {{ scope.row.getMainTeacher().doctor.employee.human.getFullName() }}
-          </div>
-          <div v-else>Руководителя нет</div>
-        </template>
-      </el-table-column>
+      <!--      <el-table-column label="Руководитель" width="300">-->
+      <!--        <template #default="scope">-->
+      <!--          <div v-if="scope.row.getMainTeacher()">-->
+      <!--            {{ scope.row.getMainTeacher().doctor.employee.human.getFullName() }}-->
+      <!--          </div>-->
+      <!--          <div v-else>Руководителя нет</div>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column label="Длительность" align="center" width="200">
         <template #default="scope">
           <div v-if="isEditMode">
@@ -53,10 +53,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <template #footer>
-      <Pagination :show-confirm="isEditMode" @save="save" @cancel="cancel" />
-    </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
@@ -79,7 +76,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDpoCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
+  components: { TableButtonGroup, AdminListWrapper, SortList },
   setup() {
     const mounted = ref(false);
     const route = useRoute();
@@ -101,17 +98,14 @@ export default defineComponent({
 
     const loadDpoCourses = async () => {
       Provider.store.commit('dpoCourses/clearItems');
-      await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('dpoCourses/getAllWithCount', Provider.filterQuery.value);
     };
 
     const load = async () => {
       Provider.store.commit('dpoCourses/clearItems');
-      // Provider.resetFilterQuery();
-      // Provider.filterQuery.value.pagination.limit = 3;
-      // Provider.filterQuery.value.pagination.cursorMode = false;
       Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
       setProgramsType();
-      await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('dpoCourses/getAllWithCount', Provider.filterQuery.value);
       Provider.store.commit('admin/setHeaderParams', {
         title: title,
         buttons: [
