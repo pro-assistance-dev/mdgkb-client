@@ -31,19 +31,7 @@ const mutations: MutationTree<State> = {
     state.filterQuery.withDeleted = withDeleted;
   },
   resetQueryFilter(state) {
-    state.filterQuery.filterModels.forEach((filterModel: FilterModel) => {
-      filterModel.isSet = false;
-      filterModel.value1 = '';
-      filterModel.date1 = undefined;
-      filterModel.date2 = undefined;
-      filterModel.boolean = false;
-      filterModel.set = [];
-    });
-    state.filterQuery.pagination = new Pagination();
-    state.filterQuery.filterModels = [];
-    state.filterQuery.sortModels = [];
-    state.filterQuery.sortModel = undefined;
-    console.log(state.filterQuery);
+    state.filterQuery.reset();
   },
   setFilterModel(state, filterModel: FilterModel) {
     filterModel.isSet = true;

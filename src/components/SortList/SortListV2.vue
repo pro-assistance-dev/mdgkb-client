@@ -45,9 +45,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const setDefaultSortModel: Ref<boolean> = computed(() => Provider.store.getters['filter/setDefaultSortModel']);
 
-    onBeforeMount((): void => {
-      changeModel(Provider.filterQuery.value.sortModel);
-    });
+    // onBeforeMount((): void => {
+    //   changeModel(Provider.filterQuery.value.sortModel);
+    // });
 
     watch(setDefaultSortModel, () => {
       setSort(undefined);

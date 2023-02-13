@@ -7,8 +7,7 @@
     <template #sort>
       <SortList :max-width="400" @load="loadItems" />
     </template>
-
-    <el-table :data="items" :border="false">
+    <el-table :data="employees" :border="false">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
           {{ scope.row.human.getFullName() }}
@@ -39,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -57,6 +56,7 @@ export default defineComponent({
   name: 'AdminEmployeeList',
   components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
   setup() {
+    const employees = computed(() => Provider.store.getters['employees/items']);
     Hooks.onBeforeMount(Provider.loadItems, {
       adminHeader: {
         title: 'Сотрудники',
@@ -75,6 +75,7 @@ export default defineComponent({
     };
 
     return {
+      employees,
       ...Provider.getAdminLib(),
       selectSearch,
       createGenderFilterModels,

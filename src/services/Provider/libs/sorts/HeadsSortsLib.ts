@@ -10,9 +10,7 @@ const HeadsSortsLib = (() => {
       modelName,
       ClassHelper.GetPropertyName(Head).fullName,
       order ? order : Orders.Asc,
-      `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      // order === Orders.Desc ? false : true
-      true
+      `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
@@ -21,7 +19,8 @@ const HeadsSortsLib = (() => {
       modelName,
       'order',
       order ? order : Orders.Asc,
-      `${order === Orders.Asc ? '(По возрастанию)' : '(По убыванию)'}`
+      `${order === Orders.Asc ? '(По возрастанию)' : '(По убыванию)'}`,
+      true
     );
   }
 

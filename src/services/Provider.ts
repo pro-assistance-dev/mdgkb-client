@@ -35,7 +35,9 @@ const Provider = (() => {
   // }
 
   const item = computed(() => store.getters[storeModule + '/item']);
-  const items = computed(() => store.getters[storeModule + '/items']);
+  const items = computed(() => {
+    return store.getters[storeModule + '/items'];
+  });
 
   // function getItem<T>(): ComputedRef<T> {
   //   return
@@ -133,7 +135,10 @@ const Provider = (() => {
     }
   }
 
-  async function getAll(module: string): Promise<void> {
+  async function getAll(module?: string): Promise<void> {
+    if (!module) {
+      module = getStoreModule();
+    }
     await s.dispatch(`${module}/getAll`, filterQuery.value);
   }
 
@@ -208,8 +213,6 @@ const Provider = (() => {
     source.onmessage = f;
 
     source.onerror = function (e) {
-      console.log(e);
-      console.log('onError', sseReconnectCount);
       setTimeout(async () => {
         source.close();
         sseReconnectCount++;

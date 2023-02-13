@@ -1,6 +1,5 @@
 import { MutationTree } from 'vuex';
 
-import DpoApplication from '@/classes/DpoApplication';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import IWithId from '@/interfaces/IWithId';
 import { Constructable } from '@/services/ClassHelper';

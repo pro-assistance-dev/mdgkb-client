@@ -34,18 +34,15 @@ const Hooks = (() => {
       if (options?.sortsLib) {
         Provider.setSortList(...createSortModels(options.sortsLib));
       }
-      Provider.setDefaultSortModel();
       await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
+      Provider.setDefaultSortModel();
       Provider.setStoreModule();
       Provider.setGetAction(options?.getAction);
       Provider.initPagination(options?.pagination);
       await f(Provider.filterQuery.value);
-      console.log('load');
-      if (options?.adminHeader) {
-        console.log(Provider.item);
+      if ((options?.adminHeader, options?.adminHeader)) {
         Provider.store.commit('admin/setHeaderParams', options.adminHeader);
       }
-      console.log('opt');
       Provider.store.commit('admin/closeLoading');
       Provider.mounted.value = true;
     });

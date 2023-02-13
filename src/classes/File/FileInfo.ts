@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import getExtension from '@/services/GetExtension';
 
 export default class FileInfo implements IFileInfo {
   id?: string;
@@ -80,5 +81,9 @@ export default class FileInfo implements IFileInfo {
     if (event.target) {
       (event.target as HTMLImageElement).src = errorImgName ? require(`@/assets/img/${errorImgName}`) : require('@/assets/img/avatar.webp');
     }
+  }
+
+  isPdf(): boolean {
+    return getExtension(this.originalName) === 'pdf';
   }
 }
