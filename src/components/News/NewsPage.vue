@@ -222,4 +222,16 @@ h3 {
   margin-left: 0;
   padding-left: 50px;
 }
+
+:deep(.tab) {
+  border: none;
+}
+
+:deep(.tab-name) {
+  padding-left: 0px;
+}
+
+:deep(.tab-content-up) {
+  padding: 0 20px;
+}
 </style>

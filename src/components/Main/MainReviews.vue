@@ -70,10 +70,6 @@ export default defineComponent({
 
 @media screen and (max-width: 650px) {
   .main-page-reviews {
-    // display: block;
-    // margin-left: auto;
-    // margin-right: auto;
-    // width: 100%;
     flex-direction: column;
     align-items: center;
   }
