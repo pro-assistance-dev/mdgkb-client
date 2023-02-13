@@ -18,8 +18,9 @@
     <!--    </CollapsContainer>-->
     <ul>
       <li v-for="file in section.pageSectionDocuments" :key="file.id">
-        <a v-if="file.downloadToFile" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{ file.name }}</a>
-        <a v-else target="_blank" :href="file.scan.getFileUrl()">{{ file.name }}</a>
+        <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{
+          file.getFileName()
+        }}</a>
       </li>
     </ul>
     <ImageGallery :images="section.pageSectionImages" />
@@ -31,7 +32,7 @@ import { defineComponent, PropType, ref } from 'vue';
 
 import PageSection from '@/classes/PageSection';
 import ImageGallery from '@/components/ImageGallery.vue';
-
+import getExtention from '@/services/GetExtension';
 export default defineComponent({
   name: 'PageSection',
   components: { ImageGallery },
@@ -53,6 +54,7 @@ export default defineComponent({
     const mounted = ref(false);
 
     return {
+      getExtention,
       mounted,
     };
   },

@@ -47,4 +47,11 @@ export default class PageSectionDocument {
     this.scan.url = file.url;
     return this.scan;
   }
+
+  getFileName(): string {
+    if (this.name) {
+      return this.name;
+    }
+    return this.scan.originalName;
+  }
 }
