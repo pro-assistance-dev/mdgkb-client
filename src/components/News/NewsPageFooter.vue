@@ -34,8 +34,7 @@
           :description="news.title"
         >
           <div class="share-item">
-            <img class="display-none" :src="require(`@/assets/img/social/${share.icon}.webp`)" :alt="share.name" />
-            <img class="colored display-none" :src="require(`@/assets/img/social/${share.icon}-colored.webp`)" :alt="share.name" />
+            <img class="colored" :src="require(`@/assets/img/social/${share.icon}-colored.webp`)" :alt="share.name" />
           </div>
         </ShareNetwork>
       </div>
@@ -70,6 +69,7 @@ export default defineComponent({
       // { name: 'facebook', icon: 'fb' },
       // { name: 'twitter', icon: 'twitter' },
       { name: 'VK', icon: 'vk' },
+      { name: 'Telegram', icon: 'telegram' },
     ];
 
     const filterNews = async (tag: ITag): Promise<void> => {
