@@ -77,9 +77,9 @@
         <div class="vice-doctor-avatar">
           <div class="doctor-avatar">
             <img
-              :src="head.employee.human.photo.getImageUrl()"
+              :src="head.employee.human.photoMini.getImageUrl()"
               alt="alt"
-              @error="head.employee.human.photo.errorImg($event, 'doctor-default.webp')"
+              @error="head.employee.human.photoMini.errorImg($event, 'doctor-default.webp')"
             />
           </div>
         </div>
