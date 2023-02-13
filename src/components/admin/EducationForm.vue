@@ -26,21 +26,23 @@
       </div>
     </div>
   </div>
-  <div class="certification container" :style="{ background: !employee.certifications ? '' : '#F9FAFB' }">
+  <div class="education-item" :style="{ background: employee.certifications.length ? '' : '#F9FAFB' }">
     <div class="bottom-buttons">
-      <div class="title" :style="{ color: !employee.certifications ? '#c4c4c4' : '#303133' }">Сертификации</div>
+      <div class="title" :style="{ color: !employee.certifications.length ? '#c4c4c4' : '#303133' }">Сертификации</div>
       <button class="admin-add2" @click.prevent="employee.addCertification()">+ Добавить</button>
     </div>
 
-    <div v-for="(certification, i) in employee.certifications" :key="certification">
-      <el-divider />
+    <div v-for="(certification, i) in employee.certifications" :key="certification" class="education-item-item">
       <button
         v-if="employee.certifications"
-        class="admin-del2"
+        class="admin-del"
         @click.prevent="$classHelper.RemoveFromClassByIndex(i, employee.certifications, employee.certificationsForDelete)"
       >
         Удалить
       </button>
+      <div class="list-number">
+        {{ i + 1 }}
+      </div>
       <div class="column-block">
         <div class="column-item">
           <el-form-item label="Специальность">
@@ -70,20 +72,22 @@
       </div>
     </div>
   </div>
-  <div class="container accreditation" :style="{ background: !employee.accreditations ? '' : '#F9FAFB' }">
+  <div class="education-item" :style="{ background: employee.accreditations.length ? '' : '#F9FAFB' }">
     <div class="bottom-buttons">
-      <div class="title" :style="{ color: !employee.accreditations ? '#c4c4c4' : '#303133' }">Аккредитации</div>
+      <div class="title" :style="{ color: !employee.accreditations.length ? '#c4c4c4' : '#303133' }">Аккредитации</div>
       <button class="admin-add2" @click.prevent="employee.addAccreditation()">+ Добавить</button>
     </div>
 
-    <div v-for="(accreditation, i) in employee.accreditations" :key="accreditation">
-      <el-divider />
+    <div v-for="(accreditation, i) in employee.accreditations" :key="accreditation" class="education-item-item">
       <button
-        class="admin-del2"
+        class="admin-del"
         @click.prevent="$classHelper.RemoveFromClassByIndex(i, employee.accreditations, employee.accreditaionsForDelete)"
       >
         Удалить
       </button>
+      <div class="list-number">
+        {{ i + 1 }}
+      </div>
       <div class="column-block">
         <div class="column-item">
           <el-form-item label="Специальность">
@@ -279,18 +283,34 @@ export default defineComponent({
   color: #303133;
 }
 
-.certification {
+.education-item {
+  width: calc(100% - 62px);
+  position: relative;
   padding: 0 10px;
-  margin-bottom: 20px;
   border: 1px solid #c3c3c3;
   border-radius: 5px;
+  margin: 0px 20px 20px 20px;
+  background: #dff2f8;
 }
 
-.accreditation {
+.contact-container {
+  width: calc(100% - 62px);
+  position: relative;
   padding: 0 10px;
-  margin-top: 10px 0;
   border: 1px solid #c3c3c3;
   border-radius: 5px;
+  margin: 0px 20px 20px 20px;
+  background: #dff2f8;
+}
+
+.education-item-item {
+  position: relative;
+  width: calc(100% - 42px);
+  margin: 0px 10px 20px 10px;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 12px 10px;
+  background: #f9fafb;
 }
 
 :deep(.el-form-item__content) {
@@ -384,6 +404,16 @@ export default defineComponent({
   .container {
     width: calc(100% - 42px);
     margin: 0px 10px 20px 10px;
+  }
+
+  .education-item {
+    width: calc(100% - 42px);
+    margin: 0px 10px 20px 10px;
+  }
+
+  .education-item-item {
+    width: calc(100% - 22px);
+    margin: 0px 0px 20px 0px;
   }
   .admin-del {
     position: absolute;
