@@ -1,3 +1,4 @@
+import { Ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
 import IAdminButtonParams from '@/interfaces/admin/IAdminButtonParams';
@@ -5,7 +6,7 @@ import IAdminButtonParams from '@/interfaces/admin/IAdminButtonParams';
 export default class AdminButtonParams implements IAdminButtonParams {
   text = 'Сохранить';
   type = 'success';
-  condition = true;
+  condition: boolean | Ref<boolean> = true;
   action?: undefined | ((next?: NavigationGuardNext | undefined) => Promise<void>) | (() => Promise<void>) | (() => void);
 
   constructor(adminButtonParams?: IAdminButtonParams) {
