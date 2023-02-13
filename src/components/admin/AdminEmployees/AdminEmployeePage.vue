@@ -176,6 +176,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
+import Head from '@/classes/Head';
 import Human from '@/classes/Human';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
@@ -205,7 +206,7 @@ export default defineComponent({
   setup() {
     const form = ref();
     Provider.form = form;
-    const employee: Ref<Employee> = Provider.item;
+    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
     const employees: Ref<Employee[]> = Provider.items;
     let filterModel: FilterModel = EmployeesFiltersLib.byFullName();
 
