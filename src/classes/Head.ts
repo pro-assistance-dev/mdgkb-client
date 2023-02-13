@@ -21,6 +21,7 @@ export default class Head {
   isMain = false;
   contactInfo: ContactInfo = new ContactInfo();
   contactInfoId?: string;
+  order = 1;
 
   fullName?: string;
 

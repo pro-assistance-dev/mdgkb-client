@@ -248,6 +248,7 @@ const Provider = (() => {
     setSortModelsForOneTable,
     setFilterModels,
     setFilterModel,
+    setSortModel,
     setSortModels,
     spliceFilterModel,
     filterQuery,

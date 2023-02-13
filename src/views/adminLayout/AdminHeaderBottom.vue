@@ -8,7 +8,14 @@
       </h4>
       <div class="button-group">
         <div v-for="item in headerParams.buttons" :key="item">
-          <el-button v-if="item.action && item.condition" round size="small" :type="item.type" @click.prevent="item.action()">
+          <el-button
+            v-if="item.action && item.condition"
+            :key="item.condition"
+            round
+            size="small"
+            :type="item.type"
+            @click.prevent="item.action()"
+          >
             {{ item.text }}
           </el-button>
         </div>

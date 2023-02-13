@@ -32,7 +32,7 @@
           {{ scope.row.dpoCourse.name }}
         </template>
       </el-table-column>
-      <el-table-column width="50" fixed="right" align="center" class-name="sticky-right">
+      <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
           <TableButtonGroup :show-edit-button="true" @edit="edit(scope.row.id)" />
         </template>
