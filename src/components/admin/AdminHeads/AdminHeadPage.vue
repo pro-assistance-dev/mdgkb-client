@@ -153,7 +153,7 @@ export default defineComponent({
     const head: Ref<Head> = computed(() => Provider.store.getters['heads/item']);
 
     const toEmployeeInfo = async (): Promise<void> => {
-      await Provider.router.push(`/admin/employees/${head.value.employee.human.slug}`);
+      await Provider.router.push(`/admin/employees/${head.value.employee.id}`);
     };
 
     const addDepartment = async (searchObject: ISearchObject) => {

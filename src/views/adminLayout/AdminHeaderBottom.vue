@@ -30,7 +30,6 @@ export default defineComponent({
       Provider.router.go(-1);
     };
     return {
-      mounted: Provider.mounted,
       headerParams,
       goBack,
     };

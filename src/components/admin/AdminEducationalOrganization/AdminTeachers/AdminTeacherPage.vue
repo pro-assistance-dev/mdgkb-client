@@ -94,9 +94,17 @@ export default defineComponent({
 
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
-        title: Provider.route().params['id'] ? teacher.value.employee.human.getFullName() : 'Добавить преподавателя',
+        title: computed(() => (Provider.route().params['id'] ? teacher.value?.employee.human?.getFullName() : 'Добавить сотрудника')),
         showBackButton: true,
-        buttons: [{ action: Hooks.submit() }],
+        buttons: [
+          {
+            text: 'Личная информация',
+            type: 'warning',
+            condition: computed(() => !!teacher.value?.employee.id),
+            action: () => Provider.router.push(`/admin/employees/${teacher.value?.employee.id}`),
+          },
+          { action: Hooks.submit() },
+        ],
       },
     });
     Hooks.onBeforeRouteLeave();

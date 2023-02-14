@@ -1,8 +1,8 @@
 <template>
   <div class="card-item">
     <ChiefCard
-      v-if="course.getMainTeacher()"
-      :chief="course.getMainTeacher().doctor"
+      v-if="course.getMainTeacher() && course.getMainTeacher().employee?.id"
+      :employee="course.getMainTeacher().employee"
       chief-role="Руководитель курса"
       :show-favourite="false"
     />

@@ -3,6 +3,7 @@ import Certificate from '@/classes/Certificate';
 import Certification from '@/classes/educations/Certification';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
+import Head from '@/classes/Head';
 import Human from '@/classes/Human';
 import Regalia from '@/classes/Regalia';
 import TeachingActivity from '@/classes/TeachingActivity';
@@ -16,6 +17,7 @@ export default class Employee {
   id?: string;
   human = new Human();
   humanId?: string;
+
   academicDegree = '';
   academicRank = '';
   partTime = false;
@@ -47,6 +49,9 @@ export default class Employee {
   fullName?: string;
   dateBirth?: string;
   isMale?: string;
+  @ClassHelper.GetClassConstructorForArray(Head)
+  head?: Head;
+  // headId?: string;
 
   constructor(i?: Employee) {
     ClassHelper.BuildClass(this, i);

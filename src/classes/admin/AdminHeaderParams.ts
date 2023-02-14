@@ -8,7 +8,7 @@ type f = () => string;
 export default class AdminHeaderParams {
   title: string | f | ComputedRef = '';
   showBackButton? = false;
-  buttons: IAdminButtonParams[] = [];
+  buttons: AdminButtonParams[] = [];
   applicationsCount? = 0;
 
   constructor(adminHeaderParams?: AdminHeaderParams) {

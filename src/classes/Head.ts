@@ -19,7 +19,7 @@ export default class Head {
   departments: Department[] = [];
   departmentsForDelete: string[] = [];
   isMain = false;
-  contactInfo: ContactInfo = new ContactInfo();
+  contactInfo?: ContactInfo = new ContactInfo();
   contactInfoId?: string;
 
   fullName?: string;

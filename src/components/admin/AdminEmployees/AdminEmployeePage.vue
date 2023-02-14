@@ -171,7 +171,7 @@
 
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Employee from '@/classes/Employee';
@@ -239,7 +239,15 @@ export default defineComponent({
       adminHeader: {
         title: computed(() => (Provider.route().params['id'] ? employee.value?.human?.getFullName() : 'Добавить сотрудника')),
         showBackButton: true,
-        buttons: [{ action: Hooks.submit() }],
+        buttons: [
+          {
+            text: 'Информация о менеджере',
+            type: 'warning',
+            condition: computed(() => !!employee.value.head?.id),
+            action: () => Provider.router.push(`/admin/heads/${employee.value.head?.id}`),
+          },
+          { action: Hooks.submit() },
+        ],
       },
     });
     Hooks.onBeforeRouteLeave();

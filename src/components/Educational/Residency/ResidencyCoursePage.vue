@@ -1,7 +1,7 @@
 <template>
   <div v-if="mounted" class="size">
     <ResidencyCourseInfo :course="residencyCourse" />
-    <DoctorsCarousel header-title="Преподаватели" header-button-title="Все преподаватели" :doctors="residencyCourse.getDoctors()" />
+    <DoctorsCarousel header-title="Преподаватели" header-button-title="Все преподаватели" :teachers="residencyCourse.getTeachers()" />
     <CollapsContainer tab-id="6" :collapsed="true">
       <template #inside-title>
         <div class="title-in">Информация о программе</div>

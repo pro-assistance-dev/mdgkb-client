@@ -3,42 +3,22 @@
     <div class="flex-row">
       <div class="flex-column left-side">
         <AvatarWithFavourite
-          :image="teacher.doctor.employee.human.photoMini"
+          :image="teacher.employee.human.photoMini"
           error-img-name="doctor-default.webp"
-          :domain-id="teacher.doctor.id"
+          :domain-id="teacher.id"
           domain-name="doctor"
-          :img-link="{ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.employee.human.slug } }"
+          :img-link="{ name: `DoctorPage`, params: { id: teacher.id, slug: teacher.employee.human.slug } }"
         />
-        <Rating :comments="teacher.doctor.doctorComments" />
-        <a v-if="teacher.doctor.mosDoctorLink" :href="teacher.doctor.getMosDoctorLink()">
-          <div class="mos-doctor-img">
-            <img src="@/assets/img/mos-doctor.webp" />
-            <span>Московский</span>
-            <span>врач</span>
-          </div>
-        </a>
       </div>
       <div class="flex-column right-side">
-        <div class="division-name" @click="$router.push(`/divisions/${teacher.doctor.division.id}`)">
-          {{ teacher.doctor.division.name }}
-        </div>
         <div
           class="doctor-name"
           @click="$router.push({ name: `DoctorPage`, params: { id: teacher.doctor.id, slug: teacher.doctor.employee.human.slug } })"
         >
-          {{ teacher.doctor.employee.human.getFullName() }}
-        </div>
-        <div class="spec-list">
-          <div
-            v-if="teacher.doctor.medicalProfile"
-            class="tag-link"
-            @click="$router.push(`/medical-profiles/${teacher.doctor.medicalProfile.id}`)"
-          >
-            {{ teacher.doctor.medicalProfile.name }}
-          </div>
+          {{ teacher.employee.human.getFullName() }}
         </div>
         <div class="regalias-list">
-          <template v-for="(regalia, index) in teacher.doctor.employee.regalias" :key="regalia.id">
+          <template v-for="(regalia, index) in teacher.employee.regalias" :key="regalia.id">
             <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
           </template>
         </div>
@@ -59,7 +39,7 @@ import Rating from '@/components/Rating.vue';
 
 export default defineComponent({
   name: 'TeacherCard',
-  components: { Rating, AvatarWithFavourite },
+  components: { AvatarWithFavourite },
   props: {
     teacher: { type: Object as PropType<Teacher>, required: true },
   },

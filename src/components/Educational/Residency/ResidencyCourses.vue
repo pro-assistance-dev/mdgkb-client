@@ -27,20 +27,15 @@ export default defineComponent({
   },
 
   setup() {
-    const route = useRoute();
-    const selectedDocumentType: Ref<PageSection | undefined> = ref(undefined);
-    const mode: ComputedRef<string> = computed(() => (route.query.mode as string) || 'programs');
-    const modes: Ref<IOption[]> = ref([]);
-
     const loadCourses = async () => {
       Provider.store.commit('residencyCourses/clearItems');
-      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('residencyCourses/getAllWithCount', Provider.filterQuery.value);
     };
 
     const load = async () => {
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 100;
-      // Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
+      Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
       Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
       Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
       await loadCourses();
@@ -49,9 +44,6 @@ export default defineComponent({
     onBeforeMount(load);
 
     return {
-      modes,
-      selectedDocumentType,
-      mode,
       mounted: Provider.mounted,
       load,
       loadCourses,
