@@ -6,7 +6,7 @@
           {{ scope.row.employee.human.getFullName() }}
         </template>
       </el-table-column>
-      <el-table-column label="Должность" align="center" sortable>
+      <el-table-column label="Должность" sortable>
         <template #default="scope">
           {{ scope.row.position }}
         </template>
