@@ -64,5 +64,6 @@ export default defineComponent({
 }
 .el-main {
   height: inherit;
+  overflow: scroll;
 }
 </style>
