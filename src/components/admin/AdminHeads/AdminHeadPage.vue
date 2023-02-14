@@ -49,59 +49,10 @@
     <!--        </template>-->
     <!--      </CollapsContainer>-->
     <!--    </div>-->
-
     <div class="margin-container">
-      <CollapsContainer title="Телефоны" :tab-id="2017" :collapsed="false">
+      <CollapsContainer title="Контакты" :tab-id="1012" :collapsed="false">
         <template #inside-content>
-          <div class="tools-buttons">
-            <button class="admin-add" @click.prevent="head.contactInfo.addTelephoneNumber()">+ Добавить</button>
-          </div>
-          <div v-for="(telephoneNumber, i) in head.contactInfo.telephoneNumbers" :key="telephoneNumber" class="container2">
-            <button
-              class="admin-del2"
-              @click.prevent="
-                $classHelper.RemoveFromClassByIndex(i, head.contactInfo.telephoneNumbers, head.contactInfo.telephoneNumbersForDelete)
-              "
-            >
-              Удалить
-            </button>
-            <div class="list-number2">
-              {{ i + 1 }}
-            </div>
-            <el-form-item label="Номер телефона:">
-              <el-input v-model="telephoneNumber.number" />
-            </el-form-item>
-            <el-form-item label="Описание:">
-              <el-input v-model="telephoneNumber.description" />
-            </el-form-item>
-          </div>
-        </template>
-      </CollapsContainer>
-    </div>
-
-    <div class="margin-container">
-      <CollapsContainer title="Emails" :tab-id="2017" :collapsed="false">
-        <template #inside-content>
-          <div class="tools-buttons">
-            <button class="admin-add" @click.prevent="head.contactInfo.addEmail()">+ Добавить</button>
-          </div>
-          <div v-for="(email, i) in head.contactInfo.emails" :key="email" class="container2">
-            <button
-              class="admin-del2"
-              @click.prevent="$classHelper.RemoveFromClassByIndex(i, head.contactInfo.emails, head.contactInfo.emailsForDelete)"
-            >
-              Удалить
-            </button>
-            <div class="list-number2">
-              {{ i + 1 }}
-            </div>
-            <el-form-item label="Email:">
-              <el-input v-model="email.address" />
-            </el-form-item>
-            <el-form-item label="Описание:">
-              <el-input v-model="email.description" />
-            </el-form-item>
-          </div>
+          <ContactsForm :contact-info="head.contactInfo" />
         </template>
       </CollapsContainer>
     </div>
@@ -115,25 +66,17 @@
         </template>
       </CollapsContainer>
     </div>
-
-    <!-- <el-form-item label="Отделы в подчинении">
-      <el-button @click="addDepartment"> Добавить отдел</el-button>
-      <div v-for="(department, i) in head.departments" :key="i">
-        <el-input v-model="department.name" />
-        <el-button @click="removeDepartment(i)">Удалить отдел</el-button>
-      </div>
-    </el-form-item> -->
   </el-form>
 
   <ImageCropper />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch, WritableComputedRef } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Employee from '@/classes/Employee';
 import Head from '@/classes/Head';
+import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -144,7 +87,7 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminHeadPage',
-  components: { TimetableConstructorV2New, CollapsContainer, RemoteSearch },
+  components: { TimetableConstructorV2New, CollapsContainer, RemoteSearch, ContactsForm },
   setup() {
     const form = ref();
     Provider.form = form;
