@@ -19,7 +19,15 @@
           </div>
           <div>
             <span><b>Дата обращения: </b></span>
-            <span>{{ $dateTimeFormatter.format(question.date, { hour: 'numeric', minute: 'numeric' }) }}</span>
+            <span>{{
+              $dateTimeFormatter.format(question.date, {
+                year: 'numeric',
+                month: 'long',
+                day: '2-digit',
+                hour: 'numeric',
+                minute: 'numeric',
+              })
+            }}</span>
           </div>
           <div>
             <span><b>Тема вопроса: </b></span>
