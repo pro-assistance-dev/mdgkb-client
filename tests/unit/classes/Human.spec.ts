@@ -114,7 +114,7 @@ describe('Class Human', () => {
     expect(human.address).toBe(EmptyVariables.emptyString);
   });
   test('Correct constructor construct', () => {
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     expect(human.id).toBe(item.id);
     expect(human.name).toBe(item.name);
     expect(human.surname).toBe(item.surname);
@@ -141,27 +141,27 @@ describe('Class Human', () => {
     item.contactInfo = undefined;
     item.photo = undefined;
     item.photoMini = undefined;
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     expect(human.photo.id).toBeUndefined();
     expect(human.photoMini.id).toBeUndefined();
     expect(human.contactInfo.id).toBeUndefined();
   });
 
   test('getFullName()', () => {
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     expect(human.getFullName()).toEqual(`${item.surname} ${item.name} ${item.patronymic}`);
   });
   test('getGender()', () => {
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     expect(human.getGender()).toEqual('М');
     expect(human.getGender(true)).toEqual('Мужской');
     item.isMale = false;
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     expect(human.getGender()).toEqual('Ж');
     expect(human.getGender(true)).toEqual('Женский');
   });
   test('capitalizeName()', () => {
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     human.capitalizeName();
     expect(human.name).toEqual(StringsService.capitalizeString(item.name));
     expect(human.surname).toEqual(StringsService.capitalizeString(item.surname));
@@ -174,14 +174,14 @@ describe('Class Human', () => {
     const surnameLength = item.surname.length;
     item.patronymic = item.patronymic + ' ';
     const patronymicLength = item.patronymic.length;
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     human.trimName();
     expect(human.name.length).toEqual(nameLength - 1);
     expect(human.surname.length).toEqual(surnameLength - 1);
     expect(human.patronymic.length).toEqual(patronymicLength - 1);
   });
   test('getFileInfos() + removePhoto() + removePhotoMini()', () => {
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     expect(human.getFileInfos().length).toEqual(2);
     expect(human.getFileInfos()[0].originalName).toEqual('originalName1');
     human.removePhoto();
@@ -191,7 +191,7 @@ describe('Class Human', () => {
   });
 
   test('sanitize name get capitalize and not spaced name', () => {
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     human.surname = ' surname ';
     human.name = ' name ';
     human.patronymic = ' patronymic ';
@@ -202,7 +202,7 @@ describe('Class Human', () => {
   });
 
   test('Remove photo get empty object photo and photoId undefined', () => {
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     expect(human.photo.id).toEqual('id');
     expect(human.photoId).toEqual('id');
     human.removePhoto();
@@ -210,7 +210,7 @@ describe('Class Human', () => {
     expect(human.photoId).toBeUndefined();
   });
   test('Remove photoMini get empty object photoMini and photoMiniId undefined', () => {
-    human = new Human(item as IHuman);
+    human = new Human(item as unknown as IHuman);
     expect(human.photoMini.id).toEqual('id');
     expect(human.photoMiniId).toEqual('id');
     human.removePhotoMini();
