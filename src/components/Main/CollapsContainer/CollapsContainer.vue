@@ -103,9 +103,9 @@ export default defineComponent({
   max-height: 0;
   overflow: hidden;
   background: #ffffff;
-  -webkit-transition: max-height 0.35s;
-  -o-transition: max-height 0.5s;
-  transition: max-height 0.5s;
+  -webkit-transition: max-height 0.03s;
+  -o-transition: max-height 0.03s;
+  transition: max-height 0.03s;
   color: #343e5c;
   // padding: 0 5px;
 }
@@ -115,7 +115,7 @@ export default defineComponent({
   overflow-y: scroll;
   overflow: hidden;
   background: #ffffff;
-  -webkit-transition: max-height 0.35s;
+  -webkit-transition: max-height 0.5s;
   -o-transition: max-height 0.5s;
   transition: max-height 0.5s;
   color: #343e5c;
