@@ -4,7 +4,6 @@ import AdminDpoApplicationPage from '@/components/admin/AdminEducationalOrganiza
 import AdminDpoApplicationsListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationsListContainer.vue';
 import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursePage.vue';
 import AdminDpoCoursesListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursesListContainer.vue';
-import AdminEducationalOrganizationPage from '@/components/admin/AdminEducationalOrganization/AdminEducationalOrganizationPage.vue';
 import AdminCandidateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationPage.vue';
 import AdminCandidateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationsList.vue';
 import AdminPostgraduateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationPage.vue';
@@ -23,18 +22,6 @@ import { authGuard, isAuthorized } from '@/router/index';
 // import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminPostgraduateCoursePage.vue';
 
 export default [
-  {
-    path: '/admin/educational-organization',
-    name: 'AdminEducationalOrganizationPage',
-    component: AdminEducationalOrganizationPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
   {
     path: '/admin/dpo/courses',
     name: 'AdminDpoCoursesList',

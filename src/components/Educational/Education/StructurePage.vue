@@ -72,7 +72,7 @@ import { useStore } from 'vuex';
 import Arrow from '@/assets/svg/StructurePage/Arrow.svg';
 import Time from '@/assets/svg/StructurePage/Time.svg';
 import ContactsBlock from '@/components/ContactsBlock.vue';
-import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+// import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'StructurePage',
@@ -87,9 +87,9 @@ export default defineComponent({
     const fileInfos = ['Положение об отделе постдипломного образования'];
 
     const files: any = [];
-    const educationalOrganisation: Ref<IEducationalOrganization> = computed(
-      () => store.getters['educationalOrganization/educationalOrganization']
-    );
+    // const educationalOrganisation: Ref<IEducationalOrganization> = computed(
+    //   () => store.getters['educationalOrganization/educationalOrganization']
+    // );
     const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
 
     onBeforeMount(async () => {
@@ -107,7 +107,7 @@ export default defineComponent({
       filteredDoctors,
       mounted,
       // rules,
-      educationalOrganisation,
+      // educationalOrganisation,
     };
   },
 });

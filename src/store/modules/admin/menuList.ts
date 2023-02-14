@@ -154,14 +154,6 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-first-aid-kit',
       },
       // {
-      //   title: 'Сведения об образовательной организации',
-      //   to: '/admin/educational-organization',
-      // },
-      // {
-      //   title: 'Сведения об образовательной организации - разделы',
-      //   to: '/admin/public-document-types',
-      // },
-      // {
       //   title: 'Ординатура',
       //   to: '/admin/residency',
       // },

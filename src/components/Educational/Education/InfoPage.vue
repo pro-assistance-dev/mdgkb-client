@@ -15,8 +15,6 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
-
 export default defineComponent({
   name: 'EducationalOrganizationInfo',
 
@@ -53,9 +51,7 @@ export default defineComponent({
       pageTitle.value = activeName;
     };
     // const rules = ref(SideOrganizationRules);
-    const educationalOrganisation: Ref<IEducationalOrganization> = computed(
-      () => store.getters['educationalOrganization/educationalOrganization']
-    );
+
     const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
 
     onBeforeMount(async () => {
@@ -67,7 +63,6 @@ export default defineComponent({
       filteredDoctors,
       mounted,
       // rules,
-      educationalOrganisation,
       test,
       menu,
       isActive,

@@ -27,7 +27,6 @@ import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
 import { dpoCourses } from '@/store/modules/dpoCourses';
 import { educationalManagers } from '@/store/modules/educationalManagers';
-import { educationalOrganization } from '@/store/modules/educationalOrganization';
 import { educationalOrganizationAcademics } from '@/store/modules/educationalOrganizationAcademics';
 import { educationYears } from '@/store/modules/educationYears';
 import { employees } from '@/store/modules/employees';
@@ -107,7 +106,6 @@ const s: StoreOptions<RootState> = {
     admin,
     timetables,
     map,
-    educationalOrganization,
     menus,
     pages,
     vacancies,
