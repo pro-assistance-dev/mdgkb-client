@@ -16,6 +16,7 @@ export default class Page {
   pagesGroup = 'Без группы';
   link = '';
   withComments = false;
+  collaps = false;
   @ClassHelper.GetClassConstructorForArray(PageImage)
   pageImages: PageImage[] = [];
   pageImagesForDelete: string[] = [];

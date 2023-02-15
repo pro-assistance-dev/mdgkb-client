@@ -3,27 +3,41 @@
     <h2>{{ title }}</h2>
     <div v-if="description !== '<p>undefined</p>'" v-html="description"></div>
   </div>
-  <div v-for="section in pageSections" :key="section" class="card-item">
-    <!--    <template v-if="section.description && section.description.length < 1000">-->
-    <h2>{{ section.name }}</h2>
-    <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
-    <!--    </template>-->
-    <!--    <CollapsContainer v-if="section.description && section.description.length > 1000" tab-id="400" :collapsed="false">-->
-    <!--      <template #inside-title>-->
-    <!--        <h2>{{ section.name }}</h2>-->
-    <!--      </template>-->
-    <!--      <template #inside-content>-->
-    <!--        <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>-->
-    <!--      </template>-->
-    <!--    </CollapsContainer>-->
-    <ul>
-      <li v-for="file in section.pageSectionDocuments" :key="file.id">
-        <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{
-          file.getFileName()
-        }}</a>
-      </li>
-    </ul>
-    <ImageGallery :images="section.pageSectionImages" />
+  <div v-if="!collaps">
+    <div v-for="section in pageSections" :key="section" class="card-item">
+      <h2>{{ section.name }}</h2>
+      <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
+      <ul>
+        <li v-for="file in section.pageSectionDocuments" :key="file.id">
+          <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{
+            file.getFileName()
+          }}</a>
+        </li>
+      </ul>
+      <ImageGallery :images="section.pageSectionImages" />
+    </div>
+  </div>
+  <div v-else>
+    <div v-for="section in pageSections" :key="section" class="margin-container">
+      <CollapsContainer :tab-id="1036">
+        <template #inside-title>
+          <div class="title-in">{{ section.name }}</div>
+        </template>
+        <template #inside-content>
+          <div class="background-container">
+            <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
+            <ul>
+              <li v-for="file in section.pageSectionDocuments" :key="file.id">
+                <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{
+                  file.getFileName()
+                }}</a>
+              </li>
+            </ul>
+            <ImageGallery :images="section.pageSectionImages" />
+          </div>
+        </template>
+      </CollapsContainer>
+    </div>
   </div>
 </template>
 
@@ -32,10 +46,11 @@ import { defineComponent, PropType, ref } from 'vue';
 
 import PageSection from '@/classes/PageSection';
 import ImageGallery from '@/components/ImageGallery.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import getExtention from '@/services/GetExtension';
 export default defineComponent({
   name: 'PageSection',
-  components: { ImageGallery },
+  components: { ImageGallery, CollapsContainer },
   props: {
     title: {
       type: String as PropType<string>,
@@ -48,6 +63,11 @@ export default defineComponent({
     pageSections: {
       type: Array as PropType<PageSection[]>,
       required: true,
+    },
+    collaps: {
+      type: Boolean,
+      default: false,
+      required: false,
     },
   },
   setup() {
@@ -216,5 +236,16 @@ h4 {
 .item-4 {
   width: 188px;
   display: flex;
+}
+
+:deep(.title-in) {
+  padding: 0 100px 0 0px;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+.background-container {
+  width: auto;
+  margin: 20px;
 }
 </style>
