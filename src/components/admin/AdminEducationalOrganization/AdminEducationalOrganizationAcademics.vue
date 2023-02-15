@@ -7,7 +7,7 @@
       <el-button type="success" style="margin: 20px" @click="add">Добавить научного руководителя</el-button>
     </el-space>
 
-    <el-table :data="educationOrganisation.educationalOrganizationAcademics">
+    <el-table :data="educationOrganisation.educationalAcademics">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
           {{ scope.row.doctor.employee.human.getFullName() }}

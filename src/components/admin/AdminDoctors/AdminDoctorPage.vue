@@ -184,10 +184,6 @@ export default defineComponent({
       doctor.value.positionId = event.id;
     };
 
-    const academicChangeHandler = () => {
-      doctor.value.setAcademic();
-    };
-
     const completeInput = async (human: IHuman) => {
       if (!filterModel) {
         return;
@@ -251,7 +247,6 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       addDoctorDivision,
-      academicChangeHandler,
       selectEmployeeSearch,
     };
   },
