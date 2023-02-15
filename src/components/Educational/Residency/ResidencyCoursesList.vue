@@ -21,30 +21,6 @@
               </div>
             </div>
           </div>
-
-          <div class="card-item">
-            <div class="item-el-tag">
-              <h4>Годы:</h4>
-            </div>
-            <div class="item-el">
-              {{ residencyCourse.getPeriod() }}
-            </div>
-          </div>
-
-          <div class="card-item">
-            <div class="item-el-tag">
-              <h4>Вакантные места на платной основе:</h4>
-            </div>
-            <div class="item-el">
-              {{ residencyCourse.paidPlaces }}
-            </div>
-          </div>
-
-          <div class="card-footer">
-            <div class="item-el">
-              <font color="#343E5C" size="4">{{ residencyCourse.cost }} руб.</font>
-            </div>
-          </div>
         </li>
       </ul>
     </div>
@@ -62,9 +38,6 @@
           <th style="text-align: center"><h4>КОД</h4></th>
           <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
           <th v-if="years" style="text-align: center"><h4>ГОДЫ</h4></th>
-          <th v-if="freePrograms" style="text-align: center"><h4>БЕСПЛАТНЫЕ МЕСТА</h4></th>
-          <th v-if="paidPrograms" style="text-align: center"><h4>ВАКАНТНЫЕ МЕСТА НА ПЛАТНОЙ ОСНОВЕ</h4></th>
-          <th v-if="cost" style="text-align: center"><h4>СТОИМОСТЬ</h4></th>
         </thead>
         <tbody>
           <tr v-for="residencyCourse in residencyCourses" :key="residencyCourse.id">
@@ -75,21 +48,12 @@
               <router-link :to="`/residency-courses/${residencyCourse.id}`">
                 {{ residencyCourse.getMainSpecialization().name }}
               </router-link>
-              <!--              <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">-->
-              <!--                Подать заявку-->
-              <!--              </button>-->
+              <!--                            <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}`)">-->
+              <!--                              Подать заявку-->
+              <!--                            </button>-->
             </td>
             <td v-if="years" style="text-align: center">
               {{ residencyCourse.getPeriod() }}
-            </td>
-            <td v-if="freePrograms" style="text-align: center">
-              {{ residencyCourse.freePlaces }}
-            </td>
-            <td v-if="paidPrograms" style="text-align: center">
-              {{ residencyCourse.paidPlaces }}
-            </td>
-            <td v-if="cost" style="text-align: center">
-              {{ residencyCourse.cost }}
             </td>
           </tr>
         </tbody>

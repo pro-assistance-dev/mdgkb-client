@@ -16,13 +16,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IEducationalManager from '@/interfaces/IEducationalManager';
+import EducationalManager from '@/classes/EducationalManager';
 
 export default defineComponent({
   name: 'EducationalManagerCard',
   components: {},
   props: {
-    educationalManager: { type: Object as PropType<IEducationalManager>, required: true },
+    educationalManager: { type: Object as PropType<EducationalManager>, required: true },
   },
   setup() {
     const errorImg = (event: Event) => {

@@ -110,11 +110,6 @@ export default defineComponent({
       head.value.setEmployee(employee.value);
     };
 
-    const load = async () => {
-      await Provider.loadItem();
-      // await Provider.store.dispatch("employee/resetItem")
-    };
-
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
         title: computed(() => (Provider.route().params['id'] ? head.value.employee.human.getFullName() : 'Создать сотрудника')),

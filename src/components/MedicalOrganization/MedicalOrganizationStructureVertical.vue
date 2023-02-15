@@ -42,7 +42,7 @@
           </div>
         </div>
       </div>
-      <div class="arrow">
+      <!-- <div class="arrow">
         <svg class="icon-main-doctor-arrow">
           <use xlink:href="#right-arrow"></use>
         </svg>
@@ -64,16 +64,16 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </div>
-    <svg class="icon-main-doctor-arrow-bottom">
+    <!-- <svg class="icon-main-doctor-arrow-bottom">
       <use xlink:href="#right-arrow bottom"></use>
-    </svg>
+    </svg> -->
     <div class="vice-title">
       <div class="head-title"><h3>Заместители главного врача</h3></div>
     </div>
     <div class="vice-doctor">
-      <div v-for="head in heads" :key="head.id" class="vice-doctor-info">
+      <div v-for="head in heads.filter((el) => !el.isMain)" :key="head.id" class="vice-doctor-info">
         <div class="vice-doctor-avatar">
           <div class="doctor-avatar">
             <img
@@ -219,9 +219,11 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .main-doctor-info {
+  margin: 0 auto;
   width: 270px;
   height: auto;
   background: #ffffff;

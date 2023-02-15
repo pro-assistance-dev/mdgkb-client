@@ -18,7 +18,9 @@
               <use xlink:href="#map-marker"></use>
             </svg>
           </div>
-          <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 11, 2 этаж Отдел постдипломного образования, кабинет № 5</div>
+          <div class="item">
+            Москва, 4-й Добрынинский переулок, дом 1/9, корпус 22А, кабинет № 1 (Ординатура), кабинет № 3 (Аспирантура)
+          </div>
         </div>
       </div>
       <div class="contact-data-list-item">
@@ -41,13 +43,13 @@
               <use xlink:href="#email"></use>
             </svg>
           </div>
-          <div class="item">dpo@morozdgkb.ru</div>
+          <div class="item">pdo@morozdgkb.ru</div>
         </div>
       </div>
     </div>
     <div class="map-data">
       <div class="map-container">
-        <YandexMapComponent />
+        <YandexMapComponent :coords="coords" />
       </div>
     </div>
   </div>
@@ -95,12 +97,11 @@ export default defineComponent({
   components: { YandexMapComponent },
   setup() {
     const mounted = ref(false);
-
+    const coords = [55.72606343239642, 37.61780868792668];
     onMounted(async () => {
       mounted.value = true;
     });
-
-    return { mounted };
+    return { mounted, coords };
   },
 });
 </script>

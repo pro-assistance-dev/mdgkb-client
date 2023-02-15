@@ -14,19 +14,17 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref } from 'vue';
 import { useStore } from 'vuex';
 
+import EducationalManager from '@/classes/EducationalManager';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import EducationalManagerCard from '@/components/Educational/TeachersManagers/EducationalManagerCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import IEducationalManager from '@/interfaces/IEducationalManager';
 
 export default defineComponent({
   name: 'EducationalManagersList',
   components: { EducationalManagerCard, LoadMoreButton },
   setup() {
     const store = useStore();
-    const educationalManagers: Ref<IEducationalManager[]> = computed<IEducationalManager[]>(
-      () => store.getters['educationalManagers/items']
-    );
+    const educationalManagers: Ref<EducationalManager[]> = computed<EducationalManager[]>(() => store.getters['educationalManagers/items']);
 
     onBeforeMount(async () => {
       filterQuery.value.pagination.cursorMode = false;

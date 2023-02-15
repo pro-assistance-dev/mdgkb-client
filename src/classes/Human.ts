@@ -44,6 +44,9 @@ export default class Human implements IHuman {
   }
 
   getFullName(): string {
+    if (!this.surname.length && !this.name.length && !this.patronymic.length) {
+      return '';
+    }
     return `${this.surname} ${this.name} ${this.patronymic}`;
   }
 

@@ -9,6 +9,15 @@
           <div class="middle-header">Время записи</div>
           <AppointmentsSlots @chooseSlot="chooseSlot" />
         </div>
+        <hr class="gray-border" />
+        <div class="contancts">
+          <b>Круглосуточный</b> многоканальный номер для записи на медицинские услуги, отмены записи и переноса:
+          <p><a href="tel:+7 (495) 959-88-00">+7 (495) 959-88-00</a>, <a href="tel:+7 (495) 959-88-03">+7 (495) 959-88-03</a></p>
+          <p>
+            <img src="@/assets/img/wheelchair.png" alt="" /> При записи на прием к врачу или диагностическое исследование маломобильного
+            пациента сообщите о его особенностях оператору.
+          </p>
+        </div>
       </div>
       <div class="form-zone">
         <!-- <div v-for="appointmentType in appointmentsTypes" :key="appointmentType.id" @click="selectType(appointmentType)">
@@ -232,5 +241,12 @@ export default defineComponent({
 .appointment-container {
   display: flex;
   justify-content: space-between;
+}
+
+.contancts {
+  margin: 20px 0;
+  img {
+    height: 15px;
+  }
 }
 </style>

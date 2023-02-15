@@ -1,6 +1,5 @@
 <template>
-  <el-container v-if="mounted" direction="vertical">
-    <h2 style="text-align: center">Структура и орган управления организации</h2>
+  <el-container direction="vertical">
     <div class="v-item">
       <h3>ГЛАВНЫЙ ВРАЧ</h3>
     </div>
@@ -19,12 +18,7 @@
     <div class="field-50"></div>
 
     <el-card>
-      <el-timeline-item
-        v-for="(manager, i) in educationalOrganisation.educationalOrganizationManagers"
-        :key="manager.id"
-        center
-        placement="top"
-      >
+      <el-timeline-item v-for="(manager, i) in educationalManagers" :key="manager.id" center placement="top">
         <el-card>
           <div class="flex-row">
             <div class="doctor-img-container">
@@ -66,48 +60,26 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import Arrow from '@/assets/svg/StructurePage/Arrow.svg';
 import Time from '@/assets/svg/StructurePage/Time.svg';
+import EducationalManager from '@/classes/EducationalManager';
 import ContactsBlock from '@/components/ContactsBlock.vue';
-// import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'StructurePage',
   components: { ContactsBlock, Time, Arrow },
 
   setup() {
-    const mounted = ref(false);
-    const store = useStore();
-
-    // const rules = ref(SideOrganizationRules);
-
-    const fileInfos = ['Положение об отделе постдипломного образования'];
-
-    const files: any = [];
-    // const educationalOrganisation: Ref<IEducationalOrganization> = computed(
-    //   () => store.getters['educationalOrganization/educationalOrganization']
-    // );
-    const filteredDoctors = computed(() => store.getters['doctors/filteredDoctors']);
-
+    const educationalManagers: ComputedRef<EducationalManager[]> = computed(() => Provider.store.getters['educationalManagers/items']);
     onBeforeMount(async () => {
-      await store.dispatch('educationalOrganization/get');
-
-      const url = process.env.VUE_APP_STATIC_URL + '/educ/info/struct/';
-      fileInfos.forEach((f: string, i: number) => {
-        files.push({ url: url + i + '.pdf', download: f });
-      });
-      mounted.value = true;
+      await Provider.store.dispatch('educationalManagers/getAll');
     });
 
     return {
-      files,
-      filteredDoctors,
-      mounted,
-      // rules,
-      // educationalOrganisation,
+      educationalManagers,
     };
   },
 });

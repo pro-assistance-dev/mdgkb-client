@@ -5,6 +5,21 @@
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
+              <SetEntity
+                :search-key="schema.employee.key"
+                label="Выбрать руководителя"
+                :entity-name="residencyCourse.mainTeacher.human.getFullName()"
+                @select-search="selectMainTeacherSearch"
+                @reset="residencyCourse.resetMainTeacher()"
+              />
+            </el-card>
+            <el-card class="content-card">
+              <template #header> Описание </template>
+              <el-form-item prop="description">
+                <WysiwygEditor v-model="residencyCourse.description" />
+              </el-form-item>
+            </el-card>
+            <el-card>
               <el-form-item label="Основная профессиональная программа Высшего образования">
                 <FileUploader :file-info="residencyCourse.program" />
               </el-form-item>
@@ -32,44 +47,6 @@
                   </el-select>
                 </el-form-item>
               </div>
-            </el-card>
-            <el-card class="content-card">
-              <template #header> Описание </template>
-              <el-form-item prop="description">
-                <WysiwygEditor v-model="residencyCourse.description" />
-              </el-form-item>
-            </el-card>
-            <el-card>
-              <template #header> Преподаватели </template>
-              <el-form-item prop="listeners">
-                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />
-                <el-table :data="residencyCourse.residencyCoursesTeachers">
-                  <el-table-column label="ФИО" sortable>
-                    <template #default="scope">
-                      {{ scope.row.teacher.doctor.employee.human.getFullName() }}
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="Руководитель программы" sortable>
-                    <template #default="scope">
-                      <el-checkbox v-model="scope.row.main" @change="residencyCourse.setMainTeacher(scope.$index)" />
-                    </template>
-                  </el-table-column>
-                  <el-table-column width="50" fixed="right" align="center">
-                    <template #default="scope">
-                      <TableButtonGroup
-                        :show-remove-button="true"
-                        @remove="
-                          $classHelper.RemoveFromClassByIndex(
-                            scope.$index,
-                            residencyCourse.residencyCoursesTeachers,
-                            residencyCourse.residencyCoursesTeachersForDelete
-                          )
-                        "
-                      />
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </el-form-item>
             </el-card>
             <el-card>
               <template #header> Специализации </template>
@@ -147,123 +124,69 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
+import { computed, ComputedRef, defineComponent, Ref, watch } from 'vue';
 
 import EducationYear from '@/classes/EducationYear';
+import Employee from '@/classes/Employee';
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import ResidencyCourseTeacher from '@/classes/ResidencyCourseTeacher';
 import Specialization from '@/classes/Specialization';
-import Teacher from '@/classes/Teacher';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import SetEntity from '@/components/admin/SetEntity.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import IForm from '@/interfaces/IForm';
 import ISearchObject from '@/interfaces/ISearchObject';
+import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminResidencyCoursePage',
   components: {
+    SetEntity,
     FileUploader,
-    RemoteSearch,
     WysiwygEditor,
-    TableButtonGroup,
   },
   setup() {
     const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(
       () => Provider.store.getters['specializations/items']
     );
-    const selectedTeacher: ComputedRef<Teacher> = computed<Teacher>(() => Provider.store.getters['teachers/item']);
     const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);
     const educationYears: ComputedRef<EducationYear[]> = computed<EducationYear[]>(() => Provider.store.getters['educationYears/items']);
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
-      await Provider.store.dispatch('teachers/getAll');
       await Provider.store.dispatch('educationYears/getAll');
       await Provider.store.dispatch('specializations/getAll');
       await Provider.store.dispatch('search/searchGroups');
       await Provider.store.dispatch('formPatterns/getAll');
-      await loadItem();
+      await Provider.loadItem(ClassHelper.GetPropertyName(ResidencyCourse).id);
     };
 
-    const loadItem = async () => {
-      if (Provider.route().params['id']) {
-        Provider.store.commit(`filter/resetQueryFilter`);
-        Provider.filterQuery.value.setParams(Provider.schema.value.residencyCourse.id, Provider.route().params['id'] as string);
-        await Provider.store.dispatch('residencyCourses/get', Provider.filterQuery.value);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: residencyCourse.value.getMainSpecialization().name,
-          showBackButton: true,
-          buttons: [{ action: submit }],
-        });
-      } else {
-        Provider.store.commit('residencyCourses/resetItem');
-        if (Provider.route().meta.isNmo) Provider.store.commit('residencyCourses/setIsNmo', true);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: 'Добавить программу',
-          showBackButton: true,
-          buttons: [{ action: submit }],
-        });
-      }
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(residencyCourse, formUpdated, { deep: true });
-    };
-
-    Hooks.onBeforeMount(load);
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
+    Hooks.onBeforeMount(load, {
+      adminHeader: {
+        title: computed(() => (Provider.route().params['id'] ? residencyCourse.value.getMainSpecialization().name : 'Добавить программу')),
+        showBackButton: true,
+        buttons: [{ action: Hooks.submit() }],
+      },
     });
-
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(Provider.form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      if (!Provider.route().params['id']) {
-        await Provider.store.dispatch('residencyCourses/create', residencyCourse.value);
-        await Provider.router.push(`/admin/residency/courses`);
-        return;
-      }
-      await Provider.store.dispatch('residencyCourses/update', residencyCourse.value);
-      next ? next() : await Provider.router.push(`/admin/residency/courses`);
-    };
-
-    const addTeacher = async (searchObject: ISearchObject) => {
-      const teacherExists = !!residencyCourse.value.residencyCoursesTeachers.find(
-        (courseTeacher: ResidencyCourseTeacher) => courseTeacher.teacherId === searchObject.id
-      );
-
-      if (teacherExists) {
-        ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
-        return;
-      }
-      await Provider.store.dispatch('teachers/get', searchObject.id);
-      residencyCourse.value.addTeacher(selectedTeacher.value);
-      Provider.store.commit('teachers/resetItem');
-    };
+    Hooks.onBeforeRouteLeave(Hooks.submit);
 
     const changeFormPatternHandler = () => {
-      // residencyCourse.value.formPatternId = residencyCourse.value.formPattern.id
+      residencyCourse.value.formPatternId = residencyCourse.value.formPattern.id;
+    };
+
+    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
+    const selectMainTeacherSearch = async (searchObject: ISearchObject) => {
+      await Provider.store.dispatch('employees/get', searchObject.value);
+      residencyCourse.value.setMainTeacher(employee.value);
     };
 
     return {
       educationYears,
       specializations,
-
-      addTeacher,
+      selectMainTeacherSearch,
       schema: Provider.schema,
       mounted: Provider.mounted,
-      submit,
       residencyCourse,
       form: Provider.form,
       formPatterns,

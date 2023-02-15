@@ -22,7 +22,7 @@ export interface IPaginationOptions {
   action: string;
 }
 
-type func = (filterQuery: FilterQuery) => void;
+type func = (param?: FilterQuery | string) => Promise<void> | void;
 
 const Hooks = (() => {
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {

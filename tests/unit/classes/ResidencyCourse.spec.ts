@@ -34,8 +34,6 @@ describe('Class ResidencyCourse', () => {
     expect(residencyCourse.paidPlaces).toBe(0);
     expect(residencyCourse.residencyCoursesSpecializations).toHaveLength(0);
     expect(residencyCourse.residencyCoursesSpecializationsForDelete).toHaveLength(0);
-    expect(residencyCourse.residencyCoursesTeachers).toHaveLength(0);
-    expect(residencyCourse.residencyCoursesTeachersForDelete).toHaveLength(0);
     expect(residencyCourse.formPattern).toBeInstanceOf(Form);
     expect(residencyCourse.formPatternId).toBeUndefined();
     expect(residencyCourse.program).toBeInstanceOf(FileInfo);
@@ -112,97 +110,6 @@ describe('Class ResidencyCourse', () => {
   //   expect(residencyCourse.endYearId).toBe(item.endYearId);
   //   expect(residencyCourse.residencyApplications).toHaveLength(item.residencyApplications.length);
   // });
-
-  test('addTeacher() добавляет одного преподавателя и устанавливает для него внешний ключ', () => {
-    // Arrange
-
-    // Act
-    residencyCourse = new ResidencyCourse();
-    expect(residencyCourse.residencyCoursesTeachers.length).toBe(0);
-    const teacherForAdding = new Teacher();
-    teacherForAdding.id = uuidv4();
-    residencyCourse.addTeacher(teacherForAdding);
-
-    // Assert
-    expect(residencyCourse.residencyCoursesTeachers.length).toBe(1);
-    expect(residencyCourse.residencyCoursesTeachers[0].teacherId).toBe(teacherForAdding.id);
-  });
-
-  test('setMainTeacher() устанавливает преподавателя главным', () => {
-    // Arrange
-    residencyCourse = new ResidencyCourse();
-
-    const Teacher = new ResidencyCourseTeacher();
-    const Teacher1 = new ResidencyCourseTeacher();
-    const Teacher2 = new ResidencyCourseTeacher();
-
-    residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
-
-    // Act
-    residencyCourse.setMainTeacher(0);
-
-    // Assert
-    expect(residencyCourse.residencyCoursesTeachers[0].main).toBe(true);
-    expect(residencyCourse.residencyCoursesTeachers[1].main).toBe(false);
-    expect(residencyCourse.residencyCoursesTeachers[2].main).toBe(false);
-  });
-
-  test('setMainTeacher() проверка на неожиданные значения', () => {
-    // Arrange
-    residencyCourse = new ResidencyCourse();
-
-    const Teacher = new ResidencyCourseTeacher();
-    const Teacher1 = new ResidencyCourseTeacher();
-    const Teacher2 = new ResidencyCourseTeacher();
-
-    residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
-
-    // Act
-
-    // Assert
-    expect(residencyCourse.residencyCoursesTeachers[NaN]).toBeUndefined();
-    expect(residencyCourse.residencyCoursesTeachers[3]).toBeUndefined();
-    expect(residencyCourse.residencyCoursesTeachers[-1]).toBeUndefined();
-  });
-
-  test('getMainTeacher() находит и возвращает главного преподавателя', () => {
-    // Arrange
-    residencyCourse = new ResidencyCourse();
-
-    const Teacher = new ResidencyCourseTeacher();
-    Teacher.teacher.id = uuidv4();
-    const Teacher1 = new ResidencyCourseTeacher();
-    Teacher1.teacher.id = uuidv4();
-    const Teacher2 = new ResidencyCourseTeacher();
-    Teacher2.teacher.id = uuidv4();
-
-    residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
-    residencyCourse.residencyCoursesTeachers[1].main = true;
-
-    // Act
-
-    // Assert
-    expect(residencyCourse.getMainTeacher()?.id).toEqual(Teacher1.teacher.id);
-  });
-
-  test('getMainTeacher() не находит главного преподавателя', () => {
-    // Arrange
-    residencyCourse = new ResidencyCourse();
-
-    const Teacher = new ResidencyCourseTeacher();
-    Teacher.teacher.id = uuidv4();
-    const Teacher1 = new ResidencyCourseTeacher();
-    Teacher1.teacher.id = uuidv4();
-    const Teacher2 = new ResidencyCourseTeacher();
-    Teacher2.teacher.id = uuidv4();
-
-    residencyCourse.residencyCoursesTeachers.push(Teacher, Teacher1, Teacher2);
-
-    // Act
-
-    // Assert
-    expect(residencyCourse.getMainTeacher()).toBeUndefined();
-  });
 
   test('addSpecialization() добавляет одну специализацию и устанавливает для неё внешний ключ', () => {
     // Arrange
