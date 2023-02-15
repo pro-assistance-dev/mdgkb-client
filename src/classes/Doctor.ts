@@ -12,7 +12,6 @@ import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
 import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
-import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
@@ -20,7 +19,6 @@ import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
 import DoctorComment from './DoctorComment';
-import EducationalOrganizationAcademic from './EducationalOrganizationAcademic';
 
 export default class Doctor implements IDoctor {
   id?: string;
@@ -43,7 +41,6 @@ export default class Doctor implements IDoctor {
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;
   mosDoctorLink?: string;
-  educationalOrganizationAcademic?: IEducationalOrganizationAcademic;
   hasAppointment = true;
   doctorsDivisionsForDelete: string[] = [];
 
@@ -84,9 +81,6 @@ export default class Doctor implements IDoctor {
     if (i.doctorsDivisions) {
       this.doctorsDivisions = i.doctorsDivisions.map((item: IDoctorDivision) => new DoctorDivision(item));
     }
-    if (i.educationalOrganizationAcademic) {
-      this.educationalOrganizationAcademic = new EducationalOrganizationAcademic(i.educationalOrganizationAcademic);
-    }
     if (i.newsDoctors) {
       this.newsDoctors = i.newsDoctors.map((item: INewsDoctor) => new NewsDoctor(item));
     }
@@ -117,16 +111,6 @@ export default class Doctor implements IDoctor {
 
   getOnlineDoctorLink(): string {
     return `https://morozdgkb.onlinedoctor.ru/doctors/${this.onlineDoctorId}/`;
-  }
-
-  setAcademic(): void {
-    const newAcademic = new EducationalOrganizationAcademic();
-    if (!this.educationalOrganizationAcademic) {
-      newAcademic.doctorId = this.id;
-      this.educationalOrganizationAcademic = newAcademic;
-    } else {
-      this.educationalOrganizationAcademic = undefined;
-    }
   }
 
   isChief(): boolean {

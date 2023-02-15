@@ -10,8 +10,6 @@ import IPosition from '@/interfaces/IPosition';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 
-import IEducationalOrganizationAcademic from './IEducationalOrganizationAcademic';
-
 export default interface IDoctor {
   id?: string;
   employee: Employee;
@@ -33,7 +31,6 @@ export default interface IDoctor {
   medicalProfile?: IMedicalProfile;
   doctorPaidServices: IDoctorPaidService[];
   doctorPaidServicesForDelete: string[];
-  educationalOrganizationAcademic?: IEducationalOrganizationAcademic;
   newsDoctors: INewsDoctor[];
   addDoctorPaidService: () => void;
   removeDoctorPaidService: (index: number) => void;
@@ -41,7 +38,6 @@ export default interface IDoctor {
   getFileInfos: () => IFileInfo[];
   getMosDoctorLink: () => string;
   getOnlineDoctorLink: () => string;
-  setAcademic: () => void;
 
   isChief: () => boolean;
   hasAppointment: boolean;

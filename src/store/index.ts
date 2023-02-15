@@ -26,8 +26,8 @@ import { doctors } from '@/store/modules/doctors';
 import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
 import { dpoCourses } from '@/store/modules/dpoCourses';
+import { educationalAcademics } from '@/store/modules/educationalAcademics';
 import { educationalManagers } from '@/store/modules/educationalManagers';
-import { educationalOrganizationAcademics } from '@/store/modules/educationalOrganizationAcademics';
 import { educationYears } from '@/store/modules/educationYears';
 import { employees } from '@/store/modules/employees';
 import { entrances } from '@/store/modules/entrances';
@@ -155,7 +155,7 @@ const s: StoreOptions<RootState> = {
     educationYears,
     formValues,
     residencyApplications,
-    educationalOrganizationAcademics,
+    educationalAcademics,
     formStatusGroups,
     pointsAchievements,
     diets,

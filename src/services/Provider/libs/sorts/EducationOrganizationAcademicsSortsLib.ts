@@ -1,4 +1,4 @@
-import EducationalOrganizationAcademic from '@/classes/EducationalOrganizationAcademic';
+import EducationalAcademic from '@/classes/EducationalAcademic';
 import Employee from '@/classes/Employee';
 import SortModel from '@/classes/filters/SortModel';
 import { Orders } from '@/interfaces/filters/Orders';
@@ -9,7 +9,7 @@ const EducationOrganizationAcademicsSortsLib = (() => {
   function byFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModelV2(
       modelName,
-      ClassHelper.GetPropertyName(EducationalOrganizationAcademic).fullName,
+      ClassHelper.GetPropertyName(EducationalAcademic).fullName,
       order ? order : Orders.Asc,
       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? false : true

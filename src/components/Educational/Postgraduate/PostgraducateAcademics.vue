@@ -1,21 +1,16 @@
 <template>
-  <div v-if="mounted && educationalOrganisationAcademics.length" class="flex">
-    <div v-for="item in educationalOrganisationAcademics" :key="item.id" class="doctors-wrapper">
-      <AcademicCard :doctor="item.doctor" />
+  <div v-if="mounted && educationalAcademics.length" class="flex">
+    <div v-for="item in educationalAcademics" :key="item.id" class="doctors-wrapper">
+      <AcademicCard :employee="item.employee" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
-import SortModel from '@/classes/filters/SortModel';
+import EducationalAcademic from '@/classes/EducationalAcademic';
 import AcademicCard from '@/components/Educational/AcademicCard.vue';
-import { Orders } from '@/interfaces/filters/Orders';
-import IEducationalOrganizationAcademic from '@/interfaces/IEducationalOrganizationAcademic';
-import ISchema from '@/interfaces/schema/ISchema';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -23,21 +18,16 @@ export default defineComponent({
   components: { AcademicCard },
   setup() {
     const mounted = ref(false);
-    const schema: Ref<ISchema> = computed(() => Provider.store.getters['meta/schema']);
-    const educationalOrganisationAcademics: Ref<IEducationalOrganizationAcademic[]> = computed(
-      () => Provider.store.getters['educationalOrganizationAcademics/items']
-    );
+    const educationalAcademics: Ref<EducationalAcademic[]> = computed(() => Provider.store.getters['educationalAcademics/items']);
 
     onBeforeMount(async () => {
-      Provider.store.commit(`filter/resetQueryFilter`);
-      await Provider.getAll('educationalOrganizationAcademics');
-      Provider.store.commit('pagination/setCurPage', 1);
+      await Provider.getAll('educationalAcademics');
       mounted.value = true;
     });
 
     return {
       mounted,
-      educationalOrganisationAcademics,
+      educationalAcademics,
     };
   },
 });
