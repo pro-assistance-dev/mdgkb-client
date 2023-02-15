@@ -6,6 +6,7 @@ import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISchema from '@/interfaces/schema/ISchema';
 import { IPaginationOptions } from '@/services/Hooks/Hooks';
+import StringsService from '@/services/Strings';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 import router from '../router';
@@ -64,13 +65,18 @@ const Provider = (() => {
     } else {
       await store.dispatch(`${storeModule}/create`, item.value);
     }
-    next ? next() : await Provider.router.push(`/admin/${storeModule}`);
+    next ? next() : await Provider.router.push(`/admin/${StringsService.toKebabCase(storeModule)}`);
   }
 
-  async function loadItem(): Promise<void> {
+  async function loadItem(col?: string | FilterQuery): Promise<void> {
     const { beforeWindowUnload, formUpdated } = useConfirmLeavePage();
     if (route().params['id']) {
-      await Provider.store.dispatch(`${storeModule}/get`, route().params['id']);
+      if (typeof col === 'string') {
+        Provider.filterQuery.value.setParams(col, Provider.route().params['id'] as string);
+        await Provider.store.dispatch(`${storeModule}/get`, Provider.filterQuery.value);
+      } else {
+        await Provider.store.dispatch(`${storeModule}/get`, route().params['id']);
+      }
     } else {
       Provider.store.commit(`${storeModule}/resetState`);
     }
@@ -87,15 +93,15 @@ const Provider = (() => {
   }
 
   async function createAdmin(): Promise<void> {
-    await router.push(`/admin/${storeModule}/new`);
+    await router.push(`/admin/${StringsService.toKebabCase(storeModule)}/new`);
   }
 
   async function editAdmin(id: string): Promise<void> {
-    await router.push(`/admin/${storeModule}/${id}`);
+    await router.push(`/admin/${StringsService.toKebabCase(storeModule)}/${id}`);
   }
 
   async function remove(id: string): Promise<void> {
-    return await store.dispatch(`${storeModule}/remove`, id);
+    return await store.dispatch(`${StringsService.toKebabCase(storeModule)}/remove`, id);
   }
 
   function getAdminLib() {
@@ -122,7 +128,7 @@ const Provider = (() => {
     if (route().params['id'] || pathParts[pathParts.length - 1] === 'new') {
       pathLen = 2;
     }
-    storeModule = pathParts[pathParts.length - pathLen];
+    storeModule = StringsService.toCamelCase(pathParts[pathParts.length - pathLen]);
   }
 
   function setDefaultSortModel(): void {
@@ -248,6 +254,7 @@ const Provider = (() => {
     setSortModelsForOneTable,
     setFilterModels,
     setFilterModel,
+    setSortModel,
     setSortModels,
     spliceFilterModel,
     filterQuery,

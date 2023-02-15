@@ -1,11 +1,6 @@
 <template>
   <div class="card-item">
-    <ChiefCard
-      v-if="course.getMainTeacher() && course.getMainTeacher().employee?.id"
-      :employee="course.getMainTeacher().employee"
-      chief-role="Руководитель курса"
-      :show-favourite="false"
-    />
+    <ChiefCard v-if="course.mainTeacherId" :employee="course.mainTeacher" chief-role="Руководитель курса" :show-favourite="false" />
 
     <div class="card-item-field">
       <div class="card-item-middle">
@@ -15,9 +10,20 @@
         </div>
         <div class="card-item-middle-bottom">
           <div class="info-block">
-            <!--            <div class="contact-h3">-->
-            <!--              <TimetableComponent :timetable="timetable" />-->
-            <!--            </div>-->
+            <div>
+              <div><b>Язык обучения:</b> русский</div>
+              <div><b>Срок получения образования, включая каникулы</b>: 2 года</div>
+            </div>
+            <div>
+              <ul>
+                <li v-for="file in course.getInfoFiles()" :key="file.id">
+                  <a :href="file.getFileUrl()" :download="file.originalName" target="_blank" style="margin-right: 10px">
+                    {{ file.originalName }}</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div v-html="course.description" />
           </div>
         </div>
       </div>
@@ -33,11 +39,12 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import ChiefCard from '@/components/ChiefCard.vue';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'ResidencyCourseInfo',
@@ -51,7 +58,16 @@ export default defineComponent({
     const applicationDialogOpen: Ref<boolean> = ref(false);
     const openApplicationDialog = () => {
       applicationDialogOpen.value = true;
-      ElMessage({ message: 'Возможность подать заявление будет предоставлена позже', type: 'warning' });
+      ElMessageBox.confirm(
+        'Для подачи заявления в приёмную комиссию пройдите по ссылке. Здесь позже будет доступна подача заявления на перевод',
+        {
+          confirmButtonText: 'Подать заявление в приёмную комиссию',
+          cancelButtonText: 'Отмена',
+          type: 'warning',
+        }
+      ).then(() => {
+        Provider.router.push('/admission-committee?mode=ae387478-064d-43b7-83d2-0407aabc400d');
+      });
     };
     return { openApplicationDialog };
   },

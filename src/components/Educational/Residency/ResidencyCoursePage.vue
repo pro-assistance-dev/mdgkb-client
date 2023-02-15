@@ -1,29 +1,6 @@
 <template>
   <div v-if="mounted" class="size">
     <ResidencyCourseInfo :course="residencyCourse" />
-    <DoctorsCarousel header-title="Преподаватели" header-button-title="Все преподаватели" :teachers="residencyCourse.getTeachers()" />
-    <CollapsContainer tab-id="6" :collapsed="true">
-      <template #inside-title>
-        <div class="title-in">Информация о программе</div>
-      </template>
-      <template #inside-content>
-        <div style="display: flex; justify-content: space-around">
-          <div>
-            <div><b>Язык обучения:</b> русский</div>
-            <div><b>Срок получения образования, включая каникулы</b>: 2 года</div>
-          </div>
-          <div>
-            <ul>
-              <li v-for="file in residencyCourse.getInfoFiles()" :key="file.id">
-                <a :href="file.getFileUrl()" :download="file.originalName" target="_blank" style="margin-right: 10px">
-                  {{ file.originalName }}</a
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-      </template>
-    </CollapsContainer>
     <CollapsContainer v-if="residencyCourse.residencyCoursePracticePlaces.length" tab-id="6" :collapsed="true">
       <template #inside-title>
         <div class="title-in">Базы практики</div>
@@ -44,7 +21,6 @@
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
 import ResidencyCourseInfo from '@/components/Educational/Residency/ResidencyCourseInfo.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
@@ -54,7 +30,7 @@ import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'ResidencyCoursePage',
-  components: { DoctorsCarousel, ResidencyCourseInfo, CollapsContainer },
+  components: { ResidencyCourseInfo, CollapsContainer },
   setup() {
     const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const showForm: Ref<boolean> = ref(false);

@@ -11,12 +11,23 @@ const HeadsSortsLib = (() => {
       ClassHelper.GetPropertyName(Head).fullName,
       order ? order : Orders.Asc,
       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      order === Orders.Desc ? false : true
+      // order === Orders.Desc ? false : true
+      true
+    );
+  }
+
+  function byOrder(order?: Orders): SortModel {
+    return SortModel.CreateSortModelV2(
+      modelName,
+      'order',
+      order ? order : Orders.Asc,
+      `${order === Orders.Asc ? '(По возрастанию)' : '(По убыванию)'}`
     );
   }
 
   return {
     byFullName,
+    byOrder,
   };
 })();
 

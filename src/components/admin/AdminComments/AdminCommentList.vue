@@ -53,10 +53,10 @@ export default defineComponent({
     const searchString: Ref<string> = ref('');
     let sourceSSE: EventSource | undefined = undefined;
 
-    const load = async (filterQuery: FilterQuery) => {
+    const load = async () => {
       Provider.setSortList(...createSortModels(CommentsSortsLib, Orders.Desc));
       Provider.setSortModels(CommentsSortsLib.byPublishedOn(Orders.Desc));
-      await Provider.store.dispatch('comments/getAll', filterQuery);
+      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
       sourceSSE = await Provider.handlerSSE<IComment>('comment-create', 'comments');
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Заявления на посещение',

@@ -32,6 +32,7 @@ import IDoctor from '@/interfaces/IDoctor';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
 import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
+import HeadsSortsLib from '@/services/Provider/libs/sorts/HeadsSortsLib';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -61,6 +62,7 @@ export default defineComponent({
 
     const loadHeads = async () => {
       console.log('Heads');
+      Provider.setSortModel(HeadsSortsLib.byOrder());
       await Provider.store.dispatch('heads/getAll', Provider.filterQuery.value);
       console.log('end');
     };

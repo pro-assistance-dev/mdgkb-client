@@ -1,7 +1,5 @@
 import { ComputedRef } from 'vue';
 
-import IAdminButtonParams from '@/interfaces/admin/IAdminButtonParams';
-
 import AdminButtonParams from './AdminButtonParams';
 
 type f = () => string;
@@ -30,7 +28,7 @@ export default class AdminHeaderParams {
       this.showBackButton = adminHeaderParams.showBackButton;
     }
     if (adminHeaderParams.buttons) {
-      this.buttons = adminHeaderParams.buttons.map((item: IAdminButtonParams) => new AdminButtonParams(item));
+      this.buttons = adminHeaderParams.buttons.map((item: AdminButtonParams) => new AdminButtonParams(item));
     }
   }
 }

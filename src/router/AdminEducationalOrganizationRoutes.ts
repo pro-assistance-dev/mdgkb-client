@@ -287,7 +287,7 @@ export default [
     },
   },
   {
-    path: '/admin/residency/courses',
+    path: '/admin/residency-courses',
     name: 'AdminResidencyCoursesList',
     component: AdminResidencyCoursesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -300,7 +300,7 @@ export default [
     },
   },
   {
-    path: '/admin/residency/courses/new',
+    path: '/admin/residency-courses/new',
     name: 'AdminResidencyCoursePageCreate',
     component: AdminResidencyCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
@@ -312,7 +312,7 @@ export default [
     },
   },
   {
-    path: '/admin/residency/courses/:id',
+    path: '/admin/residency-courses/:id',
     name: 'AdminResidencyCoursePageEdit',
     component: AdminResidencyCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

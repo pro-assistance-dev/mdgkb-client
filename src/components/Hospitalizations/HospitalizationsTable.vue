@@ -39,6 +39,9 @@
         </tr>
       </tbody>
     </table>
+    <p v-if="!showContacts">
+      <a @click="showContactsHandler">Контакты отделений по госпитализации</a>
+    </p>
     <el-dialog v-model="showDialog" top="10vh" width="80%" title="Список документов" destroy-on-close>
       <template v-if="selectedHospitalizationsType">
         <div v-html="selectedHospitalizationsType.description"></div>
@@ -49,6 +52,20 @@
       </template>
     </el-dialog>
   </div>
+  <transition name="slide-fade-bottom">
+    <div v-if="showContacts" id="contacts" class="card-item contacts" style="margin-top: 20px">
+      <h2 style="text-align: center">Контакты отделений по госпитализации</h2>
+      <el-collapse accordion>
+        <el-collapse-item v-for="item in contacts" :key="item.title" :title="item.title">
+          <p v-if="item.division"><b>Отделение:</b> {{ item.division }}</p>
+          <p v-if="item.name"><b>Ответственный сотрудник:</b> {{ item.name }}</p>
+          <p v-if="item.phone"><b>Телефон:</b> {{ item.phone }}</p>
+          <p v-if="item.email"><b>Электронная почта:</b> {{ item.email }}</p>
+          <p v-if="item.schedule"><b>График работы:</b> {{ item.schedule }}</p>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -62,6 +79,7 @@ import HospitalizationStages from '@/components/Hospitalizations/Hospitalization
 import IHospitalization from '@/interfaces/IHospitalization';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import Provider from '@/services/Provider';
+import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'HospitalizationsTable',
@@ -76,6 +94,31 @@ export default defineComponent({
     const selectedHospitalizationsType: Ref<IHospitalizationType | undefined> = ref(undefined);
     const hospitalization: ComputedRef<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
     const showDialog: Ref<boolean> = ref(false);
+    const showContacts: Ref<boolean> = ref(false);
+    const contacts = [
+      {
+        title: 'Педиатрия',
+        division: 'Педиатрическое соматическое отделение',
+        name: 'Зимин Сергей Борисович — заведующий отделением',
+        phone: '+7 (495) 959-88-01 доб.1041',
+        email: '23otd@morozdgkb.ru',
+        schedule: 'пн.-пт. — 13:00-15:30',
+      },
+      {
+        title: 'Нефрология',
+        division: 'Нефрологическое отделение',
+        name: 'Лабутина Наталья Викторовна — заведующая отделением',
+        phone: '+7 (495) 959-88-01 доб. 1296',
+        email: 'Nefro37@morozdgkb.ru',
+        schedule: 'пн.-пт. — 10:00-16:00',
+      },
+      {
+        title: 'Паллиативная помощь',
+        division: 'Отделение паллиативной медицинской помощи',
+        phone: '+7 (495) 959-87-36',
+        schedule: 'пн.-пт. — 13:00-15:00',
+      },
+    ];
 
     onBeforeMount(() => {
       Provider.store.dispatch('hospitalizationsTypes/getAll');
@@ -102,6 +145,11 @@ export default defineComponent({
       emit('selectHospitalization');
     };
 
+    const showContactsHandler = () => {
+      showContacts.value = true;
+      setTimeout(() => scroll('#contacts'), 100);
+    };
+
     return {
       selectedHospitalizationsType,
       showInfo,
@@ -109,6 +157,9 @@ export default defineComponent({
       downloadDocs,
       hospitalizationsTypes,
       showDialog,
+      showContacts,
+      contacts,
+      showContactsHandler,
     };
   },
 });
@@ -191,5 +242,25 @@ th:last-child {
 
 tr:nth-child(odd) {
   background-color: #f2f2f2;
+}
+
+:deep(.el-collapse-item__header) {
+  font-size: 16px;
+}
+:deep(.el-collapse-item__content) {
+  font-size: 16px;
+}
+.slide-fade-bottom {
+  &-enter-active {
+    transition: all 0.5s ease-out;
+  }
+  &-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  }
+  &-enter-from,
+  &-leave-to {
+    transform: translateY(30px);
+    opacity: 0;
+  }
 }
 </style>

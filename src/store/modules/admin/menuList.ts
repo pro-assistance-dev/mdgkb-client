@@ -187,7 +187,7 @@ const menuList: IAdminMenu[] = [
       },
       {
         title: 'Программы ординатуры',
-        to: '/admin/residency/courses',
+        to: '/admin/residency-courses',
       },
       {
         title: 'Заявки ДПО',
