@@ -10,7 +10,6 @@
 import { defineComponent, Ref, ref } from 'vue';
 
 import CustomSection from '@/classes/CustomSection';
-import InfoPage from '@/components/Educational/Education/InfoPage.vue';
 import StructurePage from '@/components/Educational/Education/StructurePage.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
@@ -20,7 +19,6 @@ import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'EducationPage',
   components: {
-    InfoPage,
     StructurePage,
     PageComponent,
   },
@@ -28,10 +26,7 @@ export default defineComponent({
     const customSections: Ref<ICustomSection[]> = ref([]);
 
     Hooks.onBeforeMount(() => {
-      customSections.value.push(
-        CustomSection.Create('info', 'Основные сведения', 'InfoPage', 0),
-        CustomSection.Create('structure', 'Структура и орган управления организацией', 'StructurePage', 1)
-      );
+      customSections.value.push(CustomSection.Create('structure', 'Структура и орган управления организацией', 'StructurePage', 1));
     });
 
     return {
