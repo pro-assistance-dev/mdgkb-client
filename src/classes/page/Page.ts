@@ -17,6 +17,7 @@ export default class Page {
   link = '';
   withComments = false;
   collaps = false;
+  showContent = false;
   @ClassHelper.GetClassConstructorForArray(PageImage)
   pageImages: PageImage[] = [];
   pageImagesForDelete: string[] = [];

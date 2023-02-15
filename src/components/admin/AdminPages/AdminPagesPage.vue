@@ -16,6 +16,7 @@
           </el-form-item>
           <el-checkbox v-model="page.withComments"> Включить комментарии </el-checkbox>
           <el-checkbox v-model="page.collaps"> Сделать разделы свернутыми </el-checkbox>
+          <el-checkbox v-model="page.showContent"> Показать содержание </el-checkbox>
           <WysiwygEditor v-model="page.content" />
         </el-card>
       </el-container>
