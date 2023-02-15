@@ -8,6 +8,7 @@
           :description="selectedMenu.description"
           :page-sections="selectedMenu.pageSections"
           :collaps="page.collaps"
+          :show-content="page.showContent"
         />
         <slot v-for="component in customSections.filter((c) => c.id === selectedMenu.id)" :key="component.id" :name="component.id" />
       </div>
