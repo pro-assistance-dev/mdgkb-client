@@ -3,7 +3,12 @@
     <div v-if="page.id && page.pageSideMenus.length" class="page-container">
       <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" />
       <div class="content-container">
-        <PageSection :title="selectedMenu.name" :description="selectedMenu.description" :page-sections="selectedMenu.pageSections" />
+        <PageSection
+          :title="selectedMenu.name"
+          :description="selectedMenu.description"
+          :page-sections="selectedMenu.pageSections"
+          :collaps="page.collaps"
+        />
         <slot v-for="component in customSections.filter((c) => c.id === selectedMenu.id)" :key="component.id" :name="component.id" />
       </div>
     </div>
