@@ -1,22 +1,24 @@
 import SortModel from '@/classes/filters/SortModel';
+import NmoCourse from '@/classes/NmoCourse';
 import { Orders } from '@/interfaces/filters/Orders';
-import Provider from '@/services/Provider';
+import ClassHelper from '@/services/ClassHelper';
 
-const DpoCoursesSortsLib = (() => {
+const NmoCoursesSortsLib = (() => {
+  const modelName = 'nmoCourse';
   function byName(order?: Orders): SortModel {
-    return SortModel.CreateSortModel(
-      Provider.schema.value.dpoCourse.tableName,
-      Provider.schema.value.dpoCourse.name,
-      order ? order : Orders.Desc,
-      `По алфавиту ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      true
+    return SortModel.CreateSortModelV2(
+      modelName,
+      ClassHelper.GetPropertyName(NmoCourse).name,
+      order ? order : Orders.Asc,
+      `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
+      order === Orders.Desc ? false : true
     );
   }
 
   function byCost(order?: Orders): SortModel {
-    return SortModel.CreateSortModel(
-      Provider.schema.value.dpoCourse.tableName,
-      Provider.schema.value.dpoCourse.cost,
+    return SortModel.CreateSortModelV2(
+      modelName,
+      'cost',
       order ? order : Orders.Desc,
       `По cтоимости ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -24,9 +26,9 @@ const DpoCoursesSortsLib = (() => {
   }
 
   function byHours(order?: Orders): SortModel {
-    return SortModel.CreateSortModel(
-      Provider.schema.value.dpoCourse.tableName,
-      Provider.schema.value.dpoCourse.hours,
+    return SortModel.CreateSortModelV2(
+      modelName,
+      'hours',
       order ? order : Orders.Desc,
       `По длительности ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -40,4 +42,4 @@ const DpoCoursesSortsLib = (() => {
   };
 })();
 
-export default DpoCoursesSortsLib;
+export default NmoCoursesSortsLib;

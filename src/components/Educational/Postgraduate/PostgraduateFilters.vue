@@ -13,13 +13,13 @@
       <!--        <FilterSelect-->
       <!--          placeholder="Выбрать специализацию"-->
       <!--          :options="schema.specialization.options"-->
-      <!--          :table="schema.dpoCourse.tableName"-->
+      <!--          :table="schema.nmoCourse.tableName"-->
       <!--          :col="schema.specialization.id"-->
       <!--          :data-type="DataTypes.Join"-->
       <!--          :operator="Operators.Eq"-->
       <!--          :join-table="schema.dpoCourseSpecialization.tableName"-->
       <!--          :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"-->
-      <!--          :join-table-pk="schema.dpoCourse.id"-->
+      <!--          :join-table-pk="schema.nmoCourse.id"-->
       <!--          :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
       <!--          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
       <!--          @load="$emit('load')"-->

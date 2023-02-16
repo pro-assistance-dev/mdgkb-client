@@ -7,43 +7,31 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent, Ref, ref } from 'vue';
 
 import CustomSection from '@/classes/CustomSection';
-import PageSection from '@/classes/PageSection';
-import EditorContent from '@/components/EditorContent.vue';
-import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
+import DpoContacts from '@/components/Educational/Dpo/DpoContacts.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoCourses.vue';
-import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
-import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
-import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
-import ResidencyCourses from '@/components/Educational/Residency/ResidencyCourses.vue';
+import NmoCourses from '@/components/Educational/Dpo/NmoCourses.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
-import PageWrapper from '@/components/PageWrapper.vue';
-import ISortModel from '@/interfaces/filters/ISortModel';
-import { Orders } from '@/interfaces/filters/Orders';
 import ICustomSection from '@/interfaces/ICustomSection';
-import IOption from '@/interfaces/schema/IOption';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import DpoCoursesSortsLib from '@/services/Provider/libs/sorts/DpoCoursesSortsLib';
 
 export default defineComponent({
   name: 'DpoPage',
   components: {
     PageComponent,
-    DpoCourses,
-    DpoCoursesContacts,
+    NmoCourses,
+    DpoContacts,
   },
   setup() {
     const customSections: Ref<ICustomSection[]> = ref([]);
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(
-        CustomSection.Create('courses', 'Программы', 'DpoCourses'),
-        CustomSection.Create('contacts', 'Контакты', 'DpoCoursesContacts')
+        CustomSection.Create('courses', 'Программы НМО', 'NmoCourses', 1),
+        CustomSection.Create('contacts', 'Контакты', 'DpoContacts', 4)
       );
     });
 

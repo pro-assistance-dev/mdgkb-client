@@ -12,9 +12,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import DpoCourse from '@/classes/DpoCourse';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
+import NmoCourse from '@/classes/NmoCourse';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
@@ -45,7 +45,7 @@ export default defineComponent({
 
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
-    const dpoCourses: Ref<DpoCourse[]> = computed<DpoCourse[]>(() => store.getters['dpoCourses/items']);
+    const dpoCourses: Ref<NmoCourse[]> = computed<NmoCourse[]>(() => store.getters['dpoCourses/items']);
 
     onBeforeMount(async () => {
       store.commit(`filter/resetQueryFilter`);

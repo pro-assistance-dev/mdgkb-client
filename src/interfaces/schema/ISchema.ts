@@ -54,7 +54,7 @@ export default interface ISchema {
   center: ICenterSchema;
   medicalProfile: IMedicalProfileSchema;
   teacher: ITeacherSchema;
-  dpoCourse: IDpoCourseSchema;
+  nmoCourse: IDpoCourseSchema;
   specialization: ISpecializationSchema;
   vacancy: IVacancySchema;
   dpoCourseSpecialization: IDpoCourseSpecializationSchema;

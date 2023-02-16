@@ -1,8 +1,8 @@
 import { MutationTree } from 'vuex';
 
 import DpoApplication from '@/classes/DpoApplication';
-import DpoCourse from '@/classes/DpoCourse';
 import Form from '@/classes/Form';
+import NmoCourse from '@/classes/NmoCourse';
 import User from '@/classes/User';
 import IUser from '@/interfaces/IUser';
 import getBaseMutations from '@/store/baseModule/baseMutations';
@@ -14,9 +14,9 @@ const mutations: MutationTree<State> = {
   setUser(state, user: IUser) {
     state.item.formValue.user = new User(user);
   },
-  setCourse(state, dpoCourse: DpoCourse) {
-    state.item.dpoCourse = new DpoCourse(dpoCourse);
-    state.item.dpoCourseId = state.item.dpoCourse.id;
+  setCourse(state, nmoCourse: NmoCourse) {
+    state.item.nmoCourse = new NmoCourse(nmoCourse);
+    state.item.dpoCourseId = state.item.nmoCourse.id;
   },
   setEmailExists(state, emailExists: boolean) {
     state.emailExists = emailExists;

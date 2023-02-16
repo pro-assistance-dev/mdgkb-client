@@ -1,16 +1,16 @@
-import DpoCourse from '@/classes/DpoCourse';
+import NmoCourse from '@/classes/NmoCourse';
 import Teacher from '@/classes/Teacher';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class DpoCourseTeacher {
+export default class NmoCourseTeacher {
   id?: string;
   main = false;
-  dpoCourse: DpoCourse = new DpoCourse();
+  nmoCourse: NmoCourse = new NmoCourse();
   dpoCourseId?: string;
   teacher: Teacher = new Teacher();
   teacherId?: string;
 
-  constructor(i?: DpoCourseTeacher) {
+  constructor(i?: NmoCourseTeacher) {
     ClassHelper.BuildClass(this, i);
   }
 }

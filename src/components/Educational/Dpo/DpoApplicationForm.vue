@@ -27,7 +27,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } fro
 import { useStore } from 'vuex';
 
 import DpoApplication from '@/classes/DpoApplication';
-import DpoCourse from '@/classes/DpoCourse';
+import NmoCourse from '@/classes/NmoCourse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IUser from '@/interfaces/IUser';
@@ -43,7 +43,7 @@ export default defineComponent({
     const store = useStore();
     const mounted = ref(false);
     const dpoApplication: ComputedRef<DpoApplication> = computed<DpoApplication>(() => store.getters['dpoApplications/item']);
-    const dpoCourse: ComputedRef<DpoCourse> = computed<DpoCourse>(() => store.getters['dpoCourses/item']);
+    const nmoCourse: ComputedRef<NmoCourse> = computed<NmoCourse>(() => store.getters['dpoCourses/item']);
     const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
     const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['dpoApplications/emailExists']);
@@ -55,7 +55,7 @@ export default defineComponent({
     });
 
     const findEmail = async () => {
-      await store.dispatch('dpoApplications/emailExists', dpoCourse.value.id);
+      await store.dispatch('dpoApplications/emailExists', nmoCourse.value.id);
     };
 
     const submit = async () => {
@@ -83,9 +83,9 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('dpoApplications/resetItem');
-      store.commit('dpoApplications/setFormValue', dpoCourse.value.formPattern);
+      store.commit('dpoApplications/setFormValue', nmoCourse.value.formPattern);
       dpoApplication.value.formValue.initFieldsValues();
-      store.commit('dpoApplications/setCourse', dpoCourse.value);
+      store.commit('dpoApplications/setCourse', nmoCourse.value);
       store.commit('dpoApplications/setUser', user.value);
       mounted.value = true;
       await findEmail();
@@ -93,7 +93,7 @@ export default defineComponent({
 
     return {
       dpoApplication,
-      dpoCourse,
+      nmoCourse,
       mounted,
       submit,
       user,

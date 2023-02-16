@@ -29,7 +29,7 @@
       </el-table-column>
       <el-table-column label="Наименование курса" min-width="200">
         <template #default="scope">
-          {{ scope.row.dpoCourse.name }}
+          {{ scope.row.nmoCourse.name }}
         </template>
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">

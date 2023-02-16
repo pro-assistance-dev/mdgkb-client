@@ -21,8 +21,8 @@
   </div>
   <div class="card-item">
     <div class="item-el">
-      <router-link v-if="form.dpoApplication" :to="`/courses/${form.dpoApplication.dpoCourse.slug}`">
-        {{ form.dpoApplication.dpoCourse.name }}
+      <router-link v-if="form.dpoApplication" :to="`/courses/${form.dpoApplication.nmoCourse.slug}`">
+        {{ form.dpoApplication.nmoCourse.name }}
       </router-link>
       <router-link
         v-if="form.postgraduateApplication"
@@ -49,7 +49,7 @@
   <div class="card-item">
     <div class="item-el-tag">
       <router-link v-if="form.dpoApplication" :to="`/dpo?mode=programs`">
-        {{ form.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}
+        {{ form.dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО' }}
       </router-link>
       <router-link v-if="form.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
       <router-link v-if="form.candidateApplication" :to="`/postgraduate?mode=candidate`"> Кандидатский минимум </router-link>

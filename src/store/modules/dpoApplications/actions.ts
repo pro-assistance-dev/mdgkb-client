@@ -18,7 +18,7 @@ const actions: ActionTree<State, RootState> = {
     source = await c.subscribe<DpoApplication>({ query: 'dpo-application-create' });
     source.onmessage = function (e) {
       const application = JSON.parse(e.data) as DpoApplication;
-      if (application.dpoCourse.isNmo === isNmo) {
+      if (application.nmoCourse.isNmo === isNmo) {
         commit('unshiftToAll', application);
       }
     };

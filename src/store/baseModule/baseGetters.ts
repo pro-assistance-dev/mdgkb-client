@@ -7,6 +7,7 @@ import RootState from '@/store/types';
 export default function getBaseGetters<T extends IWithId, StateType extends IBasicState<T>>(): GetterTree<StateType, RootState> {
   return {
     items(state): T[] {
+      console.log(state.items);
       return state.items;
     },
     item(state): T {

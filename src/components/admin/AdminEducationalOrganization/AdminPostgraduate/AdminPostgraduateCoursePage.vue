@@ -244,7 +244,7 @@ export default defineComponent({
 
     const loadItem = async () => {
       if (route.params['id']) {
-        filterQuery.value.setParams(schema.value.dpoCourse.slug, route.params['id'] as string);
+        filterQuery.value.setParams(schema.value.nmoCourse.slug, route.params['id'] as string);
         await store.dispatch('postgraduateCourses/get', filterQuery.value);
         store.commit('admin/setHeaderParams', {
           title: `Программа аспирантуры по специальности "${postgraduateCourse.value.getMainSpecialization().name}"`,

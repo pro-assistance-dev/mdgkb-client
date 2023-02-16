@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="doctor-card-footer">
-      <button @click="$router.push('/dpo/courses')">Программы преподавателя</button>
+      <button @click="$router.push('/nmo-courses')">Программы преподавателя</button>
     </div>
   </div>
 </template>

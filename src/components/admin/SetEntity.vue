@@ -19,6 +19,7 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 export default defineComponent({
   name: 'SetEntity',
   components: { RemoteSearch },
+  emits: ['selectSearch', 'reset'],
   props: {
     searchKey: { type: String as PropType<string>, required: true },
     label: { type: String as PropType<string>, dafault: 'Выберите сотрудника для добавления:' },

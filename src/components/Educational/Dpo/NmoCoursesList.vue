@@ -1,77 +1,74 @@
 <template>
   <div class="size">
-    <div class="no-progmam"><h3 v-if="dpoCourses.length == 0">Для данной специальности нет программ</h3></div>
-    <div v-if="dpoCourses.length !== 0" class="description">
+    <!--    <div class="no-progmam"><h3 v-if="nmoCourses.length === 0">Для данной специальности нет программ</h3></div>-->
+    <div v-if="nmoCourses.length !== 0" class="description">
       <h4 class="table-text">
-        &nbsp;<font color="#4a4a4a">
+        &nbsp;<span color="#4a4a4a">
           *Ниже представлена таблица с доступными на данный момент программами обучения дополнительного профессионального образования (ДПО)
           и непрерывного медицинского образования (НМО). Для получения более подробной информации кликните на выбранную Вами программу.
           Перейдя на страницу программы Вы также сможете подать заявку на обучение.
-        </font>
+        </span>
       </h4>
       <h4 class="mobile-text">
-        &nbsp;<font color="#4a4a4a">
+        &nbsp;<span color="#4a4a4a">
           *Ниже представлен перечень карточек с доступными на данный момент программами обучения дополнительного профессионального
           образования (ДПО) и непрерывного медицинского образования (НМО).
-        </font>
+        </span>
       </h4>
     </div>
 
-    <div v-if="dpoCourses.length !== 0" class="moble-container">
-      <ul class="application-card">
-        <li v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
-          <div class="card-title">
-            <div class="item">
-              <div class="item-el">
-                <el-tag :type="dpoCourse.isNmo ? 'primary' : 'warning'">{{ dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-tag>
-              </div>
-              <div class="item-el">
-                <el-tag :type="dpoCourse.isNmo ? 'primary' : 'warning'">{{ dpoCourse.hours }}&nbsp;ч.</el-tag>
-              </div>
-            </div>
-          </div>
+    <!--    <div v-if="nmoCourses.length !== 0" class="moble-container">-->
+    <!--      <ul class="application-card">-->
+    <!--        <li v-for="nmoCourse in nmoCourses" :key="nmoCourse.id">-->
+    <!--          <div class="card-title">-->
+    <!--            <div class="item">-->
+    <!--              <div class="item-el">-->
+    <!--                <el-tag>{{ nmoCourse.hours }}&nbsp;ч.</el-tag>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--          </div>-->
 
-          <div class="card-item">
-            <div class="item-el">
-              <div class="item-content">
-                <router-link :to="`/courses/${dpoCourse.slug}`">
-                  {{ dpoCourse.name }}
-                </router-link>
-                <button class="response-btn" @click="$router.push(`/courses/${dpoCourse.slug}?respondForm=open`)">Подать заявку</button>
-              </div>
-            </div>
-          </div>
+    <!--          <div class="card-item">-->
+    <!--            <div class="item-el">-->
+    <!--              <div class="item-content">-->
+    <!--                <router-link :to="`/nmo-courses/${nmoCourse.id}`">-->
+    <!--                  {{ nmoCourse.name }}-->
+    <!--                </router-link>-->
+    <!--                <button class="response-btn" @click="$router.push(`/courses/${nmoCourse.slug}?respondForm=open`)">Подать заявку</button>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--          </div>-->
 
-          <div class="card-item">
-            <div class="item-el-tag">
-              <h4>Руководитель:</h4>
-            </div>
-            <div class="item-el">
-              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.employee.human.slug}`">
-                {{ dpoCourse.getMainTeacher()?.employee.human.getFullName() }}
-              </router-link>
-            </div>
-          </div>
+    <!--          <div class="card-item">-->
+    <!--            <div class="item-el-tag">-->
+    <!--              <h4>Руководитель:</h4>-->
+    <!--            </div>-->
+    <!--            <div class="item-el">-->
+    <!--              <router-link :to="`/doctors/${nmoCourse.getMainTeacher()?.employee.human.slug}`">-->
+    <!--                {{ nmoCourse.getMainTeacher()?.employee.human.getFullName() }}-->
+    <!--              </router-link>-->
+    <!--            </div>-->
+    <!--          </div>-->
 
-          <div class="card-item">
-            <div class="item-el-tag">
-              <h4>Даты&nbsp;проведения:</h4>
-            </div>
-            <div class="item-el">
-              <font color="#343E5C" size="4">{{ dpoCourse.getClosestPeriod() }}</font>
-            </div>
-          </div>
+    <!--          <div class="card-item">-->
+    <!--            <div class="item-el-tag">-->
+    <!--              <h4>Даты&nbsp;проведения:</h4>-->
+    <!--            </div>-->
+    <!--            <div class="item-el">-->
+    <!--              <span color="#343E5C" size="4">{{ nmoCourse.getClosestPeriod() }}</span>-->
+    <!--            </div>-->
+    <!--          </div>-->
 
-          <div class="card-footer">
-            <div class="item-el">
-              <font color="#343E5C" size="4">{{ dpoCourse.cost }}&nbsp;рублей</font>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <!--          <div class="card-footer">-->
+    <!--            <div class="item-el">-->
+    <!--              <span color="#343E5C" size="4">{{ nmoCourse.cost }}&nbsp;рублей</span>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </li>-->
+    <!--      </ul>-->
+    <!--    </div>-->
 
-    <div v-if="dpoCourses.length !== 0" class="table-container">
+    <div v-if="nmoCourses.length !== 0" class="table-container">
       <table class="table-list">
         <colgroup>
           <col width="60%" />
@@ -79,37 +76,33 @@
           <col width="5%" />
           <col width="10%" />
           <col width="20%" />
-          <col width="10%" />
+          <!--          <col width="10%" />-->
         </colgroup>
         <thead>
           <th><h4>НАЗВАНИЕ ПРОГРАММЫ</h4></th>
-          <th><h4 style="text-align: center">ТИП</h4></th>
           <th><h4 style="text-align: center">ЧАСОВ</h4></th>
           <th><h4 style="text-align: center">СТОИМОСТЬ</h4></th>
           <th><h4>РУКОВОДИТЕЛЬ</h4></th>
-          <th><h4 style="text-align: center">ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>
+          <!--          <th><h4 style="text-align: center">ДАТЫ&nbsp;ПРОВЕДЕНИЯ</h4></th>-->
         </thead>
-        <tbody v-if="mounted">
-          <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
+        <tbody>
+          <tr v-for="nmoCourse in nmoCourses" :key="nmoCourse.id">
             <td>
-              <router-link :to="`/courses/${dpoCourse.slug}`">
-                {{ dpoCourse.name }}
+              <router-link :to="`/nmo-courses/${nmoCourse.id}`">
+                {{ nmoCourse.name }}
               </router-link>
-              <button class="response-btn" @click="$router.push(`/courses/${dpoCourse.slug}?respondForm=open`)">Подать заявку</button>
+              <!--              <button class="response-btn" @click="$router.push(`/nmo-courses/${nmoCourse.id}?respondForm=open`)">Подать заявку</button>-->
             </td>
-            <td style="text-align: center">
-              <el-tag :type="dpoCourse.isNmo ? 'primary' : 'warning'">{{ dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-tag>
-            </td>
-            <td style="text-align: center">{{ dpoCourse.hours }}</td>
-            <td style="text-align: center">{{ dpoCourse.cost }} р.</td>
+            <td style="text-align: center">{{ nmoCourse.hours }}</td>
+            <td style="text-align: center">{{ nmoCourse.cost }} &nbsp;р.</td>
             <td>
-              <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.employee.human.slug}`">
-                {{ dpoCourse.getMainTeacher()?.employee.human.getFullName() }}
+              <router-link :to="`/doctors/${nmoCourse.mainTeacher.human.slug}`">
+                {{ nmoCourse.mainTeacher.human.getFullName() }}
               </router-link>
             </td>
-            <td style="text-align: center">
-              {{ dpoCourse.getClosestPeriod() }}
-            </td>
+            <!--            <td style="text-align: center">-->
+            <!--              {{ nmoCourse.getClosestPeriod() }}-->
+            <!--            </td>-->
           </tr>
         </tbody>
       </table>
@@ -119,30 +112,17 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
-import DpoCourse from '@/classes/DpoCourse';
+import NmoCourse from '@/classes/NmoCourse';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
-  name: 'DpoCoursesList',
+  name: 'NmoCoursesList',
   setup() {
-    const store = useStore();
-    const dpoCourses: Ref<DpoCourse[]> = computed<DpoCourse[]>(() => store.getters['dpoCourses/items']);
-    const mounted = ref(false);
-
-    onBeforeMount(async () => {
-      mounted.value = true;
-    });
-
-    const loadMore = async () => {
-      // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
-      // await store.dispatch('dpoCourses/getAll', filterQuery.value);
-    };
+    const nmoCourses: Ref<NmoCourse[]> = computed<NmoCourse[]>(() => Provider.store.getters['nmoCourses/items']);
 
     return {
-      mounted,
-      dpoCourses,
-      loadMore,
+      nmoCourses,
     };
   },
 });

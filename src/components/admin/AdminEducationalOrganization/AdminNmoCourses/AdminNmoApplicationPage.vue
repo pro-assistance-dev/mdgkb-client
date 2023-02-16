@@ -12,7 +12,7 @@
           :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
         >
           <el-select
-            v-model="dpoApplication.dpoCourse"
+            v-model="dpoApplication.nmoCourse"
             value-key="id"
             placeholder="Выберите программу"
             style="width: 100%"
@@ -22,11 +22,11 @@
           </el-select>
         </el-form-item>
         <el-descriptions v-else :column="1" border>
-          <el-descriptions-item label="Наименование">{{ dpoApplication.dpoCourse.name }}</el-descriptions-item>
-          <el-descriptions-item label="Тип программы">{{ dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-descriptions-item>
+          <el-descriptions-item label="Наименование">{{ dpoApplication.nmoCourse.name }}</el-descriptions-item>
+          <el-descriptions-item label="Тип программы">{{ dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-descriptions-item>
         </el-descriptions>
       </el-card>
-      <div v-if="dpoApplication.dpoCourse.id">
+      <div v-if="dpoApplication.nmoCourse.id">
         <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
       </div>
       <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
@@ -40,10 +40,10 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import DpoApplication from '@/classes/DpoApplication';
-import DpoCourse from '@/classes/DpoCourse';
 import FilterModel from '@/classes/filters/FilterModel';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
+import NmoCourse from '@/classes/NmoCourse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Orders } from '@/interfaces/filters/Orders';
@@ -69,7 +69,7 @@ export default defineComponent({
     const dpoApplicationFormValue: ComputedRef<IForm> = computed<IForm>(() => store.getters['dpoApplications/formValue']);
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
-    const dpoCourses: ComputedRef<DpoCourse[]> = computed(() => store.getters['dpoCourses/items']);
+    const dpoCourses: ComputedRef<NmoCourse[]> = computed(() => store.getters['dpoCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактирования');
@@ -98,9 +98,9 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       store.commit(
         'filter/replaceSortModel',
-        SortModel.CreateSortModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.name, Orders.Asc, 'По алфавиту', true)
+        SortModel.CreateSortModel(schema.value.nmoCourse.tableName, schema.value.nmoCourse.name, Orders.Asc, 'По алфавиту', true)
       );
-      filterModel.value = FilterModel.CreateFilterModel(schema.value.dpoCourse.tableName, schema.value.dpoCourse.isNmo, DataTypes.Boolean);
+      filterModel.value = FilterModel.CreateFilterModel(schema.value.nmoCourse.tableName, schema.value.nmoCourse.isNmo, DataTypes.Boolean);
       filterQuery.value.pagination.cursorMode = false;
       setProgramsType();
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
@@ -152,7 +152,7 @@ export default defineComponent({
     };
 
     const findEmail = async () => {
-      await store.dispatch('dpoApplications/emailExists', dpoApplication.value.dpoCourse.id);
+      await store.dispatch('dpoApplications/emailExists', dpoApplication.value.nmoCourse.id);
     };
 
     const submit = async (next?: NavigationGuardNext) => {
@@ -169,23 +169,23 @@ export default defineComponent({
         dpoApplication.value.formValue.clearIds();
         await store.dispatch('dpoApplications/create');
       }
-      const typeCourse = dpoApplication.value.dpoCourse.isNmo ? 'nmo' : 'dpo';
+      const typeCourse = dpoApplication.value.nmoCourse.isNmo ? 'nmo' : 'dpo';
       next ? next() : await router.push(`/admin/${typeCourse}/applications`);
     };
 
     const courseChangeHandler = async () => {
       if (!route.params['id']) {
-        store.commit('dpoApplications/setCourse', dpoApplication.value.dpoCourse);
-        store.commit('dpoApplications/setFormValue', dpoApplication.value.dpoCourse.formPattern);
+        store.commit('dpoApplications/setCourse', dpoApplication.value.nmoCourse);
+        store.commit('dpoApplications/setFormValue', dpoApplication.value.nmoCourse.formPattern);
         dpoApplication.value.formValue.initFieldsValues();
       }
       await findEmail();
-      // store.commit('dpoApplications/changeFormPattern', dpoApplication.value.dpoCourse.formPattern);
+      // store.commit('dpoApplications/changeFormPattern', dpoApplication.value.nmoCourse.formPattern);
       // const newForm = new Form(dpoApplication.value.formValue);
       // dpoApplication.value.formValue.removeAllFieldsAndValues();
-      // dpoApplication.value.formValue.applyFormPatternFields(dpoApplication.value.dpoCourse.formPattern);
+      // dpoApplication.value.formValue.applyFormPatternFields(dpoApplication.value.nmoCourse.formPattern);
       // dpoApplication.value.formValue.initFieldsValues();
-      // store.commit('dpoApplications/setFormValue', dpoApplication.value.dpoCourse.formPattern);
+      // store.commit('dpoApplications/setFormValue', dpoApplication.value.nmoCourse.formPattern);
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
