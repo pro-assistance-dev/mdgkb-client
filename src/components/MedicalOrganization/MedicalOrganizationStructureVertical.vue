@@ -86,6 +86,9 @@
         <div class="vice-doctor-title">
           <h3 class="vice-doctor-title-h3">{{ head.employee.human.getFullName() }}</h3>
           <h2 class="vice-doctor-title-h2">{{ head.position }}</h2>
+          <div class="vice-doctor-regalis">
+            <div v-if="head.employee.getAcademicDegreeAndRank()" class="contact-h3">{{ head.employee.getAcademicDegreeAndRank() }}</div>
+          </div>
           <ContactBlock :contact-info="head.contactInfo" />
         </div>
         <div class="contact-h3">
@@ -255,8 +258,8 @@ export default {
 
 .vice-doctor-avatar {
   display: block;
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   overflow: hidden;
   border-radius: 50%;
   margin-bottom: 10px;
@@ -305,7 +308,7 @@ export default {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   color: #4a4a4a;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   font-weight: lighter;
 }
 
@@ -313,7 +316,7 @@ export default {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   color: #4a4a4a;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 }
 
 .main-doctor-title-h3 {
@@ -321,7 +324,7 @@ export default {
   font-size: 14px;
   color: #4a4a4a;
   min-height: 30px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 }
 
 .main-doctor-title-h2 {
@@ -455,5 +458,13 @@ ul.divisions-first-ul {
 
 .time-block {
   display: block;
+}
+.vice-doctor-regalis {
+  // display: flex;
+  div {
+    display: inline-block;
+    word-wrap: break-word;
+    text-align: left;
+  }
 }
 </style>
