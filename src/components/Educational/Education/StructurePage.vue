@@ -67,6 +67,7 @@ import Time from '@/assets/svg/StructurePage/Time.svg';
 import EducationalManager from '@/classes/EducationalManager';
 import ContactsBlock from '@/components/ContactsBlock.vue';
 import Provider from '@/services/Provider';
+import EducationOrganizationManagersSortsLib from '@/services/Provider/libs/sorts/EducationanlManagersSortsLib';
 
 export default defineComponent({
   name: 'StructurePage',
@@ -75,7 +76,8 @@ export default defineComponent({
   setup() {
     const educationalManagers: ComputedRef<EducationalManager[]> = computed(() => Provider.store.getters['educationalManagers/items']);
     onBeforeMount(async () => {
-      await Provider.store.dispatch('educationalManagers/getAll');
+      Provider.setSortModel(EducationOrganizationManagersSortsLib.byOrder());
+      await Provider.store.dispatch('educationalManagers/getAll', Provider.filterQuery.value);
     });
 
     return {
