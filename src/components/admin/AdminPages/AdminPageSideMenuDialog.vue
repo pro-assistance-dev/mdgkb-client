@@ -3,6 +3,7 @@
     <el-input v-model="pageSideMenu.name" placeholder="Название меню" />
     <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
     <el-button @click="() => openDrawer()"> Добавить раздел </el-button>
+    <el-checkbox v-model="pageSideMenu.showContent" class="line"> Показывать содержание </el-checkbox>
     <draggable
       v-if="pageSideMenu.pageSections.length"
       class="groups"
@@ -46,6 +47,7 @@ export default defineComponent({
   components: { WysiwygEditor, draggable, TableButtonGroup, AdminPageSectionDialog },
 
   setup() {
+    const form = ref();
     const isSideMenuDialogActive: ComputedRef<boolean> = computed(() => Provider.store.getters['pages/isSideMenuDialogActive']);
     const pageSideMenu: ComputedRef<PageSideMenu> = computed(() => Provider.store.getters['pages/sideMenu']);
     const mounted: Ref<boolean> = ref(false);
@@ -78,7 +80,7 @@ export default defineComponent({
       mounted,
       sort,
       openDrawer,
-
+      form,
       rules,
     };
   },
@@ -97,5 +99,9 @@ export default defineComponent({
 
 :deep(.el-dialog) {
   margin-bottom: 0 !important;
+}
+
+.line {
+  margin-left: 20px;
 }
 </style>
