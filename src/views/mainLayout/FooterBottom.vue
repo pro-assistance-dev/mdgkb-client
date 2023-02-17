@@ -66,7 +66,6 @@
     <div class="container">
       <el-row justify="center">
         <el-col :span="18">
-          <!-- src/assets/documents/main/Выписка-лицензия-Морозовская-ДГКБ-ДЗМ.pdf -->
           <div class="under-footer">© 2019 ГБУЗ «Морозовская ДГКБ ДЗМ»</div>
           <div class="under-footer">
             <a
@@ -82,16 +81,6 @@
       </el-row>
     </div>
   </div>
-  <!-- <div class="footer-bottom">
-    <div class="container">
-      <el-row justify="center">
-        <el-col :span="6">
-          <div class="under-footer">© 2019 ГБУЗ «Морозовская ДГКБ ДЗМ»</div>
-          <div class="under-footer"><a href="#" class="underlined">Лицензия на медицинскую деятельность</a></div>
-        </el-col>
-      </el-row>
-    </div>
-  </div> -->
   <svg width="0" height="0" class="display-none">
     <symbol id="icon-insta" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
       <path
