@@ -11,6 +11,7 @@ export default class PageSideMenu {
   @ClassHelper.GetClassConstructorForArray(PageSection)
   pageSections: PageSection[] = [];
   pageSectionsForDelete: string[] = [];
+  showContent = false;
 
   pageId?: string;
 
