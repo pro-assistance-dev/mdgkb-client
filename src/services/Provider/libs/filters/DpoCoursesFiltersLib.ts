@@ -6,8 +6,8 @@ import Provider from '@/services/Provider';
 const DpoCoursesFiltersLib = (() => {
   function byCourseType(isNmo: boolean): IFilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.dpoCourse.tableName,
-      Provider.schema.value.dpoCourse.isNmo,
+      Provider.schema.value.nmoCourse.tableName,
+      Provider.schema.value.nmoCourse.isNmo,
       DataTypes.Boolean
     );
     filterModel.boolean = isNmo;

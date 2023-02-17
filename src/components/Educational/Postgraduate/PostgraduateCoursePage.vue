@@ -193,7 +193,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('meta/getSchema');
       store.commit(`filter/resetQueryFilter`);
-      filterQuery.value.setParams(schema.value.dpoCourse.slug, route.params['id'] as string);
+      filterQuery.value.setParams(schema.value.nmoCourse.slug, route.params['id'] as string);
       await store.dispatch('postgraduateCourses/get', filterQuery.value);
       mounted.value = true;
       if (route.query.respondForm) {

@@ -1,7 +1,7 @@
 import AdmissionCommittee from '@/components/Educational/AdmissionCommittee/AdmissionCommittee.vue';
 import AdmissionCoursePage from '@/components/Educational/AdmissionCommittee/AdmissionCoursePage.vue';
-import CoursePage from '@/components/Educational/Dpo/CoursePage.vue';
 import DpoPage from '@/components/Educational/Dpo/DpoPage.vue';
+import NmoCoursePage from '@/components/Educational/Dpo/NmoCoursePage.vue';
 import EducationPage from '@/components/Educational/Education/EducationPage.vue';
 import PostgraduateCoursePage from '@/components/Educational/Postgraduate/PostgraduateCoursePage.vue';
 import PostgraduatePage from '@/components/Educational/Postgraduate/PostgraduatePage.vue';
@@ -72,10 +72,10 @@ export default [
     component: DpoPage,
   },
   {
-    path: '/courses/:id',
-    name: 'CoursePage',
+    path: '/nmo-courses/:id',
+    name: 'NmoCoursePage',
     meta: { title: 'ДПО - курс' },
-    component: CoursePage,
+    component: NmoCoursePage,
   },
   {
     path: '/teachers',

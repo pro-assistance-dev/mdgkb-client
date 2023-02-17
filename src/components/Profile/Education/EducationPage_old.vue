@@ -71,8 +71,8 @@
               </div>
               <div class="card-item">
                 <div class="item-el">
-                  <router-link v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.dpoCourse.slug}`">
-                    {{ formValue.dpoApplication.dpoCourse.name }}
+                  <router-link v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.nmoCourse.slug}`">
+                    {{ formValue.dpoApplication.nmoCourse.name }}
                   </router-link>
                   <router-link
                     v-if="formValue.postgraduateApplication"
@@ -101,7 +101,7 @@
               <div class="card-item">
                 <div class="item-el-tag">
                   <router-link v-if="formValue.dpoApplication" :to="`/dpo?mode=programs`">
-                    {{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}
+                    {{ formValue.dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО' }}
                   </router-link>
                   <router-link v-if="formValue.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
                   <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`">
@@ -177,7 +177,7 @@
               <tr v-for="formValue in user.formValues" :key="formValue.id">
                 <td>
                   <router-link v-if="formValue.dpoApplication" :to="`/dpo?mode=programs`">
-                    {{ formValue.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО' }}
+                    {{ formValue.dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО' }}
                   </router-link>
                   <router-link v-if="formValue.postgraduateApplication" :to="`/postgraduate?mode=programs`"> Аспирантура </router-link>
                   <router-link v-if="formValue.candidateApplication" :to="`/postgraduate?mode=candidate`">
@@ -191,8 +191,8 @@
                 </td>
 
                 <td>
-                  <router-link v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.dpoCourse.slug}`">
-                    {{ formValue.dpoApplication.dpoCourse.name }}
+                  <router-link v-if="formValue.dpoApplication" :to="`/courses/${formValue.dpoApplication.nmoCourse.slug}`">
+                    {{ formValue.dpoApplication.nmoCourse.name }}
                   </router-link>
                   <router-link
                     v-if="formValue.postgraduateApplication"
@@ -287,18 +287,18 @@
               </tr>
             </tbody>
             <!-- <tbody v-if="mounted">
-            <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
+            <tr v-for="nmoCourse in dpoCourses" :key="nmoCourse.id">
               <td>
-                <router-link :to="`/courses/${dpoCourse.slug}`">{{ dpoCourse.name }}</router-link>
+                <router-link :to="`/courses/${nmoCourse.slug}`">{{ nmoCourse.name }}</router-link>
               </td>
-              <td style="text-align: center">{{ dpoCourse.hours }}</td>
+              <td style="text-align: center">{{ nmoCourse.hours }}</td>
               <td>
-                <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.employee.human.slug}`">
-                  {{ dpoCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
+                <router-link :to="`/doctors/${nmoCourse.getMainTeacher()?.doctor.employee.human.slug}`">
+                  {{ nmoCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
                 </router-link>
               </td>
               <td>
-                {{ dpoCourse.getClosestPeriod() }}
+                {{ nmoCourse.getClosestPeriod() }}
               </td>
               <td>
                 <button class="edit-button" @click="$router.push('/profile/edit')">

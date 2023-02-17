@@ -1,12 +1,12 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
-import DpoCourse from './DpoCourse';
 import Form from './Form';
+import NmoCourse from './NmoCourse';
 
 export default class DpoApplication {
   id?: string;
-  dpoCourse = new DpoCourse();
+  nmoCourse = new NmoCourse();
   dpoCourseId?: string;
   formValue = new Form();
   formValueId?: string;

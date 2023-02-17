@@ -1,6 +1,7 @@
 import DpoCourseDates from '@/classes/DpoCourseDates';
-import DpoCourseSpecialization from '@/classes/DpoCourseSpecialization';
-import DpoCourseTeacher from '@/classes/DpoCourseTeacher';
+import Employee from '@/classes/Employee';
+import NmoCourseSpecialization from '@/classes/NmoCourseSpecialization';
+import NmoCourseTeacher from '@/classes/NmoCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import ISpecialization from '@/interfaces/ISpecialization';
@@ -9,7 +10,7 @@ import DateTimeFormatter from '@/services/DateFormat';
 
 import Form from './Form';
 
-export default class DpoCourse {
+export default class NmoCourse {
   id?: string;
   slug = '';
   name = '';
@@ -25,39 +26,39 @@ export default class DpoCourse {
   specialization: Specialization = new Specialization();
   specializationId?: string;
 
-  @ClassHelper.GetClassConstructorForArray(DpoCourseSpecialization)
-  dpoCoursesSpecializations: DpoCourseSpecialization[] = [];
+  @ClassHelper.GetClassConstructorForArray(NmoCourseSpecialization)
+  dpoCoursesSpecializations: NmoCourseSpecialization[] = [];
   dpoCoursesSpecializationsForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(DpoCourseTeacher)
-  dpoCoursesTeachers: DpoCourseTeacher[] = [];
-  dpoCoursesTeachersForDelete: string[] = [];
+  @ClassHelper.GetClassConstructorForArray(NmoCourseTeacher)
+  nmoCourseTeachers: NmoCourseTeacher[] = [];
+  nmoCourseTeachersForDelete: string[] = [];
   @ClassHelper.GetClassConstructorForArray(DpoCourseDates)
   dpoCoursesDates: DpoCourseDates[] = [];
   dpoCoursesDatesForDelete: string[] = [];
   formPattern: Form = new Form();
   formPatternId?: string;
 
-  constructor(i?: DpoCourse) {
+  mainTeacher: Employee = new Employee();
+  mainTeacherId?: string;
+
+  constructor(i?: NmoCourse) {
     ClassHelper.BuildClass(this, i);
   }
 
   addTeacher(teacher: Teacher): void {
-    const dpoCourseTeacher = new DpoCourseTeacher();
+    const dpoCourseTeacher = new NmoCourseTeacher();
     dpoCourseTeacher.teacher = new Teacher(teacher);
     dpoCourseTeacher.teacherId = teacher.id;
-    this.dpoCoursesTeachers.push(dpoCourseTeacher);
+    this.nmoCourseTeachers.push(dpoCourseTeacher);
   }
 
-  setMainTeacher(index: number): void {
-    this.dpoCoursesTeachers.forEach((courseTeacher: DpoCourseTeacher) => (courseTeacher.main = false));
-    this.dpoCoursesTeachers[index].main = true;
+  setMainTeacher(teacher: Employee): void {
+    this.mainTeacher = new Employee(teacher);
+    this.mainTeacherId = teacher.id;
   }
 
-  getMainTeacher(): Teacher | undefined {
-    const mainDpoCoursesTeacher = this.dpoCoursesTeachers.find((item: DpoCourseTeacher) => item.main);
-    if (mainDpoCoursesTeacher) {
-      return mainDpoCoursesTeacher.teacher;
-    }
+  teacherExists(teacherId: string): boolean {
+    return !!this.nmoCourseTeachers.find((t: NmoCourseTeacher) => t.teacherId === teacherId);
   }
 
   addDates(): void {
@@ -65,18 +66,18 @@ export default class DpoCourse {
   }
 
   addSpecialization(specialization: ISpecialization): void {
-    const index = this.dpoCoursesSpecializations.findIndex((i: DpoCourseSpecialization) => i.specializationId === specialization.id);
+    const index = this.dpoCoursesSpecializations.findIndex((i: NmoCourseSpecialization) => i.specializationId === specialization.id);
     if (index > -1) {
       ClassHelper.RemoveFromClassByIndex(index, this.dpoCoursesSpecializations, this.dpoCoursesSpecializationsForDelete);
       return;
     }
-    const dpoCourseSpecialization = new DpoCourseSpecialization();
+    const dpoCourseSpecialization = new NmoCourseSpecialization();
     dpoCourseSpecialization.specialization = new Specialization(specialization);
     dpoCourseSpecialization.specializationId = specialization.id;
     this.dpoCoursesSpecializations.push(dpoCourseSpecialization);
   }
   findSpecialization(id: string): boolean {
-    const spec = this.dpoCoursesSpecializations.find((i: DpoCourseSpecialization) => i.specializationId === id);
+    const spec = this.dpoCoursesSpecializations.find((i: NmoCourseSpecialization) => i.specializationId === id);
     return !!spec;
   }
 
@@ -85,5 +86,10 @@ export default class DpoCourse {
       return 'Даты неизвестны';
     }
     return new DateTimeFormatter().getPeriod(this.dpoCoursesDates[0].start, this.dpoCoursesDates[0].end, { year: '2-digit' });
+  }
+
+  resetMainTeacher(): void {
+    this.mainTeacher = new Employee();
+    this.mainTeacherId = undefined;
   }
 }

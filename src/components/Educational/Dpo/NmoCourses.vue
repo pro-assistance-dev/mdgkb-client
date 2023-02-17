@@ -1,45 +1,37 @@
 <template>
   <PageWrapper>
-    <DpoCoursesList />
+    <NmoCoursesList />
   </PageWrapper>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
-import PageSection from '@/classes/PageSection';
-import EditorContent from '@/components/EditorContent.vue';
-import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
-import DpoCoursesContacts from '@/components/Educational/Dpo/DpoCoursesContacts.vue';
-import DpoCoursesList from '@/components/Educational/Dpo/DpoCoursesList.vue';
-import DpoFilters from '@/components/Educational/Dpo/DpoFilters.vue';
+import NmoCoursesList from '@/components/Educational/Dpo/NmoCoursesList.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import DpoCoursesSortsLib from '@/services/Provider/libs/sorts/DpoCoursesSortsLib';
+import NmoCoursesSortsLib from '@/services/Provider/libs/sorts/NmoCoursesSortsLib';
 
 export default defineComponent({
-  name: 'DpoCourses',
+  name: 'NmoCourses',
   components: {
-    DpoCoursesList,
+    NmoCoursesList,
+    PageWrapper,
   },
 
   setup() {
     const sortModels: Ref<ISortModel[]> = ref([]);
-
     const loadCourses = async () => {
-      await Provider.store.dispatch('dpoCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('nmoCourses/getAllWithCount', Provider.filterQuery.value);
     };
 
     const load = async () => {
       Provider.filterQuery.value.pagination.limit = 100;
-      Provider.setSortModels(DpoCoursesSortsLib.byName(Orders.Asc));
-      Provider.setSortList(...createSortModels(DpoCoursesSortsLib));
+      Provider.setSortModels(NmoCoursesSortsLib.byName(Orders.Asc));
+      Provider.setSortList(...createSortModels(NmoCoursesSortsLib));
       await loadCourses();
     };
 
@@ -48,7 +40,6 @@ export default defineComponent({
     // Hooks.onBeforeMount(load);
 
     return {
-      // mounted: Provider.mounted,
       load,
       sortModels,
       loadCourses,

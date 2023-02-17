@@ -1,6 +1,6 @@
-import DpoCourse from '@/classes/DpoCourse';
+import NmoCourse from '@/classes/NmoCourse';
 
 export default interface IDpoCourseWithCount {
-  dpoCourses: DpoCourse[];
+  dpoCourses: NmoCourse[];
   count: number;
 }

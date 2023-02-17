@@ -2,26 +2,26 @@
   <div class="card-item-container">
     <div class="card-item">
       <div>
-        <div class="doctor-name" @click="$router.push(`/dpo/courses/${dpoCourse.id}`)">
-          {{ dpoCourse.name }}
+        <div class="doctor-name" @click="$router.push(`/nmo-courses/${nmoCourse.id}`)">
+          {{ nmoCourse.name }}
         </div>
-        <!-- <div class="tag-link" @click="$router.push(`/doctors/${dpoCourse.teacher.doctor.employee.human.slug}`)">
-            Преподаватель: {{ dpoCourse.teacher.doctor.employee.human.getFullName() }}
+        <!-- <div class="tag-link" @click="$router.push(`/doctors/${nmoCourse.teacher.doctor.employee.human.slug}`)">
+            Преподаватель: {{ nmoCourse.teacher.doctor.employee.human.getFullName() }}
           </div> -->
-        <div v-if="dpoCourse.teacher.doctor.employee.human.name">
+        <div v-if="nmoCourse.teacher.doctor.employee.human.name">
           <div>Преподаватель:</div>
-          <router-link :to="`/doctors/${dpoCourse.teacher.doctor.employee.human.slug}`">
-            {{ dpoCourse.teacher.doctor.employee.human.getFullName() }}
+          <router-link :to="`/doctors/${nmoCourse.teacher.doctor.employee.human.slug}`">
+            {{ nmoCourse.teacher.doctor.employee.human.getFullName() }}
           </router-link>
         </div>
         <div>
           Часов:
-          {{ dpoCourse.hours }}
+          {{ nmoCourse.hours }}
         </div>
       </div>
       <div class="card-item-footer">
-        <button @click="$router.push({ name: `DpoCoursePage`, params: { id: dpoCourse.id } })">Подробнее</button>
-        <button class="respond-btn" @click="$router.push(`/dpo/courses/${dpoCourse.id}?respondForm=open`)">Записаться</button>
+        <button @click="$router.push({ name: `DpoCoursePage`, params: { id: nmoCourse.id } })">Подробнее</button>
+        <button class="respond-btn" @click="$router.push(`/nmo-courses/${nmoCourse.id}?respondForm=open`)">Записаться</button>
       </div>
     </div>
   </div>
@@ -30,13 +30,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import DpoCourse from '@/classes/DpoCourse';
+import NmoCourse from '@/classes/NmoCourse';
 
 export default defineComponent({
   name: 'CourseCard',
   components: {},
   props: {
-    dpoCourse: { type: Object as PropType<DpoCourse>, required: true },
+    nmoCourse: { type: Object as PropType<NmoCourse>, required: true },
   },
   setup() {
     const errorImg = (event: Event) => {

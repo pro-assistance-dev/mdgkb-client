@@ -381,7 +381,7 @@ export default class Form implements IForm {
 
   getApplicationType(): string {
     if (this.dpoApplication) {
-      return this.dpoApplication.dpoCourse.isNmo ? 'НМО' : 'ДПО';
+      return this.dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО';
     }
     if (this.residencyApplication) {
       return 'Ординатура';
@@ -424,7 +424,7 @@ export default class Form implements IForm {
   }
   getApplicationName(): string {
     if (this.dpoApplication) {
-      return this.dpoApplication.dpoCourse.name;
+      return this.dpoApplication.nmoCourse.name;
     }
     if (this.residencyApplication && this.residencyApplication.residencyCourse) {
       return this.residencyApplication.residencyCourse.getMainSpecialization().name;
@@ -446,7 +446,7 @@ export default class Form implements IForm {
 
   getApplicationNameLink(): string {
     if (this.dpoApplication) {
-      return `/courses/${this.dpoApplication.dpoCourse.slug}`;
+      return `/courses/${this.dpoApplication.nmoCourse.slug}`;
     }
     if (this.residencyApplication) {
       return `/residency-courses/${this.residencyApplication.residencyCourse?.id}`;

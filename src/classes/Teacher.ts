@@ -1,5 +1,5 @@
-import DpoCourse from '@/classes/DpoCourse';
 import Employee from '@/classes/Employee';
+import NmoCourse from '@/classes/NmoCourse';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Teacher {
@@ -7,8 +7,8 @@ export default class Teacher {
   employeeId?: string;
   employee: Employee = new Employee();
   position = '';
-  @ClassHelper.GetClassConstructorForArray(DpoCourse)
-  dpoCourses: DpoCourse[] = [];
+  @ClassHelper.GetClassConstructorForArray(NmoCourse)
+  dpoCourses: NmoCourse[] = [];
 
   fullName?: string;
   isMale?: string;

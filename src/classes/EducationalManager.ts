@@ -7,7 +7,7 @@ export default class EducationalManager {
   doctorId?: string;
   doctor: IDoctor = new Doctor();
   role = '';
-  managerOrder = 0;
+  order = 0;
 
   constructor(i?: EducationalManager) {
     ClassHelper.BuildClass(this, i);

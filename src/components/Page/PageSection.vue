@@ -1,10 +1,10 @@
 <template>
-  <div id="container" class="container">
+  <div id="container" class="relative-container">
     <div v-if="pageSections.length && showContent" class="sticky-container">
       <div class="top-list">
         <div v-if="!opened && pageSections.length" class="list-title" @click="isOpen">Показать содержание</div>
         <div v-if="opened && pageSections.length" class="list-title" @click="isOpen">Скрыть содержание</div>
-        <div v-if="pageSections.length" class="list-title" @click="(opened = false), $scroll('#container', -200)">Вверх</div>
+        <div v-if="pageSections.length" class="list-up" @click="(opened = false), $scroll('#container', -200)">Вверх</div>
       </div>
       <div v-if="opened" class="abs">
         <div v-if="pageSections.length" class="list">
@@ -279,14 +279,14 @@ h4 {
   font-size: 18px;
 }
 
-.container {
+.relative-container {
   position: relative;
 }
 
 .top-list {
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: right;
 }
 
 .background-container {
@@ -302,9 +302,8 @@ h4 {
   border-top-left-radius: 5px;
   border: 1px solid #e9e9e9;
   border-bottom: none;
-  margin-bottom: -27px;
+  margin-bottom: -25px;
   margin-top: 0px;
-  box-shadow: 0 6px 2px -2px rgba(0, 0, 0, 0.15);
   z-index: 1;
 }
 
@@ -317,11 +316,19 @@ h4 {
 }
 
 .list-title {
-  width: 170px;
+  width: 160px;
   cursor: pointer;
   color: #a3a5b9;
-  margin-left: 15px;
   padding: 3px 0 0px 0;
+  font-size: 14px;
+}
+
+.list-up {
+  cursor: pointer;
+  color: #a3a5b9;
+  margin-left: 5px;
+  padding: 3px 10px 0px 0;
+  font-size: 14px;
 }
 
 .list-item {
@@ -346,7 +353,7 @@ h4 {
 .abs {
   width: 100%;
   position: absolute;
-  top: 27px;
+  top: 24px;
   left: 0px;
   background: #ffffff;
   border-bottom: 1px solid #e9e9e9;

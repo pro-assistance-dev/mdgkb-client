@@ -1,6 +1,6 @@
 <template>
   <div v-if="!pattern" class="line">
-    <el-select v-model="chosenPattern" class="line-item" value-key="id" size="mini" placeholder="Выберите шаблон">
+    <el-select v-model="chosenPattern" class="line-item" value-key="id" placeholder="Выберите шаблон">
       <el-option v-for="item in timetablePatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
     </el-select>
     <div class="button-block">
@@ -18,7 +18,7 @@
   >
     <el-table-column header-align="center" type="expand">
       <template #default="scope">
-        <div style="margin-left: 50px">
+        <div style="margin-left: 50px" class="background-150-container">
           <el-table :data="scope.row.breakPeriods">
             <el-table-column label="С" align="center" width="150">
               <template #default="scope2">
@@ -46,7 +46,7 @@
             </el-table-column>
             <el-table-column width="70">
               <template #header>
-                <el-button type="success" size="mini" icon="el-icon-plus" @click="addBreak(scope.row)"></el-button>
+                <el-button size="mini" icon="el-icon-plus" @click="addBreak(scope.row)"></el-button>
               </template>
               <template #default="scope2">
                 <TableButtonGroup :show-remove-button="true" @remove="removeBreak(scope.row, scope2.$index)" />
@@ -226,94 +226,25 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
 }
-:deep(.timetable-row) {
-  height: 100px;
-}
-:deep(.weekend) {
-  color: red;
-}
-:deep(.el-table__expand-column .cell) {
-  display: none;
-}
-:deep(.expand .el-table__expand-column .cell) {
-  display: unset;
-}
-
-:deep(.el-dialog) {
-  overflow: hidden;
-}
-
-:deep(.el-form--label-top .el-form-item) {
-  display: flex;
-}
-
-:deep(.el-form-item__content) {
-  width: 100%;
-}
-
-:deep(.el-input__inner) {
-  border-radius: 40px;
-  padding-left: 25px;
-  height: 32px;
-  width: 100%;
-  display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  font-size: 15px;
-}
-
-:deep(.el-input__inner::placeholder) {
-  color: #4a4a4a;
-}
 
 :deep(.el-select .el-input .el-select__caret) {
   color: #343e5c;
   font-size: 15px;
   font-weight: bold;
   margin-right: 5px;
-  margin-top: 4px;
+  margin-top: 1px;
 }
 
-.el-select {
-  width: 100%;
+:deep(.el-select .el-input .el-select__caret.el-icon-circle-close) {
+  height: 40px;
 }
 
-:deep(.el-input__prefix) {
-  left: 230px;
+:deep(.el-select .el-input__suffix) {
   top: -3px;
 }
 
-:deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
-  width: 100%;
-}
-
-:deep(.el-input__icon) {
-  color: #343e5c;
-}
-
-:deep(.el-input__suffix) {
-  top: -3px;
-}
-
-:deep(.el-form-item__label) {
-  font-size: 12px;
-  color: #a3a9be;
-  padding: 0 !important;
-  text-transform: uppercase;
-  margin-left: 5px;
-  height: 30px;
-}
-
-:deep(.el-input__prefix) {
-  left: auto;
-  right: 10px;
-}
-
-:deep(.el-form-item) {
-  margin-bottom: 10px;
-}
-
-:deep(.el-checkbox__input) {
-  margin-left: 24px;
+:deep(.el-select__caret .el-input__icon .el-icon-circle-close::before) {
+  margin-top: -3px;
 }
 
 .line {
@@ -360,6 +291,15 @@ export default defineComponent({
   align-items: center;
   justify-content: left;
   width: 170px;
+}
+
+.background-150-container {
+  width: 394px;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  background: #dff2f8;
+  border-radius: 5px;
+  border: 1px solid #c3c3c3;
 }
 
 @media screen and (max-width: 400px) {

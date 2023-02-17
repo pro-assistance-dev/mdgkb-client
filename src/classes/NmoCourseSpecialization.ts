@@ -1,16 +1,16 @@
-import DpoCourse from '@/classes/DpoCourse';
+import NmoCourse from '@/classes/NmoCourse';
 import Specialization from '@/classes/Specialization';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class DpoCourseSpecialization {
+export default class NmoCourseSpecialization {
   id?: string;
-  dpoCourse: DpoCourse = new DpoCourse();
+  nmoCourse: NmoCourse = new NmoCourse();
   dpoCourseId?: string;
   specialization: ISpecialization = new Specialization();
   specializationId?: string;
 
-  constructor(i?: DpoCourseSpecialization) {
+  constructor(i?: NmoCourseSpecialization) {
     ClassHelper.BuildClass(this, i);
   }
 }

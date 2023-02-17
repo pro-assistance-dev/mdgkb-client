@@ -163,40 +163,29 @@ const menuList: IAdminMenu[] = [
       //   to: '/admin/residency',
       // },
       // {
-      //   title: 'Аспирантура',
-      //   to: '/admin/postgraduate',
+      //   title: 'Преподаватели',
+      //   to: '/admin/teachers',
+      //   icon: 'el-icon-first-aid-kit',
       // },
       // {
       //   title: 'Кандидатские экзамены',
       //   to: '/admin/candidate',
       // },
-      // {
-      //   title: 'Дополнительное профессиональное образование',
-      //   to: '/admin/dpo',
-      // },
-      // {
-      //   title: 'Приёмная комиссия',
-      //   to: '/admin/admission-committee',
-      // },
       {
-        title: 'Программы ДПО',
-        to: '/admin/dpo/courses',
+        title: 'Программы ординатуры',
+        to: '/admin/residency-courses',
       },
       {
         title: 'Программы НМО',
-        to: '/admin/nmo/courses',
+        to: '/admin/nmo-courses',
       },
       {
         title: 'Программы аспирантуры',
         to: '/admin/postgraduate-courses',
       },
       {
-        title: 'Программы ординатуры',
-        to: '/admin/residency-courses',
-      },
-      {
         title: 'Заявки ДПО',
-        to: '/admin/dpo/applications',
+        to: '/admin/nmo/applications',
         tableName: 'dpo_applications',
       },
       {

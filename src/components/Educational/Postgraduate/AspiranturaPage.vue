@@ -18,18 +18,18 @@
             <th>Квалификация</th>
           </thead>
           <tbody v-if="mounted">
-            <tr v-for="dpoCourse in dpoCourses" :key="dpoCourse.id">
+            <tr v-for="nmoCourse in dpoCourses" :key="nmoCourse.id">
               <td>
-                <router-link :to="`/courses/${dpoCourse.id}`">{{ dpoCourse.name }}</router-link>
+                <router-link :to="`/courses/${nmoCourse.id}`">{{ nmoCourse.name }}</router-link>
               </td>
-              <td style="text-align: center">{{ dpoCourse.hours }}</td>
+              <td style="text-align: center">{{ nmoCourse.hours }}</td>
               <td>
-                <router-link :to="`/doctors/${dpoCourse.getMainTeacher()?.doctor.employee.human.slug}`">
-                  {{ dpoCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
+                <router-link :to="`/doctors/${nmoCourse.getMainTeacher()?.doctor.employee.human.slug}`">
+                  {{ nmoCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
                 </router-link>
               </td>
               <td>
-                {{ dpoCourse.getClosestPeriod() }}
+                {{ nmoCourse.getClosestPeriod() }}
               </td>
             </tr>
           </tbody>
@@ -43,13 +43,13 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import DpoCourse from '@/classes/DpoCourse';
+import NmoCourse from '@/classes/NmoCourse';
 
 export default defineComponent({
   name: 'DpoCoursesList',
   setup() {
     const store = useStore();
-    const dpoCourses: Ref<DpoCourse[]> = computed<DpoCourse[]>(() => store.getters['dpoCourses/items']);
+    const dpoCourses: Ref<NmoCourse[]> = computed<NmoCourse[]>(() => store.getters['dpoCourses/items']);
     const mounted = ref(false);
 
     onBeforeMount(async () => {
@@ -57,7 +57,7 @@ export default defineComponent({
     });
 
     const loadMore = async () => {
-      // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.dpoCourse.name, schema.value.dpoCourse.tableName);
+      // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.nmoCourse.name, schema.value.nmoCourse.tableName);
       // await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };
 

@@ -95,7 +95,7 @@ import { defineComponent, onMounted, ref } from 'vue';
 import YandexMapComponent from '@/components/YandexMapComponent.vue';
 
 export default defineComponent({
-  name: 'DpoCoursesContacts',
+  name: 'DpoContacts',
   components: { YandexMapComponent },
   setup() {
     const mounted = ref(false);

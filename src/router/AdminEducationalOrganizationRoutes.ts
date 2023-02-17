@@ -1,9 +1,9 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminDpoApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationPage.vue';
-import AdminDpoApplicationsListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoApplicationsListContainer.vue';
-import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursePage.vue';
-import AdminDpoCoursesListContainer from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminDpoCoursesListContainer.vue';
+import AdminDpoApplicationsListContainer from '@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminDpoApplicationsListContainer.vue';
+import AdminNmoApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoApplicationPage.vue';
+import AdminNmoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoCoursePage.vue';
+import AdminNmoCoursesListContainer from '@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoCoursesListContainer.vue';
 import AdminCandidateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationPage.vue';
 import AdminCandidateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationsList.vue';
 import AdminPostgraduateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationPage.vue';
@@ -19,50 +19,13 @@ import AdminSpecializationsList from '@/components/admin/AdminEducationalOrganiz
 import { AdminLayout } from '@/interfaces/admin/AdminLayout';
 import { authGuard, isAuthorized } from '@/router/index';
 
-// import AdminDpoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminPostgraduateCoursePage.vue';
+// import AdminNmoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminPostgraduateCoursePage.vue';
 
 export default [
   {
-    path: '/admin/dpo/courses',
-    name: 'AdminDpoCoursesList',
-    component: AdminDpoCoursesListContainer,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-      adminLayout: AdminLayout.TableList,
-    },
-  },
-  {
-    path: '/admin/dpo/courses/new',
-    name: 'AdminDpoCoursePageCreate',
-    component: AdminDpoCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/dpo/courses/:id',
-    name: 'AdminDpoCoursePageEdit',
-    component: AdminDpoCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/nmo/courses',
+    path: '/admin/nmo-courses',
     name: 'AdminNmoCoursesList',
-    component: AdminDpoCoursesListContainer,
+    component: AdminNmoCoursesListContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
@@ -73,9 +36,46 @@ export default [
     },
   },
   {
-    path: '/admin/nmo/courses/new',
+    path: '/admin/nmo-courses/new',
     name: 'AdminNmoCoursePageCreate',
-    component: AdminDpoCoursePage,
+    component: AdminNmoCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/nmo-courses/:id',
+    name: 'AdminNmoCoursePageEdit',
+    component: AdminNmoCoursePage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/nmo-courses',
+    name: 'AdminNmoCoursesList',
+    component: AdminNmoCoursesListContainer,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+      adminLayout: AdminLayout.TableList,
+    },
+  },
+  {
+    path: '/admin/nmo-courses/new',
+    name: 'AdminNmoCoursePageCreate',
+    component: AdminNmoCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
@@ -86,28 +86,15 @@ export default [
     },
   },
   {
-    path: '/admin/nmo/courses/:id',
+    path: '/admin/nmo-courses/:id',
     name: 'AdminNmoCoursePageEdit',
-    component: AdminDpoCoursePage,
+    component: AdminNmoCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
     },
     meta: {
       layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/dpo/applications',
-    name: 'AdminDpoApplicationsList',
-    component: AdminDpoApplicationsListContainer,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-      adminLayout: AdminLayout.TableList,
     },
   },
   {
@@ -124,55 +111,29 @@ export default [
     },
   },
   {
-    path: '/admin/dpo/applications/new',
-    name: 'AdminDpoApplicationPageNew',
-    component: AdminDpoApplicationPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-      isNmo: false,
-    },
-  },
-  {
-    path: '/admin/dpo/applications/:id',
-    name: 'AdminDpoApplicationPage',
-    component: AdminDpoApplicationPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-      isNmo: false,
-    },
-  },
-  {
     path: '/admin/nmo/applications/new',
     name: 'AdminNmoApplicationPageNew',
-    component: AdminDpoApplicationPage,
+    component: AdminNmoApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
     },
     meta: {
       layout: 'AdminLayout',
-      isNmo: true,
+      isNmo: false,
     },
   },
   {
     path: '/admin/nmo/applications/:id',
     name: 'AdminNmoApplicationPage',
-    component: AdminDpoApplicationPage,
+    component: AdminNmoApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();
     },
     meta: {
       layout: 'AdminLayout',
-      isNmo: true,
+      isNmo: false,
     },
   },
   {

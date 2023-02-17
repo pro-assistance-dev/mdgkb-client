@@ -25,7 +25,6 @@ import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
-import { dpoCourses } from '@/store/modules/dpoCourses';
 import { educationalAcademics } from '@/store/modules/educationalAcademics';
 import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationYears } from '@/store/modules/educationYears';
@@ -48,6 +47,7 @@ import { menus } from '@/store/modules/menus';
 import { meta } from '@/store/modules/meta';
 import { news } from '@/store/modules/news';
 import { newsSlides } from '@/store/modules/newsSlides';
+import { nmoCourses } from '@/store/modules/nmoCourses';
 import { pages } from '@/store/modules/pages';
 import { pageSections } from '@/store/modules/pageSections';
 import { pageSideMenus } from '@/store/modules/pageSideMenus';
@@ -136,7 +136,7 @@ const s: StoreOptions<RootState> = {
     visitsApplications,
     callbacks,
     appointments,
-    dpoCourses,
+    nmoCourses,
     teachers,
     entrances,
     educationalManagers,

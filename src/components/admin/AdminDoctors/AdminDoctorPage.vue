@@ -4,7 +4,7 @@
       <div class="search-label">Выберите сотрудника для добавления:</div>
       <RemoteSearch :key-value="schema.employee.key" :max-width="2000" @select="selectEmployeeSearch" />
     </div>
-    <div v-if="doctor.employee.id" class="container">
+    <div v-if="doctor.employee.id" class="container-item">
       <button class="admin-employee-del" @click.prevent="doctor.resetEmployee()">Удалить</button>
       <div class="division-name">
         {{ doctor.employee.human.getFullName() }}
@@ -23,7 +23,7 @@
               <div class="search-label">Выберите отделение для добавления:</div>
               <RemoteSearch :key-value="schema.division.key" :max-width="2000" @select="addDoctorDivision" />
             </div>
-            <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision" class="container">
+            <div v-for="(doctorDivision, i) in doctor.doctorsDivisions" :key="doctorDivision" class="container-item">
               <button
                 class="admin-del"
                 @click.prevent="$classHelper.RemoveFromClassByIndex(i, doctor.doctorsDivisions, doctor.doctorsDivisionsForDelete)"
@@ -145,7 +145,7 @@ export default defineComponent({
     };
 
     const toEmployeeInfo = async (): Promise<void> => {
-      await Provider.router.push(`/admin/employees/${doctor.value.employee.human.slug}`);
+      await Provider.router.push(`/admin/employees/${doctor.value.employee.id}`);
     };
 
     const loadDoctor = async (): Promise<void> => {
@@ -319,32 +319,12 @@ $margin: 20px 0;
   color: #4a4a4a;
 }
 
-:deep(.el-select .el-input .el-select__caret) {
-  color: #343e5c;
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 5px;
-}
-
 .el-select {
   width: 100%;
 }
 
-:deep(.el-input__prefix) {
-  left: 230px;
-  top: -3px;
-}
-
 :deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
   width: 100%;
-}
-
-:deep(.el-input__icon) {
-  color: #343e5c;
-}
-
-:deep(.el-input__suffix) {
-  top: -3px;
 }
 
 :deep(.el-form-item__label) {
@@ -356,21 +336,8 @@ $margin: 20px 0;
   height: 30px;
 }
 
-:deep(.el-input__prefix) {
-  left: auto;
-  right: 10px;
-}
-
-:deep(.el-form-item) {
-  margin-bottom: 10px;
-}
-
 :deep(.el-form) {
   padding: 0;
-}
-
-:deep(.el-form--label-top .el-form-item__label) {
-  margin-right: 20px;
 }
 
 .search-line {
@@ -395,7 +362,7 @@ $margin: 20px 0;
   margin: -10px 0 10px 0;
 }
 
-.container {
+.container-item {
   position: relative;
   width: calc(100% - 20px);
   margin: 10px 0px 10px 0px;
