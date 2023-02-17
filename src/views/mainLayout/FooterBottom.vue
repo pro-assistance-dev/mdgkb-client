@@ -66,8 +66,18 @@
     <div class="container">
       <el-row justify="center">
         <el-col :span="18">
+          <!-- src/assets/documents/main/Выписка-лицензия-Морозовская-ДГКБ-ДЗМ.pdf -->
           <div class="under-footer">© 2019 ГБУЗ «Морозовская ДГКБ ДЗМ»</div>
-          <div class="under-footer"><a href="#" class="underlined">Лицензия на медицинскую деятельность</a></div>
+          <div class="under-footer">
+            <a
+              target="_blank"
+              download="Выписка-лицензия-Морозовская-ДГКБ-ДЗМ.pdf"
+              href="/files/Выписка-лицензия-Морозовская-ДГКБ-ДЗМ.pdf"
+              data-v-bc8b679e=""
+              class="underlined"
+              >Лицензия на медицинскую деятельность</a
+            >
+          </div>
         </el-col>
       </el-row>
     </div>
