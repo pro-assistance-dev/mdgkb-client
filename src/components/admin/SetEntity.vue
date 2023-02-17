@@ -1,11 +1,11 @@
 <template>
-  <div class="search-line">
+  <div v-if="entityName.length === 0" class="search-line">
     <div class="search-label">{{ label }}</div>
     <RemoteSearch :key-value="searchKey" :max-width="2000" @select="(e) => $emit('selectSearch', e)" />
   </div>
-  <div v-if="entityName.length > 0" class="container">
+  <div v-else class="container">
     <button class="admin-del" @click.prevent="$emit('reset')">Удалить</button>
-    <div class="name">
+    <div class="name" @click="Provider.routerPushBlank(link)">
       {{ entityName }}
     </div>
   </div>
@@ -15,15 +15,22 @@
 import { defineComponent, PropType } from 'vue';
 
 import RemoteSearch from '@/components/RemoteSearch.vue';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'SetEntity',
   components: { RemoteSearch },
   emits: ['selectSearch', 'reset'],
   props: {
+    link: { type: String as PropType<string>, required: true },
     searchKey: { type: String as PropType<string>, required: true },
     label: { type: String as PropType<string>, dafault: 'Выберите сотрудника для добавления:' },
     entityName: { type: String as PropType<string>, required: true },
+  },
+  setup() {
+    return {
+      Provider,
+    };
   },
 });
 </script>
@@ -31,6 +38,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 $margin: 20px 0;
 
+.name {
+  &:hover {
+    cursor: pointer;
+  }
+}
 .container {
   position: relative;
   width: calc(100% - 20px);

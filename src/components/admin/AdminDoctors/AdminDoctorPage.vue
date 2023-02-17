@@ -145,7 +145,7 @@ export default defineComponent({
     };
 
     const toEmployeeInfo = async (): Promise<void> => {
-      await Provider.router.push(`/admin/employees/${doctor.value.employee.human.slug}`);
+      await Provider.router.push(`/admin/employees/${doctor.value.employee.id}`);
     };
 
     const loadDoctor = async (): Promise<void> => {

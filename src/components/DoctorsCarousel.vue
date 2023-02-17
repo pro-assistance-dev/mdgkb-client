@@ -21,9 +21,6 @@
             <temlate v-if="doctors.length > 0">
               <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
             </temlate>
-            <temlate v-if="doctors.length > 0">
-              <TeacherCard v-for="item in doctors" :key="item.id" :doctor="item" />
-            </temlate>
           </el-carousel-item>
         </el-carousel>
       </component>
@@ -45,20 +42,19 @@ import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'DoctorsCarousel',
-  components: { DoctorInfoCard, MainContainer, CollapsContainer, TeacherCard },
+  components: { DoctorInfoCard, MainContainer, CollapsContainer },
   props: {
-    teachers: { type: Array as PropType<Teacher[]>, default: () => [] },
     doctors: { type: Array as PropType<Doctor[]>, default: () => [] },
     headerTitle: { type: String as PropType<string>, default: 'Специалисты' },
     headerButtonTitle: { type: String as PropType<string>, default: 'Все врачи' },
     headerButtonLink: { type: String as PropType<string>, default: '/doctors' },
   },
   setup(props) {
-    const carousel: Ref<(Doctor | Teacher)[][]> = ref([]);
+    const carousel: Ref<Doctor[][]> = ref([]);
     const carouselRef = ref();
 
     onBeforeMount(() => {
-      carousel.value = makeCarousel<Doctor | Teacher>(props.doctors ? props.doctors : props.teachers, 3);
+      carousel.value = makeCarousel<Doctor>(props.doctors, 3);
     });
 
     return {

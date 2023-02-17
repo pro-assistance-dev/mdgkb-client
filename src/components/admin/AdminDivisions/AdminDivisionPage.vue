@@ -7,19 +7,23 @@
             <el-form-item label="Наименование отделения" prop="name">
               <el-input v-model="division.name" placeholder="Наименование отделения" />
             </el-form-item>
-            <el-form-item label="Заведующий отделением">
-              <RemoteSearch placeholder="Выберите заведующего" :key-value="schema.doctor.key" @select="selectDoctorSearch" />
-              <div v-if="division.chief" @click="Provider.routerPushBlank(`/admin/doctors/${division.chief.employee.human.slug}`)">
-                {{ division.chief.employee.human.getFullName() }}
-              </div>
-              <el-button @click="division.removeChief()"> Удалить заведующего </el-button>
-            </el-form-item>
             <el-form-item label="Общая информация">
               <WysiwygEditor v-model="division.info" />
             </el-form-item>
             <el-form-item label="Адрес">
               <el-input v-model="division.address" placeholder="Адрес" disabled />
             </el-form-item>
+          </el-card>
+
+          <el-card>
+            <SetEntity
+              :link="`/admin/doctors/${division.chief.employee.human.slug}`"
+              :search-key="schema.doctor.key"
+              label="Выбрать заведующего"
+              :entity-name="division.chief.employee.human.getFullName()"
+              @select-search="selectDoctorSearch"
+              @reset="division.removeChief()"
+            />
           </el-card>
 
           <AdminDivisionVisitingRules />
@@ -104,7 +108,7 @@
                     @remove="
                       $classHelper.RemoveFromClassByIndex(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)
                     "
-                    @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.slug}`)"
+                    @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.id}`)"
                   />
                 </template>
               </el-table-column>
@@ -141,6 +145,7 @@ import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisio
 import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
+import SetEntity from '@/components/admin/SetEntity.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
@@ -166,6 +171,7 @@ export default defineComponent({
     AdminDivisionGallery,
     AdminDivisionVisitingRules,
     RemoteSearch,
+    SetEntity,
     WysiwygEditor,
   },
 
@@ -261,9 +267,7 @@ export default defineComponent({
 
     const addDoctor = async (search: ISearchObject) => {
       await Provider.store.dispatch('doctors/get', search.value);
-      console.log(division.value.doctorsDivisions);
       division.value.addDoctorDivision(doctor.value);
-      console.log(division.value.doctorsDivisions);
     };
 
     return {
