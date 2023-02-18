@@ -23,7 +23,7 @@
           v-if="doctorDivision.division.name"
           data-test="division-name"
           class="division-name"
-          @click="$router.push(`/divisions/${doctorDivision.division.slug}`)"
+          @click="$router.push(`/divisions/${doctorDivision.division.id}`)"
         >
           {{ doctorDivision.division.name }}
         </div>

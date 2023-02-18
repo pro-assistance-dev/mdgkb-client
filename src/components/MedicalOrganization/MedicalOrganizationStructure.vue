@@ -88,7 +88,7 @@
                     v-else
                     style="cursor: pointer"
                     class="divisions-first-item"
-                    @click="$router.push(`/divisions/${department.division.slug}`)"
+                    @click="$router.push(`/divisions/${department.division.id}`)"
                   >
                     {{ department.name }}
                   </div>
