@@ -4,6 +4,7 @@ import AdminCommonVisitingRulesList from '@/components/admin/AdminCommonVisiting
 import AdminDishes from '@/components/admin/AdminDishes/AdminDishes.vue';
 import AdminDonorRules from '@/components/admin/AdminDonorRules/AdminDonorRules.vue';
 import AdminGatesList from '@/components/admin/AdminGates/AdminGatesList.vue';
+import AdminAcademicsRoutes from '@/router/AdminAcademicsRoutes';
 import AdminAppointmentsRoutes from '@/router/AdminAppointmentsRoutes';
 import AdminBannersRoutes from '@/router/AdminBannersRoutes';
 import AdminCommentsRoutes from '@/router/AdminCommentsRoutes';
@@ -119,4 +120,5 @@ export default [
   ...AdminHospitalizationsTypeRoutes,
   ...AdminDailyMenuOrdersRoutes,
   ...AdminTeachersRoutes,
+  ...AdminAcademicsRoutes,
 ];

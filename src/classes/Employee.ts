@@ -114,4 +114,9 @@ export default class Employee {
   addEducation() {
     this.educations.push(new Education());
   }
+
+  getAcademicDegreeAndRank(): string {
+    return `${this.academicDegree}${this.academicDegree && this.academicRank ? ' • ' : ''}${this.academicRank}`;
+    // return `Кандидат медицинских наук • Заместитель председателя Ученого Совета`;
+  }
 }

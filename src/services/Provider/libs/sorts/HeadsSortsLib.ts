@@ -21,7 +21,7 @@ const HeadsSortsLib = (() => {
       modelName,
       'order',
       order ? order : Orders.Asc,
-      `${order === Orders.Asc ? '(По возрастанию)' : '(По убыванию)'}`
+      `По порядку ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
