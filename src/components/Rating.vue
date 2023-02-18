@@ -30,7 +30,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import Comment from '@/assets/doctors/svg/Comment.svg';
+import Comment from '@/assets/svg/DivisionCard/Comment.svg';
 import IWithComment from '@/interfaces/IWithComment';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import countRating from '@/services/countRating';
@@ -89,7 +89,7 @@ a {
 }
 
 .line-block {
-  width: 98%;
+  width: 100%;
   height: 40px;
   display: flex;
   justify-content: space-between;
@@ -111,8 +111,8 @@ a {
 }
 
 .icon-comment {
-  width: 29px;
-  height: 29px;
+  width: 24px;
+  height: 24px;
   fill: #2653ea;
   margin-right: 8px;
 }

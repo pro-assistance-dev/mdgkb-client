@@ -1,6 +1,7 @@
 <template>
   <div v-if="mounted" class="size">
     <ResidencyCourseInfo :course="residencyCourse" />
+    <ResidencyInfoBlock :info="residencyCourse.description" />
     <CollapsContainer v-if="residencyCourse.residencyCoursePracticePlaces.length" tab-id="6" :collapsed="true">
       <template #inside-title>
         <div class="title-in">Базы практики</div>
@@ -22,6 +23,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import ResidencyCourseInfo from '@/components/Educational/Residency/ResidencyCourseInfo.vue';
+import ResidencyInfoBlock from '@/components/Educational/Residency/ResidencyInfoBlock.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
@@ -30,7 +32,7 @@ import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'ResidencyCoursePage',
-  components: { ResidencyCourseInfo, CollapsContainer },
+  components: { ResidencyCourseInfo, CollapsContainer, ResidencyInfoBlock },
   setup() {
     const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const showForm: Ref<boolean> = ref(false);

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="contactInfo.telephoneNumbers[0].number" class="contact-h3">
+  <div v-if="contactInfo.telephoneNumbers[0].number" class="block-line">
     <div class="item">
       <svg class="icon-phone">
         <use xlink:href="#phone"></use>
@@ -45,36 +45,19 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/division-info.scss';
-
-// test block
-.test {
-  width: 290px;
-  height: 290px;
-  background: #c4c4c4;
-}
-
-.division-name {
-  margin: 0px;
-}
+@import '@/assets/styles/elements/base-style.scss';
 
 .icon-phone {
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
+  margin-left: 1px;
+  width: $width;
+  height: $height;
+  fill: $site_dark_gray;
 }
 
 .icon-email {
-  width: 20px;
-  height: 20px;
-  fill: #2754eb;
-}
-
-.icon-map-marker {
-  margin-left: -1px;
-  width: 23px;
-  height: 23px;
-  fill: #2754eb;
+  width: $width;
+  height: $height;
+  fill: $site_dark_gray;
 }
 
 .contact-h3 {
@@ -89,15 +72,9 @@ export default defineComponent({
   margin-top: 5px;
 }
 
-.item {
+.block-line {
   display: flex;
-  flex-direction: row;
-  padding-right: 10px;
-  width: auto;
   align-items: center;
-  text-align: left;
-}
-.hidden {
-  display: none;
+  justify-content: left;
 }
 </style>

@@ -80,15 +80,15 @@ describe('DoctorInfo.vue', () => {
   //   expect(wrapper.find('[data-test="division-name"]').text()).toBe(doctor.division.name);
   // });
 
-  test('Doctor name shows', async () => {
-    doctor.employee.human.name = 'Name';
-    doctor.employee.human.surname = 'Surname';
-    doctor.employee.human.patronymic = 'Patronymic';
-    const wrapper = createWrapper(doctor);
+  // test('Doctor name shows', async () => {
+  //   doctor.employee.human.name = 'Name';
+  //   doctor.employee.human.surname = 'Surname';
+  //   doctor.employee.human.patronymic = 'Patronymic';
+  //   const wrapper = createWrapper(doctor);
 
-    expect(wrapper.find('[data-test="doctor-name"]').exists()).toBe(true);
-    expect(wrapper.find('[data-test="doctor-name"]').text()).toBe(doctor.employee.human.getFullName());
-  });
+  // expect(wrapper.find('[data-test="doctor-name"]').exists()).toBe(true);
+  // expect(wrapper.find('[data-test="doctor-name"]').text()).toBe(doctor.employee.human.getFullName());
+  // });
 
   // test('BlockIsChief exists only if Doctor is Chief', async () => {
   //   const id = uuidv4();

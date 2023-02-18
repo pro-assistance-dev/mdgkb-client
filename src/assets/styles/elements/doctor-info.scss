@@ -1,160 +1,184 @@
-@import "./favorite.scss";
-@import "./base-style.scss";
+@import '@/assets/styles/elements/base-style.scss';
 
-.card-item {
+:deep(.el-rate__icon) {
+  margin: 0;
+  font-size: 20px;
+}
+
+.contact-h3 {
+  display: flex;
+  justify-content: left;
+  font-family: Roboto, Verdana, sans-serif;
+  font-size: 12px;
+  font-weight: lighter;
+  color: #4a4a4a;
+  align-content: center;
+  text-align: center;
+  margin-top: 15px;
+  width: auto;
+}
+
+.foto-field {
+  position: relative;
   display: flex;
   padding: 25px;
-  margin-bottom: 30px;
-  &-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 35px;
-    .doctor-img {
-      position: relative;
-      z-index: 1;
-      img {
-        border-radius: 5px;
-        height: 280px;
-        width: 280px;
-      }
-      .favor {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        z-index: 2;
-      }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .doctor-img {
+    position: relative;
+    z-index: 1;
+    min-height: 280px;
+    min-width: 280px;
+    img {
+      border-radius: 5px;
+      height: 280px;
+      width: 280px;
     }
-  }
-  &-middle {
-    width: 100%;
-    font-size: 14px;
-    letter-spacing: 1px;
-    .division-name {
-      color: $site_gray;
-      margin-bottom: 5px;
-      font-size: $doctor-text-font-size;
-      &:hover{
-        cursor: pointer;
-        color:$site_dark_gray;
-      }
-    }
-    .doctor-name {
-      font-size: 26px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color:$site_dark_gray;
-    }
-    .tag-link {
-      text-align: center;
-      border-radius: 15px;
-      background-color: $site_blue;
-      border-color: $site_blue;
-      color: white;
-      padding: 2px 10px;
-      margin-right: 10px;
-      display: inline-block;
-      width: auto;
-      word-wrap: break-word;
-      font-size: 11px;
-      &:hover {
-        background-color: darken($site_blue, 10%);
-        color: white;
-        cursor: pointer;
-      }
-    }
-    .green-tag-link {
-      text-align: center;
-      border-radius: 15px;
-      background-color: $site_green;
-      border-color: $site_green;
-      color: white;
-      padding: 2px 10px;
-      margin-right: 10px;
-      display: inline-block;
-      width: auto;
-      word-wrap: break-word;
-      font-size: 11px;
-      &:hover {
-        background-color: darken($site_green, 10%);
-        color: white;
-        cursor: pointer;
-      }
-    }
-    a {
-      color: $site_blue;
-      text-decoration: none;
-    }
-    .tag-link,
-    .regalias-list,
-    .address {
-      margin-bottom: 15px;
-      a {
-        color: $site_blue;
-        text-decoration: none;
-        &:hover {
-          cursor: pointer;
-          color: darken($site_blue, 30%)
-        }
-      }
-    }
-    &-bottom {
-      max-width: 800px;
-    }
-    .mos-doctor-img {
-      cursor: pointer;
+    .favor {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 2;
       display: flex;
       align-items: center;
-      font-size: 11px;
-      line-height: 1.1;
-      &-container {
-        display: flex;
-        align-items: center;
-      }
-      img {
-        width: 40px;
-        margin-right: 5px;
-      }
-      a {
-        color: black
-      }
-    }
-  }
-  &-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
-    button {
-      margin: 10px 0;
-      width: 230px;
-      font-weight: bold;
-      font-size: 14px;
-      border-radius: 10px;
-      background-color: $site_green;
-      padding: 15px 0px;
-      height: auto;
-      letter-spacing: 2px;
-      color: white;
-      border: 1px solid rgb(black, 0.05);
-      &:hover {
-        cursor: pointer;
-        background-color: darken($site_green, 10%);
-      }
-    }
-    .consult {
-      color: $site_green;
+      justify-content: center;
+      cursor: pointer;
       background-color: white;
-      border-color: $site_green;
+      border-radius: 50%;
+      border: 1px solid rgb(black, 0.1);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+      width: 30px;
+      height: 30px;
       &:hover {
-        background-color: darken(white, 10%);
+        transform: scale(1.1);
       }
-    }
-    .review {
-      background-color: $site_red;
-      &:hover {
-        background-color: darken($site_red, 10%);
+      .anticon {
+        font-size: 20px;
+        color: #bdc2d1;
       }
     }
   }
 }
+
+.tag-link {
+  text-align: center;
+  border-radius: 15px;
+  background-color: $site_blue;
+  border-color: $site_blue;
+  color: white;
+  padding: 2px 10px;
+  margin-right: 10px;
+  display: inline-block;
+  width: auto;
+  word-wrap: break-word;
+  font-size: 11px;
+  &:hover {
+    background-color: darken($site_blue, 10%);
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.green-tag-link {
+  text-align: center;
+  border-radius: 15px;
+  background-color: $site_green;
+  border-color: $site_green;
+  color: white;
+  padding: 2px 10px;
+  margin-right: 10px;
+  display: inline-block;
+  width: auto;
+  word-wrap: break-word;
+  font-size: 11px;
+  &:hover {
+    background-color: darken($site_green, 10%);
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.mos-doctor-img {
+  border-radius: $normal-border-radius;
+  border: $normal-border;
+  padding: 10px 15px;
+  width: 150px;
+
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  line-height: 1.1;
+  &-container {
+    display: flex;
+    align-items: center;
+  }
+  img {
+    width: 40px;
+    margin-right: 5px;
+  }
+  a {
+    color: black
+  }
+}
+
+.mos-doctor-img:hover {
+  background: $site_light_gray;
+}
+
+.mos-doctor-img:active {
+  background: #ffffff;
+}
+
+button {
+  margin: 10px 0;
+  width: 230px;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 10px;
+  background-color: $site_green;
+  padding: 15px 0px;
+  height: auto;
+  letter-spacing: 2px;
+  color: white;
+  border: 1px solid rgb(black, 0.05);
+  &:hover {
+    cursor: pointer;
+    background-color: darken($site_green, 10%);
+  }
+}
+
+.consult {
+  color: $site_green;
+  background-color: white;
+  border-color: $site_green;
+  &:hover {
+    background-color: darken(white, 10%);
+  }
+}
+
+.review {
+  background-color: $site_red;
+  &:hover {
+    background-color: darken($site_red, 10%);
+  }
+}
+
+  .regalias-list,
+  .address {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    a {
+      color: $site_blue;
+      text-decoration: none;
+      &:hover {
+        cursor: pointer;
+        color: darken($site_blue, 30%)
+      }
+    }
+  }
+
+  .division-name {
+    cursor: pointer;
+  }
