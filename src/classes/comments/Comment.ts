@@ -60,7 +60,7 @@ export default class Comment implements IComment {
       this.division = new Division(comment.divisionComment.division);
       this.title = this.division.name;
       this.commentTo = 'Отделение';
-      this.link = `/divisions/${this.division.slug}`;
+      this.link = `/divisions/${this.division.id}`;
     }
   }
 }

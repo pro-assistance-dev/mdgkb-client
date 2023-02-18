@@ -22,7 +22,7 @@
         <div
           v-if="doctor.doctorsDivisions && doctor.doctorsDivisions.length > 0"
           class="division-name"
-          @click="$router.push(`/divisions/${doctor.doctorsDivisions[0].division.slug}`)"
+          @click="$router.push(`/divisions/${doctor.doctorsDivisions[0].division.id}`)"
         >
           {{ doctor.doctorsDivisions[0].division.name }}
         </div>
