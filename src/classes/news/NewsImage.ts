@@ -1,6 +1,7 @@
 import FileInfo from '@/classes/File/FileInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import INewsImage from '@/interfaces/news/INewsImage';
+import ClassHelper from '@/services/ClassHelper';
 
 export default class NewsImage implements INewsImage {
   id?: string;
@@ -11,15 +12,6 @@ export default class NewsImage implements INewsImage {
   description?: string;
 
   constructor(i?: INewsImage) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.fileInfoId = i.fileInfoId;
-    this.order = i.order;
-    this.description = i.description;
-    if (i.fileInfo) {
-      this.fileInfo = new FileInfo(i.fileInfo);
-    }
+    ClassHelper.BuildClass(this, i);
   }
 }

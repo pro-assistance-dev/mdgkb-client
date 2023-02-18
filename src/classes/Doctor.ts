@@ -2,21 +2,19 @@ import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
 import DoctorPaidService from '@/classes/DoctorPaidService';
 import Employee from '@/classes/Employee';
-import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/news/NewsDoctor';
 import Position from '@/classes/Position';
 import Timetable from '@/classes/timetable/Timetable';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDivision from '@/interfaces/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
 import IDoctorComment from '@/interfaces/IDoctorComment';
-import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import IPosition from '@/interfaces/IPosition';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import ClassHelper from '@/services/ClassHelper';
 
 import DoctorComment from './DoctorComment';
 
@@ -32,12 +30,16 @@ export default class Doctor implements IDoctor {
   position: IPosition = new Position();
   positionId?: string;
   tags?: string;
+  @ClassHelper.GetClassConstructorForArray(NewsDoctor)
   newsDoctors: INewsDoctor[] = [];
+  @ClassHelper.GetClassConstructorForArray(DoctorComment)
   doctorComments: IDoctorComment[] = [];
+  @ClassHelper.GetClassConstructorForArray(DoctorPaidService)
   doctorPaidServices: IDoctorPaidService[] = [];
   doctorPaidServicesForDelete: string[] = [];
   timetableDaysForDelete: string[] = [];
-  doctorsDivisions: IDoctorDivision[] = [];
+  @ClassHelper.GetClassConstructorForArray(DoctorDivision)
+  doctorsDivisions: DoctorDivision[] = [];
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;
   mosDoctorLink?: string;
@@ -45,46 +47,7 @@ export default class Doctor implements IDoctor {
   doctorsDivisionsForDelete: string[] = [];
 
   constructor(i?: IDoctor) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.employee = new Employee(i.employee);
-    this.employeeId = i.employeeId;
-    this.description = i.description;
-    this.show = i.show;
-    if (i.timetable) {
-      this.timetable = new Timetable(i.timetable);
-    }
-    this.timetableId = i.timetableId;
-    this.position = i.position;
-    this.tags = i.tags;
-    this.mosDoctorLink = i.mosDoctorLink;
-    this.medicalProfileId = i.medicalProfileId;
-    this.onlineDoctorId = i.onlineDoctorId;
-
-    if (i.medicalProfile) {
-      this.medicalProfile = new MedicalProfile(i.medicalProfile);
-    }
-
-    if (i.doctorComments) {
-      this.doctorComments = i.doctorComments.map((item: IDoctorComment) => new DoctorComment(item));
-    }
-    this.positionId = i.positionId;
-    if (i.position) {
-      this.position = new Position(i.position);
-    }
-
-    if (i.doctorPaidServices) {
-      this.doctorPaidServices = i.doctorPaidServices.map((item: IDoctorPaidService) => new DoctorPaidService(item));
-    }
-    if (i.doctorsDivisions) {
-      this.doctorsDivisions = i.doctorsDivisions.map((item: IDoctorDivision) => new DoctorDivision(item));
-    }
-    if (i.newsDoctors) {
-      this.newsDoctors = i.newsDoctors.map((item: INewsDoctor) => new NewsDoctor(item));
-    }
-    this.hasAppointment = i.hasAppointment;
+    ClassHelper.BuildClass(this, i);
   }
 
   addDoctorPaidService(): void {
@@ -116,7 +79,7 @@ export default class Doctor implements IDoctor {
   isChief(): boolean {
     return false;
   }
-  addDoctorDivision(division: IDivision): void {
+  addDoctorDivision(division: Division): void {
     const doctorDivision = new DoctorDivision();
     doctorDivision.division = new Division(division);
     doctorDivision.divisionId = division.id;

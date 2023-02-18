@@ -8,7 +8,7 @@
       </div>
       <div class="flex-column right-side">
         <div class="division-line">{{ division.treatDirection.name }}</div>
-        <div class="card-name" @click="$router.push(`/divisions/${division.slug}`)">
+        <div class="card-name" @click="$router.push(`/divisions/${division.id}`)">
           {{ division.name }}
         </div>
         <div class="line">
@@ -134,9 +134,9 @@ import MapMarker from '@/assets/svg/DivisionCard/MapMarker.svg';
 import Phone from '@/assets/svg/DivisionCard/Phone.svg';
 import Ruble from '@/assets/svg/DivisionCard/Ruble.svg';
 import Time from '@/assets/svg/DivisionCard/Time.svg';
+import Division from '@/classes/Division';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
-import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'DivisionCard',
@@ -152,7 +152,7 @@ export default defineComponent({
     FavouriteIcon,
   },
   props: {
-    division: { type: Object as PropType<IDivision>, required: true },
+    division: { type: Object as PropType<Division>, required: true },
   },
 });
 </script>

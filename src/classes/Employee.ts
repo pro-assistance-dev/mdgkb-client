@@ -8,8 +8,6 @@ import Human from '@/classes/Human';
 import Regalia from '@/classes/Regalia';
 import TeachingActivity from '@/classes/TeachingActivity';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICertificate from '@/interfaces/ICertificate';
-import IExperience from '@/interfaces/IExperience';
 import IHuman from '@/interfaces/IHuman';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -28,10 +26,10 @@ export default class Employee {
   educations: Education[] = [];
   educationsForDelete: string[] = [];
   @ClassHelper.GetClassConstructorForArray(Certificate)
-  certificates: ICertificate[] = [];
+  certificates: Certificate[] = [];
   certificatesForDelete: string[] = [];
   @ClassHelper.GetClassConstructorForArray(Experience)
-  experiences: IExperience[] = [];
+  experiences: Experience[] = [];
   experiencesForDelete: string[] = [];
   @ClassHelper.GetClassConstructorForArray(TeachingActivity)
   teachingActivities: TeachingActivity[] = [];
@@ -83,7 +81,7 @@ export default class Employee {
 
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
-    this.certificates.forEach((i: ICertificate) => {
+    this.certificates.forEach((i: Certificate) => {
       if (i.scan) {
         fileInfos.push(i.scan);
       }
@@ -115,5 +113,10 @@ export default class Employee {
 
   addEducation() {
     this.educations.push(new Education());
+  }
+
+  getAcademicDegreeAndRank(): string {
+    return `${this.academicDegree}${this.academicDegree && this.academicRank ? ' • ' : ''}${this.academicRank}`;
+    // return `Кандидат медицинских наук • Заместитель председателя Ученого Совета`;
   }
 }

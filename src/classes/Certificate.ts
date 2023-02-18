@@ -1,25 +1,16 @@
 import FileInfo from '@/classes/File/FileInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICertificate from '@/interfaces/ICertificate';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Certificate implements ICertificate {
+export default class Certificate {
   id?: string;
   description = '';
   scan: IFileInfo = new FileInfo();
   scanId?: string;
   employeeId?: string;
 
-  constructor(i?: ICertificate) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.scanId = i.scanId;
-    this.employeeId = i.employeeId;
-    this.description = i.description;
-    if (i.scan) {
-      this.scan = new FileInfo(i.scan);
-    }
+  constructor(i?: Certificate) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getFileInfo(): IFileInfo {

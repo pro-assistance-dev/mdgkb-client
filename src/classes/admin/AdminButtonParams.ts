@@ -2,11 +2,12 @@ import { ComputedRef, Ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
 type actionFunction = ((next?: NavigationGuardNext | undefined) => Promise<void>) | (() => Promise<void>) | (() => void);
+export type buttonAction = undefined | actionFunction | ComputedRef<actionFunction>;
 export default class AdminButtonParams {
   text?: string | ComputedRef<string> = 'Сохранить';
   type?: string = 'success';
   condition?: boolean | ComputedRef<boolean> | Ref<boolean> = true;
-  action?: undefined | actionFunction | ComputedRef<actionFunction>;
+  action?: buttonAction;
 
   constructor(adminButtonParams?: AdminButtonParams) {
     if (!adminButtonParams) {

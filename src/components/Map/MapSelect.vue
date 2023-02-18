@@ -50,9 +50,9 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 
+import Division from '@/classes/Division';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import IBuilding from '@/interfaces/IBuilding';
-import IDivision from '@/interfaces/IDivision';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
 import IMapObject from '@/interfaces/IMapObject';
@@ -87,7 +87,7 @@ export default defineComponent({
     const selectObject = (id: string) => {
       buildings.value.forEach((b: IBuilding) => {
         b.floors.forEach((f: IFloor) => {
-          const obj = f.divisions.find((d: IDivision) => d.id === id);
+          const obj = f.divisions.find((d: Division) => d.id === id);
           if (obj) {
             selectedObject.value = obj;
           }

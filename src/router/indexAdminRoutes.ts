@@ -1,10 +1,10 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminCertificates from '@/components/admin/AdminCertificates/AdminCertificates.vue';
 import AdminCommonVisitingRulesList from '@/components/admin/AdminCommonVisitingRules/AdminCommonVisitingRulesList.vue';
 import AdminDishes from '@/components/admin/AdminDishes/AdminDishes.vue';
 import AdminDonorRules from '@/components/admin/AdminDonorRules/AdminDonorRules.vue';
 import AdminGatesList from '@/components/admin/AdminGates/AdminGatesList.vue';
+import AdminAcademicsRoutes from '@/router/AdminAcademicsRoutes';
 import AdminAppointmentsRoutes from '@/router/AdminAppointmentsRoutes';
 import AdminBannersRoutes from '@/router/AdminBannersRoutes';
 import AdminCommentsRoutes from '@/router/AdminCommentsRoutes';
@@ -77,18 +77,6 @@ export default [
     },
   },
   {
-    path: '/admin/certificates',
-    name: 'AdminCertificates',
-    component: AdminCertificates,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
     path: '/admin/dishes',
     name: 'AdminDishes',
     component: AdminDishes,
@@ -132,4 +120,5 @@ export default [
   ...AdminHospitalizationsTypeRoutes,
   ...AdminDailyMenuOrdersRoutes,
   ...AdminTeachersRoutes,
+  ...AdminAcademicsRoutes,
 ];

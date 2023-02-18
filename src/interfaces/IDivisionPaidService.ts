@@ -1,9 +1,9 @@
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 import IPaidService from '@/interfaces/IPaidService';
 
 export default interface IDivisionPaidService {
   id?: string;
-  division?: IDivision;
+  division?: Division;
   divisionId?: string;
   paidService?: IPaidService;
   paidServiceId?: string;

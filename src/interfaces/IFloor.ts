@@ -1,8 +1,8 @@
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 
 export default interface IFloor {
   id?: string;
   number?: number;
   buildingId?: string;
-  divisions: IDivision[];
+  divisions: Division[];
 }

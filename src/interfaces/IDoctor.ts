@@ -1,8 +1,8 @@
+import Division from '@/classes/Division';
+import DoctorDivision from '@/classes/DoctorDivision';
 import Employee from '@/classes/Employee';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDivision from '@/interfaces/IDivision';
 import IDoctorComment from '@/interfaces/IDoctorComment';
-import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
@@ -24,7 +24,7 @@ export default interface IDoctor {
   positionId?: string;
   tags?: string;
   doctorComments: IDoctorComment[];
-  doctorsDivisions: IDoctorDivision[];
+  doctorsDivisions: DoctorDivision[];
   doctorsDivisionsForDelete: string[];
   timetableDaysForDelete: string[];
   medicalProfileId?: string;
@@ -41,7 +41,7 @@ export default interface IDoctor {
 
   isChief: () => boolean;
   hasAppointment: boolean;
-  addDoctorDivision: (division: IDivision) => void;
+  addDoctorDivision: (division: Division) => void;
   getHuman: () => IHuman;
 
   setEmployee: (employee: Employee) => void;

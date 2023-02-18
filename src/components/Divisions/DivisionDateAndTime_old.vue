@@ -51,9 +51,9 @@
 import { Calendar } from 'v-calendar';
 import { computed, defineComponent, PropType, ref } from 'vue';
 
+import Division from '@/classes/Division';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import IDivision from '@/interfaces/IDivision';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -62,7 +62,7 @@ export default defineComponent({
     Calendar,
   },
   props: {
-    division: { type: Object as PropType<IDivision>, required: true },
+    division: { type: Object as PropType<Division>, required: true },
   },
   emits: ['chooseDay'],
   setup(props, { emit }) {

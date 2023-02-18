@@ -29,19 +29,23 @@
           <AdminDivisionVisitingRules />
           <TimetableConstructorV2 :store-module="'divisions'" />
           <ScheduleConstructor :store-module="'divisions'" />
-          <AdminDivisionGallery />
+          <AdminGallery
+            :file-list="division.divisionImages"
+            :file-list-for-delete="division.divisionImagesForDelete"
+            @add-image="division.addImage()"
+          />
+          <!--          <AdminDivisionGallery />-->
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="9">
         <el-container direction="vertical">
+          <CollapsContainer title="Контакты" :tab-id="1012">
+            <template #inside-content>
+              <ContactsForm :contact-info="division.contactInfo" />
+            </template>
+          </CollapsContainer>
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>
-            <el-form-item label="Телефон">
-              <el-input v-model="division.phone" placeholder="Телефон" />
-            </el-form-item>
-            <el-form-item label="Email" prop="email">
-              <el-input v-model="division.email" placeholder="Email" />
-            </el-form-item>
             <el-form-item label="Здание" prop="buildingId">
               <el-select v-model="division.buildingId" filterable placeholder="Выберите здание" @change="changeBuildingHandler">
                 <el-option v-for="item in buildingsOptions" :key="item.id" :label="item.name" :value="item.id" />
@@ -135,108 +139,79 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import Building from '@/classes/Building';
 import DivisioinRules from '@/classes/DivisioinRules';
+import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
-import AdminDivisionGallery from '@/components/admin/AdminDivisions/AdminDivisionGallery.vue';
 import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
+import AdminGallery from '@/components/admin/AdminGallery.vue';
+import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import SetEntity from '@/components/admin/SetEntity.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
+import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IBuilding from '@/interfaces/IBuilding';
-import IDivision from '@/interfaces/IDivision';
-import IDoctor from '@/interfaces/IDoctor';
-import IEntrance from '@/interfaces/IEntrance';
-import IFloor from '@/interfaces/IFloor';
 import ISearchObject from '@/interfaces/ISearchObject';
+import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminDivisionPage',
   components: {
+    ContactsForm,
     ImageCropper,
     TableButtonGroup,
     TimetableConstructorV2,
     ScheduleConstructor,
-    AdminDivisionGallery,
+    AdminGallery,
     AdminDivisionVisitingRules,
     RemoteSearch,
     SetEntity,
     WysiwygEditor,
+    CollapsContainer,
   },
 
   setup() {
     const form = ref();
+    Provider.form = form;
     const rules = ref(DivisioinRules);
 
-    const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
-    const doctors: ComputedRef<IDoctor[]> = computed(() => Provider.store.getters['doctors/items']);
-    const doctor: ComputedRef<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
+    const division: ComputedRef<Division> = computed<Division>(() => Provider.store.getters['divisions/item']);
+    const doctors: ComputedRef<Doctor[]> = computed(() => Provider.store.getters['doctors/items']);
+    const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
     const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
     const divisionDoctors = computed(() => Provider.store.getters['doctors/divisionDoctors']);
     const newDoctorId = ref();
     const buildingOption = computed(() => Provider.store.getters['buildings/building']);
     const buildingsOptions = computed(() => Provider.store.getters['buildings/buildings']);
 
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-
     const load = async (): Promise<void> => {
       await Provider.store.dispatch('buildings/getAll');
       // await Provider.store.dispatch('doctors/getAll');
-      Provider.store.commit('divisions/resetState');
-      if (Provider.route().params['id']) {
-        Provider.filterQuery.value.setParams(Provider.schema.value.division.id, Provider.route().params['id'] as string);
-        await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
-        if (division.value.floorId) {
-          Provider.store.commit('buildings/setBuildingByFloorId', division.value.floorId);
-          division.value.buildingId = buildingOption.value.id;
-        }
-        Provider.store.commit('admin/setHeaderParams', { title: division.value.name, showBackButton: true, buttons: [{ action: submit }] });
-      } else {
-        Provider.store.commit('admin/setHeaderParams', { title: 'Создать отделение', showBackButton: true, buttons: [{ action: submit }] });
+      await Provider.loadItem(ClassHelper.GetPropertyName(Division).id);
+      if (division.value.floorId) {
+        Provider.store.commit('buildings/setBuildingByFloorId', division.value.floorId);
+        division.value.buildingId = buildingOption.value.id;
       }
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(division, formUpdated, { deep: true });
     };
 
-    Hooks.onBeforeMount(load);
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
+    Hooks.onBeforeMount(load, {
+      adminHeader: {
+        title: computed(() => (Provider.route().params['id'] ? division.value.name : 'Добавить отделение')),
+        showBackButton: true,
+        buttons: [{ action: Hooks.submit() }],
+      },
     });
-
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      // division.value.doctors = divisionDoctors.value;
-      try {
-        if (Provider.route().params['id']) {
-          await Provider.store.dispatch('divisions/update', division.value);
-        } else {
-          await Provider.store.dispatch('divisions/create', division.value);
-        }
-      } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      next ? next() : Provider.router.push('/admin/divisions');
-    };
+    Hooks.onBeforeRouteLeave(Hooks.submit);
 
     const changeBuildingHandler = (id: string) => {
-      const building = buildingsOptions.value.find((item: IBuilding) => item.id == id);
+      const building = buildingsOptions.value.find((item: Building) => item.id == id);
       Provider.store.commit('buildings/set', building);
       if (buildingOption.value.floors.length === 1) {
         division.value.floorId = buildingOption.value.floors[0].id;
@@ -253,16 +228,11 @@ export default defineComponent({
 
     const selectDoctorSearch = async (item: ISearchObject) => {
       await Provider.store.dispatch('doctors/get', item.value);
-      division.value.chief = new Doctor(doctor.value);
-      division.value.chiefId = item.id;
+      division.value.setChief(doctor.value);
     };
 
     const changeDivisionAddress = () => {
-      const floor = buildingOption.value.floors.find((item: IFloor) => item.id == division.value.floorId);
-      const entrance = buildingOption.value.entrances.find((item: IEntrance) => item.id == division.value.entranceId);
-      division.value.address = `${buildingOption.value.address}${entrance?.number ? `, ${entrance.number} вход` : ''}${
-        floor?.number ? `, ${floor.number} этаж` : ''
-      }`;
+      division.value.setAddressFromBuilding(buildingOption.value);
     };
 
     const addDoctor = async (search: ISearchObject) => {
@@ -276,7 +246,6 @@ export default defineComponent({
       changeBuildingHandler,
       changeDivisionAddress,
       buildingOption,
-      submit,
       form,
       rules,
       doctors,

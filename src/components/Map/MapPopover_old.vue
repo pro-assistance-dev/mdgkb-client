@@ -30,10 +30,10 @@
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
+import Division from '@/classes/Division';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import IBuilding from '@/interfaces/IBuilding';
-import IDivision from '@/interfaces/IDivision';
-import translit from '@/services/Translit';
+import StringsService from '@/services/Strings';
 export default defineComponent({
   name: 'MapPopover',
   props: {
@@ -50,11 +50,11 @@ export default defineComponent({
   setup() {
     const filterString: Ref<string> = ref('');
 
-    const divisionsFilter = (division: IDivision): boolean => {
+    const divisionsFilter = (division: Division): boolean => {
       if (filterString.value.length === 0) {
         return true;
       }
-      return division.name.toLowerCase().includes(translit(filterString.value.toLowerCase()));
+      return division.name.toLowerCase().includes(StringsService.translit(filterString.value.toLowerCase()));
     };
 
     return {

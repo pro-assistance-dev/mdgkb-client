@@ -52,14 +52,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Division from '@/classes/Division';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
-import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'DivisionSchedule',
   components: { CollapsContainer },
   props: {
-    division: { type: Object as PropType<IDivision>, required: true },
+    division: { type: Object as PropType<Division>, required: true },
   },
 });
 </script>

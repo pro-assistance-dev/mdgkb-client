@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 import INews from '@/interfaces/news/INews';
 
 export default interface INewsDivision {
@@ -6,5 +6,5 @@ export default interface INewsDivision {
   newsId?: string;
   news?: INews;
   divisionId?: string;
-  division?: IDivision;
+  division?: Division;
 }

@@ -1,40 +1,30 @@
 import { GetterTree } from 'vuex';
 
-import IFilesList from '@/interfaces/files/IFIlesList';
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 import IDivisionComment from '@/interfaces/IDivisionComment';
 import ISchedule from '@/interfaces/timetables/ISchedule';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  divisions(state): IDivision[] | undefined {
-    const { divisions } = state;
-    return divisions;
-  },
-  division(state): IDivision | undefined {
-    const { division } = state;
-    return division;
-  },
+  ...getBaseGetters(),
   timetable(state): ITimetable | undefined {
-    if (state.division) return state.division.timetable;
+    if (state.item) return state.item.timetable;
   },
   schedule(state): ISchedule | undefined {
-    if (state.division) return state.division.schedule;
-  },
-  galleryList(state): IFilesList[] {
-    return state.galleryList;
+    if (state.item) return state.item.schedule;
   },
   comment(state): IDivisionComment {
     return state.comment;
   },
   comments(state): IDivisionComment[] {
-    return state.division.divisionComments;
+    return state.item.divisionComments;
   },
-  divisionById(state): (id: string) => IDivision | undefined {
-    return (id: string): IDivision | undefined => state.divisions.find((item: IDivision) => item.id === id);
+  divisionById(state): (id: string) => Division | undefined {
+    return (id: string): Division | undefined => state.items.find((item: Division) => item.id === id);
   },
   // visitingRules(state): IVisitingRule[] {
   //   return state.division.visitingRules;
@@ -42,9 +32,6 @@ const getters: GetterTree<State, RootState> = {
   // getDrugById(state): (id: string) => IDrug | undefined {
   //   return (id: string): IDrug | undefined => state.drugs.find((item: IDrug) => item.id === id);
   // },
-  count(state): number {
-    return state.count;
-  },
 };
 
 export default getters;

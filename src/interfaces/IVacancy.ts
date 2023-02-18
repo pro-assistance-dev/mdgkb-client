@@ -1,5 +1,5 @@
+import Division from '@/classes/Division';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
-import IDivision from '@/interfaces/IDivision';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
@@ -34,7 +34,7 @@ export default interface IVacancy {
   withNewResponses: () => boolean;
   countResponses: (onlyNew?: boolean) => number;
 
-  division?: IDivision;
+  division?: Division;
   divisionId?: string;
 
   getSalary: () => string;

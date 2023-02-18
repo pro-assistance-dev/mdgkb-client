@@ -29,11 +29,7 @@
             </el-card>
             <el-card>
               <template #header> Галерея </template>
-              <AdminGallery
-                :file-list="news.newsImages"
-                :file-list-for-delete="news.newsImagesForDelete"
-                @add-element="news.addNewsImage()"
-              />
+              <AdminGallery :file-list="news.newsImages" :file-list-for-delete="news.newsImagesForDelete" @add-image="news.addImage()" />
             </el-card>
           </el-container>
         </el-col>

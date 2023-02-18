@@ -3,27 +3,19 @@ import { v4 as uuidv4 } from 'uuid';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import ClassHelper from '@/services/ClassHelper';
 import getExtension from '@/services/GetExtension';
 
 export default class FileInfo implements IFileInfo {
   id?: string;
   originalName = '';
-  fileSystemPath;
-  category?;
+  fileSystemPath?: string;
+  category?: string;
   file?: Blob;
   url = '';
 
   constructor(i?: IFileInfo) {
-    if (!i) {
-      return;
-    }
-
-    this.id = i.id;
-    this.originalName = i.originalName;
-    this.fileSystemPath = i.fileSystemPath;
-    this.category = i.category;
-    this.file = i.file;
-    this.url = i.url;
+    ClassHelper.BuildClass(this, i);
   }
 
   getImageUrl(): string {
@@ -36,6 +28,14 @@ export default class FileInfo implements IFileInfo {
 
   getFileListObject(): IFilesList {
     return { name: this.originalName, url: this.getImageUrl() };
+  }
+
+  reset(): void {
+    this.url = '';
+    this.originalName = '';
+    this.file = undefined;
+    this.id = undefined;
+    this.fileSystemPath = undefined;
   }
 
   static CreatePreviewFile(file: IFile, category: string, id?: string): IFileInfo {

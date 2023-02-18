@@ -49,6 +49,7 @@
 import { ElLoading, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
+import Division from '@/classes/Division';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import DatePicker from '@/components/DatePicker.vue';
@@ -57,7 +58,6 @@ import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import HospitalizationsTable from '@/components/Hospitalizations/HospitalizationsTable.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IDivision from '@/interfaces/IDivision';
 import IHospitalization from '@/interfaces/IHospitalization';
 import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
@@ -153,7 +153,7 @@ export default defineComponent({
     const getButtonName = (): string => {
       return activeStep.value < 2 ? 'Перейти к следующему шагу' : 'Отправить';
     };
-    const selectedDivision: ComputedRef<IDivision> = computed(() => Provider.store.getters['divisions/division']);
+    const selectedDivision: ComputedRef<Division> = computed(() => Provider.store.getters['divisions/item']);
 
     const selectDivision = async (divisionId?: string) => {
       if (divisionId) {

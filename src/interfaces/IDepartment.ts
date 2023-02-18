@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 
 export default interface IDepartment {
   id?: string;
@@ -6,5 +6,5 @@ export default interface IDepartment {
   headId?: string;
   isDivision: boolean;
   divisionId?: string;
-  division?: IDivision;
+  division?: Division;
 }

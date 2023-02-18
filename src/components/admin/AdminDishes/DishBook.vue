@@ -87,7 +87,7 @@ import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider';
-import translit from '@/services/Translit';
+import StringsService from '@/services/Strings';
 
 export default defineComponent({
   name: 'DishBook',
@@ -124,7 +124,7 @@ export default defineComponent({
         dishSamplesFlat.value.push(
           ...ds.dishSamples.filter((ds: IDishSample) => {
             const n = ds.name.toLowerCase();
-            return n.includes(searchSource.toLowerCase()) || n.includes(translit(searchSource.toLowerCase()));
+            return n.includes(searchSource.toLowerCase()) || n.includes(StringsService.translit(searchSource.toLowerCase()));
           })
         );
       });

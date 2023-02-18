@@ -103,7 +103,7 @@ export default class News implements INews {
     }
   }
 
-  addNewsImage(): void {
+  addImage(): void {
     this.newsImages.push(new NewsImage());
   }
 

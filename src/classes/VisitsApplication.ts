@@ -1,10 +1,7 @@
 import Division from '@/classes/Division';
-import Gate from '@/classes/Gate';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDivision from '@/interfaces/IDivision';
 import IGate from '@/interfaces/IGate';
 import IVisit from '@/interfaces/IVisit';
-import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
@@ -12,7 +9,7 @@ import Visit from './Visit';
 
 export default class VisitsApplication {
   id?: string;
-  division: IDivision = new Division();
+  division: Division = new Division();
   divisionId?: string;
   gate?: IGate;
   gateId?: string;

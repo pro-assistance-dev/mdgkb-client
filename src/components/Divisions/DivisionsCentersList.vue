@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper v-if="mounted" :title="title">
+  <PageWrapper v-if="mounted">
     <template #filters>
       <DivisionsListFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="loadDivisions" />
     </template>
@@ -10,12 +10,12 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import Division from '@/classes/Division';
 import FilterModel from '@/classes/filters/FilterModel';
 import DivisionsList from '@/components/Divisions/DivisionsList.vue';
 import DivisionsListFilters from '@/components/Divisions/DivisionsListFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IDivision from '@/interfaces/IDivision';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -34,7 +34,7 @@ export default defineComponent({
   setup() {
     const modes: Ref<IOption[]> = ref([]);
     const mode: Ref<string> = ref('divisions');
-    const divisions: Ref<IDivision[]> = computed<IDivision[]>(() => Provider.store.getters['divisions/divisions']);
+    const divisions: Ref<Division[]> = computed<Division[]>(() => Provider.store.getters['divisions/items']);
     const onlyDivisionsFilterModel: Ref<IFilterModel> = ref(new FilterModel());
     const onlyCentersFilterModel: Ref<IFilterModel> = ref(new FilterModel());
     const count: Ref<number> = ref(1);
@@ -65,13 +65,13 @@ export default defineComponent({
       if (!mode.value) {
         Provider.filterQuery.value.pagination.limit = 6;
       }
-      await Provider.store.dispatch('divisions/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('divisions/getAllWithCount', Provider.filterQuery.value);
     };
 
     const loadMore = async () => {
       Provider.filterQuery.value.pagination.append = true;
       Provider.filterQuery.value.pagination.offset = divisions.value.length;
-      await Provider.store.dispatch('divisions/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('divisions/getAllWithCount', Provider.filterQuery.value);
     };
 
     const selectMode = async (selectedMode: string) => {

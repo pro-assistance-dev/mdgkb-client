@@ -16,14 +16,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import countRating from '@/services/countRating';
 export default defineComponent({
   name: 'RatingBlock',
   props: {
     division: {
-      type: Object as PropType<IDivision>,
+      type: Object as PropType<Division>,
       required: true,
     },
   },

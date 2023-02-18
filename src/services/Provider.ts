@@ -21,7 +21,7 @@ const Provider = (() => {
   const schema: Ref<ISchema> = computed(() => s.getters['meta/schema']);
   const filterQuery: ComputedRef<FilterQuery> = computed(() => s.getters['filter/filterQuery']);
   const sortList: Ref<SortModel[]> = ref([]);
-
+  const saveButtonClicked: Ref<boolean> = ref(false);
   let storeModule = '';
   let getAction = '';
 
@@ -245,6 +245,7 @@ const Provider = (() => {
   }
 
   return {
+    saveButtonClicked,
     resetState,
     routerPushBlank,
     setSortList,
