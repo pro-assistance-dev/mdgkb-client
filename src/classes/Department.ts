@@ -1,26 +1,15 @@
 import Division from '@/classes/Division';
-import IDepartment from '@/interfaces/IDepartment';
-import IDivision from '@/interfaces/IDivision';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Department implements IDepartment {
+export default class Department {
   id?: string;
   name = '';
   doctorId?: string;
   headId?: string;
   isDivision = false;
-  division?: IDivision;
+  division?: Division = new Division();
   divisionId?: string;
-  constructor(i?: IDepartment) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.headId = i.headId;
-    if (i.division) {
-      this.division = new Division(i.division);
-    }
-    this.divisionId = i.divisionId;
-    this.isDivision = i.isDivision;
+  constructor(i?: Department) {
+    ClassHelper.BuildClass(this, i);
   }
 }

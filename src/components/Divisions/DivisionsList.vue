@@ -14,17 +14,17 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Division from '@/classes/Division';
 import CenterCard from '@/components/Divisions/CenterCard.vue';
 import DivisionCard from '@/components/Divisions/DivisionCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'DivisionsList',
   components: { DivisionCard, LoadMoreButton, CenterCard },
   props: {
     divisions: {
-      type: Array as PropType<IDivision[]>,
+      type: Array as PropType<Division[]>,
       default: () => [],
     },
   },

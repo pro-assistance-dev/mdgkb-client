@@ -1,5 +1,5 @@
+import Division from '@/classes/Division';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDivision from '@/interfaces/IDivision';
 import IForm from '@/interfaces/IForm';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 
@@ -8,7 +8,7 @@ export default interface IHospitalization {
   hospitalizationType: IHospitalizationType;
   hospitalizationTypeId?: string;
   date: Date;
-  division?: IDivision;
+  division?: Division;
   divisionId?: string;
   diagnosis: string;
 

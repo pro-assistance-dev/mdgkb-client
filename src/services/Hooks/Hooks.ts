@@ -74,6 +74,7 @@ const Hooks = (() => {
         ElMessage({ message: 'Сохранено', type: 'success' });
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        console.log(error);
         return;
       }
       Provider.saveButtonClicked.value = false;

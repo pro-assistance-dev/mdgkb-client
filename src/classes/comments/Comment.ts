@@ -3,8 +3,6 @@ import Doctor from '@/classes/Doctor';
 import News from '@/classes/news/News';
 import User from '@/classes/User';
 import IComment from '@/interfaces/comments/IComment';
-import IDivision from '@/interfaces/IDivision';
-import IDoctor from '@/interfaces/IDoctor';
 import IUser from '@/interfaces/IUser';
 import INews from '@/interfaces/news/INews';
 
@@ -22,8 +20,8 @@ export default class Comment implements IComment {
   link = '';
   commentTo = '';
   news?: INews;
-  doctor?: IDoctor;
-  division?: IDivision;
+  doctor?: Doctor;
+  division?: Division;
   newsComment?: IComment;
   doctorComment?: IComment;
   divisionComment?: IComment;

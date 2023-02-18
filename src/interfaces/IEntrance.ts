@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 
 import IBuilding from './IBuilding';
 
@@ -10,7 +10,7 @@ export default interface IEntrance {
   number?: number;
   building?: IBuilding;
   buildingId?: string;
-  divisions?: IDivision[];
+  divisions?: Division[];
   setName?: () => void;
 
   getBuildingNumber: () => string;

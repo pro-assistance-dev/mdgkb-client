@@ -9,6 +9,7 @@
           :width="400"
           @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
         />
+        <el-button @click="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">Удалить изображение</el-button>
       </div>
     </template>
   </draggable>
@@ -30,6 +31,7 @@ export default defineComponent({
   props: {
     fileList: {
       type: Array as PropType<IFiler[]>,
+      reguired: true,
       default: () => [],
     },
     fileListForDelete: {

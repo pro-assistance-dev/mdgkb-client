@@ -41,7 +41,6 @@ import MapPopover from '@/components/Map/MapPopover.vue';
 import MapRouter from '@/components/Map/MapRouter.vue';
 import MapSelect from '@/components/Map/MapSelect.vue';
 import IBuilding from '@/interfaces/IBuilding';
-import IDivision from '@/interfaces/IDivision';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
 import IMapObject from '@/interfaces/IMapObject';
@@ -148,7 +147,7 @@ export default defineComponent({
       const divisionId = Provider.route().params['id'];
       props.buildings.forEach((b: IBuilding) => {
         b.floors.forEach((f: IFloor) => {
-          const ddd = f.divisions?.find((d: IDivision) => d.id === divisionId);
+          const ddd = f.divisions?.find((d: Division) => d.id === divisionId);
           if (ddd) {
             buildingId.value = b.id;
             const building = document.getElementById(`b-${b.number}`);

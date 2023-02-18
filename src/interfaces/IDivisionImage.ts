@@ -4,6 +4,7 @@ export default interface IDivisionImage {
   id?: string;
   divisionId?: string;
   fileInfoId?: string;
-  fileInfo?: IFileInfo;
+  fileInfo: IFileInfo;
   description?: string;
+  order: number;
 }

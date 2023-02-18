@@ -36,6 +36,7 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import Division from '@/classes/Division';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -44,7 +45,6 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
-import IDivision from '@/interfaces/IDivision';
 import ISearchObject from '@/interfaces/ISearchObject';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -56,12 +56,12 @@ export default defineComponent({
   name: 'AdminDivisionsList',
   components: { TableButtonGroup, RemoteSearch, SortList, AdminListWrapper, FilterSelect },
   setup() {
-    const divisions = computed(() => Provider.store.getters['divisions/divisions']);
+    const divisions = computed(() => Provider.store.getters['divisions/items']);
     const addDivision = () => Provider.router.push(`/admin/divisions/new`);
     const sortList: Ref<ISortModel[]> = ref([]);
 
     const edit = async (id: string): Promise<void> => {
-      const item = divisions.value.find((i: IDivision) => i.id === id);
+      const item = divisions.value.find((i: Division) => i.id === id);
       if (item) {
         await Provider.router.push(`/admin/divisions/${id}`);
       }
@@ -72,7 +72,7 @@ export default defineComponent({
     };
 
     const loadDivisions = async (): Promise<void> => {
-      await Provider.store.dispatch('divisions/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('divisions/getAllWithCount', Provider.filterQuery.value);
     };
 
     const load = async (): Promise<void> => {

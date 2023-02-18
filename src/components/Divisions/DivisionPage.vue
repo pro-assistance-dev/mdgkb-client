@@ -19,7 +19,7 @@
         <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
       </template>
     </CollapsContainer>
-    <!-- <ImageGallery :images="division.divisionImages" /> -->
+    <ImageGallery :images="division.divisionImages" />
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
@@ -27,6 +27,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
 
+import Division from '@/classes/Division';
 import Comments from '@/components/Comments/Comments.vue';
 import DivisionCertificates from '@/components/Divisions/DivisionCertificates.vue';
 import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
@@ -34,12 +35,12 @@ import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
+import ImageGallery from '@/components/ImageGallery.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
 import SocialMediaCarousel from '@/components/SocialMediaCarousel.vue';
-import IDivision from '@/interfaces/IDivision';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -59,12 +60,12 @@ export default defineComponent({
     ScansSlider,
     DivisionInfoBlock,
     CollapsContainer,
+    ImageGallery,
   },
-
   setup() {
-    const division: ComputedRef<IDivision> = computed<IDivision>(() => Provider.store.getters['divisions/division']);
+    const division: ComputedRef<Division> = computed<Division>(() => Provider.store.getters['divisions/item']);
     const load = async () => {
-      Provider.filterQuery.value.setParams(Provider.schema.value.division.slug, Provider.route().params['id'] as string);
+      Provider.filterQuery.value.setParams(Provider.schema.value.division.id, Provider.route().params['id'] as string);
       await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
     };
 

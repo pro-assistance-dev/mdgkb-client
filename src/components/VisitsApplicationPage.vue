@@ -83,7 +83,6 @@ import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IDivision from '@/interfaces/IDivision';
 import IGate from '@/interfaces/IGate';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IUser from '@/interfaces/IUser';
@@ -104,8 +103,8 @@ export default defineComponent({
     const route = useRoute();
     const visitsApplication: ComputedRef<IVisitsApplication> = computed(() => Provider.store.getters['visitsApplications/item']);
     const gate: ComputedRef<IGate> = computed(() => Provider.store.getters['gates/item']);
-    const divisions: ComputedRef<IDivision[]> = computed(() => Provider.store.getters['divisions/divisions']);
-    const division: ComputedRef<IDivision> = computed(() => Provider.store.getters['divisions/division']);
+    const divisions: ComputedRef<Division[]> = computed(() => Provider.store.getters['divisions/items']);
+    const division: ComputedRef<Division> = computed(() => Provider.store.getters['divisions/item']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const user: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
     const form = ref();

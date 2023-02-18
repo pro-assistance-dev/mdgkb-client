@@ -63,12 +63,12 @@ import { defineComponent, PropType } from 'vue';
 import Attention from '@/assets/svg/DivisionCard/Attention.svg';
 import CreditCard from '@/assets/svg/DivisionCard/CreditCard.svg';
 import Ruble from '@/assets/svg/DivisionCard/Ruble.svg';
+import Division from '@/classes/Division';
 import AddressInfo from '@/components/AddressInfo.vue';
 import ChiefCard from '@/components/ChiefCard.vue';
 import ContactsBlock from '@/components/ContactsBlock.vue';
 import Rating from '@/components/Rating.vue';
 import TimetableComponent from '@/components/TimetableComponent.vue';
-import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'DivisionInfo',
@@ -83,7 +83,7 @@ export default defineComponent({
     ContactsBlock,
   },
   props: {
-    division: { type: Object as PropType<IDivision>, required: true },
+    division: { type: Object as PropType<Division>, required: true },
   },
 });
 </script>

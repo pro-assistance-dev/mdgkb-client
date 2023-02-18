@@ -1,12 +1,12 @@
+import Division from '@/classes/Division';
 import Form from '@/classes/Form';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDivision from '@/interfaces/IDivision';
 import IGate from '@/interfaces/IGate';
 import IVisit from '@/interfaces/IVisit';
 
 export default interface IVisitsApplication {
   id?: string;
-  division: IDivision;
+  division: Division;
   divisionId?: string;
   gate?: IGate;
   gateId?: string;

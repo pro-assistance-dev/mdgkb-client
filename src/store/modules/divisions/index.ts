@@ -2,25 +2,27 @@ import { Module } from 'vuex';
 
 import Division from '@/classes/Division';
 import DivisionComment from '@/classes/DivisionComment';
+import IDivisionComment from '@/interfaces/IDivisionComment';
+import getBaseDefaultState from '@/store/baseModule/baseIndex';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+
+export interface State extends IBasicState<Division> {
+  comment: IDivisionComment;
+  onlyShowed: boolean;
+}
 
 export const getDefaultState = (): State => {
   return {
-    divisions: [],
-    division: new Division(),
-    galleryList: [],
-    curGalleryCropIndex: 0,
-    comment: new DivisionComment(),
+    ...getBaseDefaultState(Division),
     onlyShowed: false,
-    count: 0,
+    comment: new DivisionComment(),
   };
 };
-
 const state = getDefaultState();
 const namespaced = true;
 

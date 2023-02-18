@@ -2,10 +2,8 @@ import { mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 
 import Division from '@/classes/Division';
-import TreatDirection from '@/classes/TreatDirection';
 import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 
-import IDivision from '../../../../src/interfaces/IDivision';
 import ComponentStub from '../../../__mocks__/ComponentStub';
 
 jest.mock('vue-router', () => ({
@@ -20,7 +18,7 @@ const stubs = {
 
 let mockRouter;
 
-const createWrapper = (division: IDivision, route?: string): VueWrapper<any> => {
+const createWrapper = (division: Division, route?: string): VueWrapper<any> => {
   mockRouter = {
     push: jest.fn(),
   };
@@ -40,7 +38,7 @@ const createWrapper = (division: IDivision, route?: string): VueWrapper<any> => 
 
 describe('DivisionInfo.vue', () => {
   let wrapper: VueWrapper<any>;
-  let division: IDivision;
+  let division: Division;
 
   beforeEach(() => {
     division = new Division();

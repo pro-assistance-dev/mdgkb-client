@@ -1,7 +1,6 @@
 import Building from '@/classes/Building';
 import Division from '@/classes/Division';
 import Entrance from '@/classes/Entrance';
-import IDivision from '@/interfaces/IDivision';
 import IDivisionVideo from '@/interfaces/IDivisionVideo';
 
 import EmptyVariables from '../../__mocks__/EmptyVariables';
@@ -14,12 +13,12 @@ describe('Class Division', () => {
     division = new Division();
   });
   test('constructor', () => {
-    const classInspectResult = ClassTester.Inspect<Division, IDivision>(Division);
+    const classInspectResult = ClassTester.Inspect<Division, Division>(Division);
     expect(classInspectResult).toEqual(true);
   });
 
   test('added functions', () => {
-    const classInspectResult = ClassTester.InspectAddedFunctions<IDivision, IDivisionVideo>({
+    const classInspectResult = ClassTester.InspectAddedFunctions<Division, IDivisionVideo>({
       entity: division,
       constructions: [{ func: division.addDivisionVideo, arr: division.divisionVideos }],
     });

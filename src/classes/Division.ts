@@ -1,3 +1,4 @@
+import Building from '@/classes/Building';
 import ContactInfo from '@/classes/contacts/ContactInfo';
 import DivisionComment from '@/classes/DivisionComment';
 import DivisionPaidService from '@/classes/DivisionPaidService';
@@ -5,6 +6,7 @@ import DivisionVideo from '@/classes/DivisionVideo';
 import Doctor from '@/classes/Doctor';
 import DoctorDivision from '@/classes/DoctorDivision';
 import Entrance from '@/classes/Entrance';
+import Floor from '@/classes/Floor';
 import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
 import NewsDivision from '@/classes/news/NewsDivision';
 import SocialMedia from '@/classes/SocialMedia';
@@ -12,28 +14,13 @@ import Schedule from '@/classes/timetable/Schedule';
 import Timetable from '@/classes/timetable/Timetable';
 import Vacancy from '@/classes/Vacancy';
 import VisitingRuleGroup from '@/classes/VisitingRuleGroup';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
-import IDivision from '@/interfaces/IDivision';
-import IDivisionComment from '@/interfaces/IDivisionComment';
-import IDivisionImage from '@/interfaces/IDivisionImage';
-import IDivisionPaidService from '@/interfaces/IDivisionPaidService';
-import IDivisionVideo from '@/interfaces/IDivisionVideo';
-import IDoctor from '@/interfaces/IDoctor';
-import IDoctorDivision from '@/interfaces/IDoctorDivision';
-import IEntrance from '@/interfaces/IEntrance';
-import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
-import INewsDivision from '@/interfaces/INewsDivision';
-import ISocialMedia from '@/interfaces/ISocialMedia';
-import ITreatDirection from '@/interfaces/ITreatDirection';
-import IVacancy from '@/interfaces/IVacancy';
-import IVisitingRuleGroup from '@/interfaces/IVisitingRuleGroup';
-import ISchedule from '@/interfaces/timetables/ISchedule';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import ClassHelper from '@/services/ClassHelper';
 
 import DivisionImage from './DivisionImage';
 import TreatDirection from './TreatDirection';
 
-export default class Division implements IDivision {
+export default class Division {
   id?: string;
   name = '';
   info?: string = '';
@@ -43,120 +30,55 @@ export default class Division implements IDivision {
   showCommonVisitingRules = true;
   entranceId?: string;
 
-  entrance?: IEntrance = new Entrance();
+  entrance?: Entrance = new Entrance();
   slug?: string = '';
-  doctorsDivisions: IDoctorDivision[] = [];
+  doctorsDivisions: DoctorDivision[] = [];
   doctorsDivisionsForDelete: string[] = [];
-  vacancies: IVacancy[] = [];
-  timetable: ITimetable = new Timetable();
+  @ClassHelper.GetClassConstructorForArray(Vacancy)
+  vacancies: Vacancy[] = [];
+  timetable: Timetable = new Timetable();
   timetableId?: string;
-  schedule: ISchedule = new Schedule();
+  schedule: Schedule = new Schedule();
   scheduleId?: string;
   hasDiagnostic = false;
   hasAmbulatory = false;
-  divisionImages: IDivisionImage[] = [];
+  @ClassHelper.GetClassConstructorForArray(DivisionImage)
+  divisionImages: DivisionImage[] = [];
   divisionImagesForDelete: string[] = [];
-  divisionComments: IDivisionComment[] = [];
+  @ClassHelper.GetClassConstructorForArray(DivisionComment)
+  divisionComments: DivisionComment[] = [];
   timetableDaysForDelete: string[] = [];
-  visitingRulesGroups: IVisitingRuleGroup[] = [];
+  @ClassHelper.GetClassConstructorForArray(VisitingRuleGroup)
+  visitingRulesGroups: VisitingRuleGroup[] = [];
   visitingRulesGroupsForDelete: string[] = [];
   buildingId?: string;
-  divisionPaidServices: IDivisionPaidService[] = [];
-  hospitalizationContactInfo?: IContactInfo;
+  @ClassHelper.GetClassConstructorForArray(DivisionPaidService)
+  divisionPaidServices: DivisionPaidService[] = [];
+  hospitalizationContactInfo?: ContactInfo;
   hospitalizationContactInfoId?: string;
   hospitalizationDoctorId?: string;
-  hospitalizationDoctor?: IDoctor;
-  medicalProfilesDivisions: IMedicalProfileDivision[] = [];
-  divisionVideos: IDivisionVideo[] = [];
+  hospitalizationDoctor?: Doctor;
+  @ClassHelper.GetClassConstructorForArray(MedicalProfileDivision)
+  medicalProfilesDivisions: MedicalProfileDivision[] = [];
+  @ClassHelper.GetClassConstructorForArray(DivisionVideo)
+  divisionVideos: DivisionVideo[] = [];
   divisionVideosForDelete: string[] = [];
-  contactInfo: IContactInfo = new ContactInfo();
+  @ClassHelper.GetClassConstructorForArray(ContactInfo)
+  contactInfo: ContactInfo = new ContactInfo();
   contactInfoId?: string;
-  treatDirection: ITreatDirection = new TreatDirection();
+  @ClassHelper.GetClassConstructorForArray(TreatDirection)
+  treatDirection: TreatDirection = new TreatDirection();
   treatDirectionId?: string;
   chiefId?: string;
-  chief: IDoctor = new Doctor();
-  socialMedias: ISocialMedia[] = [];
-  newsDivisions: INewsDivision[] = [];
+  chief: Doctor = new Doctor();
+  @ClassHelper.GetClassConstructorForArray(SocialMedia)
+  socialMedias: SocialMedia[] = [];
+  @ClassHelper.GetClassConstructorForArray(NewsDivision)
+  newsDivisions: NewsDivision[] = [];
   newsDivisionsForDelete: string[] = [];
   isCenter = false;
-  constructor(i?: IDivision) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.info = i.info;
-
-    if (i.contactInfo) {
-      this.contactInfo = new ContactInfo(i.contactInfo);
-    }
-    this.contactInfoId = i.contactInfoId;
-    this.show = i.show;
-    this.hasAmbulatory = i.hasAmbulatory;
-    this.hasDiagnostic = i.hasDiagnostic;
-    this.address = i.address;
-    this.floorId = i.floorId;
-    this.entranceId = i.entranceId;
-    this.showCommonVisitingRules = i.showCommonVisitingRules;
-    this.slug = i.slug;
-    if (i.entrance) {
-      this.entrance = new Entrance(i.entrance);
-    }
-    if (i.timetable) {
-      this.timetable = new Timetable(i.timetable);
-    }
-    this.timetableId = i.timetableId;
-    if (i.schedule) {
-      this.schedule = new Schedule(i.schedule);
-    }
-    this.scheduleId = i.scheduleId;
-    if (i.divisionImages) {
-      this.divisionImages = i.divisionImages.map((item: IDivisionImage) => new DivisionImage(item));
-    }
-    if (i.divisionComments) {
-      this.divisionComments = i.divisionComments.map((item: IDivisionComment) => new DivisionComment(item));
-    }
-    if (i.vacancies) {
-      this.vacancies = i.vacancies.map((item: IVacancy) => new Vacancy(item));
-    }
-    if (i.visitingRulesGroups) {
-      this.visitingRulesGroups = i.visitingRulesGroups.map((item: IVisitingRuleGroup) => new VisitingRuleGroup(item));
-    }
-    if (i.divisionPaidServices) {
-      this.divisionPaidServices = i.divisionPaidServices.map((item: IDivisionPaidService) => new DivisionPaidService(item));
-    }
-    this.hospitalizationContactInfoId = i.hospitalizationContactInfoId;
-    this.hospitalizationDoctorId = i.hospitalizationDoctorId;
-    if (i.hospitalizationContactInfo) {
-      this.hospitalizationContactInfo = new ContactInfo(i.hospitalizationContactInfo);
-    }
-    if (i.hospitalizationDoctor) {
-      this.hospitalizationDoctor = new Doctor(i.hospitalizationDoctor);
-    }
-    if (i.medicalProfilesDivisions) {
-      this.medicalProfilesDivisions = i.medicalProfilesDivisions.map((item: IMedicalProfileDivision) => new MedicalProfileDivision(item));
-    }
-    this.treatDirectionId = i.treatDirectionId;
-    if (i.treatDirection) {
-      this.treatDirection = new TreatDirection(i.treatDirection);
-    }
-    this.chiefId = i.chiefId;
-    if (i.chief) {
-      this.chief = new Doctor(i.chief);
-    }
-    if (i.newsDivisions) {
-      this.newsDivisions = i.newsDivisions.map((item: INewsDivision) => new NewsDivision(item));
-    }
-    if (i.divisionVideos) {
-      this.divisionVideos = i.divisionVideos.map((item: IDivisionVideo) => new DivisionVideo(item));
-    }
-    if (i.socialMedias) {
-      this.socialMedias = i.socialMedias.map((item: ISocialMedia) => new SocialMedia(item));
-    }
-    if (i.doctorsDivisions) {
-      this.doctorsDivisions = i.doctorsDivisions.map((item: IDoctorDivision) => new DoctorDivision(item));
-    }
-    this.isCenter = i.isCenter;
+  constructor(i?: Division) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getAddress(): string {
@@ -176,12 +98,17 @@ export default class Division implements IDivision {
     this.visitingRulesGroups.push(item);
   }
 
+  setChief(item: Doctor) {
+    this.chief = new Doctor(item);
+    this.chiefId = item.id;
+  }
+
   removeChief(): void {
     this.chief = new Doctor();
     this.chiefId = undefined;
   }
 
-  addDoctorDivision(doctor: IDoctor): void {
+  addDoctorDivision(doctor: Doctor): void {
     const doctorDivision = new DoctorDivision();
     doctorDivision.doctor = new Doctor(doctor);
     doctorDivision.doctorId = doctor.id;
@@ -199,15 +126,15 @@ export default class Division implements IDivision {
 
   scheduleAndRulesExists(): boolean {
     const scheduleItemsExists = this.schedule.scheduleItems.length;
-    const visitingRulesExists = this.visitingRulesGroups.filter((vg: IVisitingRuleGroup) => {
+    const visitingRulesExists = this.visitingRulesGroups.filter((vg: VisitingRuleGroup) => {
       return !!vg.visitingRules.length;
     });
     return !!scheduleItemsExists && !!visitingRulesExists;
   }
 
-  getDoctors(onlyShowed: boolean): IDoctor[] {
-    const doctors: IDoctor[] = [];
-    this.doctorsDivisions.forEach((dd: IDoctorDivision) => {
+  getDoctors(onlyShowed: boolean): Doctor[] {
+    const doctors: Doctor[] = [];
+    this.doctorsDivisions.forEach((dd: DoctorDivision) => {
       if (onlyShowed) {
         if (dd.show) {
           doctors.push(dd.doctor);
@@ -217,5 +144,23 @@ export default class Division implements IDivision {
       }
     });
     return doctors;
+  }
+
+  setAddressFromBuilding(building: Building): void {
+    const floor = building.floors.find((item: Floor) => item.id == this.floorId);
+    const entrance = building.entrances.find((item: Entrance) => item.id == this.entranceId);
+    this.address = `${building.address}${entrance?.number ? `, ${entrance.number} вход` : ''}${
+      floor?.number ? `, ${floor.number} этаж` : ''
+    }`;
+  }
+
+  addImage(): void {
+    this.divisionImages.push(new DivisionImage());
+  }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    this.divisionImages.forEach((d: DivisionImage) => fileInfos.push(d.fileInfo));
+    return fileInfos;
   }
 }

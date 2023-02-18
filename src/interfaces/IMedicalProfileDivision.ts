@@ -1,4 +1,4 @@
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 
 export default interface IMedicalProfileDivision {
@@ -6,5 +6,5 @@ export default interface IMedicalProfileDivision {
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;
   divisionId?: string;
-  division?: IDivision;
+  division?: Division;
 }

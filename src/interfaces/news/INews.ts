@@ -51,5 +51,5 @@ export default interface INews {
   getTagsIds: () => string[];
   removeMainImage: () => void;
   removePreviewImage: () => void;
-  addNewsImage: () => void;
+  addImage: () => void;
 }

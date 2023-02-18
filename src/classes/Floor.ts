@@ -1,22 +1,15 @@
 import Division from '@/classes/Division';
-import IDivision from '@/interfaces/IDivision';
 import IFloor from '@/interfaces/IFloor';
+import ClassHelper from '@/services/ClassHelper';
 
 export default class Floor implements IFloor {
   id?: string;
   number?: number;
   buildingId?: string = '';
-  divisions: IDivision[] = [];
+  @ClassHelper.GetClassConstructorForArray(Division)
+  divisions: Division[] = [];
 
-  constructor(i?: IFloor) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.number = i.number;
-    this.buildingId = i.buildingId;
-    if (i.divisions) {
-      this.divisions = i.divisions.map((item: IDivision) => new Division(item));
-    }
+  cosnstructor(i?: IFloor) {
+    ClassHelper.BuildClass(this, i);
   }
 }

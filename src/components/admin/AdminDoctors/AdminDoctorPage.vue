@@ -82,7 +82,6 @@ import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContaine
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IDivision from '@/interfaces/IDivision';
 import IDoctor from '@/interfaces/IDoctor';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -106,7 +105,7 @@ export default defineComponent({
     const divisionOptions = ref([new Division()]);
     const doctor: Ref<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
     const doctors: Ref<IDoctor[]> = computed(() => Provider.store.getters['doctors/items']);
-    const division: Ref<IDivision> = computed(() => Provider.store.getters['divisions/division']);
+    const division: Ref<Division> = computed(() => Provider.store.getters['divisions/item']);
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
     let filterModel: IFilterModel | undefined = undefined;
     const submit = async (next?: NavigationGuardNext) => {
@@ -141,7 +140,7 @@ export default defineComponent({
 
     const loadDivisionOptions = async (): Promise<void> => {
       await Provider.store.dispatch('divisions/getAll');
-      divisionOptions.value = Provider.store.getters['divisions/divisions'];
+      divisionOptions.value = Provider.store.getters['divisions/items'];
     };
 
     const toEmployeeInfo = async (): Promise<void> => {

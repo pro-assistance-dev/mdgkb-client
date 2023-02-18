@@ -45,14 +45,14 @@ import Email from '@/assets/svg/DivisionCard/Email.svg';
 import MapMarker from '@/assets/svg/DivisionCard/MapMarker.svg';
 import Phone from '@/assets/svg/DivisionCard/Phone.svg';
 import Time from '@/assets/svg/DivisionCard/Time.svg';
+import Division from '@/classes/Division';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'CenterCard',
   components: { FavouriteIcon, Phone, Email, MapMarker, Time },
   props: {
-    center: { type: Object as PropType<IDivision>, required: true },
+    center: { type: Object as PropType<Division>, required: true },
   },
   setup() {
     const errorImg = (event: Event) => {

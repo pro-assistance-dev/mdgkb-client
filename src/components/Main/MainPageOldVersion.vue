@@ -88,12 +88,12 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Division from '@/classes/Division';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import CommentCard from '@/components/Main/CommentCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import IComment from '@/interfaces/comments/IComment';
-import IDivision from '@/interfaces/IDivision';
 
 export default defineComponent({
   name: 'MainPageOldVersion',
@@ -104,8 +104,8 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref<boolean>(false);
     const carouselRef = ref();
 
-    const divisions: Ref<IDivision[]> = ref([]);
-    const selectedDivision = computed(() => store.getters['divisions/division']);
+    const divisions: Ref<Division[]> = ref([]);
+    const selectedDivision = computed(() => store.getters['divisions/item']);
     const doctors = computed(() => store.getters['doctors/items']);
     const divisionFilter = ref('');
     const mainNews = computed(() => store.getters['news/main']);
@@ -130,7 +130,7 @@ export default defineComponent({
     // Methods
     const loadDivisions = async (): Promise<void> => {
       await store.dispatch('divisions/getAll');
-      divisions.value = store.getters['divisions/divisions'];
+      divisions.value = store.getters['divisions/items'];
     };
 
     // const loadDoctors = async (): Promise<void> => {
@@ -147,7 +147,7 @@ export default defineComponent({
     //   await store.dispatch('comments/getAll', params);
     // };
 
-    const list: ComputedRef<IDivision[]> = computed((): IDivision[] => {
+    const list: ComputedRef<Division[]> = computed((): Division[] => {
       if (divisionFilter.value) {
         return divisions.value.filter((o) => o.name.toLowerCase().includes(divisionFilter.value.toLowerCase()));
       } else {

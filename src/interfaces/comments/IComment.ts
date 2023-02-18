@@ -1,5 +1,3 @@
-import IDivision from '@/interfaces/IDivision';
-import IDoctor from '@/interfaces/IDoctor';
 import IUser from '@/interfaces/IUser';
 import INews from '@/interfaces/news/INews';
 
@@ -17,8 +15,8 @@ export default interface IComment {
   link: string;
   commentTo: string;
   news?: INews;
-  doctor?: IDoctor;
-  division?: IDivision;
+  doctor?: Doctor;
+  division?: Division;
   newsComment?: IComment;
   doctorComment?: IComment;
   divisionComment?: IComment;

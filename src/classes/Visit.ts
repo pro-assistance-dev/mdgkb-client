@@ -1,4 +1,5 @@
 import IVisit from '@/interfaces/IVisit';
+import ClassHelper from '@/services/ClassHelper';
 
 import VisitsApplication from './VisitsApplication';
 
@@ -12,20 +13,6 @@ export default class Visit implements IVisit {
   visitsApplicationId?: string;
 
   constructor(i?: IVisit) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.date = i.date;
-    if (i.entered !== undefined) {
-      this.entered = i.entered;
-    }
-    if (i.exited !== undefined) {
-      this.exited = i.exited;
-    }
-    this.visitsApplicationId = i.visitsApplicationId;
-    if (i.visitsApplication) {
-      this.visitsApplication = new VisitsApplication(i.visitsApplication);
-    }
+    ClassHelper.BuildClass(this, i);
   }
 }

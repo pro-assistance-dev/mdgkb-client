@@ -25,7 +25,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IDivision from '@/interfaces/IDivision';
+import Division from '@/classes/Division';
 import IEntrance from '@/interfaces/IEntrance';
 import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
 
@@ -35,21 +35,21 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const entrances = computed(() => store.getters['entrances/items']);
-    const divisions = computed(() => store.getters['divisions/divisions'].filter((division: IDivision) => division.entrance));
+    const divisions = computed(() => store.getters['divisions/items'].filter((division: Division) => division.entrance));
     const streetEntrances: Ref<IStreetEntranceRef[]> = ref([
       { id: 'main-enter-1', name: 'Вход на территорию больницы', building: 'main-enter', entrance: '1' },
       { id: 'main-enter-2', name: 'Вход для пациентов, записанных на прием в КДЦ', building: 'main-enter', entrance: '2' },
       { id: 'main-enter-3', name: 'Вход для пациентов за экстренной медицинской помощью', building: 'main-enter', entrance: '3' },
     ]);
-    const selectItems: Ref<(IDivision | IEntrance | IStreetEntranceRef)[]> = ref([]);
+    const selectItems: Ref<(Division | IEntrance | IStreetEntranceRef)[]> = ref([]);
     let selectADataBuilding = '';
     let selectBDataBuilding = '';
     let selectADataEntrance = '';
     let selectBDataEntrance = '';
     const selectAId: Ref<string> = ref('');
-    const selectA: Ref<IDivision | IEntrance | IStreetEntranceRef | undefined> = ref();
+    const selectA: Ref<Division | IEntrance | IStreetEntranceRef | undefined> = ref();
     const selectBId: Ref<string> = ref('');
-    const selectB: Ref<IDivision | IEntrance | IStreetEntranceRef | undefined> = ref();
+    const selectB: Ref<Division | IEntrance | IStreetEntranceRef | undefined> = ref();
     const clickedPointA: Ref<boolean> = ref(true);
     const mount = ref(false);
     const loading = computed(() => store.getters['map/loading']);
@@ -58,10 +58,10 @@ export default defineComponent({
     const selectAChangeHandler = (id: string) => {
       // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
-      selectA.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
+      selectA.value = selectItems.value.find((item: Division | IEntrance | IStreetEntranceRef) => item.id === id);
       if (selectA.value?.constructor.name === 'Division') {
-        selectADataBuilding = String((selectA.value as IDivision)?.entrance?.building?.number);
-        selectADataEntrance = String((selectA.value as IDivision)?.entrance?.number);
+        selectADataBuilding = String((selectA.value as Division)?.entrance?.building?.number);
+        selectADataEntrance = String((selectA.value as Division)?.entrance?.number);
       } else if (selectA.value?.constructor.name === 'Entrance') {
         selectADataBuilding = String((selectA.value as IEntrance)?.building?.number);
         selectADataEntrance = String((selectA.value as IEntrance)?.number);
@@ -79,10 +79,10 @@ export default defineComponent({
     const selectBChangeHandler = (id: string) => {
       // selectB.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = false;
-      selectB.value = selectItems.value.find((item: IDivision | IEntrance | IStreetEntranceRef) => item.id === id);
+      selectB.value = selectItems.value.find((item: Division | IEntrance | IStreetEntranceRef) => item.id === id);
       if (selectB.value?.constructor.name === 'Division') {
-        selectBDataBuilding = String((selectB.value as IDivision)?.entrance?.building?.number);
-        selectBDataEntrance = String((selectB.value as IDivision)?.entrance?.number);
+        selectBDataBuilding = String((selectB.value as Division)?.entrance?.building?.number);
+        selectBDataEntrance = String((selectB.value as Division)?.entrance?.number);
       } else if (selectB.value?.constructor.name === 'Entrance') {
         selectBDataBuilding = String((selectB.value as IEntrance)?.building?.number);
         selectBDataEntrance = String((selectB.value as IEntrance)?.number);

@@ -1,7 +1,7 @@
+import Division from '@/classes/Division';
 import Form from '@/classes/Form';
 import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDivision from '@/interfaces/IDivision';
 import IForm from '@/interfaces/IForm';
 import IHospitalization from '@/interfaces/IHospitalization';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
@@ -13,7 +13,7 @@ export default class Hospitalization implements IHospitalization {
   date: Date = new Date();
   hospitalizationType: IHospitalizationType = new HospitalizationType();
   hospitalizationTypeId?: string;
-  division?: IDivision;
+  division?: Division;
   divisionId?: string;
 
   formValue: IForm = new Form();

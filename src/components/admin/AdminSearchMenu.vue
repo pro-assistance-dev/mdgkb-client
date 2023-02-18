@@ -17,6 +17,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import ISearchQuery from '@/interfaces/ISearchQuery';
+import StringsService from '@/services/Strings';
 export default defineComponent({
   name: 'AdminSearchMenu',
 
@@ -29,7 +30,10 @@ export default defineComponent({
 
     const createFilter = (queryString: string) => {
       return (menuItem: ISearchQuery) => {
-        return menuItem.value.toLowerCase().includes(queryString.toLowerCase());
+        const smallSearchStr = queryString.toLowerCase();
+        const translitedSearchStr = StringsService.translit(smallSearchStr);
+        const smallMenuName = menuItem.value.toLowerCase();
+        return smallMenuName.includes(smallSearchStr) || smallMenuName.includes(translitedSearchStr);
       };
     };
     const querySearch = (queryString: string, cb: (q: ISearchQuery[]) => ISearchQuery[]) => {

@@ -29,26 +29,6 @@
         </template>
       </CollapsContainer>
     </div>
-    <!--    <div class="margin-container">-->
-    <!--      <CollapsContainer :tab-id="1036" :collapsed="false">-->
-    <!--        <template #inside-title>-->
-    <!--          <div class="title-in">Отделы в подчинении</div>-->
-    <!--        </template>-->
-    <!--        <template #inside-content>-->
-    <!--          <div class="background-container">-->
-    <!--            <div class="search-line">-->
-    <!--              <div class="search-label">Выберите отдел для добавления:</div>-->
-    <!--              <RemoteSearch :key-value="schema.department.key" :max-width="2000" @select="addDepartment" />-->
-    <!--            </div>-->
-    <!--            <div v-for="(department, i) in head.departments" :key="i" class="container">-->
-    <!--              <button class="admin-del" @click.prevent="removeDepartment(i)">Удалить</button>-->
-    <!--              <div class="list-number">{{ i + 1 }}</div>-->
-    <!--              <div class="division-name">{{ department.name }}</div>-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--        </template>-->
-    <!--      </CollapsContainer>-->
-    <!--    </div>-->
     <div class="margin-container">
       <CollapsContainer title="Контакты" :tab-id="1012" :collapsed="false">
         <template #inside-content>

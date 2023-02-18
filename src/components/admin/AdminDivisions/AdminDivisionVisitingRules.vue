@@ -60,6 +60,7 @@ import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminDivisionVisitingRules',
@@ -69,8 +70,7 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    const division = computed(() => store.getters['divisions/division']);
+    const division = computed(() => Provider.store.getters['divisions/item']);
 
     return {
       division,

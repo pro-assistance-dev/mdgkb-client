@@ -1,9 +1,9 @@
 import ContactInfo from '@/classes/contacts/ContactInfo';
+import Division from '@/classes/Division';
 import VacancyDuty from '@/classes/VacancyDuty';
 import VacancyRequirement from '@/classes/VacancyRequirement';
 import VacancyResponse from '@/classes/VacancyResponse';
 import IContactInfo from '@/interfaces/contacts/IContactInfo';
-import IDivision from '@/interfaces/IDivision';
 import IForm from '@/interfaces/IForm';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
@@ -37,7 +37,7 @@ export default class Vacancy implements IVacancy {
   vacancyRequirements: IVacancyRequirement[] = [];
   vacancyRequirementsForDelete = [];
   schedule = '';
-  division?: IDivision;
+  division?: Division;
   divisionId?: string;
   date: Date = new Date();
   formPattern: IForm = new Form();
