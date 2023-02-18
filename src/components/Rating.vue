@@ -1,5 +1,5 @@
 <template>
-  <div class="line-block">
+  <div class="line-block2">
     <el-rate
       v-if="countRating(comments) > 0"
       :model-value="countRating(comments)"
@@ -88,7 +88,7 @@ a {
   }
 }
 
-.line-block {
+.line-block2 {
   width: 100%;
   height: 40px;
   display: flex;

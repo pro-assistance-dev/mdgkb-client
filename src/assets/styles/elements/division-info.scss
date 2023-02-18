@@ -72,3 +72,17 @@ button {
 :deep(.numbers-comment) {
   justify-content: left;
 }
+
+//redefinition for ContactsBlock
+:deep(.item) {
+  font-size: 16px;
+  color: #343D5C;
+}
+//redefinition for ContactsBlock
+:deep(.item-p) {
+  margin-left: 10px;
+}
+//redefinition for Rating
+:deep(.line-block2) {
+  width: 280px;
+}
