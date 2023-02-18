@@ -10,7 +10,7 @@
     />
     <Cropper v-else ref="cropperRef" :src="cropper.src" style="max-height: 50vh" @change="onChange" />
     <div class="dialog-footer">
-      <el-button :loading="loading" type="warning" @click="cancel">Отменить</el-button>
+      <!--      <el-button :loading="loading" type="warning" @click="cancel">Отменить</el-button>-->
       <el-button :loading="loading" type="success" @click="save">Сохранить</el-button>
     </div>
   </el-dialog>
@@ -26,6 +26,7 @@ import { useStore } from 'vuex';
 import ICanvasResult from '@/interfaces/canvas/ICanvasResult';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import { ICropper } from '@/interfaces/cropper/ICropper';
+import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'ImageCropperV2',
@@ -38,8 +39,7 @@ export default defineComponent({
   },
   emits: ['crop', 'close'],
   setup(props, { emit }) {
-    const store = useStore();
-    const cropper: Ref<ICropper> = computed(() => store.getters[`cropper/cropperV2`]);
+    const cropper: Ref<ICropper> = computed(() => Provider.store.getters[`cropper/cropperV2`]);
 
     const coordinates: Ref<ICoordinates> = ref({
       width: 0,
@@ -65,6 +65,7 @@ export default defineComponent({
       loading.value = false;
     };
     const cancel = () => {
+      resultImage.value = '';
       emit('close');
     };
 

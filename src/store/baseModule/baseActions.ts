@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import { IBodilessParams, IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFileInfosGetter from '@/interfaces/IFileInfosGetter';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import IWithId from '@/interfaces/IWithId';
@@ -45,6 +46,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       const opts: IBodyfulParams<T> = { payload: item, isFormData: true };
       if (item.getFileInfos) {
         opts.fileInfos = item.getFileInfos();
+        opts.fileInfos.forEach((f: IFileInfo) => (f.url = ''));
       }
       await httpClient.post<T, T>(opts);
       commit('set');
@@ -53,6 +55,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       const opts: IBodyfulParams<T> = { query: `${item.id}`, payload: item, isFormData: true };
       if (item.getFileInfos) {
         opts.fileInfos = item.getFileInfos();
+        opts.fileInfos.forEach((f: IFileInfo) => (f.url = ''));
       }
       await httpClient.put<T, T>(opts);
       commit('set');

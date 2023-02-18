@@ -109,17 +109,6 @@ const menuList: IAdminMenu[] = [
       },
     ],
   },
-  // {
-  //   title: 'Документы',
-  //   to: '/',
-  //   icon: 'el-icon-document',
-  //   children: [
-  //     {
-  //       title: 'Сертификаты',
-  //       to: '/admin/certificates',
-  //     },
-  //   ],
-  // },
   {
     title: 'Проекты, партнеры, профили, организации',
     to: '/',

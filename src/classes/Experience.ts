@@ -1,22 +1,14 @@
-import IExperience from '@/interfaces/IExperience';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Experience implements IExperience {
+export default class Experience {
   id?: string;
-  start = 0;
-  end = 0;
+  start = new Date();
+  end = new Date();
   place = '';
   position = '';
   employeeId?: string;
 
-  constructor(i?: IExperience) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.start = i.start;
-    this.end = i.end;
-    this.place = i.place;
-    this.position = i.position;
-    this.employeeId = i.employeeId;
+  constructor(i?: Experience) {
+    ClassHelper.BuildClass(this, i);
   }
 }

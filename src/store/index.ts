@@ -10,7 +10,6 @@ import { buildings } from '@/store/modules/buildings';
 import { callbacks } from '@/store/modules/callbacks';
 import { candidateApplications } from '@/store/modules/candidateApplications';
 import { candidateExams } from '@/store/modules/candidateExams';
-import { certificates } from '@/store/modules/certificates';
 import { children } from '@/store/modules/children';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
@@ -131,7 +130,6 @@ const s: StoreOptions<RootState> = {
     meta,
     pagination,
     publicDocumentTypes: pageSideMenus,
-    certificates,
     medicalProfiles,
     visitsApplications,
     callbacks,

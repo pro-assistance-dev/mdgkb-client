@@ -57,9 +57,9 @@ const Hooks = (() => {
       Provider.resetState();
     });
   };
-
   const submit = (submitFunction?: CallableFunction) => {
     return async () => {
+      Provider.saveButtonClicked.value = true;
       saveButtonClick.value = true;
       if (!validate(Provider.form)) {
         saveButtonClick.value = false;
@@ -76,6 +76,7 @@ const Hooks = (() => {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
+      Provider.saveButtonClicked.value = false;
     };
   };
 

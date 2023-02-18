@@ -13,8 +13,10 @@
             :key="item.condition"
             round
             size="small"
+            :loading="buttonClicked"
+            :disabled="buttonClicked"
             :type="item.type"
-            @click.prevent="item.action()"
+            @click.prevent="action(item.action)"
           >
             {{ item.text }}
           </el-button>
@@ -25,18 +27,30 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
+import { buttonAction } from '@/classes/admin/AdminButtonParams';
+import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
 import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'AdminHeaderBottom',
 
   setup() {
-    const headerParams = computed(() => Provider.store.getters['admin/headerParams']);
+    const headerParams: Ref<AdminHeaderParams> = computed(() => Provider.store.getters['admin/headerParams']);
     const goBack = () => {
       Provider.router.go(-1);
     };
+    const buttonClicked: Ref<boolean> = ref(false);
+
+    const action = (f: CallableFunction) => {
+      buttonClicked.value = true;
+      f();
+      buttonClicked.value = false;
+    };
+
     return {
+      action,
+      buttonClicked,
       headerParams,
       goBack,
     };
