@@ -103,23 +103,11 @@ export default defineComponent({
   font-weight: bold;
 }
 
-// $left-side-max-width: 370px;
-// $right-side-max-width: 1000px;
-/* .hidden {
-  display: none;
-} */
-
 .doctor-page-container {
-  // display: flex;
-  // justify-content: center;
   margin: 0 auto;
   .left-side {
     margin-right: 20px;
-    // max-width: $left-side-max-width;
   }
-  // .right-side {
-  //   max-width: $right-side-max-width;
-  // }
 }
 h2 {
   margin: 0;
