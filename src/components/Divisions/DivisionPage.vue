@@ -11,7 +11,7 @@
     <DivisionCertificates />
     <ScansSlider :gallery-elements="division.certificates" />
     <DivisionDateAndTime :division="division" />
-    <CollapsContainer tab-id="134" :collapsed="false">
+    <CollapsContainer :tab-id="134" :collapsed="false">
       <template #inside-title>
         <div class="title-in">Видео отделения</div>
       </template>
