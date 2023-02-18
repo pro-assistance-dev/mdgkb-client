@@ -24,7 +24,6 @@ export default function getBaseMutations<T extends IWithId, StateType extends IB
       state.items = items.map((a: T) => new passedClass(a));
     },
     setAllWithCount(state, items: ItemsWithCount<T>) {
-      console.log(items);
       if (!items) {
         return;
       }
