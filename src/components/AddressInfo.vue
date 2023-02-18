@@ -1,10 +1,8 @@
 <template>
-  <div class="contact-h3">
-    <div class="item-m-g">
-      <svg class="icon-map-marker">
-        <use xlink:href="#map-marker"></use>
-      </svg>
-    </div>
+  <div class="block-line">
+    <svg class="icon-map-marker">
+      <use xlink:href="#map-marker"></use>
+    </svg>
     <div class="item-m-p">
       <div class="item-m">
         <svg class="icon-point-brown">
@@ -29,7 +27,6 @@
       </div>
     </div>
   </div>
-
   <Point />
   <MapMarker />
 </template>
@@ -54,16 +51,35 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/division-info.scss';
+@import '@/assets/styles/elements/base-style.scss';
 
-// test block
-.test {
-  width: 290px;
-  height: 290px;
-  background: #c4c4c4;
+.block-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  align-items: end;
 }
 
-.division-name {
-  margin: 0px;
+.icon-map-marker {
+  padding-right: 10px;
+  margin-bottom: 2px;
+  width: $width;
+  height: $height;
+  fill: $site_dark_gray;
+}
+
+.icon-point-brown {
+  width: 8px;
+  height: 8px;
+  fill: brown;
+  margin-right: 10px;
+}
+
+.icon-point-gray {
+  width: 8px;
+  height: 8px;
+  fill: gray;
+  margin-right: 10px;
 }
 </style>

@@ -1,48 +1,50 @@
 <template>
-  <div class="card-item">
-    <ChiefCard v-if="course.mainTeacherId" :employee="course.mainTeacher" chief-role="Руководитель курса" :show-favourite="false" />
+  <HeaderInfo :left-width="'330px'" :background="'#ffffff'" :is-single="false">
+    <template #foto>
+      <ChiefCard v-if="course.mainTeacherId" :employee="course.mainTeacher" chief-role="Руководитель курса" :show-favourite="false" />
+    </template>
 
-    <div class="card-item-field">
-      <div class="card-item-middle">
-        <div class="division-name" data-test="division-name">
-          {{ course.getFullName() }}<br />
-          {{ course.getPeriod() }}
-        </div>
-        <div class="card-item-middle-bottom">
-          <div class="info-block">
-            <div>
-              <div><b>Язык обучения:</b> русский</div>
-              <div><b>Срок получения образования, включая каникулы</b>: 2 года</div>
-            </div>
-            <div>
-              <ul>
-                <li v-for="file in course.getInfoFiles()" :key="file.id">
-                  <a :href="file.getFileUrl()" :download="file.originalName" target="_blank" style="margin-right: 10px">
-                    {{ file.originalName }}</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div v-html="course.description" />
-          </div>
-        </div>
-      </div>
+    <template #small-title> </template>
 
-      <div class="card-item-right">
-        <a @click="openApplicationDialog">
-          <button>Подать заявление</button>
-        </a>
+    <template #big-title> {{ course.getFullName() }}<br /> </template>
+
+    <template #tags>
+      <div class="green-tag-link">{{ course.getPeriod() }}</div>
+    </template>
+
+    <template #contact>
+      <div class="regalias-list">
+        <div class="regalias-item"><b>Язык обучения:</b> русский</div>
+        <div class="regalias-item"><b>Срок получения образования, включая каникулы</b>: 2 года</div>
       </div>
-    </div>
-  </div>
+      <div>
+        <ul>
+          <li v-for="file in course.getInfoFiles()" :key="file.id">
+            <a :href="file.getFileUrl()" :download="file.originalName" target="_blank" style="margin-right: 10px">
+              {{ file.originalName }}</a
+            >
+          </li>
+        </ul>
+      </div>
+    </template>
+
+    <template #icons> </template>
+
+    <template #buttons>
+      <a @click="openApplicationDialog">
+        <button>Подать заявление</button>
+      </a>
+    </template>
+  </HeaderInfo>
   <Time />
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
+import HeaderInfo from '@/components/Base/HeaderInfo.vue';
 import ChiefCard from '@/components/ChiefCard.vue';
 import Provider from '@/services/Provider';
 
@@ -50,6 +52,7 @@ export default defineComponent({
   name: 'ResidencyCourseInfo',
   components: {
     ChiefCard,
+    HeaderInfo,
   },
   props: {
     course: { type: Object as PropType<ResidencyCourse>, required: true },
@@ -77,14 +80,41 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/division-info.scss';
 
-// test block
-.test {
-  width: 290px;
-  height: 290px;
-  background: #c4c4c4;
+.green-tag-link {
+  text-align: center;
+  border-radius: 15px;
+  background-color: $site_green;
+  border-color: $site_green;
+  color: white;
+  padding: 2px 10px;
+  margin-right: 10px;
+  display: inline-block;
+  width: auto;
+  word-wrap: break-word;
+  font-size: 11px;
+  &:hover {
+    background-color: darken($site_green, 10%);
+    color: white;
+    cursor: pointer;
+  }
 }
 
-.division-name {
-  margin: 0px;
+.regalias-list,
+.address {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  a {
+    color: $site_blue;
+    text-decoration: none;
+    &:hover {
+      cursor: pointer;
+      color: darken($site_blue, 30%);
+    }
+  }
+}
+
+.regalias-item {
+  margin-bottom: 10px;
+  color: #343e5c;
 }
 </style>

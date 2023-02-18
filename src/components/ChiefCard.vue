@@ -1,5 +1,5 @@
 <template>
-  <div v-if="employee.id" data-test="chief-id" class="card-item-left">
+  <div v-if="employee.id" data-test="chief-id" class="foto-field">
     <div class="division-img">
       <img
         v-if="employee.human.photo.fileSystemPath"
@@ -44,9 +44,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/division-info.scss';
-
-// test block
 .test {
   width: 290px;
   height: 290px;
@@ -55,5 +52,58 @@ export default defineComponent({
 
 .division-name {
   margin: 0px;
+}
+
+.foto-field {
+  max-width: 280px;
+  background-color: white;
+  background-clip: padding-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .division-img {
+    position: relative;
+    z-index: 1;
+    img {
+      border-radius: 5px;
+      height: 280px;
+      width: 280px;
+    }
+    .favor {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background-color: white;
+      border-radius: 50%;
+      border: 1px solid rgb(black, 0.1);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
+      width: 30px;
+      height: 30px;
+      &:hover {
+        transform: scale(1.1);
+      }
+      .anticon {
+        font-size: 20px;
+        color: #bdc2d1;
+      }
+    }
+  }
+  .doctor-name {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 2px 0 5px 0;
+    line-height: 1.15;
+  }
+
+  .status {
+    color: #a1a7bd;
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
 }
 </style>

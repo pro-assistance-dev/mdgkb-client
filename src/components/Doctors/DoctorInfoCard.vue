@@ -39,10 +39,10 @@
             <span v-if="index !== 0"> • </span><span>{{ regalia.name }}</span>
           </template>
         </div>
-        <div class="address">
-          <span v-for="doctorDivision in doctor.doctorsDivisions" :key="doctorDivision.id">
+        <div v-for="doctorDivision in doctor.doctorsDivisions" :key="doctorDivision.id" class="address">
+          <span v-if="doctorDivision.division.address.length">
             Адрес приема:
-            <a @click="$router.push(`/map/${doctorDivision.division.id}`)">
+            <a v-if="doctorDivision.division.address.length" @click="$router.push(`/map/${doctorDivision.division.id}`)">
               {{ doctorDivision.division.address }}
             </a>
           </span>
