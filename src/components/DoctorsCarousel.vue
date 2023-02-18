@@ -1,3 +1,4 @@
+й
 <template>
   <CollapsContainer v-if="carousel.length > 0" tab-id="6" :collapsed="false">
     <template #inside-title>
@@ -18,9 +19,7 @@
           height="350px"
         >
           <el-carousel-item v-for="(doctors, i) in carousel" :key="i" data-test="doctors-carousel">
-            <temlate v-if="doctors.length > 0">
-              <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
-            </temlate>
+            <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
           </el-carousel-item>
         </el-carousel>
       </component>

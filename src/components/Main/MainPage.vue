@@ -8,7 +8,7 @@
   <MainEvents />
   <MainArticles />
   <MainReviews />
-  <MainCertificates />
+  <!-- <MainCertificates /> -->
   <div class="hidden">
     <MainSocialMedia />
   </div>
@@ -19,7 +19,7 @@
 import { defineComponent } from 'vue';
 
 import MainArticles from '@/components/Main/MainArticles.vue';
-import MainCertificates from '@/components/Main/MainCertificates.vue';
+// import MainCertificates from '@/components/Main/MainCertificates.vue';
 import MainDoctors from '@/components/Main/MainDoctors.vue';
 import MainEvents from '@/components/Main/MainEvents.vue';
 import MainHeaderButtons from '@/components/Main/MainHeaderButtons.vue';
@@ -40,7 +40,7 @@ export default defineComponent({
     MainMedicalProfiles,
     MainEvents,
     MainArticles,
-    MainCertificates,
+    // MainCertificates,
     MainSocialMedia,
     MainHeaderButtons,
     MainInfo,
