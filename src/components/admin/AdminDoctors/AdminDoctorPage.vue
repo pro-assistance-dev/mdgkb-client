@@ -139,7 +139,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const loadDivisionOptions = async (): Promise<void> => {
-      await Provider.store.dispatch('divisions/getAll');
+      await Provider.store.dispatch('divisions/getAllWithCount');
       divisionOptions.value = Provider.store.getters['divisions/items'];
     };
 
