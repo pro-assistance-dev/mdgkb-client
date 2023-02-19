@@ -5,21 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
       <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-      <link href="dist/css/bvi.css" rel="stylesheet">
     <title>Морозовская детская городская клиническая больница</title>
-    <!-- <title><%= htmlWebpackPlugin.options.title %></title> -->
+      <link href="dist/css/bvi.css" rel="stylesheet">
   </head>
   <body>
 
-    <script src="dist/js/bvi.js"></script>
-    <script>
-        document.onreadystatechange = () => {
-            if (document.readyState == "complete") {
-                const c = new isvek.Bvi();
-                // fetch to next page or some code
-            }
-        }
-    </script>
-    <div id="app"></div>
+      <i class="bvi-open el-icon-view" ></i>
+  <div id="app" />
+
+  <script src="dist/js/bvi.js"></script>
+  <script>
+      const c = new isvek.Bvi({
+          target: '.bvi-open',
+      })
+      console.log(c)
+  </script>
+
   </body>
 </html>

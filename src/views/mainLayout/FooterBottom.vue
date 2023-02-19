@@ -8,11 +8,7 @@
           </div>
         </el-col>
         <el-col :xl="2">
-          <div class="flex-center">
-            <a id="specialButton" href="#">
-              <i class="bvi-open el-icon-view"></i>
-            </a>
-          </div>
+          <div id="bbb" class="flex-center"></div>
         </el-col>
         <el-col :xs="24" :sm="12" :md="4" :lg="4" :xl="4">
           <div class="flex-center">
@@ -82,6 +78,8 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
+
 import SocialIcons from '@/assets/svg/Main/SocialIcons.svg';
 export default {
   name: 'FooterBottom',

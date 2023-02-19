@@ -56,7 +56,6 @@ export default defineComponent({
 .block-line {
   position: relative;
   display: flex;
-  align-items: center;
   justify-content: left;
   align-items: end;
 }
