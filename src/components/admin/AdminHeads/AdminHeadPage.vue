@@ -197,16 +197,6 @@ $margin: 20px 0;
   background: #dff2f8;
 }
 
-// .container {
-//   position: relative;
-//   width: calc(100% - 20px);
-//   margin: 10px 0px 10px 0px;
-//   border: 1px solid #c3c3c3;
-//   border-radius: 5px;
-//   padding: 12px 10px;
-//   background: #f9fafb;
-// }
-
 .container {
   position: relative;
   width: calc(100% - 20px);

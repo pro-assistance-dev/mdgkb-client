@@ -64,6 +64,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 .gallery-container {
   margin-top: 30px;
   max-width: 1000px;
@@ -91,5 +92,16 @@ export default defineComponent({
     width: 100%;
     max-width: 100%;
   }
+}
+
+.title-in {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: $site_dark_gray;
+  height: 60px;
+  align-items: center;
+  font-weight: bold;
 }
 </style>
