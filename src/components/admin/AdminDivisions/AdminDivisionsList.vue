@@ -89,7 +89,7 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'divisions', action: 'getAll' },
+      pagination: { storeModule: 'divisions', action: 'getAllWithCount' },
     });
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
