@@ -5,11 +5,12 @@
         <i class="el-icon-s-grid drug-icon" />
         <UploaderSingleScan
           :file-info="element.fileInfo"
-          :height="auto"
-          :width="auto"
+          :height="100*element.ratio"
+          :width="100"
           @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
         />
         <el-button @click="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">Удалить изображение</el-button>
+        {{ element.ratio }}
       </div>
     </template>
   </draggable>
@@ -201,5 +202,25 @@ $news-content-max-height: 165px;
 
 :deep(.el-select .el-input__suffix) {
   top: -3px;
+}
+
+:deep(.el-input-number__increase) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+:deep(.el-input-number__decrease) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 </style>

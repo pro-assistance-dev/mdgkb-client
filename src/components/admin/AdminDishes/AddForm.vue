@@ -284,10 +284,6 @@ export default defineComponent({
   width: 100%;
 }
 
-:deep(.el-input-number) {
-  width: 100%;
-}
-
 :deep(.el-form-item__content) {
   width: 100%;
 }

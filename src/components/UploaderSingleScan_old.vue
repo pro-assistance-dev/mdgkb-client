@@ -30,7 +30,7 @@
       </span>
     </template>
   </el-upload>
-  <ImageCropperV2 v-if="withCrop" :open="cropperOpened" @crop="crop" @close="cropperOpened = false" @ratio="ratio" />
+  <ImageCropperV2 v-if="withCrop" :open="cropperOpened" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts">
@@ -81,8 +81,8 @@ export default defineComponent({
     const fileList: Ref<IFilesList[]> = ref([]);
     const heightWeight = computed(() => {
       return {
-        '--width': `${props.width}px`,
         '--height': `${props.height}px`,
+        '--width': `${props.width}px`,
       };
     });
     const store = useStore();
@@ -135,7 +135,6 @@ export default defineComponent({
       if (props.emitCrop) {
         emit('crop');
       }
-
     };
 
     onBeforeMount(() => {
