@@ -1,9 +1,4 @@
 <template>
-  <!-- <CollapsContainer tab-id="134" :collapsed="false">
-    <template #inside-title>
-      <div class="title-in">Видео отделения</div>
-    </template>
-    <template #inside-content> -->
   <el-carousel
     ref="carouselRef"
     v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
@@ -15,16 +10,14 @@
       <div v-for="item in socialMedias" :key="item.description" class="size"><SocialMediaCard :item="item" /></div>
     </el-carousel-item>
   </el-carousel>
-  <!-- </template>
-  </CollapsContainer> -->
 </template>
 
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-// import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import SocialMedia from '@/classes/SocialMedia';
 import SocialMediaCard from '@/components/SocialMediaCard.vue';
-import ISocialMedia from '@/interfaces/ISocialMedia';
+import ArraysService from '@/services/Arrays';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -32,23 +25,21 @@ export default defineComponent({
   components: { SocialMediaCard },
   props: {
     socialMedias: {
-      type: Array as PropType<ISocialMedia[]>,
+      type: Array as PropType<SocialMedia[]>,
       default: () => [],
     },
   },
   setup(props) {
-    const carousel: Ref<ISocialMedia[][]> = ref([]);
-    const mounted: Ref<boolean> = ref(false);
+    const carousel: Ref<SocialMedia[][]> = ref([]);
     const carouselRef = ref();
 
     onBeforeMount(async () => {
-      carousel.value = makeCarousel<ISocialMedia>(props.socialMedias, 5);
-      mounted.value = true;
+      ArraysService.shuffle(props.socialMedias);
+      carousel.value = makeCarousel<SocialMedia>(props.socialMedias, 5);
     });
 
     return {
       carousel,
-      mounted,
       carouselRef,
     };
   },

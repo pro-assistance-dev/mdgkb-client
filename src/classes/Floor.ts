@@ -9,7 +9,7 @@ export default class Floor implements IFloor {
   @ClassHelper.GetClassConstructorForArray(Division)
   divisions: Division[] = [];
 
-  cosnstructor(i?: IFloor) {
+  constructor(i?: IFloor) {
     ClassHelper.BuildClass(this, i);
   }
 }
