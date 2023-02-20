@@ -30,7 +30,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(
-        CustomSection.Create('courses', 'Программы НМО', 'NmoCourses', 1),
+        CustomSection.Create('courses', 'Программы НМО', 'NmoCourses', 0),
         CustomSection.Create('contacts', 'Контакты', 'DpoContacts', 4)
       );
     });
