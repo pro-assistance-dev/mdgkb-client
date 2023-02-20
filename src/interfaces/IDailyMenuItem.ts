@@ -8,6 +8,7 @@ export default interface IDailyMenuItem {
   price: number;
   quantity: number;
   weight: number;
+  additionalWeight: number;
   caloric: number;
   dailyMenuId?: string;
   dailyMenu: IDailyMenu;
