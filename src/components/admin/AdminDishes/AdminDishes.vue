@@ -1,51 +1,7 @@
 <template>
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
-      <div class="calendar-block">
-        <div class="calendar-tools">
-          <div class="calendar-title">
-            Текущая неделя,
-            {{
-              $dateTimeFormatter.getPeriod(
-                calendar.getActivePeriod()[0].date,
-                calendar.getActivePeriod()[calendar.getActivePeriod().length - 1].date,
-                {
-                  month: '2-digit',
-                  day: 'numeric',
-                  year: undefined,
-                }
-              )
-            }}:
-          </div>
-          <div v-if="!isToDay" class="calendar-button" @click="backToToday()">Вернуться к сегодняшнему дню</div>
-        </div>
-        <div class="day-block">
-          <button class="arrow-button" @click="move(false)">
-            <svg class="icon-arrow-left">
-              <use xlink:href="#arrow-left" />
-            </svg>
-          </button>
-          <div v-for="day in calendar.getActivePeriod()" :key="day">
-            <el-badge type="danger" value="!" :hidden="day.eventsExists()" class="event-badge">
-              <div :class="{ blue: day.selected, normal: !day.selected }" @click="selectDay(day)">
-                <div class="day">
-                  <div class="date">
-                    {{ $dateTimeFormatter.format(day.date, { month: '2-digit', day: '2-digit', year: undefined }) }}
-                  </div>
-                  <div class="day-week" :class="{ weekend: day.isWeekend() }">
-                    {{ $dateTimeFormatter.getShortDayName(day.date) }}
-                  </div>
-                </div>
-              </div>
-            </el-badge>
-          </div>
-          <button class="arrow-button" @click="move(true)">
-            <svg class="icon-arrow-right">
-              <use xlink:href="#arrow-right" />
-            </svg>
-          </button>
-        </div>
-      </div>
+      <CalendarComponent @select-day="selectDay" @back-to-today="fillCalendar" @move="fillCalendar" />
     </template>
     <template #sort />
     <VerticalCollapsContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
@@ -241,8 +197,6 @@
       <AddDish :menu="selectedMenu" />
     </el-dialog>
   </component>
-  <ArrowLeft />
-  <ArrowRight />
   <Add />
   <Delete />
   <Print />
@@ -261,8 +215,6 @@ import draggable from 'vuedraggable';
 
 import Active from '@/assets/svg/Buffet/Active.svg';
 import Add from '@/assets/svg/Buffet/Add.svg';
-import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
-import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Close from '@/assets/svg/Buffet/Close.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Excel from '@/assets/svg/Buffet/Excel.svg';
@@ -273,19 +225,18 @@ import Print from '@/assets/svg/Buffet/Print.svg';
 import Calendar from '@/classes/Calendar';
 import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
+import Day from '@/classes/Day';
 import FilterModel from '@/classes/filters/FilterModel';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
+import CalendarComponent from '@/components/CalendarComponent.vue';
 import VerticalCollapsContainer from '@/components/Main/CollapsContainer/VerticalCollapsContainer.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import ICalendar from '@/interfaces/ICalendar';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
-import IDay from '@/interfaces/IDay';
 import IDishesGroup from '@/interfaces/IDishesGroup';
-import DoctorRules from '@/rules/DoctorRules';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -299,8 +250,6 @@ export default defineComponent({
     DishesSamplesConstructor,
     AdminListWrapper,
     AddDish,
-    ArrowLeft,
-    ArrowRight,
     Add,
     Delete,
     Print,
@@ -313,20 +262,17 @@ export default defineComponent({
     Close,
     draggable,
     Excel,
+    CalendarComponent,
   },
   setup() {
-    const form = ref();
-    const rules = ref(DoctorRules);
     const addDishVisible: Ref<boolean> = ref(false);
     const dishesConstructorVisible: Ref<boolean> = ref(false);
     const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const periodMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
     const dishesGroups: Ref<IDishesGroup[]> = ref([]);
-    const calendar: Ref<ICalendar> = ref(Calendar.InitFull());
+    const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
     const selectedMenu: Ref<IDailyMenu> = ref(new DailyMenu());
-    const moveCounter: Ref<number> = ref(0);
-    const isToDay: Ref<boolean> = ref(true);
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
@@ -336,8 +282,6 @@ export default defineComponent({
         title: 'Меню буфета',
         buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
       });
-      await selectDay(calendar.value.getToday());
-      await fillCalendar();
     };
 
     const openDishesConstructor = () => {
@@ -362,7 +306,7 @@ export default defineComponent({
       const fq = new FilterQuery();
       fq.filterModels.push(DailyMenusFiltersLib.byPeriod(period[0].date, period[period.length - 1].date));
       await Provider.store.dispatch('dailyMenus/getPeriodItems', fq);
-      period.forEach((day: IDay) => {
+      period.forEach((day: Day) => {
         const menu = periodMenus.value.find((m: IDailyMenu) => m.date.getDate() === day.date.getDate());
         if (!menu) {
           return;
@@ -379,37 +323,12 @@ export default defineComponent({
       selectedMenu.value?.groupDishes();
     };
 
-    const selectDay = async (day: IDay): Promise<void> => {
-      let DayYear = day.date.getFullYear();
-      let DayMonth = day.date.getMonth();
-      let DayDay = day.date.getDate();
-      let Today = new Date();
-      let TodayYear = Today.getFullYear();
-      let TodayMonth = Today.getMonth();
-      let TodayDay = Today.getDate();
-
-      calendar.value.selectDay(day);
-      isToDay.value = DayMonth === TodayMonth && DayDay === TodayDay && DayYear === TodayYear;
-
+    const selectDay = async (): Promise<void> => {
       await getTodayMenus();
       if (dailyMenus.value.length === 0) {
         return;
       }
       findMenu();
-      await fillCalendar();
-    };
-
-    const backToToday = async () => {
-      await selectDay(calendar.value.getToday());
-      if (moveCounter.value > 0) {
-        for (let i = moveCounter.value; i > 0; i--) {
-          move(false);
-        }
-      } else if (moveCounter.value < 0) {
-        for (let i = moveCounter.value; i < 0; i++) {
-          move(true);
-        }
-      }
       await fillCalendar();
     };
 
@@ -527,17 +446,6 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/updateAll');
     };
 
-    const move = async (direction: boolean) => {
-      calendar.value.move(direction);
-      await fillCalendar();
-      if (direction) {
-        moveCounter.value++;
-      } else {
-        moveCounter.value--;
-      }
-      // isToDay.value = false;
-    };
-
     const startMenu = async (): Promise<void> => {
       const selectedMenuIndex = dailyMenus.value.findIndex((d: IDailyMenu) => d.id === selectedMenu.value.id);
       if (selectedMenuIndex === 0) {
@@ -607,7 +515,6 @@ export default defineComponent({
       updateSelectedMenu,
       stopMenu,
       startMenu,
-      move,
       saveMenusOrder,
       saveMenu,
       setDailyMenuItemAvailable,
@@ -626,15 +533,12 @@ export default defineComponent({
       addDishes,
       selectDay,
       dishesGroups,
-      rules,
-      form,
       mounted: Provider.mounted,
       schema: Provider.schema,
 
       activate,
       createNewDailyMenus,
-      backToToday,
-      isToDay,
+      fillCalendar,
     };
   },
 });

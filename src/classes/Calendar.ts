@@ -1,21 +1,18 @@
 import Day from '@/classes/Day';
+import Month from '@/classes/Month';
+import Week from '@/classes/Week';
 import Year from '@/classes/Year';
 import { CalendarScale } from '@/interfaces/CalendarScale';
-import ICalendar from '@/interfaces/ICalendar';
-import IDay from '@/interfaces/IDay';
-import IMonth from '@/interfaces/IMonth';
-import IWeek from '@/interfaces/IWeek';
-import IYear from '@/interfaces/IYear';
 
-export default class Calendar implements ICalendar {
-  years: IYear[] = [];
+export default class Calendar {
+  years: Year[] = [];
   scale: CalendarScale = CalendarScale.Week;
 
-  static Init(): ICalendar {
+  static Init(): Calendar {
     return new Calendar();
   }
 
-  static InitFull(): ICalendar {
+  static InitFull(): Calendar {
     const calendar = Calendar.Init();
     for (let i = 2022; i < 2024; i++) {
       calendar.years.push(Year.InitFull(i));
@@ -26,17 +23,17 @@ export default class Calendar implements ICalendar {
 
   initActive(): void {
     const now = new Date();
-    const activeYear = this.years.find((i: IYear) => i.number === now.getFullYear());
+    const activeYear = this.years.find((i: Year) => i.number === now.getFullYear());
     if (!activeYear) {
       return;
     }
     activeYear.active = true;
-    const activeMonth = activeYear.months.find((i: IMonth) => i.number === now.getMonth());
+    const activeMonth = activeYear.months.find((i: Month) => i.number === now.getMonth());
     if (!activeMonth) {
       return;
     }
     activeMonth.active = true;
-    const activeWeek = activeMonth.weeks.find((i: IWeek) => i.days.some((d: IDay) => d.date.getDate() === now.getDate()));
+    const activeWeek = activeMonth.weeks.find((i: Week) => i.days.some((d: Day) => d.date.getDate() === now.getDate()));
     if (!activeWeek) {
       return;
     }
@@ -44,19 +41,19 @@ export default class Calendar implements ICalendar {
     activeMonth.setActiveBorder();
   }
 
-  getActiveYear(): IYear {
-    const year = this.years.find((i: IYear) => i.active);
+  getActiveYear(): Year {
+    const year = this.years.find((i: Year) => i.active);
     return year ?? new Year();
   }
 
   getActiveYearIndex(): number {
-    return this.years.findIndex((i: IYear) => i.active);
+    return this.years.findIndex((i: Year) => i.active);
   }
 
-  getActivePeriod(): IDay[] {
+  getActivePeriod(): Day[] {
     if (this.scale === CalendarScale.Week) {
       const activeYearIndex = this.getActiveYearIndex();
-      const mi = this.years[activeYearIndex].months.findIndex((m: IMonth) => m.active);
+      const mi = this.years[activeYearIndex].months.findIndex((m: Month) => m.active);
       const m = this.years[activeYearIndex].months[mi];
       const days = m.getActiveWeek().days;
       if (days.length === 7) {
@@ -125,27 +122,27 @@ export default class Calendar implements ICalendar {
     newActiveYear.initActive(toForward);
   }
 
-  getToday(): IDay {
+  getToday(): Day {
     const now = new Date();
-    const year = this.years.find((i: IYear) => i.number === now.getFullYear());
+    const year = this.years.find((i: Year) => i.number === now.getFullYear());
     if (!year) {
       return new Day();
     }
-    const month = year.months.find((i: IMonth) => i.number === now.getMonth());
+    const month = year.months.find((i: Month) => i.number === now.getMonth());
     if (!month) {
       return new Day();
     }
-    const week = month.weeks.find((i: IWeek) => i.days.some((d: IDay) => d.date.getDate() === now.getDate()));
+    const week = month.weeks.find((i: Week) => i.days.some((d: Day) => d.date.getDate() === now.getDate()));
     if (!week) {
       return new Day();
     }
-    const day = week.days.find((i: IDay) => i.date.getDate() === now.getDate());
+    const day = week.days.find((i: Day) => i.date.getDate() === now.getDate());
     return day ?? new Day();
   }
 
-  getSelectedDay(): IDay {
+  getSelectedDay(): Day {
     let selectedDay = new Day();
-    this.years.some((y: IYear) => {
+    this.years.some((y: Year) => {
       const day = y.getSelectedDay();
       if (day) {
         selectedDay = day;
@@ -155,13 +152,13 @@ export default class Calendar implements ICalendar {
     return selectedDay;
   }
 
-  selectDay(day: IDay): void {
+  selectDay(day: Day): void {
     const previousSelectedDay = this.getSelectedDay();
     previousSelectedDay.selected = false;
     day.selected = true;
   }
 
-  periodsIsEqual(activePeriod1: IDay[], activePeriod2: IDay[]): boolean {
-    return activePeriod1.every((day: IDay, i: number) => day.date.getDate() === activePeriod2[i].date.getDate());
+  periodsIsEqual(activePeriod1: Day[], activePeriod2: Day[]): boolean {
+    return activePeriod1.every((day: Day, i: number) => day.date.getDate() === activePeriod2[i].date.getDate());
   }
 }
