@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
@@ -43,7 +43,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .login-menu {
-  margin-right: 10px;
+  margin-right: 40px;
 }
 .container {
   display: flex;

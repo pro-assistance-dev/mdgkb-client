@@ -13,7 +13,9 @@
             {{ element.name }}
             <el-tag v-if="!element.image.fileSystemPath" type="warning" size="small">Отсутствует изображение </el-tag>
           </div>
-          <div class="right-field">{{ element.weight }} гр/{{ element.price }},00руб/{{ element.caloric }}ккал</div>
+          <div class="right-field">
+            {{ element.weight }}/{{ element.additionalWeight }} гр // {{ element.price }},00руб/{{ element.caloric }}ккал
+          </div>
         </div>
         <el-popconfirm
           confirm-button-text="Да"

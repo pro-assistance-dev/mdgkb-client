@@ -80,6 +80,10 @@ export default defineComponent({
     const searchModel: Ref<SearchModel> = computed<SearchModel>(() => Provider.store.getters['search/searchModel']);
 
     const find = async (query: string, resolve: (arg: any) => void): Promise<void> => {
+      if (query.length < 2) {
+        resolve([]);
+        return;
+      }
       searchForm.value.activated = true;
       searchModel.value.searchObjects = [];
       searchModel.value.query = query;

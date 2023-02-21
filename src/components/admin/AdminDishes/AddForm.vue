@@ -13,6 +13,9 @@
         <el-form-item label="Выход, грамм" prop="weight">
           <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
         </el-form-item>
+        <el-form-item label="Соус, грамм" prop="weight">
+          <el-input-number v-model="dishSample.additionalWeight" placeholder="0"></el-input-number>
+        </el-form-item>
         <el-form-item label="Цена:" prop="price">
           <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
         </el-form-item>
