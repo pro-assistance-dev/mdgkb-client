@@ -11,6 +11,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
   name = '';
   price = 0;
   quantity = 0;
+  additionalWeight = 0;
   weight = 0;
   caloric = 0;
   order = 0;
@@ -35,6 +36,7 @@ export default class DailyMenuItem implements IDailyMenuItem {
     this.dailyMenuId = i.dailyMenuId;
     this.available = i.available;
     this.quantity = i.quantity;
+    this.additionalWeight = i.additionalWeight;
     this.highlight = i.highlight;
     if (i.dailyMenu) {
       this.dailyMenu = new DailyMenu(i.dailyMenu);

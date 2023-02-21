@@ -97,13 +97,16 @@ export default defineComponent({
       },
     });
 
-    watch([props.modelValue], (value) => {
-      const isSame = editor.getHTML() == value;
-      if (isSame) {
-        return;
+    watch(
+      () => [props.modelValue],
+      (value) => {
+        const isSame = editor.getHTML() == value;
+        if (isSame) {
+          return;
+        }
+        editor.commands.setContent(value, false);
       }
-      editor.commands.setContent(value, false);
-    });
+    );
 
     return { editor };
   },
