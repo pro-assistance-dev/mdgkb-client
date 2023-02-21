@@ -5,7 +5,7 @@
         <i class="el-icon-s-grid drug-icon" />
         <UploaderSingleScanNew
           :file-info="element.fileInfo"
-          :height="100"
+          :height="150"
           @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
           @ratio="(e) => (element.ratio = e)"
 
@@ -226,5 +226,15 @@ export default defineComponent({
   height: 28px;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
+}
+
+:deep(.el-upload--picture-card) {
+  width: 150px;
+  font-size: 50px;
+}
+
+:deep(.el-upload--picture-card i) {
+  font-size: 50px;
+  color: #00B5A4;
 }
 </style>

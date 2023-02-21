@@ -7,5 +7,4 @@ export default interface IDivisionImage {
   fileInfo: IFileInfo;
   description?: string;
   order: number;
-  ratio: number;
 }

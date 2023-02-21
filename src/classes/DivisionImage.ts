@@ -10,7 +10,6 @@ export default class DivisionImage implements IDivisionImage {
   fileInfo: IFileInfo = new FileInfo();
   description?: string;
   order = 0;
-  ratio = 1;
 
   constructor(i?: IDivisionImage) {
     ClassHelper.BuildClass(this, i);
