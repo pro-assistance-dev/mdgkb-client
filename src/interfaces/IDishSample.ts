@@ -8,6 +8,7 @@ export default interface IDishSample {
   order: number;
   quantity: number;
   weight: number;
+  additionalWeight: number;
   caloric: number;
   dishesGroupId?: string;
   dishesGroup: IDishesGroup;

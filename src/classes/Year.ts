@@ -1,31 +1,29 @@
+import Day from '@/classes/Day';
 import Month from '@/classes/Month';
-import IDay from '@/interfaces/IDay';
-import IMonth from '@/interfaces/IMonth';
-import IYear from '@/interfaces/IYear';
 
-export default class Year implements IYear {
-  months: IMonth[] = [];
+export default class Year {
+  months: Month[] = [];
   number = 0;
   active = false;
   lastMonthActive = false;
   firstMonthActive = false;
 
-  getActiveMonth(): IMonth {
-    const month = this.months.find((m: IMonth) => m.active);
+  getActiveMonth(): Month {
+    const month = this.months.find((m: Month) => m.active);
     return month ?? new Month();
   }
 
   getActiveMonthIndex(): number {
-    return this.months.findIndex((m: IMonth) => m.active);
+    return this.months.findIndex((m: Month) => m.active);
   }
 
-  static Init(number?: number): IYear {
+  static Init(number?: number): Year {
     const year = new Year();
     year.number = number ?? 0;
     return year;
   }
 
-  static InitFull(yearN?: number): IYear {
+  static InitFull(yearN?: number): Year {
     const year = Year.Init(yearN);
     for (let i = 0; i < 12; i++) {
       year.months.push(Month.InitFull(year.number, i));
@@ -33,14 +31,14 @@ export default class Year implements IYear {
     return year;
   }
 
-  static InitCurrent(): IYear {
+  static InitCurrent(): Year {
     const year = Year.Init();
     year.number = new Date().getFullYear();
     year.active = true;
     return year;
   }
 
-  static InitFilled(): IYear {
+  static InitFilled(): Year {
     return Year.Init();
   }
 
@@ -91,9 +89,9 @@ export default class Year implements IYear {
     newActiveMonth.setActiveBorder();
   }
 
-  getSelectedDay(): IDay | undefined {
+  getSelectedDay(): Day | undefined {
     let selectedDay = undefined;
-    this.months.some((m: IMonth) => {
+    this.months.some((m: Month) => {
       const day = m.getSelectedDay();
       if (day) {
         selectedDay = day;
@@ -123,11 +121,11 @@ export default class Year implements IYear {
     }
   }
 
-  getFirstMonth(): IMonth {
+  getFirstMonth(): Month {
     return this.months[0];
   }
 
-  getLastMonth(): IMonth {
+  getLastMonth(): Month {
     return this.months[11];
   }
 }

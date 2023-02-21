@@ -1,7 +1,7 @@
-import ISocialMedia from '@/interfaces/ISocialMedia';
 import { SocialTypes } from '@/interfaces/SocialTypes';
+import StringsService from '@/services/Strings';
 
-export default class SocialMedia implements ISocialMedia {
+export default class SocialMedia {
   description = '';
   image = '';
   link = '';
@@ -9,11 +9,11 @@ export default class SocialMedia implements ISocialMedia {
   title = '';
   type: SocialTypes = SocialTypes.YouTube;
 
-  constructor(i?: ISocialMedia) {
+  constructor(i?: SocialMedia) {
     if (!i) {
       return;
     }
-    this.description = i.description;
+    this.description = StringsService.removeEmoji(i.description);
     this.image = i.image;
     this.link = i.link;
     this.type = i.type;
@@ -23,8 +23,11 @@ export default class SocialMedia implements ISocialMedia {
 
   setIcon(): void {
     this.icon = 'yt';
-    if (this.type === SocialTypes.YouTube) {
+    if (this.isYouTube()) {
       this.icon = 'yt';
+    }
+    if (this.isVK()) {
+      this.icon = 'vk';
     }
     // if (this.type === SocialTypes.Facebook) {
     //   this.icon = 'fb';
@@ -35,7 +38,7 @@ export default class SocialMedia implements ISocialMedia {
   }
   setTitle(title: string): void {
     if (title !== '') {
-      this.title = title;
+      this.title = StringsService.removeEmoji(title);
       return;
     }
     if (this.type === SocialTypes.YouTube) {
@@ -47,5 +50,13 @@ export default class SocialMedia implements ISocialMedia {
     // if (this.type === SocialTypes.Instagram) {
     //   this.title = '@morozdgkbdzm';
     // }
+  }
+
+  isYouTube() {
+    return this.type === SocialTypes.YouTube;
+  }
+
+  isVK() {
+    return this.type === SocialTypes.VK;
   }
 }

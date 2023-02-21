@@ -8,18 +8,23 @@
     <title>Морозовская детская городская клиническая больница</title>
       <link href="dist/css/bvi.css" rel="stylesheet">
       <style lang="css">
-          .initial-plugin {
-              position: absolute;
-              botton: 0px;
-              right: 0px;
-              z-index: -1;
+          #initial-bvi-container {
+            position: absolute;
+            top: 15px;
+            right: 0;
+            padding: 10px;
+            z-index: 1;
+            cursor: pointer;
+          }
+          #initial-bvi-container i:hover {
+            font-weight: 600;
           }
       </style>
   </head>
   <body>
-  <div class="initial-plugin">
-      <i class="bvi-open el-icon-view" ></i>
-  </div>
+    <div id="initial-bvi-container">
+      <i id="bvi" class="bvi-open el-icon-view" ></i>
+    </div>
   <div id="app" />
 
   <script src="dist/js/bvi.js"></script>

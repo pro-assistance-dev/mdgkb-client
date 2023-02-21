@@ -1,12 +1,11 @@
-import ICalendarEvent from '@/interfaces/ICalendarEvent';
-import IDay from '@/interfaces/IDay';
+import CalendarEvent from '@/classes/CalendarEvent';
 
-export default class Day implements IDay {
+export default class Day {
   date: Date = new Date();
   shortName = '';
   selected = false;
   active = false;
-  events: ICalendarEvent[] = [];
+  events: CalendarEvent[] = [];
 
   constructor() {
     return;

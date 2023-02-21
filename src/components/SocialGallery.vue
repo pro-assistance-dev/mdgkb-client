@@ -27,22 +27,22 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import ISocial from '@/interfaces/ISocial';
+import SocialMedia from '@/classes/SocialMedia';
 
 export default defineComponent({
   name: 'SocialGallery',
 
   setup() {
     const store = useStore();
-    const socials: ComputedRef<ISocial[]> = computed(() => store.getters['meta/socials']);
-    let socialsGroups: Ref<ISocial[][]> = ref([]);
+    const socials: ComputedRef<SocialMedia[]> = computed(() => store.getters['meta/socials']);
+    let socialsGroups: Ref<SocialMedia[][]> = ref([]);
     const mounted = ref(false);
     const carouselRef = ref();
 
     onBeforeMount(async (): Promise<void> => {
       await store.dispatch('meta/getSocial');
       // socialsGroups = splitByGroups(socials.value);
-      const results: ISocial[][] = [];
+      const results: SocialMedia[][] = [];
 
       while (socials.value.length) {
         results.push(socials.value.splice(0, 3));

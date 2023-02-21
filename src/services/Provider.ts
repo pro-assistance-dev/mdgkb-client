@@ -24,7 +24,7 @@ const Provider = (() => {
   const saveButtonClicked: Ref<boolean> = ref(false);
   let storeModule = '';
   let getAction = '';
-
+  // const refres/hKey = 0
   function initPagination(options?: IPaginationOptions): void {
     store.commit('filter/setStoreModule', options?.storeModule ?? getStoreModule());
     store.commit('filter/setAction', options?.action ?? getGetAction());
@@ -35,9 +35,13 @@ const Provider = (() => {
   //   return computed(() => store.getters[storeModule + '/items']);
   // }
 
-  const item = computed(() => store.getters[storeModule + '/item']);
+  const item = computed(() => {
+    storeModule;
+    route().params;
+    return store.getters[getStoreModule() + '/item'];
+  });
   const items = computed(() => {
-    return store.getters[storeModule + '/items'];
+    return store.getters[getStoreModule() + '/items'];
   });
 
   // function getItem<T>(): ComputedRef<T> {
@@ -60,7 +64,8 @@ const Provider = (() => {
   }
 
   async function submit(next?: NavigationGuardNext): Promise<void> {
-    if (route().params['id']) {
+    if (Provider.route().params['id']) {
+      console.log(Provider.route());
       await store.dispatch(`${storeModule}/update`, item.value);
     } else {
       await store.dispatch(`${storeModule}/create`, item.value);
@@ -70,7 +75,7 @@ const Provider = (() => {
 
   async function loadItem(col?: string | FilterQuery): Promise<void> {
     const { beforeWindowUnload, formUpdated } = useConfirmLeavePage();
-    if (route().params['id']) {
+    if (Provider.route().params['id']) {
       if (typeof col === 'string') {
         Provider.filterQuery.value.setParams(col, Provider.route().params['id'] as string);
         await Provider.store.dispatch(`${storeModule}/get`, Provider.filterQuery.value);

@@ -7,6 +7,7 @@ import { appointmentsTypes } from '@/store/modules/appointmentsTypes';
 import auth from '@/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
+import { calendar } from '@/store/modules/calendar';
 import { callbacks } from '@/store/modules/callbacks';
 import { candidateApplications } from '@/store/modules/candidateApplications';
 import { candidateExams } from '@/store/modules/candidateExams';
@@ -169,6 +170,7 @@ const s: StoreOptions<RootState> = {
     appointmentsTypes,
     dailyMenuOrders,
     paidServices,
+    calendar,
   },
 };
 
