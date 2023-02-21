@@ -27,6 +27,7 @@ type func = (param?: FilterQuery | string) => Promise<void> | void;
 const Hooks = (() => {
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
+      console.log('ONBEFORE');
       Provider.mounted.value = false;
       Provider.store.commit('admin/showLoading');
       Provider.resetFilterQuery();
