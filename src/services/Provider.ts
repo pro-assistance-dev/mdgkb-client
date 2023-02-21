@@ -60,7 +60,7 @@ const Provider = (() => {
   }
 
   async function submit(next?: NavigationGuardNext): Promise<void> {
-    if (route().params['id']) {
+    if (Provider.route().params['id']) {
       await store.dispatch(`${storeModule}/update`, item.value);
     } else {
       await store.dispatch(`${storeModule}/create`, item.value);
@@ -70,7 +70,7 @@ const Provider = (() => {
 
   async function loadItem(col?: string | FilterQuery): Promise<void> {
     const { beforeWindowUnload, formUpdated } = useConfirmLeavePage();
-    if (route().params['id']) {
+    if (Provider.route().params['id']) {
       if (typeof col === 'string') {
         Provider.filterQuery.value.setParams(col, Provider.route().params['id'] as string);
         await Provider.store.dispatch(`${storeModule}/get`, Provider.filterQuery.value);
