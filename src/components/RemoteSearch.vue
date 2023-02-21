@@ -32,6 +32,7 @@ import { Operators } from '@/interfaces/filters/Operators';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearch from '@/interfaces/ISearchObject';
 import Provider from '@/services/Provider';
+import StringsService from '@/services/Strings';
 
 export default defineComponent({
   name: 'RemoteSearch',
@@ -86,7 +87,7 @@ export default defineComponent({
       }
       searchForm.value.activated = true;
       searchModel.value.searchObjects = [];
-      searchModel.value.query = query;
+      searchModel.value.query = StringsService.translit(query);
       searchModel.value.mustBeTranslated = props.mustBeTranslated;
       const groupForSearch = searchModel.value.searchGroups.find((group: ISearchGroup) => group.key === props.keyValue);
       if (groupForSearch) {

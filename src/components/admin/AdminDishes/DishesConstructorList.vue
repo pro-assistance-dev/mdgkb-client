@@ -1,5 +1,5 @@
 <template>
-  <draggable class="tabs" :list="dishesGroup.dishSamples" item-key="id" handle=".group-item" @end="saveDishesOrder">
+  <draggable class="tabs" :list="dishesSamples" item-key="id" handle=".group-item" @end="saveDishesOrder">
     <template #item="{ element }">
       <div
         :id="element.id"
@@ -23,7 +23,7 @@
           icon="el-icon-info"
           icon-color="red"
           title="Вы уверены, что хотите удалить категорию?"
-          @confirm="removeDishSample(dishesGroup, element.id)"
+          @confirm="removeDishSample(element.id)"
           @cancel="() => {}"
         >
           <template #reference>
@@ -45,8 +45,9 @@ import { defineComponent, PropType } from 'vue';
 import draggable from 'vuedraggable';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
-import IDishesGroup from '@/interfaces/IDishesGroup';
+import DishSample from '@/classes/DishSample';
 import IDishSample from '@/interfaces/IDishSample';
+import ClassHelper from '@/services/ClassHelper';
 import Provider from '@/services/Provider';
 import sort from '@/services/sort';
 
@@ -57,22 +58,22 @@ export default defineComponent({
     draggable,
   },
   props: {
-    dishesGroup: {
-      type: Object as PropType<IDishesGroup>,
+    dishesSamples: {
+      type: Object as PropType<DishSample[]>,
       required: true,
     },
   },
 
   emits: ['openDishSampleConstructor'],
   setup(props, { emit }) {
-    const removeDishSample = async (dishesGroupItem: IDishesGroup, dishSampleId: string) => {
+    const removeDishSample = async (dishSampleId: string) => {
       await Provider.store.dispatch('dishesSamples/remove', dishSampleId);
-      dishesGroupItem.removeDishSample(dishSampleId);
+      ClassHelper.RemoveFromClassById(dishSampleId, props.dishesSamples, []);
     };
 
     const saveDishesOrder = async () => {
-      sort(props.dishesGroup.dishSamples);
-      await Provider.store.dispatch('dishesSamples/updateAll', props.dishesGroup.dishSamples);
+      sort(props.dishesSamples);
+      await Provider.store.dispatch('dishesSamples/updateAll', props.dishesSamples);
     };
 
     const selectDish = (dish: IDishSample, e: Event) => {

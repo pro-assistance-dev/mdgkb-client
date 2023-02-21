@@ -1,7 +1,12 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <RemoteSearch :key-value="schema.employee.key" placeholder="Начните вводить ФИО сотрудника" @select="selectSearch" />
+      <RemoteSearch
+        :must-be-translated="true"
+        :key-value="schema.employee.key"
+        placeholder="Начните вводить ФИО сотрудника"
+        @select="selectSearch"
+      />
       <FiltersList :models="createGenderFilterModels()" @load="loadItems" />
     </template>
     <template #sort>
