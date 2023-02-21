@@ -37,11 +37,14 @@ const Provider = (() => {
 
   const item = computed(() => {
     storeModule;
-    route().params;
-    return store.getters[getStoreModule() + '/item'];
+    route().fullPath;
+    route().path;
+    Provider.router;
+    mounted;
+    return store.getters[storeModule + '/item'];
   });
   const items = computed(() => {
-    return store.getters[getStoreModule() + '/items'];
+    return store.getters[storeModule + '/items'];
   });
 
   // function getItem<T>(): ComputedRef<T> {
@@ -65,10 +68,9 @@ const Provider = (() => {
 
   async function submit(next?: NavigationGuardNext): Promise<void> {
     if (Provider.route().params['id']) {
-      console.log(Provider.route());
-      await store.dispatch(`${storeModule}/update`, item.value);
+      await store.dispatch(`${storeModule}/update`, store.getters[storeModule + '/item']);
     } else {
-      await store.dispatch(`${storeModule}/create`, item.value);
+      await store.dispatch(`${storeModule}/create`, store.getters[storeModule + '/item']);
     }
     next ? next() : await Provider.router.push(`/admin/${StringsService.toKebabCase(storeModule)}`);
   }
@@ -134,6 +136,7 @@ const Provider = (() => {
       pathLen = 2;
     }
     storeModule = StringsService.toCamelCase(pathParts[pathParts.length - pathLen]);
+    console.log(item.value);
   }
 
   function setDefaultSortModel(): void {
