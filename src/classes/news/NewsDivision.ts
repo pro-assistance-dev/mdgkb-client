@@ -1,16 +1,15 @@
 import Division from '@/classes/Division';
-import INewsDivision from '@/interfaces/INewsDivision';
-import INews from '@/interfaces/news/INews';
+import News from '@/classes/news/News';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class NewsDivision implements INewsDivision {
+export default class NewsDivision {
   id?: string;
-  news?: INews;
+  news: News = new News();
   newsId?: string;
   divisionId?: string;
   division?: Division;
 
-  constructor(i?: INewsDivision) {
+  constructor(i?: NewsDivision) {
     ClassHelper.BuildClass(this, i);
   }
 }

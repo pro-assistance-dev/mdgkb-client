@@ -31,7 +31,13 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       commit('setAll', items);
     },
     getAllWithCount: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
-      commit('setAllWithCount', await httpClient.get<ItemsWithCount<T>[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
+      const res = await httpClient.get<ItemsWithCount<T>>({ query: filterQuery ? filterQuery.toUrl() : '' });
+      if (filterQuery && filterQuery.pagination.append && res) {
+        commit('appendToAll', res.items);
+        filterQuery.pagination.setAllLoaded(res.items.length ? res.items.length : 0);
+        return;
+      }
+      commit('setAllWithCount', res);
     },
     get: async ({ commit }, filter: string | FilterQuery) => {
       let query: IBodilessParams;
