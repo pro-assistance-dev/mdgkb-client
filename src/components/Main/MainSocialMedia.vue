@@ -7,9 +7,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import SocialMedia from '@/classes/SocialMedia';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import SocialMediaCarousel from '@/components/SocialMediaCarousel.vue';
-import ISocialMedia from '@/interfaces/ISocialMedia';
 import Provider from '@/services/Provider';
 
 export default defineComponent({
@@ -19,7 +19,7 @@ export default defineComponent({
   setup() {
     const mounted: Ref<boolean> = ref(false);
 
-    const items: ComputedRef<ISocialMedia[]> = computed<ISocialMedia[]>(() => Provider.store.getters['meta/socialMedia']);
+    const items: ComputedRef<SocialMedia[]> = computed<SocialMedia[]>(() => Provider.store.getters['meta/socialMedia']);
 
     onBeforeMount(async () => {
       await Provider.store.dispatch('meta/getSocialMedia');

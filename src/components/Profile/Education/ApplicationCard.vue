@@ -21,9 +21,6 @@
   </div>
   <div class="card-item">
     <div class="item-el">
-      <router-link v-if="form.dpoApplication" :to="`/courses/${form.dpoApplication.nmoCourse.slug}`">
-        {{ form.dpoApplication.nmoCourse.name }}
-      </router-link>
       <router-link
         v-if="form.postgraduateApplication"
         :to="`/postgraduate-courses/${form.postgraduateApplication.postgraduateCourse.getMainSpecialization().slug}`"
@@ -37,9 +34,9 @@
       >
         {{ form.residencyApplication.residencyCourse.getMainSpecialization().name }}
       </router-link>
-      <router-link v-if="form.vacancyResponse" :to="`/vacancies/${form.vacancyResponse.vacancy.slug}`">
-        {{ form.vacancyResponse.vacancy.title }}
-      </router-link>
+      <!--      <router-link v-if="form.vacancyResponse" :to="`/vacancies/${form.vacancyResponse.vacancy.slug}`">-->
+      <!--        {{ form.vacancyResponse.vacancy.title }}-->
+      <!--      </router-link>-->
       <router-link v-if="form.visitsApplication" :to="`/divisions/${form.visitsApplication.division?.slug}`">
         {{ form.visitsApplication.division?.name }}
       </router-link>

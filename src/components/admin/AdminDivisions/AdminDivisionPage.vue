@@ -212,6 +212,7 @@ export default defineComponent({
 
     const changeBuildingHandler = (id: string) => {
       const building = buildingsOptions.value.find((item: Building) => item.id == id);
+      console.log(building);
       Provider.store.commit('buildings/set', building);
       if (buildingOption.value.floors.length === 1) {
         division.value.floorId = buildingOption.value.floors[0].id;

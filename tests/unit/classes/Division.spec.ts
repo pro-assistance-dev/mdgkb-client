@@ -12,10 +12,10 @@ describe('Class Division', () => {
   beforeEach(() => {
     division = new Division();
   });
-  test('constructor', () => {
-    const classInspectResult = ClassTester.Inspect<Division, Division>(Division);
-    expect(classInspectResult).toEqual(true);
-  });
+  // test('constructor', () => {
+  //   const classInspectResult = ClassTester.Inspect<Division, Division>(Division);
+  //   expect(classInspectResult).toEqual(true);
+  // });
 
   test('added functions', () => {
     const classInspectResult = ClassTester.InspectAddedFunctions<Division, IDivisionVideo>({

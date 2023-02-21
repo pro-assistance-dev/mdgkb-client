@@ -12,7 +12,9 @@ export default class Building {
   name = '';
   status = '';
   description = '';
+  @ClassHelper.GetClassConstructorForArray(Floor)
   floors: Floor[] = [];
+  @ClassHelper.GetClassConstructorForArray(Entrance)
   entrances: Entrance[] = [];
 
   constructor(i?: IBuilding) {

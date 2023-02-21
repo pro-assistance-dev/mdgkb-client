@@ -4,8 +4,11 @@
       <img class="social-media-card-img" :src="item.image" />
     </a>
     <div class="social-media-card-header">
-      <a :href="item.link" class="social-media-card-link" target="_blank">
-        <component :is="require(`@/assets/img/main-page/icons/social/${item.icon}.svg`).default" class="social-media-card-header-icon" />
+      <a :href="item.link" class="social-media-card-link icon" target="_blank">
+        <svg class="icon">
+          <use v-if="item.isVK()" xlink:href="#icon-VK"></use>
+          <use v-if="item.isYouTube()" xlink:href="#icon-YT"></use>
+        </svg>
       </a>
       <a :href="item.link" class="social-media-card-link" target="_blank">
         <div class="social-media-card-header-title">{{ item.title }}</div>
@@ -14,17 +17,22 @@
 
     <div class="social-media-card-content">{{ item.description }}</div>
   </div>
+  <SocialIcons />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import ISocialMedia from '@/interfaces/ISocialMedia';
+import SocialIcons from '@/assets/svg/Main/SocialIcons.svg';
+import SocialMedia from '@/classes/SocialMedia';
 export default defineComponent({
   name: 'SocialMediaCard',
+  components: {
+    SocialIcons,
+  },
   props: {
     item: {
-      type: Object as PropType<ISocialMedia>,
+      type: Object as PropType<SocialMedia>,
       required: true,
     },
   },
@@ -32,6 +40,17 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.icon {
+  width: 25px;
+  height: 25px;
+  fill: #406cff;
+  transition: 0.25s;
+  cursor: pointer;
+  padding: 10px;
+  &:hover {
+    fill: #133dcc;
+  }
+}
 .social-media-card {
   display: flex;
   flex-direction: column;
