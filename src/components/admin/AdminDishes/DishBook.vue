@@ -168,7 +168,6 @@ export default defineComponent({
       dishesGroups,
       mounted: Provider.mounted,
       schema: Provider.schema,
-
       addOneDishToMenu,
     };
   },
