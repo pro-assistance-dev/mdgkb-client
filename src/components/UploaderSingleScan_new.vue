@@ -30,7 +30,7 @@
       </span>
     </template>
   </el-upload>
-  <ImageCropperV2 v-if="withCrop" :open="cropperOpened" @crop="crop" @close="cropperOpened = false" />
+  <ImageCropperV2New v-if="withCrop" :open="cropperOpened" @crop="crop" @close="cropperOpened = false" @ratio="ratio" />
 </template>
 
 <script lang="ts">
@@ -39,15 +39,16 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useStore } from 'vuex';
 
 import Cropper from '@/classes/cropper/Cropper';
-import ImageCropperV2 from '@/components/ImageCropperV2.vue';
+import ImageCropperV2New from '@/components/ImageCropperV2_new.vue';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import IDivisionImage from '@/interfaces/IDivisionImage';
 
 export default defineComponent({
   name: 'UploaderSingleScan',
   components: {
-    ImageCropperV2,
+    ImageCropperV2New,
   },
   props: {
     withCrop: {
@@ -75,14 +76,15 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['crop', 'removeFile'],
+  // emits: ['crop', 'removeFile' ],
+  emits: ['crop', 'removeFile', 'ratio'],
 
   setup(props, { emit }) {
     const fileList: Ref<IFilesList[]> = ref([]);
     const heightWeight = computed(() => {
       return {
         '--height': `${props.height}px`,
-        '--width': `${props.width}px`,
+        '--width': `auto`,
       };
     });
     const store = useStore();
@@ -102,10 +104,14 @@ export default defineComponent({
       }
     };
 
+    // console.log('Значение коэффициента по умолчаннию ЭМИТ!!!' + emit('ratio'));
+
     const openCropper = (file: IFile) => {
       const ratio = props.cropRatio ? props.width / props.height : 0;
+      // const ratio = 1;
       store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, ratio, props.fileInfo.id));
       cropperOpened.value = true;
+      // console.log('Значение коэффициента по умолчаннию ЭМИТ!!!' + emit('ratio'));
     };
 
     const handleRemove = () => {
@@ -134,13 +140,22 @@ export default defineComponent({
       cropperOpened.value = false;
       if (props.emitCrop) {
         emit('crop');
+        
       }
+      // console.log('Значение коэффициента по умолчаннию ЭМИТ!!!' + emit('ratio'));
     };
+
+    const ratio = (ratio:Number) => {
+      console.log('Соотношение в UploaderSingleScan: ' + ratio);
+       emit('ratio', ratio);
+    };
+
 
     onBeforeMount(() => {
       if (props.fileInfo.fileSystemPath) {
         fileList.value.push({ name: props.fileInfo.fileSystemPath, url: props.fileInfo.getImageUrl() });
         showUpload.value = false;
+        // console.log('Значение коэффициента по умолчаннию' + emit('ratio'));
       }
     });
 
@@ -154,6 +169,7 @@ export default defineComponent({
       handleRemove,
       showUpload,
       toggleUpload,
+      ratio,
     };
   },
 });
@@ -178,8 +194,6 @@ export default defineComponent({
 // }
 
 :deep(.el-upload) {
-  max-width: var(--width);
-  width: 100% !important;
   max-height: var(--height);
   height: 100% !important;
   background: white;
@@ -188,15 +202,13 @@ export default defineComponent({
 }
 
 :deep(.el-upload-list__item) {
-  max-width: var(--width) !important;
-  width: 100% !important;
+  width: auto !important;
   max-height: var(--height) !important;
   height: 100% !important;
 }
 
 :deep(.el-upload-list__item-thumbnail) {
-  max-width: var(--width) !important;
-  width: 100% !important;
+  width: auto !important;
   max-height: var(--height) !important ;
   height: 100% !important;
 }

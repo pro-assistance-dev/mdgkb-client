@@ -3,14 +3,24 @@
     <template #item="{ element, index }">
       <div>
         <i class="el-icon-s-grid drug-icon" />
+        <!-- <UploaderSingleScan
+          :file-info="element.fileInfo"
+          :height="100"
+          :width="100"
+          @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
+        /> -->
         <UploaderSingleScanNew
           :file-info="element.fileInfo"
           :height="100"
+          :width="100*element.ratio"
           @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
           @ratio="(e) => (element.ratio = e)"
 
         />
         <el-button @click="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">Удалить изображение</el-button>
+        {{ element.ratio }}
+        <!-- {{ ratio }} -->
+        <!-- @ratio="element.ratio = ratio" -->
       </div>
     </template>
   </draggable>
@@ -62,6 +72,9 @@ export default defineComponent({
   text-align: center;
 }
 
+$news-content-max-width: 400px;
+$news-content-max-height: 165px;
+
 /* .hideUpload {
   :deep(.el-upload) {
     display: none;
@@ -81,21 +94,21 @@ export default defineComponent({
 }
 
 :deep(.el-upload) {
-  width: auto;
-  height:auto;
+  width: $news-content-max-width;
+  height: $news-content-max-height;
   background: white;
   text-align: center;
-  line-height: auto;
+  line-height: $news-content-max-height;
 }
 
 :deep(.el-upload-list__item) {
-  width: auto;
-  height:auto;
+  width: $news-content-max-width !important;
+  height: $news-content-max-height !important;
 }
 
 :deep(.el-upload-list__item-thumbnail) {
-  width: auto;
-  height:auto;
+  width: $news-content-max-width !important;
+  height: $news-content-max-height !important;
 }
 
 :deep(.el-upload-list__item) {
