@@ -77,6 +77,7 @@ $button-background-color: #fff;
   justify-content: space-between;
   box-shadow: $header-shadow;
   display: inline-block;
+  z-index: 700;
 
   .el-button {
     border: none;
