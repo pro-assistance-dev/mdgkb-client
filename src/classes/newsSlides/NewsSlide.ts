@@ -18,7 +18,7 @@ export default class NewsSlide {
   tabletImgId?: string;
   mobileImg = new FileInfo();
   mobileImgId?: string;
-  @ClassHelper.GetClassConstructorForArray(NewsSlideButton)
+  @ClassHelper.GetClassConstructor(NewsSlideButton)
   newsSlideButtons: NewsSlideButton[] = [];
   newsSlideButtonsForDelete: string[] = [];
 

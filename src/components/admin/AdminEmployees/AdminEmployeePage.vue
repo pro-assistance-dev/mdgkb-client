@@ -3,31 +3,26 @@
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical">
-          <CollapseList>
+          <CollapseContainer>
             <template #default="scope">
               <div class="margin-container">
-                <CollapsContainer
-                  title="Личная информация"
-                  :active-id="scope.activeId"
-                  :tab-id="1011"
-                  @changeActiveId="scope.changeActiveId"
-                >
+                <CollapseItem title="Личная информация" :active-id="scope.activeId" :tab-id="1011" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <div class="background-container">
                       <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
                     </div>
                   </template>
-                </CollapsContainer>
+                </CollapseItem>
               </div>
               <div class="margin-container">
-                <CollapsContainer title="Образование" :active-id="scope.activeId" :tab-id="1012" @changeActiveId="scope.changeActiveId">
+                <CollapseItem title="Образование" :active-id="scope.activeId" :tab-id="1012" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <EducationForm :employee="employee" />
                   </template>
-                </CollapsContainer>
+                </CollapseItem>
               </div>
               <div class="margin-container">
-                <CollapsContainer title="Опыт работы" :active-id="scope.activeId" :tab-id="1013" @changeActiveId="scope.changeActiveId">
+                <CollapseItem title="Опыт работы" :active-id="scope.activeId" :tab-id="1013" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <div class="container">
                       <el-form-item label="Совместитель">
@@ -63,10 +58,10 @@
                       </div>
                     </div>
                   </template>
-                </CollapsContainer>
+                </CollapseItem>
               </div>
               <div class="margin-container">
-                <CollapsContainer title="Сертификаты" :active-id="scope.activeId" :tab-id="1014" @changeActiveId="scope.changeActiveId">
+                <CollapseItem title="Сертификаты" :active-id="scope.activeId" :tab-id="1014" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <div class="tools-buttons">
                       <button class="admin-add" @click.prevent="employee.addCertificate()">+ Добавить</button>
@@ -84,10 +79,10 @@
                       </el-form-item>
                     </div>
                   </template>
-                </CollapsContainer>
+                </CollapseItem>
               </div>
               <div class="margin-container">
-                <CollapsContainer
+                <CollapseItem
                   title="Ученая степень, звание"
                   :active-id="scope.activeId"
                   :tab-id="1016"
@@ -103,10 +98,10 @@
                       </el-form-item>
                     </div>
                   </template>
-                </CollapsContainer>
+                </CollapseItem>
               </div>
               <div class="margin-container">
-                <CollapsContainer title="Регалии" :active-id="scope.activeId" :tab-id="1017" @changeActiveId="scope.changeActiveId">
+                <CollapseItem title="Регалии" :active-id="scope.activeId" :tab-id="1017" @changeActiveId="scope.changeActiveId">
                   <template #inside-content>
                     <div class="tools-buttons">
                       <button class="admin-add" @click.prevent="employee.addRegalia()">+ Добавить</button>
@@ -121,10 +116,10 @@
                       </el-form-item>
                     </div>
                   </template>
-                </CollapsContainer>
+                </CollapseItem>
               </div>
               <div class="margin-container">
-                <CollapsContainer
+                <CollapseItem
                   title="Педагогическая деятельность"
                   :active-id="scope.activeId"
                   :tab-id="1018"
@@ -144,11 +139,12 @@
                       </el-form-item>
                     </div>
                   </template>
-                </CollapsContainer>
+                </CollapseItem>
               </div>
             </template>
-          </CollapseList>
+          </CollapseContainer>
         </el-container>
+        {{ employee.head }}
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
@@ -181,8 +177,8 @@ import Human from '@/classes/Human';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import DatePicker from '@/components/DatePicker.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
-import CollapseList from '@/components/Main/CollapsContainer/CollapseList.vue';
+import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -199,9 +195,9 @@ export default defineComponent({
     HumanForm,
     EducationForm,
     UploaderSingleScan,
-    CollapsContainer,
+    CollapseItem,
     DatePicker,
-    CollapseList,
+    CollapseContainer,
   },
   setup() {
     const form = ref();

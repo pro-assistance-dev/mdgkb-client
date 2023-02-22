@@ -13,7 +13,7 @@
   </div>
   <el-form v-if="mounted" ref="form" :model="head" label-position="top" :rules="rules">
     <div class="margin-container">
-      <CollapsContainer :tab-id="1036">
+      <CollapseItem :tab-id="1036">
         <template #inside-title>
           <div class="title-in">Должность</div>
         </template>
@@ -27,24 +27,24 @@
             </el-form-item>
           </div>
         </template>
-      </CollapsContainer>
+      </CollapseItem>
     </div>
     <div class="margin-container">
-      <CollapsContainer title="Контакты" :tab-id="1012" :collapsed="false">
+      <CollapseItem title="Контакты" :tab-id="1012" :collapsed="false">
         <template #inside-content>
           <ContactsForm :contact-info="head.contactInfo" />
         </template>
-      </CollapsContainer>
+      </CollapseItem>
     </div>
 
     <div class="margin-container">
-      <CollapsContainer title="Расписание" :tab-id="2017" :collapsed="false">
+      <CollapseItem title="Расписание" :tab-id="2017" :collapsed="false">
         <template #inside-content>
           <div class="background-container">
             <TimetableConstructorV2New :store-module="'heads'" />
           </div>
         </template>
-      </CollapsContainer>
+      </CollapseItem>
     </div>
   </el-form>
 
@@ -58,7 +58,7 @@ import Employee from '@/classes/Employee';
 import Head from '@/classes/Head';
 import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDepartment from '@/interfaces/IDepartment';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -67,7 +67,7 @@ import Provider from '@/services/Provider';
 
 export default defineComponent({
   name: 'AdminHeadPage',
-  components: { TimetableConstructorV2New, CollapsContainer, RemoteSearch, ContactsForm },
+  components: { TimetableConstructorV2New, CollapseItem, RemoteSearch, ContactsForm },
   setup() {
     const form = ref();
     Provider.form = form;

@@ -14,7 +14,7 @@
         <draggable class="tabs" :list="dishesGroups" item-key="id" handle=".tab-name" @end="saveGroupsOrder">
           <template #item="{ element }">
             <div>
-              <CollapsContainer :tab-id="element.id" :is-collaps="element.samplesExists()">
+              <CollapseItem :tab-id="element.id" :is-collaps="element.samplesExists()">
                 <template #tools>
                   <svg class="icon-add" @click.stop="openDishSampleConstructor">
                     <use xlink:href="#add" />
@@ -50,7 +50,7 @@
                 <template #inside-content>
                   <DishesConstructorList :dishes-samples="element.dishSamples" @openDishSampleConstructor="openDishSampleConstructor" />
                 </template>
-              </CollapsContainer>
+              </CollapseItem>
             </div>
           </template>
         </draggable>
@@ -83,7 +83,7 @@ import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
 import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorInfo.vue';
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
@@ -95,7 +95,7 @@ export default defineComponent({
   name: 'DishesSamplesConstructor',
   components: {
     DishSearchBar,
-    CollapsContainer,
+    CollapseItem,
     AddToMenu,
     Save,
     Delete,

@@ -17,7 +17,7 @@
         </div>
       </div>
       <div v-if="dishSamplesFlat.length === 0" class="column">
-        <CollapsContainer
+        <CollapseItem
           v-for="dishesGroup in dishesGroups.filter((d) => d.getSamplesNotFromMenu(menu).length)"
           :key="dishesGroup.id"
           :tab-id="dishesGroup.id"
@@ -46,7 +46,7 @@
               </div>
             </div>
           </template>
-        </CollapsContainer>
+        </CollapseItem>
       </div>
       <div v-else>
         <div
@@ -82,7 +82,7 @@ import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
@@ -92,7 +92,7 @@ import StringsService from '@/services/Strings';
 export default defineComponent({
   name: 'DishBook',
   components: {
-    CollapsContainer,
+    CollapseItem,
     AddToMenu,
     Save,
     Delete,

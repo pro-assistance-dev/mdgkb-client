@@ -18,7 +18,7 @@ export default class VisitsApplication {
   formValue = new Form();
   formValueId?: string;
 
-  @ClassHelper.GetClassConstructorForArray(Visit)
+  @ClassHelper.GetClassConstructor(Visit)
   visits: IVisit[] = [];
   visitsForDelete: string[] = [];
 

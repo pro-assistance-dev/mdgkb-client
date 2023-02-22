@@ -24,7 +24,7 @@ export default class ResidencyApplication {
   pointsEntrance = 0;
   pointsAchievements = 0;
   mdgkbExam?: boolean;
-  @ClassHelper.GetClassConstructorForArray(ResidencyApplicationPointsAchievement)
+  @ClassHelper.GetClassConstructor(ResidencyApplicationPointsAchievement)
   residencyApplicationPointsAchievements: ResidencyApplicationPointsAchievement[] = [];
   residencyApplicationPointsAchievementsForDelete: string[] = [];
   primaryAccreditation?: boolean;

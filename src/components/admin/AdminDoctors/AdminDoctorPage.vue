@@ -13,7 +13,7 @@
   </div>
   <el-form v-if="mounted && doctor.employee.id" ref="form" :model="doctor" label-position="top" :rules="rules">
     <div class="margin-container">
-      <CollapsContainer :tab-id="1036" :collapsed="true">
+      <CollapseItem :tab-id="1036" :collapsed="true">
         <template #inside-title>
           <div class="title-in">Отделения</div>
         </template>
@@ -35,10 +35,10 @@
             </div>
           </div>
         </template>
-      </CollapsContainer>
+      </CollapseItem>
     </div>
     <div class="margin-container">
-      <CollapsContainer :tab-id="1036">
+      <CollapseItem :tab-id="1036">
         <template #inside-title>
           <div class="title-in">Прочая информация</div>
         </template>
@@ -52,18 +52,18 @@
             </el-form-item>
           </div>
         </template>
-      </CollapsContainer>
+      </CollapseItem>
     </div>
     <el-container direction="vertical">
       <el-checkbox v-model="doctor.hasAppointment" label="Включить расписание приёма" />
       <div v-if="doctor.hasAppointment" class="margin-container">
-        <CollapsContainer title="Расписание" :tab-id="2017" :is-collaps="false">
+        <CollapseItem title="Расписание" :tab-id="2017" :is-collaps="false">
           <template #inside-content>
             <div class="background-container">
               <TimetableConstructorV2New :store-module="'doctors'" />
             </div>
           </template>
-        </CollapsContainer>
+        </CollapseItem>
       </div>
     </el-container>
   </el-form>
@@ -78,7 +78,7 @@ import Division from '@/classes/Division';
 import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
@@ -96,7 +96,7 @@ export default defineComponent({
   components: {
     RemoteSearch,
     TimetableConstructorV2New,
-    CollapsContainer,
+    CollapseItem,
   },
   setup() {
     const form = ref();

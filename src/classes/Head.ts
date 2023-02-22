@@ -15,7 +15,7 @@ export default class Head {
   position = '';
   photo = new FileInfo();
   photoId?: string;
-  @ClassHelper.GetClassConstructorForArray(Department)
+  @ClassHelper.GetClassConstructor(Department)
   departments: Department[] = [];
   departmentsForDelete: string[] = [];
   isMain = false;

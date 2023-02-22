@@ -31,16 +31,13 @@ export default class ClassHelper {
       if (Array.isArray(prop)) {
         const constructor = Reflect.getMetadata(key, passedClass);
         if (constructor) {
-          if (key === 'floors') {
-            console.log(constructor[key]);
-          }
           passedClass[key] = prop.map((t) => new constructor[key](t));
         }
       }
     });
   }
 
-  static GetClassConstructorForArray = <T>(construct: Constructable<T>): PropertyDecorator => {
+  static GetClassConstructor = <T>(construct: Constructable<T>): PropertyDecorator => {
     return (targetClass, propertyName) => {
       const metadataSingleton = Reflect.getMetadata(`property:${propertyName as string}`, targetClass) || {};
       metadataSingleton[propertyName] = construct;

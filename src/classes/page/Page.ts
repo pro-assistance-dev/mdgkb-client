@@ -18,19 +18,19 @@ export default class Page {
   withComments = false;
   collaps = false;
   showContent = false;
-  @ClassHelper.GetClassConstructorForArray(PageImage)
+  @ClassHelper.GetClassConstructor(PageImage)
   pageImages: PageImage[] = [];
   pageImagesForDelete: string[] = [];
   pageImagesNames: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(PageSideMenu)
+  @ClassHelper.GetClassConstructor(PageSideMenu)
   pageSideMenus: PageSideMenu[] = [];
   pageSideMenusForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(PageSection)
+  @ClassHelper.GetClassConstructor(PageSection)
   pageSections: PageSection[] = [];
   pageSectionsForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(PageDocument)
+  @ClassHelper.GetClassConstructor(PageDocument)
   pageDocuments: PageDocument[] = [];
-  @ClassHelper.GetClassConstructorForArray(PageComment)
+  @ClassHelper.GetClassConstructor(PageComment)
   pageComments: PageComment[] = [];
 
   constructor(i?: Page) {

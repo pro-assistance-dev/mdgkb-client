@@ -33,10 +33,10 @@ import { defineComponent, Ref, ref } from 'vue';
 
 import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
-import Arrows from '@/assets/svg/CollapsContainer/Arrows.svg';
+import Arrows from '@/assets/svg/CollapseItem/Arrows.svg';
 
 export default defineComponent({
-  name: 'CollapsContainer',
+  name: 'VerticalCollapseContainer',
   components: { Arrows, ArrowRight, ArrowLeft },
   setup() {
     const isDrawerOpen: Ref<boolean> = ref(false);

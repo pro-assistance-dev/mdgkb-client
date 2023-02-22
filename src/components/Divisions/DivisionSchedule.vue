@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="division.scheduleAndRulesExists()" tab-id="5" :collapsed="false">
+  <CollapseItem v-if="division.scheduleAndRulesExists()" tab-id="5" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Распорядок дня</div>
     </template>
@@ -46,18 +46,18 @@
         </div>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 import Division from '@/classes/Division';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'DivisionSchedule',
-  components: { CollapsContainer },
+  components: { CollapseItem },
   props: {
     division: { type: Object as PropType<Division>, required: true },
   },

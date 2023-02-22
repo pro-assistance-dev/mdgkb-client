@@ -19,27 +19,27 @@ export default class Employee {
   academicDegree = '';
   academicRank = '';
   partTime = false;
-  @ClassHelper.GetClassConstructorForArray(Regalia)
+  @ClassHelper.GetClassConstructor(Regalia)
   regalias: Regalia[] = [];
   regaliasForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(Education)
+  @ClassHelper.GetClassConstructor(Education)
   educations: Education[] = [];
   educationsForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(Certificate)
+  @ClassHelper.GetClassConstructor(Certificate)
   certificates: Certificate[] = [];
   certificatesForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(Experience)
+  @ClassHelper.GetClassConstructor(Experience)
   experiences: Experience[] = [];
   experiencesForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(TeachingActivity)
+  @ClassHelper.GetClassConstructor(TeachingActivity)
   teachingActivities: TeachingActivity[] = [];
   teachingActivitiesForDelete: string[] = [];
 
-  @ClassHelper.GetClassConstructorForArray(Certification)
+  @ClassHelper.GetClassConstructor(Certification)
   certifications: Certification[] = [];
   certificationsForDelete: string[] = [];
 
-  @ClassHelper.GetClassConstructorForArray(Accreditation)
+  @ClassHelper.GetClassConstructor(Accreditation)
   accreditations: Accreditation[] = [];
   accreditaionsForDelete: string[] = [];
 
@@ -47,9 +47,9 @@ export default class Employee {
   fullName?: string;
   dateBirth?: string;
   isMale?: string;
-  @ClassHelper.GetClassConstructorForArray(Head)
+  @ClassHelper.GetClassConstructor(Head)
   head?: Head;
-  // headId?: string;
+  headId?: string;
 
   constructor(i?: Employee) {
     ClassHelper.BuildClass(this, i);

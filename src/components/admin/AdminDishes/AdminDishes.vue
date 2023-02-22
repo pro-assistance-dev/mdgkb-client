@@ -4,7 +4,7 @@
       <CalendarComponent @select-day="selectDay" @back-to-today="fillCalendar" @move="fillCalendar" />
     </template>
     <template #sort />
-    <VerticalCollapsContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
+    <VerticalCollapseContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
       <template #main>
         <div v-if="!dailyMenus.length" class="menu-shadow">
           <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus"> Создать меню </el-button>
@@ -185,7 +185,7 @@
           </div>
         </div>
       </template>
-    </VerticalCollapsContainer>
+    </VerticalCollapseContainer>
 
     <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
       <DishesSamplesConstructor :menu="selectedMenu" />
@@ -232,7 +232,7 @@ import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
 import CalendarComponent from '@/components/CalendarComponent.vue';
-import VerticalCollapsContainer from '@/components/Main/CollapsContainer/VerticalCollapsContainer.vue';
+import VerticalCollapseContainer from '@/components/Main/Collapse/VerticalCollapseContainer.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
@@ -253,7 +253,7 @@ export default defineComponent({
     Add,
     Delete,
     Print,
-    VerticalCollapsContainer,
+    VerticalCollapseContainer,
     DishBook,
     Eye,
     EyeClosed,

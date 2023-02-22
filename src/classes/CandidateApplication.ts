@@ -13,7 +13,7 @@ export default class CandidateApplication implements ICandidateApplication {
   id?: string;
   candidateExam: CandidateExam = new CandidateExam();
   candidateExamId?: string;
-  @ClassHelper.GetClassConstructorForArray(CandidateApplicationSpecialization)
+  @ClassHelper.GetClassConstructor(CandidateApplicationSpecialization)
   candidateApplicationSpecializations: ICandidateApplicationSpecialization[] = [];
   candidateApplicationSpecializationsForDelete: string[] = [];
   formValue = new Form();

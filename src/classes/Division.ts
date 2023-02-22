@@ -34,7 +34,7 @@ export default class Division {
   slug?: string = '';
   doctorsDivisions: DoctorDivision[] = [];
   doctorsDivisionsForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(Vacancy)
+  @ClassHelper.GetClassConstructor(Vacancy)
   vacancies: Vacancy[] = [];
   timetable: Timetable = new Timetable();
   timetableId?: string;
@@ -42,38 +42,38 @@ export default class Division {
   scheduleId?: string;
   hasDiagnostic = false;
   hasAmbulatory = false;
-  @ClassHelper.GetClassConstructorForArray(DivisionImage)
+  @ClassHelper.GetClassConstructor(DivisionImage)
   divisionImages: DivisionImage[] = [];
   divisionImagesForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(DivisionComment)
+  @ClassHelper.GetClassConstructor(DivisionComment)
   divisionComments: DivisionComment[] = [];
   timetableDaysForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(VisitingRuleGroup)
+  @ClassHelper.GetClassConstructor(VisitingRuleGroup)
   visitingRulesGroups: VisitingRuleGroup[] = [];
   visitingRulesGroupsForDelete: string[] = [];
   buildingId?: string;
-  @ClassHelper.GetClassConstructorForArray(DivisionPaidService)
+  @ClassHelper.GetClassConstructor(DivisionPaidService)
   divisionPaidServices: DivisionPaidService[] = [];
   hospitalizationContactInfo?: ContactInfo;
   hospitalizationContactInfoId?: string;
   hospitalizationDoctorId?: string;
   hospitalizationDoctor?: Doctor;
-  @ClassHelper.GetClassConstructorForArray(MedicalProfileDivision)
+  @ClassHelper.GetClassConstructor(MedicalProfileDivision)
   medicalProfilesDivisions: MedicalProfileDivision[] = [];
-  @ClassHelper.GetClassConstructorForArray(DivisionVideo)
+  @ClassHelper.GetClassConstructor(DivisionVideo)
   divisionVideos: DivisionVideo[] = [];
   divisionVideosForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(ContactInfo)
+  @ClassHelper.GetClassConstructor(ContactInfo)
   contactInfo: ContactInfo = new ContactInfo();
   contactInfoId?: string;
-  @ClassHelper.GetClassConstructorForArray(TreatDirection)
+  @ClassHelper.GetClassConstructor(TreatDirection)
   treatDirection: TreatDirection = new TreatDirection();
   treatDirectionId?: string;
   chiefId?: string;
   chief: Doctor = new Doctor();
-  @ClassHelper.GetClassConstructorForArray(SocialMedia)
+  @ClassHelper.GetClassConstructor(SocialMedia)
   socialMedias: SocialMedia[] = [];
-  @ClassHelper.GetClassConstructorForArray(NewsDivision)
+  @ClassHelper.GetClassConstructor(NewsDivision)
   newsDivisions: NewsDivision[] = [];
   newsDivisionsForDelete: string[] = [];
   isCenter = false;

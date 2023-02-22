@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
-  name: 'CollapseList',
+  name: 'CollapseContainer',
 
   setup() {
     const activeId = ref(0);
