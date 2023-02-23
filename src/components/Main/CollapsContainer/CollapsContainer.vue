@@ -36,7 +36,7 @@ export default defineComponent({
   name: 'CollapsContainer',
   components: { Arrows },
   props: {
-    tabId: { type: Number as PropType<number>, required: true },
+    tabId: { type: Number as PropType<number>, required: false },
     activeId: { type: Number as PropType<number>, default: 0 },
     isCollaps: { type: Boolean as PropType<boolean>, default: true },
     title: { type: String as PropType<string>, default: '' },

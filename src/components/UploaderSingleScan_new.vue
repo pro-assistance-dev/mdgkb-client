@@ -17,7 +17,7 @@
       <i class="el-icon-plus custom-plus"></i>
     </template>
     <template #file="{ file }">
-      <div>
+      <div class="div1">
         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
       </div>
       <span class="el-upload-list__item-actions">
@@ -30,7 +30,7 @@
       </span>
     </template>
   </el-upload>
-  <ImageCropperV2New v-if="withCrop" :open="cropperOpened" @crop="crop" @close="cropperOpened = false" @ratio="ratio" />
+  <ImageCropperV2New v-if="withCrop" :open="cropperOpened" :defaultRatio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts">
@@ -43,7 +43,6 @@ import ImageCropperV2New from '@/components/ImageCropperV2_new.vue';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
-import IDivisionImage from '@/interfaces/IDivisionImage';
 
 export default defineComponent({
   name: 'UploaderSingleScan',
@@ -61,11 +60,11 @@ export default defineComponent({
     },
     height: {
       type: Number,
-      default: 100,
+      default: 150,
     },
     width: {
       type: Number,
-      default: 100,
+      default: 150,
     },
     cropRatio: {
       type: Boolean,
@@ -75,9 +74,13 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    defaultRatio: {
+      type: Number,
+      required: false,
+      default:1,
+    },
   },
-  // emits: ['crop', 'removeFile' ],
-  emits: ['crop', 'removeFile', 'ratio'],
+  emits: ['crop', 'removeFile' ],
 
   setup(props, { emit }) {
     const fileList: Ref<IFilesList[]> = ref([]);
@@ -104,14 +107,10 @@ export default defineComponent({
       }
     };
 
-    // console.log('Значение коэффициента по умолчаннию ЭМИТ!!!' + emit('ratio'));
-
     const openCropper = (file: IFile) => {
-      const ratio = props.cropRatio ? props.width / props.height : 0;
-      // const ratio = 1;
+      const ratio = props.cropRatio ? props.defaultRatio : 0;
       store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, ratio, props.fileInfo.id));
       cropperOpened.value = true;
-      // console.log('Значение коэффициента по умолчаннию ЭМИТ!!!' + emit('ratio'));
     };
 
     const handleRemove = () => {
@@ -140,22 +139,13 @@ export default defineComponent({
       cropperOpened.value = false;
       if (props.emitCrop) {
         emit('crop');
-        
       }
-      // console.log('Значение коэффициента по умолчаннию ЭМИТ!!!' + emit('ratio'));
     };
-
-    const ratio = (ratio:Number) => {
-      console.log('Соотношение в UploaderSingleScan: ' + ratio);
-       emit('ratio', ratio);
-    };
-
 
     onBeforeMount(() => {
       if (props.fileInfo.fileSystemPath) {
         fileList.value.push({ name: props.fileInfo.fileSystemPath, url: props.fileInfo.getImageUrl() });
         showUpload.value = false;
-        // console.log('Значение коэффициента по умолчаннию' + emit('ratio'));
       }
     });
 
@@ -169,33 +159,30 @@ export default defineComponent({
       handleRemove,
       showUpload,
       toggleUpload,
-      ratio,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-/* .hideUpload {
-  :deep(.el-upload) {
-    display: none;
-  }
-} */
 
-// .avatar-uploader-cover {
-// line-height: var(--height);
-// text-align: center;
-// }
+.avatar-uploader-cover {
+  display: flex;
+  justify-content: center;
+}
 
-// .custom-plus {
-//display: inline-block;
-//vertical-align: middle;
-//line-height: normal;
-// }
+.avatar-uploader-cover.hideUploader {
+  display: flex;
+  justify-content: center;
+  height: var(--height);
+  text-align: center;
+  margin: 0;
+}
 
 :deep(.el-upload) {
   max-height: var(--height);
   height: 100% !important;
+  width: auto !important;
   background: white;
   text-align: center;
   line-height: var(--height);
@@ -205,12 +192,22 @@ export default defineComponent({
   width: auto !important;
   max-height: var(--height) !important;
   height: 100% !important;
+  margin: 0px;
 }
 
 :deep(.el-upload-list__item-thumbnail) {
   width: auto !important;
   max-height: var(--height) !important ;
   height: 100% !important;
+}
+
+:deep(.el-upload-list--picture-card) {
+  display: flex;
+  justify-content: center;
+}
+
+:deep(.el-upload-list--picture-card .el-upload-list__item) {
+  margin: 10px;
 }
 
 :deep(.el-upload-list__item) {
@@ -221,5 +218,12 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.div1 {
+  display: flex;
+  justify-content: center;
+  width: auto;
+
 }
 </style>

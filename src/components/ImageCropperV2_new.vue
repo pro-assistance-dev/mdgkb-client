@@ -5,25 +5,18 @@
         <div class="line-block">
           <el-form-item label="Задайте пропорции фото:">
             <el-select v-model="resolution" label="Пропорции изображения" @change="selectResolution">
-              <el-option label="2:3 (формат A4)" :value="0.6667" />
-              <el-option label="4:3 (для карточек новостей)" :value="1.3333" />
+              <el-option label="2:3 (формат A4)" :value="2/3" />
+              <el-option label="4:3 (для карточек новостей)" :value="4/3" />
               <el-option label="1:1 (для фото сотрудников)" :value="1" />
-              <el-option label="3:2" :value="1.5" />
-              <el-option label="16:9" :value="1.7778" />
-              <el-option label="3:4 (вертикальное изображение)" :value="0.75" />
+              <el-option label="3:2" :value="3/2" />
+              <el-option label="16:9" :value="16/9" />
+              <el-option label="3:4 (вертикальное изображение)" :value="3/4" />
               <el-option label="Задать пропорции вручную" :value="0" />
             </el-select>
           </el-form-item>
         </div>
-        <!-- <el-form-item v-if="resolution === 3" class="line-item" label="Ширина">
-        <el-input-number placeholder="4"></el-input-number>
-      </el-form-item>
-      <el-form-item v-if="resolution === 3" class="line-item" label="Высота">
-        <el-input-number placeholder="3"></el-input-number>
-      </el-form-item> -->
       </div>
       <Cropper
-        v-if="cropper.ratio"
         ref="cropperRef"
         :src="cropper.src"
         :stencil-props="{ aspectRatio: cropper.ratio }"
@@ -31,11 +24,8 @@
         @change="onChange"
       />
 
-      <Cropper v-else ref="cropperRef" :src="cropper.src" style="max-height: 50vh" @change="onChange" />
       <div class="dialog-footer">
-        <!--      <el-button :loading="loading" type="warning" @click="cancel">Отменить</el-button>-->
         <el-button :loading="loading" type="success" @click="save">Сохранить</el-button>
-        {{ coordinates }}
       </div>
     </div>
   </el-dialog>
@@ -46,7 +36,6 @@ import 'vue-advanced-cropper/dist/style.css';
 
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
-import { useStore } from 'vuex';
 
 import ICanvasResult from '@/interfaces/canvas/ICanvasResult';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
@@ -61,24 +50,25 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    defaultRatio: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
   },
-  emits: ['crop', 'close', 'ratio'],
+  emits: ['crop', 'close'],
   setup(props, { emit }) {
     const cropper: Ref<ICropper> = computed(() => Provider.store.getters[`cropper/cropperV2`]);
-    const resolution: Ref<number> = ref(0);
+    const resolution: Ref<number> = ref(props.defaultRatio);
+
+    cropper.value.ratio = resolution.value;
 
     const selectResolution = async () => {
-      if (resolution.value !== null) {
-        console.log('Значение коэффициента по умолчаннию' + cropper.value.ratio);
         if (resolution.value === 0) {
-          console.log('Задать свои пропорции' + resolution.value);
           cropper.value.ratio = 0;
-          console.log('Значение коэффициента по умолчаннию после выбора' + cropper.value.ratio);
         } else {
           cropper.value.ratio = resolution.value;
-          console.log('Значение коэффициента после выбора' + cropper.value.ratio);
         }
-      }
     };
 
     const coordinates: Ref<ICoordinates> = ref({
@@ -96,18 +86,12 @@ export default defineComponent({
     const save = async () => {
       loading.value = true;
       const canvas = cropperRef.value.getResult();
-      console.log('Значение кроппер' + cropper.value.ratio);
-      console.log('Координаты: ' + coordinates.value);
       if (cropper.value.ratio === 0) {
         resolution.value = coordinates.value.width/coordinates.value.height
-        console.log('Координаты: ' + coordinates.value);
-        console.log('Значение кроппер' + cropper.value.ratio);
-        console.log('Значение  соотношения' + resolution.value);
       }
       if (canvas) {
         canvas.canvas.toBlob((blob: Blob) => {
           emit('crop', { blob: blob, src: canvas.canvas?.toDataURL() });
-          emit('ratio', resolution.value);
         });
       }
 
@@ -124,7 +108,7 @@ export default defineComponent({
       resultImage.value = res.canvas?.toDataURL();
     };
 
-    return { save, cancel, onChange, resultImage, cropperRef, loading, cropper, resolution, selectResolution, coordinates };
+    return { save, cancel, onChange, resultImage, cropperRef, loading, cropper, selectResolution, resolution };
   },
 });
 </script>
@@ -140,7 +124,7 @@ export default defineComponent({
   width: auto;
   padding: 10px;
   margin: 0 20px 20px 20px;
-  /* background: #dff2f8; */
+  background: #dff2f8;
   border-radius: 5px;
   border: 1px solid #c3c3c3;
 }

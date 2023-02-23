@@ -83,6 +83,7 @@ $news-content-max-height: 165px;
 
 .avatar-uploader-cover {
   // height: 400px;
+  height: auto;
   text-align: center;
   align-content: center;
 }

@@ -210,8 +210,4 @@ export default defineComponent({
   justify-content: space-between;
   width: 100%;
 }
-
-:deep(.el-icon-plus .custom-plus) {
-  font-size: 40px;
-}
 </style>

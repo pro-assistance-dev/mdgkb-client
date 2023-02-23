@@ -1,20 +1,31 @@
 <template>
-  <draggable class="groups" :list="fileList" item-key="id" handle=".el-icon-s-grid" @end="sort(fileList)">
+  <draggable class="groups" :list="fileList" item-key="id" handle=".move" @end="sort(fileList)">
     <template #item="{ element, index }">
-      <div>
-        <i class="el-icon-s-grid drug-icon" />
-        <UploaderSingleScanNew
-          :file-info="element.fileInfo"
-          :height="150"
-          @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
-          @ratio="(e) => (element.ratio = e)"
-
-        />
-        <el-button @click="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">Удалить изображение</el-button>
+      <div class="item">
+        <div class="move">
+          <div class="item-tools">
+            <svg class="icon-move">
+              <use xlink:href="#move"></use>
+            </svg>
+            <button class="admin-del2" @click.prevent="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">Удалить</button>
+          </div>
+          <UploaderSingleScanNew
+            :file-info="element.fileInfo"
+            :height="150"
+            :defaultRatio="defaultRatio"
+            @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
+            @ratio="(e) => (element.ratio = e)"
+          />
+        </div>
+        <div class="item-description">
+          <el-form-item class="hidden">
+            <el-input v-model="element.description" placeholder="..."/>
+          </el-form-item>
+        </div>
       </div>
     </template>
   </draggable>
-  <el-button @click="$emit('addImage')"> Добавить изображение </el-button>
+  <Move />
 </template>
 
 <script lang="ts">
@@ -25,10 +36,11 @@ import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IFiler from '@/interfaces/IFiler';
 import sort from '@/services/sort';
+import Move from '@/assets/svg/AdminGallery/Move.svg';
 
 export default defineComponent({
   name: 'AdminGallery',
-  components: { UploaderSingleScan, draggable, UploaderSingleScanNew },
+  components: { UploaderSingleScan, draggable, UploaderSingleScanNew, Move },
   emits: ['addImage', 'ratio'],
   props: {
     fileList: {
@@ -40,16 +52,15 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
     },
+    defaultRatio: {
+      type: Number,
+      required: false,
+       default: 1,
+    },
   },
-  setup(props, {emit}) {
-
-    // const ratio = (resolution:Number) => {
-    //   console.log('Соотношение в AdminGallery: ' + resolution);
-    // };
-
+  setup() {
     return {
       sort, 
-      // ratio,
     };
   },
 });
@@ -57,28 +68,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
-.gallery {
-  width: 100%;
-  text-align: center;
-}
 
-/* .hideUpload {
-  :deep(.el-upload) {
-    display: none;
-  }
-} */
-
-.avatar-uploader-cover {
-  // height: 400px;
-  text-align: center;
-  align-content: center;
-}
-
-.custom-plus {
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;
-}
 
 :deep(.el-upload) {
   width: auto;
@@ -102,10 +92,6 @@ export default defineComponent({
   transition: unset;
 }
 
-.card-header {
-  text-align: start;
-}
-
 :deep(.el-dialog__body) {
   margin: 0px;
   padding: 10px 0 1px 0;
@@ -121,20 +107,31 @@ export default defineComponent({
 
 :deep(.el-form-item__content) {
   width: 100%;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 :deep(.el-input__inner) {
   border-radius: 40px;
   padding-left: 25px;
-  height: 32px;
-  width: 100%;
+  height: 20px;
+  width: 270px;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 15px;
+  padding-left: 20px;
+  margin: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 :deep(.el-input__inner::placeholder) {
-  color: #4a4a4a;
+  color: #A3a9BE;
 }
 
 :deep(.el-select .el-input .el-select__caret) {
@@ -143,10 +140,6 @@ export default defineComponent({
   font-weight: bold;
   margin-right: 5px;
   margin-top: 4px;
-}
-
-.el-select {
-  width: 100%;
 }
 
 :deep(.el-input__prefix) {
@@ -181,7 +174,7 @@ export default defineComponent({
 }
 
 :deep(.el-form-item) {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 :deep(.el-checkbox__input) {
@@ -231,10 +224,147 @@ export default defineComponent({
 :deep(.el-upload--picture-card) {
   width: 150px;
   font-size: 50px;
+  margin: 10px;
 }
 
 :deep(.el-upload--picture-card i) {
   font-size: 50px;
   color: #00B5A4;
+  padding: 0 54px;
+}
+
+.groups {
+  width: 100%;
+  height: 50vh;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-rows: repeat(0 5px);
+  grid-auto-rows: 250px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.groups  > div {
+  max-width: 290px;
+  min-width: 120px;
+  height: 230px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.item {
+  height: 150px;
+  object-fit: cover;
+  position: relative;
+  width: auto;
+  border-radius: $normal-border-radius;
+  border: $normal-darker-border;
+  transition: 0.3s;
+}
+
+.item:hover {
+  border: $dark-border;
+  box-shadow: $normal-shadow;
+}
+
+
+.item:hover > .move > .item-tools > .icon-move {
+  visibility: visible;
+}
+
+
+.hidden {
+  height: 30px;
+}
+
+.item:hover > .item-tools {
+  visibility: visible;
+  border-bottom: $dark-border;
+}
+
+.item-tools {
+  padding-left: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+  background: #F9FAFB;
+  border-top-left-radius: $normal-border-radius;
+  border-top-right-radius: $normal-border-radius;
+  border-bottom: $normal-darker-border;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.item-description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  background: #F9FAFB;
+  border-bottom-left-radius: $normal-border-radius;
+  border-bottom-right-radius: $normal-border-radius;
+  border-top: $normal-darker-border;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+@keyframes ripple {
+  0% {transform:scale(1, 1)}
+  50% {transform:scale(1.15, 1.15)}
+}
+
+.icon-move {
+  visibility: hidden;
+  width: 24px;
+  height: 24px;
+  fill: #dff2f8;
+  stroke: #747474;
+  animation-name: ripple;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.admin-del2 {
+  border: none;
+  background: inherit;
+  color: #a3a9be;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-del2:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.item-input {
+  height: 20px;
+}
+
+
+@media screen and (max-width: 400px) {
+  .background-container {
+    margin: 0 10px 20px 10px;
+  }
+
+  .groups {
+    width: 100%;
+    height: 40vh;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    grid-template-rows: repeat(0 5px);
+    grid-auto-rows: 210px;
+  }
+
+  .groups  > div {
+    max-width: 230px;
+    height: 200px;
+    object-fit: cover;
+    overflow: hidden;
+    align-self: center;
+    justify-self: center;
+  }
 }
 </style>
