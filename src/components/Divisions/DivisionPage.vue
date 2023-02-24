@@ -18,7 +18,7 @@
         <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
       </template>
     </CollapsContainer>
-    <ImageGallery :images="division.divisionImages" />
+    <ImageGalleryDivision :images="division.divisionImages" />
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
@@ -34,7 +34,7 @@ import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
-import ImageGallery from '@/components/ImageGallery.vue';
+import ImageGalleryDivision from '@/components/ImageGallery_new.vue';
 import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
@@ -59,7 +59,7 @@ export default defineComponent({
     ScansSlider,
     DivisionInfoBlock,
     CollapsContainer,
-    ImageGallery,
+    ImageGalleryDivision,
   },
   setup() {
     const division: ComputedRef<Division> = computed<Division>(() => Provider.store.getters['divisions/item']);
