@@ -29,7 +29,7 @@
           <AdminDivisionVisitingRules />
           <TimetableConstructorV2 :store-module="'divisions'" />
           <ScheduleConstructor :store-module="'divisions'" />
-          <CollapsContainer :collapsed="false">
+          <CollapseItem :collapsed="false">
             <template #inside-title>
               <div class="title-in">Фотографии</div>
             </template>
@@ -37,7 +37,7 @@
               <div class="tools-buttons">
                 <button class="admin-add" @click.prevent="division.addImage()">+ Добавить</button>
               </div>
-              <div class="background-container">
+              <div v-if="division.divisionImages.length" class="background-container">
               <AdminGallery
                 :default-ratio="4/3"
                 :file-list="division.divisionImages"
@@ -46,7 +46,7 @@
               </div
               >
             </template>
-          </CollapsContainer>
+          </CollapseItem>
 
           <!--          <AdminDivisionGallery />-->
         </el-container>
@@ -295,12 +295,6 @@ export default defineComponent({
   }
 }
 
-/* .hideUpload {
-  :deep(.el-upload) {
-    display: none;
-  }
-} */
-
 .delete-tag-icon {
   margin-left: 20%;
   transition: all 0.1s;
@@ -351,10 +345,6 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 400px) {
-  // .container {
-  //   width: calc(100% - 42px);
-  //   margin: 0px 10px 20px 10px;
-  // }
   .admin-del {
     position: absolute;
     top: 23px;

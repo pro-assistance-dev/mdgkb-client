@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="images.length > 0" tab-id="4">
+  <CollapseItem v-if="images.length > 0" tab-id="4">
     <template #inside-title>
       <div class="title-in">Фотографии</div>
     </template>
@@ -36,21 +36,21 @@
         </el-dialog>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref, onBeforeMount } from 'vue';
 
 import FileInfo from '@/classes/File/FileInfo';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import DivisionImage from '@/classes/DivisionImage';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'ImageGallery',
-  components: { CollapsContainer },
+  components: { CollapseItem },
   props: {
     images: {
       type: Array as PropType<DivisionImage[]>,

@@ -235,7 +235,7 @@ export default defineComponent({
 
 .groups {
   width: 100%;
-  height: 50vh;
+  max-height: 50vh;
   display: grid;
   grid-gap: 5px;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));

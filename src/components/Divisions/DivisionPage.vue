@@ -19,7 +19,7 @@
         <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
       </template>
     </CollapseItem>
-    <ImageGallery :images="division.divisionImages" />
+    <ImageGalleryDivision :images="division.divisionImages" />
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
