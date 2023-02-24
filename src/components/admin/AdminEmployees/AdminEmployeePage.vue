@@ -2,19 +2,18 @@
   <el-form v-if="mounted" ref="form" :model="employee" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
-        <el-container direction="vertical">
+        <el-container direction="vertical" class="vertical-block">
+          <div class="status-panel">Панель управления статусами</div>
           <EmployeeConstructor />
-          <el-divider />
           <div>
-            <h4>Информация о руководстве</h4>
-            <el-button v-if="employee.head" @click.prevent="employee.resetHead()">Убрать из руководителей</el-button>
-            <el-button v-else @click.prevent="employee.setHead()">Сделать руководителем</el-button>
+            <!-- <h4>Информация о руководстве</h4> -->
+            <el-button v-if="employee.head" @click.prevent="employee.resetHead()">Отозвать статус руководителя</el-button>
+            <el-button v-else @click.prevent="employee.setHead()">Присвоитть статус руководителя</el-button>
           </div>
           <HeadConstructor v-if="employee.head" />
-          <el-divider />
-          <h4>Информация о враче</h4>
-          <el-button v-if="employee.doctor" @click.prevent="employee.resetDoctor()">Убрать из врачей</el-button>
-          <el-button v-else @click.prevent="employee.setDoctor()">Сделать врачом</el-button>
+          <!-- <h4>Информация о враче</h4> -->
+          <el-button v-if="employee.doctor" @click.prevent="employee.resetDoctor()">Отозвать статус врача</el-button>
+          <el-button v-else @click.prevent="employee.setDoctor()">Присвоить статус врача</el-button>
           <DoctorConstructor v-if="employee.doctor" />
         </el-container>
       </el-col>
@@ -81,6 +80,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 $margin: 20px 0;
 
 .background-container {
@@ -88,7 +88,7 @@ $margin: 20px 0;
   padding: 10px;
   margin: 0 20px 20px 20px;
   background: #dff2f8;
-  border-radius: 5px;
+  border-radius: $normal-border-radius;
   border: 1px solid #c3c3c3;
 }
 
@@ -343,6 +343,33 @@ $margin: 20px 0;
 
 .admin-add2:hover {
   color: darken($color: #00b5a4, $amount: 10%);
+}
+
+.vertical-block {
+  position: relative;
+}
+
+.status-panel {
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  background: #dff2f8;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow:  0 0px 10px 0px rgba(0 0 0 / 20%);
+  border: $normal-border;
+
+  // border-top: 30px solid #dff2f8;
+	// border-left: 20px solid transparent;
+	// border-right: 20px solid transparent;
+	// height: 0;
 }
 
 @media screen and (max-width: 910px) {

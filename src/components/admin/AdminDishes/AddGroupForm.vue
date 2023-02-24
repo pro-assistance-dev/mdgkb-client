@@ -80,7 +80,6 @@ export default defineComponent({
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
   z-index: 101;
   left: 50%;
-  transform: translateX(-50%);
   width: 560px;
   padding-top: 20px;
 }
