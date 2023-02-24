@@ -8,6 +8,7 @@
         @select="selectSearch"
       />
       <FiltersList :models="createGenderFilterModels()" @load="loadItems" />
+      <el-button @click="resetFilter">Сбросить фильтры</el-button>
     </template>
     <template #sort>
       <SortList :max-width="400" @load="loadItems" />
@@ -18,6 +19,13 @@
           {{ scope.row.human.getFullName() }}
         </template>
       </el-table-column>
+      <el-table-column label="Должности" sortable>
+        <template #default="scope">
+          <el-tag v-if="scope.row.doctor" size="mini" @click="filterByRole(EmployeesFiltersLib.onlyDoctors)">Врач</el-tag>
+          <el-tag v-if="scope.row.head" size="mini" @click="filterByRole(EmployeesFiltersLib.onlyHeads)">Руководитель</el-tag>
+        </template>
+      </el-table-column>
+
       <el-table-column label="Пол" align="center" sortable>
         <template #default="scope">
           {{ scope.row.human.getGender() }}
@@ -38,13 +46,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortListV2.vue';
+import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISearchObject from '@/interfaces/ISearchObject';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
@@ -74,7 +83,27 @@ export default defineComponent({
       return [EmployeesFiltersLib.onlyMale(), EmployeesFiltersLib.onlyFemale()];
     };
 
+    const resetFilterModels = () => {
+      Provider.dropPagination();
+      Provider.filterQuery.value.reset();
+      Provider.setDefaultSortModel();
+    };
+
+    const filterByRole = async (roleFilterFunc: () => IFilterModel) => {
+      resetFilterModels();
+      Provider.setFilterModel(roleFilterFunc());
+      await Provider.loadItems();
+    };
+
+    const resetFilter = async (roleFilterFunc: () => IFilterModel) => {
+      resetFilterModels();
+      await Provider.loadItems();
+    };
+
     return {
+      resetFilter,
+      filterByRole,
+      EmployeesFiltersLib,
       employees,
       ...Provider.getAdminLib(),
       selectSearch,

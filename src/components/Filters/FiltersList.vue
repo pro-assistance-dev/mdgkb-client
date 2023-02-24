@@ -53,8 +53,7 @@ export default defineComponent({
       } else {
         Provider.spliceFilterModel(selectedId.value);
       }
-      Provider.filterQuery.value.pagination = new Pagination();
-      Provider.store.commit('pagination/setCurPage', 1);
+      Provider.dropPagination();
       await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       emit('load');
     };

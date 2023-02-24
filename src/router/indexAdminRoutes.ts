@@ -10,13 +10,11 @@ import AdminBannersRoutes from '@/router/AdminBannersRoutes';
 import AdminCommentsRoutes from '@/router/AdminCommentsRoutes';
 import AdminDailyMenuOrdersRoutes from '@/router/AdminDailyMenuOrdersRoutes';
 import AdminDictionaryRoutes from '@/router/AdminDictionaryRoutes';
-import AdminDoctorsRoutes from '@/router/AdminDoctorsRoutes';
 import AdminEducationalOrganizationRoutes from '@/router/AdminEducationalOrganizationRoutes';
 import AdminEmployeesRoutes from '@/router/AdminEmployeesRoutes';
 import AdminFaqsRoutes from '@/router/AdminFaqsRoutes';
 import AdminFormPatternRoutes from '@/router/AdminFormPatternRoutes';
 import AdminFormStatusesRoutes from '@/router/AdminFormStatusesRoutes';
-import AdminHeadsRoutes from '@/router/AdminHeadsRoutes';
 import AdminHospitalizationsRoutes from '@/router/AdminHospitalizationsRoutes';
 import AdminHospitalizationsTypeRoutes from '@/router/AdminHospitalizationsTypeRoutes';
 import AdminMedicalProfiles from '@/router/AdminMedicalProfiles';
@@ -88,7 +86,6 @@ export default [
       layout: 'AdminLayout',
     },
   },
-  ...AdminDoctorsRoutes,
   ...AdminDictionaryRoutes,
   ...AdminNewsRoutes,
   ...AdminBannersRoutes,
@@ -101,7 +98,6 @@ export default [
   ...AdminNewsSlideRoutes,
   ...AdminQuestionsRoutes,
   ...AdminTimetablePatternRoutes,
-  ...AdminHeadsRoutes,
   ...AdminPaidServicesGroupsRoutes,
   ...AdminProjectRoutes,
   ...AdminPartnersRoutes,

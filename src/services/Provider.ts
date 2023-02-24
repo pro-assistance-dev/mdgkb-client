@@ -2,6 +2,7 @@ import { computed, ComputedRef, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, RouteLocationNormalizedLoaded } from 'vue-router';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
+import Pagination from '@/classes/filters/Pagination';
 import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISchema from '@/interfaces/schema/ISchema';
@@ -28,6 +29,11 @@ const Provider = (() => {
   function initPagination(options?: IPaginationOptions): void {
     store.commit('filter/setStoreModule', options?.storeModule ?? getStoreModule());
     store.commit('filter/setAction', options?.action ?? getGetAction());
+    store.commit('pagination/setCurPage', 1);
+  }
+
+  function dropPagination(): void {
+    filterQuery.value.pagination = new Pagination();
     store.commit('pagination/setCurPage', 1);
   }
 
@@ -136,7 +142,6 @@ const Provider = (() => {
       pathLen = 2;
     }
     storeModule = StringsService.toCamelCase(pathParts[pathParts.length - pathLen]);
-    console.log(item.value);
   }
 
   function setDefaultSortModel(): void {
@@ -253,6 +258,7 @@ const Provider = (() => {
   }
 
   return {
+    dropPagination,
     saveButtonClicked,
     resetState,
     routerPushBlank,

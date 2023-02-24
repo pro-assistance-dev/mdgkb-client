@@ -52,14 +52,4 @@ export default class Head {
   getHuman(): Human {
     return this.employee.human;
   }
-
-  setEmployee(employee: Employee): void {
-    this.employee = new Employee(employee);
-    this.employeeId = employee.id;
-  }
-
-  resetEmployee(): void {
-    this.employee = new Employee();
-    this.employeeId = undefined;
-  }
 }

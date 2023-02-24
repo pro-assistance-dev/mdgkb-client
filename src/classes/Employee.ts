@@ -1,5 +1,6 @@
 import Accreditation from '@/classes/accreditations/Accreditation';
 import Certificate from '@/classes/Certificate';
+import Doctor from '@/classes/Doctor';
 import Certification from '@/classes/educations/Certification';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
@@ -43,13 +44,18 @@ export default class Employee {
   accreditations: Accreditation[] = [];
   accreditaionsForDelete: string[] = [];
 
+  @ClassHelper.GetClassConstructor(Head)
+  head?: Head;
+  headsForDelete: string[] = [];
+
+  @ClassHelper.GetClassConstructor(Doctor)
+  doctor?: Doctor;
+  doctorsForDelete: string[] = [];
+
   //meta
   fullName?: string;
   dateBirth?: string;
   isMale?: string;
-  @ClassHelper.GetClassConstructor(Head)
-  head?: Head;
-  headId?: string;
 
   constructor(i?: Employee) {
     ClassHelper.BuildClass(this, i);
@@ -118,5 +124,27 @@ export default class Employee {
   getAcademicDegreeAndRank(): string {
     return `${this.academicDegree}${this.academicDegree && this.academicRank ? ' • ' : ''}${this.academicRank}`;
     // return `Кандидат медицинских наук • Заместитель председателя Ученого Совета`;
+  }
+
+  setHead(): void {
+    this.head = new Head();
+  }
+
+  resetHead(): void {
+    if (this.head?.id) {
+      this.headsForDelete?.push(this.head?.id);
+    }
+    this.head = undefined;
+  }
+
+  setDoctor(): void {
+    this.doctor = new Doctor();
+  }
+
+  resetDoctor(): void {
+    if (this.doctor?.id) {
+      this.doctorsForDelete?.push(this.doctor?.id);
+    }
+    this.doctor = undefined;
   }
 }

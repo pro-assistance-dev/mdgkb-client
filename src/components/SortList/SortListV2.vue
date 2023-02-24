@@ -54,11 +54,6 @@ export default defineComponent({
       emit('load');
     });
 
-    const dropPagination = (): void => {
-      Provider.filterQuery.value.pagination = new Pagination();
-      Provider.store.commit('pagination/setCurPage', 1);
-    };
-
     const changeModel = async (s: SortModel | undefined): Promise<void> => {
       if (s) {
         Provider.filterQuery.value.sortModel = s;
@@ -70,7 +65,7 @@ export default defineComponent({
     };
 
     const setSort = async (s: SortModel | undefined) => {
-      dropPagination();
+      Provider.dropPagination();
       await changeModel(s);
     };
 

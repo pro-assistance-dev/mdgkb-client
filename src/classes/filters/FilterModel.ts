@@ -1,9 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Ref, ref } from 'vue';
 
+import Employee from '@/classes/Employee';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
+import ClassHelper, { Constructable } from '@/services/ClassHelper';
 
 export default class FilterModel {
   id?: string;
@@ -23,6 +25,7 @@ export default class FilterModel {
   isSet = false;
 
   joinTable = '';
+  joinTableModel = '';
   joinTableFk = '';
   joinTablePk = '';
   joinTableId = '';
@@ -129,6 +132,48 @@ export default class FilterModel {
     if (joinTableIdCol) {
       filterModel.joinTableIdCol = joinTableIdCol;
     }
+    return filterModel;
+  }
+
+  static CreateFilterModelWithJoinV2(
+    model: string,
+    col: string,
+    joinTableModel: string,
+    joinTablePk: string,
+    joinTableFk: string,
+    joinTableId?: string,
+    joinTableIdCol?: string
+  ): IFilterModel {
+    const filterModel = new FilterModel();
+    filterModel.id = uuidv4();
+    filterModel.model = model;
+    filterModel.joinTableModel = joinTableModel;
+    filterModel.joinTablePk = joinTablePk;
+    filterModel.joinTableFk = joinTableFk;
+    filterModel.col = col;
+    filterModel.type = DataTypes.Join;
+    filterModel.version = 'v2';
+    if (joinTableId) {
+      filterModel.joinTableId = joinTableId;
+    }
+    if (joinTableIdCol) {
+      filterModel.joinTableIdCol = joinTableIdCol;
+    }
+    return filterModel;
+  }
+
+  static CreateJoin<T1, T2>(firstClass: Constructable<T1>, joinClass: Constructable<T2>): IFilterModel {
+    const filterModel = new FilterModel();
+    filterModel.id = uuidv4();
+
+    const firstClassModel = ClassHelper.GetModelName(firstClass);
+    filterModel.model = ClassHelper.GetModelName(firstClass);
+    filterModel.joinTableModel = ClassHelper.GetModelName(joinClass);
+    filterModel.joinTablePk = 'id';
+    filterModel.joinTableFk = firstClassModel + 'Id';
+    filterModel.col = 'id';
+    filterModel.type = DataTypes.Join;
+    filterModel.version = 'v2';
     return filterModel;
   }
 

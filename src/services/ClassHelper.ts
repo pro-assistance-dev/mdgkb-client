@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 
 import IWithId from '@/interfaces/IWithId';
+import StringsService from '@/services/Strings';
 
 export type ClassType = { [key: string]: any };
 export type Constructable<T> = { new (...args: any[]): T };
@@ -69,26 +70,16 @@ export default class ClassHelper {
     arrayFromDelete.splice(index, 1);
   }
 
-  // static GetPropertyName<T extends ClassType>(obj: Constructable<T>): T {
-  //   const o = new obj();
-  //   return new Proxy(o, {
-  //     get(_, key) {
-  //       return key;
-  //     },
-  //   });
-  // }
-
   static GetPropertyName<T extends ClassType>(obj: Constructable<T>): T {
     const o = new obj();
     return new Proxy(o, {
-      get(_, key) {
+      get(t, key) {
         return key;
       },
     });
   }
 
-  // static GetModelName<T>(obj: Constructable<T>): string {
-  //   obj.constructor;
-  //   return StringsService.toCamelCase(Object.getPrototypeOf(new obj().constructor).constructor.name);
-  // }
+  static GetModelName<T>(obj: Constructable<T>): string {
+    return StringsService.toCamelCase(obj.name);
+  }
 }

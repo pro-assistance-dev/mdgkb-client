@@ -93,23 +93,6 @@ const menuList: IAdminMenu[] = [
     ],
   },
   {
-    title: 'Руководители и врачи',
-    to: '/',
-    icon: 'el-icon-question',
-    children: [
-      {
-        title: 'Руководители',
-        to: '/admin/heads',
-        icon: 'el-icon-first-aid-kit',
-      },
-      {
-        title: 'Врачи',
-        to: '/admin/doctors',
-        icon: 'el-icon-first-aid-kit',
-      },
-    ],
-  },
-  {
     title: 'Проекты, партнеры, профили, организации',
     to: '/',
     icon: 'el-icon-collection',
