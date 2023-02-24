@@ -13,34 +13,34 @@
   </div>
   <el-form v-if="mounted && teacher.employee.id" ref="form" :model="teacher" label-position="top" :rules="rules">
     <div class="margin-container">
-      <CollapsContainer :tab-id="1036" :collapsed="true">
+      <CollapseItem :tab-id="1036" :collapsed="true">
         <template #inside-title>
           <div class="title-in">Стаж преподавания, статус</div>
         </template>
         <template #inside-content>
           <div class="background-container"></div>
         </template>
-      </CollapsContainer>
+      </CollapseItem>
     </div>
     <div class="margin-container">
-      <CollapsContainer :tab-id="1036">
+      <CollapseItem :tab-id="1036">
         <template #inside-title>
           <div class="title-in">Сертификация</div>
         </template>
         <template #inside-content>
           <div class="background-container"></div>
         </template>
-      </CollapsContainer>
+      </CollapseItem>
     </div>
     <div class="margin-container">
-      <CollapsContainer :tab-id="1036">
+      <CollapseItem :tab-id="1036">
         <template #inside-title>
           <div class="title-in">Прочая информация</div>
         </template>
         <template #inside-content>
           <div class="background-container"></div>
         </template>
-      </CollapsContainer>
+      </CollapseItem>
     </div>
   </el-form>
 </template>
@@ -51,7 +51,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
 import Teacher from '@/classes/Teacher';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IHuman from '@/interfaces/IHuman';
 import ISearchObject from '@/interfaces/ISearchObject';
@@ -63,7 +63,7 @@ export default defineComponent({
   name: 'AdminTeacherPage',
   components: {
     RemoteSearch,
-    CollapsContainer,
+    CollapseItem,
   },
   setup() {
     const form = ref();

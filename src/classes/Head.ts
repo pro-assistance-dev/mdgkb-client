@@ -15,7 +15,7 @@ export default class Head {
   position = '';
   photo = new FileInfo();
   photoId?: string;
-  @ClassHelper.GetClassConstructorForArray(Department)
+  @ClassHelper.GetClassConstructor(Department)
   departments: Department[] = [];
   departmentsForDelete: string[] = [];
   isMain = false;
@@ -51,15 +51,5 @@ export default class Head {
 
   getHuman(): Human {
     return this.employee.human;
-  }
-
-  setEmployee(employee: Employee): void {
-    this.employee = new Employee(employee);
-    this.employeeId = employee.id;
-  }
-
-  resetEmployee(): void {
-    this.employee = new Employee();
-    this.employeeId = undefined;
   }
 }

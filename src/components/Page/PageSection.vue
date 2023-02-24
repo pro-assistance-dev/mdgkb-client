@@ -40,7 +40,7 @@
     </div>
     <div v-else>
       <div v-for="section in pageSections" :id="'card-item' + section.id" :key="section" class="margin-container">
-        <CollapsContainer :tab-id="1036">
+        <CollapseItem :tab-id="1036">
           <template #inside-title>
             <div class="title-in">{{ section.name }}</div>
           </template>
@@ -57,7 +57,7 @@
               <ImageGallery :images="section.pageSectionImages" />
             </div>
           </template>
-        </CollapsContainer>
+        </CollapseItem>
       </div>
     </div>
   </div>
@@ -68,13 +68,13 @@ import { defineComponent, PropType, ref } from 'vue';
 
 import PageSection from '@/classes/PageSection';
 import ImageGallery from '@/components/ImageGallery.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import getExtention from '@/services/GetExtension';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'PageSection',
-  components: { ImageGallery, CollapsContainer },
+  components: { ImageGallery, CollapseItem },
   props: {
     title: {
       type: String as PropType<string>,

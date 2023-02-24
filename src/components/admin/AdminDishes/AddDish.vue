@@ -26,7 +26,7 @@
         </div>
         <div class="column">
           <div v-for="dishesGroup in dishesGroupsSource" :key="dishesGroup.id" :name="dishesGroup.name" :title="dishesGroup.name">
-            <CollapsContainer :tab-id="dishesGroup.id">
+            <CollapseItem :tab-id="dishesGroup.id">
               <template #inside-title>
                 <div class="title-in">
                   {{ dishesGroup.name }}
@@ -41,7 +41,7 @@
                   </div>
                 </div>
               </template>
-            </CollapsContainer>
+            </CollapseItem>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@ import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
@@ -85,7 +85,7 @@ import Provider from '@/services/Provider';
 export default defineComponent({
   name: 'AddDish',
   components: {
-    CollapsContainer,
+    CollapseItem,
     AddToMenu,
     Save,
     Delete,

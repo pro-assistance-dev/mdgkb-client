@@ -1,80 +1,69 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="employee" label-position="top" :rules="rules">
-    <el-row :gutter="40">
-      <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
-        <el-container direction="vertical">
-          <EmployeeConstructor />
-          <el-divider />
-          <div>
-            <h4>Информация о руководстве</h4>
-            <el-button v-if="employee.head" @click.prevent="employee.resetHead()">Убрать из руководителей</el-button>
-            <el-button v-else @click.prevent="employee.setHead()">Сделать руководителем</el-button>
-          </div>
-          <HeadConstructor v-if="employee.head" />
-          <el-divider />
-          <h4>Информация о враче</h4>
-          <el-button v-if="employee.doctor" @click.prevent="employee.resetDoctor()">Убрать из врачей</el-button>
-          <el-button v-else @click.prevent="employee.setDoctor()">Сделать врачом</el-button>
-          <DoctorConstructor v-if="employee.doctor" />
-        </el-container>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
-        <el-container direction="vertical">
-          <el-card header="Фото">
-            <UploaderSingleScan :file-info="employee.human.photo" :height="300" :width="300" @remove-file="employee.human.removePhoto()" />
-          </el-card>
-          <el-card header="Фото-миниатюра">
-            <UploaderSingleScan
-              :file-info="employee.human.photoMini"
-              :height="300"
-              :width="300"
-              @remove-file="employee.human.removePhotoMini()"
-            />
-          </el-card>
-        </el-container>
-      </el-col>
-    </el-row>
-  </el-form>
+  <CollapseContainer>
+    <template #default="scope">
+      <div class="margin-container">
+        <CollapseItem :tab-id="1036" :active-id="scope.activeId">
+          <template #inside-title>
+            <div class="title-in">Должность</div>
+          </template>
+          <template #inside-content>
+            <div class="background-container">
+              <el-form-item label="Должность" prop="position">
+                <el-input v-model="employee.head.position"></el-input>
+              </el-form-item>
+              <el-form-item label="Является главным врачом:" prop="isMain">
+                <el-checkbox v-model="employee.head.isMain">Да</el-checkbox>
+              </el-form-item>
+            </div>
+          </template>
+        </CollapseItem>
+      </div>
+      <div class="margin-container">
+        <CollapseItem title="Контакты" :tab-id="1012" :collapsed="false" :active-id="scope.activeId">
+          <template #inside-content>
+            <ContactsForm :contact-info="employee.head.contactInfo" />
+          </template>
+        </CollapseItem>
+      </div>
+
+      <div class="margin-container">
+        <CollapseItem title="Расписание" :tab-id="2017" :collapsed="false" :active-id="scope.activeId">
+          <template #inside-content>
+            <div class="background-container">
+              <TimetableConstructorV2New :store-module="'heads'" />
+            </div>
+          </template>
+        </CollapseItem>
+      </div>
+    </template>
+  </CollapseContainer>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
 
 import Employee from '@/classes/Employee';
-import DoctorConstructor from '@/components/admin/AdminEmployees/DoctorConstructor.vue';
-import EmployeeConstructor from '@/components/admin/AdminEmployees/EmployeeConstructor.vue';
-import HeadConstructor from '@/components/admin/AdminEmployees/HeadConstructor.vue';
+import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
+import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
+import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider';
+import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
 
 export default defineComponent({
-  name: 'AdminEmployeePage',
+  name: 'HeadConstructor',
   components: {
-    DoctorConstructor,
-    EmployeeConstructor,
-    UploaderSingleScan,
-    HeadConstructor,
+    ContactsForm,
+    CollapseItem,
+    CollapseContainer,
+    TimetableConstructorV2New,
   },
   setup() {
-    const form = ref();
-    Provider.form = form;
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
-
-    Hooks.onBeforeMount(Provider.loadItem, {
-      adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? employee.value?.human?.getFullName() : 'Добавить сотрудника')),
-        showBackButton: true,
-        buttons: [{ action: Hooks.submit() }],
-      },
-    });
-    Hooks.onBeforeRouteLeave();
 
     return {
       employee,
-      form,
-      mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });

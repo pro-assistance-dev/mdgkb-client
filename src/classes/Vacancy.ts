@@ -26,14 +26,14 @@ export default class Vacancy implements IVacancy {
   active = false;
   responsesCount = 0;
   newResponsesCount = 0;
-  @ClassHelper.GetClassConstructorForArray(VacancyResponse)
+  @ClassHelper.GetClassConstructor(VacancyResponse)
   vacancyResponses: VacancyResponse[] = [];
   vacancyResponsesForDelete = [];
   experience = '';
-  @ClassHelper.GetClassConstructorForArray(VacancyDuty)
+  @ClassHelper.GetClassConstructor(VacancyDuty)
   vacancyDuties: IVacancyDuty[] = [];
   vacancyDutiesForDelete = [];
-  @ClassHelper.GetClassConstructorForArray(VacancyRequirement)
+  @ClassHelper.GetClassConstructor(VacancyRequirement)
   vacancyRequirements: IVacancyRequirement[] = [];
   vacancyRequirementsForDelete = [];
   schedule = '';

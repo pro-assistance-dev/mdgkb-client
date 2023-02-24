@@ -7,7 +7,7 @@ export default class Teacher {
   employeeId?: string;
   employee: Employee = new Employee();
   position = '';
-  @ClassHelper.GetClassConstructorForArray(NmoCourse)
+  @ClassHelper.GetClassConstructor(NmoCourse)
   dpoCourses: NmoCourse[] = [];
 
   fullName?: string;

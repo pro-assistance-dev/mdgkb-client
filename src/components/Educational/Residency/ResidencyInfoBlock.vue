@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer>
+  <CollapseItem>
     <template #inside-title>
       <div class="title-in">Информация о курсе</div>
     </template>
@@ -12,17 +12,17 @@
       </div>
       <div class="info" v-html="info" />
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'ResidencyInfoBlock',
-  components: { CollapsContainer },
+  components: { CollapseItem },
   props: {
     info: {
       type: String,

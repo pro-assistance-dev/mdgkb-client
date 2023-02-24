@@ -30,15 +30,15 @@ export default class Doctor implements IDoctor {
   position: IPosition = new Position();
   positionId?: string;
   tags?: string;
-  @ClassHelper.GetClassConstructorForArray(NewsDoctor)
+  @ClassHelper.GetClassConstructor(NewsDoctor)
   newsDoctors: INewsDoctor[] = [];
-  @ClassHelper.GetClassConstructorForArray(DoctorComment)
+  @ClassHelper.GetClassConstructor(DoctorComment)
   doctorComments: IDoctorComment[] = [];
-  @ClassHelper.GetClassConstructorForArray(DoctorPaidService)
+  @ClassHelper.GetClassConstructor(DoctorPaidService)
   doctorPaidServices: IDoctorPaidService[] = [];
   doctorPaidServicesForDelete: string[] = [];
   timetableDaysForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(DoctorDivision)
+  @ClassHelper.GetClassConstructor(DoctorDivision)
   doctorsDivisions: DoctorDivision[] = [];
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;

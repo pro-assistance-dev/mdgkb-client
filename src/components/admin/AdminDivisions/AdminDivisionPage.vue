@@ -53,11 +53,11 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="24" :lg="9" :xl="9">
         <el-container direction="vertical">
-          <CollapsContainer title="Контакты" :tab-id="1012">
+          <CollapseItem title="Контакты" :tab-id="1012">
             <template #inside-content>
               <ContactsForm :contact-info="division.contactInfo" />
             </template>
-          </CollapsContainer>
+          </CollapseItem>
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>
             <el-form-item label="Здание" prop="buildingId">
@@ -168,7 +168,7 @@ import SetEntity from '@/components/admin/SetEntity.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ClassHelper from '@/services/ClassHelper';
@@ -188,7 +188,7 @@ export default defineComponent({
     RemoteSearch,
     SetEntity,
     WysiwygEditor,
-    CollapsContainer,
+    CollapseItem,
   },
 
   setup() {

@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="carousel.length" tab-id="8" :collapsed="false">
+  <CollapseItem v-if="carousel.length" tab-id="8" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Сертификаты</div>
     </template>
@@ -37,19 +37,19 @@
         </el-dialog>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IScanWithDescription from '@/interfaces/IScanWithDescription';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'ScansSlider',
-  components: { CollapsContainer },
+  components: { CollapseItem },
   props: {
     galleryElements: {
       type: Object as PropType<IScanWithDescription[]>,

@@ -30,10 +30,10 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, onUpdated, PropType, Ref, ref } from 'vue';
 
-import Arrows from '@/assets/svg/CollapsContainer/Arrows.svg';
+import Arrows from '@/assets/svg/CollapseItem/Arrows.svg';
 
 export default defineComponent({
-  name: 'CollapsContainer',
+  name: 'CollapseItem',
   components: { Arrows },
   props: {
     tabId: { type: Number as PropType<number>, required: false },
