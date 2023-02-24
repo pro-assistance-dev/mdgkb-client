@@ -3,18 +3,41 @@
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical" class="vertical-block">
-          <div class="status-panel">Панель управления статусами</div>
-          <EmployeeConstructor />
-          <div>
-            <!-- <h4>Информация о руководстве</h4> -->
-            <el-button v-if="employee.head" @click.prevent="employee.resetHead()">Отозвать статус руководителя</el-button>
-            <el-button v-else @click.prevent="employee.setHead()">Присвоитть статус руководителя</el-button>
+          <div class="status-panel" :style="collapsed ? 'margin-top: -166px' : 'margin-top: 0'">
+            <div class="panel-title" v-if="collapsed" @click.prevent="handClick" >Открыть панель управления статусами</div>
+            <div class="panel-title" v-else @click.prevent="handClick" >Скрыть панель управления статусами</div>
+            <div class="panel-body">
+              <div class="line">
+                <div class="line-item">Статус руководителя:</div>
+                <div class="line-item">
+                  <div v-if="employee.head" class="yes">ДА</div>
+                  <div v-else class="no">НЕТ</div>
+                  <button v-if="employee.head" @click.prevent="employee.resetHead()" class="revoke" >Отозвать</button>
+                  <button v-else @click.prevent="employee.setHead()" class="appoint" >Назначить</button>
+                </div>
+              </div>
+              <div class="line">
+                <div class="line-item">Статус врача:</div>
+                <div class="line-item">
+                  <div v-if="employee.doctor" class="yes">ДА</div>
+                  <div v-else class="no">НЕТ</div>
+                  <button v-if="employee.doctor" @click.prevent="employee.resetDoctor()" class="revoke" >Отозвать</button>
+                  <button v-else @click.prevent="employee.setDoctor()" class="appoint" >Назначить</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <HeadConstructor v-if="employee.head" />
-          <!-- <h4>Информация о враче</h4> -->
-          <el-button v-if="employee.doctor" @click.prevent="employee.resetDoctor()">Отозвать статус врача</el-button>
-          <el-button v-else @click.prevent="employee.setDoctor()">Присвоить статус врача</el-button>
-          <DoctorConstructor v-if="employee.doctor" />
+          <div class="background-container2">
+            <EmployeeConstructor />
+          </div>
+          <div v-if="employee.head" class="background-container2">
+            <div v-if="employee.head" class="field">Данные статуса руководителя:</div>
+            <HeadConstructor v-if="employee.head" />
+          </div>
+          <div v-if="employee.doctor" class="background-container2">
+            <div v-if="employee.doctor" class="field">Данные статуса врача:</div>
+            <DoctorConstructor v-if="employee.doctor" />
+          </div>
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
@@ -59,6 +82,11 @@ export default defineComponent({
     const form = ref();
     Provider.form = form;
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
+    const collapsed: Ref<boolean> = ref(true);
+
+    const handClick = () => {
+      collapsed.value = !collapsed.value;
+    };
 
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
@@ -74,6 +102,8 @@ export default defineComponent({
       form,
       mounted: Provider.mounted,
       schema: Provider.schema,
+      handClick,
+      collapsed,
     };
   },
 });
@@ -89,14 +119,25 @@ $margin: 20px 0;
   margin: 0 20px 20px 20px;
   background: #dff2f8;
   border-radius: $normal-border-radius;
-  border: 1px solid #c3c3c3;
+  border: $normal-darker-border;
+}
+
+.background-container2 {
+  width: auto;
+  padding: 10px 10px 0 10px;
+  background: #F1F2F7;
+  border-radius: $normal-border-radius;
+  border: $normal-darker-border;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: 20px;
 }
 
 .container {
   position: relative;
   width: calc(100% - 60px);
   margin: 0px 20px 20px 20px;
-  border: 1px solid #c3c3c3;
+  border: $normal-darker-border;
   border-radius: 5px;
   padding: 12px 10px;
   background: #dff2f8;
@@ -350,7 +391,8 @@ $margin: 20px 0;
 }
 
 .status-panel {
-  height: 30px;
+  position:relative;
+  height: 190px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -361,15 +403,117 @@ $margin: 20px 0;
   transform: translateX(-50%);
   z-index: 1;
   background: #dff2f8;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   box-shadow:  0 0px 10px 0px rgba(0 0 0 / 20%);
-  border: $normal-border;
+  border: $normal-darker-border;
+  border-top: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-  // border-top: 30px solid #dff2f8;
-	// border-left: 20px solid transparent;
-	// border-right: 20px solid transparent;
-	// height: 0;
+.appoint {
+  height: 24px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: $normal-darker-border;
+  border-radius: 20px;
+  background: #dff2f8;
+  color: #1979cf;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.appoint:hover {
+  background: darken($color: #dff2f8, $amount: 10%);
+}
+
+.revoke {
+  height: 24px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: $normal-darker-border;
+  border-radius: 20px;
+  background: #f8e8df;
+  color: #1979cf;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.revoke:hover {
+  background: darken($color: #f8e8df, $amount: 10%);
+}
+
+.panel-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+.panel-title:hover {
+  color: #1979cf;
+}
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  margin: 0px 10px 34px 10px;
+}
+
+.line {
+  width: calc(100% - 30px);
+  height: 60px;
+  border: $normal-darker-border;
+  border-radius: $normal-border-radius;
+  margin: 10px 0 0 0;
+  padding: 0px 15px 5px 15px;
+  background: #f1f2f7;
+}
+
+.line-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.yes {
+  font-size: 14px;
+  color: $site_green;
+}
+
+.no {
+  font-size: 14px;
+  color: $site_red;
+}
+
+.field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #09A248;
 }
 
 @media screen and (max-width: 910px) {

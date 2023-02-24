@@ -8,7 +8,7 @@
         @select="selectSearch"
       />
       <FiltersList :models="createGenderFilterModels()" @load="loadItems" />
-      <el-button @click="resetFilter">Сбросить фильтры</el-button>
+      <button class="reset" @click.prevent="resetFilter">Сбросить фильтры</button>
     </template>
     <template #sort>
       <SortList :max-width="400" @load="loadItems" />
@@ -114,6 +114,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {
@@ -147,5 +148,25 @@ $margin: 20px 0;
     color: white;
     cursor: pointer;
   }
+}
+
+.reset {
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: $normal-darker-border;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #343D5C;
+  padding: 0 20px;
+  transition: 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.reset:hover {
+  background: #dff2f8;
 }
 </style>
