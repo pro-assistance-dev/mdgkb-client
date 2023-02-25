@@ -1,9 +1,9 @@
 <template>
   <ul v-if="mounted" class="menu-center-list">
     <li v-for="menu in menus" :key="menu.id">
-      <span class="link-menu" :class="{ active: menu.active }" @click="menuClick(menu)">
+      <div class="link-menu" :class="{ active: menu.active }" @click="menuClick(menu)">
         {{ menu.name }}
-      </span>
+      </div>
       <ul v-if="!menu.withoutChildren() && menu.selected" class="dropmenu">
         <div class="subMenu-place">
           <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
@@ -166,7 +166,7 @@ ul.menu-center-list li {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
   border-right: 1px solid #dfe4ee;
-  padding: 21px 0px 19px 0px;
+  white-space: nowrap;
 }
 
 ul.menu-center-list li:last-child {
