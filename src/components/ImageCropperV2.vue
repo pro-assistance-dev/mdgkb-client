@@ -85,4 +85,8 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
 }
+
+:deep(.el-upload--picture-card) {
+  font-size: 40px;
+}
 </style>

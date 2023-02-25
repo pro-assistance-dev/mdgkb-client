@@ -60,6 +60,11 @@ export default class FilterModel {
     this.value1 = params.get('value1') ?? '';
     this.type = (params.get('type') as DataTypes) ?? '';
     this.boolean = Boolean(params.get('boolean') ?? '');
+    this.joinTableModel = params.get('joinTableModel') ?? '';
+    this.joinTableId = params.get('joinTableId') ?? '';
+    this.joinTableFk = params.get('joinTableFk') ?? '';
+    this.joinTableIdCol = params.get('joinTableIdCol') ?? '';
+    this.joinTablePk = params.get('joinTablePk') ?? '';
   }
 
   isUnaryFilter(): boolean {

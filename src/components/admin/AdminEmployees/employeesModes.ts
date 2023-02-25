@@ -12,7 +12,7 @@ import HeadsSortsLib from '@/services/Provider/libs/sorts/HeadsSortsLib';
 
 export interface ListMode {
   condition: (e: never) => boolean;
-  filter: FilterModelBuilder;
+  filter?: FilterModelBuilder;
   label: string;
   isClassOf: (e: Constructable<object>) => boolean;
   store?: string;
@@ -20,6 +20,11 @@ export interface ListMode {
 }
 
 const modes: ListMode[] = [
+  {
+    isClassOf: (e: Constructable<object>) => new e() instanceof Doctor,
+    condition: () => false,
+    label: 'Все',
+  },
   {
     isClassOf: (e: Constructable<object>) => new e() instanceof Doctor,
     condition: (e: Employee) => !!e.doctor,

@@ -44,12 +44,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.test {
-  width: 290px;
-  height: 290px;
-  background: #c4c4c4;
-}
-
 .division-name {
   margin: 0px;
 }
@@ -67,7 +61,7 @@ export default defineComponent({
     img {
       border-radius: 5px;
       height: 280px;
-      width: 280px;
+      width: auto;
     }
     .favor {
       position: absolute;

@@ -61,7 +61,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 $header-bottom-height: 20px;
 $header-bottom-background-color: whitesmoke;
-$header-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
+// $header-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
+$header-shadow: 0 10px 10px -10px rgba(0 0 0 / 20%);
 
 .admin-header-bottom {
   height: $header-bottom-height;

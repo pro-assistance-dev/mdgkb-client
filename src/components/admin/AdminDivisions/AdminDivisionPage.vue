@@ -29,11 +29,24 @@
           <AdminDivisionVisitingRules />
           <TimetableConstructorV2 :store-module="'divisions'" />
           <ScheduleConstructor :store-module="'divisions'" />
-          <AdminGallery
-            :file-list="division.divisionImages"
-            :file-list-for-delete="division.divisionImagesForDelete"
-            @add-image="division.addImage()"
-          />
+          <CollapseItem :collapsed="false">
+            <template #inside-title>
+              <div class="title-in">Фотографии</div>
+            </template>
+            <template #inside-content>
+              <div class="tools-buttons">
+                <button class="admin-add" @click.prevent="division.addImage()">+ Добавить</button>
+              </div>
+              <div v-if="division.divisionImages.length" class="background-container">
+                <AdminGallery
+                  :default-ratio="4 / 3"
+                  :file-list="division.divisionImages"
+                  :file-list-for-delete="division.divisionImagesForDelete"
+                />
+              </div>
+            </template>
+          </CollapseItem>
+
           <!--          <AdminDivisionGallery />-->
         </el-container>
       </el-col>
@@ -193,7 +206,6 @@ export default defineComponent({
 
     const load = async (): Promise<void> => {
       await Provider.store.dispatch('buildings/getAll');
-      // await Provider.store.dispatch('doctors/getAll');
       await Provider.loadItem(ClassHelper.GetPropertyName(Division).id);
       if (division.value.floorId) {
         Provider.store.commit('buildings/setBuildingByFloorId', division.value.floorId);
@@ -265,6 +277,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 .el-container {
   .el-card {
     margin-bottom: 20px;
@@ -280,12 +293,6 @@ export default defineComponent({
     margin: 5px !important;
   }
 }
-
-/* .hideUpload {
-  :deep(.el-upload) {
-    display: none;
-  }
-} */
 
 .delete-tag-icon {
   margin-left: 20%;
@@ -304,5 +311,52 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.background-container {
+  width: auto;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  background: #dff2f8;
+  border-radius: $normal-border-radius;
+  border: 1px solid #c3c3c3;
+}
+
+.tools-buttons {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.admin-add {
+  border: none;
+  background: inherit;
+  color: #1979cf;
+  margin: 10px;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-add:hover {
+  color: darken($color: #1979cf, $amount: 10%);
+  background: inherit;
+}
+
+@media screen and (max-width: 400px) {
+  .admin-del {
+    position: absolute;
+    top: 23px;
+    right: 36px;
+    border: none;
+    background: inherit;
+    color: #a3a9be;
+    transition: 0.3s;
+    cursor: pointer;
+    padding: 1px 0px;
+  }
+  .background-container {
+    margin: 0 10px 20px 10px;
+  }
 }
 </style>

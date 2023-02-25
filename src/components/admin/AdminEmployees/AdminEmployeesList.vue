@@ -8,10 +8,10 @@
         @select="selectSearch"
       />
       <FiltersList :models="createGenderFilterModels()" @load="loadItems" />
-      <el-select :model-value="selectedMode" clearable @change="selectMode" @clear="resetFilter">
-        <el-option v-for="mode in modes" :key="mode.label" :label="mode.label" :value="mode" />
+      <el-select :model-value="selectedMode.label" clearable @change="selectMode" @clear="resetFilter">
+        <el-option v-for="mode in modes" :key="mode.label" :label="mode.label" :value="mode.label" />
       </el-select>
-      <el-button @click="resetFilter">Сбросить фильтры</el-button>
+      <el-button class="reset" @click="resetFilter">Сбросить фильтры</el-button>
       <el-button v-if="selectedMode && (selectedMode.isClassOf(Head) || selectedMode.isClassOf(EducationalAcademic))" @click="editOrder"
         >Редактировать порядок</el-button
       >
@@ -27,9 +27,14 @@
       </el-table-column>
       <el-table-column label="Должности" sortable>
         <template #default="scope">
-          <el-tag v-for="mode in modes.filter((m) => m.condition(scope.row))" :key="mode.label" size="mini" @click="selectMode(mode)">{{
-            mode.label
-          }}</el-tag>
+          <el-tag
+            v-for="mode in modes.filter((m) => m.condition(scope.row))"
+            :key="mode.label"
+            size="mini"
+            class="tag"
+            @click="selectMode(mode.label)"
+            >{{ mode.label }}</el-tag
+          >
         </template>
       </el-table-column>
 
@@ -84,10 +89,23 @@ export default defineComponent({
   name: 'AdminEmployeeList',
   components: { OrderedList, AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
   setup() {
-    const selectedMode: Ref<ListMode | undefined> = ref(undefined);
+    const selectedMode: Ref<ListMode> = ref(modes[0]);
     const employees = computed(() => Provider.store.getters['employees/items']);
     const editOrderMode: Ref<boolean> = ref(false);
-    Hooks.onBeforeMount(Provider.loadItems, {
+
+    const load = async () => {
+      const findedMode = modes?.find((m: ListMode) => {
+        if (m.filter) {
+          return Provider.filterQuery.value.findFilterModel(m.filter());
+        }
+      });
+      if (findedMode) {
+        selectedMode.value = findedMode;
+      }
+      await Provider.loadItems();
+    };
+
+    Hooks.onBeforeMount(load, {
       adminHeader: {
         title: 'Сотрудники',
         buttons: [{ text: 'Добавить сотрудника', type: 'primary', action: Provider.createAdmin }],
@@ -110,16 +128,23 @@ export default defineComponent({
       Provider.setDefaultSortModel();
     };
 
-    const selectMode = async (mode: ListMode) => {
-      selectedMode.value = mode;
+    const selectMode = async (modeLabel: string) => {
+      const findedMode = modes.find((m: ListMode) => m.label === modeLabel);
+      if (!findedMode) {
+        return;
+      }
+      selectedMode.value = findedMode;
       resetFilterModels();
-      Provider.setFilterModel(mode.filter());
+      if (selectedMode.value.filter) {
+        Provider.setFilterModel(selectedMode.value.filter());
+      }
       await Provider.loadItems();
+      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
     };
 
     const resetFilter = async () => {
       resetFilterModels();
-      selectedMode.value = undefined;
+      selectedMode.value = modes[0];
       await Provider.loadItems();
     };
 
@@ -149,6 +174,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {
@@ -172,6 +198,39 @@ $margin: 20px 0;
 }
 
 .tag-link {
+  margin: 2px;
+  transition: all 0.2s;
+  color: blue;
+  border-color: blue;
+  border-radius: 20px;
+  &:hover {
+    background-color: blue;
+    color: white;
+    cursor: pointer;
+  }
+}
+
+.reset {
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: $normal-darker-border;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #343d5c;
+  padding: 0 20px;
+  transition: 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.reset:hover {
+  background: #dff2f8;
+}
+
+.tag {
   margin: 2px;
   transition: all 0.2s;
   color: blue;
