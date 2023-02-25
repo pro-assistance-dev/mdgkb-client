@@ -49,8 +49,8 @@ import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
 import IUser from '@/interfaces/IUser';
-import Provider from '@/services/Provider';
 import SpecializationsFiltersLib from '@/services/Provider/libs/filters/SpecializationsFiltersLib';
+import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 

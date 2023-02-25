@@ -55,10 +55,10 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IFormStatus from '@/interfaces/IFormStatus';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import DpoApplicationsFiltersLib from '@/services/Provider/libs/filters/DpoApplicationsFiltersLib';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import DpoApplicationsSortsLib from '@/services/Provider/libs/sorts/DpoApplicationsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

@@ -43,7 +43,7 @@ import ScansSlider from '@/components/ScansSlider.vue';
 import SocialMediaCarousel from '@/components/SocialMediaCarousel.vue';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionPage',

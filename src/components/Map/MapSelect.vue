@@ -57,9 +57,9 @@ import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
 import IMapObject from '@/interfaces/IMapObject';
 import IOption from '@/interfaces/schema/IOption';
-import Provider from '@/services/Provider';
 import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'MapRouter',

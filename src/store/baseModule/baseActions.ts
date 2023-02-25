@@ -5,8 +5,8 @@ import { IBodilessParams, IBodyfulParams } from '@/interfaces/fetchApi/IHTTPType
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFileInfosGetter from '@/interfaces/IFileInfosGetter';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
-import IWithId from '@/interfaces/IWithId';
 import HttpClient from '@/services/HttpClient';
+import IWithId from '@/services/interfaces/IWithId';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 

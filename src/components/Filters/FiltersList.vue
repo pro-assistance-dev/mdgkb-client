@@ -14,7 +14,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, WritableC
 
 import FilterModel from '@/classes/filters/FilterModel';
 import Pagination from '@/classes/filters/Pagination';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'FiltersList',

@@ -150,9 +150,9 @@ import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
 import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

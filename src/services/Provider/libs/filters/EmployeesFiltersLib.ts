@@ -10,10 +10,10 @@ import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import ClassHelper from '@/services/ClassHelper';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 const EmployeesFiltersLib = (() => {
-  const modelName = ClassHelper.GetModelName(Employee);
+  const modelName = Employee.GetClassName();
   function onlyMale(): FilterModel {
     const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Employee).isMale, DataTypes.Boolean);
     filterModel.boolean = true;
@@ -37,18 +37,24 @@ const EmployeesFiltersLib = (() => {
     return filterModel;
   }
 
-  function onlyHeads(): IFilterModel {
+  function onlyHeads(): FilterModel {
     const f = FilterModel.CreateJoin(Employee, Head);
     f.label = 'Только руководители';
     return f;
   }
-  function onlyDoctors(): IFilterModel {
+  function onlyDoctors(): FilterModel {
     const f = FilterModel.CreateJoin(Employee, Doctor);
     f.label = 'Только врачи';
     return f;
   }
+  function onlyEducationalAcademics(): FilterModel {
+    const f = FilterModel.CreateJoin(Employee, EducationalAcademic);
+    f.label = 'Только члены учёного совета';
+    return f;
+  }
 
   return {
+    onlyEducationalAcademics,
     onlyDoctors,
     onlyHeads,
     onlyMale,

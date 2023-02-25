@@ -2,12 +2,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 import FileInfo from '@/classes/File/FileInfo';
 import Page from '@/classes/page/Page';
-import Crud from '@/classes/shared/Crud';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
-import ISubMenu from '@/interfaces/ISubMenu';
-import ICrud from '@/interfaces/shared/ICrud';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class SubMenu implements ISubMenu {
+export default class SubMenu {
   id?: string;
   name = '';
   link = '';
@@ -22,36 +20,13 @@ export default class SubMenu implements ISubMenu {
   order = 0;
   menuId?: string;
 
-  crud: ICrud = new Crud('menus', 'menus');
-
   iconId?: string;
   icon = new FileInfo();
   iconName = '';
   svgCode = '';
 
-  constructor(i?: ISubMenu) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.hide = i.hide;
-    this.link = i.link;
-    this.iconName = i.iconName;
-    this.svgCode = i.svgCode;
-
-    if (this.page) {
-      this.page = new Page(i.page);
-    }
-    this.pageId = i.pageId;
-    this.order = i.order;
-    this.menuId = i.menuId;
-    this.color = i.color;
-
-    this.iconId = i.iconId;
-    if (i.icon) {
-      this.icon = new FileInfo(i.icon);
-    }
+  constructor(i?: SubMenu) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getLink(): string {

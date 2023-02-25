@@ -1,5 +1,5 @@
 import IValueType from '@/interfaces/IValueType';
-import ValueRelation from '@/interfaces/ValueRelation';
+import ValueRelation from '@/services/interfaces/ValueRelation';
 
 export default class ValueType implements IValueType {
   id?: string;

@@ -11,7 +11,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import AcademicCard from '@/components/Educational/AcademicCard.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PostgraduateAcademics',

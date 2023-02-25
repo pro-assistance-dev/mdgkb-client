@@ -22,7 +22,7 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Page from '@/classes/page/Page';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PageSideMenu',

@@ -30,7 +30,6 @@ import AdminProjectRoutes from '@/router/AdminProjectRoutes';
 import AdminQuestionsRoutes from '@/router/AdminQuestionsRoutes';
 import AdminRolesRoutes from '@/router/AdminRolesRoutes';
 import AdminSupportMessagesRoutes from '@/router/AdminSupportMessagesRoutes';
-import AdminTeachersRoutes from '@/router/AdminTeachersRoutes';
 import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminUsersRoutes from '@/router/AdminUsersRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
@@ -115,6 +114,5 @@ export default [
   ...AdminSupportMessagesRoutes,
   ...AdminHospitalizationsTypeRoutes,
   ...AdminDailyMenuOrdersRoutes,
-  ...AdminTeachersRoutes,
   ...AdminAcademicsRoutes,
 ];

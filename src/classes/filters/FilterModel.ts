@@ -6,6 +6,8 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import ClassHelper, { Constructable } from '@/services/ClassHelper';
+import { ClassNameGetter } from '@/services/interfaces/Class';
+import StringsService from '@/services/Strings';
 
 export default class FilterModel {
   id?: string;
@@ -162,13 +164,13 @@ export default class FilterModel {
     return filterModel;
   }
 
-  static CreateJoin<T1, T2>(firstClass: Constructable<T1>, joinClass: Constructable<T2>): IFilterModel {
+  static CreateJoin(firstClass: ClassNameGetter, joinClass: ClassNameGetter): IFilterModel {
     const filterModel = new FilterModel();
     filterModel.id = uuidv4();
 
-    const firstClassModel = ClassHelper.GetModelName(firstClass);
-    filterModel.model = ClassHelper.GetModelName(firstClass);
-    filterModel.joinTableModel = ClassHelper.GetModelName(joinClass);
+    const firstClassModel = StringsService.toCamelCase(firstClass.GetClassName());
+    filterModel.model = firstClassModel;
+    filterModel.joinTableModel = StringsService.toCamelCase(joinClass.GetClassName());
     filterModel.joinTablePk = 'id';
     filterModel.joinTableFk = firstClassModel + 'Id';
     filterModel.col = 'id';

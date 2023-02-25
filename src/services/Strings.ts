@@ -7,7 +7,12 @@ const StringsService = (() => {
   }
 
   function toCamelCase(str: string): string {
-    return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => {
+      if (+match === 0) {
+        return ''; // or if (/\s+/.test(match)) for white spaces
+      }
+      return index === 0 ? match.toLowerCase() : match.toUpperCase();
+    });
   }
 
   function toKebabCase(str: string): string {

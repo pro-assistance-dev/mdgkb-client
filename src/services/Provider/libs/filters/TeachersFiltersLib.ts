@@ -6,7 +6,7 @@ import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import ClassHelper from '@/services/ClassHelper';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 const TeachersFiltersLib = (() => {
   const modelName = 'teacher';

@@ -28,7 +28,7 @@ import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IHospitalization from '@/interfaces/IHospitalization';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 

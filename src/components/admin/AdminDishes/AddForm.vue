@@ -45,7 +45,7 @@ import DishSample from '@/classes/DishSample';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

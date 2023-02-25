@@ -76,8 +76,8 @@ import IComment from '@/interfaces/comments/IComment';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({

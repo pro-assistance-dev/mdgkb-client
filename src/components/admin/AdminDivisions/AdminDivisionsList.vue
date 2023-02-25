@@ -48,8 +48,8 @@ import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

@@ -1,17 +1,12 @@
 import Employee from '@/classes/Employee';
-import IRegalia from '@/interfaces/IRegalia';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Regalia implements IRegalia {
+export default class Regalia {
   id?: string;
   name = '';
   employeeId?: string;
   employee?: Employee;
-  constructor(i?: IRegalia) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.employeeId = i.employeeId;
+  constructor(i?: Regalia) {
+    ClassHelper.BuildClass(this, i);
   }
 }

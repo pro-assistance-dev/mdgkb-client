@@ -159,7 +159,7 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminDivisionPage',

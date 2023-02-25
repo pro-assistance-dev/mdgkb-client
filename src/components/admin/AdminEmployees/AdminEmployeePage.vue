@@ -46,7 +46,7 @@ import EmployeeConstructor from '@/components/admin/AdminEmployees/EmployeeConst
 import HeadConstructor from '@/components/admin/AdminEmployees/HeadConstructor.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminEmployeePage',

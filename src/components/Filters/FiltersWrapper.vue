@@ -34,7 +34,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
 
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'FiltersWrapper',
   props: {

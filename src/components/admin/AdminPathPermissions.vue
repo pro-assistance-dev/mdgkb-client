@@ -95,8 +95,8 @@ import ISearchObject from '@/interfaces/ISearchObject';
 import { RoleName } from '@/interfaces/RoleName';
 import ISchema from '@/interfaces/schema/ISchema';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import PathPermissionsSortsLib from '@/services/Provider/libs/sorts/PathPermissionsSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminGallery',

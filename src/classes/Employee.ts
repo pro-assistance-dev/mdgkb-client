@@ -1,6 +1,9 @@
+import 'reflect-metadata';
+
 import Accreditation from '@/classes/accreditations/Accreditation';
 import Certificate from '@/classes/Certificate';
 import Doctor from '@/classes/Doctor';
+import EducationalAcademic from '@/classes/EducationalAcademic';
 import Certification from '@/classes/educations/Certification';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
@@ -51,6 +54,10 @@ export default class Employee {
   @ClassHelper.GetClassConstructor(Doctor)
   doctor?: Doctor;
   doctorsForDelete: string[] = [];
+
+  @ClassHelper.GetClassConstructor(EducationalAcademic)
+  educationalAcademic?: EducationalAcademic;
+  educationalAcademicsForDelete: string[] = [];
 
   //meta
   fullName?: string;
@@ -146,5 +153,20 @@ export default class Employee {
       this.doctorsForDelete?.push(this.doctor?.id);
     }
     this.doctor = undefined;
+  }
+
+  setEducationalAcademic(): void {
+    this.educationalAcademic = new EducationalAcademic();
+  }
+
+  resetEducationalAcademic(): void {
+    if (this.educationalAcademic?.id) {
+      this.educationalAcademicsForDelete?.push(this.educationalAcademic?.id);
+    }
+    this.educationalAcademic = undefined;
+  }
+
+  static GetClassName(): string {
+    return 'Employee';
   }
 }

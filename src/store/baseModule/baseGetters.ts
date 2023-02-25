@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import IWithId from '@/interfaces/IWithId';
+import IWithId from '@/services/interfaces/IWithId';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 

@@ -21,8 +21,8 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
-import Provider from '@/services/Provider';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NewsCalendar',

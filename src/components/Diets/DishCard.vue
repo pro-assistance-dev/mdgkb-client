@@ -33,7 +33,7 @@ import { computed, defineComponent, PropType, Ref } from 'vue';
 
 import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DishCard',

@@ -87,8 +87,8 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/interfaces/ISearchObject';
-import Provider from '@/services/Provider';
 import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({

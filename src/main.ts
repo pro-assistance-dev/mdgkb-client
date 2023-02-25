@@ -24,7 +24,6 @@ app.config.globalProperties.$dateTimeFormatter = new DateTimeFormatter('ru-RU');
 app.config.globalProperties.$sanitize = sanitizeHTML;
 app.config.globalProperties.$scroll = scroll;
 app.config.globalProperties.$carouselSwipe = carouselSwipe;
-app.config.globalProperties.$buildUrl = buildUrl;
 
 app.use(VueSocialSharing);
 app.use(Vue3TouchEvents);
@@ -34,10 +33,9 @@ import { faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Maska from 'maska';
 
-import buildUrl from '@/services/BuildUrl';
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 library.add(faVk);
 

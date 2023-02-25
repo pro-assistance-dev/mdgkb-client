@@ -1,4 +1,4 @@
-import { SocialTypes } from '@/interfaces/SocialTypes';
+import { SocialTypes } from '@/services/interfaces/SocialTypes';
 import StringsService from '@/services/Strings';
 
 export default class SocialMedia {

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import IWithId from '@/interfaces/IWithId';
+import IWithId from '@/services/interfaces/IWithId';
 import StringsService from '@/services/Strings';
 
 export type ClassType = { [key: string]: any };
@@ -77,9 +77,5 @@ export default class ClassHelper {
         return key;
       },
     });
-  }
-
-  static GetModelName<T>(obj: Constructable<T>): string {
-    return StringsService.toCamelCase(obj.name);
   }
 }

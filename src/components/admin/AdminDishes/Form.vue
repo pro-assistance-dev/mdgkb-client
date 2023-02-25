@@ -36,7 +36,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'Form',

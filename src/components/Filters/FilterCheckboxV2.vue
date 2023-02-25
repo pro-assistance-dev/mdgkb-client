@@ -13,7 +13,7 @@ import { defineComponent, PropType } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'FilterCheckboxV2',

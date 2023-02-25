@@ -123,10 +123,10 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import ResidencyApplicationsFiltersLib from '@/services/Provider/libs/filters/ResidencyApplicationsFiltersLib';
 import ResidencyApplicationsSortsLib from '@/services/Provider/libs/sorts/ResidencyApplicationsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

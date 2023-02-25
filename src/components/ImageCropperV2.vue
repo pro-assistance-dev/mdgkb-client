@@ -26,7 +26,7 @@ import { useStore } from 'vuex';
 import ICanvasResult from '@/interfaces/canvas/ICanvasResult';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import { ICropper } from '@/interfaces/cropper/ICropper';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ImageCropperV2',

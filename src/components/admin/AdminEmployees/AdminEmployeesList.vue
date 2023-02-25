@@ -8,7 +8,13 @@
         @select="selectSearch"
       />
       <FiltersList :models="createGenderFilterModels()" @load="loadItems" />
+      <el-select :model-value="selectedMode" clearable @change="selectMode" @clear="resetFilter">
+        <el-option v-for="mode in modes" :key="mode.label" :label="mode.label" :value="mode" />
+      </el-select>
       <el-button @click="resetFilter">Сбросить фильтры</el-button>
+      <el-button v-if="selectedMode && (selectedMode.isClassOf(Head) || selectedMode.isClassOf(EducationalAcademic))" @click="editOrder"
+        >Редактировать порядок</el-button
+      >
     </template>
     <template #sort>
       <SortList :max-width="400" @load="loadItems" />
@@ -21,8 +27,9 @@
       </el-table-column>
       <el-table-column label="Должности" sortable>
         <template #default="scope">
-          <el-tag v-if="scope.row.doctor" size="mini" @click="filterByRole(EmployeesFiltersLib.onlyDoctors)">Врач</el-tag>
-          <el-tag v-if="scope.row.head" size="mini" @click="filterByRole(EmployeesFiltersLib.onlyHeads)">Руководитель</el-tag>
+          <el-tag v-for="mode in modes.filter((m) => m.condition(scope.row))" :key="mode.label" size="mini" @click="selectMode(mode)">{{
+            mode.label
+          }}</el-tag>
         </template>
       </el-table-column>
 
@@ -43,29 +50,43 @@
       </el-table-column>
     </el-table>
   </AdminListWrapper>
+
+  <el-dialog v-model="editOrderMode">
+    <OrderedList
+      v-if="editOrderMode"
+      :sort-model="selectedMode.sortModel"
+      :store-module="selectedMode.store"
+      @close="editOrderMode = false"
+    />
+  </el-dialog>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import EducationalAcademic from '@/classes/EducationalAcademic';
 import FilterModel from '@/classes/filters/FilterModel';
+import Head from '@/classes/Head';
+import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
+import OrderedList from '@/components/admin/AdminEmployees/OrderedList.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortListV2.vue';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISearchObject from '@/interfaces/ISearchObject';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
 import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLib';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminEmployeeList',
-  components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
+  components: { OrderedList, AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
   setup() {
+    const selectedMode: Ref<ListMode | undefined> = ref(undefined);
     const employees = computed(() => Provider.store.getters['employees/items']);
+    const editOrderMode: Ref<boolean> = ref(false);
     Hooks.onBeforeMount(Provider.loadItems, {
       adminHeader: {
         title: 'Сотрудники',
@@ -89,21 +110,35 @@ export default defineComponent({
       Provider.setDefaultSortModel();
     };
 
-    const filterByRole = async (roleFilterFunc: () => IFilterModel) => {
+    const selectMode = async (mode: ListMode) => {
+      selectedMode.value = mode;
       resetFilterModels();
-      Provider.setFilterModel(roleFilterFunc());
+      Provider.setFilterModel(mode.filter());
       await Provider.loadItems();
     };
 
-    const resetFilter = async (roleFilterFunc: () => IFilterModel) => {
+    const resetFilter = async () => {
       resetFilterModels();
+      selectedMode.value = undefined;
       await Provider.loadItems();
+    };
+
+    const editOrder = () => {
+      if (!selectedMode.value) {
+        return;
+      }
+      editOrderMode.value = true;
     };
 
     return {
+      editOrderMode,
+      Head,
+      EducationalAcademic,
+      editOrder,
+      selectedMode,
+      modes,
       resetFilter,
-      filterByRole,
-      EmployeesFiltersLib,
+      selectMode,
       employees,
       ...Provider.getAdminLib(),
       selectSearch,

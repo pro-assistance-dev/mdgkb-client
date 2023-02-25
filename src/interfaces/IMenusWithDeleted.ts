@@ -1,6 +1,6 @@
-import IMenu from '@/interfaces/IMenu';
+import Menu from '@/classes/Menu';
 
 export default interface IMenusWithDeleted {
-  menus: IMenu[];
+  menus: Menu[];
   menusForDeleted: string[];
 }

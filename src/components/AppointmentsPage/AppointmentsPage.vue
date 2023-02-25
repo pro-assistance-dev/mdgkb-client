@@ -72,7 +72,7 @@ import IAppointmentType from '@/interfaces/IAppointmentType';
 import IChild from '@/interfaces/IChild';
 import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

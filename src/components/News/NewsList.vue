@@ -34,9 +34,9 @@ import NewsFilters from '@/components/News/NewsFilters.vue';
 import { Operators } from '@/interfaces/filters/Operators';
 import INews from '@/interfaces/news/INews';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NewsList',

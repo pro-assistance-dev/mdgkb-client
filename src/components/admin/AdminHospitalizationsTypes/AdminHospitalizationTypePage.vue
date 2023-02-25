@@ -44,7 +44,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({

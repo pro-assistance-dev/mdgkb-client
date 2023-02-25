@@ -70,7 +70,7 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
 import IOption from '@/interfaces/schema/IOption';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({

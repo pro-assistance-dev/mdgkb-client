@@ -48,7 +48,7 @@ import Delete from '@/assets/svg/Buffet/Delete.svg';
 import DishSample from '@/classes/DishSample';
 import IDishSample from '@/interfaces/IDishSample';
 import ClassHelper from '@/services/ClassHelper';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 
 export default defineComponent({

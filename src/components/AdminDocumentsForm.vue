@@ -50,7 +50,7 @@ import PageSection from '@/classes/PageSection';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminDocumentsForm',

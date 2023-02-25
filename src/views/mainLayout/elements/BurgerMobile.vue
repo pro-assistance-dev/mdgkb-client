@@ -64,7 +64,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IMenu from '@/interfaces/IMenu';
+import Menu from '@/classes/Menu';
 
 export default defineComponent({
   name: 'BurgerMobile',
@@ -93,15 +93,15 @@ export default defineComponent({
     onBeforeMount(async () => {
       activePath.value = route.path;
     });
-    const test = (e: any, menu: IMenu) => {
-      menus.value.forEach((menuEl: IMenu) => {
+    const test = (e: any, menu: Menu) => {
+      menus.value.forEach((menuEl: Menu) => {
         if (menu.id !== menuEl.id) {
           menuEl.show = false;
         }
       });
       menu.show = menu.show ? false : true;
     };
-    const isHighlightRoute = (subMenus: IMenu[], activePath: string) => {
+    const isHighlightRoute = (subMenus: Menu[], activePath: string) => {
       if (subMenus?.length === 0) {
         return false;
       } else {

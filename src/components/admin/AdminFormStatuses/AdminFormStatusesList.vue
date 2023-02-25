@@ -53,7 +53,7 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

@@ -239,9 +239,9 @@ import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
 import DailyMenusSortsLib from '@/services/Provider/libs/sorts/DailyMenus';
+import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 export default defineComponent({

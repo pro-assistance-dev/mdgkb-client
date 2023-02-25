@@ -97,10 +97,10 @@ import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import VisitsApplicationsFiltersLib from '@/services/Provider/libs/filters/VisitsApplicationsFiltersLib';
 import VisitsApplicationsSortsLib from '@/services/Provider/libs/sorts/VisitsApplicationsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

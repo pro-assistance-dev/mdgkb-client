@@ -32,9 +32,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
+import Menu from '@/classes/Menu';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
-import IMenu from '@/interfaces/IMenu';
 import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminDonorRules',
@@ -43,7 +43,7 @@ export default defineComponent({
     const store = useStore();
     const donorRulesWithDeleted: ComputedRef<IDonorRulesWithDeleted> = computed(() => store.getters['donorRules/items']);
     const mounted: Ref<boolean> = ref(false);
-    const selectedMenu: Ref<IMenu | undefined> = ref(undefined);
+    const selectedMenu: Ref<Menu | undefined> = ref(undefined);
 
     const save = async () => {
       await store.dispatch('donorRules/updateMany');

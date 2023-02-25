@@ -53,9 +53,9 @@ import { Orders } from '@/interfaces/filters/Orders';
 import ISupportMessage from '@/interfaces/ISupportMessage';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import SupportMessagesFiltersLib from '@/services/Provider/libs/filters/SupportMessagesFiltersLib';
 import SupportMessagesSortsLib from '@/services/Provider/libs/sorts/SupportMessagesSortsLib';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

@@ -61,7 +61,7 @@ import Division from '@/classes/Division';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionDateAndTime',
