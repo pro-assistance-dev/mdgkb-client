@@ -2,7 +2,7 @@ import SortModel from '@/classes/filters/SortModel';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import { Orders } from '@/interfaces/filters/Orders';
 import ClassHelper from '@/services/ClassHelper';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 const ResidencyCoursesSortsLib = (() => {
   function byName(order?: Orders): SortModel {

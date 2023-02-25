@@ -43,8 +43,8 @@ import { Operators } from '@/interfaces/filters/Operators';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ITreatDirection from '@/interfaces/ITreatDirection';
 import IOption from '@/interfaces/schema/IOption';
-import Provider from '@/services/Provider';
 import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionsListFilters',

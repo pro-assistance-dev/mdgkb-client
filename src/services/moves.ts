@@ -1,4 +1,4 @@
-import IOrdered from '@/interfaces/IOrdered';
+import IOrdered from '@/services/interfaces/IOrdered';
 
 export function moveUp(items: IOrdered[], index: number): void {
   items[index].order = index - 1;

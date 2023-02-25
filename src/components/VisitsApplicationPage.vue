@@ -88,7 +88,7 @@ import ISearchObject from '@/interfaces/ISearchObject';
 import IUser from '@/interfaces/IUser';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

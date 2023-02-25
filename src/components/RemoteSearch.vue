@@ -31,7 +31,7 @@ import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearch from '@/interfaces/ISearchObject';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
 
 export default defineComponent({

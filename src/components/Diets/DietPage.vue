@@ -76,7 +76,7 @@ import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
 
 import Time from '@/assets/doctors/svg/Time.svg';
 import ITimetable from '@/interfaces/timetables/ITimetable';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import setDays from '@/services/SetDays';
 import setDaysMobile from '@/services/SetDaysMobile';
 

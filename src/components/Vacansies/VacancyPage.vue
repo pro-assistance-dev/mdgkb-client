@@ -59,7 +59,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
 import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({

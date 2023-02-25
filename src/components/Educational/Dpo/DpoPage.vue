@@ -16,7 +16,7 @@ import NmoCourses from '@/components/Educational/Dpo/NmoCourses.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DpoPage',

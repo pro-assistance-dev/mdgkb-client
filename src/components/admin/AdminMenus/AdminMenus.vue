@@ -63,16 +63,15 @@ import { useStore } from 'vuex';
 
 import Menu from '@/classes/Menu';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import IMenu from '@/interfaces/IMenu';
 import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminMenus',
   components: { draggable, Grid, UploaderSingleScan },
   setup() {
     const store = useStore();
-    const menus: ComputedRef<IMenu[]> = computed(() => store.getters['menus/items']);
+    const menus: ComputedRef<Menu[]> = computed(() => store.getters['menus/items']);
     const mounted: Ref<boolean> = ref(false);
-    const selectedMenu: Ref<IMenu | undefined> = ref(undefined);
+    const selectedMenu: Ref<Menu | undefined> = ref(undefined);
 
     const save = async () => {
       await store.dispatch('menus/updateMany');
@@ -108,7 +107,7 @@ export default defineComponent({
     };
 
     const selectMenu = (i: number) => {
-      const prevSelected = menus.value.find((menu: IMenu) => menu.selected);
+      const prevSelected = menus.value.find((menu: Menu) => menu.selected);
       if (prevSelected) {
         prevSelected.selected = false;
       }

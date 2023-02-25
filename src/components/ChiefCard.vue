@@ -44,7 +44,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 .division-name {
   margin: 0px;
 }

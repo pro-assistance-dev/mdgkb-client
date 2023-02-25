@@ -99,4 +99,8 @@ export default class Doctor implements IDoctor {
   getHuman(): IHuman {
     return this.employee.human;
   }
+
+  static GetClassName(): string {
+    return 'Doctor';
+  }
 }

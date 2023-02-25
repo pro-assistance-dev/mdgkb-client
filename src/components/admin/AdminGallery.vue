@@ -7,19 +7,21 @@
             <svg class="icon-move">
               <use xlink:href="#move"></use>
             </svg>
-            <button class="admin-del2" @click.prevent="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">Удалить</button>
+            <button class="admin-del2" @click.prevent="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">
+              Удалить
+            </button>
           </div>
           <UploaderSingleScanNew
             :file-info="element.fileInfo"
             :height="150"
-            :defaultRatio="defaultRatio"
+            :default-ratio="defaultRatio"
             @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
             @ratio="(e) => (element.ratio = e)"
           />
         </div>
         <div class="item-description">
           <el-form-item class="hidden">
-            <el-input v-model="element.description" placeholder="..."/>
+            <el-input v-model="element.description" placeholder="..." />
           </el-form-item>
         </div>
       </div>
@@ -32,15 +34,15 @@
 import { defineComponent, PropType } from 'vue';
 import draggable from 'vuedraggable';
 
-import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
+import Move from '@/assets/svg/AdminGallery/Move.svg';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
 import IFiler from '@/interfaces/IFiler';
 import sort from '@/services/sort';
-import Move from '@/assets/svg/AdminGallery/Move.svg';
 
 export default defineComponent({
   name: 'AdminGallery',
-  components: { UploaderSingleScan, draggable, UploaderSingleScanNew, Move },
+  components: { draggable, UploaderSingleScanNew, Move },
   emits: ['addImage', 'ratio'],
   props: {
     fileList: {
@@ -55,12 +57,12 @@ export default defineComponent({
     defaultRatio: {
       type: Number,
       required: false,
-       default: 1,
+      default: 1,
     },
   },
   setup() {
     return {
-      sort, 
+      sort,
     };
   },
 });
@@ -69,10 +71,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
 
-
 :deep(.el-upload) {
   width: auto;
-  height:auto;
+  height: auto;
   background: white;
   text-align: center;
   line-height: auto;
@@ -80,12 +81,12 @@ export default defineComponent({
 
 :deep(.el-upload-list__item) {
   width: auto;
-  height:auto;
+  height: auto;
 }
 
 :deep(.el-upload-list__item-thumbnail) {
   width: auto;
-  height:auto;
+  height: auto;
 }
 
 :deep(.el-upload-list__item) {
@@ -131,7 +132,7 @@ export default defineComponent({
 }
 
 :deep(.el-input__inner::placeholder) {
-  color: #A3a9BE;
+  color: #a3a9be;
 }
 
 :deep(.el-select .el-input .el-select__caret) {
@@ -229,7 +230,7 @@ export default defineComponent({
 
 :deep(.el-upload--picture-card i) {
   font-size: 50px;
-  color: #00B5A4;
+  color: #00b5a4;
   padding: 0 54px;
 }
 
@@ -245,7 +246,7 @@ export default defineComponent({
   overflow-y: scroll;
 }
 
-.groups  > div {
+.groups > div {
   max-width: 290px;
   min-width: 120px;
   height: 230px;
@@ -268,11 +269,9 @@ export default defineComponent({
   box-shadow: $normal-shadow;
 }
 
-
 .item:hover > .move > .item-tools > .icon-move {
   visibility: visible;
 }
-
 
 .hidden {
   height: 30px;
@@ -289,7 +288,7 @@ export default defineComponent({
   justify-content: space-between;
   align-items: center;
   height: 30px;
-  background: #F9FAFB;
+  background: #f9fafb;
   border-top-left-radius: $normal-border-radius;
   border-top-right-radius: $normal-border-radius;
   border-bottom: $normal-darker-border;
@@ -302,7 +301,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   height: 30px;
-  background: #F9FAFB;
+  background: #f9fafb;
   border-bottom-left-radius: $normal-border-radius;
   border-bottom-right-radius: $normal-border-radius;
   border-top: $normal-darker-border;
@@ -311,8 +310,12 @@ export default defineComponent({
 }
 
 @keyframes ripple {
-  0% {transform:scale(1, 1)}
-  50% {transform:scale(1.15, 1.15)}
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.15, 1.15);
+  }
 }
 
 .icon-move {
@@ -342,7 +345,6 @@ export default defineComponent({
   height: 20px;
 }
 
-
 @media screen and (max-width: 400px) {
   .background-container {
     margin: 0 10px 20px 10px;
@@ -358,7 +360,7 @@ export default defineComponent({
     grid-auto-rows: 210px;
   }
 
-  .groups  > div {
+  .groups > div {
     max-width: 230px;
     height: 200px;
     object-fit: cover;

@@ -15,9 +15,9 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ResidencyCourses',

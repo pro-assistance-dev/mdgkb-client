@@ -38,13 +38,12 @@
                 <button class="admin-add" @click.prevent="division.addImage()">+ Добавить</button>
               </div>
               <div v-if="division.divisionImages.length" class="background-container">
-              <AdminGallery
-                :default-ratio="4/3"
-                :file-list="division.divisionImages"
-                :file-list-for-delete="division.divisionImagesForDelete"
-              />
-              </div
-              >
+                <AdminGallery
+                  :default-ratio="4 / 3"
+                  :file-list="division.divisionImages"
+                  :file-list-for-delete="division.divisionImagesForDelete"
+                />
+              </div>
             </template>
           </CollapseItem>
 
@@ -173,7 +172,7 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import ISearchObject from '@/interfaces/ISearchObject';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminDivisionPage',

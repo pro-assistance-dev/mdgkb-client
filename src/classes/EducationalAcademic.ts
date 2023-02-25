@@ -10,4 +10,8 @@ export default class EducationalAcademic {
   constructor(i?: EducationalAcademic) {
     ClassHelper.BuildClass(this, i);
   }
+
+  static GetClassName(): string {
+    return 'EducationalAcademic';
+  }
 }

@@ -51,7 +51,7 @@ import IEntrance from '@/interfaces/IEntrance';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
 import IMapObject from '@/interfaces/IMapObject';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'MapRouter',

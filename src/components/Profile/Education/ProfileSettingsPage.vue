@@ -22,7 +22,7 @@ import { useStore } from 'vuex';
 
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/interfaces/IUser';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ProfileSettingsPage',

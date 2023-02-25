@@ -12,10 +12,9 @@
         <UploaderSingleScanNew
           :file-info="element.fileInfo"
           :height="100"
-          :width="100*element.ratio"
+          :width="100 * element.ratio"
           @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
           @ratio="(e) => (element.ratio = e)"
-
         />
         <el-button @click="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">Удалить изображение</el-button>
         {{ element.ratio }}
@@ -31,14 +30,14 @@
 import { defineComponent, PropType } from 'vue';
 import draggable from 'vuedraggable';
 
-import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
 import IFiler from '@/interfaces/IFiler';
 import sort from '@/services/sort';
 
 export default defineComponent({
   name: 'AdminGallery',
-  components: { UploaderSingleScan, draggable, UploaderSingleScanNew },
+  components: { draggable, UploaderSingleScanNew },
   emits: ['addImage', 'ratio'],
   props: {
     fileList: {
@@ -51,14 +50,13 @@ export default defineComponent({
       default: () => [],
     },
   },
-  setup(props, {emit}) {
-
+  setup(props, { emit }) {
     // const ratio = (resolution:Number) => {
     //   console.log('Соотношение в AdminGallery: ' + resolution);
     // };
 
     return {
-      sort, 
+      sort,
       // ratio,
     };
   },

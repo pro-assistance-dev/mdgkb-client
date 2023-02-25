@@ -56,7 +56,7 @@ import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Calendar from '@/classes/Calendar';
 import Day from '@/classes/Day';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'CalendarComponent',
   components: {

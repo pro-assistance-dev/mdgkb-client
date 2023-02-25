@@ -58,8 +58,8 @@ import IDishesGroup from '@/interfaces/IDishesGroup';
 import IForm from '@/interfaces/IForm';
 import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'BufetPage',

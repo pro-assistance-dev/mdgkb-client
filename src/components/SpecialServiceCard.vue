@@ -16,7 +16,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import ISpecialService from '@/interfaces/ISpecialService';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'SpecialServiceCard',

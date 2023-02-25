@@ -10,9 +10,9 @@ import { IPaginationOptions } from '@/services/Hooks/Hooks';
 import StringsService from '@/services/Strings';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
-import router from '../router';
-import store from '../store';
-import HttpClient from './HttpClient';
+import router from '../../router';
+import store from '../../store';
+import HttpClient from '../HttpClient';
 
 const Provider = (() => {
   const r = router;
@@ -25,7 +25,6 @@ const Provider = (() => {
   const saveButtonClicked: Ref<boolean> = ref(false);
   let storeModule = '';
   let getAction = '';
-  // const refres/hKey = 0
   function initPagination(options?: IPaginationOptions): void {
     store.commit('filter/setStoreModule', options?.storeModule ?? getStoreModule());
     store.commit('filter/setAction', options?.action ?? getGetAction());

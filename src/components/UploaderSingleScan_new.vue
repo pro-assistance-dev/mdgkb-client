@@ -30,7 +30,7 @@
       </span>
     </template>
   </el-upload>
-  <ImageCropperV2New v-if="withCrop" :open="cropperOpened" :defaultRatio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
+  <ImageCropperV2New v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts">
@@ -77,10 +77,10 @@ export default defineComponent({
     defaultRatio: {
       type: Number,
       required: false,
-      default:1,
+      default: 1,
     },
   },
-  emits: ['crop', 'removeFile' ],
+  emits: ['crop', 'removeFile'],
 
   setup(props, { emit }) {
     const fileList: Ref<IFilesList[]> = ref([]);
@@ -165,7 +165,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
 .avatar-uploader-cover {
   display: flex;
   justify-content: center;
@@ -224,6 +223,5 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   width: auto;
-
 }
 </style>

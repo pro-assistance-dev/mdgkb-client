@@ -33,7 +33,7 @@ import ResidencyCourseInfo from '@/components/Educational/Residency/ResidencyCou
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({

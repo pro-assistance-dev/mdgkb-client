@@ -46,7 +46,7 @@ import { defineComponent, PropType, Ref, ref } from 'vue';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import HeaderInfo from '@/components/Base/HeaderInfo.vue';
 import ChiefCard from '@/components/ChiefCard.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ResidencyCourseInfo',

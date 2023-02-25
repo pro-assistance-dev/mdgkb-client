@@ -15,7 +15,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'SetEntity',

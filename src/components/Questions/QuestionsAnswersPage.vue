@@ -35,7 +35,7 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import FAQ from '@/components/Questions/FAQ.vue';
 import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import Questions from '@/components/Questions/Questions.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'QuestionsAnswersPage',

@@ -1,7 +1,7 @@
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFiler from '@/interfaces/files/IFiler';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
-import IOrdered from '@/interfaces/IOrdered';
+import IOrdered from '@/services/interfaces/IOrdered';
 
 export default interface IDonorRule extends IFiler, IOrdered {
   id?: string;

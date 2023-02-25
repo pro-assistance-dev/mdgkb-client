@@ -20,7 +20,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, r
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import ISortModel from '@/interfaces/filters/ISortModel';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'SortList',

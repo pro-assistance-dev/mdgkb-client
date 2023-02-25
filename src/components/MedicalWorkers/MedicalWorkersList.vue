@@ -30,9 +30,9 @@ import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
 import HeadsSortsLib from '@/services/Provider/libs/sorts/HeadsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({

@@ -48,8 +48,8 @@ import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import Provider from '@/services/Provider';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'HeadConstructor',

@@ -12,8 +12,8 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Orders } from '@/interfaces/filters/Orders';
 import createSortModels from '@/services/CreateSortModels';
-import Provider from '@/services/Provider';
 import NmoCoursesSortsLib from '@/services/Provider/libs/sorts/NmoCoursesSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NmoCourses',

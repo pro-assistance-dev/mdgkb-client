@@ -35,7 +35,7 @@ import { computed, defineComponent, PropType, Ref } from 'vue';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'BufetCard',

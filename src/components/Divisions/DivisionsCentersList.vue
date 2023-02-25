@@ -19,9 +19,9 @@ import IFilterModel from '@/interfaces/filters/IFilterModel';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionsCentersList',

@@ -43,7 +43,7 @@ import ApplicationCard from '@/components/Profile/Education/ApplicationCard.vue'
 import ApplicationTable from '@/components/Profile/Education/ApplicationTable.vue';
 import MyApplicationsButton from '@/components/Profile/Education/MyApplicationsButton.vue';
 import IUser from '@/interfaces/IUser';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'EducationPage',

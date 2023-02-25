@@ -4,14 +4,15 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
 import FilterQuery from '@/classes/filters/FilterQuery';
-import createSortModels, { ISortModelBuildersLib } from '@/services/CreateSortModels';
-import Provider from '@/services/Provider';
+import createSortModels from '@/services/CreateSortModels';
+import { SortModelBuildersLib } from '@/services/interfaces/Sort';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export interface IHooksOptions {
   pagination?: IPaginationOptions;
-  sortsLib?: ISortModelBuildersLib;
+  sortsLib?: SortModelBuildersLib;
   adminHeader?: AdminHeaderParams;
   getAction?: string;
   v2?: boolean;
@@ -27,7 +28,6 @@ type func = (param?: FilterQuery | string) => Promise<void> | void;
 const Hooks = (() => {
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
-      console.log('ONBEFORE');
       Provider.mounted.value = false;
       Provider.store.commit('admin/showLoading');
       Provider.resetFilterQuery();

@@ -114,7 +114,7 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import NmoCourse from '@/classes/NmoCourse';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NmoCoursesList',

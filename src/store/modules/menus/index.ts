@@ -6,7 +6,13 @@ import RootState from '@/store/types';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+
+export interface State {
+  items: Menu[];
+  menus: Menu[];
+  item: Menu;
+  itemsForDelete: string[];
+}
 
 export const getDefaultState = (): State => {
   return {

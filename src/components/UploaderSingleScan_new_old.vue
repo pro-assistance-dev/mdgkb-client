@@ -140,16 +140,14 @@ export default defineComponent({
       cropperOpened.value = false;
       if (props.emitCrop) {
         emit('crop');
-        
       }
       // console.log('Значение коэффициента по умолчаннию ЭМИТ!!!' + emit('ratio'));
     };
 
-    const ratio = (ratio:Number) => {
+    const ratio = (ratio: number) => {
       console.log('Соотношение в UploaderSingleScan: ' + ratio);
-       emit('ratio', ratio);
+      emit('ratio', ratio);
     };
-
 
     onBeforeMount(() => {
       if (props.fileInfo.fileSystemPath) {

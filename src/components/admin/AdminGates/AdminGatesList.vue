@@ -31,7 +31,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import IForm from '@/interfaces/IForm';
 import IGate from '@/interfaces/IGate';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminGatesList',

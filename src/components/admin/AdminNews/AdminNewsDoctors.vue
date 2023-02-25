@@ -26,7 +26,7 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDoctor from '@/interfaces/IDoctor';
 import ISearchObject from '@/interfaces/ISearchObject';
 import INews from '@/interfaces/news/INews';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminNewsDoctors',

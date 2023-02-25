@@ -112,7 +112,7 @@ import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormR
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUserFormFields from '@/interfaces/IUserFormFields';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminFormValue',

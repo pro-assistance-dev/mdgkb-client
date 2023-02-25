@@ -18,7 +18,7 @@
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import IDishesGroup from '@/interfaces/IDishesGroup';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

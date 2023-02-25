@@ -87,7 +87,7 @@ import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import StringsService from '@/services/Strings';
 

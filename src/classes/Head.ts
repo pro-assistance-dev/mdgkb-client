@@ -52,4 +52,8 @@ export default class Head {
   getHuman(): Human {
     return this.employee.human;
   }
+
+  static GetClassName(): string {
+    return 'Head';
+  }
 }

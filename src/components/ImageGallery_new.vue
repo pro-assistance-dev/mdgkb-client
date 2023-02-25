@@ -8,28 +8,23 @@
         <div v-if="images.length > 0" class="gallery-container">
           <el-carousel
             ref="carouselRef"
-            indicator-position="outside"
             v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+            indicator-position="outside"
             :interval="5000"
             height="300px"
             arrow="always"
           >
             <el-carousel-item v-for="(images, i) in carousel" :key="i">
-            <div v-for="item in images" :key="item.id" class="foto-field">
-              <div class="division-img">
-                <img
-                  :src="item.fileInfo.getImageUrl()"
-                  :alt="item.fileInfo.originalName"
-                  @click="imgClickHandler(item.fileInfo)"
-                />
+              <div v-for="item in images" :key="item.id" class="foto-field">
+                <div class="division-img">
+                  <img :src="item.fileInfo.getImageUrl()" :alt="item.fileInfo.originalName" @click="imgClickHandler(item.fileInfo)" />
+                </div>
+                <div data-test="chief-name" class="image-description-title">
+                  {{ item.description }}
+                </div>
               </div>
-              <div data-test="chief-name" class="image-description-title">
-                {{ item.description }}
-              </div>
-            </div>
             </el-carousel-item>
           </el-carousel>
-          
         </div>
         <el-dialog v-model="dialogVisible" center :show-close="false" top="25vh">
           <img :src="dialogFileInfo.getImageUrl()" :alt="dialogFileInfo.originalName" />
@@ -40,12 +35,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref, onBeforeMount } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import DivisionImage from '@/classes/DivisionImage';
 import FileInfo from '@/classes/File/FileInfo';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import DivisionImage from '@/classes/DivisionImage';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -71,7 +66,7 @@ export default defineComponent({
 
     onBeforeMount(() => {
       carousel.value = makeCarousel<DivisionImage>(props.images, 3);
-      console.log('Значение карусели: ' + carousel.value)
+      console.log('Значение карусели: ' + carousel.value);
     });
 
     return {
@@ -114,7 +109,6 @@ export default defineComponent({
 :deep(.el-dialog--center) {
   padding: 0px;
 }
-
 
 :deep(.el-dialog__header) {
   padding: 0px;
@@ -245,5 +239,4 @@ export default defineComponent({
     height: 160px;
   }
 }
-
 </style>

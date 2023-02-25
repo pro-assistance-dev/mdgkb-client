@@ -94,7 +94,7 @@ import AdmissionForm from '@/components/Educational/AdmissionCommittee/Admission
 import SharesBlock from '@/components/SharesBlock.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'AdmissionCoursePage',

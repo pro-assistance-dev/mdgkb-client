@@ -92,9 +92,9 @@ import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCo
 import { Orders } from '@/interfaces/filters/Orders';
 import IOption from '@/interfaces/schema/IOption';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import Provider from '@/services/Provider/Provider';
 import store from '@/store';
 
 export default defineComponent({

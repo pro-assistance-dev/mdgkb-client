@@ -12,7 +12,7 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import IFilterModel from '@/interfaces/filters/IFilterModel';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'FilterSelectV2',

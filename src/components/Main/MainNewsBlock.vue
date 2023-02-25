@@ -31,8 +31,8 @@ import NewsCard from '@/components/News/NewsCard.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
 import { Orders } from '@/interfaces/filters/Orders';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'MainNewsBlock',

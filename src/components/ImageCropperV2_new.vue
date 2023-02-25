@@ -5,12 +5,12 @@
         <div class="line-block">
           <el-form-item label="Задайте пропорции фото:">
             <el-select v-model="resolution" label="Пропорции изображения" @change="selectResolution">
-              <el-option label="2:3 (формат A4)" :value="2/3" />
-              <el-option label="4:3 (для карточек новостей)" :value="4/3" />
+              <el-option label="2:3 (формат A4)" :value="2 / 3" />
+              <el-option label="4:3 (для карточек новостей)" :value="4 / 3" />
               <el-option label="1:1 (для фото сотрудников)" :value="1" />
-              <el-option label="3:2" :value="3/2" />
-              <el-option label="16:9" :value="16/9" />
-              <el-option label="3:4 (вертикальное изображение)" :value="3/4" />
+              <el-option label="3:2" :value="3 / 2" />
+              <el-option label="16:9" :value="16 / 9" />
+              <el-option label="3:4 (вертикальное изображение)" :value="3 / 4" />
               <el-option label="Задать пропорции вручную" :value="0" />
             </el-select>
           </el-form-item>
@@ -40,7 +40,7 @@ import { Cropper } from 'vue-advanced-cropper';
 import ICanvasResult from '@/interfaces/canvas/ICanvasResult';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import { ICropper } from '@/interfaces/cropper/ICropper';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ImageCropperV2New',
@@ -64,11 +64,11 @@ export default defineComponent({
     cropper.value.ratio = resolution.value;
 
     const selectResolution = async () => {
-        if (resolution.value === 0) {
-          cropper.value.ratio = 0;
-        } else {
-          cropper.value.ratio = resolution.value;
-        }
+      if (resolution.value === 0) {
+        cropper.value.ratio = 0;
+      } else {
+        cropper.value.ratio = resolution.value;
+      }
     };
 
     const coordinates: Ref<ICoordinates> = ref({
@@ -87,7 +87,7 @@ export default defineComponent({
       loading.value = true;
       const canvas = cropperRef.value.getResult();
       if (cropper.value.ratio === 0) {
-        resolution.value = coordinates.value.width/coordinates.value.height
+        resolution.value = coordinates.value.width / coordinates.value.height;
       }
       if (canvas) {
         canvas.canvas.toBlob((blob: Blob) => {

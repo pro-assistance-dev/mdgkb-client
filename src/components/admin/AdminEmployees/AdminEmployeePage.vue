@@ -4,16 +4,16 @@
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical" class="vertical-block">
           <div class="status-panel" :style="collapsed ? 'margin-top: -166px' : 'margin-top: 0'">
-            <div class="panel-title" v-if="collapsed" @click.prevent="handClick" >Открыть панель управления статусами</div>
-            <div class="panel-title" v-else @click.prevent="handClick" >Скрыть панель управления статусами</div>
+            <div v-if="collapsed" class="panel-title" @click.prevent="handClick">Открыть панель управления статусами</div>
+            <div v-else class="panel-title" @click.prevent="handClick">Скрыть панель управления статусами</div>
             <div class="panel-body">
               <div class="line">
                 <div class="line-item">Статус руководителя:</div>
                 <div class="line-item">
                   <div v-if="employee.head" class="yes">ДА</div>
                   <div v-else class="no">НЕТ</div>
-                  <button v-if="employee.head" @click.prevent="employee.resetHead()" class="revoke" >Отозвать</button>
-                  <button v-else @click.prevent="employee.setHead()" class="appoint" >Назначить</button>
+                  <button v-if="employee.head" class="revoke" @click.prevent="employee.resetHead()">Отозвать</button>
+                  <button v-else class="appoint" @click.prevent="employee.setHead()">Назначить</button>
                 </div>
               </div>
               <div class="line">
@@ -21,8 +21,8 @@
                 <div class="line-item">
                   <div v-if="employee.doctor" class="yes">ДА</div>
                   <div v-else class="no">НЕТ</div>
-                  <button v-if="employee.doctor" @click.prevent="employee.resetDoctor()" class="revoke" >Отозвать</button>
-                  <button v-else @click.prevent="employee.setDoctor()" class="appoint" >Назначить</button>
+                  <button v-if="employee.doctor" class="revoke" @click.prevent="employee.resetDoctor()">Отозвать</button>
+                  <button v-else class="appoint" @click.prevent="employee.setDoctor()">Назначить</button>
                 </div>
               </div>
             </div>
@@ -68,7 +68,7 @@ import EmployeeConstructor from '@/components/admin/AdminEmployees/EmployeeConst
 import HeadConstructor from '@/components/admin/AdminEmployees/HeadConstructor.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminEmployeePage',
@@ -125,7 +125,7 @@ $margin: 20px 0;
 .background-container2 {
   width: auto;
   padding: 10px 10px 0 10px;
-  background: #F1F2F7;
+  background: #f1f2f7;
   border-radius: $normal-border-radius;
   border: $normal-darker-border;
   margin-left: -10px;
@@ -391,7 +391,7 @@ $margin: 20px 0;
 }
 
 .status-panel {
-  position:relative;
+  position: relative;
   height: 190px;
   display: flex;
   justify-content: center;
@@ -405,7 +405,7 @@ $margin: 20px 0;
   background: #dff2f8;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  box-shadow:  0 0px 10px 0px rgba(0 0 0 / 20%);
+  box-shadow: 0 0px 10px 0px rgba(0 0 0 / 20%);
   border: $normal-darker-border;
   border-top: none;
   cursor: pointer;
@@ -513,7 +513,7 @@ $margin: 20px 0;
   width: 100%;
   margin-bottom: 20px;
   font-size: 18px;
-  color: #09A248;
+  color: #09a248;
 }
 
 @media screen and (max-width: 910px) {
