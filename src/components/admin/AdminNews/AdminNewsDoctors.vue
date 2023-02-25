@@ -24,8 +24,8 @@ import { computed, ComputedRef, defineComponent } from 'vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IDoctor from '@/interfaces/IDoctor';
-import ISearchObject from '@/interfaces/ISearchObject';
 import INews from '@/interfaces/news/INews';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

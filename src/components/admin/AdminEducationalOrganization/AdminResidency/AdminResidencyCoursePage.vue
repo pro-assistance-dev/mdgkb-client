@@ -134,9 +134,9 @@ import SetEntity from '@/components/admin/SetEntity.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import IForm from '@/interfaces/IForm';
-import ISearchObject from '@/interfaces/ISearchObject';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

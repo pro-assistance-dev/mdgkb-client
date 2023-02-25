@@ -24,8 +24,8 @@ import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
 import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
-import ISearchObject from '@/interfaces/ISearchObject';
 import ISchema from '@/interfaces/schema/ISchema';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
