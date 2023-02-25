@@ -4,7 +4,7 @@
       <div class="margin-container">
         <CollapseItem :tab-id="1036" :active-id="scope.activeId">
           <template #inside-title>
-            <div class="title-in">Прочая информация</div>
+            <div class="title-in">Информация о статусе</div>
           </template>
           <template #inside-content>
             <div class="background-container">

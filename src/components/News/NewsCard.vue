@@ -266,7 +266,7 @@ $card-width: 300px;
   margin-bottom: 20px;
 }
 
-.tags-buttom {
+.tags-button {
   padding-top: 20px;
   padding-bottom: 10px;
   min-height: 24px;
