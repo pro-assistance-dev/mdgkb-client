@@ -1,5 +1,4 @@
 import Building from '@/classes/Building';
-import ContactInfo from '@/classes/contacts/ContactInfo';
 import DivisionComment from '@/classes/DivisionComment';
 import DivisionPaidService from '@/classes/DivisionPaidService';
 import DivisionVideo from '@/classes/DivisionVideo';
@@ -15,6 +14,7 @@ import Timetable from '@/classes/timetable/Timetable';
 import Vacancy from '@/classes/Vacancy';
 import VisitingRuleGroup from '@/classes/VisitingRuleGroup';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 import DivisionImage from './DivisionImage';

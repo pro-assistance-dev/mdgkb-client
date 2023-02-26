@@ -84,7 +84,7 @@ import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import DatePicker from '@/components/DatePicker.vue';
-import IHuman from '@/interfaces/IHuman';
+import Human from '@/services/classes/Human';
 
 export default defineComponent({
   name: 'HumanForm',
@@ -103,7 +103,7 @@ export default defineComponent({
     const store = useStore();
     const form = ref();
 
-    const human: Ref<IHuman> = computed(() => store.getters[`${props.storeModule}/item`].getHuman());
+    const human: Ref<Human> = computed(() => store.getters[`${props.storeModule}/item`].getHuman());
 
     const checkCompleteName = (n: string): void => {
       if (!!human.value.name && !!human.value.surname && !!human.value.patronymic) {

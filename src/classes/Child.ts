@@ -1,7 +1,7 @@
-import Human from '@/classes/Human';
 import User from '@/classes/User';
 import IChild from '@/interfaces/IChild';
 import IUser from '@/interfaces/IUser';
+import Human from '@/services/classes/Human';
 
 export default class Child implements IChild {
   id?: string;

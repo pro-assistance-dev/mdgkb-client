@@ -1,12 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import ICallbackRequest from '@/interfaces/ICallbackRequest';
+import CallbackRequest from '@/services/classes/CallbackRequest';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  item(state): ICallbackRequest {
+  item(state): CallbackRequest {
     return state.item;
   },
 };

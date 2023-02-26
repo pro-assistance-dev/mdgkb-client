@@ -6,10 +6,10 @@ import NewsDoctor from '@/classes/news/NewsDoctor';
 import Position from '@/classes/Position';
 import Timetable from '@/classes/timetable/Timetable';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 
 import DoctorComment from './DoctorComment';
@@ -93,7 +93,7 @@ export default class Doctor {
     this.employeeId = undefined;
   }
 
-  getHuman(): IHuman {
+  getHuman(): Human {
     return this.employee.human;
   }
 

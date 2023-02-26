@@ -1,8 +1,8 @@
 import Division from '@/classes/Division';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import ContactInfo from '@/services/classes/ContactInfo';
 
 import IForm from './IForm';
 
@@ -10,7 +10,7 @@ export default interface IVacancy {
   id?: string;
   title: string;
   slug: string;
-  contactInfo: IContactInfo;
+  contactInfo: ContactInfo;
   contactInfoId?: string;
   specialization: string;
   minSalary: number;

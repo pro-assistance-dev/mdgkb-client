@@ -5,7 +5,6 @@ import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import DpoApplication from '@/classes/DpoApplication';
-import Human from '@/classes/Human';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import Question from '@/classes/Question';
 import Role from '@/classes/Role';
@@ -15,11 +14,10 @@ import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IChild from '@/interfaces/IChild';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
-import IForm from '@/interfaces/IForm';
-import IHuman from '@/interfaces/IHuman';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
 import IOption from '@/interfaces/schema/IOption';
+import Human from '@/services/classes/Human';
 
 import Form from './Form';
 
@@ -203,7 +201,7 @@ export default class User implements IUser {
     return this.comments.length > 0;
   }
 
-  getHuman(): IHuman {
+  getHuman(): Human {
     return this.human;
   }
 }

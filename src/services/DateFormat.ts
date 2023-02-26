@@ -1,4 +1,4 @@
-import SetShortDays from '@/services/SetShortDays';
+import Time from '@/services/Time';
 
 interface CustomDateTimeFormatOptions {
   localeMatcher?: string;
@@ -46,7 +46,7 @@ export default class DateTimeFormat {
     if (!date) {
       return '';
     }
-    return SetShortDays[date.getDay()];
+    return Time.SetShortDays[date.getDay()];
   }
 
   getCurrentWeekPeriod(options?: CustomDateTimeFormatOptions): string {

@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import CallbackRequest from '@/classes/CallbackRequest';
+import CallbackRequest from '@/services/classes/CallbackRequest';
 
 import { State } from './state';
 

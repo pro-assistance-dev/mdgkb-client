@@ -1,17 +1,15 @@
-import ContactInfo from '@/classes/contacts/ContactInfo';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
+import ContactInfo from '@/services/classes/ContactInfo';
+import ClassHelper from '@/services/ClassHelper';
 
 export default class SideOrganization implements ISideOrganization {
   id?: string;
   name?: string;
   description?: string;
-  contactInfo?: IContactInfo;
+  @ClassHelper.GetClassConstructor(ContactInfo)
+  contactInfo?: ContactInfo;
 
   constructor(i?: ISideOrganization) {
-    this.id = i?.id;
-    this.name = i?.name;
-    this.description = i?.description;
-    this.contactInfo = new ContactInfo(i?.contactInfo);
+    ClassHelper.BuildClass(this, i);
   }
 }
