@@ -23,6 +23,7 @@ export default class Menu {
   page = new Page();
   pageId?: string;
 
+  @ClassHelper.GetClassConstructor(SubMenu)
   subMenus: SubMenu[] = [];
   subMenusForDelete: string[] = [];
 

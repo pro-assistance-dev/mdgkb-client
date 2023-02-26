@@ -6,19 +6,15 @@ import NewsDoctor from '@/classes/news/NewsDoctor';
 import Position from '@/classes/Position';
 import Timetable from '@/classes/timetable/Timetable';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDoctor from '@/interfaces/IDoctor';
-import IDoctorComment from '@/interfaces/IDoctorComment';
-import IDoctorPaidService from '@/interfaces/IDoctorPaidService';
 import IHuman from '@/interfaces/IHuman';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
-import IPosition from '@/interfaces/IPosition';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import ClassHelper from '@/services/ClassHelper';
 
 import DoctorComment from './DoctorComment';
 
-export default class Doctor implements IDoctor {
+export default class Doctor {
   id?: string;
   employee = new Employee();
   employeeId?: string;
@@ -27,15 +23,16 @@ export default class Doctor implements IDoctor {
   timetable: ITimetable = new Timetable();
   timetableId?: string;
   onlineDoctorId?: string;
-  position: IPosition = new Position();
+  @ClassHelper.GetClassConstructor(Position)
+  position?: Position;
   positionId?: string;
   tags?: string;
   @ClassHelper.GetClassConstructor(NewsDoctor)
   newsDoctors: INewsDoctor[] = [];
   @ClassHelper.GetClassConstructor(DoctorComment)
-  doctorComments: IDoctorComment[] = [];
+  doctorComments: DoctorComment[] = [];
   @ClassHelper.GetClassConstructor(DoctorPaidService)
-  doctorPaidServices: IDoctorPaidService[] = [];
+  doctorPaidServices: DoctorPaidService[] = [];
   doctorPaidServicesForDelete: string[] = [];
   timetableDaysForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(DoctorDivision)
@@ -46,7 +43,7 @@ export default class Doctor implements IDoctor {
   hasAppointment = true;
   doctorsDivisionsForDelete: string[] = [];
 
-  constructor(i?: IDoctor) {
+  constructor(i?: Doctor) {
     ClassHelper.BuildClass(this, i);
   }
 
@@ -102,5 +99,17 @@ export default class Doctor implements IDoctor {
 
   static GetClassName(): string {
     return 'Doctor';
+  }
+
+  setPosition(id: string, name: string): void {
+    this.positionId = id;
+    this.position = new Position();
+    this.position.name = name;
+    console.log(this.positionId);
+  }
+
+  resetPosition(): void {
+    this.positionId = undefined;
+    this.position = undefined;
   }
 }

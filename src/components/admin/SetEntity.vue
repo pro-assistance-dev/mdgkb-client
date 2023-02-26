@@ -1,5 +1,5 @@
 <template>
-  <div v-if="entityName.length === 0" class="search-line">
+  <div v-if="!entityName || entityName.length === 0" class="search-line">
     <div class="search-label">{{ label }}</div>
     <RemoteSearch :key-value="searchKey" :max-width="2000" @select="(e) => $emit('selectSearch', e)" />
   </div>

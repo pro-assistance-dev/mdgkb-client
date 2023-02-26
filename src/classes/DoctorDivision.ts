@@ -1,6 +1,5 @@
 import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
-import IDoctorDivision from '@/interfaces/IDoctorDivision';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class DoctorDivision {
@@ -11,7 +10,7 @@ export default class DoctorDivision {
   division: Division = new Division();
   show = true;
 
-  constructor(i?: IDoctorDivision) {
+  constructor(i?: DoctorDivision) {
     ClassHelper.BuildClass(this, i);
   }
 }

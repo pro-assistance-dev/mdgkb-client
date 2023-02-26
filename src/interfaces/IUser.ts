@@ -1,10 +1,10 @@
+import DoctorUser from '@/classes/DoctorUser';
 import DpoApplication from '@/classes/DpoApplication';
 import Form from '@/classes/Form';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IChild from '@/interfaces/IChild';
-import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IHuman from '@/interfaces/IHuman';
@@ -33,7 +33,7 @@ export default interface IUser {
   candidateApplicationsForDelete: string[];
   formValues: Form[];
   donorRulesUsers: IDonorRuleUser[];
-  doctorsUsers: IDoctorUser[];
+  doctorsUsers: DoctorUser[];
   role: IRole;
   rejectEmail: boolean;
   roleId?: string;

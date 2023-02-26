@@ -12,6 +12,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Doctor from '@/classes/Doctor';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
 import NmoCourse from '@/classes/NmoCourse';
@@ -22,7 +23,6 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
-import IDoctor from '@/interfaces/IDoctor';
 import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISchema from '@/interfaces/schema/ISchema';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -39,7 +39,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
+    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => store.getters['doctors/items']);
     const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
     const mount = ref(false);
 

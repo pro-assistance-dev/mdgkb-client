@@ -105,17 +105,17 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Doctor from '@/classes/Doctor';
 import WorkAndTeaching from '@/components/Doctors/WorkAndTeaching.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
 import TimetableComponent from '@/components/TimetableComponent.vue';
-import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorInfo',
   components: { FavouriteIcon, Rating, WorkAndTeaching, TimetableComponent },
   props: {
-    doctor: { type: Object as PropType<IDoctor>, required: true },
+    doctor: { type: Object as PropType<Doctor>, required: true },
   },
 });
 </script>

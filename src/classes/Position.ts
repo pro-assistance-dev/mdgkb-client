@@ -1,17 +1,15 @@
-import IPosition from '@/interfaces/IPosition';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Position implements IPosition {
+export default class Position {
   id?: string;
   name = '';
   order = 0;
   show = true;
-  constructor(i?: IPosition) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.order = i.order;
-    this.show = i.show;
+  constructor(i?: Position) {
+    ClassHelper.BuildClass(this, i);
+  }
+
+  static GetClassName(): string {
+    return 'Position';
   }
 }

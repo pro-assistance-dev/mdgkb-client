@@ -21,9 +21,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
 
+import Doctor from '@/classes/Doctor';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IDoctor from '@/interfaces/IDoctor';
 import INews from '@/interfaces/news/INews';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
@@ -33,7 +33,7 @@ export default defineComponent({
   components: { TableButtonGroup, RemoteSearch },
   setup() {
     const news: ComputedRef<INews> = computed(() => Provider.store.getters['news/newsItem']);
-    const doctor: ComputedRef<IDoctor> = computed(() => Provider.store.getters['doctors/item']);
+    const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.store.dispatch('doctors/get', event.value);

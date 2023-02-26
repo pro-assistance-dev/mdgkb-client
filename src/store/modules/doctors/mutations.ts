@@ -2,76 +2,30 @@ import { MutationTree } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
 import DoctorComment from '@/classes/DoctorComment';
-import Timetable from '@/classes/timetable/Timetable';
-import IDoctor from '@/interfaces/IDoctor';
-import IDoctorComment from '@/interfaces/IDoctorComment';
-import IDoctorsWithCount from '@/interfaces/IDoctorsWithCount';
-import ITimetable from '@/interfaces/timetables/ITimetable';
-import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAllAdmin(state, doctorsWithCount: IDoctorsWithCount) {
-    state.items = doctorsWithCount.doctors.map((a: IDoctor) => new Doctor(a));
-    state.count = doctorsWithCount.count;
-  },
-  appendToAll(state, items: IDoctor[]) {
-    if (!items) {
-      return;
-    }
-    const doctors = items.map((i: IDoctor) => new Doctor(i));
-    state.items.push(...doctors);
-  },
-  setAll(state, items: IDoctor[]) {
-    if (!items) {
-      return;
-    }
-    state.items = items.map((a: IDoctor) => new Doctor(a));
-  },
-  set(state, doctor: IDoctor) {
-    state.item = new Doctor(doctor);
-  },
+  ...getBaseMutations(Doctor),
   resetState(state) {
     Object.assign(state, getDefaultState());
   },
-  setDivisionDoctors(state, doctors: IDoctor[]) {
-    state.divisionDoctors = doctors?.map((a: IDoctor) => new Doctor(a));
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IDoctor) => i.id === id);
-    state.items.splice(index, 1);
-  },
-  addDoctorToDivisionDoctors(state, newDoctor: IDoctor) {
-    state.divisionDoctors.push(newDoctor);
-  },
 
-  filterDoctors(state) {
-    if (!state.divisionDoctors?.length) {
-      state.filteredDoctors = state.items;
-      return;
-    }
-    state.filteredDoctors = state.items?.filter((i: IDoctor) => {
-      return state.divisionDoctors.every((f: IDoctor) => {
-        return f.id !== i.id;
-      });
-    });
-  },
-
-  setComment(state, item: IDoctorComment) {
+  setComment(state, item: DoctorComment) {
     if (state.item) state.item.doctorComments.unshift(item);
     state.comment = new DoctorComment();
   },
   removeComment(state, commentId: string) {
     if (state.item) {
-      const index = state.item.doctorComments.findIndex((item: IDoctorComment) => item.id === commentId);
+      const index = state.item.doctorComments.findIndex((item: DoctorComment) => item.id === commentId);
       state.item.doctorComments.splice(index, 1);
     }
   },
   editComment(state, commentId: string) {
     if (state.item) {
-      state.item.doctorComments = state.item.doctorComments.map((item: IDoctorComment) => {
+      state.item.doctorComments = state.item.doctorComments.map((item: DoctorComment) => {
         if (item.comment.id === commentId) item.comment.isEditing = true;
         return item;
       });
@@ -79,7 +33,7 @@ const mutations: MutationTree<State> = {
   },
   updateComment(state, commentId: string) {
     if (state.item) {
-      state.item.doctorComments = state.item.doctorComments.map((item: IDoctorComment) => {
+      state.item.doctorComments = state.item.doctorComments.map((item: DoctorComment) => {
         if (item.comment.id === commentId) item.comment.isEditing = false;
         return item;
       });
@@ -88,25 +42,7 @@ const mutations: MutationTree<State> = {
   setParentIdToComment(state, parentId: string) {
     state.comment.doctorId = parentId;
   },
-  setTimetable(state, timetable: ITimetable) {
-    if (!state.item) {
-      return;
-    }
-    state.item.timetable = timetable;
-  },
-  removeTimetable(state) {
-    if (!state.item) {
-      return;
-    }
-    state.item.timetable.timetableDays.forEach((day: ITimetableDay) => {
-      if (day.id) {
-        state.item.timetableDaysForDelete.push(day.id);
-      }
-    });
-    state.item.timetable = new Timetable();
-  },
-
-  resetComment(state, item: IDoctorComment) {
+  resetComment(state, item: DoctorComment) {
     state.comment = new DoctorComment();
   },
 };

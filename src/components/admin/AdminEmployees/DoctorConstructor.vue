@@ -14,6 +14,16 @@
               <el-form-item label="Краткое описание сферы интересов">
                 <el-input v-model="employee.doctor.description" />
               </el-form-item>
+
+              <el-form-item>
+                <SetEntity
+                  :search-key="positionModelName"
+                  label="Выбрать заведующего"
+                  :entity-name="employee.doctor.position?.name"
+                  @select-search="(e) => employee.doctor.setPosition(e.value, e.label)"
+                  @reset="employee.doctor.resetPosition()"
+                />
+              </el-form-item>
             </div>
           </template>
         </CollapseItem>
@@ -40,7 +50,6 @@
           />
           <CollapseItem :active-id="scope.activeId" title="Отделения" :tab-id="2017" :is-collaps="false">
             <template #inside-title> </template>
-
             <template #inside-content>
               <div class="background-container">
                 <div v-for="(doctorDivision, i) in employee.doctor.doctorsDivisions" :key="doctorDivision">
@@ -68,6 +77,8 @@ import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
 import Employee from '@/classes/Employee';
+import Position from '@/classes/Position';
+import SetEntity from '@/components/admin/SetEntity.vue';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
@@ -84,6 +95,7 @@ export default defineComponent({
     CollapseItem,
     CollapseContainer,
     TimetableConstructorV2New,
+    SetEntity,
   },
   setup() {
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
@@ -103,6 +115,7 @@ export default defineComponent({
     return {
       addDivision,
       divisionModelName: StringsService.toCamelCase(Division.GetClassName()),
+      positionModelName: StringsService.toCamelCase(Position.GetClassName()),
       employee,
     };
   },
