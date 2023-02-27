@@ -342,6 +342,16 @@ export default defineComponent({
   background: inherit;
 }
 
+.title-in {
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #303133;
+  height: 60px;
+  align-items: center;
+  font-weight: normal;
+}
+
 @media screen and (max-width: 400px) {
   .admin-del {
     position: absolute;
