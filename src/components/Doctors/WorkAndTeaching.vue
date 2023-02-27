@@ -30,7 +30,7 @@ import { defineComponent, PropType } from 'vue';
 
 import Cap from '@/assets/doctors/svg/Cap.svg';
 import Smile from '@/assets/doctors/svg/Smile.svg';
-import IDoctor from '@/interfaces/IDoctor';
+import Doctor from '@/classes/Doctor';
 
 export default defineComponent({
   name: 'WorkAndTeaching',
@@ -39,7 +39,7 @@ export default defineComponent({
     Cap,
   },
   props: {
-    doctor: { type: Object as PropType<IDoctor>, required: true },
+    doctor: { type: Object as PropType<Doctor>, required: true },
   },
 });
 </script>

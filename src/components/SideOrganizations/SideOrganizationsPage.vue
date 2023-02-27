@@ -128,11 +128,10 @@ import { useStore } from 'vuex';
 
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IEmail from '@/interfaces/contacts/IEmail';
-import IPostAddress from '@/interfaces/contacts/IPostAddress';
-import ITelephoneNumber from '@/interfaces/contacts/ITelephoneNumber';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
-// import { yandexMap, ymapMarker } from 'vue-yandex-maps';
+import Email from '@/services/classes/Email';
+import PostAddress from '@/services/classes/PostAddress';
+import TelephoneNumber from '@/services/classes/TelephoneNumber';
 
 export default defineComponent({
   name: 'SideOrganizationsPage',
@@ -185,7 +184,7 @@ export default defineComponent({
     };
   },
   methods: {
-    checkArrayLength(arr: ITelephoneNumber[] | IPostAddress[] | IEmail[] | IEmail[]) {
+    checkArrayLength(arr: TelephoneNumber[] | PostAddress[] | Email[]) {
       const arrIds = arr.map((item) => item.id);
       return typeof arrIds[0] === 'string';
     },

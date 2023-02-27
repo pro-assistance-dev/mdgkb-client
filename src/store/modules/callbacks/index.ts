@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import CallbackRequest from '@/classes/CallbackRequest';
+import CallbackRequest from '@/services/classes/CallbackRequest';
 import RootState from '@/store/types';
 
 import actions from './actions';

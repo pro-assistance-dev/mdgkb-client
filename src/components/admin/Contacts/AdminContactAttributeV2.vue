@@ -37,16 +37,16 @@
 import { computed, defineComponent, PropType, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
 
-import Email from '@/classes/contacts/Email';
-import EmailRules from '@/classes/contacts/EmailRules';
-import PostAddress from '@/classes/contacts/PostAddress';
-import PostAddressRules from '@/classes/contacts/PostAddressRules';
-import TelephoneNumber from '@/classes/contacts/TelephoneNumber';
-import TelephoneNumberRules from '@/classes/contacts/TelephoneNumberRules';
-import Website from '@/classes/contacts/Website';
-import WebsiteRules from '@/classes/contacts/WebsiteRules';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
+import Email from '@/services/classes/Email';
+import EmailRules from '@/services/classes/EmailRules';
+import PostAddress from '@/services/classes/PostAddress';
+import PostAddressRules from '@/services/classes/PostAddressRules';
+import TelephoneNumber from '@/services/classes/TelephoneNumber';
+import TelephoneNumberRules from '@/services/classes/TelephoneNumberRules';
+import Website from '@/services/classes/Website';
+import WebsiteRules from '@/services/classes/WebsiteRules';
 
 export default defineComponent({
   name: 'AdminContactAttribute',

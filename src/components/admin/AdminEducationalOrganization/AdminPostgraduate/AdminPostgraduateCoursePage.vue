@@ -198,9 +198,9 @@ import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IForm from '@/interfaces/IForm';
-import ISearchObject from '@/interfaces/ISearchObject';
 import ISpecialization from '@/interfaces/ISpecialization';
 import ISchema from '@/interfaces/schema/ISchema';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 

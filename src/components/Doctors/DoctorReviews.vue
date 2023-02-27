@@ -242,10 +242,10 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import DoctorComment from '@/classes/DoctorComment';
 import CommentRules from '@/classes/news/CommentRules';
 import IComment from '@/interfaces/comments/IComment';
 import IDivisionComment from '@/interfaces/IDivisionComment';
-import IDoctorComment from '@/interfaces/IDoctorComment';
 import INewsComment from '@/interfaces/news/INewsComment';
 import validate from '@/services/validate';
 
@@ -279,7 +279,7 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
-    const sendComment = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
+    const sendComment = async (item: INewsComment | IDivisionComment | DoctorComment) => {
       if (!validate(commentForm)) return;
       store.commit(`${prop.storeModule}/setParentIdToComment`, prop.parentId);
       if (userEmail.value) item.comment.user.email = userEmail.value;
@@ -299,7 +299,7 @@ export default defineComponent({
     const editComment = (commentId: string) => {
       store.commit(`${prop.storeModule}/editComment`, commentId);
     };
-    const saveCommentChanges = async (item: INewsComment | IDivisionComment | IDoctorComment) => {
+    const saveCommentChanges = async (item: INewsComment | IDivisionComment | DoctorComment) => {
       if (!validate(editCommentForm)) return;
       try {
         await store.dispatch(`${prop.storeModule}/updateComment`, item);

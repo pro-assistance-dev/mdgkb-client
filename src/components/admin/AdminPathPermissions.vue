@@ -91,10 +91,10 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
 import IRole from '@/interfaces/IRole';
-import ISearchObject from '@/interfaces/ISearchObject';
 import { RoleName } from '@/interfaces/RoleName';
 import ISchema from '@/interfaces/schema/ISchema';
 import Hooks from '@/services/Hooks/Hooks';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import PathPermissionsSortsLib from '@/services/Provider/libs/sorts/PathPermissionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 

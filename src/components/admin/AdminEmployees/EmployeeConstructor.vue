@@ -139,13 +139,13 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import Employee from '@/classes/Employee';
 import FilterModel from '@/classes/filters/FilterModel';
 import Head from '@/classes/Head';
-import Human from '@/classes/Human';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import Human from '@/services/classes/Human';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
 import Provider from '@/services/Provider/Provider';
 

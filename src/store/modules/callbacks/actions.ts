@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import ICallbackRequest from '@/interfaces/ICallbackRequest';
+import CallbackRequest from '@/services/classes/CallbackRequest';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -10,7 +10,7 @@ const httpClient = new HttpClient('callback-requests');
 
 const actions: ActionTree<State, RootState> = {
   create: async ({ state, commit }): Promise<void> => {
-    await httpClient.post<ICallbackRequest, ICallbackRequest>({ payload: state.item });
+    await httpClient.post<CallbackRequest, CallbackRequest>({ payload: state.item });
     commit('resetItem');
   },
 };

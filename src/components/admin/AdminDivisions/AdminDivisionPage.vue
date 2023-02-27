@@ -169,9 +169,9 @@ import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vu
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import ISearchObject from '@/interfaces/ISearchObject';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -224,7 +224,6 @@ export default defineComponent({
 
     const changeBuildingHandler = (id: string) => {
       const building = buildingsOptions.value.find((item: Building) => item.id == id);
-      console.log(building);
       Provider.store.commit('buildings/set', building);
       if (buildingOption.value.floors.length === 1) {
         division.value.floorId = buildingOption.value.floors[0].id;

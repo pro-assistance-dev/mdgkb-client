@@ -18,6 +18,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Doctor from '@/classes/Doctor';
 import Comments from '@/components/Comments/Comments.vue';
 import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
 import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
@@ -27,7 +28,6 @@ import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue'
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
-import IDoctor from '@/interfaces/IDoctor';
 import countRating from '@/services/countRating';
 
 export default defineComponent({
@@ -47,7 +47,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const doctor: Ref<IDoctor> = computed<IDoctor>(() => store.getters['doctors/item']);
+    const doctor: Ref<Doctor> = computed<Doctor>(() => store.getters['doctors/item']);
     const mounted = ref(false);
 
     onBeforeMount(async () => {

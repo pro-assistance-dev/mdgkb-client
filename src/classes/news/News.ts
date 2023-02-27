@@ -1,3 +1,4 @@
+import Doctor from '@/classes/Doctor';
 import FileInfo from '@/classes/File/FileInfo';
 import Event from '@/classes/news/Event';
 import NewsComment from '@/classes/news/NewsComment';
@@ -8,7 +9,6 @@ import NewsLike from '@/classes/news/NewsLike';
 import NewsToCategory from '@/classes/news/NewsToCategory';
 import NewsToTag from '@/classes/news/NewsToTag';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDoctor from '@/interfaces/IDoctor';
 import IEvent from '@/interfaces/news/IEvent';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
@@ -106,7 +106,7 @@ export default class News implements INews {
     this.newsImages.push(new NewsImage());
   }
 
-  addDoctor(doctor: IDoctor): void {
+  addDoctor(doctor: Doctor): void {
     const newsDoctor = new NewsDoctor();
     newsDoctor.doctorId = doctor.id;
     newsDoctor.doctor = doctor;

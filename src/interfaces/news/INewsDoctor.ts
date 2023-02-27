@@ -1,4 +1,4 @@
-import IDoctor from '@/interfaces/IDoctor';
+import Doctor from '@/classes/Doctor';
 import INews from '@/interfaces/news/INews';
 
 export default interface INewsDoctor {
@@ -6,5 +6,5 @@ export default interface INewsDoctor {
   newsId?: string;
   news?: INews;
   doctorId?: string;
-  doctor?: IDoctor;
+  doctor?: Doctor;
 }

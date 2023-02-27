@@ -38,9 +38,9 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Doctor from '@/classes/Doctor';
 import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IDoctor from '@/interfaces/IDoctor';
 import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
@@ -67,7 +67,7 @@ export default defineComponent({
         ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
         return;
       }
-      const doctor = doctors.value?.find((i: IDoctor) => i.id === newId.value);
+      const doctor = doctors.value?.find((i: Doctor) => i.id === newId.value);
       const teacher = new Teacher();
       teacher.doctorId = newId.value;
       teacher.doctor = doctor;

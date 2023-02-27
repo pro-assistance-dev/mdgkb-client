@@ -1,6 +1,6 @@
-import IDoctor from '@/interfaces/IDoctor';
+import Doctor from '@/classes/Doctor';
 
 export default interface IDoctorsWithCount {
-  doctors: IDoctor[];
+  doctors: Doctor[];
   count: number;
 }

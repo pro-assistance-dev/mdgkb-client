@@ -57,7 +57,7 @@ import { computed, ComputedRef, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import ICallbackRequest from '@/interfaces/ICallbackRequest';
+import CallbackRequest from '@/services/classes/CallbackRequest';
 import PhoneService from '@/services/PhoneService';
 import validate from '@/services/validate';
 
@@ -71,7 +71,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const store = useStore();
     const callbackForm = ref();
-    const callback: ComputedRef<ICallbackRequest> = computed(() => store.getters['callbacks/item']);
+    const callback: ComputedRef<CallbackRequest> = computed(() => store.getters['callbacks/item']);
     const rules = {
       name: [{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }],
       phone: [{ validator: PhoneService.validatePhone, trigger: 'blur' }],

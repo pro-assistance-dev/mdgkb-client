@@ -32,13 +32,13 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Doctor from '@/classes/Doctor';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import DoctorsListFilters from '@/components/Doctors/DoctorsListFilters.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import IDoctor from '@/interfaces/IDoctor';
 import ISchema from '@/interfaces/schema/ISchema';
 import TokenService from '@/services/Token';
 
@@ -52,7 +52,7 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => store.getters['doctors/items']);
+    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => store.getters['doctors/items']);
     const mount = ref(false);
 
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);

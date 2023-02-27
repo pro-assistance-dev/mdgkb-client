@@ -1,5 +1,5 @@
-import ICallbackRequest from '@/interfaces/ICallbackRequest';
+import CallbackRequest from '@/services/classes/CallbackRequest';
 
 export interface State {
-  item: ICallbackRequest;
+  item: CallbackRequest;
 }

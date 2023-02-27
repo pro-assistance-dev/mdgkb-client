@@ -1,52 +1,16 @@
 import { GetterTree } from 'vuex';
 
-import Education from '@/classes/educations/Education';
-import IFIlesList from '@/interfaces/files/IFIlesList';
-import IDoctor from '@/interfaces/IDoctor';
-import IDoctorComment from '@/interfaces/IDoctorComment';
-import IHuman from '@/interfaces/IHuman';
-import IWithPaidService from '@/interfaces/IWithPaidService';
+import DoctorComment from '@/classes/DoctorComment';
 import ITimetable from '@/interfaces/timetables/ITimetable';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IDoctor[] {
-    return state.items;
-  },
-  item(state): IDoctor {
-    return state.item;
-  },
-  count(state): number {
-    return state.count;
-  },
-  filteredDoctors(state): IDoctor[] | undefined {
-    const { filteredDoctors } = state;
-    return filteredDoctors;
-  },
-  divisionDoctors(state): IDoctor[] | undefined {
-    const { divisionDoctors } = state;
-    return divisionDoctors;
-  },
-
-  fileList(state): IFIlesList[] {
-    return state.fileList;
-  },
-  comment(state): IDoctorComment {
+  ...getBaseGetters(),
+  comment(state): DoctorComment {
     return state.comment;
-  },
-  comments(state): IDoctorComment[] {
-    return state.item.doctorComments;
-  },
-  human(state): IHuman {
-    return state.item.employee.human;
-  },
-  educations(state): Education[] {
-    return state.item.employee.educations;
-  },
-  paidServices(state): IWithPaidService[] {
-    return state.item.doctorPaidServices?.splice(0, 15);
   },
   timetable(state): ITimetable {
     return state.item.timetable;

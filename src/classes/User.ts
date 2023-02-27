@@ -5,7 +5,6 @@ import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import DpoApplication from '@/classes/DpoApplication';
-import Human from '@/classes/Human';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import Question from '@/classes/Question';
 import Role from '@/classes/Role';
@@ -13,14 +12,12 @@ import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IChild from '@/interfaces/IChild';
-import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
-import IForm from '@/interfaces/IForm';
-import IHuman from '@/interfaces/IHuman';
 import IQuestion from '@/interfaces/IQuestion';
 import IUser from '@/interfaces/IUser';
 import IOption from '@/interfaces/schema/IOption';
+import Human from '@/services/classes/Human';
 
 import Form from './Form';
 
@@ -39,7 +36,7 @@ export default class User implements IUser {
   children: IChild[] = [];
   childrenForDelete: string[] = [];
   donorRulesUsers: IDonorRuleUser[] = [];
-  doctorsUsers: IDoctorUser[] = [];
+  doctorsUsers: DoctorUser[] = [];
   dpoApplications: DpoApplication[] = [];
   dpoApplicationsForDelete: string[] = [];
   postgraduateApplications: PostgraduateApplication[] = [];
@@ -81,7 +78,7 @@ export default class User implements IUser {
       this.donorRulesUsers = i.donorRulesUsers.map((item: IDonorRuleUser) => new DonorRuleUser(item));
     }
     if (i.doctorsUsers) {
-      this.doctorsUsers = i.doctorsUsers.map((item: IDoctorUser) => new DoctorUser(item));
+      this.doctorsUsers = i.doctorsUsers.map((item: DoctorUser) => new DoctorUser(item));
     }
     if (i.dpoApplications) {
       this.dpoApplications = i.dpoApplications.map((item: DpoApplication) => new DpoApplication(item));
@@ -204,7 +201,7 @@ export default class User implements IUser {
     return this.comments.length > 0;
   }
 
-  getHuman(): IHuman {
+  getHuman(): Human {
     return this.human;
   }
 }

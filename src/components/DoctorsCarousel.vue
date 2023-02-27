@@ -36,7 +36,6 @@ import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
-import IDoctor from '@/interfaces/IDoctor';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({

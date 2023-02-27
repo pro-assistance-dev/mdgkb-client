@@ -43,8 +43,8 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import ISearchObject from '@/interfaces/ISearchObject';
 import IOption from '@/interfaces/schema/IOption';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 

@@ -8,11 +8,10 @@ import Certification from '@/classes/educations/Certification';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
 import Head from '@/classes/Head';
-import Human from '@/classes/Human';
 import Regalia from '@/classes/Regalia';
 import TeachingActivity from '@/classes/TeachingActivity';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IHuman from '@/interfaces/IHuman';
+import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Employee {
@@ -120,7 +119,7 @@ export default class Employee {
     ClassHelper.RemoveFromClassByIndex(i, this.teachingActivities, this.teachingActivitiesForDelete);
   }
 
-  getHuman(): IHuman {
+  getHuman(): Human {
     return this.human;
   }
 

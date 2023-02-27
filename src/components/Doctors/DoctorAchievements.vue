@@ -34,14 +34,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Doctor from '@/classes/Doctor';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorAchievements',
   components: { CollapseItem },
   props: {
-    doctor: { type: Object as PropType<IDoctor>, required: true },
+    doctor: { type: Object as PropType<Doctor>, required: true },
   },
 });
 </script>

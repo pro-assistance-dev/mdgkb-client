@@ -1,9 +1,9 @@
 import { MutationTree } from 'vuex';
 
+import DoctorUser from '@/classes/DoctorUser';
 import PathPermission from '@/classes/PathPermission';
 import User from '@/classes/User';
 import IChild from '@/interfaces/IChild';
-import IDoctorUser from '@/interfaces/IDoctorUser';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
 import ITokens from '@/interfaces/ITokens';
@@ -60,7 +60,7 @@ const mutations: MutationTree<State> = {
 
   setFavourite(state, user: IUser) {
     if (user.doctorsUsers) {
-      const doctorsFavourite = user.doctorsUsers.map((i: IDoctorUser) => i.doctorId);
+      const doctorsFavourite = user.doctorsUsers.map((i: DoctorUser) => i.doctorId);
       FavouriteService.setFavourite('doctor', doctorsFavourite);
     }
   },

@@ -1,12 +1,10 @@
-import ContactInfo from '@/classes/contacts/ContactInfo';
 import FileInfo from '@/classes/File/FileInfo';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IHuman from '@/interfaces/IHuman';
+import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
 import StringsService from '@/services/Strings';
 
-export default class Human implements IHuman {
+export default class Human {
   id?: string;
   name = '';
   surname = '';
@@ -22,25 +20,14 @@ export default class Human implements IHuman {
   photoMini: IFileInfo = new FileInfo();
   isMale = true;
   dateBirth = new Date();
-  contactInfo: IContactInfo = new ContactInfo();
+  @ClassHelper.GetClassConstructor(ContactInfo)
+  contactInfo: ContactInfo = new ContactInfo();
   slug = '';
   postIndex = '';
   address = '';
 
-  constructor(i?: IHuman) {
-    if (!i) {
-      return;
-    }
+  constructor(i?: Human) {
     ClassHelper.BuildClass(this, i);
-    // if (i.photo) {
-    //   this.photo = new FileInfo(i.photo);
-    // }
-    // if (i.photoMini) {
-    //   this.photoMini = new FileInfo(i.photoMini);
-    // }
-    // if (i.contactInfo) {
-    //   this.contactInfo = new ContactInfo(i.contactInfo);
-    // }
   }
 
   getFullName(): string {
