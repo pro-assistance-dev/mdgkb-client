@@ -1,12 +1,12 @@
 <template>
   <ul v-if="mounted" class="menu-center-list">
-    <li v-for="menu in menus" :key="menu.id">
+    <li class="main-item" v-for="menu in menus" :key="menu.id">
       <div class="link-menu" :class="{ active: menu.active }" @click="menuClick(menu)">
         {{ menu.name }}
       </div>
       <ul v-if="!menu.withoutChildren() && menu.selected" class="dropmenu">
         <div class="subMenu-place">
-          <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
+          <li class="sub" v-for="subMenu in menu.subMenus" :key="subMenu.id">
             <router-link class="link-colomn" :to="subMenu.link">
               <div class="index-about-column">
                 <div class="index-about-colomn-icon">
@@ -146,15 +146,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* .hidden {
-  display: none;
-}
-
-.menu-center {
-  min-width: 792px;
-  height: 58px;
-} */
-
 ul.menu-center-list {
   display: flex;
   align-items: center;
@@ -166,7 +157,15 @@ ul.menu-center-list li {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
   border-right: 1px solid #dfe4ee;
+
+}
+
+.main-item {
   white-space: nowrap;
+}
+
+.sub {
+  white-space: normal;
 }
 
 ul.menu-center-list li:last-child {
@@ -212,7 +211,6 @@ h3 {
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
     rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
-  // box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.2);
   justify-content: space-between;
   margin: 5px;
 }
@@ -269,20 +267,12 @@ h3 {
 }
 
 li .dropmenu {
-  //display: none;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   z-index: 99;
   margin-top: 22px;
-  // cursor: pointer;
 }
-
-// .link-menu:focus ~ .dropmenu,
-// .link-menu:active ~ .dropmenu,
-// .dropmenu:active {
-//display: block;
-// }
 
 .link-menu:focus-within {
   background: #ffffff;
@@ -294,7 +284,6 @@ li .dropmenu {
   &:focus {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 5px, rgba(0, 0, 0, 0.25) 0px -1px 3px, rgba(0, 0, 0, 0.25) 0px 4px 6px,
       rgba(0, 0, 0, 0.25) 0px 2px 3px, rgba(0, 0, 0, 0.25) 0px -3px 5px;
-    // box-shadow: 2px 4px 3px 3px rgba(0, 0, 0, 0.3);
     background-color: white;
     z-index: 500;
   }
@@ -306,7 +295,6 @@ li .dropmenu {
   flex-wrap: nowrap;
   flex-flow: row wrap;
   padding: 1px 0px 1px 4px;
-  // background: #f5f6f8;
   border-radius: 10px;
   backdrop-filter: blur(2px);
   width: 636px;
@@ -316,9 +304,4 @@ li .dropmenu {
   background: #ffffff;
 }
 
-/* @media screen and (max-width: 1025px) {
-  .menu-center {
-    display: block;
-  }
-} */
 </style>
