@@ -71,6 +71,7 @@ export default defineComponent({
     const news: ComputedRef<INews> = computed<INews>(() => Provider.store.getters['news/newsItem']);
 
     watch(slug, async () => {
+      console.log(slug);
       if (slug.value) {
         await load();
       }
