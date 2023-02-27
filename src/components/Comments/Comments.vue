@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer :tab-id="100" :is-collaps="false">
+  <CollapseItem :tab-id="100" :is-collaps="false">
     <template #inside-title>
       <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</div>
     </template>
@@ -16,7 +16,7 @@
         </div>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
@@ -25,13 +25,13 @@ import { useStore } from 'vuex';
 
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IWithComment from '@/interfaces/IWithComment';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'Comments',
-  components: { CommentCard, CommentForm, CollapsContainer },
+  components: { CommentCard, CommentForm, CollapseItem },
   props: {
     storeModule: {
       type: String,

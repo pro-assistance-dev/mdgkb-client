@@ -26,13 +26,13 @@ export default class NmoCourse {
   specialization: Specialization = new Specialization();
   specializationId?: string;
 
-  @ClassHelper.GetClassConstructorForArray(NmoCourseSpecialization)
+  @ClassHelper.GetClassConstructor(NmoCourseSpecialization)
   dpoCoursesSpecializations: NmoCourseSpecialization[] = [];
   dpoCoursesSpecializationsForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(NmoCourseTeacher)
+  @ClassHelper.GetClassConstructor(NmoCourseTeacher)
   nmoCourseTeachers: NmoCourseTeacher[] = [];
   nmoCourseTeachersForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(DpoCourseDates)
+  @ClassHelper.GetClassConstructor(DpoCourseDates)
   dpoCoursesDates: DpoCourseDates[] = [];
   dpoCoursesDatesForDelete: string[] = [];
   formPattern: Form = new Form();

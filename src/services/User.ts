@@ -1,5 +1,5 @@
-import IHuman from '@/interfaces/IHuman';
 import IUser from '@/interfaces/IUser';
+import Human from '@/services/classes/Human';
 import TokenService from '@/services/Token';
 
 const UserService = (() => {
@@ -28,7 +28,7 @@ const UserService = (() => {
     return user.role.name === 'ADMIN' || user.role.name.split('_')[0] === 'ADMIN';
   }
 
-  function _updateHuman(human: IHuman) {
+  function _updateHuman(human: Human) {
     if (!TokenService.isAuth()) return;
     const user = TokenService.getUser();
     if (!user) return;

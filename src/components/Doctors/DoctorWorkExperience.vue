@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="doctor.employee.experiences.length" tab-id="2" :collapsed="false">
+  <CollapseItem v-if="doctor.employee.experiences.length" tab-id="2" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Опыт работы</div>
     </template>
@@ -17,20 +17,20 @@
         </div>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
-import IDoctor from '@/interfaces/IDoctor';
+import Doctor from '@/classes/Doctor';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'DoctorWorkExperience',
-  components: { CollapsContainer },
+  components: { CollapseItem },
   props: {
-    doctor: { type: Object as PropType<IDoctor>, required: true },
+    doctor: { type: Object as PropType<Doctor>, required: true },
   },
 });
 </script>

@@ -30,7 +30,7 @@ import { defineComponent, PropType } from 'vue';
 
 import Email from '@/assets/svg/DivisionCard/Email.svg';
 import Phone from '@/assets/svg/DivisionCard/Phone.svg';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import ContactInfo from '@/services/classes/ContactInfo';
 
 export default defineComponent({
   name: 'ContactsBlock',
@@ -39,7 +39,7 @@ export default defineComponent({
     Email,
   },
   props: {
-    contactInfo: { type: Object as PropType<IContactInfo>, required: true },
+    contactInfo: { type: Object as PropType<ContactInfo>, required: true },
   },
 });
 </script>

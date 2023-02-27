@@ -2,152 +2,42 @@
   <el-form v-if="mounted" ref="form" :model="employee" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
-        <el-container direction="vertical">
-          <CollapseList>
-            <template #default="scope">
-              <div class="margin-container">
-                <CollapsContainer
-                  title="Личная информация"
-                  :active-id="scope.activeId"
-                  :tab-id="1011"
-                  @changeActiveId="scope.changeActiveId"
-                >
-                  <template #inside-content>
-                    <div class="background-container">
-                      <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
-                    </div>
-                  </template>
-                </CollapsContainer>
+        <el-container direction="vertical" class="vertical-block">
+          <div class="status-panel" :style="collapsed ? 'margin-top: -166px' : 'margin-top: 0'">
+            <div v-if="collapsed" class="panel-title" @click.prevent="handClick">Открыть панель управления статусами</div>
+            <div v-else class="panel-title" @click.prevent="handClick">Скрыть панель управления статусами</div>
+            <div class="panel-body">
+              <div class="line">
+                <div class="line-item">Статус руководителя:</div>
+                <div class="line-item">
+                  <div v-if="employee.head" class="yes">ДА</div>
+                  <div v-else class="no">НЕТ</div>
+                  <button v-if="employee.head" class="revoke" @click.prevent="employee.resetHead()">Отозвать</button>
+                  <button v-else class="appoint" @click.prevent="employee.setHead()">Назначить</button>
+                </div>
               </div>
-              <div class="margin-container">
-                <CollapsContainer title="Образование" :active-id="scope.activeId" :tab-id="1012" @changeActiveId="scope.changeActiveId">
-                  <template #inside-content>
-                    <EducationForm :employee="employee" />
-                  </template>
-                </CollapsContainer>
+              <div class="line">
+                <div class="line-item">Статус врача:</div>
+                <div class="line-item">
+                  <div v-if="employee.doctor" class="yes">ДА</div>
+                  <div v-else class="no">НЕТ</div>
+                  <button v-if="employee.doctor" class="revoke" @click.prevent="employee.resetDoctor()">Отозвать</button>
+                  <button v-else class="appoint" @click.prevent="employee.setDoctor()">Назначить</button>
+                </div>
               </div>
-              <div class="margin-container">
-                <CollapsContainer title="Опыт работы" :active-id="scope.activeId" :tab-id="1013" @changeActiveId="scope.changeActiveId">
-                  <template #inside-content>
-                    <div class="container">
-                      <el-form-item label="Совместитель">
-                        <el-checkbox v-model="employee.partTime" />
-                      </el-form-item>
-                    </div>
-
-                    <div class="tools-buttons">
-                      <button class="admin-add" @click.prevent="employee.addExperience()">+ Добавить</button>
-                    </div>
-                    <div v-for="(experience, i) in employee.experiences" :key="experience.id" class="container">
-                      <button class="admin-del" @click="employee.removeExperience(i)">Удалить</button>
-                      <div class="list-number">
-                        {{ i + 1 }}
-                      </div>
-                      <el-form-item label="Место работы">
-                        <el-input v-model="experience.place" />
-                      </el-form-item>
-                      <el-form-item label="Должность">
-                        <el-input v-model="experience.position" />
-                      </el-form-item>
-                      <div class="column-block">
-                        <div class="column-item3">
-                          <el-form-item label="С:">
-                            <DatePicker v-model="experience.start" />
-                          </el-form-item>
-                        </div>
-                        <div class="column-item3">
-                          <el-form-item label="По:">
-                            <DatePicker v-model="experience.end" />
-                          </el-form-item>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
-                </CollapsContainer>
-              </div>
-              <div class="margin-container">
-                <CollapsContainer title="Сертификаты" :active-id="scope.activeId" :tab-id="1014" @changeActiveId="scope.changeActiveId">
-                  <template #inside-content>
-                    <div class="tools-buttons">
-                      <button class="admin-add" @click.prevent="employee.addCertificate()">+ Добавить</button>
-                    </div>
-                    <div v-for="(certificate, i) in employee.certificates" :key="certificate.id" class="container">
-                      <button class="admin-del" @click.prevent="employee.removeCertificate(i)">Удалить</button>
-                      <div class="list-number">
-                        {{ i + 1 }}
-                      </div>
-                      <el-form-item label="Название сертификата">
-                        <el-input v-model="certificate.description" />
-                      </el-form-item>
-                      <el-form-item label="Загрузить сертификат">
-                        <UploaderSingleScan :height="238" :width="238" :file-info="certificate.scan" />
-                      </el-form-item>
-                    </div>
-                  </template>
-                </CollapsContainer>
-              </div>
-              <div class="margin-container">
-                <CollapsContainer
-                  title="Ученая степень, звание"
-                  :active-id="scope.activeId"
-                  :tab-id="1016"
-                  @changeActiveId="scope.changeActiveId"
-                >
-                  <template #inside-content>
-                    <div class="background-container">
-                      <el-form-item label="Учёная степень">
-                        <el-input v-model="employee.academicDegree" />
-                      </el-form-item>
-                      <el-form-item label="Звание">
-                        <el-input v-model="employee.academicRank" />
-                      </el-form-item>
-                    </div>
-                  </template>
-                </CollapsContainer>
-              </div>
-              <div class="margin-container">
-                <CollapsContainer title="Регалии" :active-id="scope.activeId" :tab-id="1017" @changeActiveId="scope.changeActiveId">
-                  <template #inside-content>
-                    <div class="tools-buttons">
-                      <button class="admin-add" @click.prevent="employee.addRegalia()">+ Добавить</button>
-                    </div>
-                    <div v-for="(regalia, i) in employee.regalias" :key="regalia" class="container">
-                      <button class="admin-del" @click.prevent="employee.removeRegalia(i)">Удалить</button>
-                      <div class="list-number">
-                        {{ i + 1 }}
-                      </div>
-                      <el-form-item label=" ">
-                        <el-input v-model="regalia.name" />
-                      </el-form-item>
-                    </div>
-                  </template>
-                </CollapsContainer>
-              </div>
-              <div class="margin-container">
-                <CollapsContainer
-                  title="Педагогическая деятельность"
-                  :active-id="scope.activeId"
-                  :tab-id="1018"
-                  @changeActiveId="scope.changeActiveId"
-                >
-                  <template #inside-content>
-                    <div class="tools-buttons">
-                      <button class="admin-add" @click.prevent="employee.addTeachingActivity()">+ Добавить</button>
-                    </div>
-                    <div v-for="(regalia, i) in employee.teachingActivities" :key="regalia" class="container">
-                      <button class="admin-del" @click.prevent="employee.removeTeachingActivity(i)">Удалить</button>
-                      <div class="list-number">
-                        {{ i + 1 }}
-                      </div>
-                      <el-form-item label=" ">
-                        <el-input v-model="regalia.name" />
-                      </el-form-item>
-                    </div>
-                  </template>
-                </CollapsContainer>
-              </div>
-            </template>
-          </CollapseList>
+            </div>
+          </div>
+          <div class="background-container2">
+            <EmployeeConstructor />
+          </div>
+          <div v-if="employee.head" class="background-container2">
+            <div v-if="employee.head" class="field">Данные статуса руководителя:</div>
+            <HeadConstructor v-if="employee.head" />
+          </div>
+          <div v-if="employee.doctor" class="background-container2">
+            <div v-if="employee.doctor" class="field">Данные статуса врача:</div>
+            <DoctorConstructor v-if="employee.doctor" />
+          </div>
         </el-container>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
@@ -170,100 +60,57 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Employee from '@/classes/Employee';
-import FilterModel from '@/classes/filters/FilterModel';
-import Head from '@/classes/Head';
-import Human from '@/classes/Human';
-import EducationForm from '@/components/admin/EducationForm.vue';
-import HumanForm from '@/components/admin/HumanForm.vue';
-import DatePicker from '@/components/DatePicker.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
-import CollapseList from '@/components/Main/CollapsContainer/CollapseList.vue';
+import DoctorConstructor from '@/components/admin/AdminEmployees/DoctorConstructor.vue';
+import EmployeeConstructor from '@/components/admin/AdminEmployees/EmployeeConstructor.vue';
+import HeadConstructor from '@/components/admin/AdminEmployees/HeadConstructor.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
-import IHuman from '@/interfaces/IHuman';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
-import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminEmployeePage',
   components: {
-    HumanForm,
-    EducationForm,
+    DoctorConstructor,
+    EmployeeConstructor,
     UploaderSingleScan,
-    CollapsContainer,
-    DatePicker,
-    CollapseList,
+    HeadConstructor,
   },
   setup() {
     const form = ref();
     Provider.form = form;
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
-    const employees: Ref<Employee[]> = Provider.items;
-    let filterModel: FilterModel = EmployeesFiltersLib.byFullName();
+    const collapsed: Ref<boolean> = ref(true);
 
-    const completeInput = async (human: Human) => {
-      filterModel.value1 = human.getFullName();
-      Provider.setFilterModel(filterModel);
-      await Provider.loadItems();
-      if (employees.value.length === 0) {
-        return;
-      }
-      await offerEditExistingDoctor();
-    };
-
-    const offerEditExistingDoctor = async () => {
-      const existing = employees.value[0];
-      if (!existing) {
-        return;
-      }
-      ElMessageBox.confirm('Сотрудник с введённым именем уже существует в системе', 'Отредактировать существующего врача?', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: 'Перейти к редактированию',
-        cancelButtonText: 'Остаться в создании нового',
-      }).then(async () => {
-        await Provider.router.push(`/admin/employees/${existing.human.slug}`);
-        await Provider.loadItem();
-      });
+    const handClick = () => {
+      collapsed.value = !collapsed.value;
     };
 
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
         title: computed(() => (Provider.route().params['id'] ? employee.value?.human?.getFullName() : 'Добавить сотрудника')),
         showBackButton: true,
-        buttons: [
-          {
-            text: 'Информация о менеджере',
-            type: 'warning',
-            condition: computed(() => !!employee.value.head?.id),
-            action: () => Provider.router.push(`/admin/heads/${employee.value.head?.id}`),
-          },
-          { action: Hooks.submit() },
-        ],
+        buttons: [{ action: Hooks.submit() }],
       },
     });
     Hooks.onBeforeRouteLeave();
+
     return {
-      employees,
-      completeInput,
       employee,
       form,
       mounted: Provider.mounted,
       schema: Provider.schema,
+      handClick,
+      collapsed,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 $margin: 20px 0;
 
 .background-container {
@@ -271,15 +118,26 @@ $margin: 20px 0;
   padding: 10px;
   margin: 0 20px 20px 20px;
   background: #dff2f8;
-  border-radius: 5px;
-  border: 1px solid #c3c3c3;
+  border-radius: $normal-border-radius;
+  border: $normal-darker-border;
+}
+
+.background-container2 {
+  width: auto;
+  padding: 10px 10px 0 10px;
+  background: #f1f2f7;
+  border-radius: $normal-border-radius;
+  border: $normal-darker-border;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-bottom: 20px;
 }
 
 .container {
   position: relative;
   width: calc(100% - 60px);
   margin: 0px 20px 20px 20px;
-  border: 1px solid #c3c3c3;
+  border: $normal-darker-border;
   border-radius: 5px;
   padding: 12px 10px;
   background: #dff2f8;
@@ -526,6 +384,136 @@ $margin: 20px 0;
 
 .admin-add2:hover {
   color: darken($color: #00b5a4, $amount: 10%);
+}
+
+.vertical-block {
+  position: relative;
+}
+
+.status-panel {
+  position: relative;
+  height: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  background: #dff2f8;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 0 0px 10px 0px rgba(0 0 0 / 20%);
+  border: $normal-darker-border;
+  border-top: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.appoint {
+  height: 24px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: $normal-darker-border;
+  border-radius: 20px;
+  background: #dff2f8;
+  color: #1979cf;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.appoint:hover {
+  background: darken($color: #dff2f8, $amount: 10%);
+}
+
+.revoke {
+  height: 24px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: $normal-darker-border;
+  border-radius: 20px;
+  background: #f8e8df;
+  color: #1979cf;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.revoke:hover {
+  background: darken($color: #f8e8df, $amount: 10%);
+}
+
+.panel-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+}
+
+.panel-title:hover {
+  color: #1979cf;
+}
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  margin: 0px 10px 34px 10px;
+}
+
+.line {
+  width: calc(100% - 30px);
+  height: 60px;
+  border: $normal-darker-border;
+  border-radius: $normal-border-radius;
+  margin: 10px 0 0 0;
+  padding: 0px 15px 5px 15px;
+  background: #f1f2f7;
+}
+
+.line-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.yes {
+  font-size: 14px;
+  color: $site_green;
+}
+
+.no {
+  font-size: 14px;
+  color: $site_red;
+}
+
+.field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #09a248;
 }
 
 @media screen and (max-width: 910px) {

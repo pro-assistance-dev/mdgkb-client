@@ -20,8 +20,8 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import VacancyResponsesSortsLib from '@/services/Provider/libs/sorts/VacancyResponsesSortsLib';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

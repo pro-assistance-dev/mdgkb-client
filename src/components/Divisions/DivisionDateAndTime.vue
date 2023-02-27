@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="true" tab-id="1" :collapsed="false">
+  <CollapseItem v-if="true" tab-id="1" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Дата и время приема</div>
     </template>
@@ -50,7 +50,7 @@
         </div>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
@@ -58,16 +58,16 @@ import { Calendar } from 'v-calendar';
 import { computed, defineComponent, PropType, ref } from 'vue';
 
 import Division from '@/classes/Division';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionDateAndTime',
   components: {
     Calendar,
-    CollapsContainer,
+    CollapseItem,
   },
   props: {
     division: { type: Object as PropType<Division>, required: true },

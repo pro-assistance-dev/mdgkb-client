@@ -82,11 +82,11 @@ import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import IForm from '@/interfaces/IForm';
-import ISearchObject from '@/interfaces/ISearchObject';
 import IVacancy from '@/interfaces/IVacancy';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import ISearchObject from '@/services/interfaces/ISearchObject';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 

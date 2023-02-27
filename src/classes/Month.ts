@@ -1,11 +1,8 @@
 import Day from '@/classes/Day';
 import Week from '@/classes/Week';
-import IDay from '@/interfaces/IDay';
-import IMonth from '@/interfaces/IMonth';
-import IWeek from '@/interfaces/IWeek';
 
-export default class Month implements IMonth {
-  weeks: IWeek[] = [];
+export default class Month {
+  weeks: Week[] = [];
   firstWeekActive = false;
   lastWeekActive = false;
   active = false;
@@ -38,7 +35,7 @@ export default class Month implements IMonth {
     return new Month();
   }
 
-  static InitFull(yearN: number, monthN: number): IMonth {
+  static InitFull(yearN: number, monthN: number): Month {
     const month = Month.Init();
     month.number = monthN;
     const firstDay = new Date(yearN, monthN, 1);
@@ -55,18 +52,18 @@ export default class Month implements IMonth {
     return month;
   }
 
-  getActiveWeek(): IWeek {
-    const week = this.weeks.find((w: IWeek) => w.active);
+  getActiveWeek(): Week {
+    const week = this.weeks.find((w: Week) => w.active);
     return week ?? new Week();
   }
 
   getActiveWeekIndex(): number {
-    return this.weeks.findIndex((w: IWeek) => w.active);
+    return this.weeks.findIndex((w: Week) => w.active);
   }
 
-  getSelectedDay(): IDay | undefined {
-    let selectedDay: IDay | undefined = undefined;
-    this.weeks.some((w: IWeek) => {
+  getSelectedDay(): Day | undefined {
+    let selectedDay: Day | undefined = undefined;
+    this.weeks.some((w: Week) => {
       const d = w.getSelectedDay();
       if (d) {
         selectedDay = d;
@@ -77,7 +74,7 @@ export default class Month implements IMonth {
   }
 
   move(toForward: boolean): void {
-    const activeWeekIndex = this.weeks.findIndex((w: IWeek) => w.active);
+    const activeWeekIndex = this.weeks.findIndex((w: Week) => w.active);
     if (activeWeekIndex === -1) {
       return;
     }
@@ -90,7 +87,7 @@ export default class Month implements IMonth {
     this.setActiveBorder();
   }
   setActiveBorder(): void {
-    const activeWeekIndex = this.weeks.findIndex((w: IWeek) => w.active);
+    const activeWeekIndex = this.weeks.findIndex((w: Week) => w.active);
     if (activeWeekIndex === 0) {
       this.firstWeekActive = true;
       this.lastWeekActive = false;
@@ -112,7 +109,7 @@ export default class Month implements IMonth {
   }
 
   dropActive(): void {
-    const activeWeek = this.weeks.find((w: IWeek) => w.active);
+    const activeWeek = this.weeks.find((w: Week) => w.active);
     this.active = false;
     this.firstWeekActive = false;
     this.lastWeekActive = false;
@@ -137,11 +134,11 @@ export default class Month implements IMonth {
     }
   }
 
-  getFirstWeek(): IWeek {
+  getFirstWeek(): Week {
     return this.weeks[0];
   }
 
-  getLastWeek(): IWeek {
+  getLastWeek(): Week {
     return this.weeks[this.weeks.length - 1];
   }
 }

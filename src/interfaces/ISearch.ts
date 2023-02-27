@@ -1,4 +1,4 @@
-import ISearchObject from '@/interfaces/ISearchObject';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 
 export default interface ISearch {
   query: string;

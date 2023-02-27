@@ -77,7 +77,7 @@ import { computed, defineComponent, PropType, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
+import ContactInfo from '@/services/classes/ContactInfo';
 
 export default defineComponent({
   name: 'AdminContactInfo',
@@ -88,7 +88,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const contactInfo: WritableComputedRef<IContactInfo> = computed(
+    const contactInfo: WritableComputedRef<ContactInfo> = computed(
       () => store.getters[`${props.storeModule}/${props.storeGetter}`].contactInfo
     );
     return {

@@ -31,7 +31,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
 import { buttonAction } from '@/classes/admin/AdminButtonParams';
 import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'AdminHeaderBottom',
 
@@ -61,7 +61,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 $header-bottom-height: 20px;
 $header-bottom-background-color: whitesmoke;
-$header-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
+// $header-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
+$header-shadow: 0 10px 10px -10px rgba(0 0 0 / 20%);
 
 .admin-header-bottom {
   height: $header-bottom-height;

@@ -22,7 +22,7 @@ export default class ResidencyCourse {
   freePlaces = 0;
   freeGovernmentPlaces = 0;
   paidPlaces = 0;
-  @ClassHelper.GetClassConstructorForArray(ResidencyCourseSpecialization)
+  @ClassHelper.GetClassConstructor(ResidencyCourseSpecialization)
   residencyCoursesSpecializations: ResidencyCourseSpecialization[] = [];
   residencyCoursesSpecializationsForDelete: string[] = [];
 
@@ -46,9 +46,9 @@ export default class ResidencyCourse {
 
   endYear: IEducationYear = new EducationYear();
   endYearId?: string;
-  @ClassHelper.GetClassConstructorForArray(ResidencyApplication)
+  @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplications: ResidencyApplication[] = [];
-  @ClassHelper.GetClassConstructorForArray(ResidencyCoursePracticePlace)
+  @ClassHelper.GetClassConstructor(ResidencyCoursePracticePlace)
   residencyCoursePracticePlaces: ResidencyCoursePracticePlace[] = [];
   residencyCoursePracticePlacesForDelete: string[] = [];
 

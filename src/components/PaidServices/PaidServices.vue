@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="services().length" tab-id="400" :collapsed="false">
+  <CollapseItem v-if="services().length" tab-id="400" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Оказываемые услуги</div>
     </template>
@@ -18,18 +18,18 @@
         </div>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IWithPaidService from '@/interfaces/IWithPaidService';
 
 export default defineComponent({
   name: 'PaidServices',
-  components: { CollapsContainer },
+  components: { CollapseItem },
   props: {
     itemsWithPaidService: { type: Array as PropType<IWithPaidService[]>, required: true },
   },

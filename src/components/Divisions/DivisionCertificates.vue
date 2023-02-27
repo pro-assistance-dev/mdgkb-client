@@ -1,22 +1,22 @@
 <template>
-  <CollapsContainer v-if="false" tab-id="17" :collapsed="false">
+  <CollapseItem v-if="false" tab-id="17" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Сертификаты</div>
     </template>
     <template #inside-content>
       <div v-if="false" class="Date-and-time"></div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'DivisionCertificates',
-  components: { CollapsContainer },
+  components: { CollapseItem },
 });
 </script>
 

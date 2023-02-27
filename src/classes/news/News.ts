@@ -1,3 +1,4 @@
+import Doctor from '@/classes/Doctor';
 import FileInfo from '@/classes/File/FileInfo';
 import Event from '@/classes/news/Event';
 import NewsComment from '@/classes/news/NewsComment';
@@ -8,8 +9,6 @@ import NewsLike from '@/classes/news/NewsLike';
 import NewsToCategory from '@/classes/news/NewsToCategory';
 import NewsToTag from '@/classes/news/NewsToTag';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDoctor from '@/interfaces/IDoctor';
-import INewsDivision from '@/interfaces/INewsDivision';
 import IEvent from '@/interfaces/news/IEvent';
 import INews from '@/interfaces/news/INews';
 import INewsComment from '@/interfaces/news/INewsComment';
@@ -42,7 +41,7 @@ export default class News implements INews {
   newsComments: INewsComment[] = [];
   newsDoctors: INewsDoctor[] = [];
   newsDoctorsForDelete: string[] = [];
-  newsDivisions: INewsDivision[] = [];
+  newsDivisions: NewsDivision[] = [];
   newsDivisionsForDelete: string[] = [];
   newsImages: INewsImage[] = [];
   newsImagesForDelete: string[] = [];
@@ -93,7 +92,7 @@ export default class News implements INews {
       this.newsDoctors = news.newsDoctors.map((item: INewsDoctor) => new NewsDoctor(item));
     }
     if (news.newsDivisions) {
-      this.newsDivisions = news.newsDivisions.map((item: INewsDivision) => new NewsDivision(item));
+      this.newsDivisions = news.newsDivisions.map((item: NewsDivision) => new NewsDivision(item));
     }
     if (news.newsImages) {
       this.newsImages = news.newsImages.map((item: INewsImage) => new NewsImage(item));
@@ -107,7 +106,7 @@ export default class News implements INews {
     this.newsImages.push(new NewsImage());
   }
 
-  addDoctor(doctor: IDoctor): void {
+  addDoctor(doctor: Doctor): void {
     const newsDoctor = new NewsDoctor();
     newsDoctor.doctorId = doctor.id;
     newsDoctor.doctor = doctor;

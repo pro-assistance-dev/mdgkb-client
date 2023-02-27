@@ -11,15 +11,15 @@
     <DivisionCertificates />
     <ScansSlider :gallery-elements="division.certificates" />
     <DivisionDateAndTime :division="division" />
-    <CollapsContainer :tab-id="134" :collapsed="false">
+    <CollapseItem :tab-id="134" :collapsed="false">
       <template #inside-title>
         <div class="title-in">Видео отделения</div>
       </template>
       <template #inside-content>
         <SocialMediaCarousel v-if="division.socialMedias.length" :social-medias="division.socialMedias" />
       </template>
-    </CollapsContainer>
-    <ImageGallery :images="division.divisionImages" />
+    </CollapseItem>
+    <ImageGalleryDivision :images="division.divisionImages" />
     <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
@@ -35,15 +35,15 @@ import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
 import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
-import ImageGallery from '@/components/ImageGallery.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import ImageGalleryDivision from '@/components/ImageGallery_new.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
 import SocialMediaCarousel from '@/components/SocialMediaCarousel.vue';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionPage',
@@ -59,8 +59,8 @@ export default defineComponent({
     Comments,
     ScansSlider,
     DivisionInfoBlock,
-    CollapsContainer,
-    ImageGallery,
+    CollapseItem,
+    ImageGalleryDivision,
   },
   setup() {
     const division: ComputedRef<Division> = computed<Division>(() => Provider.store.getters['divisions/item']);

@@ -2,16 +2,19 @@
   <div class="title">
     Редактор книги блюд
     <button class="button-create" @click="addDishesGroup">+ Создать категорию</button>
+    <div class="search">
+      <DishSearchBar :is-search-page="true" @search="searchDishSamples" />
+    </div>
   </div>
   <div v-if="mounted" class="block-container">
     <div class="dishesGroup">
       <AddGroupForm v-if="dishesGroupConstructorVisible" @close="closeDishesGroupForm" />
-      <div class="column">
+      <div v-if="dishSamplesFlat.length === 0" class="column">
         <div class="hidden-scroll" />
         <draggable class="tabs" :list="dishesGroups" item-key="id" handle=".tab-name" @end="saveGroupsOrder">
           <template #item="{ element }">
             <div>
-              <CollapsContainer :tab-id="element.id" :is-collaps="element.samplesExists()">
+              <CollapseItem :tab-id="element.id" :is-collaps="element.samplesExists()">
                 <template #tools>
                   <svg class="icon-add" @click.stop="openDishSampleConstructor">
                     <use xlink:href="#add" />
@@ -45,12 +48,15 @@
                   </div>
                 </template>
                 <template #inside-content>
-                  <DishesConstructorList :dishes-group="element" @openDishSampleConstructor="openDishSampleConstructor" />
+                  <DishesConstructorList :dishes-samples="element.dishSamples" @openDishSampleConstructor="openDishSampleConstructor" />
                 </template>
-              </CollapsContainer>
+              </CollapseItem>
             </div>
           </template>
         </draggable>
+      </div>
+      <div v-else class="column">
+        <DishesConstructorList :dishes-samples="dishSamplesFlat" @openDishSampleConstructor="openDishSampleConstructor" />
       </div>
     </div>
     <div class="menusGroup">
@@ -76,17 +82,20 @@ import AddForm from '@/components/admin/AdminDishes/AddForm.vue';
 import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
 import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorInfo.vue';
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
+import StringsService from '@/services/Strings';
 
 export default defineComponent({
   name: 'DishesSamplesConstructor',
   components: {
-    CollapsContainer,
+    DishSearchBar,
+    CollapseItem,
     AddToMenu,
     Save,
     Delete,
@@ -179,7 +188,29 @@ export default defineComponent({
       });
     };
 
+    const dishSamplesFlat: Ref<IDishSample[]> = ref([]);
+
+    const searchDishSamples = (searchSource: string) => {
+      if (searchSource === '') {
+        dishSamplesFlat.value = [];
+        return;
+      }
+      console.log(searchSource);
+      dishSamplesFlat.value = [];
+      dishesGroups.value.forEach((ds: IDishesGroup) => {
+        dishSamplesFlat.value.push(
+          ...ds.dishSamples.filter((ds: IDishSample) => {
+            const n = ds.name.toLowerCase();
+            return n.includes(searchSource.toLowerCase()) || n.includes(StringsService.translit(searchSource.toLowerCase()));
+          })
+        );
+      });
+      console.log(dishSamplesFlat);
+    };
+
     return {
+      dishSamplesFlat,
+      searchDishSamples,
       saveGroupsOrder,
       closeDishSampleConstructorVisible,
       editDishesGroup,

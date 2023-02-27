@@ -5,15 +5,15 @@ import Page from '@/classes/page/Page';
 import SubMenu from '@/classes/SubMenu';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IMenu from '@/interfaces/IMenu';
-import ISubMenu from '@/interfaces/ISubMenu';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Menu implements IMenu {
+export default class Menu {
   id?: string;
   name = '';
   link = '';
   top = true;
   side = true;
+  show = false;
   hide = false;
   active = false;
   order = 0;
@@ -23,40 +23,15 @@ export default class Menu implements IMenu {
   page = new Page();
   pageId?: string;
 
-  subMenus: ISubMenu[] = [];
+  @ClassHelper.GetClassConstructor(SubMenu)
+  subMenus: SubMenu[] = [];
   subMenusForDelete: string[] = [];
 
   iconId?: string;
   icon = new FileInfo();
 
-  // crud: ICrud = new Crud('menus', 'menus');
-
-  constructor(menu?: IMenu) {
-    if (!menu) {
-      return;
-    }
-    this.id = menu.id;
-    this.name = menu.name;
-    this.link = menu.link;
-    this.hide = menu.hide;
-    this.top = menu.top;
-    this.side = menu.side;
-    this.order = menu.order;
-
-    if (this.page) {
-      this.page = new Page(menu.page);
-    }
-    this.pageId = menu.pageId;
-
-    if (menu.subMenus) {
-      this.subMenus = menu.subMenus.map((i: ISubMenu) => new SubMenu(i));
-      this.setColorsForSubMenus();
-    }
-
-    this.iconId = menu.iconId;
-    if (menu.icon) {
-      this.icon = new FileInfo(menu.icon);
-    }
+  constructor(i?: Menu) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getLink(): string {
@@ -84,7 +59,7 @@ export default class Menu implements IMenu {
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
     fileInfos.push(this.icon);
-    this.subMenus.forEach((subMenu: ISubMenu) => {
+    this.subMenus.forEach((subMenu: SubMenu) => {
       fileInfos.push(subMenu.icon);
     });
     return fileInfos;
@@ -119,6 +94,6 @@ export default class Menu implements IMenu {
     });
   }
   containPath(path: string): boolean {
-    return this.getLink() === path || !!this.subMenus.find((subMenu: ISubMenu) => subMenu.getLink() === path);
+    return this.getLink() === path || !!this.subMenus.find((subMenu: SubMenu) => subMenu.getLink() === path);
   }
 }

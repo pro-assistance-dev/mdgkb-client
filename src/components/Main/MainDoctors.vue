@@ -19,10 +19,10 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Doctor from '@/classes/Doctor';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
-import IDoctor from '@/interfaces/IDoctor';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -31,16 +31,16 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const doctors: ComputedRef<IDoctor[]> = computed(() => store.getters['doctors/items']);
+    const doctors: ComputedRef<Doctor[]> = computed(() => store.getters['doctors/items']);
     const mounted: Ref<boolean> = ref(false);
-    const carousel: Ref<IDoctor[][]> = ref([]);
+    const carousel: Ref<Doctor[][]> = ref([]);
     const carouselRef = ref();
 
     onBeforeMount(async () => {
       const fq = new FilterQuery();
       fq.pagination.limit = 8;
       await store.dispatch('doctors/getAll', fq);
-      carousel.value = makeCarousel<IDoctor>(doctors.value, 3);
+      carousel.value = makeCarousel<Doctor>(doctors.value, 3);
       mounted.value = true;
     });
 

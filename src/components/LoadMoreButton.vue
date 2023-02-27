@@ -7,7 +7,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'LoadMoreButton',

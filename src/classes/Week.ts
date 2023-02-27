@@ -1,8 +1,7 @@
-import IDay from '@/interfaces/IDay';
-import IWeek from '@/interfaces/IWeek';
+import Day from '@/classes/Day';
 
-export default class Week implements IWeek {
-  days: IDay[] = [];
+export default class Week {
+  days: Day[] = [];
   active = false;
   constructor() {
     return;
@@ -13,13 +12,13 @@ export default class Week implements IWeek {
       return this.days;
     }
   }
-  getSelectedDay(): IDay | undefined {
-    return this.days.find((d: IDay) => d.selected);
+  getSelectedDay(): Day | undefined {
+    return this.days.find((d: Day) => d.selected);
   }
 
   dropActive(): void {
     this.active = false;
-    const activeDay = this.days.find((w: IDay) => w.active);
+    const activeDay = this.days.find((w: Day) => w.active);
     if (activeDay) {
       activeDay.active = false;
     }
@@ -35,11 +34,11 @@ export default class Week implements IWeek {
     }
   }
 
-  getFirstDay(): IDay {
+  getFirstDay(): Day {
     return this.days[0];
   }
 
-  getLastDay(): IDay {
+  getLastDay(): Day {
     return this.days[this.days.length - 1];
   }
 }

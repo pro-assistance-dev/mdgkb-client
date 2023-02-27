@@ -20,12 +20,6 @@ import { defineComponent, PropType, ref } from 'vue';
 export default defineComponent({
   name: 'DishSearchBar',
   emits: ['search'],
-  props: {
-    isSearchPage: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-  },
   setup(props, { emit }) {
     const searchText = ref<string>('');
 

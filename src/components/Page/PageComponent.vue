@@ -18,7 +18,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, PropType, Ref, ref, watch } from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
 
 import Page from '@/classes/page/Page';
 import PageSideMenu from '@/classes/PageSideMenu';
@@ -27,7 +28,7 @@ import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PageComponent',
@@ -55,7 +56,15 @@ export default defineComponent({
       mounted.value = true;
     };
 
-    watch(path, load);
+    let redirect = false;
+    onBeforeRouteLeave(() => {
+      redirect = true;
+    });
+    watch(path, async () => {
+      if (!redirect) {
+        await load();
+      }
+    });
     Hooks.onBeforeMount(load);
 
     return {

@@ -26,7 +26,7 @@ import { useStore } from 'vuex';
 import ICanvasResult from '@/interfaces/canvas/ICanvasResult';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import { ICropper } from '@/interfaces/cropper/ICropper';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ImageCropperV2',
@@ -84,5 +84,9 @@ export default defineComponent({
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+
+:deep(.el-upload--picture-card) {
+  font-size: 40px;
 }
 </style>

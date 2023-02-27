@@ -45,7 +45,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FileUploader from '@/components/FileUploader.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ResidencyApplicationAchievements',

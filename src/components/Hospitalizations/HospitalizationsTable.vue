@@ -78,7 +78,7 @@ import HospitalizationsHowSendApplication from '@/components/Hospitalizations/Ho
 import HospitalizationStages from '@/components/Hospitalizations/HospitalizationStages.vue';
 import IHospitalization from '@/interfaces/IHospitalization';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({

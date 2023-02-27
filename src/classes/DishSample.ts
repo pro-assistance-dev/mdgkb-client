@@ -11,6 +11,7 @@ export default class DishSample implements IDishSample {
   weight = 0;
   caloric = 0;
   quantity = 0;
+  additionalWeight = 0;
   dishesGroupId?: string;
   dishesGroup = new DishesGroup();
   selected = false;
@@ -25,6 +26,7 @@ export default class DishSample implements IDishSample {
     this.id = i.id;
     this.name = i.name;
     this.weight = i.weight;
+    this.additionalWeight = i.additionalWeight;
     this.price = i.price;
     this.caloric = i.caloric;
     this.quantity = i.quantity;

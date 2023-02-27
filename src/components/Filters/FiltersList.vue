@@ -14,7 +14,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, WritableC
 
 import FilterModel from '@/classes/filters/FilterModel';
 import Pagination from '@/classes/filters/Pagination';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'FiltersList',
@@ -53,8 +53,7 @@ export default defineComponent({
       } else {
         Provider.spliceFilterModel(selectedId.value);
       }
-      Provider.filterQuery.value.pagination = new Pagination();
-      Provider.store.commit('pagination/setCurPage', 1);
+      Provider.dropPagination();
       await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       emit('load');
     };

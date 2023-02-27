@@ -42,7 +42,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, Ref, 
 
 import IUser from '@/interfaces/IUser';
 import { authGuard } from '@/router';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import UserService from '@/services/User';
 export default defineComponent({
   name: 'LoginDropdownMenu',

@@ -59,12 +59,12 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
-import ISearchObject from '@/interfaces/ISearchObject';
 import INews from '@/interfaces/news/INews';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({

@@ -5,7 +5,6 @@ import Doctor from '@/classes/Doctor';
 import MedicalProfile from '@/classes/MedicalProfile';
 import Regalia from '@/classes/Regalia';
 import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
-import IDoctor from '@/interfaces/IDoctor';
 
 import ComponentStub from '../../../__mocks__/ComponentStub';
 
@@ -21,7 +20,7 @@ const stubs = {
 
 let mockRouter;
 
-const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<ComponentPublicInstance> => {
+const createWrapper = (doctor: Doctor, route?: string): VueWrapper<ComponentPublicInstance> => {
   mockRouter = {
     push: jest.fn(),
   };
@@ -40,7 +39,7 @@ const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<ComponentPub
 };
 
 describe('DoctorInfo.vue', () => {
-  let doctor: IDoctor;
+  let doctor: Doctor;
 
   beforeEach(() => {
     doctor = new Doctor();
@@ -126,14 +125,6 @@ describe('DoctorInfo.vue', () => {
     const wrapper = createWrapper(doctor);
 
     expect(wrapper.find('[data-test="position-name"]').exists()).toBe(false);
-  });
-
-  test('Position name show if exists', async () => {
-    doctor.position.name = 'test';
-    const wrapper = createWrapper(doctor);
-
-    expect(wrapper.find('[data-test="position-name"]').exists()).toBe(true);
-    expect(wrapper.find('[data-test="position-name"]').text()).toBe(doctor.position.name);
   });
 
   test('Regalias list is shown correct', async () => {

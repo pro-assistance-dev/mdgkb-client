@@ -47,7 +47,7 @@ import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 

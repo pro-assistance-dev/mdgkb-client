@@ -6,7 +6,7 @@ export default class Floor implements IFloor {
   id?: string;
   number?: number;
   buildingId?: string = '';
-  @ClassHelper.GetClassConstructorForArray(Division)
+  @ClassHelper.GetClassConstructor(Division)
   divisions: Division[] = [];
 
   constructor(i?: IFloor) {

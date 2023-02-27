@@ -48,8 +48,8 @@ import SortList from '@/components/SortList/SortList.vue';
 import IUser from '@/interfaces/IUser';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import UsersSortsLib from '@/services/Provider/libs/sorts/UsersSortsLib';
+import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 export default defineComponent({
   name: 'AdminUsersList',

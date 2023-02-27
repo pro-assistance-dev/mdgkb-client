@@ -1,13 +1,8 @@
 import SortModel from '@/classes/filters/SortModel';
 import { Orders } from '@/interfaces/filters/Orders';
+import { SortModelBuilder, SortModelBuildersLib } from '@/services/interfaces/Sort';
 
-export interface ISortModelBuildersLib {
-  [key: string]: SortModelBuilder;
-}
-
-type SortModelBuilder = (order?: Orders) => SortModel;
-
-export default function createSortModels(lib: ISortModelBuildersLib, mainOrder?: Orders): SortModel[] {
+export default function createSortModels(lib: SortModelBuildersLib, mainOrder?: Orders): SortModel[] {
   const sortModels: SortModel[] = [];
   const firstOrder = mainOrder ? mainOrder : Orders.Asc;
   const secondOrder = firstOrder === Orders.Asc ? Orders.Desc : Orders.Asc;

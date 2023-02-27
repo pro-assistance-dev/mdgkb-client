@@ -19,8 +19,8 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ITag from '@/interfaces/news/ITag';
-import Provider from '@/services/Provider';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NewsFilters',

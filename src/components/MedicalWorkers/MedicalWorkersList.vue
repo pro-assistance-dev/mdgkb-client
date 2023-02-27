@@ -19,6 +19,7 @@
 import { computed, ComputedRef, defineComponent, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 
+import Doctor from '@/classes/Doctor';
 import Head from '@/classes/Head';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import DoctorsListFilters from '@/components/Doctors/DoctorsListFilters.vue';
@@ -28,11 +29,10 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
-import IDoctor from '@/interfaces/IDoctor';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
 import HeadsSortsLib from '@/services/Provider/libs/sorts/HeadsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -47,7 +47,7 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const doctors: Ref<IDoctor[]> = computed<IDoctor[]>(() => Provider.store.getters['doctors/items']);
+    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => Provider.store.getters['doctors/items']);
     const heads: Ref<Head[]> = computed<Head[]>(() => Provider.store.getters['heads/items']);
     const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
 

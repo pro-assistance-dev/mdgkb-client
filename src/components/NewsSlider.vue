@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="carousel.length" tab-id="7" :collapsed="false">
+  <CollapseItem v-if="carousel.length" tab-id="7" :collapsed="false">
     <template #inside-title>
       <div class="title-in">Статьи</div>
     </template>
@@ -19,20 +19,20 @@
         </el-carousel>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import IWithNews from '@/interfaces/IWithNews';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'NewsSlider',
-  components: { NewsCard, CollapsContainer },
+  components: { NewsCard, CollapseItem },
   props: {
     news: {
       type: Object as PropType<IWithNews[]>,

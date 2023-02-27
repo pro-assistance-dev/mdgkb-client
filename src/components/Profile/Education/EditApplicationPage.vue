@@ -47,8 +47,8 @@ import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
+import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

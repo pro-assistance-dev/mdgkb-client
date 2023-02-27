@@ -10,7 +10,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import SocialMedia from '@/classes/SocialMedia';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import SocialMediaCarousel from '@/components/SocialMediaCarousel.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'MainSocialMedia',

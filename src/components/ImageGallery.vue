@@ -1,5 +1,5 @@
 <template>
-  <CollapsContainer v-if="images.length > 0" tab-id="4">
+  <CollapseItem v-if="images.length > 0" tab-id="4">
     <template #inside-title>
       <div class="title-in">Фотографии</div>
     </template>
@@ -22,21 +22,21 @@
         </el-dialog>
       </div>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import FileInfo from '@/classes/File/FileInfo';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IDivisionImage from '@/interfaces/IDivisionImage';
 import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({
   name: 'ImageGallery',
-  components: { CollapsContainer },
+  components: { CollapseItem },
   props: {
     images: {
       type: Array as PropType<Array<INewsImage | IDivisionImage>>,
@@ -64,6 +64,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 .gallery-container {
   margin-top: 30px;
   max-width: 1000px;
@@ -91,5 +92,16 @@ export default defineComponent({
     width: 100%;
     max-width: 100%;
   }
+}
+
+.title-in {
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  color: $site_dark_gray;
+  height: 60px;
+  align-items: center;
+  font-weight: bold;
 }
 </style>

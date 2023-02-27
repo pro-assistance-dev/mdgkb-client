@@ -13,9 +13,9 @@ import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'Questions',

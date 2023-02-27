@@ -4,8 +4,8 @@ import SearchGroup from '@/classes/SearchGroup';
 import IPagination from '@/interfaces/IPagination';
 import ISearchElement from '@/interfaces/ISearchElement';
 import ISearchGroup from '@/interfaces/ISearchGroup';
-import ISearchObject from '@/interfaces/ISearchObject';
-import Provider from '@/services/Provider';
+import ISearchObject from '@/services/interfaces/ISearchObject';
+import Provider from '@/services/Provider/Provider';
 
 export default class SearchModel {
   query = '';

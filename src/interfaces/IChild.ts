@@ -1,9 +1,9 @@
-import IHuman from '@/interfaces/IHuman';
 import IUser from '@/interfaces/IUser';
+import Human from '@/services/classes/Human';
 
 export default interface IChild {
   id?: string;
-  human: IHuman;
+  human: Human;
   humanId?: string;
   user?: IUser;
   userId?: string;

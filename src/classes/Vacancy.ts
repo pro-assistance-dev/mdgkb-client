@@ -1,14 +1,13 @@
-import ContactInfo from '@/classes/contacts/ContactInfo';
 import Division from '@/classes/Division';
 import VacancyDuty from '@/classes/VacancyDuty';
 import VacancyRequirement from '@/classes/VacancyRequirement';
 import VacancyResponse from '@/classes/VacancyResponse';
-import IContactInfo from '@/interfaces/contacts/IContactInfo';
 import IForm from '@/interfaces/IForm';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
@@ -17,7 +16,7 @@ export default class Vacancy implements IVacancy {
   id?: string;
   title = '';
   slug = '';
-  contactInfo: IContactInfo = new ContactInfo();
+  contactInfo: ContactInfo = new ContactInfo();
   contactInfoId?: string;
   specialization = '';
   salaryComment = '';
@@ -26,14 +25,14 @@ export default class Vacancy implements IVacancy {
   active = false;
   responsesCount = 0;
   newResponsesCount = 0;
-  @ClassHelper.GetClassConstructorForArray(VacancyResponse)
+  @ClassHelper.GetClassConstructor(VacancyResponse)
   vacancyResponses: VacancyResponse[] = [];
   vacancyResponsesForDelete = [];
   experience = '';
-  @ClassHelper.GetClassConstructorForArray(VacancyDuty)
+  @ClassHelper.GetClassConstructor(VacancyDuty)
   vacancyDuties: IVacancyDuty[] = [];
   vacancyDutiesForDelete = [];
-  @ClassHelper.GetClassConstructorForArray(VacancyRequirement)
+  @ClassHelper.GetClassConstructor(VacancyRequirement)
   vacancyRequirements: IVacancyRequirement[] = [];
   vacancyRequirementsForDelete = [];
   schedule = '';

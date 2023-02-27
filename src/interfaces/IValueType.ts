@@ -1,4 +1,4 @@
-import ValueRelation from '@/interfaces/ValueRelation';
+import ValueRelation from '@/services/interfaces/ValueRelation';
 
 export default interface IValueType {
   id?: string;

@@ -22,7 +22,7 @@ import FilterQuery from '@/classes/filters/FilterQuery';
 import Pagination from '@/classes/filters/Pagination';
 import SortModel from '@/classes/filters/SortModel';
 import ISortModel from '@/interfaces/filters/ISortModel';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'SortListV2',
@@ -54,11 +54,6 @@ export default defineComponent({
       emit('load');
     });
 
-    const dropPagination = (): void => {
-      Provider.filterQuery.value.pagination = new Pagination();
-      Provider.store.commit('pagination/setCurPage', 1);
-    };
-
     const changeModel = async (s: SortModel | undefined): Promise<void> => {
       if (s) {
         Provider.filterQuery.value.sortModel = s;
@@ -70,7 +65,7 @@ export default defineComponent({
     };
 
     const setSort = async (s: SortModel | undefined) => {
-      dropPagination();
+      Provider.dropPagination();
       await changeModel(s);
     };
 

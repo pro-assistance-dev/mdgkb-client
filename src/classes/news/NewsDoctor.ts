@@ -1,6 +1,5 @@
 import Doctor from '@/classes/Doctor';
 import News from '@/classes/news/News';
-import IDoctor from '@/interfaces/IDoctor';
 import INews from '@/interfaces/news/INews';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 
@@ -9,7 +8,7 @@ export default class NewsDoctor implements INewsDoctor {
   news?: INews;
   newsId?: string;
   doctorId?: string;
-  doctor?: IDoctor;
+  doctor?: Doctor;
 
   constructor(i?: INewsDoctor) {
     if (!i) {

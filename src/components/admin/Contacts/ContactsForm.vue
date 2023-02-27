@@ -100,7 +100,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
-import ContactInfo from '@/classes/contacts/ContactInfo';
+import ContactInfo from '@/services/classes/ContactInfo';
 
 export default defineComponent({
   name: 'ContactsForm',

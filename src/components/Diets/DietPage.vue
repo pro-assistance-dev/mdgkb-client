@@ -74,11 +74,9 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
 
-import Time from '@/assets/doctors/svg/Time.svg';
 import ITimetable from '@/interfaces/timetables/ITimetable';
-import Provider from '@/services/Provider';
-import setDays from '@/services/SetDays';
-import setDaysMobile from '@/services/SetDaysMobile';
+import Provider from '@/services/Provider/Provider';
+import Time from '@/services/Time';
 
 export default defineComponent({
   name: 'DietPage',
@@ -110,8 +108,8 @@ export default defineComponent({
       // selectedDiet,
       // diets,
       isAuth,
-      setDays,
-      setDaysMobile,
+      setDays: Time.SetDays,
+      setDaysMobile: Time.SetDaysMobile,
       selectedNumberDay,
       selectDay,
     };

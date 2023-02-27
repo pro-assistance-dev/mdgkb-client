@@ -64,7 +64,7 @@ import ResidencyApplicationAchievements from '@/components/Educational/Residency
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IUser from '@/interfaces/IUser';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 

@@ -38,7 +38,7 @@ import { computed, defineComponent, Ref } from 'vue';
 import TableCard from '@/components/Diets/TableCard.vue';
 import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'BufetCart',

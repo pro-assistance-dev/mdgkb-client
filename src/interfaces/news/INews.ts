@@ -1,6 +1,6 @@
+import Doctor from '@/classes/Doctor';
+import NewsDivision from '@/classes/news/NewsDivision';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDoctor from '@/interfaces/IDoctor';
-import INewsDivision from '@/interfaces/INewsDivision';
 import IEvent from '@/interfaces/news/IEvent';
 import INewsComment from '@/interfaces/news/INewsComment';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
@@ -33,7 +33,7 @@ export default interface INews {
   newsLikes: INewsLike[];
   newsComments: INewsComment[];
   newsDoctors: INewsDoctor[];
-  newsDivisions: INewsDivision[];
+  newsDivisions: NewsDivision[];
   newsDivisionsForDelete: string[];
   newsDoctorsForDelete: string[];
   newsImages: INewsImage[];
@@ -44,7 +44,7 @@ export default interface INews {
 
   getImageUrl: () => string;
 
-  addDoctor: (doctor: IDoctor) => void;
+  addDoctor: (doctor: Doctor) => void;
   removeDoctor: (index: number) => void;
 
   getStrippedContent: () => string;

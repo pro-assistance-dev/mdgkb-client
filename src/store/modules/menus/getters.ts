@@ -1,22 +1,22 @@
 import { GetterTree } from 'vuex';
 
-import IMenu from '@/interfaces/IMenu';
+import Menu from '@/classes/Menu';
 import UserService from '@/services/User';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IMenu[] {
+  items(state): Menu[] {
     if (!UserService.isAdmin()) {
-      return state.items.filter((menu: IMenu) => !menu.hide);
+      return state.items.filter((menu: Menu) => !menu.hide);
     }
     return state.items;
   },
-  menus(state): IMenu[] {
+  menus(state): Menu[] {
     return state.menus;
   },
-  item(state): IMenu {
+  item(state): Menu {
     return state.item;
   },
 };

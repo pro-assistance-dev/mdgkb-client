@@ -3,7 +3,6 @@ import { mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
 import Doctor from '@/classes/Doctor';
 import Regalia from '@/classes/Regalia';
 import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
-import IDoctor from '@/interfaces/IDoctor';
 
 jest.mock('vue-router', () => ({
   useRoute: jest.fn(() => ({ params: { slug: 1 } })),
@@ -15,7 +14,7 @@ const stubs = {
 
 let mockRouter;
 
-const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<any> => {
+const createWrapper = (doctor: Doctor, route?: string): VueWrapper<any> => {
   mockRouter = {
     push: jest.fn(),
   };
@@ -35,7 +34,7 @@ const createWrapper = (doctor: IDoctor, route?: string): VueWrapper<any> => {
 
 describe('DoctorAchievements.vue', () => {
   let wrapper: VueWrapper<any>;
-  let doctor: IDoctor;
+  let doctor: Doctor;
 
   beforeEach(() => {
     doctor = new Doctor();

@@ -58,15 +58,15 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Doctor from '@/classes/Doctor';
 import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
 import Rating from '@/components/Rating.vue';
-import IDoctor from '@/interfaces/IDoctor';
 
 export default defineComponent({
   name: 'DoctorInfoCard',
   components: { Rating, AvatarWithFavourite },
   props: {
-    doctor: { type: Object as PropType<IDoctor>, required: true },
+    doctor: { type: Object as PropType<Doctor>, required: true },
   },
 });
 </script>

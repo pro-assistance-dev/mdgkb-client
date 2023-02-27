@@ -93,7 +93,7 @@ import CancelDialogForm from '@/components/Profile/Education/CancelDialogForm.vu
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/interfaces/IUser';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ApplicationTable',

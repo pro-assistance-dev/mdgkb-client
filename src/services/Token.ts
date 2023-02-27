@@ -1,5 +1,5 @@
-import IHuman from '@/interfaces/IHuman';
 import ITokens from '@/interfaces/ITokens';
+import Human from '@/services/classes/Human';
 
 const TokenService = (() => {
   function _isAuth(): boolean {
@@ -44,7 +44,7 @@ const TokenService = (() => {
     localStorage.removeItem('refresh_token');
   }
 
-  function _updateHuman(human: IHuman) {
+  function _updateHuman(human: Human) {
     if (!_isAuth()) {
       return;
     }

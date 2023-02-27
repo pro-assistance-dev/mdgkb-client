@@ -1,7 +1,6 @@
 import { GetterTree } from 'vuex';
 
 import Employee from '@/classes/Employee';
-import IHuman from '@/interfaces/IHuman';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

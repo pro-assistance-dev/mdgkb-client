@@ -54,7 +54,7 @@ import { computed, defineComponent, PropType, ref } from 'vue';
 import Division from '@/classes/Division';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionDateAndTime',

@@ -1,22 +1,22 @@
 <template>
-  <CollapsContainer v-if="info.length" tab-id="3">
+  <CollapseItem v-if="info.length" tab-id="3">
     <template #inside-title>
       <div class="title-in">Информация об отделении</div>
     </template>
     <template #inside-content>
       <div class="example" v-html="info" />
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'DivisionInfoBlock',
-  components: { CollapsContainer },
+  components: { CollapseItem },
   props: {
     info: {
       type: String,

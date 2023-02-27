@@ -39,7 +39,7 @@ import PageSideMenu from '@/classes/PageSideMenu';
 import AdminPageSectionDialog from '@/components/admin/AdminPages/AdminPageSectionDialog.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 
 export default defineComponent({

@@ -1,15 +1,15 @@
 <template>
   <div v-if="mounted" class="size">
     <ResidencyCourseInfo :course="residencyCourse" />
-    <CollapsContainer v-if="residencyCourse.description">
+    <CollapseItem v-if="residencyCourse.description">
       <template #inside-title>
         <div class="title-in">Информация о курсе</div>
       </template>
       <template #inside-content>
         <div class="info" v-html="residencyCourse.description" />
       </template>
-    </CollapsContainer>
-    <CollapsContainer v-if="residencyCourse.residencyCoursePracticePlaces.length" tab-id="6" :collapsed="true">
+    </CollapseItem>
+    <CollapseItem v-if="residencyCourse.residencyCoursePracticePlaces.length" tab-id="6" :collapsed="true">
       <template #inside-title>
         <div class="title-in">Базы практики</div>
       </template>
@@ -21,7 +21,7 @@
           </li>
         </ul>
       </template>
-    </CollapsContainer>
+    </CollapseItem>
   </div>
 </template>
 
@@ -30,15 +30,15 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import ResidencyCourseInfo from '@/components/Educational/Residency/ResidencyCourseInfo.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'ResidencyCoursePage',
-  components: { ResidencyCourseInfo, CollapsContainer },
+  components: { ResidencyCourseInfo, CollapseItem },
   setup() {
     const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const showForm: Ref<boolean> = ref(false);

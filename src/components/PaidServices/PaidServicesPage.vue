@@ -24,7 +24,7 @@ import { computed, defineComponent, onMounted, onUnmounted, Ref, ref } from 'vue
 import PaidServicesTable from '@/components/PaidServices/PaidServicesTable.vue';
 import IPaidService from '@/interfaces/IPaidService';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PaidServices',

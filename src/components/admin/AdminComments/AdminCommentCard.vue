@@ -42,7 +42,7 @@ import { defineComponent, PropType } from 'vue';
 
 import Rating from '@/components/Rating.vue';
 import IComment from '@/interfaces/comments/IComment';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminCommentCard',

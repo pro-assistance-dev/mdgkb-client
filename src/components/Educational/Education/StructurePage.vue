@@ -18,36 +18,38 @@
     <div class="field-50"></div>
 
     <el-card>
-      <el-timeline-item v-for="(manager, i) in educationalManagers" :key="manager.id" center placement="top">
-        <el-card>
-          <div class="flex-row">
-            <div class="doctor-img-container">
-              <el-avatar :size="200" :src="manager.doctor.employee.human.photoMini.getImageUrl()"></el-avatar>
-            </div>
-            <div class="doctor-info">
-              <div>
-                <h4 v-if="i === 2" class="doctor-name">Отдел Постдипломного образования</h4>
-                <h4 class="doctor-name">{{ manager.role }}</h4>
+      <el-timeline>
+        <el-timeline-item v-for="(manager, i) in educationalManagers" :key="manager.id" center placement="top">
+          <el-card>
+            <div class="flex-row">
+              <div class="doctor-img-container">
+                <el-avatar :size="200" :src="manager.doctor.employee.human.photoMini.getImageUrl()"></el-avatar>
               </div>
+              <div class="doctor-info">
+                <div>
+                  <h4 v-if="i === 2" class="doctor-name">Отдел Постдипломного образования</h4>
+                  <h4 class="doctor-name">{{ manager.role }}</h4>
+                </div>
 
-              <p>{{ manager.doctor.employee.human.getFullName() }}</p>
-              <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок 1/9 корпус 11</div>
-              <ContactsBlock :contact-info="manager.doctor.employee.human.contactInfo" />
-              <div v-if="i !== 2" class="contact-h3">
-                <div class="item">
-                  <svg class="icon-time">
-                    <use xlink:href="#time"></use>
-                  </svg>
-                </div>
-                <div class="time-block">
-                  <span v-if="i === 0" class="item">Прием граждан ведёт во вторник и пятницу с 11:00 до 13:00</span>
-                  <span v-if="i === 1" class="item">Прием граждан и медработников в понедельник и четверг с 14:00 до 16:00</span>
+                <p>{{ manager.doctor.employee.human.getFullName() }}</p>
+                <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок 1/9 корпус 11</div>
+                <ContactsBlock :contact-info="manager.doctor.employee.human.contactInfo" />
+                <div v-if="i !== 2" class="contact-h3">
+                  <div class="item">
+                    <svg class="icon-time">
+                      <use xlink:href="#time"></use>
+                    </svg>
+                  </div>
+                  <div class="time-block">
+                    <span v-if="i === 0" class="item">Прием граждан ведёт во вторник и пятницу с 11:00 до 13:00</span>
+                    <span v-if="i === 1" class="item">Прием граждан и медработников в понедельник и четверг с 14:00 до 16:00</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </el-card>
-      </el-timeline-item>
+          </el-card>
+        </el-timeline-item>
+      </el-timeline>
       <span class="info-text">
         <a target="_blank" href="/files/pol.pdf" download="Положение об отделе постдипломного образования" class="info-text"
           >Положение об отделе постдипломного образования</a
@@ -66,8 +68,8 @@ import Arrow from '@/assets/svg/StructurePage/Arrow.svg';
 import Time from '@/assets/svg/StructurePage/Time.svg';
 import EducationalManager from '@/classes/EducationalManager';
 import ContactsBlock from '@/components/ContactsBlock.vue';
-import Provider from '@/services/Provider';
 import EducationOrganizationManagersSortsLib from '@/services/Provider/libs/sorts/EducationanlManagersSortsLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'StructurePage',

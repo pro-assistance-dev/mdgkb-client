@@ -93,23 +93,6 @@ const menuList: IAdminMenu[] = [
     ],
   },
   {
-    title: 'Руководители и врачи',
-    to: '/',
-    icon: 'el-icon-question',
-    children: [
-      {
-        title: 'Руководители',
-        to: '/admin/heads',
-        icon: 'el-icon-first-aid-kit',
-      },
-      {
-        title: 'Врачи',
-        to: '/admin/doctors',
-        icon: 'el-icon-first-aid-kit',
-      },
-    ],
-  },
-  {
     title: 'Проекты, партнеры, профили, организации',
     to: '/',
     icon: 'el-icon-collection',
@@ -137,29 +120,6 @@ const menuList: IAdminMenu[] = [
     to: '/',
     icon: 'el-icon-school',
     children: [
-      {
-        title: 'Преподаватели',
-        to: '/admin/teachers',
-        icon: 'el-icon-first-aid-kit',
-      },
-      {
-        title: 'Научный совет',
-        to: '/admin/academics',
-        icon: 'el-icon-first-aid-kit',
-      },
-      // {
-      //   title: 'Ординатура',
-      //   to: '/admin/residency',
-      // },
-      // {
-      //   title: 'Преподаватели',
-      //   to: '/admin/teachers',
-      //   icon: 'el-icon-first-aid-kit',
-      // },
-      // {
-      //   title: 'Кандидатские экзамены',
-      //   to: '/admin/candidate',
-      // },
       {
         title: 'Программы ординатуры',
         to: '/admin/residency-courses',

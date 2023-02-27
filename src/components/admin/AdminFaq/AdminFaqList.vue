@@ -33,7 +33,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import IFaq from '@/interfaces/IFaq';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminFaqList',

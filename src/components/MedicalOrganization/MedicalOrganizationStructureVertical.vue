@@ -145,7 +145,7 @@ import { computed, Ref } from 'vue';
 import Head from '@/classes/Head';
 import ContactBlock from '@/components/ContactBlock.vue';
 import countRating from '@/services/countRating';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default {
   name: 'MedicalOrganizationStructureVertical',

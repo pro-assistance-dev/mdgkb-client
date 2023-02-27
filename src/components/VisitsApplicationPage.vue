@@ -84,11 +84,11 @@ import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IGate from '@/interfaces/IGate';
-import ISearchObject from '@/interfaces/ISearchObject';
 import IUser from '@/interfaces/IUser';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import ISearchObject from '@/services/interfaces/ISearchObject';
+import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

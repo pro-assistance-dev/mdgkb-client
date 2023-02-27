@@ -1,9 +1,9 @@
 <template>
   <ul v-if="mounted" class="menu-center-list">
     <li v-for="menu in menus" :key="menu.id">
-      <span class="link-menu" :class="{ active: menu.active }" @click="menuClick(menu)">
+      <div class="link-menu" :class="{ active: menu.active }" @click="menuClick(menu)">
         {{ menu.name }}
-      </span>
+      </div>
       <ul v-if="!menu.withoutChildren() && menu.selected" class="dropmenu">
         <div class="subMenu-place">
           <li v-for="subMenu in menu.subMenus" :key="subMenu.id">
@@ -31,10 +31,10 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedRef } from 'vue';
 
+import Menu from '@/classes/Menu';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
-import IMenu from '@/interfaces/IMenu';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NavMenu',
@@ -50,7 +50,7 @@ export default defineComponent({
   },
   setup() {
     const mounted = ref(false);
-    const menus: WritableComputedRef<IMenu[]> = computed(() => Provider.store.getters['menus/menus']);
+    const menus: WritableComputedRef<Menu[]> = computed(() => Provider.store.getters['menus/menus']);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
 
     const clickOutsideMenu = (e: MouseEvent) => {
@@ -60,7 +60,7 @@ export default defineComponent({
         return;
       }
       setActiveMenu();
-      menus.value.forEach((m: IMenu) => {
+      menus.value.forEach((m: Menu) => {
         m.selected = false;
       });
     };
@@ -74,8 +74,8 @@ export default defineComponent({
     });
 
     const setActiveMenu = () => {
-      menus.value.forEach((m: IMenu) => (m.active = false));
-      const activeMenu = menus.value.find((m: IMenu) => m.containPath(Provider.route().path));
+      menus.value.forEach((m: Menu) => (m.active = false));
+      const activeMenu = menus.value.find((m: Menu) => m.containPath(Provider.route().path));
       if (activeMenu) {
         activeMenu.active = true;
       }
@@ -100,9 +100,9 @@ export default defineComponent({
       return color;
     };
 
-    const menuClick = (menu: IMenu) => {
+    const menuClick = (menu: Menu) => {
       menu.selected = true;
-      menus.value.forEach((m: IMenu) => {
+      menus.value.forEach((m: Menu) => {
         if (m.id === menu.id) {
           return;
         }
@@ -166,7 +166,7 @@ ul.menu-center-list li {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
   border-right: 1px solid #dfe4ee;
-  padding: 21px 0px 19px 0px;
+  white-space: nowrap;
 }
 
 ul.menu-center-list li:last-child {

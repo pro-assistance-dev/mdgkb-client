@@ -1,14 +1,17 @@
+import 'reflect-metadata';
+
 import Accreditation from '@/classes/accreditations/Accreditation';
 import Certificate from '@/classes/Certificate';
+import Doctor from '@/classes/Doctor';
+import EducationalAcademic from '@/classes/EducationalAcademic';
 import Certification from '@/classes/educations/Certification';
 import Education from '@/classes/educations/Education';
 import Experience from '@/classes/Experience';
 import Head from '@/classes/Head';
-import Human from '@/classes/Human';
 import Regalia from '@/classes/Regalia';
 import TeachingActivity from '@/classes/TeachingActivity';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IHuman from '@/interfaces/IHuman';
+import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Employee {
@@ -19,37 +22,46 @@ export default class Employee {
   academicDegree = '';
   academicRank = '';
   partTime = false;
-  @ClassHelper.GetClassConstructorForArray(Regalia)
+  @ClassHelper.GetClassConstructor(Regalia)
   regalias: Regalia[] = [];
   regaliasForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(Education)
+  @ClassHelper.GetClassConstructor(Education)
   educations: Education[] = [];
   educationsForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(Certificate)
+  @ClassHelper.GetClassConstructor(Certificate)
   certificates: Certificate[] = [];
   certificatesForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(Experience)
+  @ClassHelper.GetClassConstructor(Experience)
   experiences: Experience[] = [];
   experiencesForDelete: string[] = [];
-  @ClassHelper.GetClassConstructorForArray(TeachingActivity)
+  @ClassHelper.GetClassConstructor(TeachingActivity)
   teachingActivities: TeachingActivity[] = [];
   teachingActivitiesForDelete: string[] = [];
 
-  @ClassHelper.GetClassConstructorForArray(Certification)
+  @ClassHelper.GetClassConstructor(Certification)
   certifications: Certification[] = [];
   certificationsForDelete: string[] = [];
 
-  @ClassHelper.GetClassConstructorForArray(Accreditation)
+  @ClassHelper.GetClassConstructor(Accreditation)
   accreditations: Accreditation[] = [];
   accreditaionsForDelete: string[] = [];
+
+  @ClassHelper.GetClassConstructor(Head)
+  head?: Head;
+  headsForDelete: string[] = [];
+
+  @ClassHelper.GetClassConstructor(Doctor)
+  doctor?: Doctor;
+  doctorsForDelete: string[] = [];
+
+  @ClassHelper.GetClassConstructor(EducationalAcademic)
+  educationalAcademic?: EducationalAcademic;
+  educationalAcademicsForDelete: string[] = [];
 
   //meta
   fullName?: string;
   dateBirth?: string;
   isMale?: string;
-  @ClassHelper.GetClassConstructorForArray(Head)
-  head?: Head;
-  // headId?: string;
 
   constructor(i?: Employee) {
     ClassHelper.BuildClass(this, i);
@@ -107,7 +119,7 @@ export default class Employee {
     ClassHelper.RemoveFromClassByIndex(i, this.teachingActivities, this.teachingActivitiesForDelete);
   }
 
-  getHuman(): IHuman {
+  getHuman(): Human {
     return this.human;
   }
 
@@ -118,5 +130,42 @@ export default class Employee {
   getAcademicDegreeAndRank(): string {
     return `${this.academicDegree}${this.academicDegree && this.academicRank ? ' • ' : ''}${this.academicRank}`;
     // return `Кандидат медицинских наук • Заместитель председателя Ученого Совета`;
+  }
+
+  setHead(): void {
+    this.head = new Head();
+  }
+
+  resetHead(): void {
+    if (this.head?.id) {
+      this.headsForDelete?.push(this.head?.id);
+    }
+    this.head = undefined;
+  }
+
+  setDoctor(): void {
+    this.doctor = new Doctor();
+  }
+
+  resetDoctor(): void {
+    if (this.doctor?.id) {
+      this.doctorsForDelete?.push(this.doctor?.id);
+    }
+    this.doctor = undefined;
+  }
+
+  setEducationalAcademic(): void {
+    this.educationalAcademic = new EducationalAcademic();
+  }
+
+  resetEducationalAcademic(): void {
+    if (this.educationalAcademic?.id) {
+      this.educationalAcademicsForDelete?.push(this.educationalAcademic?.id);
+    }
+    this.educationalAcademic = undefined;
+  }
+
+  static GetClassName(): string {
+    return 'Employee';
   }
 }

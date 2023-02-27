@@ -30,8 +30,9 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import ISearchGroup from '@/interfaces/ISearchGroup';
-import ISearch from '@/interfaces/ISearchObject';
-import Provider from '@/services/Provider';
+import ISearch from '@/services/interfaces/ISearchObject';
+import Provider from '@/services/Provider/Provider';
+import StringsService from '@/services/Strings';
 
 export default defineComponent({
   name: 'RemoteSearch',
@@ -80,9 +81,13 @@ export default defineComponent({
     const searchModel: Ref<SearchModel> = computed<SearchModel>(() => Provider.store.getters['search/searchModel']);
 
     const find = async (query: string, resolve: (arg: any) => void): Promise<void> => {
+      if (query.length < 2) {
+        resolve([]);
+        return;
+      }
       searchForm.value.activated = true;
       searchModel.value.searchObjects = [];
-      searchModel.value.query = query;
+      searchModel.value.query = StringsService.translit(query);
       searchModel.value.mustBeTranslated = props.mustBeTranslated;
       const groupForSearch = searchModel.value.searchGroups.find((group: ISearchGroup) => group.key === props.keyValue);
       if (groupForSearch) {

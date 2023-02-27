@@ -44,7 +44,7 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/interfaces/IUser';
 import router from '@/router';
 import PhoneService from '@/services/PhoneService';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'EditPhone',

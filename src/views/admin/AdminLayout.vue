@@ -6,7 +6,7 @@
         <div class="admin-main-container">
           <AdminSideMenu class="side-menu hidden-sm-and-down" />
           <div class="admin-container">
-            <AdminHeaderBottom />
+            <AdminHeaderBottom style="position: sticky; z-index: 2" />
             <div v-if="$route.meta.adminLayout === AdminLayout.TableList" style="height: inherit">
               <slot />
             </div>

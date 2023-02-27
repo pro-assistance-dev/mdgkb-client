@@ -1,15 +1,15 @@
+import DoctorUser from '@/classes/DoctorUser';
 import DpoApplication from '@/classes/DpoApplication';
 import Form from '@/classes/Form';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IChild from '@/interfaces/IChild';
-import IDoctorUser from '@/interfaces/IDoctorUser';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
-import IHuman from '@/interfaces/IHuman';
 import IQuestion from '@/interfaces/IQuestion';
 import IRole from '@/interfaces/IRole';
+import Human from '@/services/classes/Human';
 
 import ICandidateApplication from './ICandidateApplication';
 import IOption from './schema/IOption';
@@ -19,7 +19,7 @@ export default interface IUser {
   email: string;
   phone: string;
   password?: string;
-  human: IHuman;
+  human: Human;
   humanId?: string;
   questions: IQuestion[];
   comments: IComment[];
@@ -33,7 +33,7 @@ export default interface IUser {
   candidateApplicationsForDelete: string[];
   formValues: Form[];
   donorRulesUsers: IDonorRuleUser[];
-  doctorsUsers: IDoctorUser[];
+  doctorsUsers: DoctorUser[];
   role: IRole;
   rejectEmail: boolean;
   roleId?: string;
@@ -53,5 +53,5 @@ export default interface IUser {
   setApplicationsViewed: () => void;
   setAnswersViewed: () => void;
   hasComments: () => boolean;
-  getHuman: () => IHuman;
+  getHuman: () => Human;
 }

@@ -1,6 +1,6 @@
 й
 <template>
-  <CollapsContainer v-if="carousel.length > 0" tab-id="6" :collapsed="false">
+  <CollapseItem v-if="carousel.length > 0" tab-id="6" :collapsed="false">
     <template #inside-title>
       <div class="title-in">{{ headerTitle ? headerTitle : 'Специалисты' }}</div>
     </template>
@@ -24,7 +24,7 @@
         </el-carousel>
       </component>
     </template>
-  </CollapsContainer>
+  </CollapseItem>
 </template>
 
 <script lang="ts">
@@ -34,14 +34,13 @@ import Doctor from '@/classes/Doctor';
 import Teacher from '@/classes/Teacher';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
-import CollapsContainer from '@/components/Main/CollapsContainer/CollapsContainer.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
-import IDoctor from '@/interfaces/IDoctor';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
   name: 'DoctorsCarousel',
-  components: { DoctorInfoCard, MainContainer, CollapsContainer },
+  components: { DoctorInfoCard, MainContainer, CollapseItem },
   props: {
     doctors: { type: Array as PropType<Doctor[]>, default: () => [] },
     headerTitle: { type: String as PropType<string>, default: 'Специалисты' },

@@ -1,6 +1,6 @@
 import SortModel from '@/classes/filters/SortModel';
 import { Orders } from '@/interfaces/filters/Orders';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 const VisitsApplicationsSortsLib = (() => {
   function byCreatedAt(order?: Orders): SortModel {

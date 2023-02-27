@@ -67,7 +67,7 @@ import { computed, defineComponent, Ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import buildNameNumbers from '@/services/buildNameNumbers';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'ResidencyCoursesList',
 

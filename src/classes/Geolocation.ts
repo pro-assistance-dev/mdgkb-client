@@ -1,14 +1,10 @@
-import IGeolocation from '@/interfaces/IGeolocation';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Geolocation implements IGeolocation {
+export default class Geolocation {
   lat?: number;
   lng?: number;
 
-  constructor(geolocation?: IGeolocation) {
-    if (!geolocation) {
-      return;
-    }
-    this.lat = geolocation.lat;
-    this.lng = geolocation.lng;
+  constructor(i?: Geolocation) {
+    ClassHelper.BuildClass(this, i);
   }
 }

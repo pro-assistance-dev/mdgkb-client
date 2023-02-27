@@ -7,7 +7,12 @@ const StringsService = (() => {
   }
 
   function toCamelCase(str: string): string {
-    return str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+    return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => {
+      if (+match === 0) {
+        return ''; // or if (/\s+/.test(match)) for white spaces
+      }
+      return index === 0 ? match.toLowerCase() : match.toUpperCase();
+    });
   }
 
   function toKebabCase(str: string): string {
@@ -21,7 +26,7 @@ const StringsService = (() => {
     return str.substring(str.indexOf(first) + 2, str.lastIndexOf(two));
   }
 
-  function translit(str: string): string {
+  function translit(str: string, toEachLang?: boolean): string {
     const transliter: Record<string, string> = {
       q: 'й',
       w: 'ц',
@@ -57,7 +62,7 @@ const StringsService = (() => {
       '.': 'ю',
       '/': '.',
     };
-    if (/[а-яА-Я]/g.test(str)) {
+    if (toEachLang && /[а-яА-Я]/g.test(str)) {
       return str.replace(/[А-я/,.;'\][]/g, (x: string) => {
         if (x === x.toLowerCase()) {
           const result = Object.keys(transliter).find((key) => transliter[key] === x);

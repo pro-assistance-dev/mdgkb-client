@@ -1,9 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Ref, ref } from 'vue';
 
+import Employee from '@/classes/Employee';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
+import ClassHelper, { Constructable } from '@/services/ClassHelper';
+import { ClassNameGetter } from '@/services/interfaces/Class';
+import StringsService from '@/services/Strings';
 
 export default class FilterModel {
   id?: string;
@@ -23,6 +27,7 @@ export default class FilterModel {
   isSet = false;
 
   joinTable = '';
+  joinTableModel = '';
   joinTableFk = '';
   joinTablePk = '';
   joinTableId = '';
@@ -55,6 +60,11 @@ export default class FilterModel {
     this.value1 = params.get('value1') ?? '';
     this.type = (params.get('type') as DataTypes) ?? '';
     this.boolean = Boolean(params.get('boolean') ?? '');
+    this.joinTableModel = params.get('joinTableModel') ?? '';
+    this.joinTableId = params.get('joinTableId') ?? '';
+    this.joinTableFk = params.get('joinTableFk') ?? '';
+    this.joinTableIdCol = params.get('joinTableIdCol') ?? '';
+    this.joinTablePk = params.get('joinTablePk') ?? '';
   }
 
   isUnaryFilter(): boolean {
@@ -129,6 +139,48 @@ export default class FilterModel {
     if (joinTableIdCol) {
       filterModel.joinTableIdCol = joinTableIdCol;
     }
+    return filterModel;
+  }
+
+  static CreateFilterModelWithJoinV2(
+    model: string,
+    col: string,
+    joinTableModel: string,
+    joinTablePk: string,
+    joinTableFk: string,
+    joinTableId?: string,
+    joinTableIdCol?: string
+  ): IFilterModel {
+    const filterModel = new FilterModel();
+    filterModel.id = uuidv4();
+    filterModel.model = model;
+    filterModel.joinTableModel = joinTableModel;
+    filterModel.joinTablePk = joinTablePk;
+    filterModel.joinTableFk = joinTableFk;
+    filterModel.col = col;
+    filterModel.type = DataTypes.Join;
+    filterModel.version = 'v2';
+    if (joinTableId) {
+      filterModel.joinTableId = joinTableId;
+    }
+    if (joinTableIdCol) {
+      filterModel.joinTableIdCol = joinTableIdCol;
+    }
+    return filterModel;
+  }
+
+  static CreateJoin(firstClass: ClassNameGetter, joinClass: ClassNameGetter): IFilterModel {
+    const filterModel = new FilterModel();
+    filterModel.id = uuidv4();
+
+    const firstClassModel = StringsService.toCamelCase(firstClass.GetClassName());
+    filterModel.model = firstClassModel;
+    filterModel.joinTableModel = StringsService.toCamelCase(joinClass.GetClassName());
+    filterModel.joinTablePk = 'id';
+    filterModel.joinTableFk = firstClassModel + 'Id';
+    filterModel.col = 'id';
+    filterModel.type = DataTypes.Join;
+    filterModel.version = 'v2';
     return filterModel;
   }
 

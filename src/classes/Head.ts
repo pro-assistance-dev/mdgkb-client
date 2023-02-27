@@ -1,9 +1,9 @@
-import ContactInfo from '@/classes/contacts/ContactInfo';
 import Department from '@/classes/Department';
 import Employee from '@/classes/Employee';
 import FileInfo from '@/classes/File/FileInfo';
-import Human from '@/classes/Human';
 import Timetable from '@/classes/timetable/Timetable';
+import ContactInfo from '@/services/classes/ContactInfo';
+import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Head {
@@ -15,7 +15,7 @@ export default class Head {
   position = '';
   photo = new FileInfo();
   photoId?: string;
-  @ClassHelper.GetClassConstructorForArray(Department)
+  @ClassHelper.GetClassConstructor(Department)
   departments: Department[] = [];
   departmentsForDelete: string[] = [];
   isMain = false;
@@ -53,13 +53,7 @@ export default class Head {
     return this.employee.human;
   }
 
-  setEmployee(employee: Employee): void {
-    this.employee = new Employee(employee);
-    this.employeeId = employee.id;
-  }
-
-  resetEmployee(): void {
-    this.employee = new Employee();
-    this.employeeId = undefined;
+  static GetClassName(): string {
+    return 'Head';
   }
 }

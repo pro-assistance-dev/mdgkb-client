@@ -40,11 +40,11 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import ISearchObject from '@/interfaces/ISearchObject';
 import ITreatDirection from '@/interfaces/ITreatDirection';
 import IOption from '@/interfaces/schema/IOption';
-import Provider from '@/services/Provider';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionsListFilters',

@@ -1,7 +1,6 @@
+import Doctor from '@/classes/Doctor';
 import Form from '@/classes/Form';
 import IAppointmentType from '@/interfaces/IAppointmentType';
-import IDoctor from '@/interfaces/IDoctor';
-import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
 
 export default interface IAppointment {
@@ -11,7 +10,7 @@ export default interface IAppointment {
   specialization?: ISpecialization;
   specializationId?: string;
   doctorId?: string;
-  doctor?: IDoctor;
+  doctor?: Doctor;
   formValue: Form;
   formValueId?: string;
 

@@ -71,9 +71,9 @@ import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
 import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

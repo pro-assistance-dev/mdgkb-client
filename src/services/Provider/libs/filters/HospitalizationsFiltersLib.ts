@@ -5,7 +5,7 @@ import { Operators } from '@/interfaces/filters/Operators';
 import { PolicyTypes } from '@/interfaces/PolicyTypes';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 
 const HospitalizationsFiltersLib = (() => {
   function onlyOMS(value: string): IFilterModel {

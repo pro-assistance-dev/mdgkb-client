@@ -9,7 +9,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import Page from '@/classes/page/Page';
 import User from '@/classes/User';
 import IUser from '@/interfaces/IUser';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'RefreshPasswordPage',
   async setup() {

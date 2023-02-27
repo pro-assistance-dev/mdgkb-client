@@ -13,6 +13,9 @@
         <el-form-item label="Выход, грамм" prop="weight">
           <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
         </el-form-item>
+        <el-form-item label="Соус, грамм" prop="weight">
+          <el-input-number v-model="dishSample.additionalWeight" placeholder="0"></el-input-number>
+        </el-form-item>
         <el-form-item label="Цена:" prop="price">
           <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
         </el-form-item>
@@ -42,7 +45,7 @@ import DishSample from '@/classes/DishSample';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import IDishSample from '@/interfaces/IDishSample';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -278,10 +281,6 @@ export default defineComponent({
 .button-cancel:hover {
   background: #1979cf;
   color: #ffffff;
-}
-
-:deep(.el-input-number) {
-  width: 100%;
 }
 
 :deep(.el-input-number) {

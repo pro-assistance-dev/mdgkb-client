@@ -61,7 +61,7 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import IHospitalization from '@/interfaces/IHospitalization';
 import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider';
+import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
