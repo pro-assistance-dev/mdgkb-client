@@ -175,7 +175,7 @@ export default defineComponent({
       display: flex;
       justify-content: center;
       align-items: center;
-      width: auto;
+      width: 100%;
       button {
         display: flex;
         align-items: center;
