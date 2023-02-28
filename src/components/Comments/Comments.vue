@@ -1,5 +1,5 @@
 <template>
-  <CollapseItem tab-id="100" :is-collaps="false">
+  <CollapseItem :tab-id="100" :is-collaps="false">
     <template #inside-title>
       <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</div>
     </template>

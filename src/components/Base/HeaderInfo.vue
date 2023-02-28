@@ -5,7 +5,7 @@
       :style="{
         minWidth: leftWidth,
         background: background,
-        display: leftWidth !== '0' ? 'flex' : 'none',
+        display: leftWidth !== '0px' ? 'flex' : 'none',
         borderRight: !isSingle ? '' : 'none',
         borderTopRightRadius: !isSingle ? '' : '0',
         borderBottomRightRadius: !isSingle ? '' : '0',
@@ -58,7 +58,7 @@ export default defineComponent({
     leftWidth: {
       type: String as PropType<string>,
       required: false,
-      default: '0',
+      default: '0px',
     },
     background: {
       type: String as PropType<string>,

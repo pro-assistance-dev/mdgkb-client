@@ -1,7 +1,7 @@
 <template>
   <div v-if="mounted" class="medical-profile-page-container">
-    <div class="side-container hidden-md-and-down">
-      <div v-if="medicalProfile.medicalProfilesDivisions.length" class="side-item">
+    <div v-if="medicalProfile.medicalProfilesDivisions.length" class="side-container hidden-md-and-down">
+      <div class="side-item">
         <div class="card-item">
           <h4 class="card-item-title">Отделения по профилю</h4>
           <el-divider />

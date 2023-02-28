@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="news-content-container">
-      <div class="card-item" style="padding: 30px">
+      <div class="card-item">
         <div class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
           <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="news.mainImage.errorImg" />
@@ -71,6 +71,7 @@ export default defineComponent({
     const news: ComputedRef<INews> = computed<INews>(() => Provider.store.getters['news/newsItem']);
 
     watch(slug, async () => {
+      console.log(slug);
       if (slug.value) {
         await load();
       }
@@ -233,5 +234,15 @@ h3 {
 
 :deep(.tab-content-up) {
   padding: 0 20px;
+}
+
+.card-item {
+  padding: 30px;
+}
+
+@media screen and (max-width: 480px) {
+  .card-item {
+    padding: 10px;
+  }
 }
 </style>

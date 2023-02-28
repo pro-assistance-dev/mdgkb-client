@@ -51,7 +51,9 @@
       <el-divider />
     </template> -->
     <div class="card-footer">
-      <button>Все врачи</button>
+      <router-link to="/doctors">
+        <button>Все врачи</button>
+      </router-link>
     </div>
   </div>
 </template>
