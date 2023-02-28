@@ -5,21 +5,18 @@
     <el-table :data="newsDoctors" cell-class-name="cell-row" :show-header="false">
       <el-table-column>
         <template #default="scope">
-          <div
-            class="card-row"
-            @click="$router.push({ name: `DoctorPage`, params: { id: scope.row.doctor.id, slug: scope.row.doctor.employee.human.slug } })"
-          >
-            <img
-              v-if="scope.row.doctor.employee.human.photoMini.fileSystemPath"
-              :src="scope.row.doctor.employee.human.photoMini.getImageUrl()"
-              alt="Фото врача"
-              @error="errorImg"
-            />
-            <img v-else src="@/assets/img/doctor-default.webp" />
+          <div class="card-row">
+            <!--            <img-->
+            <!--              v-if="scope.row.doctor.employee.human.photoMini.fileSystemPath"-->
+            <!--              :src="scope.row.doctor.employee.human.photoMini.getImageUrl()"-->
+            <!--              alt="Фото врача"-->
+            <!--              @error="errorImg"-->
+            <!--            />-->
+            <img src="@/assets/img/doctor-default.webp" />
             <div>
               <div class="name">
-                <div>{{ scope.row.doctor.employee.human.surname }}</div>
-                <div>{{ scope.row.doctor.employee.human.name }}</div>
+                <!--                <div>{{ scope.row.doctor.employee.human.surname }}</div>-->
+                <!--                <div>{{ scope.row.doctor.employee.human.name }}</div>-->
               </div>
               <div class="regalias">
                 <span>{{ scope.row.position }}</span>

@@ -24,7 +24,10 @@ const actions: ActionTree<State, RootState> = {
   full: async ({ commit }, searchModel: SearchModel): Promise<void> => {
     commit('setSearchModel', await httpClient.get<SearchModel>({ query: `full?searchModel=${searchModel.toUrl()}` }));
   },
-  searchGroups: async ({ commit }): Promise<void> => {
+  searchGroups: async ({ commit, state }): Promise<void> => {
+    if (state.searchModel.searchGroups.length > 0) {
+      return;
+    }
     commit('setSearchGroups', await httpClient.get<SearchModel>({ query: `search-groups` }));
   },
 };

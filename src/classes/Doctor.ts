@@ -2,11 +2,11 @@ import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
 import DoctorPaidService from '@/classes/DoctorPaidService';
 import Employee from '@/classes/Employee';
+import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/news/NewsDoctor';
 import Position from '@/classes/Position';
 import Timetable from '@/classes/timetable/Timetable';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import INewsDoctor from '@/interfaces/news/INewsDoctor';
 import ITimetable from '@/interfaces/timetables/ITimetable';
 import Human from '@/services/classes/Human';
@@ -38,7 +38,7 @@ export default class Doctor {
   @ClassHelper.GetClassConstructor(DoctorDivision)
   doctorsDivisions: DoctorDivision[] = [];
   medicalProfileId?: string;
-  medicalProfile?: IMedicalProfile;
+  medicalProfile?: MedicalProfile;
   mosDoctorLink?: string;
   hasAppointment = true;
   doctorsDivisionsForDelete: string[] = [];
