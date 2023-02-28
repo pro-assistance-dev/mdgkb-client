@@ -23,6 +23,14 @@
       </ul>
     </div>
   </div>
+  <el-pagination
+    style="margin: 10px 0"
+    :current-page="curPage"
+    background
+    layout="prev, pager, next"
+    :page-count="pageCount"
+    @current-change="pageChange"
+  />
   <div class="search-result">
     <div v-for="result in results" :key="result.value">
       <div class="search-result-title" @click="$router.push(result.route)" v-html="result.label.substring(0, 100)"></div>
@@ -39,12 +47,14 @@
 </template>
 
 <script lang="ts">
+import { linkEmits } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import SearchModel from '@/classes/SearchModel';
 import ISearchElement from '@/interfaces/ISearchElement';
+import Provider from '@/services/Provider/Provider';
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({
@@ -60,10 +70,14 @@ export default defineComponent({
     let groups: Ref<string[]> = ref([]);
     const router = useRouter();
     const results: Ref<ISearchElement[]> = ref([]);
-
+    const curPage: Ref<number> = ref(0);
     const searchModel: Ref<SearchModel> = computed<SearchModel>(() => store.getters['search/searchModel']);
     const isDrawerOpen: ComputedRef<boolean> = computed<boolean>(() => store.getters['search/isSearchDrawerOpen']);
-
+    const pageCount: ComputedRef<number> = computed(() =>
+      Math.ceil(searchModel.value.count / searchModel.value.pagination.limit) > 0
+        ? Math.ceil(searchModel.value.count / searchModel.value.pagination.limit)
+        : 1
+    );
     const openDrawer = () => {
       searchInput.value.inputRef.focus();
     };
@@ -103,7 +117,17 @@ export default defineComponent({
       results.value = searchModel.value.options;
     };
 
+    const pageChange = async (pageNum: number) => {
+      searchModel.value.pagination.limit = 20;
+      searchModel.value.pagination.offset = pageNum * searchModel.value.pagination.limit;
+      await search();
+      curPage.value = pageNum;
+    };
+
     return {
+      pageCount,
+      curPage,
+      pageChange,
       results,
       search,
       selectSearchGroup,

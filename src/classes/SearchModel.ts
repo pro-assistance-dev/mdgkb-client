@@ -18,6 +18,7 @@ export default class SearchModel {
   searchGroup: ISearchGroup = new SearchGroup();
   searchObjects: ISearchObject[] = [];
   pagination: IPagination = new Pagination();
+  count = 0;
 
   constructor(i?: SearchModel) {
     if (!i) {
@@ -33,6 +34,7 @@ export default class SearchModel {
     if (i.options) {
       this.options = i.options.map((item: ISearchElement) => new SearchElement(item));
     }
+    this.count = i.count;
   }
 
   toUrl(): string {
