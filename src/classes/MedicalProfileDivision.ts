@@ -7,7 +7,7 @@ export default class MedicalProfileDivision implements IMedicalProfileDivision {
   id?: string;
   medicalProfileId?: string;
   medicalProfile?: IMedicalProfile;
-  division?: Division;
+  division = new Division();
   divisionId?: string;
 
   constructor(i?: IMedicalProfileDivision) {
