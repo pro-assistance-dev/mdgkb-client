@@ -1,36 +1,5 @@
 <template>
-  <AdaptiveContainer 
-    :menu-width="'300px'" 
-    :background="'#ffffff'" 
-    :is-single="false" 
-    :mobile-width="'1330px'" 
-    :close="close"
-    >
-    <template #menu>
-      <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" @close="(e) => (close = e)" />
-    </template>
-
-    <template #icon>
-      <svg class="icon-right-menu">
-        <use xlink:href="#right-menu"></use>
-      </svg>
-    </template>
-    <template #title>
-      {{ page.title }}
-    </template>
-    <template #body>
-      <PageSection
-        :title="selectedMenu.name"
-        :description="selectedMenu.description"
-        :page-sections="selectedMenu.pageSections"
-        :collaps="page.collaps"
-        :show-content="selectedMenu.showContent"
-      />
-    </template>
-  </AdaptiveContainer>
-
-
-  <!-- <div v-if="mounted">
+  <div v-if="mounted">
     <div v-if="page.id && page.pageSideMenus.length" class="page-container">
       <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" />
       <div class="content-container">
@@ -45,8 +14,7 @@
       </div>
     </div>
     <CustomPage v-else />
-  </div> -->
-  <RightMenu />
+  </div>
 </template>
 
 <script lang="ts">
@@ -61,8 +29,6 @@ import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
-import AdaptiveContainer from '@/components/Base/AdaptiveContainer.vue';
-import RightMenu from '@/assets/svg/Main/RightMenu.svg';
 
 export default defineComponent({
   name: 'PageComponent',
@@ -70,8 +36,6 @@ export default defineComponent({
     PageSideMenuComponent,
     PageSection,
     CustomPage,
-    AdaptiveContainer,
-    RightMenu,
   },
   props: {
     customSections: {
@@ -79,8 +43,7 @@ export default defineComponent({
       default: () => [],
     },
   },
-  emins: ['selectMenu', 'close'],
-  setup(props, {emit}) {
+  setup(props) {
     const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
     const path = computed(() => Provider.route().path);
     const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
@@ -91,7 +54,6 @@ export default defineComponent({
       await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       page.value.addCustomSectionsToSideMenu(props.customSections);
       mounted.value = true;
-      emit
     };
 
     let redirect = false;
@@ -105,11 +67,6 @@ export default defineComponent({
     });
     Hooks.onBeforeMount(load);
 
-    // const close = () => {
-    //   emit('close');
-    // };
-
-
     return {
       mounted,
       page,
@@ -121,12 +78,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
-@import '@/assets/styles/elements/base-style.scss';
 $content-max-width: 1000px;
 $card-margin-size: 30px;
 
 .page-container {
-  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -136,38 +91,7 @@ $card-margin-size: 30px;
   max-width: $content-max-width;
   width: 100%;
 }
-// .is-active {
-//   color: #42a4f5;
-// }
-
-.icon-right-menu {
-  width: 32px;
-  height: 32px;
-  fill:#343E5C;
-  cursor: pointer;
-  stroke: #ffffff;
-  animation-name: ripple;
-  animation-duration: 2s;
-  animation-delay: 2s;
-}
-
-// .icon-right-menu:hover {
-//   fill: #22ABE2;
-// }
-
-@keyframes ripple {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .page-container {
-    display: block;
-    width: 100%;
-  }
+.is-active {
+  color: #42a4f5;
 }
 </style>
