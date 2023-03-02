@@ -75,6 +75,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref } from 'vue'
 import { useRoute } from 'vue-router';
 
 import Doctor from '@/classes/Doctor';
+import MedicalProfile from '@/classes/MedicalProfile';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
@@ -85,7 +86,6 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -106,7 +106,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const route = useRoute();
     const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => Provider.store.getters['doctors/items']);
-    const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => Provider.store.getters['medicalProfiles/items']);
+    const medicalProfiles: Ref<MedicalProfile[]> = computed<MedicalProfile[]>(() => Provider.store.getters['medicalProfiles/items']);
     const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
 
     onBeforeMount(async () => {

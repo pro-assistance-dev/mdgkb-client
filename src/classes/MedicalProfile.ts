@@ -1,37 +1,22 @@
 import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
 import MedicalProfileNews from '@/classes/MedicalProfileNews';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
-import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
-import IMedicalProfileNews from '@/interfaces/IMedicalProfileNews';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class MedicalProfile implements IMedicalProfile {
+export default class MedicalProfile {
   id?: string;
   name = '';
   description = '';
   icon = '';
   svgCode = '';
   iconId?: string;
-  medicalProfilesDivisions: IMedicalProfileDivision[] = [];
-  medicalProfilesNews: IMedicalProfileNews[] = [];
+  @ClassHelper.GetClassConstructor(MedicalProfileDivision)
+  medicalProfilesDivisions: MedicalProfileDivision[] = [];
+  @ClassHelper.GetClassConstructor(MedicalProfileNews)
+  medicalProfilesNews: MedicalProfileNews[] = [];
   fill = '';
   background = '';
 
-  constructor(i?: IMedicalProfile) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.description = i.description;
-    this.iconId = i.iconId;
-    this.icon = i.icon;
-    this.svgCode = i.svgCode;
-
-    if (i.medicalProfilesDivisions) {
-      this.medicalProfilesDivisions = i.medicalProfilesDivisions.map((item: IMedicalProfileDivision) => new MedicalProfileDivision(item));
-    }
-    if (i.medicalProfilesNews) {
-      this.medicalProfilesNews = i.medicalProfilesNews.map((item: IMedicalProfileNews) => new MedicalProfileNews(item));
-    }
+  constructor(i?: MedicalProfile) {
+    ClassHelper.BuildClass(this, i);
   }
 }

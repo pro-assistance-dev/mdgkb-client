@@ -1,18 +1,13 @@
 import { MutationTree } from 'vuex';
 
 import MedicalProfile from '@/classes/MedicalProfile';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IMedicalProfile[]) {
-    state.items = items?.map((a: IMedicalProfile) => new MedicalProfile(a));
-  },
-  set(state, item: IMedicalProfile) {
-    state.item = new MedicalProfile(item);
-  },
+  ...getBaseMutations(MedicalProfile),
   resetState(state) {
     Object.assign(state, getDefaultState());
   },

@@ -4,9 +4,9 @@
       <div class="side-item">
         <RecentNewsCard :key="$route.fullPath" />
       </div>
-      <div v-if="news.newsDoctors.length" class="side-item">
-        <NewsDoctorsCard :news-doctors="news.newsDoctors" />
-      </div>
+      <!--      <div v-if="news.newsDoctors.length" class="side-item">-->
+      <!--        <NewsDoctorsCard :news-doctors="news.newsDoctors" />-->
+      <!--      </div>-->
     </div>
     <div class="news-content-container">
       <div class="card-item">
@@ -48,8 +48,6 @@ import NewsComment from '@/classes/news/NewsComment';
 import Comments from '@/components/Comments/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
-import NewsCalendar from '@/components/News/NewsCalendar.vue';
-import NewsDoctorsCard from '@/components/News/NewsDoctorsCard.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
 import INews from '@/interfaces/news/INews';
@@ -60,7 +58,7 @@ import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsDoctorsCard, NewsPageFooter, RecentNewsCard, ImageGallery, EventRegistration, Comments },
+  components: { NewsPageFooter, RecentNewsCard, ImageGallery, EventRegistration, Comments },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -71,6 +69,7 @@ export default defineComponent({
     const news: ComputedRef<INews> = computed<INews>(() => Provider.store.getters['news/newsItem']);
 
     watch(slug, async () => {
+      console.log(slug);
       if (slug.value) {
         await load();
       }

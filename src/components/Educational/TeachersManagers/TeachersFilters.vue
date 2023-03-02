@@ -15,6 +15,7 @@ import { useStore } from 'vuex';
 import Doctor from '@/classes/Doctor';
 import FilterQuery from '@/classes/filters/FilterQuery';
 import SortModel from '@/classes/filters/SortModel';
+import MedicalProfile from '@/classes/MedicalProfile';
 import NmoCourse from '@/classes/NmoCourse';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -23,7 +24,6 @@ import { DataTypes } from '@/interfaces/filters/DataTypes';
 import ISortModel from '@/interfaces/filters/ISortModel';
 import { Operators } from '@/interfaces/filters/Operators';
 import { Orders } from '@/interfaces/filters/Orders';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import ISchema from '@/interfaces/schema/ISchema';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import TokenService from '@/services/Token';
@@ -40,7 +40,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => store.getters['doctors/items']);
-    const medicalProfiles: Ref<IMedicalProfile[]> = computed<IMedicalProfile[]>(() => store.getters['medicalProfiles/items']);
+    const medicalProfiles: Ref<MedicalProfile[]> = computed<MedicalProfile[]>(() => store.getters['medicalProfiles/items']);
     const mount = ref(false);
 
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);

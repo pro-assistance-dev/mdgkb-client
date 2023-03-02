@@ -269,7 +269,7 @@ const router = createRouter({
 });
 
 router.beforeEach(() => {
-  scroll();
+  document.body.scrollTo({ top: 0 });
 });
 
 router.beforeEach(adminGuard);

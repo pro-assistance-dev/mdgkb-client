@@ -1,7 +1,7 @@
 <template>
   <div v-if="mounted" class="medical-profile-page-container">
-    <div class="side-container hidden-md-and-down">
-      <div v-if="medicalProfile.medicalProfilesDivisions.length" class="side-item">
+    <div v-if="medicalProfile.medicalProfilesDivisions.length" class="side-container hidden-md-and-down">
+      <div class="side-item">
         <div class="card-item">
           <h4 class="card-item-title">Отделения по профилю</h4>
           <el-divider />
@@ -77,10 +77,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import MedicalProfile from '@/classes/MedicalProfile';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import chooseRandomBrandColor from '@/services/brandColors';
 export default defineComponent({
   name: 'MedicalProfileList',
@@ -89,7 +89,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const mounted: Ref<boolean> = ref(false);
-    const medicalProfile: ComputedRef<IMedicalProfile> = computed(() => store.getters['medicalProfiles/item']);
+    const medicalProfile: ComputedRef<MedicalProfile> = computed(() => store.getters['medicalProfiles/item']);
 
     onBeforeMount(async () => {
       await store.dispatch('medicalProfiles/get', route.params['id']);

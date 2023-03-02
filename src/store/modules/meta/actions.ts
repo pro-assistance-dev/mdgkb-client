@@ -25,7 +25,10 @@ const actions: ActionTree<State, RootState> = {
       schema.options = options;
     }
   },
-  getSchema: async ({ commit }): Promise<void> => {
+  getSchema: async ({ commit, state }): Promise<void> => {
+    if (state.schema) {
+      return;
+    }
     const data = await httpClient.get<SocialMedia>({ query: `schema` });
     commit('setSchema', data);
   },

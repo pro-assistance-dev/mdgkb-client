@@ -21,7 +21,9 @@
       </el-table-column>
     </el-table>
     <div v-if="!main" class="recent-news-footer">
-      <button @click="$router.push('/news')">Все новости</button>
+      <router-link to="/news">
+        <button>Все новости</button>
+      </router-link>
     </div>
   </div>
 </template>

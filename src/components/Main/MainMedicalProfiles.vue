@@ -6,7 +6,7 @@
     footer-button-link="/medical-profiles"
   >
     <div v-if="mounted" class="main-medical-profiles">
-      <div v-for="item in medicalProfiles.splice(0, 12)" :key="item.name">
+      <div v-for="item in medicalProfiles.splice(0, 6)" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -25,7 +25,7 @@
     </div>
 
     <div v-if="mounted" class="main-medical-profiles-mobile1">
-      <div v-for="item in medicalProfiles.splice(0, 12)" :key="item.name">
+      <div v-for="item in medicalProfiles.splice(0, 6)" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -44,7 +44,7 @@
     </div>
 
     <div v-if="mounted" class="main-medical-profiles-mobile2">
-      <div v-for="item in medicalProfiles.splice(0, 12)" :key="item.name">
+      <div v-for="item in medicalProfiles.splice(0, 6)" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -63,7 +63,7 @@
     </div>
 
     <div v-if="mounted" class="main-medical-profiles-mobile3">
-      <div v-for="item in medicalProfiles.splice(0, 9)" :key="item.name">
+      <div v-for="item in medicalProfiles.splice(0, 6)" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -82,7 +82,7 @@
     </div>
 
     <div v-if="mounted" class="main-medical-profiles-mobile4">
-      <div v-for="item in medicalProfiles.splice(0, 8)" :key="item.name">
+      <div v-for="item in medicalProfiles.splice(0, 4)" :key="item.name">
         <div
           :style="{ 'background-color': item.background }"
           class="main-medical-profiles-card card-hover"
@@ -104,12 +104,13 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
+import FilterQuery from '@/classes/filters/FilterQuery';
+import MedicalProfile from '@/classes/MedicalProfile';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'MainMedicalProfiles',
@@ -119,11 +120,12 @@ export default defineComponent({
     HelpProfileIcon,
   },
   setup() {
-    const store = useStore();
-    const medicalProfiles: ComputedRef<IMedicalProfile[]> = computed(() => store.getters['medicalProfiles/items']);
+    const medicalProfiles: ComputedRef<MedicalProfile[]> = computed(() => Provider.store.getters['medicalProfiles/items']);
     const mounted: Ref<boolean> = ref(false);
     onBeforeMount(async () => {
-      await store.dispatch('medicalProfiles/getAll');
+      const filterQuery = new FilterQuery();
+      filterQuery.pagination.limit = 6;
+      await Provider.store.dispatch('medicalProfiles/getAll', filterQuery);
       setColors();
       mounted.value = true;
     });
@@ -152,7 +154,7 @@ export default defineComponent({
 .main-medical-profiles {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr;
   grid-gap: 30px;
   &-card {
     text-align: center;

@@ -10,9 +10,6 @@
         Вход для пациентов, записанных на прием в КДЦ- с 4-го Добрынинского переулка.<br />
         Вход на территорию больницы для всех остальных- с 1-ого Добрынинского переулка.<br />
         Внимание! Вход всех посетителей в 1А корпус и оформление плановой госпитализации проводится через пункт термометрии.<br /><br />
-        <div class="map-container">
-          <YandexMapComponent />
-        </div>
         <b>Call-центр:</b> +7 (495) 959-88-00, +7 (495) 959-88-03 круглосуточно<br />
         Запись на медицинские услуги также проводится в разделе «Запись на приём»<br />
         Запись на онлайн консультации проводятся в разделе «Телемедицина»<br /><br />
@@ -22,8 +19,14 @@
         <!-- <b>Facebook:</b> morozdgkbdzm<br /> -->
         <!-- <b>Instagram:</b> morozdgkbdzm<br /> -->
         <b>Youtube:</b> youtube.com<br />
-        <b>Вконтакте:</b> vk.com</contacts-data-h4
-      >
+        <b>Вконтакте:</b> vk.com<br />
+        <p>
+          <a :href="'/files/parking.pdf'" download target="_blank">ПРАВИЛА ВЪЕЗДА И ПАРКОВКИ</a>
+        </p>
+      </contacts-data-h4>
+      <div class="map-container">
+        <YandexMapComponent />
+      </div>
     </div>
   </div>
 </template>
@@ -53,7 +56,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .map-container {
-  height: 400px;
+  height: 100%;
   margin: 10px 0 20px 0;
 }
 .container {
@@ -81,6 +84,7 @@ export default defineComponent({
   border: 1px solid #e4e7ed;
   border-radius: 5px;
   padding: 20px;
+  height: 100%;
 }
 
 .contacts-data-h4 {

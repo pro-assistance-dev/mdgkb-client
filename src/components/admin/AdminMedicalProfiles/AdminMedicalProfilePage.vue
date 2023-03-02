@@ -29,9 +29,9 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import MedicalProfile from '@/classes/MedicalProfile';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -64,7 +64,7 @@ export default defineComponent({
     let mounted = ref(false);
     const form = ref();
 
-    const medicalProfile: Ref<IMedicalProfile> = computed(() => store.getters['medicalProfiles/item']);
+    const medicalProfile: Ref<MedicalProfile> = computed(() => store.getters['medicalProfiles/item']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
