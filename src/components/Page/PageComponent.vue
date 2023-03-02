@@ -1,51 +1,38 @@
 <template>
-  <AdaptiveContainer 
-    :menu-width="'300px'" 
-    :background="'#ffffff'" 
-    :is-single="false" 
-    :mobile-width="'1330px'" 
-    :close="close"
-    >
-    <template #menu>
-      <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" @close="(e) => (close = e)" />
-    </template>
+  <div v-if="mounted">
+    <AdaptiveContainer 
+      :menu-width="'300px'" 
+      :mobile-width="'1330px'" 
+      >
+      <template #main v-if="!page.id && !page.pageSideMenus.length" >
+        <CustomPage />
+      </template>
+      <template #menu v-if="page.id && page.pageSideMenus.length" >
+          <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" @close="(e) => (close = e)" />
+      </template>
 
-    <template #icon>
-      <svg class="icon-right-menu">
-        <use xlink:href="#right-menu"></use>
-      </svg>
-    </template>
-    <template #title>
-      {{ page.title }}
-    </template>
-    <template #body>
-      <PageSection
-        :title="selectedMenu.name"
-        :description="selectedMenu.description"
-        :page-sections="selectedMenu.pageSections"
-        :collaps="page.collaps"
-        :show-content="selectedMenu.showContent"
-      />
-    </template>
-  </AdaptiveContainer>
-
-
-  <!-- <div v-if="mounted">
-    <div v-if="page.id && page.pageSideMenus.length" class="page-container">
-      <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" />
-      <div class="content-container">
-        <PageSection
-          :title="selectedMenu.name"
-          :description="selectedMenu.description"
-          :page-sections="selectedMenu.pageSections"
-          :collaps="page.collaps"
-          :show-content="selectedMenu.showContent"
-        />
-        <slot v-for="component in customSections.filter((c) => c.id === selectedMenu.id)" :key="component.id" :name="component.id" />
-      </div>
-    </div>
-    <CustomPage v-else />
-  </div> -->
+      <template #icon v-if="page.id && page.pageSideMenus.length">
+        <svg class="icon-right-menu">
+          <use xlink:href="#right-menu"></use>
+        </svg>
+      </template>
+      <template #title v-if="page.id && page.pageSideMenus.length">
+        <div class="title-in">{{ page.title }}</div>
+      </template>
+      <template #body v-if="page.id && page.pageSideMenus.length">
+        <div class="body-in">
+          <PageSection
+            :title="selectedMenu.name"
+            :description="selectedMenu.description"
+            :page-sections="selectedMenu.pageSections"
+            :collaps="page.collaps"
+            :show-content="selectedMenu.showContent"
+          />
+          <slot v-for="component in customSections.filter((c) => c.id === selectedMenu.id)" :key="component.id" :name="component.id" />
+        </div>
+      </template>
+    </AdaptiveContainer>
+  </div>
   <RightMenu />
 </template>
 
@@ -57,7 +44,7 @@ import Page from '@/classes/page/Page';
 import PageSideMenu from '@/classes/PageSideMenu';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
-import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
+import PageSideMenuComponent from '@/components/Page/PageSideMenuV2.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -79,7 +66,7 @@ export default defineComponent({
       default: () => [],
     },
   },
-  emins: ['selectMenu', 'close'],
+  emins: ['selectMenu'],
   setup(props, {emit}) {
     const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
     const path = computed(() => Provider.route().path);
@@ -104,11 +91,6 @@ export default defineComponent({
       }
     });
     Hooks.onBeforeMount(load);
-
-    // const close = () => {
-    //   emit('close');
-    // };
-
 
     return {
       mounted,
@@ -136,9 +118,6 @@ $card-margin-size: 30px;
   max-width: $content-max-width;
   width: 100%;
 }
-// .is-active {
-//   color: #42a4f5;
-// }
 
 .icon-right-menu {
   width: 32px;
@@ -151,9 +130,18 @@ $card-margin-size: 30px;
   animation-delay: 2s;
 }
 
-// .icon-right-menu:hover {
-//   fill: #22ABE2;
-// }
+.title-in {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 50px);
+  height: calc(100% - 50px);
+  font-size: 24px;
+  color: #343D5C;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  padding: 25px;
+}
 
 @keyframes ripple {
   0% {
@@ -168,6 +156,30 @@ $card-margin-size: 30px;
   .page-container {
     display: block;
     width: 100%;
+  }
+  .title-in {
+    width: calc(100% - 120px);
+    padding: 25px 60px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .title-in {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .title-in {
+    width: calc(100% - 75px);
+    font-size: 16px;
+    padding: 15px 15px 15px 60px;
+  }
+
+  .body-in{
+    max-height: calc(100% - 30px);
+    width: calc(100% - 30px);
+    padding: 15px;
   }
 }
 </style>

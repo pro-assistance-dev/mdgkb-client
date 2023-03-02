@@ -1,18 +1,8 @@
 <template>
-  <div class="side-container">
-    <div class="side-item">
-      <div v-if="mounted" class="card-item">
-        <h4>{{ page.title }}</h4>
-        <el-divider />
-        <el-table :data="page.pageSideMenus" cell-class-name="cell-row" :show-header="false">
-          <el-table-column>
-            <template #default="scope" @click="changeMenu(scope.row.id)">
-              <div class="menu-item" :class="isActive(scope.row.id)" @click="changeMenu(scope.row.id)">
-                {{ scope.row.name }}
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
+  <div v-if="mounted" class="menu">
+    <div v-for ="menu in page.pageSideMenus" :key="menu.id" class="menu-item" >
+      <div class="item-style" :class="isActive(menu.id)" @click="changeMenu(menu.id)">
+        {{ menu.name }}
       </div>
     </div>
   </div>
@@ -35,6 +25,7 @@ export default defineComponent({
   emits: ['selectMenu'],
   setup(props, { emit }) {
     const mounted = ref(false);
+    const close = ref(false);
     const activeMenuId: Ref<string | undefined> = ref('');
     const setMenuFromRoute = () => {
       let menu = Provider.route().query.menu as string;
@@ -42,6 +33,7 @@ export default defineComponent({
     };
 
     const isActive = (id: string): string => {
+      close.value = true;
       return id === activeMenuId.value ? 'is-active' : '';
     };
 
@@ -69,41 +61,36 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/ordinatura.scss';
+@import '@/assets/styles/elements/base-style.scss';
 $side-cotainer-max-width: 300px;
-$card-margin-size: 30px;
+
+.menu {
+  border-radius: $normal-border-radius;
+  border: $normal-border;
+  background: $base-background;
+}
 
 .menu-item {
-  padding: 10px 0;
-}
-
-h4 {
-  margin: 0;
-}
-.el-divider {
-  margin: 10px 0 0;
-}
-:deep(.cell) {
-  padding: 0 !important;
-}
-:deep(.cell-row) {
-  padding: 0 !important;
-  cursor: pointer;
-}
-
-.side-container {
-  display: flex;
-  flex-direction: column;
+  min-width: $side-cotainer-max-width;
   width: 100%;
-  max-width: $side-cotainer-max-width;
-  margin-right: $card-margin-size;
+  cursor: pointer;
+  border-bottom: $normal-border;
+}
 
-  .side-item {
-    margin-bottom: $card-margin-size;
-  }
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item:hover {
+  background: #F0F2F7;
+}
+
+.item-style {
+  padding: 10px 20px;
 }
 
 .is-active {
-  color: #42a4f5;
+  background: #F0F2F7;
 }
+
 </style>

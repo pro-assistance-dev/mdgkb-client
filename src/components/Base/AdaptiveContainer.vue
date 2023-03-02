@@ -1,4 +1,5 @@
 <template>
+  <slot name="main" />
   <div v-if="mounted" class="mainblock">
     <div class="mainblock-left"
       :style="{
@@ -44,11 +45,7 @@
         <slot name="title" />
       </div>
 
-      <div class="body"
-        :style="{
-          background: background,
-        }"
-      >
+      <div class="body">
         <slot name="body" />
       </div>
 
@@ -73,27 +70,16 @@ export default defineComponent({
       required: false,
       default: '0px',
     },
-    background: {
-      type: String as PropType<string>,
-      required: false,
-    },
     mobileWidth: {
       type: String as PropType<string>,
       required: false,
       default: '1330px',
     },
-    close: {
-      type: Boolean as PropType<boolean>,
-      required: true,
-      default: false,
-    }
   },
   setup(props) {
     const mounted = ref(false);
     const collapsed: Ref<boolean> = ref(true);
     const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
-    const temp = ref(props.close);
-
 
     const handClick = () => {
       collapsed.value = !collapsed.value;
@@ -110,7 +96,6 @@ export default defineComponent({
             return mobileWindow.value = window.matchMedia('(max-width: 768px)').matches;
         } return mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches;
       });
-      close();
       mounted.value = true;
     });
 
@@ -148,13 +133,8 @@ export default defineComponent({
   top: 0px;
   left: 0px;
   z-index: 1;
-  border-radius: $normal-border-radius;
-  border: $normal-border;
-  background: $base-background;
   max-height: auto;
-  min-height: 40px;
   transition: 0.3s;
-  background: #343D5C;
 }
 
 .mainblock-right {
@@ -169,12 +149,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 25px 0;
-  font-size: 24px;
-  color: #343D5C;
-  font-family: "Open Sans", sans-serif;
-  font-weight: bold;
-  min-height: 10px;
 }
 
 .icon {
@@ -187,22 +161,10 @@ export default defineComponent({
 }
 
 .body{
-  min-height: 40px;
-  max-height: calc(100% - 50px);
-  width: calc(100% - 50px);
-  padding: 25px;
-  border-radius: $normal-border-radius;
-  border: $normal-border;
+  width: 100%;
 }
 
 
-
-@media screen and (max-width: 1024px) {
-  .title {
-    width: calc(100% - 120px);
-    padding: 25px 60px;
-  }
-}
 @media screen and (max-width: 768px) {
   .title {
     font-size: 20px;
@@ -211,15 +173,7 @@ export default defineComponent({
 
 @media screen and (max-width: 500px) {
   .title {
-    width: calc(100% - 75px);
     font-size: 16px;
-    padding: 15px 15px 15px 60px;
-  }
-
-  .body{
-    max-height: calc(100% - 30px);
-    width: calc(100% - 30px);
-    padding: 15px;
   }
 }
 
