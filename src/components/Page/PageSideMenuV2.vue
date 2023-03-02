@@ -15,7 +15,7 @@ import Page from '@/classes/page/Page';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
-  name: 'PageSideMenu',
+  name: 'PageSideMenuV2',
   props: {
     page: {
       type: Object as PropType<Page>,
