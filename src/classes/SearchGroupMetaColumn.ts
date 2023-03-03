@@ -1,16 +1,11 @@
-import ISearchGroupMetaColumn from '@/interfaces/ISearchGroupMetaColumn';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class SearchGroupMetaColumn implements ISearchGroupMetaColumn {
+export default class SearchGroupMetaColumn {
   id?: string;
   name = '';
   label = '';
 
-  constructor(i?: ISearchGroupMetaColumn) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.label = i.label;
-    this.name = i.name;
+  constructor(i?: SearchGroupMetaColumn) {
+    ClassHelper.BuildClass(this, i);
   }
 }
