@@ -46,7 +46,6 @@ export default defineComponent({
   fill: #406cff;
   transition: 0.25s;
   cursor: pointer;
-  padding: 10px;
   &:hover {
     fill: #133dcc;
   }
@@ -73,9 +72,9 @@ export default defineComponent({
 
   &-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
-    margin: 15px 0;
+    margin: 5px 0;
     color: #2754eb;
     letter-spacing: 1px;
     &-icon {
@@ -83,14 +82,18 @@ export default defineComponent({
       fill: #2754eb;
     }
     &-title {
-      text-align: end;
-      width: 80%;
+      text-align: start;
+      width: 100%;
       font-size: 14px;
       line-height: 1;
+      margin-left: 10px;
     }
   }
   &-content {
-    font-size: 11px;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    max-height: 70px;
+    text-align: justify,;
   }
 }
 </style>
