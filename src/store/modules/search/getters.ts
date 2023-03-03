@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
+import SearchGroup from '@/classes/SearchGroup';
 import SearchModel from '@/classes/SearchModel';
-import ISearchGroup from '@/interfaces/ISearchGroup';
 import RootState from '@/store/types';
 
 import State from './state';
@@ -13,7 +13,7 @@ const getters: GetterTree<State, RootState> = {
   searchModel(state): SearchModel {
     return state.searchModel;
   },
-  searchGroups(state): ISearchGroup[] {
+  searchGroups(state): SearchGroup[] {
     return state.searchGroups;
   },
   count(state): number {
