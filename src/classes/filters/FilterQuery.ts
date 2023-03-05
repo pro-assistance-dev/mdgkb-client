@@ -4,7 +4,7 @@ import FilterModel from '@/classes/filters/FilterModel';
 import Pagination from '@/classes/filters/Pagination';
 import { Operators } from '@/interfaces/filters/Operators';
 
-import SortModel from './SortModel';
+import SortModel from '../../services/classes/SortModel';
 
 export default class FilterQuery {
   id?: string;

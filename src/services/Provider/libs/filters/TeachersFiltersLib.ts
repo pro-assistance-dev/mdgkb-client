@@ -4,8 +4,8 @@ import Teacher from '@/classes/Teacher';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
-import { Orders } from '@/interfaces/filters/Orders';
 import ClassHelper from '@/services/ClassHelper';
+import { Orders } from '@/services/interfaces/Orders';
 import Provider from '@/services/Provider/Provider';
 
 const TeachersFiltersLib = (() => {

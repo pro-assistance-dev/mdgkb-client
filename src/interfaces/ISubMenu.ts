@@ -1,7 +1,7 @@
-import Page from '@/classes/page/Page';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFiler from '@/interfaces/files/IFiler';
 import ICrud from '@/interfaces/shared/ICrud';
+import Page from '@/services/classes/Page';
 import IOrdered from '@/services/interfaces/IOrdered';
 
 export default interface ISubMenu extends IFiler, IOrdered {

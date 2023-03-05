@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import FileInfo from '@/classes/File/FileInfo';
-import Page from '@/classes/page/Page';
 import SubMenu from '@/classes/SubMenu';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import Page from '@/services/classes/Page';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Menu {

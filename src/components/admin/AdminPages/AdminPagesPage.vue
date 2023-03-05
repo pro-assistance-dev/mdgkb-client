@@ -49,10 +49,10 @@ import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
-import Page from '@/classes/page/Page';
 import AdminPageSideMenuDialog from '@/components/admin/AdminPages/AdminPageSideMenuDialog.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
+import Page from '@/services/classes/Page';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';

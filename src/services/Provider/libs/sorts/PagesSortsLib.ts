@@ -1,7 +1,7 @@
-import SortModel from '@/classes/filters/SortModel';
-import Page from '@/classes/page/Page';
-import { Orders } from '@/interfaces/filters/Orders';
+import Page from '@/services/classes/Page';
+import SortModel from '@/services/classes/SortModel';
 import ClassHelper from '@/services/ClassHelper';
+import { Orders } from '@/services/interfaces/Orders';
 
 const PagesSortsLib = (() => {
   const modelName = 'page';

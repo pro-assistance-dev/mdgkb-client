@@ -82,16 +82,16 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-import Page from '@/classes/page/Page';
 import PageSideMenu from '@/classes/PageSideMenu';
 import EditorContent from '@/components/EditorContent.vue';
 import CompetitionComponent from '@/components/Educational/AdmissionCommittee/CompetitionComponent.vue';
 import SelectResidencyCourseForm from '@/components/Educational/AdmissionCommittee/SelectResidencyCourseForm.vue';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
-import { Orders } from '@/interfaces/filters/Orders';
 import IOption from '@/interfaces/schema/IOption';
+import Page from '@/services/classes/Page';
 import Hooks from '@/services/Hooks/Hooks';
+import { Orders } from '@/services/interfaces/Orders';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';

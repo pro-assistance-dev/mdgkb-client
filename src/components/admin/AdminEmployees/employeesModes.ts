@@ -1,8 +1,8 @@
 import Doctor from '@/classes/Doctor';
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Employee from '@/classes/Employee';
-import SortModel from '@/classes/filters/SortModel';
 import Head from '@/classes/Head';
+import SortModel from '@/services/classes/SortModel';
 import { Constructable } from '@/services/ClassHelper';
 import { FilterModelBuilder } from '@/services/interfaces/Filter';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';

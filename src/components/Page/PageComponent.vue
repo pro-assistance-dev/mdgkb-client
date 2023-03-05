@@ -21,12 +21,12 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, PropType, Ref, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 
-import Page from '@/classes/page/Page';
 import PageSideMenu from '@/classes/PageSideMenu';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import ICustomSection from '@/interfaces/ICustomSection';
+import Page from '@/services/classes/Page';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
