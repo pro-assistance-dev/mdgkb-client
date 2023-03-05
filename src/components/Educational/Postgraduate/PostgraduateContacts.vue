@@ -213,15 +213,9 @@ export default defineComponent({
   border-radius: 5px;
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 1344px) {
   .contact-data {
-    margin-right: 10px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .contact-data {
-    margin-right: 10px;
+    margin: 15px 0px;
     min-width: 272px;
     max-width: 100%;
   }
@@ -230,8 +224,15 @@ export default defineComponent({
     justify-content: space-between;
   }
   .map-data {
-    margin: 15px 13px 0 10px;
-    width: calc(100% - 20px);
+    min-width: 272px;
+    max-width: 100%;
+    margin: 15px 0;
+  }
+  .contact-comments {
+    min-width: 272px;
+    max-width: 100%;
+    margin: 15px 0px;
+    padding: 15px;
   }
 }
 </style>
