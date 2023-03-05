@@ -1,6 +1,6 @@
 import { LocationQuery } from 'vue-router';
 
-import { Orders } from '@/interfaces/filters/Orders';
+import { Orders } from '@/services/interfaces/Orders';
 
 export default interface ISortModel {
   id?: string;

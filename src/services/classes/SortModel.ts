@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { LocationQuery } from 'vue-router';
 
 import ISortModel from '@/interfaces/filters/ISortModel';
-import { Orders } from '@/interfaces/filters/Orders';
+import { Orders } from '@/services/interfaces/Orders';
 import StringsService from '@/services/Strings';
 
 export default class SortModel {

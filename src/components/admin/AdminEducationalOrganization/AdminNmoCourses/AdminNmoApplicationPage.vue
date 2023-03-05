@@ -42,14 +42,14 @@ import { useStore } from 'vuex';
 import DpoApplication from '@/classes/DpoApplication';
 import FilterModel from '@/classes/filters/FilterModel';
 import FilterQuery from '@/classes/filters/FilterQuery';
-import SortModel from '@/classes/filters/SortModel';
 import NmoCourse from '@/classes/NmoCourse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Orders } from '@/interfaces/filters/Orders';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import ISchema from '@/interfaces/schema/ISchema';
+import SortModel from '@/services/classes/SortModel';
+import { Orders } from '@/services/interfaces/Orders';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 

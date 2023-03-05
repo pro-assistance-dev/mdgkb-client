@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
-import SortModel from '@/classes/filters/SortModel';
+import SortModel from '@/services/classes/SortModel';
 import RootState from '@/store/types';
 
 import { State } from './state';

@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import Page from '@/classes/page/Page';
+import Page from '@/services/classes/Page';
 import HttpClient from '@/services/HttpClient';
 import getBaseActions from '@/store/baseModule/baseActions';
 import IBasicState from '@/store/baseModule/baseState';

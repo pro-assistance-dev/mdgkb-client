@@ -1,5 +1,5 @@
-import SortModel from '@/classes/filters/SortModel';
-import { Orders } from '@/interfaces/filters/Orders';
+import SortModel from '@/services/classes/SortModel';
+import { Orders } from '@/services/interfaces/Orders';
 import { SortModelBuilder, SortModelBuildersLib } from '@/services/interfaces/Sort';
 
 export default function createSortModels(lib: SortModelBuildersLib, mainOrder?: Orders): SortModel[] {

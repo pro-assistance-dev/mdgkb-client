@@ -3,9 +3,9 @@ import { NavigationGuardNext, RouteLocationNormalizedLoaded } from 'vue-router';
 
 import FilterQuery from '@/classes/filters/FilterQuery';
 import Pagination from '@/classes/filters/Pagination';
-import SortModel from '@/classes/filters/SortModel';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import ISchema from '@/interfaces/schema/ISchema';
+import SortModel from '@/services/classes/SortModel';
 import { IPaginationOptions } from '@/services/Hooks/Hooks';
 import StringsService from '@/services/Strings';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';

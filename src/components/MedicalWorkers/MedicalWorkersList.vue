@@ -28,8 +28,8 @@ import MedicalOrganizationStructureVertical from '@/components/MedicalOrganizati
 import PageWrapper from '@/components/PageWrapper.vue';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import { Operators } from '@/interfaces/filters/Operators';
-import { Orders } from '@/interfaces/filters/Orders';
 import Hooks from '@/services/Hooks/Hooks';
+import { Orders } from '@/services/interfaces/Orders';
 import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
 import HeadsSortsLib from '@/services/Provider/libs/sorts/HeadsSortsLib';
 import Provider from '@/services/Provider/Provider';
