@@ -4,7 +4,7 @@
       <div v-if="mounted" class="card-item">
         <h4>{{ page.title }}</h4>
         <el-divider />
-        <el-table :data="page.pageSideMenus" cell-class-name="cell-row" :show-header="false">
+        <el-table :data="page.getPageSideMenus()" cell-class-name="cell-row" :show-header="false">
           <el-table-column>
             <template #default="scope" @click="changeMenu(scope.row.id)">
               <div class="menu-item" :class="isActive(scope.row.id)" @click="changeMenu(scope.row.id)">

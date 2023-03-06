@@ -6,6 +6,10 @@ import ClassHelper from '@/services/ClassHelper';
 
 export default class ContactInfo {
   id?: string;
+  description = '';
+  time = '';
+  latitude = '';
+  longitude = '';
   @ClassHelper.GetClassConstructor(Email)
   emails: Email[] = [new Email()];
   @ClassHelper.GetClassConstructor(PostAddress)
@@ -40,5 +44,8 @@ export default class ContactInfo {
     if (!this.telephoneNumbers.length) {
       this.telephoneNumbers.push(new TelephoneNumber());
     }
+  }
+  getCoords(): number[] {
+    return [Number(this.latitude), Number(this.longitude)];
   }
 }

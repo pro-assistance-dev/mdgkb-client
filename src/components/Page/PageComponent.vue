@@ -1,24 +1,26 @@
 <template>
   <div v-if="mounted">
     <AdaptiveContainer :menu-width="'300px'" :mobile-width="'1330px'">
-      <template #main v-if="!page.id && !page.pageSideMenus.length">
+      <template  v-if="!page.id && !page.pageSideMenus.length" #main>
         <CustomPage />
       </template>
-      <template #menu v-if="page.id && page.pageSideMenus.length">
+      <template  v-if="page.id && page.pageSideMenus.length" #menu>
         <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" @close="(e) => (close = e)" />
       </template>
 
-      <template #icon v-if="page.id && page.pageSideMenus.length">
+      <template v-if="page.id && page.pageSideMenus.length" #icon>
         <svg class="icon-right-menu">
           <use xlink:href="#right-menu"></use>
         </svg>
       </template>
-      <template #title v-if="page.id && page.pageSideMenus.length">
+      <template v-if="page.id && page.pageSideMenus.length" #title>
         <div class="title-in">{{ page.title }}</div>
       </template>
-      <template #body v-if="page.id && page.pageSideMenus.length">
+      <template v-if="page.id && page.pageSideMenus.length" #body>
         <div class="body-in">
+          <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact-info="page.contactInfo" full />
           <PageSection
+            v-else
             :title="selectedMenu.name"
             :description="selectedMenu.description"
             :page-sections="selectedMenu.pageSections"
@@ -41,6 +43,7 @@ import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenuV2.vue';
+import ContactsBlock from '@/components/ContactsBlock.vue';
 import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -54,6 +57,7 @@ export default defineComponent({
     PageSideMenuComponent,
     PageSection,
     CustomPage,
+    ContactsBlock,
     AdaptiveContainer,
     RightMenu,
   },
