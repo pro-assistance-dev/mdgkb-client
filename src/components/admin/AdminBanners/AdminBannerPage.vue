@@ -15,7 +15,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
         <el-container direction="vertical">
-          <UploaderSingleScanNew 
+          <UploaderSingleScan 
             crop-ratio="1" 
             :file-info="banner.fileInfo"
             :height="150"
@@ -38,14 +38,14 @@ import { useStore } from 'vuex';
 import BannerRules from '@/classes/banners/BannerRules';
 import Division from '@/classes/Division';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
-import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IBanner from '@/services/interfaces/IBanner';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminBannerPage',
-  components: { ImageCropper, UploaderSingleScanNew },
+  components: { ImageCropper, UploaderSingleScan },
 
   setup() {
     const store = useStore();

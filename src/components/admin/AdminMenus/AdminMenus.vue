@@ -34,7 +34,11 @@
           <div v-if="element.editMode" class="menu-card">
             <el-icon class="handle"><Grid /></el-icon>
             <el-input v-model="element.name"></el-input>
-            <UploaderSingleScan :file-info="element.icon" :crop-ratio="false" />
+            <UploaderSingleScan 
+              :file-info="element.icon" 
+              :crop-ratio="false" 
+              @ratio="(e) => (element.ratio = e)"
+            />
             <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeMenu(index)" />
             <el-button type="success" size="medium" icon="el-icon-edit" @click="element.editMode = false" />
           </div>

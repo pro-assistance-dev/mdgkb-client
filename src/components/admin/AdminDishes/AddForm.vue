@@ -26,7 +26,12 @@
           <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
         </el-form-item>
         <el-form-item label="&nbsp;&nbsp;Изображение:" prop="image">
-          <UploaderSingleScan :file-info="dishSample.image" :height="200" :width="200" @remove-file="dishSample.removeImage()" />
+          <UploaderSingleScan 
+            :file-info="dishSample.image" 
+            :height="200"
+            @remove-file="dishSample.removeImage()" 
+            @ratio="(e) => (element.ratio = e)"
+          />
         </el-form-item>
         <div class="button-field">
           <button class="button-cancel" @click.prevent="close">Отмена</button>

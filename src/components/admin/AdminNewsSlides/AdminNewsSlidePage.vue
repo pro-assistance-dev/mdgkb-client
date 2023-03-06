@@ -58,7 +58,12 @@
       </el-card>
       <el-card header="Фон под разные разрешения">
         <el-form-item label="Desktop:" prop="desktopImg.fileSystemPath" :rules="rules.desktopImg">
-          <UploaderSingleScan :file-info="slide.desktopImg" :height="300" :width="1920" />
+          <UploaderSingleScan 
+            :file-info="slide.desktopImg" 
+            :height="300" 
+            :default-ratio="1920/300"
+            @ratio="(e) => (element.ratio = e)"
+            />
         </el-form-item>
         <el-form-item label="Laptop:" prop="laptopImg.fileSystemPath" :rules="rules.laptopImg">
           <UploaderSingleScan :file-info="slide.laptopImg" :height="300" :width="1200" />

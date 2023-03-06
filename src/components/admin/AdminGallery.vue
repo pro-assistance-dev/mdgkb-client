@@ -11,7 +11,7 @@
               Удалить
             </button>
           </div>
-          <UploaderSingleScanNew
+          <UploaderSingleScan
             :file-info="element.fileInfo"
             :height="150"
             :default-ratio="defaultRatio"
@@ -34,13 +34,12 @@ import draggable from 'vuedraggable';
 
 import Move from '@/assets/svg/AdminGallery/Move.svg';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
 import IFiler from '@/interfaces/IFiler';
 import sort from '@/services/sort';
 
 export default defineComponent({
   name: 'AdminGallery',
-  components: { draggable, UploaderSingleScanNew, Move },
+  components: { draggable, UploaderSingleScan, Move },
   emits: ['addImage', 'ratio'],
   props: {
     fileList: {
