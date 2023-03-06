@@ -6,6 +6,7 @@ import PageSection from '@/classes/PageSection';
 import PageSideMenu from '@/classes/PageSideMenu';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPageImage from '@/interfaces/page/IPageImage';
+import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Page {
@@ -16,6 +17,7 @@ export default class Page {
   pagesGroup = 'Без группы';
   link = '';
   withComments = false;
+  showContacts = false;
   collaps = false;
   showContent = false;
   @ClassHelper.GetClassConstructor(PageImage)
@@ -32,6 +34,8 @@ export default class Page {
   pageDocuments: PageDocument[] = [];
   @ClassHelper.GetClassConstructor(PageComment)
   pageComments: PageComment[] = [];
+  contactInfo: ContactInfo = new ContactInfo();
+  contactInfoId?: string;
 
   constructor(i?: Page) {
     ClassHelper.BuildClass(this, i);
@@ -92,5 +96,15 @@ export default class Page {
         this.pageSideMenus.push(menu);
       }
     });
+  }
+
+  getPageSideMenus(): PageSideMenu[] {
+    if (this.showContacts) {
+      const contactSideMenu = new PageSideMenu();
+      contactSideMenu.id = 'contacts';
+      contactSideMenu.name = 'Контакты';
+      this.pageSideMenus.push(contactSideMenu);
+    }
+    return this.pageSideMenus;
   }
 }

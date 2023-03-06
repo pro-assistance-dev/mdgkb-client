@@ -3,7 +3,9 @@
     <div v-if="page.id && page.pageSideMenus.length" class="page-container">
       <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" />
       <div class="content-container">
+        <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact-info="page.contactInfo" full />
         <PageSection
+          v-else
           :title="selectedMenu.name"
           :description="selectedMenu.description"
           :page-sections="selectedMenu.pageSections"
@@ -23,6 +25,7 @@ import { onBeforeRouteLeave } from 'vue-router';
 
 import Page from '@/classes/page/Page';
 import PageSideMenu from '@/classes/PageSideMenu';
+import ContactsBlock from '@/components/ContactsBlock.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
@@ -36,6 +39,7 @@ export default defineComponent({
     PageSideMenuComponent,
     PageSection,
     CustomPage,
+    ContactsBlock,
   },
   props: {
     customSections: {
