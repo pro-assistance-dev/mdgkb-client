@@ -1,6 +1,6 @@
 <template>
   <div v-if="mounted" class="menu">
-    <div v-for ="menu in page.pageSideMenus" :key="menu.id" class="menu-item" >
+    <div v-for="menu in page.getPageSideMenus()" :key="menu.id" class="menu-item">
       <div class="item-style" :class="isActive(menu.id)" @click="changeMenu(menu.id)">
         {{ menu.name }}
       </div>
@@ -82,7 +82,7 @@ $side-cotainer-max-width: 300px;
 }
 
 .menu-item:hover {
-  background: #F0F2F7;
+  background: #f0f2f7;
 }
 
 .item-style {
@@ -90,7 +90,6 @@ $side-cotainer-max-width: 300px;
 }
 
 .is-active {
-  background: #F0F2F7;
+  background: #f0f2f7;
 }
-
 </style>

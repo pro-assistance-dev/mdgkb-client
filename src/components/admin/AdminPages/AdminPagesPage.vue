@@ -15,10 +15,18 @@
             </el-select>
           </el-form-item>
           <el-checkbox v-model="page.withComments"> Включить комментарии </el-checkbox>
+          <el-checkbox v-model="page.showContacts"> Показать контакты </el-checkbox>
           <el-checkbox v-model="page.collaps"> Сделать разделы свернутыми </el-checkbox>
           <WysiwygEditor v-model="page.content" />
         </el-card>
       </el-container>
+      <div v-if="page.showContacts" style="margin-bottom: 20px">
+        <CollapseItem title="Контакты">
+          <template #inside-content>
+            <ContactsForm :contact-info="page.contactInfo" full />
+          </template>
+        </CollapseItem>
+      </div>
       <el-button @click="() => openDialog()"> Добавить меню </el-button>
       <div v-if="page.pageSideMenus.length" class="card-item" style="margin-top: 10px">
         <draggable class="groups" :list="page.pageSideMenus" item-key="id" handle=".el-icon-s-grid" @end="sort(page.pageSideMenus)">
@@ -51,8 +59,10 @@ import draggable from 'vuedraggable';
 
 import Page from '@/classes/page/Page';
 import AdminPageSideMenuDialog from '@/components/admin/AdminPages/AdminPageSideMenuDialog.vue';
+import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
@@ -61,7 +71,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPagesPage',
-  components: { WysiwygEditor, TableButtonGroup, draggable, AdminPageSideMenuDialog },
+  components: { CollapseItem, WysiwygEditor, TableButtonGroup, draggable, AdminPageSideMenuDialog, ContactsForm },
   setup() {
     const form = ref();
     const rules = {
@@ -151,6 +161,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/collapse.scss';
 .el-container {
   .el-card {
     margin-bottom: 20px;
