@@ -15,7 +15,12 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
         <el-container direction="vertical">
-          <UploaderSingleScan crop-ratio="1" :file-info="banner.fileInfo" />
+          <UploaderSingleScanNew 
+            crop-ratio="1" 
+            :file-info="banner.fileInfo"
+            :height="150"
+            @ratio="(e) => (element.ratio = e)"
+          />
         </el-container>
       </el-col>
     </el-row>
@@ -33,14 +38,14 @@ import { useStore } from 'vuex';
 import BannerRules from '@/classes/banners/BannerRules';
 import Division from '@/classes/Division';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import IBanner from '@/interfaces/banners/IBanner';
+import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
+import IBanner from '@/services/interfaces/IBanner';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminBannerPage',
-  components: { ImageCropper, UploaderSingleScan },
+  components: { ImageCropper, UploaderSingleScanNew },
 
   setup() {
     const store = useStore();
@@ -153,5 +158,17 @@ $margin: 20px 0;
 }
 :deep(.el-form-item__label) {
   padding: 0;
+}
+
+:deep(.el-upload--picture-card) {
+  width: 150px;
+  font-size: 50px;
+  margin: 10px;
+}
+
+:deep(.el-upload--picture-card i) {
+  font-size: 50px;
+  color: #00b5a4;
+  padding: 0 54px;
 }
 </style>
