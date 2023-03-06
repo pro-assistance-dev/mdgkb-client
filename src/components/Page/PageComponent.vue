@@ -1,14 +1,11 @@
 <template>
   <div v-if="mounted">
-    <AdaptiveContainer 
-      :menu-width="'300px'" 
-      :mobile-width="'1330px'" 
-      >
-      <template #main v-if="!page.id && !page.pageSideMenus.length" >
+    <AdaptiveContainer :menu-width="'300px'" :mobile-width="'1330px'">
+      <template #main v-if="!page.id && !page.pageSideMenus.length">
         <CustomPage />
       </template>
-      <template #menu v-if="page.id && page.pageSideMenus.length" >
-          <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" @close="(e) => (close = e)" />
+      <template #menu v-if="page.id && page.pageSideMenus.length">
+        <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" @close="(e) => (close = e)" />
       </template>
 
       <template #icon v-if="page.id && page.pageSideMenus.length">
@@ -40,16 +37,16 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, PropType, Ref, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 
-import PageSideMenu from '@/classes/PageSideMenu';
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenuV2.vue';
-import ICustomSection from '@/interfaces/ICustomSection';
-import Page from '@/services/classes/Page';
+import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import AdaptiveContainer from '@/components/Base/AdaptiveContainer.vue';
 import RightMenu from '@/assets/svg/Main/RightMenu.svg';
+import CustomSection from '@/classes/CustomSection';
 
 export default defineComponent({
   name: 'PageComponent',
@@ -62,12 +59,12 @@ export default defineComponent({
   },
   props: {
     customSections: {
-      type: Array as PropType<ICustomSection[]>,
+      type: Array as PropType<CustomSection[]>,
       default: () => [],
     },
   },
   emins: ['selectMenu'],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
     const path = computed(() => Provider.route().path);
     const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
@@ -78,7 +75,7 @@ export default defineComponent({
       await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
       page.value.addCustomSectionsToSideMenu(props.customSections);
       mounted.value = true;
-      emit
+      emit;
     };
 
     let redirect = false;
@@ -122,7 +119,7 @@ $card-margin-size: 30px;
 .icon-right-menu {
   width: 32px;
   height: 32px;
-  fill:#343E5C;
+  fill: #343e5c;
   cursor: pointer;
   stroke: #ffffff;
   animation-name: ripple;
@@ -137,8 +134,8 @@ $card-margin-size: 30px;
   width: calc(100% - 50px);
   height: calc(100% - 50px);
   font-size: 24px;
-  color: #343D5C;
-  font-family: "Open Sans", sans-serif;
+  color: #343d5c;
+  font-family: 'Open Sans', sans-serif;
   font-weight: bold;
   padding: 25px;
 }
@@ -176,7 +173,7 @@ $card-margin-size: 30px;
     padding: 15px 15px 15px 60px;
   }
 
-  .body-in{
+  .body-in {
     max-height: calc(100% - 30px);
     width: calc(100% - 30px);
     padding: 15px;

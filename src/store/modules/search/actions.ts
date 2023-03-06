@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import SearchElement from '@/classes/SearchElement';
-import SearchModel from '@/classes/SearchModel';
+import SearchModel from '@/services/classes/SearchModel';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

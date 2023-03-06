@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import PartnerType from '@/classes/partners/PartnerType';
+import PartnerType from '@/classes/PartnerType';
 import IPartnerType from '@/interfaces/partners/IPartnerType';
 
 import { State } from './state';

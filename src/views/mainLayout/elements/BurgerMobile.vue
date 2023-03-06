@@ -64,7 +64,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Menu from '@/classes/Menu';
+import Menu from '@/services/classes/Menu';
 
 export default defineComponent({
   name: 'BurgerMobile',

@@ -13,7 +13,6 @@ import CustomSection from '@/classes/CustomSection';
 import ResidencyContacts from '@/components/Educational/Residency/ResidencyContacts.vue';
 import ResidencyCourses from '@/components/Educational/Residency/ResidencyCourses.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
-import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
@@ -25,7 +24,7 @@ export default defineComponent({
     ResidencyContacts,
   },
   setup() {
-    const customSections: Ref<ICustomSection[]> = ref([]);
+    const customSections: Ref<CustomSection[]> = ref([]);
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(

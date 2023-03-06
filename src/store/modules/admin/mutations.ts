@@ -1,8 +1,8 @@
 import { ElLoading } from 'element-plus';
 import { MutationTree } from 'vuex';
 
-import AdminButtonParams from '@/classes/admin/AdminButtonParams';
-import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
+import AdminButtonParams from '@/services/classes/admin/AdminButtonParams';
+import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import IPathPermission from '@/interfaces/IPathPermission';

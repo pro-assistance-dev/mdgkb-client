@@ -9,12 +9,11 @@
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
 
-import CustomSection from '@/classes/CustomSection';
 import DpoContacts from '@/components/Educational/Dpo/DpoContacts.vue';
 import DpoCourses from '@/components/Educational/Dpo/DpoCourses.vue';
 import NmoCourses from '@/components/Educational/Dpo/NmoCourses.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
-import ICustomSection from '@/interfaces/ICustomSection';
+import CustomSection from '@/classes/CustomSection';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
@@ -26,7 +25,7 @@ export default defineComponent({
     DpoContacts,
   },
   setup() {
-    const customSections: Ref<ICustomSection[]> = ref([]);
+    const customSections: Ref<CustomSection[]> = ref([]);
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(

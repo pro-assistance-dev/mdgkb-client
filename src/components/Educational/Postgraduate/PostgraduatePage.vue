@@ -18,7 +18,6 @@ import PostgraduateFilters from '@/components/Educational/Postgraduate/Postgradu
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
 
 export default defineComponent({
@@ -33,7 +32,7 @@ export default defineComponent({
   },
 
   setup() {
-    const customSections: Ref<ICustomSection[]> = ref([]);
+    const customSections: Ref<CustomSection[]> = ref([]);
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(

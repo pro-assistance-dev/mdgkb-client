@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import Project from '@/classes/projects/Project';
-import ProjectItem from '@/classes/projects/ProjectItem';
+import Project from '@/classes/Project';
+import ProjectItem from '@/classes/ProjectItem';
 import IProject from '@/interfaces/projects/IProject';
 
 import { State } from './state';

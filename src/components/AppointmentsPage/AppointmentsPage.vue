@@ -65,8 +65,8 @@ import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCale
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 import IAppointment from '@/interfaces/IAppointment';
 import IAppointmentType from '@/interfaces/IAppointmentType';
 import IChild from '@/interfaces/IChild';

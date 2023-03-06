@@ -1,4 +1,4 @@
-import FilterModel from '@/classes/filters/FilterModel';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 
 export type FilterModelBuilder = () => FilterModel;

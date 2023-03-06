@@ -1,8 +1,8 @@
 import { MutationTree } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import FilterQuery from '@/classes/filters/FilterQuery';
-import Pagination from '@/classes/filters/Pagination';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import Pagination from '@/services/classes/filters/Pagination';
 import SortModel from '@/services/classes/SortModel';
 
 import { State } from './state';

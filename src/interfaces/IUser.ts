@@ -8,7 +8,7 @@ import IChild from '@/interfaces/IChild';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IQuestion from '@/interfaces/IQuestion';
-import IRole from '@/interfaces/IRole';
+
 import Human from '@/services/classes/Human';
 
 import ICandidateApplication from './ICandidateApplication';
@@ -34,7 +34,7 @@ export default interface IUser {
   formValues: Form[];
   donorRulesUsers: IDonorRuleUser[];
   doctorsUsers: DoctorUser[];
-  role: IRole;
+  role: Role;
   rejectEmail: boolean;
   roleId?: string;
   hasNewAnswers: () => boolean;

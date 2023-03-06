@@ -12,7 +12,6 @@ import { defineComponent, Ref, ref } from 'vue';
 import CustomSection from '@/classes/CustomSection';
 import StructurePage from '@/components/Educational/Education/StructurePage.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
-import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
@@ -23,7 +22,7 @@ export default defineComponent({
     PageComponent,
   },
   setup() {
-    const customSections: Ref<ICustomSection[]> = ref([]);
+    const customSections: Ref<CustomSection[]> = ref([]);
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(CustomSection.Create('structure', 'Структура и орган управления организацией', 'StructurePage', 1));

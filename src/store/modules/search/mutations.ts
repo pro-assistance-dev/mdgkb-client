@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import SearchGroup from '@/classes/SearchGroup';
-import SearchModel from '@/classes/SearchModel';
+import SearchModel from '@/services/classes/SearchModel';
 
 import State from './state';
 

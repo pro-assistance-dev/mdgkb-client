@@ -79,7 +79,7 @@ import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import ISortModel from '@/interfaces/filters/ISortModel';
+import ISortModel from '@/services/interfaces/ISortModel';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';

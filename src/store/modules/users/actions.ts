@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IFavourite from '@/interfaces/IFavourite';
 import IUser from '@/interfaces/IUser';
 import FavouriteService from '@/services/Favourite';

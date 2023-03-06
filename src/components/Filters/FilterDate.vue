@@ -25,9 +25,9 @@
 import { defineComponent, PropType, Ref, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterPopover from '@/components/Filters/FilterPopover.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
+import { DataTypes } from '@/services/interfaces/DataTypes';
 
 export default defineComponent({
   name: 'FilterSelectForm',

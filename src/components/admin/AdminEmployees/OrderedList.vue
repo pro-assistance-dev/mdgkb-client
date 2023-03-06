@@ -17,8 +17,8 @@ import draggable from 'vuedraggable';
 
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import FileInfo from '@/classes/File/FileInfo';
-import FilterModel from '@/classes/filters/FilterModel';
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Head from '@/classes/Head';
 import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';

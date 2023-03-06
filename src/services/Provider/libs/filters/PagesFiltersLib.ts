@@ -1,7 +1,7 @@
-import FilterModel from '@/classes/filters/FilterModel';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
-import Page from '@/services/classes/Page';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
+import Page from '@/services/classes/page/Page';
 import ClassHelper from '@/services/ClassHelper';
 
 const PagesFiltersLib = (() => {

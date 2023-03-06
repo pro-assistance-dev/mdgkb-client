@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import Partner from '@/classes/partners/Partner';
+import Partner from '@/classes/Partner';
 import IPartner from '@/interfaces/partners/IPartner';
 
 import { State } from './state';

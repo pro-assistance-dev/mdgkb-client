@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
-import NewsSlide from '@/classes/newsSlides/NewsSlide';
-import NewsSlideButton from '@/classes/newsSlides/NewsSlideButton';
+import NewsSlide from '@/classes/NewsSlide';
+import NewsSlideButton from '@/classes/NewsSlideButton';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

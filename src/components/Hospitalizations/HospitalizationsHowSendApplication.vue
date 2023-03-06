@@ -39,7 +39,7 @@
 import { computed, ComputedRef, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
-import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
+import HospitalizationType from '@/classes/HospitalizationType';
 
 export default defineComponent({
   name: 'HospitalizationsHowSendApplication',

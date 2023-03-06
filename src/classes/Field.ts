@@ -1,7 +1,6 @@
-import ValueType from '@/classes/ValueType';
+import ValueType from '@/services/classes/ValueType';
 import IField from '@/interfaces/IField';
 import IMaskToken from '@/interfaces/IMaskToken';
-import IValueType from '@/interfaces/IValueType';
 
 import FileInfo from './File/FileInfo';
 import MaskToken from './MaskToken';
@@ -16,7 +15,7 @@ export default class Field implements IField {
   formId?: string;
   comment = '';
   valueTypeId = '';
-  valueType: IValueType = new ValueType();
+  valueType: ValueType = new ValueType();
   file = new FileInfo();
   fileId?: string;
   required = true;

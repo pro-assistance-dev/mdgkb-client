@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Role from '@/classes/Role';
+import Role from '@/services/classes/Role';
 import RootState from '@/store/types';
 
 import actions from './actions';

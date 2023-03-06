@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import Menu from '@/classes/Menu';
+import Menu from '@/services/classes/Menu';
 import UserService from '@/services/User';
 import RootState from '@/store/types';
 

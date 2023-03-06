@@ -1,12 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IValueType from '@/interfaces/IValueType';
 import RootState from '@/store/types';
 
 import { State } from './state';
+import ValueType from '@/services/classes/ValueType';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IValueType[] {
+  items(state): ValueType[] {
     return state.items;
   },
 };

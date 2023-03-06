@@ -1,5 +1,5 @@
-import IValueType from '@/interfaces/IValueType';
+import ValueType from '@/services/classes/ValueType';
 
 export interface State {
-  items: IValueType[];
+  items: ValueType[];
 }

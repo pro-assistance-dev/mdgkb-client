@@ -32,7 +32,7 @@ import draggable from 'vuedraggable';
 
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
-import IFiler from '@/interfaces/IFiler';
+import IFiler from '@/services/interfaces/IFiler';
 import sort from '@/services/sort';
 
 export default defineComponent({

@@ -108,13 +108,12 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
-import ValueType from '@/classes/ValueType';
+import ValueType from '@/services/classes/ValueType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
-import IValueType from '@/interfaces/IValueType';
 
 export default defineComponent({
   name: 'FormConstructor',
@@ -131,7 +130,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const valueTypes: Ref<IValueType[]> = computed(() => store.getters['valueTypes/items']);
+    const valueTypes: Ref<ValueType[]> = computed(() => store.getters['valueTypes/items']);
     const addField = () => {
       if (props.filesOnly) {
         const fileValueType = valueTypes.value.find((el) => el.isFile());

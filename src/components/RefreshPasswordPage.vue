@@ -8,7 +8,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 
 import User from '@/classes/User';
 import IUser from '@/interfaces/IUser';
-import Page from '@/services/classes/Page';
+import Page from '@/services/classes/page/Page';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'RefreshPasswordPage',

@@ -53,7 +53,7 @@ import { useStore } from 'vuex';
 
 import NewsComment from '@/classes/news/NewsComment';
 import ImageGallery from '@/components/ImageGallery.vue';
-import Page from '@/services/classes/Page';
+import Page from '@/services/classes/page/Page';
 export default defineComponent({
   name: 'CustomPage',
   components: { ImageGallery },

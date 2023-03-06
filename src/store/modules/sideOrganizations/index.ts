@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import SideOrganization from '@/classes/sideOrganization/SideOrganization';
+import SideOrganization from '@/classes/SideOrganization';
 import RootState from '@/store/types';
 
 import actions from './actions';

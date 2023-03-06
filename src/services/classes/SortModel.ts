@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { LocationQuery } from 'vue-router';
 
-import ISortModel from '@/interfaces/filters/ISortModel';
+import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
 import StringsService from '@/services/Strings';
 

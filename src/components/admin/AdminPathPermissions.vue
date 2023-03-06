@@ -81,15 +81,15 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
 import { RouteRecordNormalized } from 'vue-router';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import PathPermission from '@/classes/PathPermission';
-import Role from '@/classes/Role';
+import Role from '@/services/classes/Role';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import ISortModel from '@/interfaces/filters/ISortModel';
+import ISortModel from '@/services/interfaces/ISortModel';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
-import IRole from '@/interfaces/IRole';
+
 import { RoleName } from '@/interfaces/RoleName';
 import ISchema from '@/interfaces/schema/ISchema';
 import Hooks from '@/services/Hooks/Hooks';
@@ -129,10 +129,10 @@ export default defineComponent({
       });
     });
     const searchFilterPathPermissions: Ref<string[]> = ref([]);
-    const roles: ComputedRef<IRole[]> = computed(() => Provider.store.getters['roles/items']);
-    const selectRolesList: ComputedRef<IRole[]> = computed(() => roles.value.filter((role: IRole) => !filteredRoles.value.includes(role)));
-    const filteredRoles: Ref<IRole[]> = ref([]);
-    const chosenRole: Ref<IRole> = ref(new Role());
+    const roles: ComputedRef<Role[]> = computed(() => Provider.store.getters['roles/items']);
+    const selectRolesList: ComputedRef<Role[]> = computed(() => roles.value.filter((role: Role) => !filteredRoles.value.includes(role)));
+    const filteredRoles: Ref<Role[]> = ref([]);
+    const chosenRole: Ref<Role> = ref(new Role());
     const permissions: Ref<IPathPermission[]> = ref([]);
     const filterQuery: ComputedRef<FilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
     const schema: Ref<ISchema> = computed(() => Provider.store.getters['meta/schema']);
@@ -159,7 +159,7 @@ export default defineComponent({
       await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
       // await Provider.store.dispatch('auth/getAllPathPermissions');
       await Provider.store.dispatch('roles/getAll');
-      filteredRoles.value = roles.value.filter((role: IRole) => role.name === RoleName.User);
+      filteredRoles.value = roles.value.filter((role: Role) => role.name === RoleName.User);
       permissions.value = paths.map((path: RouteRecordNormalized) => {
         let permission = clientPermissions.value.find((p: IPathPermission) => p.resource === path.path);
         if (permission) {

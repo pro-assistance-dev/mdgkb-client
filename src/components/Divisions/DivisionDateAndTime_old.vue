@@ -52,8 +52,8 @@ import { Calendar } from 'v-calendar';
 import { computed, defineComponent, PropType, ref } from 'vue';
 
 import Division from '@/classes/Division';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

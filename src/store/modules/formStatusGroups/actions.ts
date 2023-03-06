@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IFormStatusGroupsWithCount from '@/interfaces/IFormStatusGroupsWithCount';
 import HttpClient from '@/services/HttpClient';

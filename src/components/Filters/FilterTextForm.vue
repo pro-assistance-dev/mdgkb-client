@@ -25,11 +25,11 @@
 import { defineComponent, PropType, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import OperatorsTextOptions from '@/classes/filters/OperatorsTextOptions';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import OperatorsTextOptions from '@/services/classes/filters/OperatorsTextOptions';
 import FilterPopover from '@/components/Filters/FilterPopover.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({

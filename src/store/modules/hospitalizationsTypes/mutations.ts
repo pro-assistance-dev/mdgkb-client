@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
+import HospitalizationType from '@/classes/HospitalizationType';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { State } from './index';

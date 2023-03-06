@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import RootState from '@/store/types';
 
 import getters from './getters';

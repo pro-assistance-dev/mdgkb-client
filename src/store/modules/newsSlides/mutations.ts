@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import NewsSlide from '@/classes/newsSlides/NewsSlide';
-import NewsSlideButton from '@/classes/newsSlides/NewsSlideButton';
+import NewsSlide from '@/classes/NewsSlide';
+import NewsSlideButton from '@/classes/NewsSlideButton';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { State } from './state';

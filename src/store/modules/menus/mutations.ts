@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import Menu from '@/classes/Menu';
-import SubMenu from '@/classes/SubMenu';
+import Menu from '@/services/classes/Menu';
+import SubMenu from '@/services/classes/SubMenu';
 import UserService from '@/services/User';
 
 import { getDefaultState } from '.';

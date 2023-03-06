@@ -1,4 +1,4 @@
-import Page from '@/services/classes/Page';
+import Page from '@/services/classes/page/Page';
 import SortModel from '@/services/classes/SortModel';
 import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';

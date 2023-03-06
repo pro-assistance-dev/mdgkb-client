@@ -1,7 +1,7 @@
 import { mount, VueWrapper } from '@vue/test-utils';
 import { ComponentPublicInstance } from 'vue';
 
-import Comment from '@/classes/comments/Comment';
+import Comment from '@/classes/Comment';
 import Question from '@/classes/Question';
 import ProfileCommentCard from '@/components/Profile/ProfileCommentCard.vue';
 import IComment from '@/interfaces/comments/IComment';

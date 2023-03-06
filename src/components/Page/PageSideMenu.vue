@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import Page from '@/services/classes/Page';
+import Page from '@/services/classes/page/Page';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

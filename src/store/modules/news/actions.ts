@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import INewsWithCount from '@/interfaces/INewsWithCount';
 import IEventApplication from '@/interfaces/news/IEventApplication';

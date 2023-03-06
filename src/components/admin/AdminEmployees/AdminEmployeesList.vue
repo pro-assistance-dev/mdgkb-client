@@ -70,7 +70,7 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import EducationalAcademic from '@/classes/EducationalAcademic';
-import FilterModel from '@/classes/filters/FilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import Head from '@/classes/Head';
 import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
 import OrderedList from '@/components/admin/AdminEmployees/OrderedList.vue';

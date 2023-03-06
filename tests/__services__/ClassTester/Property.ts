@@ -1,4 +1,4 @@
-import { DynamicClass } from '@/classes/ClassesStore';
+import { DynamicClass } from '@/services/classes/ClassesStore';
 
 import EmptyVariables from '../../__mocks__/EmptyVariables';
 import TestVariables from '../../__mocks__/TestVariables';

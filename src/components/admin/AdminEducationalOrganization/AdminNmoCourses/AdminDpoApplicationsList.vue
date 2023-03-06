@@ -45,12 +45,12 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 
 import DpoApplication from '@/classes/DpoApplication';
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
 // import FiltersList from '@/components/Filters/FiltersList.vue';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import IFormStatus from '@/interfaces/IFormStatus';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
