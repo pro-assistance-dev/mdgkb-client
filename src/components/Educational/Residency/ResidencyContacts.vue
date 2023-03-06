@@ -1,47 +1,49 @@
 <template>
   <div v-if="mounted" class="flex">
-    <div class="contact-data">
-      <div class="contact-data-list-item">
-        <div class="contact-h3">
-          <div class="item">
-            <svg class="icon-time">
-              <use xlink:href="#time"></use>
-            </svg>
-          </div>
-          <div class="item">Пн-Пт, с 9:00 до 17:00</div>
-        </div>
-      </div>
-      <div class="contact-data-list-item">
-        <div class="contact-h3">
-          <div class="item">
-            <svg class="icon-map-marker">
-              <use xlink:href="#map-marker"></use>
-            </svg>
-          </div>
-          <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 11, 2 этаж Отдел постдипломного образования, кабинет № 5</div>
-        </div>
-      </div>
-      <div class="contact-data-list-item">
-        <div class="contact-h3">
-          <div class="item">
-            <svg class="icon-phone">
-              <use xlink:href="#phone"></use>
-            </svg>
-          </div>
-          <div class="item">
-            +7 (495) 959-88-01<br />
-            доб. 11-36 Ординатура
+    <div>
+      <div class="contact-data">
+        <div class="contact-data-list-item">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-time">
+                <use xlink:href="#time"></use>
+              </svg>
+            </div>
+            <div class="item">Пн-Пт, с 9:00 до 17:00</div>
           </div>
         </div>
-      </div>
-      <div class="contact-data-list-item">
-        <div class="contact-h3">
-          <div class="item">
-            <svg class="icon-email">
-              <use xlink:href="#email"></use>
-            </svg>
+        <div class="contact-data-list-item">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-map-marker">
+                <use xlink:href="#map-marker"></use>
+              </svg>
+            </div>
+            <div class="item">Москва, 4-й Добрынинский переулок 1/9 корпус 11, 2 этаж Отдел постдипломного образования, кабинет № 5</div>
           </div>
-          <div class="item">pdo@morozdgkb.ru</div>
+        </div>
+        <div class="contact-data-list-item">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-phone">
+                <use xlink:href="#phone"></use>
+              </svg>
+            </div>
+            <div class="item">
+              +7 (495) 959-88-01<br />
+              доб. 11-36 Ординатура
+            </div>
+          </div>
+        </div>
+        <div class="contact-data-list-item">
+          <div class="contact-h3">
+            <div class="item">
+              <svg class="icon-email">
+                <use xlink:href="#email"></use>
+              </svg>
+            </div>
+            <div class="item">pdo@morozdgkb.ru</div>
+          </div>
         </div>
       </div>
       <div class="contact-comments">Предварительный заказ пропуска по телефону обязателен!</div>
@@ -226,15 +228,9 @@ export default defineComponent({
   height: 600px;
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 1344px) {
   .contact-data {
-    margin-right: 10px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .contact-data {
-    margin-right: 10px;
+    margin: 15px 0px;
     min-width: 272px;
     max-width: 100%;
   }
@@ -243,8 +239,16 @@ export default defineComponent({
     justify-content: space-between;
   }
   .map-data {
-    margin: 15px 13px 0 10px;
-    width: calc(100% - 20px);
+    min-width: 272px;
+    max-width: 100%;
+    margin: 15px 0;
+  }
+  .contact-comments {
+    min-width: 272px;
+    max-width: 100%;
+    margin: 15px 0px;
+    padding: 15px;
   }
 }
+
 </style>

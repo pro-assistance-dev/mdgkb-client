@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
+import SearchElement from '@/classes/SearchElement';
 import SearchModel from '@/classes/SearchModel';
-import ISearchElement from '@/interfaces/ISearchElement';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -13,7 +13,7 @@ const actions: ActionTree<State, RootState> = {
   search: async ({ commit }, searchModel: SearchModel): Promise<void> => {
     const item = await httpClient.get<SearchModel>({ query: `?searchModel=${searchModel.toUrl()}` });
     if (item) {
-      item.searchGroup.options.forEach((opt: ISearchElement) => {
+      item.searchGroup.options.forEach((opt: SearchElement) => {
         searchModel.searchObjects.push({ id: opt.id, value: opt.value, label: opt.label, description: opt.description });
       });
     }
@@ -24,7 +24,10 @@ const actions: ActionTree<State, RootState> = {
   full: async ({ commit }, searchModel: SearchModel): Promise<void> => {
     commit('setSearchModel', await httpClient.get<SearchModel>({ query: `full?searchModel=${searchModel.toUrl()}` }));
   },
-  searchGroups: async ({ commit }): Promise<void> => {
+  searchGroups: async ({ commit, state }): Promise<void> => {
+    if (state.searchModel.searchGroups.length > 0) {
+      return;
+    }
     commit('setSearchGroups', await httpClient.get<SearchModel>({ query: `search-groups` }));
   },
 };

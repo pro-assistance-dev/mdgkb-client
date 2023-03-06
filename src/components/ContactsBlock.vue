@@ -52,6 +52,9 @@
               <div v-for="email in contactInfo.emails" :key="email.id" class="item">
                 {{ email.address }} <span v-if="email.description">: {{ email.description }} </span>
               </div>
+              <div v-for="webSite in contactInfo.websites" :key="webSite.id" class="item">
+                {{ webSite.address }} <span v-if="webSite.description">: {{ webSite.description }} </span>
+              </div>
             </div>
           </div>
         </div>

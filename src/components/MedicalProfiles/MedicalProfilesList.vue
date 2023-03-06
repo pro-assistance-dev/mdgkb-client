@@ -27,11 +27,11 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
+import MedicalProfile from '@/classes/MedicalProfile';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'MainMedicalProfiles',
@@ -40,12 +40,11 @@ export default defineComponent({
     HelpProfileIcon,
   },
   setup() {
-    const store = useStore();
-    const medicalProfiles: ComputedRef<IMedicalProfile[]> = computed(() => store.getters['medicalProfiles/items']);
+    const medicalProfiles: ComputedRef<MedicalProfile[]> = computed(() => Provider.store.getters['medicalProfiles/items']);
     const mounted: Ref<boolean> = ref(false);
     const filter = ref('');
     onBeforeMount(async () => {
-      await store.dispatch('medicalProfiles/getAll');
+      await Provider.store.dispatch('medicalProfiles/getAll');
       setColors();
       mounted.value = true;
     });
@@ -62,9 +61,9 @@ export default defineComponent({
       return `/src/assets/medicine/${i + 1}.webp`;
     };
 
-    const list = computed((): IMedicalProfile[] => {
+    const list = computed((): MedicalProfile[] => {
       if (filter.value) {
-        return medicalProfiles.value.filter((i: IMedicalProfile) => {
+        return medicalProfiles.value.filter((i: MedicalProfile) => {
           if (i.name) return i.name.toLowerCase().includes(filter.value.toLowerCase());
         });
       } else {

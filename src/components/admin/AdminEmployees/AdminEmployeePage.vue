@@ -391,17 +391,16 @@ $margin: 20px 0;
 }
 
 .status-panel {
-  position: relative;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%); 
+  z-index: 1;
   height: 190px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 300px;
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
   background: #dff2f8;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;

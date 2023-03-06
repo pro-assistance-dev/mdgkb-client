@@ -23,9 +23,20 @@
       </ul>
     </div>
   </div>
+  <el-pagination
+    style="margin: 10px 0"
+    :current-page="curPage"
+    background
+    layout="prev, pager, next"
+    :page-count="pageCount"
+    @current-change="pageChange"
+  />
   <div class="search-result">
     <div v-for="result in results" :key="result.value">
-      <div class="search-result-title" @click="$router.push(result.route)" v-html="result.label.substring(0, 100)"></div>
+      <div class="search-result-title">
+        <span @click="$router.push(result.route)">{{ result.label.substring(0, 100) }}</span>
+        <el-tag>{{ searchTags[result.key] }}</el-tag>
+      </div>
       <div class="search-result-meta">
         {{ result.searchGroup.label }}
         <template v-for="meta in result.searchElementMetas" :key="meta.value">
@@ -41,10 +52,11 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
+import SearchElement from '@/classes/SearchElement';
 import SearchModel from '@/classes/SearchModel';
-import ISearchElement from '@/interfaces/ISearchElement';
+import Provider from '@/services/Provider/Provider';
+import StringsService from '@/services/Strings';
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({
@@ -54,24 +66,28 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
     const searchInput = ref();
     const searchString: Ref<string> = ref('');
     let groups: Ref<string[]> = ref([]);
     const router = useRouter();
-    const results: Ref<ISearchElement[]> = ref([]);
-
-    const searchModel: Ref<SearchModel> = computed<SearchModel>(() => store.getters['search/searchModel']);
-    const isDrawerOpen: ComputedRef<boolean> = computed<boolean>(() => store.getters['search/isSearchDrawerOpen']);
-
+    const results: Ref<SearchElement[]> = ref([]);
+    const curPage: Ref<number> = ref(0);
+    const searchTags: Record<string, string> = { doctor: 'Доктор', paidService: 'Платная услуга', division: 'Отделение' };
+    const searchModel: Ref<SearchModel> = computed<SearchModel>(() => Provider.store.getters['search/searchModel']);
+    const isDrawerOpen: ComputedRef<boolean> = computed<boolean>(() => Provider.store.getters['search/isSearchDrawerOpen']);
+    const pageCount: ComputedRef<number> = computed(() =>
+      Math.ceil(searchModel.value.count / searchModel.value.pagination.limit) > 0
+        ? Math.ceil(searchModel.value.count / searchModel.value.pagination.limit)
+        : 1
+    );
     const openDrawer = () => {
       searchInput.value.inputRef.focus();
     };
 
-    const closeDrawer = () => store.commit('search/toggleDrawer', false);
+    const closeDrawer = () => Provider.store.commit('search/toggleDrawer', false);
 
     onBeforeMount(async () => {
-      await store.dispatch('search/searchGroups');
+      await Provider.store.dispatch('search/searchGroups');
       await searchModel.value.reproduceFromRoute();
       await search();
       // await selectSearchGroup(undefined);
@@ -81,7 +97,7 @@ export default defineComponent({
       searchModel.value.query = '';
     });
     const handleSelect = async (link: string) => {
-      store.commit('search/toggleDrawer', false);
+      Provider.store.commit('search/toggleDrawer', false);
       await router.push(link);
     };
     const changeFilter = (searchGroupIds: string[]) => {
@@ -98,12 +114,24 @@ export default defineComponent({
     const search = async () => {
       searchModel.value.options = [];
       searchModel.value.searchGroup.options = [];
-      await store.dispatch('search/full', searchModel.value);
+      searchModel.value.query = StringsService.translit(searchModel.value.query);
+      await Provider.store.dispatch('search/full', searchModel.value);
       results.value = searchModel.value.searchGroup.options;
       results.value = searchModel.value.options;
     };
 
+    const pageChange = async (pageNum: number) => {
+      searchModel.value.pagination.limit = 20;
+      searchModel.value.pagination.offset = (pageNum - 1) * searchModel.value.pagination.limit;
+      await search();
+      curPage.value = pageNum;
+    };
+
     return {
+      searchTags,
+      pageCount,
+      curPage,
+      pageChange,
       results,
       search,
       selectSearchGroup,

@@ -100,7 +100,10 @@ export default defineComponent({
       return [];
     };
 
+    const update = async (division: Division) => await Provider.store.dispatch('divisions/update', division);
+
     return {
+      update,
       divisions,
       edit,
       remove,

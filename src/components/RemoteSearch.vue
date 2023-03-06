@@ -25,11 +25,11 @@
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import FilterModel from '@/classes/filters/FilterModel';
+import SearchGroup from '@/classes/SearchGroup';
 import SearchModel from '@/classes/SearchModel';
 import { DataTypes } from '@/interfaces/filters/DataTypes';
 import IFilterModel from '@/interfaces/filters/IFilterModel';
 import { Operators } from '@/interfaces/filters/Operators';
-import ISearchGroup from '@/interfaces/ISearchGroup';
 import ISearch from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
@@ -89,7 +89,7 @@ export default defineComponent({
       searchModel.value.searchObjects = [];
       searchModel.value.query = StringsService.translit(query);
       searchModel.value.mustBeTranslated = props.mustBeTranslated;
-      const groupForSearch = searchModel.value.searchGroups.find((group: ISearchGroup) => group.key === props.keyValue);
+      const groupForSearch = searchModel.value.searchGroups.find((group: SearchGroup) => group.key === props.keyValue);
       if (groupForSearch) {
         searchModel.value.searchGroup = groupForSearch;
       }

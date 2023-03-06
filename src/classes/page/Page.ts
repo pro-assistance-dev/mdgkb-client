@@ -99,7 +99,7 @@ export default class Page {
   }
 
   getPageSideMenus(): PageSideMenu[] {
-    if (this.showContacts) {
+    if (this.showContacts && !this.pageSideMenus.find((el) => el.id === 'contacts')) {
       const contactSideMenu = new PageSideMenu();
       contactSideMenu.id = 'contacts';
       contactSideMenu.name = 'Контакты';

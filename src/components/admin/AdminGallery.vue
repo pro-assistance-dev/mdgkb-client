@@ -20,9 +20,7 @@
           />
         </div>
         <div class="item-description">
-          <el-form-item class="hidden">
-            <el-input v-model="element.description" placeholder="..." />
-          </el-form-item>
+          <input class="item-description-form" v-model="element.description" placeholder="..." />
         </div>
       </div>
     </template>
@@ -71,169 +69,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
 
-:deep(.el-upload) {
-  width: auto;
-  height: auto;
-  background: white;
-  text-align: center;
-  line-height: auto;
-}
-
-:deep(.el-upload-list__item) {
-  width: auto;
-  height: auto;
-}
-
-:deep(.el-upload-list__item-thumbnail) {
-  width: auto;
-  height: auto;
-}
-
-:deep(.el-upload-list__item) {
-  transition: unset;
-}
-
-:deep(.el-dialog__body) {
-  margin: 0px;
-  padding: 10px 0 1px 0;
-}
-
-:deep(.el-dialog) {
-  overflow: hidden;
-}
-
-:deep(.el-form--label-top .el-form-item) {
-  display: flex;
-}
-
-:deep(.el-form-item__content) {
-  width: 100%;
-  height: 28px;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-:deep(.el-input__inner) {
-  border-radius: 40px;
-  padding-left: 25px;
-  height: 20px;
-  width: 270px;
-  display: flex;
-  font-family: Comfortaa, Arial, Helvetica, sans-serif;
-  font-size: 15px;
-  padding-left: 20px;
-  margin: 0px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-:deep(.el-input__inner::placeholder) {
-  color: #a3a9be;
-}
-
-:deep(.el-select .el-input .el-select__caret) {
-  color: #343e5c;
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 5px;
-  margin-top: 4px;
-}
-
-:deep(.el-input__prefix) {
-  left: 230px;
-  top: -3px;
-}
-
-:deep(.el-date-editor.el-input, .el-date-editor.el-input__inner) {
-  width: 100%;
-}
-
-:deep(.el-input__icon) {
-  color: #343e5c;
-}
-
-:deep(.el-input__suffix) {
-  top: -3px;
-}
-
-:deep(.el-form-item__label) {
-  font-size: 12px;
-  color: #a3a9be;
-  padding: 0 !important;
-  text-transform: uppercase;
-  margin-left: 5px;
-  height: 30px;
-}
-
-:deep(.el-input__prefix) {
-  left: auto;
-  right: 10px;
-}
-
-:deep(.el-form-item) {
-  margin-bottom: 0px;
-}
-
-:deep(.el-checkbox__input) {
-  margin-left: 24px;
-}
-
-:deep(.el-form) {
-  padding: 0;
-}
-
-:deep(.el-select .el-input .el-select__caret) {
-  color: #343e5c;
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 5px;
-  margin-top: 1px;
-}
-
-:deep(.el-select .el-input .el-select__caret.el-icon-circle-close) {
-  height: 40px;
-}
-
-:deep(.el-select .el-input__suffix) {
-  top: -3px;
-}
-
-:deep(.el-input-number__increase) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
-:deep(.el-input-number__decrease) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-}
-
-:deep(.el-upload--picture-card) {
-  width: 150px;
-  font-size: 50px;
-  margin: 10px;
-}
-
-:deep(.el-upload--picture-card i) {
-  font-size: 50px;
-  color: #00b5a4;
-  padding: 0 54px;
-}
-
 .groups {
   width: 100%;
   max-height: 50vh;
@@ -273,8 +108,21 @@ export default defineComponent({
   visibility: visible;
 }
 
-.hidden {
-  height: 30px;
+.item-description-form {
+  height: 18px;
+  border: $normal-darker-border;
+  border-radius: 10px;
+  width: 250px;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  padding: 0 0 0 15px;
+  margin: 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  outline: none;
+  color: #4A4A4A;
 }
 
 .item:hover > .item-tools {
@@ -297,16 +145,18 @@ export default defineComponent({
 }
 
 .item-description {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 30px;
+  height: 28px;
   background: #f9fafb;
   border-bottom-left-radius: $normal-border-radius;
   border-bottom-right-radius: $normal-border-radius;
   border-top: $normal-darker-border;
-  cursor: pointer;
-  transition: 0.3s;
+  width: 100%;
 }
 
 @keyframes ripple {

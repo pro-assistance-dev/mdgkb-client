@@ -1,5 +1,5 @@
 <template>
-  <HeaderInfo :left-width="'330px'" :background="'#ffffff'" :is-single="false">
+  <HeaderInfo :left-width="leftWidth" :background="'#ffffff'" :is-single="false">
     <template #foto>
       <ChiefCard
         :employee="division.chief.employee"
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref, Ref } from 'vue';
 
 import Attention from '@/assets/svg/DivisionCard/Attention.svg';
 import CreditCard from '@/assets/svg/DivisionCard/CreditCard.svg';
@@ -85,9 +85,17 @@ export default defineComponent({
   props: {
     division: { type: Object as PropType<Division>, required: true },
   },
+  setup (props) {
+    const leftWidth: Ref<String> = ref('330px');
+
+    if (!props.division.chief.id) {
+      leftWidth.value = '0px';
+    }
+    return { leftWidth };
+  }
 });
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/division-info.scss';
+  @import '@/assets/styles/elements/division-info.scss';
 </style>

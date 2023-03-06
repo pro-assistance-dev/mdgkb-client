@@ -1,17 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IMedicalProfile[] {
-    return state.items;
-  },
-  item(state): IMedicalProfile {
-    return state.item;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

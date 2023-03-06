@@ -1,16 +1,15 @@
 import Division from '@/classes/Division';
-import IMedicalProfile from '@/interfaces/IMedicalProfile';
-import IMedicalProfileDivision from '@/interfaces/IMedicalProfileDivision';
+import MedicalProfile from '@/classes/MedicalProfile';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class MedicalProfileDivision implements IMedicalProfileDivision {
+export default class MedicalProfileDivision {
   id?: string;
   medicalProfileId?: string;
-  medicalProfile?: IMedicalProfile;
-  division?: Division;
+  medicalProfile?: MedicalProfile;
+  division = new Division();
   divisionId?: string;
 
-  constructor(i?: IMedicalProfileDivision) {
+  constructor(i?: MedicalProfileDivision) {
     ClassHelper.BuildClass(this, i);
   }
 }
