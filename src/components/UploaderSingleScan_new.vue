@@ -224,4 +224,16 @@ export default defineComponent({
   justify-content: center;
   width: auto;
 }
+
+:deep(.el-upload--picture-card) {
+  width: 150px;
+  font-size: 50px;
+  margin: 10px;
+}
+
+:deep(.el-upload--picture-card i) {
+  font-size: 50px;
+  color: #00b5a4;
+  padding: 0 54px;
+}
 </style>

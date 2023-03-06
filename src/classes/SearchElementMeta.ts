@@ -1,13 +1,9 @@
-import ISearchElementMeta from '@/interfaces/ISearchElementMeta';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class SearchElementMeta implements ISearchElementMeta {
+export default class SearchElementMeta {
   name = '';
   value = '';
-  constructor(i?: ISearchElementMeta) {
-    if (!i) {
-      return;
-    }
-    this.name = i.value;
-    this.value = i.value;
+  constructor(i?: SearchElementMeta) {
+    ClassHelper.BuildClass(this, i);
   }
 }

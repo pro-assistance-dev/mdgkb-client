@@ -113,7 +113,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
+
 .dialog-footer {
   margin-top: 20px;
   display: flex;
@@ -144,6 +146,49 @@ export default defineComponent({
 }
 
 .line-block {
-  width: 260px;
+  width: 280px;
 }
+
+:deep(.el-input__inner) {
+  border-radius: 40px;
+  padding-left: 15px;
+  height: 32px;
+  width: 270px;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+:deep(.el-form-item__label) {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-size: 12px;
+  color: #a3a9be;
+  padding: 0 !important;
+  text-transform: uppercase;
+  margin-left: 5px;
+  height: 40px;
+}
+
+
+:deep(.el-select .el-input .el-select__caret) {
+  color: #343e5c;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-top: 1px;
+}
+
+:deep(.el-select .el-input .el-select__caret.el-icon-circle-close) {
+  height: 40px;
+}
+
+:deep(.el-select .el-input__suffix) {
+  top: -3px;
+}
+
 </style>
+
+
+

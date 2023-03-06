@@ -105,7 +105,7 @@
                 </thead>
                 <tbody>
                   <template v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-                    <td colspan="5" style="background: #f1f2f7">
+                    <td colspan="6" style="background: #f1f2f7">
                       <div class="schedule-name">
                         <div class="table-tools">
                           <svg
