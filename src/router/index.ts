@@ -54,7 +54,18 @@ export const isAuthorized = (next: NavigationGuardNext): void => {
   next();
 };
 
-export const authGuard = (): void => {
+export const authGuard = (next?: NavigationGuardNext): void => {
+  if (next) {
+    const isAuth: boolean = store.getters['auth/isAuth'];
+    store.commit('auth/showWarning', true);
+    store.commit('auth/authOnly', true);
+    if (!isAuth) {
+      store.commit('auth/openModal', 'login');
+    }
+    next();
+    return;
+  }
+
   if (!TokenService.isAuth()) {
     router.push('/');
   }
@@ -216,16 +227,25 @@ const routes: Array<RouteRecordRaw> = [
     path: '/bufet',
     name: 'BufetPage',
     component: BufetWrapper,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard(next);
+    },
   },
   {
     path: '/bufet/cart',
     name: 'BufetCart',
     component: BufetWrapper,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard(next);
+    },
   },
   {
     path: '/bufet/order',
     name: 'BufetOrder',
     component: BufetWrapper,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard(next);
+    },
   },
   {
     path: '/screening',

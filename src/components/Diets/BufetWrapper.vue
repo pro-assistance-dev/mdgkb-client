@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, defineComponent, h, Ref } from 'vue';
+import { computed, ComputedRef, defineComponent, h, onBeforeUnmount, Ref } from 'vue';
 
 import BufetCart from '@/components/Diets/BufetCart.vue';
 import BufetOrder from '@/components/Diets/BufetOrder.vue';
@@ -23,6 +23,7 @@ export default defineComponent({
   setup() {
     const dailyMenu: Ref<IDailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
 
     const load = async () => {
       await Provider.store.dispatch('dailyMenus/updateTodayMenu');

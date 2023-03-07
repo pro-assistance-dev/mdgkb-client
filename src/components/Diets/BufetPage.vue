@@ -3,7 +3,7 @@
     <div class="bufet-header">
       <div class="header-top">
         <div class="header-right">
-          <svg class="icon-cart" @click="$router.push('/bufet/cart')">
+          <svg class="icon-cart" @click="openCart">
             <use xlink:href="#cart" />
           </svg>
           <div class="sup">
@@ -33,8 +33,8 @@
         </div>
       </template>
     </div>
-    <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer" @click="$router.push('/bufet/cart')">
-      <button class="add-to-card" @click="$router.push('/bufet/cart')">В корзину</button>
+    <div v-if="dailyMenuOrder.dailyMenuOrderItems.length > 0" class="footer" @click="openCart">
+      <button class="add-to-card">В корзину</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
         <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
@@ -45,6 +45,7 @@
 </template>
 
 <script lang="ts">
+import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
@@ -91,6 +92,17 @@ export default defineComponent({
       dishesGroups.value = dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0);
     };
 
+    const openCart = () => {
+      if (!dailyMenuOrder.value.dailyMenuOrderItems.length) {
+        ElMessage({
+          message: 'Необходимо выбрать блюдо',
+          type: 'warning',
+        });
+        return;
+      }
+      Provider.router.push('/bufet/cart');
+    };
+
     Hooks.onBeforeMount(load);
 
     return {
@@ -101,6 +113,7 @@ export default defineComponent({
       dailyMenus,
       mounted: Provider.mounted,
       schema: Provider.schema,
+      openCart,
     };
   },
 });
@@ -274,6 +287,7 @@ input[type='text'] {
   background: inherit;
   color: #ffffff;
   font-size: 16px;
+  cursor: pointer;
 }
 
 .field1 {
