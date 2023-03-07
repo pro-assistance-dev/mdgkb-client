@@ -1,4 +1,4 @@
-import { IBodilessParams, IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
+import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import axiosInstance from '@/services/Axios';
 import TokenService from '@/services/Token';

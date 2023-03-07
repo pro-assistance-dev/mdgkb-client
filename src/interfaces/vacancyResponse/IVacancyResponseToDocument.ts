@@ -1,4 +1,4 @@
-import PageSectionDocument from '@/classes/PageSectionDocument';
+import PageSectionDocument from '@/services/classes/page/PageSectionDocument';
 
 export default interface IVacancyResponseToDocument {
   id?: string;

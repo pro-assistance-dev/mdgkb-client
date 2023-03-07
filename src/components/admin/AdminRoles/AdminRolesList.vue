@@ -28,7 +28,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IRole from '@/interfaces/IRole';
+import Role from '@/services/classes/Role';
 
 export default defineComponent({
   name: 'AdminRolesList',
@@ -37,7 +37,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
-    const roles: ComputedRef<IRole[]> = computed<IRole[]>(() => store.getters['roles/items']);
+    const roles: ComputedRef<Role[]> = computed<Role[]>(() => store.getters['roles/items']);
 
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);

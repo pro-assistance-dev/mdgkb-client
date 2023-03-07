@@ -19,8 +19,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import IOption from '@/interfaces/schema/IOption';
 import Provider from '@/services/Provider/Provider';
 

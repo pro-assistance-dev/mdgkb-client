@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import Page from '@/classes/page/Page';
+import Page from '@/services/classes/page/Page';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

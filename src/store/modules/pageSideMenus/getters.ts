@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import PageSideMenu from '@/classes/PageSideMenu';
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

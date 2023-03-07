@@ -17,8 +17,8 @@
 import { DatePicker } from 'v-calendar';
 import { defineComponent, ref } from 'vue';
 
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 export default defineComponent({
   name: 'AppointmentsCalendar',
   components: {

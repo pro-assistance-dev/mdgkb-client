@@ -33,7 +33,7 @@ import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSc
 import IQuestionSchema from '@/interfaces/schema/IQuestionSchema';
 import IResidencyApplicationSchema from '@/interfaces/schema/IResidencyApplicationSchema';
 import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';
-import IRoleSchema from '@/interfaces/schema/IRoleSchema';
+import RoleSchema from '@/interfaces/schema/RoleSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
 import ISupportMessageSchema from '@/interfaces/schema/ISupportMessageSchema';
 import ITeacherSchema from '@/interfaces/schema/ITeacherSchema';
@@ -68,7 +68,7 @@ export default interface ISchema {
   educationYear: IEducationYearSchema;
   postgraduateCourseSpecialization: IPostgraduateCourseSpecializationSchema;
   educationalOrganizationAcademic: IEducationalOrganizationAcademicSchema;
-  role: IRoleSchema;
+  role: RoleSchema;
   pathPermission: IPathPermissionsSchema;
   news: INewsSchema;
   newsToTag: INewsToTag;

@@ -39,7 +39,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import NewsSlide from '@/classes/newsSlides/NewsSlide';
+import NewsSlide from '@/classes/NewsSlide';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 

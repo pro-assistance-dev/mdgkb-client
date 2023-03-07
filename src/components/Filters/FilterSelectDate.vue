@@ -23,9 +23,9 @@
 import { defineComponent, PropType, Ref, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 
 export default defineComponent({
   name: 'FilterSelectDate',

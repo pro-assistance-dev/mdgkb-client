@@ -18,15 +18,6 @@ module.exports = {
     },
   },
   chainWebpack: (config) => {
-    config.optimization.minimize = true;
-    config.optimization.minimizer('terser').tap((args) => {
-      const { terserOptions } = args[0];
-      terserOptions.keep_classnames = true;
-      terserOptions.keep_fnames = true;
-      terserOptions.no_scope_hoist = true;
-      return args;
-    });
-
     const svgRule = config.module.rule('svg');
 
     svgRule.uses.clear();

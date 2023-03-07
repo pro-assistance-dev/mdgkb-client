@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IComment from '@/interfaces/comments/IComment';
 import ICommentsWithCount from '@/interfaces/ICommentsWithCount';
 import HttpClient from '@/services/HttpClient';

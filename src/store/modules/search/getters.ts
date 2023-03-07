@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import SearchGroup from '@/classes/SearchGroup';
-import SearchModel from '@/classes/SearchModel';
+import SearchModel from '@/services/classes/SearchModel';
 import RootState from '@/store/types';
 
 import State from './state';

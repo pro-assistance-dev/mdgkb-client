@@ -46,7 +46,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import PageSection from '@/classes/PageSection';
+import PageSection from '@/services/classes/page/PageSection';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';

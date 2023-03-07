@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Calendar from '@/classes/Calendar';
+import Calendar from '@/services/classes/calendar/Calendar';
 import RootState from '@/store/types';
 
 import actions from './actions';

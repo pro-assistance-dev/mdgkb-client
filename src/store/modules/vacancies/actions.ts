@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IVacanciesWithCount from '@/interfaces/IVacanciesWithCount ';
 import IVacancy from '@/interfaces/IVacancy';
 import HttpClient from '@/services/HttpClient';

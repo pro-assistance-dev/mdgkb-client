@@ -26,7 +26,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import NewsSlide from '@/classes/newsSlides/NewsSlide';
+import NewsSlide from '@/classes/NewsSlide';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 export default defineComponent({
   name: 'NewsCarouselSlide',

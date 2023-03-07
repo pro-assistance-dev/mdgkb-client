@@ -9,7 +9,7 @@ import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import { Orders } from '@/interfaces/filters/Orders';
+import { Orders } from '@/services/interfaces/Orders';
 
 export default defineComponent({
   name: 'SortButton',

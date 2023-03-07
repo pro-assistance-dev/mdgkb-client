@@ -22,8 +22,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IRole from '@/interfaces/IRole';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import Role from '@/services/classes/Role';
 
 export default defineComponent({
   name: 'AdminRolePage',
@@ -34,7 +34,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const role: ComputedRef<IRole> = computed<IRole>(() => store.getters['roles/item']);
+    const role: ComputedRef<Role> = computed<Role>(() => store.getters['roles/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
 

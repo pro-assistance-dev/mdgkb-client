@@ -10,9 +10,9 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import { Orders } from '@/interfaces/filters/Orders';
 import IQuestion from '@/interfaces/IQuestion';
 import Hooks from '@/services/Hooks/Hooks';
+import { Orders } from '@/services/interfaces/Orders';
 import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
 import Provider from '@/services/Provider/Provider';

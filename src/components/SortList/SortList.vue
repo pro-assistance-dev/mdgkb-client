@@ -18,8 +18,8 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
-import ISortModel from '@/interfaces/filters/ISortModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import ISortModel from '@/services/interfaces/ISortModel';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

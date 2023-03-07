@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
 import ITokens from '@/interfaces/ITokens';

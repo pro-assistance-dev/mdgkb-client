@@ -1,5 +1,5 @@
-import SortModel from '@/classes/filters/SortModel';
-import { Orders } from '@/interfaces/filters/Orders';
+import SortModel from '@/services/classes/SortModel';
+import { Orders } from '@/services/interfaces/Orders';
 import Provider from '@/services/Provider/Provider';
 
 const PathPermissionsSortsLib = (() => {

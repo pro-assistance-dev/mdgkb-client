@@ -24,13 +24,13 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import SortModel from '@/classes/filters/SortModel';
 import MainBigNewsCard from '@/components/Main/MainBigNewsCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
-import { Orders } from '@/interfaces/filters/Orders';
+import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
+import { Orders } from '@/services/interfaces/Orders';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 

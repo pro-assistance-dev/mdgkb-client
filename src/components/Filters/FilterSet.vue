@@ -28,10 +28,10 @@
 import { defineComponent, PropType, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/classes/filters/FilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterPopover from '@/components/Filters/FilterPopover.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 
 export default defineComponent({
   name: 'FilterSet',

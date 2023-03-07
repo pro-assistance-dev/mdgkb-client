@@ -1,8 +1,8 @@
 import { MutationTree } from 'vuex';
 
 import Form from '@/classes/Form';
-import Hospitalization from '@/classes/hospitalizations/Hospitalization';
-import HospitalizationType from '@/classes/hospitalizations/HospitalizationType';
+import Hospitalization from '@/classes/Hospitalization';
+import HospitalizationType from '@/classes/HospitalizationType';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 

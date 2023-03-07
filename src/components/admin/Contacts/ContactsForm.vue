@@ -1,4 +1,19 @@
 <template>
+  <div v-if="full" class="contact-container">
+    <el-form-item label="Описание">
+      <el-input v-model="contactInfo.description" />
+    </el-form-item>
+    <el-form-item label="Время работы">
+      <el-input v-model="contactInfo.time" />
+    </el-form-item>
+    <el-form-item label="Широта (для карты)">
+      <el-input v-model="contactInfo.latitude" />
+    </el-form-item>
+    <el-form-item label="Долгота (для карты)">
+      <el-input v-model="contactInfo.longitude" />
+    </el-form-item>
+  </div>
+
   <div class="contact-container" :style="{ background: contactInfo.telephoneNumbers.length ? '' : '#F9FAFB' }">
     <div class="bottom-buttons">
       <div class="title" :style="{ color: !contactInfo.telephoneNumbers.length ? '#c4c4c4' : '#303133' }">Телефоны</div>
@@ -109,8 +124,12 @@ export default defineComponent({
       type: Object as PropType<ContactInfo>,
       required: true,
     },
+    full: {
+      type: Boolean,
+      default: false,
+    },
   },
-  setup(props) {
+  setup() {
     const form = ref();
 
     return {

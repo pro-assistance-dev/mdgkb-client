@@ -11,7 +11,7 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import PartnerType from '@/classes/partners/PartnerType';
+import PartnerType from '@/classes/PartnerType';
 import PartnersList from '@/components/Partners/PartnersList.vue';
 import PartnersMenu from '@/components/Partners/PartnersMenu.vue';
 import VerticalPageWrapper from '@/components/VerticalPageWrapper.vue';

@@ -2,8 +2,8 @@ import { ElMessage } from 'element-plus';
 import { onBeforeMount } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
-import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
-import FilterQuery from '@/classes/filters/FilterQuery';
+import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import { SortModelBuildersLib } from '@/services/interfaces/Sort';
 import Provider from '@/services/Provider/Provider';

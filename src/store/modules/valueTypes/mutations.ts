@@ -1,13 +1,12 @@
 import { MutationTree } from 'vuex';
 
-import ValueType from '@/classes/ValueType';
-import IValueType from '@/interfaces/IValueType';
+import ValueType from '@/services/classes/ValueType';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IValueType[]) {
-    state.items = items.map((i: IValueType) => new ValueType(i));
+  setAll(state, items: ValueType[]) {
+    state.items = items.map((i: ValueType) => new ValueType(i));
   },
 };
 

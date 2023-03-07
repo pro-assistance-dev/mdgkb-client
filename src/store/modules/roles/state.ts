@@ -1,6 +1,6 @@
-import IRole from '@/interfaces/IRole';
+import Role from '@/services/classes/Role';
 
 export interface State {
-  items: IRole[];
-  item: IRole;
+  items: Role[];
+  item: Role;
 }

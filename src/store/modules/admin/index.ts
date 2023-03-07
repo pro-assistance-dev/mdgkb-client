@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
+import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import actions from '@/store/modules/admin/actions';
 import menuList from '@/store/modules/admin/menuList';
 import RootState from '@/store/types';

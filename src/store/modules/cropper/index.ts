@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Cropper from '@/classes/cropper/Cropper';
+import Cropper from '@/classes/Cropper';
 import RootState from '@/store/types';
 
 import getters from './getters';

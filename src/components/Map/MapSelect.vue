@@ -51,7 +51,7 @@
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 
 import Division from '@/classes/Division';
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IBuilding from '@/interfaces/IBuilding';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';

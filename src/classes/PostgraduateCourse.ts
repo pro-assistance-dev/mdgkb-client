@@ -1,5 +1,5 @@
 import FileInfo from '@/classes/File/FileInfo';
-import PageSection from '@/classes/PageSection';
+import PageSection from '@/services/classes/page/PageSection';
 import PostgraduateCourseDates from '@/classes/PostgraduateCourseDates';
 import PostgraduateCoursePlan from '@/classes/PostgraduateCoursePlan';
 import PostgraduateCourseSpecialization from '@/classes/PostgraduateCourseSpecialization';

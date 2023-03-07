@@ -14,7 +14,7 @@
 import { computed, ComputedRef, defineComponent, Ref } from 'vue';
 import { useStore } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Teacher from '@/classes/Teacher';
 import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';

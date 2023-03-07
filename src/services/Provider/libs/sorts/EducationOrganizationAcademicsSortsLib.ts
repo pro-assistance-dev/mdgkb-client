@@ -1,8 +1,8 @@
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Employee from '@/classes/Employee';
-import SortModel from '@/classes/filters/SortModel';
-import { Orders } from '@/interfaces/filters/Orders';
+import SortModel from '@/services/classes/SortModel';
 import ClassHelper from '@/services/ClassHelper';
+import { Orders } from '@/services/interfaces/Orders';
 
 const EducationOrganizationAcademicsSortsLib = (() => {
   const modelName = 'educationalAcademic';

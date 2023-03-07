@@ -26,10 +26,10 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import Page from '@/classes/page/Page';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
+import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
 import PagesFiltersLib from '@/services/Provider/libs/filters/PagesFiltersLib';

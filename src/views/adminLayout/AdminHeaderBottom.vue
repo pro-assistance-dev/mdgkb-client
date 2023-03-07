@@ -29,8 +29,8 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
-import { buttonAction } from '@/classes/admin/AdminButtonParams';
-import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
+import { buttonAction } from '@/services/classes/admin/AdminButtonParams';
+import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'AdminHeaderBottom',

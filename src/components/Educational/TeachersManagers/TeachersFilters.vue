@@ -13,19 +13,19 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
-import FilterQuery from '@/classes/filters/FilterQuery';
-import SortModel from '@/classes/filters/SortModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import MedicalProfile from '@/classes/MedicalProfile';
 import NmoCourse from '@/classes/NmoCourse';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import ISortModel from '@/interfaces/filters/ISortModel';
-import { Operators } from '@/interfaces/filters/Operators';
-import { Orders } from '@/interfaces/filters/Orders';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import ISortModel from '@/services/interfaces/ISortModel';
+import { Operators } from '@/services/interfaces/Operators';
 import ISchema from '@/interfaces/schema/ISchema';
+import SortModel from '@/services/classes/SortModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
+import { Orders } from '@/services/interfaces/Orders';
 import TokenService from '@/services/Token';
 
 export default defineComponent({

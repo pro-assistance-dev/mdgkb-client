@@ -1,4 +1,4 @@
-import Comment from '@/classes/comments/Comment';
+import Comment from '@/classes/Comment';
 import IComment from '@/interfaces/comments/IComment';
 import ClassHelper from '@/services/ClassHelper';
 

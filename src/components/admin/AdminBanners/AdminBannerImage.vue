@@ -38,7 +38,7 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Cropper from '@/classes/cropper/Cropper';
+import Cropper from '@/classes/Cropper';
 import FileInfo from '@/classes/File/FileInfo';
 import IFile from '@/interfaces/files/IFile';
 

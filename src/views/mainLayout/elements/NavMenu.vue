@@ -31,7 +31,7 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedRef } from 'vue';
 
-import Menu from '@/classes/Menu';
+import Menu from '@/services/classes/Menu';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import Provider from '@/services/Provider/Provider';
@@ -157,7 +157,6 @@ ul.menu-center-list li {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 12px;
   border-right: 1px solid #dfe4ee;
-
 }
 
 .main-item {
@@ -303,5 +302,4 @@ li .dropmenu {
 .active {
   background: #ffffff;
 }
-
 </style>

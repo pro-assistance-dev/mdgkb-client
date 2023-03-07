@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import DishesGroup from '@/classes/DishesGroup';
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IDishesGroup from '@/interfaces/IDishesGroup';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
