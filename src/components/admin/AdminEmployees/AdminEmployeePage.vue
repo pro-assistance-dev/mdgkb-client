@@ -43,7 +43,12 @@
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
           <el-card header="Фото">
-            <UploaderSingleScan :file-info="employee.human.photo" :height="300" :width="300" @remove-file="employee.human.removePhoto()" />
+            <UploaderSingleScan 
+              :file-info="employee.human.photo" 
+              :height="300" 
+              @remove-file="employee.human.removePhoto()" 
+              @ratio="(e) => (element.ratio = e)"
+            />
           </el-card>
           <el-card header="Фото-миниатюра">
             <UploaderSingleScan

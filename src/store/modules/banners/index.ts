@@ -1,18 +1,18 @@
 import { Module } from 'vuex';
 
-import Banner from '@/classes/banners/Banner';
+import Banner from '@/classes/Banner';
+import getBaseDefaultState from '@/store/baseModule/baseIndex';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
 
+export type State = IBasicState<Banner>;
 export const getDefaultState = (): State => {
   return {
-    banners: [],
-    banner: new Banner(),
-    fileList: [],
+    ...getBaseDefaultState(Banner),
   };
 };
 
