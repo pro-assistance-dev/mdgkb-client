@@ -1,6 +1,6 @@
 <template>
   <div v-if="mounted" class="menu">
-    <div v-for ="menu in page.pageSideMenus" :key="menu.id" class="menu-item" >
+    <div v-for="menu in page.getPageSideMenus()" :key="menu.id" class="menu-item">
       <div class="item-style" :class="isActive(menu.id)" @click="changeMenu(menu.id)">
         {{ menu.name }}
       </div>
@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import Page from '@/classes/page/Page';
+import Page from '@/services/classes/page/Page';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -82,7 +82,7 @@ $side-cotainer-max-width: 300px;
 }
 
 .menu-item:hover {
-  background: #F0F2F7;
+  background: #f0f2f7;
 }
 
 .item-style {
@@ -90,7 +90,7 @@ $side-cotainer-max-width: 300px;
 }
 
 .is-active {
-  background: #F0F2F7;
+  background: #f0f2f7;
 }
 
 </style>

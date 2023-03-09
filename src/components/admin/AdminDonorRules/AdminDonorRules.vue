@@ -35,7 +35,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
-import Menu from '@/classes/Menu';
+import Menu from '@/services/classes/Menu';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
 import sort from '@/services/sort';

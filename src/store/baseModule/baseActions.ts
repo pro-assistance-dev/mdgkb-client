@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
-import { IBodilessParams, IBodyfulParams } from '@/interfaces/fetchApi/IHTTPTypes';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import HttpClient from '@/services/HttpClient';

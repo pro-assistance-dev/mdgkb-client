@@ -3,7 +3,7 @@ import ResidencyApplication from '@/classes/ResidencyApplication';
 import IField from '@/interfaces/IField';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 
-import DpoApplication from './DpoApplication';
+import DpoApplication from '@/classes/DpoApplication';
 import IFileInfo from './files/IFileInfo';
 import ICandidateApplication from './ICandidateApplication';
 import IChild from './IChild';
@@ -12,7 +12,7 @@ import IFormStatus from './IFormStatus';
 import IFormStatusGroup from './IFormStatusGroup';
 import IUser from './IUser';
 import IVisitsApplication from './IVisitsApplication';
-import PostgraduateApplication from './PostgraduateApplication';
+import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import IVacancyResponse from './vacancyResponse/IVacancyResponse';
 
 export default interface IForm {

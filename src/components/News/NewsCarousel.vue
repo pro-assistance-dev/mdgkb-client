@@ -17,7 +17,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import NewsSlide from '@/classes/newsSlides/NewsSlide';
+import NewsSlide from '@/classes/NewsSlide';
 import NewsCarouselSlide from '@/components/News/NewsCarouselSlide.vue';
 
 export default defineComponent({

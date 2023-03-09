@@ -54,7 +54,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, Ref
 import { useRouter } from 'vue-router';
 
 import SearchElement from '@/classes/SearchElement';
-import SearchModel from '@/classes/SearchModel';
+import SearchModel from '@/services/classes/SearchModel';
 import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';

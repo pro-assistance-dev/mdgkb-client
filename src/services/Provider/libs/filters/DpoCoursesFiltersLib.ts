@@ -1,6 +1,6 @@
-import FilterModel from '@/classes/filters/FilterModel';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import Provider from '@/services/Provider/Provider';
 
 const DpoCoursesFiltersLib = (() => {

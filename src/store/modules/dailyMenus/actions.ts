@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IDailyMenu from '@/interfaces/IDailyMenu';
 import HttpClient from '@/services/HttpClient';
 import WebSocketClient from '@/services/WebSocketClient';

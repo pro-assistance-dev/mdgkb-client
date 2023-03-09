@@ -1,7 +1,7 @@
-import FilterModel from '@/classes/filters/FilterModel';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
-import { Operators } from '@/interfaces/filters/Operators';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import IFilterModel from '@/services/interfaces/IFilterModel';
+import { Operators } from '@/services/interfaces/Operators';
 import { PolicyTypes } from '@/interfaces/PolicyTypes';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';

@@ -45,8 +45,8 @@ import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedR
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import SideOrganization from '@/classes/sideOrganization/SideOrganization';
-import SideOrganizationRules from '@/classes/sideOrganization/SideOrganizationRules';
+import SideOrganization from '@/classes/SideOrganization';
+import SideOrganizationRules from '@/classes/SideOrganizationRules';
 import AdminContactAttribute from '@/components/admin/Contacts/AdminContactAttribute.vue';
 import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';

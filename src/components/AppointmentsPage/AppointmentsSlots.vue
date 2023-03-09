@@ -9,8 +9,8 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 export default defineComponent({
   name: 'AppointmentsSlots',
   emits: ['chooseSlot'],

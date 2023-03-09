@@ -31,7 +31,7 @@ import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
 import NewsFilters from '@/components/News/NewsFilters.vue';
-import { Operators } from '@/interfaces/filters/Operators';
+import { Operators } from '@/services/interfaces/Operators';
 import INews from '@/interfaces/news/INews';
 import Hooks from '@/services/Hooks/Hooks';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';

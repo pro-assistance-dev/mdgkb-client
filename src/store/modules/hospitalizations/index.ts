@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Hospitalization from '@/classes/hospitalizations/Hospitalization';
+import Hospitalization from '@/classes/Hospitalization';
 import getBaseDefaultState from '@/store/baseModule/baseIndex';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';

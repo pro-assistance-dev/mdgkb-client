@@ -188,8 +188,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } fro
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
-import PageSection from '@/classes/PageSection';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import PageSection from '@/services/classes/page/PageSection';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';

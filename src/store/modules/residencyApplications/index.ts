@@ -1,7 +1,7 @@
 import { Module } from 'vuex';
 
-import Page from '@/classes/page/Page';
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import Page from '@/services/classes/page/Page';
 import getBaseDefaultState from '@/store/baseModule/baseIndex';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';

@@ -1,4 +1,4 @@
-import PageSectionDocument from '@/classes/PageSectionDocument';
+import PageSectionDocument from '@/services/classes/page/PageSectionDocument';
 import IVacancyResponseToDocument from '@/interfaces/vacancyResponse/IVacancyResponseToDocument';
 
 export default class VacancyResponseToDocument implements IVacancyResponseToDocument {

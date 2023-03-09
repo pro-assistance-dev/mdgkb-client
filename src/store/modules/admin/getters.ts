@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import AdminHeaderParams from '@/classes/admin/AdminHeaderParams';
+import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import ISearchQuery from '@/interfaces/ISearchQuery';
 import UserService from '@/services/User';

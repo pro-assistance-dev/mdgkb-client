@@ -135,16 +135,16 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
-import { Operators } from '@/interfaces/filters/Operators';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import IFilterModel from '@/services/interfaces/IFilterModel';
+import { Operators } from '@/services/interfaces/Operators';
 import IForm from '@/interfaces/IForm';
 import IVacancy from '@/interfaces/IVacancy';
 import createSortModels from '@/services/CreateSortModels';

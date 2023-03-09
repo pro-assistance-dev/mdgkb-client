@@ -20,7 +20,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import SearchModel from '@/classes/SearchModel';
+import SearchModel from '@/services/classes/SearchModel';
 import IOption from '@/interfaces/IOption';
 
 export default defineComponent({

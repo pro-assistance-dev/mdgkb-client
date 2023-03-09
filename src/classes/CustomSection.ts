@@ -1,19 +1,13 @@
-import ICustomSection from '@/interfaces/ICustomSection';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class CustomSection implements ICustomSection {
+export default class CustomSection {
   id = '';
   name = '';
   component = '';
   order?: number;
 
-  constructor(i?: ICustomSection) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.component = i.component;
-    this.order = i.order;
+  constructor(i?: CustomSection) {
+    ClassHelper.BuildClass(this, i);
   }
 
   static Create(id: string, name: string, componentName: string, order?: number): CustomSection {

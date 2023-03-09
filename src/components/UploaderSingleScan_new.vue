@@ -38,7 +38,7 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Cropper from '@/classes/cropper/Cropper';
+import Cropper from '@/classes/Cropper';
 import ImageCropperV2New from '@/components/ImageCropperV2_new.vue';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';

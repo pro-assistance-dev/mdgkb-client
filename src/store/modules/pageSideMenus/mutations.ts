@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 
-import PageSideMenu from '@/classes/PageSideMenu';
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';

@@ -1,5 +1,6 @@
-import SortModel from '@/classes/filters/SortModel';
-import { Orders } from '@/interfaces/filters/Orders';
+import SortModel from '@/services/classes/SortModel';
+
+import { Orders } from './Orders';
 
 export type SortModelBuilder = (order?: Orders) => SortModel;
 

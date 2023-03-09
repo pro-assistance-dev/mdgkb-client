@@ -2,7 +2,7 @@ import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
 import { ComponentPublicInstance } from 'vue';
 import { createStore } from 'vuex';
 
-import Comment from '@/classes/comments/Comment';
+import Comment from '@/classes/Comment';
 import User from '@/classes/User';
 import UserCommentsPage from '@/components/Profile/UserCommentsPage.vue';
 import IUser from '@/interfaces/IUser';

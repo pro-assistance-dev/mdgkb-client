@@ -11,11 +11,11 @@
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Division from '@/classes/Division';
-import FilterModel from '@/classes/filters/FilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import DivisionsList from '@/components/Divisions/DivisionsList.vue';
 import DivisionsListFilters from '@/components/Divisions/DivisionsListFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import IOption from '@/interfaces/schema/IOption';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';

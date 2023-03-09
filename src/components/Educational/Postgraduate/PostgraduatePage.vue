@@ -12,19 +12,18 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import CustomSection from '@/classes/CustomSection';
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';
-import PostgraduateContacts from '@/components/Educational/Postgraduate/PostgraduateContacts.vue';
+// import PostgraduateContacts from '@/components/Educational/Postgraduate/PostgraduateContacts.vue';
 import PostgraduateCoursesList from '@/components/Educational/Postgraduate/PostgraduateCoursesList.vue';
 import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import ICustomSection from '@/interfaces/ICustomSection';
 import Hooks from '@/services/Hooks/Hooks';
 
 export default defineComponent({
   name: 'PostgraduatePage',
   components: {
-    PostgraduateContacts,
+    // PostgraduateContacts,
     PostgraduateCoursesList,
     PageWrapper,
     CandidatesMinimum,
@@ -33,7 +32,7 @@ export default defineComponent({
   },
 
   setup() {
-    const customSections: Ref<ICustomSection[]> = ref([]);
+    const customSections: Ref<CustomSection[]> = ref([]);
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(
@@ -41,7 +40,7 @@ export default defineComponent({
         CustomSection.Create('programs', 'Программы', 'PostgraduateCoursesList', 1),
         CustomSection.Create('candidate', 'Кандидатский минимум', 'CandidatesMinimum', 2),
         CustomSection.Create('academics', 'Учёный совет', 'PostgraducateAcademics', 3),
-        CustomSection.Create('contacts', 'Контакты', 'PostgraduateContacts', 4)
+        // CustomSection.Create('contacts', 'Контакты', 'PostgraduateContacts', 4)
       );
     });
 

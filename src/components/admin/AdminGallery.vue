@@ -34,7 +34,7 @@ import draggable from 'vuedraggable';
 
 import Move from '@/assets/svg/AdminGallery/Move.svg';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import IFiler from '@/interfaces/IFiler';
+import IFiler from '@/services/interfaces/IFiler';
 import sort from '@/services/sort';
 
 export default defineComponent({
@@ -121,7 +121,7 @@ export default defineComponent({
   overflow: hidden;
   text-overflow: ellipsis;
   outline: none;
-  color: #4A4A4A;
+  color: #4a4a4a;
 }
 
 .item:hover > .item-tools {

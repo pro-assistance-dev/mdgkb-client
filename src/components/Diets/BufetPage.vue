@@ -48,7 +48,7 @@
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
 import DishCard from '@/components/Diets/DishCard.vue';

@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import PageSectionDocument from '@/classes/PageSectionDocument';
+import PageSectionDocument from '@/services/classes/page/PageSectionDocument';
 
 export default defineComponent({
   name: 'DocumentUploader',

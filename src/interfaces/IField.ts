@@ -1,4 +1,4 @@
-import ValueType from '@/classes/ValueType';
+import ValueType from '@/services/classes/ValueType';
 
 import IFileInfo from './files/IFileInfo';
 import IMaskToken from './IMaskToken';

@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import NewsSlide from '@/classes/newsSlides/NewsSlide';
+import NewsSlide from '@/classes/NewsSlide';
 import getBaseDefaultState from '@/store/baseModule/baseIndex';
 import RootState from '@/store/types';
 

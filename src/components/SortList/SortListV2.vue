@@ -18,10 +18,10 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
 
-import FilterQuery from '@/classes/filters/FilterQuery';
-import Pagination from '@/classes/filters/Pagination';
-import SortModel from '@/classes/filters/SortModel';
-import ISortModel from '@/interfaces/filters/ISortModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import Pagination from '@/services/classes/filters/Pagination';
+import ISortModel from '@/services/interfaces/ISortModel';
+import SortModel from '@/services/classes/SortModel';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

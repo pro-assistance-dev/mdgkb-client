@@ -1,5 +1,5 @@
-import FilterQuery from '@/classes/filters/FilterQuery';
-import SortModel from '@/classes/filters/SortModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import SortModel from '@/services/classes/SortModel';
 
 export interface State {
   trigger: string;

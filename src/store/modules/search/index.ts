@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import SearchModel from '@/classes/SearchModel';
+import SearchModel from '@/services/classes/SearchModel';
 import RootState from '@/store/types';
 
 import actions from './actions';

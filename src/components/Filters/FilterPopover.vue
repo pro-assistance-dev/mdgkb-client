@@ -18,7 +18,7 @@ import { FilterFilled } from '@ant-design/icons-vue';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IFilterModel from '@/interfaces/filters/IFilterModel';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 export default defineComponent({
   name: 'FilterPopover',
   components: {

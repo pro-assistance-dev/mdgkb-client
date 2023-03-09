@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Partner from '@/classes/partners/Partner';
+import Partner from '@/classes/Partner';
 import RootState from '@/store/types';
 
 import actions from './actions';

@@ -26,19 +26,19 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import FilterQuery from '@/classes/filters/FilterQuery';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IComment from '@/interfaces/comments/IComment';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
-import { Orders } from '@/interfaces/filters/Orders';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import { Orders } from '@/services/interfaces/Orders';
 import CommentsFiltersLib from '@/services/Provider/libs/filters/CommentsFiltersLib';
 import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
 import Provider from '@/services/Provider/Provider';

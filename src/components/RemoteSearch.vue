@@ -24,12 +24,12 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import SearchGroup from '@/classes/SearchGroup';
-import SearchModel from '@/classes/SearchModel';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import IFilterModel from '@/interfaces/filters/IFilterModel';
-import { Operators } from '@/interfaces/filters/Operators';
+import SearchModel from '@/services/classes/SearchModel';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import IFilterModel from '@/services/interfaces/IFilterModel';
+import { Operators } from '@/services/interfaces/Operators';
 import ISearch from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';

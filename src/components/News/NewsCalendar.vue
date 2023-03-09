@@ -15,10 +15,10 @@
 import { Calendar, PopoverRow } from 'v-calendar';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 
-import FilterModel from '@/classes/filters/FilterModel';
-import FilterQuery from '@/classes/filters/FilterQuery';
-import { DataTypes } from '@/interfaces/filters/DataTypes';
-import { Operators } from '@/interfaces/filters/Operators';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
