@@ -21,7 +21,7 @@
       </div>
       <div class="counter">
         <el-form-item label="">
-          <el-input-number min="0" :model-value="dailyMenuOrder.getItemQuantity(dailyMenuItem)" @change="(par, par1) => add(par, par1)" />
+          <el-input-number :min="0" :model-value="dailyMenuOrder.getItemQuantity(dailyMenuItem)" @change="(par, par1) => add(par, par1)" />
         </el-form-item>
       </div>
     </div>

@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
+import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref } from 'vue';
 
 import TableCard from '@/components/Diets/TableCard.vue';
@@ -61,6 +62,20 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const createOrder = () => {
+      if (!dailyMenuOrder.value.dailyMenuOrderItems.length) {
+        ElMessage({
+          message: 'Необходимо выбрать блюдо',
+          type: 'warning',
+        });
+        return;
+      }
+      if (dailyMenuOrder.value.getPriceSum() < 150) {
+        ElMessage({
+          message: 'Минимальная сумма заказа - 150 рублей',
+          type: 'warning',
+        });
+        return;
+      }
       Provider.router.push('/bufet/order');
     };
 
@@ -230,6 +245,7 @@ input[type='text'] {
   background: inherit;
   color: #ffffff;
   font-size: 16px;
+  cursor: pointer;
 }
 
 .field1 {
