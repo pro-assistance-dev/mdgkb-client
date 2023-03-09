@@ -9,17 +9,36 @@
         <div class="info" v-html="residencyCourse.description" />
       </template>
     </CollapseItem>
-    <CollapseItem v-if="residencyCourse.residencyCoursePracticePlaces.length" tab-id="6" :collapsed="true">
+    <CollapseItem v-if="residencyCourse.residencyCoursePracticePlaceGroups.length" :tab-id="6" :collapsed="true">
       <template #inside-title>
         <div class="title-in">Базы практики</div>
       </template>
       <template #inside-content>
-        <ul>
-          <li v-for="practicePlace in residencyCourse.residencyCoursePracticePlaces" :key="practicePlace.id">
-            <a v-if="practicePlace.link" :href="practicePlace.link" target="_blank" style="margin-right: 10px"> {{ practicePlace.name }}</a>
-            <template v-else>{{ practicePlace.name }}</template>
-          </li>
-        </ul>
+        <div style="padding-left: 30px; padding-right: 20px">
+          <div v-for="practicePlaceGroup in residencyCourse.residencyCoursePracticePlaceGroups" :key="practicePlaceGroup.id" class="groups">
+            <div>
+              <strong>{{ practicePlaceGroup.name }}</strong>
+            </div>
+            <a v-if="practicePlaceGroup.link" :href="practicePlaceGroup.link" target="_blank" style="margin-right: 10px">
+              {{ practicePlaceGroup.link }}
+            </a>
+            <ul>
+              <li v-for="practicePlace in practicePlaceGroup.residencyCoursePracticePlaces" :key="practicePlace.id">
+                <router-link v-if="practicePlace.division?.name && practicePlace.divisionId" :to="`/divisions/${practicePlace.divisionId}`">
+                  {{ practicePlace.division.name }}
+                </router-link>
+                <div v-else>
+                  <div v-if="!practicePlace.link">
+                    {{ practicePlace.name }}
+                  </div>
+                  <a v-else :href="practicePlace.link" target="_blank" style="margin-right: 10px">
+                    {{ practicePlace.name }}
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </template>
     </CollapseItem>
   </div>
@@ -434,5 +453,8 @@ h4 {
   :deep(.card-item) {
     padding: 15px 2px;
   }
+}
+.groups {
+  padding: 10px 0;
 }
 </style>

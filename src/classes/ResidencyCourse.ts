@@ -2,7 +2,6 @@ import EducationYear from '@/classes/EducationYear';
 import Employee from '@/classes/Employee';
 import FileInfo from '@/classes/File/FileInfo';
 import ResidencyApplication from '@/classes/ResidencyApplication';
-import ResidencyCoursePracticePlace from '@/classes/ResidencyCoursePracticePlace';
 import ResidencyCourseSpecialization from '@/classes/ResidencyCourseSpecialization';
 import Specialization from '@/classes/Specialization';
 import IFileInfo from '@/interfaces/files/IFileInfo';
@@ -12,6 +11,7 @@ import ISpecialization from '@/interfaces/ISpecialization';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
+import ResidencyCoursePracticePlaceGroup from './ResidencyCoursePracticePlaceGroup';
 
 export default class ResidencyCourse {
   id?: string;
@@ -48,9 +48,9 @@ export default class ResidencyCourse {
   endYearId?: string;
   @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplications: ResidencyApplication[] = [];
-  @ClassHelper.GetClassConstructor(ResidencyCoursePracticePlace)
-  residencyCoursePracticePlaces: ResidencyCoursePracticePlace[] = [];
-  residencyCoursePracticePlacesForDelete: string[] = [];
+  @ClassHelper.GetClassConstructor(ResidencyCoursePracticePlaceGroup)
+  residencyCoursePracticePlaceGroups: ResidencyCoursePracticePlaceGroup[] = [];
+  residencyCoursePracticePlaceGroupsForDelete: string[] = [];
 
   mainTeacher: Employee = new Employee();
   mainTeacherId?: string;
@@ -187,5 +187,11 @@ export default class ResidencyCourse {
   resetMainTeacher(): void {
     this.mainTeacher = new Employee();
     this.mainTeacherId = undefined;
+  }
+
+  addPracticePlaceGroup(): void {
+    const newItem = new ResidencyCoursePracticePlaceGroup();
+    newItem.order = this.residencyCoursePracticePlaceGroups.length;
+    this.residencyCoursePracticePlaceGroups.push(newItem);
   }
 }
