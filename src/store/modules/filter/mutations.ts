@@ -34,13 +34,7 @@ const mutations: MutationTree<State> = {
     state.filterQuery.reset();
   },
   setFilterModel(state, filterModel: FilterModel) {
-    filterModel.isSet = true;
-    let item = state.filterQuery.filterModels.find((i: FilterModel) => i.id === filterModel.id);
-    if (item) {
-      item = filterModel;
-    } else {
-      state.filterQuery.filterModels.push(filterModel);
-    }
+    state.filterQuery.setFilterModel(filterModel);
   },
   resetFilterModels(state) {
     state.filterQuery.filterModels = [];
@@ -67,6 +61,7 @@ const mutations: MutationTree<State> = {
     // if (index > -1) state.filterQuery.sortModels.splice(index, 1);
   },
   spliceFilterModel(state, id: string) {
+    state.filterQuery.spliceFilterModel(id);
     const index = state.filterQuery.filterModels.findIndex((i: FilterModel) => i.id === id);
     if (index > -1) {
       state.filterQuery.filterModels.splice(index, 1);
