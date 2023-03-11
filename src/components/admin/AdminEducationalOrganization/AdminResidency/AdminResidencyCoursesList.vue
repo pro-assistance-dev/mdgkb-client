@@ -14,9 +14,9 @@
       </el-table-column>
       <el-table-column label="Специализация" min-width="300">
         <template #default="scope">
-          <router-link :to="`/admin/residency/courses/${scope.row.getMainSpecialization().id}`">
-            {{ scope.row.getMainSpecialization().name }}
-          </router-link>
+          <!-- <router-link :to="`/admin/residency/courses/${scope.row.getMainSpecialization().id}`"> -->
+          {{ scope.row.getMainSpecialization().name }}
+          <!-- </router-link> -->
         </template>
       </el-table-column>
       <el-table-column label="Руководитель" min-width="300">
@@ -80,10 +80,10 @@ import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import ISortModel from '@/services/interfaces/ISortModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import IFilterModel from '@/services/interfaces/IFilterModel';
+import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLib';

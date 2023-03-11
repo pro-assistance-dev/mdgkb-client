@@ -68,13 +68,6 @@ export default defineComponent({
     const myForm = ref();
 
     const store = useStore();
-    const closeModal = () => {
-      store.commit('auth/closeModal');
-      form.value = new User();
-      if (showWarning.value) {
-        router.go(-1);
-      }
-    };
 
     const route = useRoute();
     const router = useRouter();
@@ -86,6 +79,14 @@ export default defineComponent({
     const emailExists: Ref<boolean> = computed(() => store.getters['users/emailExists']);
     const loginStatus: Ref<'login' | 'register' | 'forgotPassword' | 'passwordChange'> = computed(() => store.getters['auth/loginStatus']);
     const showWarning: ComputedRef<boolean> = computed(() => store.getters['auth/showWarning']);
+    const closeModal = () => {
+      store.commit('auth/closeModal');
+      form.value = new User();
+      console.log(showWarning.value);
+      if (showWarning.value) {
+        router.go(-1);
+      }
+    };
 
     const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (!value.trim().length) {

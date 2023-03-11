@@ -24,7 +24,13 @@
               <div class="column-left">
                 <div class="user-avatar">
                   <div class="avatar-block">
-                    <UploaderSingleScan :emit-crop="true" :file-info="user.human.photo" :height="273" :width="273" @crop="saveAvatar" />
+                    <UploaderSingleScan 
+                      :emit-crop="true"
+                      :file-info="user.human.photo"
+                      :height="273"
+                      @crop="saveAvatar"
+                      @ratio="(e) => (element.ratio = e)"
+                    />
                   </div>
                 </div>
                 <el-form :model="user">
@@ -148,7 +154,13 @@
         <div class="column-left">
           <div class="user-avatar">
             <div class="avatar-block">
-              <UploaderSingleScan :emit-crop="true" :file-info="user.human.photo" :height="273" :width="273" @crop="saveAvatar" />
+              <UploaderSingleScan 
+                :emit-crop="true" 
+                :file-info="user.human.photo" 
+                :height="273" 
+                @crop="saveAvatar" 
+                @ratio="(e) => (element.ratio = e)"
+              />
             </div>
           </div>
           <el-form :model="user">

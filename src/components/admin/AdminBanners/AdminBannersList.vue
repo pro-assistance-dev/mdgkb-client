@@ -1,95 +1,71 @@
 <template>
-  <div class="flex-column">
-    <div class="flex-row-between">
-      <div class="table-buttons">
-        <el-button type="primary" @click="create">Добавить баннер</el-button>
-        <el-button v-if="!isEdit" type="success" @click="editOrder">Редактировать порядок</el-button>
-        <el-button v-else type="success" @click="saveOrder">Сохранить порядок</el-button>
-      </div>
-      <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
+  <AdminListWrapper v-if="mounted" show-header>
+    <div class="flex-column">
+      <el-card>
+        <el-table :data="banners">
+          <el-table-column v-if="isEditMode" width="50" fixed="left" align="center">
+            <template #default="scope">
+              <TableMover :ordered-items="banners" :index="scope.$index" />
+            </template>
+          </el-table-column>
+          <el-table-column label="Наименование" prop="name"> </el-table-column>
+          <el-table-column width="50" fixed="right" align="center">
+            <template #default="scope">
+              <TableButtonGroup
+                :show-edit-button="true"
+                :show-remove-button="true"
+                :popconfirm-title="`Вы уверены что хотите удалить баннер '${scope.row.name}'?`"
+                @edit="edit(scope.row.id)"
+                @remove="remove(scope.row.id)"
+              />
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
     </div>
-    <el-card>
-      <el-table :data="banners">
-        <el-table-column v-if="isEdit" width="50" fixed="left" align="center">
-          <template #default="scope">
-            <div class="move-buttons">
-              <el-button v-if="scope.$index !== 0" icon="el-icon-caret-top" @click="moveUp(scope.$index)" />
-              <el-button v-if="scope.$index !== banners.length - 1" icon="el-icon-caret-bottom" @click="moveDown(scope.$index)" />
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="Наименование" prop="name"> </el-table-column>
-        <el-table-column width="50" fixed="right" align="center">
-          <template #default="scope">
-            <TableButtonGroup
-              :show-edit-button="true"
-              :show-remove-button="true"
-              :popconfirm-title="`Вы уверены что хотите удалить баннер '${scope.row.name}'?`"
-              @edit="edit(scope.row.id)"
-              @remove="remove(scope.row.id)"
-            />
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <div class="flex-row-end">
-      <!-- <el-pagination background layout="prev, pager, next" :total="100"> </el-pagination> -->
-    </div>
-  </div>
+  </AdminListWrapper>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, defineComponent, ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import TableMover from '@/components/admin/TableMover.vue';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminBannersList',
-  components: { TableButtonGroup },
+  components: { TableButtonGroup, TableMover },
 
   setup() {
-    const store = useStore();
-    const router = useRouter();
-    const banners = computed(() => store.getters['banners/banners']);
-    const isEdit = ref(false);
+    const banners = computed(() => Provider.store.getters['banners/items']);
+    const isEditMode = ref(false);
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await loadDivisions();
-      store.commit('admin/closeLoading');
+    Hooks.onBeforeMount(Provider.loadItems, {
+      adminHeader: {
+        title: 'Рекламные баннеры',
+
+        buttons: [
+          {
+            text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
+            action: computed(() => (isEditMode.value ? saveOrder : () => (isEditMode.value = !isEditMode.value))),
+          },
+          { text: 'Добавить баннер', type: 'primary', action: Provider.createAdmin },
+        ],
+      },
     });
 
-    const loadDivisions = async (): Promise<void> => {
-      await store.dispatch('banners/getAll');
-      store.commit('admin/setHeaderParams', { title: 'Рекламные баннеры' });
-    };
-
-    const create = () => router.push(`/admin/banners/new`);
-    const edit = (id: string) => router.push(`/admin/banners/${id}`);
-    const remove = async (id: string) => await store.dispatch('banners/remove', id);
-    const moveUp = (index: number) => store.commit('banners/moveUp', index);
-    const moveDown = (index: number) => store.commit('banners/moveDown', index);
-    const editOrder = () => {
-      isEdit.value = true;
-    };
     const saveOrder = async () => {
-      store.commit('banners/updateOrder');
-      await store.dispatch('banners/updateAll', banners.value);
-      isEdit.value = false;
+      await Provider.store.dispatch('banners/updateMany', banners.value);
+      isEditMode.value = false;
     };
 
     return {
       banners,
-      remove,
-      edit,
-      create,
-      moveUp,
-      moveDown,
-      isEdit,
-      editOrder,
+      isEditMode,
       saveOrder,
+      ...Provider.getAdminLib(),
     };
   },
 });

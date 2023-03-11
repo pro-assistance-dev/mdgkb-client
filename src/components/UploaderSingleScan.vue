@@ -17,7 +17,7 @@
       <i class="el-icon-plus custom-plus"></i>
     </template>
     <template #file="{ file }">
-      <div>
+      <div class="div1">
         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
       </div>
       <span class="el-upload-list__item-actions">
@@ -30,7 +30,7 @@
       </span>
     </template>
   </el-upload>
-  <ImageCropperV2 v-if="withCrop" :open="cropperOpened" @crop="crop" @close="cropperOpened = false" />
+  <ImageCropperV2New v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts">
@@ -38,8 +38,8 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import ImageCropperV2New from '@/components/ImageCropperV2_new.vue';
 import Cropper from '@/classes/Cropper';
-import ImageCropperV2 from '@/components/ImageCropperV2.vue';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
@@ -47,7 +47,7 @@ import IFilesList from '@/interfaces/files/IFIlesList';
 export default defineComponent({
   name: 'UploaderSingleScan',
   components: {
-    ImageCropperV2,
+    ImageCropperV2New,
   },
   props: {
     withCrop: {
@@ -60,11 +60,11 @@ export default defineComponent({
     },
     height: {
       type: Number,
-      default: 100,
+      default: 150,
     },
     width: {
       type: Number,
-      default: 100,
+      default: 150,
     },
     cropRatio: {
       type: Boolean,
@@ -74,6 +74,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    defaultRatio: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
   },
   emits: ['crop', 'removeFile'],
 
@@ -82,7 +87,7 @@ export default defineComponent({
     const heightWeight = computed(() => {
       return {
         '--height': `${props.height}px`,
-        '--width': `${props.width}px`,
+        '--width': `auto`,
       };
     });
     const store = useStore();
@@ -103,7 +108,7 @@ export default defineComponent({
     };
 
     const openCropper = (file: IFile) => {
-      const ratio = props.cropRatio ? props.width / props.height : 0;
+      const ratio = props.cropRatio ? props.defaultRatio : 0;
       store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, ratio, props.fileInfo.id));
       cropperOpened.value = true;
     };
@@ -160,45 +165,48 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-/* .hideUpload {
-  :deep(.el-upload) {
-    display: none;
-  }
-} */
+.avatar-uploader-cover {
+  display: flex;
+  justify-content: center;
+}
 
-// .avatar-uploader-cover {
-// line-height: var(--height);
-// text-align: center;
-// }
-
-// .custom-plus {
-//display: inline-block;
-//vertical-align: middle;
-//line-height: normal;
-// }
+.avatar-uploader-cover.hideUploader {
+  display: flex;
+  justify-content: center;
+  height: var(--height);
+  text-align: center;
+  margin: 0;
+}
 
 :deep(.el-upload) {
-  max-width: var(--width);
-  width: 100% !important;
   max-height: var(--height);
   height: 100% !important;
+  width: auto !important;
   background: white;
   text-align: center;
   line-height: var(--height);
 }
 
 :deep(.el-upload-list__item) {
-  max-width: var(--width) !important;
-  width: 100% !important;
+  width: auto !important;
   max-height: var(--height) !important;
   height: 100% !important;
+  margin: 0px;
 }
 
 :deep(.el-upload-list__item-thumbnail) {
-  max-width: var(--width) !important;
-  width: 100% !important;
+  width: auto !important;
   max-height: var(--height) !important ;
   height: 100% !important;
+}
+
+:deep(.el-upload-list--picture-card) {
+  display: flex;
+  justify-content: center;
+}
+
+:deep(.el-upload-list--picture-card .el-upload-list__item) {
+  margin: 10px;
 }
 
 :deep(.el-upload-list__item) {
@@ -209,5 +217,23 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.div1 {
+  display: flex;
+  justify-content: center;
+  width: auto;
+}
+
+:deep(.el-upload--picture-card) {
+  width: 150px;
+  font-size: 50px;
+  margin: 10px;
+}
+
+:deep(.el-upload--picture-card i) {
+  font-size: 50px;
+  color: #00b5a4;
+  padding: 0 54px;
 }
 </style>
