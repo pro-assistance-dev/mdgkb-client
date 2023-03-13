@@ -1,17 +1,32 @@
 <template>
-  <el-dialog v-model="cropper.isOpen" title="Кроппер" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
-    <Cropper
-      v-if="cropper.ratio"
-      ref="cropperRef"
-      :src="cropper.src"
-      :stencil-props="{ aspectRatio: cropper.ratio }"
-      style="max-height: 50vh"
-      @change="onChange"
-    />
-    <Cropper v-else ref="cropperRef" :src="cropper.src" style="max-height: 50vh" @change="onChange" />
-    <div class="dialog-footer">
-      <el-button :loading="loading" type="warning" @click="cancel">Отменить</el-button>
-      <el-button :loading="loading" type="success" @click="save">Сохранить</el-button>
+  <el-dialog :model-value="open" title="Настройка изображения" :close-on-click-modal="false" :close-on-press-escape="false">
+    <div class="background-container">
+      <div class="tools-line">
+        <div class="line-block">
+          <el-form-item label="Задайте пропорции фото:">
+            <el-select v-model="resolution" label="Пропорции изображения" @change="selectResolution">
+              <el-option label="2:3 (формат A4)" :value="2 / 3" />
+              <el-option label="4:3 (для карточек новостей)" :value="4 / 3" />
+              <el-option label="1:1 (для фото сотрудников)" :value="1" />
+              <el-option label="3:2" :value="3 / 2" />
+              <el-option label="16:9" :value="16 / 9" />
+              <el-option label="3:4 (вертикальное изображение)" :value="3 / 4" />
+              <el-option label="Задать пропорции вручную" :value="0" />
+            </el-select>
+          </el-form-item>
+        </div>
+      </div>
+      <Cropper
+        ref="cropperRef"
+        :src="cropper.src"
+        :stencil-props="{ aspectRatio: cropper.ratio }"
+        style="max-height: 50vh"
+        @change="onChange"
+      />
+
+      <div class="dialog-footer">
+        <el-button :loading="loading" type="success" @click="save">Сохранить</el-button>
+      </div>
     </div>
   </el-dialog>
 </template>
@@ -21,17 +36,40 @@ import 'vue-advanced-cropper/dist/style.css';
 
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
-import { useStore } from 'vuex';
 
 import ICanvasResult from '@/interfaces/canvas/ICanvasResult';
 import ICoordinates from '@/interfaces/canvas/ICoordinates';
+import { ICropper } from '@/interfaces/cropper/ICropper';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ImageCropper',
   components: { Cropper },
-  setup() {
-    const store = useStore();
-    const cropper = computed(() => store.getters[`cropper/cropper`]);
+  props: {
+    open: {
+      type: Boolean,
+      required: true,
+    },
+    defaultRatio: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
+  },
+  emits: ['crop', 'close'],
+  setup(props, { emit }) {
+    const cropper: Ref<ICropper> = computed(() => Provider.store.getters[`cropper/cropperV2`]);
+    const resolution: Ref<number> = ref(props.defaultRatio);
+
+    cropper.value.ratio = resolution.value;
+
+    const selectResolution = async () => {
+      if (resolution.value === 0) {
+        cropper.value.ratio = 0;
+      } else {
+        cropper.value.ratio = resolution.value;
+      }
+    };
 
     const coordinates: Ref<ICoordinates> = ref({
       width: 0,
@@ -40,6 +78,7 @@ export default defineComponent({
       top: 0,
     });
 
+    console.log(coordinates);
     const loading = ref(false);
     const resultImage = ref('');
     const cropperRef = ref();
@@ -47,32 +86,104 @@ export default defineComponent({
     const save = async () => {
       loading.value = true;
       const canvas = cropperRef.value.getResult();
+      if (cropper.value.ratio === 0) {
+        resolution.value = coordinates.value.width / coordinates.value.height;
+      }
       if (canvas) {
         canvas.canvas.toBlob((blob: Blob) => {
-          store.commit(`${cropper.value.store}/${cropper.value.mutation}`, { blob: blob, src: canvas.canvas.toDataURL() });
+          emit('crop', { blob: blob, src: canvas.canvas?.toDataURL() });
         });
       }
+
       loading.value = false;
-      cropper.value.isOpen = false;
     };
+
     const cancel = () => {
-      store.commit('cropper/close');
+      resultImage.value = '';
+      emit('close');
     };
 
     const onChange = (res: ICanvasResult) => {
       coordinates.value = res.coordinates;
-      resultImage.value = res.canvas.toDataURL();
+      resultImage.value = res.canvas?.toDataURL();
     };
 
-    return { save, cancel, onChange, resultImage, cropperRef, loading, cropper };
+    return { save, cancel, onChange, resultImage, cropperRef, loading, cropper, selectResolution, resolution };
   },
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
+
 .dialog-footer {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+
+.background-container {
+  width: auto;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  background: #dff2f8;
+  border-radius: 5px;
+  border: 1px solid #c3c3c3;
+}
+
+.tools-line {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.line-item {
+  margin-left: 20px;
+}
+
+.foto-select {
+  width: 280px;
+}
+
+.line-block {
+  width: 280px;
+}
+
+:deep(.el-input__inner) {
+  border-radius: 40px;
+  padding-left: 15px;
+  height: 32px;
+  width: 270px;
+  display: flex;
+  font-family: Comfortaa, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+:deep(.el-form-item__label) {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-size: 12px;
+  color: #a3a9be;
+  padding: 0 !important;
+  text-transform: uppercase;
+  margin-left: 5px;
+  height: 40px;
+}
+
+:deep(.el-select .el-input .el-select__caret) {
+  color: #343e5c;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-top: 1px;
+}
+
+:deep(.el-select .el-input .el-select__caret.el-icon-circle-close) {
+  height: 40px;
+}
+
+:deep(.el-select .el-input__suffix) {
+  top: -3px;
 }
 </style>
