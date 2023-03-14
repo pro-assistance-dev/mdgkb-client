@@ -59,14 +59,14 @@
           {{ scope.row.formValue.child.human.getFullName() }}
         </template>
       </el-table-column>
-      <el-table-column label="Вход" min-width="200">
-        <template #default="scope">
-          {{ scope.row.gate.name }}
-        </template>
-      </el-table-column>
+      <!--      <el-table-column label="Вход" min-width="200">-->
+      <!--        <template #default="scope">-->
+      <!--          {{ scope.row.gate.name }}-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column label="Отделение" min-width="200">
         <template #default="scope">
-          {{ scope.row.division.name }}
+          {{ scope.row.division?.name }}
         </template>
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
