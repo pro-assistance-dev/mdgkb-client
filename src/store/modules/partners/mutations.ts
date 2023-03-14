@@ -9,6 +9,9 @@ const mutations: MutationTree<State> = {
   setAll(state, items: IPartner[]) {
     state.items = items.map((i: IPartner) => new Partner(i));
   },
+  setFilteredItems(state, items: Partner[]) {
+    state.filteredItems = items;
+  },
   set(state, item: IPartner) {
     state.item = new Partner(item);
   },

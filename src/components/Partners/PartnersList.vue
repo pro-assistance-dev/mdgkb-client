@@ -1,6 +1,5 @@
 <template>
   <el-card>
-    <h3>{{ partnerType.name }}</h3>
     <div v-if="partnerType.showImage" class="partners-images">
       <a v-for="item in partners" :key="item.id" :href="item.link ? item.link : null" target="_blank">
         <img :src="item.image.getImageUrl()" :alt="item.name" />
@@ -13,22 +12,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
 
-import IPartner from '@/interfaces/partners/IPartner';
-import IPartnerType from '@/interfaces/partners/IPartnerType';
+import Partner from '@/classes/Partner';
+import PartnerType from '@/classes/PartnerType';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PartnersList',
-  props: {
-    partners: {
-      type: Array as PropType<IPartner[]>,
-      required: true,
-    },
-    partnerType: {
-      type: Object as PropType<IPartnerType>,
-      required: true,
-    },
+  setup() {
+    const partners: ComputedRef<Partner[]> = computed(() => Provider.store.getters['partners/filteredItems']);
+    const partnerType: ComputedRef<PartnerType[]> = computed(() => Provider.store.getters['partnerTypes/item']);
+
+    return {
+      partners,
+      partnerType,
+    };
   },
 });
 </script>

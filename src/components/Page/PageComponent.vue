@@ -1,22 +1,22 @@
 <template>
   <div v-if="mounted">
     <AdaptiveContainer :menu-width="'300px'" :mobile-width="'1330px'">
-      <template  v-if="!page.id && !page.pageSideMenus.length" #main>
+      <template v-if="!page.id && !page.pageSideMenus.length" #main>
         <CustomPage />
       </template>
-      <template  v-if="page.id && page.pageSideMenus.length" #menu>
-        <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" @close="(e) => (close = e)" />
+      <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #menu>
+        <PageSideMenuComponent :page="page" @select-menu="selectMenu" @close="(e) => (close = e)" />
       </template>
 
-      <template v-if="page.id && page.pageSideMenus.length" #icon>
+      <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #icon>
         <svg class="icon-right-menu">
           <use xlink:href="#right-menu"></use>
         </svg>
       </template>
-      <template v-if="page.id && page.pageSideMenus.length" #title>
-        <div class="title-in">{{ page.title }}</div>
+      <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #title>
+        <div class="title-in">{{ page.title ? page.title : title }}</div>
       </template>
-      <template v-if="page.id && page.pageSideMenus.length" #body>
+      <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #body>
         <div class="body-in">
           <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact-info="page.contactInfo" full />
           <PageSection
@@ -36,20 +36,20 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, PropType, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, PropType, Ref, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 
-import PageSideMenu from '@/services/classes/page/PageSideMenu';
+import RightMenu from '@/assets/svg/Main/RightMenu.svg';
+import CustomSection from '@/classes/CustomSection';
+import AdaptiveContainer from '@/components/Base/AdaptiveContainer.vue';
+import ContactsBlock from '@/components/ContactsBlock.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenuV2.vue';
-import ContactsBlock from '@/components/ContactsBlock.vue';
 import Page from '@/services/classes/page/Page';
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
-import AdaptiveContainer from '@/components/Base/AdaptiveContainer.vue';
-import RightMenu from '@/assets/svg/Main/RightMenu.svg';
-import CustomSection from '@/classes/CustomSection';
 
 export default defineComponent({
   name: 'PageComponent',
@@ -66,8 +66,16 @@ export default defineComponent({
       type: Array as PropType<CustomSection[]>,
       default: () => [],
     },
+    getPage: {
+      type: Boolean as PropType<boolean>,
+      default: true,
+    },
+    title: {
+      type: String as PropType<string>,
+      default: '',
+    },
   },
-  emins: ['selectMenu'],
+  emits: ['selectMenu'],
   setup(props, { emit }) {
     const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
     const path = computed(() => Provider.route().path);
@@ -75,11 +83,13 @@ export default defineComponent({
     const mounted = ref(false);
 
     const load = async () => {
+      Provider.store.commit('pages/resetItem');
       mounted.value = false;
-      await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
+      if (props.getPage) {
+        await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
+      }
       page.value.addCustomSectionsToSideMenu(props.customSections);
       mounted.value = true;
-      emit;
     };
 
     let redirect = false;
@@ -93,7 +103,13 @@ export default defineComponent({
     });
     Hooks.onBeforeMount(load);
 
+    const selectMenu = (e: PageSideMenu): void => {
+      selectedMenu.value = e;
+      emit('selectMenu', e);
+    };
+
     return {
+      selectMenu,
       mounted,
       page,
       selectedMenu,

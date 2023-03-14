@@ -1,56 +1,60 @@
 <template>
-  <VerticalPageWrapper :title="title">
-    <template #menu>
-      <PartnersMenu :partner-types="partnerTypes" @load="setPartner" />
+  <PageComponent v-if="mounted" :custom-sections="customSections" :get-page="false" title="Партнёры" @select-menu="setPartner">
+    <template v-for="section in customSections" :key="section" #[section.id]>
+      <component :is="section.component"></component>
     </template>
-    <PartnersList :partners="currentPartners" :partner-type="currentType" />
-  </VerticalPageWrapper>
+  </PageComponent>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import CustomSection from '@/classes/CustomSection';
+import Partner from '@/classes/Partner';
 import PartnerType from '@/classes/PartnerType';
+import PageComponent from '@/components/Page/PageComponent.vue';
 import PartnersList from '@/components/Partners/PartnersList.vue';
-import PartnersMenu from '@/components/Partners/PartnersMenu.vue';
-import VerticalPageWrapper from '@/components/VerticalPageWrapper.vue';
-import IPartner from '@/interfaces/partners/IPartner';
-import IPartnerType from '@/interfaces/partners/IPartnerType';
-import Hooks from '@/services/Hooks/Hooks';
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PartnersPage',
-  components: { PartnersList, VerticalPageWrapper, PartnersMenu },
+  components: { PageComponent, PartnersList },
 
   setup() {
-    const store = useStore();
-    const partners: ComputedRef<IPartner[]> = computed(() => Provider.store.getters['partners/items']);
-    const partnerTypes: ComputedRef<IPartnerType[]> = computed(() => Provider.store.getters['partnerTypes/items']);
-    const currentPartners: Ref<IPartner[]> = ref([]);
-    const currentType: Ref<IPartnerType> = ref(new PartnerType());
+    const partners: ComputedRef<Partner[]> = computed(() => Provider.store.getters['partners/items']);
+    const partnerTypes: ComputedRef<PartnerType[]> = computed(() => Provider.store.getters['partnerTypes/items']);
 
-    const setPartner = (partnerType: IPartnerType) => {
-      currentPartners.value = partners.value.filter((item: IPartner) => item.partnerType?.id == partnerType.id);
-      currentType.value = partnerType;
+    const customSections: Ref<CustomSection[]> = ref([]);
+    const mounted = ref(false);
+
+    const setPartner = (e: PageSideMenu) => {
+      Provider.store.commit(
+        'partnerTypes/set',
+        partnerTypes.value.find((pt: PartnerType) => pt.id === e.id)
+      );
+      Provider.store.commit(
+        'partners/setFilteredItems',
+        partners.value.filter((item: Partner) => item.partnerType?.id == e.id)
+      );
     };
 
     const load = async () => {
-      await store.dispatch('partnerTypes/getAll');
-      await store.dispatch('partners/getAll');
-      setPartner(partnerTypes.value[0]);
+      await Provider.getAll('partnerTypes');
+      await Provider.getAll('partners');
+      const sections = partnerTypes.value.map((p: PartnerType) => CustomSection.Create(p.id as string, p.name, 'PartnersList'));
+      customSections.value.push(...sections);
+      mounted.value = true;
     };
 
-    Hooks.onBeforeMount(load);
+    onBeforeMount(load);
 
     return {
+      customSections,
       partners,
       partnerTypes,
-      currentPartners,
       setPartner,
-      currentType,
-      mounted: Provider.mounted,
+      mounted,
     };
   },
 });

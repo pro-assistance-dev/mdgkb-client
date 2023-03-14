@@ -20,7 +20,6 @@ export default defineComponent({
   components: {
     PageComponent,
     ResidencyCourses,
-    // ResidencyContacts,
   },
   setup() {
     const customSections: Ref<CustomSection[]> = ref([]);
