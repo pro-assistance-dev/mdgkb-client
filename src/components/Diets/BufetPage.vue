@@ -25,6 +25,7 @@
     <div class="main">
       <div v-if="!dailyMenu.getNonEmptyGroups().length" class="info-window">На данный момент нет блюд для выбора</div>
       <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
+        {{ dishesGroup.getTransliteIdFromName() }}
         <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">
           {{ dishesGroup.name }}
         </div>
@@ -46,18 +47,18 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
+import DailyMenu from '@/classes/DailyMenu';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import DishesGroup from '@/classes/DishesGroup';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
 import DishCard from '@/components/Diets/DishCard.vue';
-import IDailyMenu from '@/interfaces/IDailyMenu';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
-import IDishesGroup from '@/interfaces/IDishesGroup';
 import IForm from '@/interfaces/IForm';
 import IUser from '@/interfaces/IUser';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -66,13 +67,12 @@ export default defineComponent({
   name: 'BufetPage',
   components: { Cart, DishCard },
   setup() {
-    const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
-    const dailyMenu: Ref<IDailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+    const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
-    const dishesGroupsSource: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0));
+    const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0));
 
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
 
@@ -83,13 +83,14 @@ export default defineComponent({
       dailyMenuOrder.value.formValue.user = new User(user.value);
 
       await getDishesGroups();
+      dailyMenu.value.groupDishes(dishesGroups.value);
     };
 
     const getDishesGroups = async () => {
       const queryFilter = new FilterQuery();
       queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
       await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
-      dishesGroups.value = dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0);
+      dishesGroups.value = dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0);
     };
 
     const openCart = () => {
@@ -110,7 +111,6 @@ export default defineComponent({
       dailyMenuOrder,
       dishesGroups,
       dailyMenu,
-      dailyMenus,
       mounted: Provider.mounted,
       schema: Provider.schema,
       openCart,

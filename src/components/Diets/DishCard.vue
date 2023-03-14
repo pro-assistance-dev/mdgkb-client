@@ -31,20 +31,20 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, Ref } from 'vue';
 
-import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
+import DailyMenuItem from '@/classes/DailyMenuItem';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DishCard',
   props: {
     dailyMenuItem: {
-      type: Object as PropType<IDailyMenuItem>,
+      type: Object as PropType<DailyMenuItem>,
       required: true,
     },
   },
   setup(props) {
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const add = (curNum: number, prevNum: number) => {
       if (curNum > prevNum) {
         dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuItem);

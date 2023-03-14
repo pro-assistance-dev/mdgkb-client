@@ -222,23 +222,22 @@ import Eye from '@/assets/svg/Buffet/Eye.svg';
 import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
 import NonActive from '@/assets/svg/Buffet/NonActive.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
-import Calendar from '@/services/classes/calendar/Calendar';
 import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
-import Day from '@/services/classes/calendar/Day';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
+import DailyMenuItem from '@/classes/DailyMenuItem';
+import DishesGroup from '@/classes/DishesGroup';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
 import CalendarComponent from '@/components/CalendarComponent.vue';
 import VerticalCollapseContainer from '@/components/Main/Collapse/VerticalCollapseContainer.vue';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import IDailyMenu from '@/interfaces/IDailyMenu';
-import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
-import IDishesGroup from '@/interfaces/IDishesGroup';
+import Calendar from '@/services/classes/calendar/Calendar';
+import Day from '@/services/classes/calendar/Day';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
 import DailyMenusSortsLib from '@/services/Provider/libs/sorts/DailyMenus';
 import Provider from '@/services/Provider/Provider';
@@ -267,12 +266,12 @@ export default defineComponent({
   setup() {
     const addDishVisible: Ref<boolean> = ref(false);
     const dishesConstructorVisible: Ref<boolean> = ref(false);
-    const dailyMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
-    const periodMenus: Ref<IDailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
-    const dishesGroups: Ref<IDishesGroup[]> = ref([]);
+    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+    const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
+    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
-    const selectedMenu: Ref<IDailyMenu> = ref(new DailyMenu());
+    const selectedMenu: Ref<DailyMenu> = ref(new DailyMenu());
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
@@ -307,7 +306,7 @@ export default defineComponent({
       fq.filterModels.push(DailyMenusFiltersLib.byPeriod(period[0].date, period[period.length - 1].date));
       await Provider.store.dispatch('dailyMenus/getPeriodItems', fq);
       period.forEach((day: Day) => {
-        const menu = periodMenus.value.find((m: IDailyMenu) => m.date.getDate() === day.date.getDate());
+        const menu = periodMenus.value.find((m: DailyMenu) => m.date.getDate() === day.date.getDate());
         if (!menu) {
           return;
         }
@@ -319,8 +318,10 @@ export default defineComponent({
       if (dailyMenus.value.length < 1) {
         return;
       }
+      // dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
+      // console.log(dishesGroups.value);
       selectedMenu.value = dailyMenus.value[0];
-      selectedMenu.value?.groupDishes();
+      selectedMenu.value?.groupDishes(dishesGroups.value);
     };
 
     const selectDay = async (): Promise<void> => {
@@ -337,7 +338,9 @@ export default defineComponent({
         calendar.value.getSelectedDay().date.getTime() - calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000
       );
       selectedMenu.value = DailyMenu.CreateBreakfast(date);
+      selectedMenu.value.dishesGroups = dishesGroups.value;
       const lunch = DailyMenu.CreateDinner(date);
+      lunch.dishesGroups = dishesGroups.value;
       await Provider.store.dispatch('dailyMenus/create', lunch);
       await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
 
@@ -369,12 +372,12 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
     };
 
-    const selectMenu = (menu: IDailyMenu): void => {
+    const selectMenu = (menu: DailyMenu): void => {
       selectedMenu.value = menu;
-      selectedMenu.value?.groupDishes();
+      selectedMenu.value?.groupDishes(dishesGroups.value);
     };
 
-    const removeFromMenu = async (dishesGroup: IDishesGroup, dishItem?: IDailyMenuItem): Promise<void> => {
+    const removeFromMenu = async (dishesGroup: DishesGroup, dishItem?: DailyMenuItem): Promise<void> => {
       if (!selectedMenu.value) {
         return;
       }
@@ -382,18 +385,18 @@ export default defineComponent({
         for (const id of dishesGroup.getDailyMenuItemsIds()) {
           await Provider.store.dispatch('dailyMenuItems/remove', id);
         }
-        selectedMenu.value?.removeMenuItems(dishesGroup.getDailyMenuItemsIds());
+        selectedMenu.value?.removeMenuItems(dishesGroup.getDailyMenuItemsIds(), dishesGroups.value);
         return;
       }
-      const i = dishesGroup.dailyMenuItems.findIndex((di: IDailyMenuItem) => di.id === dishItem.id);
+      const i = dishesGroup.dailyMenuItems.findIndex((di: DailyMenuItem) => di.id === dishItem.id);
       if (i < 0) {
         return;
       }
       ClassHelper.RemoveFromClassById(dishItem.id, dishesGroup.dailyMenuItems, []);
       if (dishItem.id) {
-        selectedMenu.value.removeMenuItem(dishItem.id);
+        selectedMenu.value.removeMenuItem(dishItem.id, dishesGroups.value);
       }
-      selectedMenu.value.groupDishes();
+      selectedMenu.value.groupDishes(dishesGroups.value);
       await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
       await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
@@ -419,24 +422,24 @@ export default defineComponent({
         confirmButtonText: 'Да',
         cancelButtonText: 'Нет',
       }).then(async () => {
-        dailyMenus.value = dailyMenus.value.filter((dm: IDailyMenu) => dm.id === menuId);
+        dailyMenus.value = dailyMenus.value.filter((dm: DailyMenu) => dm.id === menuId);
         await Provider.store.dispatch('dailyMenus/remove', menuId);
         selectedMenu.value = dailyMenus.value[dailyMenus.value.length - 1];
-        selectedMenu.value?.groupDishes();
+        selectedMenu.value?.groupDishes(dishesGroups.value);
       });
     };
 
-    const setGroupAvailable = async (dishesGroup: IDishesGroup, available: boolean) => {
+    const setGroupAvailable = async (dishesGroup: DishesGroup, available: boolean) => {
       dishesGroup.setAvailable(available);
       await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
 
-    const setDailyMenuItemAvailable = async (dailyMenuItem: IDailyMenuItem, available: boolean) => {
+    const setDailyMenuItemAvailable = async (dailyMenuItem: DailyMenuItem, available: boolean) => {
       dailyMenuItem.available = available;
       await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
 
-    const saveMenu = async (menu: IDailyMenu) => {
+    const saveMenu = async (menu: DailyMenu) => {
       await Provider.store.dispatch('dailyMenus/update', menu);
       menu.editMode = false;
     };
@@ -447,9 +450,9 @@ export default defineComponent({
     };
 
     const startMenu = async (): Promise<void> => {
-      const selectedMenuIndex = dailyMenus.value.findIndex((d: IDailyMenu) => d.id === selectedMenu.value.id);
+      const selectedMenuIndex = dailyMenus.value.findIndex((d: DailyMenu) => d.id === selectedMenu.value.id);
       if (selectedMenuIndex === 0) {
-        dailyMenus.value.forEach((dmi: IDailyMenu) => {
+        dailyMenus.value.forEach((dmi: DailyMenu) => {
           dmi.active = false;
           dmi.removeDailyMenuItemsFromOthersMenus();
         });
@@ -460,7 +463,7 @@ export default defineComponent({
         }
         return;
       }
-      const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: IDailyMenu) => menu.active);
+      const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: DailyMenu) => menu.active);
       if (previousActiveMenuIndex > -1) {
         let textConfirm = 'Вы хотите запустить следующее меню?';
         if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
@@ -472,11 +475,11 @@ export default defineComponent({
           cancelButtonText: 'Нет',
         })
           .then(async () => {
-            dailyMenus.value.forEach((m: IDailyMenu) => {
+            dailyMenus.value.forEach((m: DailyMenu) => {
               m.active = false;
               m.removeDailyMenuItemsFromOthersMenus();
             });
-            selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+            selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]], dishesGroups.value);
             selectedMenu.value.active = true;
 
             for (const dmi of dailyMenus.value) {
@@ -487,11 +490,11 @@ export default defineComponent({
             return;
           });
       } else {
-        dailyMenus.value.forEach((m: IDailyMenu) => {
+        dailyMenus.value.forEach((m: DailyMenu) => {
           m.active = false;
           m.removeDailyMenuItemsFromOthersMenus();
         });
-        selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]]);
+        selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]], dishesGroups.value);
         selectedMenu.value.active = true;
 
         for (const dmi of dailyMenus.value) {

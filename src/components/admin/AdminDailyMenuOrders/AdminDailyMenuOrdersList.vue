@@ -52,14 +52,14 @@ export default defineComponent({
 
     const load = async () => {
       Provider.store.commit('filter/setStoreModule', 'dailyMenuOrders');
-      await Provider.store.dispatch('dailyMenuOrders/getAll', Provider.store.getters['filter/filterQuery']);
+      await Provider.store.dispatch('dailyMenuOrders/getAllWithCount', Provider.store.getters['filter/filterQuery']);
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Заказы еды',
       });
     };
 
     Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'dailyMenuOrders', action: 'getAll' },
+      pagination: { storeModule: 'dailyMenuOrders', action: 'getAllWithCount' },
     });
 
     const edit = (id: string) => Provider.router.push(`/admin/daily-menu-orders/${id}`);

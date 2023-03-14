@@ -261,7 +261,6 @@ export default class Form implements IForm {
         }
       }
     });
-
     if (this.withPersonalDataAgreement && !this.agreedWithPersonalDataAgreement) {
       this.showPersonalDataAgreementError = true;
       this.validated = false;

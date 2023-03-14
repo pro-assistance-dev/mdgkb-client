@@ -10,11 +10,8 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import CustomSection from '@/classes/CustomSection';
-import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';
-// import PostgraduateContacts from '@/components/Educational/Postgraduate/PostgraduateContacts.vue';
 import PostgraduateCoursesList from '@/components/Educational/Postgraduate/PostgraduateCoursesList.vue';
-import PostgraduateFilters from '@/components/Educational/Postgraduate/PostgraduateFilters.vue';
 import PostgraducateAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
@@ -37,10 +34,9 @@ export default defineComponent({
     Hooks.onBeforeMount(() => {
       customSections.value.push(
         CustomSection.Create('info', 'Основные сведения', 'InfoPage', 0),
-        CustomSection.Create('programs', 'Программы', 'PostgraduateCoursesList', 1),
-        CustomSection.Create('candidate', 'Кандидатский минимум', 'CandidatesMinimum', 2),
-        CustomSection.Create('academics', 'Учёный совет', 'PostgraducateAcademics', 3),
-        // CustomSection.Create('contacts', 'Контакты', 'PostgraduateContacts', 4)
+        // CustomSection.Create('programs', 'Программы', 'PostgraduateCoursesList', 1),
+        // CustomSection.Create('candidate', 'Кандидатский минимум', 'CandidatesMinimum', 2),
+        CustomSection.Create('academics', 'Учёный совет', 'PostgraducateAcademics', 3)
       );
     });
 

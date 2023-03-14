@@ -1,29 +1,22 @@
+import DailyMenu from '@/classes/DailyMenu';
+import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishSample from '@/classes/DishSample';
-import IDailyMenu from '@/interfaces/IDailyMenu';
-import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
-import IDishesGroup from '@/interfaces/IDishesGroup';
-import IDishSample from '@/interfaces/IDishSample';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class DishesGroup implements IDishesGroup {
+export default class DishesGroup {
   id?: string;
   name = '';
   order = 0;
-  dailyMenuItems: IDailyMenuItem[] = [];
-  dishSamples: IDishSample[] = [];
-  constructor(i?: IDishesGroup) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.order = i.order;
-    if (i.dishSamples) {
-      this.dishSamples = i.dishSamples.map((item: IDishSample) => new DishSample(item));
-    }
+  @ClassHelper.GetClassConstructor(DishSample)
+  dishSamples: DishSample[] = [];
+  @ClassHelper.GetClassConstructor(DailyMenuItem)
+  dailyMenuItems: DailyMenuItem[] = [];
+  constructor(i?: DishesGroup) {
+    ClassHelper.BuildClass(this, i);
   }
 
   toggleSelectSample(id: string): void {
-    const dishSample = this.dishSamples.find((item: IDishSample) => item.id === id);
+    const dishSample = this.dishSamples.find((item: DishSample) => item.id === id);
     if (!dishSample) {
       return;
     }
@@ -31,22 +24,22 @@ export default class DishesGroup implements IDishesGroup {
   }
 
   removeDishSample(id?: string): void {
-    const index = this.dishSamples.findIndex((i: IDishSample) => i.id === id);
+    const index = this.dishSamples.findIndex((i: DishSample) => i.id === id);
     if (index > -1) {
       this.dishSamples.splice(index, 1);
     }
   }
 
-  updateDishSample(dishSample: IDishSample): void {
-    const index = this.dishSamples.findIndex((i: IDishSample) => i.id === dishSample.id);
+  updateDishSample(dishSample: DishSample): void {
+    const index = this.dishSamples.findIndex((i: DishSample) => i.id === dishSample.id);
     if (index > -1) {
       this.dishSamples[index] = new DishSample(dishSample);
     }
   }
 
-  getSamplesNotFromMenu(menu: IDailyMenu): IDishSample[] {
-    return this.dishSamples.filter((ds: IDishSample) => {
-      return !menu.dailyMenuItems.find((dmi: IDailyMenuItem) => dmi.dishSampleId === ds.id);
+  getSamplesNotFromMenu(menu: DailyMenu): DishSample[] {
+    return this.dishSamples.filter((ds: DishSample) => {
+      return !menu.dailyMenuItems.find((dmi: DailyMenuItem) => dmi.dishSampleId === ds.id);
     });
   }
 
@@ -54,8 +47,8 @@ export default class DishesGroup implements IDishesGroup {
     return this.dishSamples.length > 0;
   }
 
-  upsertSample(dishSample: IDishSample): void {
-    const existingSampleIndex = this.dishSamples.findIndex((d: IDishSample) => d.id === dishSample.id);
+  upsertSample(dishSample: DishSample): void {
+    const existingSampleIndex = this.dishSamples.findIndex((d: DishSample) => d.id === dishSample.id);
     if (existingSampleIndex > -1) {
       this.dishSamples[existingSampleIndex] = new DishSample(dishSample);
     } else {
@@ -64,15 +57,15 @@ export default class DishesGroup implements IDishesGroup {
   }
 
   containAvailableItems(): boolean {
-    return this.dailyMenuItems.some((d: IDailyMenuItem) => d.available);
+    return this.dailyMenuItems.some((d: DailyMenuItem) => d.available);
   }
   setAvailable(available: boolean): void {
-    this.dailyMenuItems.forEach((d: IDailyMenuItem) => (d.available = available));
+    this.dailyMenuItems.forEach((d: DailyMenuItem) => (d.available = available));
   }
 
   getDailyMenuItemsIds(): string[] {
     const ids: string[] = [];
-    this.dailyMenuItems.forEach((dmi: IDailyMenuItem) => {
+    this.dailyMenuItems.forEach((dmi: DailyMenuItem) => {
       if (dmi.id) {
         ids.push(dmi.id);
       }
@@ -80,9 +73,9 @@ export default class DishesGroup implements IDishesGroup {
     return ids;
   }
 
-  getAvailableDishes(): IDailyMenuItem[] {
-    const items: IDailyMenuItem[] = [];
-    this.dailyMenuItems.forEach((i: IDailyMenuItem) => {
+  getAvailableDishes(): DailyMenuItem[] {
+    const items: DailyMenuItem[] = [];
+    this.dailyMenuItems.forEach((i: DailyMenuItem) => {
       if (i.available) {
         items.push(i);
       }
@@ -91,6 +84,6 @@ export default class DishesGroup implements IDishesGroup {
   }
 
   getTransliteIdFromName(): string {
-    return this.name.replace(' ', '');
+    return this.name.replace(/\s+/g, '');
   }
 }

@@ -36,8 +36,8 @@ import { watch } from '@vue/runtime-core';
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref } from 'vue';
 
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import TableCard from '@/components/Diets/TableCard.vue';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
@@ -45,7 +45,7 @@ export default defineComponent({
   name: 'BufetCart',
   components: { TableCard },
   setup() {
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
     const checkDailyMenuOrderItemsLength = () => {
       if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {

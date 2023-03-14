@@ -1,6 +1,6 @@
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
 
 export default interface IDailyMenuOrdersWithCount {
-  dailyMenuOrders: IDailyMenuOrder[];
+  dailyMenuOrders: DailyMenuOrder[];
   count: number;
 }

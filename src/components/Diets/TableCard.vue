@@ -33,8 +33,8 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, PropType, Ref } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
-import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import DailyMenuOrderItem from '@/classes/DailyMenuOrderItem';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -44,12 +44,12 @@ export default defineComponent({
   },
   props: {
     dailyMenuOrderItem: {
-      type: Object as PropType<IDailyMenuOrderItem>,
+      type: Object as PropType<DailyMenuOrderItem>,
       required: true,
     },
   },
   setup(props) {
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const add = (curNum: number, prevNum: number) => {
       changeDailyMenuOrderItemQuantity(curNum, prevNum);
     };

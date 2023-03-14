@@ -16,9 +16,9 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -32,7 +32,7 @@ export default defineComponent({
   setup() {
     const form = ref();
     const isEditMode: Ref<boolean> = ref(false);
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       if (!validate(form)) {

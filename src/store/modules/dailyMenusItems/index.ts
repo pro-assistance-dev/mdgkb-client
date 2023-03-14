@@ -1,17 +1,18 @@
 import { Module } from 'vuex';
 
 import DailyMenuItem from '@/classes/DailyMenuItem';
+import getBaseDefaultState from '@/store/baseModule/baseIndex';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
 
+export type State = IBasicState<DailyMenuItem>;
 export const getDefaultState = (): State => {
   return {
-    items: [],
-    item: new DailyMenuItem(),
+    ...getBaseDefaultState(DailyMenuItem),
   };
 };
 

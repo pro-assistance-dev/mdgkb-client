@@ -10,7 +10,6 @@
 import { defineComponent, Ref, ref } from 'vue';
 
 import CustomSection from '@/classes/CustomSection';
-// import ResidencyContacts from '@/components/Educational/Residency/ResidencyContacts.vue';
 import ResidencyCourses from '@/components/Educational/Residency/ResidencyCourses.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import Hooks from '@/services/Hooks/Hooks';
@@ -28,7 +27,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(
-        CustomSection.Create('courses', 'Программы', 'ResidencyCourses'),
+        CustomSection.Create('courses', 'Программы', 'ResidencyCourses')
         // CustomSection.Create('contacts', 'Контакты', 'ResidencyContacts')
       );
     });

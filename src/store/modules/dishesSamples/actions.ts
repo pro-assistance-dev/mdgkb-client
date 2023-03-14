@@ -1,24 +1,23 @@
 import { ActionTree } from 'vuex';
 
 import DishSample from '@/classes/DishSample';
-import IDishSample from '@/interfaces/IDishSample';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const httpClient = new HttpClient('dishes-samples');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IDishSample[]>());
+    commit('setAll', await httpClient.get<DishSample[]>());
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IDishSample>({ query: `${id}` });
+    const res = await httpClient.get<DishSample>({ query: `${id}` });
     commit('set', res);
   },
   create: async ({ commit, state }): Promise<void> => {
-    const res = await httpClient.post<IDishSample, IDishSample>({
+    const res = await httpClient.post<DishSample, DishSample>({
       payload: state.item,
       isFormData: true,
       fileInfos: state.item.getFileInfos(),
@@ -30,7 +29,7 @@ const actions: ActionTree<State, RootState> = {
     state.items.unshift(new DishSample(state.item));
   },
   update: async ({ state }): Promise<void> => {
-    await httpClient.put<IDishSample, IDishSample>({
+    await httpClient.put<DishSample, DishSample>({
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,
@@ -38,15 +37,15 @@ const actions: ActionTree<State, RootState> = {
     });
     // console.log('actions update' + state.item.updateAt);
   },
-  updateAll: async (_, items: IDishSample[]): Promise<void> => {
-    await httpClient.put<IDishSample[], IDishSample[]>({
+  updateAll: async (_, items: DishSample[]): Promise<void> => {
+    await httpClient.put<DishSample[], DishSample[]>({
       payload: items,
       isFormData: true,
     });
   },
   remove: async ({ state }, id: string): Promise<void> => {
     await httpClient.delete({ query: `${id}` });
-    const index = state.items.findIndex((i: IDishSample) => i.id === id);
+    const index = state.items.findIndex((i: DishSample) => i.id === id);
     if (index > -1) {
       state.items.splice(index, 1);
     }

@@ -10,12 +10,13 @@ import getters from './getters';
 import mutations from './mutations';
 
 export type State = IBasicState<Employee>;
-export const state = (): State => {
+export const getDefaultState = (): State => {
   return {
     ...getBaseDefaultState(Employee),
   };
 };
 
+const state = getDefaultState();
 const namespaced = true;
 
 export const employees: Module<State, RootState> = {
