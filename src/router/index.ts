@@ -57,6 +57,7 @@ export const isAuthorized = (next: NavigationGuardNext): void => {
 export const authGuard = (next?: NavigationGuardNext): void => {
   if (next) {
     const isAuth: boolean = store.getters['auth/isAuth'];
+    console.log(isAuth);
     store.commit('auth/showWarning', true);
     store.commit('auth/authOnly', true);
     if (!isAuth) {

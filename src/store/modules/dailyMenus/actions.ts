@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IDailyMenu from '@/interfaces/IDailyMenu';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import WebSocketClient from '@/services/WebSocketClient';
 import RootState from '@/store/types';
@@ -50,7 +50,7 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.put<IDailyMenu[], IDailyMenu[]>({ payload: state.items, isFormData: true });
   },
   updateTodayMenu: async ({ commit }): Promise<void> => {
-    new WebSocketClient(httpClient.endpoint, 'regular-update').setOnMessage(commit);
+    commit('set', await httpClient.get<IDailyMenu>({ query: 'today-menu' }));
   },
 };
 

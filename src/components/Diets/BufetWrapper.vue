@@ -27,6 +27,7 @@ export default defineComponent({
 
     const load = async () => {
       await Provider.store.dispatch('dailyMenus/updateTodayMenu');
+      setInterval(async () => await Provider.store.dispatch('dailyMenus/updateTodayMenu'), 1000);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
     };
@@ -50,7 +51,10 @@ export default defineComponent({
             })
           ),
         });
-      }, 1000);
+        if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
+          Provider.router.push('/bufet');
+        }
+      }, 2000);
     };
 
     Hooks.onBeforeMount(load);

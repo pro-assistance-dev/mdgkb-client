@@ -76,7 +76,7 @@ export default defineComponent({
         text: 'Загрузка',
       });
 
-      await Provider.store.dispatch('dailyMenuOrders/create');
+      await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
       ElMessage({ message: 'Заказ успешно создан', type: 'success' });
       await Provider.store.commit('dailyMenuOrders/resetItem');
       dailyMenuOrder.value.removeFromLocalStore();
