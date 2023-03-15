@@ -1,10 +1,10 @@
 <template>
   <div v-if="mounted">
-    <AdaptiveContainer :menu-width="'300px'" :mobile-width="'1330px'">
-      <template  v-if="!page.id && !page.pageSideMenus.length" #main>
+    <AdaptiveContainer :menu-width="'300px'" :mobile-width="'1330px'" :horizontal="true">
+      <template v-if="!page.id && !page.pageSideMenus.length" #main>
         <CustomPage />
       </template>
-      <template  v-if="page.id && page.pageSideMenus.length" #menu>
+      <template v-if="page.id && page.pageSideMenus.length" #menu>
         <PageSideMenuComponent :page="page" @select-menu="(e) => (selectedMenu = e)" @close="(e) => (close = e)" />
       </template>
 
@@ -36,20 +36,20 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, PropType, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, PropType, Ref, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 
-import PageSideMenu from '@/services/classes/page/PageSideMenu';
+import RightMenu from '@/assets/svg/Main/RightMenu.svg';
+import CustomSection from '@/classes/CustomSection';
+import AdaptiveContainer from '@/components/Base/AdaptiveContainer.vue';
+import ContactsBlock from '@/components/ContactsBlock.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSection from '@/components/Page/PageSection.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenuV2.vue';
-import ContactsBlock from '@/components/ContactsBlock.vue';
 import Page from '@/services/classes/page/Page';
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
-import AdaptiveContainer from '@/components/Base/AdaptiveContainer.vue';
-import RightMenu from '@/assets/svg/Main/RightMenu.svg';
-import CustomSection from '@/classes/CustomSection';
 
 export default defineComponent({
   name: 'PageComponent',
