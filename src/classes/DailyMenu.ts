@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
@@ -73,6 +75,7 @@ export default class DailyMenu {
 
   static Create(date: Date): DailyMenu {
     const menu = new DailyMenu();
+    menu.id = uuidv4();
     menu.order = 0;
     menu.name = 'Новое меню';
     menu.date = date;
@@ -81,6 +84,7 @@ export default class DailyMenu {
 
   static CreateBreakfast(date: Date): DailyMenu {
     const menu = new DailyMenu();
+    menu.id = uuidv4();
     menu.order = 0;
     menu.name = 'Завтрак';
     menu.date = date;
@@ -89,6 +93,7 @@ export default class DailyMenu {
 
   static CreateDinner(date: Date): DailyMenu {
     const menu = new DailyMenu();
+    menu.id = uuidv4();
     menu.order = 1;
     menu.name = 'Обед';
     menu.date = date;

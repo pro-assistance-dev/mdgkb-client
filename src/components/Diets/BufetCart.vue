@@ -48,12 +48,13 @@ export default defineComponent({
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
     const checkDailyMenuOrderItemsLength = () => {
+      console.log('check', dailyMenuOrder.value.dailyMenuOrderItems);
       if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
         Provider.router.push('/bufet');
       }
     };
 
-    watch(dailyMenuOrder.value.dailyMenuOrderItems, checkDailyMenuOrderItemsLength);
+    watch(dailyMenuOrder.value, checkDailyMenuOrderItemsLength);
 
     const load = () => {
       checkDailyMenuOrderItemsLength();

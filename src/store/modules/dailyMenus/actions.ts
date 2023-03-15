@@ -24,7 +24,7 @@ const actions: ActionTree<State, RootState> = {
       downloadFileName: 'Меню.pdf',
     });
   },
-  updateTodayMenu: async ({ commit }): Promise<void> => {
+  todayMenu: async ({ commit }): Promise<void> => {
     commit('set', await httpClient.get<DailyMenu>({ query: 'today-menu' }));
   },
 };

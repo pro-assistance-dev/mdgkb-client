@@ -10,13 +10,10 @@
             {{ formValue.formStatus.label }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="Время принятия заявления">
-          <!-- <template v-if="formValue.formStatus.isAccepted() || formValue.formStatus.isCancelled()"> -->
+        <el-descriptions-item v-if="formValue.withApprovingDate" label="Время принятия заявления">
           <el-form-item style="margin: 0" prop="content">
             <DatePicker v-model="formValue.approvingDate" />
           </el-form-item>
-          <!-- </template> -->
-          <!-- <div v-else>Заявка пока что не принята</div> -->
         </el-descriptions-item>
       </el-descriptions>
       <div class="buttons-block">
@@ -55,11 +52,11 @@
       <template #header>
         <span>Форма для подачи заявления</span>
       </template>
-      <FieldValuesForm :active-fields="activeFields" :form="formValue" :show-additional-files="true" />
+      <FieldValuesForm :active-fields="activeFields" :form="formValue" :show-additional-files="showAdditionalFiles" />
     </el-card>
 
     <div v-else>
-      <el-card v-if="formValue.fieldValues.length">
+      <el-card v-if="formValue.fieldValues.length" id="form-data">
         <template #header>
           <div class="flex-between">
             <span>Данные формы</span>
@@ -90,7 +87,7 @@
         </div>
       </el-card>
     </div>
-    <el-card v-if="formValue.fieldValues.length" header="Общий комментарий">
+    <el-card v-if="formValue.fieldValues.length" id="form-comment" header="Общий комментарий">
       <el-form-item prop="content">
         <WysiwygEditor v-model="formValue.modComment" />
       </el-form-item>
@@ -113,7 +110,7 @@ import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUserFormFields from '@/interfaces/IUserFormFields';
 import Provider from '@/services/Provider/Provider';
-
+import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'AdminFormValue',
   components: {
@@ -145,6 +142,11 @@ export default defineComponent({
       type: Object as PropType<IUserFormFields>,
       default: UserFormFields.CreateWithFullName(),
     },
+    showAdditionalFiles: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
   },
   emits: ['findEmail'],
 
@@ -163,9 +165,10 @@ export default defineComponent({
       }
       if ((status.isConsidering() || status.isAccepted()) && !formValue.value.isFieldValuesModChecked()) {
         ElMessage({
-          message: 'Не все данные формы проверены',
+          message: 'Проверьте данные формы',
           type: 'error',
         });
+        scroll('#form-data');
         return;
       }
       formValue.value.setStatus(status, formStatuses.value);

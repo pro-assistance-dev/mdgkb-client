@@ -47,6 +47,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
+import { toInteger } from 'lodash';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
@@ -80,8 +81,12 @@ export default defineComponent({
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
       dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
+      const boxN = Provider.route().query.place;
+      const boxNumberField = dailyMenuOrder.value.formValue.getFieldValueByCode('boxNumber');
+      if (boxNumberField && boxN) {
+        boxNumberField.valueNumber = Number(boxN);
+      }
       dailyMenuOrder.value.formValue.user = new User(user.value);
-
       await getDishesGroups();
       dailyMenu.value.groupDishes(dishesGroups.value);
     };

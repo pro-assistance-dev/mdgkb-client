@@ -32,12 +32,12 @@ export default defineComponent({
     });
 
     const load = async () => {
-      await Provider.store.dispatch('dailyMenus/updateTodayMenu');
+      await Provider.store.dispatch('dailyMenus/todayMenu');
       dailyMenu.value.groupDishes(dishesGroupsSource.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
       // setInterval(async () => {
-      //   await Provider.store.dispatch('dailyMenus/updateTodayMenu');
+      //   await Provider.store.dispatch('dailyMenus/todayMenu');
       //   dailyMenu.value.groupDishes(dishesGroupsSource.value);
       //   console.log(dailyMenu.value);
       // }, 5000);

@@ -14,7 +14,12 @@
         <div class="counter">
           <el-form>
             <el-form-item label="">
-              <el-input-number :min="1" :model-value="dailyMenuOrderItem.quantity" placeholder="1" @change="add"></el-input-number>
+              <el-input-number
+                :min="1"
+                :model-value="dailyMenuOrderItem.quantity"
+                placeholder="1"
+                @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, dailyMenuOrderItem.dailyMenuItem)"
+              ></el-input-number>
             </el-form-item>
           </el-form>
         </div>
@@ -50,17 +55,6 @@ export default defineComponent({
   },
   setup(props) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    const add = (curNum: number, prevNum: number) => {
-      changeDailyMenuOrderItemQuantity(curNum, prevNum);
-    };
-
-    const changeDailyMenuOrderItemQuantity = (curNum: number, prevNum: number) => {
-      if (curNum > prevNum) {
-        dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuOrderItem.dailyMenuItem);
-      } else {
-        dailyMenuOrder.value.decreaseDailyMenuOrderItem(props.dailyMenuOrderItem.dailyMenuItem);
-      }
-    };
 
     const removeItem = () => {
       ElMessageBox.confirm('Убрить блюдо из корзины?', {
@@ -78,7 +72,6 @@ export default defineComponent({
 
     return {
       removeItem,
-      add,
       dailyMenuOrder,
     };
   },

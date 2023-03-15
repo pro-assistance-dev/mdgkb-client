@@ -21,7 +21,11 @@
       </div>
       <div class="counter">
         <el-form-item label="">
-          <el-input-number :min="0" :model-value="dailyMenuOrder.getItemQuantity(dailyMenuItem)" @change="(par, par1) => add(par, par1)" />
+          <el-input-number
+            :min="0"
+            :model-value="dailyMenuOrder.getItemQuantity(dailyMenuItem)"
+            @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, dailyMenuItem)"
+          />
         </el-form-item>
       </div>
     </div>
@@ -45,15 +49,8 @@ export default defineComponent({
   },
   setup(props) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    const add = (curNum: number, prevNum: number) => {
-      if (curNum > prevNum) {
-        dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuItem);
-      } else {
-        dailyMenuOrder.value.decreaseDailyMenuOrderItem(props.dailyMenuItem);
-      }
-    };
+
     return {
-      add,
       dailyMenuOrder,
     };
   },

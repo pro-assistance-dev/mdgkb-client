@@ -12,6 +12,7 @@ export default class DailyMenuOrder {
   number = 0;
   @ClassHelper.GetClassConstructor(DailyMenuOrderItem)
   dailyMenuOrderItems: DailyMenuOrderItem[] = [];
+  dailyMenuOrderItemsForDelete: string[] = [];
   formValue: Form = new Form();
   formValueId?: string;
 
@@ -34,12 +35,20 @@ export default class DailyMenuOrder {
     }
   }
 
-  increaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
+  public changeDailyMenuOrderItemQuantity(curNum: number, prevNum: number, dailyMenuItem: DailyMenuItem): void {
+    if (curNum > prevNum) {
+      this.increaseDailyMenuOrderItem(dailyMenuItem);
+    } else {
+      this.decreaseDailyMenuOrderItem(dailyMenuItem);
+    }
+  }
+
+  private increaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
     this.addToDailyMenuItems(dailyMenuItem);
     this.setLocalStorage();
   }
 
-  decreaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
+  private decreaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
     this.removeFromDailyMenuItems(dailyMenuItem);
     this.setLocalStorage();
   }
@@ -53,7 +62,7 @@ export default class DailyMenuOrder {
       this.dailyMenuOrderItems[index].quantity--;
       this.dailyMenuOrderItems[index].price -= dailyMenuItem.price;
     } else {
-      this.dailyMenuOrderItems.splice(index, 1);
+      ClassHelper.RemoveFromClassByIndex(index, this.dailyMenuOrderItems, this.dailyMenuOrderItemsForDelete);
     }
   }
 
@@ -103,7 +112,7 @@ export default class DailyMenuOrder {
   getPriceSum(): number {
     let sum = 0;
     this.dailyMenuOrderItems.forEach((i: DailyMenuOrderItem) => {
-      sum += i.price;
+      sum += i.getPriceSum();
     });
     return sum;
   }
@@ -121,5 +130,14 @@ export default class DailyMenuOrder {
     });
     this.setLocalStorage();
     return nonActualItems;
+  }
+
+  addToOrder(dailyMenuItem: DailyMenuItem): void {
+    this.changeDailyMenuOrderItemQuantity(1, 0, dailyMenuItem);
+    // this.dailyMenuOrderItems.push()
+  }
+
+  getFormattedNumber(): string {
+    return `Заказ №${this.number}`;
   }
 }

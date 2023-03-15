@@ -284,7 +284,9 @@ export default defineComponent({
     };
 
     const openDishesConstructor = () => {
+      Provider.store.commit('admin/showLoading');
       dishesConstructorVisible.value = true;
+      Provider.store.commit('admin/closeLoading');
     };
 
     Hooks.onBeforeMount(load);
@@ -338,9 +340,7 @@ export default defineComponent({
         calendar.value.getSelectedDay().date.getTime() - calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000
       );
       selectedMenu.value = DailyMenu.CreateBreakfast(date);
-      selectedMenu.value.dishesGroups = dishesGroups.value;
       const lunch = DailyMenu.CreateDinner(date);
-      lunch.dishesGroups = dishesGroups.value;
       await Provider.store.dispatch('dailyMenus/create', lunch);
       await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
 

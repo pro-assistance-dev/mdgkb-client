@@ -68,15 +68,14 @@ export default defineComponent({
 
     const createOrder = async () => {
       dailyMenuOrder.value.formValue.validate();
-      if (!validate(userForm, true) || dailyMenuOrder.value.formValue.validated) {
-        console.log('NOtvalid');
+      if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
         return;
       }
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',
       });
-
+      dailyMenuOrder.value.formValue.clearIds();
       await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
       ElMessage({ message: 'Заказ успешно создан', type: 'success' });
       await Provider.store.commit('dailyMenuOrders/resetItem');
