@@ -41,10 +41,11 @@ const Store = (() => {
   }
 
   async function create(): Promise<void> {
-    return store.dispatch(`${storeModule}/update`, store.getters[storeModule + '/item']);
+    return store.dispatch(`${storeModule}/create`, store.getters[storeModule + '/item']);
   }
 
   async function update(): Promise<void> {
+    console.log(store.getters[storeModule + '/item']);
     return store.dispatch(`${storeModule}/update`, store.getters[storeModule + '/item']);
   }
 

@@ -27,6 +27,7 @@ const Provider = (() => {
   }
 
   async function submit(next?: NavigationGuardNext): Promise<void> {
+    console.log(Router.id());
     if (Router.id()) {
       await Store.update();
     } else {

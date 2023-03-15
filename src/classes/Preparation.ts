@@ -1,64 +1,45 @@
 import PreparationRulesGroup from '@/classes/PreparationRulesGroup';
-import PreparationToTag from '@/classes/PreparationToTag';
-import IPreparation from '@/interfaces/IPreparation';
-import IPreparationRulesGroup from '@/interfaces/IPreparationRulesGroup';
-import IPreparationToTag from '@/interfaces/IPreparationToTag';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Preparation implements IPreparation {
+export default class Preparation {
   id?: string;
   name = '';
-  editMode = false;
-  selected = false;
-  preparationRulesGroups: IPreparationRulesGroup[] = [];
+  @ClassHelper.GetClassConstructor(PreparationRulesGroup)
+  preparationRulesGroups: PreparationRulesGroup[] = [];
   preparationRulesGroupsForDelete: string[] = [];
+  laboratory = false;
+  oms = true;
+  dms = true;
 
-  preparationsToTags: IPreparationToTag[] = [];
-  preparationsToTagsForDelete: string[] = [];
-
-  constructor(i?: IPreparation) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-
-    if (i.preparationRulesGroups) {
-      this.preparationRulesGroups = i.preparationRulesGroups.map((item: IPreparationRulesGroup) => new PreparationRulesGroup(item));
-    }
-    if (i.preparationsToTags) {
-      this.preparationsToTags = i.preparationsToTags.map((item: IPreparationToTag) => new PreparationToTag(item));
-    }
+  constructor(i?: Preparation) {
+    ClassHelper.BuildClass(this, i);
   }
 
-  addRulesGroup(): void {
-    this.preparationRulesGroups.push(new PreparationRulesGroup());
-  }
+  private static instrumentalPreparationsNames: string[] = [
+    'Диеты',
+    'Лекарственные препараты',
+    'Прочее',
+    'Специальные правила подготовки и дополнительные ограничения для ряда тестов в дополнение к общим рекомендациям',
+    'Противопоказания к исследованиям',
+  ];
 
-  removeRulesGroup(index: number): void {
-    const idForDelete = this.preparationRulesGroups[index].id;
-    if (idForDelete) {
-      this.preparationRulesGroupsForDelete.push(idForDelete);
-    }
-    this.preparationRulesGroups.splice(index, 1);
-  }
+  private static laboratoryPreparationsNames: string[] = [
+    'Рекомендации для взятия/сбора и сдачи',
+    'Условия хранения биоматериала дома и доставки в лабораторию',
+  ];
 
-  addTag(add: boolean, tagId: string): void {
-    if (add) {
-      const tag = new PreparationToTag();
-      tag.preparationTagId = tagId;
-      this.preparationsToTags.push(tag);
-      return;
+  static CreatePreparation(laboratory: boolean): Preparation {
+    const item = new Preparation();
+    item.oms = true;
+    item.dms = true;
+    this.instrumentalPreparationsNames.forEach((name: string, i: number) => {
+      item.preparationRulesGroups.push(PreparationRulesGroup.Fabric(name, i));
+    });
+    if (laboratory) {
+      this.laboratoryPreparationsNames.forEach((name: string, i: number) => {
+        item.preparationRulesGroups.push(PreparationRulesGroup.Fabric(name, i + item.preparationRulesGroups.length));
+      });
     }
-    const tagForDeleteIndex = this.preparationsToTags.findIndex((tag: IPreparationToTag) => tag.preparationTagId === tagId);
-    if (tagForDeleteIndex > -1) {
-      const idForDelete = this.preparationsToTags[tagForDeleteIndex].id;
-      if (idForDelete) {
-        this.preparationsToTagsForDelete.push(idForDelete);
-      }
-      this.preparationsToTags.splice(tagForDeleteIndex, 1);
-    }
-  }
-  findTag(tagId: string): boolean {
-    return !!this.preparationsToTags.find((preparationToTag: IPreparationToTag) => preparationToTag.preparationTagId === tagId);
+    return item;
   }
 }
