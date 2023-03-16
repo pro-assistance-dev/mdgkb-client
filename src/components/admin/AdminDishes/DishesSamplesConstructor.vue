@@ -111,10 +111,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    menu: {
-      type: Object as PropType<DailyMenu>,
-      required: true,
-    },
   },
 
   emits: ['close'],

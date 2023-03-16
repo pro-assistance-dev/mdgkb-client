@@ -113,6 +113,7 @@ export default defineComponent({
     const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0));
     const dishSamplesFlat: Ref<DishSample[]> = ref([]);
+    const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
 
     const searchDishSamples = (searchSource: string) => {
       if (searchSource === '') {
@@ -140,14 +141,14 @@ export default defineComponent({
           }
         });
       });
-      props.menu.addDishesFromSamples(dishesSamples, dishesGroups.value);
-      Provider.store.dispatch('dailyMenus/update', props.menu);
+      selectedMenu.value.addDishesFromSamples(dishesSamples, dishesGroups.value);
+      Provider.store.dispatch('dailyMenus/updateWithoutReset');
     };
 
     const addOneDishToMenu = (dishSample: DishSample) => {
       dishSample.selected = false;
-      props.menu.addDishesFromSamples([dishSample], dishesGroups.value);
-      Provider.store.dispatch('dailyMenus/update', props.menu);
+      selectedMenu.value.addDishesFromSamples([dishSample], dishesGroups.value);
+      Provider.store.dispatch('dailyMenus/updateWithoutReset');
     };
 
     const selectSample = (dishSample: DishSample): void => {

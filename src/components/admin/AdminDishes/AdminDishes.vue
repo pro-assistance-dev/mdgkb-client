@@ -15,180 +15,12 @@
         <DishBook v-if="!dishesConstructorVisible" :menu="selectedMenu" />
       </template>
       <template #inside-content-right>
-        <div class="menu">
-          <div class="menu-title-tools-tabs">
-            <div class="menu-title-tabs">
-              <div class="menu-title">
-                Меню на
-                {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
-              </div>
-              <draggable class="tabs" :list="dailyMenus" item-key="id" @end="saveMenusOrder">
-                <template #item="{ element }">
-                  <div
-                    :class="{ 'selected-tabs-item': selectedMenu.id === element.id, 'tabs-item': selectedMenu.id !== element.id }"
-                    :style="{ color: element.active ? '#00B5A4' : '#DD1D12' }"
-                    @click="selectMenu(element)"
-                  >
-                    <div class="title">
-                      <input
-                        v-if="element.editMode"
-                        id="tab-name"
-                        v-model="element.name"
-                        type="text"
-                        name="name"
-                        placeholder="Имя вкладки"
-                        @focusout="saveMenu(element)"
-                        @keyup.enter="saveMenu(element)"
-                        @keyup.esc="element.cancelEditMode()"
-                      />
-                      <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
-                    </div>
-                    <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }" />
-                    <div class="button-close">
-                      <svg class="icon-close" @click="removeMenu(element.id)">
-                        <use xlink:href="#close" />
-                      </svg>
-                    </div>
-                  </div>
-                </template>
-              </draggable>
-              <div class="tabs-button" @click="addMenu">
-                <button class="tools-button">
-                  <svg class="icon-add">
-                    <use xlink:href="#add" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="tools-block">
-              <button class="tools-button" @click="pdf">
-                <svg class="icon-excel">
-                  <use xlink:href="#excel" />
-                </svg>
-              </button>
-              <button class="tools-button" @click="pdf">
-                <svg class="icon-print">
-                  <use xlink:href="#print" />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="tab-tools">
-            Активация:
-            <svg v-if="selectedMenu.isActive()" class="icon-active" @click="stopMenu()">
-              <use xlink:href="#active" />
-            </svg>
-            <svg v-else class="icon-non-active" @click="startMenu()">
-              <use xlink:href="#non-active" />
-            </svg>
-          </div>
-          <div v-if="selectedMenu" class="diets-container">
-            <div v-if="dailyMenus.length" class="table-container">
-              <table class="table-list">
-                <colgroup>
-                  <col width="60px" />
-                  <col width="auto" />
-                  <col width="70px" />
-                  <col width="70px" />
-                  <col width="70px" />
-                  <col width="90px" />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd" />
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">Блюдо</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Доступно</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
-                    <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калории</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <template v-for="dishesGroup in selectedMenu.dishesGroups" :key="dishesGroup.id">
-                    <td colspan="6" style="background: #f1f2f7">
-                      <div class="schedule-name">
-                        <div class="table-tools">
-                          <svg
-                            :style="{ fill: dishesGroup.containAvailableItems() ? '' : '#a1a7bd' }"
-                            class="icon-delete-table"
-                            @click="removeFromMenu(dishesGroup, dish)"
-                          >
-                            <use xlink:href="#delete" />
-                          </svg>
-                          <svg v-if="dishesGroup.containAvailableItems()" class="icon-eye" @click="setGroupAvailable(dishesGroup, false)">
-                            <use xlink:href="#eye" />
-                          </svg>
-                          <svg
-                            v-if="!dishesGroup.containAvailableItems()"
-                            class="icon-closed"
-                            @click="setGroupAvailable(dishesGroup, true)"
-                          >
-                            <use xlink:href="#eye-closed" />
-                          </svg>
-                        </div>
-                        <h4
-                          :class="{ visible: dishesGroup.containAvailableItems(), hidden: !dishesGroup.containAvailableItems() }"
-                          style="font-size: 15px; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'"
-                        >
-                          {{ dishesGroup.name }}
-                        </h4>
-                      </div>
-                    </td>
-                    <tr
-                      v-for="dish in dishesGroup.dailyMenuItems"
-                      :key="dish.id"
-                      :style="{ backgroundColor: dish.highlight ? 'lightcyan' : '' }"
-                    >
-                      <td style="font-size: 12px">
-                        <div class="table-tools">
-                          <svg
-                            :style="{ fill: selected ? '' : '#a1a7bd' }"
-                            class="icon-delete-table"
-                            @click="removeFromMenu(dishesGroup, dish)"
-                          >
-                            <use xlink:href="#delete" />
-                          </svg>
-                          <svg v-if="dish.available" class="icon-eye" @click="setDailyMenuItemAvailable(dish, false)">
-                            <use xlink:href="#eye" />
-                          </svg>
-                          <svg v-if="!dish.available" class="icon-closed" @click="setDailyMenuItemAvailable(dish, true)">
-                            <use xlink:href="#eye-closed" />
-                          </svg>
-                        </div>
-                      </td>
-                      <td :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 12px">
-                        {{ dish.name }} {{ dish.fromOtherMenu ? '(Перенесено)' : '' }}
-                      </td>
-                      <td style="text-align: center">
-                        <el-input-number v-model="dish.quantity" :disabled="!dish.available" size="mini" @change="updateSelectedMenu" />
-                      </td>
-                      <td style="text-align: center">
-                        <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 13px">
-                          {{ dish.weight }}
-                        </h4>
-                      </td>
-                      <td style="text-align: center; font-weight: bold">
-                        <h4 :class="{ visible: dish.available, hidden: !dish.available }" style="font-weight: bold">
-                          {{ dish.price }}.00р.
-                        </h4>
-                      </td>
-                      <td style="text-align: center">
-                        <h4 :class="{ visible2: dish.available, hidden: !dish.available }" style="font-size: 13px">
-                          {{ dish.caloric }}ккал
-                        </h4>
-                      </td>
-                    </tr>
-                  </template>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <AdminDishesMenusTable />
       </template>
     </VerticalCollapseContainer>
 
     <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
-      <DishesSamplesConstructor :menu="selectedMenu" />
+      <DishesSamplesConstructor />
     </el-dialog>
     <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
       <template #title>
@@ -197,15 +29,6 @@
       <AddDish :menu="selectedMenu" />
     </el-dialog>
   </component>
-  <Add />
-  <Delete />
-  <Print />
-  <Eye />
-  <EyeClosed />
-  <Active />
-  <NonActive />
-  <Close />
-  <Excel />
 </template>
 
 <script lang="ts">
@@ -227,6 +50,7 @@ import DailyMenu from '@/classes/DailyMenu';
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
+import AdminDishesMenusTable from '@/components/admin/AdminDishes/AdminDishesMenusTable.vue';
 import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
 import CalendarComponent from '@/components/CalendarComponent.vue';
@@ -241,7 +65,6 @@ import IFilterModel from '@/services/interfaces/IFilterModel';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
 import DailyMenusSortsLib from '@/services/Provider/libs/sorts/DailyMenus';
 import Provider from '@/services/Provider/Provider';
-import sort from '@/services/sort';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 export default defineComponent({
   name: 'AdminDishes',
@@ -249,18 +72,11 @@ export default defineComponent({
     DishesSamplesConstructor,
     AdminListWrapper,
     AddDish,
-    Add,
-    Delete,
-    Print,
+
     VerticalCollapseContainer,
     DishBook,
-    Eye,
-    EyeClosed,
-    Active,
-    NonActive,
-    Close,
-    draggable,
-    Excel,
+    AdminDishesMenusTable,
+
     CalendarComponent,
   },
   setup() {
@@ -271,7 +87,7 @@ export default defineComponent({
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
-    const selectedMenu: Ref<DailyMenu> = ref(new DailyMenu());
+    const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
@@ -297,6 +113,7 @@ export default defineComponent({
       Provider.setFilterModel(dayFilter.value);
       Provider.setSortModels(DailyMenusSortsLib.byOrder());
       await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+      dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
     };
 
     const fillCalendar = async () => {
@@ -320,10 +137,8 @@ export default defineComponent({
       if (dailyMenus.value.length < 1) {
         return;
       }
-      // dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
-      // console.log(dishesGroups.value);
-      selectedMenu.value = dailyMenus.value[0];
-      selectedMenu.value?.groupDishes(dishesGroups.value);
+      Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
+      selectedMenu.value.initGroups();
     };
 
     const selectDay = async (): Promise<void> => {
@@ -339,207 +154,25 @@ export default defineComponent({
       const date = new Date(
         calendar.value.getSelectedDay().date.getTime() - calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000
       );
-      selectedMenu.value = DailyMenu.CreateBreakfast(date);
+      const breakfast = DailyMenu.CreateBreakfast(date);
       const lunch = DailyMenu.CreateDinner(date);
+      await Provider.store.dispatch('dailyMenus/create', breakfast);
       await Provider.store.dispatch('dailyMenus/create', lunch);
-      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
+      Provider.store.commit('dailyMenus/set', breakfast);
 
       dailyMenus.value.push(selectedMenu.value, lunch);
     };
 
-    const addDishes = () => {
-      addDishVisible.value = true;
-    };
-
-    const submit = async () => {
-      if (selectedMenu.value?.id) {
-        await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
-      } else {
-        await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
-      }
-    };
-
-    const pdf = async () => {
-      await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
-    };
-
-    const addMenu = async () => {
-      const date = new Date();
-      selectedMenu.value = DailyMenu.Create(date);
-      const userTimezoneOffset = date.getTimezoneOffset() * 60000;
-      selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-      dailyMenus.value.push(selectedMenu.value);
-      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
-    };
-
-    const selectMenu = (menu: DailyMenu): void => {
-      selectedMenu.value = menu;
-      selectedMenu.value?.groupDishes(dishesGroups.value);
-    };
-
-    const removeFromMenu = async (dishesGroup: DishesGroup, dishItem?: DailyMenuItem): Promise<void> => {
-      if (!selectedMenu.value) {
-        return;
-      }
-      if (!dishItem) {
-        for (const id of dishesGroup.getDailyMenuItemsIds()) {
-          await Provider.store.dispatch('dailyMenuItems/remove', id);
-        }
-        selectedMenu.value?.removeMenuItems(dishesGroup.getDailyMenuItemsIds(), dishesGroups.value);
-        return;
-      }
-      const i = dishesGroup.dailyMenuItems.findIndex((di: DailyMenuItem) => di.id === dishItem.id);
-      if (i < 0) {
-        return;
-      }
-      ClassHelper.RemoveFromClassById(dishItem.id, dishesGroup.dailyMenuItems, []);
-      if (dishItem.id) {
-        selectedMenu.value.removeMenuItem(dishItem.id, dishesGroups.value);
-      }
-      selectedMenu.value.groupDishes(dishesGroups.value);
-      await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
-    };
-
-    const activate = async (active: boolean) => {
-      if (!selectedMenu.value) {
-        return;
-      }
-      selectedMenu.value.active = active;
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
-    };
-
-    const removeMenu = async (menuId: string) => {
-      if (dailyMenus.value.length === 1) {
-        ElMessage({
-          message: 'Нельзя удалить едиственное меню',
-          type: 'error',
-        });
-        return;
-      }
-      ElMessageBox.confirm('Вы действительно хотите удалить меню?', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: 'Да',
-        cancelButtonText: 'Нет',
-      }).then(async () => {
-        dailyMenus.value = dailyMenus.value.filter((dm: DailyMenu) => dm.id === menuId);
-        await Provider.store.dispatch('dailyMenus/remove', menuId);
-        selectedMenu.value = dailyMenus.value[dailyMenus.value.length - 1];
-        selectedMenu.value?.groupDishes(dishesGroups.value);
-      });
-    };
-
-    const setGroupAvailable = async (dishesGroup: DishesGroup, available: boolean) => {
-      dishesGroup.setAvailable(available);
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
-    };
-
-    const setDailyMenuItemAvailable = async (dailyMenuItem: DailyMenuItem, available: boolean) => {
-      dailyMenuItem.available = available;
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
-    };
-
-    const saveMenu = async (menu: DailyMenu) => {
-      await Provider.store.dispatch('dailyMenus/update', menu);
-      menu.editMode = false;
-    };
-
-    const saveMenusOrder = async () => {
-      sort(dailyMenus.value);
-      await Provider.store.dispatch('dailyMenus/updateAll');
-    };
-
-    const startMenu = async (): Promise<void> => {
-      const selectedMenuIndex = dailyMenus.value.findIndex((d: DailyMenu) => d.id === selectedMenu.value.id);
-      if (selectedMenuIndex === 0) {
-        dailyMenus.value.forEach((dmi: DailyMenu) => {
-          dmi.active = false;
-          dmi.removeDailyMenuItemsFromOthersMenus();
-        });
-        selectedMenu.value.active = true;
-
-        for (const dmi of dailyMenus.value) {
-          await Provider.store.dispatch('dailyMenus/update', dmi);
-        }
-        return;
-      }
-      const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: DailyMenu) => menu.active);
-      if (previousActiveMenuIndex > -1) {
-        let textConfirm = 'Вы хотите запустить следующее меню?';
-        if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
-          textConfirm += `\n В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
-        }
-        ElMessageBox.confirm(textConfirm, {
-          distinguishCancelAndClose: true,
-          confirmButtonText: 'Да',
-          cancelButtonText: 'Нет',
-        })
-          .then(async () => {
-            dailyMenus.value.forEach((m: DailyMenu) => {
-              m.active = false;
-              m.removeDailyMenuItemsFromOthersMenus();
-            });
-            selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]], dishesGroups.value);
-            selectedMenu.value.active = true;
-
-            for (const dmi of dailyMenus.value) {
-              await Provider.store.dispatch('dailyMenus/update', dmi);
-            }
-          })
-          .catch(() => {
-            return;
-          });
-      } else {
-        dailyMenus.value.forEach((m: DailyMenu) => {
-          m.active = false;
-          m.removeDailyMenuItemsFromOthersMenus();
-        });
-        selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]], dishesGroups.value);
-        selectedMenu.value.active = true;
-
-        for (const dmi of dailyMenus.value) {
-          await Provider.store.dispatch('dailyMenus/update', dmi);
-        }
-      }
-    };
-
-    const stopMenu = async (): Promise<void> => {
-      selectedMenu.value.active = false;
-      for (const dmi of dailyMenus.value) {
-        await Provider.store.dispatch('dailyMenus/update', dmi);
-      }
-    };
-
-    const updateSelectedMenu = async (): Promise<void> => {
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
-    };
-
     return {
-      updateSelectedMenu,
-      stopMenu,
-      startMenu,
-      saveMenusOrder,
-      saveMenu,
-      setDailyMenuItemAvailable,
-      setGroupAvailable,
-      removeMenu,
-      removeFromMenu,
-      addMenu,
-      selectMenu,
       dailyMenus,
       calendar,
       dishesConstructorVisible,
-      pdf,
-      submit,
       selectedMenu,
       addDishVisible,
-      addDishes,
       selectDay,
       dishesGroups,
       mounted: Provider.mounted,
       schema: Provider.schema,
-
-      activate,
       createNewDailyMenus,
       fillCalendar,
     };
