@@ -13,7 +13,6 @@ export default function scroll(query?: string, yOffset?: number): void {
     const elRect = el.getBoundingClientRect();
     y = elRect.top + offset + document.body.scrollTop;
   }
-  console.log(y);
   if (y) {
     document.body.scrollTo({ top: y, behavior: 'smooth' });
   }

@@ -23,7 +23,7 @@
         <div class="line1">Вес: {{ dailyMenuItem.weight }}гр.</div>
         <div class="line2">{{ dailyMenuItem.caloric }} ккал</div>
       </div>
-        <Button :status="status" />
+      <DishCardButton :daily-menu-item="dailyMenuItem" :status="status" />
     </div>
   </el-form>
 </template>
@@ -33,13 +33,13 @@ import { computed, defineComponent, PropType, Ref } from 'vue';
 
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import Button from '@/components/Diets/Button.vue';
+import DishCardButton from '@/components/Diets/DishCardButton.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DishCard',
-  components: { Button, FavouriteIcon },
+  components: { DishCardButton, FavouriteIcon },
   props: {
     dailyMenuItem: {
       type: Object as PropType<DailyMenuItem>,

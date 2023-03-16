@@ -43,12 +43,12 @@ export default class DailyMenuOrder {
     }
   }
 
-  private increaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
+  increaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
     this.addToDailyMenuItems(dailyMenuItem);
     this.setLocalStorage();
   }
 
-  private decreaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
+  decreaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
     this.removeFromDailyMenuItems(dailyMenuItem);
     this.setLocalStorage();
   }
@@ -139,5 +139,11 @@ export default class DailyMenuOrder {
 
   getFormattedNumber(): string {
     return `Заказ №${this.number}`;
+  }
+
+  getDailyMenuItemsQuantity(): number {
+    let sum = 0;
+    this.dailyMenuOrderItems.forEach((d: DailyMenuOrderItem) => (sum += d.quantity));
+    return sum;
   }
 }

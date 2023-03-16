@@ -8,7 +8,7 @@
       height: height,
       borderRadius: height,
       width: width,
-      background: select ? background : '#ffffff',
+      background: select ? activeBackground : '#ffffff',
       color: select ? '#ffffff' : color,
     }"
     @click="handClick"
@@ -54,6 +54,12 @@ export default defineComponent({
       default: '#ffffff',
     },
 
+    activeBackground: {
+      type: String as PropType<string>,
+      required: false,
+      default: '#2754EB',
+    },
+
     color: {
       type: String as PropType<string>,
       required: false,
@@ -72,11 +78,14 @@ export default defineComponent({
       default: 'auto',
     },
   },
-  setup() {
+  emits: ['on', 'off', 'change'],
+  setup(_, { emit }) {
     const select: Ref<boolean> = ref(false);
 
     const handClick = () => {
       select.value = !select.value;
+      select.value ? emit('on') : emit('off');
+      emit('change', select.value);
     };
 
     return {
@@ -116,6 +125,9 @@ export default defineComponent({
   padding: 0;
   letter-spacing: 1px;
   line-height: 1.1;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 @media screen and (max-width: 500px) {

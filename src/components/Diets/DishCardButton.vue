@@ -12,28 +12,28 @@
     }"
     @click="handClick"
   >
-    <div v-if="status == 'inStock'" class="inblock">
+    <div v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0" class="inblock" @click="dailyMenuOrder.addToOrder(dailyMenuItem)">
       <svg class="icon-plus">
         <use xlink:href="#plus"></use>
       </svg>
       <div class="text">В корзину</div>
     </div>
-    <div v-if="status == 'inCart'" class="inblock">
-      <svg class="icon-minus">
+    <div v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) > 0" class="inblock">
+      <svg class="icon-minus" @click="dailyMenuOrder.decreaseDailyMenuOrderItem(dailyMenuItem)">
         <use xlink:href="#minus"></use>
       </svg>
-      <div class="text">1</div>
-      <svg class="icon-plus">
+      <div class="text">{{ dailyMenuOrder.getItemQuantity(dailyMenuItem) }}</div>
+      <svg class="icon-plus" @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)">
         <use xlink:href="#plus"></use>
       </svg>
     </div>
-    <div v-if="status == 'preparing'" class="inblock">
+    <div v-if="dailyMenuItem.cook" class="inblock">
       <svg class="icon-loader">
         <use xlink:href="#loader"></use>
       </svg>
       <div class="text">Готовится</div>
     </div>
-    <div v-if="status == 'tomorrow'" class="inblock">
+    <div v-if="dailyMenuItem.tomorrowAvailable" class="inblock">
       <div
         class="text"
         :style="{
@@ -48,20 +48,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import Icons from '@/assets/svg/Button/Icons.svg';
+import DailyMenuItem from '@/classes/DailyMenuItem';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
-  name: 'Button',
+  name: 'DishCardButton',
   components: { Icons },
   props: {
+    dailyMenuItem: {
+      type: Object as PropType<DailyMenuItem>,
+      required: true,
+    },
     marginTop: {
       type: String as PropType<string>,
       required: false,
       default: '0px',
     },
-
     marginRight: {
       type: String as PropType<string>,
       required: false,
@@ -88,12 +94,13 @@ export default defineComponent({
   },
   setup() {
     const select: Ref<boolean> = ref(false);
-
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const handClick = () => {
       select.value = !select.value;
     };
 
     return {
+      dailyMenuOrder,
       handClick,
       select,
     };
