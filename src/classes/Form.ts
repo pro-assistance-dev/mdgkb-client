@@ -1,3 +1,4 @@
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import Field from '@/classes/Field';
 import FormValueFile from '@/classes/FormValueFile';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
@@ -34,6 +35,7 @@ export default class Form implements IForm {
   emailNotify = false;
   description = '';
   code = '';
+  withApprovingDate = false;
   approvingDate?: Date;
   fields: IField[] = [];
   fieldsForDelete: string[] = [];
@@ -64,6 +66,7 @@ export default class Form implements IForm {
   residencyApplication?: ResidencyApplication;
   visitsApplication?: IVisitsApplication;
   vacancyResponse?: IVacancyResponse;
+  dailyMenuOrder?: DailyMenuOrder;
   formValueFiles: IFormValueFile[] = [];
   formValueFilesForDelete: string[] = [];
 
@@ -147,14 +150,18 @@ export default class Form implements IForm {
     if (form.vacancyResponse) {
       this.vacancyResponse = new VacancyResponse(form.vacancyResponse);
     }
+    if (form.dailyMenuOrder) {
+      this.dailyMenuOrder = new DailyMenuOrder(form.dailyMenuOrder);
+    }
     if (form.formValueFiles) {
       this.formValueFiles = form.formValueFiles.map((item: IFormValueFile) => new FormValueFile(item));
     }
+    this.withApprovingDate = form.withApprovingDate;
   }
   reproduceFromPattern(form?: Form) {
     this.constructorMethod(form);
     this.initFieldsValues();
-    this.clearIds();
+    // this.clearIds();
   }
 
   addField(field?: IField): void {
@@ -213,6 +220,7 @@ export default class Form implements IForm {
   }
 
   findFieldValue(fieldId: string): IFieldValue | undefined {
+    console.log(this.fieldValues.find((fieldValue: IFieldValue) => fieldId === fieldValue.fieldId));
     return this.fieldValues.find((fieldValue: IFieldValue) => fieldId === fieldValue.fieldId);
   }
 
@@ -261,7 +269,6 @@ export default class Form implements IForm {
         }
       }
     });
-
     if (this.withPersonalDataAgreement && !this.agreedWithPersonalDataAgreement) {
       this.showPersonalDataAgreementError = true;
       this.validated = false;
@@ -398,6 +405,9 @@ export default class Form implements IForm {
     if (this.vacancyResponse) {
       return 'Отклик на вакансию';
     }
+    if (this.dailyMenuOrder) {
+      return 'Заказ блюд';
+    }
     return '';
   }
 
@@ -420,6 +430,9 @@ export default class Form implements IForm {
     if (this.vacancyResponse) {
       return `/vacancies`;
     }
+    if (this.dailyMenuOrder) {
+      return `/bufet`;
+    }
     return '';
   }
   getApplicationName(): string {
@@ -440,6 +453,9 @@ export default class Form implements IForm {
     }
     if (this.vacancyResponse?.vacancy) {
       return this.vacancyResponse.vacancy?.title;
+    }
+    if (this.dailyMenuOrder) {
+      return `${this.dailyMenuOrder.getFormattedNumber()}: ${this.dailyMenuOrder.getPriceSum()} р.`;
     }
     return '';
   }
@@ -463,6 +479,9 @@ export default class Form implements IForm {
     if (this.vacancyResponse) {
       return `/vacancies/${this.vacancyResponse.vacancy?.slug}`;
     }
+    if (this.dailyMenuOrder) {
+      return `/bufet`;
+    }
     return '';
   }
 
@@ -479,7 +498,15 @@ export default class Form implements IForm {
     return this.fields.filter((f: IField) => codes.includes(f.code));
   }
 
+  getFieldByCode(code: string): IField | undefined {
+    return this.fields.find((f: IField) => f.code === code);
+  }
+
   addForValueFile(): void {
     this.formValueFiles.push(new FormValueFile());
+  }
+
+  getFieldValueByCode(code: string): IFieldValue | undefined {
+    return this.fieldValues.find((fv: IFieldValue) => fv.field?.code === code);
   }
 }

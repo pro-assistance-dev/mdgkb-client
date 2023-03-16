@@ -1,21 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IPreparation from '@/interfaces/IPreparation';
-import IPreparationTag from '@/interfaces/IPreparationTag';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IPreparation[] {
-    return state.items;
-  },
-  item(state): IPreparation {
-    return state.item;
-  },
-  tags(state): IPreparationTag[] {
-    return state.tags;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

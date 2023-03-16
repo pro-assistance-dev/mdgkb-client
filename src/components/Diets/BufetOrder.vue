@@ -38,10 +38,10 @@ import { watch } from '@vue/runtime-core';
 import { ElLoading, ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
@@ -50,7 +50,7 @@ export default defineComponent({
   name: 'BufetOrder',
   components: { UserForm, FieldValuesForm },
   setup() {
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const userForm = ref();
     const checkDailyMenuOrderItemsLength = () => {
       if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
@@ -68,14 +68,14 @@ export default defineComponent({
 
     const createOrder = async () => {
       dailyMenuOrder.value.formValue.validate();
-      if (!validate(userForm, true) || dailyMenuOrder.value.formValue.validated) {
+      if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
         return;
       }
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',
       });
-
+      dailyMenuOrder.value.formValue.clearIds();
       await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
       ElMessage({ message: 'Заказ успешно создан', type: 'success' });
       await Provider.store.commit('dailyMenuOrders/resetItem');

@@ -59,14 +59,14 @@
           {{ scope.row.formValue.child.human.getFullName() }}
         </template>
       </el-table-column>
-      <el-table-column label="Вход" min-width="200">
-        <template #default="scope">
-          {{ scope.row.gate.name }}
-        </template>
-      </el-table-column>
+      <!--      <el-table-column label="Вход" min-width="200">-->
+      <!--        <template #default="scope">-->
+      <!--          {{ scope.row.gate.name }}-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column label="Отделение" min-width="200">
         <template #default="scope">
-          {{ scope.row.division.name }}
+          {{ scope.row.division?.name }}
         </template>
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
@@ -81,21 +81,21 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import { Operators } from '@/services/interfaces/Operators';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IOption from '@/interfaces/schema/IOption';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import IFilterModel from '@/services/interfaces/IFilterModel';
+import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import VisitsApplicationsFiltersLib from '@/services/Provider/libs/filters/VisitsApplicationsFiltersLib';
@@ -116,7 +116,7 @@ export default defineComponent({
     const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
     const loadApplications = async () => {
-      await Provider.store.dispatch('visitsApplications/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('visitsApplications/getAllWithCount', Provider.filterQuery.value);
     };
 
     const load = async () => {
@@ -133,7 +133,7 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'visitsApplications', action: 'getAll' },
+      pagination: { storeModule: 'visitsApplications', action: 'getAllWithCount' },
     });
 
     const filtersToOptions = (): IOption[] => {

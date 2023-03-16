@@ -13,7 +13,7 @@ const StringsService = (() => {
       }
       return index === 0 ? match.toLowerCase() : match.toUpperCase();
     });
-    return res.replace('-', '');
+    return res.replaceAll('-', '');
   }
 
   function toKebabCase(str: string): string {

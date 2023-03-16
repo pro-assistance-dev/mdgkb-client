@@ -22,7 +22,11 @@ const Router = (() => {
   }
 
   async function toAdmin(path: string): Promise<void> {
-    await router.push(`/admin/${path}`);
+    let safePath = path;
+    if (safePath[0] === '/') {
+      safePath = path.substring(1);
+    }
+    await router.push(`/admin/${safePath}`);
   }
 
   return {

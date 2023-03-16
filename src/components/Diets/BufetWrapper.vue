@@ -6,30 +6,41 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, h, onBeforeUnmount, Ref } from 'vue';
+import { computed, ComputedRef, defineComponent, h, onBeforeUnmount, Ref, ref, watch } from 'vue';
 
+import DailyMenuMenu from '@/classes/DailyMenu';
+import DailyMenuMenuOrder from '@/classes/DailyMenuOrder';
+import DishesGroup from '@/classes/DishesGroup';
 import BufetCart from '@/components/Diets/BufetCart.vue';
 import BufetOrder from '@/components/Diets/BufetOrder.vue';
 import BufetPage from '@/components/Diets/BufetPage.vue';
-import IDailyMenu from '@/interfaces/IDailyMenu';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'BufetWrapper',
   components: { BufetPage, BufetCart, BufetOrder },
-
   setup() {
-    const dailyMenu: Ref<IDailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenu: Ref<DailyMenuMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+    const dailyMenuOrder: Ref<DailyMenuMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
+    const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+
+    watch(isAuth, () => {
+      Provider.store.commit('dailyMenuOrders/resetItem');
+      Provider.router.push('/bufet');
+    });
 
     const load = async () => {
-      await Provider.store.dispatch('dailyMenus/updateTodayMenu');
-      setInterval(async () => await Provider.store.dispatch('dailyMenus/updateTodayMenu'), 1000);
+      await Provider.store.dispatch('dailyMenus/todayMenu');
+      dailyMenu.value.groupDishes(dishesGroupsSource.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
+      // setInterval(async () => {
+      //   await Provider.store.dispatch('dailyMenus/todayMenu');
+      //   dailyMenu.value.groupDishes(dishesGroupsSource.value);
+      //   console.log(dailyMenu.value);
+      // }, 5000);
     };
 
     const checkDailyMenuItemsAvailable = () => {

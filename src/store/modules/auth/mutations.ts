@@ -10,6 +10,7 @@ import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
 import FavouriteService from '@/services/Favourite';
 import TokenService from '@/services/Token';
+import store from '@/store';
 
 import State from './state';
 

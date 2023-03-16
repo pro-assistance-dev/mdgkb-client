@@ -54,10 +54,10 @@ export const isAuthorized = (next: NavigationGuardNext): void => {
   next();
 };
 
-export const authGuard = (next?: NavigationGuardNext): void => {
+export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
   if (next) {
+    await store.dispatch('auth/setAuth');
     const isAuth: boolean = store.getters['auth/isAuth'];
-    console.log(isAuth);
     store.commit('auth/showWarning', true);
     store.commit('auth/authOnly', true);
     if (!isAuth) {

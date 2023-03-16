@@ -78,15 +78,15 @@ import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
+import DailyMenu from '@/classes/DailyMenu';
+import DishesGroup from '@/classes/DishesGroup';
+import DishSample from '@/classes/DishSample';
 import AddForm from '@/components/admin/AdminDishes/AddForm.vue';
 import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
 import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorInfo.vue';
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IDailyMenu from '@/interfaces/IDailyMenu';
-import IDishesGroup from '@/interfaces/IDishesGroup';
-import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import StringsService from '@/services/Strings';
@@ -112,19 +112,19 @@ export default defineComponent({
       default: false,
     },
     menu: {
-      type: Object as PropType<IDailyMenu>,
+      type: Object as PropType<DailyMenu>,
       required: true,
     },
   },
 
   emits: ['close'],
   setup() {
-    const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
+    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishesGroup: Ref<DishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
     const dishSampleConstructorCreateMode: Ref<boolean> = ref(true);
-    const dishedSamples: Ref<IDishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
-    const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
+    const dishedSamples: Ref<DishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
+    const dishSample: Ref<DishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
     const isCallBackModalOpen: Ref<boolean> = ref(false);
 
@@ -150,11 +150,11 @@ export default defineComponent({
       dishSampleConstructorVisible.value = true;
     };
 
-    const openDishSampleConstructor = (item?: IDishSample) => {
+    const openDishSampleConstructor = (item?: DishSample) => {
       dishSampleConstructorVisible.value = false;
       if (item) {
         dishSample.value = item;
-        dishesGroups.value.forEach((g: IDishesGroup) => {
+        dishesGroups.value.forEach((g: DishesGroup) => {
           g.dishSamples.forEach((e) => {
             e.selected = false;
           });
@@ -171,7 +171,7 @@ export default defineComponent({
       Provider.store.commit('dishesGroups/resetItem');
     };
 
-    const editDishesGroup = (group: IDishesGroup) => {
+    const editDishesGroup = (group: DishesGroup) => {
       Provider.store.commit('dishesGroups/set', group);
       dishesGroupConstructorVisible.value = true;
     };
@@ -183,12 +183,12 @@ export default defineComponent({
 
     const saveGroupsOrder = () => {
       sort(dishesGroups.value);
-      dishesGroups.value.forEach(async (d: IDishesGroup) => {
+      dishesGroups.value.forEach(async (d: DishesGroup) => {
         await Provider.store.dispatch('dishesGroups/update', d);
       });
     };
 
-    const dishSamplesFlat: Ref<IDishSample[]> = ref([]);
+    const dishSamplesFlat: Ref<DishSample[]> = ref([]);
 
     const searchDishSamples = (searchSource: string) => {
       if (searchSource === '') {
@@ -197,9 +197,9 @@ export default defineComponent({
       }
       console.log(searchSource);
       dishSamplesFlat.value = [];
-      dishesGroups.value.forEach((ds: IDishesGroup) => {
+      dishesGroups.value.forEach((ds: DishesGroup) => {
         dishSamplesFlat.value.push(
-          ...ds.dishSamples.filter((ds: IDishSample) => {
+          ...ds.dishSamples.filter((ds: DishSample) => {
             const n = ds.name.toLowerCase();
             return n.includes(searchSource.toLowerCase()) || n.includes(StringsService.translit(searchSource.toLowerCase()));
           })

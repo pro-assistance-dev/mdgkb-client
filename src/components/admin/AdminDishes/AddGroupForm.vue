@@ -17,7 +17,7 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import IDishesGroup from '@/interfaces/IDishesGroup';
+import DishesGroup from '@/classes/DishesGroup';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -26,7 +26,7 @@ export default defineComponent({
   emits: ['close'],
 
   setup(_, { emit }) {
-    const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
+    const dishesGroup: Ref<DishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const close = () => {
       emit('close');
     };

@@ -18,8 +18,7 @@ const getters: GetterTree<State, RootState> = {
     return state.user;
   },
   isAuth(state): boolean {
-    // state.isAuth = TokenService.isAuth();
-    return TokenService.isAuth();
+    return state.isAuth;
   },
   authModalVisible(state): boolean {
     return state.authModalVisible;

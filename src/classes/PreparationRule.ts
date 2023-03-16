@@ -1,16 +1,11 @@
-import IPreparationRule from '@/interfaces/IPreparationRule';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class PreparationRule implements IPreparationRule {
+export default class PreparationRule {
   id?: string;
   name = '';
   time = '';
 
-  constructor(i?: IPreparationRule) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.time = i.time;
+  constructor(i?: PreparationRule) {
+    ClassHelper.BuildClass(this, i);
   }
 }

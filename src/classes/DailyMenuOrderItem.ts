@@ -1,20 +1,17 @@
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
-import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class DailyMenuOrderItem implements IDailyMenuOrderItem {
+export default class DailyMenuOrderItem {
   id?: string;
   quantity = 0;
   price = 0;
   dailyMenuOrderId?: string;
-  dailyMenuOrder: IDailyMenuOrder = new DailyMenuOrder();
+  dailyMenuOrder: DailyMenuOrder = new DailyMenuOrder();
   dailyMenuItemId?: string;
-  dailyMenuItem: IDailyMenuItem = new DailyMenuItem();
+  dailyMenuItem: DailyMenuItem = new DailyMenuItem();
 
-  constructor(i?: IDailyMenuOrderItem) {
+  constructor(i?: DailyMenuOrderItem) {
     ClassHelper.BuildClass(this, i);
   }
 

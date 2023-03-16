@@ -1,15 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IDishesGroup from '@/interfaces/IDishesGroup';
+import DishesGroup from '@/classes/DishesGroup';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IDishesGroup[] {
+  items(state): DishesGroup[] {
     return state.items;
   },
-  item(state): IDishesGroup {
+  item(state): DishesGroup {
     return state.item;
   },
 };

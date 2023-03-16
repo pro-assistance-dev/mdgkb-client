@@ -25,11 +25,31 @@
         <el-form-item label="&nbsp;&nbsp;Калорийность, ккал:" prop="caloric">
           <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
         </el-form-item>
+        <el-form-item label="&nbsp;&nbsp;Белки, ккал:" prop="proteins">
+          <el-input-number v-model="dishSample.proteins" placeholder="Белки"></el-input-number>
+        </el-form-item>
+
+        <el-form-item label="&nbsp;&nbsp;Жиры, ккал:" prop="fats">
+          <el-input-number v-model="dishSample.fats" placeholder="Жиры"></el-input-number>
+        </el-form-item>
+
+        <el-form-item label="&nbsp;&nbsp;Углеводы, ккал:" prop="carbohydrates">
+          <el-input-number v-model="dishSample.carbohydrates" placeholder="Углеводы"></el-input-number>
+        </el-form-item>
+
+        <el-form-item label="&nbsp;&nbsp;Постное, ккал:" prop="lean">
+          <el-checkbox v-model="dishSample.lean" placeholder="Постное"></el-checkbox>
+        </el-form-item>
+
+        <el-form-item label="&nbsp;&nbsp;Диетическое, ккал:" prop="dietary">
+          <el-checkbox v-model="dishSample.dietary" placeholder="Диетическое"></el-checkbox>
+        </el-form-item>
+
         <el-form-item label="&nbsp;&nbsp;Изображение:" prop="image">
-          <UploaderSingleScan 
-            :file-info="dishSample.image" 
+          <UploaderSingleScan
+            :file-info="dishSample.image"
             :height="200"
-            @remove-file="dishSample.removeImage()" 
+            @remove-file="dishSample.removeImage()"
             @ratio="(e) => (element.ratio = e)"
           />
         </el-form-item>
@@ -46,10 +66,9 @@
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
+import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import IDishesGroup from '@/interfaces/IDishesGroup';
-import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -63,9 +82,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
-    const dishSamplePrototype: IDishSample = new DishSample(dishSample.value);
+    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishSample: Ref<DishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
+    const dishSamplePrototype: DishSample = new DishSample(dishSample.value);
     const confirmLeave: Ref<boolean> = ref(false);
     const form = ref();
     const rules = ref({
@@ -118,12 +137,12 @@ export default defineComponent({
         await Provider.store.dispatch('dishesSamples/create');
       }
       if (dishSamplePrototype.dishesGroupId !== dishSample.value.dishesGroupId) {
-        const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSamplePrototype.dishesGroupId);
+        const dishesGroup = dishesGroups.value.find((d: DishesGroup) => d.id === dishSamplePrototype.dishesGroupId);
         if (dishesGroup) {
           dishesGroup.removeDishSample(dishSamplePrototype.id);
         }
       }
-      const dishesGroup = dishesGroups.value.find((d: IDishesGroup) => d.id === dishSample.value.dishesGroupId);
+      const dishesGroup = dishesGroups.value.find((d: DishesGroup) => d.id === dishSample.value.dishesGroupId);
       if (dishesGroup) {
         dishesGroup.upsertSample(dishSample.value);
       }

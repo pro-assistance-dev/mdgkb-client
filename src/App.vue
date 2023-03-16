@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, watch } from '@vue/runtime-core';
 import { onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TokenService from '@/services/Token';
@@ -35,28 +35,13 @@ export default defineComponent({
       document.title = route.meta.title ? `${route.meta.title} | МДГКБ` : defaultTitle;
     };
 
-    // TODO безопасно ли это?
-    const setLocalStorageToVuex = () => {
-      const user = TokenService.getUser();
-      const token = TokenService.getAccessToken();
-      if (user && token) {
-        store.commit('auth/setTokens', token);
-        store.commit('auth/setUser', user);
-        store.commit('auth/setIsAuth', true);
-      }
-    };
-
     onBeforeMount(async (): Promise<void> => {
       changeDocumentTitle();
       await store.dispatch('meta/getSchema');
       await store.dispatch('search/searchGroups');
-      setLocalStorageToVuex();
+      await store.dispatch('auth/setAuth');
       mounted.value = true;
     });
-
-    // onMounted(() => {
-    //
-    // });
 
     return {
       mounted,

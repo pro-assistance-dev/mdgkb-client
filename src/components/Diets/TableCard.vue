@@ -14,7 +14,12 @@
         <div class="counter">
           <el-form>
             <el-form-item label="">
-              <el-input-number :min="1" :model-value="dailyMenuOrderItem.quantity" placeholder="1" @change="add"></el-input-number>
+              <el-input-number
+                :min="1"
+                :model-value="dailyMenuOrderItem.quantity"
+                placeholder="1"
+                @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, dailyMenuOrderItem.dailyMenuItem)"
+              ></el-input-number>
             </el-form-item>
           </el-form>
         </div>
@@ -33,8 +38,8 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, PropType, Ref } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
-import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import DailyMenuOrderItem from '@/classes/DailyMenuOrderItem';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -44,23 +49,12 @@ export default defineComponent({
   },
   props: {
     dailyMenuOrderItem: {
-      type: Object as PropType<IDailyMenuOrderItem>,
+      type: Object as PropType<DailyMenuOrderItem>,
       required: true,
     },
   },
   setup(props) {
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    const add = (curNum: number, prevNum: number) => {
-      changeDailyMenuOrderItemQuantity(curNum, prevNum);
-    };
-
-    const changeDailyMenuOrderItemQuantity = (curNum: number, prevNum: number) => {
-      if (curNum > prevNum) {
-        dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuOrderItem.dailyMenuItem);
-      } else {
-        dailyMenuOrder.value.decreaseDailyMenuOrderItem(props.dailyMenuOrderItem.dailyMenuItem);
-      }
-    };
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
     const removeItem = () => {
       ElMessageBox.confirm('Убрить блюдо из корзины?', {
@@ -78,7 +72,6 @@ export default defineComponent({
 
     return {
       removeItem,
-      add,
       dailyMenuOrder,
     };
   },

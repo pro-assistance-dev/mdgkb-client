@@ -1,13 +1,78 @@
 <template>
   <div v-if="mounted">
-    <el-form ref="form" v-model="dailyMenuOrder" :model="dailyMenuOrder" label-width="150px" style="max-width: 700px" label-position="left">
-      <AdminFormValue
-        :form="dailyMenuOrder.formValue"
-        :validate-email="false"
-        :active-fields="UserFormFields.CreateWithAllChildFields({ userPhone: true, userName: true })"
-        :is-edit-mode="isEditMode"
-      />
-    </el-form>
+    <el-row :gutter="40">
+      <el-col :xs="24" :sm="24" :md="14" :lg="12" :xl="12">
+        <el-form
+          ref="form"
+          v-model="dailyMenuOrder"
+          :model="dailyMenuOrder"
+          label-width="150px"
+          style="max-width: 700px"
+          label-position="left"
+        >
+          <AdminFormValue
+            :show-additional-files="false"
+            :form="dailyMenuOrder.formValue"
+            :validate-email="false"
+            :active-fields="UserFormFields.CreateWithFullName({ userEmail: true, userPhone: true })"
+            :is-edit-mode="isEditMode"
+          />
+        </el-form>
+      </el-col>
+      <el-col :xs="24" :sm="24" :md="10" :lg="12" :xl="12">
+        <el-card>
+          <template #header>
+            <span>Блюда в заказе</span>
+          </template>
+          <el-table :data="dailyMenuOrder.dailyMenuOrderItems">
+            <el-table-column prop="dailyMenuItem.name" label="Блюдо" />
+
+            <el-table-column prop="name" label="Количество">
+              <template #default="scope">
+                <el-input-number
+                  v-if="isEditMode"
+                  size="mini"
+                  :model-value="scope.row.quantity"
+                  placeholder="Название документа"
+                  @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, scope.row.dailyMenuItem)"
+                />
+                <div v-else>{{ scope.row.quantity }} шт.</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="" label="Цена">
+              <template #default="scope">
+                <div>{{ scope.row.dailyMenuItem.price }} Р.</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="" label="Стоимость">
+              <template #default="scope">
+                <div>{{ scope.row.getPriceSum() }} Р.</div>
+              </template>
+            </el-table-column>
+            <el-table-column v-if="isEditMode" width="70" align="center">
+              <template #default="scope">
+                <TableButtonGroup :show-remove-button="true" @remove="dailyMenuOrder.removeDailyMenuOrderItem(scope.row)" />
+              </template>
+            </el-table-column>
+          </el-table>
+          <div>Сумма заказа: {{ dailyMenuOrder.getPriceSum() }} руб.</div>
+        </el-card>
+        <br />
+        <el-card>
+          <template #header>
+            <span>Меню на сегодня</span>
+          </template>
+          <div v-for="dishesGroup in dailyMenu.dishesGroups" :key="dishesGroup.id">
+            <h4>{{ dishesGroup.name }}</h4>
+            <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
+              <span>{{ dailyMenuItem.name }}</span> /
+              <span>{{ dailyMenuItem.price }} руб.</span>
+              <el-button v-if="isEditMode" @click="dailyMenuOrder.addToOrder(dailyMenuItem)">Добавить в заказ</el-button>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -16,9 +81,12 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import DailyMenu from '@/classes/DailyMenu';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import DishesGroup from '@/classes/DishesGroup';
 import UserFormFields from '@/classes/UserFormFields';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -27,12 +95,16 @@ import validate from '@/services/validate';
 export default defineComponent({
   name: 'AdminDailyMenuOrderPage',
   components: {
+    TableButtonGroup,
     AdminFormValue,
   },
   setup() {
     const form = ref();
     const isEditMode: Ref<boolean> = ref(false);
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       if (!validate(form)) {
@@ -53,42 +125,45 @@ export default defineComponent({
         return;
       }
       dailyMenuOrder.value.formValue.isNew = false;
-      await Provider.store.dispatch('dailyMenuOrders/update');
+      await Provider.store.dispatch('dailyMenuOrders/updateWithoutReset');
     };
 
     const { saveButtonClick, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
-      await Provider.store.dispatch('search/searchGroups');
-      await loadAppointment();
+      try {
+        await Provider.store.dispatch('dailyMenus/todayMenu');
+      } catch (e) {
+        ElMessage.warning('Нет активных меню на сегодня');
+      }
+      await Provider.getAll('dishesGroups');
+      dailyMenu.value.groupDishes(dishesGroups.value);
+      await Provider.loadItem();
       await updateNew();
     };
-
-    Hooks.onBeforeMount(load);
 
     const toggleEditMode = () => {
       isEditMode.value = !isEditMode.value;
     };
 
-    const loadAppointment = async (): Promise<void> => {
-      if (Provider.route().params['id']) {
-        await Provider.store.dispatch('dailyMenuOrders/get', Provider.route().params['id']);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: dailyMenuOrder.value.formValue.user.human.getFullName(),
-          showBackButton: true,
-          buttons: [{ action: toggleEditMode, text: 'Редактировать заказ', type: 'primary' }, { action: submit }],
-        });
-      } else {
-        Provider.store.commit('dailyMenuOrders/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Заказ', showBackButton: true, buttons: [{ action: submit }] });
-      }
-    };
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
+    Hooks.onBeforeMount(load, {
+      adminHeader: {
+        title: computed(() => (Provider.route().params['id'] ? dailyMenuOrder.value.getFormattedNumber() : 'Создать заказ')),
+        showBackButton: true,
+        buttons: [
+          {
+            action: toggleEditMode,
+            text: computed(() => (isEditMode.value ? 'Выйти из редактирования' : 'Редактировать заказ')),
+            type: 'primary',
+          },
+          { action: submit, condition: computed(() => !isEditMode.value) },
+        ],
+      },
     });
+    Hooks.onBeforeRouteLeave();
 
     return {
+      dailyMenu,
       isEditMode,
       UserFormFields,
       dailyMenuOrder,

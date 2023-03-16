@@ -24,7 +24,7 @@
               <div class="column-left">
                 <div class="user-avatar">
                   <div class="avatar-block">
-                    <UploaderSingleScan 
+                    <UploaderSingleScan
                       :emit-crop="true"
                       :file-info="user.human.photo"
                       :height="273"
@@ -119,23 +119,23 @@
               </div>
             </div>
           </div>
-          <div class="tab">
-            <input id="tab-two" type="checkbox" name="tabs" />
-            <label for="tab-two">
-              <svg class="icon-education">
-                <use xlink:href="#education"></use>
-              </svg>
-              <div class="tab-name">
-                Заявки
-                <span v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">
-                  {{ user.getNotViewedApplicationsCount() }}
-                </span>
-              </div>
-            </label>
-            <div class="tab-content">
-              <EducationPage />
-            </div>
-          </div>
+          <!--          <div class="tab">-->
+          <!--            <input id="tab-two" type="checkbox" name="tabs" />-->
+          <!--            <label for="tab-two">-->
+          <!--              <svg class="icon-education">-->
+          <!--                <use xlink:href="#education"></use>-->
+          <!--              </svg>-->
+          <!--              <div class="tab-name">-->
+          <!--                Заявки-->
+          <!--                <span v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">-->
+          <!--                  {{ user.getNotViewedApplicationsCount() }}-->
+          <!--                </span>-->
+          <!--              </div>-->
+          <!--            </label>-->
+          <!--            <div class="tab-content">-->
+          <!--              <EducationPage />-->
+          <!--            </div>-->
+          <!--          </div>-->
         </div>
       </div>
     </div>
@@ -154,11 +154,11 @@
         <div class="column-left">
           <div class="user-avatar">
             <div class="avatar-block">
-              <UploaderSingleScan 
-                :emit-crop="true" 
-                :file-info="user.human.photo" 
-                :height="273" 
-                @crop="saveAvatar" 
+              <UploaderSingleScan
+                :emit-crop="true"
+                :file-info="user.human.photo"
+                :height="273"
+                @crop="saveAvatar"
                 @ratio="(e) => (element.ratio = e)"
               />
             </div>
@@ -317,7 +317,7 @@ import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 export default defineComponent({
   name: 'ProfileInfoPage',
-  components: { UploaderSingleScan, UserInfoMini, EducationPage, EditPhone },
+  components: { UploaderSingleScan, UserInfoMini, EditPhone },
 
   setup() {
     const mounted = ref(false);

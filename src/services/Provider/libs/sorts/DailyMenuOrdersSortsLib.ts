@@ -1,36 +1,33 @@
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
+import { Orders } from '@/services/interfaces/Orders';
+
 const DailyMenuOrdersSortsLib = (() => {
-  // function byCreatedAt(order?: Orders): SortModel {
-  //   return SortModel.CreateSortModel(
-  //     Provider.schema.value.dailyMenuOrder.tableName,
-  //     Provider.schema.value.dailyMenuOrder.createdAt,
-  //     order ? order : Orders.Asc,
-  //     `По дате подачи ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-  //     order === Orders.Desc ? true : false
-  //   );
-  // }
-  //
-  // function byUserFullName(order?: Orders): SortModel {
-  //   return SortModel.CreateSortModel(
-  //     Provider.schema.value.dailyMenuOrder.tableName,
-  //     Provider.schema.value.dailyMenuOrder.fullName,
-  //     order ? order : Orders.Asc,
-  //     `По ФИО заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
-  //   );
-  // }
-  //
-  // function byUserEmail(order?: Orders): SortModel {
-  //   return SortModel.CreateSortModel(
-  //     Provider.schema.value.dailyMenuOrder.tableName,
-  //     Provider.schema.value.dailyMenuOrder.email,
-  //     order ? order : Orders.Asc,
-  //     `По email заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
-  //   );
-  // }
+  const modelName = 'dailyMenuOrder';
+
+  function byCreatedAt(order?: Orders): SortModel {
+    return SortModel.CreateSortModelV2(
+      modelName,
+      'createdAt',
+      order ? order : Orders.Desc,
+      `По дате рождения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
+      order === Orders.Asc ? false : true
+    );
+  }
+
+  function byNumber(order?: Orders): SortModel {
+    return SortModel.CreateSortModelV2(
+      modelName,
+      'number',
+      order ? order : Orders.Desc,
+      `По номеру ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
+    );
+  }
 
   return {
-    // byCreatedAt,
-    // byUserFullName,
-    // byUserEmail,
+    byNumber,
+    byCreatedAt,
   };
 })();
 

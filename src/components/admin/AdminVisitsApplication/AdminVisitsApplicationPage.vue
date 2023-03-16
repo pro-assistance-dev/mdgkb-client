@@ -115,7 +115,7 @@ export default defineComponent({
 
     const load = async () => {
       await loadItem();
-      await updateNew();
+      // await updateNew();
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(visitsApplication, formUpdated, { deep: true });
     };

@@ -35,8 +35,11 @@
               </svg>
             </div>
             <div class="item-elements">
-              <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id" class="item">
-                {{ phone.number }} <span v-if="phone.description">: {{ phone.description }} </span>
+              <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id" class="item" style="white-space: nowrap">
+                <div>
+                  <a :href="'tel:' + phone.number">{{ phone.number }}</a>
+                </div>
+                <div v-if="phone.description">: {{ phone.description }}</div>
               </div>
             </div>
           </div>

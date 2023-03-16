@@ -1,8 +1,5 @@
 <template>
   <el-card>
-    <template #header>
-      <h2>{{ project.title }}</h2>
-    </template>
     <div v-html="project.content"></div>
     <el-tabs v-if="project.projectItems.length" type="border-card">
       <el-tab-pane v-for="item in project.projectItems" :key="item.id" :label="item.title">
@@ -13,23 +10,17 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, ComputedRef, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
-import IProject from '@/interfaces/projects/IProject';
+import Project from '@/classes/Project';
 
 export default defineComponent({
   name: 'ProjectPage',
 
   setup() {
     const store = useStore();
-    const route = useRoute();
-    const project: ComputedRef<IProject> = computed(() => store.getters['projects/item']);
-
-    onBeforeMount(async () => {
-      await store.dispatch('projects/getBySlug', route.params['slug']);
-    });
+    const project: ComputedRef<Project> = computed(() => store.getters['projects/item']);
 
     return {
       project,

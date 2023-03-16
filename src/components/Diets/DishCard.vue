@@ -34,10 +34,10 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, Ref } from 'vue';
 
+import DailyMenuItem from '@/classes/DailyMenuItem';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import Button from '@/components/Diets/Button.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -45,22 +45,14 @@ export default defineComponent({
   components: { Button, FavouriteIcon },
   props: {
     dailyMenuItem: {
-      type: Object as PropType<IDailyMenuItem>,
+      type: Object as PropType<DailyMenuItem>,
       required: true,
     },
   },
   setup(props) {
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    let status = 'inStock';
-    const add = (curNum: number, prevNum: number) => {
-      if (curNum > prevNum) {
-        dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuItem);
-      } else {
-        dailyMenuOrder.value.decreaseDailyMenuOrderItem(props.dailyMenuItem);
-      }
-    };
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+
     return {
-      add,
       dailyMenuOrder,
       status,
     };
