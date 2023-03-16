@@ -1,4 +1,10 @@
 <template>
+    <!-- <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
+      <DishesSamplesConstructor :menu="selectedMenu" />
+    </el-dialog> -->
+  <div class="menu-shadow">
+    <ModalBufetCart />
+  </div>
   <div v-if="mounted" class="container-bufet">
     <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'">
       <template #menu>
@@ -89,7 +95,7 @@
           <Filter :text="'Постные'" @change="(e) => dailyMenu.setOnlyLean(e)" />
         </Filters>
         <div class="main">
-          <div v-if="!dailyMenu.getNotEmptyGroups().length" class="info-window">На данный момент нет блюд для выбора</div>
+          <div v-if="!dailyMenu.getNotEmptyGroups().length > 0" class="info-window">На данный момент нет блюд для выбора</div>
           <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups()" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
@@ -128,10 +134,11 @@ import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
+import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
 
 export default defineComponent({
   name: 'BufetPage',
-  components: { Filter, Cart, Heart, DoubleArrow, DishCard, AdaptiveContainerHorizontal, HeaderInfo, Filters },
+  components: { Filter, Cart, Heart, DoubleArrow, DishCard, AdaptiveContainerHorizontal, HeaderInfo, Filters, ModalBufetCart },
   setup() {
     const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
@@ -388,6 +395,19 @@ input[type='text'] {
   border: $normal-border;
   border-radius: $normal-border-radius;
   background: #e3e3e3;
+}
+
+.menu-shadow {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 1330px) {
