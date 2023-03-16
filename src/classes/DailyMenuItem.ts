@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -13,6 +14,9 @@ export default class DailyMenuItem {
   caloric = 0;
   order = 0;
   dailyMenuId?: string;
+  dishesGroupId?: string;
+  // @ClassHelper.GetClassConstructor(DishesGroup)
+  // dishesGroup?: undefined;
   available = false;
   dishSampleId?: string;
   dishSample: DishSample = new DishSample();
@@ -35,6 +39,7 @@ export default class DailyMenuItem {
     const item = new DailyMenuItem();
     item.id = uuidv4();
     item.dishSampleId = dishSample.id;
+    item.dishesGroupId = dishSample.dishesGroupId;
     item.name = dishSample.name;
     item.weight = dishSample.weight;
     item.caloric = dishSample.caloric;

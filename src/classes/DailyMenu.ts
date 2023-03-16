@@ -4,7 +4,6 @@ import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
 import ClassHelper from '@/services/ClassHelper';
-import { dishesSamples } from '@/store/modules/dishesSamples';
 
 export default class DailyMenu {
   id?: string;
@@ -22,6 +21,10 @@ export default class DailyMenu {
   startTime?: string;
   endTime?: string;
 
+  onlyDietary = false;
+  onlyLean = false;
+  onlyAvailable = false;
+
   constructor(i?: DailyMenu) {
     ClassHelper.BuildClass(this, i);
   }
@@ -29,6 +32,7 @@ export default class DailyMenu {
   addDishesFromSamples(dishesSamples: DishSample[], groups: DishesGroup[]): void {
     dishesSamples.forEach((ds: DishSample) => {
       const item = DailyMenuItem.CreateFromSample(ds);
+      console.log(item);
       item.dailyMenuId = this.id;
       item.highlight = true;
       this.dailyMenuItems.push(item);
@@ -114,14 +118,29 @@ export default class DailyMenu {
     this.name = this.cacheName;
   }
 
-  getNonEmptyGroups(): DishesGroup[] {
-    const groups: DishesGroup[] = [];
+  fillGroups(dailyMenuItems: DailyMenuItem[]): void {
     this.dishesGroups.forEach((g: DishesGroup) => {
-      if (g.containAvailableItems()) {
-        groups.push(g);
-      }
+      g.dailyMenuItems = dailyMenuItems.filter((d: DailyMenuItem) => d.dishesGroupId === g.id);
     });
-    return groups;
+  }
+
+  initGroups(): void {
+    this.fillGroups(this.getFilteredDailyMenuItems());
+  }
+
+  setOnlyDietary(value: boolean): void {
+    this.onlyDietary = value;
+    this.initGroups();
+  }
+
+  setOnlyLean(value: boolean): void {
+    this.onlyLean = value;
+    this.initGroups();
+  }
+
+  getNotEmptyGroups(): DishesGroup[] {
+    console.log('GET');
+    return this.dishesGroups.filter((d: DishesGroup) => d.dailyMenuItems.length);
   }
 
   addActiveDishesFromOthersMenus(dailyMenus: DailyMenu[], groups: DishesGroup[]): void {
@@ -146,5 +165,21 @@ export default class DailyMenu {
 
   availableDishesExists(): boolean {
     return this.dailyMenuItems.some((d: DailyMenuItem) => d.available);
+  }
+
+  getFilteredDailyMenuItems(): DailyMenuItem[] {
+    return this.filterDietaryItems(this.filterLeanItems(this.filterAvailableItems(this.dailyMenuItems)));
+  }
+
+  filterAvailableItems(items: DailyMenuItem[]): DailyMenuItem[] {
+    return this.onlyAvailable ? items.filter((d: DailyMenuItem) => d.available) : items;
+  }
+
+  filterDietaryItems(items: DailyMenuItem[]): DailyMenuItem[] {
+    return this.onlyDietary ? items.filter((d: DailyMenuItem) => d.dietary) : items;
+  }
+
+  filterLeanItems(items: DailyMenuItem[]): DailyMenuItem[] {
+    return this.onlyLean ? items.filter((d: DailyMenuItem) => d.lean) : items;
   }
 }

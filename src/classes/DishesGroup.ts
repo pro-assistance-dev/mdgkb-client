@@ -56,9 +56,6 @@ export default class DishesGroup {
     }
   }
 
-  containAvailableItems(): boolean {
-    return this.dailyMenuItems.some((d: DailyMenuItem) => d.available);
-  }
   setAvailable(available: boolean): void {
     this.dailyMenuItems.forEach((d: DailyMenuItem) => (d.available = available));
   }
@@ -71,6 +68,10 @@ export default class DishesGroup {
       }
     });
     return ids;
+  }
+
+  containAvailableItems(): boolean {
+    return this.dailyMenuItems.some((d: DailyMenuItem) => d.available);
   }
 
   getAvailableDishes(): DailyMenuItem[] {

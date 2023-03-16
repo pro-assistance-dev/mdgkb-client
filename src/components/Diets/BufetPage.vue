@@ -13,51 +13,47 @@
           </div>
           <div class="menu-list">
             <div
-              v-for="dishesGroup in dailyMenu.getNonEmptyGroups()"
+              v-for="dishesGroup in dailyMenu.getNotEmptyGroups()"
               :key="dishesGroup.id"
               class="item"
-              @click="$scroll('#' + dishesGroup.getTransliteIdFromName(), -100)"
+              @click="$scroll('#' + dishesGroup.getTransliteIdFromName())"
             >
-            <div :id="dishesGroup.getTransliteIdFromName()">
-              {{ dishesGroup.name }}
-            </div>
+              <div>
+                {{ dishesGroup.name }}
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="menu-period">
-          <div class="period">
-            <div class="title">Обед</div>
-            <svg class="icon-double-arrow">
-              <use xlink:href="#double-arrow"></use>
-            </svg>
-            <div class="time">14:00-16:00</div>
-          </div>
-          <div class="menu-list">
-            <div
-              v-for="dishesGroup in dailyMenu.getNonEmptyGroups()"
-              :key="dishesGroup.id"
-              class="item"
-            >
-            <div :id="dishesGroup.getTransliteIdFromName()">
-              {{ dishesGroup.name }}
-            </div>
-            </div>
-          </div>
-        </div>
+        <!--        <div class="menu-period">-->
+        <!--          <div class="period">-->
+        <!--            <div class="title">Обед</div>-->
+        <!--            <svg class="icon-double-arrow">-->
+        <!--              <use xlink:href="#double-arrow"></use>-->
+        <!--            </svg>-->
+        <!--            <div class="time">14:00-16:00</div>-->
+        <!--          </div>-->
+        <!--          <div class="menu-list">-->
+        <!--            <div v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id" class="item">-->
+        <!--              <div :id="dishesGroup.getTransliteIdFromName()">-->
+        <!--                {{ dishesGroup.name }}-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
       </template>
       <template #title>
         <HeaderInfo :left-width="'188px'" :background="'#ffffff'" :is-single="true" :is-bufet="true">
-          <template #foto>
-            <div class="foto"></div>
-            <!-- <ChiefCard
+          <!--          <template #foto>-->
+          <!--            <div class="foto"></div>-->
+          <!-- <ChiefCard
               :employee="division.chief.employee"
               :chief-role="division.chief.employee.human.isMale ? 'Заведующий' : 'Заведующая' + ' отделением'"
               show-favourite
               favourite-domain="division"
               :favourite-id="division.id"
             /> -->
-          </template>
+          <!--          </template>-->
 
           <template #small-title> Терапевтическое отделение </template>
 
@@ -79,19 +75,23 @@
               </svg>
               <div class="price-field">
                 <div class="price">{{ dailyMenuOrder.getPriceSum() }} р.</div>
-                <div class="quantity">3 шт.</div>
+                <div class="quantity">{{ dailyMenuOrder.getDailyMenuItemsQuantity() }}</div>
               </div>
             </div>
           </template>
         </HeaderInfo>
       </template>
       <template #body>
-        <Announcement :text="'До конца сервировки завтрака осталось 2 часа 15 минут'" :margin-top="'30px'" />
-        <Filters :margin-top="'8px'" />
+        <!--        <Announcement :text="'До конца сервировки завтрака осталось 2 часа 15 минут'" :margin-top="'30px'" />-->
+        <Filters :margin-top="'8px'">
+          <!--          <Filter :text="'Доступные'" @change="(e) => dailyMenu.onlyAvailables(e)"/>-->
+          <Filter :text="'Диетические'" @change="(e) => dailyMenu.setOnlyDietary(e)" />
+          <Filter :text="'Постные'" @change="(e) => dailyMenu.setOnlyLean(e)" />
+        </Filters>
         <div class="main">
-          <div v-if="!dailyMenu.getNonEmptyGroups().length" class="info-window">На данный момент нет блюд для выбора</div>
-          <template v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id">
-            <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">Завтрак - {{ dishesGroup.name }}</div>
+          <div v-if="!dailyMenu.getNotEmptyGroups().length" class="info-window">На данный момент нет блюд для выбора</div>
+          <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups()" :key="dishesGroup.id">
+            <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
               <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
             </div>
@@ -117,26 +117,25 @@ import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishesGroup from '@/classes/DishesGroup';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
+import AdaptiveContainerHorizontal from '@/components/Base/AdaptiveContainerHorizontal.vue';
+import HeaderInfo from '@/components/Base/HeaderInfo.vue';
+import Announcement from '@/components/Diets/Announcement.vue';
 import DishCard from '@/components/Diets/DishCard.vue';
+import Filter from '@/components/Diets/Filter.vue';
 import Filters from '@/components/Diets/Filters.vue';
 import IUser from '@/interfaces/IUser';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
-import AdaptiveContainerHorizontal from '@/components/Base/AdaptiveContainerHorizontal.vue';
-import HeaderInfo from '@/components/Base/HeaderInfo.vue';
-import Announcement from '@/components/Diets/Announcement.vue';
-
 
 export default defineComponent({
   name: 'BufetPage',
-  components: { Cart, Heart, DoubleArrow, DishCard, AdaptiveContainerHorizontal, HeaderInfo, Announcement, Filters },
+  components: { Filter, Cart, Heart, DoubleArrow, DishCard, AdaptiveContainerHorizontal, HeaderInfo, Filters },
   setup() {
     const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
-    const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0));
+    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
 
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
@@ -153,14 +152,14 @@ export default defineComponent({
       }
       dailyMenuOrder.value.formValue.user = new User(user.value);
       await getDishesGroups();
-      dailyMenu.value.groupDishes(dishesGroups.value);
+      dailyMenu.value.dishesGroups = dishesGroups.value;
+      dailyMenu.value.initGroups();
     };
 
     const getDishesGroups = async () => {
       const queryFilter = new FilterQuery();
       queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
       await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
-      dishesGroups.value = dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0);
     };
 
     const openCart = () => {
@@ -177,7 +176,6 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     return {
-      dishesGroupsSource,
       dailyMenuOrder,
       dishesGroups,
       dailyMenu,

@@ -5,9 +5,7 @@
       marginTop: marginTop,
     }"
   >
-    <Filter :text="'Доступные'" :background="'#2754EB'" />
-    <Filter :text="'Диетические'" :background="'#2754EB'" />
-    <Filter :text="'Постные'" :background="'#2754EB'" />
+    <slot />
   </div>
 </template>
 
@@ -17,8 +15,7 @@ import { defineComponent, PropType } from 'vue';
 import Filter from '@/components/Diets/Filter.vue';
 
 export default defineComponent({
-  name: 'Filters',
-  components: { Filter },
+  name: 'BufetFilters',
   props: {
     marginTop: {
       type: String as PropType<string>,

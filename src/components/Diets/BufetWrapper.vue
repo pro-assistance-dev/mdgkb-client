@@ -33,7 +33,7 @@ export default defineComponent({
 
     const load = async () => {
       await Provider.store.dispatch('dailyMenus/todayMenu');
-      dailyMenu.value.groupDishes(dishesGroupsSource.value);
+      // dailyMenu.value.groupDishes(dishesGroupsSource.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
       // setInterval(async () => {
