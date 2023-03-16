@@ -18,7 +18,9 @@
               class="item"
               @click="$scroll('#' + dishesGroup.getTransliteIdFromName(), -100)"
             >
+            <div :id="dishesGroup.getTransliteIdFromName()">
               {{ dishesGroup.name }}
+            </div>
             </div>
           </div>
         </div>
@@ -36,9 +38,8 @@
               v-for="dishesGroup in dailyMenu.getNonEmptyGroups()"
               :key="dishesGroup.id"
               class="item"
-              @click="$scroll('#' + dishesGroup.getTransliteIdFromName(), -100)"
             >
-            <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">
+            <div :id="dishesGroup.getTransliteIdFromName()">
               {{ dishesGroup.name }}
             </div>
             </div>
@@ -106,8 +107,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { toInteger } from 'lodash';
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import DoubleArrow from '@/assets/svg/Buffet/DoubleArrow.svg';
@@ -118,13 +118,16 @@ import DishesGroup from '@/classes/DishesGroup';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
 import DishCard from '@/components/Diets/DishCard.vue';
-import IForm from '@/interfaces/IForm';
 import Filters from '@/components/Diets/Filters.vue';
 import IUser from '@/interfaces/IUser';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
+import AdaptiveContainerHorizontal from '@/components/Base/AdaptiveContainerHorizontal.vue';
+import HeaderInfo from '@/components/Base/HeaderInfo.vue';
+import Announcement from '@/components/Diets/Announcement.vue';
+
 
 export default defineComponent({
   name: 'BufetPage',
