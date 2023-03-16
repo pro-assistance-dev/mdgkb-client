@@ -23,7 +23,7 @@
         <div class="line1">Вес: {{ dailyMenuItem.weight }}гр.</div>
         <div class="line2">{{ dailyMenuItem.caloric }} ккал</div>
       </div>
-      <Button :status="status" />
+        <Button :status="status" />
     </div>
   </el-form>
 </template>
@@ -48,7 +48,7 @@ export default defineComponent({
   },
   setup(props) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-
+    let status = 'inStock';
     return {
       dailyMenuOrder,
       status,
