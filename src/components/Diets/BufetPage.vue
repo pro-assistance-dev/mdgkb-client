@@ -43,7 +43,7 @@
           <template #small-title> Заказать еду </template>
 
           <template #big-title>
-            <template v-if="dailyMenuOrder.formValue.getFieldValueByCode('boxNumber').valueNumber">
+            <template v-if="dailyMenuOrder.formValue.getFieldValueByCode('boxNumber')">
               Бокс № {{ dailyMenuOrder.formValue.getFieldValueByCode('boxNumber').valueNumber }}
             </template>
           </template>
