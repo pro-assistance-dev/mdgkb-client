@@ -89,7 +89,7 @@ export default defineComponent({
     status: {
       type: String as PropType<string>,
       required: false,
-      default: 'inStock',
+      default: 'inCart',
     },
   },
   setup() {

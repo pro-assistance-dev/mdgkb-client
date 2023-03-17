@@ -12,8 +12,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import Filter from '@/components/Diets/Filter.vue';
-
 export default defineComponent({
   name: 'BufetFilters',
   props: {
