@@ -48,4 +48,12 @@ export default class ContactInfo {
   getCoords(): number[] {
     return [Number(this.latitude), Number(this.longitude)];
   }
+
+  static CreateBufetContacts(): ContactInfo {
+    const contactInfo = new ContactInfo();
+    const address = new PostAddress();
+    address.address = '4-й Добрынинский пер., 4, 1А корпус, 7й этаж';
+    contactInfo.postAddresses[0] = address;
+    return contactInfo;
+  }
 }

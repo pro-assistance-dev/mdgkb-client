@@ -12,7 +12,11 @@
     }"
     @click="handClick"
   >
-    <div v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0" class="inblock" @click="dailyMenuOrder.addToOrder(dailyMenuItem)">
+    <div
+      v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0"
+      class="inblock"
+      @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"
+    >
       <svg class="icon-plus">
         <use xlink:href="#plus"></use>
       </svg>

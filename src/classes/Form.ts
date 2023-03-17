@@ -509,4 +509,19 @@ export default class Form implements IForm {
   getFieldValueByCode(code: string): IFieldValue | undefined {
     return this.fieldValues.find((fv: IFieldValue) => fv.field?.code === code);
   }
+
+  setValue(code: string, value: unknown): void {
+    const fieldValue = this.getFieldValueByCode(code);
+    if (!fieldValue) {
+      return;
+    }
+    switch (typeof value) {
+      case 'number':
+        fieldValue.valueNumber = value as number;
+        break;
+      case 'string':
+        fieldValue.valueString = value as string;
+        break;
+    }
+  }
 }

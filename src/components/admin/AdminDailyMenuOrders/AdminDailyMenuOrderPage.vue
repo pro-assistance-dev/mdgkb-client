@@ -67,7 +67,7 @@
             <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
               <span>{{ dailyMenuItem.name }}</span> /
               <span>{{ dailyMenuItem.price }} руб.</span>
-              <el-button v-if="isEditMode" @click="dailyMenuOrder.addToOrder(dailyMenuItem)">Добавить в заказ</el-button>
+              <el-button v-if="isEditMode" @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)">Добавить в заказ</el-button>
             </div>
           </div>
         </el-card>

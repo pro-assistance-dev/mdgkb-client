@@ -1,21 +1,21 @@
 <template>
-<div class="body" >
-  <div class="icon-close">
-    <slot name="icon" />
-  </div>
-  <div class="title">
-    <slot name="title" />
-  </div>
-  <div class=line>
-    <div class="line-left">
-      <slot name="left" />
+  <div class="body">
+    <div class="icon-close">
+      <slot name="icon" />
     </div>
-    <div class="line-center"></div>
-    <div class="line-right">
-      <slot name="right" />
+    <div class="title">
+      <slot name="title" />
+    </div>
+    <div class="line">
+      <div class="line-left">
+        <slot name="left" />
+      </div>
+      <div class="line-center"></div>
+      <div class="line-right">
+        <slot name="right" />
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script lang="ts">
@@ -36,10 +36,9 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '@/assets/styles/elements/base-style.scss';
 
-
 .body {
   position: relative;
-  width: 938px;
+  width: 1200px;
   min-height: 10px;
   border: $normal-border;
   border-radius: $normal-border-radius;

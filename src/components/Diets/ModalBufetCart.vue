@@ -1,14 +1,12 @@
 <template>
-  <CartContainer @isClose="openModalCart" >
+  <CartContainer>
     <template #icon>
-      <svg class="icon-close" @click="$emit('isClose')">
+      <svg class="icon-close" @click="$emit('close')">
         <use xlink:href="#close"></use>
       </svg>
-    </template>  
-
-    <template #title>
-      Корзина
     </template>
+
+    <template #title> Корзина </template>
     <template #left>
       <div class="line-title">Ваш заказ</div>
       <div class="scroll">
@@ -19,9 +17,9 @@
         />
       </div>
       <div class="line-button">
-        <button class="clear-cart" >
+        <button class="clear-cart" @click="clearOrder">
           <div>Очистить корзину</div>
-          <svg class="icon-delete" @click="removeItem">
+          <svg class="icon-delete">
             <use xlink:href="#delete"></use>
           </svg>
         </button>
@@ -32,18 +30,33 @@
       <div class="line-title">Итого</div>
       <div class="line-item">
         <div class="item">Блюда</div>
-        <div class="price">{{ price }}₽.</div>
+        <div class="price">{{ dailyMenuOrder.getPriceSum() }}₽.</div>
       </div>
       <div class="line-item">
         <div class="item">Доставка</div>
         <div class="price">{{ costOfDelivery }}₽.</div>
       </div>
+      <br />
+      <div class="line-item">
+        <el-form
+          ref="userForm"
+          v-model="dailyMenuOrder"
+          :model="dailyMenuOrder"
+          label-width="150px"
+          style="max-width: 700px"
+          label-position="left"
+        >
+          <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
+          <FieldValuesForm :form="dailyMenuOrder.formValue" />
+        </el-form>
+      </div>
+
       <div class="info"></div>
       <div class="line-item">
         <div class="line-title">К оплате</div>
         <div class="total-price">{{ totalPrice }}₽.</div>
       </div>
-      <button class="green" @click="createOrder">Перейти к оплате</button>
+      <button class="green" @click="createOrder">Заказать</button>
     </template>
   </CartContainer>
   <Close />
@@ -52,70 +65,75 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
-import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, PropType } from 'vue';
+import { ElLoading, ElMessage } from 'element-plus';
+import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
-import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import TableCard from '@/components/Diets/TableCard.vue';
-import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
-import CartContainer from '@/components/Diets/CartContainer.vue';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
-
 import Close from '@/assets/svg/Filter/Close.svg';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import UserFormFields from '@/classes/UserFormFields';
+import CartContainer from '@/components/Diets/CartContainer.vue';
+import TableCard from '@/components/Diets/TableCard.vue';
+import UserForm from '@/components/FormConstructor/UserForm.vue';
+import PhoneService from '@/services/PhoneService';
+import Provider from '@/services/Provider/Provider';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'ModalBufetCart',
-  emits: ['isClose'],
-  components: { TableCard, Close, CartContainer, Delete },
+  components: { TableCard, Close, CartContainer, Delete, UserForm },
   props: {
     isClose: {
       type: Boolean as PropType<boolean>,
       default: false,
     },
-    price: {
-      type: Number as PropType<number>,
-      default: 0,
-    },
   },
-  setup(props) {
+  emits: ['close'],
+  setup(props, { emit }) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const userForm = ref();
     let costOfDelivery = Number(200);
-    let totalPrice = props.price + costOfDelivery;
-    const checkDailyMenuOrderItemsLength = () => {
-      console.log('check', dailyMenuOrder.value.dailyMenuOrderItems);
-      if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
-        Provider.router.push('/bufet');
+    const totalPrice: Ref<number> = ref(dailyMenuOrder.value.getPriceSum() + costOfDelivery);
+
+    const checkDailyMenuOrderIsEmpty = () => {
+      if (dailyMenuOrder.value.isEmpty()) {
+        emit('close');
       }
     };
 
-    watch(dailyMenuOrder.value, checkDailyMenuOrderItemsLength);
+    watch(dailyMenuOrder.value, checkDailyMenuOrderIsEmpty);
 
-    const load = () => {
-      checkDailyMenuOrderItemsLength();
-    };
-
-    Hooks.onBeforeMount(load);
-
-    const createOrder = () => {
-      if (!dailyMenuOrder.value.dailyMenuOrderItems.length) {
-        ElMessage({
-          message: 'Необходимо выбрать блюдо',
-          type: 'warning',
-        });
-        return;
-      }
+    const createOrder = async () => {
+      // dailyMenuOrder.value.formValue.validate();
+      // if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
+      //   return;
+      // }
       if (dailyMenuOrder.value.getPriceSum() < 150) {
-        ElMessage({
-          message: 'Минимальная сумма заказа - 150 рублей',
-          type: 'warning',
-        });
-        return;
+        return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
       }
-      Provider.router.push('/bufet/order');
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Загрузка',
+      });
+      dailyMenuOrder.value.formValue.clearIds();
+      await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
+      ElMessage.success('Заказ успешно создан');
+      await Provider.store.commit('dailyMenuOrders/resetItem');
+      dailyMenuOrder.value.removeFromLocalStore();
+      loading.close();
+      emit('close');
+    };
+
+    const clearOrder = (): void => {
+      dailyMenuOrder.value.clear();
+      emit('close');
     };
 
     return {
+      PhoneService,
+      userForm,
+      UserFormFields,
+      clearOrder,
       createOrder,
       dailyMenuOrder,
       mounted: Provider.mounted,
@@ -129,7 +147,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import '@/assets/styles/elements/base-style.scss';
-
 
 .body {
   position: relative;
@@ -197,7 +214,7 @@ export default defineComponent({
 .item {
   font-size: 14px;
   font-family: 'Open Sans', sans-serif;
-  letter-spacing: 1px;  
+  letter-spacing: 1px;
   font-weight: normal;
   margin-top: 10px;
 }
@@ -205,7 +222,7 @@ export default defineComponent({
 .price {
   font-size: 14px;
   font-family: 'Open Sans', sans-serif;
-  letter-spacing: 1px;  
+  letter-spacing: 1px;
   font-weight: bold;
   margin-top: 10px;
 }
@@ -213,20 +230,20 @@ export default defineComponent({
 .total-price {
   font-size: 18px;
   font-family: 'Open Sans', sans-serif;
-  letter-spacing: 1px;  
+  letter-spacing: 1px;
   font-weight: bold;
   margin-top: 16px;
 }
 
 .info {
   height: 120px;
-  border-bottom: 1px solid #EFF1F7;
+  border-bottom: 1px solid #eff1f7;
 }
 
 .green {
   border: none;
   border-radius: 8px;
-  background: #00BD5A;
+  background: #00bd5a;
   color: #ffffff;
   padding: 10px 0px;
   transition: 0.3s;
@@ -237,7 +254,7 @@ export default defineComponent({
 }
 
 .green:hover {
-  background: darken(#00BD5A, 10%);
+  background: darken(#00bd5a, 10%);
 }
 
 .clear-cart {
@@ -246,7 +263,7 @@ export default defineComponent({
   justify-content: center;
   border: $normal-border;
   border-radius: 8px;
-  background: #E3E4EF;
+  background: #e3e4ef;
   color: #343e5c;
   transition: 0.3s;
   cursor: pointer;
@@ -256,7 +273,7 @@ export default defineComponent({
 }
 
 .clear-cart:hover {
-  background: darken(#E3E4EF, 10%);
+  background: darken(#e3e4ef, 10%);
 }
 
 .icon-delete {
@@ -286,6 +303,5 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 768px) {
-
 }
 </style>

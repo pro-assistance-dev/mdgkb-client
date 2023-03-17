@@ -1,9 +1,9 @@
 <template>
-    <!-- <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
+  <!-- <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
       <DishesSamplesConstructor :menu="selectedMenu" />
     </el-dialog> -->
-  <div v-if="!isClose" class="menu-shadow">
-    <ModalBufetCart @isClose="openModalCart" :price="dailyMenuOrder.getPriceSum()"/>
+  <div v-if="cartIsOpen" class="menu-shadow">
+    <ModalBufetCart @close="toggleModalCart" />
   </div>
   <div v-if="mounted" class="container-bufet">
     <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'">
@@ -61,22 +61,24 @@
             /> -->
           <!--          </template>-->
 
-          <template #small-title> Терапевтическое отделение </template>
+          <template #small-title> Заказать еду </template>
 
-          <template #big-title> Палата № 531 </template>
-
-          <template #tags> </template>
-
-          <template #contact>
-            <!-- <ContactsBlock :contact-info="division.contactInfo" /> -->
+          <template #big-title>
+            <template v-if="dailyMenuOrder.formValue.getFieldValueByCode('boxNumber').valueNumber">
+              Бокс № {{ dailyMenuOrder.formValue.getFieldValueByCode('boxNumber').valueNumber }}
+            </template>
           </template>
+
+          <template #tags>asd </template>
+
+          <template #contact><ContactsBlock :contact-info="ContactInfo.CreateBufetContacts()" /> </template>
 
           <template #buttons>
             <div class="right-block">
               <svg class="icon-heart">
                 <use xlink:href="#heart"></use>
               </svg>
-              <svg class="icon-cart" @click="isClose=false">
+              <svg class="icon-cart" @click="toggleModalCart()">
                 <use xlink:href="#cart" />
               </svg>
               <div class="price-field">
@@ -125,38 +127,46 @@ import Form from '@/classes/Form';
 import User from '@/classes/User';
 import AdaptiveContainerHorizontal from '@/components/Base/AdaptiveContainerHorizontal.vue';
 import HeaderInfo from '@/components/Base/HeaderInfo.vue';
+import ContactsBlock from '@/components/ContactsBlock.vue';
 import Announcement from '@/components/Diets/Announcement.vue';
 import DishCard from '@/components/Diets/DishCard.vue';
 import Filter from '@/components/Diets/Filter.vue';
 import Filters from '@/components/Diets/Filters.vue';
+import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
 import IUser from '@/interfaces/IUser';
+import ContactInfo from '@/services/classes/ContactInfo';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
-import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
 
 export default defineComponent({
   name: 'BufetPage',
-  components: { Filter, Cart, Heart, DoubleArrow, DishCard, AdaptiveContainerHorizontal, HeaderInfo, Filters, ModalBufetCart },
+  components: {
+    Filter,
+    Cart,
+    Heart,
+    DoubleArrow,
+    DishCard,
+    AdaptiveContainerHorizontal,
+    HeaderInfo,
+    Filters,
+    ModalBufetCart,
+    ContactsBlock,
+  },
   setup() {
     const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const isClose: Ref<boolean> = ref(true);
+    const cartIsOpen: Ref<boolean> = ref(false);
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
 
     const load = async () => {
-      console.log('Состояние до клика' + isClose.value);
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
       dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
-      const boxN = Provider.route().query.place;
-      const boxNumberField = dailyMenuOrder.value.formValue.getFieldValueByCode('boxNumber');
-      if (boxNumberField && boxN) {
-        boxNumberField.valueNumber = Number(boxN);
-      }
+      dailyMenuOrder.value.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
       dailyMenuOrder.value.formValue.user = new User(user.value);
       await getDishesGroups();
       dailyMenu.value.dishesGroups = dishesGroups.value;
@@ -169,19 +179,11 @@ export default defineComponent({
       await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
     };
 
-    const openCart = () => {
-      if (!dailyMenuOrder.value.dailyMenuOrderItems.length) {
-        ElMessage({
-          message: 'Необходимо выбрать блюдо',
-          type: 'warning',
-        });
-        return;
+    const toggleModalCart = () => {
+      if (dailyMenuOrder.value.isEmpty() && !cartIsOpen.value) {
+        return ElMessage.warning('Необходимо выбрать блюда');
       }
-      Provider.router.push('/bufet/cart');
-    };
-
-    const openModalCart = () => {
-      isClose.value = !isClose.value;
+      cartIsOpen.value = !cartIsOpen.value;
     };
 
     Hooks.onBeforeMount(load);
@@ -192,9 +194,9 @@ export default defineComponent({
       dailyMenu,
       mounted: Provider.mounted,
       schema: Provider.schema,
-      openCart,
-      isClose,
-      openModalCart,
+      cartIsOpen,
+      toggleModalCart,
+      ContactInfo,
     };
   },
 });

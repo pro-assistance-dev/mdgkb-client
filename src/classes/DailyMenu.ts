@@ -139,7 +139,6 @@ export default class DailyMenu {
   }
 
   getNotEmptyGroups(): DishesGroup[] {
-    console.log('GET');
     return this.dishesGroups.filter((d: DishesGroup) => d.dailyMenuItems.length);
   }
 

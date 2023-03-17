@@ -20,18 +20,16 @@ export default class DailyMenuOrder {
     ClassHelper.BuildClass(this, i);
   }
 
+  findDailyMenuOrderItemById(id: string | undefined): DailyMenuOrderItem | undefined {
+    return this.dailyMenuOrderItems.find((d: DailyMenuOrderItem) => d.dailyMenuItemId === id);
+  }
+
   private addToDailyMenuItems(dailyMenuItem: DailyMenuItem): void {
-    const index = this.dailyMenuOrderItems.findIndex((d: DailyMenuOrderItem) => dailyMenuItem.id === d.dailyMenuItem.id);
-    if (index !== -1) {
-      this.dailyMenuOrderItems[index].quantity++;
-      this.dailyMenuOrderItems[index].price += dailyMenuItem.price;
+    const existingItem = this.findDailyMenuOrderItemById(dailyMenuItem.id);
+    if (existingItem) {
+      existingItem.increment();
     } else {
-      const newOrderItem = new DailyMenuOrderItem();
-      newOrderItem.dailyMenuItem = dailyMenuItem;
-      newOrderItem.dailyMenuItemId = dailyMenuItem.id;
-      newOrderItem.quantity = 1;
-      newOrderItem.price = dailyMenuItem.price;
-      this.dailyMenuOrderItems.push(newOrderItem);
+      this.dailyMenuOrderItems.push(DailyMenuOrderItem.Create(dailyMenuItem));
     }
   }
 
@@ -54,15 +52,14 @@ export default class DailyMenuOrder {
   }
 
   private removeFromDailyMenuItems(dailyMenuItem: DailyMenuItem): void {
-    const index = this.dailyMenuOrderItems.findIndex((d: DailyMenuOrderItem) => dailyMenuItem.id === d.dailyMenuItem.id);
-    if (index === -1) {
+    const existingItem = this.findDailyMenuOrderItemById(dailyMenuItem.id);
+    if (!existingItem) {
       return;
     }
-    if (this.dailyMenuOrderItems[index].quantity > 1) {
-      this.dailyMenuOrderItems[index].quantity--;
-      this.dailyMenuOrderItems[index].price -= dailyMenuItem.price;
+    if (existingItem.quantity > 1) {
+      existingItem.decrement();
     } else {
-      ClassHelper.RemoveFromClassByIndex(index, this.dailyMenuOrderItems, this.dailyMenuOrderItemsForDelete);
+      ClassHelper.RemoveFromClassById(existingItem.id, this.dailyMenuOrderItems, this.dailyMenuOrderItemsForDelete);
     }
   }
 
@@ -132,11 +129,6 @@ export default class DailyMenuOrder {
     return nonActualItems;
   }
 
-  addToOrder(dailyMenuItem: DailyMenuItem): void {
-    this.changeDailyMenuOrderItemQuantity(1, 0, dailyMenuItem);
-    // this.dailyMenuOrderItems.push()
-  }
-
   getFormattedNumber(): string {
     return `Заказ №${this.number}`;
   }
@@ -145,5 +137,14 @@ export default class DailyMenuOrder {
     let sum = 0;
     this.dailyMenuOrderItems.forEach((d: DailyMenuOrderItem) => (sum += d.quantity));
     return sum;
+  }
+
+  isEmpty(): boolean {
+    return this.dailyMenuOrderItems.length === 0;
+  }
+
+  clear(): void {
+    this.dailyMenuOrderItems = [];
+    this.removeFromLocalStore();
   }
 }
