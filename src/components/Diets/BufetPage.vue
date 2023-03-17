@@ -2,8 +2,8 @@
     <!-- <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
       <DishesSamplesConstructor :menu="selectedMenu" />
     </el-dialog> -->
-  <div class="menu-shadow">
-    <ModalBufetCart />
+  <div v-if="!isClose" class="menu-shadow">
+    <ModalBufetCart @isClose="openModalCart" :price="dailyMenuOrder.getPriceSum()"/>
   </div>
   <div v-if="mounted" class="container-bufet">
     <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'">
@@ -76,7 +76,7 @@
               <svg class="icon-heart">
                 <use xlink:href="#heart"></use>
               </svg>
-              <svg class="icon-cart" @click="openCart">
+              <svg class="icon-cart" @click="isClose=false">
                 <use xlink:href="#cart" />
               </svg>
               <div class="price-field">
@@ -143,12 +143,12 @@ export default defineComponent({
     const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-
+    const isClose: Ref<boolean> = ref(true);
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
 
     const load = async () => {
+      console.log('Состояние до клика' + isClose.value);
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
       dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
@@ -180,6 +180,10 @@ export default defineComponent({
       Provider.router.push('/bufet/cart');
     };
 
+    const openModalCart = () => {
+      isClose.value = !isClose.value;
+    };
+
     Hooks.onBeforeMount(load);
 
     return {
@@ -189,6 +193,8 @@ export default defineComponent({
       mounted: Provider.mounted,
       schema: Provider.schema,
       openCart,
+      isClose,
+      openModalCart,
     };
   },
 });

@@ -1,61 +1,87 @@
 <template>
-<div class="body" >
-  <svg class="icon-close">
-    <use xlink:href="#close"></use>
-  </svg>
+  <CartContainer @isClose="openModalCart" >
+    <template #icon>
+      <svg class="icon-close" @click="$emit('isClose')">
+        <use xlink:href="#close"></use>
+      </svg>
+    </template>  
 
-</div>
-<Close />
-  <!-- <div class="container-bufet">
-    <div class="header">
-      <div class="header-top">
-        <div class="header-left">
-          Номер палаты:
-          <input id="room" type="text" name="name" placeholder="000" />
-        </div>
-        <div class="header-right">
-          <button class="bufet" @click="$router.push('/bufet')">В меню</button>
-        </div>
+    <template #title>
+      Корзина
+    </template>
+    <template #left>
+      <div class="line-title">Ваш заказ</div>
+      <div class="scroll">
+        <TableCard
+          v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems"
+          :key="dailyMenuOrderItem.id"
+          :daily-menu-order-item="dailyMenuOrderItem"
+        />
       </div>
-      <div class="menu-bufet">
-        <div class="menu-title">Ваш заказ:</div>
+      <div class="line-button">
+        <button class="clear-cart" >
+          <div>Очистить корзину</div>
+          <svg class="icon-delete" @click="removeItem">
+            <use xlink:href="#delete"></use>
+          </svg>
+        </button>
       </div>
-    </div>
-    <div class="table-main">
-      <TableCard
-        v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems"
-        :key="dailyMenuOrderItem.id"
-        :daily-menu-order-item="dailyMenuOrderItem"
-      />
-    </div>
-    <div class="footer" @click="createOrder">
-      <button class="add-to-card">Создать заказ</button>
-      <div class="footer-info">
-        <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
-        <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
+    </template>
+
+    <template #right>
+      <div class="line-title">Итого</div>
+      <div class="line-item">
+        <div class="item">Блюда</div>
+        <div class="price">{{ price }}₽.</div>
       </div>
-    </div>
-  </div> -->
+      <div class="line-item">
+        <div class="item">Доставка</div>
+        <div class="price">{{ costOfDelivery }}₽.</div>
+      </div>
+      <div class="info"></div>
+      <div class="line-item">
+        <div class="line-title">К оплате</div>
+        <div class="total-price">{{ totalPrice }}₽.</div>
+      </div>
+      <button class="green" @click="createOrder">Перейти к оплате</button>
+    </template>
+  </CartContainer>
+  <Close />
+  <Delete />
 </template>
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref } from 'vue';
+import { computed, defineComponent, Ref, PropType } from 'vue';
 
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import TableCard from '@/components/Diets/TableCard.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
+import CartContainer from '@/components/Diets/CartContainer.vue';
+import Delete from '@/assets/svg/Buffet/Delete.svg';
 
 import Close from '@/assets/svg/Filter/Close.svg';
 
 export default defineComponent({
-  name: 'BufetCart',
-  components: { TableCard, Close },
-  setup() {
+  name: 'ModalBufetCart',
+  emits: ['isClose'],
+  components: { TableCard, Close, CartContainer, Delete },
+  props: {
+    isClose: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+    price: {
+      type: Number as PropType<number>,
+      default: 0,
+    },
+  },
+  setup(props) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-
+    let costOfDelivery = Number(200);
+    let totalPrice = props.price + costOfDelivery;
     const checkDailyMenuOrderItemsLength = () => {
       console.log('check', dailyMenuOrder.value.dailyMenuOrderItems);
       if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
@@ -94,6 +120,8 @@ export default defineComponent({
       dailyMenuOrder,
       mounted: Provider.mounted,
       schema: Provider.schema,
+      costOfDelivery,
+      totalPrice,
     };
   },
 });
@@ -105,19 +133,15 @@ export default defineComponent({
 
 .body {
   position: relative;
-  width: 970px;
-  min-height: 40px;
-  display: flex;
-  justify-content: space-between;
+  width: 938px;
+  min-height: 10px;
   border: $normal-border;
   border-radius: $normal-border-radius;
   background: #ffffff;
+  padding: 16px;
 }
 
 .icon-close {
-  position: absolute;
-  top: 15px;
-  right: 15px;
   width: 16px;
   height: 16px;
   fill: #343e5c;
@@ -128,208 +152,140 @@ export default defineComponent({
 .icon-close:hover {
   fill: #205bb8;
 }
-// .container-bufet {
-//   position: relative;
-//   width: 100%;
-//   color: #ffffff;
-// }
 
-// .header {
-//   display: block;
-//   position: sticky;
-//   top: 59px;
-//   width: 100%;
-//   z-index: 2;
-// }
+.title {
+  height: 24px;
+  width: calc(100% - 40px);
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-size: 24px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #343e5c;
+  padding: 0;
+  margin: 0;
+}
 
-// .header-top {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   width: calc(100% - 40px);
-//   height: 60px;
-//   background: #205bb8;
-//   padding: 0 20px;
-// }
+.line {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #343e5c;
+}
+.line-title {
+  width: 100%;
+  margin-top: 16px;
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #343e5c;
+}
 
-// .icon-cart {
-//   width: 40px;
-//   height: 40px;
-//   fill: #d2def1;
-//   cursor: pointer;
-//   transition: 0.3s;
-// }
+.line-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 
-// .icon-cart:hover {
-//   fill: #ffffff;
-// }
+.item {
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 1px;  
+  font-weight: normal;
+  margin-top: 10px;
+}
 
-// .header-left {
-//   display: flex;
-//   justify-content: left;
-//   align-items: center;
-//   font-size: 14px;
-//   color: inherit;
-// }
+.price {
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 1px;  
+  font-weight: bold;
+  margin-top: 10px;
+}
 
-// input[type='text'] {
-//   font-family: inherit;
-//   font-size: inherit;
-//   line-height: inherit;
-//   margin: 0 0 0 10px;
-//   border: none;
-//   border-radius: 20px;
-//   outline: none;
-//   background: #ffffff;
-//   text-transform: uppercase;
-//   padding-left: 12px;
-//   width: 33px;
-//   color: #205bb8;
-// }
+.total-price {
+  font-size: 18px;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 1px;  
+  font-weight: bold;
+  margin-top: 16px;
+}
 
-// .header-right {
-//   display: flex;
-//   align-items: center;
-//   justify-content: right;
-//   position: relative;
-// }
+.info {
+  height: 120px;
+  border-bottom: 1px solid #EFF1F7;
+}
 
-// .sup {
-//   position: absolute;
-//   top: -3px;
-//   right: -8px;
-//   width: 20px;
-//   height: 20px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   background: #449d7c;
-//   color: #ffffff;
-//   border-radius: 20px;
-//   font-size: 12px;
-//   font-weight: bold;
-// }
+.green {
+  border: none;
+  border-radius: 8px;
+  background: #00BD5A;
+  color: #ffffff;
+  padding: 10px 0px;
+  transition: 0.3s;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  font-size: 14px;
+}
 
-// .menu-bufet {
-//   width: 100%;
-//   height: 34px;
-//   background: #379fff;
-//   display: flex;
-//   align-items: center;
-//   justify-content: left;
-// }
+.green:hover {
+  background: darken(#00BD5A, 10%);
+}
 
-// .item {
-//   height: 34px;
-//   display: flex;
-//   align-items: center;
-//   white-space: nowrap;
-//   margin: 0 10px;
-//   color: #343e5c;
-// }
-// .active-item {
-//   display: flex;
-//   align-items: center;
-//   white-space: nowrap;
-//   margin: 0 10px;
-//   color: #ffffff;
-// }
+.clear-cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: $normal-border;
+  border-radius: 8px;
+  background: #E3E4EF;
+  color: #343e5c;
+  transition: 0.3s;
+  cursor: pointer;
+  width: 200px;
+  height: 32px;
+  font-size: 14px;
+}
 
-// .table-main {
-//   width: calc(100% - 32px);
-//   display: block;
-//   padding: 16px;
-//   height: 100vh;
-// }
+.clear-cart:hover {
+  background: darken(#E3E4EF, 10%);
+}
 
-// .main > div {
-//   object-fit: cover;
-// }
+.icon-delete {
+  width: 16px;
+  height: 16px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: 1px 0px 0 20px;
+}
 
-// .footer {
-//   width: calc(100% - 40px);
-//   padding: 0 20px;
-//   height: 40px;
-//   background: #449d7c;
-//   display: flex;
-//   align-content: center;
-//   justify-content: space-between;
-//   cursor: pointer;
-//   position: sticky;
-//   bottom: 0px;
-//   z-index: 2;
-// }
+.icon-delete:hover {
+  fill: #379fff;
+}
 
-// .footer:hover {
-//   background: lighten(#449d7c, 10%);
-// }
+.line-button {
+  display: flex;
+  justify-content: right;
+  margin-top: 16px;
+}
 
-// .footer-info {
-//   display: flex;
-//   align-items: center;
-//   justify-content: right;
-// }
-
-// .add-to-card {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-size: 12px;
-//   margin: 0;
-//   border: none;
-//   padding: 0px;
-//   background: inherit;
-//   color: #ffffff;
-//   font-size: 16px;
-//   cursor: pointer;
-// }
-
-// .field1 {
-//   font-size: 10px;
-//   color: #2754eb;
-//   margin-right: 20px;
-// }
-
-// .field2 {
-//   font-size: 16px;
-//   color: #ffffff;
-// }
-
-// .menu-title {
-//   font-size: 18px;
-//   color: #ffffff;
-//   margin-left: 20px;
-// }
-
-// .bufet {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   font-size: 14px;
-//   margin: 0;
-//   cursor: pointer;
-//   color: #d2def1;
-//   border: none;
-//   padding: 0px;
-//   background: inherit;
-// }
-
-// .bufet:hover {
-//   color: #ffffff;
-// }
+.scroll {
+  width: 100%;
+  max-height: 50vh;
+  overflow: hidden;
+  overflow-y: auto;
+}
 
 @media screen and (max-width: 768px) {
-  // .menu-bufet {
-  //   width: 100%;
-  //   height: 34px;
-  //   background: #379fff;
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: left;
-  // }
 
-  // .container-bufet {
-  //   margin-top: -20px;
-  // }
 }
 </style>
