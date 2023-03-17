@@ -59,6 +59,9 @@ export default class ClassHelper {
   }
 
   static RemoveFromClassById(id: string | undefined, arrayFromDelete: IWithId[], arrayForDelete: string[]): void {
+    if (!id) {
+      return;
+    }
     const index = arrayFromDelete.findIndex((i: IWithId) => i.id === id);
     if (index < 0) {
       return;
