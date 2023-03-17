@@ -30,36 +30,15 @@
             </div>
           </div>
         </div>
-
-        <!--        <div class="menu-period">-->
-        <!--          <div class="period">-->
-        <!--            <div class="title">Обед</div>-->
-        <!--            <svg class="icon-double-arrow">-->
-        <!--              <use xlink:href="#double-arrow"></use>-->
-        <!--            </svg>-->
-        <!--            <div class="time">14:00-16:00</div>-->
-        <!--          </div>-->
-        <!--          <div class="menu-list">-->
-        <!--            <div v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id" class="item">-->
-        <!--              <div :id="dishesGroup.getTransliteIdFromName()">-->
-        <!--                {{ dishesGroup.name }}-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </template>
       <template #title>
         <HeaderInfo :left-width="'188px'" :background="'#ffffff'" :is-single="true" :is-bufet="true">
-          <!--          <template #foto>-->
-          <!--            <div class="foto"></div>-->
-          <!-- <ChiefCard
-              :employee="division.chief.employee"
-              :chief-role="division.chief.employee.human.isMale ? 'Заведующий' : 'Заведующая' + ' отделением'"
-              show-favourite
-              favourite-domain="division"
-              :favourite-id="division.id"
-            /> -->
-          <!--          </template>-->
+          <template #foto>
+            <div class="image-box">
+              <!-- <img src="../../assets/img/buffet/image230.webp" alt="alt" /> -->
+              <!-- <img src="../../assets/svg/Buffet/food.webp" alt="alt" /> -->
+            </div>
+          </template>
 
           <template #small-title> Заказать еду </template>
 
@@ -266,6 +245,25 @@ input[type='text'] {
     cursor: pointer;
     color: #ffffff;
     background: #2754eb;
+  }
+}
+
+.image-box {
+  display: block;
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  margin-right: 16px;
+  position: relative;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
   }
 }
 // .active-item {
