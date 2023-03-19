@@ -38,20 +38,22 @@
       </div>
       <br />
       <div class="line-item">
+      </div>
+
+      <div class="info">
         <el-form
+         class="phone"
           ref="userForm"
           v-model="dailyMenuOrder"
           :model="dailyMenuOrder"
           label-width="150px"
-          style="max-width: 700px"
+          style="max-width: 320px"
           label-position="left"
         >
           <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
           <FieldValuesForm :form="dailyMenuOrder.formValue" />
         </el-form>
       </div>
-
-      <div class="info"></div>
       <div class="line-item">
         <div class="line-title">К оплате</div>
         <div class="total-price">{{ totalPrice }}₽.</div>
@@ -238,6 +240,7 @@ export default defineComponent({
 .info {
   height: 120px;
   border-bottom: 1px solid #eff1f7;
+  border-top: 1px solid #eff1f7;
 }
 
 .green {
@@ -285,10 +288,6 @@ export default defineComponent({
   margin: 1px 0px 0 20px;
 }
 
-.icon-delete:hover {
-  fill: #379fff;
-}
-
 .line-button {
   display: flex;
   justify-content: right;
@@ -300,6 +299,25 @@ export default defineComponent({
   max-height: 50vh;
   overflow: hidden;
   overflow-y: auto;
+}
+
+.phone {
+  margin-top: 16px;
+}
+
+:deep(.el-form-item) {
+  display: block;
+  margin-bottom: 22px;
+}
+
+:deep(.el-form--label-left .el-form-item__label) {
+  margin-left: -11px;
+  color: #343e5c;
+}
+
+:deep(.el-input__inner) {
+  height: 36px;
+  border-radius: 8px;
 }
 
 @media screen and (max-width: 768px) {

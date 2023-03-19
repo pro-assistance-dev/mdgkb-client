@@ -11,16 +11,28 @@
       background: status == 'inCart' || status == 'inStock' ? '#31AF5E' : '#ffffff',
     }"
     @click="handClick"
+    @mouseenter="hovering = true" 
+    @mouseleave="hovering = false"
   >
     <div
       v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0"
       class="inblock"
       @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"
     >
-      <svg class="icon-plus">
+      <svg class="icon-plus"
+          :style="{
+            opacity: hovering && status == 'inCart' || hovering && status == 'inStock' ? '1' : '0.8',
+            transform: hovering && status == 'inCart' || hovering && status == 'inStock' ? 'scale(1.2, 1.2)' : 'scale(1, 1)',
+          }"
+      >
         <use xlink:href="#plus"></use>
       </svg>
-      <div class="text">В корзину</div>
+      <div class="text" 
+          :style="{
+            opacity: hovering && status == 'inCart' || hovering && status == 'inStock' ? '1' : '0.8'
+          }"
+        >
+        В корзину</div>
     </div>
     <div v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) > 0" class="inblock">
       <svg class="icon-minus" @click="dailyMenuOrder.decreaseDailyMenuOrderItem(dailyMenuItem)">
@@ -99,6 +111,8 @@ export default defineComponent({
   setup() {
     const select: Ref<boolean> = ref(false);
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const hovering = ref(false);
+
     const handClick = () => {
       select.value = !select.value;
     };
@@ -107,6 +121,7 @@ export default defineComponent({
       dailyMenuOrder,
       handClick,
       select,
+      hovering,
     };
   },
 });
@@ -120,7 +135,18 @@ export default defineComponent({
   height: 16px;
   fill: #ffffff;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0,3s;
+  opacity: 0.8;
+}
+
+.icon-plus:hover {
+  transform: scale(1.2, 1.2);
+  opacity: 1;
+}
+
+.icon-plus:active {
+  transform: scale(1.2, 1.2);
+  opacity: 0.8;
 }
 
 .icon-minus {
@@ -128,7 +154,19 @@ export default defineComponent({
   height: 16px;
   fill: #ffffff;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0,3s;
+  opacity: 0.8;
+}
+
+.icon-minus:hover {
+  transform: scale(1.2, 1.2);
+  opacity: 1;
+
+}
+
+.icon-minus:active {
+  transform: scale(1.2, 1.2);
+  opacity: 0.8;
 }
 
 .icon-loader {
@@ -151,6 +189,7 @@ export default defineComponent({
   margin: 0 15px;
 }
 
+
 .inblock {
   width: 100%;
   display: flex;
@@ -165,5 +204,9 @@ export default defineComponent({
   padding: 0;
   letter-spacing: 1px;
   line-height: 1.1;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
+
 </style>

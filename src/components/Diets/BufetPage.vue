@@ -35,8 +35,7 @@
         <HeaderInfo :left-width="'188px'" :background="'#ffffff'" :is-single="true" :is-bufet="true">
           <template #foto>
             <div class="image-box">
-              <!-- <img src="../../assets/img/buffet/image230.webp" alt="alt" /> -->
-              <!-- <img src="../../assets/svg/Buffet/food.webp" alt="alt" /> -->
+              <img src="../../assets/img/bufet/image230.webp" alt="alt" />
             </div>
           </template>
 
@@ -234,11 +233,10 @@ input[type='text'] {
 
 .item {
   font-size: 14px;
-  height: 34px;
+  min-height: 24px;
   display: flex;
   align-items: center;
-  white-space: nowrap;
-  padding: 0 10px;
+  padding: 10px 10px;
   color: #343e5c;
   border-radius: $normal-border-radius;
   &:hover {
@@ -250,19 +248,20 @@ input[type='text'] {
 
 .image-box {
   display: block;
-  width: 96px;
-  height: 96px;
+  width: 140px;
+  height: 140px;
   overflow: hidden;
-  margin-bottom: 5px;
   margin-right: 16px;
   position: relative;
+  border: $normal-border;
+  border-radius: $normal-border-radius;
   img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 96px;
-    height: 96px;
+    width: 140px;
+    height: 140px;
     object-fit: cover;
   }
 }
@@ -353,6 +352,8 @@ input[type='text'] {
 
 .menu-period {
   display: block;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .period {
@@ -420,6 +421,8 @@ input[type='text'] {
   .item {
     border-radius: 0;
     height: 100%;
+    white-space: nowrap;
+    padding: 0px 10px;
   }
 
   .menu {
@@ -428,6 +431,7 @@ input[type='text'] {
 
   .menu-period {
     display: flex;
+    // overflow-y: none;
   }
 
   .menu-period:last-child {
