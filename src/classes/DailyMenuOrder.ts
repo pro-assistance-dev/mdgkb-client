@@ -52,14 +52,14 @@ export default class DailyMenuOrder {
   }
 
   private removeFromDailyMenuItems(dailyMenuItem: DailyMenuItem): void {
-    const existingItem = this.findDailyMenuOrderItemById(dailyMenuItem.id);
-    if (!existingItem) {
+    const existingItemInxex = this.dailyMenuOrderItems.findIndex((d: DailyMenuOrderItem) => d.dailyMenuItemId === dailyMenuItem.id);
+    if (existingItemInxex < 0) {
       return;
     }
-    if (existingItem.quantity > 1) {
-      existingItem.decrement();
+    if (this.dailyMenuOrderItems[existingItemInxex].quantity > 1) {
+      this.dailyMenuOrderItems[existingItemInxex].decrement();
     } else {
-      ClassHelper.RemoveFromClassById(existingItem.id, this.dailyMenuOrderItems, this.dailyMenuOrderItemsForDelete);
+      ClassHelper.RemoveFromClassByIndex(existingItemInxex, this.dailyMenuOrderItems, this.dailyMenuOrderItemsForDelete);
     }
   }
 
