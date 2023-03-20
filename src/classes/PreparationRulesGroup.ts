@@ -1,23 +1,16 @@
 import PreparationRule from '@/classes/PreparationRule';
-import IPreparationRule from '@/interfaces/IPreparationRule';
-import IPreparationRulesGroup from '@/interfaces/IPreparationRulesGroup';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class PreparationRulesGroup implements IPreparationRulesGroup {
+export default class PreparationRulesGroup {
   id?: string;
   name = '';
-
-  preparationRules: IPreparationRule[] = [];
+  @ClassHelper.GetClassConstructor(PreparationRule)
+  preparationRules: PreparationRule[] = [];
   preparationRulesForDelete: string[] = [];
+  order = 0;
 
-  constructor(i?: IPreparationRulesGroup) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    if (i.preparationRules) {
-      this.preparationRules = i.preparationRules.map((item: IPreparationRule) => new PreparationRule(item));
-    }
+  constructor(i?: PreparationRulesGroup) {
+    ClassHelper.BuildClass(this, i);
   }
 
   addRule(): void {
@@ -30,5 +23,12 @@ export default class PreparationRulesGroup implements IPreparationRulesGroup {
       this.preparationRulesForDelete.push(idForDelete);
     }
     this.preparationRules.splice(index, 1);
+  }
+
+  static Fabric(name: string, order: number): PreparationRulesGroup {
+    const item = new PreparationRulesGroup();
+    item.name = name;
+    item.order = order;
+    return item;
   }
 }

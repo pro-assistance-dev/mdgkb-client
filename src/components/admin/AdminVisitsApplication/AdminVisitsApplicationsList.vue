@@ -59,11 +59,11 @@
           {{ scope.row.formValue.child.human.getFullName() }}
         </template>
       </el-table-column>
-      <el-table-column label="Вход" min-width="200">
-        <template #default="scope">
-          {{ scope.row.gate?.name }}
-        </template>
-      </el-table-column>
+      <!--      <el-table-column label="Вход" min-width="200">-->
+      <!--        <template #default="scope">-->
+      <!--          {{ scope.row.gate.name }}-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
       <el-table-column label="Отделение" min-width="200">
         <template #default="scope">
           {{ scope.row.division?.name }}
@@ -133,7 +133,7 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'visitsApplications', action: 'getAll' },
+      pagination: { storeModule: 'visitsApplications', action: 'getAllWithCount' },
     });
 
     const filtersToOptions = (): IOption[] => {

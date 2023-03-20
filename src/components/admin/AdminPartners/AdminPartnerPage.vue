@@ -13,7 +13,7 @@
       </el-card>
       <el-card>
         <el-form-item label="Лого" prop="image.fileSystemPath" :rules="rules.image">
-          <UploaderSingleScan :file-info="partner.image" :crop-ratio="false" />
+          <UploaderSingleScan :file-info="partner.image" :crop-ratio="false" @ratio="(e) => (element.ratio = e)" />
         </el-form-item>
         <el-form-item label="Ссылка" prop="link">
           <el-input v-model="partner.link" placeholder="Ссылка"></el-input>

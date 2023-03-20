@@ -81,11 +81,11 @@ import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
+import DailyMenu from '@/classes/DailyMenu';
+import DishesGroup from '@/classes/DishesGroup';
+import DishSample from '@/classes/DishSample';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IDailyMenu from '@/interfaces/IDailyMenu';
-import IDishesGroup from '@/interfaces/IDishesGroup';
-import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
 
@@ -105,14 +105,15 @@ export default defineComponent({
       default: false,
     },
     menu: {
-      type: Object as PropType<IDailyMenu>,
+      type: Object as PropType<DailyMenu>,
       required: true,
     },
   },
   setup(props) {
-    const dishesGroupsSource: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dishSamples.length > 0));
-    const dishSamplesFlat: Ref<IDishSample[]> = ref([]);
+    const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0));
+    const dishSamplesFlat: Ref<DishSample[]> = ref([]);
+    const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
 
     const searchDishSamples = (searchSource: string) => {
       if (searchSource === '') {
@@ -120,9 +121,9 @@ export default defineComponent({
         return;
       }
       dishSamplesFlat.value = [];
-      dishesGroups.value.forEach((ds: IDishesGroup) => {
+      dishesGroups.value.forEach((ds: DishesGroup) => {
         dishSamplesFlat.value.push(
-          ...ds.dishSamples.filter((ds: IDishSample) => {
+          ...ds.dishSamples.filter((ds: DishSample) => {
             const n = ds.name.toLowerCase();
             return n.includes(searchSource.toLowerCase()) || n.includes(StringsService.translit(searchSource.toLowerCase()));
           })
@@ -131,31 +132,31 @@ export default defineComponent({
     };
 
     const addToMenu = () => {
-      const dishesSamples: IDishSample[] = [];
-      dishesGroups.value.forEach((dgs: IDishesGroup) => {
-        dgs.dishSamples.forEach((ds: IDishSample) => {
+      const dishesSamples: DishSample[] = [];
+      dishesGroups.value.forEach((dgs: DishesGroup) => {
+        dgs.dishSamples.forEach((ds: DishSample) => {
           if (ds.selected) {
             dishesSamples.push(ds);
             ds.selected = false;
           }
         });
       });
-      props.menu.addDishesFromSamples(dishesSamples);
-      Provider.store.dispatch('dailyMenus/update', props.menu);
+      selectedMenu.value.addDishesFromSamples(dishesSamples, dishesGroups.value);
+      Provider.store.dispatch('dailyMenus/updateWithoutReset');
     };
 
-    const addOneDishToMenu = (dishSample: IDishSample) => {
+    const addOneDishToMenu = (dishSample: DishSample) => {
       dishSample.selected = false;
-      props.menu.addDishesFromSamples([dishSample]);
-      Provider.store.dispatch('dailyMenus/update', props.menu);
+      selectedMenu.value.addDishesFromSamples([dishSample], dishesGroups.value);
+      Provider.store.dispatch('dailyMenus/updateWithoutReset');
     };
 
-    const selectSample = (dishSample: IDishSample): void => {
+    const selectSample = (dishSample: DishSample): void => {
       dishSample.selected = !dishSample.selected;
     };
 
     const dishesSelected = (): boolean => {
-      return dishesGroups.value.some((dg: IDishesGroup) => dg.dishSamples.some((ds: IDishSample) => ds.selected));
+      return dishesGroups.value.some((dg: DishesGroup) => dg.dishSamples.some((ds: DishSample) => ds.selected));
     };
 
     return {

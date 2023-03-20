@@ -1,11 +1,11 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ItemsWithCount from '@/interfaces/ItemsWithCount';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import IFileInfosGetter from '@/services/interfaces/IFileInfosGetter';
+import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import IWithId from '@/services/interfaces/IWithId';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
@@ -48,7 +48,10 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       }
       commit('set', await httpClient.get<T>(query));
     },
-    create: async ({ commit }, item: T): Promise<void> => {
+    create: async ({ commit, state }, item: T): Promise<void> => {
+      if (!item) {
+        item = state.item;
+      }
       const opts: IBodyfulParams<T> = { payload: item, isFormData: true };
       if (item.getFileInfos) {
         opts.fileInfos = item.getFileInfos();
@@ -57,7 +60,10 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       await httpClient.post<T, T>(opts);
       commit('set');
     },
-    update: async ({ commit }, item: T): Promise<void> => {
+    update: async ({ commit, state }, item: T): Promise<void> => {
+      if (!item) {
+        item = state.item;
+      }
       const opts: IBodyfulParams<T> = { query: `${item.id}`, payload: item, isFormData: true };
       if (item.getFileInfos) {
         opts.fileInfos = item.getFileInfos();
@@ -66,14 +72,20 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       await httpClient.put<T, T>(opts);
       commit('set');
     },
-    updateAndSet: async ({ commit }, item: T): Promise<void> => {
+    updateAndSet: async ({ commit, state }, item: T): Promise<void> => {
+      if (!item) {
+        item = state.item;
+      }
       const opts: IBodyfulParams<T> = { query: `${item.id}`, payload: item, isFormData: true };
       if (item.getFileInfos) {
         opts.fileInfos = item.getFileInfos();
       }
       commit('set', await httpClient.put<T, T>(opts));
     },
-    updateWithoutReset: async ({ commit }, item: T): Promise<void> => {
+    updateWithoutReset: async ({ commit, state }, item: T): Promise<void> => {
+      if (!item) {
+        item = state.item;
+      }
       const opts: IBodyfulParams<T> = { query: `${item.id}`, payload: item, isFormData: true };
       if (item.getFileInfos) {
         opts.fileInfos = item.getFileInfos();

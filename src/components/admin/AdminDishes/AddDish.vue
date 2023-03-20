@@ -76,10 +76,10 @@ import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
+import DailyMenu from '@/classes/DailyMenu';
+import DishesGroup from '@/classes/DishesGroup';
+import DishSample from '@/classes/DishSample';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IDailyMenu from '@/interfaces/IDailyMenu';
-import IDishesGroup from '@/interfaces/IDishesGroup';
-import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -96,25 +96,25 @@ export default defineComponent({
       default: false,
     },
     menu: {
-      type: Object as PropType<IDailyMenu>,
+      type: Object as PropType<DailyMenu>,
       required: true,
     },
   },
   setup(props) {
-    const dishesGroupsSource: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishesGroups: Ref<IDishesGroup[]> = ref(dishesGroupsSource.value.filter((d: IDishesGroup) => d.dailyMenuItems.length > 0));
+    const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dailyMenuItems.length > 0));
 
     const addToMenu = () => {
-      const dishesSamples: IDishSample[] = [];
-      dishesGroupsSource.value.forEach((dgs: IDishesGroup) => {
-        dgs.dishSamples.forEach((ds: IDishSample) => {
+      const dishesSamples: DishSample[] = [];
+      dishesGroupsSource.value.forEach((dgs: DishesGroup) => {
+        dgs.dishSamples.forEach((ds: DishSample) => {
           if (ds.selected) {
             dishesSamples.push(ds);
             ds.selected = false;
           }
         });
       });
-      props.menu.addDishesFromSamples(dishesSamples);
+      props.menu.addDishesFromSamples(dishesSamples, dishesGroups.value);
     };
 
     return {

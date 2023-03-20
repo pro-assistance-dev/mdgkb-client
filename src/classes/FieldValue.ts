@@ -94,4 +94,24 @@ export default class FieldValue implements IFieldValue {
   setValueDate(value: Date): void {
     this.valueDate = value;
   }
+
+  setValue(value: unknown): void {
+    switch (typeof value) {
+      case 'number':
+        this.valueNumber = value as number;
+        break;
+      case 'string':
+        this.valueString = value as string;
+        break;
+    }
+  }
+
+  getValue(): unknown {
+    if (this.field.valueType.isText() || this.field.valueType.isString()) {
+      return this.valueString;
+    }
+    if (this.field.valueType.isNumber()) {
+      return this.valueNumber;
+    }
+  }
 }

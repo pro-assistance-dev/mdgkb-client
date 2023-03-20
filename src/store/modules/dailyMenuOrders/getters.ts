@@ -1,6 +1,5 @@
 import { GetterTree } from 'vuex';
 
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

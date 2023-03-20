@@ -70,6 +70,7 @@
         icon="el-icon-document-add"
         @click="fieldValue.addFieldValueFile()"
       />
+      {{ fieldValue.valueNumber }}
       <div v-for="(fieldValueFile, i) in fieldValue.fieldValuesFiles" :key="fieldValueFile.id" style="display: flex; margin-bottom: 5px">
         <FileUploader :file-info="fieldValueFile.fileInfo" />
         <el-button
@@ -120,6 +121,7 @@ export default defineComponent({
   setup(props) {
     const fieldValue: Ref<IFieldValue> = ref(new FieldValue());
     onBeforeMount(() => {
+      console.log(props.field.id);
       if (props.field.id) {
         fieldValue.value = props.form.findFieldValue(props.field.id) || new FieldValue();
       }

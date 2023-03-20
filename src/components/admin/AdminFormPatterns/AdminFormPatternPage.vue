@@ -92,7 +92,7 @@ export default defineComponent({
     const load = async () => {
       const id = Provider.route().params['id'];
       if (id && typeof id === 'string') {
-        Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.id, id);
+        Provider.filterQuery.value.setParams('id', id);
         await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
         Provider.store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
       } else {

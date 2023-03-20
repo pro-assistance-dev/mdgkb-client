@@ -1,0 +1,11 @@
+<svg width="0" height="0" class="hidden">
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="minus">
+    <path d="M17.5 11.0931H2.5V8.9502H17.5V11.0931Z" ></path>
+  </symbol>
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="plus">
+    <path d="M17.5 11.0714H11.0714V17.5H8.92857V11.0714H2.5V8.92857H8.92857V2.5H11.0714V8.92857H17.5V11.0714Z" ></path>
+  </symbol>
+  <symbol fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" id="loader">
+    <path d="M10 5V2.5M13.5417 6.45833L15.3333 4.66667M15 10H17.5M13.5417 13.5417L15.3333 15.3333M10 15V17.5M6.45833 13.5417L4.66667 15.3333M5 10H2.5M6.45833 6.45833L4.66667 4.66667"  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  </symbol>
+</svg>

@@ -56,7 +56,6 @@ export default defineComponent({
       Provider.setSortList(...createSortModels(CommentsSortsLib, Orders.Desc));
       Provider.setSortModels(CommentsSortsLib.byPublishedOn(Orders.Desc));
       await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
-      sourceSSE = await Provider.handlerSSE<IComment>('comment-create', 'comments');
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Заявления на посещение',
         buttons: [],

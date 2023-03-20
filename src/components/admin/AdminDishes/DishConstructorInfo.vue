@@ -53,9 +53,8 @@
 <script lang="ts">
 import { computed, defineComponent, Ref } from 'vue';
 
+import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import IDishesGroup from '@/interfaces/IDishesGroup';
-import IDishSample from '@/interfaces/IDishSample';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -63,14 +62,14 @@ export default defineComponent({
   emits: ['selectLastDish'],
 
   setup() {
-    const dishesGroups: Ref<IDishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishedSamples: Ref<IDishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
+    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dishedSamples: Ref<DishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
 
     const getLastDish = () => {
-      let lastDishSample: IDishSample = new DishSample();
+      let lastDishSample: DishSample = new DishSample();
       lastDishSample.updatedAt = new Date(-8640000000000000);
-      dishesGroups.value.forEach((g: IDishesGroup) => {
-        g.dishSamples.forEach((e: IDishSample) => {
+      dishesGroups.value.forEach((g: DishesGroup) => {
+        g.dishSamples.forEach((e: DishSample) => {
           if (e.updatedAt && lastDishSample.updatedAt && e.updatedAt.getTime() > lastDishSample.updatedAt.getTime()) {
             lastDishSample = e;
           }

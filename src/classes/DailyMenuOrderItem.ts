@@ -1,21 +1,27 @@
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
-import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class DailyMenuOrderItem implements IDailyMenuOrderItem {
+export default class DailyMenuOrderItem {
   id?: string;
   quantity = 0;
   price = 0;
   dailyMenuOrderId?: string;
-  dailyMenuOrder: IDailyMenuOrder = new DailyMenuOrder();
+  dailyMenuOrder: DailyMenuOrder = new DailyMenuOrder();
   dailyMenuItemId?: string;
-  dailyMenuItem: IDailyMenuItem = new DailyMenuItem();
+  dailyMenuItem: DailyMenuItem = new DailyMenuItem();
 
-  constructor(i?: IDailyMenuOrderItem) {
+  constructor(i?: DailyMenuOrderItem) {
     ClassHelper.BuildClass(this, i);
+  }
+
+  static Create(dailyMenuItem: DailyMenuItem): DailyMenuOrderItem {
+    const newOrderItem = new DailyMenuOrderItem();
+    newOrderItem.dailyMenuItem = dailyMenuItem;
+    newOrderItem.dailyMenuItemId = dailyMenuItem.id;
+    newOrderItem.quantity = 1;
+    newOrderItem.price = dailyMenuItem.price;
+    return newOrderItem;
   }
 
   getWeightSum(): number {
@@ -28,5 +34,15 @@ export default class DailyMenuOrderItem implements IDailyMenuOrderItem {
 
   getPriceSum(): number {
     return this.quantity * this.dailyMenuItem.price;
+  }
+
+  increment(): void {
+    this.quantity++;
+    this.price += this.dailyMenuItem.price;
+  }
+
+  decrement(): void {
+    this.quantity--;
+    this.price -= this.dailyMenuItem.price;
   }
 }

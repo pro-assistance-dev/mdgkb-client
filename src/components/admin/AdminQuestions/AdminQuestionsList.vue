@@ -115,7 +115,6 @@ export default defineComponent({
       Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
       Provider.setSortList(...createSortModels(QuestionsSortsLib, Orders.Desc));
       await loadQuestions();
-      sourceSSE = await Provider.handlerSSE<IQuestion>('question-create', 'questions');
       onlyNewFilter.value = QuestionsFiltersLib.onlyNew();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Вопросы',

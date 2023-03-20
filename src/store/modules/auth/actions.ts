@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
 import ITokens from '@/interfaces/ITokens';
 import IUser from '@/interfaces/IUser';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import TokenService from '@/services/Token';
 import RootState from '@/store/types';
@@ -90,6 +90,15 @@ const actions: ActionTree<State, RootState> = {
   },
   getUserPathPermissions: async ({ state, commit }): Promise<void> => {
     commit('setUserPathPermissions', await httpClient.get<IPathPermission[]>({ query: `path-permissions/${state.user.roleId}` }));
+  },
+  setAuth: async ({ state, commit }): Promise<void> => {
+    const user = TokenService.getUser();
+    const token = TokenService.getAccessToken();
+    if (user && token) {
+      commit('setTokens', token);
+      commit('setUser', user);
+      commit('setIsAuth', true);
+    }
   },
 };
 

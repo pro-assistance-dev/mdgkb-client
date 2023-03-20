@@ -37,7 +37,7 @@ const Hooks = (() => {
       }
       await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
       Provider.setDefaultSortModel();
-      Provider.setStoreModule();
+      Provider.setStoreModule(undefined);
       Provider.setGetAction(options?.getAction);
       Provider.initPagination(options?.pagination);
       await f(Provider.filterQuery.value);

@@ -97,7 +97,6 @@ export default defineComponent({
       Provider.setSortModels(SupportMessagesSortsLib.byDate(Orders.Desc));
       Provider.setSortList(...createSortModels(SupportMessagesSortsLib, Orders.Desc));
       await loadSupportMessages();
-      sourceSSE = await Provider.handlerSSE<ISupportMessage>('support-message-create', 'supportMessages');
       onlyNewFilter.value = SupportMessagesFiltersLib.onlyNew();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Вопросы',

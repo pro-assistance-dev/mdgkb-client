@@ -66,6 +66,7 @@
                 </el-table>
               </el-form-item>
             </el-card>
+            <AdminResidencyCoursePracticePlaces />
           </el-container>
         </el-col>
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
@@ -130,6 +131,7 @@ import EducationYear from '@/classes/EducationYear';
 import Employee from '@/classes/Employee';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import Specialization from '@/classes/Specialization';
+import AdminResidencyCoursePracticePlaces from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursePracticePlaces.vue';
 import SetEntity from '@/components/admin/SetEntity.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
@@ -145,6 +147,7 @@ export default defineComponent({
     SetEntity,
     FileUploader,
     WysiwygEditor,
+    AdminResidencyCoursePracticePlaces,
   },
   setup() {
     const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);

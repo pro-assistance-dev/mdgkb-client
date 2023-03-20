@@ -1,27 +1,17 @@
 import { MutationTree } from 'vuex';
 
 import DailyMenu from '@/classes/DailyMenu';
-import IDailyMenu from '@/interfaces/IDailyMenu';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IDailyMenu[]) {
-    state.items = items.map((i: IDailyMenu) => new DailyMenu(i));
+  ...getBaseMutations(DailyMenu),
+  setPeriodItems(state, items: DailyMenu[]) {
+    state.periodItems = items.map((i: DailyMenu) => new DailyMenu(i));
   },
-  set(state, item: IDailyMenu) {
-    state.item = new DailyMenu(item);
-    state.item.groupDishes();
-  },
-  setPeriodItems(state, items: IDailyMenu[]) {
-    state.periodItems = items.map((i: IDailyMenu) => new DailyMenu(i));
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IDailyMenu) => i.id === id);
-    state.items.splice(index, 1);
-  },
-  resetItem(state) {
-    state.item = new DailyMenu();
+  setTodayMenu(state, item: DailyMenu) {
+    state.todayMenu = new DailyMenu(item);
   },
 };
 

@@ -1,13 +1,38 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminPreparations from '@/components/admin/AdminPreparations/AdminPreparations.vue';
+import AdminPreparationPage from '@/components/admin/AdminPreparations/AdminPreparationPage.vue';
+import AdminPreparationsList from '@/components/admin/AdminPreparations/AdminPreparationsList.vue';
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
   {
     path: '/admin/preparations',
     name: 'AdminPreparationsList',
-    component: AdminPreparations,
+    component: AdminPreparationsList,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/preparations/new',
+    name: 'AdminNewPreparationPage',
+    component: AdminPreparationPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      isAuthorized(next);
+      authGuard();
+    },
+    meta: {
+      layout: 'AdminLayout',
+    },
+  },
+  {
+    path: '/admin/preparations/:id',
+    name: 'AdminEditPreparationPage',
+    component: AdminPreparationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
       authGuard();

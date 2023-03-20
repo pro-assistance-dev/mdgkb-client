@@ -1,44 +1,22 @@
 import { ActionTree } from 'vuex';
 
+import DailyMenu from '@/classes/DailyMenu';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import IDailyMenu from '@/interfaces/IDailyMenu';
 import HttpClient from '@/services/HttpClient';
-import WebSocketClient from '@/services/WebSocketClient';
+import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const httpClient = new HttpClient('daily-menus');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }, filterQuery: FilterQuery): Promise<void> => {
-    commit('setAll', await httpClient.get<IDailyMenu[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
-  },
+  ...getBaseActions(httpClient),
   getPeriodItems: async ({ commit }, filterQuery: FilterQuery): Promise<void> => {
-    commit('setPeriodItems', await httpClient.get<IDailyMenu[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
+    commit('setPeriodItems', await httpClient.get<DailyMenu[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
-  get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IDailyMenu>({ query: `${id}` });
-    commit('set', res);
-  },
-  create: async ({ state }, item: IDailyMenu): Promise<void> => {
-    const res = await httpClient.post<IDailyMenu, IDailyMenu>({
-      payload: item,
-      isFormData: true,
-    });
-    if (res) {
-      item.id = res.id;
-    }
-  },
-  update: async (_, item: IDailyMenu): Promise<void> => {
-    await httpClient.put<IDailyMenu, IDailyMenu>({ query: `${item.id}`, payload: item, isFormData: true });
-  },
-  remove: async ({ commit }, id: string): Promise<void> => {
-    await httpClient.delete({ query: `${id}` });
-    commit('remove', id);
-  },
-  pdf: async (_, item: IDailyMenu): Promise<void> => {
-    await httpClient.post<IDailyMenu, IDailyMenu>({
+  pdf: async (_, item: DailyMenu): Promise<void> => {
+    await httpClient.post<DailyMenu, DailyMenu>({
       query: `pdf`,
       payload: item,
       isBlob: true,
@@ -46,11 +24,8 @@ const actions: ActionTree<State, RootState> = {
       downloadFileName: 'Меню.pdf',
     });
   },
-  updateAll: async ({ state }): Promise<void> => {
-    await httpClient.put<IDailyMenu[], IDailyMenu[]>({ payload: state.items, isFormData: true });
-  },
-  updateTodayMenu: async ({ commit }): Promise<void> => {
-    new WebSocketClient(httpClient.endpoint, 'regular-update').setOnMessage(commit);
+  todayMenu: async ({ commit }): Promise<void> => {
+    commit('setTodayMenu', await httpClient.get<DailyMenu>({ query: 'today-menu' }));
   },
 };
 

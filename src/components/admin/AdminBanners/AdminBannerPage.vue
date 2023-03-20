@@ -15,12 +15,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
         <el-container direction="vertical">
-          <UploaderSingleScanNew 
-            crop-ratio="1" 
-            :file-info="banner.fileInfo"
-            :height="150"
-            @ratio="(e) => (element.ratio = e)"
-          />
+          <UploaderSingleScan crop-ratio="1" :file-info="banner.fileInfo" :height="150" @ratio="(e) => (element.ratio = e)" />
         </el-container>
       </el-col>
     </el-row>
@@ -30,91 +25,44 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 
-import BannerRules from '@/classes/banners/BannerRules';
-import Division from '@/classes/Division';
+// TODO
+import Banner from '@/classes/Banner';
+import BannerRules from '@/classes/BannerRules';
 import ImageCropper from '@/components/admin/ImageCropper.vue';
-import UploaderSingleScanNew from '@/components/UploaderSingleScan_new.vue';
-import IBanner from '@/services/interfaces/IBanner';
+import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminBannerPage',
-  components: { ImageCropper, UploaderSingleScanNew },
+  components: { ImageCropper, UploaderSingleScan },
 
   setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
     const form = ref();
+    Provider.form = form;
     const rules = ref(BannerRules);
-    const mounted = ref(false);
 
-    const divisionOptions = ref([new Division()]);
-    const banner: ComputedRef<IBanner> = computed<IBanner>(() => store.getters['banners/banner']);
-
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      if (!banner.value.fileInfo.fileSystemPath) {
-        ElMessage({ message: 'Пожалуйста, добавьте картинку', type: 'error' });
-        saveButtonClick.value = false;
-        return;
-      }
-      try {
-        if (route.params['id']) {
-          await store.dispatch('banners/update', banner.value);
-        } else {
-          await store.dispatch('banners/create', banner.value);
-        }
-      } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      next ? next() : router.push('/admin/banners');
-    };
+    const banner: ComputedRef<Banner> = computed<Banner>(() => Provider.store.getters['banners/item']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await loadBanner();
-      store.commit('admin/closeLoading');
-      mounted.value = true;
+    Hooks.onBeforeMount(Provider.loadItem, {
+      adminHeader: {
+        title: computed(() => (Provider.route().params['id'] ? banner.value.name : 'Добавить баннер')),
+        showBackButton: true,
+        buttons: [{ action: Hooks.submit() }],
+      },
     });
-
-    const loadBanner = async (): Promise<void> => {
-      if (route.params['id']) {
-        await store.dispatch('banners/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: banner.value.name, showBackButton: true, buttons: [{ action: submit }] });
-      } else {
-        store.commit('banners/resetState');
-        store.commit('admin/setHeaderParams', { title: 'Добавить баннер', showBackButton: true, buttons: [{ action: submit }] });
-      }
-      mounted.value = true;
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(banner, formUpdated, { deep: true });
-    };
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
+    Hooks.onBeforeRouteLeave();
 
     return {
       rules,
-      submit,
       banner,
-      divisionOptions,
       form,
-      mounted,
+      mounted: Provider.mounted,
     };
   },
 });

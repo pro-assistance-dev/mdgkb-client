@@ -1,102 +1,83 @@
+import DailyMenu from '@/classes/DailyMenu';
+import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrderItem from '@/classes/DailyMenuOrderItem';
 import Form from '@/classes/Form';
-import IDailyMenu from '@/interfaces/IDailyMenu';
-import IDailyMenuItem from '@/interfaces/IDailyMenuItem';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
-import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
+import ClassHelper from '@/services/ClassHelper';
 import Time from '@/services/Time';
 
-export default class DailyMenuOrder implements IDailyMenuOrder {
+export default class DailyMenuOrder {
   id?: string;
   date: Date = new Date();
   boxNumber = 0;
   number = 0;
-  dailyMenuOrderItems: IDailyMenuOrderItem[] = [];
+  @ClassHelper.GetClassConstructor(DailyMenuOrderItem)
+  dailyMenuOrderItems: DailyMenuOrderItem[] = [];
+  dailyMenuOrderItemsForDelete: string[] = [];
   formValue: Form = new Form();
   formValueId?: string;
 
   constructor(i?: DailyMenuOrder) {
-    this.createClass(i);
+    ClassHelper.BuildClass(this, i);
   }
 
-  createClass(i?: DailyMenuOrder): void {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    if (i.date) {
-      this.date = new Date(i.date);
-    } else {
-      this.date = new Date();
-    }
-    if (i.dailyMenuOrderItems) {
-      this.dailyMenuOrderItems = i.dailyMenuOrderItems.map((item: IDailyMenuOrderItem) => new DailyMenuOrderItem(item));
-    } else {
-      this.dailyMenuOrderItems = [];
-    }
-    this.boxNumber = i.boxNumber;
-    this.number = i.number;
-    if (i.formValue) {
-      this.formValue = new Form(i.formValue);
-    } else {
-      this.formValue = new Form();
-    }
-    this.formValueId = i.formValueId;
+  findDailyMenuOrderItemById(id: string | undefined): DailyMenuOrderItem | undefined {
+    return this.dailyMenuOrderItems.find((d: DailyMenuOrderItem) => d.dailyMenuItemId === id);
   }
 
-  private addToDailyMenuItems(dailyMenuItem: IDailyMenuItem): void {
-    const index = this.dailyMenuOrderItems.findIndex((d: IDailyMenuOrderItem) => dailyMenuItem.id === d.dailyMenuItem.id);
-    if (index !== -1) {
-      this.dailyMenuOrderItems[index].quantity++;
-      this.dailyMenuOrderItems[index].price += dailyMenuItem.price;
+  private addToDailyMenuItems(dailyMenuItem: DailyMenuItem): void {
+    const existingItem = this.findDailyMenuOrderItemById(dailyMenuItem.id);
+    if (existingItem) {
+      existingItem.increment();
     } else {
-      const newOrderItem = new DailyMenuOrderItem();
-      newOrderItem.dailyMenuItem = dailyMenuItem;
-      newOrderItem.dailyMenuItemId = dailyMenuItem.id;
-      newOrderItem.quantity = 1;
-      newOrderItem.price = dailyMenuItem.price;
-      this.dailyMenuOrderItems.push(newOrderItem);
+      this.dailyMenuOrderItems.push(DailyMenuOrderItem.Create(dailyMenuItem));
     }
   }
 
-  increaseDailyMenuOrderItem(dailyMenuItem: IDailyMenuItem): void {
+  public changeDailyMenuOrderItemQuantity(curNum: number, prevNum: number, dailyMenuItem: DailyMenuItem): void {
+    if (curNum > prevNum) {
+      this.increaseDailyMenuOrderItem(dailyMenuItem);
+    } else {
+      this.decreaseDailyMenuOrderItem(dailyMenuItem);
+    }
+  }
+
+  increaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
     this.addToDailyMenuItems(dailyMenuItem);
     this.setLocalStorage();
   }
 
-  decreaseDailyMenuOrderItem(dailyMenuItem: IDailyMenuItem): void {
+  decreaseDailyMenuOrderItem(dailyMenuItem: DailyMenuItem): void {
     this.removeFromDailyMenuItems(dailyMenuItem);
     this.setLocalStorage();
   }
 
-  private removeFromDailyMenuItems(dailyMenuItem: IDailyMenuItem): void {
-    const index = this.dailyMenuOrderItems.findIndex((d: IDailyMenuOrderItem) => dailyMenuItem.id === d.dailyMenuItem.id);
-    if (index === -1) {
+  private removeFromDailyMenuItems(dailyMenuItem: DailyMenuItem): void {
+    const existingItemInxex = this.dailyMenuOrderItems.findIndex((d: DailyMenuOrderItem) => d.dailyMenuItemId === dailyMenuItem.id);
+    if (existingItemInxex < 0) {
       return;
     }
-    if (this.dailyMenuOrderItems[index].quantity > 1) {
-      this.dailyMenuOrderItems[index].quantity--;
-      this.dailyMenuOrderItems[index].price -= dailyMenuItem.price;
+    if (this.dailyMenuOrderItems[existingItemInxex].quantity > 1) {
+      this.dailyMenuOrderItems[existingItemInxex].decrement();
     } else {
-      this.dailyMenuOrderItems.splice(index, 1);
+      ClassHelper.RemoveFromClassByIndex(existingItemInxex, this.dailyMenuOrderItems, this.dailyMenuOrderItemsForDelete);
     }
   }
 
-  getItemQuantity(dailyMenuItem: IDailyMenuItem): number {
-    const item = this.dailyMenuOrderItems.find((d: IDailyMenuOrderItem) => d.dailyMenuItemId === dailyMenuItem.id);
+  getItemQuantity(dailyMenuItem: DailyMenuItem): number {
+    const item = this.dailyMenuOrderItems.find((d: DailyMenuOrderItem) => d.dailyMenuItemId === dailyMenuItem.id);
     return item ? item.quantity : 0;
   }
 
   getCaloricSum(): number {
     let sum = 0;
-    this.dailyMenuOrderItems.forEach((item: IDailyMenuOrderItem) => {
+    this.dailyMenuOrderItems.forEach((item: DailyMenuOrderItem) => {
       sum += item.dailyMenuItem.caloric * item.quantity;
     });
     return sum;
   }
 
-  removeDailyMenuOrderItem(item: IDailyMenuOrderItem): void {
-    const index = this.dailyMenuOrderItems.findIndex((d: IDailyMenuOrderItem) => d.id === item.id);
+  removeDailyMenuOrderItem(item: DailyMenuOrderItem): void {
+    const index = this.dailyMenuOrderItems.findIndex((d: DailyMenuOrderItem) => d.id === item.id);
     if (index === -1) {
       return;
     }
@@ -119,7 +100,7 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
       localStorage.removeItem('dailyMenuOrder');
       return;
     }
-    this.createClass(JSON.parse(newOrder));
+    ClassHelper.BuildClass(this, JSON.parse(newOrder));
   }
 
   removeFromLocalStore(): void {
@@ -127,17 +108,17 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
   }
   getPriceSum(): number {
     let sum = 0;
-    this.dailyMenuOrderItems.forEach((i: IDailyMenuOrderItem) => {
-      sum += i.price;
+    this.dailyMenuOrderItems.forEach((i: DailyMenuOrderItem) => {
+      sum += i.getPriceSum();
     });
     return sum;
   }
 
-  filterAndGetNonActualDailyMenuItems(menu: IDailyMenu): IDailyMenuOrderItem[] {
-    const nonActualItems: IDailyMenuOrderItem[] = [];
-    this.dailyMenuOrderItems = this.dailyMenuOrderItems.filter((orderItem: IDailyMenuOrderItem) => {
+  filterAndGetNonActualDailyMenuItems(menu: DailyMenu): DailyMenuOrderItem[] {
+    const nonActualItems: DailyMenuOrderItem[] = [];
+    this.dailyMenuOrderItems = this.dailyMenuOrderItems.filter((orderItem: DailyMenuOrderItem) => {
       const availableMenuItemExists = menu.dailyMenuItems.some(
-        (dailyMenuItem: IDailyMenuItem) => dailyMenuItem.id === orderItem.dailyMenuItem.id && dailyMenuItem.available
+        (dailyMenuItem: DailyMenuItem) => dailyMenuItem.id === orderItem.dailyMenuItemId && dailyMenuItem.available
       );
       if (!availableMenuItemExists) {
         nonActualItems.push(orderItem);
@@ -146,5 +127,24 @@ export default class DailyMenuOrder implements IDailyMenuOrder {
     });
     this.setLocalStorage();
     return nonActualItems;
+  }
+
+  getFormattedNumber(): string {
+    return `Заказ №${this.number}`;
+  }
+
+  getDailyMenuItemsQuantity(): number {
+    let sum = 0;
+    this.dailyMenuOrderItems.forEach((d: DailyMenuOrderItem) => (sum += d.quantity));
+    return sum;
+  }
+
+  isEmpty(): boolean {
+    return this.dailyMenuOrderItems.length === 0;
+  }
+
+  clear(): void {
+    this.dailyMenuOrderItems = [];
+    this.removeFromLocalStore();
   }
 }
