@@ -1,4 +1,7 @@
 <template>
+  <div v-if="modalDishIsOpen" class="menu-shadow">
+    <ModalDishCard :dailyMenuItem="dailyMenuItem" @close="toggleModalDishCard" />
+  </div>
   <el-form>
     <div
       class="card"
@@ -6,22 +9,24 @@
         opacity: status == 'tomorrow' || status == 'preparing' ? '50%' : '100%',
       }"
     >
-      <div class="image-box">
-        <div class="favor"><FavouriteIcon :domain-id="123" :domain-name="favouriteDomain" /></div>
-        <img
-          v-if="dailyMenuItem.dishSample.image.fileSystemPath"
-          data-test="doctor-photo"
-          :src="dailyMenuItem.dishSample.image.getImageUrl()"
-          alt="alt"
-          @error="dailyMenuItem.dishSample.image.errorImg($event)"
-        />
-        <img v-else src="../../assets/svg/Buffet/food.webp" alt="alt" />
-      </div>
-      <div class="price">{{ dailyMenuItem.price }} р.</div>
-      <div class="name">{{ dailyMenuItem.name }}</div>
-      <div class="info">
-        <div class="line1">Вес: {{ dailyMenuItem.weight }}гр.</div>
-        <div class="line2">{{ dailyMenuItem.caloric }} ккал</div>
+      <div class="click-container" @click="toggleModalDishCard()">
+        <div class="image-box">
+          <div class="favor"><FavouriteIcon :domain-id="123" :domain-name="favouriteDomain" /></div>
+          <img
+            v-if="dailyMenuItem.dishSample.image.fileSystemPath"
+            data-test="doctor-photo"
+            :src="dailyMenuItem.dishSample.image.getImageUrl()"
+            alt="alt"
+            @error="dailyMenuItem.dishSample.image.errorImg($event)"
+          />
+          <img v-else src="../../assets/svg/Buffet/food.webp" alt="alt" />
+        </div>
+        <div class="price">{{ dailyMenuItem.price }} р.</div>
+        <div class="name">{{ dailyMenuItem.name }}</div>
+        <div class="info">
+          <div class="line1">Вес: {{ dailyMenuItem.weight }}гр.</div>
+          <div class="line2">{{ dailyMenuItem.caloric }} ккал</div>
+        </div>
       </div>
       <DishCardButton :daily-menu-item="dailyMenuItem" :status="status" />
     </div>
@@ -29,17 +34,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, Ref } from 'vue';
+import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishCardButton from '@/components/Diets/DishCardButton.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Provider from '@/services/Provider/Provider';
+import ModalDishCard from '@/components/Diets/ModalDishCard.vue';
 
 export default defineComponent({
   name: 'DishCard',
-  components: { DishCardButton, FavouriteIcon },
+  components: { DishCardButton, FavouriteIcon, ModalDishCard },
   props: {
     dailyMenuItem: {
       type: Object as PropType<DailyMenuItem>,
@@ -49,9 +55,17 @@ export default defineComponent({
   setup(props) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     let status = 'inStock';
+    const modalDishIsOpen: Ref<boolean> = ref(false);
+
+    const toggleModalDishCard = () => {
+      modalDishIsOpen.value = !modalDishIsOpen.value;
+    };
+
     return {
       dailyMenuOrder,
       status,
+      modalDishIsOpen,
+      toggleModalDishCard,
     };
   },
 });
@@ -196,6 +210,26 @@ export default defineComponent({
     font-size: 20px;
     color: #bdc2d1;
   }
+}
+
+.menu-shadow {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.click-container {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 // :deep(.el-form) {

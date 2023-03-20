@@ -59,8 +59,8 @@
         Доступно завтра
       </div>
     </div>
-  </div>
   <Icons />
+  </div>
 </template>
 
 <script lang="ts">

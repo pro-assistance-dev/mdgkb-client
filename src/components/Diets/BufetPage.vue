@@ -1,7 +1,4 @@
 <template>
-  <!-- <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
-      <DishesSamplesConstructor :menu="selectedMenu" />
-    </el-dialog> -->
   <div v-if="cartIsOpen" class="menu-shadow">
     <ModalBufetCart @close="toggleModalCart" />
   </div>
@@ -79,7 +76,7 @@
           <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups()" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
-              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
+              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish"  />
             </div>
           </template>
         </div>
