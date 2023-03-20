@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNorma
 
 import Contacts from '@/components/Contacts/Contacts.vue';
 import DevPage from '@/components/DevPage.vue';
-import BufetWrapper from '@/components/Diets/BufetWrapper.vue';
+import BufetPage from '@/components/Diets/BufetPage.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
@@ -227,23 +227,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/bufet',
     name: 'BufetPage',
-    component: BufetWrapper,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard(next);
-    },
-  },
-  {
-    path: '/bufet/cart',
-    name: 'BufetCart',
-    component: BufetWrapper,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard(next);
-    },
-  },
-  {
-    path: '/bufet/order',
-    name: 'BufetOrder',
-    component: BufetWrapper,
+    component: BufetPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       authGuard(next);
     },

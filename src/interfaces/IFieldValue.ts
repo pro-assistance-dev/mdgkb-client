@@ -24,4 +24,5 @@ export default interface IFieldValue {
 
   addFieldValueFile: () => void;
   setValueDate: (value: Date) => void;
+  getValue: () => unknown;
 }

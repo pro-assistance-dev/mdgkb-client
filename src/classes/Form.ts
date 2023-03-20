@@ -524,4 +524,9 @@ export default class Form implements IForm {
         break;
     }
   }
+
+  valueExists(code: string): boolean {
+    const fieldValue = this.getFieldValueByCode(code);
+    return !!fieldValue && !!fieldValue.getValue();
+  }
 }

@@ -39,7 +39,7 @@
           <template #small-title> Заказать еду </template>
 
           <template #big-title>
-            <template v-if="dailyMenuOrder.formValue.getFieldValueByCode('boxNumber')">
+            <template v-if="dailyMenuOrder.formValue.valueExists('boxNumber')">
               Бокс № {{ dailyMenuOrder.formValue.getFieldValueByCode('boxNumber').valueNumber }}
             </template>
           </template>
@@ -72,11 +72,11 @@
           <Filter :text="'Постные'" @change="(e) => dailyMenu.setOnlyLean(e)" />
         </Filters>
         <div class="main">
-          <div v-if="!dailyMenu.getNotEmptyGroups().length > 0" class="info-window">На данный момент нет блюд для выбора</div>
+          <div v-if="dailyMenu.getNotEmptyGroups().length === 0" class="info-window">На данный момент нет блюд для выбора</div>
           <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups()" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
-              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish"  />
+              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
             </div>
           </template>
         </div>
@@ -89,8 +89,8 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { computed, ComputedRef, defineComponent, h, Ref, ref, watch } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import DoubleArrow from '@/assets/svg/Buffet/DoubleArrow.svg';
@@ -136,8 +136,18 @@ export default defineComponent({
     const cartIsOpen: Ref<boolean> = ref(false);
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
+
+    watch(isAuth, () => {
+      Provider.store.commit('dailyMenuOrders/resetItem');
+      Provider.router.push('/bufet');
+    });
 
     const load = async () => {
+      await Provider.store.dispatch('dailyMenus/todayMenu');
+      dailyMenuOrder.value.reproduceFromStore();
+      checkDailyMenuItemsAvailable();
+
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
       dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
@@ -146,8 +156,38 @@ export default defineComponent({
       await getDishesGroups();
       dailyMenu.value.dishesGroups = dishesGroups.value;
       dailyMenu.value.initGroups();
+
+      setInterval(async () => {
+        await Provider.store.dispatch('dailyMenus/todayMenu');
+        dailyMenu.value.dishesGroups = dishesGroups.value;
+        dailyMenu.value.initGroups();
+      }, 5000);
     };
 
+    const checkDailyMenuItemsAvailable = () => {
+      setInterval(() => {
+        if (!dailyMenu.value.id) {
+          return;
+        }
+        const nonAvailableItems = dailyMenuOrder.value.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
+        if (nonAvailableItems.length === 0) {
+          return;
+        }
+        ElMessageBox({
+          title: 'Некоторые блюда стали недоступны и удалены из корзины',
+          message: h(
+            'p',
+            null,
+            nonAvailableItems.map(({ id, dailyMenuItem: dailyMenuItem }) => {
+              return h('div', { key: id }, `${dailyMenuItem.name}`);
+            })
+          ),
+        });
+        if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
+          Provider.router.push('/bufet');
+        }
+      }, 2000);
+    };
     const getDishesGroups = async () => {
       const queryFilter = new FilterQuery();
       queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
