@@ -1,7 +1,4 @@
 <template>
-  <!-- <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
-      <DishesSamplesConstructor :menu="selectedMenu" />
-    </el-dialog> -->
   <div v-if="cartIsOpen" class="menu-shadow">
     <ModalBufetCart @close="toggleModalCart" />
   </div>
@@ -30,36 +27,14 @@
             </div>
           </div>
         </div>
-
-        <!--        <div class="menu-period">-->
-        <!--          <div class="period">-->
-        <!--            <div class="title">Обед</div>-->
-        <!--            <svg class="icon-double-arrow">-->
-        <!--              <use xlink:href="#double-arrow"></use>-->
-        <!--            </svg>-->
-        <!--            <div class="time">14:00-16:00</div>-->
-        <!--          </div>-->
-        <!--          <div class="menu-list">-->
-        <!--            <div v-for="dishesGroup in dailyMenu.getNonEmptyGroups()" :key="dishesGroup.id" class="item">-->
-        <!--              <div :id="dishesGroup.getTransliteIdFromName()">-->
-        <!--                {{ dishesGroup.name }}-->
-        <!--              </div>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
       </template>
       <template #title>
         <HeaderInfo :left-width="'188px'" :background="'#ffffff'" :is-single="true" :is-bufet="true">
-          <!--          <template #foto>-->
-          <!--            <div class="foto"></div>-->
-          <!-- <ChiefCard
-              :employee="division.chief.employee"
-              :chief-role="division.chief.employee.human.isMale ? 'Заведующий' : 'Заведующая' + ' отделением'"
-              show-favourite
-              favourite-domain="division"
-              :favourite-id="division.id"
-            /> -->
-          <!--          </template>-->
+          <template #foto>
+            <div class="image-box">
+              <img src="../../assets/img/bufet/image230.webp" alt="alt" />
+            </div>
+          </template>
 
           <template #small-title> Заказать еду </template>
 
@@ -101,7 +76,7 @@
           <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups()" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
-              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
+              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish"  />
             </div>
           </template>
         </div>
@@ -255,17 +230,36 @@ input[type='text'] {
 
 .item {
   font-size: 14px;
-  height: 34px;
+  min-height: 24px;
   display: flex;
   align-items: center;
-  white-space: nowrap;
-  padding: 0 10px;
+  padding: 10px 10px;
   color: #343e5c;
   border-radius: $normal-border-radius;
   &:hover {
     cursor: pointer;
     color: #ffffff;
     background: #2754eb;
+  }
+}
+
+.image-box {
+  display: block;
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+  margin-right: 16px;
+  position: relative;
+  border: $normal-border;
+  border-radius: $normal-border-radius;
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
   }
 }
 // .active-item {
@@ -355,6 +349,8 @@ input[type='text'] {
 
 .menu-period {
   display: block;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .period {
@@ -422,6 +418,8 @@ input[type='text'] {
   .item {
     border-radius: 0;
     height: 100%;
+    white-space: nowrap;
+    padding: 0px 10px;
   }
 
   .menu {
@@ -430,6 +428,7 @@ input[type='text'] {
 
   .menu-period {
     display: flex;
+    // overflow-y: none;
   }
 
   .menu-period:last-child {

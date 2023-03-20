@@ -10,15 +10,24 @@
       width: width,
       background: select ? activeBackground : '#ffffff',
       color: select ? '#ffffff' : color,
+      borderColor: hovering && !select ? activeBackground : '',
     }"
     @click="handClick"
+    @mouseenter="hovering = true" 
+    @mouseleave="hovering = false"
   >
-    <div class="text">{{ text }}</div>
+    <div class="text"
+      :style="{
+        color: hovering && !select ? activeBackground : '',
+      }"
+    >
+    {{ text }}</div>
     <svg
       v-if="select"
       class="icon-close"
       :style="{
         fill: '#ffffff',
+        transform: hovering && select ? 'scale(1.2, 1.2)' : 'scale(1, 1)',
       }"
     >
       <use xlink:href="#close"></use>
@@ -81,6 +90,7 @@ export default defineComponent({
   emits: ['on', 'off', 'change'],
   setup(_, { emit }) {
     const select: Ref<boolean> = ref(false);
+    const hovering = ref(false);
 
     const handClick = () => {
       select.value = !select.value;
@@ -91,6 +101,7 @@ export default defineComponent({
     return {
       handClick,
       select,
+      hovering,
     };
   },
 });
@@ -114,7 +125,7 @@ export default defineComponent({
   width: auto;
   border: $normal-border;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.2s;
   margin-right: 20px;
 }
 

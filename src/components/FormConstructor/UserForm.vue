@@ -72,7 +72,7 @@
       <el-option label="Женский" :value="false"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item v-if="activeFields.userPhone" :rules="rules.userPhone" label="Ваш телефон" prop="formValue.user.phone">
+  <el-form-item v-if="activeFields.userPhone" :rules="rules.userPhone" label="Ваш телефон:" prop="formValue.user.phone">
     <el-input
       v-model="formValue.user.phone"
       placeholder="+7(___) ___ __ __"
