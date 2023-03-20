@@ -86,6 +86,12 @@ const StringsService = (() => {
     return str.replace(emoji, '');
   }
 
+  function canBeTranslited(str: string): boolean {
+    // eslint-disable-next-line no-useless-escape
+    const regex = /^[~`!@#$%^&*()_+=[\]\\{}|;':",.\/<>?a-zA-Z0-9-]+$/;
+    return regex.test(str);
+  }
+
   return {
     removeEmoji,
     translit,
@@ -93,6 +99,7 @@ const StringsService = (() => {
     toCamelCase,
     toKebabCase,
     capitalizeString,
+    canBeTranslited,
   };
 })();
 

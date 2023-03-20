@@ -1,12 +1,12 @@
 import { computed, ComputedRef, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, RouteLocationNormalizedLoaded } from 'vue-router';
 
+import ISchema from '@/interfaces/schema/ISchema';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import ISchema from '@/interfaces/schema/ISchema';
 import SortModel from '@/services/classes/SortModel';
 import { IPaginationOptions } from '@/services/Hooks/Hooks';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import StringsService from '@/services/Strings';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 

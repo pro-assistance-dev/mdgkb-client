@@ -110,7 +110,7 @@ export default defineComponent({
         return;
       }
       visitsApplication.value.formValue.isNew = false;
-      await Provider.store.dispatch('visitsApplications/update');
+      await Provider.store.dispatch('visitsApplications/update', visitsApplication.value);
     };
 
     const load = async () => {

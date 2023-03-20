@@ -60,16 +60,16 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
 import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import SortListV2 from '@/components/SortList/SortListV2.vue';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import IQuestion from '@/interfaces/IQuestion';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
@@ -86,7 +86,7 @@ export default defineComponent({
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
     const { saveButtonClick } = useConfirmLeavePage();
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount'](' questions'));
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount'](' questions'));
     let sourceSSE: EventSource | undefined = undefined;
     const edit = () => {
       if (isEditMode.value) {

@@ -43,15 +43,15 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import SortListV2 from '@/components/SortList/SortListV2.vue';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISupportMessage from '@/interfaces/ISupportMessage';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import SupportMessagesFiltersLib from '@/services/Provider/libs/filters/SupportMessagesFiltersLib';
 import SupportMessagesSortsLib from '@/services/Provider/libs/sorts/SupportMessagesSortsLib';
@@ -68,7 +68,7 @@ export default defineComponent({
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
     const { saveButtonClick } = useConfirmLeavePage();
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('supportMessages'));
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('supportMessages'));
     let sourceSSE: EventSource | undefined = undefined;
     const edit = () => {
       if (isEditMode.value) {

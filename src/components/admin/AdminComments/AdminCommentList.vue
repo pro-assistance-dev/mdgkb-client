@@ -26,18 +26,17 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IComment from '@/interfaces/comments/IComment';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
 import CommentsFiltersLib from '@/services/Provider/libs/filters/CommentsFiltersLib';
 import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
@@ -49,7 +48,7 @@ export default defineComponent({
   components: { FilterSelectV2, AdminCommentCard, FilterSelectDate, FilterCheckbox, AdminListWrapper, SortList },
   setup() {
     const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('comments'));
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('comments'));
     const searchString: Ref<string> = ref('');
     let sourceSSE: EventSource | undefined = undefined;
 

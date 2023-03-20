@@ -4,6 +4,7 @@ import SocialMedia from '@/classes/SocialMedia';
 import IOption from '@/interfaces/schema/IOption';
 import ISchemaWithOptions from '@/interfaces/schema/ISchemaWithOptions';
 import HttpClient from '@/services/HttpClient';
+import WebSocketClient from '@/services/WebSocketClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
@@ -34,9 +35,6 @@ const actions: ActionTree<State, RootState> = {
   },
   getSocialMedia: async ({ commit }): Promise<void> => {
     commit('setSocialMedia', await httpClient.get<number>({ query: `social` }));
-  },
-  getApplicationsCounts: async ({ commit }): Promise<void> => {
-    commit('setApplicationsCounts', await httpClient.get<number>({ query: `get-applications-counts` }));
   },
 };
 
