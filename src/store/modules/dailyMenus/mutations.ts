@@ -10,6 +10,9 @@ const mutations: MutationTree<State> = {
   setPeriodItems(state, items: DailyMenu[]) {
     state.periodItems = items.map((i: DailyMenu) => new DailyMenu(i));
   },
+  setTodayMenu(state, item: DailyMenu) {
+    state.todayMenu = new DailyMenu(item);
+  },
 };
 
 export default mutations;

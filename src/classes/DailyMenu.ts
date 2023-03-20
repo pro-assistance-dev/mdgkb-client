@@ -138,7 +138,10 @@ export default class DailyMenu {
     this.initGroups();
   }
 
-  getNotEmptyGroups(): DishesGroup[] {
+  getNotEmptyGroups(onlyWithAvailableDishes: boolean): DishesGroup[] {
+    if (onlyWithAvailableDishes) {
+      return this.dishesGroups.filter((d: DishesGroup) => d.getAvailableDishes().length);
+    }
     return this.dishesGroups.filter((d: DishesGroup) => d.dailyMenuItems.length);
   }
 
@@ -180,5 +183,27 @@ export default class DailyMenu {
 
   filterLeanItems(items: DailyMenuItem[]): DailyMenuItem[] {
     return this.onlyLean ? items.filter((d: DailyMenuItem) => d.lean) : items;
+  }
+
+  getDailyMenuItemById(id: string | undefined): DailyMenuItem | undefined {
+    return this.dailyMenuItems.find((d: DailyMenuItem) => d.id === id);
+  }
+
+  actualize(actualMenu: DailyMenu): void {
+    this.id = actualMenu.id;
+    actualMenu.dailyMenuItems.forEach((d: DailyMenuItem) => {
+      const findedDayilyMenuItem = this.getDailyMenuItemById(d.id);
+      if (findedDayilyMenuItem) {
+        findedDayilyMenuItem.available = d.available;
+      } else {
+        this.dailyMenuItems.push(d);
+      }
+    });
+
+    this.dailyMenuItems.forEach((d: DailyMenuItem) => {
+      if (!actualMenu.getDailyMenuItemById(d.id)) {
+        ClassHelper.RemoveFromClassById(d.id, this.dailyMenuItems, []);
+      }
+    });
   }
 }

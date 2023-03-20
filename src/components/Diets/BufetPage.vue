@@ -72,8 +72,8 @@
           <Filter :text="'Постные'" @change="(e) => dailyMenu.setOnlyLean(e)" />
         </Filters>
         <div class="main">
-          <div v-if="dailyMenu.getNotEmptyGroups().length === 0" class="info-window">На данный момент нет блюд для выбора</div>
-          <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups()" :key="dishesGroup.id">
+          <div v-if="dailyMenu.getNotEmptyGroups(true).length === 0" class="info-window">На данный момент нет блюд для выбора</div>
+          <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups(true)" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
               <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
@@ -131,6 +131,7 @@ export default defineComponent({
   },
   setup() {
     const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+    const todayMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/todayMenu']);
     const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const cartIsOpen: Ref<boolean> = ref(false);
@@ -145,6 +146,7 @@ export default defineComponent({
 
     const load = async () => {
       await Provider.store.dispatch('dailyMenus/todayMenu');
+      dailyMenu.value.actualize(todayMenu.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
 
@@ -159,6 +161,7 @@ export default defineComponent({
 
       setInterval(async () => {
         await Provider.store.dispatch('dailyMenus/todayMenu');
+        dailyMenu.value.actualize(todayMenu.value);
         dailyMenu.value.dishesGroups = dishesGroups.value;
         dailyMenu.value.initGroups();
       }, 5000);

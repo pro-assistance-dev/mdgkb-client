@@ -118,7 +118,7 @@ export default class DailyMenuOrder {
     const nonActualItems: DailyMenuOrderItem[] = [];
     this.dailyMenuOrderItems = this.dailyMenuOrderItems.filter((orderItem: DailyMenuOrderItem) => {
       const availableMenuItemExists = menu.dailyMenuItems.some(
-        (dailyMenuItem: DailyMenuItem) => dailyMenuItem.id === orderItem.dailyMenuItem.id && dailyMenuItem.available
+        (dailyMenuItem: DailyMenuItem) => dailyMenuItem.id === orderItem.dailyMenuItemId && dailyMenuItem.available
       );
       if (!availableMenuItemExists) {
         nonActualItems.push(orderItem);

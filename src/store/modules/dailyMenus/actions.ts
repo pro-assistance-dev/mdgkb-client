@@ -25,7 +25,7 @@ const actions: ActionTree<State, RootState> = {
     });
   },
   todayMenu: async ({ commit }): Promise<void> => {
-    commit('set', await httpClient.get<DailyMenu>({ query: 'today-menu' }));
+    commit('setTodayMenu', await httpClient.get<DailyMenu>({ query: 'today-menu' }));
   },
 };
 
