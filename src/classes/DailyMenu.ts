@@ -139,7 +139,7 @@ export default class DailyMenu {
   }
 
   getNotEmptyGroups(): DishesGroup[] {
-    return this.dishesGroups.filter((d: DishesGroup) => d.getAvailableDishes().length);
+    return this.dishesGroups.filter((d: DishesGroup) => d.dailyMenuItems.length);
   }
 
   addActiveDishesFromOthersMenus(dailyMenus: DailyMenu[], groups: DishesGroup[]): void {
