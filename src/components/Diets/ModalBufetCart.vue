@@ -88,7 +88,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['close'],
+  emits: ['close', 'orderCreated'],
   setup(props, { emit }) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const userForm = ref();
@@ -119,6 +119,7 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
       ElMessage.success('Заказ успешно создан');
       await Provider.store.commit('dailyMenuOrders/resetItem');
+      emit('orderCreated');
       dailyMenuOrder.value.removeFromLocalStore();
       loading.close();
       emit('close');

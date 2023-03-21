@@ -62,7 +62,7 @@
           <template #header>
             <span>Меню на сегодня</span>
           </template>
-          <div v-for="dishesGroup in dailyMenu.dishesGroups" :key="dishesGroup.id">
+          <div v-for="dishesGroup in dailyMenu.getNotEmptyGroups(true)" :key="dishesGroup.id">
             <h4>{{ dishesGroup.name }}</h4>
             <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
               <span>{{ dailyMenuItem.name }}</span> /
@@ -102,6 +102,7 @@ export default defineComponent({
     const form = ref();
     const isEditMode: Ref<boolean> = ref(false);
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const todayMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/todayMenu']);
     const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
 
@@ -133,13 +134,22 @@ export default defineComponent({
     const load = async () => {
       try {
         await Provider.store.dispatch('dailyMenus/todayMenu');
+        dailyMenu.value.actualize(todayMenu.value);
       } catch (e) {
         ElMessage.warning('Нет активных меню на сегодня');
       }
       await Provider.getAll('dishesGroups');
-      dailyMenu.value.groupDishes(dishesGroups.value);
+      dailyMenu.value.dishesGroups = dishesGroups.value;
+      dailyMenu.value.initGroups();
       await Provider.loadItem();
       await updateNew();
+
+      setInterval(async () => {
+        await Provider.store.dispatch('dailyMenus/todayMenu');
+        dailyMenu.value.actualize(todayMenu.value);
+        dailyMenu.value.dishesGroups = dishesGroups.value;
+        dailyMenu.value.initGroups();
+      }, 5000);
     };
 
     const toggleEditMode = () => {

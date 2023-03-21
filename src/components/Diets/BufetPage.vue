@@ -1,6 +1,6 @@
 <template>
   <div v-if="cartIsOpen" class="menu-shadow">
-    <ModalBufetCart @close="toggleModalCart" />
+    <ModalBufetCart @close="toggleModalCart" @orderCreated="initForm" />
   </div>
   <div v-if="mounted" class="container-bufet">
     <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'">
@@ -143,17 +143,21 @@ export default defineComponent({
       Provider.router.push('/bufet');
     });
 
+    const initForm = () => {
+      dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
+      dailyMenuOrder.value.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
+      dailyMenuOrder.value.formValue.user = new User(user.value);
+    };
+
     const load = async () => {
       await Provider.store.dispatch('dailyMenus/todayMenu');
       dailyMenu.value.actualize(todayMenu.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
-
+      initForm();
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
-      dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
-      dailyMenuOrder.value.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
-      dailyMenuOrder.value.formValue.user = new User(user.value);
+
       await getDishesGroups();
       dailyMenu.value.dishesGroups = dishesGroups.value;
       dailyMenu.value.initGroups();
@@ -206,6 +210,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     return {
+      initForm,
       dailyMenuOrder,
       dishesGroups,
       dailyMenu,
