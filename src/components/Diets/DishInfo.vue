@@ -20,99 +20,13 @@
       </div>
     </div>
   </div>
-  <!-- <div class="mainblock">
-    <div
-      class="mainblock-right1-mobile"
-    >
-      <div class="mainblock-right1-item1">
-        <slot name="small-title" />
-      </div>
-      <div class="mainblock-right1-item2">
-        <div class="animation">
-          <slot name="big-title" />
-        </div>
-      </div>
-      <div v-if="!isBufet" class="mainblock-right1-item3">
-        <slot name="tags" />
-      </div>
-      <div class="mainblock-right1-item4">
-        <slot name="contact" />
-      </div>
-      <div v-if="!isBufet" class="mainblock-right1-item5">
-        <slot name="icons" />
-      </div>
-    </div>
-
-    <div class="mainline">
-      <div
-        class="mainblock-left"
-        :style="{
-          minWidth: leftWidth,
-          background: background,
-          display: leftWidth !== '0px' ? 'flex' : 'none',
-          borderRight: !isSingle ? '' : 'none',
-          borderTopRightRadius: !isSingle ? '' : '0',
-          borderBottomRightRadius: !isSingle ? '' : '0',
-          marginRight: !isSingle ? '' : '0',
-          padding: isBufet ? '16px 0' : '25px 0',
-        }"
-      >
-        <slot name="foto" />
-      </div>
-      <div
-        class="mainblock-right"
-        :style="{
-          background: background,
-          borderLeft: !isSingle ? '' : 'none',
-          borderTopLeftRadius: !isSingle ? '' : '0',
-          borderBottomLeftRadius: !isSingle ? '' : '0',
-          padding: isBufet ? '16px 0' : '25px 0',
-        }"
-      >
-        <div
-          class="mainblock-right1"
-          :style="{
-            paddingBottom: isBufet ? '0' : '60px',
-          }"
-        >
-          <div class="mainblock-right1-item1">
-            <slot name="small-title" />
-          </div>
-          <div class="mainblock-right1-item2">
-            <div class="animation">
-              <slot name="big-title" />
-            </div>
-          </div>
-          <div v-if="!isBufet" class="mainblock-right1-item3">
-            <slot name="tags" />
-          </div>
-          <div class="mainblock-right1-item4">
-            <slot name="contact" />
-          </div>
-          <div v-if="!isBufet" class="mainblock-right1-item5">
-            <slot name="icons" />
-          </div>
-        </div>
-        <div class="mainblock-right2">
-          <slot name="buttons" />
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'CartContainer',
-  props: {
-    marginTop: {
-      type: String as PropType<string>,
-      required: false,
-      default: '30px',
-    },
-  },
+  name: 'DishInfo',
 });
 </script>
 
@@ -121,7 +35,7 @@ export default defineComponent({
 
 .body {
   position: relative;
-  width: 1200px;
+  width: 938px;
   min-height: 10px;
   border: $normal-border;
   border-radius: $normal-border-radius;
@@ -130,11 +44,12 @@ export default defineComponent({
 }
 
 .icon-close {
-  width: 24px;
-  height: 24px;
+  width: auto;
+  height: auto;
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 1;
 }
 
 .title {
@@ -191,23 +106,52 @@ export default defineComponent({
   letter-spacing: 1px;
 }
 
-// .mainblock-right1-item1-mobile {
-//   display: none;
-// }
-
-// .mainblock-right1-item2-mobile {
-//   display: none;
-// }
-
-// .title {
-//   display: flex;
-//   min-height: 40px;
-//   letter-spacing: 1px;
-//   font-size: 24px;
-//   font-family: 'Open Sans', sans-serif;
-//   color: #343e5c;
-// }
-
 @media screen and (max-width: 768px) {
+  .body {
+    width: auto;
+  }
+
+  .main {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .main-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 360px;
+  }
+
+  .main-right {
+    width: 100%;
+    margin-left: 0px;
+    width: 360px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .body {
+    width: auto;
+    padding: 10px;
+  }
+
+  .main {
+    display: block;
+  }
+
+  .main-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+  }
+
+  .main-right {
+    width: 100%;
+    margin-left: 0px;
+    width: 300px;
+  }
 }
 </style>

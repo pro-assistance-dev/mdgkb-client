@@ -14,10 +14,11 @@
       <div class="info">
         <div class="small-title">Завтрак - Блюда из овощей</div>
         <div class="name">{{ dailyMenuOrderItem.dailyMenuItem.name }}</div>
-        <div class="price">{{ dailyMenuOrderItem.getPriceSum() }}₽.</div>
+        <div class="price-pc">{{ dailyMenuOrderItem.getPriceSum() }}₽.</div>
       </div>
     </div>
     <div class="right">
+      <div class="price-mobile">{{ dailyMenuOrderItem.getPriceSum() }}₽.</div>
       <div class="right-item">
         <div class="counter">
           <el-form>
@@ -27,14 +28,15 @@
                 :model-value="dailyMenuOrderItem.quantity"
                 placeholder="1"
                 @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, dailyMenuOrderItem.dailyMenuItem)"
-              ></el-input-number>
+              >
+              </el-input-number>
             </el-form-item>
           </el-form>
         </div>
       </div>
     </div>
+    <Delete />
   </div>
-  <Delete />
 </template>
 
 <script lang="ts">
@@ -83,13 +85,20 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
+
+.hidden {
+  visibility: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
 .table-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: calc(100% - 10px);
   min-height: 45px;
-  // border: 1px solid #c4c4c4;
   padding: 5px;
   margin-bottom: -1px;
 }
@@ -112,12 +121,14 @@ export default defineComponent({
     object-fit: cover;
   }
 }
+
 .name {
   display: flex;
   align-items: center;
   justify-content: left;
   font-size: 14px;
   color: #343e5c;
+  margin-right: 10px;
 }
 
 .small-title {
@@ -256,38 +267,91 @@ export default defineComponent({
   width: 170px;
 }
 
-.price {
+.price-pc {
   font-size: 18px;
   width: 60px;
+}
+
+.price-mobile {
+  font-size: 18px;
+  width: 60px;
+  display: none;
 }
 
 @media screen and (max-width: 540px) {
   .table-card {
     display: block;
-    padding: 10px;
-    width: calc(100% - 20px);
+    padding: 10px 0;
+    width: 100%;
   }
 
   .left {
     width: 100%;
-    padding-bottom: 10px;
+    padding-bottom: 0px;
   }
 
   .info {
     width: 100%;
+    margin-right: 0px;
+    margin-top: 0px;
   }
 
   .right {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: auto;
+    border-bottom: $normal-border;
+    padding-bottom: 10px;
   }
 
   .right-item {
     display: flex;
     align-items: center;
     justify-content: left;
-    width: 170px;
+    width: auto;
+    height: auto;
+  }
+
+  .counter {
+    height: auto;
+  }
+
+  .name {
+    font-size: 13px;
+    line-height: 1.1;
+    margin-top: 5px;
+    margin-right: 0px;
+  }
+  .small-title {
+    line-height: 1.1;
+  }
+
+  .price-pc {
+    display: none;
+  }
+
+  .price-mobile {
+    display: block;
+  }
+
+  .image-box {
+    display: block;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    margin-bottom: 0px;
+    margin-right: 5px;
+    position: relative;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+    }
   }
 }
 </style>
