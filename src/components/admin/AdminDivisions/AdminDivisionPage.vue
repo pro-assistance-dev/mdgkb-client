@@ -148,7 +148,6 @@
       </el-col>
     </el-row>
   </el-form>
-  <ImageCropper />
 </template>
 
 <script lang="ts">
@@ -161,7 +160,6 @@ import Doctor from '@/classes/Doctor';
 import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
 import AdminGallery from '@/components/admin/AdminGallery.vue';
 import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
 import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
 import SetEntity from '@/components/admin/SetEntity.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -178,7 +176,6 @@ export default defineComponent({
   name: 'AdminDivisionPage',
   components: {
     ContactsForm,
-    ImageCropper,
     TableButtonGroup,
     TimetableConstructorV2,
     ScheduleConstructor,

@@ -1,6 +1,6 @@
 <template>
   <div v-if="modalDishIsOpen" class="menu-shadow">
-    <ModalDishCard :dailyMenuItem="dailyMenuItem" @close="toggleModalDishCard" />
+    <ModalDishCard :daily-menu-item="dailyMenuItem" @close="toggleModalDishCard" />
   </div>
   <el-form>
     <div
@@ -39,9 +39,9 @@ import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishCardButton from '@/components/Diets/DishCardButton.vue';
+import ModalDishCard from '@/components/Diets/ModalDishCard.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Provider from '@/services/Provider/Provider';
-import ModalDishCard from '@/components/Diets/ModalDishCard.vue';
 
 export default defineComponent({
   name: 'DishCard',

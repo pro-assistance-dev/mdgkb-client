@@ -78,7 +78,6 @@ import TableCard from '@/components/Diets/TableCard.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'ModalBufetCart',
@@ -159,16 +158,6 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '@/assets/styles/elements/base-style.scss';
 
-.body {
-  position: relative;
-  width: 938px;
-  min-height: 10px;
-  border: $normal-border;
-  border-radius: $normal-border-radius;
-  background: #ffffff;
-  padding: 16px;
-}
-
 .icon-close {
   width: 16px;
   height: 16px;
@@ -181,31 +170,6 @@ export default defineComponent({
   fill: #205bb8;
 }
 
-.title {
-  height: 24px;
-  width: calc(100% - 40px);
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  font-size: 24px;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #343e5c;
-  padding: 0;
-  margin: 0;
-}
-
-.line {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #343e5c;
-}
 .line-title {
   width: 100%;
   margin-top: 16px;
@@ -316,7 +280,6 @@ export default defineComponent({
 
 :deep(.el-form-item) {
   display: block;
-  margin-bottom: 22px;
 }
 
 :deep(.el-form--label-left .el-form-item__label) {
@@ -330,5 +293,17 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 768px) {
+  .scroll {
+    width: 100%;
+    max-height: 50vh;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .line-button {
+    justify-content: center;
+  }
 }
 </style>

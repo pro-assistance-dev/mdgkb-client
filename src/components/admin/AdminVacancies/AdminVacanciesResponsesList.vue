@@ -30,7 +30,7 @@ export default defineComponent({
 
   setup() {
     const vacancyResponses: ComputedRef<IVacancyResponse[]> = computed(() => Provider.store.getters['vacancyResponses/items']);
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('vacancy_responses'));
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('vacancy_responses'));
 
     const loadResponses = async () => {
       Provider.store.commit('vacancyResponses/resetItems');

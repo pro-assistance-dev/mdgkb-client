@@ -20,18 +20,19 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import SearchModel from '@/services/classes/SearchModel';
 import IOption from '@/interfaces/IOption';
+import SearchModel from '@/services/classes/SearchModel';
 
 export default defineComponent({
   name: 'SearchBar',
-  emits: ['search'],
   props: {
     isSearchPage: {
       type: Boolean as PropType<boolean>,
       default: false,
     },
   },
+  emits: ['search'],
+
   setup(props, { emit }) {
     const store = useStore();
     const router = useRouter();

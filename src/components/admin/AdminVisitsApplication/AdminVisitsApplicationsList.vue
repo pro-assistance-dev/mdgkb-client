@@ -111,7 +111,7 @@ export default defineComponent({
     const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const visitsApplications: ComputedRef<IVisitsApplication[]> = computed(() => Provider.store.getters['visitsApplications/items']);
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('visits_applications'));
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('visits_applications'));
     const create = () => Provider.router.push(`${Provider.route().path}/new`);
     const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 

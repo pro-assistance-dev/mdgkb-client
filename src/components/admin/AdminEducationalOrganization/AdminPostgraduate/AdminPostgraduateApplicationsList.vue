@@ -61,7 +61,7 @@ export default defineComponent({
       () => Provider.store.getters['postgraduateApplications/items']
     );
     const applicationsCount: ComputedRef<number> = computed(() =>
-      Provider.store.getters['meta/applicationsCount']('postgraduate_applications')
+      Provider.store.getters['admin/applicationsCount']('postgraduate_applications')
     );
 
     const loadApplications = async () => {

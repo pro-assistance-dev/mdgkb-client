@@ -47,9 +47,18 @@
       <div class="search-result-description" v-html="result.description.substring(0, 100)"></div>
     </div>
   </div>
+  <el-pagination
+    style="margin: 10px 0"
+    :current-page="curPage"
+    background
+    layout="prev, pager, next"
+    :page-count="pageCount"
+    @current-change="pageChange"
+  />
 </template>
 
 <script lang="ts">
+import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -112,6 +121,12 @@ export default defineComponent({
     };
 
     const search = async () => {
+      if (StringsService.canBeTranslited(searchModel.value.query)) {
+        ElMessage({
+          type: 'success',
+          message: 'Запрос переведен',
+        });
+      }
       searchModel.value.options = [];
       searchModel.value.searchGroup.options = [];
       searchModel.value.query = StringsService.translit(searchModel.value.query);

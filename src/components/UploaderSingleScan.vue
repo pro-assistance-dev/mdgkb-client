@@ -30,7 +30,7 @@
       </span>
     </template>
   </el-upload>
-  <ImageCropperV2New v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
+  <ImageCropper v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts">
@@ -38,8 +38,8 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import ImageCropperV2New from '@/components/ImageCropperV2_new.vue';
 import Cropper from '@/classes/Cropper';
+import ImageCropper from '@/components/ImageCropper.vue';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
@@ -47,7 +47,7 @@ import IFilesList from '@/interfaces/files/IFIlesList';
 export default defineComponent({
   name: 'UploaderSingleScan',
   components: {
-    ImageCropperV2New,
+    ImageCropper,
   },
   props: {
     withCrop: {
