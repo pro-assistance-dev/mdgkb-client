@@ -16,9 +16,6 @@ const mutations: MutationTree<State> = {
   setSocialMedia(state, items: SocialMedia[]) {
     state.socialMedia = items.map((i: SocialMedia) => new SocialMedia(i));
   },
-  setApplicationsCounts(state, items: IApplicationsCount[]) {
-    state.applicationsCounts = items;
-  },
 };
 
 export default mutations;

@@ -1,8 +1,9 @@
 import { ILoadingInstance } from 'element-plus';
 
-import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
+import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import ISearchQuery from '@/interfaces/ISearchQuery';
+import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 
 export interface State {
   headerParams: AdminHeaderParams;
@@ -12,4 +13,5 @@ export interface State {
   loading: ILoadingInstance | undefined;
   menus: IAdminMenu[];
   adminMenus: ISearchQuery[];
+  applicationsCounts: IApplicationsCount[];
 }

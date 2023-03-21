@@ -21,10 +21,10 @@
             <el-card>
               <template #header> Основное изображение </template>
               <el-form-item prop="mainImage.fileSystemPath" :rules="rules.mainImage">
-                <UploaderSingleScan 
-                  :file-info="news.mainImage" 
+                <UploaderSingleScan
+                  :file-info="news.mainImage"
                   :height="200"
-                  @remove-file="news.removeMainImage()" 
+                  @remove-file="news.removeMainImage()"
                   @ratio="(e) => (element.ratio = e)"
                 />
               </el-form-item>
@@ -56,10 +56,10 @@
             <el-card>
               <template #header> Загрузить превью новости </template>
               <el-form-item prop="previewImage.fileSystemPath" :rules="rules.previewImage">
-                <UploaderSingleScan 
-                  :file-info="news.previewImage" 
-                  :height="300" 
-                  @remove-file="news.removePreviewImage()" 
+                <UploaderSingleScan
+                  :file-info="news.previewImage"
+                  :height="300"
+                  @remove-file="news.removePreviewImage()"
                   @ratio="(e) => (element.ratio = e)"
                 />
               </el-form-item>

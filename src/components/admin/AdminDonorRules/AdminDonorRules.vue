@@ -14,10 +14,7 @@
             <el-input v-model="element.name" />
             <el-button type="danger" size="medium" icon="el-icon-delete" @click.stop="donorRulesWithDeleted.removeDonorRule(index)" />
             <el-button type="info" size="medium" icon="el-icon-edit" @click="element.editMode = true" />
-            <UploaderSingleScan 
-              :file-info="element.image"
-              @ratio="(e) => (element.ratio = e)"
-            />
+            <UploaderSingleScan :file-info="element.image" @ratio="(e) => (element.ratio = e)" />
           </div>
         </div>
       </template>
@@ -35,9 +32,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
-import Menu from '@/services/classes/Menu';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
+import Menu from '@/services/classes/Menu';
 import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminDonorRules',

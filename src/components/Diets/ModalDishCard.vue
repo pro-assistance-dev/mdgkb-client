@@ -24,6 +24,7 @@
         Капуста белокачанная, морковь, перец болгарский, соль, лимон (сок), масло растительное (оливковое), петрушка свежая
       </div>
       <div class="info-title">Пищевая ценность на 100 г</div>
+
       <DishInfoTable :daily-menu-item="dailyMenuItem" />
       <div class="footer">
         <div class="price">{{ dailyMenuItem.price }}₽</div>
@@ -39,6 +40,7 @@ import { defineComponent, PropType } from 'vue';
 
 import Close from '@/assets/svg/Filter/Close.svg';
 import DailyMenuItem from '@/classes/DailyMenuItem';
+
 import DishCardButton from '@/components/Diets/DishCardButton.vue';
 import DishInfo from '@/components/Diets/DishInfo.vue';
 import DishInfoTable from '@/components/Diets/DishInfoTable.vue';

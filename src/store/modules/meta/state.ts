@@ -6,5 +6,4 @@ export interface State {
   count: number;
   schema?: ISchema;
   socialMedia: SocialMedia[];
-  applicationsCounts: IApplicationsCount[];
 }
