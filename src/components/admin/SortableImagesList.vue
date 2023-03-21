@@ -6,7 +6,7 @@
         <UploaderSingleScan
           :file-info="element.fileInfo"
           :height="165"
-          :default-ratio="400/165"
+          :default-ratio="400 / 165"
           @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
           @ratio="(e) => (element.ratio = e)"
         />

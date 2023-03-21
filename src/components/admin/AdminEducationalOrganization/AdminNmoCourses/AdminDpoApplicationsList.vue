@@ -45,15 +45,15 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 
 import DpoApplication from '@/classes/DpoApplication';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
-// import FiltersList from '@/components/Filters/FiltersList.vue';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import IFormStatus from '@/interfaces/IFormStatus';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+// import FiltersList from '@/components/Filters/FiltersList.vue';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import DpoApplicationsFiltersLib from '@/services/Provider/libs/filters/DpoApplicationsFiltersLib';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
@@ -68,7 +68,7 @@ export default defineComponent({
   setup() {
     const dpoApplications: ComputedRef<DpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount'](tableName));
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount'](tableName));
 
     const filterModel = ref();
     const title = ref('');

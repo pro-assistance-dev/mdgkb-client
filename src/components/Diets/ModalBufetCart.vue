@@ -37,14 +37,13 @@
         <div class="price">{{ costOfDelivery }}₽.</div>
       </div>
       <br />
-      <div class="line-item">
-      </div>
+      <div class="line-item"></div>
 
       <div class="info">
         <el-form
-         class="phone"
           ref="userForm"
           v-model="dailyMenuOrder"
+          class="phone"
           :model="dailyMenuOrder"
           label-width="150px"
           style="max-width: 320px"

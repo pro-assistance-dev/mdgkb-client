@@ -12,7 +12,7 @@
           <slot name="small-title" />
         </div>
         <div class="title">
-            <slot name="title" />
+          <slot name="title" />
         </div>
         <div class="info">
           <slot name="info" />
@@ -173,7 +173,6 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   width: 360px;
-
 }
 
 .main-right {
@@ -210,6 +209,5 @@ export default defineComponent({
 // }
 
 @media screen and (max-width: 768px) {
-
 }
 </style>

@@ -45,13 +45,11 @@ import Delete from '@/assets/svg/Buffet/Delete.svg';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DailyMenuOrderItem from '@/classes/DailyMenuOrderItem';
 import Provider from '@/services/Provider/Provider';
-import DishCardButton from '@/components/Diets/DishCardButton.vue';
 
 export default defineComponent({
   name: 'BufetCard',
   components: {
     Delete,
-    DishCardButton,
   },
   props: {
     dailyMenuOrderItem: {

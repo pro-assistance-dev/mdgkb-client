@@ -1,5 +1,5 @@
 <template>
-  <DishInfo :left-width="'360px'" :background="'#ffffff'" :is-single="true" >
+  <DishInfo :left-width="'360px'" :background="'#ffffff'" :is-single="true">
     <template #icon>
       <svg class="icon-close" @click="$emit('close')">
         <use xlink:href="#close"></use>
@@ -10,30 +10,20 @@
         <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
       </div>
     </template>
-    <template #small-title>
-      Завтрак&nbsp;-&nbsp;Блюда из овощей
-    </template>
+    <template #small-title> Завтрак&nbsp;-&nbsp;Блюда из овощей </template>
     <template #title>
       <div class="name">
         {{ dailyMenuItem.name }}
       </div>
-      <div class="weight">
-        {{ dailyMenuItem.weight }} г
-      </div>
+      <div class="weight">{{ dailyMenuItem.weight }} г</div>
     </template>
     <template #info>
-      <div class="text">
-        Диетический салат из смеси овошей, с добавлением оливкового масла и петрушки
-      </div>
-      <div class="info-title">
-        Состав
-      </div>
+      <div class="text">Диетический салат из смеси овошей, с добавлением оливкового масла и петрушки</div>
+      <div class="info-title">Состав</div>
       <div class="text">
         Капуста белокачанная, морковь, перец болгарский, соль, лимон (сок), масло растительное (оливковое), петрушка свежая
       </div>
-      <div class="info-title">
-        Пищевая ценность на 100 г
-      </div>
+      <div class="info-title">Пищевая ценность на 100 г</div>
       <table class="table-list">
         <colgroup>
           <col width="60px" />
@@ -43,27 +33,19 @@
         </colgroup>
         <thead>
           <tr>
-            <td style="font-size: 11px; color: #a1a7bd;" >Белки</td>
-            <td style="font-size: 11px; color: #a1a7bd;">Жиры</td>
-            <td style="font-size: 11px; color: #a1a7bd;">Углеводы</td>
-            <td style="font-size: 11px; color: #a1a7bd;">Энерг.&nbsp;ценность</td>
+            <td style="font-size: 11px; color: #a1a7bd">Белки</td>
+            <td style="font-size: 11px; color: #a1a7bd">Жиры</td>
+            <td style="font-size: 11px; color: #a1a7bd">Углеводы</td>
+            <td style="font-size: 11px; color: #a1a7bd">Энерг.&nbsp;ценность</td>
           </tr>
         </thead>
         <tbody>
-            <tr>
-              <td style="font-size: 12px; color: #343e5c;">
-                4 г
-              </td>
-              <td style="font-size: 12px; color: #343e5c;">
-                2 г
-              </td>
-              <td style="font-size: 12px; color: #343e5c;">
-                52 г
-              </td>
-              <td style="font-size: 12px; color: #343e5c;">
-                {{ dailyMenuItem.caloric }} калл
-              </td>
-            </tr>
+          <tr>
+            <td style="font-size: 12px; color: #343e5c">4 г</td>
+            <td style="font-size: 12px; color: #343e5c">2 г</td>
+            <td style="font-size: 12px; color: #343e5c">52 г</td>
+            <td style="font-size: 12px; color: #343e5c">{{ dailyMenuItem.caloric }} калл</td>
+          </tr>
         </tbody>
       </table>
       <div class="footer">
@@ -71,7 +53,6 @@
         <DishCardButton :daily-menu-item="dailyMenuItem" :status="status" />
       </div>
     </template>
-
   </DishInfo>
   <Close />
 </template>
@@ -80,16 +61,15 @@
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import Close from '@/assets/svg/Filter/Close.svg';
-import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import DishContainer from '@/components/Diets/DishContainer.vue';
-import Provider from '@/services/Provider/Provider';
-import DishInfo from '@/components/Diets/DishInfo.vue';
-import DishCardButton from '@/components/Diets/DishCardButton.vue';
 import DailyMenuItem from '@/classes/DailyMenuItem';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import DishCardButton from '@/components/Diets/DishCardButton.vue';
+import DishInfo from '@/components/Diets/DishInfo.vue';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ModalDishCard',
-  components: { Close, DishContainer, DishInfo, DishCardButton },
+  components: { Close, DishInfo, DishCardButton },
   props: {
     isClose: {
       type: Boolean as PropType<boolean>,
@@ -102,7 +82,6 @@ export default defineComponent({
   },
   emits: ['close'],
   setup() {
-
     return {
       mounted: Provider.mounted,
       schema: Provider.schema,

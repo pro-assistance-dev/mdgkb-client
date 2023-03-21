@@ -2,6 +2,7 @@ import { ActionTree } from 'vuex';
 
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import HttpClient from '@/services/HttpClient';
+import WebSocketClient from '@/services/WebSocketClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
@@ -18,6 +19,12 @@ const actions: ActionTree<State, RootState> = {
   },
   unsubscribeApplicationsCountsGet: async ({ commit }): Promise<void> => {
     source?.close();
+  },
+  getApplicationsCounts: async ({ commit }): Promise<void> => {
+    commit('setApplicationsCounts', await new HttpClient('meta').get<number>({ query: `get-applications-counts` }));
+  },
+  updateApplicationsCounts: async ({ commit }): Promise<void> => {
+    new WebSocketClient(new HttpClient('meta').endpoint, 'app-counts-regular-update', 'setApplicationsCounts').setOnMessage(commit);
   },
 };
 
