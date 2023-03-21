@@ -22,6 +22,8 @@ export default class DishSample {
   carbohydrates = 0;
   dietary = false;
   lean = false;
+  composition = '';
+  description = '';
 
   constructor(i?: DishSample) {
     ClassHelper.BuildClass(this, i);

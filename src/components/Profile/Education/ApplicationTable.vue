@@ -92,7 +92,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, r
 import CancelDialogForm from '@/components/Profile/Education/CancelDialogForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

@@ -36,7 +36,7 @@ import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import DatePicker from '@/components/DatePicker.vue';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileChildrenPage',

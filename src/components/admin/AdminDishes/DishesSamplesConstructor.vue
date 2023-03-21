@@ -129,8 +129,11 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('dishesGroups/getAll');
-      await Provider.store.dispatch('dishesSamples/getAll');
+      await Promise.all([Provider.store.dispatch('dishesGroups/getAll'), Provider.store.dispatch('dishesSamples/getAll')]);
+
+      // console.log('1');
+      // await ;
+      // console.log('e');
     });
 
     const removeDishesGroup = async (id: string) => {

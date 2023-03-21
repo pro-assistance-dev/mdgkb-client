@@ -1,5 +1,5 @@
-import IUser from '@/interfaces/IUser';
 import Human from '@/services/classes/Human';
+import IUser from '@/services/interfaces/IUser';
 
 export default interface IChild {
   id?: string;

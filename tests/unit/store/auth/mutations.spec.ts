@@ -1,5 +1,5 @@
 import User from '@/classes/User';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import store from '@/store/index';
 
 const testUUID = '65bc6bb1-20cc-44dc-96a7-27bfafc0e5a5';

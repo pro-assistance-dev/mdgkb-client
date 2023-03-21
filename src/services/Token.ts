@@ -1,5 +1,5 @@
-import ITokens from '@/interfaces/ITokens';
 import Human from '@/services/classes/Human';
+import ITokens from '@/services/interfaces/ITokens';
 
 const TokenService = (() => {
   function _isAuth(): boolean {

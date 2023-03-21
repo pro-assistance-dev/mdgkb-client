@@ -37,14 +37,13 @@
         <div class="price">{{ costOfDelivery }}₽.</div>
       </div>
       <br />
-      <div class="line-item">
-      </div>
+      <div class="line-item"></div>
 
       <div class="info">
         <el-form
-         class="phone"
           ref="userForm"
           v-model="dailyMenuOrder"
+          class="phone"
           :model="dailyMenuOrder"
           label-width="150px"
           style="max-width: 320px"
@@ -67,7 +66,7 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
-import { ElLoading, ElMessage } from 'element-plus';
+import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
@@ -127,8 +126,18 @@ export default defineComponent({
     };
 
     const clearOrder = (): void => {
-      dailyMenuOrder.value.clear();
-      emit('close');
+      ElMessageBox.confirm('Очистить корзину?', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Очистить',
+        cancelButtonText: 'Отмена',
+      })
+        .then(() => {
+          dailyMenuOrder.value.clear();
+          emit('close');
+        })
+        .catch(() => {
+          return;
+        });
     };
 
     return {

@@ -63,7 +63,7 @@ import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';

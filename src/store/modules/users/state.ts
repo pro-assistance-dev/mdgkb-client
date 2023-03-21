@@ -1,4 +1,4 @@
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export interface State {
   items: IUser[];

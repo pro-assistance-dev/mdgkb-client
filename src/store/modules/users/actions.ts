@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IFavourite from '@/interfaces/IFavourite';
-import IUser from '@/interfaces/IUser';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import FavouriteService from '@/services/Favourite';
 import HttpClient from '@/services/HttpClient';
+import IUser from '@/services/interfaces/IUser';
 import RootState from '@/store/types';
 
 import { State } from './state';

@@ -5,7 +5,7 @@ import { createStore } from 'vuex';
 import Comment from '@/classes/Comment';
 import User from '@/classes/User';
 import UserCommentsPage from '@/components/Profile/UserCommentsPage.vue';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 import ComponentStub from '../../../__mocks__/ComponentStub';
 

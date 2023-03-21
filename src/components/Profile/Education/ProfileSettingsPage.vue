@@ -21,7 +21,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex';
 
 import IFormStatus from '@/interfaces/IFormStatus';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

@@ -23,10 +23,9 @@
           <el-form>
             <el-form-item label="">
               <el-input-number
-                :min="1"
                 :model-value="dailyMenuOrderItem.quantity"
                 placeholder="1"
-                @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, dailyMenuOrderItem.dailyMenuItem)"
+                @change="(oldNum, newNum) => changeDailyMenuOrderItemQuantity(oldNum, newNum)"
               ></el-input-number>
             </el-form-item>
           </el-form>
@@ -45,13 +44,11 @@ import Delete from '@/assets/svg/Buffet/Delete.svg';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DailyMenuOrderItem from '@/classes/DailyMenuOrderItem';
 import Provider from '@/services/Provider/Provider';
-import DishCardButton from '@/components/Diets/DishCardButton.vue';
 
 export default defineComponent({
   name: 'BufetCard',
   components: {
     Delete,
-    DishCardButton,
   },
   props: {
     dailyMenuOrderItem: {
@@ -63,7 +60,7 @@ export default defineComponent({
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
     const removeItem = () => {
-      ElMessageBox.confirm('Убрить блюдо из корзины?', {
+      ElMessageBox.confirm('Убрать блюдо из корзины?', {
         distinguishCancelAndClose: true,
         confirmButtonText: 'Убрать',
         cancelButtonText: 'Отмена',
@@ -76,7 +73,16 @@ export default defineComponent({
         });
     };
 
+    const changeDailyMenuOrderItemQuantity = (newNum: number, oldNum: number): void => {
+      console.log(newNum);
+      if (newNum === 0) {
+        return removeItem();
+      }
+      dailyMenuOrder.value.changeDailyMenuOrderItemQuantity(newNum, oldNum, props.dailyMenuOrderItem.dailyMenuItem);
+    };
+
     return {
+      changeDailyMenuOrderItemQuantity,
       removeItem,
       dailyMenuOrder,
     };

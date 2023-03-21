@@ -5,7 +5,7 @@ import Gate from '@/classes/Gate';
 import User from '@/classes/User';
 import Visit from '@/classes/Visit';
 import VisitsApplication from '@/classes/VisitsApplication';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { State } from './index';

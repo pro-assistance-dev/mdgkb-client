@@ -7,7 +7,7 @@
 import { computed, defineComponent, Ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileHeader',

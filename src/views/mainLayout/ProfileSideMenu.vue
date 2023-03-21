@@ -29,7 +29,7 @@ import Education from '@/assets/profile/icons/Education.svg';
 import Home from '@/assets/profile/icons/Home.svg';
 import Question from '@/assets/profile/icons/Question.svg';
 import Settings from '@/assets/profile/icons/Settings.svg';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 

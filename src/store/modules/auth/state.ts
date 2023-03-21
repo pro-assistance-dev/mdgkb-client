@@ -1,5 +1,5 @@
 import IPathPermission from '@/interfaces/IPathPermission';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export default interface State {
   user: IUser;

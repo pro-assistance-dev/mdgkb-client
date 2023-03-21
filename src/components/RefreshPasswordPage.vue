@@ -7,8 +7,8 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import User from '@/classes/User';
-import IUser from '@/interfaces/IUser';
 import Page from '@/services/classes/page/Page';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'RefreshPasswordPage',

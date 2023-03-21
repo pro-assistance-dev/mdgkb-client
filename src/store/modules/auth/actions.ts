@@ -2,10 +2,10 @@ import { ActionTree } from 'vuex';
 
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
-import ITokens from '@/interfaces/ITokens';
-import IUser from '@/interfaces/IUser';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
+import ITokens from '@/services/interfaces/ITokens';
+import IUser from '@/services/interfaces/IUser';
 import TokenService from '@/services/Token';
 import RootState from '@/store/types';
 

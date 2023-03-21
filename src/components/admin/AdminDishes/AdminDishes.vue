@@ -22,32 +22,20 @@
     <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
       <DishesSamplesConstructor />
     </el-dialog>
-    <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
-      <template #title>
-        <div class="add-title">Выберите блюда из книги блюд</div>
-      </template>
-      <AddDish :menu="selectedMenu" />
-    </el-dialog>
+    <!--    <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">-->
+    <!--      <template #title>-->
+    <!--        <div class="add-title">Выберите блюда из книги блюд</div>-->
+    <!--      </template>-->
+    <!--      <AddDish :menu="selectedMenu" />-->
+    <!--    </el-dialog>-->
   </component>
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
-import draggable from 'vuedraggable';
 
-import Active from '@/assets/svg/Buffet/Active.svg';
-import Add from '@/assets/svg/Buffet/Add.svg';
-import Close from '@/assets/svg/Buffet/Close.svg';
-import Delete from '@/assets/svg/Buffet/Delete.svg';
-import Excel from '@/assets/svg/Buffet/Excel.svg';
-import Eye from '@/assets/svg/Buffet/Eye.svg';
-import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
-import NonActive from '@/assets/svg/Buffet/NonActive.svg';
-import Print from '@/assets/svg/Buffet/Print.svg';
 import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
-import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import AdminDishesMenusTable from '@/components/admin/AdminDishes/AdminDishesMenusTable.vue';
@@ -59,7 +47,6 @@ import Calendar from '@/services/classes/calendar/Calendar';
 import Day from '@/services/classes/calendar/Day';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import IFilterModel from '@/services/interfaces/IFilterModel';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
@@ -71,7 +58,6 @@ export default defineComponent({
   components: {
     DishesSamplesConstructor,
     AdminListWrapper,
-    AddDish,
 
     VerticalCollapseContainer,
     DishBook,

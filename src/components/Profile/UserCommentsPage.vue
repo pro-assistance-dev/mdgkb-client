@@ -16,7 +16,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex';
 
 import ProfileCommentCard from '@/components/Profile/ProfileCommentCard.vue';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'UserCommentsPage',

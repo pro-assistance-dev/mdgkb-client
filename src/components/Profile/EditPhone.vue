@@ -41,8 +41,8 @@ import { computed, ComputedRef, defineComponent, onMounted } from 'vue';
 
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
-import IUser from '@/interfaces/IUser';
 import router from '@/router';
+import IUser from '@/services/interfaces/IUser';
 import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
 

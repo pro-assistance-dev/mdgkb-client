@@ -59,8 +59,8 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import HospitalizationsTable from '@/components/Hospitalizations/HospitalizationsTable.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import IHospitalization from '@/interfaces/IHospitalization';
-import IUser from '@/interfaces/IUser';
 import Hooks from '@/services/Hooks/Hooks';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 

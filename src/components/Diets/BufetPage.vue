@@ -108,10 +108,10 @@ import DishCard from '@/components/Diets/DishCard.vue';
 import Filter from '@/components/Diets/Filter.vue';
 import Filters from '@/components/Diets/Filters.vue';
 import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
-import IUser from '@/interfaces/IUser';
 import ContactInfo from '@/services/classes/ContactInfo';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
+import IUser from '@/services/interfaces/IUser';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
 

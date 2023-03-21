@@ -4,10 +4,10 @@ import Form from '@/classes/Form';
 import User from '@/classes/User';
 import VacancyResponse from '@/classes/VacancyResponse';
 import IForm from '@/interfaces/IForm';
-import IUser from '@/interfaces/IUser';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponsesWithCount from '@/interfaces/IVacancyResponsesWithCount ';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import IUser from '@/services/interfaces/IUser';
 
 import { State } from './state';
 

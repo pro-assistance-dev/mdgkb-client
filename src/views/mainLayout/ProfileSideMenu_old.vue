@@ -35,7 +35,7 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 export default defineComponent({
   name: 'ProfileSideMenu',

@@ -101,7 +101,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 
 import User from '@/classes/User';
 import ISupportMessage from '@/interfaces/ISupportMessage';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

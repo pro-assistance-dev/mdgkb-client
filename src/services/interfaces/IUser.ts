@@ -8,11 +8,10 @@ import IChild from '@/interfaces/IChild';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IQuestion from '@/interfaces/IQuestion';
-
 import Human from '@/services/classes/Human';
 
-import ICandidateApplication from './ICandidateApplication';
-import IOption from './schema/IOption';
+import ICandidateApplication from '../../interfaces/ICandidateApplication';
+import IOption from '../../interfaces/schema/IOption';
 
 export default interface IUser {
   id?: string;

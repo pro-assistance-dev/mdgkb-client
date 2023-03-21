@@ -4,7 +4,7 @@ import DpoApplication from '@/classes/DpoApplication';
 import Form from '@/classes/Form';
 import NmoCourse from '@/classes/NmoCourse';
 import User from '@/classes/User';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { State } from './index';

@@ -95,8 +95,8 @@
 import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
-import IUser from '@/interfaces/IUser';
 import UserRules from '@/rules/UserRules';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 

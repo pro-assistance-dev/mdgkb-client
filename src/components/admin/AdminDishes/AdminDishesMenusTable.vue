@@ -81,7 +81,7 @@
             <tr>
               <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd" />
               <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd">Блюдо</td>
-              <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Доступно</td>
+              <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Количество</td>
               <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Вес</td>
               <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Цена</td>
               <td style="text-transform: uppercase; font-size: 11px; color: #a1a7bd; text-align: center">Калории</td>

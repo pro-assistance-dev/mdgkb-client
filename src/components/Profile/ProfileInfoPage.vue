@@ -312,7 +312,7 @@ import { useStore } from 'vuex';
 import EditPhone from '@/components/Profile/EditPhone.vue';
 import EducationPage from '@/components/Profile/Education/EducationPage.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 export default defineComponent({

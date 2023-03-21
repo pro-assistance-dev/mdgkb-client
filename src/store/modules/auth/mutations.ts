@@ -6,9 +6,9 @@ import User from '@/classes/User';
 import IChild from '@/interfaces/IChild';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
-import ITokens from '@/interfaces/ITokens';
-import IUser from '@/interfaces/IUser';
 import FavouriteService from '@/services/Favourite';
+import ITokens from '@/services/interfaces/ITokens';
+import IUser from '@/services/interfaces/IUser';
 import TokenService from '@/services/Token';
 import store from '@/store';
 
