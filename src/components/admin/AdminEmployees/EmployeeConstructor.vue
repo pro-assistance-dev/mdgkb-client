@@ -71,11 +71,7 @@
                 <el-input v-model="certificate.description" />
               </el-form-item>
               <el-form-item label="Загрузить сертификат">
-                <UploaderSingleScan 
-                  :height="238" 
-                  :file-info="certificate.scan" 
-                  @ratio="(e) => (element.ratio = e)"
-                />
+                <UploaderSingleScan :height="238" :file-info="certificate.scan" @ratio="(e) => (element.ratio = e)" />
               </el-form-item>
             </div>
           </template>

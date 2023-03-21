@@ -39,6 +39,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useStore } from 'vuex';
 
 import Cropper from '@/classes/Cropper';
+
 import ImageCropper from '@/components/ImageCropper.vue';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';

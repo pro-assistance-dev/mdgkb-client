@@ -1,11 +1,11 @@
 import { ElLoading } from 'element-plus';
 import { MutationTree } from 'vuex';
 
-import AdminButtonParams from '@/services/classes/admin/AdminButtonParams';
-import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import IPathPermission from '@/interfaces/IPathPermission';
+import AdminButtonParams from '@/services/classes/admin/AdminButtonParams';
+import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import menuList from '@/store/modules/admin/menuList';
 
 import { getDefaultState } from '.';
@@ -63,6 +63,7 @@ const mutations: MutationTree<State> = {
     });
   },
   setApplicationsCounts(state, items: IApplicationsCount[]) {
+    state.applicationsCounts = items;
     items.forEach((i: IApplicationsCount) => {
       let menu = state.menus.find((m: IAdminMenu) => m.tableName === i.tableName);
       if (menu) {

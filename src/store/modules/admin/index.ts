@@ -18,6 +18,7 @@ export const getDefaultState = (): State => {
     loading: undefined,
     menus: menuList,
     adminMenus: [],
+    applicationsCounts: [],
   };
 };
 

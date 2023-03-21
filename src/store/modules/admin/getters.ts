@@ -1,8 +1,9 @@
 import { GetterTree } from 'vuex';
 
-import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import IAdminMenu from '@/interfaces/IAdminMenu';
+import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import ISearchQuery from '@/interfaces/ISearchQuery';
+import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import UserService from '@/services/User';
 import RootState from '@/store/types';
 
@@ -30,6 +31,15 @@ const getters: GetterTree<State, RootState> = {
   },
   adminMenus(state): ISearchQuery[] {
     return state.adminMenus;
+  },
+  applicationsCounts(state): IApplicationsCount[] {
+    return state.applicationsCounts;
+  },
+  applicationsCount(state): (tableName: string) => number {
+    return (tableName: string): number => {
+      const applicationsCount = state.applicationsCounts.find((item: IApplicationsCount) => item.tableName === tableName);
+      return applicationsCount?.count || 0;
+    };
   },
 };
 

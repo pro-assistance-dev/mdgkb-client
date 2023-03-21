@@ -108,8 +108,6 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
@@ -117,11 +115,13 @@ import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue'
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IOption from '@/interfaces/schema/IOption';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import ResidencyApplicationsFiltersLib from '@/services/Provider/libs/filters/ResidencyApplicationsFiltersLib';
@@ -143,7 +143,7 @@ export default defineComponent({
     const onlyAdmissionFilter: Ref<IFilterModel> = ref(new FilterModel());
     const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
     const applicationsCount: ComputedRef<number> = computed(() =>
-      Provider.store.getters['meta/applicationsCount']('residency_applications')
+      Provider.store.getters['admin/applicationsCount']('residency_applications')
     );
 
     const isEditMode: Ref<boolean> = ref(false);

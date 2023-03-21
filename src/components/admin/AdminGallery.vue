@@ -20,7 +20,7 @@
           />
         </div>
         <div class="item-description">
-          <input class="item-description-form" v-model="element.description" placeholder="..." />
+          <input v-model="element.description" class="item-description-form" placeholder="..." />
         </div>
       </div>
     </template>

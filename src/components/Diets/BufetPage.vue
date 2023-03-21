@@ -103,7 +103,6 @@ import User from '@/classes/User';
 import AdaptiveContainerHorizontal from '@/components/Base/AdaptiveContainerHorizontal.vue';
 import HeaderInfo from '@/components/Base/HeaderInfo.vue';
 import ContactsBlock from '@/components/ContactsBlock.vue';
-import Announcement from '@/components/Diets/Announcement.vue';
 import DishCard from '@/components/Diets/DishCard.vue';
 import Filter from '@/components/Diets/Filter.vue';
 import Filters from '@/components/Diets/Filters.vue';
@@ -305,14 +304,6 @@ input[type='text'] {
     object-fit: cover;
   }
 }
-// .active-item {
-//   display: flex;
-//   align-items: center;
-//   white-space: nowrap;
-//   margin: 0 10px;
-//   color: #ffffff;
-//   background: #2754EB;
-// }
 
 .main {
   width: 100%;
@@ -471,7 +462,6 @@ input[type='text'] {
 
   .menu-period {
     display: flex;
-    // overflow-y: none;
   }
 
   .menu-period:last-child {
@@ -546,6 +536,11 @@ input[type='text'] {
   .title-group {
     font-size: 16px;
     margin-left: 10px;
+  }
+  .menu-shadow {
+    // overflow: hidden;
+    // overflow-y: auto;
+    align-items: start;
   }
 }
 </style>
