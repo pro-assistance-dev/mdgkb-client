@@ -1,12 +1,20 @@
 <template>
   <div class="table-card">
     <div class="left">
+      <div class="image-box">
+        <!-- <img
+          v-if="dailyMenuOrderItem.dishSample.image.fileSystemPath"
+          data-test="doctor-photo"
+          :src="dailyMenuOrderItem.dishSample.image.getImageUrl()"
+          alt="alt"
+          @error="dailyMenuOrderItem.dishSample.image.errorImg($event)"
+        /> -->
+        <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
+      </div>
       <div class="info">
+        <div class="small-title">Завтрак - Блюда из овощей</div>
         <div class="name">{{ dailyMenuOrderItem.dailyMenuItem.name }}</div>
-        <div class="bottom">
-          <div class="item1">Вес: {{ dailyMenuOrderItem.getWeightSum() }}гр.</div>
-          <div class="item2">Калории: {{ dailyMenuOrderItem.getCaloricSum() }}</div>
-        </div>
+        <div class="price">{{ dailyMenuOrderItem.getPriceSum() }}₽.</div>
       </div>
     </div>
     <div class="right">
@@ -14,15 +22,16 @@
         <div class="counter">
           <el-form>
             <el-form-item label="">
-              <el-input-number :min="1" :model-value="dailyMenuOrderItem.quantity" placeholder="1" @change="add"></el-input-number>
+              <el-input-number
+                :min="1"
+                :model-value="dailyMenuOrderItem.quantity"
+                placeholder="1"
+                @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, dailyMenuOrderItem.dailyMenuItem)"
+              ></el-input-number>
             </el-form-item>
           </el-form>
         </div>
-        <svg class="icon-delete-table" @click="removeItem">
-          <use xlink:href="#delete"></use>
-        </svg>
       </div>
-      <div class="price">{{ dailyMenuOrderItem.getPriceSum() }} р.</div>
     </div>
   </div>
   <Delete />
@@ -33,34 +42,25 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, PropType, Ref } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
-import IDailyMenuOrder from '@/interfaces/IDailyMenuOrder';
-import IDailyMenuOrderItem from '@/interfaces/IDailyMenuOrderItem';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import DailyMenuOrderItem from '@/classes/DailyMenuOrderItem';
 import Provider from '@/services/Provider/Provider';
+import DishCardButton from '@/components/Diets/DishCardButton.vue';
 
 export default defineComponent({
   name: 'BufetCard',
   components: {
     Delete,
+    DishCardButton,
   },
   props: {
     dailyMenuOrderItem: {
-      type: Object as PropType<IDailyMenuOrderItem>,
+      type: Object as PropType<DailyMenuOrderItem>,
       required: true,
     },
   },
   setup(props) {
-    const dailyMenuOrder: Ref<IDailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    const add = (curNum: number, prevNum: number) => {
-      changeDailyMenuOrderItemQuantity(curNum, prevNum);
-    };
-
-    const changeDailyMenuOrderItemQuantity = (curNum: number, prevNum: number) => {
-      if (curNum > prevNum) {
-        dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuOrderItem.dailyMenuItem);
-      } else {
-        dailyMenuOrder.value.decreaseDailyMenuOrderItem(props.dailyMenuOrderItem.dailyMenuItem);
-      }
-    };
+    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 
     const removeItem = () => {
       ElMessageBox.confirm('Убрить блюдо из корзины?', {
@@ -78,7 +78,6 @@ export default defineComponent({
 
     return {
       removeItem,
-      add,
       dailyMenuOrder,
     };
   },
@@ -92,27 +91,26 @@ export default defineComponent({
   justify-content: space-between;
   width: calc(100% - 10px);
   min-height: 45px;
-  border: 1px solid #c4c4c4;
+  // border: 1px solid #c4c4c4;
   padding: 5px;
   margin-bottom: -1px;
 }
 
 .image-box {
   display: block;
-  width: 140px;
-  height: 120px;
+  width: 96px;
+  height: 96px;
   overflow: hidden;
   margin-bottom: 5px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-right: 16px;
   position: relative;
   img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 140px;
-    height: 120px;
+    width: 96px;
+    height: 96px;
     object-fit: cover;
   }
 }
@@ -120,21 +118,33 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: left;
-  font-size: 12px;
+  font-size: 14px;
   color: #343e5c;
+}
+
+.small-title {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 100%;
+  height: 20px;
+  color: #a1a7bd;
+  font-size: 11px;
+  letter-spacing: 1px;
 }
 
 .left {
   display: flex;
-  align-items: center;
   min-width: 50%;
   justify-content: space-between;
 }
 
 .info {
+  margin-top: 10px;
   display: block;
   margin-right: 10px;
   width: 100%;
+  height: 100%;
 }
 
 .bottom {
@@ -170,7 +180,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   padding: 0 5px;
-  width: 102px;
+  width: 140px;
 }
 
 :deep(.el-form-item) {
@@ -188,13 +198,13 @@ export default defineComponent({
 }
 
 :deep(.el-form-item__content) {
-  line-height: 26px;
+  line-height: 32px;
 }
 
 :deep(.el-input__inner) {
-  border-radius: 40px;
+  border-radius: 8px;
   padding-left: 25px;
-  height: 26px;
+  height: 32px;
   width: 100%;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
@@ -208,9 +218,11 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   width: 24px;
-  height: 24px;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
+  height: 30px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background: #ffffff;
+  border: none;
 }
 
 :deep(.el-input-number__decrease) {
@@ -218,9 +230,11 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   width: 24px;
-  height: 24px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+  height: 30px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  background: #ffffff;
+  border: none;
 }
 
 .icon-delete-table {
@@ -240,7 +254,7 @@ export default defineComponent({
 .right-item {
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: right;
   width: 170px;
 }
 

@@ -23,7 +23,7 @@ git_merge: git_push
 	git merge @{-1}
 	git push
 
-git_deploy: git_push
+git_deploy:
 	git checkout master
 	git pull
 	git merge @{-1}

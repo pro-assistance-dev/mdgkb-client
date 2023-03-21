@@ -130,6 +130,24 @@ export default class FilterQuery {
     });
   }
 
+  setFilterModel(filterModel: FilterModel) {
+    console.log(this);
+    filterModel.isSet = true;
+    let item = this.filterModels.find((i: FilterModel) => i.id === filterModel.id);
+    if (item) {
+      item = filterModel;
+    } else {
+      this.filterModels.push(filterModel);
+    }
+  }
+
+  spliceFilterModel(id: string | undefined) {
+    const index = this.filterModels.findIndex((i: FilterModel) => i.id === id);
+    if (index > -1) {
+      this.filterModels.splice(index, 1);
+    }
+  }
+
   reset(): void {
     this.filterModels.forEach((filterModel: FilterModel) => {
       filterModel.isSet = false;

@@ -1,54 +1,49 @@
 <template>
-  <div class="projects-container">
-    <h2>Проекты</h2>
-    <div class="project-content">
-      <ul class="project-content-list">
-        <li v-for="item in projects" :key="item.id" @click="$router.push(`/projects/${item.slug}`)">
-          <div class="project-content-item">
-            <div class="project-colomn-img">
-              <img src="../../assets/news/img44.webp" alt="alt" />
-            </div>
-            <div class="project-colomn-text">
-              <div class="project-colomn-text-h2">{{ item.title }}</div>
-              <div class="project-colomn-text-h3" v-html="item.content"></div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="project-add-button">
-      <button class="add-button">Загрузить еще</button>
-    </div>
-
-    <!-- <el-card>
-      <div class="project-list">
-        <span v-for="item in projects" :key="item.id" @click="$router.push(`/projects/${item.slug}`)">
-          <span class="project-link">{{ item.title }}</span>
-        </span>
-      </div>
-    </el-card> -->
-  </div>
+  <PageComponent v-if="mounted" :custom-sections="customSections" :get-page="false" title="Проекты" @select-menu="selectProject">
+    <template v-for="section in customSections" :key="section" #[section.id]>
+      <component :is="section.component"></component>
+    </template>
+  </PageComponent>
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IProject from '@/interfaces/projects/IProject';
+import CustomSection from '@/classes/CustomSection';
+import Project from '@/classes/Project';
+import PageComponent from '@/components/Page/PageComponent.vue';
+import ProjectPage from '@/components/Projects/ProjectPage.vue';
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ProjectsList',
-
+  components: {
+    PageComponent,
+    ProjectPage,
+  },
   setup() {
-    const store = useStore();
-    const projects: ComputedRef<IProject[]> = computed(() => store.getters['projects/items']);
+    const projects: ComputedRef<Project[]> = computed(() => Provider.store.getters['projects/items']);
+    const customSections: Ref<CustomSection[]> = ref([]);
+    const mounted = ref(false);
 
     onBeforeMount(async () => {
-      await store.dispatch('projects/getAll');
+      await Provider.store.dispatch('projects/getAll');
+      const sections = projects.value.map((p: Project) => CustomSection.Create(p.id as string, p.title, 'ProjectPage'));
+      customSections.value.push(...sections);
+      mounted.value = true;
     });
 
+    const selectProject = async (e: PageSideMenu) => {
+      await Provider.store.dispatch('projects/get', e.id);
+    };
     return {
+      selectProject,
+      customSections,
       projects,
+      mounted,
     };
   },
 });

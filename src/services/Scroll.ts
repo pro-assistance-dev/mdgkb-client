@@ -6,7 +6,6 @@ export default function scroll(query?: string, yOffset?: number): void {
     document.body.scrollTo({ top: 0, behavior: 'smooth' });
     return;
   }
-  // document.body.scrollTo({ top: 0 });
   const el = document.querySelector(query);
   const offset = yOffset ?? HeaderHeight;
   let y = 0;

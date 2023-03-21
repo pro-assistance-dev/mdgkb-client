@@ -1,84 +1,120 @@
 <template>
   <div class="header-center">
-    <h2>Подготовки к исследованиям</h2>
+    <h1>Подготовки к исследованиям</h1>
   </div>
-  <el-input v-model="filter" prefix-icon="el-icon-search" placeholder="Найти исследование" size="large" />
-
-  <el-checkbox-group v-model="selectedTags">
-    <el-checkbox v-for="tag in tags" :key="tag.id" :label="tag.id"> {{ tag.name }}</el-checkbox>
-  </el-checkbox-group>
-
-  <div class="collapse" @change="collapseChangeHandler">
-    <div v-for="preparation in preparationsList" :key="preparation.id" @click="openPreparation(preparation.id)">
-      <h3 class="collapseHeader">{{ preparation.name }}</h3>
+  <div class="header-center">
+    <h2 v-if="curStep < 2">ВЫБЕРИТЕ СПОСОБ ОПЛАТЫ, ИССЛЕДОВАНИЕ И ПРЕДПОЛАГАЕМУЮ ДАТУ</h2>
+    <el-button v-if="curStep === 0" @click="curStep = 1">омс</el-button>
+    <el-button v-if="curStep === 0" @click="curStep = 1">дмс</el-button>
+  </div>
+  <div v-if="curStep === 1" style="display: flex; margin: 0 25%">
+    <div>
+      <h2>Инструментальные</h2>
+      <div v-for="preparition in preparations.filter((p) => !p.laboratory)" :key="preparition.id">
+        <span class="preparation" @click="toStepTwo(preparition)">{{ preparition.name }}</span>
+      </div>
+    </div>
+    <div>
+      <h2>Лабораторные</h2>
+      <div v-for="preparition in preparations.filter((p) => p.laboratory)" :key="preparition.id">
+        <span class="preparation" @click="toStepTwo(preparition)">{{ preparition.name }}</span>
+      </div>
     </div>
   </div>
-  <PreparationModal></PreparationModal>
+  <div v-if="curStep === 2" style="margin: 0 25%">
+    <div class="header-center">
+      <h2>ОЗНАКОМЬТЕСЬ С РЕКОМЕНДАЦИЯМИ И ПРАВИЛАМИ ПОДГОТОВКИ К ИССЛЕДОВАНИЮ</h2>
+    </div>
+    <ul v-for="groupRules in preparation.preparationRulesGroups.slice(0, 5)" :key="groupRules.id">
+      <li>
+        {{ groupRules.name }}
+        <ul>
+          <li v-for="rule in groupRules.preparationRules" :key="rule">{{ rule.name }}</li>
+        </ul>
+      </li>
+    </ul>
+    <el-checkbox v-model="curStepTwoAgree">Я подверждаю, что ознакомился</el-checkbox>
+    <div>
+      <el-button @click="toStepOne()">Назад</el-button>
+      <el-button :disabled="!curStepTwoAgree" @click="toStepThree()">Далее</el-button>
+    </div>
+  </div>
+  <div v-if="curStep === 3" style="margin: 0 25%">
+    <h2>ОЗНАКОМЬТЕСЬ С УСЛОВИЯ ХРАНЕНИЯ ВЗЯТИЯ, СДАЧИ И ХРАНЕНИЯ БИОМАТЕРИАЛА</h2>
+    <ul v-for="groupRules in preparation.preparationRulesGroups.slice(5)" :key="groupRules.id">
+      <li>
+        {{ groupRules.name }}
+        <ul>
+          <li v-for="rule in groupRules.preparationRules" :key="rule">{{ rule.name }}</li>
+        </ul>
+      </li>
+    </ul>
+    <el-checkbox v-model="curStepThreeAgree">Я подверждаю, что ознакомился</el-checkbox>
+    <div>
+      <el-button @click="toStepOne()">Назад</el-button>
+      <el-button :disabled="!curStepThreeAgree" @click="toStepFour()">Далее</el-button>
+    </div>
+  </div>
+  <div v-if="curStep === 4">
+    <div class="header-center">
+      <h2>ПОЖАЛУЙСТА, УКАЖИТЕ ДАННЫЕ И ПРЕДОСТАВЬТЕ НЕОБХОДИМЫЕ ДОКУЕНТЫ</h2>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import PreparationModal from '@/components/Preparations/PreparationModal.vue';
-import IPreparation from '@/interfaces/IPreparation';
-import IPreparationTag from '@/interfaces/IPreparationTag';
-import IPreparationToTag from '@/interfaces/IPreparationToTag';
+import Preparation from '@/classes/Preparation';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PreparationsPage',
-  components: { PreparationModal },
   async setup() {
-    const filter = ref('');
-    const store = useStore();
-    const filePath = ref('');
-    const preparations: ComputedRef<IPreparation[]> = computed<IPreparation[]>(() => store.getters['preparations/items']);
-    const tags: ComputedRef<IPreparationTag[]> = computed<IPreparationTag[]>(() => store.getters['preparations/tags']);
-    const selectedTags: Ref<string[]> = ref([]);
+    const preparations: ComputedRef<Preparation[]> = computed<Preparation[]>(() => Provider.store.getters['preparations/items']);
+    const preparation: ComputedRef<Preparation> = computed<Preparation>(() => Provider.store.getters['preparations/item']);
+    const curStep: Ref<number> = ref(0);
+    const curStepTwoAgree: Ref<boolean> = ref(false);
+    const curStepThreeAgree: Ref<boolean> = ref(false);
 
-    const preparationsList = computed((): IPreparation[] => {
-      let list: IPreparation[] = [];
-      if (filter.value) {
-        list = preparations.value.filter((o: IPreparation) => {
-          if (o.name) return o.name.toLowerCase().includes(filter.value.toLowerCase());
-        });
-      } else {
-        list = preparations.value;
-      }
-      if (selectedTags.value.length > 0) {
-        list = list.filter((prep: IPreparation) => {
-          return prep.preparationsToTags.some((prepToTag: IPreparationToTag) =>
-            selectedTags.value.some((tag: string) => tag === prepToTag.preparationTagId)
-          );
-        });
-      }
-
-      return list;
+    Hooks.onBeforeMount(async () => {
+      await Provider.store.dispatch('preparations/getAllWithCount');
     });
 
-    const activeName = ref(1);
-
-    onBeforeMount(async () => {
-      await store.dispatch('preparations/getAll');
-      await store.dispatch('preparations/getAllTags');
-    });
-
-    const collapseChangeHandler = () => {
-      filter.value = '';
+    const toStepTwo = (selectedPreparation: Preparation): void => {
+      Provider.store.commit('preparations/set', selectedPreparation);
+      curStep.value = 2;
     };
 
-    const openPreparation = (id: string) => store.commit('preparations/openPreparation', id);
+    const toStepOne = (): void => {
+      curStepTwoAgree.value = false;
+      curStep.value = 1;
+    };
+
+    const toStepFour = (): void => {
+      curStep.value = 4;
+    };
+
+    const toStepThree = (): void => {
+      if (!preparation.value.laboratory) {
+        toStepFour();
+        return;
+      }
+      curStep.value = 3;
+    };
 
     return {
-      selectedTags,
-      tags,
-      openPreparation,
-      filePath,
+      curStepThreeAgree,
+      toStepThree,
+      toStepFour,
+      toStepOne,
+      curStepTwoAgree,
+      preparation,
+      toStepTwo,
+      curStep,
       preparations,
-      preparationsList,
-      activeName,
-      filter,
-      collapseChangeHandler,
     };
   },
 });
@@ -87,15 +123,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/collapse.scss';
 
-.collapse {
-  margin-top: 10px;
-}
-
-.contact-form {
-  margin: 20px 100px 20px 10px;
-}
-
-.text-center {
-  text-align: center;
+.preparation {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 </style>

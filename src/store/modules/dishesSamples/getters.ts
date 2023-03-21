@@ -1,17 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IDishSample from '@/interfaces/IDishSample';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IDishSample[] {
-    return state.items;
-  },
-  item(state): IDishSample {
-    return state.item;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

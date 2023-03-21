@@ -31,8 +31,8 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import IDishesGroup from '@/interfaces/IDishesGroup';
-import IDishSample from '@/interfaces/IDishSample';
+import DishesGroup from '@/classes/DishesGroup';
+import DishSample from '@/classes/DishSample';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -41,8 +41,8 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
-    const dishesGroup: Ref<IDishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
-    const dishSample: Ref<IDishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
+    const dishesGroup: Ref<DishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
+    const dishSample: Ref<DishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
 
     const close = () => {

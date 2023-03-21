@@ -1,9 +1,9 @@
 import DishesGroup from '@/classes/DishesGroup';
 import FileInfo from '@/classes/File/FileInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDishSample from '@/interfaces/IDishSample';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class DishSample implements IDishSample {
+export default class DishSample {
   id?: string;
   name = '';
   price = 0;
@@ -13,36 +13,18 @@ export default class DishSample implements IDishSample {
   quantity = 0;
   additionalWeight = 0;
   dishesGroupId?: string;
-  dishesGroup = new DishesGroup();
   selected = false;
   image: IFileInfo = new FileInfo();
   imageId?: string;
-  updatedAt?: Date;
+  updatedAt?: Date = new Date();
+  proteins = 0;
+  fats = 0;
+  carbohydrates = 0;
+  dietary = false;
+  lean = false;
 
-  constructor(i?: IDishSample) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.weight = i.weight;
-    this.additionalWeight = i.additionalWeight;
-    this.price = i.price;
-    this.caloric = i.caloric;
-    this.quantity = i.quantity;
-    this.order = i.order;
-    this.dishesGroupId = i.dishesGroupId;
-    if (i.updatedAt) {
-      this.updatedAt = new Date(i.updatedAt);
-    }
-
-    if (i.dishesGroup) {
-      this.dishesGroup = new DishesGroup(i.dishesGroup);
-    }
-    this.imageId = i.imageId;
-    if (i.image) {
-      this.image = new FileInfo(i.image);
-    }
+  constructor(i?: DishSample) {
+    ClassHelper.BuildClass(this, i);
   }
 
   removeImage(): void {

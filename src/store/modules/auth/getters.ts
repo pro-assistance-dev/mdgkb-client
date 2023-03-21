@@ -2,6 +2,7 @@ import { GetterTree } from 'vuex';
 
 import IPathPermission from '@/interfaces/IPathPermission';
 import IUser from '@/interfaces/IUser';
+import TokenService from '@/services/Token';
 import RootState from '@/store/types';
 
 import State from './state';
@@ -17,7 +18,6 @@ const getters: GetterTree<State, RootState> = {
     return state.user;
   },
   isAuth(state): boolean {
-    // state.isAuth = TokenService.isAuth();
     return state.isAuth;
   },
   authModalVisible(state): boolean {

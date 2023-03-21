@@ -9,10 +9,10 @@
     </colgroup>
     <thead>
       <th><h4>ТИП</h4></th>
-      <th><h4>НАЗВАНИЕ</h4></th>
+      <th><h4>ИНФОРМАЦИЯ</h4></th>
       <th><h4>ДАТА&nbsp;ПОДАЧИ</h4></th>
       <th><h4>СТАТУС</h4></th>
-      <th><h4>ДОСТУПНЫЕ ДЕЙСТВИЯ</h4></th>
+      <!--      <th><h4>ДОСТУПНЫЕ ДЕЙСТВИЯ</h4></th>-->
     </thead>
     <tbody>
       <tr v-for="formValue in user.formValues" :key="formValue.id" data-test="forms-list">
@@ -42,47 +42,47 @@
           </div>
         </td>
 
-        <td>
-          <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">
-            <div v-if="item.childFormStatus.userActionName">
-              <el-popover
-                v-if="item.childFormStatus.icon.fileSystemPath"
-                placement="top-start"
-                width="auto"
-                trigger="hover"
-                :content="item.childFormStatus.userActionName"
-              >
-                <template #reference>
-                  <button>
-                    <img
-                      :src="item.childFormStatus.icon.getImageUrl()"
-                      alt="alt"
-                      @click="updateFormStatus(formValue, item.childFormStatus)"
-                    />
-                  </button>
-                </template>
-              </el-popover>
-              <button
-                v-else
-                :style="`background-color: ${item.childFormStatus.color}; color: white; border: 1px solid ${item.childFormStatus.color}`"
-                @click="updateFormStatus(formValue, item.childFormStatus)"
-              >
-                {{ item.childFormStatus.userActionName }}
-              </button>
-            </div>
-          </div>
-        </td>
+        <!--        <td>-->
+        <!--          <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">-->
+        <!--            <div v-if="item.childFormStatus.userActionName">-->
+        <!--              <el-popover-->
+        <!--                v-if="item.childFormStatus.icon.fileSystemPath"-->
+        <!--                placement="top-start"-->
+        <!--                width="auto"-->
+        <!--                trigger="hover"-->
+        <!--                :content="item.childFormStatus.userActionName"-->
+        <!--              >-->
+        <!--                <template #reference>-->
+        <!--                  <button>-->
+        <!--                    <img-->
+        <!--                      :src="item.childFormStatus.icon.getImageUrl()"-->
+        <!--                      alt="alt"-->
+        <!--                      @click="updateFormStatus(formValue, item.childFormStatus)"-->
+        <!--                    />-->
+        <!--                  </button>-->
+        <!--                </template>-->
+        <!--              </el-popover>-->
+        <!--              <button-->
+        <!--                v-else-->
+        <!--                :style="`background-color: ${item.childFormStatus.color}; color: white; border: 1px solid ${item.childFormStatus.color}`"-->
+        <!--                @click="updateFormStatus(formValue, item.childFormStatus)"-->
+        <!--              >-->
+        <!--                {{ item.childFormStatus.userActionName }}-->
+        <!--              </button>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </td>-->
       </tr>
     </tbody>
   </table>
-  <el-dialog v-model="cancelDialogVisible" title="Для отмены заявки загрузите заявление об отзыве документов" width="40%">
-    <CancelDialogForm
-      :form-value="selectedFormValue"
-      @close-dialog="cancelDialogVisibleOff"
-      @cancel-application="updateApplication"
-    ></CancelDialogForm>
-    <span class="dialog-footer"> </span>
-  </el-dialog>
+  <!--  <el-dialog v-model="cancelDialogVisible" title="Для отмены заявки загрузите заявление об отзыве документов" width="40%">-->
+  <!--    <CancelDialogForm-->
+  <!--      :form-value="selectedFormValue"-->
+  <!--      @close-dialog="cancelDialogVisibleOff"-->
+  <!--      @cancel-application="updateApplication"-->
+  <!--    ></CancelDialogForm>-->
+  <!--    <span class="dialog-footer"> </span>-->
+  <!--  </el-dialog>-->
 </template>
 
 <script lang="ts">
@@ -97,7 +97,6 @@ import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ApplicationTable',
-  components: { CancelDialogForm },
   props: {
     user: {
       type: Object as PropType<IUser>,

@@ -1,9 +1,10 @@
+import DpoApplication from '@/classes/DpoApplication';
 import Form from '@/classes/Form';
+import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import IField from '@/interfaces/IField';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 
-import DpoApplication from '@/classes/DpoApplication';
 import IFileInfo from './files/IFileInfo';
 import ICandidateApplication from './ICandidateApplication';
 import IChild from './IChild';
@@ -12,7 +13,6 @@ import IFormStatus from './IFormStatus';
 import IFormStatusGroup from './IFormStatusGroup';
 import IUser from './IUser';
 import IVisitsApplication from './IVisitsApplication';
-import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import IVacancyResponse from './vacancyResponse/IVacancyResponse';
 
 export default interface IForm {
@@ -27,6 +27,7 @@ export default interface IForm {
   fieldValues: IFieldValue[];
   formStatus: IFormStatus;
   approvingDate?: Date;
+  withApprovingDate: boolean;
   fieldValuesForDelete: string[];
   validated?: boolean;
   createdAt?: Date;
@@ -79,6 +80,8 @@ export default interface IForm {
   getApplicationNameLink: () => string;
   getRequiredForCancelFields: () => IField[];
   getFieldsByCodes: (codes: string[]) => IField[];
+  getFieldByCode: (code: string) => IField | undefined;
+  getFieldValueByCode: (code: string) => IFieldValue | undefined;
   clearAllFields: () => void;
   addForValueFile: () => void;
 

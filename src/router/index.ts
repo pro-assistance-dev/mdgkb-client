@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNorma
 
 import Contacts from '@/components/Contacts/Contacts.vue';
 import DevPage from '@/components/DevPage.vue';
-import BufetWrapper from '@/components/Diets/BufetWrapper.vue';
+import BufetPage from '@/components/Diets/BufetPage.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
@@ -54,7 +54,19 @@ export const isAuthorized = (next: NavigationGuardNext): void => {
   next();
 };
 
-export const authGuard = (): void => {
+export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
+  if (next) {
+    await store.dispatch('auth/setAuth');
+    const isAuth: boolean = store.getters['auth/isAuth'];
+    store.commit('auth/showWarning', true);
+    store.commit('auth/authOnly', true);
+    if (!isAuth) {
+      store.commit('auth/openModal', 'login');
+    }
+    next();
+    return;
+  }
+
   if (!TokenService.isAuth()) {
     router.push('/');
   }
@@ -215,17 +227,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/bufet',
     name: 'BufetPage',
-    component: BufetWrapper,
-  },
-  {
-    path: '/bufet/cart',
-    name: 'BufetCart',
-    component: BufetWrapper,
-  },
-  {
-    path: '/bufet/order',
-    name: 'BufetOrder',
-    component: BufetWrapper,
+    component: BufetPage,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard(next);
+    },
   },
   {
     path: '/screening',

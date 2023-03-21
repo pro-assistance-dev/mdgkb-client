@@ -141,7 +141,6 @@ import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Employee from '@/classes/Employee';
-import FilterModel from '@/services/classes/filters/FilterModel';
 import Head from '@/classes/Head';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
@@ -149,6 +148,7 @@ import DatePicker from '@/components/DatePicker.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import Human from '@/services/classes/Human';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
 import Provider from '@/services/Provider/Provider';
@@ -165,10 +165,11 @@ export default defineComponent({
   },
   setup() {
     const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
-    const employees: Ref<Employee[]> = Provider.items;
+    const employees: Ref<Employee[]> = computed(() => Provider.store.getters['employees/items']);
     let filterModel: FilterModel = EmployeesFiltersLib.byFullName();
 
     const completeInput = async (human: Human) => {
+      console.log('COMPLETEINPUT');
       filterModel.value1 = human.getFullName();
       Provider.setFilterModel(filterModel);
       await Provider.loadItems();
