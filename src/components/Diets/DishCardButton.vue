@@ -140,6 +140,7 @@ export default defineComponent({
   cursor: pointer;
   transition: 0, 3s;
   opacity: 0.8;
+  padding: 9px;
 }
 
 .icon-plus:hover {
@@ -159,6 +160,7 @@ export default defineComponent({
   cursor: pointer;
   transition: 0, 3s;
   opacity: 0.8;
+  padding: 9px;
 }
 
 .icon-minus:hover {

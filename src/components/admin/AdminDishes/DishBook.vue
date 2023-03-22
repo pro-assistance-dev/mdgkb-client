@@ -39,10 +39,15 @@
               >
                 <label :for="999">
                   <div class="dish-item">
-                    <div class="left-field">{{ dishSample.name }}</div>
+                    <div class="left-field">
+                      {{ dishSample.name }}
+                    </div>
                     <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
                   </div>
                 </label>
+                <svg class="icon-edit">
+                  <use xlink:href="#profile-edit" />
+                </svg>
               </div>
             </div>
           </template>
@@ -56,10 +61,14 @@
           :class="{ checked: dishSample.selected }"
           @click="selectSample(dishSample)"
         >
-          <!-- <div class="group-item"> -->
           <label :for="999">
             <div class="dish-item">
-              <div class="left-field">{{ dishSample.name }}</div>
+              <div class="left-field">
+                {{ dishSample.name }}
+                <svg class="icon-edit">
+                  <use xlink:href="#profile-edit" />
+                </svg>
+              </div>
               <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
             </div>
           </label>
@@ -67,7 +76,6 @@
       </div>
     </div>
   </div>
-  <!-- </div> -->
   <Edit />
   <AddToMenu />
   <Save />
@@ -283,14 +291,15 @@ export default defineComponent({
   margin-right: 24px;
 }
 
-.group-item:hover {
-  background: #a8dcef;
-}
-
 .group-item {
   display: flex;
   align-items: center;
   width: 100%;
+  position: relative;
+}
+
+.group-item:hover {
+  background: #a8dcef;
 }
 
 .dish-item {
@@ -351,13 +360,16 @@ export default defineComponent({
 }
 
 .icon-edit {
-  width: 16px;
-  height: 16px;
+  position: absolute;
+  right: 0px;
+  width: 12px;
+  height: 12px;
   stroke: #343e5c;
   fill: none;
-  margin-left: 10px;
   cursor: pointer;
   transition: 0.3s;
+  display: none;
+  padding: 8px;
 }
 
 .icon-edit:hover {
@@ -378,5 +390,9 @@ export default defineComponent({
 .search {
   margin-left: 10px;
   width: 210px;
+}
+
+.group-item:hover > .icon-edit {
+  display: block;
 }
 </style>
