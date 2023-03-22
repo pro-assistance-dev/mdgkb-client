@@ -154,10 +154,9 @@ export default defineComponent({
       dailyMenu.value.actualize(todayMenu.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
-      initForm();
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
-
+      initForm();
       await getDishesGroups();
       dailyMenu.value.dishesGroups = dishesGroups.value;
       dailyMenu.value.initGroups();

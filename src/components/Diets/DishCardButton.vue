@@ -37,22 +37,13 @@
         В корзину
       </div>
     </div>
-    <div v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) > 0" class="inblock">
-      <svg class="icon-minus" @click="dailyMenuOrder.decreaseDailyMenuOrderItem(dailyMenuItem)">
-        <use xlink:href="#minus"></use>
-      </svg>
-      <div class="text">{{ dailyMenuOrder.getItemQuantity(dailyMenuItem) }}</div>
-      <svg class="icon-plus" @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)">
-        <use xlink:href="#plus"></use>
-      </svg>
-    </div>
     <div v-if="dailyMenuItem.cook" class="inblock">
       <svg class="icon-loader">
         <use xlink:href="#loader"></use>
       </svg>
       <div class="text">Готовится</div>
     </div>
-    <div v-if="dailyMenuItem.tomorrowAvailable" class="inblock">
+    <div v-else-if="dailyMenuItem.tomorrowAvailable" class="inblock">
       <div
         class="text"
         :style="{
@@ -61,6 +52,15 @@
       >
         Доступно завтра
       </div>
+    </div>
+    <div v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) > 0" class="inblock">
+      <svg class="icon-minus" @click="dailyMenuOrder.decreaseDailyMenuOrderItem(dailyMenuItem)">
+        <use xlink:href="#minus"></use>
+      </svg>
+      <div class="text">{{ dailyMenuOrder.getItemQuantity(dailyMenuItem) }}</div>
+      <svg class="icon-plus" @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)">
+        <use xlink:href="#plus"></use>
+      </svg>
     </div>
     <Icons />
   </div>

@@ -87,6 +87,7 @@ import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorI
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import IComment from '@/interfaces/comments/IComment';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import StringsService from '@/services/Strings';
@@ -111,10 +112,13 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    selectedSample: {
+      type: Object as PropType<DishSample | undefined>,
+      required: true,
+    },
   },
-
   emits: ['close'],
-  setup() {
+  setup(props) {
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroup: Ref<DishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
@@ -130,10 +134,9 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await Promise.all([Provider.store.dispatch('dishesGroups/getAll'), Provider.store.dispatch('dishesSamples/getAll')]);
-
-      // console.log('1');
-      // await ;
-      // console.log('e');
+      if (props.selectedSample?.id) {
+        openDishSampleConstructor(props.selectedSample);
+      }
     });
 
     const removeDishesGroup = async (id: string) => {

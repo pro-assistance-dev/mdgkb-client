@@ -320,6 +320,11 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
     };
 
+    const setDailyMenuItemCook = async (dailyMenuItem: DailyMenuItem, cook: boolean) => {
+      dailyMenuItem.cook = cook;
+      await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
+    };
+
     const updateSelectedMenu = async (): Promise<void> => {
       await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
     };
@@ -328,27 +333,37 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
     };
     const removeFromMenu = async (dishesGroup: DishesGroup, dishItem?: DailyMenuItem): Promise<void> => {
-      if (!selectedMenu.value) {
-        return;
-      }
-      if (!dishItem) {
-        for (const id of dishesGroup.getDailyMenuItemsIds()) {
-          await Provider.store.dispatch('dailyMenuItems/remove', id);
-        }
-        selectedMenu.value?.removeMenuItems(dishesGroup.getDailyMenuItemsIds(), dishesGroups.value);
-        return;
-      }
-      const i = dishesGroup.dailyMenuItems.findIndex((di: DailyMenuItem) => di.id === dishItem.id);
-      if (i < 0) {
-        return;
-      }
-      ClassHelper.RemoveFromClassById(dishItem.id, dishesGroup.dailyMenuItems, []);
-      if (dishItem.id) {
-        selectedMenu.value.removeMenuItem(dishItem.id, dishesGroups.value);
-      }
-      selectedMenu.value.groupDishes(dishesGroups.value);
-      await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
-      await Provider.store.dispatch('dailyMenus/updateWithoutReset');
+      ElMessageBox.confirm('Вы действительно хотите удалить?', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Нет',
+      })
+        .then(async () => {
+          if (!selectedMenu.value) {
+            return;
+          }
+          if (!dishItem) {
+            for (const id of dishesGroup.getDailyMenuItemsIds()) {
+              await Provider.store.dispatch('dailyMenuItems/remove', id);
+            }
+            selectedMenu.value?.removeMenuItems(dishesGroup.getDailyMenuItemsIds(), dishesGroups.value);
+            return;
+          }
+          const i = dishesGroup.dailyMenuItems.findIndex((di: DailyMenuItem) => di.id === dishItem.id);
+          if (i < 0) {
+            return;
+          }
+          ClassHelper.RemoveFromClassById(dishItem.id, dishesGroup.dailyMenuItems, []);
+          if (dishItem.id) {
+            selectedMenu.value.removeMenuItem(dishItem.id, dishesGroups.value);
+          }
+          selectedMenu.value.groupDishes(dishesGroups.value);
+          await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
+          await Provider.store.dispatch('dailyMenus/updateWithoutReset');
+        })
+        .catch(() => {
+          return;
+        });
     };
 
     const pdf = async () => {

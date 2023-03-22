@@ -109,6 +109,7 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['editDishSample'],
   setup(props) {
     const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0));
