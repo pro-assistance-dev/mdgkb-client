@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column label="Подано" min-width="150">
         <template #default="scope">
-          {{ scope.row.admissionCommittee ? `Приемная кампания ${scope.row.residencyCourse.startYear.year.getFullYear()}` : `Ординатура` }}
+          {{ scope.row.admissionCommittee ? `Приемная кампания ${scope.row.residencyCourse?.startYear.year.getFullYear()}` : `Ординатура` }}
         </template>
       </el-table-column>
       <el-table-column label="Номер заявления" align="center" width="150">
@@ -68,7 +68,7 @@
       </el-table-column>
       <el-table-column label="Наименование курса" min-width="200">
         <template #default="scope">
-          {{ scope.row.residencyCourse.getMainSpecialization().name }}
+          {{ scope.row.residencyCourse?.getMainSpecialization().name }}
         </template>
       </el-table-column>
       <el-table-column label="Баллы за вступительные испытания" align="center" width="150">
@@ -108,8 +108,6 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
@@ -117,11 +115,13 @@ import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue'
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IOption from '@/interfaces/schema/IOption';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import ResidencyApplicationsFiltersLib from '@/services/Provider/libs/filters/ResidencyApplicationsFiltersLib';
@@ -175,7 +175,7 @@ export default defineComponent({
 
     const load = async () => {
       Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
-      Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
+      // Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
       await loadApplications();
       await loadFilters();
       onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();

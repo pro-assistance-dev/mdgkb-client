@@ -7,7 +7,7 @@
     <PaidServices :items-with-paid-service="doctor.doctorPaidServices" />
     <DoctorAchievements :doctor="doctor" />
     <ScansSlider :gallery-elements="doctor.employee.certificates" />
-    <DoctorDateAndTime />
+    <DoctorDateAndTime :doctor="doctor" />
     <NewsSlider :news="doctor.newsDoctors" />
     <Comments store-module="doctors" :parent-id="doctor.id" :is-reviews="true" />
   </div>

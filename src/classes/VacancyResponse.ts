@@ -7,7 +7,7 @@ import Form from './Form';
 
 export default class VacancyResponse implements IVacancyResponse {
   id?: string;
-  vacancy?: Vacancy;
+  vacancy = new Vacancy();
   vacancyId?: string;
 
   formValue = new Form();
