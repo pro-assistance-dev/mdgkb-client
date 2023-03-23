@@ -48,7 +48,7 @@
           borderLeft: !isSingle ? '' : 'none',
           borderTopLeftRadius: !isSingle ? '' : '0',
           borderBottomLeftRadius: !isSingle ? '' : '0',
-          padding: isBufet ? '16px 0' : '25px 0',
+          padding: isBufet ? '16px 0' : '25px',
         }"
       >
         <div
@@ -61,9 +61,7 @@
             <slot name="small-title" />
           </div>
           <div class="mainblock-right1-item2">
-            <div class="animation">
-              <slot name="big-title" />
-            </div>
+            <slot name="big-title" />
           </div>
           <div v-if="!isBufet" class="mainblock-right1-item3">
             <slot name="tags" />
@@ -161,7 +159,6 @@ export default defineComponent({
   width: 100%;
   border-radius: $normal-border-radius;
   border: $normal-border;
-  padding: 25px;
   background: $base-background;
 }
 
