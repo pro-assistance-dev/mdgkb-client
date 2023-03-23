@@ -206,4 +206,10 @@ export default class DailyMenu {
       }
     });
   }
+
+  getCopy(): DailyMenu {
+    const menuCopy = new DailyMenu(this);
+    menuCopy.id = undefined;
+    return menuCopy;
+  }
 }

@@ -204,6 +204,11 @@ export default defineComponent({
     const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const menuCopy: Ref<DailyMenu | undefined> = ref(undefined);
+
+    const copyMenu = () => {
+      menuCopy.value = selectedMenu.value.getCopy();
+    };
 
     const saveMenusOrder = async () => {
       sort(dailyMenus.value);
@@ -238,6 +243,16 @@ export default defineComponent({
         selectedMenu.value = dailyMenus.value[dailyMenus.value.length - 1];
         selectedMenu.value?.initGroups();
       });
+    };
+
+    const pasteMenu = async () => {
+      if (!menuCopy.value) {
+        return;
+      }
+      menuCopy.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - new Date().getTimezoneOffset() * 6000);
+      dailyMenus.value.push(menuCopy.value);
+      Provider.store.commit('dailyMenus/set', menuCopy.value);
+      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
     };
 
     const addMenu = async () => {
@@ -371,6 +386,7 @@ export default defineComponent({
     };
 
     return {
+      pasteMenu,
       pdf,
       setGroupAvailable,
       removeFromMenu,
