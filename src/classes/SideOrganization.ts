@@ -5,9 +5,9 @@ import ClassHelper from '@/services/ClassHelper';
 export default class SideOrganization implements ISideOrganization {
   id?: string;
   name?: string;
-  description?: string;
+  description = '';
   @ClassHelper.GetClassConstructor(ContactInfo)
-  contactInfo?: ContactInfo;
+  contactInfo = new ContactInfo();
 
   constructor(i?: ISideOrganization) {
     ClassHelper.BuildClass(this, i);

@@ -1,7 +1,7 @@
 <template>
   <CollapseItem :tab-id="100" :is-collaps="false">
     <template #inside-title>
-      <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments.length }}):</div>
+      <div class="title-in">{{ !isReviews ? 'Комментарии' : 'Отзывы' }} ({{ comments?.length }}):</div>
     </template>
     <template #inside-content>
       <div id="reviews" :class="{ reviews: isReviews }">
@@ -9,7 +9,7 @@
           <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4>
           <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
         </div>
-        <div v-if="comments.length" id="comments-block">
+        <div v-if="comments?.length" id="comments-block">
           <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
             <CommentCard :comment="item.comment" :is-review="isReviews" />
           </div>
