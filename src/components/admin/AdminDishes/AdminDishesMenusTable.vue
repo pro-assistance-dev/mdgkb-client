@@ -45,6 +45,22 @@
         </div>
       </div>
       <div class="tools-block">
+        <button class="tools-button">
+          <svg class="icon-copy" @click="toggleCopyWindow">
+            <use xlink:href="#copy"></use>
+          </svg>
+          <div v-if="isOpenCopy" class="hidden-copy">
+            <CopyWindow @onClick="toggleCopyWindow" />
+          </div>
+        </button>
+        <button class="tools-button">
+          <svg class="icon-paste" @click="togglePasteWindow">
+            <use xlink:href="#paste" />
+          </svg>
+          <div v-if="isOpenPaste" class="hidden-paste">
+            <PasteWindow @onClick="togglePasteWindow" />
+          </div>
+        </button>
         <button class="tools-button" @click="pdf">
           <svg class="icon-excel">
             <use xlink:href="#excel" />
@@ -126,6 +142,9 @@
                     <svg v-if="!dish.available" class="icon-closed" @click="setDailyMenuItemAvailable(dish, true)">
                       <use xlink:href="#eye-closed" />
                     </svg>
+                    <svg class="icon-load">
+                      <use xlink:href="#food"></use>
+                    </svg>
                   </div>
                 </td>
                 <td :class="{ visible: dish.available, hidden: !dish.available }" style="font-size: 12px">
@@ -152,6 +171,7 @@
       </div>
     </div>
   </div>
+  <Food />
   <Add />
   <Delete />
   <Print />
@@ -161,6 +181,8 @@
   <NonActive />
   <Close />
   <Excel />
+  <Copy />
+  <Paste />
 </template>
 
 <script lang="ts">
@@ -171,20 +193,26 @@ import draggable from 'vuedraggable';
 import Active from '@/assets/svg/Buffet/Active.svg';
 import Add from '@/assets/svg/Buffet/Add.svg';
 import Close from '@/assets/svg/Buffet/Close.svg';
+import Copy from '@/assets/svg/Buffet/Copy.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Excel from '@/assets/svg/Buffet/Excel.svg';
 import Eye from '@/assets/svg/Buffet/Eye.svg';
 import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
+import Food from '@/assets/svg/Buffet/Food.svg';
 import NonActive from '@/assets/svg/Buffet/NonActive.svg';
+import Paste from '@/assets/svg/Buffet/Paste.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
 import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
+import CopyWindow from '@/components/admin/AdminDishes/CopyWindow.vue';
+import PasteWindow from '@/components/admin/AdminDishes/PasteWindow.vue';
 import Calendar from '@/services/classes/calendar/Calendar';
 import ClassHelper from '@/services/ClassHelper';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
+
 export default defineComponent({
   name: 'AdminDishesMenusTable',
   components: {
@@ -197,7 +225,12 @@ export default defineComponent({
     NonActive,
     Close,
     Excel,
+    Food,
     draggable,
+    Copy,
+    Paste,
+    CopyWindow,
+    PasteWindow,
   },
   setup() {
     const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
@@ -209,6 +242,8 @@ export default defineComponent({
     const copyMenu = () => {
       menuCopy.value = selectedMenu.value.getCopy();
     };
+    const isOpenCopy: Ref<boolean> = ref(false);
+    const isOpenPaste: Ref<boolean> = ref(false);
 
     const saveMenusOrder = async () => {
       sort(dailyMenus.value);
@@ -385,6 +420,16 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
     };
 
+    const toggleCopyWindow = () => {
+      isOpenPaste.value = false;
+      isOpenCopy.value = !isOpenCopy.value;
+    };
+
+    const togglePasteWindow = () => {
+      isOpenCopy.value = false;
+      isOpenPaste.value = !isOpenPaste.value;
+    };
+
     return {
       pasteMenu,
       pdf,
@@ -402,12 +447,17 @@ export default defineComponent({
       startMenu,
       updateSelectedMenu,
       setDailyMenuItemAvailable,
+      toggleCopyWindow,
+      isOpenCopy,
+      togglePasteWindow,
+      isOpenPaste,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 $margin: 20px 0;
 
 .blue {
@@ -487,6 +537,7 @@ $margin: 20px 0;
 }
 
 .tools-button {
+  position: relative;
   background: #ffffff;
   border-radius: none;
   border: none;
@@ -538,6 +589,20 @@ $margin: 20px 0;
   margin-top: 1px;
 }
 
+.icon-load {
+  margin-left: 8px;
+  margin-top: 1px;
+  width: 18px;
+  height: 18px;
+  stroke: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-load:hover {
+  stroke: #379fff;
+}
+
 .icon-delete:hover {
   fill: #379fff;
 }
@@ -565,6 +630,30 @@ $margin: 20px 0;
 }
 
 .icon-excel:hover {
+  fill: #379fff;
+}
+
+.icon-copy {
+  width: 24px;
+  height: 24px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-copy:hover {
+  fill: #379fff;
+}
+
+.icon-paste {
+  width: 24px;
+  height: 24px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-paste:hover {
   fill: #379fff;
 }
 
@@ -1097,5 +1186,29 @@ input[type='text'] {
 :deep(.el-badge__content.is-fixed) {
   top: 3px;
   right: 16px;
+}
+
+.hidden-copy {
+  position: absolute;
+  top: 0;
+  left: -150px;
+  z-index: 1;
+  display: block;
+  background: #ffffff;
+  border: $normal-border;
+  border-radius: $normal-border-radius;
+  box-shadow: $normal-shadow;
+}
+
+.hidden-paste {
+  position: absolute;
+  top: 0;
+  left: -150px;
+  z-index: 1;
+  display: block;
+  background: #ffffff;
+  border: $normal-border;
+  border-radius: $normal-border-radius;
+  box-shadow: $normal-shadow;
 }
 </style>

@@ -262,19 +262,6 @@ $margin: 20px 0;
   fill: #379fff;
 }
 
-.icon-edit {
-  width: 16px;
-  height: 16px;
-  stroke: #343e5c;
-  fill: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.icon-edit:hover {
-  stroke: #3796eb;
-}
-
 .new-group {
   display: flex;
   justify-content: space-between;

@@ -11,7 +11,7 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+          {{ $dateTimeFormatter.format(scope.row.formValue?.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
         </template>
       </el-table-column>
       <el-table-column label="Email заявителя" min-width="150">
@@ -69,8 +69,8 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.setSortList(...createSortModels(PostgraduateApplicationsSortsLib));
-      Provider.setSortModels(PostgraduateApplicationsSortsLib.byCreatedAt(Orders.Desc));
+      // Provider.setSortList(...createSortModels(PostgraduateApplicationsSortsLib));
+      // Provider.setSortModels(PostgraduateApplicationsSortsLib.byCreatedAt(Orders.Desc));
       await loadApplications();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Заявки на обучение в аспирантуре',

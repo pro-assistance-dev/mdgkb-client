@@ -36,7 +36,7 @@
         </div>
         <el-descriptions v-else :column="1" border>
           <el-descriptions-item label="Наименование программы:">
-            {{ application.residencyCourse.getFullName() }}
+            {{ application.residencyCourse?.getFullName() }}
           </el-descriptions-item>
           <el-descriptions-item label="Платно/бесплатно:">
             {{ application.paid ? 'Платно' : 'Бесплатно' }}
@@ -65,7 +65,7 @@
         </el-descriptions>
       </el-card>
 
-      <div v-if="application.residencyCourse.id">
+      <div v-if="application.residencyCourse?.id">
         <AdminFormValue
           :form="application.formValue"
           :validate-email="false"

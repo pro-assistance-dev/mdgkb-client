@@ -36,7 +36,7 @@ import DishSample from '@/classes/DishSample';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
-  name: 'AddForm',
+  name: 'DishInfo',
   emits: ['close'],
 
   setup(_, { emit }) {
