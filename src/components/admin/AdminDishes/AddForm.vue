@@ -10,41 +10,52 @@
             <el-option v-for="item in dishesGroups" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item label="Выход, грамм" prop="weight">
-          <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
-        </el-form-item>
-        <el-form-item label="Соус, грамм" prop="weight">
-          <el-input-number v-model="dishSample.additionalWeight" placeholder="0"></el-input-number>
-        </el-form-item>
-        <el-form-item label="Цена:" prop="price">
-          <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
-        </el-form-item>
-        <el-form-item label="Стандартное кол-во" prop="price">
-          <el-input-number v-model="dishSample.quantity" placeholder="0"></el-input-number>
-        </el-form-item>
-        <el-form-item label="&nbsp;&nbsp;Калорийность, ккал:" prop="caloric">
-          <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
-        </el-form-item>
-        <el-form-item label="&nbsp;&nbsp;Белки, ккал:" prop="proteins">
-          <el-input-number v-model="dishSample.proteins" placeholder="Белки"></el-input-number>
+        <div style="display: flex">
+          <el-form-item label="Выход" prop="weight" label-width="60px">
+            <el-input-number v-model="dishSample.weight" placeholder="0"></el-input-number>
+          </el-form-item>
+          <el-form-item label="Соус" prop="weight" label-width="55px">
+            <el-input-number v-model="dishSample.additionalWeight" placeholder="0"></el-input-number>
+          </el-form-item>
+          <el-form-item label="&nbsp;&nbsp;Калорийность:" prop="caloric" label-width="110px">
+            <el-input-number v-model="dishSample.caloric" placeholder="Калории"></el-input-number>
+          </el-form-item>
+        </div>
+        <div style="display: flex">
+          <el-form-item label="Цена:" prop="price" label-width="60px">
+            <el-input-number v-model="dishSample.price" placeholder="0"></el-input-number>
+          </el-form-item>
+          <el-form-item label="Количество" prop="price" label-width="120px">
+            <el-input-number v-model="dishSample.quantity" placeholder="0"></el-input-number>
+          </el-form-item>
+        </div>
+        <div style="display: flex">
+          <el-form-item label="&nbsp;&nbsp;Белки:" prop="proteins" label-width="60px">
+            <el-input-number v-model="dishSample.proteins" placeholder="Белки"></el-input-number>
+          </el-form-item>
+          <el-form-item label="&nbsp;&nbsp;Жиры:" prop="fats" label-width="60px">
+            <el-input-number v-model="dishSample.fats" placeholder="Жиры"></el-input-number>
+          </el-form-item>
+          <el-form-item label="&nbsp;&nbsp;Углеводы:" prop="carbohydrates" label-width="80px">
+            <el-input-number v-model="dishSample.carbohydrates" placeholder="Углеводы"></el-input-number>
+          </el-form-item>
+        </div>
+        <div style="display: flex">
+          <el-form-item label="&nbsp;&nbsp;Постное:" prop="lean">
+            <el-checkbox v-model="dishSample.lean" />
+          </el-form-item>
+
+          <el-form-item label="&nbsp;&nbsp;Диетическое:" prop="dietary">
+            <el-checkbox v-model="dishSample.dietary" />
+          </el-form-item>
+        </div>
+        <el-form-item label="&nbsp;&nbsp;Состав:" prop="composition">
+          <el-input v-model="dishSample.composition" autosize type="textarea" />
         </el-form-item>
 
-        <el-form-item label="&nbsp;&nbsp;Жиры, ккал:" prop="fats">
-          <el-input-number v-model="dishSample.fats" placeholder="Жиры"></el-input-number>
+        <el-form-item label="&nbsp;&nbsp;Описание:" prop="description">
+          <el-input v-model="dishSample.description" autosize type="textarea" />
         </el-form-item>
-
-        <el-form-item label="&nbsp;&nbsp;Углеводы, ккал:" prop="carbohydrates">
-          <el-input-number v-model="dishSample.carbohydrates" placeholder="Углеводы"></el-input-number>
-        </el-form-item>
-
-        <el-form-item label="&nbsp;&nbsp;Постное, ккал:" prop="lean">
-          <el-checkbox v-model="dishSample.lean" placeholder="Постное"></el-checkbox>
-        </el-form-item>
-
-        <el-form-item label="&nbsp;&nbsp;Диетическое, ккал:" prop="dietary">
-          <el-checkbox v-model="dishSample.dietary" placeholder="Диетическое"></el-checkbox>
-        </el-form-item>
-
         <el-form-item label="&nbsp;&nbsp;Изображение:" prop="image">
           <UploaderSingleScan
             :file-info="dishSample.image"

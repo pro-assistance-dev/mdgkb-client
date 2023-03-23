@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
-import IUser from '@/interfaces/IUser';
 import FavouriteService from '@/services/Favourite';
+import IUser from '@/services/interfaces/IUser';
 import RootState from '@/store/types';
 
 import { State } from './state';

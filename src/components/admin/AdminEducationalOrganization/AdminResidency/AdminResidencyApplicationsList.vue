@@ -143,7 +143,7 @@ export default defineComponent({
     const onlyAdmissionFilter: Ref<IFilterModel> = ref(new FilterModel());
     const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
     const applicationsCount: ComputedRef<number> = computed(() =>
-      Provider.store.getters['meta/applicationsCount']('residency_applications')
+      Provider.store.getters['admin/applicationsCount']('residency_applications')
     );
 
     const isEditMode: Ref<boolean> = ref(false);

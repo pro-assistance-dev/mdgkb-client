@@ -342,7 +342,7 @@ import { useStore } from 'vuex';
 
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'EducationPage',

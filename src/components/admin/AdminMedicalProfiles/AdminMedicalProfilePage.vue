@@ -21,7 +21,6 @@
       </el-row>
     </el-form>
   </div>
-  <ImageCropper />
 </template>
 
 <script lang="ts">
@@ -30,14 +29,13 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import MedicalProfile from '@/classes/MedicalProfile';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPagesPage',
-  components: { WysiwygEditor, ImageCropper },
+  components: { WysiwygEditor },
   setup() {
     const editorOption = {
       modules: {

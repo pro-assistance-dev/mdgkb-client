@@ -16,9 +16,6 @@ const mutations: MutationTree<State> = {
   close(state) {
     state.cropper.isOpen = false;
   },
-  setCurGalleryCropIndex(state, index: number) {
-    state.curGalleryCropIndex = index;
-  },
 };
 
 export default mutations;

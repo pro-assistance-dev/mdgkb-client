@@ -31,7 +31,7 @@ import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 

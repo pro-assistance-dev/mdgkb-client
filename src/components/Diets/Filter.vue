@@ -13,15 +13,17 @@
       borderColor: hovering && !select ? activeBackground : '',
     }"
     @click="handClick"
-    @mouseenter="hovering = true" 
+    @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
-    <div class="text"
+    <div
+      class="text"
       :style="{
         color: hovering && !select ? activeBackground : '',
       }"
     >
-    {{ text }}</div>
+      {{ text }}
+    </div>
     <svg
       v-if="select"
       class="icon-close"

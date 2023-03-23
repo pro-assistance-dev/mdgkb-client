@@ -1,6 +1,6 @@
 <template>
   <div v-if="cartIsOpen" class="menu-shadow">
-    <ModalBufetCart @close="toggleModalCart" />
+    <ModalBufetCart @close="toggleModalCart" @orderCreated="initForm" />
   </div>
   <div v-if="mounted" class="container-bufet">
     <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'">
@@ -103,15 +103,14 @@ import User from '@/classes/User';
 import AdaptiveContainerHorizontal from '@/components/Base/AdaptiveContainerHorizontal.vue';
 import HeaderInfo from '@/components/Base/HeaderInfo.vue';
 import ContactsBlock from '@/components/ContactsBlock.vue';
-import Announcement from '@/components/Diets/Announcement.vue';
 import DishCard from '@/components/Diets/DishCard.vue';
 import Filter from '@/components/Diets/Filter.vue';
 import Filters from '@/components/Diets/Filters.vue';
 import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
-import IUser from '@/interfaces/IUser';
 import ContactInfo from '@/services/classes/ContactInfo';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
+import IUser from '@/services/interfaces/IUser';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
@@ -144,17 +143,20 @@ export default defineComponent({
       Provider.router.push('/bufet');
     });
 
+    const initForm = () => {
+      dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
+      dailyMenuOrder.value.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
+      dailyMenuOrder.value.formValue.user = new User(user.value);
+    };
+
     const load = async () => {
       await Provider.store.dispatch('dailyMenus/todayMenu');
       dailyMenu.value.actualize(todayMenu.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
-
       Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
-      dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
-      dailyMenuOrder.value.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
-      dailyMenuOrder.value.formValue.user = new User(user.value);
+      initForm();
       await getDishesGroups();
       dailyMenu.value.dishesGroups = dishesGroups.value;
       dailyMenu.value.initGroups();
@@ -207,6 +209,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     return {
+      initForm,
       dailyMenuOrder,
       dishesGroups,
       dailyMenu,
@@ -305,14 +308,6 @@ input[type='text'] {
     object-fit: cover;
   }
 }
-// .active-item {
-//   display: flex;
-//   align-items: center;
-//   white-space: nowrap;
-//   margin: 0 10px;
-//   color: #ffffff;
-//   background: #2754EB;
-// }
 
 .main {
   width: 100%;
@@ -471,7 +466,6 @@ input[type='text'] {
 
   .menu-period {
     display: flex;
-    // overflow-y: none;
   }
 
   .menu-period:last-child {
@@ -546,6 +540,11 @@ input[type='text'] {
   .title-group {
     font-size: 16px;
     margin-left: 10px;
+  }
+  .menu-shadow {
+    // overflow: hidden;
+    // overflow-y: auto;
+    align-items: start;
   }
 }
 </style>

@@ -38,7 +38,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import AdminSearchMenu from '@/components/admin/AdminSearchMenu.vue';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'AdminHeaderTop',

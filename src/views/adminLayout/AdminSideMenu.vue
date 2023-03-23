@@ -48,7 +48,7 @@ export default defineComponent({
     const closeDrawer = () => store.commit('admin/closeDrawer');
     const route = useRoute();
     const activePath: Ref<string> = ref('');
-    const applicationsCounts: Ref<IApplicationsCount[]> = computed(() => store.getters['meta/applicationsCounts']);
+    const applicationsCounts: Ref<IApplicationsCount[]> = computed(() => store.getters['admin/applicationsCounts']);
     const mounted = ref(false);
     const userPermissions: ComputedRef<IPathPermission[]> = computed(() => store.getters['auth/userPathPermissions']);
     const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
@@ -63,15 +63,16 @@ export default defineComponent({
     onBeforeMount(async () => {
       await store.dispatch('auth/getUserPathPermissions');
       store.commit('admin/filterMenus', userPermissions.value);
-      await store.dispatch('meta/getApplicationsCounts');
-      store.commit('admin/setApplicationsCounts', applicationsCounts.value);
-      await store.dispatch('admin/subscribeApplicationsCountsGet');
+      await store.dispatch('admin/updateApplicationsCounts');
+      // await store.dispatch('meta/getApplicationsCounts');
+      // store.commit('admin/setApplicationsCounts', applicationsCounts.value);
+      // await store.dispatch('admin/subscribeApplicationsCountsGet');
       activePath.value = route.path;
       mounted.value = true;
     });
 
     onBeforeUnmount(async () => {
-      await store.dispatch('admin/unsubscribeApplicationsCountsGet');
+      // await store.dispatch('admin/unsubscribeApplicationsCountsGet');
     });
 
     return { menus, closeDrawer, isCollapseSideMenu, activePath, mounted, applicationsCounts };

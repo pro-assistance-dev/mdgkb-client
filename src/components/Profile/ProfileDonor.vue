@@ -28,7 +28,7 @@ import { useStore } from 'vuex';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleCard from '@/components/DonorRules/DonorRuleCard.vue';
 import IDonorRule from '@/interfaces/IDonorRule';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileDonor',

@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import IPathPermission from '@/interfaces/IPathPermission';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import TokenService from '@/services/Token';
 import RootState from '@/store/types';
 

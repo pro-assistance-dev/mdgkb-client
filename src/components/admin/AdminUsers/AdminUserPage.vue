@@ -30,8 +30,8 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
-import IUser from '@/interfaces/IUser';
 import ISchema from '@/interfaces/schema/ISchema';
+import IUser from '@/services/interfaces/IUser';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({

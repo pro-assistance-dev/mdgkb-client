@@ -68,7 +68,7 @@ export default defineComponent({
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
     const { saveButtonClick } = useConfirmLeavePage();
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['meta/applicationsCount']('supportMessages'));
+    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('supportMessages'));
     let sourceSSE: EventSource | undefined = undefined;
     const edit = () => {
       if (isEditMode.value) {

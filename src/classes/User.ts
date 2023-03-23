@@ -7,7 +7,6 @@ import DonorRuleUser from '@/classes/DonorRuleUser';
 import DpoApplication from '@/classes/DpoApplication';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import Question from '@/classes/Question';
-import Role from '@/services/classes/Role';
 import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
@@ -15,9 +14,10 @@ import IChild from '@/interfaces/IChild';
 import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IQuestion from '@/interfaces/IQuestion';
-import IUser from '@/interfaces/IUser';
 import IOption from '@/interfaces/schema/IOption';
 import Human from '@/services/classes/Human';
+import Role from '@/services/classes/Role';
+import IUser from '@/services/interfaces/IUser';
 
 import Form from './Form';
 

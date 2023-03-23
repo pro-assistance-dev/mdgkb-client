@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -30,6 +29,9 @@ export default class DailyMenuItem {
   carbohydrates = 0;
   dietary = false;
   lean = false;
+
+  composition = '';
+  description = '';
 
   constructor(i?: DailyMenuItem) {
     ClassHelper.BuildClass(this, i);

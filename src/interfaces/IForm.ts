@@ -5,13 +5,13 @@ import ResidencyApplication from '@/classes/ResidencyApplication';
 import IField from '@/interfaces/IField';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 
+import IUser from '../services/interfaces/IUser';
 import IFileInfo from './files/IFileInfo';
 import ICandidateApplication from './ICandidateApplication';
 import IChild from './IChild';
 import IFieldValue from './IFieldValue';
 import IFormStatus from './IFormStatus';
 import IFormStatusGroup from './IFormStatusGroup';
-import IUser from './IUser';
 import IVisitsApplication from './IVisitsApplication';
 import IVacancyResponse from './vacancyResponse/IVacancyResponse';
 

@@ -13,7 +13,7 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'RejectEmailPage',

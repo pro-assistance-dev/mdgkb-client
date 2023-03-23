@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import User from '@/classes/User';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 import { State } from './state';
 

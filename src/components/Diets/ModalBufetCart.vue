@@ -37,14 +37,13 @@
         <div class="price">{{ costOfDelivery }}₽.</div>
       </div>
       <br />
-      <div class="line-item">
-      </div>
+      <div class="line-item"></div>
 
       <div class="info">
         <el-form
-         class="phone"
           ref="userForm"
           v-model="dailyMenuOrder"
+          class="phone"
           :model="dailyMenuOrder"
           label-width="150px"
           style="max-width: 320px"
@@ -67,7 +66,7 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
-import { ElLoading, ElMessage } from 'element-plus';
+import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
@@ -79,7 +78,6 @@ import TableCard from '@/components/Diets/TableCard.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'ModalBufetCart',
@@ -90,7 +88,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['close'],
+  emits: ['close', 'orderCreated'],
   setup(props, { emit }) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const userForm = ref();
@@ -121,14 +119,25 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
       ElMessage.success('Заказ успешно создан');
       await Provider.store.commit('dailyMenuOrders/resetItem');
+      emit('orderCreated');
       dailyMenuOrder.value.removeFromLocalStore();
       loading.close();
       emit('close');
     };
 
     const clearOrder = (): void => {
-      dailyMenuOrder.value.clear();
-      emit('close');
+      ElMessageBox.confirm('Очистить корзину?', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Очистить',
+        cancelButtonText: 'Отмена',
+      })
+        .then(() => {
+          dailyMenuOrder.value.clear();
+          emit('close');
+        })
+        .catch(() => {
+          return;
+        });
     };
 
     return {
@@ -150,16 +159,6 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '@/assets/styles/elements/base-style.scss';
 
-.body {
-  position: relative;
-  width: 938px;
-  min-height: 10px;
-  border: $normal-border;
-  border-radius: $normal-border-radius;
-  background: #ffffff;
-  padding: 16px;
-}
-
 .icon-close {
   width: 16px;
   height: 16px;
@@ -172,31 +171,6 @@ export default defineComponent({
   fill: #205bb8;
 }
 
-.title {
-  height: 24px;
-  width: calc(100% - 40px);
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  font-size: 24px;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #343e5c;
-  padding: 0;
-  margin: 0;
-}
-
-.line {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  font-family: 'Open Sans', sans-serif;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #343e5c;
-}
 .line-title {
   width: 100%;
   margin-top: 16px;
@@ -307,7 +281,6 @@ export default defineComponent({
 
 :deep(.el-form-item) {
   display: block;
-  margin-bottom: 22px;
 }
 
 :deep(.el-form--label-left .el-form-item__label) {
@@ -321,5 +294,17 @@ export default defineComponent({
 }
 
 @media screen and (max-width: 768px) {
+  .scroll {
+    width: 100%;
+    max-height: 50vh;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .line-button {
+    justify-content: center;
+  }
 }
 </style>

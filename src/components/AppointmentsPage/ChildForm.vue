@@ -28,7 +28,7 @@ import { useStore } from 'vuex';
 
 import DatePicker from '@/components/DatePicker.vue';
 import IChild from '@/interfaces/IChild';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'ChildForm',

@@ -11,7 +11,7 @@
       background: status == 'inCart' || status == 'inStock' ? '#31AF5E' : '#ffffff',
     }"
     @click="handClick"
-    @mouseenter="hovering = true" 
+    @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
     <div
@@ -19,29 +19,23 @@
       class="inblock"
       @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"
     >
-      <svg class="icon-plus"
-          :style="{
-            opacity: hovering && status == 'inCart' || hovering && status == 'inStock' ? '1' : '0.8',
-            transform: hovering && status == 'inCart' || hovering && status == 'inStock' ? 'scale(1.2, 1.2)' : 'scale(1, 1)',
-          }"
+      <svg
+        class="icon-plus"
+        :style="{
+          opacity: (hovering && status == 'inCart') || (hovering && status == 'inStock') ? '1' : '0.8',
+          transform: (hovering && status == 'inCart') || (hovering && status == 'inStock') ? 'scale(1.2, 1.2)' : 'scale(1, 1)',
+        }"
       >
         <use xlink:href="#plus"></use>
       </svg>
-      <div class="text" 
-          :style="{
-            opacity: hovering && status == 'inCart' || hovering && status == 'inStock' ? '1' : '0.8'
-          }"
-        >
-        В корзину</div>
-    </div>
-    <div v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) > 0" class="inblock">
-      <svg class="icon-minus" @click="dailyMenuOrder.decreaseDailyMenuOrderItem(dailyMenuItem)">
-        <use xlink:href="#minus"></use>
-      </svg>
-      <div class="text">{{ dailyMenuOrder.getItemQuantity(dailyMenuItem) }}</div>
-      <svg class="icon-plus" @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)">
-        <use xlink:href="#plus"></use>
-      </svg>
+      <div
+        class="text"
+        :style="{
+          opacity: (hovering && status == 'inCart') || (hovering && status == 'inStock') ? '1' : '0.8',
+        }"
+      >
+        В корзину
+      </div>
     </div>
     <div v-if="dailyMenuItem.cook" class="inblock">
       <svg class="icon-loader">
@@ -49,7 +43,7 @@
       </svg>
       <div class="text">Готовится</div>
     </div>
-    <div v-if="dailyMenuItem.tomorrowAvailable" class="inblock">
+    <div v-else-if="dailyMenuItem.tomorrowAvailable" class="inblock">
       <div
         class="text"
         :style="{
@@ -59,7 +53,16 @@
         Доступно завтра
       </div>
     </div>
-  <Icons />
+    <div v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) > 0" class="inblock">
+      <svg class="icon-minus" @click="dailyMenuOrder.decreaseDailyMenuOrderItem(dailyMenuItem)">
+        <use xlink:href="#minus"></use>
+      </svg>
+      <div class="text">{{ dailyMenuOrder.getItemQuantity(dailyMenuItem) }}</div>
+      <svg class="icon-plus" @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)">
+        <use xlink:href="#plus"></use>
+      </svg>
+    </div>
+    <Icons />
   </div>
 </template>
 
@@ -135,7 +138,7 @@ export default defineComponent({
   height: 16px;
   fill: #ffffff;
   cursor: pointer;
-  transition: 0,3s;
+  transition: 0, 3s;
   opacity: 0.8;
 }
 
@@ -154,14 +157,13 @@ export default defineComponent({
   height: 16px;
   fill: #ffffff;
   cursor: pointer;
-  transition: 0,3s;
+  transition: 0, 3s;
   opacity: 0.8;
 }
 
 .icon-minus:hover {
   transform: scale(1.2, 1.2);
   opacity: 1;
-
 }
 
 .icon-minus:active {
@@ -189,7 +191,6 @@ export default defineComponent({
   margin: 0 15px;
 }
 
-
 .inblock {
   width: 100%;
   display: flex;
@@ -208,5 +209,4 @@ export default defineComponent({
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
-
 </style>

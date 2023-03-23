@@ -48,7 +48,7 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
 import ISpecialization from '@/interfaces/ISpecialization';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import SpecializationsFiltersLib from '@/services/Provider/libs/filters/SpecializationsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';

@@ -5,8 +5,8 @@ import { createStore } from 'vuex';
 
 import User from '@/classes/User';
 import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
-import IUser from '@/interfaces/IUser';
 import DateTimeFormatter from '@/services/DateFormat';
+import IUser from '@/services/interfaces/IUser';
 
 import ComponentStub from '../../../__mocks__/ComponentStub';
 

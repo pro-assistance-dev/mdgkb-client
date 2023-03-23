@@ -21,10 +21,10 @@
             <el-card>
               <template #header> Основное изображение </template>
               <el-form-item prop="mainImage.fileSystemPath" :rules="rules.mainImage">
-                <UploaderSingleScan 
-                  :file-info="news.mainImage" 
+                <UploaderSingleScan
+                  :file-info="news.mainImage"
                   :height="200"
-                  @remove-file="news.removeMainImage()" 
+                  @remove-file="news.removeMainImage()"
                   @ratio="(e) => (element.ratio = e)"
                 />
               </el-form-item>
@@ -40,7 +40,6 @@
         </el-col>
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
           <el-container direction="vertical">
-            <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
             <el-card>
               <template #header> Время и статус публикации </template>
               <el-form-item label="Черновик" prop="isDraft">
@@ -56,10 +55,10 @@
             <el-card>
               <template #header> Загрузить превью новости </template>
               <el-form-item prop="previewImage.fileSystemPath" :rules="rules.previewImage">
-                <UploaderSingleScan 
-                  :file-info="news.previewImage" 
-                  :height="300" 
-                  @remove-file="news.removePreviewImage()" 
+                <UploaderSingleScan
+                  :file-info="news.previewImage"
+                  :height="300"
+                  @remove-file="news.removePreviewImage()"
                   @ratio="(e) => (element.ratio = e)"
                 />
               </el-form-item>
@@ -70,8 +69,6 @@
       </el-row>
       <AdminNewsPageEvent />
     </el-form>
-
-    <ImageCropper />
   </div>
 </template>
 
@@ -84,7 +81,6 @@ import AdminGallery from '@/components/admin/AdminGallery.vue';
 import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import INews from '@/interfaces/news/INews';
@@ -99,7 +95,6 @@ export default defineComponent({
     AdminGallery,
     UploaderSingleScan,
     AdminNewsPageEvent,
-    ImageCropper,
     WysiwygEditor,
     AdminNewsPageTags,
     AdminNewsDoctors,

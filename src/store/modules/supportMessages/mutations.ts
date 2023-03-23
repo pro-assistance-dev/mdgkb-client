@@ -4,7 +4,7 @@ import SupportMessage from '@/classes/SupportMessage';
 import User from '@/classes/User';
 import ISupportMessage from '@/interfaces/ISupportMessage';
 import ISupportMessagesWithCount from '@/interfaces/ISupportMessagesWithCount';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 
 import { State } from './state';
 

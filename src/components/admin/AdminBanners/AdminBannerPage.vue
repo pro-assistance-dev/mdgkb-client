@@ -20,17 +20,13 @@
       </el-col>
     </el-row>
   </el-form>
-
-  <ImageCropper />
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 
-// TODO
 import Banner from '@/classes/Banner';
 import BannerRules from '@/classes/BannerRules';
-import ImageCropper from '@/components/admin/ImageCropper.vue';
 import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -38,7 +34,7 @@ import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminBannerPage',
-  components: { ImageCropper, UploaderSingleScan },
+  components: { UploaderSingleScan },
 
   setup() {
     const form = ref();

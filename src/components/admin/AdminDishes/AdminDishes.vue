@@ -12,7 +12,7 @@
       </template>
       <template #inside-title> Книга блюд </template>
       <template #inside-content-left>
-        <DishBook v-if="!dishesConstructorVisible" :menu="selectedMenu" />
+        <DishBook v-if="!dishesConstructorVisible" :menu="selectedMenu" @edit-dish-sample="openDishesConstructor" />
       </template>
       <template #inside-content-right>
         <AdminDishesMenusTable />
@@ -20,35 +20,18 @@
     </VerticalCollapseContainer>
 
     <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
-      <DishesSamplesConstructor />
-    </el-dialog>
-    <el-dialog v-model="addDishVisible" :width="1280" :destroy-on-close="true" center @closed="closeModal">
-      <template #title>
-        <div class="add-title">Выберите блюда из книги блюд</div>
-      </template>
-      <AddDish :menu="selectedMenu" />
+      <DishesSamplesConstructor :selected-sample="selectedSample" />
     </el-dialog>
   </component>
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
-import draggable from 'vuedraggable';
 
-import Active from '@/assets/svg/Buffet/Active.svg';
-import Add from '@/assets/svg/Buffet/Add.svg';
-import Close from '@/assets/svg/Buffet/Close.svg';
-import Delete from '@/assets/svg/Buffet/Delete.svg';
-import Excel from '@/assets/svg/Buffet/Excel.svg';
-import Eye from '@/assets/svg/Buffet/Eye.svg';
-import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
-import NonActive from '@/assets/svg/Buffet/NonActive.svg';
-import Print from '@/assets/svg/Buffet/Print.svg';
 import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
-import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
+import DishSample from '@/classes/DishSample';
 import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import AdminDishesMenusTable from '@/components/admin/AdminDishes/AdminDishesMenusTable.vue';
 import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
@@ -59,7 +42,6 @@ import Calendar from '@/services/classes/calendar/Calendar';
 import Day from '@/services/classes/calendar/Day';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import IFilterModel from '@/services/interfaces/IFilterModel';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
@@ -71,7 +53,6 @@ export default defineComponent({
   components: {
     DishesSamplesConstructor,
     AdminListWrapper,
-    AddDish,
 
     VerticalCollapseContainer,
     DishBook,
@@ -80,13 +61,13 @@ export default defineComponent({
     CalendarComponent,
   },
   setup() {
-    const addDishVisible: Ref<boolean> = ref(false);
     const dishesConstructorVisible: Ref<boolean> = ref(false);
     const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
     const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const selectedSample: Ref<DishSample | undefined> = ref(undefined);
     const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
 
     const load = async () => {
@@ -99,8 +80,9 @@ export default defineComponent({
       });
     };
 
-    const openDishesConstructor = () => {
+    const openDishesConstructor = (dishSample?: DishSample) => {
       Provider.store.commit('admin/showLoading');
+      selectedSample.value = dishSample;
       dishesConstructorVisible.value = true;
       Provider.store.commit('admin/closeLoading');
     };
@@ -164,11 +146,12 @@ export default defineComponent({
     };
 
     return {
+      selectedSample,
+      openDishesConstructor,
       dailyMenus,
       calendar,
       dishesConstructorVisible,
       selectedMenu,
-      addDishVisible,
       selectDay,
       dishesGroups,
       mounted: Provider.mounted,

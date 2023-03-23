@@ -1,8 +1,8 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IComment from '@/interfaces/comments/IComment';
 import ICommentsWithCount from '@/interfaces/ICommentsWithCount';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

@@ -24,10 +24,10 @@ import { useStore } from 'vuex';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IUser from '@/interfaces/IUser';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import VacancyResponseRules from '@/rules/VacancyResponseRules';
+import IUser from '@/services/interfaces/IUser';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 

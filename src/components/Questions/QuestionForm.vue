@@ -86,7 +86,7 @@ import { useStore } from 'vuex';
 import FileUploader from '@/components/FileUploader.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IQuestion from '@/interfaces/IQuestion';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import validate from '@/services/validate';
 
 export default defineComponent({

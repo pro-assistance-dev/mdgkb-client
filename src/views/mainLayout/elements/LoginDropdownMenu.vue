@@ -40,8 +40,8 @@
 import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
 
-import IUser from '@/interfaces/IUser';
 import { authGuard } from '@/router';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import UserService from '@/services/User';
 export default defineComponent({

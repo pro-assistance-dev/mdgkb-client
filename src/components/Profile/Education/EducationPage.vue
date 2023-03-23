@@ -42,7 +42,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, ref
 import ApplicationCard from '@/components/Profile/Education/ApplicationCard.vue';
 import ApplicationTable from '@/components/Profile/Education/ApplicationTable.vue';
 import MyApplicationsButton from '@/components/Profile/Education/MyApplicationsButton.vue';
-import IUser from '@/interfaces/IUser';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

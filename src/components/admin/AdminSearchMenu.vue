@@ -38,6 +38,7 @@ export default defineComponent({
     };
     const querySearch = (queryString: string, cb: (q: ISearchQuery[]) => ISearchQuery[]) => {
       const results = queryString ? adminMenus.value.filter(createFilter(queryString)) : adminMenus.value;
+      console.log(queryString, adminMenus.value);
       // call callback function to return suggestions\
       cb(results);
     };

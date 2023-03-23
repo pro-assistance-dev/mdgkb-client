@@ -4,7 +4,7 @@
       <img src="@/assets/img/mdgkb-logo.webp" class="header-logo-img" @click="$router.push('/')" />
       <div class="search">
         <div class="search-block">
-          <SeacrhBar v-show="currentRoute !== 'SearchPage'" />
+          <SearchBar v-show="currentRoute !== 'SearchPage'" />
         </div>
       </div>
       <div class="login-menu">
@@ -19,11 +19,11 @@ import { computed, defineComponent, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
-import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
+import SearchBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({
   name: 'HeaderTop',
-  components: { LoginDropdownMenu, SeacrhBar },
+  components: { LoginDropdownMenu, SearchBar },
 
   //   setup () {
   //   const currentRoute = computed(() => {
