@@ -45,7 +45,7 @@
                     <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
                   </div>
                 </label>
-                <svg class="icon-edit">
+                <svg class="icon-edit" @click.stop="$emit('editDishSample', dishSample)">
                   <use xlink:href="#profile-edit" />
                 </svg>
               </div>
@@ -65,7 +65,7 @@
             <div class="dish-item">
               <div class="left-field">
                 {{ dishSample.name }}
-                <svg class="icon-edit">
+                <svg class="icon-edit" @click.stop="$emit('editDishSample', dishSample)">
                   <use xlink:href="#profile-edit" />
                 </svg>
               </div>
@@ -123,7 +123,7 @@ export default defineComponent({
     const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0));
     const dishSamplesFlat: Ref<DishSample[]> = ref([]);
     const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-
+    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const searchDishSamples = (searchSource: string) => {
       if (searchSource === '') {
         dishSamplesFlat.value = [];
@@ -152,12 +152,22 @@ export default defineComponent({
       });
       selectedMenu.value.addDishesFromSamples(dishesSamples, dishesGroups.value);
       Provider.store.dispatch('dailyMenus/updateWithoutReset');
+      syncMenus();
+    };
+
+    const syncMenus = (): void => {
+      dailyMenus.value.forEach((d, i) => {
+        if (d.id === selectedMenu.value.id) {
+          dailyMenus.value[i] = selectedMenu.value;
+        }
+      });
     };
 
     const addOneDishToMenu = (dishSample: DishSample) => {
       dishSample.selected = false;
       selectedMenu.value.addDishesFromSamples([dishSample], dishesGroups.value);
       Provider.store.dispatch('dailyMenus/updateWithoutReset');
+      syncMenus();
     };
 
     const selectSample = (dishSample: DishSample): void => {

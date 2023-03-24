@@ -69,6 +69,17 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       await httpClient.post<T, T>(opts);
       commit('set');
     },
+    createWithoutReset: async ({ commit, state }, item: T): Promise<void> => {
+      if (!item) {
+        item = state.item;
+      }
+      const opts: IBodyfulParams<T> = { payload: item, isFormData: true };
+      if (item.getFileInfos) {
+        opts.fileInfos = item.getFileInfos();
+        opts.fileInfos.forEach((f: IFileInfo) => (f.url = ''));
+      }
+      await httpClient.post<T, T>(opts);
+    },
     update: async ({ commit, state }, item: T): Promise<void> => {
       if (!item) {
         item = state.item;

@@ -1,78 +1,6 @@
 <template>
   <div class="menu">
-    <div class="menu-title-tools-tabs">
-      <div class="menu-title-tabs">
-        <div class="menu-title">
-          Меню на
-          {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}
-        </div>
-        <draggable class="tabs" :list="dailyMenus" item-key="id" @end="saveMenusOrder">
-          <template #item="{ element }">
-            <div
-              :class="{ 'selected-tabs-item': selectedMenu.id === element.id, 'tabs-item': selectedMenu.id !== element.id }"
-              :style="{ color: element.active ? '#00B5A4' : '#DD1D12' }"
-              @click="selectMenu(element)"
-            >
-              <div class="title">
-                <input
-                  v-if="element.editMode"
-                  id="tab-name"
-                  v-model="element.name"
-                  type="text"
-                  name="name"
-                  placeholder="Имя вкладки"
-                  @focusout="saveMenu(element)"
-                  @keyup.enter="saveMenu(element)"
-                  @keyup.esc="element.cancelEditMode()"
-                />
-                <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
-              </div>
-              <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }" />
-              <div class="button-close">
-                <svg class="icon-close" @click="removeMenu(element.id)">
-                  <use xlink:href="#close" />
-                </svg>
-              </div>
-            </div>
-          </template>
-        </draggable>
-        <div class="tabs-button" @click="addMenu">
-          <button class="tools-button">
-            <svg class="icon-add">
-              <use xlink:href="#add" />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <div class="tools-block">
-        <button class="tools-button">
-          <svg class="icon-copy" @click="toggleCopyWindow">
-            <use xlink:href="#copy"></use>
-          </svg>
-          <div v-if="isOpenCopy" class="hidden-copy">
-            <CopyWindow @onClick="toggleCopyWindow" />
-          </div>
-        </button>
-        <button class="tools-button">
-          <svg class="icon-paste" @click="togglePasteWindow">
-            <use xlink:href="#paste" />
-          </svg>
-          <div v-if="isOpenPaste" class="hidden-paste">
-            <PasteWindow @onClick="togglePasteWindow" />
-          </div>
-        </button>
-        <button class="tools-button" @click="pdf">
-          <svg class="icon-excel">
-            <use xlink:href="#excel" />
-          </svg>
-        </button>
-        <button class="tools-button" @click="pdf">
-          <svg class="icon-print">
-            <use xlink:href="#print" />
-          </svg>
-        </button>
-      </div>
-    </div>
+    <AdminDishesMenusTableHeader />
     <div class="tab-tools">
       Активация:
       <svg v-if="selectedMenu.isActive()" class="icon-active" @click="stopMenu()">
@@ -104,7 +32,7 @@
             </tr>
           </thead>
           <tbody>
-            <template v-for="dishesGroup in selectedMenu.getNotEmptyGroups()" :key="dishesGroup.id">
+            <template v-for="dishesGroup in selectedMenu.getNotEmptyGroups(false)" :key="dishesGroup.id">
               <td colspan="6" style="background: #f1f2f7">
                 <div class="schedule-name">
                   <div class="table-tools">
@@ -186,117 +114,39 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
-import draggable from 'vuedraggable';
 
 import Active from '@/assets/svg/Buffet/Active.svg';
-import Add from '@/assets/svg/Buffet/Add.svg';
-import Close from '@/assets/svg/Buffet/Close.svg';
-import Copy from '@/assets/svg/Buffet/Copy.svg';
-import Delete from '@/assets/svg/Buffet/Delete.svg';
-import Excel from '@/assets/svg/Buffet/Excel.svg';
 import Eye from '@/assets/svg/Buffet/Eye.svg';
 import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
 import Food from '@/assets/svg/Buffet/Food.svg';
 import NonActive from '@/assets/svg/Buffet/NonActive.svg';
-import Paste from '@/assets/svg/Buffet/Paste.svg';
-import Print from '@/assets/svg/Buffet/Print.svg';
-import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
-import CopyWindow from '@/components/admin/AdminDishes/CopyWindow.vue';
-import PasteWindow from '@/components/admin/AdminDishes/PasteWindow.vue';
-import Calendar from '@/services/classes/calendar/Calendar';
+import AdminDishesMenusTableHeader from '@/components/admin/AdminDishes/AdminDishesMenusTableHeader.vue';
 import ClassHelper from '@/services/ClassHelper';
 import Provider from '@/services/Provider/Provider';
-import sort from '@/services/sort';
 
 export default defineComponent({
   name: 'AdminDishesMenusTable',
   components: {
-    Add,
-    Delete,
-    Print,
+    AdminDishesMenusTableHeader,
     Eye,
     EyeClosed,
     Active,
     NonActive,
-    Close,
-    Excel,
     Food,
-    draggable,
-    Copy,
-    Paste,
-    CopyWindow,
-    PasteWindow,
   },
   setup() {
-    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-    const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const menuCopy: Ref<DailyMenu | undefined> = ref(undefined);
-
-    const copyMenu = () => {
-      menuCopy.value = selectedMenu.value.getCopy();
-    };
-    const isOpenCopy: Ref<boolean> = ref(false);
-    const isOpenPaste: Ref<boolean> = ref(false);
-
-    const saveMenusOrder = async () => {
-      sort(dailyMenus.value);
-      await Provider.store.dispatch('dailyMenus/updateAll');
-    };
-
-    const selectMenu = (menu: DailyMenu): void => {
-      Provider.store.commit('dailyMenus/set', menu);
-      selectedMenu.value.initGroups();
-    };
-
+    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const saveMenu = async (menu: DailyMenu) => {
       await Provider.store.dispatch('dailyMenus/updateWithoutReset', menu);
       menu.editMode = false;
-    };
-
-    const removeMenu = async (menuId: string) => {
-      if (dailyMenus.value.length === 1) {
-        ElMessage({
-          message: 'Нельзя удалить едиственное меню',
-          type: 'error',
-        });
-        return;
-      }
-      ElMessageBox.confirm('Вы действительно хотите удалить меню?', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: 'Да',
-        cancelButtonText: 'Нет',
-      }).then(async () => {
-        dailyMenus.value = dailyMenus.value.filter((dm: DailyMenu) => dm.id === menuId);
-        await Provider.store.dispatch('dailyMenus/remove', menuId);
-        selectedMenu.value = dailyMenus.value[dailyMenus.value.length - 1];
-        selectedMenu.value?.initGroups();
-      });
-    };
-
-    const pasteMenu = async () => {
-      if (!menuCopy.value) {
-        return;
-      }
-      menuCopy.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - new Date().getTimezoneOffset() * 6000);
-      dailyMenus.value.push(menuCopy.value);
-      Provider.store.commit('dailyMenus/set', menuCopy.value);
-      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
-    };
-
-    const addMenu = async () => {
-      const date = new Date();
-      Provider.store.commit('dailyMenus/set', DailyMenu.Create(date));
-      const userTimezoneOffset = date.getTimezoneOffset() * 60000;
-      selectedMenu.value.date = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-      dailyMenus.value.push(selectedMenu.value);
-      await Provider.store.dispatch('dailyMenus/create', selectedMenu.value);
+      syncMenus();
     };
 
     const startMenu = async (): Promise<void> => {
@@ -363,11 +213,13 @@ export default defineComponent({
         dmi.active = false;
         await Provider.store.dispatch('dailyMenus/updateWithoutReset', dmi);
       }
+      syncMenus();
     };
 
     const setDailyMenuItemAvailable = async (dailyMenuItem: DailyMenuItem, available: boolean) => {
       dailyMenuItem.available = available;
       await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
+      syncMenus();
     };
 
     const setDailyMenuItemCook = async (dailyMenuItem: DailyMenuItem, cook: boolean) => {
@@ -377,11 +229,22 @@ export default defineComponent({
 
     const updateSelectedMenu = async (): Promise<void> => {
       await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
+      syncMenus();
     };
     const setGroupAvailable = async (dishesGroup: DishesGroup, available: boolean) => {
       dishesGroup.setAvailable(available);
       await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
+      syncMenus();
     };
+
+    const syncMenus = (): void => {
+      dailyMenus.value.forEach((d, i) => {
+        if (d.id === selectedMenu.value.id) {
+          dailyMenus.value[i] = selectedMenu.value;
+        }
+      });
+    };
+
     const removeFromMenu = async (dishesGroup: DishesGroup, dishItem?: DailyMenuItem): Promise<void> => {
       ElMessageBox.confirm('Вы действительно хотите удалить?', {
         distinguishCancelAndClose: true,
@@ -410,47 +273,23 @@ export default defineComponent({
           selectedMenu.value.groupDishes(dishesGroups.value);
           await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
           await Provider.store.dispatch('dailyMenus/updateWithoutReset');
+          syncMenus();
         })
         .catch(() => {
           return;
         });
     };
 
-    const pdf = async () => {
-      await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
-    };
-
-    const toggleCopyWindow = () => {
-      isOpenPaste.value = false;
-      isOpenCopy.value = !isOpenCopy.value;
-    };
-
-    const togglePasteWindow = () => {
-      isOpenCopy.value = false;
-      isOpenPaste.value = !isOpenPaste.value;
-    };
-
     return {
-      pasteMenu,
-      pdf,
       setGroupAvailable,
       removeFromMenu,
       saveMenu,
       dailyMenus,
       selectedMenu,
-      saveMenusOrder,
-      calendar,
-      selectMenu,
-      removeMenu,
-      addMenu,
       stopMenu,
       startMenu,
       updateSelectedMenu,
       setDailyMenuItemAvailable,
-      toggleCopyWindow,
-      isOpenCopy,
-      togglePasteWindow,
-      isOpenPaste,
     };
   },
 });

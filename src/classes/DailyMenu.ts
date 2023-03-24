@@ -20,6 +20,7 @@ export default class DailyMenu {
   cacheName = '';
   startTime?: string;
   endTime?: string;
+  selectedForCopy = true;
 
   onlyDietary = false;
   onlyLean = false;
@@ -32,7 +33,6 @@ export default class DailyMenu {
   addDishesFromSamples(dishesSamples: DishSample[], groups: DishesGroup[]): void {
     dishesSamples.forEach((ds: DishSample) => {
       const item = DailyMenuItem.CreateFromSample(ds);
-      console.log(item);
       item.dailyMenuId = this.id;
       item.highlight = true;
       this.dailyMenuItems.push(item);
@@ -40,7 +40,7 @@ export default class DailyMenu {
         item.highlight = false;
       }, 1000);
     });
-    this.groupDishes(groups);
+    this.initGroups();
   }
 
   setNamesForGroups(groups: DishesGroup[]): void {
@@ -209,7 +209,8 @@ export default class DailyMenu {
 
   getCopy(): DailyMenu {
     const menuCopy = new DailyMenu(this);
-    menuCopy.id = undefined;
+    menuCopy.id = uuidv4();
+    menuCopy.active = false;
     return menuCopy;
   }
 }
