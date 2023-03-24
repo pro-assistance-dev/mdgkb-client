@@ -116,7 +116,7 @@ export default defineComponent({
     const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
     const saveMenusOrder = async () => {
       sort(dailyMenus.value);
-      await Provider.store.dispatch('dailyMenus/updateAll');
+      await Provider.store.dispatch('dailyMenus/updateMany');
     };
 
     const selectMenu = (menu: DailyMenu): void => {

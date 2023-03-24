@@ -195,6 +195,8 @@ export default class DailyMenu {
       const findedDayilyMenuItem = this.getDailyMenuItemById(d.id);
       if (findedDayilyMenuItem) {
         findedDayilyMenuItem.available = d.available;
+        findedDayilyMenuItem.cook = d.cook;
+        findedDayilyMenuItem.tomorrowAvailable = d.tomorrowAvailable;
       } else {
         this.dailyMenuItems.push(d);
       }

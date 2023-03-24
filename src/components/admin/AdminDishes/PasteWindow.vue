@@ -8,8 +8,8 @@
         <template #title> Вставить: </template>
         <template #info>
           <div v-if="sameNamesExists" class="attention">Вкладки с такими названиями уже есть в меню!</div>
-          <Button :text="'Вставить'" :color="'#1979CF'" :margin-top="'5px'" :width="'80px'" @click="paste" />
-          <Button v-if="sameNamesExists" :text="'Заменить'" :margin-top="'5px'" :width="'80px'" @click="$emit('onClick')" />
+          <Button :text="'Вставить'" :color="'#1979CF'" :margin-top="'5px'" :width="'80px'" @click="paste(false)" />
+          <Button v-if="sameNamesExists" :text="'Заменить'" :margin-top="'5px'" :width="'80px'" @click="paste(true)" />
           <Button :text="'Отмена'" :color="'#838385'" :margin-top="'5px'" :width="'80px'" @click="togglePasteWindow" />
         </template>
       </ClickWindow>
@@ -39,14 +39,21 @@ export default defineComponent({
     );
     const isOpenPaste: Ref<boolean> = ref(false);
 
-    const paste = async () => {
+    const paste = async (replace: boolean) => {
       menusCopies.value.forEach((m: DailyMenu) => {
         m.initGroups();
-        if (dailyMenus.value.some((d: DailyMenu) => m.name === d.name)) {
-          m.name += '-копия';
+        const findedSameNameIndex = dailyMenus.value.findIndex((d: DailyMenu) => m.name === d.name);
+        if (findedSameNameIndex > -1) {
+          if (replace) {
+            dailyMenus.value[findedSameNameIndex] = m;
+          } else {
+            m.name += '-копия';
+            dailyMenus.value.push(m);
+          }
+        } else {
+          dailyMenus.value.push(m);
         }
       });
-      dailyMenus.value.push(...menusCopies.value);
       for (const menu of menusCopies.value) {
         await Provider.store.dispatch('dailyMenus/create', menu);
       }
