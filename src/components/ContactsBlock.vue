@@ -37,9 +37,9 @@
             <div class="item-elements">
               <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id" class="item" style="white-space: nowrap">
                 <div>
-                  <a :href="'tel:' + phone.number">{{ phone.number }}</a>
+                  <a class="phone" :href="'tel:' + phone.number">{{ phone.number }}</a>
                 </div>
-                <div v-if="phone.description">: {{ phone.description }}</div>
+                <div v-if="phone.description">{{ phone.description }}</div>
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@ export default defineComponent({
 .icon-phone {
   width: 19px;
   height: 19px;
-  fill: #343d5c;
+  fill: #2754eb;
 }
 
 .icon-email {
@@ -207,6 +207,7 @@ export default defineComponent({
 .item {
   font-size: 14px;
   display: flex;
+  display: block;
   padding-right: 10px;
   width: auto;
   align-items: center;
