@@ -161,4 +161,8 @@ export default class Calendar {
   periodsIsEqual(activePeriod1: Day[], activePeriod2: Day[]): boolean {
     return activePeriod1.every((day: Day, i: number) => day.date.getDate() === activePeriod2[i].date.getDate());
   }
+
+  getDateWithOffset() {
+    return new Date(this.getSelectedDay().date.getTime() - new Date().getTimezoneOffset() * 60000);
+  }
 }

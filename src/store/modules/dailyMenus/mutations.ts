@@ -13,6 +13,9 @@ const mutations: MutationTree<State> = {
   setTodayMenu(state, item: DailyMenu) {
     state.todayMenu = new DailyMenu(item);
   },
+  setMenusCopies(state, items: DailyMenu[]) {
+    state.menusCopies = items;
+  },
 };
 
 export default mutations;

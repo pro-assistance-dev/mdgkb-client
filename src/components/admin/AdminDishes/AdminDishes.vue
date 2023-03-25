@@ -133,10 +133,8 @@ export default defineComponent({
     };
 
     const createNewDailyMenus = async () => {
-      const date = new Date(
-        calendar.value.getSelectedDay().date.getTime() - calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000
-      );
-      const breakfast = DailyMenu.CreateBreakfast(date);
+      const date = calendar.value.getDateWithOffset();
+      const breakfast = DailyMenu.CreateBreakfast(calendar.value.getDateWithOffset());
       const lunch = DailyMenu.CreateDinner(date);
       await Provider.store.dispatch('dailyMenus/create', breakfast);
       await Provider.store.dispatch('dailyMenus/create', lunch);
