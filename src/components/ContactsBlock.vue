@@ -8,7 +8,12 @@
         <div v-if="contactInfo.time.length" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-time">
+              <svg
+                class="icon-time"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#time"></use>
               </svg>
             </div>
@@ -18,7 +23,12 @@
         <div v-if="contactInfo.postAddresses[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-map-marker">
+              <svg
+                class="icon-map-marker"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#map-marker"></use>
               </svg>
             </div>
@@ -30,7 +40,12 @@
         <div v-if="contactInfo.telephoneNumbers[0].number" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-phone">
+              <svg
+                class="icon-phone"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#phone"></use>
               </svg>
             </div>
@@ -47,7 +62,12 @@
         <div v-if="contactInfo.emails[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-email">
+              <svg
+                class="icon-email"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#email"></use>
               </svg>
             </div>
@@ -102,6 +122,10 @@ export default defineComponent({
     full: {
       type: Boolean,
       default: false,
+    },
+    iconColor: {
+      type: String,
+      default: '#2754eb',
     },
   },
 });
@@ -212,6 +236,10 @@ export default defineComponent({
   width: auto;
   align-items: center;
   text-align: left;
+}
+
+.phone {
+  color: #343e5c;
 }
 
 .map-data {

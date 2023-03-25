@@ -10,8 +10,8 @@
     </li>
     <li class="phone">
       <div v-if="scrollOffset < 66" class="menu-right-block">
-        <p class="phone"><a href="tel:+7 (495) 959-88-00">+7 (495) 959-88-00</a></p>
-        <p class="phone"><a href="tel:+7 (495) 959-88-03">+7 (495) 959-88-03</a></p>
+        <p class="phone"><a class="phone" href="tel:+7 (495) 959-88-00">+7 (495) 959-88-00</a></p>
+        <p class="phone"><a class="phone" href="tel:+7 (495) 959-88-03">+7 (495) 959-88-03</a></p>
       </div>
     </li>
     <li class="info">
@@ -320,6 +320,10 @@ button {
 
 .font-weight-600 {
   font-weight: 600;
+}
+
+.phone {
+  color: #343e5c;
 }
 
 @media screen and (max-width: 480px) {
