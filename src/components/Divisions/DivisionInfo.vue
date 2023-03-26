@@ -25,7 +25,7 @@
     <template #contact>
       <TimetableComponent :timetable="division.timetable" />
       <AddressInfo :address="division.address" :map-id="division.id" />
-      <ContactsBlock :contact-info="division.contactInfo" />
+      <ContactsBlock :contact-info="division.contactInfo" :icon-color="'#343e5c'" />
     </template>
 
     <template #icons>
@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, Ref } from 'vue';
+import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import Attention from '@/assets/svg/DivisionCard/Attention.svg';
 import CreditCard from '@/assets/svg/DivisionCard/CreditCard.svg';
@@ -85,17 +85,17 @@ export default defineComponent({
   props: {
     division: { type: Object as PropType<Division>, required: true },
   },
-  setup (props) {
-    const leftWidth: Ref<String> = ref('330px');
+  setup(props) {
+    const leftWidth: Ref<string> = ref('330px');
 
     if (!props.division.chief.id) {
       leftWidth.value = '0px';
     }
     return { leftWidth };
-  }
+  },
 });
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/styles/elements/division-info.scss';
+@import '@/assets/styles/elements/division-info.scss';
 </style>

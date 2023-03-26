@@ -328,6 +328,9 @@ $margin: 20px 0;
   height: auto;
   border-collapse: collapse;
   width: 100%;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 
   thead {
     text-transform: uppercase;
