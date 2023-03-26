@@ -1,7 +1,6 @@
-import { ICropper } from '@/interfaces/cropper/ICropper';
+import Cropper from '@/services/classes/Cropper';
 
 export interface State {
-  cropper: ICropper;
-  cropperV2: ICropper;
+  cropper: Cropper;
   curGalleryCropIndex: number;
 }

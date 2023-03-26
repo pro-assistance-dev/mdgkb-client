@@ -89,7 +89,7 @@ import NewsSlide from '@/classes/NewsSlide';
 import AdminNewsSlidePreview from '@/components/admin/AdminNewsSlides/AdminNewsSlidePreview.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';

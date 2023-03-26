@@ -143,9 +143,9 @@ import HumanForm from '@/components/admin/HumanForm.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Human from '@/services/classes/Human';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
 import Provider from '@/services/Provider/Provider';
 

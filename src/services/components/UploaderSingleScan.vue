@@ -38,11 +38,11 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Cropper from '@/classes/Cropper';
-import ImageCropper from '@/components/ImageCropper.vue';
 import IFile from '@/interfaces/files/IFile';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
+import Cropper from '@/services/classes/Cropper';
+import ImageCropper from '@/services/components/ImageCropper.vue';
 
 export default defineComponent({
   name: 'UploaderSingleScan',
@@ -109,7 +109,7 @@ export default defineComponent({
 
     const openCropper = (file: IFile) => {
       const ratio = props.cropRatio ? props.defaultRatio : 0;
-      store.commit('cropper/openV2', Cropper.CreateCropperV2(file.url, ratio, props.fileInfo.id));
+      store.commit('cropper/open', Cropper.CreateCropper(file.url, ratio, props.fileInfo.id));
       cropperOpened.value = true;
     };
 

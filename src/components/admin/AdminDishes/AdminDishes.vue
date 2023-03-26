@@ -8,6 +8,9 @@
       <template #main>
         <div v-if="!dailyMenus.length" class="menu-shadow">
           <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus"> Создать меню </el-button>
+          <el-button v-if="menusCopies.length" round type="warning" plain style="scale: 1.2" @click="paste">
+            Вставить меню из буфера</el-button
+          >
         </div>
       </template>
       <template #inside-title> Книга блюд </template>
@@ -63,6 +66,7 @@ export default defineComponent({
   setup() {
     const dishesConstructorVisible: Ref<boolean> = ref(false);
     const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+    const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);
     const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
@@ -78,6 +82,16 @@ export default defineComponent({
         title: 'Меню буфета',
         buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
       });
+    };
+
+    const paste = async () => {
+      menusCopies.value.forEach((m: DailyMenu) => {
+        m.initGroups();
+        dailyMenus.value.push(m);
+      });
+      for (const menu of menusCopies.value) {
+        await Provider.store.dispatch('dailyMenus/create', menu);
+      }
     };
 
     const openDishesConstructor = (dishSample?: DishSample) => {
@@ -144,6 +158,8 @@ export default defineComponent({
     };
 
     return {
+      menusCopies,
+      paste,
       selectedSample,
       openDishesConstructor,
       dailyMenus,

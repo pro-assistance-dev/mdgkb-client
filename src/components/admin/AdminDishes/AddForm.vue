@@ -79,7 +79,7 @@ import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
