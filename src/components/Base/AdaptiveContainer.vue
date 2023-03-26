@@ -1,7 +1,8 @@
 <template>
   <slot name="main" />
   <div v-if="mounted" class="mainblock">
-    <div class="mainblock-left"
+    <div
+      class="mainblock-left"
       :style="{
         minWidth: mobileWindow ? '100%' : menuWidth,
         display: leftWidth !== '0px' ? 'flex' : 'none',
@@ -11,7 +12,8 @@
         top: mobileWindow ? '95px' : '',
       }"
     >
-      <div class="left-menu"
+      <div
+        class="left-menu"
         :style="{
           minWidth: mobileWindow ? 'auto' : menuWidth,
           boxShadow: mobileWindow ? '0 0px 10px 0px rgba(0 0 0 / 20%)' : '',
@@ -20,7 +22,7 @@
           borderBottomLeftRadius: !mobileWindow ? '' : '0',
         }"
         @click="handClick()"
-        >
+      >
         <slot name="menu" />
       </div>
     </div>
@@ -32,15 +34,15 @@
         borderBottomLeftRadius: !isSingle ? '' : '0',
       }"
     >
-
       <div class="title">
-        <div class="icon" 
-          @click="handClick()"
+        <div
+          class="icon"
           :style="{
             display: mobileWindow ? 'flex' : 'none',
           }"
+          @click="handClick()"
         >
-          <slot name="icon"  />
+          <slot name="icon" />
         </div>
         <slot name="title" />
       </div>
@@ -48,14 +50,13 @@
       <div class="body">
         <slot name="body" />
       </div>
-
     </div>
   </div>
   <RightMenu />
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, PropType, Ref, ref, computed, } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import RightMenu from '@/assets/svg/Main/RightMenu.svg';
 
@@ -85,16 +86,17 @@ export default defineComponent({
       collapsed.value = !collapsed.value;
     };
 
-    onBeforeMount(async() => {
+    onBeforeMount(async () => {
       window.addEventListener('resize', () => {
         switch (props.mobileWidth) {
           case '1330px':
-            return mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches;
+            return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
           case '1024px':
-            return mobileWindow.value = window.matchMedia('(max-width: 1024px)').matches;
+            return (mobileWindow.value = window.matchMedia('(max-width: 1024px)').matches);
           case '768px':
-            return mobileWindow.value = window.matchMedia('(max-width: 768px)').matches;
-        } return mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches;
+            return (mobileWindow.value = window.matchMedia('(max-width: 768px)').matches);
+        }
+        return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
       });
       mounted.value = true;
     });
@@ -133,8 +135,10 @@ export default defineComponent({
   top: 0px;
   left: 0px;
   z-index: 1;
-  max-height: auto;
+  max-height: 70vh;
   transition: 0.3s;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .mainblock-right {
@@ -152,7 +156,7 @@ export default defineComponent({
 }
 
 .icon {
-  position:absolute;
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 16px;
@@ -160,10 +164,9 @@ export default defineComponent({
   align-items: center;
 }
 
-.body{
+.body {
   width: 100%;
 }
-
 
 @media screen and (max-width: 768px) {
   .title {
@@ -176,5 +179,4 @@ export default defineComponent({
     font-size: 16px;
   }
 }
-
 </style>
