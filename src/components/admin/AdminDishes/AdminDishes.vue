@@ -152,9 +152,10 @@ export default defineComponent({
       const lunch = DailyMenu.CreateDinner(date);
       await Provider.store.dispatch('dailyMenus/create', breakfast);
       await Provider.store.dispatch('dailyMenus/create', lunch);
-      Provider.store.commit('dailyMenus/set', breakfast);
-
-      dailyMenus.value.push(selectedMenu.value, lunch);
+      dailyMenus.value.push(breakfast, lunch);
+      breakfast.dishesGroups = dishesGroups.value;
+      lunch.dishesGroups = dishesGroups.value;
+      Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
     };
 
     return {
