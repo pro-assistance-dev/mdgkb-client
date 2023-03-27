@@ -77,13 +77,13 @@ import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import NewsRules from '@/classes/news/NewsRules';
-import AdminGallery from '@/components/admin/AdminGallery.vue';
 import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import INews from '@/interfaces/news/INews';
+import AdminGallery from '@/services/components/AdminGallery.vue';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';

@@ -47,10 +47,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { FormStatusNames } from '@/interfaces/FormStatusNames';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({

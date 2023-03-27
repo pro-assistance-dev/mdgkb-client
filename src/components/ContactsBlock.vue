@@ -8,7 +8,12 @@
         <div v-if="contactInfo.time.length" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-time">
+              <svg
+                class="icon-time"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#time"></use>
               </svg>
             </div>
@@ -18,7 +23,12 @@
         <div v-if="contactInfo.postAddresses[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-map-marker">
+              <svg
+                class="icon-map-marker"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#map-marker"></use>
               </svg>
             </div>
@@ -30,16 +40,21 @@
         <div v-if="contactInfo.telephoneNumbers[0].number" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-phone">
+              <svg
+                class="icon-phone"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#phone"></use>
               </svg>
             </div>
             <div class="item-elements">
               <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id" class="item" style="white-space: nowrap">
                 <div>
-                  <a :href="'tel:' + phone.number">{{ phone.number }}</a>
+                  <a class="phone" :href="'tel:' + phone.number">{{ phone.number }}</a>
                 </div>
-                <div v-if="phone.description">: {{ phone.description }}</div>
+                <div v-if="phone.description">{{ phone.description }}</div>
               </div>
             </div>
           </div>
@@ -47,7 +62,12 @@
         <div v-if="contactInfo.emails[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-email">
+              <svg
+                class="icon-email"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#email"></use>
               </svg>
             </div>
@@ -61,29 +81,6 @@
             </div>
           </div>
         </div>
-
-        <!-- <div v-if="contactInfo.telephoneNumbers[0].number" class="block-line">
-      <div class="item">
-        <svg class="icon-phone">
-          <use xlink:href="#phone"></use>
-        </svg>
-      </div>
-      <div class="item-p">
-        <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id" class="item">{{ phone.number }}</div>
-      </div>
-    </div>
-    <div v-if="contactInfo.emails[0].address" class="contact-h3">
-      <div class="item">
-        <svg class="icon-email">
-          <use xlink:href="#email"></use>
-        </svg>
-      </div>
-      <div class="item-p">
-        <div v-for="email in contactInfo.emails" :key="email.id" class="item">
-          {{ email.address }} <span v-if="email.description">: {{ email.description }} </span>
-        </div>
-      </div>
-    </div> -->
       </div>
       <div v-if="full && contactInfo.description" class="contact-comments" style="margin-top: 20px">
         {{ contactInfo.description }}
@@ -126,43 +123,17 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    iconColor: {
+      type: String,
+      default: '#2754eb',
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
-// @import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/elements/base-style.scss';
 
-// .icon-phone {
-//   margin-left: 1px;
-//   width: $width;
-//   height: $height;
-//   fill: $site_dark_gray;
-// }
-
-// .icon-email {
-//   width: $width;
-//   height: $height;
-//   fill: $site_dark_gray;
-// }
-
-// .contact-h3 {
-//   display: flex;
-//   justify-content: left;
-//   font-family: Roboto, Verdana, sans-serif;
-//   font-size: 12px;
-//   font-weight: lighter;
-//   color: #4a4a4a;
-//   align-content: center;
-//   text-align: center;
-//   margin-top: 5px;
-// }
-
-// .block-line {
-//   display: flex;
-//   align-items: center;
-//   justify-content: left;
-// }
 .flex {
   display: flex;
   justify-content: space-between;
@@ -181,8 +152,7 @@ export default defineComponent({
 .icon-phone {
   width: 19px;
   height: 19px;
-  fill: #ffffff;
-  stroke: #2754eb;
+  fill: #2754eb;
 }
 
 .icon-email {
@@ -261,10 +231,15 @@ export default defineComponent({
 .item {
   font-size: 14px;
   display: flex;
+  display: block;
   padding-right: 10px;
   width: auto;
   align-items: center;
   text-align: left;
+}
+
+.phone {
+  color: #343e5c;
 }
 
 .map-data {

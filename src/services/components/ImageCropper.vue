@@ -37,9 +37,8 @@ import 'vue-advanced-cropper/dist/style.css';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
 
-import ICanvasResult from '@/interfaces/canvas/ICanvasResult';
-import ICoordinates from '@/interfaces/canvas/ICoordinates';
-import { ICropper } from '@/interfaces/cropper/ICropper';
+import ICanvasResult from '@/services/interfaces/canvas/ICanvasResult';
+import ICoordinates from '@/services/interfaces/canvas/ICoordinates';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -58,7 +57,7 @@ export default defineComponent({
   },
   emits: ['crop', 'close'],
   setup(props, { emit }) {
-    const cropper: Ref<ICropper> = computed(() => Provider.store.getters[`cropper/cropperV2`]);
+    const cropper = computed(() => Provider.store.getters[`cropper/cropper`]);
     const resolution: Ref<number> = ref(props.defaultRatio);
 
     cropper.value.ratio = resolution.value;
@@ -78,7 +77,6 @@ export default defineComponent({
       top: 0,
     });
 
-    console.log(coordinates);
     const loading = ref(false);
     const resultImage = ref('');
     const cropperRef = ref();

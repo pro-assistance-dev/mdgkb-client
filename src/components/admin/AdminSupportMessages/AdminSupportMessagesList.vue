@@ -14,7 +14,7 @@
       </el-table-column>
       <el-table-column label="Дата" sortable>
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.date, { hour: 'numeric', minute: 'numeric' }) }}
+          {{ $dateTimeFormatter.format(scope.row.date, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
         </template>
       </el-table-column>
       <el-table-column label="Статус">

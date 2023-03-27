@@ -27,8 +27,8 @@ import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import Division from '@/classes/Division';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import ICoordinates from '@/interfaces/canvas/ICoordinates';
 import IBuilding from '@/interfaces/IBuilding';
+import ICoordinates from '@/services/interfaces/canvas/ICoordinates';
 import StringsService from '@/services/Strings';
 
 export default defineComponent({

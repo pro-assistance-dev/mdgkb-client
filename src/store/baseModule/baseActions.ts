@@ -22,13 +22,22 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
 
   return {
     getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
-      const items = await httpClient.get<T[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
-      if (filterQuery && filterQuery.pagination.append) {
-        commit('appendToAll', items);
-        filterQuery.pagination.setAllLoaded(items ? items.length : 0);
-        return;
+      const res = await httpClient.get<T[] | ItemsWithCount<T>>({ query: filterQuery ? filterQuery.toUrl() : '' });
+      if (Array.isArray(res)) {
+        if (filterQuery && filterQuery.pagination.append && res) {
+          commit('appendToAll', res);
+          filterQuery.pagination.setAllLoaded(res ? res.length : 0);
+          return;
+        }
+        commit('setAll', res);
+      } else {
+        if (filterQuery && filterQuery.pagination.append && res) {
+          commit('appendToAll', res.items);
+          filterQuery.pagination.setAllLoaded(res.items.length ? res.items.length : 0);
+          return;
+        }
+        commit('setAllWithCount', res);
       }
-      commit('setAll', items);
     },
     getAllWithCount: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
       const res = await httpClient.get<ItemsWithCount<T>>({ query: filterQuery ? filterQuery.toUrl() : '' });
@@ -59,6 +68,17 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       }
       await httpClient.post<T, T>(opts);
       commit('set');
+    },
+    createWithoutReset: async ({ commit, state }, item: T): Promise<void> => {
+      if (!item) {
+        item = state.item;
+      }
+      const opts: IBodyfulParams<T> = { payload: item, isFormData: true };
+      if (item.getFileInfos) {
+        opts.fileInfos = item.getFileInfos();
+        opts.fileInfos.forEach((f: IFileInfo) => (f.url = ''));
+      }
+      await httpClient.post<T, T>(opts);
     },
     update: async ({ commit, state }, item: T): Promise<void> => {
       if (!item) {

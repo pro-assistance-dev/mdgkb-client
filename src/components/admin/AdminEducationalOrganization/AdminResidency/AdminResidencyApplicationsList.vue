@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column label="Подано" min-width="150">
         <template #default="scope">
-          {{ scope.row.admissionCommittee ? `Приемная кампания ${scope.row.residencyCourse.startYear.year.getFullYear()}` : `Ординатура` }}
+          {{ scope.row.admissionCommittee ? `Приемная кампания ${scope.row.residencyCourse?.startYear.year.getFullYear()}` : `Ординатура` }}
         </template>
       </el-table-column>
       <el-table-column label="Номер заявления" align="center" width="150">
@@ -68,7 +68,7 @@
       </el-table-column>
       <el-table-column label="Наименование курса" min-width="200">
         <template #default="scope">
-          {{ scope.row.residencyCourse.getMainSpecialization().name }}
+          {{ scope.row.residencyCourse?.getMainSpecialization().name }}
         </template>
       </el-table-column>
       <el-table-column label="Баллы за вступительные испытания" align="center" width="150">
@@ -175,7 +175,7 @@ export default defineComponent({
 
     const load = async () => {
       Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
-      Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
+      // Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
       await loadApplications();
       await loadFilters();
       onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();

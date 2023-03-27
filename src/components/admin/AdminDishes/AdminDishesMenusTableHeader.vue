@@ -1,183 +1,192 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
-    <template #header>
-      <CalendarComponent @select-day="selectDay" @back-to-today="fillCalendar" @move="fillCalendar" />
-    </template>
-    <template #sort />
-    <VerticalCollapseContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
-      <template #main>
-        <div v-if="!dailyMenus.length" class="menu-shadow">
-          <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus"> Создать меню </el-button>
-          <el-button v-if="menusCopies.length" round type="warning" plain style="scale: 1.2" @click="paste">
-            Вставить меню из буфера</el-button
+  <div class="menu-title-tools-tabs">
+    <div class="menu-title-tabs">
+      <!--        <div class="menu-title">-->
+      <!--          Меню на-->
+      <!--          {{ $dateTimeFormatter.format(calendar.getSelectedDay().date, { month: '2-digit', day: '2-digit', year: undefined }) }}-->
+      <!--        </div>-->
+      <draggable class="tabs" :list="dailyMenus" item-key="id" @end="saveMenusOrder">
+        <template #item="{ element }">
+          <div
+            :class="{ 'selected-tabs-item': selectedMenu.id === element.id, 'tabs-item': selectedMenu.id !== element.id }"
+            :style="{ color: element.active ? '#00B5A4' : '#DD1D12' }"
+            @click="selectMenu(element)"
           >
-        </div>
-      </template>
-      <template #inside-title> Книга блюд </template>
-      <template #inside-content-left>
-        <DishBook v-if="!dishesConstructorVisible" :menu="selectedMenu" @edit-dish-sample="openDishesConstructor" />
-      </template>
-      <template #inside-content-right>
-        <AdminDishesMenusTable />
-      </template>
-    </VerticalCollapseContainer>
-
-    <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
-      <DishesSamplesConstructor :selected-sample="selectedSample" />
-    </el-dialog>
-  </component>
+            <div class="title">
+              <input
+                v-if="element.editMode"
+                :id="Strings.toCamelCase(element.id)"
+                v-model="element.name"
+                type="text"
+                name="name"
+                placeholder="Имя вкладки"
+                @focusout="saveMenu(element)"
+                @keyup.enter="saveMenu(element)"
+                @keyup.esc="element.cancelEditMode()"
+              />
+              <span v-else class="span-class" @dblclick="element.setEditMode()"> {{ element.name }} </span>
+            </div>
+            <div :class="{ 'active-line': selectedMenu.id === element.id, line: selectedMenu.id !== element.id }" />
+            <div class="button-close">
+              <svg class="icon-close" @click.stop="removeMenu(element)">
+                <use xlink:href="#close" />
+              </svg>
+            </div>
+          </div>
+        </template>
+      </draggable>
+      <div class="tabs-button" @click="addMenu">
+        <button class="tools-button">
+          <svg class="icon-add">
+            <use xlink:href="#add" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="tools-block">
+      <CopyWindow />
+      <PasteWindow />
+      <button class="tools-button" @click="pdf">
+        <svg class="icon-excel">
+          <use xlink:href="#excel" />
+        </svg>
+      </button>
+      <button class="tools-button" @click="pdf">
+        <svg class="icon-print">
+          <use xlink:href="#print" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <Add />
+  <Delete />
+  <Print />
+  <NonActive />
+  <Close />
+  <Excel />
 </template>
 
 <script lang="ts">
+import { ElMessage, ElMessageBox, MessageHandle } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
+import draggable from 'vuedraggable';
 
+import Active from '@/assets/svg/Buffet/Active.svg';
+import Add from '@/assets/svg/Buffet/Add.svg';
+import Close from '@/assets/svg/Buffet/Close.svg';
+import Copy from '@/assets/svg/Buffet/Copy.svg';
+import Delete from '@/assets/svg/Buffet/Delete.svg';
+import Excel from '@/assets/svg/Buffet/Excel.svg';
+import Eye from '@/assets/svg/Buffet/Eye.svg';
+import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
+import Food from '@/assets/svg/Buffet/Food.svg';
+import NonActive from '@/assets/svg/Buffet/NonActive.svg';
+import Print from '@/assets/svg/Buffet/Print.svg';
 import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
+import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
-import DishSample from '@/classes/DishSample';
-import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
-import AdminDishesMenusTable from '@/components/admin/AdminDishes/AdminDishesMenusTable.vue';
-import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
-import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
-import CalendarComponent from '@/components/CalendarComponent.vue';
-import VerticalCollapseContainer from '@/components/Main/Collapse/VerticalCollapseContainer.vue';
+import CopyWindow from '@/components/admin/AdminDishes/CopyWindow.vue';
+import PasteWindow from '@/components/admin/AdminDishes/PasteWindow.vue';
 import Calendar from '@/services/classes/calendar/Calendar';
-import Day from '@/services/classes/calendar/Day';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
-import DailyMenusSortsLib from '@/services/Provider/libs/sorts/DailyMenus';
+import ClassHelper from '@/services/ClassHelper';
 import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
+import sort from '@/services/sort';
+import Strings from '@/services/Strings';
+
 export default defineComponent({
-  name: 'AdminDishes',
+  name: 'AdminDishesMenusTableHeader',
   components: {
-    DishesSamplesConstructor,
-    AdminListWrapper,
+    Add,
+    Delete,
+    Print,
+    NonActive,
+    Close,
+    Excel,
+    draggable,
 
-    VerticalCollapseContainer,
-    DishBook,
-    AdminDishesMenusTable,
-
-    CalendarComponent,
+    CopyWindow,
+    PasteWindow,
   },
   setup() {
-    const dishesConstructorVisible: Ref<boolean> = ref(false);
     const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
-    const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);
-    const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
-    const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
-    const selectedSample: Ref<DishSample | undefined> = ref(undefined);
     const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
 
-    const load = async () => {
-      dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
-      await Provider.store.dispatch('search/searchGroups');
-      await Provider.store.dispatch('dishesGroups/getAll');
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Меню буфета',
-        buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
-      });
+    const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
+    const saveMenusOrder = async () => {
+      sort(dailyMenus.value);
+      await Provider.store.dispatch('dailyMenus/updateMany');
     };
 
-    const paste = async () => {
-      menusCopies.value.forEach((m: DailyMenu) => {
-        m.initGroups();
-        dailyMenus.value.push(m);
-      });
-      for (const menu of menusCopies.value) {
-        await Provider.store.dispatch('dailyMenus/create', menu);
-      }
-    };
-
-    const openDishesConstructor = (dishSample?: DishSample) => {
-      Provider.store.commit('admin/showLoading');
-      selectedSample.value = dishSample;
-      dishesConstructorVisible.value = true;
-      Provider.store.commit('admin/closeLoading');
-    };
-
-    Hooks.onBeforeMount(load);
-
-    const getTodayMenus = async () => {
-      const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
-      dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-      Provider.setFilterModel(dayFilter.value);
-      Provider.setSortModels(DailyMenusSortsLib.byOrder());
-      await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
-      dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
-    };
-
-    const fillCalendar = async () => {
-      const period = calendar.value.getActivePeriod();
-      if (period.length === 0) {
-        return;
-      }
-      const fq = new FilterQuery();
-      fq.filterModels.push(DailyMenusFiltersLib.byPeriod(period[0].date, period[period.length - 1].date));
-      await Provider.store.dispatch('dailyMenus/getPeriodItems', fq);
-      period.forEach((day: Day) => {
-        const menu = periodMenus.value.find((m: DailyMenu) => m.date.getDate() === day.date.getDate());
-        if (!menu) {
-          return;
-        }
-        day.events.push(new CalendarEvent());
-      });
-    };
-
-    const findMenu = () => {
-      if (dailyMenus.value.length < 1) {
-        return;
-      }
-      Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
+    const selectMenu = (menu: DailyMenu): void => {
+      Provider.store.commit('dailyMenus/set', menu);
       selectedMenu.value.initGroups();
     };
 
-    const selectDay = async (): Promise<void> => {
-      await getTodayMenus();
-      if (dailyMenus.value.length === 0) {
-        return;
+    const addMenu = async () => {
+      const menu = DailyMenu.Create(calendar.value.getDateWithOffset());
+      menu.editMode = true;
+      dailyMenus.value.push(menu);
+      menu.dishesGroups = dishesGroups.value;
+      selectMenu(menu);
+      await Provider.store.dispatch('dailyMenus/createWithoutReset', menu);
+      if (menu.id) {
+        const input = document.getElementById(Strings.toCamelCase(menu.id));
+        if (input) {
+          input.focus();
+        }
       }
-      findMenu();
-      await fillCalendar();
     };
 
-    const createNewDailyMenus = async () => {
-      const date = calendar.value.getDateWithOffset();
-      const breakfast = DailyMenu.CreateBreakfast(calendar.value.getDateWithOffset());
-      const lunch = DailyMenu.CreateDinner(date);
-      await Provider.store.dispatch('dailyMenus/create', breakfast);
-      await Provider.store.dispatch('dailyMenus/create', lunch);
-      Provider.store.commit('dailyMenus/set', breakfast);
+    const removeMenu = async (menu: DailyMenu) => {
+      if (dailyMenus.value.length === 1) {
+        return ElMessage.error('Нельзя удалить едиственное меню');
+      }
+      const removeF = async () => {
+        dailyMenus.value = dailyMenus.value.filter((dm: DailyMenu) => dm.id === menu.id);
+        await Provider.store.dispatch('dailyMenus/remove', menu.id);
+        selectMenu(dailyMenus.value[dailyMenus.value.length - 1]);
+      };
+      if (menu.dailyMenuItems.length === 0) {
+        return await removeF();
+      }
+      ElMessageBox.confirm('Вы действительно хотите удалить меню?', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: 'Да',
+        cancelButtonText: 'Нет',
+      }).then(async () => {
+        await removeF();
+      });
+    };
 
-      dailyMenus.value.push(selectedMenu.value, lunch);
+    const pdf = async () => {
+      await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
+    };
+
+    const saveMenu = async (menu: DailyMenu) => {
+      await Provider.store.dispatch('dailyMenus/updateWithoutReset', menu);
+      menu.editMode = false;
     };
 
     return {
-      menusCopies,
-      paste,
-      selectedSample,
-      openDishesConstructor,
-      dailyMenus,
+      Strings,
+      addMenu,
+      saveMenu,
       calendar,
-      dishesConstructorVisible,
+      pdf,
+      dailyMenus,
       selectedMenu,
-      selectDay,
-      dishesGroups,
-      mounted: Provider.mounted,
-      schema: Provider.schema,
-      createNewDailyMenus,
-      fillCalendar,
+      saveMenusOrder,
+      selectMenu,
+      removeMenu,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 $margin: 20px 0;
 
 .blue {
@@ -257,6 +266,7 @@ $margin: 20px 0;
 }
 
 .tools-button {
+  position: relative;
   background: #ffffff;
   border-radius: none;
   border: none;
@@ -306,6 +316,20 @@ $margin: 20px 0;
   cursor: pointer;
   transition: 0.3s;
   margin-top: 1px;
+}
+
+.icon-load {
+  margin-left: 8px;
+  margin-top: 1px;
+  width: 18px;
+  height: 18px;
+  stroke: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.icon-load:hover {
+  stroke: #379fff;
 }
 
 .icon-delete:hover {

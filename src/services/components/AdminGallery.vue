@@ -33,7 +33,7 @@ import { defineComponent, PropType } from 'vue';
 import draggable from 'vuedraggable';
 
 import Move from '@/assets/svg/AdminGallery/Move.svg';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import IFiler from '@/services/interfaces/IFiler';
 import sort from '@/services/sort';
 

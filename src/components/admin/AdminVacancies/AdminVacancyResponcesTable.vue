@@ -22,7 +22,7 @@
     </el-table-column>
     <el-table-column v-if="vacancyColumn" label="Вакансия" min-width="200">
       <template #default="scope">
-        <router-link :to="`/admin/vacancies/${scope.row.vacancy.id}`">
+        <router-link :to="`/admin/vacancies/${scope.row.vacancy?.id}`">
           {{ scope.row.vacancy.title }}
         </router-link>
       </template>

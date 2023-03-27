@@ -14,8 +14,24 @@
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
+    <div v-if="dailyMenuItem.cook" class="inblock">
+      <svg class="icon-loader">
+        <use xlink:href="#loader"></use>
+      </svg>
+      <div class="text">Готовится</div>
+    </div>
+    <div v-else-if="dailyMenuItem.tomorrowAvailable" class="inblock">
+      <div
+        class="text"
+        :style="{
+          fontSize: status == 'tomorrow' ? '12px' : '14px',
+        }"
+      >
+        Доступно завтра
+      </div>
+    </div>
     <div
-      v-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0"
+      v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0"
       class="inblock"
       @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"
     >
@@ -37,22 +53,7 @@
         В корзину
       </div>
     </div>
-    <div v-if="dailyMenuItem.cook" class="inblock">
-      <svg class="icon-loader">
-        <use xlink:href="#loader"></use>
-      </svg>
-      <div class="text">Готовится</div>
-    </div>
-    <div v-else-if="dailyMenuItem.tomorrowAvailable" class="inblock">
-      <div
-        class="text"
-        :style="{
-          fontSize: status == 'tomorrow' ? '12px' : '14px',
-        }"
-      >
-        Доступно завтра
-      </div>
-    </div>
+
     <div v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) > 0" class="inblock">
       <svg class="icon-minus" @click="dailyMenuOrder.decreaseDailyMenuOrderItem(dailyMenuItem)">
         <use xlink:href="#minus"></use>
@@ -140,6 +141,7 @@ export default defineComponent({
   cursor: pointer;
   transition: 0, 3s;
   opacity: 0.8;
+  padding: 9px;
 }
 
 .icon-plus:hover {
@@ -159,6 +161,7 @@ export default defineComponent({
   cursor: pointer;
   transition: 0, 3s;
   opacity: 0.8;
+  padding: 9px;
 }
 
 .icon-minus:hover {

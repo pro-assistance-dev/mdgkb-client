@@ -27,7 +27,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue'
 
 import Banner from '@/classes/Banner';
 import BannerRules from '@/classes/BannerRules';
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';

@@ -12,6 +12,9 @@ const getters: GetterTree<State, RootState> = {
   comment(state): DoctorComment {
     return state.comment;
   },
+  comments(state): DoctorComment[] {
+    return state.item.doctorComments;
+  },
   timetable(state): ITimetable {
     return state.item.timetable;
   },

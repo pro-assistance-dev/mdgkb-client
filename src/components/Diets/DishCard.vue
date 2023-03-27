@@ -24,8 +24,15 @@
         <div class="price">{{ dailyMenuItem.price }} р.</div>
         <div class="name">{{ dailyMenuItem.name }}</div>
         <div class="info">
-          <div class="line1">Вес: {{ dailyMenuItem.weight }}гр.</div>
-          <div class="line2">{{ dailyMenuItem.caloric }} ккал</div>
+          <div class="line1">Вес:{{ dailyMenuItem.weight }}гр.</div>
+          <div class="line2">
+            <div class="hidden-parent">
+              {{ dailyMenuItem.caloric }}&nbsp;ккал
+              <div class="hidden-comment">
+                <DishInfoTable :daily-menu-item="dailyMenuItem" :for-card="true" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <DishCardButton :daily-menu-item="dailyMenuItem" :status="status" />
@@ -39,20 +46,21 @@ import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishCardButton from '@/components/Diets/DishCardButton.vue';
+import DishInfoTable from '@/components/Diets/DishInfoTable.vue';
 import ModalDishCard from '@/components/Diets/ModalDishCard.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DishCard',
-  components: { DishCardButton, FavouriteIcon, ModalDishCard },
+  components: { DishCardButton, FavouriteIcon, ModalDishCard, DishInfoTable },
   props: {
     dailyMenuItem: {
       type: Object as PropType<DailyMenuItem>,
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     let status = 'inStock';
     const modalDishIsOpen: Ref<boolean> = ref(false);
@@ -72,6 +80,8 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
+
 .card {
   width: 170px;
   height: 355px;
@@ -232,8 +242,44 @@ export default defineComponent({
   user-select: none; /* Standard syntax */
 }
 
-// :deep(.el-form) {
-//   width: 120px;
+.hidden-parent {
+  position: relative;
+}
 
-// }
+.hidden-comment {
+  min-width: 150px;
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: $title-font-weight;
+  padding: 0 7px;
+  border-radius: $normal-border-radius;
+  border: $normal-border;
+  color: #ffffff;
+  background: $site_dark_gray;
+  display: none;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.hidden-comment:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -30px;
+  margin-left: -16px;
+  border: 16px solid transparent;
+  border-top: 20px solid $site_dark_gray;
+}
+
+.hidden-parent:hover {
+  cursor: pointer;
+  color: darken($color: #2754eb, $amount: 20%);
+}
+
+.hidden-parent:hover > .hidden-comment {
+  display: block;
+}
 </style>

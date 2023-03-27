@@ -79,10 +79,10 @@ import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import ISortModel from '@/services/interfaces/ISortModel';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
 import PostgraduateCoursesSortsLib from '@/services/Provider/libs/sorts/PostgraduateCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -129,7 +129,7 @@ export default defineComponent({
 
     const load = async () => {
       Provider.store.commit('postgraduateCourses/clearItems');
-      Provider.setSortModels(PostgraduateCoursesSortsLib.byName(Orders.Asc));
+      // Provider.setSortModels(PostgraduateCoursesSortsLib.byName(Orders.Asc));
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Программы аспирантуры',
         buttons: [

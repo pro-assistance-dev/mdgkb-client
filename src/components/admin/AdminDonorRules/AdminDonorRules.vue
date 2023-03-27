@@ -32,9 +32,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
 import Menu from '@/services/classes/Menu';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminDonorRules',

@@ -29,10 +29,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import UploaderSingleScan from '@/components/UploaderSingleScan.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IPartner from '@/interfaces/partners/IPartner';
 import IPartnerType from '@/interfaces/partners/IPartnerType';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 

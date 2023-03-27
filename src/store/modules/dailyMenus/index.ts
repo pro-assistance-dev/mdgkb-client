@@ -12,6 +12,7 @@ import mutations from './mutations';
 export interface State extends IBasicState<DailyMenu> {
   periodItems: DailyMenu[];
   todayMenu: DailyMenu;
+  menusCopies: DailyMenu[];
 }
 
 export const getDefaultState = (): State => {
@@ -19,6 +20,7 @@ export const getDefaultState = (): State => {
     ...getBaseDefaultState(DailyMenu),
     periodItems: [],
     todayMenu: new DailyMenu(),
+    menusCopies: [],
   };
 };
 

@@ -27,13 +27,12 @@
     </template>
 
     <template #right>
-      <div class="line-title">Итого</div>
-      <div class="line-item">
+      <div class="line-title">
         <div class="item">Блюда</div>
         <div class="price">{{ dailyMenuOrder.getPriceSum() }}₽.</div>
       </div>
       <div class="line-item">
-        <div class="item">Доставка</div>
+        <div id="elem" class="item">Доставка</div>
         <div class="price">{{ costOfDelivery }}₽.</div>
       </div>
       <br />
@@ -129,6 +128,13 @@ export default defineComponent({
       dailyMenuOrder.value.removeFromLocalStore();
       loading.close();
       emit('close');
+      // TODO получение координат
+      // const elem = document.getElementById("elem");
+      //   if (elem !== null) {
+      //     console.log('Блок координат' + elem.getBoundingClientRect());
+      //   } else {
+      //     console.log('Блок координат' + elem)
+      //   }
     };
 
     const clearOrder = (): void => {
@@ -297,6 +303,12 @@ export default defineComponent({
 :deep(.el-input__inner) {
   height: 36px;
   border-radius: 8px;
+}
+
+#elem {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
 }
 
 @media screen and (max-width: 768px) {

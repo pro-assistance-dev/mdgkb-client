@@ -14,6 +14,9 @@ const getters: GetterTree<State, RootState> = {
   periodItems(state): DailyMenu[] {
     return state.periodItems;
   },
+  menusCopies(state): DailyMenu[] {
+    return state.menusCopies;
+  },
 };
 
 export default getters;
