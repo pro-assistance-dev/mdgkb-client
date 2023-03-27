@@ -2,7 +2,7 @@
   <div v-if="mounted">
     <el-card v-if="formValue.formStatus.label">
       <template #header>
-        <span>Статус заявления</span>
+        <span>{{ statusHeader }}</span>
       </template>
       <el-descriptions :column="1" border>
         <el-descriptions-item label="Статус">
@@ -10,7 +10,7 @@
             {{ formValue.formStatus.label }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item v-if="formValue.withApprovingDate" label="Время принятия заявления">
+        <el-descriptions-item v-if="formValue.withApprovingDate" label="Время">
           <el-form-item style="margin: 0" prop="content">
             <DatePicker v-model="formValue.approvingDate" />
           </el-form-item>
@@ -32,7 +32,7 @@
 
     <el-card>
       <template #header>
-        <span>Информация о заявителе</span>
+        <span>{{ infoHeader }}</span>
       </template>
       <!--      UserForm крэшится в продакшне!-->
       <!--      <div v-if="isEditMode">-->
@@ -57,9 +57,9 @@
 
     <div v-else>
       <el-card v-if="formValue.fieldValues.length" id="form-data">
-        <template #header>
+        <template v-if="formHeader" #header>
           <div class="flex-between">
-            <span>Данные формы</span>
+            <span>{{ formHeader }}</span>
             <div v-if="checkFields" class="flex">
               <!-- <span style="margin-right: 5px">Статус:</span> -->
               <el-tag v-if="formValue.isFieldValuesModChecked()" type="success">Полный комплект документов</el-tag>
@@ -146,6 +146,18 @@ export default defineComponent({
       type: Boolean,
       required: true,
       default: true,
+    },
+    statusHeader: {
+      type: String,
+      default: 'Статус заявления',
+    },
+    infoHeader: {
+      type: String,
+      default: 'Информация о заявителе',
+    },
+    formHeader: {
+      type: String,
+      default: 'Данные формы',
     },
     checkFields: {
       type: Boolean,

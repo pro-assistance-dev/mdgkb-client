@@ -9,6 +9,9 @@
             :validate-email="false"
             :active-fields="UserFormFields.CreateWithPhone()"
             :is-edit-mode="isEditMode"
+            status-header="Статус заказа"
+            info-header="Информация о заказе"
+            form-header=""
             :check-fields="false"
           />
         </el-form>
@@ -80,7 +83,7 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
+import { NavigationGuardNext } from 'vue-router';
 
 import DailyMenu from '@/classes/DailyMenu';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
@@ -130,7 +133,7 @@ export default defineComponent({
       await Provider.store.dispatch('dailyMenuOrders/updateWithoutReset');
     };
 
-    const { saveButtonClick, showConfirmModal } = useConfirmLeavePage();
+    const { saveButtonClick } = useConfirmLeavePage();
 
     const load = async () => {
       try {
