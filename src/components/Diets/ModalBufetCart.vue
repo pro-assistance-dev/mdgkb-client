@@ -111,9 +111,11 @@ export default defineComponent({
       });
       dailyMenuOrder.value.formValue.validate();
       if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
+        loading.close();
         return;
       }
       if (dailyMenuOrder.value.getPriceSum() < 150) {
+        loading.close();
         return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
       }
       dailyMenuOrder.value.formValue.clearIds();
