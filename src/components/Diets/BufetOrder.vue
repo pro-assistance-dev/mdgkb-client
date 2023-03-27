@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
-import { ElLoading, ElMessage } from 'element-plus';
+import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
@@ -77,7 +77,13 @@ export default defineComponent({
       });
       dailyMenuOrder.value.formValue.clearIds();
       await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
-      ElMessage({ message: 'Заказ успешно создан', type: 'success' });
+      ElNotification({
+        dangerouslyUseHTMLString: true,
+        message:
+          '<div />Заказ успешно создан. Для просмотра статуса перейдите в <router-link :to="/profile/education">личный кабинет</router-link></div>',
+        type: 'success',
+        duration: 0,
+      });
       await Provider.store.commit('dailyMenuOrders/resetItem');
       dailyMenuOrder.value.removeFromLocalStore();
       await Provider.router.push('/bufet');

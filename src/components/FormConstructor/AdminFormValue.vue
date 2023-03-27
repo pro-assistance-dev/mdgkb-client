@@ -60,7 +60,7 @@
         <template v-if="formHeader" #header>
           <div class="flex-between">
             <span>{{ formHeader }}</span>
-            <div class="flex">
+            <div v-if="checkFields" class="flex">
               <!-- <span style="margin-right: 5px">Статус:</span> -->
               <el-tag v-if="formValue.isFieldValuesModChecked()" type="success">Полный комплект документов</el-tag>
               <el-tag v-else type="danger">Не все документы проверены</el-tag>
@@ -79,7 +79,7 @@
             </div>
           </div>
         </template>
-        <FieldValuesFormResult :form="formValue" />
+        <FieldValuesFormResult :form="formValue" :check-fields="checkFields" />
         <div v-for="file in formValue.formValueFiles" :key="file">
           <a v-if="file.file.fileSystemPath" :href="file.file.getFileUrl()" target="_blank">
             {{ file.file.originalName }}
@@ -87,7 +87,7 @@
         </div>
       </el-card>
     </div>
-    <el-card v-if="formValue.fieldValues.length" id="form-comment" header="Общий комментарий">
+    <el-card v-if="formValue.fieldValues.length && checkFields" id="form-comment" header="Общий комментарий">
       <el-form-item prop="content">
         <WysiwygEditor v-model="formValue.modComment" />
       </el-form-item>
@@ -159,6 +159,10 @@ export default defineComponent({
       type: String,
       default: 'Данные формы',
     },
+    checkFields: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['findEmail'],
 
@@ -168,20 +172,22 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const changeFormStatusHandler = (status: IFormStatus) => {
       if (!formValue.value) return;
-      if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {
-        ElMessage({
-          message: 'Необходимо добавить замечания',
-          type: 'error',
-        });
-        return;
-      }
-      if ((status.isConsidering() || status.isAccepted()) && !formValue.value.isFieldValuesModChecked()) {
-        ElMessage({
-          message: 'Проверьте данные формы',
-          type: 'error',
-        });
-        scroll('#form-data');
-        return;
+      if (props.checkFields) {
+        if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {
+          ElMessage({
+            message: 'Необходимо добавить замечания',
+            type: 'error',
+          });
+          return;
+        }
+        if ((status.isConsidering() || status.isAccepted()) && !formValue.value.isFieldValuesModChecked()) {
+          ElMessage({
+            message: 'Проверьте данные формы',
+            type: 'error',
+          });
+          scroll('#form-data');
+          return;
+        }
       }
       formValue.value.setStatus(status, formStatuses.value);
     };

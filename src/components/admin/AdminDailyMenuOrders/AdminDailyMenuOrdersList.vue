@@ -2,6 +2,7 @@
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <RemoteSearch key-value="dailyMenuOrder" placeholder="Введите номер заказа" @select="selectSearch" />
+      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
     </template>
     <template #sort>
       <SortList :max-width="400" @load="loadItems" />
@@ -28,11 +29,6 @@
               minute: 'numeric',
             })
           }}
-        </template>
-      </el-table-column>
-      <el-table-column label="ФИО" sortable>
-        <template #default="scope">
-          {{ scope.row.formValue.user.human.getFullName() }}
         </template>
       </el-table-column>
       <el-table-column label="Email" sortable>
@@ -72,39 +68,76 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortListV2.vue';
+import IFormStatus from '@/interfaces/IFormStatus';
+import IOption from '@/interfaces/IOption';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
+import DailyMenuOrdersFiltersLib from '@/services/Provider/libs/filters/DailyMenuOrdersFiltersLib';
+import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import DailyMenuOrdersSortsLib from '@/services/Provider/libs/sorts/DailyMenuOrdersSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDailyMenuOrdersList',
-  components: { AdminListWrapper, TableButtonGroup, SortList, TableFormStatus, RemoteSearch },
+  components: { AdminListWrapper, TableButtonGroup, SortList, TableFormStatus, RemoteSearch, FilterMultipleSelect },
   setup() {
     const dailyMenuOrders = computed(() => Provider.store.getters['dailyMenuOrders/items']);
+    const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
+    const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
 
-    Hooks.onBeforeMount(Provider.loadItems, {
-      adminHeader: {
-        title: 'Буфет. Заказы',
-        buttons: [],
+    Hooks.onBeforeMount(
+      async () => {
+        Provider.loadItems();
+        loadFilters();
+        filterByStatus.value = DailyMenuOrdersFiltersLib.byStatus();
       },
-      pagination: { storeModule: 'dailyMenuOrders', action: 'getAllWithCount' },
-      getAction: 'getAllWithCount',
-      sortsLib: DailyMenuOrdersSortsLib,
-    });
+      {
+        adminHeader: {
+          title: 'Буфет. Заказы',
+          buttons: [],
+        },
+        pagination: { storeModule: 'dailyMenuOrders', action: 'getAllWithCount' },
+        getAction: 'getAllWithCount',
+        sortsLib: DailyMenuOrdersSortsLib,
+      }
+    );
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.toAdmin(`/daily-menu-orders/${event.id}`);
     };
 
-    return { dailyMenuOrders, selectSearch, ...Provider.getAdminLib() };
+    const loadApplications = () => {
+      Provider.loadItems();
+    };
+
+    const filtersToOptions = (): IOption[] => {
+      const options: IOption[] = [];
+      formStatuses.value.forEach((i: IFormStatus) => {
+        if (i.id) {
+          options.push({ value: i.id, label: i.label });
+        }
+      });
+      return options;
+    };
+
+    const loadFilters = async () => {
+      const filterQuery = new FilterQuery();
+      filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('bufet'));
+      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+    };
+
+    return { dailyMenuOrders, selectSearch, ...Provider.getAdminLib(), filterByStatus, filtersToOptions, loadApplications };
   },
 });
 </script>

@@ -36,7 +36,7 @@ const Hooks = (() => {
         Provider.setSortList(...createSortModels(options.sortsLib));
       }
       await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
-      Provider.setDefaultSortModel();
+      // Provider.setDefaultSortModel();
       Provider.setStoreModule(undefined);
       Provider.setGetAction(options?.getAction);
       Provider.initPagination(options?.pagination);
