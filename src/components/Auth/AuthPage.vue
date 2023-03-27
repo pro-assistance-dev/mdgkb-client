@@ -13,6 +13,8 @@
         : 'Задайте новый пароль'
     "
     center
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
     @closed="closeModal"
   >
     <el-form ref="myForm" label-width="0" :model="form" :rules="rules" @submit.prevent="submitForm">
@@ -82,9 +84,8 @@ export default defineComponent({
     const closeModal = () => {
       store.commit('auth/closeModal');
       form.value = new User();
-      console.log(showWarning.value);
       if (showWarning.value) {
-        router.go(-1);
+        router.push('/');
       }
     };
 
