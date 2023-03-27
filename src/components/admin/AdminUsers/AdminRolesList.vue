@@ -28,6 +28,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import Role from '@/services/classes/Role';
 
 export default defineComponent({
   name: 'AdminRolesList',
