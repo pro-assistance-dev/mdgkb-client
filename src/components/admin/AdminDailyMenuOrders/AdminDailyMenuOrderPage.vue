@@ -2,20 +2,14 @@
   <div v-if="mounted">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="12" :xl="12">
-        <el-form
-          ref="form"
-          v-model="dailyMenuOrder"
-          :model="dailyMenuOrder"
-          label-width="150px"
-          style="max-width: 700px"
-          label-position="left"
-        >
+        <el-form ref="form" v-model="dailyMenuOrder" :model="dailyMenuOrder" style="max-width: 700px">
           <AdminFormValue
             :show-additional-files="false"
             :form="dailyMenuOrder.formValue"
             :validate-email="false"
-            :active-fields="UserFormFields.CreateWithFullName({ userEmail: true, userPhone: true })"
+            :active-fields="UserFormFields.CreateWithPhone()"
             :is-edit-mode="isEditMode"
+            :check-fields="false"
           />
         </el-form>
       </el-col>
@@ -55,7 +49,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <div>Сумма заказа: {{ dailyMenuOrder.getPriceSum() }} руб.</div>
+          <div class="summ">Сумма заказа: {{ dailyMenuOrder.getPriceSum() }} руб.</div>
         </el-card>
         <br />
         <el-card>
@@ -64,10 +58,17 @@
           </template>
           <div v-for="dishesGroup in dailyMenu.getNotEmptyGroups(true)" :key="dishesGroup.id">
             <h4>{{ dishesGroup.name }}</h4>
-            <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id">
+            <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id" style="margin-bottom: 5px">
+              <el-button
+                v-if="isEditMode"
+                style="margin-right: 10px"
+                size="mini"
+                type="success"
+                icon="el-icon-plus"
+                @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"
+              ></el-button>
               <span>{{ dailyMenuItem.name }}</span> /
               <span>{{ dailyMenuItem.price }} руб.</span>
-              <el-button v-if="isEditMode" @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)">Добавить в заказ</el-button>
             </div>
           </div>
         </el-card>
@@ -217,5 +218,9 @@ $margin: 20px 0;
 
 :deep(.el-dialog) {
   overflow: hidden;
+}
+
+.summ {
+  padding: 10px 0 0 10px;
 }
 </style>

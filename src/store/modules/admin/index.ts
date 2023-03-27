@@ -17,7 +17,7 @@ export const getDefaultState = (): State => {
     isDrawerOpen: false,
     loading: undefined,
     menus: menuList,
-    adminMenus: [],
+    searchMenus: [],
     applicationsCounts: [],
   };
 };

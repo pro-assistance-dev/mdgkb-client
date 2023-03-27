@@ -24,13 +24,13 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
 import SearchGroup from '@/classes/SearchGroup';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import SearchModel from '@/services/classes/SearchModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import IFilterModel from '@/services/interfaces/IFilterModel';
-import { Operators } from '@/services/interfaces/Operators';
 import ISearch from '@/services/interfaces/ISearchObject';
+import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
 
@@ -95,7 +95,7 @@ export default defineComponent({
       }
       await Provider.store.dispatch(`search/search`, searchModel.value);
 
-      emit('input', searchModel.value.searchObjects);
+      // emit('input', searchModel.value.searchObjects);
       if (props.showSuggestions) {
         resolve(searchModel.value.searchObjects);
         return;
@@ -133,9 +133,10 @@ export default defineComponent({
       searchForm.value.close();
     };
 
-    const handleInput = (i: string) => {
-      if (i.length === 0) {
-        emit('input', []);
+    const handleInput = (value: string) => {
+      emit('input', value);
+      if (value.length === 0) {
+        emit('input', '');
       }
     };
 

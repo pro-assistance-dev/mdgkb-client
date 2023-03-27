@@ -33,7 +33,6 @@ import IPostgraduateCourseSchema from '@/interfaces/schema/IPostgraduateCourseSc
 import IQuestionSchema from '@/interfaces/schema/IQuestionSchema';
 import IResidencyApplicationSchema from '@/interfaces/schema/IResidencyApplicationSchema';
 import IResidencyCourseSchema from '@/interfaces/schema/IResidencyCourseSchema';
-import RoleSchema from '@/interfaces/schema/RoleSchema';
 import ISpecializationSchema from '@/interfaces/schema/ISpecializationSchema';
 import ISupportMessageSchema from '@/interfaces/schema/ISupportMessageSchema';
 import ITeacherSchema from '@/interfaces/schema/ITeacherSchema';
@@ -41,7 +40,9 @@ import ITreatDirectionSchema from '@/interfaces/schema/ITreatDirectionSchema';
 import IVacancyResponseSchema from '@/interfaces/schema/IVacancyResponseSchema';
 import IVacancySchema from '@/interfaces/schema/IVacancySchema';
 import IVisitsApplicationSchema from '@/interfaces/schema/IVisitsApplicationSchema';
+import RoleSchema from '@/interfaces/schema/RoleSchema';
 
+import IDailyMenuOrderSchema from './IDailyMenuOrderSchema';
 import IUserSchema from './IUserSchema';
 
 export default interface ISchema {
@@ -90,4 +91,5 @@ export default interface ISchema {
   formPattern: IFormPatternSchema;
   dishesGroup: IDishesGroupSchema;
   department: IDepartmentSchema;
+  dailyMenuOrder: IDailyMenuOrderSchema;
 }

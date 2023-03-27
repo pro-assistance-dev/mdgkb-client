@@ -61,9 +61,19 @@ const mutations: MutationTree<State> = {
       );
       // m.children = m.children.filters((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
     });
+
+    state.searchMenus = [];
+    state.menus.forEach((el: IAdminMenu) => {
+      if (el.to !== '/') {
+        state.searchMenus.push({ value: el.title, link: el.to });
+      } else if (el.children?.length) {
+        el.children.forEach((el: IAdminMenu) => {
+          state.searchMenus.push({ value: el.title, link: el.to });
+        });
+      }
+    });
   },
   setApplicationsCounts(state, items: IApplicationsCount[]) {
-    state.applicationsCounts = items;
     items.forEach((i: IApplicationsCount) => {
       let menu = state.menus.find((m: IAdminMenu) => m.tableName === i.tableName);
       if (menu) {
@@ -75,16 +85,6 @@ const mutations: MutationTree<State> = {
           menu.count = i.count;
         }
       });
-    });
-    state.adminMenus = [];
-    state.menus.forEach((el: IAdminMenu) => {
-      if (el.to !== '/') {
-        state.adminMenus.push({ value: el.title, link: el.to });
-      } else if (el.children?.length) {
-        el.children.forEach((el: IAdminMenu) => {
-          state.adminMenus.push({ value: el.title, link: el.to });
-        });
-      }
     });
   },
 };
