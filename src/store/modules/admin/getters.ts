@@ -29,8 +29,8 @@ const getters: GetterTree<State, RootState> = {
     }
     return state.menus;
   },
-  adminMenus(state): ISearchQuery[] {
-    return state.adminMenus;
+  searchMenus(state): ISearchQuery[] {
+    return state.searchMenus;
   },
   applicationsCounts(state): IApplicationsCount[] {
     return state.applicationsCounts;

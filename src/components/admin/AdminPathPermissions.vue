@@ -81,19 +81,18 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
 import { RouteRecordNormalized } from 'vue-router';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import PathPermission from '@/classes/PathPermission';
-import Role from '@/services/classes/Role';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import ISortModel from '@/services/interfaces/ISortModel';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
-
 import { RoleName } from '@/interfaces/RoleName';
 import ISchema from '@/interfaces/schema/ISchema';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import Role from '@/services/classes/Role';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
+import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
 import PathPermissionsSortsLib from '@/services/Provider/libs/sorts/PathPermissionsSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -214,8 +213,13 @@ export default defineComponent({
       filteredRoles.value = roles.value;
       chosenRole.value = new Role();
     };
-    const filterList = (search: ISearchObject[]) => {
-      searchFilterPathPermissions.value = search.map((el) => el.id);
+    const filterList = (search: string) => {
+      searchFilterPathPermissions.value = [];
+      clientPermissions.value.forEach((el) => {
+        if (el.resource.includes(search) && el.id) {
+          searchFilterPathPermissions.value.push(el.id);
+        }
+      });
     };
     const createSortModels = (): ISortModel[] => {
       return [PathPermissionsSortsLib.byResource(Orders.Asc), PathPermissionsSortsLib.byResource(Orders.Desc)];
