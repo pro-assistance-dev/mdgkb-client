@@ -16,6 +16,9 @@
             :validate-email="false"
             :active-fields="UserFormFields.CreateWithFullName({ userEmail: true, userPhone: true })"
             :is-edit-mode="isEditMode"
+            status-header="Статус заказа"
+            info-header="Информация о заказе"
+            form-header=""
           />
         </el-form>
       </el-col>
