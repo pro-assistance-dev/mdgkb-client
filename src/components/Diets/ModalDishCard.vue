@@ -10,7 +10,7 @@
         <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
       </div>
     </template>
-    <template #small-title> Завтрак&nbsp;-&nbsp;Блюда из овощей </template>
+    <template #small-title> {{ dailyMenuName }} - {{ dishesGroupName }} </template>
     <template #title>
       <div class="name">
         {{ dailyMenuItem.name }}
@@ -18,10 +18,10 @@
       <div class="weight">{{ dailyMenuItem.weight }}&nbsp;г</div>
     </template>
     <template #info>
-      <div class="text">Диетический салат из смеси овошей, с добавлением оливкового масла и петрушки</div>
-      <div class="info-title">Состав</div>
-      <div class="text">
-        Капуста белокачанная, морковь, перец болгарский, соль, лимон (сок), масло растительное (оливковое), петрушка свежая
+      <div v-show="dailyMenuItem.description.length" class="text">{{ dailyMenuItem.description }}</div>
+      <div v-show="dailyMenuItem.composition.length" class="info-title">Состав</div>
+      <div v-show="dailyMenuItem.composition.length" class="text">
+        {{ dailyMenuItem.composition }}
       </div>
       <div class="info-title">Пищевая ценность на 100 г</div>
 
@@ -55,6 +55,14 @@ export default defineComponent({
     },
     dailyMenuItem: {
       type: Object as PropType<DailyMenuItem>,
+      required: true,
+    },
+    dishesGroupName: {
+      type: String as PropType<string>,
+      required: true,
+    },
+    dailyMenuName: {
+      type: String as PropType<string>,
       required: true,
     },
   },

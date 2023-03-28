@@ -56,4 +56,16 @@ export default class DailyMenuItem {
     item.dishSample = new DishSample(dishSample);
     return item;
   }
+
+  getFormattedEnergy(energyNumbers: number): string {
+    return `${energyNumbers > 0 ? energyNumbers : '-'} гр.`;
+  }
+
+  getEnergies(): Record<string, string> {
+    return {
+      Белки: this.getFormattedEnergy(this.proteins),
+      Жиры: this.getFormattedEnergy(this.fats),
+      Углеводы: this.getFormattedEnergy(this.carbohydrates),
+    };
+  }
 }

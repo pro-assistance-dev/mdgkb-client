@@ -76,7 +76,13 @@
           <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups(true)" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
-              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
+              <DishCard
+                v-for="dish in dishesGroup.getAvailableDishes()"
+                :key="dish.id"
+                :daily-menu-item="dish"
+                :dishes-group-name="dishesGroup.name"
+                :daily-menu-name="dailyMenu.name"
+              />
             </div>
           </template>
         </div>
