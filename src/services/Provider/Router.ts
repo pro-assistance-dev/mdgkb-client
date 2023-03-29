@@ -33,7 +33,7 @@ const Router = (() => {
   }
 
   function getNumberQueryParam(param: string): number {
-    return Number(route().query[param]);
+    return Number(route().query[param] ?? 0);
   }
 
   return {

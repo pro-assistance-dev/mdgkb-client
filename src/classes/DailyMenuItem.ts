@@ -68,4 +68,22 @@ export default class DailyMenuItem {
       Углеводы: this.getFormattedEnergy(this.carbohydrates),
     };
   }
+
+  getComposition(): string {
+    const defaultComposition =
+      'Все блюда приготовлены из натуральных и свежих продуктов. Более подробную информацию о составе этого блюда вы можете получить в нашем буфете';
+    return this.composition.length ? this.composition : defaultComposition;
+  }
+
+  getDescription(): string {
+    const defaultDescriptions = [
+      'Данное блюдо неизменно пользуется спросом у наших посетителей',
+      'Одно из лучших блюд нашего буфета',
+      'Наиболее часто пользуется спросом',
+      'Выбор наших посетителей',
+      'Вседа самое свежее',
+    ];
+    const randNum = Math.floor(Math.random() * defaultDescriptions.length);
+    return this.description.length ? this.description : defaultDescriptions[randNum];
+  }
 }

@@ -18,10 +18,10 @@
       <div class="weight">{{ dailyMenuItem.weight }}&nbsp;г</div>
     </template>
     <template #info>
-      <div v-show="dailyMenuItem.description.length" class="text">{{ dailyMenuItem.description }}</div>
-      <div v-show="dailyMenuItem.composition.length" class="info-title">Состав</div>
-      <div v-show="dailyMenuItem.composition.length" class="text">
-        {{ dailyMenuItem.composition }}
+      <div class="text">{{ dailyMenuItem.getDescription() }}</div>
+      <div class="info-title">Состав</div>
+      <div class="text">
+        {{ dailyMenuItem.getComposition() }}
       </div>
       <div class="info-title">Пищевая ценность на 100 г</div>
 
