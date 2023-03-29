@@ -46,7 +46,7 @@ export default defineComponent({
     const form = ref();
     const rules = ref(CommentRules);
     const eventFormVisible = ref(false);
-    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+    const user: Ref<User> = computed(() => store.getters['auth/user']);
     watch(user, () => {
       eventApplication.value.user = new User(user.value);
       eventApplication.value.userId = user.value.id;

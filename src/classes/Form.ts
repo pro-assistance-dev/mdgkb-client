@@ -11,6 +11,7 @@ import IFieldValueFile from '@/interfaces/IFieldValueFile';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
+import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
@@ -528,5 +529,9 @@ export default class Form implements IForm {
   valueExists(code: string): boolean {
     const fieldValue = this.getFieldValueByCode(code);
     return !!fieldValue && !!fieldValue.getValue();
+  }
+
+  getUserActions(): IFormStatusToFormStatus[] {
+    return this.formStatus.formStatusToFormStatuses.filter((f: IFormStatusToFormStatus) => f.childFormStatus.userActionName);
   }
 }

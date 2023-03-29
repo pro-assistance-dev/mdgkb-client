@@ -15,7 +15,7 @@ import store from '@/store';
 import State from './state';
 
 const mutations: MutationTree<State> = {
-  setUser(state, user: IUser) {
+  setUser(state, user: User) {
     state.user = new User(user);
     localStorage.setItem('user', JSON.stringify(user));
   },

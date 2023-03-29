@@ -9,7 +9,7 @@ export default class DailyMenuOrder {
   id?: string;
   date: Date = new Date();
   boxNumber = 0;
-  number = 0;
+  number?: number;
   @ClassHelper.GetClassConstructor(DailyMenuOrderItem)
   dailyMenuOrderItems: DailyMenuOrderItem[] = [];
   dailyMenuOrderItemsForDelete: string[] = [];

@@ -1,9 +1,9 @@
 import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
-import EditApplicationPage from '@/components/Profile/Education/EditApplicationPage.vue';
-import EducationPage from '@/components/Profile/Education/EducationPage.vue';
-import ProfileSettingsPage from '@/components/Profile/Education/ProfileSettingsPage.vue';
 import ProfileChildrenPage from '@/components/Profile/ProfileChildrenPage.vue';
+import EditApplicationPage from '@/components/Profile/ProfileDailyMenuOrders/EditApplicationPage.vue';
+import ProfileDailyMenuOrders from '@/components/Profile/ProfileDailyMenuOrders/ProfileDailyMenuOrders.vue';
+import ProfileSettingsPage from '@/components/Profile/ProfileDailyMenuOrders/ProfileSettingsPage.vue';
 import ProfileDonor from '@/components/Profile/ProfileDonor.vue';
 import ProfileEditPage from '@/components/Profile/ProfileEditPage.vue';
 import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
@@ -64,9 +64,9 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     meta: { protected: true, profile: true },
   },
   {
-    path: '/profile/education',
-    name: 'Education',
-    component: EducationPage,
+    path: '/profile/daily-menu-orders',
+    name: 'ProfileDailyMenuOrders',
+    component: ProfileDailyMenuOrders,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       authGuard();
       isAuthorized(next);

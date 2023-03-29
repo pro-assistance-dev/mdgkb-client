@@ -141,7 +141,7 @@ export default defineComponent({
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const cartIsOpen: Ref<boolean> = ref(false);
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     let intervalID: number;
     watch(isAuth, () => {

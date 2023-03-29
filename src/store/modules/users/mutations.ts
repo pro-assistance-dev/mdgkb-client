@@ -1,21 +1,20 @@
 import { MutationTree } from 'vuex';
 
 import User from '@/classes/User';
-import IUser from '@/services/interfaces/IUser';
 
 import { State } from './state';
 
 interface IUsersWithCount {
-  users: IUser[];
+  users: User[];
   count: number;
 }
 
 const mutations: MutationTree<State> = {
   setAll(state, items: IUsersWithCount) {
-    state.items = items.users.map((i: IUser) => new User(i));
+    state.items = items.users.map((i: User) => new User(i));
     state.count = items.count;
   },
-  set(state, item: IUser) {
+  set(state, item: User) {
     state.item = new User(item);
   },
   emailExist(state, emailExists: boolean) {

@@ -1,5 +1,6 @@
 import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
+import User from '@/classes/User';
 import INews from '@/interfaces/news/INews';
 import IUser from '@/services/interfaces/IUser';
 
@@ -23,5 +24,5 @@ export default interface IComment {
   doctorComment?: IComment;
   divisionComment?: IComment;
 
-  user: IUser;
+  user: User;
 }
