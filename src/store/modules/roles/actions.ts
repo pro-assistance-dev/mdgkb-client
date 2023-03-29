@@ -1,12 +1,11 @@
 import { ActionTree } from 'vuex';
 
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-
+import Role from '@/services/classes/Role';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import Role from '@/services/classes/Role';
 
 const httpClient = new HttpClient('roles');
 

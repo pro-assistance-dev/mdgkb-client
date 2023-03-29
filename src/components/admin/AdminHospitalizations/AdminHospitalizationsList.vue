@@ -59,20 +59,20 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import { Operators } from '@/services/interfaces/Operators';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
+import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
 import HospitalizationsFiltersLib from '@/services/Provider/libs/filters/HospitalizationsFiltersLib';
 import HospitalizationsSortsLib from '@/services/Provider/libs/sorts/HospitalizationsSortsLib';

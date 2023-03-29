@@ -40,15 +40,15 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import DpoApplication from '@/classes/DpoApplication';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import NmoCourse from '@/classes/NmoCourse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import { DataTypes } from '@/services/interfaces/DataTypes';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import ISchema from '@/interfaces/schema/ISchema';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
+import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Orders } from '@/services/interfaces/Orders';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';

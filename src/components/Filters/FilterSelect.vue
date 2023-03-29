@@ -12,11 +12,11 @@
 import { defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
   name: 'FilterSelect',

@@ -1,6 +1,6 @@
-import ValueType from '@/services/classes/ValueType';
 import IField from '@/interfaces/IField';
 import IMaskToken from '@/interfaces/IMaskToken';
+import ValueType from '@/services/classes/ValueType';
 
 import FileInfo from './File/FileInfo';
 import MaskToken from './MaskToken';

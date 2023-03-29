@@ -20,8 +20,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, r
 
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
-import ISortModel from '@/services/interfaces/ISortModel';
 import SortModel from '@/services/classes/SortModel';
+import ISortModel from '@/services/interfaces/ISortModel';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

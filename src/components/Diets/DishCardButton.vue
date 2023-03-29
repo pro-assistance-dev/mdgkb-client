@@ -10,7 +10,7 @@
       width: width,
       background: status == 'inCart' || status == 'inStock' ? '#31AF5E' : '#ffffff',
     }"
-    @click="handClick"
+    @click.prevent="handClick"
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
@@ -30,11 +30,7 @@
         Доступно завтра
       </div>
     </div>
-    <div
-      v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0"
-      class="inblock"
-      @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"
-    >
+    <div v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0" class="inblock" @click.prevent="clickPlus">
       <svg
         class="icon-plus"
         :style="{
@@ -112,7 +108,7 @@ export default defineComponent({
       default: 'inCart',
     },
   },
-  setup() {
+  setup(props) {
     const select: Ref<boolean> = ref(false);
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const hovering = ref(false);
@@ -121,11 +117,66 @@ export default defineComponent({
       select.value = !select.value;
     };
 
+    const move_to_cart = () => {
+      const container = document.getElementById('container');
+      const product = document.getElementById(`${props.dailyMenuItem.id}`);
+      const cart = document.getElementById('svgcart');
+
+      if (product && cart && container) {
+        const coordProduct = product.getBoundingClientRect();
+
+        const coordCart = cart.getBoundingClientRect();
+        const time = 500;
+        let cloneProduct = product.cloneNode(true) as HTMLElement;
+
+        const styleObject = {
+          position: 'fixed',
+          left: coordProduct.left + 'px',
+          top: coordProduct.top + 'px',
+          margin: 0,
+          border: '3px solid #31AF5E',
+          zIndex: 11,
+        };
+
+        Object.assign(cloneProduct.style, styleObject);
+        container.appendChild(cloneProduct);
+
+        const topSize = coordProduct.top - coordCart.bottom + (coordCart.height + coordProduct.height) / 2;
+        const leftSize = coordCart.left - coordProduct.right + (coordCart.width + coordProduct.width) / 2;
+        let start: number | null = null;
+
+        window.requestAnimationFrame(function animate(timestamp) {
+          if (!start) {
+            start = timestamp;
+          }
+          let progress = timestamp - start;
+          let value = progress / time;
+          const sizeY = topSize * value * -1;
+          const sizeX = leftSize * value;
+
+          const scale = 1 - value;
+
+          if (topSize * value < topSize) {
+            cloneProduct.style.transform = `translate3d(${sizeX + 'px'}, ${sizeY + 'px'}, 0) scale3d(${scale}, ${scale}, 1)`;
+            return window.requestAnimationFrame(animate);
+          }
+          cloneProduct.remove();
+        });
+      }
+    };
+
+    const clickPlus = () => {
+      dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuItem);
+      move_to_cart();
+    };
+
     return {
       dailyMenuOrder,
       handClick,
       select,
       hovering,
+      clickPlus,
+      move_to_cart,
     };
   },
 });

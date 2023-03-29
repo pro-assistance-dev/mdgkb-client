@@ -105,11 +105,11 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import MedicalProfile from '@/classes/MedicalProfile';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

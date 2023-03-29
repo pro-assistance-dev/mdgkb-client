@@ -2,7 +2,7 @@
   <div v-if="cartIsOpen" class="menu-shadow">
     <ModalBufetCart @close="toggleModalCart" @orderCreated="initForm" />
   </div>
-  <div v-if="mounted" class="container-bufet">
+  <div v-if="mounted" id="container" class="container-bufet">
     <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'">
       <template v-if="dailyMenu.id" #menu>
         <div class="menu">Меню</div>
@@ -54,7 +54,7 @@
               <svg class="icon-heart">
                 <use xlink:href="#heart"></use>
               </svg>
-              <svg class="icon-cart" @click="toggleModalCart()">
+              <svg id="svgcart" class="icon-cart" @click="toggleModalCart()">
                 <use xlink:href="#cart" />
               </svg>
               <div class="price-field">

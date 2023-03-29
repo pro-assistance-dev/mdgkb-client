@@ -1,9 +1,9 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IQuestion from '@/interfaces/IQuestion';
 import IQuestionsWithCount from '@/interfaces/IQuestionsWithCount';
 import INews from '@/interfaces/news/INews';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

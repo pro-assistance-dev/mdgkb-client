@@ -22,8 +22,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import Role from '@/services/classes/Role';
+import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminRolePage',

@@ -66,9 +66,9 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
-import PageSection from '@/services/classes/page/PageSection';
 import ImageGallery from '@/components/ImageGallery.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import PageSection from '@/services/classes/page/PageSection';
 import getExtention from '@/services/GetExtension';
 import scroll from '@/services/Scroll';
 

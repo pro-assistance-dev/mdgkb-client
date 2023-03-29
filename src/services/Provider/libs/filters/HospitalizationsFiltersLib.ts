@@ -1,10 +1,10 @@
+import { PolicyTypes } from '@/interfaces/PolicyTypes';
+import { StayTypes } from '@/interfaces/StayTypes';
+import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import { PolicyTypes } from '@/interfaces/PolicyTypes';
-import { StayTypes } from '@/interfaces/StayTypes';
-import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
 import Provider from '@/services/Provider/Provider';
 
 const HospitalizationsFiltersLib = (() => {
