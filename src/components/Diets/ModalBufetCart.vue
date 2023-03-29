@@ -300,12 +300,6 @@ export default defineComponent({
   border-radius: 8px;
 }
 
-#elem {
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-}
-
 @media screen and (max-width: 768px) {
   .scroll {
     width: 100%;
