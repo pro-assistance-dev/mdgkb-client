@@ -4,7 +4,7 @@ import { ComponentPublicInstance } from 'vue';
 
 import Form from '@/classes/Form';
 import User from '@/classes/User';
-import ApplicationTable from '@/components/Profile/Education/ApplicationTable.vue';
+import ApplicationTable from '@/components/Profile/ProfileDailyMenuOrders/ApplicationTable.vue';
 import DateTimeFormatter from '@/services/DateFormat';
 
 describe('ApplicationTable.vue', () => {

@@ -8,14 +8,14 @@
     </svg>
     <label :for="tabId" @click="handleItemClick">
       <div :style="{ cursor: isCollaps ? 'pointer' : 'default' }" class="tab-name">
-        <div class="insade-icon">
+        <div class="inside-icon">
           <slot name="icon" />
         </div>
         <div v-if="title" class="title-in">
           {{ title }}
         </div>
         <slot v-else name="inside-title" />
-        <div class="tools-bar">
+        <div class="tools-bar" :class="{ 'hidden-part': showToolsOnHover }">
           <slot name="tools" />
         </div>
       </div>
@@ -40,6 +40,7 @@ export default defineComponent({
     activeId: { type: Number as PropType<number>, default: 0 },
     isCollaps: { type: Boolean as PropType<boolean>, default: true },
     title: { type: String as PropType<string>, default: '' },
+    showToolsOnHover: { type: Boolean as PropType<boolean>, default: true },
   },
   emits: ['changeActiveId'],
 
@@ -176,6 +177,11 @@ export default defineComponent({
   max-height: auto;
 }
 
+.hidden-part {
+  visibility: hidden;
+  opacity: 0;
+}
+
 .tools-bar {
   display: flex;
   position: absolute;
@@ -183,11 +189,9 @@ export default defineComponent({
   right: 60px;
   justify-content: space-between;
   align-items: center;
-  visibility: hidden;
-  opacity: 0;
 }
 
-.insade-icon {
+.inside-icon {
   display: flex;
   position: absolute;
   top: 20px;

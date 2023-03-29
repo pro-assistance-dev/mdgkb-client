@@ -1,3 +1,4 @@
+import User from '@/classes/User';
 import IUser from '@/services/interfaces/IUser';
 
 import IFileInfo from './files/IFileInfo';
@@ -14,7 +15,7 @@ export default interface IQuestion {
   publishAgreement: boolean;
   isNew: boolean;
   date: Date;
-  user: IUser;
+  user: User;
   userId?: string;
   answerIsRead: boolean;
   isDialogOpened: boolean;

@@ -3,16 +3,16 @@
     <ModalBufetCart @close="toggleModalCart" @orderCreated="initForm" />
   </div>
   <div v-if="mounted" id="container" class="container-bufet">
-    <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'" :title-sticky="true">
-      <template #menu>
+    <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'">
+      <template v-if="dailyMenu.id" #menu>
         <div class="menu">Меню</div>
         <div class="menu-period">
           <div class="period">
-            <div class="title">Завтрак</div>
+            <div class="title">{{ dailyMenu.name }}</div>
             <svg class="icon-double-arrow">
               <use xlink:href="#double-arrow"></use>
             </svg>
-            <div class="time">8:00-12:00</div>
+            <div class="time">{{ dailyMenu.name === 'Завтрак' ? '8:00-12:00' : '12:00-17.00' }}</div>
           </div>
           <div class="menu-list">
             <div
@@ -40,8 +40,9 @@
 
           <template #big-title>
             <template v-if="dailyMenuOrder.formValue.valueExists('boxNumber')">
-              Бокс № {{ dailyMenuOrder.formValue.getFieldValueByCode('boxNumber').valueNumber }}
+              Заказать еду в бокс № {{ dailyMenuOrder.formValue.getFieldValueByCode('boxNumber').valueNumber }}
             </template>
+            <template v-else> Заказать еду в бокс </template>
           </template>
 
           <template #tags>asd </template>
@@ -141,7 +142,7 @@ export default defineComponent({
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const cartIsOpen: Ref<boolean> = ref(false);
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     let intervalID: number;
     watch(isAuth, () => {

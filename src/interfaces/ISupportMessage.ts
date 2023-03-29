@@ -1,4 +1,4 @@
-import IUser from '@/services/interfaces/IUser';
+import User from '@/classes/User';
 
 export default interface ISupportMessage {
   id?: string;
@@ -6,7 +6,7 @@ export default interface ISupportMessage {
   question: string;
   answer: string;
   isNew: boolean;
-  user: IUser;
+  user: User;
   date: Date;
   userId?: string;
   changeNewStatus: (status?: boolean) => void;

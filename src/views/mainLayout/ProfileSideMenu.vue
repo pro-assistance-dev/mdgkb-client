@@ -29,6 +29,8 @@ import Education from '@/assets/profile/icons/Education.svg';
 import Home from '@/assets/profile/icons/Home.svg';
 import Question from '@/assets/profile/icons/Question.svg';
 import Settings from '@/assets/profile/icons/Settings.svg';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import User from '@/classes/User';
 import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
@@ -42,7 +44,7 @@ export default defineComponent({
     watch(route, () => {
       setActiveMenu();
     });
-
+    console.log('git_test');
     const setActiveMenu = () => {
       if (!Provider.route().meta.profile) {
         return;
@@ -54,7 +56,7 @@ export default defineComponent({
       setActiveMenu();
     });
 
-    const user: Ref<IUser> = computed(() => Provider.store.getters['users/item']);
+    const user: Ref<User> = computed(() => Provider.store.getters['users/item']);
     const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
     const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
 
@@ -69,32 +71,32 @@ export default defineComponent({
         notificationCount: () => 0,
       },
       {
-        name: 'Заявки',
+        name: 'Заказы еды',
         icon: 'Education',
-        to: '/profile/education',
-        route: 'education',
-        liCondition: () => true,
-        notificationCondition: () => user.value.formValues.length && user.value.formValues.some((el) => !el.viewedByUser),
-        notificationCount: () => user.value.getNotViewedApplicationsCount(),
+        to: '/profile/daily-menu-orders',
+        route: 'daily-menu-orders',
+        liCondition: () => user.value.dailyMenuOrders.length,
+        notificationCondition: () => user.value.dailyMenuOrders.some((d: DailyMenuOrder) => d.formValue.viewedByUser),
+        notificationCount: () => user.value.dailyMenuOrders.filter((d: DailyMenuOrder) => d.formValue.fieldValues).length,
       },
-      {
-        name: 'Вопросы-ответы',
-        icon: 'Question',
-        to: '/profile/question-answer',
-        route: 'question-answer',
-        liCondition: () => user.value.questions.length > 0,
-        notificationCondition: () => user.value.hasNewAnswers(),
-        notificationCount: () => user.value.countNewAnswers(),
-      },
-      {
-        name: 'Мои комментарии',
-        icon: 'Question',
-        to: '/profile/user-comments',
-        route: 'user-comments',
-        liCondition: () => user.value.hasComments(),
-        notificationCondition: () => false,
-        notificationCount: () => 0,
-      },
+      // {
+      //   name: 'Вопросы-ответы',
+      //   icon: 'Question',
+      //   to: '/profile/question-answer',
+      //   route: 'question-answer',
+      //   liCondition: () => user.value.questions.length > 0,
+      //   notificationCondition: () => user.value.hasNewAnswers(),
+      //   notificationCount: () => user.value.countNewAnswers(),
+      // },
+      // {
+      //   name: 'Мои комментарии',
+      //   icon: 'Question',
+      //   to: '/profile/user-comments',
+      //   route: 'user-comments',
+      //   liCondition: () => user.value.hasComments(),
+      //   notificationCondition: () => false,
+      //   notificationCount: () => 0,
+      // },
       {
         name: 'Настройки',
         icon: 'Settings',
