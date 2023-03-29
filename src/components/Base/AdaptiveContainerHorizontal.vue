@@ -32,7 +32,13 @@
       </div>
     </div>
     <div class="mainblock-right">
-      <div class="title">
+      <div class="title"
+        :style="{
+          position: titleSticky ? 'sticky' : 'relative',
+          top: titleSticky ? mobileWindow ? '108px' : '58px' : '0',
+          zIndex: titleSticky ? '10' : '',
+        }"
+      >
         <div
           class="icon"
           :style="{
@@ -74,6 +80,11 @@ export default defineComponent({
       required: false,
       default: '1330px',
     },
+    titleSticky: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false,  
+    }
   },
   setup(props) {
     const mounted = ref(false);
@@ -145,7 +156,6 @@ export default defineComponent({
 }
 
 .title {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;

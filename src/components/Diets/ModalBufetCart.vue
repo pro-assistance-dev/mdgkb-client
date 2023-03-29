@@ -32,7 +32,7 @@
         <div class="price">{{ dailyMenuOrder.getPriceSum() }}₽.</div>
       </div>
       <div class="line-item">
-        <div id="elem" class="item">Доставка</div>
+        <div class="item">Доставка</div>
         <div class="price">{{ costOfDelivery }}₽.</div>
       </div>
       <br />
@@ -122,13 +122,6 @@ export default defineComponent({
       dailyMenuOrder.value.removeFromLocalStore();
       loading.close();
       emit('close');
-      // TODO получение координат
-      // const elem = document.getElementById("elem");
-      //   if (elem !== null) {
-      //     console.log('Блок координат' + elem.getBoundingClientRect());
-      //   } else {
-      //     console.log('Блок координат' + elem)
-      //   }
     };
 
     const clearOrder = (): void => {

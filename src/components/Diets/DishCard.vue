@@ -8,6 +8,7 @@
       :style="{
         opacity: status == 'tomorrow' || status == 'preparing' ? '50%' : '100%',
       }"
+      :id="dailyMenuItem.id"
     >
       <div class="click-container" @click="toggleModalDishCard()">
         <div class="image-box">
