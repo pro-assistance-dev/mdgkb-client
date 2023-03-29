@@ -49,8 +49,8 @@
       <AdminUserInfo :form="formValue" :active-fields="activeFields" />
     </el-card>
     <el-card v-if="isEditMode">
-      <template #header>
-        <span>Форма для подачи заявления</span>
+      <template v-if="formHeader" #header>
+        <span>{{ formHeader }}</span>
       </template>
       <FieldValuesForm :active-fields="activeFields" :form="formValue" :show-additional-files="showAdditionalFiles" />
     </el-card>
