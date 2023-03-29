@@ -1,21 +1,23 @@
 // eslint-disable-next-line simple-import-sort/imports
+import { setupElementPlusComponents, setupElementPlusPlugins } from '@/plugins/ElementPlus';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
+import ru from 'element-plus/es/locale/lang/ru';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import { setupElementPlusComponents, setupElementPlusPlugins } from '@/plugins/ElementPlus';
-import ru from 'element-plus/es/locale/lang/ru';
 
 import 'dayjs/locale/ru';
 import './assets/styles/element-variables.scss';
 
 import sanitizeHTML from 'sanitize-html';
 
-import scroll from '@/services/Scroll';
 import carouselSwipe from '@/services/CarouselSwipe';
+import scroll from '@/services/Scroll';
+import VueSocialSharing from 'vue-social-sharing';
 
 const app = createApp(App);
-import VueSocialSharing from 'vue-social-sharing';
 // import YmapPlugin from 'vue-yandex-maps';
 import Vue3TouchEvents from 'vue3-touch-events';
 
@@ -24,6 +26,8 @@ app.config.globalProperties.$dateTimeFormatter = new DateTimeFormatter('ru-RU');
 app.config.globalProperties.$sanitize = sanitizeHTML;
 app.config.globalProperties.$scroll = scroll;
 app.config.globalProperties.$carouselSwipe = carouselSwipe;
+app.config.globalProperties.$dataTypes = DataTypes;
+app.config.globalProperties.$operators = Operators;
 
 app.use(VueSocialSharing);
 app.use(Vue3TouchEvents);
