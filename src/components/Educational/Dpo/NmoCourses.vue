@@ -9,8 +9,8 @@ import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import NmoCoursesList from '@/components/Educational/Dpo/NmoCoursesList.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import ISortModel from '@/services/interfaces/ISortModel';
 import createSortModels from '@/services/CreateSortModels';
+import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
 import NmoCoursesSortsLib from '@/services/Provider/libs/sorts/NmoCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';

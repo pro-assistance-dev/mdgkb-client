@@ -1,12 +1,12 @@
 import CustomSection from '@/classes/CustomSection';
+import IFileInfo from '@/interfaces/files/IFileInfo';
+import IPageImage from '@/interfaces/page/IPageImage';
+import ContactInfo from '@/services/classes/ContactInfo';
 import PageComment from '@/services/classes/page/PageComment';
 import PageDocument from '@/services/classes/page/PageDocument';
 import PageImage from '@/services/classes/page/PageImage';
 import PageSection from '@/services/classes/page/PageSection';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageImage from '@/interfaces/page/IPageImage';
-import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Page {

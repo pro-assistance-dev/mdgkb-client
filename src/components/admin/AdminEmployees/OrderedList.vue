@@ -17,8 +17,6 @@ import draggable from 'vuedraggable';
 
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import FileInfo from '@/classes/File/FileInfo';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Head from '@/classes/Head';
 import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -26,6 +24,8 @@ import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortListV2.vue';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';

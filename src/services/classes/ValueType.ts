@@ -1,5 +1,5 @@
-import ValueRelation from '@/services/interfaces/ValueRelation';
 import ClassHelper from '@/services/ClassHelper';
+import ValueRelation from '@/services/interfaces/ValueRelation';
 
 export default class ValueType {
   id?: string;

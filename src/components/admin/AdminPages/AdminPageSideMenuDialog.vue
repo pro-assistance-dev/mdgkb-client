@@ -35,10 +35,10 @@
 import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';
 
-import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import AdminPageSectionDialog from '@/components/admin/AdminPages/AdminPageSectionDialog.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 

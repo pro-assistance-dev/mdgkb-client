@@ -9,9 +9,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
 
-import PageSection from '@/services/classes/page/PageSection';
 import AdminDocumentsForm from '@/components/AdminDocumentsForm.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
+import PageSection from '@/services/classes/page/PageSection';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

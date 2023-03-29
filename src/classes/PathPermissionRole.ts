@@ -1,7 +1,7 @@
 import PathPermission from '@/classes/PathPermission';
-import Role from '@/services/classes/Role';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
+import Role from '@/services/classes/Role';
 
 export default class PathPermissionRole implements IPathPermissionRole {
   id?: string;

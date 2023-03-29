@@ -15,12 +15,12 @@
 import { Calendar, PopoverRow } from 'v-calendar';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import INews from '@/interfaces/news/INews';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import INews from '@/interfaces/news/INews';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 

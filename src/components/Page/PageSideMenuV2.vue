@@ -92,5 +92,4 @@ $side-cotainer-max-width: 300px;
 .is-active {
   background: #f0f2f7;
 }
-
 </style>

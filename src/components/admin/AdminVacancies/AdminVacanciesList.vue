@@ -135,21 +135,21 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import { Operators } from '@/services/interfaces/Operators';
 import IForm from '@/interfaces/IForm';
 import IVacancy from '@/interfaces/IVacancy';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
+import { Operators } from '@/services/interfaces/Operators';
 import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
 import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
 import Provider from '@/services/Provider/Provider';

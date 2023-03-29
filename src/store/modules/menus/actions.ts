@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
-import Menu from '@/services/classes/Menu';
 import IMenusWithDeleted from '@/interfaces/IMenusWithDeleted';
+import Menu from '@/services/classes/Menu';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 

@@ -39,8 +39,8 @@ import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
 import ISearchObject from '@/services/interfaces/ISearchObject';
+import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

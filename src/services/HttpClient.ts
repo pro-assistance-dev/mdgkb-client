@@ -1,6 +1,6 @@
-import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import axiosInstance from '@/services/Axios';
+import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import TokenService from '@/services/Token';
 
 const baseUrl = process.env.VUE_APP_BASE_URL ?? '';

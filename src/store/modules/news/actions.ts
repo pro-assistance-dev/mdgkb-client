@@ -1,6 +1,5 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import INewsWithCount from '@/interfaces/INewsWithCount';
 import IEventApplication from '@/interfaces/news/IEventApplication';
@@ -10,6 +9,7 @@ import INewsImage from '@/interfaces/news/INewsImage';
 import INewsLike from '@/interfaces/news/INewsLike';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ITag from '@/interfaces/news/ITag';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
