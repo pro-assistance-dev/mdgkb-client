@@ -85,7 +85,7 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import CancelDialogForm from '@/components/Profile/Education/CancelDialogForm.vue';
+import CancelDialogForm from '@/components/Profile/ProfileDailyMenuOrders/CancelDialogForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/services/interfaces/IUser';
@@ -106,7 +106,7 @@ export default defineComponent({
     const selectedStatus: Ref<IFormStatus | undefined> = ref(undefined);
 
     const cancelApplication = async (formValue: IForm, status: IFormStatus) => {
-      ElMessageBox.confirm('Вы уверены, что хотите отозвать заявку?', {
+      ElMessageBox.confirm('Вы уверены, что хотите отменить заказ?', {
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
         type: 'warning',
@@ -120,7 +120,6 @@ export default defineComponent({
     };
 
     const updateFormStatus = async (formValue: IForm, status: IFormStatus) => {
-      console.log(status.isCancelled());
       if (status.isCancelled()) {
         await cancelApplication(formValue, status);
         return;

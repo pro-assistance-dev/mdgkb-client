@@ -40,12 +40,12 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref } from 'vue';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import Provider from '@/services/Provider/Provider';

@@ -15,7 +15,7 @@ const mutations: MutationTree<State> = {
   resetItems(state) {
     state.items = [];
   },
-  setUser(state, user: IUser) {
+  setUser(state, user: User) {
     state.item.formValue.user = new User(user);
   },
   setGate(state, gate: Gate) {

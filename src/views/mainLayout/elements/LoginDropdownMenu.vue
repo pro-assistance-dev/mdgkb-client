@@ -9,24 +9,21 @@
       </el-dropdown-menu>
     </template>
   </el-dropdown>
+  <el-dropdown v-else-if="isAuth && isLaptopWindowWidth">
+    <el-button class="menu-item" icon="el-icon-user" @click.stop="$router.push('/profile')"></el-button>
+  </el-dropdown>
   <el-dropdown v-else>
     <el-button v-if="showButtonName" icon="el-icon-user" round>
       Профиль
       <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge>
     </el-button>
-    <el-button v-else class="menu-item" icon="el-icon-user"></el-button>
+
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">
           Профиль
           <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge>
         </el-dropdown-item>
-        <div v-if="isLaptopWindowWidth">
-          <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile/edit')">Редактировать профиль</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile/children')">Мои дети</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-question" @click="$router.push('/profile/questions')">Ответы на вопросы</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-first-aid-kit">Донорство крови</el-dropdown-item>
-        </div>
         <el-dropdown-item v-if="UserService.isAdmin()" icon="el-icon-setting" @click="$router.push(`/admin/${curUser.role.startPage}`)"
           >Кабинет администратора</el-dropdown-item
         >
@@ -87,7 +84,14 @@ export default defineComponent({
       });
     });
 
+    const toProfile = async (): Promise<void> => {
+      if (isLaptopWindowWidth.value) {
+        await Provider.router.push('/profile');
+      }
+    };
+
     return {
+      toProfile,
       UserService,
       logout,
       isAuth,

@@ -89,7 +89,7 @@ export default defineComponent({
 
   setup() {
     const chosenDay: Ref<string> = ref(new Date().toString());
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const appointment: ComputedRef<Appointment> = computed(() => Provider.store.getters['appointments/item']);
     const appointmentsTypes: ComputedRef<AppointmentType[]> = computed(() => Provider.store.getters['appointmentsTypes/items']);
     const appointmentsType: Ref<AppointmentType> = computed(() => Provider.store.getters['appointmentsTypes/item']);

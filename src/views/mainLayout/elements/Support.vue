@@ -120,7 +120,7 @@ export default defineComponent({
       if (e.target.id !== 'support__box') return;
       toggleDrawer(false);
     };
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     watch(user, () => {
       supportMessage.value.user = user.value;
     });

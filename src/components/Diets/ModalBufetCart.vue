@@ -27,12 +27,12 @@
     </template>
 
     <template #right>
-      <div class="line-title">
-        <div class="item">Блюда</div>
+      <div class="line-item">
+        <div class="item">Стоимость блюд</div>
         <div class="price">{{ dailyMenuOrder.getPriceSum() }}₽.</div>
       </div>
       <div class="line-item">
-        <div id="elem" class="item">Доставка</div>
+        <div class="item">Стоимость доставки</div>
         <div class="price">{{ costOfDelivery }}₽.</div>
       </div>
       <br />
@@ -93,7 +93,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const userForm = ref();
-    let costOfDelivery = Number(200);
+    let costOfDelivery = Number(0);
     const totalPrice: Ref<number> = ref(dailyMenuOrder.value.getPriceSum() + costOfDelivery);
 
     const checkDailyMenuOrderIsEmpty = () => {
@@ -119,17 +119,27 @@ export default defineComponent({
         return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
       }
       dailyMenuOrder.value.formValue.clearIds();
-      await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
-      ElNotification({
-        dangerouslyUseHTMLString: true,
-        message: `<div />Заказ успешно создан. Для просмотра статуса перейдите в личный кабинет</div>`,
-        type: 'success',
-      });
+      try {
+        await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
+      } catch (e) {
+        loading.close();
+        return ElMessage.error('Произошла ошибка приложения - напишите в службу поддержки');
+      }
+
       await Provider.store.commit('dailyMenuOrders/resetItem');
       emit('orderCreated');
       dailyMenuOrder.value.removeFromLocalStore();
-      loading.close();
+
       emit('close');
+      loading.close();
+      ElMessageBox.confirm('Заказ успешно создан', {
+        confirmButtonText: 'Посмотреть заказ в личном кабинете',
+        cancelButtonText: 'Закрыть',
+        center: true,
+      }).then(() => {
+        Provider.router.push('/profile/daily-menu-orders');
+      });
+
       // TODO получение координат
       // const elem = document.getElementById("elem");
       //   if (elem !== null) {
@@ -305,12 +315,6 @@ export default defineComponent({
 :deep(.el-input__inner) {
   height: 36px;
   border-radius: 8px;
-}
-
-#elem {
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,35 +1,26 @@
 <template>
   <div class="size">
-    <div class="title">
-      <div class="hidden">
-        <h2><b>Мои заявки</b></h2>
-      </div>
-      <MyApplicationsButton />
-    </div>
-    <div v-if="!user.formValues.length" class="no-progmam">
-      <h3>У вас нет заявок</h3>
-    </div>
-    <div v-if="user.formValues.length" class="my-block">
+    <div class="my-block">
       <div class="yes-progmam">
         <div class="box">
           <h2>
-            Мои заявки
-            <div v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">
-              {{ user.getNotViewedApplicationsCount() }}
+            Мои заказы
+            <div v-if="user.dailyMenuOrders.some((el) => el.formValue.viewedByUser)" class="sup-cymbol-counter">
+              {{ user.dailyMenuOrders.filter((d) => d.formValue.viewedByUser).length }}
             </div>
           </h2>
         </div>
       </div>
       <div class="card-flex-container card-item">
-        <div class="mobile-container">
-          <ul class="application-card">
-            <li v-for="formValue in user.formValues" :key="formValue.id">
-              <ApplicationCard :form="formValue" />
-            </li>
-          </ul>
-        </div>
+        <!--        <div class="mobile-container">-->
+        <!--          <ul class="application-card">-->
+        <!--            <li v-for="formValue in user.formValues" :key="formValue.id">-->
+        <!--              <ApplicationCard :form="formValue" />-->
+        <!--            </li>-->
+        <!--          </ul>-->
+        <!--        </div>-->
         <div class="table-container">
-          <ApplicationTable :user="user" />
+          <ProfileDailyMenuOrdersComponent :user="user" />
         </div>
       </div>
     </div>
@@ -39,19 +30,17 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, ref } from 'vue';
 
-import ApplicationCard from '@/components/Profile/Education/ApplicationCard.vue';
-import ApplicationTable from '@/components/Profile/Education/ApplicationTable.vue';
-import MyApplicationsButton from '@/components/Profile/Education/MyApplicationsButton.vue';
-import IUser from '@/services/interfaces/IUser';
+import User from '@/classes/User';
+import ProfileDailyMenuOrdersComponent from '@/components/Profile/ProfileDailyMenuOrders/ProfileDailyMenuOrdersComponent.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
-  name: 'EducationPage',
-  components: { ApplicationCard, MyApplicationsButton, ApplicationTable },
+  name: 'ProfileDailyMenuOrders',
+  components: { ProfileDailyMenuOrdersComponent },
   setup() {
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
+    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
 
     const loadUser = async () => {
       await Provider.store.dispatch('users/get', userId.value);
@@ -104,9 +93,6 @@ h3 {
 
 .table-container {
   width: 100%;
-  border: 1px solid #dcdfe6;
-  border-bottom: none;
-  border-radius: 5px 5px 0 0;
   background: #ffffff;
 }
 
@@ -163,10 +149,6 @@ ul {
   padding-right: 20px;
 }
 
-.mobile-container {
-  display: none;
-}
-
 .application-card {
   width: 100%;
   min-height: 20px;
@@ -200,10 +182,6 @@ ul.application-card li {
     padding: 0 10px;
   }
   .table-container {
-    display: none;
-  }
-
-  .mobile-container {
     display: block;
     width: 100%;
   }

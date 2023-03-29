@@ -11,7 +11,7 @@ import { State } from './index';
 
 const mutations: MutationTree<State> = {
   ...getBaseMutations(DpoApplication),
-  setUser(state, user: IUser) {
+  setUser(state, user: User) {
     state.item.formValue.user = new User(user);
   },
   setCourse(state, nmoCourse: NmoCourse) {

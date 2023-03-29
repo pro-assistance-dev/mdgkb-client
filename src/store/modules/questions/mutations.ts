@@ -39,7 +39,7 @@ const mutations: MutationTree<State> = {
   resetQuestion(state) {
     state.question = new Question();
   },
-  setUser(state, user: IUser) {
+  setUser(state, user: User) {
     state.question.user = new User(user);
   },
   unshiftToAll(state, item: IQuestion) {

@@ -26,7 +26,7 @@ export default class Comment implements IComment {
   doctorComment?: IComment;
   divisionComment?: IComment;
 
-  user: IUser = new User();
+  user: User = new User();
 
   constructor(comment?: IComment) {
     if (!comment) {
