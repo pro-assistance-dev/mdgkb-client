@@ -42,7 +42,7 @@ export default defineComponent({
     watch(route, () => {
       setActiveMenu();
     });
-
+    console.log('git_test');
     const setActiveMenu = () => {
       if (!Provider.route().meta.profile) {
         return;
