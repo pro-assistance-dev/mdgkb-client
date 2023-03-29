@@ -3,7 +3,7 @@
     <ModalBufetCart @close="toggleModalCart" @orderCreated="initForm" />
   </div>
   <div v-if="mounted" id="container" class="container-bufet">
-    <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'" :titleSticky="true" >
+    <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'" :title-sticky="true">
       <template #menu>
         <div class="menu">Меню</div>
         <div class="menu-period">

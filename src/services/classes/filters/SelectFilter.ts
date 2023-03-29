@@ -1,5 +1,5 @@
-import ISelectFilter from '@/services/interfaces/ISelectFilter';
 import IOption from '@/interfaces/IOption';
+import ISelectFilter from '@/services/interfaces/ISelectFilter';
 
 export default class SelectFilter implements ISelectFilter {
   title = '';

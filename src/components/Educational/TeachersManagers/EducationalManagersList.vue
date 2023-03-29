@@ -15,9 +15,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref } from 'vue'
 import { useStore } from 'vuex';
 
 import EducationalManager from '@/classes/EducationalManager';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import EducationalManagerCard from '@/components/Educational/TeachersManagers/EducationalManagerCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 
 export default defineComponent({
   name: 'EducationalManagersList',

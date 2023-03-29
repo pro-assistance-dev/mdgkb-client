@@ -1,5 +1,4 @@
 import FileInfo from '@/classes/File/FileInfo';
-import PageSection from '@/services/classes/page/PageSection';
 import PostgraduateCourseDates from '@/classes/PostgraduateCourseDates';
 import PostgraduateCoursePlan from '@/classes/PostgraduateCoursePlan';
 import PostgraduateCourseSpecialization from '@/classes/PostgraduateCourseSpecialization';
@@ -9,6 +8,7 @@ import Teacher from '@/classes/Teacher';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IForm from '@/interfaces/IForm';
 import ISpecialization from '@/interfaces/ISpecialization';
+import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
 

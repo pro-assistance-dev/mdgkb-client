@@ -108,12 +108,12 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
-import ValueType from '@/services/classes/ValueType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import IField from '@/interfaces/IField';
 import IForm from '@/interfaces/IForm';
+import ValueType from '@/services/classes/ValueType';
 
 export default defineComponent({
   name: 'FormConstructor',

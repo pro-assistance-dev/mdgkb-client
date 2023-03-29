@@ -1,5 +1,5 @@
-import PageSection from '@/services/classes/page/PageSection';
 import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class HospitalizationToDocumentType {

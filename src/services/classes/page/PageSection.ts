@@ -1,6 +1,6 @@
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import PageSectionDocument from '@/services/classes/page/PageSectionDocument';
 import PageSectionImage from '@/services/classes/PageSectionImage';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class PageSection {

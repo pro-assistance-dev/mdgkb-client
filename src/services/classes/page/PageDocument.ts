@@ -1,5 +1,5 @@
-import PageSection from '@/services/classes/page/PageSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class PageDocument {

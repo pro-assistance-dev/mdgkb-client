@@ -32,10 +32,11 @@
       </div>
     </div>
     <div class="mainblock-right">
-      <div class="title"
+      <div
+        class="title"
         :style="{
           position: titleSticky ? 'sticky' : 'relative',
-          top: titleSticky ? mobileWindow ? '108px' : '58px' : '0',
+          top: titleSticky ? (mobileWindow ? '108px' : '58px') : '0',
           zIndex: titleSticky ? '10' : '',
         }"
       >
@@ -83,8 +84,8 @@ export default defineComponent({
     titleSticky: {
       type: Boolean as PropType<boolean>,
       required: false,
-      default: false,  
-    }
+      default: false,
+    },
   },
   setup(props) {
     const mounted = ref(false);
