@@ -76,7 +76,13 @@
           <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups(true)" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
-              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish" />
+              <DishCard
+                v-for="dish in dishesGroup.getAvailableDishes()"
+                :key="dish.id"
+                :daily-menu-item="dish"
+                :dishes-group-name="dishesGroup.name"
+                :daily-menu-name="dailyMenu.name"
+              />
             </div>
           </template>
         </div>
@@ -90,7 +96,7 @@
 
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, h, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, h, onBeforeUnmount, Ref, ref, watch } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import DoubleArrow from '@/assets/svg/Buffet/DoubleArrow.svg';
@@ -137,7 +143,7 @@ export default defineComponent({
     const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-
+    let intervalID: number;
     watch(isAuth, () => {
       Provider.store.commit('dailyMenuOrders/resetItem');
       Provider.router.push('/bufet');
@@ -161,7 +167,7 @@ export default defineComponent({
       dailyMenu.value.dishesGroups = dishesGroups.value;
       dailyMenu.value.initGroups();
 
-      setInterval(async () => {
+      intervalID = window.setInterval(async () => {
         await Provider.store.dispatch('dailyMenus/todayMenu');
         dailyMenu.value.actualize(todayMenu.value);
         dailyMenu.value.dishesGroups = dishesGroups.value;
@@ -207,6 +213,10 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load);
+
+    onBeforeUnmount(() => {
+      clearInterval(intervalID);
+    });
 
     return {
       initForm,

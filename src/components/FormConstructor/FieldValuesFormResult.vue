@@ -38,18 +38,18 @@
         <span v-else>Не предоставлены</span>
       </template>
     </el-table-column>
-    <el-table-column label="Является обязательным" width="130px" align="center">
+    <el-table-column v-if="checkFields" label="Является обязательным" width="130px" align="center">
       <template #default="scope">
         <i v-if="scope.row.field.required" class="el-icon-check"></i>
         <i v-else class="el-icon-close"></i>
       </template>
     </el-table-column>
-    <el-table-column label="Данные верны" width="100px" align="center">
+    <el-table-column v-if="checkFields" label="Данные верны" width="100px" align="center">
       <template #default="scope">
         <el-checkbox v-model="scope.row.modChecked" @change="changeModCheckedHandler(scope.row)"></el-checkbox>
       </template>
     </el-table-column>
-    <el-table-column label="Замечания" max-width="400px" align="start">
+    <el-table-column v-if="checkFields" label="Замечания" max-width="400px" align="start">
       <template #default="scope">
         <div v-if="scope.row.modChecked">{{ scope.row.modComment }}</div>
         <el-input v-else v-model="scope.row.modComment" type="textarea" placeholder="Замечания" />
@@ -70,6 +70,10 @@ export default defineComponent({
     form: {
       type: Object as PropType<IForm>,
       required: true,
+    },
+    checkFields: {
+      type: Boolean,
+      default: true,
     },
   },
 

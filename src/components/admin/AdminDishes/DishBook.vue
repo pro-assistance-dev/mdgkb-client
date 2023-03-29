@@ -160,7 +160,9 @@ export default defineComponent({
         if (d.id === selectedMenu.value.id) {
           dailyMenus.value[i] = selectedMenu.value;
         }
+        d.initGroups();
       });
+      selectedMenu.value.initGroups();
     };
 
     const addOneDishToMenu = (dishSample: DishSample) => {

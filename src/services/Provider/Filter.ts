@@ -12,6 +12,7 @@ const Filter = (() => {
 
   function setSortList(...models: SortModel[]): void {
     sortList.value = models;
+    setDefaultSortModel();
   }
 
   function setDefaultSortModel(): void {

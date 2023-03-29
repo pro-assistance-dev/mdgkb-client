@@ -15,6 +15,7 @@ export default class DailyMenuOrder {
   dailyMenuOrderItemsForDelete: string[] = [];
   formValue: Form = new Form();
   formValueId?: string;
+  formStatusId?: string;
 
   constructor(i?: DailyMenuOrder) {
     ClassHelper.BuildClass(this, i);
@@ -146,5 +147,9 @@ export default class DailyMenuOrder {
   clear(): void {
     this.dailyMenuOrderItems = [];
     this.removeFromLocalStore();
+  }
+
+  static GetClassName(): string {
+    return 'DailyMenuItem';
   }
 }

@@ -12,6 +12,6 @@ export interface State {
   isDrawerOpen: boolean;
   loading: ILoadingInstance | undefined;
   menus: IAdminMenu[];
-  adminMenus: ISearchQuery[];
+  searchMenus: ISearchQuery[];
   applicationsCounts: IApplicationsCount[];
 }

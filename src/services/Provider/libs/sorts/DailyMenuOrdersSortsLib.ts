@@ -1,6 +1,4 @@
-import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import SortModel from '@/services/classes/SortModel';
-import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
 
 const DailyMenuOrdersSortsLib = (() => {
@@ -11,7 +9,7 @@ const DailyMenuOrdersSortsLib = (() => {
       modelName,
       'createdAt',
       order ? order : Orders.Desc,
-      `По дате рождения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
+      `По времени ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Asc ? false : true
     );
   }

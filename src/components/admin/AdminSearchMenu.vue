@@ -26,7 +26,7 @@ export default defineComponent({
     const router = useRouter();
     const searchForm = ref();
     const queryString: Ref<string> = ref('');
-    const adminMenus: ComputedRef<ISearchQuery[]> = computed(() => store.getters['admin/adminMenus']);
+    const searchMenus: ComputedRef<ISearchQuery[]> = computed(() => store.getters['admin/searchMenus']);
 
     const createFilter = (queryString: string) => {
       return (menuItem: ISearchQuery) => {
@@ -37,8 +37,7 @@ export default defineComponent({
       };
     };
     const querySearch = (queryString: string, cb: (q: ISearchQuery[]) => ISearchQuery[]) => {
-      const results = queryString ? adminMenus.value.filter(createFilter(queryString)) : adminMenus.value;
-      console.log(queryString, adminMenus.value);
+      const results = queryString ? searchMenus.value.filter(createFilter(queryString)) : searchMenus.value;
       // call callback function to return suggestions\
       cb(results);
     };

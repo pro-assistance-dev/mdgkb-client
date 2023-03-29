@@ -2,7 +2,7 @@
   <div v-if="mounted">
     <el-card v-if="formValue.formStatus.label">
       <template #header>
-        <span>Статус заявления</span>
+        <span>{{ statusHeader }}</span>
       </template>
       <el-descriptions :column="1" border>
         <el-descriptions-item label="Статус">
@@ -10,7 +10,7 @@
             {{ formValue.formStatus.label }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item v-if="formValue.withApprovingDate" label="Время принятия заявления">
+        <el-descriptions-item v-if="formValue.withApprovingDate" label="Время">
           <el-form-item style="margin: 0" prop="content">
             <DatePicker v-model="formValue.approvingDate" />
           </el-form-item>
@@ -32,7 +32,7 @@
 
     <el-card>
       <template #header>
-        <span>Информация о заявителе</span>
+        <span>{{ infoHeader }}</span>
       </template>
       <!--      UserForm крэшится в продакшне!-->
       <!--      <div v-if="isEditMode">-->
@@ -57,10 +57,10 @@
 
     <div v-else>
       <el-card v-if="formValue.fieldValues.length" id="form-data">
-        <template #header>
+        <template v-if="formHeader" #header>
           <div class="flex-between">
-            <span>Данные формы</span>
-            <div class="flex">
+            <span>{{ formHeader }}</span>
+            <div v-if="checkFields" class="flex">
               <!-- <span style="margin-right: 5px">Статус:</span> -->
               <el-tag v-if="formValue.isFieldValuesModChecked()" type="success">Полный комплект документов</el-tag>
               <el-tag v-else type="danger">Не все документы проверены</el-tag>
@@ -79,7 +79,7 @@
             </div>
           </div>
         </template>
-        <FieldValuesFormResult :form="formValue" />
+        <FieldValuesFormResult :form="formValue" :check-fields="checkFields" />
         <div v-for="file in formValue.formValueFiles" :key="file">
           <a v-if="file.file.fileSystemPath" :href="file.file.getFileUrl()" target="_blank">
             {{ file.file.originalName }}
@@ -87,7 +87,7 @@
         </div>
       </el-card>
     </div>
-    <el-card v-if="formValue.fieldValues.length" id="form-comment" header="Общий комментарий">
+    <el-card v-if="formValue.fieldValues.length && checkFields" id="form-comment" header="Общий комментарий">
       <el-form-item prop="content">
         <WysiwygEditor v-model="formValue.modComment" />
       </el-form-item>
@@ -147,6 +147,22 @@ export default defineComponent({
       required: true,
       default: true,
     },
+    statusHeader: {
+      type: String,
+      default: 'Статус заявления',
+    },
+    infoHeader: {
+      type: String,
+      default: 'Информация о заявителе',
+    },
+    formHeader: {
+      type: String,
+      default: 'Данные формы',
+    },
+    checkFields: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['findEmail'],
 
@@ -156,20 +172,22 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const changeFormStatusHandler = (status: IFormStatus) => {
       if (!formValue.value) return;
-      if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {
-        ElMessage({
-          message: 'Необходимо добавить замечания',
-          type: 'error',
-        });
-        return;
-      }
-      if ((status.isConsidering() || status.isAccepted()) && !formValue.value.isFieldValuesModChecked()) {
-        ElMessage({
-          message: 'Проверьте данные формы',
-          type: 'error',
-        });
-        scroll('#form-data');
-        return;
+      if (props.checkFields) {
+        if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {
+          ElMessage({
+            message: 'Необходимо добавить замечания',
+            type: 'error',
+          });
+          return;
+        }
+        if ((status.isConsidering() || status.isAccepted()) && !formValue.value.isFieldValuesModChecked()) {
+          ElMessage({
+            message: 'Проверьте данные формы',
+            type: 'error',
+          });
+          scroll('#form-data');
+          return;
+        }
       }
       formValue.value.setStatus(status, formStatuses.value);
     };

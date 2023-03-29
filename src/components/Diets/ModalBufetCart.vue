@@ -65,7 +65,7 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
-import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
+import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
@@ -74,13 +74,15 @@ import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import UserFormFields from '@/classes/UserFormFields';
 import CartContainer from '@/components/Diets/CartContainer.vue';
 import TableCard from '@/components/Diets/TableCard.vue';
+import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
+import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'ModalBufetCart',
-  components: { TableCard, Close, CartContainer, Delete, UserForm },
+  components: { TableCard, Close, CartContainer, Delete, UserForm, FieldValuesForm },
   props: {
     isClose: {
       type: Boolean as PropType<boolean>,
@@ -103,20 +105,26 @@ export default defineComponent({
     watch(dailyMenuOrder.value, checkDailyMenuOrderIsEmpty);
 
     const createOrder = async () => {
-      // dailyMenuOrder.value.formValue.validate();
-      // if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
-      //   return;
-      // }
-      if (dailyMenuOrder.value.getPriceSum() < 150) {
-        return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
-      }
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',
       });
+      dailyMenuOrder.value.formValue.validate();
+      if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
+        loading.close();
+        return;
+      }
+      if (dailyMenuOrder.value.getPriceSum() < 150) {
+        loading.close();
+        return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
+      }
       dailyMenuOrder.value.formValue.clearIds();
       await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
-      ElMessage.success('Заказ успешно создан');
+      ElNotification({
+        dangerouslyUseHTMLString: true,
+        message: `<div />Заказ успешно создан. Для просмотра статуса перейдите в личный кабинет</div>`,
+        type: 'success',
+      });
       await Provider.store.commit('dailyMenuOrders/resetItem');
       emit('orderCreated');
       dailyMenuOrder.value.removeFromLocalStore();
@@ -211,7 +219,7 @@ export default defineComponent({
 }
 
 .info {
-  height: 120px;
+  // height: 120px;
   border-bottom: 1px solid #eff1f7;
   border-top: 1px solid #eff1f7;
 }
