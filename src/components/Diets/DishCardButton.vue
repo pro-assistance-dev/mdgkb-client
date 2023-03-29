@@ -33,6 +33,9 @@
     <div
       v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0"
       class="inblock"
+      :style="{
+        margin: '0 17px 0 7px',
+      }"
       @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"
     >
       <svg
@@ -199,7 +202,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 15px;
+  margin: 0 13px;
 }
 
 .text {
