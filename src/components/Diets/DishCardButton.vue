@@ -30,7 +30,14 @@
         Доступно завтра
       </div>
     </div>
-    <div v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0" class="inblock" @click.prevent="clickPlus">
+    <div
+      v-else-if="dailyMenuOrder.getItemQuantity(dailyMenuItem) === 0"
+      class="inblock"
+      :style="{
+        margin: '0 17px 0 7px',
+      }"
+      @click.prevent="clickPlus"
+    >
       <svg
         class="icon-plus"
         :style="{
@@ -250,7 +257,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 15px;
+  margin: 0 13px;
 }
 
 .text {
