@@ -1,12 +1,12 @@
 <template>
   <ul v-if="mounted" class="menu-center-list">
-    <li class="main-item" v-for="menu in menus" :key="menu.id">
+    <li v-for="menu in menus" :key="menu.id" class="main-item">
       <div class="link-menu" :class="{ active: menu.active }" @click="menuClick(menu)">
         {{ menu.name }}
       </div>
       <ul v-if="!menu.withoutChildren() && menu.selected" class="dropmenu">
         <div class="subMenu-place">
-          <li class="sub" v-for="subMenu in menu.subMenus" :key="subMenu.id">
+          <li v-for="subMenu in menu.subMenus" :key="subMenu.id" class="sub">
             <router-link class="link-colomn" :to="subMenu.link">
               <div class="index-about-column">
                 <div class="index-about-colomn-icon">
@@ -31,9 +31,9 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedRef } from 'vue';
 
-import Menu from '@/services/classes/Menu';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
+import Menu from '@/services/classes/Menu';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

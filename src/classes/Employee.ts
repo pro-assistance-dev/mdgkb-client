@@ -2,10 +2,10 @@ import 'reflect-metadata';
 
 import Accreditation from '@/classes/Accreditation';
 import Certificate from '@/classes/Certificate';
-import Doctor from '@/classes/Doctor';
-import EducationalAcademic from '@/classes/EducationalAcademic';
 import Certification from '@/classes/Certification';
+import Doctor from '@/classes/Doctor';
 import Education from '@/classes/Education';
+import EducationalAcademic from '@/classes/EducationalAcademic';
 import Experience from '@/classes/Experience';
 import Head from '@/classes/Head';
 import Regalia from '@/classes/Regalia';

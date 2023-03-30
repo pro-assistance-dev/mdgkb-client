@@ -20,9 +20,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useStore } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({

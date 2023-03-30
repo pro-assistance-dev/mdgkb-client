@@ -28,8 +28,8 @@
 import { defineComponent, PropType, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
-import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterPopover from '@/components/Filters/FilterPopover.vue';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 

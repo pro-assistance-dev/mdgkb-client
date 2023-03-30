@@ -1,9 +1,9 @@
 import { GetterTree } from 'vuex';
 
+import Role from '@/services/classes/Role';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import Role from '@/services/classes/Role';
 
 const getters: GetterTree<State, RootState> = {
   items(state): Role[] {

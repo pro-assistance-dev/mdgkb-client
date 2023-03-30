@@ -1,10 +1,10 @@
 import { ActionTree } from 'vuex';
 
+import ValueType from '@/services/classes/ValueType';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './state';
-import ValueType from '@/services/classes/ValueType';
 
 const httpClient = new HttpClient('value-types');
 

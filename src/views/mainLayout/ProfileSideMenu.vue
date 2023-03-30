@@ -51,7 +51,7 @@ export default defineComponent({
       }
       activeRoute.value = Provider.route().meta.profile as string;
     };
-
+    console.log('committest');
     onBeforeMount(() => {
       setActiveMenu();
     });

@@ -93,7 +93,7 @@ export default defineComponent({
     font-size: 13px;
     text-overflow: ellipsis;
     max-height: 70px;
-    text-align: justify,;
+    text-align: justify;
   }
 }
 </style>

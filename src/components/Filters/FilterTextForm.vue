@@ -25,12 +25,12 @@
 import { defineComponent, PropType, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
+import FilterPopover from '@/components/Filters/FilterPopover.vue';
+import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import OperatorsTextOptions from '@/services/classes/filters/OperatorsTextOptions';
-import FilterPopover from '@/components/Filters/FilterPopover.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
   name: 'FilterTextForm',
