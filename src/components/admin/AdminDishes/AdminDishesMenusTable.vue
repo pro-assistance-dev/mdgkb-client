@@ -313,7 +313,7 @@ $margin: 20px 0;
   margin: 0 8px 8px 8px;
   overflow: hidden;
   overflow-y: scroll;
-  height: calc(100% - 65px);
+  height: calc(100% - 90px);
 }
 
 .table-container {
@@ -322,6 +322,7 @@ $margin: 20px 0;
   border-bottom: none;
   border-radius: 5px 5px 0 0;
   background: #ffffff;
+  padding-bottom: 1px;
 }
 
 .table-list {
