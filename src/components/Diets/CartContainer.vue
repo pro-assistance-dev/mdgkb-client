@@ -1,16 +1,45 @@
 <template>
-  <div class="body">
-    <div class="icon-close">
+  <div
+    class="body"
+    :style="{
+      width: width,
+      background: background,
+      margin: margin,
+      border: border,
+    }"
+  >
+    <div
+      class="icon-close"
+      :style="{
+        display: iconClose ? 'block' : 'none',
+      }"
+    >
       <slot name="icon" />
     </div>
-    <div class="title">
+    <div
+      class="title"
+      :style="{
+        marginRight: iconClose ? '20px' : '0',
+      }"
+    >
       <slot name="title" />
     </div>
     <div class="line">
-      <div class="line-left">
+      <div
+        class="line-left"
+        :style="{
+          background: leftBackground,
+          border: borderInside ? border : 'none',
+        }"
+      >
         <slot name="left" />
       </div>
-      <div class="line-right">
+      <div
+        class="line-right"
+        :style="{
+          background: rightBackground,
+        }"
+      >
         <slot name="right" />
       </div>
     </div>
@@ -18,10 +47,51 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'CartContainer',
+  props: {
+    width: {
+      type: String as PropType<string>,
+      required: false,
+      default: '970px',
+    },
+    background: {
+      type: String as PropType<string>,
+      required: false,
+      default: '#ffffff',
+    },
+
+    leftBackground: {
+      type: String as PropType<string>,
+      required: false,
+      default: '',
+    },
+    rightBackground: {
+      type: String as PropType<string>,
+      required: false,
+      default: '',
+    },
+
+    borderInside: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false,
+    },
+
+    border: {
+      type: String as PropType<string>,
+      required: false,
+      default: '1px solid #c3c3c3',
+    },
+
+    iconClose: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: true,
+    },
+  },
 });
 </script>
 
@@ -30,12 +100,9 @@ export default defineComponent({
 
 .body {
   position: relative;
-  width: 970px;
-  min-height: 10px;
+  min-height: 0px;
   max-height: 100vh;
-  border: $normal-border;
   border-radius: $normal-border-radius;
-  background: #ffffff;
   padding: 16px;
 }
 
@@ -50,7 +117,6 @@ export default defineComponent({
 
 .title {
   height: 24px;
-  width: calc(100% - 40px);
   display: flex;
   align-items: center;
   justify-content: left;
@@ -72,11 +138,16 @@ export default defineComponent({
   font-weight: bold;
   letter-spacing: 1px;
   color: #343e5c;
+  height: auto;
+  overflow: hidden;
+  overflow-y: auto;
 }
 .line-left {
-  width: calc(100% - 24px);
-  padding-top: 16px;
-  padding-right: 24px;
+  width: calc(100% - 34px);
+  margin-top: 16px;
+  margin-right: 24px;
+  border-radius: $normal-border-radius;
+  padding: 5px;
 }
 
 .line-right {
@@ -84,19 +155,19 @@ export default defineComponent({
   padding-top: 16px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 960px) {
   .body {
     width: auto;
   }
   .line {
-    height: 90vh;
+    max-height: calc(90vh - 20px);
     display: block;
   }
 
   .line-left {
-    width: calc(100% - 10px);
+    width: 100%;
     padding: 0;
-    margin-left: 10px;
+    margin: 16px 0 0 0;
   }
 
   .line-right {
@@ -108,8 +179,7 @@ export default defineComponent({
 @media screen and (max-width: 400px) {
   .body {
     width: auto;
-    padding: 10px;
-    margin: 0 5px;
+    padding: 16px 10px 5px 10px;
   }
 }
 </style>

@@ -19,9 +19,6 @@
       <div class="line-button">
         <button class="clear-cart" @click="clearOrder">
           <div>Очистить корзину</div>
-          <svg class="icon-delete">
-            <use xlink:href="#delete"></use>
-          </svg>
         </button>
       </div>
     </template>

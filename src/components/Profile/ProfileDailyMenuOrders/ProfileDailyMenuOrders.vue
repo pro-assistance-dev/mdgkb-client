@@ -11,18 +11,18 @@
           </h2>
         </div>
       </div>
-      <div class="card-flex-container card-item">
-        <!--        <div class="mobile-container">-->
-        <!--          <ul class="application-card">-->
-        <!--            <li v-for="formValue in user.formValues" :key="formValue.id">-->
-        <!--              <ApplicationCard :form="formValue" />-->
-        <!--            </li>-->
-        <!--          </ul>-->
-        <!--        </div>-->
-        <div class="table-container">
-          <ProfileDailyMenuOrdersComponent :user="user" />
-        </div>
+      <!-- <div class="card-flex-container card-item"> -->
+      <!--        <div class="mobile-container">-->
+      <!--          <ul class="application-card">-->
+      <!--            <li v-for="formValue in user.formValues" :key="formValue.id">-->
+      <!--              <ApplicationCard :form="formValue" />-->
+      <!--            </li>-->
+      <!--          </ul>-->
+      <!--        </div>-->
+      <div class="table-container">
+        <ProfileDailyMenuOrdersComponent :user="user" />
       </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -93,7 +93,7 @@ h3 {
 
 .table-container {
   width: 100%;
-  background: #ffffff;
+  // background: #f1f2f7;
 }
 
 .no-progmam {

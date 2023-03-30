@@ -5,6 +5,7 @@
       color: hovering ? '#ffffff' : color,
       background: hovering ? color : '#ffffff',
       marginTop: marginTop,
+      marginRight: marginRight,
       width: width,
       borderColor: color,
     }"
@@ -36,6 +37,11 @@ export default defineComponent({
       type: String as PropType<string>,
       required: false,
       default: '0px',
+    },
+    marginRight: {
+      type: String as PropType<string>,
+      required: false,
+      default: 'auto',
     },
     width: {
       type: String as PropType<string>,
