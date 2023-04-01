@@ -10,7 +10,7 @@
         <el-checkbox v-model="user.rejectEmail">Запретить рассылку email</el-checkbox>
       </div>
       <div>
-        <el-button class="save-button" data-test="save-button" @click="saveUser">Сохранить</el-button>
+        <Button text="Сохранить" color="#00b5a4" height="20px" font-size="12px" @click="saveUser" />
       </div>
     </div>
   </div>
@@ -20,12 +20,14 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Button from '@/components/Base/Button.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ProfileSettingsPage',
+  components: { Button },
   setup() {
     const mounted = ref(false);
     const store = useStore();
@@ -516,7 +518,7 @@ ul.application-card li {
   } */
 
   .card-item {
-    justify-content: left;
+    justify-content: space-between;
   }
 }
 

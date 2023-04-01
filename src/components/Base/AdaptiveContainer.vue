@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import RightMenu from '@/assets/svg/Main/RightMenu.svg';
 
