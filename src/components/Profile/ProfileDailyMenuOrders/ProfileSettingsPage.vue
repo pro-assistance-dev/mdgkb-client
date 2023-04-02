@@ -111,11 +111,6 @@ h3 {
   justify-content: center;
 }
 
-.card-item {
-  border-radius: none;
-  border: none;
-}
-
 .table-container {
   width: 100%;
   border: 1px solid #dcdfe6;
@@ -417,8 +412,8 @@ ul.drop-give-button-item li:last-child {
   align-items: center;
   width: 100%;
   min-height: 50px;
-  padding: 0 5px;
-  width: calc(100% - 10px);
+  padding: 0 20px;
+  width: calc(100% - 40px);
 }
 
 .item-el-title {
@@ -518,7 +513,8 @@ ul.application-card li {
   } */
 
   .card-item {
-    justify-content: space-between;
+    padding: 0 10px;
+    width: calc(100% - 20px);
   }
 }
 
@@ -540,10 +536,6 @@ ul.application-card li {
     width: calc(100% - 10px);
   }
 
-  .card-item {
-    padding: 0 5px;
-    width: calc(100% - 10px);
-  }
   .size {
     padding: 0 5px;
   }
