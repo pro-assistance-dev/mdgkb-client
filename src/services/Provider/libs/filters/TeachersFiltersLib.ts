@@ -1,10 +1,10 @@
 import Employee from '@/classes/Employee';
-import FilterModel from '@/services/classes/filters/FilterModel';
 import Teacher from '@/classes/Teacher';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
 import Provider from '@/services/Provider/Provider';
 

@@ -1,6 +1,6 @@
-import Pagination from '@/services/classes/filters/Pagination';
 import SearchElement from '@/classes/SearchElement';
 import SearchGroup from '@/classes/SearchGroup';
+import Pagination from '@/services/classes/filters/Pagination';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 

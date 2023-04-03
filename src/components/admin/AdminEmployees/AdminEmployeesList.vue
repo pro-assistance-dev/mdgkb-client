@@ -70,7 +70,6 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import EducationalAcademic from '@/classes/EducationalAcademic';
-import FilterModel from '@/services/classes/filters/FilterModel';
 import Head from '@/classes/Head';
 import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
 import OrderedList from '@/components/admin/AdminEmployees/OrderedList.vue';
@@ -78,6 +77,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortListV2.vue';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';

@@ -1,5 +1,5 @@
-import PageSectionDocument from '@/services/classes/page/PageSectionDocument';
 import IVacancyResponseToDocument from '@/interfaces/vacancyResponse/IVacancyResponseToDocument';
+import PageSectionDocument from '@/services/classes/page/PageSectionDocument';
 
 export default class VacancyResponseToDocument implements IVacancyResponseToDocument {
   id?: string;

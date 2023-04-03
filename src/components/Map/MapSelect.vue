@@ -51,12 +51,12 @@
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 
 import Division from '@/classes/Division';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IBuilding from '@/interfaces/IBuilding';
 import IFloor from '@/interfaces/IFloor';
 import IGate from '@/interfaces/IGate';
 import IMapObject from '@/interfaces/IMapObject';
 import IOption from '@/interfaces/schema/IOption';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';

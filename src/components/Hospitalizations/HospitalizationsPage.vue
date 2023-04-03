@@ -78,7 +78,7 @@ export default defineComponent({
     const steps = ['Выберите тип госпитализации', 'Выберите отделение', 'Выберите дату', 'Укажите свои данные'];
 
     const userForm = ref();
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const activeStep: Ref<number> = ref(0);
     const buttonOff: Ref<boolean> = ref(false);
     const hospitalization: ComputedRef<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);

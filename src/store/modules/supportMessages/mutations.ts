@@ -36,7 +36,7 @@ const mutations: MutationTree<State> = {
   resetSupportMessage(state) {
     state.question = new SupportMessage();
   },
-  setUser(state, user: IUser) {
+  setUser(state, user: User) {
     state.question.user = new User(user);
   },
   unshiftToAll(state, item: ISupportMessage) {

@@ -52,7 +52,7 @@ const mutations: MutationTree<State> = {
     // state.item.vacancy = new Vacancy(vacancy);
     state.item.vacancyId = vacancy.id;
   },
-  setUser(state, user: IUser) {
+  setUser(state, user: User) {
     state.item.formValue.user = new User(user);
   },
   setEmailExists(state, emailExists: boolean) {

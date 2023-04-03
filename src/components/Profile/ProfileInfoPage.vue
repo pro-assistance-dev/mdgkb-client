@@ -137,6 +137,15 @@
           <!--            </div>-->
           <!--          </div>-->
         </div>
+
+        <div class="tab" @click="$router.push('/profile/daily-menu-orders')">
+          <label for="tab-one">
+            <svg class="icon-profile">
+              <use xlink:href="#home"></use>
+            </svg>
+            Заказы еды
+          </label>
+        </div>
       </div>
     </div>
 
@@ -310,7 +319,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useStore } from 'vuex';
 
 import EditPhone from '@/components/Profile/EditPhone.vue';
-import EducationPage from '@/components/Profile/Education/EducationPage.vue';
+import EducationPage from '@/components/Profile/ProfileDailyMenuOrders/EducationPage.vue';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import IUser from '@/services/interfaces/IUser';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';

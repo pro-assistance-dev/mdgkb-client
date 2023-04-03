@@ -159,12 +159,12 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import PostgraduateApplicationForm from '@/components/Educational/Postgraduate/PostgraduateApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
 import ISchema from '@/interfaces/schema/ISchema';
 import chooseRandomBrandColor from '@/services/brandColors';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'PostgraduateCoursePage',

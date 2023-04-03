@@ -1,9 +1,15 @@
 <template>
   <div v-if="modalDishIsOpen" class="menu-shadow">
-    <ModalDishCard :daily-menu-item="dailyMenuItem" @close="toggleModalDishCard" />
+    <ModalDishCard
+      :daily-menu-item="dailyMenuItem"
+      :dishes-group-name="dishesGroupName"
+      :daily-menu-name="dailyMenuName"
+      @close="toggleModalDishCard"
+    />
   </div>
   <el-form>
     <div
+      :id="dailyMenuItem.id"
       class="card"
       :style="{
         opacity: status == 'tomorrow' || status == 'preparing' ? '50%' : '100%',
@@ -57,6 +63,14 @@ export default defineComponent({
   props: {
     dailyMenuItem: {
       type: Object as PropType<DailyMenuItem>,
+      required: true,
+    },
+    dishesGroupName: {
+      type: String as PropType<string>,
+      required: true,
+    },
+    dailyMenuName: {
+      type: String as PropType<string>,
       required: true,
     },
   },

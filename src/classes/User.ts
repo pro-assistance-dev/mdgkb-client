@@ -1,6 +1,7 @@
 import CandidateApplication from '@/classes/CandidateApplication';
 import Child from '@/classes/Child';
 import Comment from '@/classes/Comment';
+import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
@@ -17,6 +18,7 @@ import IQuestion from '@/interfaces/IQuestion';
 import IOption from '@/interfaces/schema/IOption';
 import Human from '@/services/classes/Human';
 import Role from '@/services/classes/Role';
+import ClassHelper from '@/services/ClassHelper';
 import IUser from '@/services/interfaces/IUser';
 
 import Form from './Form';
@@ -31,67 +33,34 @@ export default class User implements IUser {
   role = new Role();
   roleId?: string;
   rejectEmail = false;
+  @ClassHelper.GetClassConstructor(Question)
   questions: IQuestion[] = [];
+  @ClassHelper.GetClassConstructor(Comment)
   comments: IComment[] = [];
+  @ClassHelper.GetClassConstructor(Child)
   children: IChild[] = [];
   childrenForDelete: string[] = [];
+  @ClassHelper.GetClassConstructor(DonorRuleUser)
   donorRulesUsers: IDonorRuleUser[] = [];
+  @ClassHelper.GetClassConstructor(DoctorUser)
   doctorsUsers: DoctorUser[] = [];
+  @ClassHelper.GetClassConstructor(DpoApplication)
   dpoApplications: DpoApplication[] = [];
   dpoApplicationsForDelete: string[] = [];
+  @ClassHelper.GetClassConstructor(PostgraduateApplication)
   postgraduateApplications: PostgraduateApplication[] = [];
   postgraduateApplicationsForDelete: string[] = [];
+  @ClassHelper.GetClassConstructor(CandidateApplication)
   candidateApplications: ICandidateApplication[] = [];
   candidateApplicationsForDelete: string[] = [];
+  @ClassHelper.GetClassConstructor(Form)
   formValues: Form[] = [];
   createdAt?: Date;
-  constructor(i?: IUser) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.email = i.email;
-    this.password = i.password;
-    this.phone = i.phone;
-    this.rejectEmail = i.rejectEmail;
-    if (i.createdAt) {
-      this.createdAt = new Date(i.createdAt);
-    }
-    if (i.human) {
-      this.human = new Human(i.human);
-    }
-    this.humanId = i.humanId;
-    if (i.role) {
-      this.role = new Role(i.role);
-    }
-    this.roleId = i.roleId;
-    if (i.questions) {
-      this.questions = i.questions.map((item: IQuestion) => new Question(item));
-    }
-    if (i.comments) {
-      this.comments = i.comments.map((item: IComment) => new Comment(item));
-    }
-    if (i.children) {
-      this.children = i.children.map((item: IChild) => new Child(item));
-    }
-    if (i.donorRulesUsers) {
-      this.donorRulesUsers = i.donorRulesUsers.map((item: IDonorRuleUser) => new DonorRuleUser(item));
-    }
-    if (i.doctorsUsers) {
-      this.doctorsUsers = i.doctorsUsers.map((item: DoctorUser) => new DoctorUser(item));
-    }
-    if (i.dpoApplications) {
-      this.dpoApplications = i.dpoApplications.map((item: DpoApplication) => new DpoApplication(item));
-    }
-    if (i.postgraduateApplications) {
-      this.postgraduateApplications = i.postgraduateApplications.map((item: PostgraduateApplication) => new PostgraduateApplication(item));
-    }
-    if (i.candidateApplications) {
-      this.candidateApplications = i.candidateApplications.map((item: ICandidateApplication) => new CandidateApplication(item));
-    }
-    if (i.formValues) {
-      this.formValues = i.formValues.map((item: Form) => new Form(item));
-    }
+  @ClassHelper.GetClassConstructor(DailyMenuOrder)
+  dailyMenuOrders: DailyMenuOrder[] = [];
+
+  constructor(i?: User) {
+    ClassHelper.BuildClass(this, i);
   }
 
   hasNewAnswers(): boolean {
@@ -203,5 +172,15 @@ export default class User implements IUser {
 
   getHuman(): Human {
     return this.human;
+  }
+
+  getNotViewedDailyMenuOrders(): number {
+    let result = 0;
+    this.dailyMenuOrders.forEach((d) => {
+      if (!d.formValue.viewedByUser) {
+        result += 1;
+      }
+    });
+    return result;
   }
 }

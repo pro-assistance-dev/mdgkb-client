@@ -409,31 +409,6 @@ ul.drop-give-button-item li:last-child {
   padding-right: 20px;
 }
 
-/* .moble-container {
-  display: none;
-}
-
-.application-card {
-  width: 100%;
-  min-height: 20px;
-  border-radius: 5px;
-}
-
-.item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  min-height: 50px;
-}
-
-.item-title {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  min-height: 50px;
-} */
-
 .card-item {
   display: flex;
   justify-content: space-between;

@@ -7,7 +7,7 @@ export default class SupportMessage implements ISupportMessage {
   question = '';
   answer = '';
   date = new Date();
-  user = new User();
+  user: User = new User();
   userId?: string;
   isNew = true;
 

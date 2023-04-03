@@ -191,6 +191,7 @@ export default class DailyMenu {
 
   actualize(actualMenu: DailyMenu): void {
     this.id = actualMenu.id;
+    this.name = actualMenu.name;
     actualMenu.dailyMenuItems.forEach((d: DailyMenuItem) => {
       const findedDayilyMenuItem = this.getDailyMenuItemById(d.id);
       if (findedDayilyMenuItem) {
