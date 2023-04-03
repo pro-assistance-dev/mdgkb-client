@@ -87,7 +87,6 @@ export default defineComponent({
     const heightWeight = computed(() => {
       return {
         '--height': `${props.height}px`,
-        '--width': `auto`,
       };
     });
     const store = useStore();
@@ -205,10 +204,6 @@ export default defineComponent({
   justify-content: center;
 }
 
-:deep(.el-upload-list--picture-card .el-upload-list__item) {
-  margin: 10px;
-}
-
 :deep(.el-upload-list__item) {
   transition: unset;
 }
@@ -223,17 +218,5 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   width: auto;
-}
-
-:deep(.el-upload--picture-card) {
-  width: 150px;
-  font-size: 50px;
-  margin: 10px;
-}
-
-:deep(.el-upload--picture-card i) {
-  font-size: 50px;
-  color: #00b5a4;
-  padding: 0 54px;
 }
 </style>

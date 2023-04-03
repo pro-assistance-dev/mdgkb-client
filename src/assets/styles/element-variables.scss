@@ -91,6 +91,25 @@ body > .el-container::v-deep {
   }
 }
 
+@media only screen and (max-width: 768px) {
+  .el-dialog {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .el-message-box {
+    width: 300px;
+  }
+
+  .el-dialog {
+    width: 100%;
+  }
+  .el-dialog__body {
+    padding: 10px;
+  }
+}
+
 .el-message-box__btns,
 .el-popconfirm__action {
   display: flex;
