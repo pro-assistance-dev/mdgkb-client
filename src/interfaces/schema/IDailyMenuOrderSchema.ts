@@ -10,4 +10,5 @@ export default interface IDailyMenuOrderSchema extends IBaseSchema {
   number: string;
   formValueId: string;
   date: string;
+  isNew: string;
 }

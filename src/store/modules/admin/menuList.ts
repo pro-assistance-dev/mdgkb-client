@@ -234,11 +234,6 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-user',
       },
       {
-        title: 'Статусы заявок',
-        to: '/admin/form-statuses',
-        icon: 'el-icon-user',
-      },
-      {
         title: 'Буфет',
         to: '/admin/dishes',
         icon: 'el-icon-user',

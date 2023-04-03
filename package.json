@@ -48,6 +48,7 @@
     "vue-router": "^4.0.0-0",
     "vue-social-sharing": "^4.0.0-alpha4",
     "vue-yandex-maps": "^0.12.3",
+    "vue3-emoji-picker": "^1.1.7",
     "vue3-touch-events": "^4.1.0",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.0-0"

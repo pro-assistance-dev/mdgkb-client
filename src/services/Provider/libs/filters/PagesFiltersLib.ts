@@ -14,8 +14,17 @@ const PagesFiltersLib = (() => {
     return filterModel;
   }
 
+  function byRole(value: string): FilterModel {
+    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Page).roleId, DataTypes.String);
+    filterModel.operator = Operators.Eq;
+    filterModel.label = value;
+    filterModel.value1 = value;
+    return filterModel;
+  }
+
   return {
     byPagesGroup,
+    byRole,
   };
 })();
 

@@ -52,7 +52,6 @@ export default defineComponent({
     const mounted = ref(false);
     const userPermissions: ComputedRef<IPathPermission[]> = computed(() => store.getters['auth/userPathPermissions']);
     const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
-
     watch(
       () => route.path,
       () => {
