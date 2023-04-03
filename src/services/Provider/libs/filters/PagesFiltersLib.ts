@@ -1,8 +1,8 @@
 import FilterModel from '@/services/classes/filters/FilterModel';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
 import Page from '@/services/classes/page/Page';
 import ClassHelper from '@/services/ClassHelper';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 
 const PagesFiltersLib = (() => {
   const modelName = 'page';
@@ -14,8 +14,17 @@ const PagesFiltersLib = (() => {
     return filterModel;
   }
 
+  function byRole(value: string): FilterModel {
+    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Page).roleId, DataTypes.String);
+    filterModel.operator = Operators.Eq;
+    filterModel.label = value;
+    filterModel.value1 = value;
+    return filterModel;
+  }
+
   return {
     byPagesGroup,
+    byRole,
   };
 })();
 

@@ -3,8 +3,8 @@
     <el-form v-if="mounted" ref="form" :model="user" label-position="top">
       <el-card>
         <el-form-item label="Роль">
-          <el-select v-model="user.roleId">
-            <el-option v-for="role in schema.role.options" :key="role.value" :label="role.label" :value="role.value" />
+          <el-select v-model="user.role" value-key="id" label="Роль">
+            <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item"> </el-option>
           </el-select>
         </el-form-item>
       </el-card>
@@ -31,6 +31,7 @@ import { useStore } from 'vuex';
 
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ISchema from '@/interfaces/schema/ISchema';
+import Role from '@/services/classes/Role';
 import IUser from '@/services/interfaces/IUser';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
@@ -47,6 +48,7 @@ export default defineComponent({
     const user: ComputedRef<IUser> = computed<IUser>(() => store.getters['users/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
+    const roles: ComputedRef<Role[]> = computed(() => store.getters['roles/items']);
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -81,6 +83,7 @@ export default defineComponent({
         store.commit('admin/setHeaderParams', { title: 'Добавить пользователя', showBackButton: true, buttons: [{ action: submit }] });
         user.value.setDefaultRole(schema.value.role.options);
       }
+      await store.dispatch('roles/getAll');
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(user, formUpdated, { deep: true });
@@ -102,6 +105,7 @@ export default defineComponent({
       schema,
       findEmail,
       isNew,
+      roles,
     };
   },
 });
