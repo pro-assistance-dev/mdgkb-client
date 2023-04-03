@@ -46,6 +46,14 @@
                       @click="updateFormStatus(dailyMenuOrder.formValue, item.childFormStatus)"
                     />
                     <Button text="Чат(в разработке)" width="120px" height="36px" font-size="12px" />
+                    <el-dialog v-model="dailyMenuOrder.chatIsOpen">
+                      <Chat
+                        v-if="dailyMenuOrder.chatIsOpen"
+                        :chat-id="dailyMenuOrder.formValue.chatId"
+                        :user-name="user.human.getFullName()"
+                        :user-id="user.id"
+                      />
+                    </el-dialog>
                   </div>
                 </div>
               </template>
@@ -100,6 +108,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, r
 
 import User from '@/classes/User';
 import Button from '@/components/Base/Button.vue';
+import Chat from '@/components/Chat.vue';
 import CartContainer from '@/components/Diets/CartContainer.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
@@ -114,6 +123,7 @@ export default defineComponent({
     CollapseItem,
     Button,
     CartContainer,
+    Chat,
   },
   props: {
     user: {

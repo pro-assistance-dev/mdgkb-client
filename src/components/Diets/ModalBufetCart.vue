@@ -102,19 +102,17 @@ export default defineComponent({
     watch(dailyMenuOrder.value, checkDailyMenuOrderIsEmpty);
 
     const createOrder = async () => {
+      dailyMenuOrder.value.formValue.validate();
+      if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
+        return;
+      }
+      if (dailyMenuOrder.value.getPriceSum() < 150) {
+        return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
+      }
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',
       });
-      dailyMenuOrder.value.formValue.validate();
-      if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
-        loading.close();
-        return;
-      }
-      if (dailyMenuOrder.value.getPriceSum() < 150) {
-        loading.close();
-        return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
-      }
       dailyMenuOrder.value.formValue.clearIds();
       try {
         await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);

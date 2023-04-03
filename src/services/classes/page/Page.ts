@@ -7,6 +7,7 @@ import PageDocument from '@/services/classes/page/PageDocument';
 import PageImage from '@/services/classes/page/PageImage';
 import PageSection from '@/services/classes/page/PageSection';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
+import Role from '@/services/classes/Role';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Page {
@@ -36,6 +37,8 @@ export default class Page {
   pageComments: PageComment[] = [];
   contactInfo: ContactInfo = new ContactInfo();
   contactInfoId?: string;
+  role: Role = new Role();
+  roleId?: string;
 
   constructor(i?: Page) {
     ClassHelper.BuildClass(this, i);

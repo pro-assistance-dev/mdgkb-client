@@ -49,8 +49,8 @@
       <AdminUserInfo :form="formValue" :active-fields="activeFields" />
     </el-card>
     <el-card v-if="isEditMode">
-      <template #header>
-        <span>Форма для подачи заявления</span>
+      <template v-if="formHeader" #header>
+        <span>{{ formHeader }}</span>
       </template>
       <FieldValuesForm :active-fields="activeFields" :form="formValue" :show-additional-files="showAdditionalFiles" />
     </el-card>
@@ -92,6 +92,7 @@
         <WysiwygEditor v-model="formValue.modComment" />
       </el-form-item>
     </el-card>
+    <Chat :user-id="user.id" user-name="Администратор" :chat-id="formValue.chatId" />
   </div>
 </template>
 
@@ -100,13 +101,14 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Form from '@/classes/Form';
+import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
+import Chat from '@/components/Chat.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
-import IForm from '@/interfaces/IForm';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUserFormFields from '@/interfaces/IUserFormFields';
 import Provider from '@/services/Provider/Provider';
@@ -120,6 +122,7 @@ export default defineComponent({
     AdminUserInfo,
     WysiwygEditor,
     DatePicker,
+    Chat,
   },
   props: {
     form: {
@@ -170,6 +173,7 @@ export default defineComponent({
     const formValue = ref(new Form());
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
     const mounted: Ref<boolean> = ref(false);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const changeFormStatusHandler = (status: IFormStatus) => {
       if (!formValue.value) return;
       if (props.checkFields) {
@@ -213,6 +217,7 @@ export default defineComponent({
     };
 
     return {
+      user,
       downloadZip,
       formValue,
       findEmail,

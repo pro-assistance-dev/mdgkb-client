@@ -148,12 +148,12 @@ export default defineComponent({
       await Provider.loadItem();
       await updateNew();
 
-      setInterval(async () => {
-        await Provider.store.dispatch('dailyMenus/todayMenu');
-        dailyMenu.value.actualize(todayMenu.value);
-        dailyMenu.value.dishesGroups = dishesGroups.value;
-        dailyMenu.value.initGroups();
-      }, 5000);
+      // setInterval(async () => {
+      //   await Provider.store.dispatch('dailyMenus/todayMenu');
+      //   dailyMenu.value.actualize(todayMenu.value);
+      //   dailyMenu.value.dishesGroups = dishesGroups.value;
+      //   dailyMenu.value.initGroups();
+      // }, 5000);
     };
 
     const toggleEditMode = () => {

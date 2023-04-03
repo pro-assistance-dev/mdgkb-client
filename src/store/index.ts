@@ -11,6 +11,8 @@ import { calendar } from '@/store/modules/calendar';
 import { callbacks } from '@/store/modules/callbacks';
 import { candidateApplications } from '@/store/modules/candidateApplications';
 import { candidateExams } from '@/store/modules/candidateExams';
+import { chatMessages } from '@/store/modules/chatMessages';
+import { chats } from '@/store/modules/chats';
 import { children } from '@/store/modules/children';
 import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
@@ -171,6 +173,8 @@ const s: StoreOptions<RootState> = {
     dailyMenuOrders,
     paidServices,
     calendar,
+    chats,
+    chatMessages,
   },
 };
 

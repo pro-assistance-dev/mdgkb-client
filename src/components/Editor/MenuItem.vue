@@ -1,16 +1,29 @@
 <template>
   <el-tooltip class="box-item" effect="dark" :content="title" placement="top-start">
-    <button type="button" class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action">
-      <component :is="require(`vue-remix-icons/icons/ri-${icon}.js`).default" v-if="icon" />
+    <button type="button" class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="() => action()">
+      <el-popover v-if="type === 'emoji'" :visible="visible" placement="bottom" width="auto" trigger="click">
+        <template #reference>
+          <component :is="require(`vue-remix-icons/icons/ri-${icon}.js`).default" @click="emojiesToggleHandler" />
+        </template>
+        <EmojiPicker :native="true" @select="emojiSelectHandler" />
+      </el-popover>
+
+      <component :is="require(`vue-remix-icons/icons/ri-${icon}.js`).default" v-else />
     </button>
   </el-tooltip>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import 'vue3-emoji-picker/dist/style.css';
+
+import { defineComponent, ref } from 'vue';
+import EmojiPicker from 'vue3-emoji-picker';
 
 export default defineComponent({
   name: 'MenuItem',
+  components: {
+    EmojiPicker,
+  },
   props: {
     icon: {
       type: String,
@@ -20,6 +33,11 @@ export default defineComponent({
     title: {
       type: String,
       required: true,
+    },
+
+    type: {
+      type: String,
+      default: '',
     },
 
     action: {
@@ -33,12 +51,27 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const visible = ref(false);
+
     const req = () => {
       const comp = `ri-${props.icon}.js`;
       return () => require(`vue-remix-icons/icons/${comp}`);
     };
 
-    return { req };
+    interface Emoji {
+      i: string;
+    }
+
+    const emojiSelectHandler = (emoji: Emoji) => {
+      props.action(emoji.i);
+      // visible.value = false;
+    };
+
+    const emojiesToggleHandler = () => {
+      visible.value = !visible.value;
+    };
+
+    return { req, emojiSelectHandler, visible, emojiesToggleHandler };
   },
 });
 </script>

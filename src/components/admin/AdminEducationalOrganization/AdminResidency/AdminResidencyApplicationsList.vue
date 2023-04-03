@@ -174,7 +174,7 @@ export default defineComponent({
     const { confirmLeave, saveButtonClick } = useConfirmLeavePage();
 
     const load = async () => {
-      Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
+      // Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
       // Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
       await loadApplications();
       await loadFilters();
