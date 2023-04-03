@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
@@ -24,13 +24,6 @@ import SearchBar from '@/views/mainLayout/elements/SearchBar.vue';
 export default defineComponent({
   name: 'HeaderTop',
   components: { LoginDropdownMenu, SearchBar },
-
-  //   setup () {
-  //   const currentRoute = computed(() => {
-  //     return useRoute().name
-  //   })
-  //   return { currentRoute }
-  // },
 
   setup() {
     const currentRoute = computed(() => {
@@ -84,13 +77,18 @@ export default defineComponent({
   // padding-right: 10px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 860px) {
   .container {
     justify-content: space-between;
   }
   .search {
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .search {
     display: none;
-    max-width: 400px;
   }
 }
 

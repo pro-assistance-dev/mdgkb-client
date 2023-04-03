@@ -40,10 +40,12 @@
                       :text="item.childFormStatus.userActionName"
                       :color="item.childFormStatus.color"
                       :margin-right="'10px'"
-                      width="80px"
+                      width="120px"
+                      height="36px"
+                      font-size="14px"
                       @click="updateFormStatus(dailyMenuOrder.formValue, item.childFormStatus)"
                     />
-                    <Button text="Чат (в разработке)" width="auto" @click="dailyMenuOrder.chatIsOpen = true" />
+                    <Button text="Чат(в разработке)" width="120px" height="36px" font-size="12px" />
                     <el-dialog v-model="dailyMenuOrder.chatIsOpen">
                       <Chat
                         v-if="dailyMenuOrder.chatIsOpen"
@@ -64,9 +66,12 @@
                         <img src="@/assets/svg/Buffet/food.webp" alt="alt" />
                       </div>
                       <div class="info">
-                        <div class="small-title">Блюда из овощей</div>
+                        <!-- <div class="small-title">Блюда из овощей</div> -->
                         <div class="name">{{ dailyMenuOrderItem.dailyMenuItem.name }}</div>
-                        <div class="price-pc">{{ dailyMenuOrderItem.getPriceSum() }}₽.</div>
+                        <div class="price-block">
+                          <div class="quantity">10 шт</div>
+                          <div class="price-pc">{{ dailyMenuOrderItem.getPriceSum() }}₽.</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -199,6 +204,10 @@ export default defineComponent({
   justify-content: space-between;
 }
 
+.price-block {
+  display: block;
+}
+
 .price-pc {
   font-size: 18px;
   width: 60px;
@@ -224,29 +233,40 @@ export default defineComponent({
   letter-spacing: 1px;
 }
 
+.quantity {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  width: 100%;
+  height: 12px;
+  color: #a1a7bd;
+  font-size: 11px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
 .info {
-  margin-top: 10px;
-  display: block;
-  margin-right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
 
 .image-box {
   display: block;
-  width: 96px;
-  height: 96px;
+  width: 50px;
+  height: 50px;
   overflow: hidden;
-  margin-bottom: 5px;
-  margin-right: 16px;
+  margin: 5px;
   position: relative;
   img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 96px;
-    height: 96px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
   }
 }
@@ -255,6 +275,8 @@ export default defineComponent({
   display: flex;
   min-width: 50%;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .order-date {
@@ -295,6 +317,15 @@ export default defineComponent({
   margin-top: 16px;
 }
 
+.price-pc {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  font-size: 14px;
+  width: auto;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 960px) {
   .flex {
     display: flex;
@@ -323,6 +354,15 @@ export default defineComponent({
   }
   .flex {
     margin-top: 0px;
+  }
+
+  .price-pc {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    font-size: 14px;
+    width: auto;
+    font-weight: bold;
   }
 }
 </style>

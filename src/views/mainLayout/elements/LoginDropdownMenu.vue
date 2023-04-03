@@ -10,7 +10,8 @@
     </template>
   </el-dropdown>
   <el-dropdown v-else-if="isAuth && isLaptopWindowWidth">
-    <el-button class="menu-item" icon="el-icon-user" @click.stop="$router.push('/profile')"></el-button>
+    <!-- <el-button class="menu-item" icon="el-icon-user" @click.stop="$router.push('/profile')"></el-button> -->
+    <el-button class="menu-item" icon="el-icon-user" @click.stop="$router.push('/choice-list')"></el-button>
   </el-dropdown>
   <el-dropdown v-else>
     <el-button v-if="showButtonName" icon="el-icon-user" round>
@@ -72,7 +73,7 @@ export default defineComponent({
     };
 
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
-    const isLaptopWindowWidth: Ref<boolean> = ref(window.matchMedia('(max-width: 1024px)').matches);
+    const isLaptopWindowWidth: Ref<boolean> = ref(window.matchMedia('(max-width: 560px)').matches);
 
     onBeforeMount(async () => {
       await loadUser();
@@ -80,7 +81,7 @@ export default defineComponent({
 
     onMounted(() => {
       window.addEventListener('resize', () => {
-        isLaptopWindowWidth.value = window.matchMedia('(max-width: 1024px)').matches;
+        isLaptopWindowWidth.value = window.matchMedia('(max-width: 560px)').matches;
       });
     });
 

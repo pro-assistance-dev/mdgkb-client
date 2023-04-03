@@ -14,6 +14,11 @@
               <el-option label="Сведения об организации" value="Сведения об организации" />
             </el-select>
           </el-form-item>
+          <el-form-item label="Доступно для роли">
+            <el-select v-model="page.role" value-key="id" label="Роль">
+              <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item"> </el-option>
+            </el-select>
+          </el-form-item>
           <el-checkbox v-model="page.withComments"> Включить комментарии </el-checkbox>
           <el-checkbox v-model="page.showContacts"> Показать контакты </el-checkbox>
           <el-checkbox v-model="page.collaps"> Сделать разделы свернутыми </el-checkbox>
@@ -53,7 +58,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
@@ -63,6 +68,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import Page from '@/services/classes/page/Page';
+import Role from '@/services/classes/Role';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
@@ -77,7 +83,8 @@ export default defineComponent({
     const rules = {
       title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
     };
-    const page: Ref<Page> = computed(() => Provider.store.getters['pages/item']);
+    const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
+    const roles: ComputedRef<Role[]> = computed(() => Provider.store.getters['roles/items']);
 
     const openPage = () => {
       const route = Provider.router.resolve(page.value.getLink());
@@ -106,6 +113,7 @@ export default defineComponent({
           buttons: buttons,
         });
       }
+      await Provider.store.dispatch('roles/getAll');
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(page, formUpdated, { deep: true });
     };
@@ -153,7 +161,7 @@ export default defineComponent({
       page,
       form,
       openDialog,
-
+      roles,
       rules,
     };
   },

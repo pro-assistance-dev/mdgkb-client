@@ -26,6 +26,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
 
+import User from '@/classes/User';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
@@ -42,14 +43,25 @@ export default defineComponent({
   components: { AdminListWrapper, TableButtonGroup, FiltersList },
   setup() {
     const pages: ComputedRef<Page[]> = computed(() => Provider.store.getters['pages/items']);
+    const user: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
 
     const load = async (): Promise<void> => {
+      if (user.value.role.name !== 'ADMIN' && user.value.roleId) {
+        Provider.setFilterModels(PagesFiltersLib.byRole(user.value.roleId));
+      }
       Provider.setSortModels(PagesSortsLib.byTitle());
       await Provider.store.dispatch('pages/getAllWithCount', Provider.filterQuery.value);
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Страницы',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-      });
+      if (user.value.role.name === 'ADMIN') {
+        Provider.store.commit('admin/setHeaderParams', {
+          title: 'Страницы',
+          buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+        });
+      } else {
+        Provider.store.commit('admin/setHeaderParams', {
+          title: 'Страницы',
+          buttons: [],
+        });
+      }
     };
 
     const edit = async (id: string): Promise<void> => {

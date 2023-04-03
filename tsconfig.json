@@ -37,8 +37,9 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/components", "src/custom.d.ts"
-
+    "src/components", "src/custom.d.ts",
+    "src/vue3-emoji-picker.d.ts",
+    "src/index.d.ts",
   ],
   "exclude": [
     "node_modules"

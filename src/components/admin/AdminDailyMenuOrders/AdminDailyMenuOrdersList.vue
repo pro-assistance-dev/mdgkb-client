@@ -3,6 +3,7 @@
     <template #header>
       <RemoteSearch key-value="dailyMenuOrder" placeholder="Введите номер заказа" @select="selectSearch" />
       <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+      <FilterCheckboxV2 class="filters-block" :filter-model="onlyNewFilter" @load="loadApplications" />
     </template>
     <template #sort>
       <SortList :max-width="400" @load="loadItems" />
@@ -71,6 +72,7 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -90,14 +92,16 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDailyMenuOrdersList',
-  components: { AdminListWrapper, TableButtonGroup, SortList, TableFormStatus, RemoteSearch, FilterMultipleSelect },
+  components: { AdminListWrapper, TableButtonGroup, SortList, TableFormStatus, RemoteSearch, FilterMultipleSelect, FilterCheckboxV2 },
   setup() {
     const dailyMenuOrders = computed(() => Provider.store.getters['dailyMenuOrders/items']);
     const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+    const onlyNewFilter: Ref<IFilterModel> = ref(new FilterModel());
 
     Hooks.onBeforeMount(
       async () => {
+        onlyNewFilter.value = DailyMenuOrdersFiltersLib.onlyNew();
         Provider.loadItems();
         loadFilters();
         filterByStatus.value = DailyMenuOrdersFiltersLib.byStatus();
@@ -137,7 +141,15 @@ export default defineComponent({
       await Provider.store.dispatch('formStatuses/getAll', filterQuery);
     };
 
-    return { dailyMenuOrders, selectSearch, ...Provider.getAdminLib(), filterByStatus, filtersToOptions, loadApplications };
+    return {
+      dailyMenuOrders,
+      selectSearch,
+      ...Provider.getAdminLib(),
+      filterByStatus,
+      filtersToOptions,
+      loadApplications,
+      onlyNewFilter,
+    };
   },
 });
 </script>

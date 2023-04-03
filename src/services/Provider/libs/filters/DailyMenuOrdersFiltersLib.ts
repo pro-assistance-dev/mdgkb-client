@@ -17,8 +17,20 @@ const DailyMenuOrdersFiltersLib = (() => {
     return filterModel;
   }
 
+  function onlyNew(): IFilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      Provider.schema.value.dailyMenuOrder.tableName,
+      Provider.schema.value.dailyMenuOrder.isNew,
+      DataTypes.Boolean
+    );
+    filterModel.operator = Operators.Eq;
+    filterModel.label = 'Не просмотрено';
+    return filterModel;
+  }
+
   return {
     byStatus,
+    onlyNew,
   };
 })();
 
