@@ -1,272 +1,122 @@
 <template>
   <div v-if="mounted" class="size" data-test="profile-info-component">
-    <div class="hidden">
-      <UserInfoMini />
-      <div class="profile-menu">
-        <div class="tab">
-          <input id="tab-one" type="checkbox" name="tabs" />
-          <label for="tab-one">
-            <svg class="icon-profile">
-              <use xlink:href="#home"></use>
-            </svg>
-            Мой профиль
-          </label>
-          <div class="tab-content">
-            <div class="title">
-              <button class="edit-button" @click="$router.push('/profile/edit')">
-                <svg class="icon-edit">
-                  <use xlink:href="#profile-edit"></use>
-                </svg>
-                Редактировать
-              </button>
+    <div class="title">
+      <h2><b>Мой профиль</b></h2>
+      <button class="edit-button" @click="$router.push('/profile/edit')">
+        <svg class="icon-edit">
+          <use xlink:href="#profile-edit"></use>
+        </svg>
+        <div class="button-name">Редактировать</div>
+      </button>
+    </div>
+    <div class="right-block">
+      <div class="column-left">
+        <div class="user-avatar">
+          <div class="avatar-block">
+            <UploaderSingleScan
+              :emit-crop="true"
+              :file-info="user.human.photo"
+              :height="273"
+              @crop="saveAvatar"
+              @ratio="(e) => (element.ratio = e)"
+            />
+          </div>
+        </div>
+        <el-form :model="user">
+          <div class="user-name">
+            <div label="Имя">
+              <h2>
+                <b data-test="full-name-mobile">{{ user.human.getFullName() }}</b>
+              </h2>
             </div>
-            <div class="right-block">
-              <div class="column-left">
-                <div class="user-avatar">
-                  <div class="avatar-block">
-                    <UploaderSingleScan
-                      :emit-crop="true"
-                      :file-info="user.human.photo"
-                      :height="273"
-                      @crop="saveAvatar"
-                      @ratio="(e) => (element.ratio = e)"
-                    />
-                  </div>
-                </div>
-                <el-form :model="user">
-                  <div class="user-name">
-                    <h2>
-                      <b data-test="full-name">{{ user.human.getFullName() }}</b>
-                    </h2>
-                  </div>
-                  <div class="user-info">
-                    <div class="contact-mail">
-                      <svg class="icon-email">
-                        <use xlink:href="#profile-email"></use>
-                      </svg>
-                      <div>
-                        <h4 data-test="user-email">{{ user.email }}</h4>
-                      </div>
-                    </div>
-                    <div class="contact-phone">
-                      <svg class="icon-phone">
-                        <use xlink:href="#profile-phone"></use>
-                      </svg>
-                      <div data-test="user-phone">
-                        <h4 v-if="user.phone">{{ user.phone }}</h4>
-                        <h4 v-else>Не указан</h4>
-                      </div>
-                    </div>
-                  </div>
-                </el-form>
+          </div>
+          <div class="user-info">
+            <div class="contact-mail">
+              <svg class="icon-email">
+                <use xlink:href="#profile-email"></use>
+              </svg>
+              <div prop="email" label="Email">
+                <h4>{{ user.email }}</h4>
               </div>
-              <div class="column-right">
-                <el-form :model="user">
-                  <div class="parent-info">
-                    <h2>Личная информация</h2>
-                    <ul class="parent-info-list">
-                      <li class="list-item">
-                        <div class="list-item">
-                          <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
-                          <div class="item-data">
-                            <h4 data-test="user-birth-date">{{ $dateTimeFormatter.format(user.human.dateBirth) }}</h4>
-                          </div>
-                        </div>
-                      </li>
-                      <li class="list-item">
-                        <div class="list-item">
-                          <div class="item-title"><h5>ПОЛ</h5></div>
-                          <div class="item-data">
-                            <h4 data-test="user-gender">{{ user.human.isMale ? 'Мужской' : 'Женский' }}</h4>
-                          </div>
-                        </div>
-                      </li>
-                      <li v-if="user.human.placeBirth" class="list-item">
-                        <div class="list-item">
-                          <div class="item-title"><h5>МЕСТО&nbsp;РОЖДЕНИЯ</h5></div>
-                          <div class="item-data">
-                            <h4 data-test="place-birth">{{ user.human.placeBirth }}</h4>
-                          </div>
-                        </div>
-                      </li>
-                      <li v-if="user.human.citizenship" class="list-item">
-                        <div class="list-item">
-                          <div class="item-title"><h5>ГРАЖДАНСТВО</h5></div>
-                          <div class="item-data">
-                            <h4 data-test="citizenship">{{ user.human.citizenship }}</h4>
-                          </div>
-                        </div>
-                      </li>
-                      <li v-if="user.human.snils" class="list-item">
-                        <div class="list-item">
-                          <div class="item-title"><h5>СНИЛС</h5></div>
-                          <div class="item-data">
-                            <h4 data-test="snils">{{ user.human.snils }}</h4>
-                          </div>
-                        </div>
-                      </li>
-                      <li v-if="user.human.address" class="list-item">
-                        <div class="list-item">
-                          <div class="item-title"><h5>АДРЕС</h5></div>
-                          <div class="item-data">
-                            <h4 data-test="address">{{ user.human.address }}</h4>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </el-form>
+            </div>
+            <div class="contact-phone">
+              <div class="contact-phone-el">
+                <svg class="icon-phone">
+                  <use xlink:href="#profile-phone"></use>
+                </svg>
+                <div prop="phone" label="Phone">
+                  <h4 v-if="user.phone">{{ user.phone }}</h4>
+                  <h4 v-else>Не указан</h4>
+                </div>
+              </div>
+              <div class="contact-phone-el">
+                <button v-if="user.phone" type="button" class="edit-phone" @click="isEditPhoneModalOpen = true">Изменить</button>
+                <button v-else type="button" class="add-phone" @click="isEditPhoneModalOpen = true">Добавить номер</button>
+                <EditPhone v-if="isEditPhoneModalOpen" @close="isEditPhoneModalOpen = false" />
               </div>
             </div>
           </div>
-          <!--          <div class="tab">-->
-          <!--            <input id="tab-two" type="checkbox" name="tabs" />-->
-          <!--            <label for="tab-two">-->
-          <!--              <svg class="icon-education">-->
-          <!--                <use xlink:href="#education"></use>-->
-          <!--              </svg>-->
-          <!--              <div class="tab-name">-->
-          <!--                Заявки-->
-          <!--                <span v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" class="sup-cymbol-counter">-->
-          <!--                  {{ user.getNotViewedApplicationsCount() }}-->
-          <!--                </span>-->
-          <!--              </div>-->
-          <!--            </label>-->
-          <!--            <div class="tab-content">-->
-          <!--              <EducationPage />-->
-          <!--            </div>-->
-          <!--          </div>-->
-        </div>
-
-        <div class="tab" @click="$router.push('/profile/daily-menu-orders')">
-          <label for="tab-one">
-            <svg class="icon-profile">
-              <use xlink:href="#home"></use>
-            </svg>
-            Заказы еды
-          </label>
-        </div>
+        </el-form>
       </div>
-    </div>
-
-    <div class="hidden_540">
-      <div class="title">
-        <h2><b>Мой профиль</b></h2>
-        <button class="edit-button" @click="$router.push('/profile/edit')">
-          <svg class="icon-edit">
-            <use xlink:href="#profile-edit"></use>
-          </svg>
-          Редактировать
-        </button>
-      </div>
-      <div class="right-block">
-        <div class="column-left">
-          <div class="user-avatar">
-            <div class="avatar-block">
-              <UploaderSingleScan
-                :emit-crop="true"
-                :file-info="user.human.photo"
-                :height="273"
-                @crop="saveAvatar"
-                @ratio="(e) => (element.ratio = e)"
-              />
-            </div>
+      <div class="column-right">
+        <el-form :model="user">
+          <div class="parent-info">
+            <h2>Личная информация</h2>
+            <ul class="parent-info-list">
+              <li class="list-item">
+                <div class="list-item">
+                  <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
+                  <div class="item-data">
+                    <h4>{{ $dateTimeFormatter.format(user.human.dateBirth, { month: 'long' }) }}</h4>
+                  </div>
+                </div>
+              </li>
+              <li class="list-item">
+                <div class="list-item">
+                  <div class="item-title"><h5>ПОЛ</h5></div>
+                  <div class="item-data">
+                    <h4>{{ user.human.isMale ? 'Мужской' : 'Женский' }}</h4>
+                  </div>
+                </div>
+              </li>
+              <li v-if="user.human.placeBirth" class="list-item">
+                <div class="list-item">
+                  <div class="item-title"><h5>МЕСТО&nbsp;РОЖДЕНИЯ</h5></div>
+                  <div class="item-data">
+                    <h4>{{ user.human.placeBirth }}</h4>
+                  </div>
+                </div>
+              </li>
+              <li v-if="user.human.citizenship" class="list-item">
+                <div class="list-item">
+                  <div class="item-title"><h5>ГРАЖДАНСТВО</h5></div>
+                  <div class="item-data">
+                    <h4>{{ user.human.citizenship }}</h4>
+                  </div>
+                </div>
+              </li>
+              <li v-if="user.human.snils" class="list-item">
+                <div class="list-item">
+                  <div class="item-title"><h5>СНИЛС</h5></div>
+                  <div class="item-data">
+                    <h4>{{ user.human.snils }}</h4>
+                  </div>
+                </div>
+              </li>
+              <li v-if="user.human.address" class="list-item">
+                <div class="list-item">
+                  <div class="item-title"><h5>АДРЕС</h5></div>
+                  <div class="item-data">
+                    <h4>{{ user.human.address }}</h4>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
-          <el-form :model="user">
-            <div class="user-name">
-              <div label="Имя">
-                <h2>
-                  <b data-test="full-name-mobile">{{ user.human.getFullName() }}</b>
-                </h2>
-              </div>
-            </div>
-            <div class="user-info">
-              <div class="contact-mail">
-                <svg class="icon-email">
-                  <use xlink:href="#profile-email"></use>
-                </svg>
-                <div prop="email" label="Email">
-                  <h4>{{ user.email }}</h4>
-                </div>
-              </div>
-              <div class="contact-phone">
-                <div class="contact-phone-el">
-                  <svg class="icon-phone">
-                    <use xlink:href="#profile-phone"></use>
-                  </svg>
-                  <div prop="phone" label="Phone">
-                    <h4 v-if="user.phone">{{ user.phone }}</h4>
-                    <h4 v-else>Не указан</h4>
-                  </div>
-                </div>
-                <div class="contact-phone-el">
-                  <button v-if="user.phone" type="button" class="edit-phone" @click="isEditPhoneModalOpen = true">Изменить</button>
-                  <button v-else type="button" class="add-phone" @click="isEditPhoneModalOpen = true">Добавить номер</button>
-                  <EditPhone v-if="isEditPhoneModalOpen" @close="isEditPhoneModalOpen = false" />
-                </div>
-              </div>
-            </div>
-          </el-form>
-        </div>
-        <div class="column-right">
-          <el-form :model="user">
-            <div class="parent-info">
-              <h2>Личная информация</h2>
-              <ul class="parent-info-list">
-                <li class="list-item">
-                  <div class="list-item">
-                    <div class="item-title"><h5>ДАТА РОЖДЕНИЯ</h5></div>
-                    <div class="item-data">
-                      <h4>{{ $dateTimeFormatter.format(user.human.dateBirth, { month: 'long' }) }}</h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-item">
-                  <div class="list-item">
-                    <div class="item-title"><h5>ПОЛ</h5></div>
-                    <div class="item-data">
-                      <h4>{{ user.human.isMale ? 'Мужской' : 'Женский' }}</h4>
-                    </div>
-                  </div>
-                </li>
-                <li v-if="user.human.placeBirth" class="list-item">
-                  <div class="list-item">
-                    <div class="item-title"><h5>МЕСТО&nbsp;РОЖДЕНИЯ</h5></div>
-                    <div class="item-data">
-                      <h4>{{ user.human.placeBirth }}</h4>
-                    </div>
-                  </div>
-                </li>
-                <li v-if="user.human.citizenship" class="list-item">
-                  <div class="list-item">
-                    <div class="item-title"><h5>ГРАЖДАНСТВО</h5></div>
-                    <div class="item-data">
-                      <h4>{{ user.human.citizenship }}</h4>
-                    </div>
-                  </div>
-                </li>
-                <li v-if="user.human.snils" class="list-item">
-                  <div class="list-item">
-                    <div class="item-title"><h5>СНИЛС</h5></div>
-                    <div class="item-data">
-                      <h4>{{ user.human.snils }}</h4>
-                    </div>
-                  </div>
-                </li>
-                <li v-if="user.human.address" class="list-item">
-                  <div class="list-item">
-                    <div class="item-title"><h5>АДРЕС</h5></div>
-                    <div class="item-data">
-                      <h4>{{ user.human.address }}</h4>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </el-form>
-        </div>
+        </el-form>
       </div>
     </div>
+
     <svg width="0" height="0" class="hidden">
       <symbol id="profile-edit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path
@@ -319,14 +169,13 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useStore } from 'vuex';
 
 import EditPhone from '@/components/Profile/EditPhone.vue';
-import EducationPage from '@/components/Profile/ProfileDailyMenuOrders/EducationPage.vue';
+// import EducationPage from '@/components/Profile/ProfileDailyMenuOrders/EducationPage.vue';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import IUser from '@/services/interfaces/IUser';
-import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 export default defineComponent({
   name: 'ProfileInfoPage',
-  components: { UploaderSingleScan, UserInfoMini, EditPhone },
+  components: { UploaderSingleScan, EditPhone },
 
   setup() {
     const mounted = ref(false);
@@ -892,13 +741,14 @@ ul.parent-info-list li:last-child {
 }
 
 @media screen and (max-width: 560px) {
+  .title {
+    width: calc(100% - 30px);
+    font-size: 16px;
+    padding: 0 15px 15px 15px;
+    margin-bottom: 0px;
+  }
   .hidden_540 {
     display: none;
-  }
-  .title {
-    justify-content: right;
-    margin-bottom: 0px;
-    margin-top: 15px;
   }
   .right-block {
     padding: 20px 20px;
@@ -907,9 +757,6 @@ ul.parent-info-list li:last-child {
   }
   .column-left {
     margin-right: 0px;
-  }
-  .hidden {
-    display: block;
   }
 }
 
@@ -926,6 +773,14 @@ ul.parent-info-list li:last-child {
   }
   .column-left {
     margin-right: 0px;
+  }
+
+  .edit-button {
+    padding: 7px 10px;
+  }
+
+  .button-name {
+    display: none;
   }
 }
 </style>

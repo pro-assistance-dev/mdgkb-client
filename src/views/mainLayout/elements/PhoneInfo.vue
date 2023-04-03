@@ -355,7 +355,7 @@ button {
   }
 }
 
-@media screen and (max-width: 370px) {
+@media screen and (max-width: 560px) {
   .search {
     display: none;
   }

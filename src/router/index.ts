@@ -16,6 +16,7 @@ import PageComponent from '@/components/Page/PageComponent.vue';
 import PageNotFound from '@/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
+import ChoiceListPage from '@/components/Profile/ChoiceListPage.vue';
 import QuestionsAnswersPage from '@/components/Questions/QuestionsAnswersPage.vue';
 import RefreshPasswordPage from '@/components/RefreshPasswordPage.vue';
 import RejectEmailPage from '@/components/RejectEmailPage.vue';
@@ -40,7 +41,6 @@ import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
-import scroll from '@/services/Scroll';
 import TokenService from '@/services/Token';
 import UserService from '@/services/User';
 
@@ -236,6 +236,12 @@ const routes: Array<RouteRecordRaw> = [
     path: '/screening',
     name: 'ScreeningPage',
     component: ScreeningPage,
+  },
+  {
+    path: '/choice-list',
+    name: 'ChoiceListPage',
+    // meta: { title: 'Вопросы и ответы' },
+    component: ChoiceListPage,
   },
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
