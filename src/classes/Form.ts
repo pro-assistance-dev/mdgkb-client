@@ -15,6 +15,7 @@ import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import Chat from '@/services/classes/Chat';
 
 import CandidateApplication from './CandidateApplication';
 import Child from './Child';
@@ -70,6 +71,9 @@ export default class Form implements IForm {
   dailyMenuOrder?: DailyMenuOrder;
   formValueFiles: IFormValueFile[] = [];
   formValueFilesForDelete: string[] = [];
+
+  chatId?: string;
+  chat = new Chat();
 
   constructor(form?: Form) {
     this.constructorMethod(form);
@@ -157,6 +161,10 @@ export default class Form implements IForm {
     if (form.formValueFiles) {
       this.formValueFiles = form.formValueFiles.map((item: IFormValueFile) => new FormValueFile(item));
     }
+    if (form.chat) {
+      this.chat = new Chat(form.chat);
+    }
+    this.chatId = form.chatId;
     this.withApprovingDate = form.withApprovingDate;
   }
   reproduceFromPattern(form?: Form) {

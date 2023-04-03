@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { Commit } from 'vuex';
 
+import ChatMessage from '@/services/classes/ChatMessage';
 import ClassHelper from '@/services/ClassHelper';
 
 const apiHost = process.env.VUE_APP_API_HOST ?? '';
@@ -9,12 +10,19 @@ export default class WebSocketClient {
   private endpoint = '';
   private query = '';
   private mutation = '';
-  private period = 1000;
+  private period = 20000;
 
   constructor(endpoint = '', query = '', mutation = 'set') {
     ClassHelper.BuildClass(this, { endpoint, query, mutation });
     this.connect();
     this.ping();
+  }
+
+  send(data: string | ArrayBufferLike | Blob | ArrayBufferView) {
+    if (!this.client || this.client.readyState !== 1) {
+      return;
+    }
+    this.client.send(data);
   }
 
   private ping() {
@@ -25,7 +33,7 @@ export default class WebSocketClient {
     if (!this.client || this.client.readyState !== 1) {
       return;
     }
-    this.client.send('ping');
+    this.send(JSON.stringify(ChatMessage.CreatePingMessage()));
   }
 
   setOnMessage(commit: Commit): void {
@@ -41,7 +49,6 @@ export default class WebSocketClient {
   }
 
   private buildUrl(): string {
-    console.log(apiHost);
     return new URL(path.join('ws', this.endpoint, this.query), apiHost.replace('http', 'ws')).toString();
   }
 

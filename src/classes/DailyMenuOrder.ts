@@ -16,7 +16,7 @@ export default class DailyMenuOrder {
   formValue: Form = new Form();
   formValueId?: string;
   formStatusId?: string;
-
+  chatIsOpen = false;
   constructor(i?: DailyMenuOrder) {
     ClassHelper.BuildClass(this, i);
   }
