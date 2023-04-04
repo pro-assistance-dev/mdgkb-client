@@ -184,4 +184,22 @@ export default defineComponent({
 :deep(.el-select .el-input__suffix) {
   top: -3px;
 }
+
+@media only screen and (max-width: 480px) {
+  .background-container {
+    width: auto;
+    padding: 10px;
+    margin: 0 10px 10px 10px;
+  }
+
+  :deep(.el-input__inner) {
+    border-radius: 40px;
+    padding-left: 15px;
+    height: 32px;
+    width: 250px;
+    display: flex;
+    font-family: Comfortaa, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+}
 </style>

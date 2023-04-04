@@ -82,9 +82,6 @@ export default defineComponent({
         type: 'success',
         duration: 2000,
       });
-      // if (validate(form)) {
-      //   return;
-      // }
     };
 
     return {
@@ -132,25 +129,6 @@ export default defineComponent({
   justify-content: right;
 }
 
-.modal-callback {
-  padding: 20px;
-  padding-top: 0;
-  width: 310px;
-  height: auto;
-}
-
-input {
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #4a4a4a;
-  width: 250px;
-  font-size: 13px;
-  padding: 6px 0 4px 10px;
-  border: 1px solid #cecece;
-  background: #f6f6f6;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
 .submit {
   font-family: 'Comfortaa', 'Open-sans', sans-serif;
   color: #4a4a4a;
@@ -171,27 +149,6 @@ input {
   outline: none;
 }
 
-.form-callback {
-  margin: 20px;
-  padding-top: 5px;
-}
-
-.modal-callback-title {
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #4a4a4a;
-  font-weight: normal;
-}
-
-.field-name {
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #4a4a4a;
-  font-weight: normal;
-}
-
 .phone-name {
   font-family: 'Comfortaa', 'Open-sans', sans-serif;
   color: #4a4a4a;
@@ -203,35 +160,10 @@ input {
   justify-content: center;
 }
 
-.field-text {
-  display: flex;
-  justify-content: center;
-  font-size: 14px;
-  font-family: 'Comfortaa', 'Open-sans', sans-serif;
-  color: #9d9d9d;
-  font-weight: normal;
-}
-
-.sr-only {
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  border: 0;
-  padding: 0;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  margin: -1px;
-}
-:deep(.el-notification) {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-}
-
 .modal-editPhone {
   padding: 20px;
   padding-top: 0;
-  width: 310px;
+  width: 270px;
   height: auto;
 }
 

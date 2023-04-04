@@ -194,6 +194,22 @@ export default defineComponent({
   height: 20px;
 }
 
+:deep(.el-upload--picture-card) {
+  width: 150px;
+  font-size: 50px;
+  margin: 10px;
+}
+
+:deep(.el-upload--picture-card i) {
+  font-size: 50px;
+  color: #00b5a4;
+  padding: 0 54px;
+}
+
+:deep(.el-upload-list--picture-card .el-upload-list__item) {
+  margin: 10px;
+}
+
 @media screen and (max-width: 400px) {
   .background-container {
     margin: 0 10px 20px 10px;
