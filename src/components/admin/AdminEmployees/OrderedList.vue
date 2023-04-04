@@ -12,28 +12,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 import draggable from 'vuedraggable';
 
 import EducationalAcademic from '@/classes/EducationalAcademic';
-import FileInfo from '@/classes/File/FileInfo';
 import Head from '@/classes/Head';
-import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FiltersList from '@/components/Filters/FiltersList.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortListV2.vue';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
-import Hooks from '@/services/Hooks/Hooks';
-import ISearchObject from '@/services/interfaces/ISearchObject';
-import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
-import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'OrderedList',

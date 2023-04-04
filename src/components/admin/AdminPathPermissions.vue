@@ -91,7 +91,6 @@ import ISchema from '@/interfaces/schema/ISchema';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Role from '@/services/classes/Role';
 import Hooks from '@/services/Hooks/Hooks';
-import ISearchObject from '@/services/interfaces/ISearchObject';
 import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
 import PathPermissionsSortsLib from '@/services/Provider/libs/sorts/PathPermissionsSortsLib';

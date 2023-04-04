@@ -115,7 +115,7 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
 
 import Active from '@/assets/svg/Buffet/Active.svg';
 import Eye from '@/assets/svg/Buffet/Eye.svg';

@@ -1,7 +1,6 @@
 import { GetterTree } from 'vuex';
 
 import SocialMedia from '@/classes/SocialMedia';
-import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import ISchema from '@/interfaces/schema/ISchema';
 import RootState from '@/store/types';
 

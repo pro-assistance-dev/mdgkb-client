@@ -1,7 +1,4 @@
-import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-
 import AppointmentsPage from '@/components/AppointmentsPage/AppointmentsPage.vue';
-import { devGuard, isAuthorized } from '@/router/index';
 
 export default [
   {

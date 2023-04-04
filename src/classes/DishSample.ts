@@ -1,4 +1,3 @@
-import DishesGroup from '@/classes/DishesGroup';
 import FileInfo from '@/classes/File/FileInfo';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ClassHelper from '@/services/ClassHelper';

@@ -8,14 +8,12 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import CustomSection from '@/classes/CustomSection';
 import Project from '@/classes/Project';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import ProjectPage from '@/components/Projects/ProjectPage.vue';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
-import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

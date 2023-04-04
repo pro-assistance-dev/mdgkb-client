@@ -9,10 +9,9 @@
 <script lang="ts">
 import { defineComponent, watch } from '@vue/runtime-core';
 import { onBeforeMount, Ref, ref } from 'vue';
-import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import TokenService from '@/services/Token';
 import AdminLayout from '@/views/admin/AdminLayout.vue';
 import MainLayout from '@/views/main/MainLayout.vue';
 

@@ -6,9 +6,7 @@ import Form from '@/classes/Form';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import ResidencyCourseSpecialization from '@/classes/ResidencyCourseSpecialization';
-import ResidencyCourseTeacher from '@/classes/ResidencyCourseTeacher';
 import Specialization from '@/classes/Specialization';
-import Teacher from '@/classes/Teacher';
 import { FormStatusNames } from '@/interfaces/FormStatusNames';
 
 describe('Class ResidencyCourse', () => {

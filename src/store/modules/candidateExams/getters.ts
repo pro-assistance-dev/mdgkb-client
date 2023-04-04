@@ -1,6 +1,5 @@
 import { GetterTree } from 'vuex';
 
-import ICandidateExam from '@/interfaces/ICandidateExam';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

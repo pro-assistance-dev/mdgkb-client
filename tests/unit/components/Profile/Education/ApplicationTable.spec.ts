@@ -1,12 +1,3 @@
-import { mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
-import { ElDialog, ElPopover, ElTag } from 'element-plus';
-import { ComponentPublicInstance } from 'vue';
-
-import Form from '@/classes/Form';
-import User from '@/classes/User';
-import ApplicationTable from '@/components/Profile/ProfileDailyMenuOrders/ApplicationTable.vue';
-import DateTimeFormatter from '@/services/DateFormat';
-
 describe('ApplicationTable.vue', () => {
   test('Blank', () => {
     expect(true).toBe(true);

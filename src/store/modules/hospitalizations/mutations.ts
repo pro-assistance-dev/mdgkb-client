@@ -3,7 +3,6 @@ import { MutationTree } from 'vuex';
 import Form from '@/classes/Form';
 import Hospitalization from '@/classes/Hospitalization';
 import HospitalizationType from '@/classes/HospitalizationType';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { State } from './index';

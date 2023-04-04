@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 
 import Arrow from '@/assets/svg/StructurePage/Arrow.svg';
 import Time from '@/assets/svg/StructurePage/Time.svg';

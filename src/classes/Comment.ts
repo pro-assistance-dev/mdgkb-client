@@ -4,7 +4,6 @@ import News from '@/classes/news/News';
 import User from '@/classes/User';
 import IComment from '@/interfaces/comments/IComment';
 import INews from '@/interfaces/news/INews';
-import IUser from '@/services/interfaces/IUser';
 
 export default class Comment implements IComment {
   id?: string;

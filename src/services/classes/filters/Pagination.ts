@@ -2,7 +2,6 @@ import { LocationQuery } from 'vue-router';
 
 import Cursor from '@/services/classes/filters/Cursor';
 import { Operators } from '@/services/interfaces/Operators';
-import { Orders } from '@/services/interfaces/Orders';
 
 export default class Pagination {
   offset = 0;

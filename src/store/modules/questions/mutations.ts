@@ -4,7 +4,6 @@ import Question from '@/classes/Question';
 import User from '@/classes/User';
 import IQuestion from '@/interfaces/IQuestion';
 import IQuestionsWithCount from '@/interfaces/IQuestionsWithCount';
-import IUser from '@/services/interfaces/IUser';
 
 import { State } from './state';
 

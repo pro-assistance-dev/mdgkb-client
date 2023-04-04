@@ -45,14 +45,11 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import User from '@/classes/User';
 import Chat from '@/services/classes/Chat';
 import ChatMessage from '@/services/classes/ChatMessage';
 import Provider from '@/services/Provider/Provider';
-import user from '@/services/User';
 import WebSocketClient from '@/services/WebSocketClient';
 
 export default defineComponent({

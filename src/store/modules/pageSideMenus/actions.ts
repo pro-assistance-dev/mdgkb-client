@@ -1,7 +1,5 @@
 import { ActionTree } from 'vuex';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Page from '@/services/classes/page/Page';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import HttpClient from '@/services/HttpClient';
 import getBaseActions from '@/store/baseModule/baseActions';

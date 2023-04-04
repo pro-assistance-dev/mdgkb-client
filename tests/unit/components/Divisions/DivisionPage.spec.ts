@@ -1,13 +1,3 @@
-import { flushPromises, RouterLinkStub, shallowMount, VueWrapper } from '@vue/test-utils';
-import { ElCarousel, ElRate } from 'element-plus';
-import { createStore } from 'vuex';
-
-import Division from '@/classes/Division';
-import DivisionPage from '@/components/Divisions/DivisionPage.vue';
-import carouselSwipe from '@/services/CarouselSwipe';
-
-import ComponentStub from '../../../__mocks__/ComponentStub';
-
 describe('DivisionPage.vue', () => {
   test('Blank', () => {
     expect(true).toBe(true);

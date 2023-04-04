@@ -1,4 +1,3 @@
-import EducationSpeciality from '@/classes/EducationSpeciality';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Education {

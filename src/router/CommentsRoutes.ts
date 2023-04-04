@@ -1,7 +1,4 @@
-import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-
 import CommentsList from '@/components/Comments/CommentsList.vue';
-import { isAuthorized } from '@/router/index';
 
 export default [
   {

@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, watch } from 'vue';
+import { computed, ComputedRef, defineComponent } from 'vue';
 
 import Vacancy from '@/classes/Vacancy';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';

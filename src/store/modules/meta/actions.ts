@@ -4,7 +4,6 @@ import SocialMedia from '@/classes/SocialMedia';
 import IOption from '@/interfaces/schema/IOption';
 import ISchemaWithOptions from '@/interfaces/schema/ISchemaWithOptions';
 import HttpClient from '@/services/HttpClient';
-import WebSocketClient from '@/services/WebSocketClient';
 import RootState from '@/store/types';
 
 import { State } from './state';

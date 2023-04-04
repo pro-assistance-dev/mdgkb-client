@@ -26,8 +26,6 @@
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import HelperElena from '@/components/Main/HelperElena.vue';
-import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
 import NewsFilters from '@/components/News/NewsFilters.vue';

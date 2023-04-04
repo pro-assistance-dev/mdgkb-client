@@ -31,7 +31,6 @@ import Question from '@/assets/profile/icons/Question.svg';
 import Settings from '@/assets/profile/icons/Settings.svg';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import User from '@/classes/User';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 

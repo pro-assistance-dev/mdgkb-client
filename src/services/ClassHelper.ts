@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 
 import IWithId from '@/services/interfaces/IWithId';
-import StringsService from '@/services/Strings';
 
 export type ClassType = { [key: string]: any };
 export type Constructable<T> = { new (...args: any[]): T };

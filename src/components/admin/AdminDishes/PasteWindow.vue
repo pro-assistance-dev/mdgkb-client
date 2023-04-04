@@ -25,7 +25,6 @@ import Paste from '@/assets/svg/Buffet/Paste.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import ClickWindow from '@/components/admin/AdminDishes/ClickWindow.vue';
 import Button from '@/components/Base/Button.vue';
-import dailyMenus from '@/services/Provider/libs/sorts/DailyMenus';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'PasteWindow',

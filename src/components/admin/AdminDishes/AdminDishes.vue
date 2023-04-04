@@ -35,7 +35,6 @@ import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import AddDish from '@/components/admin/AdminDishes/AddDish.vue';
 import AdminDishesMenusTable from '@/components/admin/AdminDishes/AdminDishesMenusTable.vue';
 import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
 import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';

@@ -1,9 +1,6 @@
-import { v4 as uuidv4 } from 'uuid';
 import { LocationQuery } from 'vue-router';
 
-import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
-import StringsService from '@/services/Strings';
 
 export default class SortModel {
   model = '';
@@ -25,14 +22,7 @@ export default class SortModel {
     return model;
   }
 
-  static CreateSortModelV2(
-    model: string,
-    col: string | undefined,
-    order?: Orders,
-    label?: string,
-    defaultModel?: boolean,
-    code?: string
-  ): SortModel {
+  static CreateSortModelV2(model: string, col: string | undefined, order?: Orders, label?: string, defaultModel?: boolean): SortModel {
     const m = new SortModel();
     m.model = model;
     m.col = col ?? '';

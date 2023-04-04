@@ -1,9 +1,6 @@
 import { Module } from 'vuex';
 
-import Employee from '@/classes/Employee';
-import Chat from '@/services/classes/Chat';
 import ChatMessage from '@/services/classes/ChatMessage';
-import WebSocketClient from '@/services/WebSocketClient';
 import getBaseDefaultState from '@/store/baseModule/baseIndex';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';

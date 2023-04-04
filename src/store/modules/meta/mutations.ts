@@ -1,7 +1,6 @@
 import { MutationTree } from 'vuex';
 
 import SocialMedia from '@/classes/SocialMedia';
-import IApplicationsCount from '@/interfaces/IApplicationsCount';
 import ISchema from '@/interfaces/schema/ISchema';
 
 import { State } from './state';

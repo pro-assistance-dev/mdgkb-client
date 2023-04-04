@@ -83,7 +83,6 @@ import buildNameNumbers from '@/services/buildNameNumbers';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import ISortModel from '@/services/interfaces/ISortModel';
-import { Orders } from '@/services/interfaces/Orders';
 import PostgraduateCoursesSortsLib from '@/services/Provider/libs/sorts/PostgraduateCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';

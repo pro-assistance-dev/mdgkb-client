@@ -117,7 +117,6 @@ import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
 import ContactInfo from '@/services/classes/ContactInfo';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
-import IUser from '@/services/interfaces/IUser';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
